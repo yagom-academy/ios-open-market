@@ -11,6 +11,7 @@ import XCTest
 class OpenMarketTests: XCTestCase {
     
     let decoder = JSONDecoder()
+    let encoder = JSONEncoder()
     let bundle = Bundle(for: OpenMarketTests.self)
 
     func testItem() throws {
@@ -68,6 +69,56 @@ class OpenMarketTests: XCTestCase {
         do {
             let result = try decoder.decode(ServerError.self, from: data)
             print(result)
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+    }
+    
+    func testItemToPost() {
+        let itemToPost = ItemToPost(title: "MacBook Air",
+                                    discription: "가장 얇고 가벼운 MacBook이 Apple M1 칩으로 완전히 새롭게 탈바꿈했습니다.",
+                                    price: 1290000,
+                                    currency: "KRW",
+                                    stock: 10000,
+                                    discountedPrice: 10000,
+                                    images: ["https://camp-open-market.s3.ap-northeast-2.amazonaws.com/images/1-1.png"],
+                                    password: "123")
+        do {
+            let encodedData = try encoder.encode(itemToPost)
+            if let dataString = String(data: encodedData, encoding: .utf8) {
+                print(dataString)
+            }
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+    }
+    
+    func testItemToPatch() {
+        let itemToPatch = ItemToPatch(title: "MacBook Air",
+                                      discription: "가장 얇고 가벼운 MacBook이 Apple M1 칩으로 완전히 새롭게 탈바꿈했습니다.",
+                                      price: 1290000,
+                                      currency: "KRW",
+                                      stock: 10000,
+                                      discountedPrice: nil,
+                                      images: ["https://camp-open-market.s3.ap-northeast-2.amazonaws.com/images/1-1.png"],
+                                      password: "123")
+        do {
+            let encodedData = try encoder.encode(itemToPatch)
+            if let dataString = String(data: encodedData, encoding: .utf8) {
+                print(dataString)
+            }
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+    }
+    
+    func testItemToDelete() {
+        let itemToDelete = ItemToDelete(id: 1, password: "123")
+        do {
+            let encodedData = try encoder.encode(itemToDelete)
+            if let dataString = String(data: encodedData, encoding: .utf8) {
+                print(dataString)
+            }
         } catch {
             XCTFail(error.localizedDescription)
         }
