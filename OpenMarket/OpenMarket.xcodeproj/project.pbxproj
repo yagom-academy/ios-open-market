@@ -23,6 +23,7 @@
 		FD253CAF25BF563A00525912 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD253CAE25BF563A00525912 /* Item.swift */; };
 		FD253CB525BF568700525912 /* ItemToPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD253CB425BF568700525912 /* ItemToPost.swift */; };
 		FD253CB925BF56B100525912 /* ItemToPatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD253CB825BF56B100525912 /* ItemToPatch.swift */; };
+		FD253CBD25BF56D800525912 /* ItemToDelete.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD253CBC25BF56D800525912 /* ItemToDelete.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +57,7 @@
 		FD253CAE25BF563A00525912 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		FD253CB425BF568700525912 /* ItemToPost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemToPost.swift; sourceTree = "<group>"; };
 		FD253CB825BF56B100525912 /* ItemToPatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemToPatch.swift; sourceTree = "<group>"; };
+		FD253CBC25BF56D800525912 /* ItemToDelete.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemToDelete.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -137,6 +139,7 @@
 				FD253CA825BF55E500525912 /* ItemToGet.swift */,
 				FD253CB425BF568700525912 /* ItemToPost.swift */,
 				FD253CB825BF56B100525912 /* ItemToPatch.swift */,
+				FD253CBC25BF56D800525912 /* ItemToDelete.swift */,
 				FD253CAE25BF563A00525912 /* Item.swift */,
 			);
 			path = JsonData;
@@ -257,6 +260,7 @@
 			files = (
 				FD253CA925BF55E500525912 /* ItemToGet.swift in Sources */,
 				FD253CAF25BF563A00525912 /* Item.swift in Sources */,
+				FD253CBD25BF56D800525912 /* ItemToDelete.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
