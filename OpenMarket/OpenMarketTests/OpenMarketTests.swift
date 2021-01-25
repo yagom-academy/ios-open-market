@@ -14,7 +14,7 @@ class OpenMarketTests: XCTestCase {
     let encoder = JSONEncoder()
     let bundle = Bundle(for: OpenMarketTests.self)
 
-    func testItem() throws {
+    func testItem() {
         let fileName = "RetrieveListResponseOneItem"
         
         guard let url = bundle.url(forResource: fileName, withExtension: "json") else {
@@ -34,7 +34,7 @@ class OpenMarketTests: XCTestCase {
         }
     }
     
-    func testItemToGet() throws {
+    func testItemToGet() {
         let fileName = "RetrieveListResponse"
         
         guard let url = bundle.url(forResource: fileName, withExtension: "json") else {
@@ -54,7 +54,7 @@ class OpenMarketTests: XCTestCase {
         }
     }
     
-    func testServerError() throws {
+    func testServerError() {
         let fileName = "ErrorResponse"
         
         guard let url = bundle.url(forResource: fileName, withExtension: "json") else {
