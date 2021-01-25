@@ -6,26 +6,70 @@
 //
 
 import XCTest
+@testable import OpenMarket
 
 class OpenMarketTests: XCTestCase {
+    
+    let decoder = JSONDecoder()
+    let bundle = Bundle(for: OpenMarketTests.self)
 
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+    func testItem() throws {
+        let fileName = "RetrieveListResponseOneItem"
+        
+        guard let url = bundle.url(forResource: fileName, withExtension: "json") else {
+            XCTFail("URL Error")
+            return
+        }
+        guard let data = try? Data(contentsOf: url) else {
+            XCTFail("Data Error")
+            return
+        }
+        
+        do {
+            let result = try decoder.decode(Item.self, from: data)
+            print(result)
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
     }
-
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+    
+    func testItemToGet() throws {
+        let fileName = "RetrieveListResponse"
+        
+        guard let url = bundle.url(forResource: fileName, withExtension: "json") else {
+            XCTFail("URL Error")
+            return
+        }
+        guard let data = try? Data(contentsOf: url) else {
+            XCTFail("Data Error")
+            return
+        }
+        
+        do {
+            let result = try decoder.decode(ItemToGet.self, from: data)
+            print(result)
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
     }
-
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-    }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        measure {
-            // Put the code you want to measure the time of here.
+    
+    func testServerError() throws {
+        let fileName = "ErrorResponse"
+        
+        guard let url = bundle.url(forResource: fileName, withExtension: "json") else {
+            XCTFail("URL Error")
+            return
+        }
+        guard let data = try? Data(contentsOf: url) else {
+            XCTFail("Data Error")
+            return
+        }
+        
+        do {
+            let result = try decoder.decode(ServerError.self, from: data)
+            print(result)
+        } catch {
+            XCTFail(error.localizedDescription)
         }
     }
 
