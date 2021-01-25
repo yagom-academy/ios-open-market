@@ -15,7 +15,7 @@ struct ItemToPost: Encodable {
     var currency: String
     var stock: Int
     var discountedPrice: Int?
-    var images: [String]
+    var images: [Data]
     var password: String
     
     enum CodingKeys: String, CodingKey {
