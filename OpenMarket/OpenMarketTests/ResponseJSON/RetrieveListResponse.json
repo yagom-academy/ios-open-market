@@ -1,0 +1,250 @@
+{
+  "page": 1,
+  "items": [
+    {
+      "price": 1290000,
+      "registration_date": 1611523563.719116,
+      "title": "MacBook Air",
+      "currency": "KRW",
+      "id": 26,
+      "stock": 1000000000000,
+      "thumbnails": [
+        "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/thumbnails/1-1.png",
+        "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/thumbnails/1-2.png",
+        "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/thumbnails/1-3.png"
+      ]
+    },
+    {
+      "price": 65000,
+      "title": "스포츠 밴드",
+      "registration_date": 1611523563.732012,
+      "currency": "KRW",
+      "id": 41,
+      "stock": 0,
+      "thumbnails": [
+        "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/thumbnails/16-1.png"
+      ]
+    },
+    {
+      "price": 1690,
+      "registration_date": 1611523563.7237701,
+      "thumbnails": [
+        "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/thumbnails/2-1.png",
+        "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/thumbnails/2-2.png"
+      ],
+      "currency": "USD",
+      "id": 27,
+      "stock": 0,
+      "title": "MacBook Pro"
+    },
+    {
+      "thumbnails": [
+        "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/thumbnails/3-1.png"
+      ],
+      "price": 890000,
+      "registration_date": 1611523563.7245178,
+      "currency": "KRW",
+      "id": 28,
+      "discounted_price": 89000,
+      "stock": 90,
+      "title": "Mac mini"
+    },
+    {
+      "price": 165,
+      "registration_date": 1611523563.725668,
+      "thumbnails": [
+        "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/thumbnails/5-1.png"
+      ],
+      "currency": "USD",
+      "id": 30,
+      "stock": 5000000,
+      "discounted_price": 160,
+      "title": "Apple Pencil"
+    },
+    {
+      "price": 125000,
+      "registration_date": 1611523563.732594,
+      "title": "가죽 링크",
+      "currency": "KRW",
+      "id": 42,
+      "stock": 90000,
+      "thumbnails": [
+        "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/thumbnails/17-1.png"
+      ]
+    },
+    {
+      "price": 659,
+      "registration_date": 1611523563.7334251,
+      "thumbnails": [
+        "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/thumbnails/18-1.png"
+      ],
+      "currency": "USD",
+      "id": 43,
+      "stock": 0,
+      "title": "Hermès 아뜰라주 더블 투어"
+    },
+    {
+      "price": 1350,
+      "registration_date": 1611523563.72621,
+      "thumbnails": [
+        "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/thumbnails/6-1.png",
+        "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/thumbnails/6-2.png",
+        "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/thumbnails/6-3.png",
+        "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/thumbnails/6-4.png"
+      ],
+      "currency": "USD",
+      "id": 31,
+      "stock": 0,
+      "title": "iPhone 12 Pro"
+    },
+    {
+      "price": 950000,
+      "registration_date": 1611523563.726968,
+      "thumbnails": [
+        "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/thumbnails/7-1.png",
+        "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/thumbnails/7-2.png",
+        "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/thumbnails/7-3.png",
+        "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/thumbnails/7-4.png",
+        "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/thumbnails/7-5.png"
+      ],
+      "currency": "KRW",
+      "id": 32,
+      "stock": 500,
+      "title": "iPhone 12 mini"
+    },
+    {
+      "price": 719,
+      "registration_date": 1611523563.727608,
+      "title": "AirPods Max",
+      "currency": "USD",
+      "id": 33,
+      "stock": 1000000000000,
+      "discounted_price": 500,
+      "thumbnails": [
+        "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/thumbnails/8-1.png",
+        "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/thumbnails/8-2.png",
+        "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/thumbnails/8-3.png",
+        "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/thumbnails/8-4.png",
+        "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/thumbnails/8-5.png"
+      ]
+    },
+    {
+      "price": 599000,
+      "registration_date": 1611523563.728167,
+      "thumbnails": [
+        "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/thumbnails/9-1.png",
+        "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/thumbnails/9-2.png"
+      ],
+      "currency": "KRW",
+      "id": 34,
+      "stock": 500,
+      "title": "Apple Watch Series 6"
+    },
+    {
+      "title": "Powerbeats Pro",
+      "price": 269,
+      "registration_date": 1611523563.7287378,
+      "currency": "USD",
+      "id": 35,
+      "stock": 90000,
+      "discounted_price": 200,
+      "thumbnails": [
+        "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/thumbnails/10-1.png"
+      ]
+    },
+    {
+      "price": 55000,
+      "registration_date": 1611523563.7292829,
+      "thumbnails": [
+        "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/thumbnails/11-1.png"
+      ],
+      "currency": "KRW",
+      "id": 36,
+      "stock": 1500000000,
+      "title": "MagSafe 충전기"
+    },
+    {
+      "price": 169000,
+      "registration_date": 1611523563.729826,
+      "thumbnails": [
+        "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/thumbnails/12-1.png"
+      ],
+      "currency": "KRW",
+      "id": 37,
+      "stock": 200,
+      "title": "Magic Trackpad 2"
+    },
+    {
+      "title": "iPad Air(4세대) 및 11형 iPad Pro(2세대)용 Smart Keyboard Folio",
+      "registration_date": 1611523563.730362,
+      "price": 229000,
+      "currency": "KRW",
+      "id": 38,
+      "stock": 9000000000,
+      "discounted_price": 200000,
+      "thumbnails": [
+        "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/thumbnails/13-1.png"
+      ]
+    },
+    {
+      "price": 75000,
+      "registration_date": 1611523563.7309098,
+      "title": "MagSafe형 iPhone 가죽 카드지갑",
+      "currency": "KRW",
+      "id": 39,
+      "stock": 50000,
+      "discounted_price": 70000,
+      "thumbnails": [
+        "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/thumbnails/14-1.png"
+      ]
+    },
+    {
+      "price": 65000,
+      "thumbnails": [
+        "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/thumbnails/15-1.png"
+      ],
+      "registration_date": 1611523563.7314491,
+      "currency": "KRW",
+      "id": 40,
+      "stock": 3000,
+      "title": "솔로 루프"
+    },
+    {
+      "thumbnails": [
+        "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/thumbnails/19-1.png"
+      ],
+      "registration_date": 1611523563.734062,
+      "price": 44,
+      "currency": "USD",
+      "id": 44,
+      "discounted_price": 40,
+      "stock": 4000000000,
+      "title": "Tech21 Evo Art Modern Camo Case (AirPods Pro)"
+    },
+    {
+      "thumbnails": [
+        "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/thumbnails/1-1.png",
+        "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/thumbnails/1-2.png",
+        "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/thumbnails/1-3.png"
+      ],
+      "registration_date": 1611523563.7352219,
+      "price": 1290000,
+      "currency": "KRW",
+      "id": 46,
+      "stock": 1000000000000,
+      "title": "MacBook Air"
+    },
+    {
+      "price": 1690,
+      "registration_date": 1611523563.73582,
+      "thumbnails": [
+        "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/thumbnails/2-1.png",
+        "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/thumbnails/2-2.png"
+      ],
+      "currency": "USD",
+      "id": 47,
+      "stock": 0,
+      "title": "MacBook Pro"
+    }
+  ]
+}
