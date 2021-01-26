@@ -8,14 +8,9 @@ enum OpenMarketNetworkError: Error {
 }
 
 struct OpenMarketAPINetwork {
-    private func fetchProductList(page: Int, completionHandler: @escaping (Result<ProductList, OpenMarketNetworkError>) -> ()) {
-        guard let url = URL(string: "https://camp-open-market.herokuapp.com/items/\(page)/") else {
-            return
-        }
-        
-        var urlRequest = URLRequest(url: url)
-        urlRequest.httpMethod = "GET"
-        
+    private let baseURL = "https://camp-open-market.herokuapp.com"
+    
+    func fetchProductList(with urlRequest: URLRequest, completionHandler: @escaping (Result<ProductList, OpenMarketNetworkError>) -> ()) {
         let dataTask = URLSession.shared.dataTask(with: urlRequest) { (data, response, error)  in
             guard let receivedData = data else {
                 completionHandler(.failure(.invalidData))
@@ -36,6 +31,17 @@ struct OpenMarketAPINetwork {
             }
         }
         dataTask.resume()
+    }
+    
+    private func makeProductListRequestURL(of page: Int) -> URLRequest {
+        guard let validURL = URL(string: "\(baseURL)/items/\(page)/") else {
+            preconditionFailure("URL 생성 error")
+        }
+        
+        var urlRequest = URLRequest(url: validURL)
+        urlRequest.httpMethod = "GET"
+        
+        return urlRequest
     }
     
 }
