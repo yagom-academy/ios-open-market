@@ -47,7 +47,7 @@ class OpenMarketTests: XCTestCase {
         }
         
         do {
-            let result = try decoder.decode(ItemToGet.self, from: data)
+            let result = try decoder.decode(ItemsToGet.self, from: data)
             print(result)
         } catch {
             XCTFail(error.localizedDescription)
@@ -169,7 +169,7 @@ class OpenMarketTests: XCTestCase {
     
     func testGetItems() {
         let testExpectation = XCTestExpectation(description: "getItemList 테스트")
-        var itemToGet: ItemToGet?
+        var itemToGet: ItemsToGet?
         OpenMarketAPI.getItemList(page: 1) { (itemList) in
             itemToGet = itemList
             if itemToGet == nil {
