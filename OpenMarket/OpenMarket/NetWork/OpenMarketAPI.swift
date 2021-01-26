@@ -115,4 +115,44 @@ class OpenMarketAPI {
             completionHandler(item)
         }.resume()
     }
+    
+    static func deleteItem(id: Int, itemToDelete: ItemToDelete, _ completionHandler: @escaping(ItemAfterDelete) -> Void) {
+        guard let url = URLManager.makeURL(type: .deleteItem, value: id) else {
+            print("URL Error")
+            return
+        }
+        var urlRequest = URLRequest(url: url)
+        urlRequest.httpMethod = "DELETE"
+        urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        guard let dataToDelete = Parser.encodeData(itemToDelete) else {
+            print("Encoding Error")
+            return
+        }
+        
+        session.uploadTask(with: urlRequest, from: dataToDelete) { (data, response, error) in
+            if let error = error {
+                print(error.localizedDescription)
+                return
+            }
+            
+            let successRange =  200..<300
+            guard let statusCode = (response as? HTTPURLResponse)?.statusCode,
+                  successRange.contains(statusCode) else {
+                print("Status Code Error")
+                return
+            }
+            
+            guard let data = data else {
+                print("No Data Error")
+                return
+            }
+            
+            guard let item = Parser.decodeData(ItemAfterDelete.self, data) else {
+                print("Data Decoding Error")
+                return
+            }
+            
+            completionHandler(item)
+        }.resume()
+    }
 }
