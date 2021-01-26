@@ -1,19 +1,19 @@
 import Foundation
 
 enum NetworkError: Error {
-    case requestError
-    case responseError
-    case dataError
+    case request
+    case response
+    case data
 }
 
 extension NetworkError: LocalizedError {
     var errorDescription: String? {
         switch self {
-        case .requestError:
+        case .request:
             return "잘못된 요청입니다."
-        case .responseError:
+        case .response:
             return "에러 코드 응답이 왔습니다."
-        case .dataError:
+        case .data:
             return "데이터가 오지 않았습니다."
         }
     }

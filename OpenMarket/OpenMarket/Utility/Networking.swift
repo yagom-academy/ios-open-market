@@ -2,15 +2,12 @@ import Foundation
 
 class Networking {
     private let baseURL = "https://camp-open-market.herokuapp.com/"
-    private var request: URLRequest?
 
     func fetchList(page: UInt) {
         guard let listURL = URL(string: "\(baseURL)items/\(page)") else {
             return
         }
-        request = URLRequest(url: listURL)
-        request?.httpMethod = "GET"
-        requestToServer(with: request, parameter: nil) { (result) in
+        requestToServer(with: listURL, method: .get, parameter: nil) { (result) in
             do {
                 let data = try result.get()
                 let json = try self.decodeData(to: Market.self, from: data)
@@ -26,14 +23,10 @@ class Networking {
         guard let itemURL = URL(string: "\(baseURL)item") else {
             return
         }
-        request = URLRequest(url: itemURL)
-        request?.httpMethod = "POST"
-        request?.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        requestToServer(with: request, parameter: form.convertParameter) { (result) in
+        requestToServer(with: itemURL, method: .post, parameter: form.convertParameter) { (result) in
             do {
                 let data = try result.get()
-                let json = try self.decodeData(to: Market.self, from: data)
-                print(json)
+                print(data)
             } catch let error {
                 print(error)
                 return
@@ -45,9 +38,7 @@ class Networking {
         guard let itemURL = URL(string: "\(baseURL)item/\(id)") else {
             return
         }
-        request = URLRequest(url: itemURL)
-        request?.httpMethod = "GET"
-        requestToServer(with: request, parameter: nil) { (result) in
+        requestToServer(with: itemURL, method: .get, parameter: nil) { (result) in
             do {
                 let data = try result.get()
                 let json = try self.decodeData(to: Goods.self, from: data)
@@ -63,10 +54,7 @@ class Networking {
         guard let itemURL = URL(string: "\(baseURL)item/\(id)") else {
             return
         }
-        request = URLRequest(url: itemURL)
-        request?.httpMethod = "POST"
-        request?.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        requestToServer(with: request, parameter: form.convertParameter) { (result) in
+        requestToServer(with: itemURL, method: .post, parameter: form.convertParameter) { (result) in
             do {
                 let data = try result.get()
                 let json = try self.decodeData(to: Market.self, from: data)
@@ -82,13 +70,11 @@ class Networking {
         guard let itemURL = URL(string: "\(baseURL)item/\(id)") else {
             return
         }
-        request = URLRequest(url: itemURL)
-        request?.httpMethod = "DELETE"
-        requestToServer(with: request, parameter: form.convertParameter) { (result) in
+        
+        requestToServer(with: itemURL, method: .delete, parameter: form.convertParameter) { (result) in
             do {
                 let data = try result.get()
-                let json = try self.decodeData(to: Goods.self, from: data)
-                print(json)
+                print(data)
             } catch let error {
                 print(error.localizedDescription)
                 return
@@ -96,27 +82,27 @@ class Networking {
         }
     }
     
-    private func requestToServer(with request: URLRequest?, parameter: [String: Any]?, completion: @escaping ((Result<Data, Error>) -> Void)) {
-        guard var request = request else {
-            return completion(.failure(NetworkError.requestError))
-        }
+    private func requestToServer(with url: URL, method: MethodType, parameter: [String: Any]?, completion: @escaping ((Result<Data, NetworkError>) -> Void)) {
+        var request = URLRequest(url: url)
+        request.httpMethod = method.rawValue
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         
         if let parameter = parameter {
             request.httpBody = try? JSONSerialization.data(withJSONObject: parameter)
         }
         
         URLSession.shared.dataTask(with: request) { (data, response, error) in
-            guard error == nil else {
-                return completion(.failure(NetworkError.responseError))
+            if error != nil {
+                return completion(.failure(NetworkError.response))
             }
             
             guard let response = response as? HTTPURLResponse,
                   (200...299).contains(response.statusCode) else {
-                return completion(.failure(NetworkError.responseError))
+                return completion(.failure(NetworkError.response))
             }
             
             guard let data = data else {
-                return completion(.failure(NetworkError.dataError))
+                return completion(.failure(NetworkError.data))
             }
             
             return completion(.success(data))
