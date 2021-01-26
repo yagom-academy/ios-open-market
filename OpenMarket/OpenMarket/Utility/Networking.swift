@@ -15,25 +15,27 @@ class Networking {
                 let data = try result.get()
                 let json = try self.decodeData(to: Market.self, from: data)
                 print(json)
-            } catch {
+            } catch let error {
+                print(error.localizedDescription)
                 return
             }
         }
     }
     
-    func registerItem(item: Item) {
+    func registerItem(form: RegisterItemForm) {
         guard let itemURL = URL(string: "\(baseURL)item") else {
             return
         }
         request = URLRequest(url: itemURL)
         request?.httpMethod = "POST"
         request?.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        requestWithGetMethod(with: request, parameter: nil) { (result) in
+        requestWithGetMethod(with: request, parameter: form.convertParameter) { (result) in
             do {
                 let data = try result.get()
                 let json = try self.decodeData(to: Market.self, from: data)
                 print(json)
-            } catch {
+            } catch let error {
+                print(error)
                 return
             }
         }
@@ -50,25 +52,27 @@ class Networking {
                 let data = try result.get()
                 let json = try self.decodeData(to: Item.self, from: data)
                 print(json)
-            } catch {
+            } catch let error {
+                print(error)
                 return
             }
         }
     }
     
-    func editItem(id: UInt) {
+    func editItem(form: EditItemForm, id: UInt) {
         guard let itemURL = URL(string: "\(baseURL)item/\(id)") else {
             return
         }
         request = URLRequest(url: itemURL)
         request?.httpMethod = "POST"
         request?.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        requestWithGetMethod(with: request, parameter: nil) { (result) in
+        requestWithGetMethod(with: request, parameter: form.convertParameter) { (result) in
             do {
                 let data = try result.get()
                 let json = try self.decodeData(to: Market.self, from: data)
                 print(json)
-            } catch {
+            } catch let error {
+                print(error)
                 return
             }
         }
@@ -83,9 +87,10 @@ class Networking {
         requestWithGetMethod(with: request, parameter: nil) { (result) in
             do {
                 let data = try result.get()
-                let json = try self.decodeData(to: Market.self, from: data)
+                let json = try self.decodeData(to: Item.self, from: data)
                 print(json)
-            } catch {
+            } catch let error {
+                print(error.localizedDescription)
                 return
             }
         }
@@ -93,7 +98,7 @@ class Networking {
     
     private func requestWithGetMethod(with request: URLRequest?, parameter: [String: Any]?, completion: @escaping ((Result<Data, Error>) -> Void)) {
         guard var request = request else {
-            return
+            return completion(.failure(NetworkError.requestError))
         }
         
         if let parameter = parameter {
@@ -101,8 +106,8 @@ class Networking {
         }
         
         URLSession.shared.dataTask(with: request) { (data, response, error) in
-            guard error != nil else {
-                return completion(.failure(NetworkError.requestError))
+            guard error == nil else {
+                return completion(.failure(NetworkError.responseError))
             }
             
             guard let response = response as? HTTPURLResponse,
@@ -113,6 +118,7 @@ class Networking {
             guard let data = data else {
                 return completion(.failure(NetworkError.dataError))
             }
+            
             return completion(.success(data))
         }.resume()
     }
