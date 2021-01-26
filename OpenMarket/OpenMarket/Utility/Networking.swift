@@ -11,25 +11,26 @@ class Networking {
             do {
                 let data = try result.get()
                 let json = try self.decodeData(to: Market.self, from: data)
-                print(json)
+                debugPrint(json)
             } catch let error {
-                print(error.localizedDescription)
+                debugPrint(error.localizedDescription)
                 return
             }
         }
     }
     
     func registerGoods(form: RegisterItemForm) {
-        guard let itemURL = NetworkConfig.makeURL(with: .registerGoods) else {
+        guard let itemURL = NetworkConfig.makeURL(with: .registerGoods),
+              let parameter = try? self.encodeData(form: form) else {
             return
         }
-        requestToServer(with: itemURL, method: .post, parameter: form.convertParameter) { (result) in
+        requestToServer(with: itemURL, method: .post, parameter: parameter) { (result) in
             do {
                 let data = try result.get()
-                print(data)
+                let json = try self.decodeData(to: Goods.self, from: data)
+                debugPrint(json)
             } catch let error {
-                print(error)
-                return
+                debugPrint(error)
             }
         }
     }
@@ -42,10 +43,9 @@ class Networking {
             do {
                 let data = try result.get()
                 let json = try self.decodeData(to: Goods.self, from: data)
-                print(json)
+                debugPrint(json)
             } catch let error {
-                print(error)
-                return
+                debugPrint(error)
             }
         }
     }
@@ -54,14 +54,13 @@ class Networking {
         guard let itemURL = NetworkConfig.makeURL(with: .editGoods(id: id)) else {
             return
         }
-        requestToServer(with: itemURL, method: .post, parameter: form.convertParameter) { (result) in
+        requestToServer(with: itemURL, method: .post, parameter: nil) { (result) in
             do {
                 let data = try result.get()
                 let json = try self.decodeData(to: Market.self, from: data)
-                print(json)
+                debugPrint(json)
             } catch let error {
-                print(error)
-                return
+                debugPrint(error)
             }
         }
     }
@@ -71,24 +70,22 @@ class Networking {
             return
         }
         
-        requestToServer(with: itemURL, method: .delete, parameter: form.convertParameter) { (result) in
+        requestToServer(with: itemURL, method: .delete, parameter: nil) { (result) in
             do {
                 let data = try result.get()
-                print(data)
+                debugPrint(data)
             } catch let error {
-                print(error.localizedDescription)
-                return
+                debugPrint(error.localizedDescription)
             }
         }
     }
     
-    private func requestToServer(with url: URL, method: MethodType, parameter: [String: Any]?, completion: @escaping ((Result<Data, NetworkError>) -> Void)) {
+    private func requestToServer(with url: URL, method: MethodType, parameter: Data?, completion: @escaping ((Result<Data, NetworkError>) -> Void)) {
         var request = URLRequest(url: url)
         request.httpMethod = method.rawValue
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        
         if let parameter = parameter {
-            request.httpBody = try? JSONSerialization.data(withJSONObject: parameter)
+            request.httpBody = parameter
         }
         
         URLSession.shared.dataTask(with: request) { (data, response, error) in
@@ -111,6 +108,11 @@ class Networking {
     
     private func decodeData<T: Decodable>(to type: T.Type, from data: Data) throws -> T {
         let data = try JSONDecoder().decode(type, from: data)
+        return data
+    }
+    
+    private func encodeData<T: Encodable>(form: T) throws -> Data? {
+        let data = try JSONEncoder().encode(form)
         return data
     }
 }
