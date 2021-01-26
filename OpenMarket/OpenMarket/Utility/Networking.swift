@@ -3,8 +3,8 @@ import Foundation
 class Networking {
     private let baseURL = "https://camp-open-market.herokuapp.com/"
 
-    func fetchList(page: UInt) {
-        guard let listURL = URL(string: "\(baseURL)items/\(page)") else {
+    func fetchGoodsList(page: UInt) {
+        guard let listURL = NetworkConfig.makeURL(with: .fetchGoodsList(page: page)) else {
             return
         }
         requestToServer(with: listURL, method: .get, parameter: nil) { (result) in
@@ -19,8 +19,8 @@ class Networking {
         }
     }
     
-    func registerItem(form: RegisterItemForm) {
-        guard let itemURL = URL(string: "\(baseURL)item") else {
+    func registerGoods(form: RegisterItemForm) {
+        guard let itemURL = NetworkConfig.makeURL(with: .registerGoods) else {
             return
         }
         requestToServer(with: itemURL, method: .post, parameter: form.convertParameter) { (result) in
@@ -34,8 +34,8 @@ class Networking {
         }
     }
     
-    func fetchItem(id: UInt) {
-        guard let itemURL = URL(string: "\(baseURL)item/\(id)") else {
+    func fetchGoods(id: UInt) {
+        guard let itemURL = NetworkConfig.makeURL(with: .fetchGoods(id: id)) else {
             return
         }
         requestToServer(with: itemURL, method: .get, parameter: nil) { (result) in
@@ -50,8 +50,8 @@ class Networking {
         }
     }
     
-    func editItem(form: EditItemForm, id: UInt) {
-        guard let itemURL = URL(string: "\(baseURL)item/\(id)") else {
+    func editGoods(form: EditItemForm, id: UInt) {
+        guard let itemURL = NetworkConfig.makeURL(with: .editGoods(id: id)) else {
             return
         }
         requestToServer(with: itemURL, method: .post, parameter: form.convertParameter) { (result) in
@@ -66,8 +66,8 @@ class Networking {
         }
     }
     
-    func removeItem(form: DeleteItemForm, id: UInt) {
-        guard let itemURL = URL(string: "\(baseURL)item/\(id)") else {
+    func removeGoods(form: DeleteItemForm, id: UInt) {
+        guard let itemURL = NetworkConfig.makeURL(with: .removeGoods(id: id)) else {
             return
         }
         
