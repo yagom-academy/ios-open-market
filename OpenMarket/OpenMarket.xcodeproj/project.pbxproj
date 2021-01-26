@@ -10,6 +10,7 @@
 		5630BD4C25BFFC3D001499A7 /* MarketItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5630BD4B25BFFC3D001499A7 /* MarketItem.swift */; };
 		5630BD5025C0241E001499A7 /* MarketItemDecodeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5630BD4F25C0241E001499A7 /* MarketItemDecodeTests.swift */; };
 		5630BD5A25C04CD4001499A7 /* MarketPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5630BD5925C04CD4001499A7 /* MarketPage.swift */; };
+		5630BD5E25C05577001499A7 /* MarketPageDecodeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5630BD5D25C05577001499A7 /* MarketPageDecodeTests.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
 		C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */; };
 		C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FE25BEF61C00C9924E /* ViewController.swift */; };
@@ -32,6 +33,7 @@
 		5630BD4B25BFFC3D001499A7 /* MarketItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketItem.swift; sourceTree = "<group>"; };
 		5630BD4F25C0241E001499A7 /* MarketItemDecodeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketItemDecodeTests.swift; sourceTree = "<group>"; };
 		5630BD5925C04CD4001499A7 /* MarketPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketPage.swift; sourceTree = "<group>"; };
+		5630BD5D25C05577001499A7 /* MarketPageDecodeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketPageDecodeTests.swift; sourceTree = "<group>"; };
 		564EA8FC25BF1E2F001BF533 /* OpenMarketTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenMarketTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		564EA90025BF1E2F001BF533 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -75,6 +77,7 @@
 			isa = PBXGroup;
 			children = (
 				5630BD4F25C0241E001499A7 /* MarketItemDecodeTests.swift */,
+				5630BD5D25C05577001499A7 /* MarketPageDecodeTests.swift */,
 				564EA90025BF1E2F001BF533 /* Info.plist */,
 			);
 			path = OpenMarketTests;
@@ -213,6 +216,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5630BD5E25C05577001499A7 /* MarketPageDecodeTests.swift in Sources */,
 				5630BD5025C0241E001499A7 /* MarketItemDecodeTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
