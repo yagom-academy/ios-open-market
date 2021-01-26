@@ -207,11 +207,24 @@ class OpenMarketTests: XCTestCase {
         XCTAssertEqual(url, RealURL, "URL이 잘못되었습니다.")
     }
     
-    func testGetItems() {
+    func testGetItemList() {
         let testExpectation = XCTestExpectation(description: "getItemList 테스트")
         var itemToGet: ItemsToGet?
         OpenMarketAPI.getItemList(page: 5) { (itemList) in
             itemToGet = itemList
+            if itemToGet == nil {
+                return
+            }
+            testExpectation.fulfill()
+        }
+        wait(for: [testExpectation], timeout: 5)
+    }
+    
+    func testGetItem() {
+        let testExpectation = XCTestExpectation(description: "getItem 테스트")
+        var itemToGet: ItemToGet?
+        OpenMarketAPI.getItem(id: 26) { (item) in
+            itemToGet = item
             if itemToGet == nil {
                 return
             }
