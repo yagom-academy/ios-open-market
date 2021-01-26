@@ -27,7 +27,7 @@
 		FD253CBD25BF56D800525912 /* ItemToDelete.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD253CBC25BF56D800525912 /* ItemToDelete.swift */; };
 		FD253CF325BFD28C00525912 /* URLManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD253CF225BFD28C00525912 /* URLManager.swift */; };
 		FD253CFF25BFF21800525912 /* OpenMarketAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD253CFE25BFF21800525912 /* OpenMarketAPI.swift */; };
-		FD253D0B25C0030000525912 /* Parsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD253D0A25C0030000525912 /* Parsing.swift */; };
+		FD253D0B25C0030000525912 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD253D0A25C0030000525912 /* Parser.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,7 +65,7 @@
 		FD253CBC25BF56D800525912 /* ItemToDelete.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemToDelete.swift; sourceTree = "<group>"; };
 		FD253CF225BFD28C00525912 /* URLManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLManager.swift; sourceTree = "<group>"; };
 		FD253CFE25BFF21800525912 /* OpenMarketAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketAPI.swift; sourceTree = "<group>"; };
-		FD253D0A25C0030000525912 /* Parsing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parsing.swift; sourceTree = "<group>"; };
+		FD253D0A25C0030000525912 /* Parser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -160,7 +160,7 @@
 			children = (
 				FD253CF225BFD28C00525912 /* URLManager.swift */,
 				FD253CFE25BFF21800525912 /* OpenMarketAPI.swift */,
-				FD253D0A25C0030000525912 /* Parsing.swift */,
+				FD253D0A25C0030000525912 /* Parser.swift */,
 			);
 			path = NetWork;
 			sourceTree = "<group>";
@@ -281,7 +281,7 @@
 				FD253CA925BF55E500525912 /* ItemToGet.swift in Sources */,
 				FD253CAF25BF563A00525912 /* Item.swift in Sources */,
 				FD253CBD25BF56D800525912 /* ItemToDelete.swift in Sources */,
-				FD253D0B25C0030000525912 /* Parsing.swift in Sources */,
+				FD253D0B25C0030000525912 /* Parser.swift in Sources */,
 				FD253CF325BFD28C00525912 /* URLManager.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,

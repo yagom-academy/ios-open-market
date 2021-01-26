@@ -7,12 +7,12 @@
 
 import Foundation
 
-struct Parsing {
-    
-    static func decodeData<T: Decodable>(_ data: Data) -> T? {
+struct Parser {
+
+    static func decodeData<T: Decodable>(_ type: T.Type, _ data: Data) -> T? {
         let decoder = JSONDecoder()
         do {
-            let response = try decoder.decode(T.self, from: data)
+            let response = try decoder.decode(type, from: data)
             return response
         } catch let error {
             print("decoding error: \(error.localizedDescription)")

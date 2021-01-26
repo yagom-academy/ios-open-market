@@ -166,5 +166,26 @@ class OpenMarketTests: XCTestCase {
         
         XCTAssertEqual(url, RealURL, "URL이 잘못되었습니다.")
     }
+    
+    class DummyOpenMarketAPIDelegate: OpenMarketAPIDelegate {
+        let testExpectation: XCTestExpectation
+        
+        init(testExpectation: XCTestExpectation) {
+            self.testExpectation = testExpectation
+        }
+        
+        func didGetItems(_ items: ItemToGet) {
+            testExpectation.fulfill()
+        }
+    }
+    
+    func testGetItems() {
+        let testExpectation = XCTestExpectation(description: "getItems 테스트")
+        let dummy = DummyOpenMarketAPIDelegate(testExpectation: testExpectation)
+        let openMarketAPI = OpenMarketAPI()
+        openMarketAPI.delegate = dummy
+        openMarketAPI.getItems(page: 1)
+        wait(for: [testExpectation], timeout: 5)
+    }
 
 }
