@@ -17,7 +17,7 @@
 		D928368D25BF2B5F00C98F6F /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = D928368C25BF2B5F00C98F6F /* Product.swift */; };
 		D928369025BF2B6C00C98F6F /* ProductList.swift in Sources */ = {isa = PBXBuildFile; fileRef = D928368F25BF2B6C00C98F6F /* ProductList.swift */; };
 		D928369A25BF30A900C98F6F /* PasswordContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D928369925BF30A900C98F6F /* PasswordContainer.swift */; };
-		D928369E25BF31A600C98F6F /* OpenMarketAPINetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = D928369D25BF31A600C98F6F /* OpenMarketAPINetwork.swift */; };
+		D928369E25BF31A600C98F6F /* OpenMarketAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D928369D25BF31A600C98F6F /* OpenMarketAPIManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,7 +45,7 @@
 		D928368C25BF2B5F00C98F6F /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
 		D928368F25BF2B6C00C98F6F /* ProductList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductList.swift; sourceTree = "<group>"; };
 		D928369925BF30A900C98F6F /* PasswordContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordContainer.swift; sourceTree = "<group>"; };
-		D928369D25BF31A600C98F6F /* OpenMarketAPINetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketAPINetwork.swift; sourceTree = "<group>"; };
+		D928369D25BF31A600C98F6F /* OpenMarketAPIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketAPIManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,7 +106,7 @@
 				D928368C25BF2B5F00C98F6F /* Product.swift */,
 				D928368F25BF2B6C00C98F6F /* ProductList.swift */,
 				D928369925BF30A900C98F6F /* PasswordContainer.swift */,
-				D928369D25BF31A600C98F6F /* OpenMarketAPINetwork.swift */,
+				D928369D25BF31A600C98F6F /* OpenMarketAPIManager.swift */,
 			);
 			path = OpenMarket;
 			sourceTree = "<group>";
@@ -220,7 +220,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D928368D25BF2B5F00C98F6F /* Product.swift in Sources */,
-				D928369E25BF31A600C98F6F /* OpenMarketAPINetwork.swift in Sources */,
+				D928369E25BF31A600C98F6F /* OpenMarketAPIManager.swift in Sources */,
 				D928369025BF2B6C00C98F6F /* ProductList.swift in Sources */,
 				D928369A25BF30A900C98F6F /* PasswordContainer.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,

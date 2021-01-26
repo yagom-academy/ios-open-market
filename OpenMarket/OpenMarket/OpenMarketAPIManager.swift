@@ -7,15 +7,15 @@ enum OpenMarketNetworkError: Error {
     case decodingFailure
 }
 
-struct OpenMarketAPINetwork {
+struct OpenMarketAPIManager {
     private let baseURL = "https://camp-open-market.herokuapp.com"
     
-    func receiveProductList(of page: Int) {
+    func getProductList(of page: Int) {
         let urlRequest = makeProductListRequestURL(of: page)
         fetchProductList(with: urlRequest) { (result) in
             switch result {
             case .success(let productList):
-                print(productList)
+                dump(productList)
             case .failure(let error):
                 print(error)
             }
@@ -36,8 +36,8 @@ struct OpenMarketAPINetwork {
             }
             
             do {
-                let productlist = try JSONDecoder().decode(ProductList.self, from: receivedData)
-                completionHandler(.success(productlist))
+                let productList = try JSONDecoder().decode(ProductList.self, from: receivedData)
+                completionHandler(.success(productList))
             } catch {
                 completionHandler(.failure(.decodingFailure))
             }

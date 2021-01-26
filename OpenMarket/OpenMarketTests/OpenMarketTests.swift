@@ -19,7 +19,7 @@ class OpenMarketTests: XCTestCase {
     }
 
     func testExample() throws {
-        let productDecoder = OpenMarketAPINetwork()
+        let productDecoder = OpenMarketAPIManager()
         let pause = XCTestExpectation(description: "wait")
         var productlist: ProductList?
         
