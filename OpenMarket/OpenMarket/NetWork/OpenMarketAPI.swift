@@ -7,21 +7,11 @@
 
 import Foundation
 
-protocol OpenMarketAPIDelegate: class {
-    func didGetItems(_ items: ItemToGet)
-}
-
-final class OpenMarketAPI {
+class OpenMarketAPI {
     
-    weak var delegate: OpenMarketAPIDelegate?
-    private var session = URLSession(configuration: .default)
+    private static var session = URLSession(configuration: .default)
     
-    func getItems(page: Int) {
-        guard let delegate = delegate else {
-            print("no delegate")
-            return
-        }
-        
+    static func getItemList(page: Int, _ completionHandler: @escaping (ItemToGet) -> Void) {
         guard let url = URLManager.makeURL(type: .getList, value: page) else {
             print("URL Error")
             return
@@ -36,7 +26,7 @@ final class OpenMarketAPI {
             let successRange =  200..<300
             guard let statusCode = (response as? HTTPURLResponse)?.statusCode,
                   successRange.contains(statusCode) else {
-                print("error")
+                print("Status Code Error")
                 return
             }
             
@@ -45,12 +35,12 @@ final class OpenMarketAPI {
                 return
             }
      
-            guard let items =  Parser.decodeData(ItemToGet.self, data) else {
+            guard let items = Parser.decodeData(ItemToGet.self, data) else {
                 print("Data Decoding Error")
                 return
             }
             
-            delegate.didGetItems(items)
+            completionHandler(items)
         }.resume()
     }
 }
