@@ -1,9 +1,7 @@
 import Foundation
 
-class Networking {
-    private let baseURL = "https://camp-open-market.herokuapp.com/"
-
-    func fetchGoodsList(page: UInt) {
+struct Networking {
+    static func fetchGoodsList(page: UInt) {
         guard let listURL = NetworkConfig.makeURL(with: .fetchGoodsList(page: page)) else {
             return
         }
@@ -14,12 +12,11 @@ class Networking {
                 debugPrint(json)
             } catch let error {
                 debugPrint(error.localizedDescription)
-                return
             }
         }
     }
     
-    func registerGoods(form: RegisterItemForm) {
+    static func registerGoods(form: RegisterGoodsForm) {
         guard let itemURL = NetworkConfig.makeURL(with: .registerGoods),
               let parameter = try? self.encodeData(form: form) else {
             return
@@ -35,7 +32,7 @@ class Networking {
         }
     }
     
-    func fetchGoods(id: UInt) {
+    static func fetchGoods(id: UInt) {
         guard let itemURL = NetworkConfig.makeURL(with: .fetchGoods(id: id)) else {
             return
         }
@@ -50,11 +47,12 @@ class Networking {
         }
     }
     
-    func editGoods(form: EditItemForm, id: UInt) {
-        guard let itemURL = NetworkConfig.makeURL(with: .editGoods(id: id)) else {
+    static func editGoods(form: EditGoodsForm, id: UInt) {
+        guard let itemURL = NetworkConfig.makeURL(with: .editGoods(id: id)),
+              let parameter = try? self.encodeData(form: form) else {
             return
         }
-        requestToServer(with: itemURL, method: .post, parameter: nil) { (result) in
+        requestToServer(with: itemURL, method: .post, parameter: parameter) { (result) in
             do {
                 let data = try result.get()
                 let json = try self.decodeData(to: Market.self, from: data)
@@ -65,12 +63,13 @@ class Networking {
         }
     }
     
-    func removeGoods(form: DeleteItemForm, id: UInt) {
-        guard let itemURL = NetworkConfig.makeURL(with: .removeGoods(id: id)) else {
+    static func removeGoods(form: DeleteGoodsForm, id: UInt) {
+        guard let itemURL = NetworkConfig.makeURL(with: .removeGoods(id: id)),
+              let parameter = try? self.encodeData(form: form) else {
             return
         }
         
-        requestToServer(with: itemURL, method: .delete, parameter: nil) { (result) in
+        requestToServer(with: itemURL, method: .delete, parameter: parameter) { (result) in
             do {
                 let data = try result.get()
                 debugPrint(data)
@@ -80,7 +79,7 @@ class Networking {
         }
     }
     
-    private func requestToServer(with url: URL, method: MethodType, parameter: Data?, completion: @escaping ((Result<Data, NetworkError>) -> Void)) {
+    private static func requestToServer(with url: URL, method: MethodType, parameter: Data?, completion: @escaping ((Result<Data, NetworkError>) -> Void)) {
         var request = URLRequest(url: url)
         request.httpMethod = method.rawValue
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -106,12 +105,12 @@ class Networking {
         }.resume()
     }
     
-    private func decodeData<T: Decodable>(to type: T.Type, from data: Data) throws -> T {
+    private static func decodeData<T: Decodable>(to type: T.Type, from data: Data) throws -> T {
         let data = try JSONDecoder().decode(type, from: data)
         return data
     }
     
-    private func encodeData<T: Encodable>(form: T) throws -> Data? {
+    private static func encodeData<T: Encodable>(form: T) throws -> Data? {
         let data = try JSONEncoder().encode(form)
         return data
     }
