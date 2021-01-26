@@ -10,12 +10,16 @@ struct Item: Codable {
     let title: String
     let price: UInt
     let currency: Currency
+    let images: [String]?
+    let descriptions: String?
+    let discountedPrice: UInt?
     let stock: UInt
     let thumbnails: [String]
     let registrationDate: Double
     
     enum CodingKeys: String, CodingKey {
-        case id, title, price, currency, stock, thumbnails
+        case id, title, price, currency, stock, thumbnails, descriptions, images
         case registrationDate = "registration_date"
+        case discountedPrice = "discounted_price"
     }
 }

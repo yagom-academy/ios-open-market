@@ -47,4 +47,21 @@ class OpenMarketTests: XCTestCase {
             return
         }
     }
+    
+    func test_item_model() {
+        guard let mockURL = Bundle.main.url(forResource: "MockItem", withExtension: "json") else {
+            XCTFail()
+            return
+        }
+        do {
+            let mockData = try Data(contentsOf: mockURL)
+            let mockJSON = try JSONDecoder().decode(Item.self, from: mockData)
+            XCTAssertNotNil(mockJSON.descriptions)
+            XCTAssertNotNil(mockJSON.images)
+            XCTAssertNil(mockJSON.discountedPrice)
+        } catch {
+            XCTFail()
+            return
+        }
+    }
 }
