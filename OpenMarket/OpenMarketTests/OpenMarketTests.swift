@@ -131,5 +131,40 @@ class OpenMarketTests: XCTestCase {
             XCTFail(error.localizedDescription)
         }
     }
+    
+    func testMakeURLTypeGetList() {
+        let url = URLManager.makeURL(type: .getList, value: 1)
+        let RealURL = URL(string: "https://camp-open-market.herokuapp.com/items/1")
+        
+        XCTAssertEqual(url, RealURL, "URL이 잘못되었습니다.")
+    }
+    
+    func testMakeURLTypeGetItem() {
+        let url = URLManager.makeURL(type: .getItem, value: 1)
+        let RealURL = URL(string: "https://camp-open-market.herokuapp.com/item/1")
+        
+        XCTAssertEqual(url, RealURL, "URL이 잘못되었습니다.")
+    }
+    
+    func testMakeURLTypePostItem() {
+        let url = URLManager.makeURL(type: .postItem, value: nil)
+        let RealURL = URL(string: "https://camp-open-market.herokuapp.com/item")
+        
+        XCTAssertEqual(url, RealURL, "URL이 잘못되었습니다.")
+    }
+    
+    func testMakeURLTypePatchItem() {
+        let url = URLManager.makeURL(type: .patchItem, value: 2)
+        let RealURL = URL(string: "https://camp-open-market.herokuapp.com/item/2")
+        
+        XCTAssertEqual(url, RealURL, "URL이 잘못되었습니다.")
+    }
+    
+    func testMakeURLTypeDeleteItem() {
+        let url = URLManager.makeURL(type: .deleteItem, value: 3)
+        let RealURL = URL(string: "https://camp-open-market.herokuapp.com/item/3")
+        
+        XCTAssertEqual(url, RealURL, "URL이 잘못되었습니다.")
+    }
 
 }

@@ -47,13 +47,13 @@ struct URLManager {
             }
             urlString.append("/\(page)")
             return urlString
-        case .getItem:
+        case .postItem:
             guard value == nil else {
                 print("??")
                 return nil
             }
             return urlString
-        case .postItem, .patchItem, .deleteItem:
+        case .getItem, .patchItem, .deleteItem:
             guard let id = value else {
                 print("id를 입력하세요")
                 return nil
