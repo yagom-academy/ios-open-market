@@ -1,6 +1,6 @@
 import Foundation
 
-struct RegisterItemForm {
+struct RegisterItemForm: Encodable {
     var title: String?
     var descriptions: String?
     var price: Int?
@@ -20,7 +20,7 @@ struct RegisterItemForm {
               let password = password else {
             return nil
         }
-        
+
         var parameter: [String : Any] = [:]
         parameter["title"] = title
         parameter["descriptions"] = descriptions
@@ -29,11 +29,11 @@ struct RegisterItemForm {
         parameter["stock"] = stock
         parameter["images"] = images
         parameter["password"] = password
-        
+
         if let discountedPrice = discountedPrice {
             parameter["discounted_price"] = discountedPrice
         }
-        
+
         return parameter
     }
 }

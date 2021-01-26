@@ -12,7 +12,7 @@ extension NetworkError: LocalizedError {
         case .request:
             return "잘못된 요청입니다."
         case .response:
-            return "에러 코드 응답이 왔습니다."
+            return "네트워크 오류가 있습니다."
         case .data:
             return "데이터가 오지 않았습니다."
         }
