@@ -6,6 +6,7 @@
 //
 
 import XCTest
+@testable import OpenMarket
 
 class OpenMarketTests: XCTestCase {
 
@@ -28,5 +29,22 @@ class OpenMarketTests: XCTestCase {
             // Put the code you want to measure the time of here.
         }
     }
-
+    
+    func test_market_model() {
+        guard let mockURL = Bundle.main.url(forResource: "Mock", withExtension: "json") else {
+            XCTFail("Can't get json file")
+            return
+        }
+        do {
+            let mockData = try Data(contentsOf: mockURL)
+            let mockJSON = try JSONDecoder().decode(Market.self,
+                                                    from: mockData)
+            XCTAssertEqual(mockJSON.page, 1)
+            XCTAssertEqual(mockJSON.itemList[0].id, 26)
+            XCTAssertEqual(mockJSON.itemList[0].currency, .KRW)
+        } catch {
+            XCTFail()
+            return
+        }
+    }
 }
