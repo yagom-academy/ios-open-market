@@ -133,7 +133,7 @@ class OpenMarketTests: XCTestCase {
     }
     
     func testMakeURLTypeGetList() {
-        let url = URLManager.makeURL(type: .getList, value: 1)
+        let url = URLManager.makeURL(type: .getItemList, value: 1)
         let RealURL = URL(string: "https://camp-open-market.herokuapp.com/items/1")
         
         XCTAssertEqual(url, RealURL, "URL이 잘못되었습니다.")

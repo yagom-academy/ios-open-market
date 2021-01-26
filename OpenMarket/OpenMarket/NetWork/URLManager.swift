@@ -8,7 +8,7 @@
 import Foundation
 
 enum NetworkMethod {
-    case getList
+    case getItemList
     case getItem
     case postItem
     case patchItem
@@ -16,7 +16,7 @@ enum NetworkMethod {
     
     var path: String {
         switch self {
-        case .getList:
+        case .getItemList:
             return "/items"
         case .getItem, .postItem, .patchItem, .deleteItem:
             return "/item"
@@ -40,7 +40,7 @@ struct URLManager {
         var urlString = URLManager.baseURL
         urlString.append(type.path)
         switch type {
-        case .getList:
+        case .getItemList:
             guard let page = value else {
                 print("페이지를 입력하세요?")
                 return nil

@@ -12,7 +12,7 @@ class OpenMarketAPI {
     private static var session = URLSession(configuration: .default)
     
     static func getItemList(page: Int, _ completionHandler: @escaping (ItemsToGet) -> Void) {
-        guard let url = URLManager.makeURL(type: .getList, value: page) else {
+        guard let url = URLManager.makeURL(type: .getItemList, value: page) else {
             print("URL Error")
             return
         }
