@@ -10,7 +10,7 @@ class Networking {
         }
         request = URLRequest(url: listURL)
         request?.httpMethod = "GET"
-        requestWithGetMethod(with: request, parameter: nil) { (result) in
+        requestToServer(with: request, parameter: nil) { (result) in
             do {
                 let data = try result.get()
                 let json = try self.decodeData(to: Market.self, from: data)
@@ -29,7 +29,7 @@ class Networking {
         request = URLRequest(url: itemURL)
         request?.httpMethod = "POST"
         request?.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        requestWithGetMethod(with: request, parameter: form.convertParameter) { (result) in
+        requestToServer(with: request, parameter: form.convertParameter) { (result) in
             do {
                 let data = try result.get()
                 let json = try self.decodeData(to: Market.self, from: data)
@@ -47,7 +47,7 @@ class Networking {
         }
         request = URLRequest(url: itemURL)
         request?.httpMethod = "GET"
-        requestWithGetMethod(with: request, parameter: nil) { (result) in
+        requestToServer(with: request, parameter: nil) { (result) in
             do {
                 let data = try result.get()
                 let json = try self.decodeData(to: Item.self, from: data)
@@ -66,7 +66,7 @@ class Networking {
         request = URLRequest(url: itemURL)
         request?.httpMethod = "POST"
         request?.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        requestWithGetMethod(with: request, parameter: form.convertParameter) { (result) in
+        requestToServer(with: request, parameter: form.convertParameter) { (result) in
             do {
                 let data = try result.get()
                 let json = try self.decodeData(to: Market.self, from: data)
@@ -78,13 +78,13 @@ class Networking {
         }
     }
     
-    func removeItem(id: UInt) {
+    func removeItem(form: DeleteItemForm, id: UInt) {
         guard let itemURL = URL(string: "\(baseURL)item/\(id)") else {
             return
         }
         request = URLRequest(url: itemURL)
         request?.httpMethod = "DELETE"
-        requestWithGetMethod(with: request, parameter: nil) { (result) in
+        requestToServer(with: request, parameter: form.convertParameter) { (result) in
             do {
                 let data = try result.get()
                 let json = try self.decodeData(to: Item.self, from: data)
@@ -96,7 +96,7 @@ class Networking {
         }
     }
     
-    private func requestWithGetMethod(with request: URLRequest?, parameter: [String: Any]?, completion: @escaping ((Result<Data, Error>) -> Void)) {
+    private func requestToServer(with request: URLRequest?, parameter: [String: Any]?, completion: @escaping ((Result<Data, Error>) -> Void)) {
         guard var request = request else {
             return completion(.failure(NetworkError.requestError))
         }

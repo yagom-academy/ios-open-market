@@ -11,8 +11,6 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-//        networking.fetchList(page: 1)
-        networking.fetchItem(id: 26)
     }
 
 
