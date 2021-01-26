@@ -23,7 +23,7 @@ struct ItemToGet: Decodable {
     var registrationDate: Int
     
     enum CodingKeys: String, CodingKey {
-        case id, title, discription, price, currency, stock, images
+        case id, title, discription, price, currency, stock, images, thumbnails
         case discountedPrice = "discounted_price"
         case registrationDate = "registration_date"
     }
