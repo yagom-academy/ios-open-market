@@ -9,7 +9,7 @@ import Foundation
 
 struct ItemToPost: Encodable {
     var title: String
-    var discription: String
+    var descriptions: String
     var price: Int
     var currency: String
     var stock: Int
@@ -18,7 +18,7 @@ struct ItemToPost: Encodable {
     var password: String
     
     enum CodingKeys: String, CodingKey {
-        case title, discription, price, currency, stock, images, password
+        case title, descriptions, price, currency, stock, images, password
         case discountedPrice = "discounted_price"
     }
 }
