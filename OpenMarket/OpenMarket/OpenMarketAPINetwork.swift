@@ -22,6 +22,12 @@ struct OpenMarketAPINetwork {
                 return
             }
             
+            guard let response = response as? HTTPURLResponse,
+                  (200..<300).contains(response.statusCode) else {
+                completionHandler(.failure(.failedHTTPRequest))
+                return
+            }
+            
             do {
                 let productlist = try JSONDecoder().decode(ProductList.self, from: receivedData)
                 completionHandler(.success(productlist))
