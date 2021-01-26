@@ -234,9 +234,27 @@ class OpenMarketTests: XCTestCase {
                 print("itemAfterPost가 nil입니다.")
                 return
             }
+            print("아이디 나와라: \(itemAfterPost?.id)")
+            //165
             testExpectation.fulfill()
         }
         wait(for: [testExpectation], timeout: 5)
+    }
+
+    func testPatchItem() {
+        let testExpectation = XCTestExpectation(description: "patchItem 테스트")
+        let itemToPatch = ItemToPatch(title: "바껴라", password: "123")
+        var itemAfterPatch: ItemAfterPatch?
+        OpenMarketAPI.patchItem(id: 26, itemToPatch: itemToPatch) { (item) in
+            itemAfterPatch = item
+            if itemAfterPatch == nil {
+                print("itemAfterPatch가 nil입니다.")
+                return
+            }
+            print("바뀐 타이틀 나와라 나와라: \(itemAfterPatch?.title)")
+            testExpectation.fulfill()
+        }
+//        wait(for: [testExpectation], timeout: 5)
     }
     
     func testDeleteItem() {
@@ -252,7 +270,6 @@ class OpenMarketTests: XCTestCase {
             }
             testExpectation.fulfill()
         }
-        wait(for: [testExpectation], timeout: 5)
+//        wait(for: [testExpectation], timeout: 5)
     }
-
 }
