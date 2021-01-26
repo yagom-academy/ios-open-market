@@ -56,7 +56,7 @@ class OpenMarketTests: XCTestCase {
             do {
                 let json = try JSONDecoder().decode(Market.self, from: data)
                 XCTAssertEqual(json.page, 1)
-                XCTAssertEqual(json.itemList[0].id, 26)
+                XCTAssertEqual(json.goodsList[0].id, 26)
             } catch {
                 XCTFail()
                 return
@@ -76,8 +76,8 @@ class OpenMarketTests: XCTestCase {
             let mockJSON = try JSONDecoder().decode(Market.self,
                                                     from: mockData)
             XCTAssertEqual(mockJSON.page, 1)
-            XCTAssertEqual(mockJSON.itemList[0].id, 26)
-            XCTAssertEqual(mockJSON.itemList[0].currency, .KRW)
+            XCTAssertEqual(mockJSON.goodsList[0].id, 26)
+            XCTAssertEqual(mockJSON.goodsList[0].currency, "KRW")
         } catch {
             XCTFail()
             return
