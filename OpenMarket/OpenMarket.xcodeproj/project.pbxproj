@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5630BD4C25BFFC3D001499A7 /* MarketItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5630BD4B25BFFC3D001499A7 /* MarketItem.swift */; };
 		564EA8FF25BF1E2F001BF533 /* OpenMarketTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 564EA8FE25BF1E2F001BF533 /* OpenMarketTests.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
 		C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */; };
@@ -27,6 +28,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5630BD4B25BFFC3D001499A7 /* MarketItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketItem.swift; sourceTree = "<group>"; };
 		564EA8FC25BF1E2F001BF533 /* OpenMarketTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenMarketTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		564EA8FE25BF1E2F001BF533 /* OpenMarketTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketTests.swift; sourceTree = "<group>"; };
 		564EA90025BF1E2F001BF533 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -58,6 +60,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5630BD4A25BFFBB5001499A7 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				5630BD4B25BFFC3D001499A7 /* MarketItem.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		564EA8FD25BF1E2F001BF533 /* OpenMarketTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -88,6 +98,7 @@
 		C70FB0F925BEF61C00C9924E /* OpenMarket */ = {
 			isa = PBXGroup;
 			children = (
+				5630BD4A25BFFBB5001499A7 /* Models */,
 				C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */,
 				C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */,
 				C70FB0FE25BEF61C00C9924E /* ViewController.swift */,
@@ -209,6 +220,7 @@
 			files = (
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
+				5630BD4C25BFFC3D001499A7 /* MarketItem.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
