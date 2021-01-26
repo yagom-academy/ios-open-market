@@ -210,7 +210,7 @@ class OpenMarketTests: XCTestCase {
     func testGetItems() {
         let testExpectation = XCTestExpectation(description: "getItemList 테스트")
         var itemToGet: ItemsToGet?
-        OpenMarketAPI.getItemList(page: 1) { (itemList) in
+        OpenMarketAPI.getItemList(page: 5) { (itemList) in
             itemToGet = itemList
             if itemToGet == nil {
                 return
@@ -232,6 +232,22 @@ class OpenMarketTests: XCTestCase {
             itemAfterPost = item
             if itemAfterPost == nil {
                 print("itemAfterPost가 nil입니다.")
+                return
+            }
+            testExpectation.fulfill()
+        }
+        wait(for: [testExpectation], timeout: 5)
+    }
+    
+    func testDeleteItem() {
+        let id: Int = 120 // 서버에 삭제할 id를 가진 item이 있어야 테스트 성공.
+        let testExpectation = XCTestExpectation(description: "deleteItem 테스트")
+        let itemToDelete = ItemToDelete(id: id, password: "123")
+        var itemAfterDelete: ItemAfterDelete?
+        OpenMarketAPI.deleteItem(id: id, itemToDelete: itemToDelete) { (item) in
+            itemAfterDelete = item
+            if itemAfterDelete == nil {
+                print("itemAfterDelete가 nil입니다.")
                 return
             }
             testExpectation.fulfill()
