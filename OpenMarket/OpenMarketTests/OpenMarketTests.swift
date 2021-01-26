@@ -207,11 +207,24 @@ class OpenMarketTests: XCTestCase {
         XCTAssertEqual(url, RealURL, "URL이 잘못되었습니다.")
     }
     
-    func testGetItems() {
+    func testGetItemList() {
         let testExpectation = XCTestExpectation(description: "getItemList 테스트")
         var itemToGet: ItemsToGet?
         OpenMarketAPI.getItemList(page: 5) { (itemList) in
             itemToGet = itemList
+            if itemToGet == nil {
+                return
+            }
+            testExpectation.fulfill()
+        }
+        wait(for: [testExpectation], timeout: 5)
+    }
+    
+    func testGetItem() {
+        let testExpectation = XCTestExpectation(description: "getItem 테스트")
+        var itemToGet: ItemToGet?
+        OpenMarketAPI.getItem(id: 26) { (item) in
+            itemToGet = item
             if itemToGet == nil {
                 return
             }
@@ -238,6 +251,21 @@ class OpenMarketTests: XCTestCase {
         }
         wait(for: [testExpectation], timeout: 5)
     }
+
+    func testPatchItem() {
+        let testExpectation = XCTestExpectation(description: "patchItem 테스트")
+        let itemToPatch = ItemToPatch(title: "바껴라", password: "123")
+        var itemAfterPatch: ItemAfterPatch?
+        OpenMarketAPI.patchItem(id: 26, itemToPatch: itemToPatch) { (item) in
+            itemAfterPatch = item
+            if itemAfterPatch == nil {
+                print("itemAfterPatch가 nil입니다.")
+                return
+            }
+            testExpectation.fulfill()
+        }
+        wait(for: [testExpectation], timeout: 5)
+    }
     
     func testDeleteItem() {
         let id: Int = 120 // 서버에 삭제할 id를 가진 item이 있어야 테스트 성공.
@@ -254,5 +282,4 @@ class OpenMarketTests: XCTestCase {
         }
         wait(for: [testExpectation], timeout: 5)
     }
-
 }
