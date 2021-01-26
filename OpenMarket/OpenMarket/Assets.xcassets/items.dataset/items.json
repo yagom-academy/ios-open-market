@@ -41,7 +41,7 @@
         {
             "id": 4,
             "title": "iPad Air",
-            "price": 779000
+            "price": 779000,
             "currency": "KRW",
             "stock": 200000000,
             "thumbnails": [
