@@ -1,48 +1,53 @@
-//
-//  OpenMarketTests.swift
-//  OpenMarketTests
-//
-//  Created by 김태형 on 2021/01/25.
-//
 
 import XCTest
 @testable import OpenMarket
 
 class OpenMarketTests: XCTestCase {
-
+    var sut: OpenMarketAPIManager!
+    
     override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+        sut = .init(session: MockURLSession())
     }
-
+    
     override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
-
-    func testExample() throws {
-        let productDecoder = OpenMarketAPIManager()
-        let pause = XCTestExpectation(description: "wait")
-        var productlist: ProductList?
+    
+    func testFetchProductListofPageOne() {
+        let expectation = XCTestExpectation()
+        let response = try? JSONDecoder().decode(ProductList.self, from: MockAPI.test.sampleItems.data)
         
-        productDecoder.decodeFromAPI() { result in
+        sut.fetchProductList(of: 1) { (result) in
             switch result {
-            case .success(let data):
-                productlist = data
-            case .failure(let error):
-                print(error)
+            case .success(let productList):
+                XCTAssertEqual(productList.items[3].id, response?.items[3].id)
+                XCTAssertEqual(productList.items[3].currency, response?.items[3].currency)
+                XCTAssertEqual(productList.items[3].price, response?.items[3].price)
+                XCTAssertEqual(productList.items[3].discountedPrice, response?.items[3].discountedPrice)
+                XCTAssertEqual(productList.items[3].registrationDate, response?.items[3].registrationDate)
+            case .failure:
+                XCTFail()
             }
-            pause.fulfill()
+            expectation.fulfill()
         }
-        wait(for: [pause], timeout: 5)
-        dump(productlist)
         
-        XCTAssertNotNil(productlist)
+        wait(for: [expectation], timeout: 5.0)
     }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        measure {
-            // Put the code you want to measure the time of here.
+    
+    func testFetchProductListofPageOneFailure() {
+        sut = .init(session: MockURLSession(makeRequestFail: true))
+        let expectation = XCTestExpectation()
+        
+        sut.fetchProductList(of: 1) { (result) in
+            switch result {
+            case .success:
+                XCTFail()
+            case .failure(let error):
+                XCTAssertEqual(error.self, .invalidData)
+            }
+            expectation.fulfill()
         }
+        
+        wait(for: [expectation], timeout: 5.0)
     }
-
+    
 }

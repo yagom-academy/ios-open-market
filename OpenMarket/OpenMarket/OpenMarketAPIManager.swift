@@ -1,6 +1,12 @@
 
 import Foundation
 
+protocol URLSessionProtocol {
+    func dataTask(with request: URLRequest,
+                  completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask
+}
+extension URLSession: URLSessionProtocol { }
+
 enum OpenMarketNetworkError: Error {
     case invalidData
     case failedHTTPRequest
@@ -10,20 +16,16 @@ enum OpenMarketNetworkError: Error {
 struct OpenMarketAPIManager {
     private let baseURL = "https://camp-open-market.herokuapp.com"
     
-    func getProductList(of page: Int) {
-        let urlRequest = makeProductListRequestURL(of: page)
-        fetchProductList(with: urlRequest) { (result) in
-            switch result {
-            case .success(let productList):
-                dump(productList)
-            case .failure(let error):
-                print(error)
-            }
-        }
+    let session: URLSessionProtocol
+    
+    init(session: URLSessionProtocol) {
+        self.session = session
     }
     
-    private func fetchProductList(with urlRequest: URLRequest, completionHandler: @escaping (Result<ProductList, OpenMarketNetworkError>) -> ()) {
-        let dataTask = URLSession.shared.dataTask(with: urlRequest) { (data, response, error)  in
+    func fetchProductList(of page: Int, completionHandler: @escaping (Result<ProductList, OpenMarketNetworkError>) -> Void) {
+        let urlRequest = makeProductListRequestURL(of: page)
+        
+        let dataTask: URLSessionDataTask = session.dataTask(with: urlRequest) { (data, response, error)  in
             guard let receivedData = data else {
                 completionHandler(.failure(.invalidData))
                 return
@@ -42,6 +44,7 @@ struct OpenMarketAPIManager {
                 completionHandler(.failure(.decodingFailure))
             }
         }
+        
         dataTask.resume()
     }
     
