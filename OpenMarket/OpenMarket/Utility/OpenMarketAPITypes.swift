@@ -1,6 +1,6 @@
 import Foundation
 
-enum OpenMarketAPITypes{
+enum OpenMarketAPITypes {
     case searchGoodsList(page: Int)
     case registerGoods
     case searchGoods(id: Int)
