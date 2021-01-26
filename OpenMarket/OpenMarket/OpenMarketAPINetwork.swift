@@ -10,7 +10,7 @@ enum OpenMarketNetworkError: Error {
 struct OpenMarketAPINetwork {
     private let baseURL = "https://camp-open-market.herokuapp.com"
     
-    func postProductList(of page: Int) {
+    func receiveProductList(of page: Int) {
         let urlRequest = makeProductListRequestURL(of: page)
         fetchProductList(with: urlRequest) { (result) in
             switch result {
