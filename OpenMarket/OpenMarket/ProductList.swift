@@ -1,7 +1,7 @@
 
 import Foundation
 
-struct ItemList: Decodable {
+struct ProductList: Decodable {
     let page: Int
-    let items: [Item]
+    let items: [Product]
 }

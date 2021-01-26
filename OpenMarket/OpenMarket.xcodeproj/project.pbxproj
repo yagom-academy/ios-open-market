@@ -13,8 +13,8 @@
 		C70FB10225BEF61C00C9924E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C70FB10025BEF61C00C9924E /* Main.storyboard */; };
 		C70FB10425BEF61D00C9924E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C70FB10325BEF61D00C9924E /* Assets.xcassets */; };
 		C70FB10725BEF61D00C9924E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */; };
-		D928368D25BF2B5F00C98F6F /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = D928368C25BF2B5F00C98F6F /* Item.swift */; };
-		D928369025BF2B6C00C98F6F /* ItemList.swift in Sources */ = {isa = PBXBuildFile; fileRef = D928368F25BF2B6C00C98F6F /* ItemList.swift */; };
+		D928368D25BF2B5F00C98F6F /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = D928368C25BF2B5F00C98F6F /* Product.swift */; };
+		D928369025BF2B6C00C98F6F /* ProductList.swift in Sources */ = {isa = PBXBuildFile; fileRef = D928368F25BF2B6C00C98F6F /* ProductList.swift */; };
 		D928369A25BF30A900C98F6F /* PasswordContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D928369925BF30A900C98F6F /* PasswordContainer.swift */; };
 		D928369E25BF31A600C98F6F /* OpenMarketAPINetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = D928369D25BF31A600C98F6F /* OpenMarketAPINetwork.swift */; };
 /* End PBXBuildFile section */
@@ -28,8 +28,8 @@
 		C70FB10325BEF61D00C9924E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C70FB10625BEF61D00C9924E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C70FB10825BEF61D00C9924E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D928368C25BF2B5F00C98F6F /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
-		D928368F25BF2B6C00C98F6F /* ItemList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemList.swift; sourceTree = "<group>"; };
+		D928368C25BF2B5F00C98F6F /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
+		D928368F25BF2B6C00C98F6F /* ProductList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductList.swift; sourceTree = "<group>"; };
 		D928369925BF30A900C98F6F /* PasswordContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordContainer.swift; sourceTree = "<group>"; };
 		D928369D25BF31A600C98F6F /* OpenMarketAPINetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketAPINetwork.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -71,8 +71,8 @@
 				C70FB10325BEF61D00C9924E /* Assets.xcassets */,
 				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
 				C70FB10825BEF61D00C9924E /* Info.plist */,
-				D928368C25BF2B5F00C98F6F /* Item.swift */,
-				D928368F25BF2B6C00C98F6F /* ItemList.swift */,
+				D928368C25BF2B5F00C98F6F /* Product.swift */,
+				D928368F25BF2B6C00C98F6F /* ProductList.swift */,
 				D928369925BF30A900C98F6F /* PasswordContainer.swift */,
 				D928369D25BF31A600C98F6F /* OpenMarketAPINetwork.swift */,
 			);
@@ -149,9 +149,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D928368D25BF2B5F00C98F6F /* Item.swift in Sources */,
+				D928368D25BF2B5F00C98F6F /* Product.swift in Sources */,
 				D928369E25BF31A600C98F6F /* OpenMarketAPINetwork.swift in Sources */,
-				D928369025BF2B6C00C98F6F /* ItemList.swift in Sources */,
+				D928369025BF2B6C00C98F6F /* ProductList.swift in Sources */,
 				D928369A25BF30A900C98F6F /* PasswordContainer.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
