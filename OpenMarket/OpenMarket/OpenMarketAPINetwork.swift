@@ -1,29 +1,32 @@
 
 import Foundation
 
-enum ProductError: Error {
-    case error
+enum OpenMarketNetworkError: Error {
+    case invalidData
+    case failedHTTPRequest
+    case decodingFailure
 }
 
 struct OpenMarketAPINetwork {
-    func decodeFromAPI(completionHandler: @escaping (Result<ProductList, ProductError>) -> ()) {
-        let session = URLSession(configuration: .default)
-        guard let url:URL = URL(string: "https://camp-open-market.herokuapp.com/items/1/") else {
+    private func fetchProductList(page: Int, completionHandler: @escaping (Result<ProductList, OpenMarketNetworkError>) -> ()) {
+        guard let url = URL(string: "https://camp-open-market.herokuapp.com/items/\(page)/") else {
             return
         }
+        
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "GET"
         
-        let dataTask = session.dataTask(with: urlRequest) { data,_,error  in
-            guard let data = data else {
+        let dataTask = URLSession.shared.dataTask(with: urlRequest) { (data, response, error)  in
+            guard let receivedData = data else {
+                completionHandler(.failure(.invalidData))
                 return
             }
+            
             do {
-                let productlist: ProductList = try JSONDecoder().decode(ProductList.self, from: data)
+                let productlist = try JSONDecoder().decode(ProductList.self, from: receivedData)
                 completionHandler(.success(productlist))
             } catch {
-                print("JSON 에러")
-                completionHandler(.failure(.error))
+                completionHandler(.failure(.decodingFailure))
             }
         }
         dataTask.resume()
