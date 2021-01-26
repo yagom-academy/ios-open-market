@@ -12,6 +12,7 @@
 		B42776AC25BFA9AA0093639B /* OpenMarketTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B42776AB25BFA9AA0093639B /* OpenMarketTests.swift */; };
 		B42776B725BFAA470093639B /* Mock.json in Resources */ = {isa = PBXBuildFile; fileRef = B42776B625BFAA470093639B /* Mock.json */; };
 		B42776E125BFDD4D0093639B /* MockItem.json in Resources */ = {isa = PBXBuildFile; fileRef = B42776E025BFDD4D0093639B /* MockItem.json */; };
+		B43EE7BC25C01B92003089C9 /* Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = B43EE7BB25C01B92003089C9 /* Networking.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
 		C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */; };
 		C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FE25BEF61C00C9924E /* ViewController.swift */; };
@@ -38,6 +39,7 @@
 		B42776AD25BFA9AA0093639B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B42776B625BFAA470093639B /* Mock.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Mock.json; sourceTree = "<group>"; };
 		B42776E025BFDD4D0093639B /* MockItem.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = MockItem.json; sourceTree = "<group>"; };
+		B43EE7BB25C01B92003089C9 /* Networking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Networking.swift; sourceTree = "<group>"; };
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -93,6 +95,14 @@
 			path = MockData;
 			sourceTree = "<group>";
 		};
+		B43EE7BA25C01B83003089C9 /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				B43EE7BB25C01B92003089C9 /* Networking.swift */,
+			);
+			path = Utility;
+			sourceTree = "<group>";
+		};
 		C70FB0EE25BEF61C00C9924E = {
 			isa = PBXGroup;
 			children = (
@@ -114,6 +124,7 @@
 		C70FB0F925BEF61C00C9924E /* OpenMarket */ = {
 			isa = PBXGroup;
 			children = (
+				B43EE7BA25C01B83003089C9 /* Utility */,
 				B42776B525BFAA340093639B /* MockData */,
 				B427769925BFA4230093639B /* Models */,
 				C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */,
@@ -240,6 +251,7 @@
 				B427769B25BFA61E0093639B /* Item.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
+				B43EE7BC25C01B92003089C9 /* Networking.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 				B42776A325BFA7CE0093639B /* Market.swift in Sources */,
 			);
