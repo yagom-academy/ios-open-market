@@ -8,7 +8,6 @@
 import Foundation
 
 struct ItemToPatch: Encodable {
-    
     var title: String?
     var discription: String?
     var price: Int?

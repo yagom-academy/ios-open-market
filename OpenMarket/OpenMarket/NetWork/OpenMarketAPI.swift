@@ -7,19 +7,18 @@
 
 import Foundation
 
+protocol OpenMarketAPIDelegate: class {
+    func didGetItems(_ items: ItemToGet)
+}
+
 final class OpenMarketAPI {
     
     weak var delegate: OpenMarketAPIDelegate?
-    private var session = URLSession(configuration: .default) // TODO: configuration을 .default로 해야하는 이유는?
-    private var decoder = JSONDecoder()
-    
-    private func decodeData<T>(_ data: Data, type: T.Type) -> T? where T : Decodable {
-        let decodedData = try? self.decoder.decode(type, from: data)
-        return decodedData
-    }
+    private var session = URLSession(configuration: .default)
     
     func getItems(page: Int) {
         guard let delegate = delegate else {
+            print("no delegate")
             return
         }
         
@@ -34,18 +33,24 @@ final class OpenMarketAPI {
                 return
             }
             
+            let successRange =  200..<300
+            guard let statusCode = (response as? HTTPURLResponse)?.statusCode,
+                  successRange.contains(statusCode) else {
+                print("error")
+                return
+            }
+            
             guard let data = data else {
                 print("No Data Error")
                 return
             }
-            
-            guard let items = self.decodeData(data, type: ItemToGet.self) else {
+     
+            guard let items =  Parser.decodeData(ItemToGet.self, data) else {
                 print("Data Decoding Error")
                 return
             }
             
-            delegate.setItems(items)
+            delegate.didGetItems(items)
         }.resume()
     }
-    
 }

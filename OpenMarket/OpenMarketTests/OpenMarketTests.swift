@@ -174,7 +174,7 @@ class OpenMarketTests: XCTestCase {
             self.testExpectation = testExpectation
         }
         
-        func setItems(_ items: ItemToGet) {
+        func didGetItems(_ items: ItemToGet) {
             testExpectation.fulfill()
         }
     }

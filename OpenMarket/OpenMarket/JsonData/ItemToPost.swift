@@ -8,7 +8,6 @@
 import Foundation
 
 struct ItemToPost: Encodable {
-    
     var title: String
     var discription: String
     var price: Int
