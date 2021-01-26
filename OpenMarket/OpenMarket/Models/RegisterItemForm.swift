@@ -4,7 +4,7 @@ struct RegisterItemForm {
     var title: String?
     var descriptions: String?
     var price: Int?
-    var currency: Currency?
+    var currency: String?
     var stock: Int?
     var discountedPrice: Int?
     var images: [String]?

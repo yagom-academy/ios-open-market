@@ -91,7 +91,7 @@ class OpenMarketTests: XCTestCase {
         }
         do {
             let mockData = try Data(contentsOf: mockURL)
-            let mockJSON = try JSONDecoder().decode(Item.self, from: mockData)
+            let mockJSON = try JSONDecoder().decode(Goods.self, from: mockData)
             XCTAssertNotNil(mockJSON.descriptions)
             XCTAssertNotNil(mockJSON.images)
             XCTAssertNil(mockJSON.discountedPrice)

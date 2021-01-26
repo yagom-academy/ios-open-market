@@ -1,8 +1,8 @@
 import Foundation
 
-struct Market: Codable {
+struct Market: Decodable {
     let page: UInt
-    let itemList: [Item]
+    let itemList: [Goods]
     
     enum CodingKeys: String, CodingKey {
         case page

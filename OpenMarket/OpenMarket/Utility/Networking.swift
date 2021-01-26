@@ -50,7 +50,7 @@ class Networking {
         requestToServer(with: request, parameter: nil) { (result) in
             do {
                 let data = try result.get()
-                let json = try self.decodeData(to: Item.self, from: data)
+                let json = try self.decodeData(to: Goods.self, from: data)
                 print(json)
             } catch let error {
                 print(error)
@@ -87,7 +87,7 @@ class Networking {
         requestToServer(with: request, parameter: form.convertParameter) { (result) in
             do {
                 let data = try result.get()
-                let json = try self.decodeData(to: Item.self, from: data)
+                let json = try self.decodeData(to: Goods.self, from: data)
                 print(json)
             } catch let error {
                 print(error.localizedDescription)

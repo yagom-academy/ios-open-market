@@ -1,15 +1,10 @@
 import Foundation
 
-enum Currency: String, Codable {
-    case KRW = "KRW"
-    case USD = "USD"
-}
-
-struct Item: Codable {
+struct Goods: Decodable {
     let id: UInt
     let title: String
     let price: UInt
-    let currency: Currency
+    let currency: String
     let images: [String]?
     let descriptions: String?
     let discountedPrice: UInt?

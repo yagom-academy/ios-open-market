@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		B427769B25BFA61E0093639B /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = B427769A25BFA61E0093639B /* Item.swift */; };
+		B427769B25BFA61E0093639B /* Goods.swift in Sources */ = {isa = PBXBuildFile; fileRef = B427769A25BFA61E0093639B /* Goods.swift */; };
 		B42776A325BFA7CE0093639B /* Market.swift in Sources */ = {isa = PBXBuildFile; fileRef = B42776A225BFA7CE0093639B /* Market.swift */; };
 		B42776AC25BFA9AA0093639B /* OpenMarketTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B42776AB25BFA9AA0093639B /* OpenMarketTests.swift */; };
 		B42776B725BFAA470093639B /* Mock.json in Resources */ = {isa = PBXBuildFile; fileRef = B42776B625BFAA470093639B /* Mock.json */; };
@@ -36,7 +36,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		B427769A25BFA61E0093639B /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
+		B427769A25BFA61E0093639B /* Goods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Goods.swift; sourceTree = "<group>"; };
 		B42776A225BFA7CE0093639B /* Market.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Market.swift; sourceTree = "<group>"; };
 		B42776A925BFA9AA0093639B /* OpenMarketTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenMarketTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B42776AB25BFA9AA0093639B /* OpenMarketTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketTests.swift; sourceTree = "<group>"; };
@@ -79,7 +79,7 @@
 		B427769925BFA4230093639B /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				B427769A25BFA61E0093639B /* Item.swift */,
+				B427769A25BFA61E0093639B /* Goods.swift */,
 				B42776A225BFA7CE0093639B /* Market.swift */,
 				B43EE7C125C042F1003089C9 /* NetworkError.swift */,
 				B43EE7C525C04CC7003089C9 /* RegisterItemForm.swift */,
@@ -260,7 +260,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B427769B25BFA61E0093639B /* Item.swift in Sources */,
+				B427769B25BFA61E0093639B /* Goods.swift in Sources */,
 				B43EE7C625C04CC7003089C9 /* RegisterItemForm.swift in Sources */,
 				B43EE7C225C042F1003089C9 /* NetworkError.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
