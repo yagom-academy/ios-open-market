@@ -8,23 +8,23 @@
 import Foundation
 
 enum Config {
-    static let baseURL = "https://camp-open-market.herokuapp.com/"
+    static let baseUrl = "https://camp-open-market.herokuapp.com/"
     static let pathFormatWithParam = "%@/%u"
     static let pathFormatWithOutParam = "%@"
     
-    static func setUpURL(method: Method, path: Path, param: UInt?) -> String {
+    static func setUpUrl(method: HttpMethod, path: UrlPath, param: UInt?) -> String {
         var urlString = ""
         var url = ""
-        urlString.append(Config.baseURL)
+        urlString.append(Config.baseUrl)
         
         switch method {
-        case .GET, .PATCH, .DELETE:
+        case .get, .patch, .delete:
             urlString.append(Config.pathFormatWithParam)
             guard let param = param else {
                 return ""
             }
             url = String(format: urlString, path.rawValue, param)
-        case .POST:
+        case .post:
             urlString.append(Config.pathFormatWithOutParam)
             url = String(format: urlString, path.rawValue)
         }
