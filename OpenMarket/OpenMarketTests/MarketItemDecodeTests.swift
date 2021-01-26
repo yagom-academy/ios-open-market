@@ -12,6 +12,7 @@ class MarketItemDecodeTests: XCTestCase {
 
     private var decodedMarketItem: MarketItem?
     private var decodedMarketItemWithoutImages: MarketItem?
+    private var decodedMarketItemOnlyID: MarketItem?
     
     override func setUp() {
         guard let mockDataAsset = NSDataAsset(name: "item") else {
@@ -22,26 +23,43 @@ class MarketItemDecodeTests: XCTestCase {
             XCTFail("Failed to load dataAsset")
             return
         }
+        guard let mockOnlyIDDataAsset = NSDataAsset(name: "id") else {
+            XCTFail("Failed to load dataAsset")
+            return
+        }
+        
         if let decodedData: MarketItem = try? JSONDecoder().decode(MarketItem.self, from: mockDataAsset.data) {
             decodedMarketItem = decodedData
         } else {
             XCTFail("Failed to decode dataAsset")
             return
         }
+        
         if let decodedData: MarketItem = try? JSONDecoder().decode(MarketItem.self, from: mockWithoutImagesDataAsset.data) {
             decodedMarketItemWithoutImages = decodedData
         } else {
             XCTFail("Failed to decode dataAsset")
             return
         }
+        
+        if let decodedData: MarketItem = try? JSONDecoder().decode(MarketItem.self, from: mockOnlyIDDataAsset.data) {
+            decodedMarketItemOnlyID = decodedData
+        } else {
+            XCTFail("Failed to decode dataAsset")
+            return
+        }
     }
-       
+           
     func testDecodeMarketItemWithMock() {
         guard let decodedMarketItem = self.decodedMarketItem else {
             XCTFail("Failed to decode dataAsset")
             return
         }
         guard let images = decodedMarketItem.images else {
+            XCTFail("Failed to decode dataAsset")
+            return
+        }
+        guard let thumbnails = decodedMarketItem.thumbnails else {
             XCTFail("Failed to decode dataAsset")
             return
         }
@@ -54,7 +72,7 @@ class MarketItemDecodeTests: XCTestCase {
         XCTAssertEqual(decodedMarketItem.stock, 1000000000000)
         XCTAssertEqual(decodedMarketItem.discountedPrice, nil)
         for i in 0...2 {
-            XCTAssertEqual(decodedMarketItem.thumbnails[i], "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/thumbnails/1-\(i + 1).png")
+            XCTAssertEqual(thumbnails[i], "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/thumbnails/1-\(i + 1).png")
         }
         for i in 0...4 {
             XCTAssertEqual(images[i], "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/images/1-\(i + 1).png")
@@ -71,6 +89,10 @@ class MarketItemDecodeTests: XCTestCase {
             XCTFail("Failed to decode dataAsset")
             return
         }
+        guard let thumbnails = decodedMarketItemWithoutImages.thumbnails else {
+            XCTFail("Failed to decode dataAsset")
+            return
+        }
         
         XCTAssertEqual(decodedMarketItemWithoutImages.id, 1)
         XCTAssertEqual(decodedMarketItemWithoutImages.title, "MacBook Air")
@@ -80,9 +102,30 @@ class MarketItemDecodeTests: XCTestCase {
         XCTAssertEqual(decodedMarketItemWithoutImages.stock, 1000000000000)
         XCTAssertEqual(decodedMarketItemWithoutImages.discountedPrice, nil)
         for i in 0...2 {
-            XCTAssertEqual(decodedMarketItemWithoutImages.thumbnails[i], "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/thumbnails/1-\(i + 1).png")
+            XCTAssertEqual(thumbnails[i], "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/thumbnails/1-\(i + 1).png")
         }
         XCTAssertEqual(decodedMarketItemWithoutImages.registrationDate, 1611523563.719116)
+    }
+    
+    func testDecodeMarketItemWithMockOnlyID() {
+        guard let decodedMarketItemOnlyID = self.decodedMarketItemOnlyID else {
+            XCTFail("Failed to decode dataAsset")
+            return
+        }
+        guard decodedMarketItemOnlyID.title == nil,
+              decodedMarketItemOnlyID.descriptions == nil,
+              decodedMarketItemOnlyID.price == nil,
+              decodedMarketItemOnlyID.currency == nil,
+              decodedMarketItemOnlyID.stock == nil,
+              decodedMarketItemOnlyID.discountedPrice == nil,
+              decodedMarketItemOnlyID.thumbnails == nil,
+              decodedMarketItemOnlyID.images == nil,
+              decodedMarketItemOnlyID.registrationDate == nil else {
+            XCTFail("Failed to decode dataAsset")
+            return
+        }
+     
+        XCTAssertEqual(decodedMarketItemOnlyID.id, 1)
     }
 }
 
