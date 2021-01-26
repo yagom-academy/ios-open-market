@@ -90,7 +90,7 @@ class OpenMarketAPI {
             print("Encoding Error")
             return
         }
-        session.uploadTask(with: urlRequest, from: dataToPost) { (data, response, error) in
+        ephemeralSession.uploadTask(with: urlRequest, from: dataToPost) { (data, response, error) in
             if let error = error {
                 print(error.localizedDescription)
                 return
@@ -112,8 +112,6 @@ class OpenMarketAPI {
                 print("Data Decoding Error")
                 return
             }
-            let resultString = String(data: data, encoding: .utf8)
-            print(resultString)
             completionHandler(item)
         }.resume()
     }
@@ -130,7 +128,6 @@ class OpenMarketAPI {
             print("Encoding Error")
             return
         }
-//        urlRequest.httpBody = dataToPatch
         ephemeralSession.uploadTask(with: urlRequest, from: dataToPatch) { (data, response, error) in
             if let error = error {
                 print(error.localizedDescription)
@@ -153,8 +150,6 @@ class OpenMarketAPI {
                 print("Data Decoding Error")
                 return
             }
-            let resultString = String(data: data, encoding: .utf8)
-            print(resultString)
             completionHandler(item)
         }.resume()
     }
@@ -172,7 +167,7 @@ class OpenMarketAPI {
             return
         }
         
-        session.uploadTask(with: urlRequest, from: dataToDelete) { (data, response, error) in
+        ephemeralSession.uploadTask(with: urlRequest, from: dataToDelete) { (data, response, error) in
             if let error = error {
                 print(error.localizedDescription)
                 return

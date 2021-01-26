@@ -234,8 +234,6 @@ class OpenMarketTests: XCTestCase {
                 print("itemAfterPost가 nil입니다.")
                 return
             }
-            print("아이디 나와라: \(itemAfterPost?.id)")
-            //165
             testExpectation.fulfill()
         }
         wait(for: [testExpectation], timeout: 5)
@@ -251,10 +249,9 @@ class OpenMarketTests: XCTestCase {
                 print("itemAfterPatch가 nil입니다.")
                 return
             }
-            print("바뀐 타이틀 나와라 나와라: \(itemAfterPatch?.title)")
             testExpectation.fulfill()
         }
-//        wait(for: [testExpectation], timeout: 5)
+        wait(for: [testExpectation], timeout: 5)
     }
     
     func testDeleteItem() {
@@ -270,6 +267,6 @@ class OpenMarketTests: XCTestCase {
             }
             testExpectation.fulfill()
         }
-//        wait(for: [testExpectation], timeout: 5)
+        wait(for: [testExpectation], timeout: 5)
     }
 }
