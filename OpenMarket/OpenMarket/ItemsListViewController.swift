@@ -6,7 +6,7 @@
 
 import UIKit
 
-class ProductsListViewController: UIViewController {
+class ItemsListViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
