@@ -10,7 +10,7 @@ import Foundation
 typealias ItemAfterPost = ItemToGet
 typealias ItemAfterPatch = ItemToGet
 
-struct ItemToGet: Encodable {
+struct ItemToGet: Decodable {
     var id: Int
     var title: String
     var discription: String

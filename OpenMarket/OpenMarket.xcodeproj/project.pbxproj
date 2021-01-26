@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		36861A6125C0532E0052B091 /* ItemToGet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36861A6025C0532E0052B091 /* ItemToGet.swift */; };
+		36861A6925C0596F0052B091 /* ItemAfterDelete.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36861A6825C0596F0052B091 /* ItemAfterDelete.swift */; };
 		369FA78B25BF36850014D058 /* OpenMarketTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 369FA78A25BF36850014D058 /* OpenMarketTests.swift */; };
 		369FA79525BF3D840014D058 /* RetrieveListResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = 369FA79425BF3D840014D058 /* RetrieveListResponse.json */; };
 		369FA79925BF3D9F0014D058 /* RetrieveListResponseOneItem.json in Resources */ = {isa = PBXBuildFile; fileRef = 369FA79825BF3D9F0014D058 /* RetrieveListResponseOneItem.json */; };
@@ -43,6 +44,7 @@
 
 /* Begin PBXFileReference section */
 		36861A6025C0532E0052B091 /* ItemToGet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemToGet.swift; sourceTree = "<group>"; };
+		36861A6825C0596F0052B091 /* ItemAfterDelete.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemAfterDelete.swift; sourceTree = "<group>"; };
 		369FA78825BF36850014D058 /* OpenMarketTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenMarketTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		369FA78A25BF36850014D058 /* OpenMarketTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketTests.swift; sourceTree = "<group>"; };
 		369FA78C25BF36850014D058 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -154,6 +156,7 @@
 				FD253CBC25BF56D800525912 /* ItemToDelete.swift */,
 				FD253CAE25BF563A00525912 /* Item.swift */,
 				369FA7D125BF59120014D058 /* ServerError.swift */,
+				36861A6825C0596F0052B091 /* ItemAfterDelete.swift */,
 			);
 			path = JsonData;
 			sourceTree = "<group>";
@@ -285,6 +288,7 @@
 				FD253CAF25BF563A00525912 /* Item.swift in Sources */,
 				FD253CBD25BF56D800525912 /* ItemToDelete.swift in Sources */,
 				FD253D0B25C0030000525912 /* Parser.swift in Sources */,
+				36861A6925C0596F0052B091 /* ItemAfterDelete.swift in Sources */,
 				FD253CF325BFD28C00525912 /* URLManager.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
