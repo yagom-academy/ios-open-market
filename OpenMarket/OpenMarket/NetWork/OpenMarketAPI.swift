@@ -11,7 +11,7 @@ class OpenMarketAPI {
     
     private static var session = URLSession(configuration: .default)
     
-    static func getItemList(page: Int, _ completionHandler: @escaping (ItemToGet) -> Void) {
+    static func getItemList(page: Int, _ completionHandler: @escaping (ItemsToGet) -> Void) {
         guard let url = URLManager.makeURL(type: .getList, value: page) else {
             print("URL Error")
             return
@@ -35,12 +35,16 @@ class OpenMarketAPI {
                 return
             }
      
-            guard let items = Parser.decodeData(ItemToGet.self, data) else {
+            guard let items = Parser.decodeData(ItemsToGet.self, data) else {
                 print("Data Decoding Error")
                 return
             }
             
             completionHandler(items)
         }.resume()
+    }
+    
+    static func postItem(itemToPost: ItemToPost, _ completionHandler: @escaping (ItemToGet) -> Void) {
+        
     }
 }
