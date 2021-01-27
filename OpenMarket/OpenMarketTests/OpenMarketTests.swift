@@ -10,20 +10,27 @@ import XCTest
 
 class OpenMarketTests: XCTestCase {
 
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+    func testPageOne() {
+        guard let productList = testGetProductList(page: 1) else {
+            return
+        }
+        print(productList)
     }
-
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+    
+    func testPageTwo() {
+        guard let productList = testGetProductList(page: 2) else {
+            return
+        }
+        print(productList)
     }
-
-    func testExample() throws {
-        let productDecoder = OpenMarketAPIManager()
+    
+    func testGetProductList(page: Int) -> ProductList? {
+        let manager = OpenMarketAPIManager()
         let pause = XCTestExpectation(description: "wait")
         var productlist: ProductList?
-        
-        productDecoder.decodeFromAPI() { result in
+
+        let urlRequest = manager.makeProductListRequestURL(of: page)
+        manager.fetchProductList(with: urlRequest) { result in
             switch result {
             case .success(let data):
                 productlist = data
@@ -33,16 +40,9 @@ class OpenMarketTests: XCTestCase {
             pause.fulfill()
         }
         wait(for: [pause], timeout: 5)
-        dump(productlist)
-        
-        XCTAssertNotNil(productlist)
-    }
 
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        measure {
-            // Put the code you want to measure the time of here.
-        }
+        XCTAssertNotNil(productlist)
+        return productlist
     }
 
 }
