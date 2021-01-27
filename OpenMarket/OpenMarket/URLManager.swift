@@ -8,17 +8,28 @@
 import Foundation
 
 struct URLManager {
-    enum Path: String {
-        case itemsList = "items/"
-        case item = "item/"
+    enum Path {
+        case itemsList(Int)
+        case registItem
+        case itemInfo(Int)
     }
     
-    let baseURL = "https://camp-open-market.herokuapp.com/"
+    let baseURL = "https://camp-open-market.herokuapp.com"
     
-    func makeURL(path: Path, value: Int) -> URL? {
-        var url = URLComponents(string: baseURL)
-        url?.path = path.rawValue + String(value)
+    func makeURL(type: Path) {
+        var urlStr = ""
         
-        return url?.url
+        switch type {
+        case .itemsList(let page):
+            urlStr = "\(baseURL)/items/\(page)"
+        case .registItem:
+            urlStr = "\(baseURL)/item"
+        case .itemInfo(let id):
+            urlStr = "\(baseURL)/item/\(id)"
+        }
+        
+        guard let url = URL(string: urlStr) else {
+            // throw error
+        }
     }
 }
