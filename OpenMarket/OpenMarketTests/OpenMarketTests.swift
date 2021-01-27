@@ -11,6 +11,7 @@ import XCTest
 class OpenMarketTests: XCTestCase {
     private var itemList: ItemList?
     private var item: Item?
+    private var deleteItem: ItemDeletionRequest?
     
     func testGetItemListAsync() {
         let expectation = XCTestExpectation(description: "APIPrivoderTaskExpectation")
@@ -183,5 +184,32 @@ class OpenMarketTests: XCTestCase {
         }
         let dataString = String(decoding: data, as: UTF8.self)
         return dataString
+    }
+    
+    func testDeleteData() {
+        let expectation = XCTestExpectation(description: "APIPrivoderTaskExpectation")
+        let item = ItemDeletionRequest(id: 183, password: "asdfqwerzxcv")
+        
+        ItemManager.deleteData(path: .item, deleteItem: item, param: 183) { [self] result in
+            switch result {
+            case .success(let data):
+                guard let data = data else {
+                    return
+                }
+                do {
+                    deleteItem = try JSONDecoder().decode(ItemDeletionRequest.self, from: data)
+                    expectation.fulfill()
+                } catch {
+                    print(error)
+                }
+            case .failure(let error):
+                print(error)
+            }
+        }
+        
+        wait(for: [expectation], timeout: 10.0)
+        let id = deleteItem?.id
+        
+        XCTAssertEqual(id, 183)
     }
 }
