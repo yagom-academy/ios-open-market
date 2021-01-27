@@ -1,9 +1,3 @@
-//
-//  HttpMethods.swift
-//  OpenMarket
-//
-//  Created by 김태형 on 2021/01/27.
-//
 
 import Foundation
 

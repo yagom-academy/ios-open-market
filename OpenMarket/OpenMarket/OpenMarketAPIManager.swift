@@ -33,7 +33,6 @@ struct OpenMarketAPIManager {
         }
         
         let dataTask: URLSessionDataTask = session.dataTask(with: urlRequest) { (data, response, error)  in
-            
             guard let receivedData = data else {
                 completionHandler(.failure(.invalidData))
                 return
@@ -56,20 +55,7 @@ struct OpenMarketAPIManager {
         dataTask.resume()
     }
     
-    func makeRequestURL(httpMethod: HTTPMethods, mode: FeatureList) -> URLRequest? {
-        guard let validURL = URL(string: "\(baseURL)\(mode.urlPath)") else {
-            print(OpenMarketNetworkError.invalidURL)
-            return nil
-        }
-        
-        var urlRequest = URLRequest(url: (validURL))
-        urlRequest.httpMethod = httpMethod.rawValue
-        
-        return urlRequest
-    }
-    
     func requestProductRegistration(product: Product, completionHandler: @escaping (Result<Any,OpenMarketNetworkError>) -> ()) {
-        
         guard var urlRequest = makeRequestURL(httpMethod: .post, mode: .productRegistration) else {
             print(OpenMarketNetworkError.failedURLRequest)
             return
@@ -80,7 +66,7 @@ struct OpenMarketAPIManager {
         urlRequest.httpBody = productData
         
         let dataTask: URLSessionUploadTask = session.uploadTask(with: urlRequest, from: productData) { data,response,error in
-            guard let sendingData = data else {
+            guard let postingData = data else {
                 completionHandler(.failure(.invalidData))
                 return
             }
@@ -91,8 +77,20 @@ struct OpenMarketAPIManager {
                 return
             }
             
-            completionHandler(.success(sendingData))
+            completionHandler(.success(postingData))
         }
         dataTask.resume()
+    }
+    
+    func makeRequestURL(httpMethod: HTTPMethods, mode: FeatureList) -> URLRequest? {
+        guard let validURL = URL(string: "\(baseURL)\(mode.urlPath)") else {
+            print(OpenMarketNetworkError.invalidURL)
+            return nil
+        }
+        
+        var urlRequest = URLRequest(url: (validURL))
+        urlRequest.httpMethod = httpMethod.rawValue
+        
+        return urlRequest
     }
 }
