@@ -4,6 +4,9 @@ import Foundation
 protocol URLSessionProtocol {
     func dataTask(with request: URLRequest,
                   completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask
+    func uploadTask(with request: URLRequest,
+                   from bodyData: Data?,
+        completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionUploadTask
 }
 extension URLSession: URLSessionProtocol { }
 
@@ -76,7 +79,7 @@ struct OpenMarketAPIManager {
         let productData = try! JSONEncoder().encode(product)
         urlRequest.httpBody = productData
         
-        let dataTask = URLSession.shared.uploadTask(with: urlRequest, from: productData) { data,response,error in
+        let dataTask: URLSessionUploadTask = session.uploadTask(with: urlRequest, from: productData) { data,response,error in
             guard let sendingData = data else {
                 completionHandler(.failure(.invalidData))
                 return
