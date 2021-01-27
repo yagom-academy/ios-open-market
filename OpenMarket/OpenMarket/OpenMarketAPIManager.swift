@@ -81,19 +81,22 @@ struct OpenMarketAPIManager {
         }
         
         urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        urlRequest.httpBody = try! JSONEncoder().encode(product)
+        let productData = try! JSONEncoder().encode(product)
+        urlRequest.httpBody = productData
         
-        let dataTask = session.dataTask(with: urlRequest) { data,response,error in
-            guard let data = data else {
-                print(error!.localizedDescription)
+        let dataTask = URLSession.shared.uploadTask(with: urlRequest, from: productData) { data,response,error in
+            guard let sendingData = data else {
+                completionHandler(.failure(.invalidData))
                 return
             }
-            do {
-                let anyData = try JSONSerialization.jsonObject(with: data, options: [])
-                completionHandler(.success(anyData))
-            } catch {
-                completionHandler(.failure(OpenMarketNetworkError.invalidData))
+            
+            guard let response = response as? HTTPURLResponse,
+                  (200..<300).contains(response.statusCode) else {
+                completionHandler(.failure(.failedHTTPRequest))
+                return
             }
+            
+            completionHandler(.success(sendingData))
         }
         dataTask.resume()
     }
