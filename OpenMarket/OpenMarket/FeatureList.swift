@@ -8,24 +8,24 @@
 import Foundation
 
 enum FeatureList {
-    case listSearch
+    case listSearch(page: Int)
     case productRegistration
-    case productSearch
-    case productModification
-    case deleteProduct
+    case productSearch(id: Int)
+    case productModification(id: Int)
+    case deleteProduct(id: Int)
     
     var urlPath: String {
         switch self {
-        case .listSearch:
-            return "/items/"
+        case .listSearch(let page):
+            return "/items/\(page)"
         case .productRegistration:
             return "/item/"
-        case .productSearch:
-            return "/item/"
-        case .productModification:
-            return "/item/"
-        case .deleteProduct:
-            return "/item/"
+        case .productSearch(let id):
+            return "/item/\(id)"
+        case .productModification(let id):
+            return "/item/\(id)"
+        case .deleteProduct(let id):
+            return "/item/\(id)"
         }
     }
 }

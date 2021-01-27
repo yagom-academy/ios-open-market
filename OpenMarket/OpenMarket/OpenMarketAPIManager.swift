@@ -24,7 +24,7 @@ struct OpenMarketAPIManager {
     }
     
     func fetchProductList(of page: Int, completionHandler: @escaping (Result<ProductList, OpenMarketNetworkError>) -> Void) {
-        guard let urlRequest = makeProductListRequestURL(of: page, httpMethod: .get, mode: .listSearch) else {
+        guard let urlRequest = makeRequestURL(httpMethod: .get, mode: .listSearch(page: page)) else {
             print(OpenMarketNetworkError.failedURLRequest)
             return
         }
@@ -53,21 +53,13 @@ struct OpenMarketAPIManager {
         dataTask.resume()
     }
     
-    func makeProductListRequestURL(of page: Int? = nil, id: Int? = nil, httpMethod: HTTPMethods, mode: FeatureList) -> URLRequest? {
-        var validURL: URL?
-        
-        if let page = page {
-            validURL = URL(string: "\(baseURL)\(mode.urlPath)\(page)/")
-        } else if let id = id {
-            validURL = URL(string: "\(baseURL)\(mode.urlPath)\(id)")
-        } else {
-            validURL = URL(string: "\(baseURL)\(mode.urlPath)")
-        }
-        guard let absoluteURL = validURL else {
+    func makeRequestURL(httpMethod: HTTPMethods, mode: FeatureList) -> URLRequest? {
+        guard let validURL = URL(string: "\(baseURL)\(mode.urlPath)") else {
             print(OpenMarketNetworkError.invalidURL)
             return nil
         }
-        var urlRequest = URLRequest(url: (absoluteURL))
+        
+        var urlRequest = URLRequest(url: (validURL))
         urlRequest.httpMethod = httpMethod.rawValue
         
         return urlRequest
@@ -75,7 +67,7 @@ struct OpenMarketAPIManager {
     
     func requestProductRegistration(product: Product, completionHandler: @escaping (Result<Any,OpenMarketNetworkError>) -> ()) {
         
-        guard var urlRequest = makeProductListRequestURL(httpMethod: .post, mode: .productRegistration) else {
+        guard var urlRequest = makeRequestURL(httpMethod: .post, mode: .productRegistration) else {
             print(OpenMarketNetworkError.failedURLRequest)
             return
         }
