@@ -10,6 +10,7 @@ import Foundation
 enum OpenMarketError: Error {
     case failFetchData
     case failUploadData
+    case failDeleteData
     case failTransportData
     case failMatchMimeType
     case failGetData
@@ -28,6 +29,8 @@ extension OpenMarketError: LocalizedError {
             return "서버로부터 데이터를 가져오는데 실패하였습니다."
         case .failUploadData:
             return "서버로 데이터를 올리는데 실패하였습니다."
+        case .failDeleteData:
+            return "서버에서 데이터를 지우는데 실패하였습니다."
         case .failTransportData:
             return "클라이언트에서 데이터를 보내는데 실패하였습니다."
         case .failMatchMimeType:
