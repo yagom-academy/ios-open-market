@@ -15,7 +15,7 @@ struct Item: Decodable {
     let stock: Int
     let discountedPrice: Int?
     let thumbnails: [String]
-    let registrationDate: Int
+    let registrationDate: Double
     
     enum CodingKeys: String, CodingKey {
         case id
