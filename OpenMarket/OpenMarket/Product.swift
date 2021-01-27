@@ -12,6 +12,7 @@ struct Product: Codable {
     let thumbnails: [String]
     let images: [String]?
     let registrationDate: Double
+    let password: String?
     
     private enum CodingKeys: String, CodingKey {
         case id
@@ -24,5 +25,6 @@ struct Product: Codable {
         case thumbnails
         case images
         case registrationDate = "registration_date"
+        case password
     }
 }
