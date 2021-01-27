@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		5630BD4C25BFFC3D001499A7 /* MarketItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5630BD4B25BFFC3D001499A7 /* MarketItem.swift */; };
 		5630BD5A25C04CD4001499A7 /* MarketPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5630BD5925C04CD4001499A7 /* MarketPage.swift */; };
+		5696486A25C18A5000109406 /* OpenMarketAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5696486925C18A5000109406 /* OpenMarketAPIClient.swift */; };
 		56E4140325C16F4800D392A0 /* MarketItemDecodeMockDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56E4140225C16F4800D392A0 /* MarketItemDecodeMockDataTests.swift */; };
 		56E4141225C17B0800D392A0 /* MarketPageDecodeMockDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56E4141125C17B0800D392A0 /* MarketPageDecodeMockDataTests.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
@@ -32,6 +33,7 @@
 /* Begin PBXFileReference section */
 		5630BD4B25BFFC3D001499A7 /* MarketItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketItem.swift; sourceTree = "<group>"; };
 		5630BD5925C04CD4001499A7 /* MarketPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketPage.swift; sourceTree = "<group>"; };
+		5696486925C18A5000109406 /* OpenMarketAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketAPIClient.swift; sourceTree = "<group>"; };
 		56E413EE25C1484200D392A0 /* OpenMarketTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenMarketTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		56E413F225C1484200D392A0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		56E4140225C16F4800D392A0 /* MarketItemDecodeMockDataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketItemDecodeMockDataTests.swift; sourceTree = "<group>"; };
@@ -73,6 +75,14 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		5696486825C189F900109406 /* API */ = {
+			isa = PBXGroup;
+			children = (
+				5696486925C18A5000109406 /* OpenMarketAPIClient.swift */,
+			);
+			path = API;
+			sourceTree = "<group>";
+		};
 		56E413EF25C1484200D392A0 /* OpenMarketTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -104,6 +114,7 @@
 		C70FB0F925BEF61C00C9924E /* OpenMarket */ = {
 			isa = PBXGroup;
 			children = (
+				5696486825C189F900109406 /* API */,
 				5630BD4A25BFFBB5001499A7 /* Models */,
 				C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */,
 				C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */,
@@ -226,6 +237,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
+				5696486A25C18A5000109406 /* OpenMarketAPIClient.swift in Sources */,
 				5630BD5A25C04CD4001499A7 /* MarketPage.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				5630BD4C25BFFC3D001499A7 /* MarketItem.swift in Sources */,
