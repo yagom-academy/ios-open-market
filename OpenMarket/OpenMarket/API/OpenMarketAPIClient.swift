@@ -7,6 +7,11 @@
 
 import Foundation
 
+protocol URLSessionProtocol {
+    func dataTask(with request: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask
+}
+extension URLSession: URLSessionProtocol { }
+
 enum OpenMarketAPI {
     case requestMarketPage
     case registerMarketItem
@@ -40,9 +45,9 @@ enum OpenMarketAPIError: Error {
 }
 
 class OpenMarketAPIClient {
-    let urlSession: URLSession
+    let urlSession: URLSessionProtocol
     
-    init(urlSession: URLSession = .shared) {
+    init(urlSession: URLSessionProtocol = URLSession.shared) {
         self.urlSession = urlSession
     }
     
