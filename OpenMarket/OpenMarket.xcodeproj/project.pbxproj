@@ -11,6 +11,7 @@
 		5630BD5A25C04CD4001499A7 /* MarketPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5630BD5925C04CD4001499A7 /* MarketPage.swift */; };
 		5696486A25C18A5000109406 /* OpenMarketAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5696486925C18A5000109406 /* OpenMarketAPIClient.swift */; };
 		5696486F25C1CD9600109406 /* MockURLSessionDataTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5696486E25C1CD9600109406 /* MockURLSessionDataTask.swift */; };
+		5696487525C1CF4400109406 /* MockURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5696487425C1CF4400109406 /* MockURLSession.swift */; };
 		56E4140325C16F4800D392A0 /* MarketItemDecodeMockDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56E4140225C16F4800D392A0 /* MarketItemDecodeMockDataTests.swift */; };
 		56E4141225C17B0800D392A0 /* MarketPageDecodeMockDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56E4141125C17B0800D392A0 /* MarketPageDecodeMockDataTests.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
@@ -36,6 +37,7 @@
 		5630BD5925C04CD4001499A7 /* MarketPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketPage.swift; sourceTree = "<group>"; };
 		5696486925C18A5000109406 /* OpenMarketAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketAPIClient.swift; sourceTree = "<group>"; };
 		5696486E25C1CD9600109406 /* MockURLSessionDataTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSessionDataTask.swift; sourceTree = "<group>"; };
+		5696487425C1CF4400109406 /* MockURLSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSession.swift; sourceTree = "<group>"; };
 		56E413EE25C1484200D392A0 /* OpenMarketTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenMarketTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		56E413F225C1484200D392A0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		56E4140225C16F4800D392A0 /* MarketItemDecodeMockDataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketItemDecodeMockDataTests.swift; sourceTree = "<group>"; };
@@ -89,6 +91,7 @@
 			isa = PBXGroup;
 			children = (
 				5696486E25C1CD9600109406 /* MockURLSessionDataTask.swift */,
+				5696487425C1CF4400109406 /* MockURLSession.swift */,
 			);
 			path = Mock;
 			sourceTree = "<group>";
@@ -238,6 +241,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5696487525C1CF4400109406 /* MockURLSession.swift in Sources */,
 				5696486F25C1CD9600109406 /* MockURLSessionDataTask.swift in Sources */,
 				56E4141225C17B0800D392A0 /* MarketPageDecodeMockDataTests.swift in Sources */,
 				56E4140325C16F4800D392A0 /* MarketItemDecodeMockDataTests.swift in Sources */,
