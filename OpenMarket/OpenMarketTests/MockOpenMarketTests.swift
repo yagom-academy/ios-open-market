@@ -2,7 +2,7 @@
 import XCTest
 @testable import OpenMarket
 
-class OpenMarketTests: XCTestCase {
+class MockOpenMarketTests: XCTestCase {
     var sut: OpenMarketAPIManager!
     
     override func setUpWithError() throws {
