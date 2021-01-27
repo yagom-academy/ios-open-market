@@ -15,7 +15,6 @@ enum OpenMarketNetworkError: Error {
 
 struct OpenMarketAPIManager {
     private let baseURL = "https://camp-open-market.herokuapp.com"
-    
     let session: URLSessionProtocol
     
     init(session: URLSessionProtocol) {
@@ -26,6 +25,7 @@ struct OpenMarketAPIManager {
         let urlRequest = makeProductListRequestURL(of: page)
         
         let dataTask: URLSessionDataTask = session.dataTask(with: urlRequest) { (data, response, error)  in
+            
             guard let receivedData = data else {
                 completionHandler(.failure(.invalidData))
                 return
@@ -48,7 +48,7 @@ struct OpenMarketAPIManager {
         dataTask.resume()
     }
     
-    private func makeProductListRequestURL(of page: Int) -> URLRequest {
+    func makeProductListRequestURL(of page: Int) -> URLRequest {
         guard let validURL = URL(string: "\(baseURL)/items/\(page)/") else {
             preconditionFailure("URL 생성 error")
         }
