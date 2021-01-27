@@ -19,7 +19,7 @@ enum OpenMarketNetworkError: Error {
 }
 
 struct OpenMarketAPIManager {
-    private let baseURL = "https://camp-open-market.herokuapp.com"
+    static let baseURL = "https://camp-open-market.herokuapp.com"
     let session: URLSessionProtocol
     
     init(session: URLSessionProtocol) {
@@ -27,7 +27,7 @@ struct OpenMarketAPIManager {
     }
     
     func fetchProductList(of page: Int, completionHandler: @escaping (Result<ProductList, OpenMarketNetworkError>) -> Void) {
-        guard let urlRequest = makeRequestURL(httpMethod: .get, mode: .listSearch(page: page)) else {
+        guard let urlRequest = OpenMarketURLMaker.makeRequestURL(httpMethod: .get, mode: .listSearch(page: page)) else {
             print(OpenMarketNetworkError.failedURLRequest)
             return
         }
@@ -55,8 +55,8 @@ struct OpenMarketAPIManager {
         dataTask.resume()
     }
     
-    func requestProductRegistration(product: Product, completionHandler: @escaping (Result<Any,OpenMarketNetworkError>) -> ()) {
-        guard var urlRequest = makeRequestURL(httpMethod: .post, mode: .productRegistration) else {
+    func requestRegistration(product: Product, completionHandler: @escaping (Result<Any,OpenMarketNetworkError>) -> ()) {
+        guard var urlRequest = OpenMarketURLMaker.makeRequestURL(httpMethod: .post, mode: .productRegistration) else {
             print(OpenMarketNetworkError.failedURLRequest)
             return
         }
@@ -80,17 +80,5 @@ struct OpenMarketAPIManager {
             completionHandler(.success(postingData))
         }
         dataTask.resume()
-    }
-    
-    func makeRequestURL(httpMethod: HTTPMethods, mode: FeatureList) -> URLRequest? {
-        guard let validURL = URL(string: "\(baseURL)\(mode.urlPath)") else {
-            print(OpenMarketNetworkError.invalidURL)
-            return nil
-        }
-        
-        var urlRequest = URLRequest(url: (validURL))
-        urlRequest.httpMethod = httpMethod.rawValue
-        
-        return urlRequest
     }
 }

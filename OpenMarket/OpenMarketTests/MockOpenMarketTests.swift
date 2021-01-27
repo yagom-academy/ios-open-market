@@ -54,7 +54,7 @@ class MockOpenMarketTests: XCTestCase {
         let product = Product.init(id: nil, title: "태태의 연필", descriptions: "비밀번호486", price: 500, currency: "USD", stock: 2, discountedPrice: nil, thumbnails: nil, images: [""], registrationDate: nil, password: "486")
         let expectation = XCTestExpectation()
         
-        sut.requestRegistration(of product: product) { result in
+        sut.requestRegistration(product: product) { result in
             switch result {
             case .success(let product):
                 expectation.fulfill()
