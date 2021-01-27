@@ -2,16 +2,17 @@
 import Foundation
 
 struct Product: Codable {
-    let id: Int
+    let id: Int?
     let title: String
     let descriptions: String?
     let price: Int
     let currency: String
     let stock: Int
     let discountedPrice: Int?
-    let thumbnails: [String]
+    let thumbnails: [String]?
     let images: [String]?
-    let registrationDate: Double
+    let registrationDate: Double?
+    let password: String?
     
     private enum CodingKeys: String, CodingKey {
         case id
@@ -24,5 +25,6 @@ struct Product: Codable {
         case thumbnails
         case images
         case registrationDate = "registration_date"
+        case password
     }
 }
