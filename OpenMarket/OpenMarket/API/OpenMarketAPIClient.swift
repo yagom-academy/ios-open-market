@@ -5,7 +5,7 @@
 //  Created by Kyungmin Lee on 2021/01/27.
 //
 
-import Foundation
+import UIKit
 
 protocol URLSessionProtocol {
     func dataTask(with request: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask
@@ -36,6 +36,21 @@ enum OpenMarketAPI {
     }
     var url: URL? {
         return URL(string: OpenMarketAPI.baseURL + path)
+    }
+    var sampleData: Data {
+        switch self {
+        case .requestMarketPage:
+            break
+        case .registerMarketItem:
+            break
+        case .requestMarketItem:
+            return NSDataAsset(name: "item")!.data
+        case .modifyMarketItem:
+            break
+        case .deleteMarketItem:
+            break
+        }
+        return NSDataAsset(name: "item")!.data
     }
 }
 
