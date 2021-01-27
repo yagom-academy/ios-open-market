@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ItemDeletionRequest: Encodable {
-    let id: String
-    let password: String
+struct ItemDeletionRequest: Codable {
+    let id: UInt
+    let password: String?
 }
