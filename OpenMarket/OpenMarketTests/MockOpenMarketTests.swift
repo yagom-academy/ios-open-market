@@ -46,7 +46,23 @@ class MockOpenMarketTests: XCTestCase {
             }
             expectation.fulfill()
         }
+        wait(for: [expectation], timeout: 5.0)
+    }
+    
+    func testRequestProductRegistration() {
+        sut = .init(session: URLSession(configuration: .default))
+        let product = Product.init(id: nil, title: "태태의 연필", descriptions: "비밀번호486", price: 500, currency: "USD", stock: 2, discountedPrice: nil, thumbnails: nil, images: [""], registrationDate: nil, password: "486")
+        let expectation = XCTestExpectation()
         
+        sut.requestProductRegistration(product: product) { result in
+            switch result {
+            case .success(let product):
+                expectation.fulfill()
+                dump(product)
+            case .failure(let error):
+                print(error)
+            }
+        }
         wait(for: [expectation], timeout: 5.0)
     }
     
