@@ -15,6 +15,8 @@ class OpenMarketTests: XCTestCase {
             return
         }
         print(productList)
+        XCTAssertEqual(productList.page, 1)
+        XCTAssertEqual(productList.items.count, 20)
     }
     
     func testPageTwo() {
@@ -22,6 +24,17 @@ class OpenMarketTests: XCTestCase {
             return
         }
         print(productList)
+        XCTAssertEqual(productList.page, 2)
+        XCTAssertEqual(productList.items.count, 20)
+    }
+    
+    func testPageThree() {
+        guard let productList = testGetProductList(page: 3) else {
+            return
+        }
+        print(productList)
+        XCTAssertEqual(productList.page,3)
+        XCTAssertEqual(productList.items.count, 20)
     }
     
     func testGetProductList(page: Int) -> ProductList? {
