@@ -38,7 +38,7 @@ class OpenMarketTests: XCTestCase {
     }
     
     func testGetProductList(page: Int) -> ProductList? {
-        let manager = OpenMarketAPIManager()
+        let manager = OpenMarketAPIManager(session: URLSession())
         let pause = XCTestExpectation(description: "wait")
         var productlist: ProductList?
 
