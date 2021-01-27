@@ -11,6 +11,8 @@ enum OpenMarketNetworkError: Error {
     case invalidData
     case failedHTTPRequest
     case decodingFailure
+    case invalidURL
+    case failedURLRequest
 }
 
 struct OpenMarketAPIManager {
@@ -22,7 +24,10 @@ struct OpenMarketAPIManager {
     }
     
     func fetchProductList(of page: Int, completionHandler: @escaping (Result<ProductList, OpenMarketNetworkError>) -> Void) {
-        let urlRequest = makeProductListRequestURL(of: page)
+        guard let urlRequest = makeProductListRequestURL(of: page, httpMethod: .get, mode: .listSearch) else {
+            print(OpenMarketNetworkError.failedURLRequest)
+            return
+        }
         
         let dataTask: URLSessionDataTask = session.dataTask(with: urlRequest) { (data, response, error)  in
             
@@ -48,15 +53,48 @@ struct OpenMarketAPIManager {
         dataTask.resume()
     }
     
-    func makeProductListRequestURL(of page: Int) -> URLRequest {
-        guard let validURL = URL(string: "\(baseURL)/items/\(page)/") else {
-            preconditionFailure("URL 생성 error")
-        }
+    func makeProductListRequestURL(of page: Int? = nil, id: Int? = nil, httpMethod: HTTPMethods, mode: FeatureList) -> URLRequest? {
+        var validURL: URL?
         
-        var urlRequest = URLRequest(url: validURL)
-        urlRequest.httpMethod = "GET"
+        if let page = page {
+            validURL = URL(string: "\(baseURL)\(mode.urlPath)\(page)/")
+        } else if let id = id {
+            validURL = URL(string: "\(baseURL)\(mode.urlPath)\(id)")
+        } else {
+            validURL = URL(string: "\(baseURL)\(mode.urlPath)")
+        }
+        guard let absoluteURL = validURL else {
+            print(OpenMarketNetworkError.invalidURL)
+            return nil
+        }
+        var urlRequest = URLRequest(url: (absoluteURL))
+        urlRequest.httpMethod = httpMethod.rawValue
         
         return urlRequest
     }
     
+    func requestProductRegistration(product: Product, completionHandler: @escaping (Result<Any,OpenMarketNetworkError>) -> ()) {
+        
+        guard var urlRequest = makeProductListRequestURL(httpMethod: .post, mode: .productRegistration) else {
+            print(OpenMarketNetworkError.failedURLRequest)
+            return
+        }
+        
+        urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        urlRequest.httpBody = try! JSONEncoder().encode(product)
+        
+        let dataTask = session.dataTask(with: urlRequest) { data,response,error in
+            guard let data = data else {
+                print(error!.localizedDescription)
+                return
+            }
+            do {
+                let anyData = try JSONSerialization.jsonObject(with: data, options: [])
+                completionHandler(.success(anyData))
+            } catch {
+                completionHandler(.failure(OpenMarketNetworkError.invalidData))
+            }
+        }
+        dataTask.resume()
+    }
 }
