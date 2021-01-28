@@ -14,6 +14,7 @@ class OpenMarketTests: XCTestCase {
     let encoder = JSONEncoder()
     let bundle = Bundle(for: OpenMarketTests.self)
 
+    // MARK:- Decoding & Encoding Test
     func testItem() {
         let fileName = "RetrieveListResponseOneItem"
         
@@ -172,6 +173,7 @@ class OpenMarketTests: XCTestCase {
         }
     }
     
+    // MARK:- URLManager Test
     func testMakeURLTypeGetList() {
         let url = URLManager.makeURL(type: .getItemList, value: 1)
         let RealURL = URL(string: "https://camp-open-market.herokuapp.com/items/1")
@@ -207,6 +209,7 @@ class OpenMarketTests: XCTestCase {
         XCTAssertEqual(url, RealURL, "URL이 잘못되었습니다.")
     }
     
+    // MARK:- OpenMarketAPI Test
     func testGetItemList() {
         let testExpectation = XCTestExpectation(description: "getItemList 테스트")
         var itemToGet: ItemsToGet?
