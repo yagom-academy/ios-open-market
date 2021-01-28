@@ -9,17 +9,17 @@ import Foundation
 
 struct ItemManager {
     static func loadData(path: UrlPath, param: UInt, completion: @escaping ((Result<Data?, OpenMarketError>) -> Void)) {
-        var url: String?
+        var url: URL?
         switch path {
         case .item:
             url = Config.setUpUrl(method: .get, path: .item, param: param)
         case .items:
             url = Config.setUpUrl(method: .get, path: .items, param: param)
         }
-        guard let stringUrl = url, let requestUrl = URL(string: stringUrl) else {
-            return
+        guard let requestUrl = url else {
+            return completion(.failure(.failSetUpURL))
         }
-        
+    
         var request = URLRequest(url: requestUrl)
         request.httpMethod = HttpMethod.get.rawValue
         let session: URLSession = URLSession(configuration: .default)
@@ -47,7 +47,7 @@ struct ItemManager {
     }
     
     static func uploadData(method: HttpMethod, path: UrlPath, item: ItemUploadRequest, param: UInt?, completion: @escaping ((Result<Data?, OpenMarketError>) -> Void)) {
-        var url: String?
+        var url: URL?
         switch path {
         case .item:
             if let param = param {
@@ -59,8 +59,8 @@ struct ItemManager {
         case .items:
             return  completion(.failure(.unknown))
         }
-        guard let stringUrl = url, let requestUrl = URL(string: stringUrl) else {
-            return
+        guard let requestUrl = url else {
+            return completion(.failure(.failSetUpURL))
         }
         
         var request = URLRequest(url: requestUrl)
@@ -68,7 +68,7 @@ struct ItemManager {
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
         guard let jsonData = try? JSONEncoder().encode(item) else {
-            return
+            return completion(.failure(.failEncode))
         }
         
         let session: URLSession = URLSession(configuration: .default)
@@ -91,22 +91,22 @@ struct ItemManager {
     }
     
     static func deleteData(path: UrlPath, deleteItem: ItemDeletionRequest, param: UInt, completion: @escaping ((Result<Data?, OpenMarketError>) -> Void)) {
-        var url: String?
+        var url: URL?
         switch path {
         case .item:
             url = Config.setUpUrl(method: .delete, path: .item, param: param)
         case .items:
             return  completion(.failure(.unknown))
         }
-        guard let stringUrl = url, let requestUrl = URL(string: stringUrl) else {
-            return
+        guard let requestUrl = url else {
+            return completion(.failure(.failSetUpURL))
         }
         
         var request = URLRequest(url: requestUrl)
         request.httpMethod = HttpMethod.delete.rawValue
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         guard let jsonData = try? JSONEncoder().encode(deleteItem) else {
-            return
+            return completion(.failure(.failEncode))
         }
         request.httpBody = jsonData
         
