@@ -49,12 +49,12 @@ class OpenMarketTests: XCTestCase {
             return
         }
         do {
-            let mockData = try Data(contentsOf: mockURL)
-            let mockJSON = try JSONDecoder().decode(MarketGoods.self,
-                                                    from: mockData)
-            XCTAssertEqual(mockJSON.page, 1)
-            XCTAssertEqual(mockJSON.list[0].id, 26)
-            XCTAssertEqual(mockJSON.list[0].currency, "KRW")
+            let mockRawData = try Data(contentsOf: mockURL)
+            let mockDecodedJSON = try JSONDecoder().decode(MarketGoods.self,
+                                                    from: mockRawData)
+            XCTAssertEqual(mockDecodedJSON.page, 1)
+            XCTAssertEqual(mockDecodedJSON.list[0].id, 26)
+            XCTAssertEqual(mockDecodedJSON.list[0].currency, "KRW")
         } catch {
             XCTFail()
             return
@@ -67,11 +67,11 @@ class OpenMarketTests: XCTestCase {
             return
         }
         do {
-            let mockData = try Data(contentsOf: mockURL)
-            let mockJSON = try JSONDecoder().decode(Goods.self, from: mockData)
-            XCTAssertNotNil(mockJSON.descriptions)
-            XCTAssertNotNil(mockJSON.images)
-            XCTAssertNil(mockJSON.discountedPrice)
+            let mockRawData = try Data(contentsOf: mockURL)
+            let mockDecodedJSON = try JSONDecoder().decode(Goods.self, from: mockRawData)
+            XCTAssertNotNil(mockDecodedJSON.descriptions)
+            XCTAssertNotNil(mockDecodedJSON.images)
+            XCTAssertNil(mockDecodedJSON.discountedPrice)
         } catch {
             XCTFail()
             return
