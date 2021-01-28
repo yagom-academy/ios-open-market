@@ -123,7 +123,7 @@ class OpenMarketTests: XCTestCase {
             return
         }
         let itemToPatch = ItemToPatch(title: "MacBook Air",
-                                      description: "가장 얇고 가벼운 MacBook이 Apple M1 칩으로 완전히 새롭게 탈바꿈했습니다.",
+                                      descriptions: "가장 얇고 가벼운 MacBook이 Apple M1 칩으로 완전히 새롭게 탈바꿈했습니다.",
                                       price: 1290000,
                                       currency: "KRW",
                                       stock: 10000,
