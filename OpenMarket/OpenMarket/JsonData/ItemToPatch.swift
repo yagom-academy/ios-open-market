@@ -9,7 +9,7 @@ import Foundation
 
 struct ItemToPatch: Encodable {
     let title: String?
-    let description: String?
+    let descriptions: String?
     let price: Int?
     let currency: String?
     let stock: Int?
@@ -18,7 +18,7 @@ struct ItemToPatch: Encodable {
     let password: String
     
     enum CodingKeys: String, CodingKey {
-        case title, description, price, currency, stock, images, password
+        case title, descriptions, price, currency, stock, images, password
         case discountedPrice = "discounted_price"
     }
 }

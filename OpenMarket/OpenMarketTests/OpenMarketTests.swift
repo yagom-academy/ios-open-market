@@ -247,7 +247,6 @@ class OpenMarketTests: XCTestCase {
                 print("itemAfterPost가 nil입니다.")
                 return
             }
-            print("아이디 나오세요 \(item.id)")
             testExpectation.fulfill()
         }
         wait(for: [testExpectation], timeout: 5)
@@ -256,7 +255,7 @@ class OpenMarketTests: XCTestCase {
     func testPatchItem() {
         let id: Int = 277 //서버에 변경될 id를 가진 item이 있어야 테스트 성공
         let testExpectation = XCTestExpectation(description: "patchItem 테스트")
-        let itemToPatch = ItemToPatch(title: "바껴라", description: nil, price: nil, currency: nil, stock: nil, discountedPrice: nil, images: nil, password: "123")
+        let itemToPatch = ItemToPatch(title: "바껴라", descriptions: nil, price: nil, currency: nil, stock: nil, discountedPrice: nil, images: nil, password: "123")
         var itemAfterPatch: ItemAfterPatch?
         OpenMarketAPI.patchItem(id: id, itemToPatch: itemToPatch) { (item) in
             itemAfterPatch = item
