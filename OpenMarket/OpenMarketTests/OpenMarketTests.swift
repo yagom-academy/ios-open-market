@@ -16,6 +16,9 @@ class OpenMarketTests: XCTestCase {
             XCTFail("Error with URL")
             return
         }
+        
+        test_networkconfig_makeurl_method(url: url)
+        
         URLSession.shared.dataTask(with: url) {(data, response, error) in
             if error != nil {
                 XCTFail()
@@ -27,16 +30,7 @@ class OpenMarketTests: XCTestCase {
                 return
             }
             
-            guard let data = data else {
-                XCTFail()
-                return
-            }
-
-            do {
-                let json = try JSONDecoder().decode(MarketGoods.self, from: data)
-                XCTAssertEqual(json.page, 1)
-                XCTAssertEqual(json.list[0].id, 26)
-            } catch {
+            guard data != nil else {
                 XCTFail()
                 return
             }
@@ -45,7 +39,11 @@ class OpenMarketTests: XCTestCase {
         wait(for: [expectation], timeout: 10.0)
     }
     
-    func test_market_model() {
+    func test_networkconfig_makeurl_method(url: URL) {
+        XCTAssertEqual(NetworkConfig.makeURL(with: .fetchGoodsList(page: 1)), url)
+    }
+    
+    func test_decode_mock_data_with_market_model() {
         guard let mockURL = Bundle.main.url(forResource: "Mock", withExtension: "json") else {
             XCTFail("Can't get json file")
             return
@@ -63,7 +61,7 @@ class OpenMarketTests: XCTestCase {
         }
     }
     
-    func test_item_model() {
+    func test_decode_mock_data_with_goods_model() {
         guard let mockURL = Bundle.main.url(forResource: "MockItem", withExtension: "json") else {
             XCTFail()
             return
