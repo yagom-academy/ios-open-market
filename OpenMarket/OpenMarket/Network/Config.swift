@@ -9,25 +9,20 @@ import Foundation
 
 enum Config {
     static let baseUrl = "https://camp-open-market.herokuapp.com/"
-    static let pathFormatWithParam = "%@/%u"
-    static let pathFormatWithOutParam = "%@"
     
-    static func setUpUrl(method: HttpMethod, path: UrlPath, param: UInt?) -> String {
-        var urlString = ""
-        var url = ""
-        urlString.append(Config.baseUrl)
+    static func setUpUrl(method: HttpMethod, path: UrlPath, param: UInt?) -> URL? {
+        var urlComponents = URLComponents(string: baseUrl)
         
         switch method {
         case .get, .patch, .delete:
-            urlString.append(Config.pathFormatWithParam)
             guard let param = param else {
-                return ""
+                return nil
             }
-            url = String(format: urlString, path.rawValue, param)
+            urlComponents?.path += "\(path.rawValue)"
+            urlComponents?.path += "/\(String(param))"
         case .post:
-            urlString.append(Config.pathFormatWithOutParam)
-            url = String(format: urlString, path.rawValue)
+            urlComponents?.path += "\(path.rawValue)"
         }
-        return url
+        return urlComponents?.url
     }
 }
