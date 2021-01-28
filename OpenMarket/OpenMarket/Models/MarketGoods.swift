@@ -1,11 +1,11 @@
 import Foundation
 
-struct Market: Decodable {
+struct MarketGoods: Decodable {
     let page: UInt
-    let goodsList: [Goods]
+    let list: [Goods]
     
     enum CodingKeys: String, CodingKey {
         case page
-        case goodsList = "items"
+        case list = "items"
     }
 }

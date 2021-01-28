@@ -8,7 +8,7 @@ struct Networking {
         requestToServer(with: listURL, method: .get, parameter: nil) { (result) in
             do {
                 let data = try result.get()
-                let json = try self.decodeData(to: Market.self, from: data)
+                let json = try self.decodeData(to: MarketGoods.self, from: data)
                 debugPrint(json)
             } catch let error {
                 debugPrint(error.localizedDescription)
@@ -55,7 +55,7 @@ struct Networking {
         requestToServer(with: itemURL, method: .post, parameter: parameter) { (result) in
             do {
                 let data = try result.get()
-                let json = try self.decodeData(to: Market.self, from: data)
+                let json = try self.decodeData(to: MarketGoods.self, from: data)
                 debugPrint(json)
             } catch let error {
                 debugPrint(error)

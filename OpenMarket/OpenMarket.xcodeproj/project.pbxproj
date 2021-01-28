@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		B427769B25BFA61E0093639B /* Goods.swift in Sources */ = {isa = PBXBuildFile; fileRef = B427769A25BFA61E0093639B /* Goods.swift */; };
-		B42776A325BFA7CE0093639B /* Market.swift in Sources */ = {isa = PBXBuildFile; fileRef = B42776A225BFA7CE0093639B /* Market.swift */; };
+		B42776A325BFA7CE0093639B /* MarketGoods.swift in Sources */ = {isa = PBXBuildFile; fileRef = B42776A225BFA7CE0093639B /* MarketGoods.swift */; };
 		B42776AC25BFA9AA0093639B /* OpenMarketTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B42776AB25BFA9AA0093639B /* OpenMarketTests.swift */; };
 		B42776B725BFAA470093639B /* Mock.json in Resources */ = {isa = PBXBuildFile; fileRef = B42776B625BFAA470093639B /* Mock.json */; };
 		B42776E125BFDD4D0093639B /* MockItem.json in Resources */ = {isa = PBXBuildFile; fileRef = B42776E025BFDD4D0093639B /* MockItem.json */; };
@@ -40,7 +40,7 @@
 
 /* Begin PBXFileReference section */
 		B427769A25BFA61E0093639B /* Goods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Goods.swift; sourceTree = "<group>"; };
-		B42776A225BFA7CE0093639B /* Market.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Market.swift; sourceTree = "<group>"; };
+		B42776A225BFA7CE0093639B /* MarketGoods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketGoods.swift; sourceTree = "<group>"; };
 		B42776A925BFA9AA0093639B /* OpenMarketTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenMarketTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B42776AB25BFA9AA0093639B /* OpenMarketTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketTests.swift; sourceTree = "<group>"; };
 		B42776AD25BFA9AA0093639B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -86,7 +86,7 @@
 			isa = PBXGroup;
 			children = (
 				B427769A25BFA61E0093639B /* Goods.swift */,
-				B42776A225BFA7CE0093639B /* Market.swift */,
+				B42776A225BFA7CE0093639B /* MarketGoods.swift */,
 				B43EE7C125C042F1003089C9 /* NetworkError.swift */,
 				B43EE7C525C04CC7003089C9 /* RegisterGoodsForm.swift */,
 				B43EE7C925C04F47003089C9 /* EditGoodsForm.swift */,
@@ -280,7 +280,7 @@
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				B43EE7BC25C01B92003089C9 /* Networking.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
-				B42776A325BFA7CE0093639B /* Market.swift in Sources */,
+				B42776A325BFA7CE0093639B /* MarketGoods.swift in Sources */,
 				B43EE7D725C05D18003089C9 /* MethodType.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
