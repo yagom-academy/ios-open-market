@@ -7,6 +7,6 @@
 
 import Foundation
 
-struct ItemDeletionRequest: Decodable {
+struct ItemDeletionRequest: Encodable {
     let id: String
 }
