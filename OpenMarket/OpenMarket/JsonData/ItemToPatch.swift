@@ -9,7 +9,7 @@ import Foundation
 
 struct ItemToPatch: Encodable {
     var title: String?
-    var discription: String?
+    var description: String?
     var price: Int?
     var currency: String?
     var stock: Int?
