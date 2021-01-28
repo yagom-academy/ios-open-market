@@ -219,4 +219,25 @@ class OpenMarketAPI {
             return OpenMarketAPIError.unknown
         }
     }
+    
+    static func getResult<T: Decodable>(_ type: T.Type, data: Data?, response: URLResponse?, error: Error?) -> Result<T, Error> {
+        if let error = error {
+            print(error.localizedDescription)
+            return .failure(error)
+        }
+
+        if let responseError = getResponseError(response) {
+            return .failure(responseError)
+        }
+        
+        guard let data = data else {
+            return .failure(OpenMarketAPIError.noData)
+        }
+ 
+        guard let items = Parser.decodeData(type, data) else {
+            return .failure(OpenMarketAPIError.dataDecodingError)
+        }
+        
+        return .success(items)
+    }
 }
