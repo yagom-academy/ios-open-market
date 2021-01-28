@@ -212,13 +212,15 @@ class OpenMarketTests: XCTestCase {
     // MARK:- OpenMarketAPI Test
     func testGetItemList() {
         let testExpectation = XCTestExpectation(description: "getItemList 테스트")
-        var itemToGet: ItemsToGet?
-        OpenMarketAPI.getItemList(page: 5) { (itemList) in
-            itemToGet = itemList
-            if itemToGet == nil {
-                return
+        
+        OpenMarketAPI.getItemList(page: 5) { result in
+            switch result {
+            case .success(let itemsToGet):
+                dump(itemsToGet)
+                testExpectation.fulfill()
+            case .failure(let error):
+                print(error.localizedDescription)
             }
-            testExpectation.fulfill()
         }
         wait(for: [testExpectation], timeout: 5)
     }
@@ -226,12 +228,14 @@ class OpenMarketTests: XCTestCase {
     func testGetItem() {
         let testExpectation = XCTestExpectation(description: "getItem 테스트")
         var itemToGet: ItemToGet?
-        OpenMarketAPI.getItem(id: 26) { (item) in
-            itemToGet = item
-            if itemToGet == nil {
-                return
+        OpenMarketAPI.getItem(id: 26) { result in
+            switch result {
+            case .success(let itemToGet):
+                dump(itemToGet)
+                testExpectation.fulfill()
+            case .failure(let error):
+                print(error.localizedDescription)
             }
-            testExpectation.fulfill()
         }
         wait(for: [testExpectation], timeout: 5)
     }
@@ -243,46 +247,46 @@ class OpenMarketTests: XCTestCase {
             return
         }
         let itemToPost = ItemToPost(title: "테스트", descriptions: "밤, 솔", price: 100, currency: "KRW", stock: 100, discountedPrice: 90, images: [imageData], password: "123")
-        var itemAfterPost: ItemAfterPost?
-        OpenMarketAPI.postItem(itemToPost: itemToPost) { (item) in
-            itemAfterPost = item
-            if itemAfterPost == nil {
-                print("itemAfterPost가 nil입니다.")
-                return
+        OpenMarketAPI.postItem(itemToPost: itemToPost) { result in
+            switch result {
+            case .success(let itemAfterPost):
+                dump(itemAfterPost)
+                testExpectation.fulfill()
+            case .failure(let error):
+                print(error.localizedDescription)
             }
-            testExpectation.fulfill()
         }
         wait(for: [testExpectation], timeout: 5)
     }
 
     func testPatchItem() {
-        let id: Int = 277 //서버에 변경될 id를 가진 item이 있어야 테스트 성공
+        let id: Int = 305 //서버에 변경될 id를 가진 item이 있어야 테스트 성공
         let testExpectation = XCTestExpectation(description: "patchItem 테스트")
         let itemToPatch = ItemToPatch(title: "바껴라", descriptions: nil, price: nil, currency: nil, stock: nil, discountedPrice: nil, images: nil, password: "123")
-        var itemAfterPatch: ItemAfterPatch?
-        OpenMarketAPI.patchItem(id: id, itemToPatch: itemToPatch) { (item) in
-            itemAfterPatch = item
-            if itemAfterPatch == nil {
-                print("itemAfterPatch가 nil입니다.")
-                return
+        OpenMarketAPI.patchItem(id: id, itemToPatch: itemToPatch) { result in
+            switch result {
+            case .success(let itemsAfterPatch):
+                dump(itemsAfterPatch)
+                testExpectation.fulfill()
+            case .failure(let error):
+                print(error.localizedDescription)
             }
-            testExpectation.fulfill()
         }
         wait(for: [testExpectation], timeout: 5)
     }
     
     func testDeleteItem() {
-        let id: Int = 277 // 서버에 삭제할 id를 가진 item이 있어야 테스트 성공.
+        let id: Int = 305 // 서버에 삭제할 id를 가진 item이 있어야 테스트 성공.
         let testExpectation = XCTestExpectation(description: "deleteItem 테스트")
         let itemToDelete = ItemToDelete(id: id, password: "123")
-        var itemAfterDelete: ItemAfterDelete?
-        OpenMarketAPI.deleteItem(id: id, itemToDelete: itemToDelete) { (item) in
-            itemAfterDelete = item
-            if itemAfterDelete == nil {
-                print("itemAfterDelete가 nil입니다.")
-                return
+        OpenMarketAPI.deleteItem(id: id, itemToDelete: itemToDelete) { result in
+            switch result {
+            case .success(let itemAfterDelete):
+                dump(itemAfterDelete)
+                testExpectation.fulfill()
+            case .failure(let error):
+                print(error.localizedDescription)
             }
-            testExpectation.fulfill()
         }
         wait(for: [testExpectation], timeout: 5)
     }
