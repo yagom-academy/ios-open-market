@@ -40,7 +40,7 @@ enum OpenMarketAPI {
     var sampleData: Data {
         switch self {
         case .requestMarketPage:
-            break
+            return NSDataAsset(name: "items")!.data
         case .registerMarketItem:
             break
         case .requestMarketItem:

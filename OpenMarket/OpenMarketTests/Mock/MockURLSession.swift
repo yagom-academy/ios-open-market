@@ -11,9 +11,11 @@ import Foundation
 class MockURLSession: URLSessionProtocol {
     var makeRequestFail = false
     var urlSessionDataTask: MockURLSessionDataTask?
+    var sampleData: Data
     
-    init(makeRequestFail: Bool = false) {
+    init(makeRequestFail: Bool = false, sampleData: Data) {
         self.makeRequestFail = makeRequestFail
+        self.sampleData = sampleData
     }
     
     func dataTask(with request: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask {
@@ -25,7 +27,7 @@ class MockURLSession: URLSessionProtocol {
             if self.makeRequestFail {
                 completionHandler(nil, failurResponse, nil)
             } else {
-                completionHandler(OpenMarketAPI.requestMarketItem.sampleData, successResponse, nil)
+                completionHandler(self.sampleData, successResponse, nil)
             }
         }
         self.urlSessionDataTask = urlSessionDataTask
