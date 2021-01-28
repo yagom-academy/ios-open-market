@@ -31,7 +31,7 @@ struct Networking {
         }
     }
     
-    static func registerGoods(form: RegisterGoodsForm) {
+    static func registerGoods(form: GoodsForm) {
         guard let itemURL = NetworkConfig.makeURL(with: .registerGoods),
               let parameter = try? self.encodeData(form: form) else {
             return
@@ -47,11 +47,13 @@ struct Networking {
         }
     }
     
-    static func editGoods(form: EditGoodsForm, id: UInt) {
-        guard let itemURL = NetworkConfig.makeURL(with: .editGoods(id: id)),
+    static func editGoods(form: GoodsForm) {
+        guard let id = form.id,
+              let itemURL = NetworkConfig.makeURL(with: .editGoods(id: id)),
               let parameter = try? self.encodeData(form: form) else {
             return
         }
+
         requestToServer(with: itemURL, method: .post, parameter: parameter) { (result) in
             do {
                 let data = try result.get()
@@ -63,8 +65,9 @@ struct Networking {
         }
     }
     
-    static func removeGoods(form: DeleteGoodsForm, id: UInt) {
-        guard let itemURL = NetworkConfig.makeURL(with: .removeGoods(id: id)),
+    static func removeGoods(form: GoodsForm) {
+        guard let id = form.id,
+              let itemURL = NetworkConfig.makeURL(with: .removeGoods(id: id)),
               let parameter = try? self.encodeData(form: form) else {
             return
         }
