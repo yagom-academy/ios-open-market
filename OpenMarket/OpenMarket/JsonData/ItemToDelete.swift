@@ -8,6 +8,6 @@
 import Foundation
 
 struct ItemToDelete: Encodable {
-    var id: Int
-    var password: String
+    let id: Int
+    let password: String
 }
