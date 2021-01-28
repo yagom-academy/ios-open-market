@@ -12,6 +12,8 @@
 		34D584F725BF063600ED3642 /* URLManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34D584F625BF063600ED3642 /* URLManager.swift */; };
 		34D5850125BF066000ED3642 /* OpenMarketTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34D5850025BF066000ED3642 /* OpenMarketTests.swift */; };
 		34D5850D25C19DDD00ED3642 /* Items.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34D5850C25C19DDD00ED3642 /* Items.swift */; };
+		34D5851125C1A66500ED3642 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34D5851025C1A66500ED3642 /* Parser.swift */; };
+		34D5851725C2B08100ED3642 /* NetworkingError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34D5851625C2B08100ED3642 /* NetworkingError.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
 		C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */; };
 		C70FB0FF25BEF61C00C9924E /* ItemsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FE25BEF61C00C9924E /* ItemsListViewController.swift */; };
@@ -38,6 +40,8 @@
 		34D5850025BF066000ED3642 /* OpenMarketTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketTests.swift; sourceTree = "<group>"; };
 		34D5850225BF066000ED3642 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		34D5850C25C19DDD00ED3642 /* Items.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Items.swift; sourceTree = "<group>"; };
+		34D5851025C1A66500ED3642 /* Parser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
+		34D5851625C2B08100ED3642 /* NetworkingError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingError.swift; sourceTree = "<group>"; };
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -69,7 +73,10 @@
 		34D584E825BF05A100ED3642 /* Networking */ = {
 			isa = PBXGroup;
 			children = (
+				34D5851625C2B08100ED3642 /* NetworkingError.swift */,
+				34D584F625BF063600ED3642 /* URLManager.swift */,
 				34D584EF25BF061600ED3642 /* APIManager.swift */,
+				34D5851025C1A66500ED3642 /* Parser.swift */,
 			);
 			name = Networking;
 			sourceTree = "<group>";
@@ -78,7 +85,6 @@
 			isa = PBXGroup;
 			children = (
 				C70FB0FE25BEF61C00C9924E /* ItemsListViewController.swift */,
-				34D584F625BF063600ED3642 /* URLManager.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -263,6 +269,8 @@
 				C70FB0FF25BEF61C00C9924E /* ItemsListViewController.swift in Sources */,
 				34D584F425BF062300ED3642 /* Item.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
+				34D5851725C2B08100ED3642 /* NetworkingError.swift in Sources */,
+				34D5851125C1A66500ED3642 /* Parser.swift in Sources */,
 				34D5850D25C19DDD00ED3642 /* Items.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 				34D584F725BF063600ED3642 /* URLManager.swift in Sources */,

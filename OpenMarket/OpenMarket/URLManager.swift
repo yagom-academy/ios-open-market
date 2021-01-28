@@ -16,7 +16,7 @@ struct URLManager {
     
     let baseURL = "https://camp-open-market.herokuapp.com"
     
-    func makeURL(type: Path) {
+    func makeURL(type: Path) -> URL {
         var urlStr = ""
         
         switch type {
@@ -33,3 +33,5 @@ struct URLManager {
         }
     }
 }
+
+

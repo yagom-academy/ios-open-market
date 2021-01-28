@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Items {
+struct Items: Codable {
     let page: Int
     var items: [Item]
 }
