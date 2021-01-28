@@ -123,7 +123,7 @@ class OpenMarketTests: XCTestCase {
             return
         }
         let itemToPatch = ItemToPatch(title: "MacBook Air",
-                                      discription: "가장 얇고 가벼운 MacBook이 Apple M1 칩으로 완전히 새롭게 탈바꿈했습니다.",
+                                      descriptions: "가장 얇고 가벼운 MacBook이 Apple M1 칩으로 완전히 새롭게 탈바꿈했습니다.",
                                       price: 1290000,
                                       currency: "KRW",
                                       stock: 10000,
@@ -253,10 +253,11 @@ class OpenMarketTests: XCTestCase {
     }
 
     func testPatchItem() {
+        let id: Int = 277 //서버에 변경될 id를 가진 item이 있어야 테스트 성공
         let testExpectation = XCTestExpectation(description: "patchItem 테스트")
-        let itemToPatch = ItemToPatch(title: "바껴라", password: "123")
+        let itemToPatch = ItemToPatch(title: "바껴라", descriptions: nil, price: nil, currency: nil, stock: nil, discountedPrice: nil, images: nil, password: "123")
         var itemAfterPatch: ItemAfterPatch?
-        OpenMarketAPI.patchItem(id: 26, itemToPatch: itemToPatch) { (item) in
+        OpenMarketAPI.patchItem(id: id, itemToPatch: itemToPatch) { (item) in
             itemAfterPatch = item
             if itemAfterPatch == nil {
                 print("itemAfterPatch가 nil입니다.")
@@ -268,7 +269,7 @@ class OpenMarketTests: XCTestCase {
     }
     
     func testDeleteItem() {
-        let id: Int = 120 // 서버에 삭제할 id를 가진 item이 있어야 테스트 성공.
+        let id: Int = 277 // 서버에 삭제할 id를 가진 item이 있어야 테스트 성공.
         let testExpectation = XCTestExpectation(description: "deleteItem 테스트")
         let itemToDelete = ItemToDelete(id: id, password: "123")
         var itemAfterDelete: ItemAfterDelete?
