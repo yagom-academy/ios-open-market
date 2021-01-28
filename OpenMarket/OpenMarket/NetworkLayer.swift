@@ -109,4 +109,29 @@ struct NetworkLayer {
             }
         }.resume()
     }
+    
+    func requestDeletion(bodyData: ItemDeletionRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) {
+        
+        guard let urlRequest = httpRequest.CreateItemDeletionURLRequest(requestAPI: .itemDeletion, bodyData: bodyData) else {
+            return
+        }
+        
+        let session = URLSession.shared
+        session.dataTask(with: urlRequest) { data, response, error in
+            if let error = error {
+                print(error)
+                return
+            }
+            
+            if let data = data {
+                do {
+                    let decodedData = try JSONDecoder().decode(ItemDeletionResponse.self, from: data)
+                    completionHandler(data, response, error)
+                    print(decodedData)
+                } catch {
+                    print(error)
+                }
+            }
+        }.resume()
+    }
 }

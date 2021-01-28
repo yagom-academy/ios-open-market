@@ -39,6 +39,15 @@ struct HTTPRequest {
         }
     }
     
+    func CreateItemDeletionURLRequest(requestAPI: RequestAPI, bodyData: ItemDeletionRequest) -> URLRequest? {
+        switch requestAPI {
+        case .itemDeletion:
+            return itemDeletion(bodyData: bodyData)
+        default:
+            return nil
+        }
+    }
+    
     private func lookupList() -> URLRequest? {
         guard var url = URL(string: urlString) else {
             return nil
@@ -91,6 +100,22 @@ struct HTTPRequest {
         let boundary = UUID().uuidString
         urlRequest.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
         urlRequest.httpBody = addMultipartFormDataToBody(paramters: bodyData, boundary: boundary)
+        
+        return urlRequest
+    }
+    
+    private func itemDeletion(bodyData: ItemDeletionRequest) -> URLRequest? {
+        guard var url = URL(string: urlString) else {
+            return nil
+        }
+        let path = "/item/227"
+        url.appendPathComponent(path)
+        
+        var urlRequest = URLRequest(url: url)
+        urlRequest.httpMethod = HTTPMethod.delete.rawValue
+        if let body = try? JSONEncoder().encode(bodyData) {
+            urlRequest.httpBody = body
+        }
         
         return urlRequest
     }
