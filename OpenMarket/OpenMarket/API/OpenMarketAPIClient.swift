@@ -94,4 +94,31 @@ class OpenMarketAPIClient {
         }
         task.resume()
     }
+    
+    func requestMarketPage(pageNumber: Int, completion: @escaping (Result<MarketPage, OpenMarketAPIError>) -> Void) {
+        guard let url = OpenMarketAPI.requestMarketPage.url?.appendingPathComponent("\(pageNumber)") else {
+            completion(.failure(OpenMarketAPIError.invalidURL))
+            return
+        }
+        
+        let request = URLRequest(url: url)
+        let task = urlSession.dataTask(with: request) { data, urlResponse, error in
+            if let error = error {
+                print(error.localizedDescription)
+                completion(.failure(.requestFailed))
+                return
+            }
+            guard let response = urlResponse as? HTTPURLResponse, (200...399).contains(response.statusCode) else {
+                completion(.failure(OpenMarketAPIError.networkError))
+                return
+            }
+            if let data = data,
+               let marketPage = try? JSONDecoder().decode(MarketPage.self, from: data) {
+                completion(.success(marketPage))
+                return
+            }
+            completion(.failure(OpenMarketAPIError.invalidData))
+        }
+        task.resume()
+    }
 }
