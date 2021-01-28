@@ -8,7 +8,8 @@
 import Foundation
 
 struct ItemManager {
-    static func loadData(path: UrlPath, param: UInt, completion: @escaping ((Result<Data?, OpenMarketError>) -> Void)) {
+    typealias errorHandler = (Result<Data?, OpenMarketError>) -> Void
+    static func loadData(path: UrlPath, param: UInt, completion: @escaping errorHandler) {
         var url: URL?
         switch path {
         case .item:
@@ -46,7 +47,7 @@ struct ItemManager {
         dataTask.resume()
     }
     
-    static func uploadData(method: HttpMethod, path: UrlPath, item: ItemUploadRequest, param: UInt?, completion: @escaping ((Result<Data?, OpenMarketError>) -> Void)) {
+    static func uploadData(method: HttpMethod, path: UrlPath, item: ItemUploadRequest, param: UInt?, completion: @escaping errorHandler) {
         var url: URL?
         switch path {
         case .item:
@@ -90,7 +91,7 @@ struct ItemManager {
         dataTask.resume()
     }
     
-    static func deleteData(path: UrlPath, deleteItem: ItemDeletionRequest, param: UInt, completion: @escaping ((Result<Data?, OpenMarketError>) -> Void)) {
+    static func deleteData(path: UrlPath, deleteItem: ItemDeletionRequest, param: UInt, completion: @escaping errorHandler) {
         var url: URL?
         switch path {
         case .item:
