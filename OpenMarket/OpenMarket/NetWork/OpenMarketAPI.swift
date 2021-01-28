@@ -203,4 +203,20 @@ class OpenMarketAPI {
             completionHandler(item)
         }.resume()
     }
+    
+    static func getResponseError(_ response: URLResponse?) -> Error? {
+        guard let statusCode = (response as? HTTPURLResponse)?.statusCode else {
+            return OpenMarketAPIError.noResponse
+        }
+        switch statusCode {
+        case 200..<300:
+            return nil
+        case 300..<400:
+            return OpenMarketAPIError.clientSideError
+        case 400..<500:
+            return OpenMarketAPIError.serverSideError
+        default:
+            return OpenMarketAPIError.unknown
+        }
+    }
 }
