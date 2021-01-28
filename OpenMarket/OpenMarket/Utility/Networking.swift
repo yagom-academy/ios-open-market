@@ -16,12 +16,11 @@ struct Networking {
         }
     }
     
-    static func registerGoods(form: RegisterGoodsForm) {
-        guard let itemURL = NetworkConfig.makeURL(with: .registerGoods),
-              let parameter = try? self.encodeData(form: form) else {
+    static func fetchGoods(id: UInt) {
+        guard let itemURL = NetworkConfig.makeURL(with: .fetchGoods(id: id)) else {
             return
         }
-        requestToServer(with: itemURL, method: .post, parameter: parameter) { (result) in
+        requestToServer(with: itemURL, method: .get, parameter: nil) { (result) in
             do {
                 let data = try result.get()
                 let json = try self.decodeData(to: Goods.self, from: data)
@@ -32,11 +31,12 @@ struct Networking {
         }
     }
     
-    static func fetchGoods(id: UInt) {
-        guard let itemURL = NetworkConfig.makeURL(with: .fetchGoods(id: id)) else {
+    static func registerGoods(form: RegisterGoodsForm) {
+        guard let itemURL = NetworkConfig.makeURL(with: .registerGoods),
+              let parameter = try? self.encodeData(form: form) else {
             return
         }
-        requestToServer(with: itemURL, method: .get, parameter: nil) { (result) in
+        requestToServer(with: itemURL, method: .post, parameter: parameter) { (result) in
             do {
                 let data = try result.get()
                 let json = try self.decodeData(to: Goods.self, from: data)
