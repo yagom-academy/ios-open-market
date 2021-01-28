@@ -7,6 +7,16 @@
 
 import Foundation
 
+enum OpenMarketAPIError: Error {
+    case dataDecodingError
+    case clientSideError
+    case serverSideError
+    case noData
+    case noResponse
+    case wrongURL
+    case unknown
+}
+
 class OpenMarketAPI {
     
     private static var session = URLSession(configuration: .default)
