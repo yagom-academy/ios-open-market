@@ -8,7 +8,10 @@
 import Foundation
 
 struct Parser<T: Codable> {
-    static func decodeData(url: URL, result: @escaping (Result<T, Error>) -> ()) {
+    typealias ResultHandling = (Result<T, Error>) -> ()
+    typealias ErrorHandling = (Error) -> ()
+    
+    static func decodeData(url: URL, result: @escaping ResultHandling) {
         APIManager.requestGET(url: url) { (data: Data?, response: URLResponse?, error: Error?) in
             guard error == nil else {
                 result(.failure(NetworkingError.failedRequest))
@@ -35,7 +38,7 @@ struct Parser<T: Codable> {
         }
     }
     
-    static func postData(url: URL, data: T, result: @escaping (Error) -> ()) {
+    static func postData(url: URL, data: T, result: @escaping ErrorHandling) {
         guard let uploadData = try? JSONEncoder().encode(data) else {
             result(NetworkingError.failedEncoding)
             return
@@ -60,7 +63,7 @@ struct Parser<T: Codable> {
         }
     }
     
-    static func deleteData(url: URL, data: T, result: @escaping (Error) -> ()) {
+    static func deleteData(url: URL, data: T, result: @escaping ErrorHandling) {
         guard let deleteData = try? JSONEncoder().encode(data) else {
             result(NetworkingError.failedEncoding)
             return

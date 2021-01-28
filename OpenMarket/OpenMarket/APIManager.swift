@@ -8,14 +8,16 @@
 import Foundation
 
 struct APIManager {
-    static func requestGET(url: URL, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) {
+    typealias URLSessionHandling = (Data?, URLResponse?, Error?) -> Void
+    
+    static func requestGET(url: URL, completionHandler: @escaping URLSessionHandling) {
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
     
         URLSession.shared.dataTask(with: request, completionHandler: completionHandler).resume()
     }
     
-    static func requestPOST(url: URL, uploadData: Data, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) {
+    static func requestPOST(url: URL, uploadData: Data, completionHandler: @escaping URLSessionHandling) {
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -27,7 +29,7 @@ struct APIManager {
         
     }
     
-    static func requestDELETE(url: URL, deleteData: Data, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) {
+    static func requestDELETE(url: URL, deleteData: Data, completionHandler: @escaping URLSessionHandling) {
         var request = URLRequest(url: url)
         request.httpMethod = "DELETE"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
