@@ -7,17 +7,17 @@ enum OpenMarketAPITypes {
     case editGoods(id: UInt)
     case removeGoods(id: UInt)
     
-    var urlQuery: String {
+    var urlPath: String {
         switch self {
-        case .fetchGoodsList(page: let page):
+        case .fetchGoodsList(let page):
             return "/items/\(page)"
         case .registerGoods:
             return "/item"
-        case .fetchGoods(id: let id):
+        case .fetchGoods(let id):
             return "/item/\(id)"
-        case .editGoods(id: let id):
+        case .editGoods(let id):
             return "/item/\(id)"
-        case .removeGoods(id: let id):
+        case .removeGoods(let id):
             return "/item/\(id)"
         }
     }
