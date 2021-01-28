@@ -14,9 +14,9 @@ struct URLManager {
         case itemInfo(Int)
     }
     
-    let baseURL = "https://camp-open-market.herokuapp.com"
+    static let baseURL = "https://camp-open-market.herokuapp.com"
     
-    func makeURL(type: Path) -> URL {
+    static func makeURL(type: Path) throws -> URL {
         var urlStr = ""
         
         switch type {
@@ -29,8 +29,10 @@ struct URLManager {
         }
         
         guard let url = URL(string: urlStr) else {
-            // throw error
+            throw NetworkingError.invalidURL
         }
+        
+        return url
     }
 }
 

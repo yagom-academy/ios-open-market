@@ -9,4 +9,7 @@ import Foundation
 
 enum NetworkingError: Error {
     case invalidURL
+    case unownedError
+    case failedResponse
+    case noData
 }

@@ -11,16 +11,19 @@ struct Parser<T: Codable> {
     static func decodeJSONAPI(url: URL, result: @escaping (Result<T, Error>) -> ()) {
         APIManager.requestGET(url: url) { (data: Data?, response: URLResponse?, error: Error?) in
             guard error == nil else {
-                result(.failure(<#T##NetworkingError#>))
+                result(.failure(NetworkingError.unownedError))
+                return
             }
 
             guard let response = response as? HTTPURLResponse,
                   (200...299).contains(response.statusCode) else {
-                result(.failure(<#T##NetworkingError#>))
+                result(.failure(NetworkingError.failedResponse))
+                return
             }
             
             guard let data = data else {
-                result(.failure(<#T##NetworkingError#>))
+                result(.failure(NetworkingError.noData))
+                return
             }
             
             do {
@@ -39,12 +42,19 @@ struct Parser<T: Codable> {
         
         APIManager.requestPOST(url: url, uploadData: uploadData) { (data: Data?, response: URLResponse?, error: Error?) in
             guard error == nil else {
-                result(<#T##NetworkingError#>)
+                result(NetworkingError.unownedError)
+                return
             }
 
             guard let response = response as? HTTPURLResponse,
                   (200...299).contains(response.statusCode) else {
-                result(<#T##NetworkingError#>)
+                result(NetworkingError.failedResponse)
+                return
+            }
+            
+            guard let data = data else {
+                result(NetworkingError.noData)
+                return
             }
         }
     }
@@ -52,18 +62,20 @@ struct Parser<T: Codable> {
     static func deleteAPI(url: URL, result: @escaping (Result<T, Error>) -> ()) {
         APIManager.requestGET(url: url) { (data: Data?, response: URLResponse?, error: Error?) in
             guard error == nil else {
-                result(.failure(<#T##NetworkingError#>))
+                result(.failure(NetworkingError.unownedError))
+                return
             }
 
             guard let response = response as? HTTPURLResponse,
                   (200...299).contains(response.statusCode) else {
-                result(.failure(<#T##NetworkingError#>))
+                result(.failure(NetworkingError.failedResponse))
+                return
             }
             
             guard let data = data else {
-                result(.failure(<#T##NetworkingError#>))
+                result(.failure(NetworkingError.noData))
+                return
             }
-            
         }
     }
 }
