@@ -27,10 +27,11 @@ struct APIManager {
         
     }
     
-    static func requestDELETE(url: URL, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) {
+    static func requestDELETE(url: URL, deleteData: Data, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) {
         var request = URLRequest(url: url)
         request.httpMethod = "DELETE"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpBody = deleteData
         
         URLSession.shared.dataTask(with: request, completionHandler: completionHandler).resume()
     }
