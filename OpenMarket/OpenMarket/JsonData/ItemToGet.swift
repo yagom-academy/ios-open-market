@@ -18,12 +18,12 @@ struct ItemToGet: Decodable {
     var currency: String
     var stock: Int
     var discountedPrice: Int?
-    let thumbnails: [String]
+    let thumbnailURLs: [String]
     var images: [String]
     var registrationDate: Double
     
     enum CodingKeys: String, CodingKey {
-        case id, title, descriptions, price, currency, stock, images, thumbnails
+        case id, title, descriptions, price, currency, stock, images, thumbnailURLs
         case discountedPrice = "discounted_price"
         case registrationDate = "registration_date"
     }
