@@ -56,7 +56,9 @@ enum OpenMarketAPI {
 
 enum OpenMarketAPIError: Error {
     case invalidURL
-    case unknownError
+    case requestFailed
+    case networkError
+    case invalidData
 }
 
 class OpenMarketAPIClient {
@@ -66,17 +68,21 @@ class OpenMarketAPIClient {
         self.urlSession = urlSession
     }
     
-    func requestMarketItem(id: Int, completion: @escaping (Result<MarketItem, Error>) -> Void) {
+    func requestMarketItem(id: Int, completion: @escaping (Result<MarketItem, OpenMarketAPIError>) -> Void) {
         guard let url = OpenMarketAPI.requestMarketItem.url?.appendingPathComponent("\(id)") else {
             completion(.failure(OpenMarketAPIError.invalidURL))
             return
         }
         
         let request = URLRequest(url: url)
-        
         let task = urlSession.dataTask(with: request) { data, urlResponse, error in
+            if let error = error {
+                print(error.localizedDescription)
+                completion(.failure(.requestFailed))
+                return
+            }
             guard let response = urlResponse as? HTTPURLResponse, (200...399).contains(response.statusCode) else {
-                completion(.failure(error ?? OpenMarketAPIError.unknownError))
+                completion(.failure(OpenMarketAPIError.networkError))
                 return
             }
             if let data = data,
@@ -84,7 +90,7 @@ class OpenMarketAPIClient {
                 completion(.success(marketItem))
                 return
             }
-            completion(.failure(OpenMarketAPIError.unknownError))
+            completion(.failure(OpenMarketAPIError.invalidData))
         }
         task.resume()
     }

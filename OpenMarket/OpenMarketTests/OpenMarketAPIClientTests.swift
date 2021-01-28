@@ -29,7 +29,6 @@ class OpenMarketAPIClientTests: XCTestCase {
             case .success(let marketItem):
                 XCTAssertEqual(marketItem.id, mock?.id)
                 XCTAssertEqual(marketItem.title, mock?.title)
-                break
             case .failure(let error):
                 XCTFail(error.localizedDescription)
             }
@@ -47,9 +46,8 @@ class OpenMarketAPIClientTests: XCTestCase {
             switch result {
             case .success:
                 XCTFail()
-                break
             case .failure(let error):
-                XCTAssertEqual(error as! OpenMarketAPIError, OpenMarketAPIError.unknownError)
+                XCTAssertEqual(error, OpenMarketAPIError.networkError)
             }
             expectation.fulfill()
         }
