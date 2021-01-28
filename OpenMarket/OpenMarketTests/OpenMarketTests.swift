@@ -35,18 +35,8 @@ class OpenMarketTests: XCTestCase {
 
         wait(for: [expectation], timeout: 5.0)
         let page = itemList?.page
-        let itemId = itemList?.items[0].id
-        let itemTitle = itemList?.items[0].title
-        let itemPrice = itemList?.items[0].price
-        let itemCurrency = itemList?.items[0].currency
-        let itemStock = itemList?.items[0].stock
 
         XCTAssertEqual(page, 1)
-        XCTAssertEqual(itemId, 26)
-        XCTAssertEqual(itemTitle, "MacBook Air")
-        XCTAssertEqual(itemPrice, 1290000)
-        XCTAssertEqual(itemCurrency, "KRW")
-        XCTAssertEqual(itemStock, 1_000_000_000_000)
     }
     
     func testGetItemDetail() {
@@ -136,6 +126,7 @@ class OpenMarketTests: XCTestCase {
     
     func testPatchItem() {
         let expectation = XCTestExpectation(description: "APIPrivoderTaskExpectation")
+        let param: UInt = 239
         let pathcItem = ItemUploadRequest(title: nil,
                                           descriptions: nil,
                                           price: 750000,
@@ -145,7 +136,7 @@ class OpenMarketTests: XCTestCase {
                                           images: nil,
                                           password: "asdfqwerzxcv")
         
-        ItemManager.uploadData(method: .patch, path: .item, item: pathcItem, param: 187) { [self] result in
+        ItemManager.uploadData(method: .patch, path: .item, item: pathcItem, param: param) { [self] result in
             switch result {
             case .success(let data):
                 guard let data = data else {
@@ -170,7 +161,7 @@ class OpenMarketTests: XCTestCase {
         let currency = item?.currency
         let stock = item?.stock
         
-        XCTAssertEqual(id, 187)
+        XCTAssertEqual(id, param)
         XCTAssertEqual(title, "AirPod Max")
         XCTAssertEqual(description, "귀를 호강시켜주는 에어팟 맥스! 사주실 분 구해요ㅠ")
         XCTAssertEqual(price, 750000)
@@ -188,9 +179,10 @@ class OpenMarketTests: XCTestCase {
     
     func testDeleteData() {
         let expectation = XCTestExpectation(description: "APIPrivoderTaskExpectation")
-        let item = ItemDeletionRequest(id: 183, password: "asdfqwerzxcv")
+        let param: UInt = 239
+        let item = ItemDeletionRequest(id: param, password: "asdfqwerzxcv")
         
-        ItemManager.deleteData(path: .item, deleteItem: item, param: 183) { [self] result in
+        ItemManager.deleteData(path: .item, deleteItem: item, param: param) { [self] result in
             switch result {
             case .success(let data):
                 guard let data = data else {
@@ -210,6 +202,6 @@ class OpenMarketTests: XCTestCase {
         wait(for: [expectation], timeout: 10.0)
         let id = deleteItem?.id
         
-        XCTAssertEqual(id, 183)
+        XCTAssertEqual(id, param)
     }
 }
