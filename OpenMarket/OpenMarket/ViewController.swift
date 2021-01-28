@@ -14,8 +14,11 @@ class ViewController: UIViewController {
             return
         }
         
-        let form = RegisterGoodsForm(title: "testtest", descriptions: "descdesc", price: 1, currency: "KRW", stock: 1, discountedPrice: 1, images: [testImage], password: "1234")
-        Networking.registerGoods(form: form)
+//        let form = GoodsForm(title: "test-lasagna", descriptions: "desc", price: 100000000, currency: "KRW", stock: 1, discountedPrice: nil, images: [testImage], password: "1234")
+//        Networking.registerGoods(form: form)
+        
+        let deleteForm = GoodsForm(id: 256, password: "1234")
+        Networking.removeGoods(form: deleteForm)
     }
 }
 
