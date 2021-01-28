@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import UIKit
 
 struct ItemUploadRequest: Encodable {
     let title: String?
