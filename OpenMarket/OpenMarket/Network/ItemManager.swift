@@ -47,7 +47,7 @@ struct ItemManager {
         dataTask.resume()
     }
     
-    static func uploadData(method: HttpMethod, path: PathOfURL, item: ItemUploadRequest, param: UInt?, completion: @escaping resultHandler) {
+    static func uploadData(method: HttpMethod, path: PathOfURL, item: ItemToUpload, param: UInt?, completion: @escaping resultHandler) {
         var url: URL?
         switch path {
         case .item:
@@ -95,7 +95,7 @@ struct ItemManager {
         dataTask.resume()
     }
     
-    static func deleteData(path: PathOfURL, deleteItem: ItemDeletionRequest, param: UInt, completion: @escaping resultHandler) {
+    static func deleteData(path: PathOfURL, deleteItem: ItemToDelete, param: UInt, completion: @escaping resultHandler) {
         var url: URL?
         switch path {
         case .item:
