@@ -74,15 +74,15 @@ class OpenMarketTests: XCTestCase {
     
     func testPostItem() {
         let expectation = XCTestExpectation(description: "APIPrivoderTaskExpectation")
-        guard let image1 = UIImage(named: "testImage1"), let image2 = UIImage(named: "testImage2") else {
+        guard let airPodMaxImage1 = UIImage(named: "AirPodMax1"), let airPodMaxImage2 = UIImage(named: "AirPodMax2") else {
             return
         }
         var imageDataStringArray: [String] = []
-        guard let imageData1 = UIImageToData(image: image1), let imageData2 = UIImageToData(image: image2) else {
+        guard let airPodMaxImageData1 = UIImageToData(image: airPodMaxImage1), let airPodMaxImageData2 = UIImageToData(image: airPodMaxImage2) else {
             return
         }
-        imageDataStringArray.append(imageData1)
-        imageDataStringArray.append(imageData2)
+        imageDataStringArray.append(airPodMaxImageData1)
+        imageDataStringArray.append(airPodMaxImageData2)
         
         let newItem = ItemToUpload(title: "AirPod Max",
                                         descriptions: "귀를 호강시켜주는 에어팟 맥스! 사주실 분 구해요ㅠ",
