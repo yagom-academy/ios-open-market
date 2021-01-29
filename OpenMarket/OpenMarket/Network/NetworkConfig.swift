@@ -1,5 +1,5 @@
 //
-//  Config.swift
+//  NetworkConfig.swift
 //  OpenMarket
 //
 //  Created by Yeon on 2021/01/26.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum Config {
+enum NetworkConfig {
     static let baseUrl = "https://camp-open-market.herokuapp.com/"
     
     static func setUpUrl(method: HttpMethod, path: UrlPath, param: UInt?) -> URL? {
