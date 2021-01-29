@@ -14,17 +14,17 @@ struct DeleteGoods {
         var path: String = NetworkConfig.openMarketFixedURL
         var method: HTTPMethod = .delete
         var headers: [String : String]? = NetworkConfig.jsonContentType
-        var bodyParams: [String : Any]?
+        var bodyParams: Data?
         var id: UInt
         
-        init(id: UInt, params: DeleteGoodsForm) {
+        init(id: UInt, params: DeleteForm) {
             self.id = id
             self.path.append(NetworkConfig.makeURLPath(api: .removeGoods, with: self.id))
-            self.bodyParams = params.convertParameter()
+            self.bodyParams = try? JSONEncoder().encode(params)
         }
     }
     
-    func requestDeleteGoods(params: DeleteGoodsForm, completion: @escaping(Result<Any, Error>) -> Void) {
+    func requestDeleteGoods(params: DeleteForm, completion: @escaping(Result<Any, Error>) -> Void) {
         task.perform(request: DeleteGoodsRequest(id: params.id, params: params), dataType: Int.self) { result in
             switch result {
             case .success(let decodedData):
@@ -33,5 +33,15 @@ struct DeleteGoods {
                 completion(.failure(error))
             }
         }
+    }
+}
+
+class DeleteForm: DeleteGoodsForm, Encodable {
+    var id: UInt
+    var password: String
+    
+    required init(id: UInt, password: String) {
+        self.id = id
+        self.password = password
     }
 }

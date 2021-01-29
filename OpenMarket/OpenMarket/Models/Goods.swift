@@ -19,9 +19,8 @@ struct Goods: Decodable {
     }
 }
 
-protocol GoodsForm {
+protocol GoodsForm: Encodable {
     var password: String { get }
-    func convertParameter() -> [String : Any]
 }
 
 protocol RegisterGoodsForm: GoodsForm {
@@ -32,6 +31,8 @@ protocol RegisterGoodsForm: GoodsForm {
     var stock: Int { get }
     var discountedPrice: Int? { get }
     var images: [Data] { get }
+    
+    init(title: String, descriptions: String, price: Int, currency: String, stock: Int, discountedPrice: Int?, images: [Data], password: String)
 }
 
 protocol EditGoodsForm: GoodsForm {
@@ -43,8 +44,12 @@ protocol EditGoodsForm: GoodsForm {
     var discountedPrice: Int? { get }
     var images: [Data]? { get }
     var id: UInt { get }
+    
+    init(title: String?, descriptions: String?, price: Int?, currency: String?, stock: Int?, discountedPrice: Int?, images: [Data]?, id: UInt, password: String)
 }
 
 protocol DeleteGoodsForm: GoodsForm {
     var id: UInt { get }
+    
+    init(id: UInt, password: String)
 }
