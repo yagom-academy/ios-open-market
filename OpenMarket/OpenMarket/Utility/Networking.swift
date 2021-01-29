@@ -1,100 +1,34 @@
 import Foundation
 
 struct Networking {
-    static func fetchGoodsList(page: UInt, _ completion: @escaping ((Result<MarketGoods, OpenMarketError>) -> Void)) {
-        guard let listURL = NetworkConfig.makeURL(with: .fetchGoodsList(page: page)) else {
-            return
-        }
-        requestToServer(with: listURL, method: .get, parameter: nil) { result in
-            switch result {
-            case .success(let data):
-                do {
-                    let json = try self.decodeData(to: MarketGoods.self, from: data)
-                    debugPrint(json)
-                    completion(.success(json))
-                } catch {
-                    completion(.failure(OpenMarketError.convertData))
-                }
-            case .failure(let error):
-                debugPrint(error.localizedDescription)
-            }
-        }
-    }
-    
-    static func fetchGoods(id: UInt) {
-        guard let itemURL = NetworkConfig.makeURL(with: .fetchGoods(id: id)) else {
-            return
-        }
-        requestToServer(with: itemURL, method: .get, parameter: nil) { (result) in
-            do {
-                let data = try result.get()
-                let json = try self.decodeData(to: Goods.self, from: data)
-                debugPrint(json)
-            } catch let error {
-                debugPrint(error)
-            }
-        }
-    }
-    
-    static func registerGoods(form: GoodsForm) {
-        guard let itemURL = NetworkConfig.makeURL(with: .registerGoods),
-              let parameter = try? self.encodeData(form: form) else {
-            return
-        }
-        requestToServer(with: itemURL, method: .post, parameter: parameter) { (result) in
-            do {
-                let data = try result.get()
-                let json = try self.decodeData(to: Goods.self, from: data)
-                debugPrint(json)
-            } catch let error {
-                debugPrint(error)
-            }
-        }
-    }
-    
-    static func editGoods(form: GoodsForm) {
-        guard let id = form.id,
-              let itemURL = NetworkConfig.makeURL(with: .editGoods(id: id)),
-              let parameter = try? self.encodeData(form: form) else {
-            return
-        }
-
-        requestToServer(with: itemURL, method: .post, parameter: parameter) { (result) in
-            do {
-                let data = try result.get()
-                let json = try self.decodeData(to: MarketGoods.self, from: data)
-                debugPrint(json)
-            } catch let error {
-                debugPrint(error)
-            }
-        }
-    }
-    
-    static func removeGoods(form: GoodsForm) {
-        guard let id = form.id,
-              let itemURL = NetworkConfig.makeURL(with: .removeGoods(id: id)),
-              let parameter = try? self.encodeData(form: form) else {
-            return
+    static func makeRequest(api: OpenMarketAPITypes, with pathParameter: UInt? = nil) throws -> URLRequest? {
+        guard let url = NetworkConfig.makeURL(api: api, with: pathParameter) else {
+            return nil
         }
         
-        requestToServer(with: itemURL, method: .delete, parameter: parameter) { (result) in
-            do {
-                let data = try result.get()
-                debugPrint(data)
-            } catch let error {
-                debugPrint(error.localizedDescription)
-            }
-        }
-    }
-    
-    private static func requestToServer(with url: URL, method: MethodType, parameter: Data?, completion: @escaping ((Result<Data, NetworkError>) -> Void)) {
         var request = URLRequest(url: url)
-        request.httpMethod = method.rawValue
+        request.httpMethod = api.choiceHTTPMethod().rawValue
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        if let parameter = parameter {
-            request.httpBody = parameter
+        
+        return request
+    }
+    
+    static func makeRequestWithGoodsForm(api: OpenMarketAPITypes, with form: GoodsForm) throws -> URLRequest? {
+        guard let url = NetworkConfig.makeURL(api: api, with: form.id) else {
+            return nil
         }
         
+        var request = URLRequest(url: url)
+        request.httpMethod = api.choiceHTTPMethod().rawValue
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        let data = try JSONEncoder().encode(form)
+        request.httpBody = data
+        
+        return request
+    }
+    
+    static func requestToServer<T: Decodable>(with request: URLRequest, dataType: T.Type, completion: @escaping ((Result<T, Error>) -> Void)) {
         URLSession.shared.dataTask(with: request) { (data, response, error) in
             if error != nil {
                 return completion(.failure(NetworkError.response))
@@ -109,17 +43,12 @@ struct Networking {
                 return completion(.failure(NetworkError.data))
             }
             
-            return completion(.success(data))
+            do {
+                let data = try JSONDecoder().decode(dataType, from: data)
+                return completion(.success(data))
+            } catch {
+                return completion(.failure(OpenMarketError.convertData))
+            }
         }.resume()
-    }
-    
-    private static func decodeData<T: Decodable>(to type: T.Type, from data: Data) throws -> T {
-        let data = try JSONDecoder().decode(type, from: data)
-        return data
-    }
-    
-    private static func encodeData<T: Encodable>(form: T) throws -> Data? {
-        let data = try JSONEncoder().encode(form)
-        return data
     }
 }

@@ -1,24 +1,43 @@
 import Foundation
 
-enum OpenMarketAPITypes {
-    case fetchGoodsList(page: UInt)
+enum OpenMarketAPITypes: OpenMarketAPI {
+    case fetchGoodsList
     case registerGoods
-    case fetchGoods(id: UInt)
-    case editGoods(id: UInt)
-    case removeGoods(id: UInt)
+    case fetchGoods
+    case editGoods
+    case removeGoods
     
     var urlPath: String {
         switch self {
-        case .fetchGoodsList(let page):
-            return "/items/\(page)"
+        case .fetchGoodsList:
+            return "/items/"
         case .registerGoods:
             return "/item"
-        case .fetchGoods(let id):
-            return "/item/\(id)"
-        case .editGoods(let id):
-            return "/item/\(id)"
-        case .removeGoods(let id):
-            return "/item/\(id)"
+        case .fetchGoods:
+            return "/item/"
+        case .editGoods:
+            return "/item/"
+        case .removeGoods:
+            return "/item/"
         }
     }
+    
+    func choiceHTTPMethod() -> MethodType {
+        switch self {
+        case .fetchGoodsList:
+            return .get
+        case .registerGoods:
+            return .post
+        case .fetchGoods:
+            return .get
+        case .editGoods:
+            return .patch
+        case .removeGoods:
+            return .delete
+        }
+    }
+}
+
+protocol OpenMarketAPI {
+    func choiceHTTPMethod() -> MethodType
 }

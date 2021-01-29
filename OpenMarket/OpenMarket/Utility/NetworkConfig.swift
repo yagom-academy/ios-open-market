@@ -3,9 +3,13 @@ import Foundation
 struct NetworkConfig {
     private static let openMarketFixedURL = "https://camp-open-market.herokuapp.com"
     
-    static func makeURL(with api: OpenMarketAPITypes) -> URL? {
+    static func makeURL(api: OpenMarketAPITypes, with pathParameter: UInt?) -> URL? {
         var urlComponents = URLComponents(string: openMarketFixedURL)
-        urlComponents?.path = api.urlPath
+        var urlPathString = api.urlPath
+        if let parameter = pathParameter {
+            urlPathString.append(String(parameter))
+        }
+        urlComponents?.path = urlPathString
         return urlComponents?.url
     }
 }
