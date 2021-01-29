@@ -83,6 +83,10 @@ struct ItemManager {
                 return completion(.failure(.failUploadData))
             }
             
+            guard let mimeType = httpResponse.mimeType, mimeType == "application/json" else {
+                return completion(.failure(.failMatchMimeType))
+            }
+            
             guard let data = data else {
                 return completion(.failure(.failGetData))
             }
@@ -120,6 +124,10 @@ struct ItemManager {
             guard let httpResponse = response as? HTTPURLResponse,
                   (200...299).contains(httpResponse.statusCode) else {
                 return completion(.failure(.failDeleteData))
+            }
+            
+            guard let mimeType = httpResponse.mimeType, mimeType == "application/json" else {
+                return completion(.failure(.failMatchMimeType))
             }
             
             guard let data = data else {
