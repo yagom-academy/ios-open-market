@@ -17,7 +17,7 @@ class OpenMarketTests: XCTestCase {
         XCTAssertEqual(NetworkConfig.makeURL(with: .fetchGoodsList(page: 1)), url)
     }
     
-    func test_fetch_market_data_from_server() {
+    func test_fetch_data_from_server() {
         let expectation = XCTestExpectation(description: "fetch data")
         
         guard let url = URL(string: "https://camp-open-market.herokuapp.com/items/1") else {
@@ -27,17 +27,18 @@ class OpenMarketTests: XCTestCase {
                 
         URLSession.shared.dataTask(with: url) {(data, response, error) in
             if error != nil {
-                XCTFail()
+                XCTFail("Network error!")
                 return
             }
+            
             guard let response = response as? HTTPURLResponse,
                   (200...299).contains(response.statusCode) else {
-                XCTFail()
+                XCTFail("Status Code error!")
                 return
             }
             
             guard data != nil else {
-                XCTFail()
+                XCTFail("No Data!")
                 return
             }
             expectation.fulfill()
