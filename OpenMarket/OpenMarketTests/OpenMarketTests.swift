@@ -9,6 +9,14 @@ import XCTest
 @testable import OpenMarket
 
 class OpenMarketTests: XCTestCase {
+    func test_networkconfig_makeurl_method() {
+        guard let url = URL(string: "https://camp-open-market.herokuapp.com/items/1") else {
+            XCTFail("Error with URL")
+            return
+        }
+        XCTAssertEqual(NetworkConfig.makeURL(with: .fetchGoodsList(page: 1)), url)
+    }
+    
     func test_fetch_market_data_from_server() {
         let expectation = XCTestExpectation(description: "fetch data")
         
@@ -16,9 +24,7 @@ class OpenMarketTests: XCTestCase {
             XCTFail("Error with URL")
             return
         }
-        
-        test_networkconfig_makeurl_method(url: url)
-        
+                
         URLSession.shared.dataTask(with: url) {(data, response, error) in
             if error != nil {
                 XCTFail()
@@ -37,10 +43,6 @@ class OpenMarketTests: XCTestCase {
             expectation.fulfill()
         }.resume()
         wait(for: [expectation], timeout: 10.0)
-    }
-    
-    func test_networkconfig_makeurl_method(url: URL) {
-        XCTAssertEqual(NetworkConfig.makeURL(with: .fetchGoodsList(page: 1)), url)
     }
     
     func test_decode_mock_data_with_market_model() {
