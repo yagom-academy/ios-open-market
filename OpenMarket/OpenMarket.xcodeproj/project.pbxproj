@@ -24,6 +24,7 @@
 		D9B255B925C071030039C0FE /* MockAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B255B825C071030039C0FE /* MockAPI.swift */; };
 		D9B255BF25C074740039C0FE /* MockURLSessionDataTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B255BE25C074740039C0FE /* MockURLSessionDataTask.swift */; };
 		D9B255C325C0748D0039C0FE /* MockURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B255C225C0748D0039C0FE /* MockURLSession.swift */; };
+		D9D673F425C3F9A300B61FEF /* ProductInformationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D673F325C3F9A300B61FEF /* ProductInformationCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,6 +66,7 @@
 		D9B255B825C071030039C0FE /* MockAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAPI.swift; sourceTree = "<group>"; };
 		D9B255BE25C074740039C0FE /* MockURLSessionDataTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSessionDataTask.swift; sourceTree = "<group>"; };
 		D9B255C225C0748D0039C0FE /* MockURLSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSession.swift; sourceTree = "<group>"; };
+		D9D673F325C3F9A300B61FEF /* ProductInformationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductInformationCell.swift; sourceTree = "<group>"; };
 		D9F3E3A825C0FD240049B4C1 /* SecondOpenMarketTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SecondOpenMarketTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -138,6 +140,7 @@
 				82186D6C25C14E01003AD8FB /* FeatureList.swift */,
 				82186D6425C14CCF003AD8FB /* HTTPMethods.swift */,
 				D92DDE1F25C1D5E400036BB9 /* OpenMarketURLMaker.swift */,
+				D9D673F325C3F9A300B61FEF /* ProductInformationCell.swift */,
 			);
 			path = OpenMarket;
 			sourceTree = "<group>";
@@ -295,6 +298,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D9D673F425C3F9A300B61FEF /* ProductInformationCell.swift in Sources */,
 				D92DDE2025C1D5E400036BB9 /* OpenMarketURLMaker.swift in Sources */,
 				D928368D25BF2B5F00C98F6F /* Product.swift in Sources */,
 				D928369E25BF31A600C98F6F /* OpenMarketAPIManager.swift in Sources */,

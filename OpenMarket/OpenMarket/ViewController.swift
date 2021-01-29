@@ -7,9 +7,15 @@
 import UIKit
 
 class ViewController: UIViewController {
-
+    //    let openMarketAPIManager = OpenMarketAPIManager(session: URLSession(configuration: .default))
+    
     let productListTableView = UITableView()
-    let item = ["a","b","c"]
+    
+    let testProductName = ["mac mini","iphone","ipad"]
+    let testProductThumbnail = [UIImage(named: "default"),UIImage(named: "default"),UIImage(named: "default")]
+    let testProductPrice = ["10000","20000","30000"]
+    let testProductStock = ["1","2","3"]
+    
     let listPresentingStyleSelection = ["LIST","GRID"]
     lazy var addProductButton: UIBarButtonItem = {
         let button =  UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonTapped(_:)))
@@ -24,33 +30,37 @@ class ViewController: UIViewController {
         control.addTarget(self, action: #selector(handleSegmentedControlValueChanged(_:)), for: .valueChanged)
         return control
     }()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         productListTableView.delegate = self
         productListTableView.dataSource = self
-        productListTableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        productListTableView.rowHeight = 50
+        productListTableView.register(ProductInformationCell.self, forCellReuseIdentifier: ProductInformationCell.identifier)
         view.addSubview(productListTableView)
         setUpProductListView()
         self.navigationItem.titleView = listPresentingStyleSegmentControl
         self.navigationItem.rightBarButtonItem = addProductButton
+        
+        //        openMarketAPIManager.fetchProductList(of: 1) { (result) in
+        //            switch result {
+        //            case .success(let productList):
+        //                print(productList)
+        //            case .failure(let error):
+        //                print(error)
+        //            }
+        //        }
     }
-
+    
     private func setUpProductListView() {
         productListTableView.translatesAutoresizingMaskIntoConstraints = false
         
-        self.view.addConstraint(NSLayoutConstraint(item: productListTableView,
-             attribute: .top, relatedBy: .equal, toItem: self.view, attribute: .top,
-             multiplier: 1.0, constant: 0))
-           self.view.addConstraint(NSLayoutConstraint(item: productListTableView,
-             attribute: .bottom, relatedBy: .equal, toItem: self.view,
-             attribute: .bottom, multiplier: 1.0, constant: 0))
-           self.view.addConstraint(NSLayoutConstraint(item: productListTableView,
-             attribute: .leading, relatedBy: .equal, toItem: self.view,
-             attribute: .leading, multiplier: 1.0, constant: 0))
-           self.view.addConstraint(NSLayoutConstraint(item: productListTableView,
-             attribute: .trailing, relatedBy: .equal, toItem: self.view,
-             attribute: .trailing, multiplier: 1.0, constant: 0))
+        NSLayoutConstraint.activate([
+            productListTableView.topAnchor.constraint(equalTo: self.view.topAnchor),
+            productListTableView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            productListTableView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+            productListTableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
+        ])
     }
 }
 extension ViewController: UITableViewDelegate {
@@ -58,14 +68,19 @@ extension ViewController: UITableViewDelegate {
 }
 extension ViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return item.count
+        return testProductName.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "cell") else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: ProductInformationCell.identifier) as? ProductInformationCell else {
             return UITableViewCell()
         }
-        cell.textLabel?.text = item[indexPath.row]
+        
+        cell.thumbnailImageView.image = testProductThumbnail[indexPath.row] ?? UIImage(named: "default")
+        cell.nameLabel.text = testProductName[indexPath.row]
+        cell.priceLabel.text = testProductPrice[indexPath.row]
+        cell.stockLabel.text = testProductStock[indexPath.row]
+        
         return cell
     }
 }
@@ -74,7 +89,6 @@ extension ViewController {
         switch sender.selectedSegmentIndex {
         case 0:
             productListTableView.isHidden = false
-            setUpProductListView()
         case 1:
             productListTableView.isHidden = true
             view.backgroundColor = .red
