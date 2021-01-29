@@ -69,7 +69,7 @@ struct Parser<T: Codable> {
             return
         }
         
-        APIManager.requestPOST(url: url, uploadData: encodedData) { (data: Data?, response: URLResponse?, error: Error?) in
+        APIManager.requestPATCH(url: url, patchData: encodedData) { (data: Data?, response: URLResponse?, error: Error?) in
             guard error == nil else {
                 result(NetworkingError.failedRequest)
                 return
