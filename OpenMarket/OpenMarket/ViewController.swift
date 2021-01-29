@@ -11,8 +11,8 @@ class ViewController: UIViewController {
     let productListTableView = UITableView()
     let item = ["a","b","c"]
     let listPresentingStyleSelection = ["LIST","GRID"]
-    lazy var productRegistrationButton: UIBarButtonItem = {
-        let button =  UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(registrationButtonTapped(_:)))
+    lazy var addProductButton: UIBarButtonItem = {
+        let button =  UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonTapped(_:)))
         return button
     }()
     lazy var listPresentingStyleSegmentControl: UISegmentedControl = {
@@ -33,7 +33,7 @@ class ViewController: UIViewController {
         view.addSubview(productListTableView)
         setUpProductListView()
         self.navigationItem.titleView = listPresentingStyleSegmentControl
-        self.navigationItem.rightBarButtonItem = productRegistrationButton
+        self.navigationItem.rightBarButtonItem = addProductButton
     }
 
     private func setUpProductListView() {
@@ -83,7 +83,7 @@ extension ViewController {
         }
     }
     
-    @objc private func registrationButtonTapped(_ sender: Any) {
+    @objc private func addButtonTapped(_ sender: Any) {
         print("button pressed")
     }
 }
