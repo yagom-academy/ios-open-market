@@ -12,17 +12,15 @@ enum NetworkConfig {
     
     static func setUpUrl(method: HttpMethod, path: PathOfURL, param: UInt?) -> URL? {
         var urlComponents = URLComponents(string: baseUrl)
+        urlComponents?.path += "\(path.rawValue)"
         
-        switch method {
-        case .get, .patch, .delete:
+        if method == .get || method == .delete || method == .patch {
             guard let param = param else {
                 return nil
             }
-            urlComponents?.path += "\(path.rawValue)"
             urlComponents?.path += "/\(String(param))"
-        case .post:
-            urlComponents?.path += "\(path.rawValue)"
         }
+
         return urlComponents?.url
     }
 }
