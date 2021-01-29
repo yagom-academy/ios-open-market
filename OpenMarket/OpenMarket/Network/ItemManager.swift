@@ -9,13 +9,13 @@ import Foundation
 
 struct ItemManager {
     typealias errorHandler = (Result<Data?, OpenMarketError>) -> Void
-    static func loadData(path: UrlPath, param: UInt, completion: @escaping errorHandler) {
+    static func loadData(path: PathOfURL, param: UInt, completion: @escaping errorHandler) {
         var url: URL?
         switch path {
         case .item:
-            url = Config.setUpUrl(method: .get, path: .item, param: param)
+            url = NetworkConfig.setUpUrl(method: .get, path: .item, param: param)
         case .items:
-            url = Config.setUpUrl(method: .get, path: .items, param: param)
+            url = NetworkConfig.setUpUrl(method: .get, path: .items, param: param)
         }
         guard let requestUrl = url else {
             return completion(.failure(.failSetUpURL))
@@ -47,15 +47,15 @@ struct ItemManager {
         dataTask.resume()
     }
     
-    static func uploadData(method: HttpMethod, path: UrlPath, item: ItemUploadRequest, param: UInt?, completion: @escaping errorHandler) {
+    static func uploadData(method: HttpMethod, path: PathOfURL, item: ItemUploadRequest, param: UInt?, completion: @escaping errorHandler) {
         var url: URL?
         switch path {
         case .item:
             if let param = param {
-                url = Config.setUpUrl(method: method, path: .item, param: param)
+                url = NetworkConfig.setUpUrl(method: method, path: .item, param: param)
             }
             else {
-                url = Config.setUpUrl(method: method, path: .item, param: nil)
+                url = NetworkConfig.setUpUrl(method: method, path: .item, param: nil)
             }
         case .items:
             return  completion(.failure(.unknown))
@@ -91,11 +91,11 @@ struct ItemManager {
         dataTask.resume()
     }
     
-    static func deleteData(path: UrlPath, deleteItem: ItemDeletionRequest, param: UInt, completion: @escaping errorHandler) {
+    static func deleteData(path: PathOfURL, deleteItem: ItemDeletionRequest, param: UInt, completion: @escaping errorHandler) {
         var url: URL?
         switch path {
         case .item:
-            url = Config.setUpUrl(method: .delete, path: .item, param: param)
+            url = NetworkConfig.setUpUrl(method: .delete, path: .item, param: param)
         case .items:
             return  completion(.failure(.unknown))
         }
