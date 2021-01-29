@@ -10,7 +10,6 @@ import Foundation
 
 class MockURLSession: URLSessionProtocol {
     var makeRequestFail = false
-    var urlSessionDataTask: MockURLSessionDataTask?
     var sampleData: Data
     
     init(makeRequestFail: Bool = false, sampleData: Data) {
@@ -22,7 +21,7 @@ class MockURLSession: URLSessionProtocol {
         let successResponse = HTTPURLResponse(url: OpenMarketAPI.registerMarketItem.url!, statusCode: 200, httpVersion: "2", headerFields: nil)
         let failurResponse = HTTPURLResponse(url: OpenMarketAPI.registerMarketItem.url!, statusCode: 410, httpVersion: "2", headerFields: nil)
         let urlSessionDataTask = MockURLSessionDataTask()
-        
+
         urlSessionDataTask.resumeDidCall = {
             if self.makeRequestFail {
                 completionHandler(nil, failurResponse, nil)
@@ -30,10 +29,17 @@ class MockURLSession: URLSessionProtocol {
                 completionHandler(self.sampleData, successResponse, nil)
             }
         }
-        self.urlSessionDataTask = urlSessionDataTask
-        
+
         return urlSessionDataTask
     }
     
-    
+    func startDataTask<T>(_ requestData: RequestData<T>, completionHandler: @escaping (T?, Error?) -> Void) {
+        dataTask(with: requestData.urlRequest) { (data, response, error) in
+            if let response = response as? HTTPURLResponse, (200..<300).contains(response.statusCode) {
+                completionHandler(data.flatMap(requestData.parseJSON), nil)
+            } else {
+                completionHandler(nil, error)
+            }
+        }.resume()
+    }
 }
