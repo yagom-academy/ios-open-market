@@ -18,3 +18,34 @@ struct Goods: Decodable {
         case discountedPrice = "discounted_price"
     }
 }
+
+protocol GoodsForm {
+    var password: String { get }
+    
+    func convertParameter() -> [String : Any]
+}
+
+protocol registerGoodsForm: GoodsForm {
+    var title: String { get }
+    var descriptions: String { get }
+    var price: Int { get }
+    var currency: String { get }
+    var stock: Int { get }
+    var discountedPrice: Int? { get }
+    var images: [Data] { get }
+}
+
+protocol editGoodsForm: GoodsForm {
+    var title: String? { get }
+    var descriptions: String? { get }
+    var price: Int? { get }
+    var currency: String? { get }
+    var stock: Int? { get }
+    var discountedPrice: Int? { get }
+    var images: [Data]? { get }
+    var id: UInt { get }
+}
+
+protocol deleteGoodsForm: GoodsForm {
+    var id: UInt { get }
+}

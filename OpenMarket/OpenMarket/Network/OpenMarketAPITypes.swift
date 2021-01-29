@@ -1,6 +1,6 @@
 import Foundation
 
-enum OpenMarketAPITypes: OpenMarketAPI {
+enum OpenMarketAPITypes {
     case fetchGoodsList
     case registerGoods
     case fetchGoods
@@ -21,23 +21,4 @@ enum OpenMarketAPITypes: OpenMarketAPI {
             return "/item/"
         }
     }
-    
-    func choiceHTTPMethod() -> MethodType {
-        switch self {
-        case .fetchGoodsList:
-            return .get
-        case .registerGoods:
-            return .post
-        case .fetchGoods:
-            return .get
-        case .editGoods:
-            return .patch
-        case .removeGoods:
-            return .delete
-        }
-    }
-}
-
-protocol OpenMarketAPI {
-    func choiceHTTPMethod() -> MethodType
 }
