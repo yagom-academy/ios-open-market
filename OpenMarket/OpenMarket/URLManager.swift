@@ -9,9 +9,9 @@ import Foundation
 
 struct URLManager {
     enum Path {
-        case itemsList(Int)
+        case itemsListPage(Int)
         case registItem
-        case itemInfo(Int)
+        case itemId(Int)
     }
     
     static let baseURL = "https://camp-open-market.herokuapp.com"
@@ -20,11 +20,11 @@ struct URLManager {
         var urlStr = ""
         
         switch type {
-        case .itemsList(let page):
+        case .itemsListPage(let page):
             urlStr = "\(baseURL)/items/\(page)"
         case .registItem:
             urlStr = "\(baseURL)/item"
-        case .itemInfo(let id):
+        case .itemId(let id):
             urlStr = "\(baseURL)/item/\(id)"
         }
         
