@@ -1,5 +1,5 @@
 //
-//  FetchMarketGoods.swift
+//  FetchGoods.swift
 //  OpenMarket
 //
 //  Created by Wonhee on 2021/01/29.
@@ -7,22 +7,22 @@
 
 import Foundation
 
-struct FetchMarketGoodsList {
+struct FetchGoods {
     private let task = NetworkTask(dispatcher: NetworkDispatcher())
     
-    class FetchMarketGoodsListRequest: Request {
+    class FetchGoodsRequest: Request {
         var path: String = NetworkConfig.openMarketFixedURL
         var method: HTTPMethod = .get
-        var page: UInt
+        var id: UInt
         
-        init(page: UInt) {
-            self.page = page
-            self.path.append(NetworkConfig.makeURLPath(api: .fetchGoodsList, with: self.page))
+        init(id: UInt) {
+            self.id = id
+            self.path.append(NetworkConfig.makeURLPath(api: .fetchGoods, with: self.id))
         }
     }
     
-    func requestFetchMarketGoodsList(page: UInt, completion: @escaping(Result<Any, Error>) -> Void) {
-        task.perform(request: FetchMarketGoodsListRequest(page: page), dataType: MarketGoods.self) { result in
+    func requestFetchGoods(id: UInt, completion: @escaping(Result<Any, Error>) -> Void) {
+        task.perform(request: FetchGoodsRequest(id: id), dataType: Goods.self) { result in
             switch result {
             case .success(let decodedData):
                 completion(.success(decodedData))

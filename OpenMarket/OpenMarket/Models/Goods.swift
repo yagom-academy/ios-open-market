@@ -21,11 +21,10 @@ struct Goods: Decodable {
 
 protocol GoodsForm {
     var password: String { get }
-    
     func convertParameter() -> [String : Any]
 }
 
-protocol registerGoodsForm: GoodsForm {
+protocol RegisterGoodsForm: GoodsForm {
     var title: String { get }
     var descriptions: String { get }
     var price: Int { get }
@@ -35,7 +34,7 @@ protocol registerGoodsForm: GoodsForm {
     var images: [Data] { get }
 }
 
-protocol editGoodsForm: GoodsForm {
+protocol EditGoodsForm: GoodsForm {
     var title: String? { get }
     var descriptions: String? { get }
     var price: Int? { get }
@@ -46,6 +45,6 @@ protocol editGoodsForm: GoodsForm {
     var id: UInt { get }
 }
 
-protocol deleteGoodsForm: GoodsForm {
+protocol DeleteGoodsForm: GoodsForm {
     var id: UInt { get }
 }
