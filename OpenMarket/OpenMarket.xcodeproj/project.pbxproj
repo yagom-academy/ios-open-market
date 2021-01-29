@@ -9,11 +9,11 @@
 /* Begin PBXBuildFile section */
 		2678E79425BFB49D00938BED /* ItemList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2678E79325BFB49D00938BED /* ItemList.swift */; };
 		2678E79725BFB4D400938BED /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2678E79625BFB4D400938BED /* Item.swift */; };
-		2678E79E25BFB9A900938BED /* ItemUploadRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2678E79D25BFB9A900938BED /* ItemUploadRequest.swift */; };
-		2678E7A125BFB9DC00938BED /* ItemDeletionRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2678E7A025BFB9DC00938BED /* ItemDeletionRequest.swift */; };
+		2678E79E25BFB9A900938BED /* ItemToUpload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2678E79D25BFB9A900938BED /* ItemToUpload.swift */; };
+		2678E7A125BFB9DC00938BED /* ItemToDelete.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2678E7A025BFB9DC00938BED /* ItemToDelete.swift */; };
 		2678E7A525BFBABD00938BED /* HttpMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2678E7A425BFBABD00938BED /* HttpMethod.swift */; };
-		2678E7A925BFBAFE00938BED /* UrlPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2678E7A825BFBAFE00938BED /* UrlPath.swift */; };
-		2678E7AC25BFBB2700938BED /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2678E7AB25BFBB2700938BED /* Config.swift */; };
+		2678E7A925BFBAFE00938BED /* PathOfURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2678E7A825BFBAFE00938BED /* PathOfURL.swift */; };
+		2678E7AC25BFBB2700938BED /* NetworkConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2678E7AB25BFBB2700938BED /* NetworkConfig.swift */; };
 		2678E7B025BFCADD00938BED /* OpenMarketError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2678E7AF25BFCADD00938BED /* OpenMarketError.swift */; };
 		2678E7B425BFCC5B00938BED /* ItemManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2678E7B325BFCC5B00938BED /* ItemManager.swift */; };
 		2678E7C225C013D900938BED /* OpenMarketTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2678E7C125C013D900938BED /* OpenMarketTests.swift */; };
@@ -38,11 +38,11 @@
 /* Begin PBXFileReference section */
 		2678E79325BFB49D00938BED /* ItemList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemList.swift; sourceTree = "<group>"; };
 		2678E79625BFB4D400938BED /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
-		2678E79D25BFB9A900938BED /* ItemUploadRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemUploadRequest.swift; sourceTree = "<group>"; };
-		2678E7A025BFB9DC00938BED /* ItemDeletionRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemDeletionRequest.swift; sourceTree = "<group>"; };
+		2678E79D25BFB9A900938BED /* ItemToUpload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemToUpload.swift; sourceTree = "<group>"; };
+		2678E7A025BFB9DC00938BED /* ItemToDelete.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemToDelete.swift; sourceTree = "<group>"; };
 		2678E7A425BFBABD00938BED /* HttpMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpMethod.swift; sourceTree = "<group>"; };
-		2678E7A825BFBAFE00938BED /* UrlPath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrlPath.swift; sourceTree = "<group>"; };
-		2678E7AB25BFBB2700938BED /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
+		2678E7A825BFBAFE00938BED /* PathOfURL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PathOfURL.swift; sourceTree = "<group>"; };
+		2678E7AB25BFBB2700938BED /* NetworkConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkConfig.swift; sourceTree = "<group>"; };
 		2678E7AF25BFCADD00938BED /* OpenMarketError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketError.swift; sourceTree = "<group>"; };
 		2678E7B325BFCC5B00938BED /* ItemManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemManager.swift; sourceTree = "<group>"; };
 		2678E7BF25C013D900938BED /* OpenMarketTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenMarketTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -81,8 +81,8 @@
 			children = (
 				2678E79325BFB49D00938BED /* ItemList.swift */,
 				2678E79625BFB4D400938BED /* Item.swift */,
-				2678E79D25BFB9A900938BED /* ItemUploadRequest.swift */,
-				2678E7A025BFB9DC00938BED /* ItemDeletionRequest.swift */,
+				2678E79D25BFB9A900938BED /* ItemToUpload.swift */,
+				2678E7A025BFB9DC00938BED /* ItemToDelete.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -91,8 +91,8 @@
 			isa = PBXGroup;
 			children = (
 				2678E7A425BFBABD00938BED /* HttpMethod.swift */,
-				2678E7A825BFBAFE00938BED /* UrlPath.swift */,
-				2678E7AB25BFBB2700938BED /* Config.swift */,
+				2678E7A825BFBAFE00938BED /* PathOfURL.swift */,
+				2678E7AB25BFBB2700938BED /* NetworkConfig.swift */,
 				2678E7B325BFCC5B00938BED /* ItemManager.swift */,
 			);
 			path = Network;
@@ -258,17 +258,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2678E7A125BFB9DC00938BED /* ItemDeletionRequest.swift in Sources */,
+				2678E7A125BFB9DC00938BED /* ItemToDelete.swift in Sources */,
 				2678E79725BFB4D400938BED /* Item.swift in Sources */,
 				2678E79425BFB49D00938BED /* ItemList.swift in Sources */,
 				2678E7B025BFCADD00938BED /* OpenMarketError.swift in Sources */,
-				2678E7AC25BFBB2700938BED /* Config.swift in Sources */,
+				2678E7AC25BFBB2700938BED /* NetworkConfig.swift in Sources */,
 				2678E7B425BFCC5B00938BED /* ItemManager.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
-				2678E79E25BFB9A900938BED /* ItemUploadRequest.swift in Sources */,
-				2678E7A925BFBAFE00938BED /* UrlPath.swift in Sources */,
+				2678E79E25BFB9A900938BED /* ItemToUpload.swift in Sources */,
+				2678E7A925BFBAFE00938BED /* PathOfURL.swift in Sources */,
 				2678E7A525BFBABD00938BED /* HttpMethod.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
