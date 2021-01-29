@@ -7,7 +7,7 @@ struct GoodsForm: Encodable {
     var currency: String? = nil
     var stock: Int? = nil
     var discountedPrice: Int? = nil
-    var images: [String]? = nil
+    var images: [Data]? = nil
     var password: String? = nil
     var id: UInt? = nil
 
@@ -16,7 +16,7 @@ struct GoodsForm: Encodable {
         case discountedPrice = "discounted_price"
     }
     
-    init(title: String?, descriptions: String?, price: Int?, currency: String?, stock: Int?, discountedPrice: Int?, images: [String]?, password: String) {
+    init(title: String?, descriptions: String?, price: Int?, currency: String?, stock: Int?, discountedPrice: Int?, images: [Data]?, password: String) {
         self.title = title
         self.descriptions = descriptions
         self.price = price
