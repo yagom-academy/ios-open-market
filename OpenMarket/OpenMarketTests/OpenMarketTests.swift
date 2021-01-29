@@ -53,4 +53,55 @@ class OpenMarketTests: XCTestCase {
         XCTAssertEqual(url, expectResult, "Making URL is Failed")
     }
     
+    // MARK: Paser test
+    func testDecodeItemsList() throws {
+        // 1. given
+        let url = try URLManager.makeURL(type: .itemsListPage(1))
+        var itemsList: Items?
+        let expectation = XCTestExpectation(description: "Wait Decoding")
+        
+        // 2. when
+        Parser<Items>.decodeData(url: url) { result in
+            switch result {
+            case .success(let object):
+                itemsList = object
+            case .failure:
+                XCTFail("Failed Decoding")
+            }
+            expectation.fulfill()
+        }
+
+        // 3. then
+        wait(for: [expectation], timeout: 10)
+        XCTAssertEqual(itemsList?.page, 1, "It is not equal.")
+        XCTAssertEqual(itemsList?.items[0].title, "업로드1", "It is not equal.")
+        XCTAssertEqual(itemsList?.items[0].id, 157, "It is not equal.")
+        XCTAssertEqual(itemsList?.items[1].id, 163, "It is not equal.")
+    }
+    
+    func testDecodeItem() throws {
+        // 1. given
+        let url = try URLManager.makeURL(type: .itemId(55))
+        var item: Item?
+        let expectation = XCTestExpectation(description: "Wait Decoding")
+        
+        // 2. when
+        Parser<Item>.decodeData(url: url) { result in
+            switch result {
+            case .success(let object):
+                item = object
+            case .failure:
+                XCTFail("Failed Decoding")
+            }
+            expectation.fulfill()
+        }
+        
+        // 3. then
+        wait(for: [expectation], timeout: 10)
+        XCTAssertEqual(item?.currency, "USD", "It is not equal.")
+        XCTAssertEqual(item?.registrationDate, 1611523563.7406092, "It is not equal.")
+        XCTAssertEqual(item?.discountedPrice, 200, "It is not equal.")
+    }
+    
+    
 }
