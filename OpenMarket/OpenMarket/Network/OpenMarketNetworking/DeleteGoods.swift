@@ -25,7 +25,7 @@ struct DeleteGoods {
     }
     
     func requestDeleteGoods(params: DeleteForm, completion: @escaping(Result<Any, Error>) -> Void) {
-        task.perform(request: DeleteGoodsRequest(id: params.id, params: params), dataType: Int.self) { result in
+        task.perform(request: DeleteGoodsRequest(id: params.id, params: params), dataType: [String : UInt].self) { result in
             switch result {
             case .success(let decodedData):
                 completion(.success(decodedData))
