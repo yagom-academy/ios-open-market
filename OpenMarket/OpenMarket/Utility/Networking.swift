@@ -1,16 +1,21 @@
 import Foundation
 
 struct Networking {
-    static func fetchGoodsList(page: UInt) {
+    static func fetchGoodsList(page: UInt, _ completion: @escaping ((Result<MarketGoods, OpenMarketError>) -> Void)) {
         guard let listURL = NetworkConfig.makeURL(with: .fetchGoodsList(page: page)) else {
             return
         }
-        requestToServer(with: listURL, method: .get, parameter: nil) { (result) in
-            do {
-                let data = try result.get()
-                let json = try self.decodeData(to: MarketGoods.self, from: data)
-                debugPrint(json)
-            } catch let error {
+        requestToServer(with: listURL, method: .get, parameter: nil) { result in
+            switch result {
+            case .success(let data):
+                do {
+                    let json = try self.decodeData(to: MarketGoods.self, from: data)
+                    debugPrint(json)
+                    completion(.success(json))
+                } catch {
+                    completion(.failure(OpenMarketError.convertData))
+                }
+            case .failure(let error):
                 debugPrint(error.localizedDescription)
             }
         }

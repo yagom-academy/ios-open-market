@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		288D24DE25C3A24900790A15 /* OpenMarketError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288D24DD25C3A24900790A15 /* OpenMarketError.swift */; };
 		28A7A44F25C26C9500EECAD0 /* GoodsForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28A7A44E25C26C9500EECAD0 /* GoodsForm.swift */; };
 		B427769B25BFA61E0093639B /* Goods.swift in Sources */ = {isa = PBXBuildFile; fileRef = B427769A25BFA61E0093639B /* Goods.swift */; };
 		B42776A325BFA7CE0093639B /* MarketGoods.swift in Sources */ = {isa = PBXBuildFile; fileRef = B42776A225BFA7CE0093639B /* MarketGoods.swift */; };
@@ -37,6 +38,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		288D24DD25C3A24900790A15 /* OpenMarketError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketError.swift; sourceTree = "<group>"; };
 		28A7A44E25C26C9500EECAD0 /* GoodsForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoodsForm.swift; sourceTree = "<group>"; };
 		B427769A25BFA61E0093639B /* Goods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Goods.swift; sourceTree = "<group>"; };
 		B42776A225BFA7CE0093639B /* MarketGoods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketGoods.swift; sourceTree = "<group>"; };
@@ -78,12 +80,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		288D24DA25C3A07500790A15 /* Error */ = {
+			isa = PBXGroup;
+			children = (
+				B43EE7C125C042F1003089C9 /* NetworkError.swift */,
+				288D24DD25C3A24900790A15 /* OpenMarketError.swift */,
+			);
+			path = Error;
+			sourceTree = "<group>";
+		};
 		B427769925BFA4230093639B /* Models */ = {
 			isa = PBXGroup;
 			children = (
 				B427769A25BFA61E0093639B /* Goods.swift */,
 				B42776A225BFA7CE0093639B /* MarketGoods.swift */,
-				B43EE7C125C042F1003089C9 /* NetworkError.swift */,
 				28A7A44E25C26C9500EECAD0 /* GoodsForm.swift */,
 			);
 			path = Models;
@@ -139,6 +149,7 @@
 		C70FB0F925BEF61C00C9924E /* OpenMarket */ = {
 			isa = PBXGroup;
 			children = (
+				288D24DA25C3A07500790A15 /* Error */,
 				B43EE7BA25C01B83003089C9 /* Utility */,
 				B42776B525BFAA340093639B /* MockData */,
 				B427769925BFA4230093639B /* Models */,
@@ -267,6 +278,7 @@
 				B43EE7DF25C06171003089C9 /* NetworkConfig.swift in Sources */,
 				B43EE7C225C042F1003089C9 /* NetworkError.swift in Sources */,
 				28A7A44F25C26C9500EECAD0 /* GoodsForm.swift in Sources */,
+				288D24DE25C3A24900790A15 /* OpenMarketError.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
 				B43EE7DB25C0612C003089C9 /* OpenMarketAPITypes.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
