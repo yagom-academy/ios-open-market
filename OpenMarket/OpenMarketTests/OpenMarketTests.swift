@@ -106,22 +106,54 @@ class OpenMarketTests: XCTestCase {
     func testPostItem() throws {
         // 1. given
         let url = try URLManager.makeURL(type: .registItem)
-        let expectation = XCTestExpectation(description: "Wait Decoding")
+        let expectation = XCTestExpectation(description: "Wait Posting")
         
         let yagomImage: UIImage = UIImage(named: "yagom.jpeg")!
         let bearImage: UIImage = UIImage(named: "bear.jpeg")!
         guard let imageData1 = yagomImage.jpegData(compressionQuality: 1),
               let imageData2 = bearImage.jpegData(compressionQuality: 1) else { return }
         
-        let item: ItemToPost = ItemToPost(title: "야곰", descriptions: "야곰을 판매합니다.", price: 1111, currency: "KRW", stock: 1, discountedPrice: nil, images: [imageData1, imageData2], password: "1111")
+        let item: ItemToPost = ItemToPost(title: "야곰야곰야곰야곰야곰", descriptions: "야곰야곰야곰야곰야곰야곰을 판매합니다.", price: 1, currency: "KRW", stock: 1, discountedPrice: nil, images: [imageData1, imageData2], password: "0")
         
         // 2. when
         Parser<ItemToPost>.postData(url: url, object: item) { result in
-            XCTFail("Post Failed")
+            XCTFail("Failed Posting")
+            expectation.fulfill()
         }
-        expectation.fulfill()
         
         // 3. then
-        wait(for: [expectation], timeout: 30)
+        wait(for: [expectation], timeout: 10)
+    }
+    
+    func testPatchItem() throws {
+        // 1. given
+        let url = try URLManager.makeURL(type: .itemId(350))
+        let itemInfo = ItemToPatch(title: "어제 목욕탕을 가서 바나나우유를 마신 야곰", descriptions: "바나나우유의 제조사는 빙그레입니다.", price: 10000, currency: nil, stock: 10, discountedPrice: nil, images: nil, password: "123")
+        let expectation = XCTestExpectation(description: "Wait Patching")
+        
+        // 2. when
+        Parser<ItemToPatch>.patchData(url: url, object: itemInfo) { result in
+            XCTFail("Failed Patching \(result)")
+            expectation.fulfill()
+        }
+        
+        // 3. then
+        wait(for: [expectation], timeout: 10)
+    }
+    
+    func testDeleteItem() throws {
+        // 1. given
+        let url = try URLManager.makeURL(type: .itemId(348))
+        let itemInfo = ItemToDelete(id: 348, password: "1111")
+        let expectation = XCTestExpectation(description: "Wait Deleting")
+            
+        // 2. when
+        Parser<ItemToDelete>.deleteData(url: url, object: itemInfo) { result in
+            XCTFail("Failed Deleting")
+            expectation.fulfill()
+        }
+        
+        // 3. then
+        wait(for: [expectation], timeout: 10)
     }
 }
