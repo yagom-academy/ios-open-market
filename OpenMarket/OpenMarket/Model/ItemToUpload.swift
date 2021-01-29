@@ -1,5 +1,5 @@
 //
-//  ItemUploadRequest.swift
+//  ItemToUpload.swift
 //  OpenMarket
 //
 //  Created by Yeon on 2021/01/26.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ItemUploadRequest: Encodable {
+struct ItemToUpload: Encodable {
     let title: String?
     let descriptions: String?
     let price: UInt?

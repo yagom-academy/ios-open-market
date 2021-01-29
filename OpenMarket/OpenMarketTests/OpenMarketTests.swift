@@ -11,7 +11,7 @@ import XCTest
 class OpenMarketTests: XCTestCase {
     private var itemList: ItemList?
     private var item: Item?
-    private var deleteItem: ItemDeletionRequest?
+    private var deleteItem: ItemToDelete?
     
     func testGetItemListAsync() {
         let expectation = XCTestExpectation(description: "APIPrivoderTaskExpectation")
@@ -84,7 +84,7 @@ class OpenMarketTests: XCTestCase {
         imageDataStringArray.append(imageData1)
         imageDataStringArray.append(imageData2)
         
-        let newItem = ItemUploadRequest(title: "AirPod Max",
+        let newItem = ItemToUpload(title: "AirPod Max",
                                         descriptions: "귀를 호강시켜주는 에어팟 맥스! 사주실 분 구해요ㅠ",
                                         price: 700000,
                                         currency: "KRW",
@@ -127,7 +127,7 @@ class OpenMarketTests: XCTestCase {
     func testPatchItem() {
         let expectation = XCTestExpectation(description: "APIPrivoderTaskExpectation")
         let param: UInt = 239
-        let pathcItem = ItemUploadRequest(title: nil,
+        let pathcItem = ItemToUpload(title: nil,
                                           descriptions: nil,
                                           price: 750000,
                                           currency: nil,
@@ -180,7 +180,7 @@ class OpenMarketTests: XCTestCase {
     func testDeleteData() {
         let expectation = XCTestExpectation(description: "APIPrivoderTaskExpectation")
         let param: UInt = 239
-        let item = ItemDeletionRequest(id: param, password: "asdfqwerzxcv")
+        let item = ItemToDelete(id: param, password: "asdfqwerzxcv")
         
         ItemManager.deleteData(path: .item, deleteItem: item, param: param) { [self] result in
             switch result {
@@ -189,7 +189,7 @@ class OpenMarketTests: XCTestCase {
                     return
                 }
                 do {
-                    deleteItem = try JSONDecoder().decode(ItemDeletionRequest.self, from: data)
+                    deleteItem = try JSONDecoder().decode(ItemToDelete.self, from: data)
                     expectation.fulfill()
                 } catch {
                     print(error)
