@@ -9,40 +9,59 @@ import XCTest
 @testable import OpenMarket
 
 class OpenMarketTests: XCTestCase {
-    func test_networkconfig_makeurl_method() {
-        guard let url = URL(string: "https://camp-open-market.herokuapp.com/items/1") else {
-            XCTFail("Error with URL")
-            return
-        }
-        XCTAssertEqual(NetworkConfig.makeURL(with: .fetchGoodsList(page: 1)), url)
+    func test_networkconfig_makeURLPath_fetchGoodsList() {
+        let path = NetworkConfig.makeURLPath(api: .fetchGoodsList, with: 1)
+        let targetPath = "/items/1"
+        XCTAssertEqual(targetPath, path)
     }
     
-    func test_fetch_data_from_server() {
-        let expectation = XCTestExpectation(description: "fetch data")
-        
-        guard let url = URL(string: "https://camp-open-market.herokuapp.com/items/1") else {
-            XCTFail("Error with URL")
-            return
+    func test_networkconfig_makeURLPath_fetchGoods() {
+        let path = NetworkConfig.makeURLPath(api: .fetchGoods, with: 1)
+        let targetPath = "/item/1"
+        XCTAssertEqual(targetPath, path)
+    }
+    
+    func test_networkconfig_makeURLPath_registerGoods() {
+        let path = NetworkConfig.makeURLPath(api: .registerGoods, with: nil)
+        let targetPath = "/item"
+        XCTAssertEqual(targetPath, path)
+    }
+    
+    func test_networkconfig_makeURLPath_editGoods() {
+        let path = NetworkConfig.makeURLPath(api: .editGoods, with: 1)
+        let targetPath = "/item/1"
+        XCTAssertEqual(targetPath, path)
+    }
+    
+    func test_networkconfig_makeURLPath_removeGoods() {
+        let path = NetworkConfig.makeURLPath(api: .removeGoods, with: 1)
+        let targetPath = "/item/1"
+        XCTAssertEqual(targetPath, path)
+    }
+    
+    func test_fetchMarketGoodsList_request() {
+        let expectation = XCTestExpectation(description: "fetch market goods list data")
+        FetchMarketGoodsList().requestFetchMarketGoodsList(page: 1) { result in
+            switch result {
+            case .success(let decodedData):
+                expectation.fulfill()
+            case .failure(let error):
+                XCTFail(error.localizedDescription)
+            }
         }
-                
-        URLSession.shared.dataTask(with: url) {(data, response, error) in
-            if error != nil {
-                XCTFail("Network error!")
-                return
+        wait(for: [expectation], timeout: 10.0)
+    }
+    
+    func test_fetchGoods_request() {
+        let expectation = XCTestExpectation(description: "fetch goods data")
+        FetchGoods().requestFetchGoods(id: 344) { result in
+            switch result {
+            case .success(let decodedData):
+                expectation.fulfill()
+            case .failure(let error):
+                XCTFail(error.localizedDescription)
             }
-            
-            guard let response = response as? HTTPURLResponse,
-                  (200...299).contains(response.statusCode) else {
-                XCTFail("Status Code error!")
-                return
-            }
-            
-            guard data != nil else {
-                XCTFail("No Data!")
-                return
-            }
-            expectation.fulfill()
-        }.resume()
+        }
         wait(for: [expectation], timeout: 10.0)
     }
     
