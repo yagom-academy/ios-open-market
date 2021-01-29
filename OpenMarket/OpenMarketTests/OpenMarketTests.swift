@@ -103,5 +103,25 @@ class OpenMarketTests: XCTestCase {
         XCTAssertEqual(item?.discountedPrice, 200, "It is not equal.")
     }
     
-    
+    func testPostItem() throws {
+        // 1. given
+        let url = try URLManager.makeURL(type: .registItem)
+        let expectation = XCTestExpectation(description: "Wait Decoding")
+        
+        let yagomImage: UIImage = UIImage(named: "yagom.jpeg")!
+        let bearImage: UIImage = UIImage(named: "bear.jpeg")!
+        guard let imageData1 = yagomImage.jpegData(compressionQuality: 1),
+              let imageData2 = bearImage.jpegData(compressionQuality: 1) else { return }
+        
+        let item: ItemToPost = ItemToPost(title: "야곰", descriptions: "야곰을 판매합니다.", price: 1111, currency: "KRW", stock: 1, discountedPrice: nil, images: [imageData1, imageData2], password: "1111")
+        
+        // 2. when
+        Parser<ItemToPost>.postData(url: url, object: item) { result in
+            XCTFail("Post Failed")
+        }
+        expectation.fulfill()
+        
+        // 3. then
+        wait(for: [expectation], timeout: 30)
+    }
 }

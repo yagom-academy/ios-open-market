@@ -38,8 +38,8 @@ struct Parser<T: Codable> {
         }
     }
     
-    static func postData(url: URL, data: T, result: @escaping ErrorHandling) {
-        guard let encodedData = try? JSONEncoder().encode(data) else {
+    static func postData(url: URL, object: T, result: @escaping ErrorHandling) {
+        guard let encodedData = try? JSONEncoder().encode(object) else {
             result(NetworkingError.failedEncoding)
             return
         }
@@ -63,8 +63,8 @@ struct Parser<T: Codable> {
         }
     }
     
-    static func patchData(url: URL, data: T, result: @escaping ErrorHandling) {
-        guard let encodedData = try? JSONEncoder().encode(data) else {
+    static func patchData(url: URL, object: T, result: @escaping ErrorHandling) {
+        guard let encodedData = try? JSONEncoder().encode(object) else {
             result(NetworkingError.failedEncoding)
             return
         }
@@ -88,8 +88,8 @@ struct Parser<T: Codable> {
         }
     }
     
-    static func deleteData(url: URL, data: T, result: @escaping ErrorHandling) {
-        guard let encodedData = try? JSONEncoder().encode(data) else {
+    static func deleteData(url: URL, object: T, result: @escaping ErrorHandling) {
+        guard let encodedData = try? JSONEncoder().encode(object) else {
             result(NetworkingError.failedEncoding)
             return
         }
