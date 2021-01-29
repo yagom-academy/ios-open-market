@@ -7,11 +7,6 @@
 
 import UIKit
 
-protocol URLSessionProtocol {
-    func dataTask(with request: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask
-}
-extension URLSession: URLSessionProtocol { }
-
 enum OpenMarketAPI {
     case requestMarketPage
     case registerMarketItem
@@ -58,7 +53,6 @@ enum OpenMarketAPIError: Error {
     case invalidURL
     case requestFailed
     case networkError
-    case invalidData
 }
 
 class OpenMarketAPIClient {
@@ -68,57 +62,45 @@ class OpenMarketAPIClient {
         self.urlSession = urlSession
     }
     
-    func requestMarketItem(id: Int, completion: @escaping (Result<MarketItem, OpenMarketAPIError>) -> Void) {
+    func requestMarketItem(id: Int, completionHandler: @escaping (Result<MarketItem, OpenMarketAPIError>) -> Void) {
         guard let url = OpenMarketAPI.requestMarketItem.url?.appendingPathComponent("\(id)") else {
-            completion(.failure(OpenMarketAPIError.invalidURL))
+            completionHandler(.failure(.invalidURL))
             return
         }
-        
-        let request = URLRequest(url: url)
-        let task = urlSession.dataTask(with: request) { data, urlResponse, error in
+        let requestData = RequestData<MarketItem>(url: url)
+        urlSession.startDataTask(requestData) { (marketItem, error) in
             if let error = error {
                 print(error.localizedDescription)
-                completion(.failure(.requestFailed))
+                completionHandler(.failure(.requestFailed))
                 return
             }
-            guard let response = urlResponse as? HTTPURLResponse, (200...399).contains(response.statusCode) else {
-                completion(.failure(OpenMarketAPIError.networkError))
-                return
+            if let marketItem = marketItem {
+                completionHandler(.success(marketItem))
+            } else {
+                completionHandler(.failure(.networkError))
             }
-            if let data = data,
-               let marketItem = try? JSONDecoder().decode(MarketItem.self, from: data) {
-                completion(.success(marketItem))
-                return
-            }
-            completion(.failure(OpenMarketAPIError.invalidData))
         }
-        task.resume()
     }
     
-    func requestMarketPage(pageNumber: Int, completion: @escaping (Result<MarketPage, OpenMarketAPIError>) -> Void) {
+    func requestMarketPage(pageNumber: Int, completionHandler: @escaping (Result<MarketPage, OpenMarketAPIError>) -> Void) {
         guard let url = OpenMarketAPI.requestMarketPage.url?.appendingPathComponent("\(pageNumber)") else {
-            completion(.failure(OpenMarketAPIError.invalidURL))
+            completionHandler(.failure(.invalidURL))
             return
         }
         
-        let request = URLRequest(url: url)
-        let task = urlSession.dataTask(with: request) { data, urlResponse, error in
+        let requestData = RequestData<MarketPage>(url: url)
+        urlSession.startDataTask(requestData) { (marketPage, error) in
             if let error = error {
                 print(error.localizedDescription)
-                completion(.failure(.requestFailed))
+                completionHandler(.failure(.requestFailed))
                 return
             }
-            guard let response = urlResponse as? HTTPURLResponse, (200...399).contains(response.statusCode) else {
-                completion(.failure(OpenMarketAPIError.networkError))
-                return
+            if let marketPage = marketPage {
+                completionHandler(.success(marketPage))
+            } else {
+                completionHandler(.failure(.networkError))
             }
-            if let data = data,
-               let marketPage = try? JSONDecoder().decode(MarketPage.self, from: data) {
-                completion(.success(marketPage))
-                return
-            }
-            completion(.failure(OpenMarketAPIError.invalidData))
         }
-        task.resume()
+      
     }
 }
