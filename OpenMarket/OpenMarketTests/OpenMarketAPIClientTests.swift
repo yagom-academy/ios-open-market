@@ -162,4 +162,41 @@ class OpenMarketAPIClientTests: XCTestCase {
         
         wait(for: [expectation], timeout: 3.0)
     }
+    
+    func test_deleteMarketItem() {
+        sut = OpenMarketAPIClient(urlSession: MockURLSession(sampleData: OpenMarketAPIConfiguration.sampleDataOfMarketItemID))
+        let expectation = XCTestExpectation()
+        let mock = try? JSONDecoder().decode(MarketItem.self, from: OpenMarketAPIConfiguration.sampleDataOfMarketItemID)
+        let marketItemForDelete = MarketItemForDelete(id: 1, password: "1234")
+        
+        sut.deleteMarketItem(id: 1, marketItemForDelete) { result in
+            switch result {
+            case .success(let marketItem):
+                XCTAssertEqual(marketItem.id, mock?.id)
+            case .failure(let error):
+                XCTFail(error.localizedDescription)
+            }
+            expectation.fulfill()
+        }
+        
+        wait(for: [expectation], timeout: 3.0)
+    }
+    
+    func test_deleteMarketItem_failure() {
+        sut = OpenMarketAPIClient(urlSession: MockURLSession(makeRequestFail: true, sampleData: OpenMarketAPIConfiguration.sampleDataOfMarkeItem))
+        let expectation = XCTestExpectation()
+        let marketItemForDelete = MarketItemForDelete(id: 1, password: "1234")
+        
+        sut.deleteMarketItem(id: 1, marketItemForDelete) { result in
+            switch result {
+            case .success:
+                XCTFail()
+            case .failure(let error):
+                XCTAssertEqual(error, OpenMarketAPIError.networkError)
+            }
+            expectation.fulfill()
+        }
+        
+        wait(for: [expectation], timeout: 3.0)
+    }
 }
