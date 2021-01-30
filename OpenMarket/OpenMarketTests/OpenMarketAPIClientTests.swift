@@ -14,17 +14,17 @@ class OpenMarketAPIClientTests: XCTestCase {
     override func tearDownWithError() throws {
         sut = nil
     }
-
-    func testGetMarketItem() {
-        sut = OpenMarketAPIClient(urlSession: MockURLSession(sampleData: OpenMarketAPI.getMarketItem.sampleData))
+    
+    func testGetMarketPage() {
+        sut = OpenMarketAPIClient(urlSession: MockURLSession(sampleData: OpenMarketAPI.getMarketPage.sampleData))
         let expectation = XCTestExpectation()
-        let mock = try? JSONDecoder().decode(MarketItem.self, from: OpenMarketAPI.getMarketItem.sampleData)
+        let mock = try? JSONDecoder().decode(MarketPage.self, from: OpenMarketAPI.getMarketPage.sampleData)
         
-        sut.getMarketItem(id: 1) { result in
+        sut.getMarketPage(pageNumber: 1) { result in
             switch result {
-            case .success(let marketItem):
-                XCTAssertEqual(marketItem.id, mock?.id)
-                XCTAssertEqual(marketItem.title, mock?.title)
+            case .success(let marketPage):
+                XCTAssertEqual(marketPage.pageNumber, mock?.pageNumber)
+                XCTAssertEqual(marketPage.marketItems[0].id, marketPage.marketItems[0].id)
             case .failure(let error):
                 XCTFail(error.localizedDescription)
             }
@@ -34,11 +34,11 @@ class OpenMarketAPIClientTests: XCTestCase {
         wait(for: [expectation], timeout: 3.0)
     }
     
-    func testGetMarketItem_failure() {
-        sut = OpenMarketAPIClient(urlSession: MockURLSession(makeRequestFail: true, sampleData: OpenMarketAPI.getMarketItem.sampleData))
+    func testGetMarketPage_failure() {
+        sut = OpenMarketAPIClient(urlSession: MockURLSession(makeRequestFail: true, sampleData: OpenMarketAPI.getMarketPage.sampleData))
         let expectation = XCTestExpectation()
         
-        sut.getMarketItem(id: 1) { result in
+        sut.getMarketPage(pageNumber: 1) { result in
             switch result {
             case .success:
                 XCTFail()
@@ -88,17 +88,17 @@ class OpenMarketAPIClientTests: XCTestCase {
         
         wait(for: [expectation], timeout: 3.0)
     }
-    
-    func testGetMarketPage() {
-        sut = OpenMarketAPIClient(urlSession: MockURLSession(sampleData: OpenMarketAPI.getMarketPage.sampleData))
+
+    func testGetMarketItem() {
+        sut = OpenMarketAPIClient(urlSession: MockURLSession(sampleData: OpenMarketAPI.getMarketItem.sampleData))
         let expectation = XCTestExpectation()
-        let mock = try? JSONDecoder().decode(MarketPage.self, from: OpenMarketAPI.getMarketPage.sampleData)
+        let mock = try? JSONDecoder().decode(MarketItem.self, from: OpenMarketAPI.getMarketItem.sampleData)
         
-        sut.getMarketPage(pageNumber: 1) { result in
+        sut.getMarketItem(id: 1) { result in
             switch result {
-            case .success(let marketPage):
-                XCTAssertEqual(marketPage.pageNumber, mock?.pageNumber)
-                XCTAssertEqual(marketPage.marketItems[0].id, marketPage.marketItems[0].id)
+            case .success(let marketItem):
+                XCTAssertEqual(marketItem.id, mock?.id)
+                XCTAssertEqual(marketItem.title, mock?.title)
             case .failure(let error):
                 XCTFail(error.localizedDescription)
             }
@@ -108,11 +108,11 @@ class OpenMarketAPIClientTests: XCTestCase {
         wait(for: [expectation], timeout: 3.0)
     }
     
-    func testGetMarketPage_failure() {
-        sut = OpenMarketAPIClient(urlSession: MockURLSession(makeRequestFail: true, sampleData: OpenMarketAPI.getMarketPage.sampleData))
+    func testGetMarketItem_failure() {
+        sut = OpenMarketAPIClient(urlSession: MockURLSession(makeRequestFail: true, sampleData: OpenMarketAPI.getMarketItem.sampleData))
         let expectation = XCTestExpectation()
         
-        sut.getMarketPage(pageNumber: 1) { result in
+        sut.getMarketItem(id: 1) { result in
             switch result {
             case .success:
                 XCTFail()

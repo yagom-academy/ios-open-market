@@ -58,20 +58,21 @@ class OpenMarketAPIClient {
         self.urlSession = urlSession
     }
     
-    func getMarketItem(id: Int, completionHandler: @escaping (Result<MarketItem, OpenMarketAPIError>) -> Void) {
-        guard let url = OpenMarketAPI.getMarketItem.url?.appendingPathComponent("\(id)") else {
+    func getMarketPage(pageNumber: Int, completionHandler: @escaping (Result<MarketPage, OpenMarketAPIError>) -> Void) {
+        guard let url = OpenMarketAPI.getMarketPage.url?.appendingPathComponent("\(pageNumber)") else {
             completionHandler(.failure(.invalidURL))
             return
         }
-        let requestData = RequestData<MarketItem>(url: url)
-        urlSession.startDataTask(requestData) { (marketItem, error) in
+        
+        let requestData = RequestData<MarketPage>(url: url)
+        urlSession.startDataTask(requestData) { (marketPage, error) in
             if let error = error {
                 print(error.localizedDescription)
                 completionHandler(.failure(.requestFailed))
                 return
             }
-            if let marketItem = marketItem {
-                completionHandler(.success(marketItem))
+            if let marketPage = marketPage {
+                completionHandler(.success(marketPage))
             } else {
                 completionHandler(.failure(.networkError))
             }
@@ -98,21 +99,20 @@ class OpenMarketAPIClient {
         }
     }
     
-    func getMarketPage(pageNumber: Int, completionHandler: @escaping (Result<MarketPage, OpenMarketAPIError>) -> Void) {
-        guard let url = OpenMarketAPI.getMarketPage.url?.appendingPathComponent("\(pageNumber)") else {
+    func getMarketItem(id: Int, completionHandler: @escaping (Result<MarketItem, OpenMarketAPIError>) -> Void) {
+        guard let url = OpenMarketAPI.getMarketItem.url?.appendingPathComponent("\(id)") else {
             completionHandler(.failure(.invalidURL))
             return
         }
-        
-        let requestData = RequestData<MarketPage>(url: url)
-        urlSession.startDataTask(requestData) { (marketPage, error) in
+        let requestData = RequestData<MarketItem>(url: url)
+        urlSession.startDataTask(requestData) { (marketItem, error) in
             if let error = error {
                 print(error.localizedDescription)
                 completionHandler(.failure(.requestFailed))
                 return
             }
-            if let marketPage = marketPage {
-                completionHandler(.success(marketPage))
+            if let marketItem = marketItem {
+                completionHandler(.success(marketItem))
             } else {
                 completionHandler(.failure(.networkError))
             }
