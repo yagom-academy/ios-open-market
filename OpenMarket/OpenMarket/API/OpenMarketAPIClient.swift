@@ -108,7 +108,7 @@ class OpenMarketAPIClient {
         }
     }
     
-    func patchMarketIem(id: Int, _ marketItemForPatch: MarketItemForPatch, completionHandler: @escaping (Result<MarketItem, OpenMarketAPIError>) -> Void) {
+    func patchMarketItem(id: Int, _ marketItemForPatch: MarketItemForPatch, completionHandler: @escaping (Result<MarketItem, OpenMarketAPIError>) -> Void) {
         guard let url = OpenMarketAPIConfiguration.patchMarketItem(id: id).url else {
             completionHandler(.failure(.invalidURL))
             return
@@ -128,7 +128,7 @@ class OpenMarketAPIClient {
         }
     }
     
-    func deleteMarketIem(id: Int, _ marketItemForDelete: MarketItemForDelete, completionHandler: @escaping (Result<MarketItem, OpenMarketAPIError>) -> Void) {
+    func deleteMarketItem(id: Int, _ marketItemForDelete: MarketItemForDelete, completionHandler: @escaping (Result<MarketItem, OpenMarketAPIError>) -> Void) {
         guard let url = OpenMarketAPIConfiguration.deleteMarketItem(id: id).url else {
             completionHandler(.failure(.invalidURL))
             return
