@@ -82,6 +82,26 @@ class OpenMarketAPIClient {
         }
     }
     
+    func registerMarketItme(_ postMarketItem: PostMarketItem, completionHandler: @escaping (Result<MarketItem, OpenMarketAPIError>) -> Void) {
+        guard let url = OpenMarketAPI.registerMarketItem.url else {
+            completionHandler(.failure(.invalidURL))
+            return
+        }
+        let requestData = RequestData<MarketItem>(url: url, httpMethod: .post(postMarketItem))
+        urlSession.startDataTask(requestData) { (marketItem, error) in
+            if let error = error {
+                print(error.localizedDescription)
+                completionHandler(.failure(.requestFailed))
+                return
+            }
+            if let marketItem = marketItem {
+                completionHandler(.success(marketItem))
+            } else {
+                completionHandler(.failure(.networkError))
+            }
+        }
+    }
+    
     func requestMarketPage(pageNumber: Int, completionHandler: @escaping (Result<MarketPage, OpenMarketAPIError>) -> Void) {
         guard let url = OpenMarketAPI.requestMarketPage.url?.appendingPathComponent("\(pageNumber)") else {
             completionHandler(.failure(.invalidURL))
@@ -101,6 +121,5 @@ class OpenMarketAPIClient {
                 completionHandler(.failure(.networkError))
             }
         }
-      
     }
 }
