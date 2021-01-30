@@ -79,7 +79,7 @@ class OpenMarketAPIClient {
         }
     }
     
-    func postMarketItme(_ marketItemForPost: MarketItemForPost, completionHandler: @escaping (Result<MarketItem, OpenMarketAPIError>) -> Void) {
+    func postMarketIem(_ marketItemForPost: MarketItemForPost, completionHandler: @escaping (Result<MarketItem, OpenMarketAPIError>) -> Void) {
         guard let url = OpenMarketAPI.postMarketItem.url else {
             completionHandler(.failure(.invalidURL))
             return

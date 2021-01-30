@@ -31,7 +31,7 @@ class ViewController: UIViewController {
         // API 상품 등록 기능 사용 예시
         let dummyImages = [Data(), Data(), Data()]
         let postMarketItem = MarketItemForPost(title: "Jacob's Mac", descriptions: "제이콥의 맥북프로 16인치", price: 2500000, currency: "KRW", stock: 1, discountedPrice: 50000, images: dummyImages, password: "1234")
-        OpenMarketAPIClient().postMarketItme(postMarketItem) { result in
+        OpenMarketAPIClient().postMarketIem(postMarketItem) { result in
             switch result {
             case .success(let marketItem):
                 print("--- response of registerMarketItem ---")

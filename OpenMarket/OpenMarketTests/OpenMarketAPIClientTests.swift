@@ -57,7 +57,7 @@ class OpenMarketAPIClientTests: XCTestCase {
         let mock = try? JSONDecoder().decode(MarketItem.self, from: OpenMarketAPI.postMarketItem.sampleData)
         let marketItemForPost = MarketItemForPost(title: "testTitle", descriptions: "testDescription", price: 550, currency: "KRW", stock: 11, discountedPrice: 50, images: [Data](), password: "1234")
         
-        sut.postMarketItme(marketItemForPost) { result in
+        sut.postMarketIem(marketItemForPost) { result in
             switch result {
             case .success(let marketItem):
                 XCTAssertEqual(marketItem.id, mock?.id)
@@ -76,7 +76,7 @@ class OpenMarketAPIClientTests: XCTestCase {
         let expectation = XCTestExpectation()
         let marketItemForPost = MarketItemForPost(title: "testTitle", descriptions: "testDescription", price: 550, currency: "KRW", stock: 11, discountedPrice: 50, images: [Data](), password: "1234")
         
-        sut.postMarketItme(marketItemForPost) { result in
+        sut.postMarketIem(marketItemForPost) { result in
             switch result {
             case .success:
                 XCTFail()
