@@ -11,3 +11,7 @@ struct ItemToDelete: Codable {
     let id: Int
     let password: String
 }
+
+struct DeleteResponseItem: Codable {
+    let id: Int
+}

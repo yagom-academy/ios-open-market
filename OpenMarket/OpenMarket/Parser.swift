@@ -8,10 +8,10 @@
 import Foundation
 
 struct Parser<T: Codable> {
-    typealias ResultHandling = (Result<T, Error>) -> ()
-    typealias ErrorHandling = (Error) -> ()
+    typealias ResultTypeHandling = (Result<T, Error>) -> ()
+    typealias ResultDataHandling = (Result<Data, Error>) -> ()
     
-    static func decodeData(url: URL, result: @escaping ResultHandling) {
+    static func decodeData(url: URL, result: @escaping ResultTypeHandling) {
         APIManager.requestGET(url: url) { (data: Data?, response: URLResponse?, error: Error?) in
             guard error == nil else {
                 result(.failure(NetworkingError.failedRequest))
@@ -38,78 +38,84 @@ struct Parser<T: Codable> {
         }
     }
     
-    static func postData(url: URL, object: T, result: @escaping ErrorHandling) {
+    static func postData(url: URL, object: T, result: @escaping ResultDataHandling) {
         guard let encodedData = try? JSONEncoder().encode(object) else {
-            result(NetworkingError.failedEncoding)
+            result(.failure(NetworkingError.failedEncoding))
             return
         }
         
         APIManager.requestPOST(url: url, uploadData: encodedData) { (data: Data?, response: URLResponse?, error: Error?) in
             guard error == nil else {
-                result(NetworkingError.failedRequest)
+                result(.failure(NetworkingError.failedRequest))
                 return
             }
 
             guard let response = response as? HTTPURLResponse,
                   (200...299).contains(response.statusCode) else {
-                result(NetworkingError.failedResponse)
+                result(.failure(NetworkingError.failedResponse))
                 return
             }
             
-            if data == nil {
-                result(NetworkingError.noData)
+            guard let data = data else {
+                result(.failure(NetworkingError.noData))
                 return
             }
+            
+            result(.success(data))
         }
     }
     
-    static func patchData(url: URL, object: T, result: @escaping ErrorHandling) {
+    static func patchData(url: URL, object: T, result: @escaping ResultDataHandling) {
         guard let encodedData = try? JSONEncoder().encode(object) else {
-            result(NetworkingError.failedEncoding)
+            result(.failure(NetworkingError.failedEncoding))
             return
         }
         
         APIManager.requestPATCH(url: url, patchData: encodedData) { (data: Data?, response: URLResponse?, error: Error?) in
             guard error == nil else {
-                result(NetworkingError.failedRequest)
+                result(.failure(NetworkingError.failedRequest))
                 return
             }
 
             guard let response = response as? HTTPURLResponse,
                   (200...299).contains(response.statusCode) else {
-                result(NetworkingError.failedResponse)
+                result(.failure(NetworkingError.failedResponse))
                 return
             }
             
-            if data == nil {
-                result(NetworkingError.noData)
+            guard let data = data else {
+                result(.failure(NetworkingError.noData))
                 return
             }
+            
+            result(.success(data))
         }
     }
     
-    static func deleteData(url: URL, object: T, result: @escaping ErrorHandling) {
+    static func deleteData(url: URL, object: T, result: @escaping ResultDataHandling) {
         guard let encodedData = try? JSONEncoder().encode(object) else {
-            result(NetworkingError.failedEncoding)
+            result(.failure(NetworkingError.failedEncoding))
             return
         }
         
         APIManager.requestDELETE(url: url, deleteData: encodedData) { (data: Data?, response: URLResponse?, error: Error?) in
             guard error == nil else {
-                result(NetworkingError.failedRequest)
+                result(.failure(NetworkingError.failedRequest))
                 return
             }
 
             guard let response = response as? HTTPURLResponse,
                   (200...299).contains(response.statusCode) else {
-                result(NetworkingError.failedResponse)
+                result(.failure(NetworkingError.failedResponse))
                 return
             }
             
-            if data == nil {
-                result(NetworkingError.noData)
+            guard let data = data else {
+                result(.failure(NetworkingError.noData))
                 return
             }
+            
+            result(.success(data))
         }
     }
 }
