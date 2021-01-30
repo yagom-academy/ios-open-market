@@ -124,4 +124,42 @@ class OpenMarketAPIClientTests: XCTestCase {
         
         wait(for: [expectation], timeout: 3.0)
     }
+    
+    func testPatchMarketItem() {
+        sut = OpenMarketAPIClient(urlSession: MockURLSession(sampleData: OpenMarketAPI.patchMarketItem(id: 1).sampleData))
+        let expectation = XCTestExpectation()
+        let mock = try? JSONDecoder().decode(MarketItem.self, from: OpenMarketAPI.patchMarketItem(id: 1).sampleData)
+        let marketItemForPatch = MarketItemForPatch(title: "testTitle", descriptions: "testDescription", price: 550, currency: "KRW", stock: 11, discountedPrice: 50, images: [Data](), password: "1234")
+        
+        sut.patchMarketIem(id: 1, marketItemForPatch) { result in
+            switch result {
+            case .success(let marketItem):
+                XCTAssertEqual(marketItem.id, mock?.id)
+                XCTAssertEqual(marketItem.title, mock?.title)
+            case .failure(let error):
+                XCTFail(error.localizedDescription)
+            }
+            expectation.fulfill()
+        }
+        
+        wait(for: [expectation], timeout: 3.0)
+    }
+    
+    func testPatchMarketItem_failure() {
+        sut = OpenMarketAPIClient(urlSession: MockURLSession(makeRequestFail: true, sampleData: OpenMarketAPI.patchMarketItem(id: 1).sampleData))
+        let expectation = XCTestExpectation()
+        let marketItemForPatch = MarketItemForPatch(title: "testTitle", descriptions: "testDescription", price: 550, currency: "KRW", stock: 11, discountedPrice: 50, images: [Data](), password: "1234")
+        
+        sut.patchMarketIem(id: 1, marketItemForPatch) { result in
+            switch result {
+            case .success:
+                XCTFail()
+            case .failure(let error):
+                XCTAssertEqual(error, OpenMarketAPIError.networkError)
+            }
+            expectation.fulfill()
+        }
+        
+        wait(for: [expectation], timeout: 3.0)
+    }
 }
