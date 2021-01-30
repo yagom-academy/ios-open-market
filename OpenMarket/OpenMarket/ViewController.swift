@@ -71,6 +71,18 @@ class ViewController: UIViewController {
                 print(error.localizedDescription)
             }
         }
+        
+        // API 상품 삭제 기능 사용 예시
+        let marketItemForDelete = MarketItemForDelete(id: 374, password: "1234")
+        OpenMarketAPIClient().deleteMarketIem(id: 374, marketItemForDelete) { result in
+            switch result {
+            case .success(let marketItem):
+                print("--- response of deleteMarketItem ---")
+                print("id: \(marketItem.id)")
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
     }
 }
 

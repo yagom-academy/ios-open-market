@@ -12,7 +12,7 @@ enum OpenMarketAPI {
     case postMarketItem
     case getMarketItem
     case patchMarketItem(id: Int)
-    case deleteMarketItem
+    case deleteMarketItem(id: Int)
     
     static let baseURL = "https://camp-open-market.herokuapp.com/"
     var path: String {
@@ -21,9 +21,9 @@ enum OpenMarketAPI {
             return "items/"
         case .postMarketItem:
             return "item"
-        case .getMarketItem, .deleteMarketItem:
+        case .getMarketItem:
             return "item/"
-        case .patchMarketItem(let id):
+        case .patchMarketItem(let id), .deleteMarketItem(let id):
             return "item/\(id)"
         }
     }
@@ -37,9 +37,8 @@ enum OpenMarketAPI {
         case .postMarketItem, .getMarketItem, .patchMarketItem:
             return NSDataAsset(name: "item")!.data
         case .deleteMarketItem:
-            break
+            return NSDataAsset(name: "id")!.data
         }
-        return NSDataAsset(name: "item")!.data
     }
 }
 
@@ -123,6 +122,26 @@ class OpenMarketAPIClient {
             return
         }
         let requestData = RequestData<MarketItem>(url: url, httpMethod: .patch(marketItemForPatch))
+        urlSession.startDataTask(requestData) { (marketItem, error) in
+            if let error = error {
+                print(error.localizedDescription)
+                completionHandler(.failure(.requestFailed))
+                return
+            }
+            if let marketItem = marketItem {
+                completionHandler(.success(marketItem))
+            } else {
+                completionHandler(.failure(.networkError))
+            }
+        }
+    }
+    
+    func deleteMarketIem(id: Int, _ marketItemForDelete: MarketItemForDelete, completionHandler: @escaping (Result<MarketItem, OpenMarketAPIError>) -> Void) {
+        guard let url = OpenMarketAPI.deleteMarketItem(id: id).url else {
+            completionHandler(.failure(.invalidURL))
+            return
+        }
+        let requestData = RequestData<MarketItem>(url: url, httpMethod: .delete(marketItemForDelete))
         urlSession.startDataTask(requestData) { (marketItem, error) in
             if let error = error {
                 print(error.localizedDescription)

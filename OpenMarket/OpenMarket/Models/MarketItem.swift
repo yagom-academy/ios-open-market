@@ -97,3 +97,8 @@ struct MarketItemForPatch: Encodable {
         case password
     }
 }
+
+struct MarketItemForDelete: Encodable {
+    let id: Int
+    let password: String
+}
