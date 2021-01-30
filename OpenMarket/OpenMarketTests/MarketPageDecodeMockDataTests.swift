@@ -21,7 +21,7 @@ class MarketPageDecodeMockDataTests: XCTestCase {
         sut = nil
     }
     
-    func testDecodedMockData() {
+    func test_decodedMockData() {
         XCTAssertNotNil(sut)
         XCTAssertEqual(sut.pageNumber, 1)
         let marketItem = sut.marketItems.first

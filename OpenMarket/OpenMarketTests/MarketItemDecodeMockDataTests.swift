@@ -21,7 +21,7 @@ class MarketItemDecodeMockDataTests: XCTestCase {
         sut = nil
     }
     
-    func testDecodedMockData() {
+    func test_decodedMockData() {
         XCTAssertNotNil(sut)
         XCTAssertEqual(sut.id, 1)
         XCTAssertEqual(sut.title, "MacBook Air")
