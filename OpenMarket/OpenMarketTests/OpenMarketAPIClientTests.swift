@@ -51,6 +51,44 @@ class OpenMarketAPIClientTests: XCTestCase {
         wait(for: [expectation], timeout: 3.0)
     }
     
+    func testPostMarketItem() {
+        sut = OpenMarketAPIClient(urlSession: MockURLSession(sampleData: OpenMarketAPI.postMarketItem.sampleData))
+        let expectation = XCTestExpectation()
+        let mock = try? JSONDecoder().decode(MarketItem.self, from: OpenMarketAPI.postMarketItem.sampleData)
+        let marketItemForPost = MarketItemForPost(title: "testTitle", descriptions: "testDescription", price: 550, currency: "KRW", stock: 11, discountedPrice: 50, images: [Data](), password: "1234")
+        
+        sut.postMarketItme(marketItemForPost) { result in
+            switch result {
+            case .success(let marketItem):
+                XCTAssertEqual(marketItem.id, mock?.id)
+                XCTAssertEqual(marketItem.title, mock?.title)
+            case .failure(let error):
+                XCTFail(error.localizedDescription)
+            }
+            expectation.fulfill()
+        }
+        
+        wait(for: [expectation], timeout: 3.0)
+    }
+    
+    func testPostMarketItem_failure() {
+        sut = OpenMarketAPIClient(urlSession: MockURLSession(makeRequestFail: true, sampleData: OpenMarketAPI.postMarketItem.sampleData))
+        let expectation = XCTestExpectation()
+        let marketItemForPost = MarketItemForPost(title: "testTitle", descriptions: "testDescription", price: 550, currency: "KRW", stock: 11, discountedPrice: 50, images: [Data](), password: "1234")
+        
+        sut.postMarketItme(marketItemForPost) { result in
+            switch result {
+            case .success:
+                XCTFail()
+            case .failure(let error):
+                XCTAssertEqual(error, OpenMarketAPIError.networkError)
+            }
+            expectation.fulfill()
+        }
+        
+        wait(for: [expectation], timeout: 3.0)
+    }
+    
     func testGetMarketPage() {
         sut = OpenMarketAPIClient(urlSession: MockURLSession(sampleData: OpenMarketAPI.getMarketPage.sampleData))
         let expectation = XCTestExpectation()

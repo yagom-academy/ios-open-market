@@ -36,12 +36,8 @@ enum OpenMarketAPI {
         switch self {
         case .getMarketPage:
             return NSDataAsset(name: "items")!.data
-        case .postMarketItem:
-            break
-        case .getMarketItem:
+        case .postMarketItem, .getMarketItem, .patchMarketItem:
             return NSDataAsset(name: "item")!.data
-        case .patchMarketItem:
-            break
         case .deleteMarketItem:
             break
         }
