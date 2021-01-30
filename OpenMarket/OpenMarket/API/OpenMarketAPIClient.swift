@@ -11,7 +11,7 @@ enum OpenMarketAPI {
     case getMarketPage
     case postMarketItem
     case getMarketItem
-    case patchMarketItem
+    case patchMarketItem(id: Int)
     case deleteMarketItem
     
     static let baseURL = "https://camp-open-market.herokuapp.com/"
@@ -21,12 +21,10 @@ enum OpenMarketAPI {
             return "items/"
         case .postMarketItem:
             return "item"
-        case .getMarketItem:
+        case .getMarketItem, .deleteMarketItem:
             return "item/"
-        case .patchMarketItem:
-            return "item/"
-        case .deleteMarketItem:
-            return "item/"
+        case .patchMarketItem(let id):
+            return "item/\(id)"
         }
     }
     var url: URL? {
@@ -105,6 +103,26 @@ class OpenMarketAPIClient {
             return
         }
         let requestData = RequestData<MarketItem>(url: url)
+        urlSession.startDataTask(requestData) { (marketItem, error) in
+            if let error = error {
+                print(error.localizedDescription)
+                completionHandler(.failure(.requestFailed))
+                return
+            }
+            if let marketItem = marketItem {
+                completionHandler(.success(marketItem))
+            } else {
+                completionHandler(.failure(.networkError))
+            }
+        }
+    }
+    
+    func patchMarketIem(id: Int, _ marketItemForPatch: MarketItemForPatch, completionHandler: @escaping (Result<MarketItem, OpenMarketAPIError>) -> Void) {
+        guard let url = OpenMarketAPI.patchMarketItem(id: id).url else {
+            completionHandler(.failure(.invalidURL))
+            return
+        }
+        let requestData = RequestData<MarketItem>(url: url, httpMethod: .patch(marketItemForPatch))
         urlSession.startDataTask(requestData) { (marketItem, error) in
             if let error = error {
                 print(error.localizedDescription)
