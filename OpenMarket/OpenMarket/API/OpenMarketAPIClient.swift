@@ -8,22 +8,22 @@
 import UIKit
 
 enum OpenMarketAPI {
-    case requestMarketPage
-    case registerMarketItem
-    case requestMarketItem
-    case modifyMarketItem
+    case getMarketPage
+    case postMarketItem
+    case getMarketItem
+    case patchMarketItem
     case deleteMarketItem
     
     static let baseURL = "https://camp-open-market.herokuapp.com/"
     var path: String {
         switch self {
-        case .requestMarketPage:
+        case .getMarketPage:
             return "items/"
-        case .registerMarketItem:
+        case .postMarketItem:
             return "item"
-        case .requestMarketItem:
+        case .getMarketItem:
             return "item/"
-        case .modifyMarketItem:
+        case .patchMarketItem:
             return "item/"
         case .deleteMarketItem:
             return "item/"
@@ -34,13 +34,13 @@ enum OpenMarketAPI {
     }
     var sampleData: Data {
         switch self {
-        case .requestMarketPage:
+        case .getMarketPage:
             return NSDataAsset(name: "items")!.data
-        case .registerMarketItem:
+        case .postMarketItem:
             break
-        case .requestMarketItem:
+        case .getMarketItem:
             return NSDataAsset(name: "item")!.data
-        case .modifyMarketItem:
+        case .patchMarketItem:
             break
         case .deleteMarketItem:
             break
@@ -62,8 +62,8 @@ class OpenMarketAPIClient {
         self.urlSession = urlSession
     }
     
-    func requestMarketItem(id: Int, completionHandler: @escaping (Result<MarketItem, OpenMarketAPIError>) -> Void) {
-        guard let url = OpenMarketAPI.requestMarketItem.url?.appendingPathComponent("\(id)") else {
+    func getMarketItem(id: Int, completionHandler: @escaping (Result<MarketItem, OpenMarketAPIError>) -> Void) {
+        guard let url = OpenMarketAPI.getMarketItem.url?.appendingPathComponent("\(id)") else {
             completionHandler(.failure(.invalidURL))
             return
         }
@@ -82,12 +82,12 @@ class OpenMarketAPIClient {
         }
     }
     
-    func registerMarketItme(_ postMarketItem: PostMarketItem, completionHandler: @escaping (Result<MarketItem, OpenMarketAPIError>) -> Void) {
-        guard let url = OpenMarketAPI.registerMarketItem.url else {
+    func postMarketItme(_ marketItemForPost: MarketItemForPost, completionHandler: @escaping (Result<MarketItem, OpenMarketAPIError>) -> Void) {
+        guard let url = OpenMarketAPI.postMarketItem.url else {
             completionHandler(.failure(.invalidURL))
             return
         }
-        let requestData = RequestData<MarketItem>(url: url, httpMethod: .post(postMarketItem))
+        let requestData = RequestData<MarketItem>(url: url, httpMethod: .post(marketItemForPost))
         urlSession.startDataTask(requestData) { (marketItem, error) in
             if let error = error {
                 print(error.localizedDescription)
@@ -102,8 +102,8 @@ class OpenMarketAPIClient {
         }
     }
     
-    func requestMarketPage(pageNumber: Int, completionHandler: @escaping (Result<MarketPage, OpenMarketAPIError>) -> Void) {
-        guard let url = OpenMarketAPI.requestMarketPage.url?.appendingPathComponent("\(pageNumber)") else {
+    func getMarketPage(pageNumber: Int, completionHandler: @escaping (Result<MarketPage, OpenMarketAPIError>) -> Void) {
+        guard let url = OpenMarketAPI.getMarketPage.url?.appendingPathComponent("\(pageNumber)") else {
             completionHandler(.failure(.invalidURL))
             return
         }

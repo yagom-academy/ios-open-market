@@ -15,12 +15,12 @@ class OpenMarketAPIClientTests: XCTestCase {
         sut = nil
     }
 
-    func testRequestMarketItem() {
-        sut = OpenMarketAPIClient(urlSession: MockURLSession(sampleData: OpenMarketAPI.requestMarketItem.sampleData))
+    func testGetMarketItem() {
+        sut = OpenMarketAPIClient(urlSession: MockURLSession(sampleData: OpenMarketAPI.getMarketItem.sampleData))
         let expectation = XCTestExpectation()
-        let mock = try? JSONDecoder().decode(MarketItem.self, from: OpenMarketAPI.requestMarketItem.sampleData)
+        let mock = try? JSONDecoder().decode(MarketItem.self, from: OpenMarketAPI.getMarketItem.sampleData)
         
-        sut.requestMarketItem(id: 1) { result in
+        sut.getMarketItem(id: 1) { result in
             switch result {
             case .success(let marketItem):
                 XCTAssertEqual(marketItem.id, mock?.id)
@@ -34,11 +34,11 @@ class OpenMarketAPIClientTests: XCTestCase {
         wait(for: [expectation], timeout: 3.0)
     }
     
-    func testRequestMarketItem_failure() {
-        sut = OpenMarketAPIClient(urlSession: MockURLSession(makeRequestFail: true, sampleData: OpenMarketAPI.requestMarketItem.sampleData))
+    func testGetMarketItem_failure() {
+        sut = OpenMarketAPIClient(urlSession: MockURLSession(makeRequestFail: true, sampleData: OpenMarketAPI.getMarketItem.sampleData))
         let expectation = XCTestExpectation()
         
-        sut.requestMarketItem(id: 1) { result in
+        sut.getMarketItem(id: 1) { result in
             switch result {
             case .success:
                 XCTFail()
@@ -51,12 +51,12 @@ class OpenMarketAPIClientTests: XCTestCase {
         wait(for: [expectation], timeout: 3.0)
     }
     
-    func testRequestMarketPage() {
-        sut = OpenMarketAPIClient(urlSession: MockURLSession(sampleData: OpenMarketAPI.requestMarketPage.sampleData))
+    func testGetMarketPage() {
+        sut = OpenMarketAPIClient(urlSession: MockURLSession(sampleData: OpenMarketAPI.getMarketPage.sampleData))
         let expectation = XCTestExpectation()
-        let mock = try? JSONDecoder().decode(MarketPage.self, from: OpenMarketAPI.requestMarketPage.sampleData)
+        let mock = try? JSONDecoder().decode(MarketPage.self, from: OpenMarketAPI.getMarketPage.sampleData)
         
-        sut.requestMarketPage(pageNumber: 1) { result in
+        sut.getMarketPage(pageNumber: 1) { result in
             switch result {
             case .success(let marketPage):
                 XCTAssertEqual(marketPage.pageNumber, mock?.pageNumber)
@@ -70,11 +70,11 @@ class OpenMarketAPIClientTests: XCTestCase {
         wait(for: [expectation], timeout: 3.0)
     }
     
-    func testRequestMarketPage_failure() {
-        sut = OpenMarketAPIClient(urlSession: MockURLSession(makeRequestFail: true, sampleData: OpenMarketAPI.requestMarketPage.sampleData))
+    func testGetMarketPage_failure() {
+        sut = OpenMarketAPIClient(urlSession: MockURLSession(makeRequestFail: true, sampleData: OpenMarketAPI.getMarketPage.sampleData))
         let expectation = XCTestExpectation()
         
-        sut.requestMarketPage(pageNumber: 1) { result in
+        sut.getMarketPage(pageNumber: 1) { result in
             switch result {
             case .success:
                 XCTFail()

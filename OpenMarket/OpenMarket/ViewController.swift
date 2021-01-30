@@ -15,7 +15,7 @@ class ViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         // API 사용방법
-        OpenMarketAPIClient().requestMarketItem(id: 63) { result in
+        OpenMarketAPIClient().getMarketItem(id: 63) { result in
             switch result {
             case .success(let marketItem):
                 print("--- response of requestMarketItem ---")
@@ -27,7 +27,7 @@ class ViewController: UIViewController {
             }
         }
         
-        OpenMarketAPIClient().requestMarketPage(pageNumber: 1) { result in
+        OpenMarketAPIClient().getMarketPage(pageNumber: 1) { result in
             switch result {
             case .success(let marketPage):
                 print("--- response of requestMarketPage ---")
@@ -41,8 +41,8 @@ class ViewController: UIViewController {
         }
         
         let dummyImages = [Data(), Data(), Data()]
-        let postMarketItem = PostMarketItem(title: "Jacob's Mac", descriptions: "제이콥의 맥북프로 16인치", price: 2500000, currency: "KRW", stock: 1, discountedPrice: 50000, images: dummyImages, password: "1234")
-        OpenMarketAPIClient().registerMarketItme(postMarketItem) { result in
+        let postMarketItem = MarketItemForPost(title: "Jacob's Mac", descriptions: "제이콥의 맥북프로 16인치", price: 2500000, currency: "KRW", stock: 1, discountedPrice: 50000, images: dummyImages, password: "1234")
+        OpenMarketAPIClient().postMarketItme(postMarketItem) { result in
             switch result {
             case .success(let marketItem):
                 print("--- response of registerMarketItem ---")

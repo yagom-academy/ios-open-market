@@ -54,7 +54,7 @@ struct MarketItem: Decodable {
     }
 }
 
-struct PostMarketItem: Encodable {
+struct MarketItemForPost: Encodable {
     let title: String
     let descriptions: String
     let price: Int
