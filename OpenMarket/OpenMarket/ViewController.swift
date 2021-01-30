@@ -59,7 +59,7 @@ class ViewController: UIViewController {
         
         // API 상품 수정 기능 사용 예시
         let marketItemForPatch = MarketItemForPatch(title: "Jacob's Mac", descriptions: "가격 다운!", price: 1000000, currency: "KRW", stock: 1, discountedPrice: 50000, images: nil, password: "1234")
-        OpenMarketAPIClient().patchMarketIem(id: 369, marketItemForPatch) { result in
+        OpenMarketAPIClient().patchMarketIem(id: 377, marketItemForPatch) { result in
             switch result {
             case .success(let marketItem):
                 print("--- response of patchMarketItem ---")

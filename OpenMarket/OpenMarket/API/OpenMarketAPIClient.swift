@@ -7,39 +7,31 @@
 
 import UIKit
 
-enum OpenMarketAPI {
-    case getMarketPage
+enum OpenMarketAPIConfiguration {
+    case getMarketPage(pageNumber: Int)
     case postMarketItem
-    case getMarketItem
+    case getMarketItem(id: Int)
     case patchMarketItem(id: Int)
     case deleteMarketItem(id: Int)
     
     static let baseURL = "https://camp-open-market.herokuapp.com/"
     var path: String {
         switch self {
-        case .getMarketPage:
-            return "items/"
+        case .getMarketPage(let pageNumber):
+            return "items/\(pageNumber)"
         case .postMarketItem:
             return "item"
-        case .getMarketItem:
-            return "item/"
-        case .patchMarketItem(let id), .deleteMarketItem(let id):
+        case .getMarketItem(let id), .patchMarketItem(let id), .deleteMarketItem(let id):
             return "item/\(id)"
         }
     }
     var url: URL? {
-        return URL(string: OpenMarketAPI.baseURL + path)
+        return URL(string: OpenMarketAPIConfiguration.baseURL + path)
     }
-    var sampleData: Data {
-        switch self {
-        case .getMarketPage:
-            return NSDataAsset(name: "items")!.data
-        case .postMarketItem, .getMarketItem, .patchMarketItem:
-            return NSDataAsset(name: "item")!.data
-        case .deleteMarketItem:
-            return NSDataAsset(name: "id")!.data
-        }
-    }
+    
+    static let sampleDataOfMarkePage = NSDataAsset(name: "items")!.data
+    static let sampleDataOfMarkeItem = NSDataAsset(name: "item")!.data
+    static let sampleDataOfMarketItemID = NSDataAsset(name: "id")!.data
 }
 
 enum OpenMarketAPIError: Error {
@@ -56,7 +48,7 @@ class OpenMarketAPIClient {
     }
     
     func getMarketPage(pageNumber: Int, completionHandler: @escaping (Result<MarketPage, OpenMarketAPIError>) -> Void) {
-        guard let url = OpenMarketAPI.getMarketPage.url?.appendingPathComponent("\(pageNumber)") else {
+        guard let url = OpenMarketAPIConfiguration.getMarketPage(pageNumber: pageNumber).url else {
             completionHandler(.failure(.invalidURL))
             return
         }
@@ -77,7 +69,7 @@ class OpenMarketAPIClient {
     }
     
     func postMarketIem(_ marketItemForPost: MarketItemForPost, completionHandler: @escaping (Result<MarketItem, OpenMarketAPIError>) -> Void) {
-        guard let url = OpenMarketAPI.postMarketItem.url else {
+        guard let url = OpenMarketAPIConfiguration.postMarketItem.url else {
             completionHandler(.failure(.invalidURL))
             return
         }
@@ -97,7 +89,7 @@ class OpenMarketAPIClient {
     }
     
     func getMarketItem(id: Int, completionHandler: @escaping (Result<MarketItem, OpenMarketAPIError>) -> Void) {
-        guard let url = OpenMarketAPI.getMarketItem.url?.appendingPathComponent("\(id)") else {
+        guard let url = OpenMarketAPIConfiguration.getMarketItem(id: id).url else {
             completionHandler(.failure(.invalidURL))
             return
         }
@@ -117,7 +109,7 @@ class OpenMarketAPIClient {
     }
     
     func patchMarketIem(id: Int, _ marketItemForPatch: MarketItemForPatch, completionHandler: @escaping (Result<MarketItem, OpenMarketAPIError>) -> Void) {
-        guard let url = OpenMarketAPI.patchMarketItem(id: id).url else {
+        guard let url = OpenMarketAPIConfiguration.patchMarketItem(id: id).url else {
             completionHandler(.failure(.invalidURL))
             return
         }
@@ -137,7 +129,7 @@ class OpenMarketAPIClient {
     }
     
     func deleteMarketIem(id: Int, _ marketItemForDelete: MarketItemForDelete, completionHandler: @escaping (Result<MarketItem, OpenMarketAPIError>) -> Void) {
-        guard let url = OpenMarketAPI.deleteMarketItem(id: id).url else {
+        guard let url = OpenMarketAPIConfiguration.deleteMarketItem(id: id).url else {
             completionHandler(.failure(.invalidURL))
             return
         }
