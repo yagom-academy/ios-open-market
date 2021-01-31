@@ -19,15 +19,6 @@ struct HTTPRequest {
         }
     }
     
-    func CreateItemRegistrationURLRequest(requestAPI: RequestAPI, bodyData: ItemRegistrationRequest) -> URLRequest? {
-        switch requestAPI {
-        case .itemRegistration:
-            return itemRegistration(bodyData: bodyData)
-        default:
-            return nil
-        }
-    }
-    
     func CreateItemModificationURLRequest(requestAPI: RequestAPI, bodyData: ItemModificationRequest) -> URLRequest? {
         switch requestAPI {
         case .itemModification:
@@ -58,19 +49,7 @@ struct HTTPRequest {
         return urlRequest
     }
     
-    private func itemSpecification() -> URLRequest? {
-        guard var url = URL(string: baseURL) else {
-            return nil
-        }
-        let path = "/item/30"
-        url.appendPathComponent(path)
-        
-        let urlRequest = URLRequest(url: url)
-        
-        return urlRequest
-    }
-    
-    private func itemRegistration(bodyData: ItemRegistrationRequest) -> URLRequest? {
+    func itemRegistration(bodyData: ItemRegistrationRequest) -> URLRequest? {
         guard var url = URL(string: baseURL) else {
             return nil
         }
@@ -82,6 +61,18 @@ struct HTTPRequest {
         let boundary = UUID().uuidString
         urlRequest.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
         urlRequest.httpBody = addMultipartFormDataToBody(paramters: bodyData, boundary: boundary)
+        
+        return urlRequest
+    }
+    
+    private func itemSpecification() -> URLRequest? {
+        guard var url = URL(string: baseURL) else {
+            return nil
+        }
+        let path = "/item/30"
+        url.appendPathComponent(path)
+        
+        let urlRequest = URLRequest(url: url)
         
         return urlRequest
     }

@@ -36,7 +36,7 @@ struct NetworkLayer {
     
     func requestRegistration(bodyData: ItemRegistrationRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) {
         
-        guard let urlRequest = httpRequest.CreateItemRegistrationURLRequest(requestAPI: .itemRegistration, bodyData: bodyData) else {
+        guard let urlRequest = httpRequest.itemRegistration(bodyData: bodyData) else {
             return
         }
         
