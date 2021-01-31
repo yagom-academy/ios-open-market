@@ -7,82 +7,51 @@
 
 import Foundation
 
+enum OpenMarketAPIError: Error {
+    case dataDecodingError
+    case clientSideError
+    case serverSideError
+    case noData
+    case noResponse
+    case wrongURL
+    case unknown
+}
+
 class OpenMarketAPI {
     
     private static var session = URLSession(configuration: .default)
     private static var ephemeralSession = URLSession(configuration: .ephemeral)
     
-    static func getItemList(page: Int, _ completionHandler: @escaping (ItemsToGet) -> Void) {
+    static func getItemList(page: Int, _ completionHandler: @escaping (Result<ItemsToGet, Error>) -> Void) {
         guard let url = URLManager.makeURL(type: .getItemList, value: page) else {
-            print("URL Error")
+            completionHandler(.failure(OpenMarketAPIError.wrongURL))
             return
         }
-        
+    
         session.dataTask(with: url) { (data, response, error) in
-            if let error = error {
-                print(error.localizedDescription)
-                return
-            }
-            
-            let successRange =  200..<300
-            guard let statusCode = (response as? HTTPURLResponse)?.statusCode,
-                  successRange.contains(statusCode) else {
-                print("Status Code Error")
-                return
-            }
-            
-            guard let data = data else {
-                print("No Data Error")
-                return
-            }
-     
-            guard let items = Parser.decodeData(ItemsToGet.self, data) else {
-                print("Data Decoding Error")
-                return
-            }
-            
-            completionHandler(items)
+            let result = getResult(ItemsToGet.self, data: data, response: response, error: error)
+            completionHandler(result)
         }.resume()
     }
     
-    static func getItem(id: Int, _ completionHandler: @escaping (ItemToGet) -> Void) {
+    static func getItem(id: Int, _ completionHandler: @escaping (Result<ItemToGet, Error>) -> Void) {
         guard let url = URLManager.makeURL(type: .getItem, value: id) else {
-            print("URL Error")
+            completionHandler(.failure(OpenMarketAPIError.wrongURL))
             return
         }
         
         session.dataTask(with: url) { (data, response, error) in
-            if let error = error {
-                print(error.localizedDescription)
-                return
-            }
-            
-            let successRange =  200..<300
-            guard let statusCode = (response as? HTTPURLResponse)?.statusCode,
-                  successRange.contains(statusCode) else {
-                print("Status Code Error")
-                return
-            }
-            
-            guard let data = data else {
-                print("No Data Error")
-                return
-            }
-     
-            guard let item = Parser.decodeData(ItemToGet.self, data) else {
-                print("Data Decoding Error")
-                return
-            }
-            
-            completionHandler(item)
+            let result = getResult(ItemToGet.self, data: data, response: response, error: error)
+            completionHandler(result)
         }.resume()
     }
     
-    static func postItem(itemToPost: ItemToPost, _ completionHandler: @escaping(ItemAfterPost) -> Void) {
+    static func postItem(itemToPost: ItemToPost, _ completionHandler: @escaping(Result<ItemAfterPost, Error>) -> Void) {
         guard let url = URLManager.makeURL(type: .postItem, value: nil) else {
-            print("URL Error")
+            completionHandler(.failure(OpenMarketAPIError.wrongURL))
             return
         }
+        // TODO: URLRequest 부분 따로 구현.
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "POST"
         urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -91,36 +60,17 @@ class OpenMarketAPI {
             return
         }
         ephemeralSession.uploadTask(with: urlRequest, from: dataToPost) { (data, response, error) in
-            if let error = error {
-                print(error.localizedDescription)
-                return
-            }
-            
-            let successRange =  200..<300
-            guard let statusCode = (response as? HTTPURLResponse)?.statusCode,
-                  successRange.contains(statusCode) else {
-                print("Status Code Error")
-                return
-            }
-            
-            guard let data = data else {
-                print("No Data Error")
-                return
-            }
-            
-            guard let item = Parser.decodeData(ItemAfterPost.self, data) else {
-                print("Data Decoding Error")
-                return
-            }
-            completionHandler(item)
+            let result = getResult(ItemAfterPost.self, data: data, response: response, error: error)
+            completionHandler(result)
         }.resume()
     }
     
-    static func patchItem(id: Int, itemToPatch: ItemToPatch, _ completionHandler: @escaping(ItemAfterPatch) -> Void) {
+    static func patchItem(id: Int, itemToPatch: ItemToPatch, _ completionHandler: @escaping(Result<ItemAfterPatch, Error>) -> Void) {
         guard let url = URLManager.makeURL(type: .patchItem, value: id) else {
-            print("URL Error")
+            completionHandler(.failure(OpenMarketAPIError.wrongURL))
             return
         }
+        // TODO: URLRequest 부분 따로 구현.
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "PATCH"
         urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -129,36 +79,17 @@ class OpenMarketAPI {
             return
         }
         ephemeralSession.uploadTask(with: urlRequest, from: dataToPatch) { (data, response, error) in
-            if let error = error {
-                print(error.localizedDescription)
-                return
-            }
-            
-            let successRange =  200..<300
-            guard let statusCode = (response as? HTTPURLResponse)?.statusCode,
-                  successRange.contains(statusCode) else {
-                print("Status Code Error")
-                return
-            }
-            
-            guard let data = data else {
-                print("No Data Error")
-                return
-            }
-            
-            guard let item = Parser.decodeData(ItemAfterPost.self, data) else {
-                print("Data Decoding Error")
-                return
-            }
-            completionHandler(item)
+            let result = getResult(ItemAfterPatch.self, data: data, response: response, error: error)
+            completionHandler(result)
         }.resume()
     }
     
-    static func deleteItem(id: Int, itemToDelete: ItemToDelete, _ completionHandler: @escaping(ItemAfterDelete) -> Void) {
+    static func deleteItem(id: Int, itemToDelete: ItemToDelete, _ completionHandler: @escaping(Result<ItemAfterDelete, Error>) -> Void) {
         guard let url = URLManager.makeURL(type: .deleteItem, value: id) else {
-            print("URL Error")
+            completionHandler(.failure(OpenMarketAPIError.wrongURL))
             return
         }
+        // TODO: URLRequest 부분 따로 구현.
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "DELETE"
         urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -166,31 +97,46 @@ class OpenMarketAPI {
             print("Encoding Error")
             return
         }
-        
         ephemeralSession.uploadTask(with: urlRequest, from: dataToDelete) { (data, response, error) in
-            if let error = error {
-                print(error.localizedDescription)
-                return
-            }
-            
-            let successRange =  200..<300
-            guard let statusCode = (response as? HTTPURLResponse)?.statusCode,
-                  successRange.contains(statusCode) else {
-                print("Status Code Error")
-                return
-            }
-            
-            guard let data = data else {
-                print("No Data Error")
-                return
-            }
-            
-            guard let item = Parser.decodeData(ItemAfterDelete.self, data) else {
-                print("Data Decoding Error")
-                return
-            }
-            
-            completionHandler(item)
+            let result = getResult(ItemAfterDelete.self, data: data, response: response, error: error)
+            completionHandler(result)
         }.resume()
+    }
+    
+    static func getResponseError(_ response: URLResponse?) -> Error? {
+        guard let statusCode = (response as? HTTPURLResponse)?.statusCode else {
+            return OpenMarketAPIError.noResponse
+        }
+        switch statusCode {
+        case 200..<300:
+            return nil
+        case 300..<400:
+            return OpenMarketAPIError.clientSideError
+        case 400..<500:
+            return OpenMarketAPIError.serverSideError
+        default:
+            return OpenMarketAPIError.unknown
+        }
+    }
+    
+    static func getResult<T: Decodable>(_ type: T.Type, data: Data?, response: URLResponse?, error: Error?) -> Result<T, Error> {
+        if let error = error {
+            print(error.localizedDescription)
+            return .failure(error)
+        }
+
+        if let responseError = getResponseError(response) {
+            return .failure(responseError)
+        }
+        
+        guard let data = data else {
+            return .failure(OpenMarketAPIError.noData)
+        }
+ 
+        guard let items = Parser.decodeData(type, data) else {
+            return .failure(OpenMarketAPIError.dataDecodingError)
+        }
+        
+        return .success(items)
     }
 }
