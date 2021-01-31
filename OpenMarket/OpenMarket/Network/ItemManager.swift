@@ -13,14 +13,7 @@ struct ItemManager {
     private init() {}
     
     func loadData(method: HttpMethod, path: PathOfURL, param: UInt, completion: @escaping resultHandler) {
-        var url: URL?
-        switch path {
-        case .item:
-            url = NetworkConfig.setUpUrl(method: .get, path: .item, param: param)
-        case .items:
-            url = NetworkConfig.setUpUrl(method: .get, path: .items, param: param)
-        }
-        guard let requestUrl = url else {
+        guard let requestUrl = makeURL(method: method, path: path, param: param) else {
             return completion(.failure(.failSetUpURL))
         }
         
@@ -39,19 +32,7 @@ struct ItemManager {
     }
     
     func uploadData(method: HttpMethod, path: PathOfURL, item: ItemToUpload, param: UInt?, completion: @escaping resultHandler) {
-        var url: URL?
-        switch path {
-        case .item:
-            if let param = param {
-                url = NetworkConfig.setUpUrl(method: method, path: .item, param: param)
-            }
-            else {
-                url = NetworkConfig.setUpUrl(method: method, path: .item, param: nil)
-            }
-        case .items:
-            return  completion(.failure(.unknown))
-        }
-        guard let requestUrl = url else {
+        guard let requestUrl = makeURL(method: method, path: path, param: param) else {
             return completion(.failure(.failSetUpURL))
         }
         
@@ -70,14 +51,7 @@ struct ItemManager {
     }
     
     func deleteData(method: HttpMethod, path: PathOfURL, item: ItemToDelete, param: UInt, completion: @escaping resultHandler) {
-        var url: URL?
-        switch path {
-        case .item:
-            url = NetworkConfig.setUpUrl(method: .delete, path: .item, param: param)
-        case .items:
-            return  completion(.failure(.unknown))
-        }
-        guard let requestUrl = url else {
+        guard let requestUrl = makeURL(method: method, path: path, param: param) else {
             return completion(.failure(.failSetUpURL))
         }
         
@@ -93,6 +67,17 @@ struct ItemManager {
                 return completion(.failure(error))
             }
         }
+    }
+    
+    private func makeURL(method: HttpMethod, path: PathOfURL, param: UInt?) -> URL? {
+        var url: URL?
+        if let param = param {
+            url = NetworkConfig.setUpUrl(method: method, path: path, param: param)
+        }
+        else {
+            url = NetworkConfig.setUpUrl(method: method, path: path, param: nil)
+        }
+        return url
     }
     
     private func makeURLRequestWithoutRequestBody(method: HttpMethod, requestURL: URL) -> URLRequest? {
