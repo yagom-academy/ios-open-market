@@ -65,7 +65,7 @@ struct OpenMarketAPIManager {
         let productData = try! JSONEncoder().encode(product)
         urlRequest.httpBody = productData
         
-        let dataTask: URLSessionUploadTask = session.uploadTask(with: urlRequest, from: productData) { data,response,error in
+        let dataTask: URLSessionDataTask = session.dataTask(with: urlRequest) { data,response,error in
             guard let postingData = data else {
                 completionHandler(.failure(.invalidData))
                 return
