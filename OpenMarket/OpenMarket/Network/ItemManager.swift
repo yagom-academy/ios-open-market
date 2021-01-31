@@ -107,7 +107,7 @@ struct ItemManager {
     }
     
     private func communicateToServerWithDataTask(with request: URLRequest, completion: @escaping resultHandler) {
-        let session: URLSession = URLSession(configuration: .default)
+        let session: URLSession = URLSession.shared
         let dataTask: URLSessionDataTask = session.dataTask(with: request) { (data: Data?, response: URLResponse?, error: Error?) in
             if let error = error {
                 return completion(.failure(.failTransportData))
