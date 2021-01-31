@@ -8,5 +8,6 @@
 import Foundation
 
 struct ItemDeletionRequest: Encodable {
-    let id: String
+    let id: Int
+    let password: String
 }
