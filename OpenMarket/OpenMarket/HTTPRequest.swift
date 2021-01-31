@@ -8,12 +8,12 @@
 import Foundation
 
 struct HTTPRequest {
-    private let urlString = "https://camp-open-market.herokuapp.com"
+    private let baseURL = "https://camp-open-market.herokuapp.com"
     
     func CreateURLRequest(requestAPI: RequestAPI) -> URLRequest? {
         switch requestAPI {
-        case .lookupList:
-            return lookupList()
+        case .itemList:
+            return itemList()
         case .itemSpecification:
             return itemSpecification()
         default:
@@ -48,11 +48,11 @@ struct HTTPRequest {
         }
     }
     
-    private func lookupList() -> URLRequest? {
-        guard var url = URL(string: urlString) else {
+    func itemList(id: Int) -> URLRequest? {
+        guard var url = URL(string: baseURL) else {
             return nil
         }
-        let path = "/items/1"
+        let path = "/items/\(id)"
         url.appendPathComponent(path)
         
         let urlRequest = URLRequest(url: url)
@@ -61,7 +61,7 @@ struct HTTPRequest {
     }
     
     private func itemSpecification() -> URLRequest? {
-        guard var url = URL(string: urlString) else {
+        guard var url = URL(string: baseURL) else {
             return nil
         }
         let path = "/item/30"
@@ -73,7 +73,7 @@ struct HTTPRequest {
     }
     
     private func itemRegistration(bodyData: ItemRegistrationRequest) -> URLRequest? {
-        guard var url = URL(string: urlString) else {
+        guard var url = URL(string: baseURL) else {
             return nil
         }
         let path = "/item"
@@ -89,7 +89,7 @@ struct HTTPRequest {
     }
     
     private func itemModification(bodyData: ItemModificationRequest) -> URLRequest? {
-        guard var url = URL(string: urlString) else {
+        guard var url = URL(string: baseURL) else {
             return nil
         }
         let path = "/item/227"
@@ -105,7 +105,7 @@ struct HTTPRequest {
     }
     
     private func itemDeletion(bodyData: ItemDeletionRequest) -> URLRequest? {
-        guard var url = URL(string: urlString) else {
+        guard var url = URL(string: baseURL) else {
             return nil
         }
         let path = "/item/227"
@@ -235,7 +235,10 @@ struct HTTPRequest {
             guard let boundaryLine = "--\(boundary)\r\n".data(using: .utf8) else {
                 return nil
             }
-            guard let contentDispositionLine = "Content-Disposition: form-data; name=\"\(parameter)\"\r\n\r\n".data(using: .utf8) else {
+            guard let contentDispositionLine = "Content-Disposition: form-data; name=\"\(parameter)[]\"; filename=\"image1.png\"\r\n".data(using: .utf8) else {
+                return nil
+            }
+            guard let contentType = "Content-Type: image/png\r\n\r\n".data(using: .utf8) else {
                 return nil
             }
             guard let lineBreak = "\r\n".data(using: .utf8) else {
@@ -244,6 +247,7 @@ struct HTTPRequest {
             
             body.append(boundaryLine)
             body.append(contentDispositionLine)
+            body.append(contentType)
             body.append(image)
             body.append(lineBreak)
         }
@@ -253,7 +257,7 @@ struct HTTPRequest {
 }
 
 enum RequestAPI {
-    case lookupList
+    case itemList
     case itemRegistration
     case itemSpecification
     case itemModification

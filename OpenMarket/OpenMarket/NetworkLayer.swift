@@ -10,9 +10,9 @@ import Foundation
 struct NetworkLayer {
     private let httpRequest = HTTPRequest()
     
-    func lookupList(completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) {
+    func itemList(completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) {
         
-        guard let urlRequest = httpRequest.CreateURLRequest(requestAPI: .lookupList) else {
+        guard let urlRequest = httpRequest.CreateURLRequest(requestAPI: .itemList) else {
             return
         }
         
