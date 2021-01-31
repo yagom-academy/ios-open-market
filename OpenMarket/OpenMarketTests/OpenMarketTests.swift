@@ -31,6 +31,40 @@ class OpenMarketTests: XCTestCase {
         }
     }
     
+    func testMakeURLRequest() {
+        // GET URLReqeust 테스트
+        guard let getItemDetailURL = ItemManager.shared.makeURL(method: .get, path: .item, param: 1) else {
+            return
+        }
+        guard let getRequest = ItemManager.shared.makeURLRequestWithoutRequestBody(method: .get, requestURL: getItemDetailURL) else {
+            return
+        }
+        XCTAssertEqual(getItemDetailURL, URL(string: "https://camp-open-market.herokuapp.com/item/1"))
+        XCTAssertEqual(getRequest.httpMethod, "GET")
+        
+        // PATCH URLRequest 테스트
+        guard let patchItemURL = ItemManager.shared.makeURL(method: .patch, path: .item, param: 66) else {
+            return
+        }
+        let patchItem = ItemToUpload(title: nil,
+                                          descriptions: nil,
+                                          price: 750000,
+                                          currency: nil,
+                                          stock: 500000,
+                                          discountedPrice: nil,
+                                          images: nil,
+                                          password: "asdfqwerzxcv")
+        guard let jsonData = try? JSONEncoder().encode(patchItem as? ItemToUpload) else {
+            return
+        }
+        guard let patchRequest = ItemManager.shared.makeURLRequestWithRequestBody(method: .patch, requestURL: patchItemURL, item: patchItem) else {
+            return
+        }
+        XCTAssertEqual(patchItemURL, URL(string: "https://camp-open-market.herokuapp.com/item/66"))
+        XCTAssertEqual(patchRequest.httpMethod, "PATCH")
+        XCTAssertEqual(patchRequest.httpBody, jsonData)
+    }
+    
     func testGetItemListAsync() {
         let expectation = XCTestExpectation(description: "APIPrivoderTaskExpectation")
 
