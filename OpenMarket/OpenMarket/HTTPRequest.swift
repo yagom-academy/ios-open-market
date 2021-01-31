@@ -10,15 +10,6 @@ import Foundation
 struct HTTPRequest {
     private let baseURL = "https://camp-open-market.herokuapp.com"
     
-    func CreateItemDeletionURLRequest(requestAPI: RequestAPI, bodyData: ItemDeletionRequest) -> URLRequest? {
-        switch requestAPI {
-        case .itemDeletion:
-            return itemDeletion(bodyData: bodyData)
-        default:
-            return nil
-        }
-    }
-    
     func itemList(id: Int) -> URLRequest? {
         guard var url = URL(string: baseURL) else {
             return nil
@@ -59,8 +50,6 @@ struct HTTPRequest {
         return urlRequest
     }
     
-//    httpRequest.itemModification(number: number, bodyData: bodyData)
-    
     func itemModification(number: Int, bodyData: ItemModificationRequest) -> URLRequest? {
         guard var url = URL(string: baseURL) else {
             return nil
@@ -77,15 +66,16 @@ struct HTTPRequest {
         return urlRequest
     }
     
-    private func itemDeletion(bodyData: ItemDeletionRequest) -> URLRequest? {
+    func itemDeletion(number: Int, bodyData: ItemDeletionRequest) -> URLRequest? {
         guard var url = URL(string: baseURL) else {
             return nil
         }
-        let path = "/item/227"
+        let path = "/item/\(number)"
         url.appendPathComponent(path)
         
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = HTTPMethod.delete.rawValue
+        urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
         if let body = try? JSONEncoder().encode(bodyData) {
             urlRequest.httpBody = body
         }
@@ -227,14 +217,6 @@ struct HTTPRequest {
         
         return body
     }
-}
-
-enum RequestAPI {
-    case itemList
-    case itemRegistration
-    case itemSpecification
-    case itemModification
-    case itemDeletion
 }
 
 enum HTTPMethod: String {

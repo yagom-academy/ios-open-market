@@ -107,9 +107,9 @@ struct NetworkLayer {
         }.resume()
     }
     
-    func requestDeletion(bodyData: ItemDeletionRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) {
+    func requestDeletion(number: Int, bodyData: ItemDeletionRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) {
         
-        guard let urlRequest = httpRequest.CreateItemDeletionURLRequest(requestAPI: .itemDeletion, bodyData: bodyData) else {
+        guard let urlRequest = httpRequest.itemDeletion(number: number, bodyData: bodyData) else {
             return
         }
         
