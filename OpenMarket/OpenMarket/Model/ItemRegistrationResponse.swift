@@ -9,7 +9,7 @@ struct ItemRegistrationResponse: Decodable {
     let stock: Int
     let discountedPrice: Int?
     let thumbnails: [String]
-    let images: [Data]
+    let images: [String]
     let registrationDate: Double
     
     enum CodingKeys: String, CodingKey {
