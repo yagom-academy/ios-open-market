@@ -9,7 +9,10 @@ import Foundation
 
 struct ItemManager {
     typealias resultHandler = (Result<Data?, OpenMarketError>) -> Void
-    static func loadData(path: PathOfURL, param: UInt, completion: @escaping resultHandler) {
+    static let shared = ItemManager()
+    private init() {}
+    
+    func loadData(path: PathOfURL, param: UInt, completion: @escaping resultHandler) {
         var url: URL?
         switch path {
         case .item:
@@ -23,31 +26,18 @@ struct ItemManager {
     
         var request = URLRequest(url: requestUrl)
         request.httpMethod = HttpMethod.get.rawValue
-        let session: URLSession = URLSession(configuration: .default)
-        let dataTask: URLSessionDataTask = session.dataTask(with: request) { (data: Data?, response: URLResponse?, error: Error?) in
-            if let error = error {
-                return completion(.failure(.failTransportData))
+        
+        communicateToServerWithDataTask(with: request) { result in
+            switch result {
+            case .success(let data):
+                return completion(.success(data))
+            case .failure(let error):
+                return completion(.failure(error))
             }
-            
-            guard let httpResponse = response as? HTTPURLResponse,
-                  (200...299).contains(httpResponse.statusCode) else {
-                return completion(.failure(.failFetchData))
-            }
-            
-            guard let mimeType = httpResponse.mimeType, mimeType == "application/json" else {
-                return completion(.failure(.failMatchMimeType))
-            }
-            
-            guard let data = data else {
-                return completion(.failure(.failGetData))
-            }
-            
-            return completion(.success(data))
         }
-        dataTask.resume()
     }
     
-    static func uploadData(method: HttpMethod, path: PathOfURL, item: ItemToUpload, param: UInt?, completion: @escaping resultHandler) {
+    func uploadData(method: HttpMethod, path: PathOfURL, item: ItemToUpload, param: UInt?, completion: @escaping resultHandler) {
         var url: URL?
         switch path {
         case .item:
@@ -72,30 +62,17 @@ struct ItemManager {
             return completion(.failure(.failEncode))
         }
         
-        let session: URLSession = URLSession(configuration: .default)
-        let dataTask: URLSessionUploadTask = session.uploadTask(with: request, from: jsonData) { (data: Data?, response: URLResponse?,error: Error?) in
-            if let error = error {
-                return completion(.failure(.failTransportData))
+        communicateToServerWithUploadTask(with: request, from: jsonData) { result in
+            switch result {
+            case .success(let data):
+                return completion(.success(data))
+            case .failure(let error):
+                return completion(.failure(error))
             }
-            
-            guard let httpResponse = response as? HTTPURLResponse,
-                  (200...299).contains(httpResponse.statusCode) else {
-                return completion(.failure(.failUploadData))
-            }
-            
-            guard let mimeType = httpResponse.mimeType, mimeType == "application/json" else {
-                return completion(.failure(.failMatchMimeType))
-            }
-            
-            guard let data = data else {
-                return completion(.failure(.failGetData))
-            }
-            return completion(.success(data))
         }
-        dataTask.resume()
     }
     
-    static func deleteData(path: PathOfURL, deleteItem: ItemToDelete, param: UInt, completion: @escaping resultHandler) {
+    func deleteData(path: PathOfURL, deleteItem: ItemToDelete, param: UInt, completion: @escaping resultHandler) {
         var url: URL?
         switch path {
         case .item:
@@ -115,6 +92,17 @@ struct ItemManager {
         }
         request.httpBody = jsonData
         
+        communicateToServerWithDataTask(with: request) { result in
+            switch result {
+            case .success(let data):
+                return completion(.success(data))
+            case .failure(let error):
+                return completion(.failure(error))
+            }
+        }
+    }
+    
+    private func communicateToServerWithDataTask(with request: URLRequest, completion: @escaping resultHandler) {
         let session: URLSession = URLSession(configuration: .default)
         let dataTask: URLSessionDataTask = session.dataTask(with: request) { (data: Data?, response: URLResponse?, error: Error?) in
             if let error = error {
@@ -124,6 +112,30 @@ struct ItemManager {
             guard let httpResponse = response as? HTTPURLResponse,
                   (200...299).contains(httpResponse.statusCode) else {
                 return completion(.failure(.failDeleteData))
+            }
+            
+            guard let mimeType = httpResponse.mimeType, mimeType == "application/json" else {
+                return completion(.failure(.failMatchMimeType))
+            }
+            
+            guard let data = data else {
+                return completion(.failure(.failGetData))
+            }
+            return completion(.success(data))
+        }
+        dataTask.resume()
+    }
+    
+    private func communicateToServerWithUploadTask(with request: URLRequest, from jsonData: Data, completion: @escaping resultHandler) {
+        let session: URLSession = URLSession(configuration: .default)
+        let dataTask: URLSessionUploadTask = session.uploadTask(with: request, from: jsonData) { (data: Data?, response: URLResponse?, error: Error?) in
+            if let error = error {
+                return completion(.failure(.failTransportData))
+            }
+            
+            guard let httpResponse = response as? HTTPURLResponse,
+                  (200...299).contains(httpResponse.statusCode) else {
+                return completion(.failure(.failUploadData))
             }
             
             guard let mimeType = httpResponse.mimeType, mimeType == "application/json" else {

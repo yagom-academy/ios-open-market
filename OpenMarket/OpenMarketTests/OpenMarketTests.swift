@@ -16,7 +16,7 @@ class OpenMarketTests: XCTestCase {
     func testGetItemListAsync() {
         let expectation = XCTestExpectation(description: "APIPrivoderTaskExpectation")
 
-        ItemManager.loadData(path: .items, param: 1) { [self] result in
+        ItemManager.shared.loadData(path: .items, param: 1) { [self] result in
             switch result {
             case .success(let data):
                 guard let data = data else {
@@ -41,7 +41,7 @@ class OpenMarketTests: XCTestCase {
     
     func testGetItemDetail() {
         let expectation = XCTestExpectation(description: "APIPrivoderTaskExpectation")
-        ItemManager.loadData(path: .item, param: 68) { [self] result in
+        ItemManager.shared.loadData(path: .item, param: 68) { [self] result in
             switch result {
             case .success(let data):
                 guard let data = data else {
@@ -93,7 +93,7 @@ class OpenMarketTests: XCTestCase {
                                         images: imageDataStringArray,
                                         password: "asdfqwerzxcv")
         
-        ItemManager.uploadData(method: .post, path: .item, item: newItem, param: nil) { [self] result in
+        ItemManager.shared.uploadData(method: .post, path: .item, item: newItem, param: nil) { [self] result in
             switch result {
             case .success(let data):
                 guard let data = data else {
@@ -136,7 +136,7 @@ class OpenMarketTests: XCTestCase {
                                           images: nil,
                                           password: "asdfqwerzxcv")
         
-        ItemManager.uploadData(method: .patch, path: .item, item: pathcItem, param: param) { [self] result in
+        ItemManager.shared.uploadData(method: .patch, path: .item, item: pathcItem, param: param) { [self] result in
             switch result {
             case .success(let data):
                 guard let data = data else {
@@ -182,7 +182,7 @@ class OpenMarketTests: XCTestCase {
         let param: UInt = 239
         let item = ItemToDelete(id: param, password: "asdfqwerzxcv")
         
-        ItemManager.deleteData(path: .item, deleteItem: item, param: param) { [self] result in
+        ItemManager.shared.deleteData(path: .item, deleteItem: item, param: param) { [self] result in
             switch result {
             case .success(let data):
                 guard let data = data else {
