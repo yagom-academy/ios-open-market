@@ -7,8 +7,8 @@
 import UIKit
 
 class ViewController: UIViewController {
-    //    let openMarketAPIManager = OpenMarketAPIManager(session: URLSession(configuration: .default))
-    
+    let openMarketAPIManager = OpenMarketAPIManager(session: URLSession(configuration: .default))
+    var productList = [Product]()
     let productListTableView = UITableView()
     
     let testProductName = ["mac mini","iphone","ipad"]
@@ -42,14 +42,22 @@ class ViewController: UIViewController {
         self.navigationItem.titleView = listPresentingStyleSegmentControl
         self.navigationItem.rightBarButtonItem = addProductButton
         
-        //        openMarketAPIManager.fetchProductList(of: 1) { (result) in
-        //            switch result {
-        //            case .success(let productList):
-        //                print(productList)
-        //            case .failure(let error):
-        //                print(error)
-        //            }
-        //        }
+        
+        self.openMarketAPIManager.fetchProductList(of: 1) { (result) in
+            switch result {
+            case .success(let productList):
+                for i in 0..<productList.items.count {
+                    self.productList.append(productList.items[i])
+                }
+                
+                DispatchQueue.main.async {
+                    self.productListTableView.reloadData()
+                }
+            case .failure(let error):
+                print(error)
+            }
+        }
+        
     }
     
     private func setUpProductListView() {
@@ -68,7 +76,7 @@ extension ViewController: UITableViewDelegate {
 }
 extension ViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return testProductName.count
+        return productList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -76,10 +84,11 @@ extension ViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         
-        cell.thumbnailImageView.image = testProductThumbnail[indexPath.row] ?? UIImage(named: "default")
-        cell.nameLabel.text = testProductName[indexPath.row]
-        cell.priceLabel.text = testProductPrice[indexPath.row]
-        cell.stockLabel.text = testProductStock[indexPath.row]
+        cell.thumbnailImageView.image = UIImage(named:"\(productList[indexPath.row].thumbnails)") ?? UIImage(named: "default")
+        cell.thumbnailImageView.image = UIImage(named: "default")
+        cell.nameLabel.text = productList[indexPath.row].title
+        cell.priceLabel.text = "\(productList[indexPath.row].currency) \(productList[indexPath.row].price)"
+        cell.stockLabel.text = "재고: \(productList[indexPath.row].stock)"
         
         return cell
     }
