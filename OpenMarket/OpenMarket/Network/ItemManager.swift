@@ -69,7 +69,7 @@ struct ItemManager {
         }
     }
     
-    private func makeURL(method: HttpMethod, path: PathOfURL, param: UInt?) -> URL? {
+    func makeURL(method: HttpMethod, path: PathOfURL, param: UInt?) -> URL? {
         var url: URL?
         if let param = param {
             url = NetworkConfig.setUpUrl(method: method, path: path, param: param)
@@ -80,13 +80,13 @@ struct ItemManager {
         return url
     }
     
-    private func makeURLRequestWithoutRequestBody(method: HttpMethod, requestURL: URL) -> URLRequest? {
+    func makeURLRequestWithoutRequestBody(method: HttpMethod, requestURL: URL) -> URLRequest? {
         var request = URLRequest(url: requestURL)
         request.httpMethod = method.rawValue
         return request
     }
     
-    private func makeURLRequestWithRequestBody<T>(method: HttpMethod, requestURL: URL, item: T) -> URLRequest? {
+    func makeURLRequestWithRequestBody<T>(method: HttpMethod, requestURL: URL, item: T) -> URLRequest? {
         var request = URLRequest(url: requestURL)
         request.httpMethod = method.rawValue
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -106,7 +106,7 @@ struct ItemManager {
         return request
     }
     
-    private func communicateToServerWithDataTask(with request: URLRequest, completion: @escaping resultHandler) {
+    func communicateToServerWithDataTask(with request: URLRequest, completion: @escaping resultHandler) {
         let session: URLSession = URLSession.shared
         let dataTask: URLSessionDataTask = session.dataTask(with: request) { (data: Data?, response: URLResponse?, error: Error?) in
             if let error = error {
