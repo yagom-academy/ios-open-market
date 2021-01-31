@@ -13,6 +13,24 @@ class OpenMarketTests: XCTestCase {
     private var item: Item?
     private var deleteItem: ItemToDelete?
     
+    func testMakeURL() {
+        if let getItemListURL = ItemManager.shared.makeURL(method: .get, path: .items, param: 1) {
+            XCTAssertEqual(getItemListURL, URL(string: "https://camp-open-market.herokuapp.com/items/1"))
+        }
+        if let getItemDetailURL = ItemManager.shared.makeURL(method: .get, path: .item, param: 1) {
+            XCTAssertEqual(getItemDetailURL, URL(string: "https://camp-open-market.herokuapp.com/item/1"))
+        }
+        if let postItemURL = ItemManager.shared.makeURL(method: .post, path: .item, param: nil) {
+            XCTAssertEqual(postItemURL, URL(string: "https://camp-open-market.herokuapp.com/item"))
+        }
+        if let patchItemURL = ItemManager.shared.makeURL(method: .patch, path: .item, param: 1) {
+            XCTAssertEqual(patchItemURL, URL(string: "https://camp-open-market.herokuapp.com/item/1"))
+        }
+        if let deleteItemURL = ItemManager.shared.makeURL(method: .delete, path: .item, param: 1) {
+            XCTAssertEqual(deleteItemURL, URL(string: "https://camp-open-market.herokuapp.com/item/1"))
+        }
+    }
+    
     func testGetItemListAsync() {
         let expectation = XCTestExpectation(description: "APIPrivoderTaskExpectation")
 
@@ -127,7 +145,7 @@ class OpenMarketTests: XCTestCase {
     func testPatchItem() {
         let expectation = XCTestExpectation(description: "APIPrivoderTaskExpectation")
         let param: UInt = 239
-        let pathcItem = ItemToUpload(title: nil,
+        let patchItem = ItemToUpload(title: nil,
                                           descriptions: nil,
                                           price: 750000,
                                           currency: nil,
@@ -136,7 +154,7 @@ class OpenMarketTests: XCTestCase {
                                           images: nil,
                                           password: "asdfqwerzxcv")
         
-        ItemManager.shared.uploadData(method: .patch, path: .item, item: pathcItem, param: param) { [self] result in
+        ItemManager.shared.uploadData(method: .patch, path: .item, item: patchItem, param: param) { [self] result in
             switch result {
             case .success(let data):
                 guard let data = data else {
