@@ -21,14 +21,7 @@ struct ItemManager {
             return completion(.failure(.failMakeURLRequest))
         }
         
-        communicateToServerWithDataTask(with: request) { result in
-            switch result {
-            case .success(let data):
-                return completion(.success(data))
-            case .failure(let error):
-                return completion(.failure(error))
-            }
-        }
+        communicateToServerWithDataTask(with: request, completion: completion)
     }
     
     func uploadData(method: HttpMethod, path: PathOfURL, item: ItemToUpload, param: UInt?, completion: @escaping resultHandler) {
@@ -40,14 +33,7 @@ struct ItemManager {
             return completion(.failure(.failMakeURLRequest))
         }
         
-        communicateToServerWithDataTask(with: request) { result in
-            switch result {
-            case .success(let data):
-                return completion(.success(data))
-            case .failure(let error):
-                return completion(.failure(error))
-            }
-        }
+        communicateToServerWithDataTask(with: request, completion: completion)
     }
     
     func deleteData(method: HttpMethod, path: PathOfURL, item: ItemToDelete, param: UInt, completion: @escaping resultHandler) {
@@ -59,14 +45,7 @@ struct ItemManager {
             return completion(.failure(.failMakeURLRequest))
         }
         
-        communicateToServerWithDataTask(with: request) { result in
-            switch result {
-            case .success(let data):
-                return completion(.success(data))
-            case .failure(let error):
-                return completion(.failure(error))
-            }
-        }
+        communicateToServerWithDataTask(with: request, completion: completion)
     }
     
     func makeURL(method: HttpMethod, path: PathOfURL, param: UInt?) -> URL? {
