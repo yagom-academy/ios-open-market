@@ -13,10 +13,62 @@ class OpenMarketTests: XCTestCase {
     private var item: Item?
     private var deleteItem: ItemToDelete?
     
+    func testMakeURL() {
+        if let getItemListURL = ItemManager.shared.makeURL(method: .get, path: .items, param: 1) {
+            XCTAssertEqual(getItemListURL, URL(string: "https://camp-open-market.herokuapp.com/items/1"))
+        }
+        if let getItemDetailURL = ItemManager.shared.makeURL(method: .get, path: .item, param: 1) {
+            XCTAssertEqual(getItemDetailURL, URL(string: "https://camp-open-market.herokuapp.com/item/1"))
+        }
+        if let postItemURL = ItemManager.shared.makeURL(method: .post, path: .item, param: nil) {
+            XCTAssertEqual(postItemURL, URL(string: "https://camp-open-market.herokuapp.com/item"))
+        }
+        if let patchItemURL = ItemManager.shared.makeURL(method: .patch, path: .item, param: 1) {
+            XCTAssertEqual(patchItemURL, URL(string: "https://camp-open-market.herokuapp.com/item/1"))
+        }
+        if let deleteItemURL = ItemManager.shared.makeURL(method: .delete, path: .item, param: 1) {
+            XCTAssertEqual(deleteItemURL, URL(string: "https://camp-open-market.herokuapp.com/item/1"))
+        }
+    }
+    
+    func testMakeURLRequest() {
+        // GET URLReqeust 테스트
+        guard let getItemDetailURL = ItemManager.shared.makeURL(method: .get, path: .item, param: 1) else {
+            return
+        }
+        guard let getRequest = ItemManager.shared.makeURLRequestWithoutRequestBody(method: .get, requestURL: getItemDetailURL) else {
+            return
+        }
+        XCTAssertEqual(getItemDetailURL, URL(string: "https://camp-open-market.herokuapp.com/item/1"))
+        XCTAssertEqual(getRequest.httpMethod, "GET")
+        
+        // PATCH URLRequest 테스트
+        guard let patchItemURL = ItemManager.shared.makeURL(method: .patch, path: .item, param: 66) else {
+            return
+        }
+        let patchItem = ItemToUpload(title: nil,
+                                          descriptions: nil,
+                                          price: 750000,
+                                          currency: nil,
+                                          stock: 500000,
+                                          discountedPrice: nil,
+                                          images: nil,
+                                          password: "asdfqwerzxcv")
+        guard let jsonData = try? JSONEncoder().encode(patchItem as? ItemToUpload) else {
+            return
+        }
+        guard let patchRequest = ItemManager.shared.makeURLRequestWithRequestBody(method: .patch, requestURL: patchItemURL, item: patchItem) else {
+            return
+        }
+        XCTAssertEqual(patchItemURL, URL(string: "https://camp-open-market.herokuapp.com/item/66"))
+        XCTAssertEqual(patchRequest.httpMethod, "PATCH")
+        XCTAssertEqual(patchRequest.httpBody, jsonData)
+    }
+    
     func testGetItemListAsync() {
         let expectation = XCTestExpectation(description: "APIPrivoderTaskExpectation")
 
-        ItemManager.loadData(path: .items, param: 1) { [self] result in
+        ItemManager.shared.loadData(method: .get, path: .items, param: 1) { [self] result in
             switch result {
             case .success(let data):
                 guard let data = data else {
@@ -41,7 +93,7 @@ class OpenMarketTests: XCTestCase {
     
     func testGetItemDetail() {
         let expectation = XCTestExpectation(description: "APIPrivoderTaskExpectation")
-        ItemManager.loadData(path: .item, param: 68) { [self] result in
+        ItemManager.shared.loadData(method: .get, path: .item, param: 68) { [self] result in
             switch result {
             case .success(let data):
                 guard let data = data else {
@@ -93,7 +145,7 @@ class OpenMarketTests: XCTestCase {
                                         images: imageDataStringArray,
                                         password: "asdfqwerzxcv")
         
-        ItemManager.uploadData(method: .post, path: .item, item: newItem, param: nil) { [self] result in
+        ItemManager.shared.uploadData(method: .post, path: .item, item: newItem, param: nil) { [self] result in
             switch result {
             case .success(let data):
                 guard let data = data else {
@@ -126,8 +178,8 @@ class OpenMarketTests: XCTestCase {
     
     func testPatchItem() {
         let expectation = XCTestExpectation(description: "APIPrivoderTaskExpectation")
-        let param: UInt = 239
-        let pathcItem = ItemToUpload(title: nil,
+        let param: UInt = 392
+        let patchItem = ItemToUpload(title: nil,
                                           descriptions: nil,
                                           price: 750000,
                                           currency: nil,
@@ -136,7 +188,7 @@ class OpenMarketTests: XCTestCase {
                                           images: nil,
                                           password: "asdfqwerzxcv")
         
-        ItemManager.uploadData(method: .patch, path: .item, item: pathcItem, param: param) { [self] result in
+        ItemManager.shared.uploadData(method: .patch, path: .item, item: patchItem, param: param) { [self] result in
             switch result {
             case .success(let data):
                 guard let data = data else {
@@ -179,10 +231,10 @@ class OpenMarketTests: XCTestCase {
     
     func testDeleteData() {
         let expectation = XCTestExpectation(description: "APIPrivoderTaskExpectation")
-        let param: UInt = 239
+        let param: UInt = 394
         let item = ItemToDelete(id: param, password: "asdfqwerzxcv")
         
-        ItemManager.deleteData(path: .item, deleteItem: item, param: param) { [self] result in
+        ItemManager.shared.deleteData(method: .delete, path: .item, item: item, param: param) { [self] result in
             switch result {
             case .success(let data):
                 guard let data = data else {

@@ -9,113 +9,84 @@ import Foundation
 
 struct ItemManager {
     typealias resultHandler = (Result<Data?, OpenMarketError>) -> Void
-    static func loadData(path: PathOfURL, param: UInt, completion: @escaping resultHandler) {
-        var url: URL?
-        switch path {
-        case .item:
-            url = NetworkConfig.setUpUrl(method: .get, path: .item, param: param)
-        case .items:
-            url = NetworkConfig.setUpUrl(method: .get, path: .items, param: param)
-        }
-        guard let requestUrl = url else {
-            return completion(.failure(.failSetUpURL))
-        }
+    static let shared = ItemManager()
+    private init() {}
     
-        var request = URLRequest(url: requestUrl)
-        request.httpMethod = HttpMethod.get.rawValue
-        let session: URLSession = URLSession(configuration: .default)
-        let dataTask: URLSessionDataTask = session.dataTask(with: request) { (data: Data?, response: URLResponse?, error: Error?) in
-            if let error = error {
-                return completion(.failure(.failTransportData))
-            }
-            
-            guard let httpResponse = response as? HTTPURLResponse,
-                  (200...299).contains(httpResponse.statusCode) else {
-                return completion(.failure(.failFetchData))
-            }
-            
-            guard let mimeType = httpResponse.mimeType, mimeType == "application/json" else {
-                return completion(.failure(.failMatchMimeType))
-            }
-            
-            guard let data = data else {
-                return completion(.failure(.failGetData))
-            }
-            
-            return completion(.success(data))
-        }
-        dataTask.resume()
-    }
-    
-    static func uploadData(method: HttpMethod, path: PathOfURL, item: ItemToUpload, param: UInt?, completion: @escaping resultHandler) {
-        var url: URL?
-        switch path {
-        case .item:
-            if let param = param {
-                url = NetworkConfig.setUpUrl(method: method, path: .item, param: param)
-            }
-            else {
-                url = NetworkConfig.setUpUrl(method: method, path: .item, param: nil)
-            }
-        case .items:
-            return  completion(.failure(.unknown))
-        }
-        guard let requestUrl = url else {
+    func loadData(method: HttpMethod, path: PathOfURL, param: UInt, completion: @escaping resultHandler) {
+        guard let requestUrl = makeURL(method: method, path: path, param: param) else {
             return completion(.failure(.failSetUpURL))
         }
         
-        var request = URLRequest(url: requestUrl)
+        guard let request = makeURLRequestWithoutRequestBody(method: method, requestURL: requestUrl) else {
+            return completion(.failure(.failMakeURLRequest))
+        }
+        
+        communicateToServerWithDataTask(with: request, completion: completion)
+    }
+    
+    func uploadData(method: HttpMethod, path: PathOfURL, item: ItemToUpload, param: UInt?, completion: @escaping resultHandler) {
+        guard let requestUrl = makeURL(method: method, path: path, param: param) else {
+            return completion(.failure(.failSetUpURL))
+        }
+        
+        guard let request = makeURLRequestWithRequestBody(method: method, requestURL: requestUrl, item: item) else {
+            return completion(.failure(.failMakeURLRequest))
+        }
+        
+        communicateToServerWithDataTask(with: request, completion: completion)
+    }
+    
+    func deleteData(method: HttpMethod, path: PathOfURL, item: ItemToDelete, param: UInt, completion: @escaping resultHandler) {
+        guard let requestUrl = makeURL(method: method, path: path, param: param) else {
+            return completion(.failure(.failSetUpURL))
+        }
+        
+        guard let request = makeURLRequestWithRequestBody(method: method, requestURL: requestUrl, item: item) else {
+            return completion(.failure(.failMakeURLRequest))
+        }
+        
+        communicateToServerWithDataTask(with: request, completion: completion)
+    }
+    
+    func makeURL(method: HttpMethod, path: PathOfURL, param: UInt?) -> URL? {
+        var url: URL?
+        if let param = param {
+            url = NetworkConfig.setUpUrl(method: method, path: path, param: param)
+        }
+        else {
+            url = NetworkConfig.setUpUrl(method: method, path: path, param: nil)
+        }
+        return url
+    }
+    
+    func makeURLRequestWithoutRequestBody(method: HttpMethod, requestURL: URL) -> URLRequest? {
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = method.rawValue
+        return request
+    }
+    
+    func makeURLRequestWithRequestBody<T>(method: HttpMethod, requestURL: URL, item: T) -> URLRequest? {
+        var request = URLRequest(url: requestURL)
         request.httpMethod = method.rawValue
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
-        guard let jsonData = try? JSONEncoder().encode(item) else {
-            return completion(.failure(.failEncode))
+        if method == .delete {
+            guard let jsonData = try? JSONEncoder().encode(item as? ItemToDelete) else {
+                return nil
+            }
+            request.httpBody = jsonData
         }
-        
-        let session: URLSession = URLSession(configuration: .default)
-        let dataTask: URLSessionUploadTask = session.uploadTask(with: request, from: jsonData) { (data: Data?, response: URLResponse?,error: Error?) in
-            if let error = error {
-                return completion(.failure(.failTransportData))
+        else if method == .post || method == .patch {
+            guard let jsonData = try? JSONEncoder().encode(item as? ItemToUpload) else {
+                return nil
             }
-            
-            guard let httpResponse = response as? HTTPURLResponse,
-                  (200...299).contains(httpResponse.statusCode) else {
-                return completion(.failure(.failUploadData))
-            }
-            
-            guard let mimeType = httpResponse.mimeType, mimeType == "application/json" else {
-                return completion(.failure(.failMatchMimeType))
-            }
-            
-            guard let data = data else {
-                return completion(.failure(.failGetData))
-            }
-            return completion(.success(data))
+            request.httpBody = jsonData
         }
-        dataTask.resume()
+        return request
     }
     
-    static func deleteData(path: PathOfURL, deleteItem: ItemToDelete, param: UInt, completion: @escaping resultHandler) {
-        var url: URL?
-        switch path {
-        case .item:
-            url = NetworkConfig.setUpUrl(method: .delete, path: .item, param: param)
-        case .items:
-            return  completion(.failure(.unknown))
-        }
-        guard let requestUrl = url else {
-            return completion(.failure(.failSetUpURL))
-        }
-        
-        var request = URLRequest(url: requestUrl)
-        request.httpMethod = HttpMethod.delete.rawValue
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        guard let jsonData = try? JSONEncoder().encode(deleteItem) else {
-            return completion(.failure(.failEncode))
-        }
-        request.httpBody = jsonData
-        
-        let session: URLSession = URLSession(configuration: .default)
+    func communicateToServerWithDataTask(with request: URLRequest, completion: @escaping resultHandler) {
+        let session: URLSession = URLSession.shared
         let dataTask: URLSessionDataTask = session.dataTask(with: request) { (data: Data?, response: URLResponse?, error: Error?) in
             if let error = error {
                 return completion(.failure(.failTransportData))
