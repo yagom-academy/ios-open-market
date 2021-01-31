@@ -178,7 +178,7 @@ class OpenMarketTests: XCTestCase {
     
     func testPatchItem() {
         let expectation = XCTestExpectation(description: "APIPrivoderTaskExpectation")
-        let param: UInt = 239
+        let param: UInt = 392
         let patchItem = ItemToUpload(title: nil,
                                           descriptions: nil,
                                           price: 750000,
@@ -231,7 +231,7 @@ class OpenMarketTests: XCTestCase {
     
     func testDeleteData() {
         let expectation = XCTestExpectation(description: "APIPrivoderTaskExpectation")
-        let param: UInt = 239
+        let param: UInt = 394
         let item = ItemToDelete(id: param, password: "asdfqwerzxcv")
         
         ItemManager.shared.deleteData(method: .delete, path: .item, item: item, param: param) { [self] result in
