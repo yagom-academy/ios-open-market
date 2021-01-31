@@ -16,7 +16,7 @@ class OpenMarketTests: XCTestCase {
     func testGetItemListAsync() {
         let expectation = XCTestExpectation(description: "APIPrivoderTaskExpectation")
 
-        ItemManager.shared.loadData(path: .items, param: 1) { [self] result in
+        ItemManager.shared.loadData(method: .get, path: .items, param: 1) { [self] result in
             switch result {
             case .success(let data):
                 guard let data = data else {
@@ -41,7 +41,7 @@ class OpenMarketTests: XCTestCase {
     
     func testGetItemDetail() {
         let expectation = XCTestExpectation(description: "APIPrivoderTaskExpectation")
-        ItemManager.shared.loadData(path: .item, param: 68) { [self] result in
+        ItemManager.shared.loadData(method: .get, path: .item, param: 68) { [self] result in
             switch result {
             case .success(let data):
                 guard let data = data else {
@@ -182,7 +182,7 @@ class OpenMarketTests: XCTestCase {
         let param: UInt = 239
         let item = ItemToDelete(id: param, password: "asdfqwerzxcv")
         
-        ItemManager.shared.deleteData(path: .item, deleteItem: item, param: param) { [self] result in
+        ItemManager.shared.deleteData(method: .delete, path: .item, item: item, param: param) { [self] result in
             switch result {
             case .success(let data):
                 guard let data = data else {
