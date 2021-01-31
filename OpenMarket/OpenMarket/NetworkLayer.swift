@@ -82,9 +82,9 @@ struct NetworkLayer {
         }.resume()
     }
     
-    func requestModification(bodyData: ItemModificationRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) {
+    func requestModification(number: Int, bodyData: ItemModificationRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) {
         
-        guard let urlRequest = httpRequest.CreateItemModificationURLRequest(requestAPI: .itemModification, bodyData: bodyData) else {
+        guard let urlRequest = httpRequest.itemModification(number: number, bodyData: bodyData) else {
             return
         }
         

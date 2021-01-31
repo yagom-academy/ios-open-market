@@ -10,15 +10,6 @@ import Foundation
 struct HTTPRequest {
     private let baseURL = "https://camp-open-market.herokuapp.com"
     
-    func CreateItemModificationURLRequest(requestAPI: RequestAPI, bodyData: ItemModificationRequest) -> URLRequest? {
-        switch requestAPI {
-        case .itemModification:
-            return itemModification(bodyData: bodyData)
-        default:
-            return nil
-        }
-    }
-    
     func CreateItemDeletionURLRequest(requestAPI: RequestAPI, bodyData: ItemDeletionRequest) -> URLRequest? {
         switch requestAPI {
         case .itemDeletion:
@@ -56,8 +47,6 @@ struct HTTPRequest {
         return urlRequest
     }
     
-//    httpRequest.itemSpecification(number: number)
-    
     func itemSpecification(number: Int) -> URLRequest? {
         guard var url = URL(string: baseURL) else {
             return nil
@@ -70,11 +59,13 @@ struct HTTPRequest {
         return urlRequest
     }
     
-    private func itemModification(bodyData: ItemModificationRequest) -> URLRequest? {
+//    httpRequest.itemModification(number: number, bodyData: bodyData)
+    
+    func itemModification(number: Int, bodyData: ItemModificationRequest) -> URLRequest? {
         guard var url = URL(string: baseURL) else {
             return nil
         }
-        let path = "/item/227"
+        let path = "/item/\(number)"
         url.appendPathComponent(path)
         
         var urlRequest = URLRequest(url: url)
