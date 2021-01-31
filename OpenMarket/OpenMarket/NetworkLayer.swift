@@ -10,9 +10,8 @@ import Foundation
 struct NetworkLayer {
     private let httpRequest = HTTPRequest()
     
-    func itemList(completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) {
-        
-        guard let urlRequest = httpRequest.CreateURLRequest(requestAPI: .itemList) else {
+    func requestItemList(page: Int, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) {
+        guard let urlRequest = httpRequest.itemList(id: page) else {
             return
         }
         

@@ -12,8 +12,6 @@ struct HTTPRequest {
     
     func CreateURLRequest(requestAPI: RequestAPI) -> URLRequest? {
         switch requestAPI {
-        case .itemList:
-            return itemList()
         case .itemSpecification:
             return itemSpecification()
         default:
