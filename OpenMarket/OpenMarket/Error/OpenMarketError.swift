@@ -17,6 +17,7 @@ enum OpenMarketError: Error {
     case failDecode
     case failEncode
     case failSetUpURL
+    case failMakeURLRequest
     case imageFileOverSize
     case imageFileOverRegistered
     case passwordNotMatched
@@ -44,6 +45,8 @@ extension OpenMarketError: LocalizedError {
             return "데이터를 인코딩하는데 실패하였습니다."
         case .failSetUpURL:
             return "URL을 가져오는데 실패하였습니다."
+        case .failMakeURLRequest:
+            return "URLReqeust를 만드는데 실패하였습니다."
         case .imageFileOverSize:
             return "이미지 파일의 사이즈가 제한 사이즈보다 큽니다."
         case .imageFileOverRegistered:
