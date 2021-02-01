@@ -25,7 +25,7 @@ class MarketItemDecodeMockDataTests: XCTestCase {
         XCTAssertNotNil(sut)
         XCTAssertEqual(sut.id, 1)
         XCTAssertEqual(sut.title, "MacBook Air")
-        let lastDescriptionWord = sut.descriptions?.components(separatedBy: " ").last
+        let lastDescriptionWord = sut.description?.components(separatedBy: " ").last
         XCTAssertEqual(lastDescriptionWord, "있습니다.")
         XCTAssertEqual(sut.priceWithCurrency, "KRW 1,290,000")
         XCTAssertEqual(sut.stock, 1000000000000)
