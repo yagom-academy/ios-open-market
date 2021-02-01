@@ -12,9 +12,18 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setUpUI()
+    }
+    
+    private func setUpUI () {
+        segment.addTarget(self, action: #selector(changedSegmentValue(_:)), for: .valueChanged)
     }
     
     @IBAction func touchUpAddButton(_ sender: UIButton) {
         print("➕")
+    }
+    
+    @objc func changedSegmentValue(_ sender: UISegmentedControl) {
+        
     }
 }
