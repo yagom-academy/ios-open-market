@@ -60,16 +60,18 @@ class ViewController: UIViewController {
     }
     
     private func makeListCollectionViewLayout() -> UICollectionViewFlowLayout {
+        // TODO: Lasagna - add CollectionView List Type Layout
         return UICollectionViewFlowLayout()
     }
     
     private func makeGridCollectionViewLayout() -> UICollectionViewFlowLayout {
+        // TODO: Joons - add CollectionView Grid Type Layout
         return UICollectionViewFlowLayout()
     }
     
     private func setUpCollection() {
         // TODO: Lasagna - CollectionView List Type cell regist
-        // TODO: Joons - CollectionVIew Grid Type cell Regist
+        // TODO: Joons - CollectionView Grid Type cell Regist
     }
     
     @IBAction func touchUpAddButton(_ sender: UIButton) {
