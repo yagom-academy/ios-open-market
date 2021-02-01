@@ -35,6 +35,8 @@ struct OpenMarketHTTPRequest {
         }
     }
     
+    private let boundary = UUID().uuidString
+    
     func itemList(_ page: Int) -> URLRequest? {
         guard let url = URLAddress.searchItemList(page).fullURL else {
             return nil
@@ -50,9 +52,8 @@ struct OpenMarketHTTPRequest {
         }
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = HTTPMethod.post.rawValue
-        let boundary = UUID().uuidString
         urlRequest.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
-        urlRequest.httpBody = addMultipartFormDataToBody(paramters: bodyData, boundary: boundary)
+        urlRequest.httpBody = addMultipartFormDataToBody(paramters: bodyData)
         
         return urlRequest
     }
@@ -73,9 +74,8 @@ struct OpenMarketHTTPRequest {
         }
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = HTTPMethod.patch.rawValue
-        let boundary = UUID().uuidString
         urlRequest.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
-        urlRequest.httpBody = addMultipartFormDataToBody(paramters: bodyData, boundary: boundary)
+        urlRequest.httpBody = addMultipartFormDataToBody(paramters: bodyData)
         
         return urlRequest
     }
@@ -94,14 +94,14 @@ struct OpenMarketHTTPRequest {
         return urlRequest
     }
     
-    private func addMultipartFormDataToBody(paramters: ItemModificationRequest, boundary: String) -> Data {
+    private func addMultipartFormDataToBody(paramters: ItemModificationRequest) -> Data {
         var body = Data()
         
         for (parameter, value) in paramters.description {
             if let data = value as? [Data] {
-                body.append(makeMultipartFormDataParameter(parameter: parameter, value: data, boundary: boundary))
+                body.append(makeMultipartFormDataParameter(parameter: parameter, value: data))
             } else {
-                body.append(makeMultipartFormParameter(parameter: parameter, value: value, boundary: boundary))
+                body.append(makeMultipartFormParameter(parameter: parameter, value: value))
             }
         }
         
@@ -111,14 +111,14 @@ struct OpenMarketHTTPRequest {
         return body
     }
     
-    private func addMultipartFormDataToBody(paramters: ItemRegistrationRequest, boundary: String) -> Data {
+    private func addMultipartFormDataToBody(paramters: ItemRegistrationRequest) -> Data {
         var body = Data()
         
         for (parameter, value) in paramters.description {
             if let data = value as? [Data] {
-                body.append(makeMultipartFormDataParameter(parameter: parameter, value: data, boundary: boundary))
+                body.append(makeMultipartFormDataParameter(parameter: parameter, value: data))
             } else {
-                body.append(makeMultipartFormParameter(parameter: parameter, value: value, boundary: boundary))
+                body.append(makeMultipartFormParameter(parameter: parameter, value: value))
             }
         }
         
@@ -128,7 +128,7 @@ struct OpenMarketHTTPRequest {
         return body
     }
     
-    private func makeMultipartFormParameter(parameter: String, value: Any, boundary: String) -> Data {
+    private func makeMultipartFormParameter(parameter: String, value: Any) -> Data {
         var body = Data()
         
         body.append("--\(boundary)\r\n")
@@ -143,7 +143,7 @@ struct OpenMarketHTTPRequest {
         return body
     }
     
-    private func makeMultipartFormDataParameter(parameter: String, value: [Data], boundary: String) -> Data {
+    private func makeMultipartFormDataParameter(parameter: String, value: [Data]) -> Data {
         var body = Data()
         
         for image in value {
