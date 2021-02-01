@@ -25,9 +25,7 @@ struct OpenMarketHTTPRequest {
                 return "/items/\(page)"
             case .registerItem:
                 return "/item"
-            case .searchItem(let id),
-                 .modifyItem(let id),
-                 .deleteItem(let id):
+            case .searchItem(let id), .modifyItem(let id), .deleteItem(let id):
                 return "/item/\(id)"
             }
         }
