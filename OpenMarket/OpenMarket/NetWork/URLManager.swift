@@ -7,19 +7,41 @@
 
 import Foundation
 
-enum NetworkMethod {
-    case getItemList
-    case getItem
-    case postItem
-    case patchItem
-    case deleteItem
+enum HTTPMethod {
+    case get
+    case post
+    case patch
+    case delete
+    
+    var description: String {
+        switch self {
+        case .get:
+            return "GET"
+        case .post:
+            return "POST"
+        case .patch:
+            return "PATCH"
+        case .delete:
+            return "DELETE"
+        }
+    }
+}
+
+enum RequestType {
+    case loadItemList(page: Int)
+    case loadItem(id: Int)
+    case uploadItem
+    case editItem(id: Int)
+    case deleteItem(id: Int)
     
     var path: String {
         switch self {
-        case .getItemList:
-            return "/items"
-        case .getItem, .postItem, .patchItem, .deleteItem:
-            return "/item"
+        case .loadItemList(let page):
+            return "/items/\(page)"
+        case .loadItem(let id), .editItem(let id), .deleteItem(let id):
+            return "/item/\(id)"
+        case .uploadItem:
+            return"/item"
         }
     }
 }
@@ -27,8 +49,8 @@ enum NetworkMethod {
 struct URLManager {
     private static let baseURL = "https://camp-open-market.herokuapp.com"
     
-    static func makeURL(type: NetworkMethod, value: Int?) -> URL? {
-        guard let urlString = makeUrlString(type: type, value: value) else {
+    static func makeURL(type: RequestType) -> URL? {
+        guard let urlString = makeUrlString(type: type) else {
             print("url 없음")
             return nil
         }
@@ -36,30 +58,9 @@ struct URLManager {
         return url
     }
     
-    private static func makeUrlString(type: NetworkMethod, value: Int?) -> String? {
+    private static func makeUrlString(type: RequestType) -> String? {
         var urlString = URLManager.baseURL
         urlString.append(type.path)
-        switch type {
-        case .getItemList:
-            guard let page = value else {
-                print("페이지를 입력하세요?")
-                return nil
-            }
-            urlString.append("/\(page)")
-            return urlString
-        case .postItem:
-            guard value == nil else {
-                print("??")
-                return nil
-            }
-            return urlString
-        case .getItem, .patchItem, .deleteItem:
-            guard let id = value else {
-                print("id를 입력하세요")
-                return nil
-            }
-            urlString.append("/\(id)")
-            return urlString
-        }
+        return urlString
     }
 }
