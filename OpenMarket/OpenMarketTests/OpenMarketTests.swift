@@ -11,14 +11,6 @@ import XCTest
 class OpenMarketTests: XCTestCase {
     let networkLayer = NetworkLayer()
     
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-    }
-
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
-
     func testRequestItemList() throws {
         let expectation = XCTestExpectation(description: "목록 조회")
         networkLayer.requestItemList(page: 1) { data, _, _ in
@@ -50,14 +42,14 @@ class OpenMarketTests: XCTestCase {
 
     func testRequestItemSpecification() throws {
         let expectation = XCTestExpectation(description: "상품 조회")
-        let number = 400
-        networkLayer.requestSpecification(number: number) { data, _, _ in
+        let id = 417
+        networkLayer.requestSpecification(id: id) { data, _, _ in
             XCTAssertNotNil(data, "상품 조회 실패")
             expectation.fulfill()
         }
         wait(for: [expectation], timeout: 10.0)
     }
-    
+
     func testRequestItemModification() throws {
         let expectation = XCTestExpectation(description: "상품 수정")
         let imageData = UIImage(systemName: "pencil")!.pngData()!
@@ -69,20 +61,20 @@ class OpenMarketTests: XCTestCase {
             stock: 100,
             discountedPrice: 50,
             images: [imageData],
-            password: "1234")
+            password: "test")
 
-        networkLayer.requestModification(number: 400, bodyData: item) { data, _, _ in
+        networkLayer.requestModification(id: 417, bodyData: item) { data, _, _ in
             XCTAssertNotNil(data, "상품 수정")
             expectation.fulfill()
         }
         wait(for: [expectation], timeout: 10.0)
     }
-    
+
     func testRequestItemDeletion() throws {
         let expectation = XCTestExpectation(description: "상품 삭제")
-        let item = ItemDeletionRequest(id: 400, password: "test")
+        let item = ItemDeletionRequest(id: 431, password: "test")
 
-        networkLayer.requestDeletion(number: 400, bodyData: item) { data, _, _ in
+        networkLayer.requestDeletion(id: 431, bodyData: item) { data, _, _ in
             XCTAssertNotNil(data, "상품 삭제")
             expectation.fulfill()
         }

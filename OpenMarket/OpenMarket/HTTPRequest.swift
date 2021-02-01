@@ -8,27 +8,48 @@
 import Foundation
 
 struct HTTPRequest {
-    private let baseURL = "https://camp-open-market.herokuapp.com"
+    private enum URLAddress {
+        case searchItemList(Int)
+        case registerItem
+        case searchItem(Int)
+        case modifyItem(Int)
+        case deleteItem(Int)
+        
+        var url: String {
+            "https://camp-open-market.herokuapp.com"
+        }
+        
+        var path: String {
+            switch self {
+            case .searchItemList(let page):
+                return "/items/\(page)"
+            case .registerItem:
+                return "/item"
+            case .searchItem(let id),
+                 .modifyItem(let id),
+                 .deleteItem(let id):
+                return "/item/\(id)"
+            }
+        }
+        
+        var fullURL: URL? {
+            URL(string: url)?.appendingPathComponent(path)
+        }
+    }
     
-    func itemList(id: Int) -> URLRequest? {
-        guard var url = URL(string: baseURL) else {
+    func itemList(_ page: Int) -> URLRequest? {
+        guard let url = URLAddress.searchItemList(page).fullURL else {
             return nil
         }
-        let path = "/items/\(id)"
-        url.appendPathComponent(path)
-        
         let urlRequest = URLRequest(url: url)
         
         return urlRequest
     }
     
-    func itemRegistration(bodyData: ItemRegistrationRequest) -> URLRequest? {
-        guard var url = URL(string: baseURL) else {
+    func itemRegistration(_ bodyData: ItemRegistrationRequest) -> URLRequest? {
+        guard let url = URLAddress.registerItem.fullURL else {
             return nil
         }
-        let path = "/item"
-        url.appendPathComponent(path)
-        
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = HTTPMethod.post.rawValue
         let boundary = UUID().uuidString
@@ -38,25 +59,20 @@ struct HTTPRequest {
         return urlRequest
     }
     
-    func itemSpecification(number: Int) -> URLRequest? {
-        guard var url = URL(string: baseURL) else {
+    func itemSpecification(_ id: Int) -> URLRequest? {
+        guard let url = URLAddress.searchItem(id).fullURL else {
             return nil
         }
-        let path = "/item/\(number)"
-        url.appendPathComponent(path)
         
         let urlRequest = URLRequest(url: url)
         
         return urlRequest
     }
     
-    func itemModification(number: Int, bodyData: ItemModificationRequest) -> URLRequest? {
-        guard var url = URL(string: baseURL) else {
-            return nil
+    func itemModification(_ id: Int, _ bodyData: ItemModificationRequest) -> URLRequest? {
+        guard let url = URLAddress.modifyItem(id).fullURL else {
+            return nil   
         }
-        let path = "/item/\(number)"
-        url.appendPathComponent(path)
-        
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = HTTPMethod.patch.rawValue
         let boundary = UUID().uuidString
@@ -66,13 +82,10 @@ struct HTTPRequest {
         return urlRequest
     }
     
-    func itemDeletion(number: Int, bodyData: ItemDeletionRequest) -> URLRequest? {
-        guard var url = URL(string: baseURL) else {
+    func itemDeletion(_ id: Int, _ bodyData: ItemDeletionRequest) -> URLRequest? {
+        guard let url = URLAddress.deleteItem(id).fullURL else {
             return nil
         }
-        let path = "/item/\(number)"
-        url.appendPathComponent(path)
-        
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = HTTPMethod.delete.rawValue
         urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")

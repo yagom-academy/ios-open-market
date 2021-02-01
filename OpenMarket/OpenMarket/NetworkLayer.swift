@@ -11,108 +11,41 @@ struct NetworkLayer {
     private let httpRequest = HTTPRequest()
     
     func requestItemList(page: Int, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) {
-        guard let urlRequest = httpRequest.itemList(id: page) else {
+        guard let urlRequest = httpRequest.itemList(page) else {
             return
         }
-        
-        let session = URLSession.shared
-        session.dataTask(with: urlRequest) { data, response, error in
-            if let error = error {
-                print(error)
-                return
-            }
-            
-            if let data = data {
-                do {
-                    let decodedData = try JSONDecoder().decode(ItemList.self, from: data)
-                    completionHandler(data, response, error)
-                    print(decodedData)
-                } catch {
-                    print(error)
-                }
-            }
-        }.resume()
+        request(urlRequest: urlRequest, modelType: ItemList.self, completionHandler: completionHandler)
     }
     
     func requestRegistration(bodyData: ItemRegistrationRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) {
-        guard let urlRequest = httpRequest.itemRegistration(bodyData: bodyData) else {
+        guard let urlRequest = httpRequest.itemRegistration(bodyData) else {
             return
         }
-        
-        let session = URLSession.shared
-        session.dataTask(with: urlRequest) { data, response, error in
-            if let error = error {
-                print(error)
-                return
-            }
-            
-            if let data = data {
-                do {
-                    let decodedData = try JSONDecoder().decode(ItemSpecificationResponse.self, from: data)
-                    completionHandler(data, response, error)
-                    print(decodedData)
-                } catch {
-                    print(error)
-                }
-            }
-        }.resume()
+        request(urlRequest: urlRequest, modelType: ItemSpecificationResponse.self, completionHandler: completionHandler)
     }
     
-    func requestSpecification(number: Int, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) {
-        guard let urlRequest = httpRequest.itemSpecification(number: number) else {
+    func requestSpecification(id: Int, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) {
+        guard let urlRequest = httpRequest.itemSpecification(id) else {
             return
         }
-        
-        let session = URLSession.shared
-        session.dataTask(with: urlRequest) { data, response, error in
-            if let error = error {
-                print(error)
-                return
-            }
-            
-            if let data = data {
-                do {
-                    let decodedData = try JSONDecoder().decode(ItemSpecificationResponse.self, from: data)
-                    completionHandler(data, response, error)
-                    print(decodedData)
-                } catch {
-                    print(error)
-                }
-            }
-        }.resume()
+        request(urlRequest: urlRequest, modelType: ItemSpecificationResponse.self, completionHandler: completionHandler)
     }
     
-    func requestModification(number: Int, bodyData: ItemModificationRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) {
-        
-        guard let urlRequest = httpRequest.itemModification(number: number, bodyData: bodyData) else {
+    func requestModification(id: Int, bodyData: ItemModificationRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) {
+        guard let urlRequest = httpRequest.itemModification(id, bodyData) else {
             return
         }
-        
-        let session = URLSession.shared
-        session.dataTask(with: urlRequest) { data, response, error in
-            if let error = error {
-                print(error)
-                return
-            }
-            
-            if let data = data {
-                do {
-                    let decodedData = try JSONDecoder().decode(ItemSpecificationResponse.self, from: data)
-                    completionHandler(data, response, error)
-                    print(decodedData)
-                } catch {
-                    print(error)
-                }
-            }
-        }.resume()
+        request(urlRequest: urlRequest, modelType: ItemSpecificationResponse.self, completionHandler: completionHandler)
     }
     
-    func requestDeletion(number: Int, bodyData: ItemDeletionRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) {
-        
-        guard let urlRequest = httpRequest.itemDeletion(number: number, bodyData: bodyData) else {
+    func requestDeletion(id: Int, bodyData: ItemDeletionRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) {
+        guard let urlRequest = httpRequest.itemDeletion(id, bodyData) else {
             return
         }
-        
+        request(urlRequest: urlRequest, modelType: ItemDeletionResponse.self, completionHandler: completionHandler)
+    }
+    
+    private func request<T: Decodable>(urlRequest: URLRequest, modelType: T.Type, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) {
         let session = URLSession.shared
         session.dataTask(with: urlRequest) { data, response, error in
             if let error = error {
@@ -122,7 +55,7 @@ struct NetworkLayer {
             
             if let data = data {
                 do {
-                    let decodedData = try JSONDecoder().decode(ItemDeletionResponse.self, from: data)
+                    let decodedData = try JSONDecoder().decode(modelType, from: data)
                     completionHandler(data, response, error)
                     print(decodedData)
                 } catch {
