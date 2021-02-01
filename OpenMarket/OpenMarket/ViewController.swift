@@ -10,11 +10,13 @@ class ViewController: UIViewController {
     let openMarketAPIManager = OpenMarketAPIManager(session: URLSession(configuration: .default))
     var productList = [Product]()
     let productListTableView = UITableView()
-    
-    let testProductName = ["mac mini","iphone","ipad"]
-    let testProductThumbnail = [UIImage(named: "default"),UIImage(named: "default"),UIImage(named: "default")]
-    let testProductPrice = ["10000","20000","30000"]
-    let testProductStock = ["1","2","3"]
+    let productListCollectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.backgroundColor = .white
+        return collectionView
+    }()
     
     let listPresentingStyleSelection = ["LIST","GRID"]
     lazy var addProductButton: UIBarButtonItem = {
@@ -35,10 +37,21 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         productListTableView.delegate = self
         productListTableView.dataSource = self
+        productListCollectionView.delegate = self
+        productListCollectionView.dataSource = self
+        
         productListTableView.rowHeight = 50
+
         productListTableView.register(ProductInformationCell.self, forCellReuseIdentifier: ProductInformationCell.identifier)
+        productListCollectionView.register(ProductInformationGridCell.self, forCellWithReuseIdentifier: ProductInformationGridCell.identifier)
+        
         view.addSubview(productListTableView)
-        setUpProductListView()
+        view.addSubview(productListCollectionView)
+        
+        setUpProductListTableView()
+        setUpProductListCollectionView()
+        productListCollectionView.isHidden = true
+        
         self.navigationItem.titleView = listPresentingStyleSegmentControl
         self.navigationItem.rightBarButtonItem = addProductButton
         
@@ -52,6 +65,7 @@ class ViewController: UIViewController {
                 
                 DispatchQueue.main.async {
                     self.productListTableView.reloadData()
+                    self.productListCollectionView.reloadData()
                 }
             case .failure(let error):
                 print(error)
@@ -60,7 +74,7 @@ class ViewController: UIViewController {
         
     }
     
-    private func setUpProductListView() {
+    private func setUpProductListTableView() {
         productListTableView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
@@ -68,6 +82,16 @@ class ViewController: UIViewController {
             productListTableView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
             productListTableView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
             productListTableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
+        ])
+    }
+    private func setUpProductListCollectionView() {
+        productListCollectionView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            productListCollectionView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 40),
+            productListCollectionView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            productListCollectionView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+            productListCollectionView.heightAnchor.constraint(equalToConstant: self.view.frame.height)
         ])
     }
 }
@@ -85,7 +109,6 @@ extension ViewController: UITableViewDataSource {
         }
         
         cell.thumbnailImageView.image = UIImage(named:"\(productList[indexPath.row].thumbnails)") ?? UIImage(named: "default")
-        cell.thumbnailImageView.image = UIImage(named: "default")
         cell.nameLabel.text = productList[indexPath.row].title
         cell.priceLabel.text = "\(productList[indexPath.row].currency) \(productList[indexPath.row].price)"
         cell.stockLabel.text = "재고: \(productList[indexPath.row].stock)"
@@ -93,16 +116,45 @@ extension ViewController: UITableViewDataSource {
         return cell
     }
 }
+extension ViewController: UICollectionViewDelegate {
+    
+}
+extension ViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: collectionView.frame.width / 2.3, height: collectionView.frame.width / 1.5)
+    }
+}
+extension ViewController: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return productList.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProductInformationGridCell.identifier, for: indexPath) as? ProductInformationGridCell else {
+            return UICollectionViewCell()
+        }
+        cell.backgroundColor = .white
+        cell.thumbnailImageView.image = UIImage(named:"\(productList[indexPath.item].thumbnails)") ?? UIImage(named: "default")
+        cell.nameLabel.text = productList[indexPath.item].title
+        cell.priceLabel.text = "\(productList[indexPath.item].currency) \(productList[indexPath.item].price)"
+        cell.stockLabel.text = "재고: \(productList[indexPath.item].stock)"
+        
+        return cell
+    }
+    
+    
+}
 extension ViewController {
     @objc private func handleSegmentedControlValueChanged(_ sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex {
         case 0:
             productListTableView.isHidden = false
+            productListCollectionView.isHidden = true
         case 1:
             productListTableView.isHidden = true
-            view.backgroundColor = .red
+            productListCollectionView.isHidden = false
         default:
-            setUpProductListView()
+            setUpProductListTableView()
         }
     }
     
