@@ -128,32 +128,16 @@ struct OpenMarketHTTPRequest {
         return body
     }
     
-    private func addMultipartFormDataToBody(paramters: ItemRegistrationRequest, boundary: String) -> Data? {
+    private func addMultipartFormDataToBody(paramters: ItemRegistrationRequest, boundary: String) -> Data {
         var body = Data()
-        guard let title = makeMultipartFormParameter(parameter: "title", value: paramters.title, boundary: boundary) else {
-            return nil
-        }
-        guard let descriptions = makeMultipartFormParameter(parameter: "descriptions", value: paramters.descriptions, boundary: boundary) else {
-            return nil
-        }
-        guard let price = makeMultipartFormParameter(parameter: "price", value: String(paramters.price), boundary: boundary) else {
-            return nil
-        }
-        guard let currency = makeMultipartFormParameter(parameter: "currency", value: paramters.currency, boundary: boundary) else {
-            return nil
-        }
-        guard let stock = makeMultipartFormParameter(parameter: "stock", value: String(paramters.stock), boundary: boundary) else {
-            return nil
-        }
-        guard let images = makeMultipartFormDataParameter(parameter: "images", value: paramters.images, boundary: boundary) else {
-            return nil
-        }
-        guard let password = makeMultipartFormParameter(parameter: "password", value: paramters.password, boundary: boundary) else {
-            return nil
-        }
-        guard let lastBoundaryLine = "--\(boundary)--\r\n".data(using: .utf8) else {
-            return nil
-        }
+        let title = makeMultipartFormParameter(parameter: "title", value: paramters.title, boundary: boundary)
+        let descriptions = makeMultipartFormParameter(parameter: "descriptions", value: paramters.descriptions, boundary: boundary)
+        let price = makeMultipartFormParameter(parameter: "price", value: String(paramters.price), boundary: boundary)
+        let currency = makeMultipartFormParameter(parameter: "currency", value: paramters.currency, boundary: boundary)
+        let stock = makeMultipartFormParameter(parameter: "stock", value: String(paramters.stock), boundary: boundary)
+        let images = makeMultipartFormDataParameter(parameter: "images", value: paramters.images, boundary: boundary)
+        let password = makeMultipartFormParameter(parameter: "password", value: paramters.password, boundary: boundary)
+        let lastBoundaryLine = "--\(boundary)--\r\n"
         
         body.append(title)
         body.append(descriptions)
