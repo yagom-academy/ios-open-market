@@ -16,12 +16,31 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="tBo-2J-MNF">
+                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="1BD-Db-gpb">
+                                    <size key="itemSize" width="128" height="128"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells/>
+                            </collectionView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="tBo-2J-MNF" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="Az8-Z3-AbM"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="tBo-2J-MNF" secondAttribute="bottom" id="Hme-af-hkG"/>
+                            <constraint firstItem="tBo-2J-MNF" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="Iaq-XE-UA7"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="tBo-2J-MNF" secondAttribute="trailing" id="uwf-c8-Olh"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="lAU-w8-doK">
                         <nil key="title"/>
-                        <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" id="rET-y1-cRq">
+                        <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" id="rET-y1-cRq">
                             <rect key="frame" x="161.5" y="5.5" width="91" height="33"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <segments>
@@ -29,8 +48,16 @@
                                 <segment title="Grid"/>
                             </segments>
                         </segmentedControl>
-                        <barButtonItem key="rightBarButtonItem" image="plus" catalog="system" id="CbK-rt-YA4"/>
+                        <barButtonItem key="rightBarButtonItem" image="plus" catalog="system" id="CbK-rt-YA4">
+                            <connections>
+                                <action selector="touchUpAddButton:" destination="BYZ-38-t0r" id="0NG-FD-qTd"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="collectionView" destination="tBo-2J-MNF" id="IBm-kd-Cv2"/>
+                        <outlet property="segment" destination="rET-y1-cRq" id="6aK-tG-EmP"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
