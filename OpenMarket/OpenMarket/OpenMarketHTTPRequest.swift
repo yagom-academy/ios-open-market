@@ -94,12 +94,12 @@ struct OpenMarketHTTPRequest {
         return urlRequest
     }
     
-    private func addMultipartFormDataToBody(paramters: ItemModificationRequest, boundary: String) -> Data? {
+    private func addMultipartFormDataToBody(paramters: ItemModificationRequest, boundary: String) -> Data {
         var body = Data()
         
         for (parameter, value) in paramters.description {
-            if value is [Data] {
-                body.append(makeMultipartFormDataParameter(parameter: parameter, value: value, boundary: boundary))
+            if let data = value as? [Data] {
+                body.append(makeMultipartFormDataParameter(parameter: parameter, value: data, boundary: boundary))
             } else {
                 body.append(makeMultipartFormParameter(parameter: parameter, value: value, boundary: boundary))
             }
@@ -115,8 +115,8 @@ struct OpenMarketHTTPRequest {
         var body = Data()
         
         for (parameter, value) in paramters.description {
-            if value is [Data] {
-                body.append(makeMultipartFormDataParameter(parameter: parameter, value: value, boundary: boundary))
+            if let data = value as? [Data] {
+                body.append(makeMultipartFormDataParameter(parameter: parameter, value: data, boundary: boundary))
             } else {
                 body.append(makeMultipartFormParameter(parameter: parameter, value: value, boundary: boundary))
             }
@@ -147,22 +147,20 @@ struct OpenMarketHTTPRequest {
         return body
     }
     
-    private func makeMultipartFormDataParameter(parameter: String, value: Any, boundary: String) -> Data {
+    private func makeMultipartFormDataParameter(parameter: String, value: [Data], boundary: String) -> Data {
         var body = Data()
         
-        if let images = value as? [Data] {
-            for image in images {
-                let boundaryLine = "--\(boundary)\r\n"
-                let contentDispositionLine = "Content-Disposition: form-data; name=\"\(parameter)[]\"; filename=\"image1.png\"\r\n"
-                let contentType = "Content-Type: image/png\r\n\r\n"
-                let lineBreak = "\r\n"
-                
-                body.append(boundaryLine)
-                body.append(contentDispositionLine)
-                body.append(contentType)
-                body.append(image)
-                body.append(lineBreak)
-            }
+        for image in value {
+            let boundaryLine = "--\(boundary)\r\n"
+            let contentDispositionLine = "Content-Disposition: form-data; name=\"\(parameter)[]\"; filename=\"image1.png\"\r\n"
+            let contentType = "Content-Type: image/png\r\n\r\n"
+            let lineBreak = "\r\n"
+            
+            body.append(boundaryLine)
+            body.append(contentDispositionLine)
+            body.append(contentType)
+            body.append(image)
+            body.append(lineBreak)
         }
         
         return body
