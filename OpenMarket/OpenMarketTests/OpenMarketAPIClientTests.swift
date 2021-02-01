@@ -55,7 +55,7 @@ class OpenMarketAPIClientTests: XCTestCase {
         sut = OpenMarketAPIClient(urlSession: MockURLSession(sampleData: OpenMarketAPIConfiguration.sampleDataOfMarkeItem))
         let expectation = XCTestExpectation()
         let mock = try? JSONDecoder().decode(MarketItem.self, from: OpenMarketAPIConfiguration.sampleDataOfMarkeItem)
-        let marketItemForPost = MarketItemForPost(title: "testTitle", descriptions: "testDescription", price: 550, currency: "KRW", stock: 11, discountedPrice: 50, images: [Data](), password: "1234")
+        let marketItemForPost = MarketItemForPost(title: "testTitle", description: "testDescription", price: 550, currency: "KRW", stock: 11, discountedPrice: 50, images: [Data](), password: "1234")
         
         sut.postMarketIem(marketItemForPost) { result in
             switch result {
@@ -74,7 +74,7 @@ class OpenMarketAPIClientTests: XCTestCase {
     func test_postMarketItem_failure() {
         sut = OpenMarketAPIClient(urlSession: MockURLSession(makeRequestFail: true, sampleData: OpenMarketAPIConfiguration.sampleDataOfMarkeItem))
         let expectation = XCTestExpectation()
-        let marketItemForPost = MarketItemForPost(title: "testTitle", descriptions: "testDescription", price: 550, currency: "KRW", stock: 11, discountedPrice: 50, images: [Data](), password: "1234")
+        let marketItemForPost = MarketItemForPost(title: "testTitle", description: "testDescription", price: 550, currency: "KRW", stock: 11, discountedPrice: 50, images: [Data](), password: "1234")
         
         sut.postMarketIem(marketItemForPost) { result in
             switch result {
@@ -129,7 +129,7 @@ class OpenMarketAPIClientTests: XCTestCase {
         sut = OpenMarketAPIClient(urlSession: MockURLSession(sampleData: OpenMarketAPIConfiguration.sampleDataOfMarkeItem))
         let expectation = XCTestExpectation()
         let mock = try? JSONDecoder().decode(MarketItem.self, from: OpenMarketAPIConfiguration.sampleDataOfMarkeItem)
-        let marketItemForPatch = MarketItemForPatch(title: "testTitle", descriptions: "testDescription", price: 550, currency: "KRW", stock: 11, discountedPrice: 50, images: [Data](), password: "1234")
+        let marketItemForPatch = MarketItemForPatch(title: "testTitle", description: "testDescription", price: 550, currency: "KRW", stock: 11, discountedPrice: 50, images: [Data](), password: "1234")
         
         sut.patchMarketItem(id: 1, marketItemForPatch) { result in
             switch result {
@@ -148,7 +148,7 @@ class OpenMarketAPIClientTests: XCTestCase {
     func test_patchMarketItem_failure() {
         sut = OpenMarketAPIClient(urlSession: MockURLSession(makeRequestFail: true, sampleData: OpenMarketAPIConfiguration.sampleDataOfMarkeItem))
         let expectation = XCTestExpectation()
-        let marketItemForPatch = MarketItemForPatch(title: "testTitle", descriptions: "testDescription", price: 550, currency: "KRW", stock: 11, discountedPrice: 50, images: [Data](), password: "1234")
+        let marketItemForPatch = MarketItemForPatch(title: "testTitle", description: "testDescription", price: 550, currency: "KRW", stock: 11, discountedPrice: 50, images: [Data](), password: "1234")
         
         sut.patchMarketItem(id: 1, marketItemForPatch) { result in
             switch result {

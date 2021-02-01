@@ -10,7 +10,7 @@ import Foundation
 struct MarketItem: Decodable {
     let id: Int
     let title: String?
-    let descriptions: String?
+    let description: String?
     private let price: Int?
     private let currency: String?
     let stock: Int?
@@ -43,7 +43,7 @@ struct MarketItem: Decodable {
     enum CodingKeys: String, CodingKey {
         case id
         case title
-        case descriptions
+        case description = "descriptions"
         case price
         case currency
         case stock
@@ -56,7 +56,7 @@ struct MarketItem: Decodable {
 
 struct MarketItemForPost: Encodable {
     let title: String
-    let descriptions: String
+    let description: String
     let price: Int
     let currency: String
     let stock: Int
@@ -66,7 +66,7 @@ struct MarketItemForPost: Encodable {
     
     enum CodingKeys: String, CodingKey {
         case title
-        case descriptions
+        case description = "descriptions"
         case price
         case currency
         case stock
@@ -78,7 +78,7 @@ struct MarketItemForPost: Encodable {
 
 struct MarketItemForPatch: Encodable {
     let title: String?
-    let descriptions: String?
+    let description: String?
     let price: Int?
     let currency: String?
     let stock: Int?
@@ -88,7 +88,7 @@ struct MarketItemForPatch: Encodable {
     
     enum CodingKeys: String, CodingKey {
         case title
-        case descriptions
+        case description = "descriptions"
         case price
         case currency
         case stock
