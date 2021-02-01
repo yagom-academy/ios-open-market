@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct HTTPRequest {
+struct OpenMarketHTTPRequest {
     private enum URLAddress {
         case searchItemList(Int)
         case registerItem

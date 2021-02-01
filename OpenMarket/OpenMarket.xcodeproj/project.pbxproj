@@ -13,7 +13,7 @@
 		413F27DA25C13BFE00CD2EAA /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413F27D925C13BFE00CD2EAA /* Item.swift */; };
 		413F27E625C13F3800CD2EAA /* ItemDeletionRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413F27E525C13F3800CD2EAA /* ItemDeletionRequest.swift */; };
 		413F27EA25C13F7000CD2EAA /* ItemDeletionResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413F27E925C13F7000CD2EAA /* ItemDeletionResponse.swift */; };
-		413F27F525C1422500CD2EAA /* HTTPRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413F27F425C1422500CD2EAA /* HTTPRequest.swift */; };
+		413F27F525C1422500CD2EAA /* OpenMarketHTTPRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413F27F425C1422500CD2EAA /* OpenMarketHTTPRequest.swift */; };
 		413F27FF25C1505600CD2EAA /* OpenMarketTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413F27FE25C1505600CD2EAA /* OpenMarketTests.swift */; };
 		4176077625C19E4F009F1CE3 /* ItemRegistrationRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4176077525C19E4F009F1CE3 /* ItemRegistrationRequest.swift */; };
 		4176077E25C1BF9C009F1CE3 /* ItemModificationRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4176077D25C1BF9C009F1CE3 /* ItemModificationRequest.swift */; };
@@ -42,7 +42,7 @@
 		413F27D925C13BFE00CD2EAA /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		413F27E525C13F3800CD2EAA /* ItemDeletionRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemDeletionRequest.swift; sourceTree = "<group>"; };
 		413F27E925C13F7000CD2EAA /* ItemDeletionResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemDeletionResponse.swift; sourceTree = "<group>"; };
-		413F27F425C1422500CD2EAA /* HTTPRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPRequest.swift; sourceTree = "<group>"; };
+		413F27F425C1422500CD2EAA /* OpenMarketHTTPRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketHTTPRequest.swift; sourceTree = "<group>"; };
 		413F27FC25C1505600CD2EAA /* OpenMarketTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenMarketTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		413F27FE25C1505600CD2EAA /* OpenMarketTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketTests.swift; sourceTree = "<group>"; };
 		413F280025C1505600CD2EAA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -124,7 +124,7 @@
 				C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */,
 				C70FB0FE25BEF61C00C9924E /* ViewController.swift */,
 				4102690525C181A0007DDBD2 /* NetworkLayer.swift */,
-				413F27F425C1422500CD2EAA /* HTTPRequest.swift */,
+				413F27F425C1422500CD2EAA /* OpenMarketHTTPRequest.swift */,
 				413F27D525C13B7B00CD2EAA /* Model */,
 				C70FB10025BEF61C00C9924E /* Main.storyboard */,
 				C70FB10325BEF61D00C9924E /* Assets.xcassets */,
@@ -246,7 +246,7 @@
 				4102690625C181A0007DDBD2 /* NetworkLayer.swift in Sources */,
 				413F27DA25C13BFE00CD2EAA /* Item.swift in Sources */,
 				412E66EF25C79F4F00E7E50A /* ItemSpecificationResponse.swift in Sources */,
-				413F27F525C1422500CD2EAA /* HTTPRequest.swift in Sources */,
+				413F27F525C1422500CD2EAA /* OpenMarketHTTPRequest.swift in Sources */,
 				413F27D725C13BA700CD2EAA /* ItemList.swift in Sources */,
 				413F27E625C13F3800CD2EAA /* ItemDeletionRequest.swift in Sources */,
 				4176077E25C1BF9C009F1CE3 /* ItemModificationRequest.swift in Sources */,
