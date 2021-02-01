@@ -11,35 +11,35 @@ struct NetworkLayer {
     private let httpRequest = OpenMarketHTTPRequest()
     
     func requestItemList(page: Int, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) {
-        guard let urlRequest = httpRequest.itemList(page) else {
+        guard let urlRequest = httpRequest.buildItemList(page) else {
             return
         }
         request(urlRequest: urlRequest, modelType: ItemList.self, completionHandler: completionHandler)
     }
     
     func requestRegistration(bodyData: ItemRegistrationRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) {
-        guard let urlRequest = httpRequest.itemRegistration(bodyData) else {
+        guard let urlRequest = httpRequest.buildItemRegistration(bodyData) else {
             return
         }
         request(urlRequest: urlRequest, modelType: ItemSpecificationResponse.self, completionHandler: completionHandler)
     }
     
     func requestSpecification(id: Int, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) {
-        guard let urlRequest = httpRequest.itemSpecification(id) else {
+        guard let urlRequest = httpRequest.buildItemSpecification(id) else {
             return
         }
         request(urlRequest: urlRequest, modelType: ItemSpecificationResponse.self, completionHandler: completionHandler)
     }
     
     func requestModification(id: Int, bodyData: ItemModificationRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) {
-        guard let urlRequest = httpRequest.itemModification(id, bodyData) else {
+        guard let urlRequest = httpRequest.buildItemModification(id, bodyData) else {
             return
         }
         request(urlRequest: urlRequest, modelType: ItemSpecificationResponse.self, completionHandler: completionHandler)
     }
     
     func requestDeletion(id: Int, bodyData: ItemDeletionRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) {
-        guard let urlRequest = httpRequest.itemDeletion(id, bodyData) else {
+        guard let urlRequest = httpRequest.buildItemDeletion(id, bodyData) else {
             return
         }
         request(urlRequest: urlRequest, modelType: ItemDeletionResponse.self, completionHandler: completionHandler)

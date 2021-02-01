@@ -37,7 +37,7 @@ struct OpenMarketHTTPRequest {
     
     private let boundary = UUID().uuidString
     
-    func itemList(_ page: Int) -> URLRequest? {
+    func buildItemList(_ page: Int) -> URLRequest? {
         guard let url = URLAddress.searchItemList(page).fullURL else {
             return nil
         }
@@ -46,7 +46,7 @@ struct OpenMarketHTTPRequest {
         return urlRequest
     }
     
-    func itemRegistration(_ bodyData: ItemRegistrationRequest) -> URLRequest? {
+    func buildItemRegistration(_ bodyData: ItemRegistrationRequest) -> URLRequest? {
         guard let url = URLAddress.registerItem.fullURL else {
             return nil
         }
@@ -58,7 +58,7 @@ struct OpenMarketHTTPRequest {
         return urlRequest
     }
     
-    func itemSpecification(_ id: Int) -> URLRequest? {
+    func buildItemSpecification(_ id: Int) -> URLRequest? {
         guard let url = URLAddress.searchItem(id).fullURL else {
             return nil
         }
@@ -68,7 +68,7 @@ struct OpenMarketHTTPRequest {
         return urlRequest
     }
     
-    func itemModification(_ id: Int, _ bodyData: ItemModificationRequest) -> URLRequest? {
+    func buildItemModification(_ id: Int, _ bodyData: ItemModificationRequest) -> URLRequest? {
         guard let url = URLAddress.modifyItem(id).fullURL else {
             return nil   
         }
@@ -80,7 +80,7 @@ struct OpenMarketHTTPRequest {
         return urlRequest
     }
     
-    func itemDeletion(_ id: Int, _ bodyData: ItemDeletionRequest) -> URLRequest? {
+    func buildItemDeletion(_ id: Int, _ bodyData: ItemDeletionRequest) -> URLRequest? {
         guard let url = URLAddress.deleteItem(id).fullURL else {
             return nil
         }
