@@ -40,6 +40,7 @@ class ViewController: UIViewController {
             segment.setTitle(element.valueString, forSegmentAt: index)
         }
         segment.addTarget(self, action: #selector(changedSegmentValue(_:)), for: .valueChanged)
+        reloadCollectionView()
     }
     
     @objc func changedSegmentValue(_ sender: UISegmentedControl) {
