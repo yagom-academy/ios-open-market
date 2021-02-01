@@ -22,32 +22,19 @@ class OpenMarketAPI {
     private static var session = URLSession(configuration: .default)
     private static var ephemeralSession = URLSession(configuration: .ephemeral)
     
-    static func getItemList(page: Int, _ completionHandler: @escaping (Result<ItemsToGet, Error>) -> Void) {
-        guard let url = URLManager.makeURL(type: .getItemList, value: page) else {
-            completionHandler(.failure(OpenMarketAPIError.wrongURL))
-            return
+    static func request<T: Decodable>(_ type: RequestType, _ completionHandler: @escaping (Result<T, Error>) -> Void) {
+            guard let url = URLManager.makeURL(type: type) else {
+                print("URL Error")
+                return
+            }
+            session.dataTask(with: url) { (data, response, error) in
+                let result = getResult(T.self, data: data, response: response, error: error)
+                completionHandler(result)
+            }.resume()
         }
     
-        session.dataTask(with: url) { (data, response, error) in
-            let result = getResult(ItemsToGet.self, data: data, response: response, error: error)
-            completionHandler(result)
-        }.resume()
-    }
-    
-    static func getItem(id: Int, _ completionHandler: @escaping (Result<ItemToGet, Error>) -> Void) {
-        guard let url = URLManager.makeURL(type: .getItem, value: id) else {
-            completionHandler(.failure(OpenMarketAPIError.wrongURL))
-            return
-        }
-        
-        session.dataTask(with: url) { (data, response, error) in
-            let result = getResult(ItemToGet.self, data: data, response: response, error: error)
-            completionHandler(result)
-        }.resume()
-    }
-    
-    static func postItem(itemToPost: ItemToPost, _ completionHandler: @escaping(Result<ItemAfterPost, Error>) -> Void) {
-        guard let url = URLManager.makeURL(type: .postItem, value: nil) else {
+    static func postItem(_ type: RequestType, itemToPost: ItemToPost, _ completionHandler: @escaping(Result<ItemAfterPost, Error>) -> Void) {
+        guard let url = URLManager.makeURL(type: type) else {
             completionHandler(.failure(OpenMarketAPIError.wrongURL))
             return
         }
@@ -61,44 +48,6 @@ class OpenMarketAPI {
         }
         ephemeralSession.uploadTask(with: urlRequest, from: dataToPost) { (data, response, error) in
             let result = getResult(ItemAfterPost.self, data: data, response: response, error: error)
-            completionHandler(result)
-        }.resume()
-    }
-    
-    static func patchItem(id: Int, itemToPatch: ItemToPatch, _ completionHandler: @escaping(Result<ItemAfterPatch, Error>) -> Void) {
-        guard let url = URLManager.makeURL(type: .patchItem, value: id) else {
-            completionHandler(.failure(OpenMarketAPIError.wrongURL))
-            return
-        }
-        // TODO: URLRequest 부분 따로 구현.
-        var urlRequest = URLRequest(url: url)
-        urlRequest.httpMethod = "PATCH"
-        urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        guard let dataToPatch = Parser.encodeData(itemToPatch) else {
-            print("Encoding Error")
-            return
-        }
-        ephemeralSession.uploadTask(with: urlRequest, from: dataToPatch) { (data, response, error) in
-            let result = getResult(ItemAfterPatch.self, data: data, response: response, error: error)
-            completionHandler(result)
-        }.resume()
-    }
-    
-    static func deleteItem(id: Int, itemToDelete: ItemToDelete, _ completionHandler: @escaping(Result<ItemAfterDelete, Error>) -> Void) {
-        guard let url = URLManager.makeURL(type: .deleteItem, value: id) else {
-            completionHandler(.failure(OpenMarketAPIError.wrongURL))
-            return
-        }
-        // TODO: URLRequest 부분 따로 구현.
-        var urlRequest = URLRequest(url: url)
-        urlRequest.httpMethod = "DELETE"
-        urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        guard let dataToDelete = Parser.encodeData(itemToDelete) else {
-            print("Encoding Error")
-            return
-        }
-        ephemeralSession.uploadTask(with: urlRequest, from: dataToDelete) { (data, response, error) in
-            let result = getResult(ItemAfterDelete.self, data: data, response: response, error: error)
             completionHandler(result)
         }.resume()
     }
