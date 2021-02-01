@@ -8,16 +8,35 @@
 import UIKit
 
 class ProductListTableViewCell: UITableViewCell {
-
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
+    let productNameLabel: UILabel = UILabel()
+    let productPriceLabel: UILabel = UILabel()
+    let productThumbnailImageView: UIImageView = UIImageView()
+    
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
+        self.contentView.addSubview(productNameLabel)
+        self.contentView.addSubview(productPriceLabel)
+        setUpLabel()
     }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
-
+    
+    private func setUpLabel() {
+        productNameLabel.translatesAutoresizingMaskIntoConstraints = false
+        productNameLabel.font = .preferredFont(forTextStyle: .body)
+        productNameLabel.adjustsFontForContentSizeCategory = true
+        productNameLabel.textColor = .black
+        
+        productPriceLabel.translatesAutoresizingMaskIntoConstraints = false
+        productPriceLabel.font = .preferredFont(forTextStyle: .body)
+        productPriceLabel.adjustsFontForContentSizeCategory = true
+        productPriceLabel.textColor = .black
+    }
+    func setUpLabelText(name: String) {
+          self.productNameLabel.text = "MAC"
+          self.productPriceLabel.text = "500"
+      }
 }
