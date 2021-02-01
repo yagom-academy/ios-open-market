@@ -100,6 +100,13 @@
 			path = Extension;
 			sourceTree = "<group>";
 		};
+		28081E0625C7B0B300794802 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
 		288D24DA25C3A07500790A15 /* Error */ = {
 			isa = PBXGroup;
 			children = (
@@ -182,6 +189,7 @@
 		C70FB0F925BEF61C00C9924E /* OpenMarket */ = {
 			isa = PBXGroup;
 			children = (
+				28081E0625C7B0B300794802 /* Cells */,
 				28081E0125C7A88200794802 /* Extension */,
 				288D24E825C3E11700790A15 /* Network */,
 				288D24DA25C3A07500790A15 /* Error */,
