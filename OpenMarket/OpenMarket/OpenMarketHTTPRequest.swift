@@ -195,18 +195,10 @@ struct OpenMarketHTTPRequest {
         var body = Data()
         
         for image in value {
-            guard let boundaryLine = "--\(boundary)\r\n".data(using: .utf8) else {
-                return body
-            }
-            guard let contentDispositionLine = "Content-Disposition: form-data; name=\"\(parameter)[]\"; filename=\"image1.png\"\r\n".data(using: .utf8) else {
-                return body
-            }
-            guard let contentType = "Content-Type: image/png\r\n\r\n".data(using: .utf8) else {
-                return body
-            }
-            guard let lineBreak = "\r\n".data(using: .utf8) else {
-                return body
-            }
+            let boundaryLine = "--\(boundary)\r\n"
+            let contentDispositionLine = "Content-Disposition: form-data; name=\"\(parameter)[]\"; filename=\"image1.png\"\r\n"
+            let contentType = "Content-Type: image/png\r\n\r\n"
+            let lineBreak = "\r\n"
             
             body.append(boundaryLine)
             body.append(contentDispositionLine)
