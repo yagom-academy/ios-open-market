@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		28081E0325C7A88E00794802 /* UIViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28081E0225C7A88E00794802 /* UIViewControllerExtension.swift */; };
 		288D24DE25C3A24900790A15 /* OpenMarketError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288D24DD25C3A24900790A15 /* OpenMarketError.swift */; };
 		288D24EA25C3E12500790A15 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288D24E925C3E12500790A15 /* Request.swift */; };
 		288D24EE25C3E27E00790A15 /* NetworkDispatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288D24ED25C3E27E00790A15 /* NetworkDispatcher.swift */; };
@@ -43,6 +44,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		28081E0225C7A88E00794802 /* UIViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtension.swift; sourceTree = "<group>"; };
 		288D24DD25C3A24900790A15 /* OpenMarketError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketError.swift; sourceTree = "<group>"; };
 		288D24E925C3E12500790A15 /* Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
 		288D24ED25C3E27E00790A15 /* NetworkDispatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkDispatcher.swift; sourceTree = "<group>"; };
@@ -90,6 +92,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		28081E0125C7A88200794802 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				28081E0225C7A88E00794802 /* UIViewControllerExtension.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
 		288D24DA25C3A07500790A15 /* Error */ = {
 			isa = PBXGroup;
 			children = (
@@ -172,6 +182,7 @@
 		C70FB0F925BEF61C00C9924E /* OpenMarket */ = {
 			isa = PBXGroup;
 			children = (
+				28081E0125C7A88200794802 /* Extension */,
 				288D24E825C3E11700790A15 /* Network */,
 				288D24DA25C3A07500790A15 /* Error */,
 				B42776B525BFAA340093639B /* MockData */,
@@ -299,6 +310,7 @@
 			files = (
 				B427769B25BFA61E0093639B /* Goods.swift in Sources */,
 				288D24F225C3E3BA00790A15 /* NetworkTask.swift in Sources */,
+				28081E0325C7A88E00794802 /* UIViewControllerExtension.swift in Sources */,
 				288D24EA25C3E12500790A15 /* Request.swift in Sources */,
 				B43EE7DF25C06171003089C9 /* NetworkConfig.swift in Sources */,
 				288D250F25C42F8F00790A15 /* DeleteGoods.swift in Sources */,
