@@ -29,9 +29,9 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setUpSegment()
         setUpCollectionViewLayouts()
         setUpCollection()
+        setUpSegment()
     }
     
     // MARK: - setUp Segment
@@ -43,8 +43,7 @@ class ViewController: UIViewController {
     }
     
     @objc func changedSegmentValue(_ sender: UISegmentedControl) {
-        collectionView.collectionViewLayout = collectionViewLayouts[sender.selectedSegmentIndex]
-        self.collectionView.reloadData()
+        reloadCollectionView()
     }
     
     // MARK: - setUp CollectionView
@@ -61,21 +60,46 @@ class ViewController: UIViewController {
     
     private func makeListCollectionViewLayout() -> UICollectionViewFlowLayout {
         // TODO: Lasagna - add CollectionView List Type Layout
-        return UICollectionViewFlowLayout()
+        let layout = UICollectionViewFlowLayout()
+        layout.estimatedItemSize = CGSize(width: UIScreen.main.bounds.width, height: 90)
+        return layout
     }
     
     private func makeGridCollectionViewLayout() -> UICollectionViewFlowLayout {
         // TODO: Joons - add CollectionView Grid Type Layout
-        return UICollectionViewFlowLayout()
+        // This is test layout code
+        let layout = UICollectionViewFlowLayout()
+        layout.estimatedItemSize = CGSize(width: UIScreen.main.bounds.width / 2 - 30, height: 90)
+        return layout
     }
     
     private func setUpCollection() {
+        collectionView.dataSource = self
+        // test cell, will delete
+        collectionView.register(UINib(nibName: "TestCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "cell")
         // TODO: Lasagna - CollectionView List Type cell regist
         // TODO: Joons - CollectionView Grid Type cell Regist
+    }
+    
+    private func reloadCollectionView() {
+        collectionView.collectionViewLayout = collectionViewLayouts[segment.selectedSegmentIndex]
+        self.collectionView.reloadData()
     }
     
     @IBAction func touchUpAddButton(_ sender: UIButton) {
         // TODO: add logic in step3
         print("➕")
     }
+}
+
+extension ViewController: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 10
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! TestCollectionViewCell
+        return cell
+    }
+    
 }
