@@ -34,4 +34,15 @@ struct ItemModificationRequest {
         self.images = images
         self.password = password
     }
+    
+    var description: [String: Any] {[
+        "title": title,
+        "descriptions": descriptions,
+        "price": price,
+        "currency": currency,
+        "stock": stock,
+        "discountedPrice": discountedPrice,
+        "images": images,
+        "password": password
+    ]}
 }
