@@ -96,29 +96,30 @@ struct OpenMarketHTTPRequest {
     
     private func addMultipartFormDataToBody(paramters: ItemModificationRequest, boundary: String) -> Data? {
         var body = Data()
+        
         if let title = paramters.title {
             let titleData = makeMultipartFormParameter(parameter: "title", value: title, boundary: boundary)
-                body.append(titleData)
+            body.append(titleData)
         }
         if let descriptions = paramters.descriptions {
             let descriptionsData = makeMultipartFormParameter(parameter: "descriptions", value: descriptions, boundary: boundary)
-                body.append(descriptionsData)
+            body.append(descriptionsData)
         }
         if let price = paramters.price {
             let priceData = makeMultipartFormParameter(parameter: "price", value: String(price), boundary: boundary)
-                body.append(priceData)
+            body.append(priceData)
         }
         if let currency = paramters.currency {
             let currencyData = makeMultipartFormParameter(parameter: "currency", value: currency, boundary: boundary)
-                body.append(currencyData)
+            body.append(currencyData)
         }
         if let stock = paramters.stock {
             let stockData = makeMultipartFormParameter(parameter: "stock", value: String(stock), boundary: boundary)
-                body.append(stockData)
+            body.append(stockData)
         }
         if let images = paramters.images {
             let imagesData = makeMultipartFormDataParameter(parameter: "images", value: images, boundary: boundary)
-                body.append(imagesData)
+            body.append(imagesData)
         }
         let password = makeMultipartFormParameter(parameter: "password", value: paramters.password, boundary: boundary)
         body.append(password)
@@ -130,57 +131,79 @@ struct OpenMarketHTTPRequest {
     
     private func addMultipartFormDataToBody(paramters: ItemRegistrationRequest, boundary: String) -> Data {
         var body = Data()
-        let title = makeMultipartFormParameter(parameter: "title", value: paramters.title, boundary: boundary)
-        let descriptions = makeMultipartFormParameter(parameter: "descriptions", value: paramters.descriptions, boundary: boundary)
-        let price = makeMultipartFormParameter(parameter: "price", value: String(paramters.price), boundary: boundary)
-        let currency = makeMultipartFormParameter(parameter: "currency", value: paramters.currency, boundary: boundary)
-        let stock = makeMultipartFormParameter(parameter: "stock", value: String(paramters.stock), boundary: boundary)
-        let images = makeMultipartFormDataParameter(parameter: "images", value: paramters.images, boundary: boundary)
-        let password = makeMultipartFormParameter(parameter: "password", value: paramters.password, boundary: boundary)
+        //        "title": title,
+        //        "descriptions": descriptions,
+        //        "price": price,
+        //        "currency": currency,
+        //        "stock": stock,
+        //        "discountedPrice": discountedPrice,
+        //        "images": images,
+        //        "password": password
+        
+        for (parameter, value) in paramters.description {
+            if value is [Data] {
+                body.append(makeMultipartFormDataParameter(parameter: parameter, value: value, boundary: boundary))
+            } else {
+                body.append(makeMultipartFormParameter(parameter: parameter, value: value, boundary: boundary))
+            }
+        }
+        
+        //        let title = makeMultipartFormParameter(parameter: "title", value: paramters.title, boundary: boundary)
+        //        let descriptions = makeMultipartFormParameter(parameter: "descriptions", value: paramters.descriptions, boundary: boundary)
+        //        let price = makeMultipartFormParameter(parameter: "price", value: String(paramters.price), boundary: boundary)
+        //        let currency = makeMultipartFormParameter(parameter: "currency", value: paramters.currency, boundary: boundary)
+        //        let stock = makeMultipartFormParameter(parameter: "stock", value: String(paramters.stock), boundary: boundary)
+        //        let images = makeMultipartFormDataParameter(parameter: "images", value: paramters.images, boundary: boundary)
+        //        let password = makeMultipartFormParameter(parameter: "password", value: paramters.password, boundary: boundary)
+        
         let lastBoundaryLine = "--\(boundary)--\r\n"
         
-        body.append(title)
-        body.append(descriptions)
-        body.append(price)
-        body.append(currency)
-        body.append(stock)
-        body.append(images)
-        body.append(password)
+        //        body.append(title)
+        //        body.append(descriptions)
+        //        body.append(price)
+        //        body.append(currency)
+        //        body.append(stock)
+        //        body.append(images)
+        //        body.append(password)
         body.append(lastBoundaryLine)
         
         return body
     }
     
-    private func makeMultipartFormParameter(parameter: String, value: String, boundary: String) -> Data {
+    private func makeMultipartFormParameter(parameter: String, value: Any, boundary: String) -> Data {
         var body = Data()
         
         let boundaryLine = "--\(boundary)\r\n"
         let contentDispositionLine = "Content-Disposition: form-data; name=\"\(parameter)\"\r\n\r\n"
-        let data = value
+        if let data = value as? String {
+            body.append(data)
+        }
         let lineBreak = "\r\n"
         
         body.append(boundaryLine)
         body.append(contentDispositionLine)
-        body.append(data)
+        //        body.append(data)
         body.append(lineBreak)
         
         return body
     }
     
-    private func makeMultipartFormDataParameter(parameter: String, value: [Data], boundary: String) -> Data {
+    private func makeMultipartFormDataParameter(parameter: String, value: Any, boundary: String) -> Data {
         var body = Data()
         
-        for image in value {
-            let boundaryLine = "--\(boundary)\r\n"
-            let contentDispositionLine = "Content-Disposition: form-data; name=\"\(parameter)[]\"; filename=\"image1.png\"\r\n"
-            let contentType = "Content-Type: image/png\r\n\r\n"
-            let lineBreak = "\r\n"
-            
-            body.append(boundaryLine)
-            body.append(contentDispositionLine)
-            body.append(contentType)
-            body.append(image)
-            body.append(lineBreak)
+        if let images = value as? [Data] {
+            for image in images {
+                let boundaryLine = "--\(boundary)\r\n"
+                let contentDispositionLine = "Content-Disposition: form-data; name=\"\(parameter)[]\"; filename=\"image1.png\"\r\n"
+                let contentType = "Content-Type: image/png\r\n\r\n"
+                let lineBreak = "\r\n"
+                
+                body.append(boundaryLine)
+                body.append(contentDispositionLine)
+                body.append(contentType)
+                body.append(image)
+                body.append(lineBreak)
+            }
         }
         
         return body

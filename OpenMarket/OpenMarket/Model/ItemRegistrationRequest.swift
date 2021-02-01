@@ -16,4 +16,15 @@ struct ItemRegistrationRequest {
     let discountedPrice: Int?
     let images: [Data]
     let password: String
+    
+    var description: [String: Any] {[
+        "title": title,
+        "descriptions": descriptions,
+        "price": price,
+        "currency": currency,
+        "stock": stock,
+        "discountedPrice": discountedPrice,
+        "images": images,
+        "password": password
+    ]}
 }
