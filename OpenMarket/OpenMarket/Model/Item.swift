@@ -18,13 +18,8 @@ struct Item: Decodable {
     let registrationDate: Double
     
     enum CodingKeys: String, CodingKey {
-        case id
-        case title
-        case price
-        case currency
-        case stock
+        case id, title, price, currency, stock, thumbnails
         case discountedPrice = "discounted_price"
-        case thumbnails
         case registrationDate = "registration_date"
     }
 }

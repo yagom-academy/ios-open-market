@@ -48,7 +48,7 @@ struct NetworkLayer {
             
             if let data = data {
                 do {
-                    let decodedData = try JSONDecoder().decode(ItemRegistrationResponse.self, from: data)
+                    let decodedData = try JSONDecoder().decode(ItemSpecificationResponse.self, from: data)
                     completionHandler(data, response, error)
                     print(decodedData)
                 } catch {
@@ -72,7 +72,7 @@ struct NetworkLayer {
             
             if let data = data {
                 do {
-                    let decodedData = try JSONDecoder().decode(ItemSpecification.self, from: data)
+                    let decodedData = try JSONDecoder().decode(ItemSpecificationResponse.self, from: data)
                     completionHandler(data, response, error)
                     print(decodedData)
                 } catch {
@@ -97,7 +97,7 @@ struct NetworkLayer {
             
             if let data = data {
                 do {
-                    let decodedData = try JSONDecoder().decode(ItemModificationResponse.self, from: data)
+                    let decodedData = try JSONDecoder().decode(ItemSpecificationResponse.self, from: data)
                     completionHandler(data, response, error)
                     print(decodedData)
                 } catch {

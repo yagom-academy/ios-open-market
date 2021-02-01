@@ -16,4 +16,22 @@ struct ItemModificationRequest {
     let discountedPrice: Int?
     let images: [Data]?
     let password: String
+    
+    init(title: String? = nil,
+         descriptions: String? = nil,
+         price: Int? = nil,
+         currency: String? = nil,
+         stock: Int? = nil,
+         discountedPrice: Int? = nil,
+         images: [Data]? = nil,
+         password: String) {
+        self.title = title
+        self.descriptions = descriptions
+        self.price = price
+        self.currency = currency
+        self.stock = stock
+        self.discountedPrice = discountedPrice
+        self.images = images
+        self.password = password
+    }
 }

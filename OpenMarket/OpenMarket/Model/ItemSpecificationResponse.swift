@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ItemSpecification: Decodable {
+struct ItemSpecificationResponse: Decodable {
     let id: Int
     let title: String
     let descriptions: String
@@ -20,15 +20,8 @@ struct ItemSpecification: Decodable {
     let registrationDate: Double
     
     enum CodingKeys: String, CodingKey {
-        case id
-        case title
-        case descriptions
-        case price
-        case currency
-        case stock
+        case id, title, descriptions, price, currency, stock, images, thumbnails
         case discountedPrice = "discounted_price"
-        case images
-        case thumbnails
         case registrationDate = "registration_date"
     }
 }
