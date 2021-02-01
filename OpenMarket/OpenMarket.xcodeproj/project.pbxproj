@@ -10,6 +10,9 @@
 		82186D6525C14CCF003AD8FB /* HTTPMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82186D6425C14CCF003AD8FB /* HTTPMethods.swift */; };
 		82186D6D25C14E01003AD8FB /* FeatureList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82186D6C25C14E01003AD8FB /* FeatureList.swift */; };
 		82934AC425BFB022006C7624 /* MockOpenMarketTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82934AC325BFB022006C7624 /* MockOpenMarketTests.swift */; };
+		82B552E425C2BF8D00C76325 /* ProductListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B552E325C2BF8D00C76325 /* ProductListTableViewCell.swift */; };
+		82B552E925C53F3600C76325 /* GridViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B552E825C53F3600C76325 /* GridViewController.swift */; };
+		82B552EE25C53F9E00C76325 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B552ED25C53F9E00C76325 /* ListViewController.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
 		C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */; };
 		C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FE25BEF61C00C9924E /* ViewController.swift */; };
@@ -49,6 +52,9 @@
 		82934AC125BFB022006C7624 /* OpenMarketTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenMarketTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		82934AC325BFB022006C7624 /* MockOpenMarketTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockOpenMarketTests.swift; sourceTree = "<group>"; };
 		82934AC525BFB022006C7624 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		82B552E325C2BF8D00C76325 /* ProductListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductListTableViewCell.swift; sourceTree = "<group>"; };
+		82B552E825C53F3600C76325 /* GridViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridViewController.swift; sourceTree = "<group>"; };
+		82B552ED25C53F9E00C76325 /* ListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -128,6 +134,9 @@
 				C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */,
 				C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */,
 				C70FB0FE25BEF61C00C9924E /* ViewController.swift */,
+				82B552E825C53F3600C76325 /* GridViewController.swift */,
+				82B552ED25C53F9E00C76325 /* ListViewController.swift */,
+				82B552E325C2BF8D00C76325 /* ProductListTableViewCell.swift */,
 				C70FB10025BEF61C00C9924E /* Main.storyboard */,
 				C70FB10325BEF61D00C9924E /* Assets.xcassets */,
 				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
@@ -297,11 +306,14 @@
 			files = (
 				D92DDE2025C1D5E400036BB9 /* OpenMarketURLMaker.swift in Sources */,
 				D928368D25BF2B5F00C98F6F /* Product.swift in Sources */,
+				82B552EE25C53F9E00C76325 /* ListViewController.swift in Sources */,
 				D928369E25BF31A600C98F6F /* OpenMarketAPIManager.swift in Sources */,
 				D928369025BF2B6C00C98F6F /* ProductList.swift in Sources */,
+				82B552E925C53F3600C76325 /* GridViewController.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
 				82186D6525C14CCF003AD8FB /* HTTPMethods.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
+				82B552E425C2BF8D00C76325 /* ProductListTableViewCell.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 				82186D6D25C14E01003AD8FB /* FeatureList.swift in Sources */,
 			);
