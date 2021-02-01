@@ -7,9 +7,18 @@
 import UIKit
 
 class ViewController: UIViewController {
-    enum SegmentValueTypes: String, CaseIterable {
-        case list = "List"
-        case grid = "Grid"
+    enum SegmentValueTypes: Int, CaseIterable {
+        case list = 0
+        case grid
+        
+        var valueString: String {
+            switch self {
+            case .list:
+                return "List"
+            case .grid:
+                return "Grid"
+            }
+        }
     }
     
     // MARK: - IBOutlets
@@ -25,14 +34,20 @@ class ViewController: UIViewController {
         setUpCollection()
     }
     
-    // MARK: - setUp UI
+    // MARK: - setUp Segment
     private func setUpSegment() {
         for (index, element) in SegmentValueTypes.allCases.enumerated() {
-            segment.setTitle(element.rawValue, forSegmentAt: index)
+            segment.setTitle(element.valueString, forSegmentAt: index)
         }
         segment.addTarget(self, action: #selector(changedSegmentValue(_:)), for: .valueChanged)
     }
     
+    @objc func changedSegmentValue(_ sender: UISegmentedControl) {
+        collectionView.collectionViewLayout = collectionViewLayouts[sender.selectedSegmentIndex]
+        self.collectionView.reloadData()
+    }
+    
+    // MARK: - setUp CollectionView
     private func setUpCollectionViewLayouts() {
         for valueType in SegmentValueTypes.allCases {
             switch valueType {
@@ -60,16 +75,5 @@ class ViewController: UIViewController {
     @IBAction func touchUpAddButton(_ sender: UIButton) {
         // TODO: add logic in step3
         print("➕")
-    }
-    
-    @objc func changedSegmentValue(_ sender: UISegmentedControl) {
-        switch sender.selectedSegmentIndex {
-        case 0:
-            print("click list")
-        case 1:
-            print("click grid")
-        default:
-            self.showErrorAlert(with: OpenMarketError.unknown, okHandler: nil)
-        }
     }
 }
