@@ -44,8 +44,8 @@
                             <rect key="frame" x="161.5" y="5.5" width="91" height="33"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <segments>
-                                <segment title="List"/>
-                                <segment title="Grid"/>
+                                <segment title="0"/>
+                                <segment title="1"/>
                             </segments>
                         </segmentedControl>
                         <barButtonItem key="rightBarButtonItem" image="plus" catalog="system" id="CbK-rt-YA4">
@@ -56,7 +56,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="collectionView" destination="tBo-2J-MNF" id="IBm-kd-Cv2"/>
-                        <outlet property="segment" destination="rET-y1-cRq" id="6aK-tG-EmP"/>
+                        <outlet property="segment" destination="rET-y1-cRq" id="0Sv-S1-A3b"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

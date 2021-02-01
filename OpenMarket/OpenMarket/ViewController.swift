@@ -7,18 +7,48 @@
 import UIKit
 
 class ViewController: UIViewController {
+    enum SegmentValueTypes: String, CaseIterable {
+        case list = "List"
+        case grid = "Grid"
+    }
+    
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var segment: UISegmentedControl!
     
+    private lazy var collectionViewLayouts: [UICollectionViewFlowLayout] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        setUpUI()
+        setUpSegment()
+        setUpCollectionViewLayouts()
         setUpCollection()
     }
     
     // MARK: - setUp UI
-    private func setUpUI () {
+    private func setUpSegment() {
+        for (index, element) in SegmentValueTypes.allCases.enumerated() {
+            segment.setTitle(element.rawValue, forSegmentAt: index)
+        }
         segment.addTarget(self, action: #selector(changedSegmentValue(_:)), for: .valueChanged)
+    }
+    
+    private func setUpCollectionViewLayouts() {
+        for valueType in SegmentValueTypes.allCases {
+            switch valueType {
+            case .list:
+                collectionViewLayouts.append(makeListCollectionViewLayout())
+            case .grid:
+                collectionViewLayouts.append(makeGridCollectionViewLayout())
+            }
+        }
+    }
+    
+    private func makeListCollectionViewLayout() -> UICollectionViewFlowLayout {
+        return UICollectionViewFlowLayout()
+    }
+    
+    private func makeGridCollectionViewLayout() -> UICollectionViewFlowLayout {
+        return UICollectionViewFlowLayout()
     }
     
     private func setUpCollection() {
