@@ -131,18 +131,14 @@ struct OpenMarketHTTPRequest {
     private func makeMultipartFormParameter(parameter: String, value: Any, boundary: String) -> Data {
         var body = Data()
         
-        let boundaryLine = "--\(boundary)\r\n"
-        let contentDispositionLine = "Content-Disposition: form-data; name=\"\(parameter)\"\r\n\r\n"
+        body.append("--\(boundary)\r\n")
+        body.append("Content-Disposition: form-data; name=\"\(parameter)\"\r\n\r\n")
         if let data = value as? String {
             body.append(data)
         } else if let data = value as? Int {
             body.append(String(data))
         }
-        let lineBreak = "\r\n"
-        
-        body.append(boundaryLine)
-        body.append(contentDispositionLine)
-        body.append(lineBreak)
+        body.append("\r\n")
         
         return body
     }
@@ -151,16 +147,11 @@ struct OpenMarketHTTPRequest {
         var body = Data()
         
         for image in value {
-            let boundaryLine = "--\(boundary)\r\n"
-            let contentDispositionLine = "Content-Disposition: form-data; name=\"\(parameter)[]\"; filename=\"image1.png\"\r\n"
-            let contentType = "Content-Type: image/png\r\n\r\n"
-            let lineBreak = "\r\n"
-            
-            body.append(boundaryLine)
-            body.append(contentDispositionLine)
-            body.append(contentType)
+            body.append("--\(boundary)\r\n")
+            body.append("Content-Disposition: form-data; name=\"\(parameter)[]\"; filename=\"image1.png\"\r\n")
+            body.append("Content-Type: image/png\r\n\r\n")
+            body.append("\r\n")
             body.append(image)
-            body.append(lineBreak)
         }
         
         return body
