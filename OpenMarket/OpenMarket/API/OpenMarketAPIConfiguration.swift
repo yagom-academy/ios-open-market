@@ -29,7 +29,25 @@ enum OpenMarketAPIConfiguration {
         return URL(string: OpenMarketAPIConfiguration.baseURL + path)
     }
     
-    static let sampleDataOfMarkePage = NSDataAsset(name: "items")!.data
-    static let sampleDataOfMarkeItem = NSDataAsset(name: "item")!.data
-    static let sampleDataOfMarketItemID = NSDataAsset(name: "id")!.data
+    static var sampleDataOfMarkePage: Data {
+        guard let dataAsset = NSDataAsset(name: "items") else {
+            print("wrong dataAsset - items")
+            return Data()
+        }
+        return dataAsset.data
+    }
+    static var sampleDataOfMarkeItem: Data {
+        guard let dataAsset = NSDataAsset(name: "item") else {
+            print("wrong dataAsset - item")
+            return Data()
+        }
+        return dataAsset.data
+    }
+    static var sampleDataOfMarketItemID: Data {
+        guard let dataAsset = NSDataAsset(name: "id") else {
+            print("wrong dataAsset - id")
+            return Data()
+        }
+        return dataAsset.data
+    }
 }
