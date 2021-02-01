@@ -16,9 +16,9 @@ class OpenMarketAPIClientTests: XCTestCase {
     }
     
     func test_getMarketPage() {
-        sut = OpenMarketAPIClient(urlSession: MockURLSession(sampleData: OpenMarketAPIConfiguration.sampleDataOfMarkePage))
+        sut = OpenMarketAPIClient(urlSession: MockURLSession(jsonSample: .marketPage))
         let expectation = XCTestExpectation()
-        let mock = try? JSONDecoder().decode(MarketPage.self, from: OpenMarketAPIConfiguration.sampleDataOfMarkePage)
+        let mock = try? JSONDecoder().decode(MarketPage.self, from: JSONSample.marketPage.data)
         
         sut.getMarketPage(pageNumber: 1) { result in
             switch result {
@@ -35,7 +35,7 @@ class OpenMarketAPIClientTests: XCTestCase {
     }
     
     func test_getMarketPage_failure() {
-        sut = OpenMarketAPIClient(urlSession: MockURLSession(makeRequestFail: true, sampleData: OpenMarketAPIConfiguration.sampleDataOfMarkePage))
+        sut = OpenMarketAPIClient(urlSession: MockURLSession(makeRequestFail: true, jsonSample: .marketPage))
         let expectation = XCTestExpectation()
         
         sut.getMarketPage(pageNumber: 1) { result in
@@ -52,9 +52,9 @@ class OpenMarketAPIClientTests: XCTestCase {
     }
     
     func test_postMarketItem() {
-        sut = OpenMarketAPIClient(urlSession: MockURLSession(sampleData: OpenMarketAPIConfiguration.sampleDataOfMarkeItem))
+        sut = OpenMarketAPIClient(urlSession: MockURLSession(jsonSample: .marketItem))
         let expectation = XCTestExpectation()
-        let mock = try? JSONDecoder().decode(MarketItem.self, from: OpenMarketAPIConfiguration.sampleDataOfMarkeItem)
+        let mock = try? JSONDecoder().decode(MarketItem.self, from: JSONSample.marketItem.data)
         let marketItemForPost = MarketItemForPost(title: "testTitle", description: "testDescription", price: 550, currency: "KRW", stock: 11, discountedPrice: 50, images: [Data](), password: "1234")
         
         sut.postMarketIem(marketItemForPost) { result in
@@ -72,7 +72,7 @@ class OpenMarketAPIClientTests: XCTestCase {
     }
     
     func test_postMarketItem_failure() {
-        sut = OpenMarketAPIClient(urlSession: MockURLSession(makeRequestFail: true, sampleData: OpenMarketAPIConfiguration.sampleDataOfMarkeItem))
+        sut = OpenMarketAPIClient(urlSession: MockURLSession(makeRequestFail: true, jsonSample: .marketItem))
         let expectation = XCTestExpectation()
         let marketItemForPost = MarketItemForPost(title: "testTitle", description: "testDescription", price: 550, currency: "KRW", stock: 11, discountedPrice: 50, images: [Data](), password: "1234")
         
@@ -90,9 +90,9 @@ class OpenMarketAPIClientTests: XCTestCase {
     }
 
     func test_getMarketItem() {
-        sut = OpenMarketAPIClient(urlSession: MockURLSession(sampleData: OpenMarketAPIConfiguration.sampleDataOfMarkeItem))
+        sut = OpenMarketAPIClient(urlSession: MockURLSession(jsonSample: .marketItem))
         let expectation = XCTestExpectation()
-        let mock = try? JSONDecoder().decode(MarketItem.self, from: OpenMarketAPIConfiguration.sampleDataOfMarkeItem)
+        let mock = try? JSONDecoder().decode(MarketItem.self, from: JSONSample.marketItem.data)
         
         sut.getMarketItem(id: 1) { result in
             switch result {
@@ -109,7 +109,7 @@ class OpenMarketAPIClientTests: XCTestCase {
     }
     
     func test_getMarketItem_failure() {
-        sut = OpenMarketAPIClient(urlSession: MockURLSession(makeRequestFail: true, sampleData: OpenMarketAPIConfiguration.sampleDataOfMarkeItem))
+        sut = OpenMarketAPIClient(urlSession: MockURLSession(makeRequestFail: true, jsonSample: .marketItem))
         let expectation = XCTestExpectation()
         
         sut.getMarketItem(id: 1) { result in
@@ -126,9 +126,9 @@ class OpenMarketAPIClientTests: XCTestCase {
     }
     
     func test_patchMarketItem() {
-        sut = OpenMarketAPIClient(urlSession: MockURLSession(sampleData: OpenMarketAPIConfiguration.sampleDataOfMarkeItem))
+        sut = OpenMarketAPIClient(urlSession: MockURLSession(jsonSample: .marketItem))
         let expectation = XCTestExpectation()
-        let mock = try? JSONDecoder().decode(MarketItem.self, from: OpenMarketAPIConfiguration.sampleDataOfMarkeItem)
+        let mock = try? JSONDecoder().decode(MarketItem.self, from: JSONSample.marketItem.data)
         let marketItemForPatch = MarketItemForPatch(title: "testTitle", description: "testDescription", price: 550, currency: "KRW", stock: 11, discountedPrice: 50, images: [Data](), password: "1234")
         
         sut.patchMarketItem(id: 1, marketItemForPatch) { result in
@@ -146,7 +146,7 @@ class OpenMarketAPIClientTests: XCTestCase {
     }
     
     func test_patchMarketItem_failure() {
-        sut = OpenMarketAPIClient(urlSession: MockURLSession(makeRequestFail: true, sampleData: OpenMarketAPIConfiguration.sampleDataOfMarkeItem))
+        sut = OpenMarketAPIClient(urlSession: MockURLSession(makeRequestFail: true, jsonSample: .marketItem))
         let expectation = XCTestExpectation()
         let marketItemForPatch = MarketItemForPatch(title: "testTitle", description: "testDescription", price: 550, currency: "KRW", stock: 11, discountedPrice: 50, images: [Data](), password: "1234")
         
@@ -164,9 +164,9 @@ class OpenMarketAPIClientTests: XCTestCase {
     }
     
     func test_deleteMarketItem() {
-        sut = OpenMarketAPIClient(urlSession: MockURLSession(sampleData: OpenMarketAPIConfiguration.sampleDataOfMarketItemID))
+        sut = OpenMarketAPIClient(urlSession: MockURLSession(jsonSample: .marketItem))
         let expectation = XCTestExpectation()
-        let mock = try? JSONDecoder().decode(MarketItem.self, from: OpenMarketAPIConfiguration.sampleDataOfMarketItemID)
+        let mock = try? JSONDecoder().decode(MarketItem.self, from: JSONSample.marketItemID.data)
         let marketItemForDelete = MarketItemForDelete(id: 1, password: "1234")
         
         sut.deleteMarketItem(id: 1, marketItemForDelete) { result in
@@ -183,7 +183,7 @@ class OpenMarketAPIClientTests: XCTestCase {
     }
     
     func test_deleteMarketItem_failure() {
-        sut = OpenMarketAPIClient(urlSession: MockURLSession(makeRequestFail: true, sampleData: OpenMarketAPIConfiguration.sampleDataOfMarkeItem))
+        sut = OpenMarketAPIClient(urlSession: MockURLSession(makeRequestFail: true, jsonSample: .marketItem))
         let expectation = XCTestExpectation()
         let marketItemForDelete = MarketItemForDelete(id: 1, password: "1234")
         
