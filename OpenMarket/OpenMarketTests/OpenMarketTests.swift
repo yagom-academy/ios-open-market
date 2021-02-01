@@ -11,7 +11,7 @@ import XCTest
 class OpenMarketTests: XCTestCase {
     let networkLayer = NetworkLayer()
     
-    func testRequestItemList() throws {
+    func test_getItemList_existData() throws {
         let expectation = XCTestExpectation(description: "목록 조회")
         networkLayer.requestItemList(page: 1) { data, _, _ in
             XCTAssertNotNil(data, "목록 조회 실패")
@@ -20,7 +20,7 @@ class OpenMarketTests: XCTestCase {
         wait(for: [expectation], timeout: 10.0)
     }
 
-    func testRequestItemRegistration() throws {
+    func test_requestItemRegistration_existData() throws {
         let expectation = XCTestExpectation(description: "상품 등록")
         let imageData = UIImage(systemName: "pencil")!.pngData()!
         let item = ItemRegistrationRequest(
@@ -40,7 +40,7 @@ class OpenMarketTests: XCTestCase {
         wait(for: [expectation], timeout: 10.0)
     }
 
-    func testRequestItemSpecification() throws {
+    func test_getItemSpecification_existData() throws {
         let expectation = XCTestExpectation(description: "상품 조회")
         let id = 417
         networkLayer.requestSpecification(id: id) { data, _, _ in
@@ -50,7 +50,7 @@ class OpenMarketTests: XCTestCase {
         wait(for: [expectation], timeout: 10.0)
     }
 
-    func testRequestItemModification() throws {
+    func test_requestItemModification_existData() throws {
         let expectation = XCTestExpectation(description: "상품 수정")
         let imageData = UIImage(systemName: "pencil")!.pngData()!
         let item = ItemModificationRequest(
@@ -70,7 +70,7 @@ class OpenMarketTests: XCTestCase {
         wait(for: [expectation], timeout: 10.0)
     }
 
-    func testRequestItemDeletion() throws {
+    func test_requestItemDeletion_existData() throws {
         let expectation = XCTestExpectation(description: "상품 삭제")
         let item = ItemDeletionRequest(id: 431, password: "test")
 
