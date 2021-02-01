@@ -32,8 +32,8 @@ class MockURLSession: URLSessionProtocol {
     }
     
     func dataTask(with request: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask {
-        let successResponse = HTTPURLResponse(url: OpenMarketAPIConfiguration.postMarketItem.url!, statusCode: 200, httpVersion: "2", headerFields: nil)
-        let failurResponse = HTTPURLResponse(url: OpenMarketAPIConfiguration.postMarketItem.url!, statusCode: 410, httpVersion: "2", headerFields: nil)
+        let successResponse = HTTPURLResponse(url: OpenMarketAPIServerURL.postMarketItem.fullPath!, statusCode: 200, httpVersion: "2", headerFields: nil)
+        let failurResponse = HTTPURLResponse(url: OpenMarketAPIServerURL.postMarketItem.fullPath!, statusCode: 410, httpVersion: "2", headerFields: nil)
         let urlSessionDataTask = MockURLSessionDataTask()
 
         urlSessionDataTask.resumeDidCall = {

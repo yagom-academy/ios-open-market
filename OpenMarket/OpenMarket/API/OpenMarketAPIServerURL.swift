@@ -7,7 +7,7 @@
 
 import UIKit
 
-enum OpenMarketAPIConfiguration {
+enum OpenMarketAPIServerURL {
     case getMarketPage(pageNumber: Int)
     case postMarketItem
     case getMarketItem(id: Int)
@@ -15,7 +15,7 @@ enum OpenMarketAPIConfiguration {
     case deleteMarketItem(id: Int)
     
     static let baseURL = "https://camp-open-market.herokuapp.com/"
-    var path: String {
+    private var path: String {
         switch self {
         case .getMarketPage(let pageNumber):
             return "items/\(pageNumber)"
@@ -25,7 +25,7 @@ enum OpenMarketAPIConfiguration {
             return "item/\(id)"
         }
     }
-    var url: URL? {
-        return URL(string: OpenMarketAPIConfiguration.baseURL + path)
+    var fullPath: URL? {
+        return URL(string: OpenMarketAPIServerURL.baseURL + path)
     }
 }

@@ -15,7 +15,7 @@ class OpenMarketAPIClient {
     }
     
     func getMarketPage(pageNumber: Int, completionHandler: @escaping (Result<MarketPage, OpenMarketAPIError>) -> Void) {
-        guard let url = OpenMarketAPIConfiguration.getMarketPage(pageNumber: pageNumber).url else {
+        guard let url = OpenMarketAPIServerURL.getMarketPage(pageNumber: pageNumber).fullPath else {
             completionHandler(.failure(.invalidURL))
             return
         }
@@ -36,7 +36,7 @@ class OpenMarketAPIClient {
     }
     
     func postMarketIem(_ marketItemForPost: MarketItemForPost, completionHandler: @escaping (Result<MarketItem, OpenMarketAPIError>) -> Void) {
-        guard let url = OpenMarketAPIConfiguration.postMarketItem.url else {
+        guard let url = OpenMarketAPIServerURL.postMarketItem.fullPath else {
             completionHandler(.failure(.invalidURL))
             return
         }
@@ -56,7 +56,7 @@ class OpenMarketAPIClient {
     }
     
     func getMarketItem(id: Int, completionHandler: @escaping (Result<MarketItem, OpenMarketAPIError>) -> Void) {
-        guard let url = OpenMarketAPIConfiguration.getMarketItem(id: id).url else {
+        guard let url = OpenMarketAPIServerURL.getMarketItem(id: id).fullPath else {
             completionHandler(.failure(.invalidURL))
             return
         }
@@ -76,7 +76,7 @@ class OpenMarketAPIClient {
     }
     
     func patchMarketItem(id: Int, _ marketItemForPatch: MarketItemForPatch, completionHandler: @escaping (Result<MarketItem, OpenMarketAPIError>) -> Void) {
-        guard let url = OpenMarketAPIConfiguration.patchMarketItem(id: id).url else {
+        guard let url = OpenMarketAPIServerURL.patchMarketItem(id: id).fullPath else {
             completionHandler(.failure(.invalidURL))
             return
         }
@@ -96,7 +96,7 @@ class OpenMarketAPIClient {
     }
     
     func deleteMarketItem(id: Int, _ marketItemForDelete: MarketItemForDelete, completionHandler: @escaping (Result<MarketItem, OpenMarketAPIError>) -> Void) {
-        guard let url = OpenMarketAPIConfiguration.deleteMarketItem(id: id).url else {
+        guard let url = OpenMarketAPIServerURL.deleteMarketItem(id: id).fullPath else {
             completionHandler(.failure(.invalidURL))
             return
         }
