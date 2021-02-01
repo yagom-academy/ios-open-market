@@ -8,7 +8,7 @@
 import Foundation
 
 struct NetworkLayer {
-    private let httpRequest = HTTPRequest()
+    private let httpRequest = OpenMarketHTTPRequest()
     
     func requestItemList(page: Int, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) {
         guard let urlRequest = httpRequest.itemList(page) else {

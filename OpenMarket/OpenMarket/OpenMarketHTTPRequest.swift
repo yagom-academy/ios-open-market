@@ -97,43 +97,32 @@ struct OpenMarketHTTPRequest {
     private func addMultipartFormDataToBody(paramters: ItemModificationRequest, boundary: String) -> Data? {
         var body = Data()
         if let title = paramters.title {
-            if let titleData = makeMultipartFormParameter(parameter: "title", value: title, boundary: boundary) {
+            let titleData = makeMultipartFormParameter(parameter: "title", value: title, boundary: boundary)
                 body.append(titleData)
-            }
         }
         if let descriptions = paramters.descriptions {
-            if let descriptionsData = makeMultipartFormParameter(parameter: "descriptions", value: descriptions, boundary: boundary) {
+            let descriptionsData = makeMultipartFormParameter(parameter: "descriptions", value: descriptions, boundary: boundary)
                 body.append(descriptionsData)
-            }
         }
         if let price = paramters.price {
-            if let priceData = makeMultipartFormParameter(parameter: "price", value: String(price), boundary: boundary) {
+            let priceData = makeMultipartFormParameter(parameter: "price", value: String(price), boundary: boundary)
                 body.append(priceData)
-            }
         }
         if let currency = paramters.currency {
-            if let currencyData = makeMultipartFormParameter(parameter: "currency", value: currency, boundary: boundary) {
+            let currencyData = makeMultipartFormParameter(parameter: "currency", value: currency, boundary: boundary)
                 body.append(currencyData)
-            }
         }
         if let stock = paramters.stock {
-            if let stockData = makeMultipartFormParameter(parameter: "stock", value: String(stock), boundary: boundary) {
+            let stockData = makeMultipartFormParameter(parameter: "stock", value: String(stock), boundary: boundary)
                 body.append(stockData)
-            }
         }
         if let images = paramters.images {
-            if let imagesData = makeMultipartFormDataParameter(parameter: "images", value: images, boundary: boundary) {
+            let imagesData = makeMultipartFormDataParameter(parameter: "images", value: images, boundary: boundary)
                 body.append(imagesData)
-            }
         }
-        guard let password = makeMultipartFormParameter(parameter: "password", value: paramters.password, boundary: boundary) else {
-            return nil
-        }
-        guard let lastBoundaryLine = "--\(boundary)--\r\n".data(using: .utf8) else {
-            return nil
-        }
-        
+        let password = makeMultipartFormParameter(parameter: "password", value: paramters.password, boundary: boundary)
         body.append(password)
+        let lastBoundaryLine = "--\(boundary)--\r\n"
         body.append(lastBoundaryLine)
         
         return body
@@ -178,20 +167,20 @@ struct OpenMarketHTTPRequest {
         return body
     }
     
-    private func makeMultipartFormParameter(parameter: String, value: String, boundary: String) -> Data? {
+    private func makeMultipartFormParameter(parameter: String, value: String, boundary: String) -> Data {
         var body = Data()
         
         guard let boundaryLine = "--\(boundary)\r\n".data(using: .utf8) else {
-            return nil
+            return body
         }
         guard let contentDispositionLine = "Content-Disposition: form-data; name=\"\(parameter)\"\r\n\r\n".data(using: .utf8) else {
-            return nil
+            return body
         }
         guard let data = value.data(using: .utf8) else {
-            return nil
+            return body
         }
         guard let lineBreak = "\r\n".data(using: .utf8) else {
-            return nil
+            return body
         }
         
         body.append(boundaryLine)
@@ -202,21 +191,21 @@ struct OpenMarketHTTPRequest {
         return body
     }
     
-    private func makeMultipartFormDataParameter(parameter: String, value: [Data], boundary: String) -> Data? {
+    private func makeMultipartFormDataParameter(parameter: String, value: [Data], boundary: String) -> Data {
         var body = Data()
         
         for image in value {
             guard let boundaryLine = "--\(boundary)\r\n".data(using: .utf8) else {
-                return nil
+                return body
             }
             guard let contentDispositionLine = "Content-Disposition: form-data; name=\"\(parameter)[]\"; filename=\"image1.png\"\r\n".data(using: .utf8) else {
-                return nil
+                return body
             }
             guard let contentType = "Content-Type: image/png\r\n\r\n".data(using: .utf8) else {
-                return nil
+                return body
             }
             guard let lineBreak = "\r\n".data(using: .utf8) else {
-                return nil
+                return body
             }
             
             body.append(boundaryLine)
@@ -235,4 +224,10 @@ enum HTTPMethod: String {
     case post = "POST"
     case patch = "PATCH"
     case delete = "DELETE"
+}
+
+extension Data {
+    mutating func append(_ string: String, using encoding: String.Encoding = .utf8) {
+        if let data = string.data(using: encoding) { append(data) }
+    }
 }
