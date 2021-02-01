@@ -12,6 +12,7 @@ class ViewController: UIViewController {
         case grid = "Grid"
     }
     
+    // MARK: - IBOutlets
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var segment: UISegmentedControl!
     
