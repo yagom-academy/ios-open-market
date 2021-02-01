@@ -154,18 +154,10 @@ struct OpenMarketHTTPRequest {
     private func makeMultipartFormParameter(parameter: String, value: String, boundary: String) -> Data {
         var body = Data()
         
-        guard let boundaryLine = "--\(boundary)\r\n".data(using: .utf8) else {
-            return body
-        }
-        guard let contentDispositionLine = "Content-Disposition: form-data; name=\"\(parameter)\"\r\n\r\n".data(using: .utf8) else {
-            return body
-        }
-        guard let data = value.data(using: .utf8) else {
-            return body
-        }
-        guard let lineBreak = "\r\n".data(using: .utf8) else {
-            return body
-        }
+        let boundaryLine = "--\(boundary)\r\n"
+        let contentDispositionLine = "Content-Disposition: form-data; name=\"\(parameter)\"\r\n\r\n"
+        let data = value
+        let lineBreak = "\r\n"
         
         body.append(boundaryLine)
         body.append(contentDispositionLine)
