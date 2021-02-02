@@ -25,7 +25,7 @@ struct Network {
         }
     }
     
-    static func getResult<T: Decodable>(_ type: T.Type, data: Data?, response: URLResponse?, error: Error?) -> Result<T, Error> {
+    static func getResult(data: Data?, response: URLResponse?, error: Error?) -> Result<Data, Error> {
         if let error = error {
             print(error.localizedDescription)
             return .failure(error)
@@ -38,11 +38,7 @@ struct Network {
         guard let data = data else {
             return .failure(OpenMarketAPIError.noData)
         }
- 
-        guard let items = Parser.decodeData(type, data) else {
-            return .failure(OpenMarketAPIError.dataDecodingError)
-        }
         
-        return .success(items)
+        return .success(data)
     }
 }
