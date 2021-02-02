@@ -14,6 +14,8 @@ class ViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
         // API 상품목록 조회 기능 사용 예시
         OpenMarketAPIClient().getMarketPage(pageNumber: 1) { result in
             switch result {
