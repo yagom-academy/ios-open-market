@@ -173,119 +173,17 @@ class OpenMarketTests: XCTestCase {
         }
     }
     
-    // MARK:- URLManager Test
-    func testMakeURLTypeGetList() {
-        let url = URLManager.makeURL(type: .getItemList, value: 1)
-        let RealURL = URL(string: "https://camp-open-market.herokuapp.com/items/1")
+    // MARK:- Request Test
+    func testRequest() {
+        let testExpectation = XCTestExpectation(description: "request 테스트")
         
-        XCTAssertEqual(url, RealURL, "URL이 잘못되었습니다.")
-    }
-    
-    func testMakeURLTypeGetItem() {
-        let url = URLManager.makeURL(type: .getItem, value: 1)
-        let RealURL = URL(string: "https://camp-open-market.herokuapp.com/item/1")
-        
-        XCTAssertEqual(url, RealURL, "URL이 잘못되었습니다.")
-    }
-    
-    func testMakeURLTypePostItem() {
-        let url = URLManager.makeURL(type: .postItem, value: nil)
-        let RealURL = URL(string: "https://camp-open-market.herokuapp.com/item")
-        
-        XCTAssertEqual(url, RealURL, "URL이 잘못되었습니다.")
-    }
-    
-    func testMakeURLTypePatchItem() {
-        let url = URLManager.makeURL(type: .patchItem, value: 2)
-        let RealURL = URL(string: "https://camp-open-market.herokuapp.com/item/2")
-        
-        XCTAssertEqual(url, RealURL, "URL이 잘못되었습니다.")
-    }
-    
-    func testMakeURLTypeDeleteItem() {
-        let url = URLManager.makeURL(type: .deleteItem, value: 3)
-        let RealURL = URL(string: "https://camp-open-market.herokuapp.com/item/3")
-        
-        XCTAssertEqual(url, RealURL, "URL이 잘못되었습니다.")
-    }
-    
-    // MARK:- OpenMarketAPI Test
-    func testGetItemList() {
-        let testExpectation = XCTestExpectation(description: "getItemList 테스트")
-        
-        OpenMarketAPI.getItemList(page: 5) { result in
+        OpenMarketAPI.request(.loadItemList(page: 1)) { (result: Result<ItemsToGet, Error>) in
             switch result {
-            case .success(let itemsToGet):
-                dump(itemsToGet)
+            case .success(let d):
+                dump(d)
                 testExpectation.fulfill()
-            case .failure(let error):
-                print(error.localizedDescription)
-            }
-        }
-        wait(for: [testExpectation], timeout: 5)
-    }
-    
-    func testGetItem() {
-        let testExpectation = XCTestExpectation(description: "getItem 테스트")
-        var itemToGet: ItemToGet?
-        OpenMarketAPI.getItem(id: 26) { result in
-            switch result {
-            case .success(let itemToGet):
-                dump(itemToGet)
-                testExpectation.fulfill()
-            case .failure(let error):
-                print(error.localizedDescription)
-            }
-        }
-        wait(for: [testExpectation], timeout: 5)
-    }
-    
-    func testPostItem() {
-        let testExpectation = XCTestExpectation(description: "postItem 테스트")
-        let uiImage = UIImage(systemName: "pencil")
-        guard let imageData = uiImage?.pngData() else {
-            return
-        }
-        let itemToPost = ItemToPost(title: "테스트", descriptions: "밤, 솔", price: 100, currency: "KRW", stock: 100, discountedPrice: 90, images: [imageData], password: "123")
-        OpenMarketAPI.postItem(itemToPost: itemToPost) { result in
-            switch result {
-            case .success(let itemAfterPost):
-                dump(itemAfterPost)
-                testExpectation.fulfill()
-            case .failure(let error):
-                print(error.localizedDescription)
-            }
-        }
-        wait(for: [testExpectation], timeout: 5)
-    }
-
-    func testPatchItem() {
-        let id: Int = 305 //서버에 변경될 id를 가진 item이 있어야 테스트 성공
-        let testExpectation = XCTestExpectation(description: "patchItem 테스트")
-        let itemToPatch = ItemToPatch(title: "바껴라", descriptions: nil, price: nil, currency: nil, stock: nil, discountedPrice: nil, images: nil, password: "123")
-        OpenMarketAPI.patchItem(id: id, itemToPatch: itemToPatch) { result in
-            switch result {
-            case .success(let itemsAfterPatch):
-                dump(itemsAfterPatch)
-                testExpectation.fulfill()
-            case .failure(let error):
-                print(error.localizedDescription)
-            }
-        }
-        wait(for: [testExpectation], timeout: 5)
-    }
-    
-    func testDeleteItem() {
-        let id: Int = 305 // 서버에 삭제할 id를 가진 item이 있어야 테스트 성공.
-        let testExpectation = XCTestExpectation(description: "deleteItem 테스트")
-        let itemToDelete = ItemToDelete(id: id, password: "123")
-        OpenMarketAPI.deleteItem(id: id, itemToDelete: itemToDelete) { result in
-            switch result {
-            case .success(let itemAfterDelete):
-                dump(itemAfterDelete)
-                testExpectation.fulfill()
-            case .failure(let error):
-                print(error.localizedDescription)
+            case .failure(let e):
+                print(e.localizedDescription)
             }
         }
         wait(for: [testExpectation], timeout: 5)
