@@ -8,11 +8,6 @@
 import UIKit
 
 class ProductInformationCell: UITableViewCell {
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-        // Configure the view for the selected state
-    }
-    
     static let identifier = "productInformationCell"
     
     let thumbnailImageView: UIImageView = {
@@ -54,9 +49,9 @@ class ProductInformationCell: UITableViewCell {
     }
     
     private func setUpCell() {
-        let margin: CGFloat = 50
+        let margin: CGFloat = 20
         NSLayoutConstraint.activate([
-            thumbnailImageView.topAnchor.constraint(equalTo: self.topAnchor),
+            thumbnailImageView.centerYAnchor.constraint(equalTo:self.centerYAnchor),
             thumbnailImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             thumbnailImageView.widthAnchor.constraint(equalToConstant: 50),
             thumbnailImageView.heightAnchor.constraint(equalToConstant: 50),
