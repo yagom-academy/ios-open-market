@@ -18,10 +18,6 @@
 		288D24EE25C3E27E00790A15 /* NetworkDispatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288D24ED25C3E27E00790A15 /* NetworkDispatcher.swift */; };
 		288D24F225C3E3BA00790A15 /* NetworkTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288D24F125C3E3BA00790A15 /* NetworkTask.swift */; };
 		288D24FD25C4132900790A15 /* FetchMarketGoodsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288D24FC25C4132900790A15 /* FetchMarketGoodsList.swift */; };
-		288D250B25C42EAC00790A15 /* FetchGoods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288D250A25C42EAC00790A15 /* FetchGoods.swift */; };
-		288D250F25C42F8F00790A15 /* DeleteGoods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288D250E25C42F8F00790A15 /* DeleteGoods.swift */; };
-		288D251B25C43DE500790A15 /* RegisterGoods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288D251A25C43DE500790A15 /* RegisterGoods.swift */; };
-		288D251F25C4449400790A15 /* EditGoods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288D251E25C4449400790A15 /* EditGoods.swift */; };
 		B427769B25BFA61E0093639B /* Goods.swift in Sources */ = {isa = PBXBuildFile; fileRef = B427769A25BFA61E0093639B /* Goods.swift */; };
 		B42776A325BFA7CE0093639B /* MarketGoods.swift in Sources */ = {isa = PBXBuildFile; fileRef = B42776A225BFA7CE0093639B /* MarketGoods.swift */; };
 		B42776AC25BFA9AA0093639B /* OpenMarketTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B42776AB25BFA9AA0093639B /* OpenMarketTests.swift */; };
@@ -60,10 +56,6 @@
 		288D24ED25C3E27E00790A15 /* NetworkDispatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkDispatcher.swift; sourceTree = "<group>"; };
 		288D24F125C3E3BA00790A15 /* NetworkTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkTask.swift; sourceTree = "<group>"; };
 		288D24FC25C4132900790A15 /* FetchMarketGoodsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchMarketGoodsList.swift; sourceTree = "<group>"; };
-		288D250A25C42EAC00790A15 /* FetchGoods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchGoods.swift; sourceTree = "<group>"; };
-		288D250E25C42F8F00790A15 /* DeleteGoods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteGoods.swift; sourceTree = "<group>"; };
-		288D251A25C43DE500790A15 /* RegisterGoods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterGoods.swift; sourceTree = "<group>"; };
-		288D251E25C4449400790A15 /* EditGoods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditGoods.swift; sourceTree = "<group>"; };
 		B427769A25BFA61E0093639B /* Goods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Goods.swift; sourceTree = "<group>"; };
 		B42776A225BFA7CE0093639B /* MarketGoods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketGoods.swift; sourceTree = "<group>"; };
 		B42776A925BFA9AA0093639B /* OpenMarketTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenMarketTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -140,10 +132,6 @@
 			isa = PBXGroup;
 			children = (
 				288D24FC25C4132900790A15 /* FetchMarketGoodsList.swift */,
-				288D250A25C42EAC00790A15 /* FetchGoods.swift */,
-				288D250E25C42F8F00790A15 /* DeleteGoods.swift */,
-				288D251A25C43DE500790A15 /* RegisterGoods.swift */,
-				288D251E25C4449400790A15 /* EditGoods.swift */,
 				287C3A0A25C920130083D46E /* FetchImage.swift */,
 			);
 			path = OpenMarketNetworking;
@@ -329,14 +317,11 @@
 				B43EE7DF25C06171003089C9 /* NetworkConfig.swift in Sources */,
 				287C3A1325C92A8A0083D46E /* GoodsModel.swift in Sources */,
 				287C3A0B25C920130083D46E /* FetchImage.swift in Sources */,
-				288D250F25C42F8F00790A15 /* DeleteGoods.swift in Sources */,
 				288D24EE25C3E27E00790A15 /* NetworkDispatcher.swift in Sources */,
-				288D251F25C4449400790A15 /* EditGoods.swift in Sources */,
 				B43EE7C225C042F1003089C9 /* NetworkError.swift in Sources */,
 				288D24DE25C3A24900790A15 /* OpenMarketError.swift in Sources */,
 				287C3A0725C91E950083D46E /* ImageCache.swift in Sources */,
 				287C3A1725C92E940083D46E /* GoodsForm.swift in Sources */,
-				288D250B25C42EAC00790A15 /* FetchGoods.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
 				B43EE7DB25C0612C003089C9 /* OpenMarketAPITypes.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
@@ -345,7 +330,6 @@
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 				B42776A325BFA7CE0093639B /* MarketGoods.swift in Sources */,
 				287C3A0F25C927FD0083D46E /* GoodsListNetwork.swift in Sources */,
-				288D251B25C43DE500790A15 /* RegisterGoods.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
