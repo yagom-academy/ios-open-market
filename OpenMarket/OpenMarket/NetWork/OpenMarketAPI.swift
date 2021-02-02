@@ -17,17 +17,6 @@ enum OpenMarketAPIError: Error {
     case unknown
 }
 
-class OpenMarketAPI {
-    
-    private static var session = URLSession(configuration: .default)
-    
-    private static func sendRequest(_ request: URLRequest, completionHandler: @escaping (Result<Data, Error>) -> Void) {
-        session.dataTask(with: request) { (data, response, error) in
-            let result = Network.getResult(data: data, response: response, error: error)
-            completionHandler(result)
-        }.resume()
-    }
-    
     static func request<T: Decodable>(_ type: RequestType, completionHandler: @escaping (Result<T, Error>) -> Void) {
         guard let request = type.urlRequest() else {
             return

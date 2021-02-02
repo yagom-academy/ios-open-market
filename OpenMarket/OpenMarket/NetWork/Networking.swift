@@ -40,4 +40,11 @@ struct Network {
         
         return .success(data)
     }
+    
+    static func sendRequest(_ request: URLRequest, completionHandler: @escaping (Result<Data, Error>) -> Void) {
+        URLSession.shared.dataTask(with: request) { (data, response, error) in
+            let result = Network.getResult(data: data, response: response, error: error)
+            completionHandler(result)
+        }.resume()
+    }
 }
