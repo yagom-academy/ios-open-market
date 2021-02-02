@@ -8,6 +8,11 @@
 import Foundation
 
 struct ServerError: Decodable {
-    let error: Bool
+    let occurrence: Bool
     let reason: String
+    
+    enum CodingKeys: String, CodingKey {
+        case occurrence = "error"
+        case reason
+    }
 }

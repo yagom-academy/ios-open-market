@@ -8,8 +8,7 @@
 import Foundation
 
 struct Network {
-    
-    static func getResponseError(_ response: URLResponse?) -> Error? {
+    private static func getResponseError(_ response: URLResponse?) -> Error? {
         guard let statusCode = (response as? HTTPURLResponse)?.statusCode else {
             return OpenMarketAPIError.noResponse
         }
@@ -25,7 +24,7 @@ struct Network {
         }
     }
     
-    static func getResult(data: Data?, response: URLResponse?, error: Error?) -> Result<Data, Error> {
+    private static func getResult(data: Data?, response: URLResponse?, error: Error?) -> Result<Data, Error> {
         if let error = error {
             print(error.localizedDescription)
             return .failure(error)
@@ -40,5 +39,12 @@ struct Network {
         }
         
         return .success(data)
+    }
+    
+    static func sendRequest(_ request: URLRequest, completionHandler: @escaping (Result<Data, Error>) -> Void) {
+        URLSession.shared.dataTask(with: request) { (data, response, error) in
+            let result = Network.getResult(data: data, response: response, error: error)
+            completionHandler(result)
+        }.resume()
     }
 }

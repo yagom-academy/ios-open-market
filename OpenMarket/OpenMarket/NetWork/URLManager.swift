@@ -45,7 +45,7 @@ enum RequestType {
         case .deleteItem(let id, _):
             return "/item/\(id)"
         case .uploadItem:
-            return"/item"
+            return "/item"
         }
     }
     
@@ -64,30 +64,36 @@ enum RequestType {
     
     var encodedData: Data? {
         switch self {
-        case .loadItemList:
-            return nil
-        case .loadItem:
-            return nil
-        case .editItem(_, let item):
-            return Parser.encodeData(item)
         case .deleteItem(_, let item):
             return Parser.encodeData(item)
-        case .uploadItem(let item):
-            return Parser.encodeData(item)
+        default:
+            return nil
         }
     }
     
-    func urlRequest() -> URLRequest? {
+    var urlRequest: URLRequest? {
         guard let url = URLManager.makeURL(type: self) else {
             return nil
         }
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = self.method.description
-        urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        urlRequest.httpBody = self.encodedData
+        switch self {
+        case .uploadItem(let item):
+            let boundary = item.generateBoundary()
+            urlRequest.httpBody = item.makeDataBody(boundary: boundary)
+            urlRequest.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        case .editItem(_, let item):
+            let boundary = item.generateBoundary()
+            urlRequest.httpBody = item.makeDataBody(boundary: boundary)
+            urlRequest.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        case .deleteItem:
+            urlRequest.httpBody = self.encodedData
+            urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        default:
+            urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        }
         return urlRequest
     }
-    
 }
 
 struct URLManager {

@@ -95,52 +95,6 @@ class OpenMarketTests: XCTestCase {
         }
     }
     
-    func testItemToPost() {
-        let image = UIImage(systemName: "pencil")
-        guard let imageData = image?.jpegData(compressionQuality: 1) else {
-            return
-        }
-        let itemToPost = ItemToPost(title: "MacBook Air",
-                                    descriptions: "가장 얇고 가벼운 MacBook이 Apple M1 칩으로 완전히 새롭게 탈바꿈했습니다.",
-                                    price: 1290000,
-                                    currency: "KRW",
-                                    stock: 10000,
-                                    discountedPrice: 10000,
-                                    images: [imageData],
-                                    password: "123")
-        do {
-            let encodedData = try encoder.encode(itemToPost)
-            if let dataString = String(data: encodedData, encoding: .utf8) {
-                print(dataString)
-            }
-        } catch {
-            XCTFail(error.localizedDescription)
-        }
-    }
-    
-    func testItemToPatch() {
-        let image = UIImage(systemName: "pencil")
-        guard let imageData = image?.jpegData(compressionQuality: 1) else {
-            return
-        }
-        let itemToPatch = ItemToPatch(title: "MacBook Air",
-                                      descriptions: "가장 얇고 가벼운 MacBook이 Apple M1 칩으로 완전히 새롭게 탈바꿈했습니다.",
-                                      price: 1290000,
-                                      currency: "KRW",
-                                      stock: 10000,
-                                      discountedPrice: nil,
-                                      images: [imageData],
-                                      password: "123")
-        do {
-            let encodedData = try encoder.encode(itemToPatch)
-            if let dataString = String(data: encodedData, encoding: .utf8) {
-                print(dataString)
-            }
-        } catch {
-            XCTFail(error.localizedDescription)
-        }
-    }
-    
     func testItemToDelete() {
         let itemToDelete = ItemToDelete(id: 1, password: "123")
         do {
@@ -174,10 +128,82 @@ class OpenMarketTests: XCTestCase {
     }
     
     // MARK:- Request Test
-    func testRequest() {
-        let testExpectation = XCTestExpectation(description: "request 테스트")
+    
+    func testRequestLoadItemList() {
+        let testExpectation = XCTestExpectation(description: "LoadItemList 테스트")
         
         OpenMarketAPI.request(.loadItemList(page: 1)) { (result: Result<ItemsToGet, Error>) in
+            switch result {
+            case .success(let d):
+                dump(d)
+                testExpectation.fulfill()
+            case .failure(let e):
+                print(e.localizedDescription)
+            }
+        }
+        wait(for: [testExpectation], timeout: 5)
+    }
+    
+    func testRequestLoadItem() {
+        let id = 31 // 서버에 없는 상품 id 입력시 테스트 실패
+        let testExpectation = XCTestExpectation(description: "LoadItem 테스트")
+        OpenMarketAPI.request(.loadItem(id: id)) { (result: Result<ItemToGet, Error>) in
+            switch result {
+            case .success(let d):
+                dump(d)
+                testExpectation.fulfill()
+            case .failure(let e):
+                print(e.localizedDescription)
+            }
+        }
+        wait(for: [testExpectation], timeout: 5)
+    }
+    
+    func testRequestUploadItem() {
+        let password = "123"
+        let testExpectation = XCTestExpectation(description: "UploadItem 테스트")
+        let uiImage1 = UIImage(systemName: "pencil")!
+        let uiImage2 = UIImage(systemName: "pencil")!
+        let item = ItemToPost(title: "테스트", descriptions: "밤솔", price: 10, currency: "KRW", stock: 10, discountedPrice: 9, images: [uiImage1, uiImage2], password: password)
+        
+        OpenMarketAPI.request(.uploadItem(item: item)) { (result: Result<ItemAfterPost, Error>) in
+            switch result {
+            case .success(let d):
+                dump(d)
+                testExpectation.fulfill()
+            case .failure(let e):
+                print(e.localizedDescription)
+            }
+        }
+        wait(for: [testExpectation], timeout: 5)
+    }
+    
+    func testRequestEditItem() {
+        let id = 31 // 서버에 없는 상품 id 입력시 테스트 실패
+        let password = "123"
+        let testExpectation = XCTestExpectation(description: "request 테스트")
+        let uiImage = UIImage(systemName: "pencil")!
+        let item = ItemToPatch(title: "테스트", descriptions: "솔밤", price: 10, currency: nil, stock: 10, discountedPrice: 9, images: nil, password: password)
+
+        OpenMarketAPI.request(.editItem(id: id, item: item)) { (result: Result<ItemAfterPost, Error>) in
+            switch result {
+            case .success(let d):
+                dump(d)
+                testExpectation.fulfill()
+            case .failure(let e):
+                print(e.localizedDescription)
+            }
+        }
+        wait(for: [testExpectation], timeout: 5)
+    }
+    
+    func testRequestDeleteItem() {
+        let id = 31 // 서버에 없는 상품 id 입력시 테스트 실패
+        let password = "123"
+        let testExpectation = XCTestExpectation(description: "request 테스트")
+        let item = ItemToDelete(id: id, password: password)
+        
+        OpenMarketAPI.request(.deleteItem(id: id, item: item)) { (result: Result<ItemAfterDelete, Error>) in
             switch result {
             case .success(let d):
                 dump(d)
