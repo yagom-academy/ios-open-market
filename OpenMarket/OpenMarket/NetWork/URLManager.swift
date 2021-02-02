@@ -64,16 +64,10 @@ enum RequestType {
     
     var encodedData: Data? {
         switch self {
-        case .loadItemList:
-            return nil
-        case .loadItem:
-            return nil
-        case .editItem(_, let item):
-            return Parser.encodeData(item)
         case .deleteItem(_, let item):
             return Parser.encodeData(item)
-        case .uploadItem(let item):
-            return Parser.encodeData(item)
+        default:
+            return nil
         }
     }
     
