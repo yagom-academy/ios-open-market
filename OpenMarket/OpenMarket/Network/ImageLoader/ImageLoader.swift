@@ -24,6 +24,7 @@ extension ImageLoader: ImageLoadable {
             self.requestImage(urlString: urlString) { result in
                 switch result {
                 case .success(let data):
+                    ImageCache.shared.save(urlString, content: data)
                     completion(.success(data))
                 case .failure(let error):
                     completion(.failure(error))
@@ -35,9 +36,13 @@ extension ImageLoader: ImageLoadable {
 
 extension ImageLoader {
     func requestImage(urlString: String, completion: @escaping Handler) {
-        FetchImage().getResource(url: urlString) { result in
+        GoodsImageModel.fetchImage(urlString: urlString) { result in
             switch result {
             case .success(let data):
+                guard let data = data as? Data else {
+                    completion(.failure(OpenMarketError.convertData))
+                    return
+                }
                 completion(.success(data))
             case .failure(let error):
                 completion(.failure(error))

@@ -19,14 +19,14 @@ class ViewController: UIViewController {
 //                debugPrint("❌:\(error.localizedDescription)")
 //            }
 //        }
-        GoodsModel.fetchGoods(id: 1) { result in
-            switch result {
-            case .success(let data):
-                debugPrint("👋: \(data)")
-            case .failure(let error):
-                debugPrint("❌:\(error.localizedDescription)")
-            }
-        }
+//        GoodsModel.fetchGoods(id: 1) { result in
+//            switch result {
+//            case .success(let data):
+//                debugPrint("👋: \(data)")
+//            case .failure(let error):
+//                debugPrint("❌:\(error.localizedDescription)")
+//            }
+//        }
         
 //        FetchMarketGoodsList().requestFetchMarketGoodsList(page: 1) { result in
 //            switch result {
