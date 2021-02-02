@@ -150,8 +150,8 @@ struct OpenMarketHTTPRequest {
             body.append("--\(boundary)\r\n")
             body.append("Content-Disposition: form-data; name=\"\(parameter)[]\"; filename=\"image1.png\"\r\n")
             body.append("Content-Type: image/png\r\n\r\n")
-            body.append("\r\n")
             body.append(image)
+            body.append("\r\n")
         }
         
         return body
