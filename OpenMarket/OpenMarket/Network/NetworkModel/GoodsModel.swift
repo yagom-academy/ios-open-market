@@ -8,9 +8,9 @@
 import Foundation
 
 struct GoodsModel {
-    private let task = NetworkTask(dispatcher: NetworkDispatcher())
+    private static let task = NetworkTask(dispatcher: NetworkDispatcher())
     
-    class GoodsModelRequest: Request {
+    private class GoodsModelRequest: Request {
         var id: UInt?
         var path: String = NetworkConfig.openMarketFixedURL
         var method: HTTPMethod
@@ -47,7 +47,7 @@ struct GoodsModel {
         }
     }
     
-    func fetchGoods(id: UInt, completion: @escaping(Result<Any, Error>) -> Void) {
+    static func fetchGoods(id: UInt, completion: @escaping(Result<Any, Error>) -> Void) {
         task.perform(request: GoodsModelRequest(fetchID: id), dataType: Goods.self) { result in
             switch result {
             case .success(let decodedData):
@@ -58,7 +58,7 @@ struct GoodsModel {
         }
     }
     
-    func registerGoods(params: GoodsForm, completion: @escaping(Result<Any, Error>) -> Void) {
+    static func registerGoods(params: GoodsForm, completion: @escaping(Result<Any, Error>) -> Void) {
         task.perform(request: GoodsModelRequest(registerParams: params), dataType: Goods.self) { result in
             switch result {
             case .success(let decodedData):
@@ -69,7 +69,7 @@ struct GoodsModel {
         }
     }
     
-    func editGoods(id: UInt, params: GoodsForm, completion: @escaping(Result<Any, Error>) -> Void) {
+    static func editGoods(id: UInt, params: GoodsForm, completion: @escaping(Result<Any, Error>) -> Void) {
         task.perform(request: GoodsModelRequest(editParams: params, editID: id), dataType: Goods.self) { result in
             switch result {
             case .success(let decodedData):
@@ -80,7 +80,7 @@ struct GoodsModel {
         }
     }
     
-    func deleteGoods(id: UInt, params: GoodsForm, completion: @escaping(Result<Any, Error>) -> Void) {
+    static func deleteGoods(id: UInt, params: GoodsForm, completion: @escaping(Result<Any, Error>) -> Void) {
         task.perform(request: GoodsModelRequest(deleteParams: params, deleteID: id), dataType: [String : UInt].self) { result in
             switch result {
             case .success(let decodedData):
