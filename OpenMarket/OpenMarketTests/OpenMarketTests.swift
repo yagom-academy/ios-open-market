@@ -42,7 +42,7 @@ class OpenMarketTests: XCTestCase {
 
     func test_getItemSpecification_existData() throws {
         let expectation = XCTestExpectation(description: "상품 조회")
-        let id = 417
+        let id = 22
         networkLayer.requestSpecification(id: id) { data, _, _ in
             XCTAssertNotNil(data, "상품 조회 실패")
             expectation.fulfill()
@@ -63,7 +63,7 @@ class OpenMarketTests: XCTestCase {
             images: [imageData],
             password: "test")
 
-        networkLayer.requestModification(id: 417, bodyData: item) { data, _, _ in
+        networkLayer.requestModification(id: 22, bodyData: item) { data, _, _ in
             XCTAssertNotNil(data, "상품 수정")
             expectation.fulfill()
         }
@@ -72,9 +72,9 @@ class OpenMarketTests: XCTestCase {
 
     func test_requestItemDeletion_existData() throws {
         let expectation = XCTestExpectation(description: "상품 삭제")
-        let item = ItemDeletionRequest(id: 431, password: "test")
+        let item = ItemDeletionRequest(id: 24, password: "test")
 
-        networkLayer.requestDeletion(id: 431, bodyData: item) { data, _, _ in
+        networkLayer.requestDeletion(id: 24, bodyData: item) { data, _, _ in
             XCTAssertNotNil(data, "상품 삭제")
             expectation.fulfill()
         }
