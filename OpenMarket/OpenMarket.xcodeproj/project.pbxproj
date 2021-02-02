@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		287C3A0325C91DBB0083D46E /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287C3A0225C91DBB0083D46E /* ImageLoader.swift */; };
+		287C3A0725C91E950083D46E /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287C3A0625C91E950083D46E /* ImageCache.swift */; };
+		287C3A0B25C920130083D46E /* FetchImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287C3A0A25C920130083D46E /* FetchImage.swift */; };
 		288D24DE25C3A24900790A15 /* OpenMarketError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288D24DD25C3A24900790A15 /* OpenMarketError.swift */; };
 		288D24EA25C3E12500790A15 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288D24E925C3E12500790A15 /* Request.swift */; };
 		288D24EE25C3E27E00790A15 /* NetworkDispatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288D24ED25C3E27E00790A15 /* NetworkDispatcher.swift */; };
@@ -43,6 +46,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		287C3A0225C91DBB0083D46E /* ImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
+		287C3A0625C91E950083D46E /* ImageCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
+		287C3A0A25C920130083D46E /* FetchImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchImage.swift; sourceTree = "<group>"; };
 		288D24DD25C3A24900790A15 /* OpenMarketError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketError.swift; sourceTree = "<group>"; };
 		288D24E925C3E12500790A15 /* Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
 		288D24ED25C3E27E00790A15 /* NetworkDispatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkDispatcher.swift; sourceTree = "<group>"; };
@@ -90,6 +96,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		287C3A0125C91DA80083D46E /* ImageLoader */ = {
+			isa = PBXGroup;
+			children = (
+				287C3A0225C91DBB0083D46E /* ImageLoader.swift */,
+				287C3A0625C91E950083D46E /* ImageCache.swift */,
+			);
+			path = ImageLoader;
+			sourceTree = "<group>";
+		};
 		288D24DA25C3A07500790A15 /* Error */ = {
 			isa = PBXGroup;
 			children = (
@@ -102,6 +117,7 @@
 		288D24E825C3E11700790A15 /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				287C3A0125C91DA80083D46E /* ImageLoader */,
 				288D24FB25C412DA00790A15 /* OpenMarketNetworking */,
 				B43EE7DE25C06171003089C9 /* NetworkConfig.swift */,
 				B43EE7DA25C0612C003089C9 /* OpenMarketAPITypes.swift */,
@@ -120,6 +136,7 @@
 				288D250E25C42F8F00790A15 /* DeleteGoods.swift */,
 				288D251A25C43DE500790A15 /* RegisterGoods.swift */,
 				288D251E25C4449400790A15 /* EditGoods.swift */,
+				287C3A0A25C920130083D46E /* FetchImage.swift */,
 			);
 			path = OpenMarketNetworking;
 			sourceTree = "<group>";
@@ -301,16 +318,19 @@
 				288D24F225C3E3BA00790A15 /* NetworkTask.swift in Sources */,
 				288D24EA25C3E12500790A15 /* Request.swift in Sources */,
 				B43EE7DF25C06171003089C9 /* NetworkConfig.swift in Sources */,
+				287C3A0B25C920130083D46E /* FetchImage.swift in Sources */,
 				288D250F25C42F8F00790A15 /* DeleteGoods.swift in Sources */,
 				288D24EE25C3E27E00790A15 /* NetworkDispatcher.swift in Sources */,
 				288D251F25C4449400790A15 /* EditGoods.swift in Sources */,
 				B43EE7C225C042F1003089C9 /* NetworkError.swift in Sources */,
 				288D24DE25C3A24900790A15 /* OpenMarketError.swift in Sources */,
+				287C3A0725C91E950083D46E /* ImageCache.swift in Sources */,
 				288D250B25C42EAC00790A15 /* FetchGoods.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
 				B43EE7DB25C0612C003089C9 /* OpenMarketAPITypes.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				288D24FD25C4132900790A15 /* FetchMarketGoodsList.swift in Sources */,
+				287C3A0325C91DBB0083D46E /* ImageLoader.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 				B42776A325BFA7CE0093639B /* MarketGoods.swift in Sources */,
 				288D251B25C43DE500790A15 /* RegisterGoods.swift in Sources */,
