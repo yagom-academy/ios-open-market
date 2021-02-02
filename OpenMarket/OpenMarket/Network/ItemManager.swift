@@ -24,7 +24,7 @@ struct ItemManager {
         communicateToServerWithDataTask(with: request, completion: completion)
     }
     
-    func uploadData(method: HttpMethod, path: PathOfURL, item: ItemToUpload, param: UInt?, completion: @escaping resultHandler) {
+    func uploadData(method: HttpMethod, path: PathOfURL, item: ItemToUpload, param: UInt? = nil, completion: @escaping resultHandler) {
         guard let requestUrl = makeURL(method: method, path: path, param: param) else {
             return completion(.failure(.failSetUpURL))
         }
@@ -48,14 +48,9 @@ struct ItemManager {
         communicateToServerWithDataTask(with: request, completion: completion)
     }
     
-    func makeURL(method: HttpMethod, path: PathOfURL, param: UInt?) -> URL? {
+    func makeURL(method: HttpMethod, path: PathOfURL, param: UInt? = nil) -> URL? {
         var url: URL?
-        if let param = param {
-            url = NetworkConfig.setUpUrl(method: method, path: path, param: param)
-        }
-        else {
-            url = NetworkConfig.setUpUrl(method: method, path: path, param: nil)
-        }
+        url = NetworkConfig.setUpUrl(method: method, path: path, param: param)
         return url
     }
     
