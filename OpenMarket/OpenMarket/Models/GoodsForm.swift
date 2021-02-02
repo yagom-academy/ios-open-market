@@ -8,7 +8,7 @@
 import Foundation
 
 protocol RegisterForm {
-    func makeRegisterParameter() throws -> [String : Any]
+    func makeRegisterForm() throws -> [String : Any]
 }
 protocol EditForm {
     func makeEditForm() -> [String : Any]
@@ -79,7 +79,7 @@ struct GoodsForm {
 }
 // TODO: edit multipart to images
 extension GoodsForm: RegisterForm {
-    func makeRegisterParameter() throws -> [String : Any] {
+    func makeRegisterForm() throws -> [String : Any] {
         guard let title = self.title,
               let descriptions = self.descriptions,
               let price = self.price,
