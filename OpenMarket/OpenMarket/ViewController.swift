@@ -35,25 +35,11 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        productListTableView.delegate = self
-        productListTableView.dataSource = self
-        productListCollectionView.delegate = self
-        productListCollectionView.dataSource = self
-        
-        productListTableView.rowHeight = 50
-
-        productListTableView.register(ProductInformationCell.self, forCellReuseIdentifier: ProductInformationCell.identifier)
-        productListCollectionView.register(ProductInformationGridCell.self, forCellWithReuseIdentifier: ProductInformationGridCell.identifier)
-        
         view.addSubview(productListTableView)
         view.addSubview(productListCollectionView)
-        
         setUpProductListTableView()
         setUpProductListCollectionView()
-        productListCollectionView.isHidden = true
-        
-        self.navigationItem.titleView = listPresentingStyleSegmentControl
-        self.navigationItem.rightBarButtonItem = addProductButton
+        setUpNavigationItem()
         
         
         self.openMarketAPIManager.fetchProductList(of: 1) { (result) in
@@ -71,10 +57,12 @@ class ViewController: UIViewController {
                 print(error)
             }
         }
-        
     }
     
     private func setUpProductListTableView() {
+        productListTableView.delegate = self
+        productListTableView.dataSource = self
+        
         productListTableView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
@@ -83,8 +71,15 @@ class ViewController: UIViewController {
             productListTableView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
             productListTableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
         ])
+        
+        productListTableView.register(ProductInformationCell.self, forCellReuseIdentifier: ProductInformationCell.identifier)
+        productListTableView.rowHeight = 50
     }
+    
     private func setUpProductListCollectionView() {
+        productListCollectionView.delegate = self
+        productListCollectionView.dataSource = self
+        
         productListCollectionView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
@@ -93,7 +88,16 @@ class ViewController: UIViewController {
             productListCollectionView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
             productListCollectionView.heightAnchor.constraint(equalToConstant: self.view.frame.height)
         ])
+        
+        productListCollectionView.register(ProductInformationGridCell.self, forCellWithReuseIdentifier: ProductInformationGridCell.identifier)
+        productListCollectionView.isHidden = true
     }
+    
+    private func setUpNavigationItem() {
+        self.navigationItem.titleView = listPresentingStyleSegmentControl
+        self.navigationItem.rightBarButtonItem = addProductButton
+    }
+    
 }
 extension ViewController: UITableViewDelegate {
     
@@ -108,11 +112,38 @@ extension ViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         
-        cell.thumbnailImageView.image = UIImage(named:"\(productList[indexPath.row].thumbnails)") ?? UIImage(named: "default")
-        cell.nameLabel.text = productList[indexPath.row].title
-        cell.priceLabel.text = "\(productList[indexPath.row].currency) \(productList[indexPath.row].price)"
-        cell.stockLabel.text = "재고: \(productList[indexPath.row].stock)"
+        let productInformation = productList[indexPath.row]
         
+        if productInformation.discountedPrice != nil {
+            cell.priceLabel.text = "\(productInformation.currency) \(productInformation.price) \(String(describing: productInformation.discountedPrice))"
+        } else {
+            cell.priceLabel.text = "\(productInformation.currency) \(productInformation.price)"
+        }
+        
+        if productInformation.stock == 0 {
+            cell.stockLabel.text = "품절"
+        } else {
+            cell.stockLabel.text = "재고: \(productInformation.stock)"
+        }
+        
+        cell.nameLabel.text = productInformation.title
+        cell.imageView?.image = nil
+        
+        DispatchQueue.global().async {
+            guard let imageStringPath = productInformation.thumbnails?.first,
+                  let imageURL: URL = URL(string: imageStringPath),
+                  let imageData: Data = try? Data(contentsOf: imageURL) else {
+                return
+            }
+            
+            DispatchQueue.main.async {
+                if let index: IndexPath = tableView.indexPath(for: cell) {
+                    if index.row == indexPath.row {
+                        cell.thumbnailImageView.image = UIImage(data: imageData)
+                    }
+                }
+            }
+        }
         return cell
     }
 }
@@ -134,10 +165,38 @@ extension ViewController: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         cell.backgroundColor = .white
-        cell.thumbnailImageView.image = UIImage(named:"\(productList[indexPath.item].thumbnails)") ?? UIImage(named: "default")
-        cell.nameLabel.text = productList[indexPath.item].title
-        cell.priceLabel.text = "\(productList[indexPath.item].currency) \(productList[indexPath.item].price)"
-        cell.stockLabel.text = "재고: \(productList[indexPath.item].stock)"
+        
+        let productInformation = productList[indexPath.item]
+        
+        if productInformation.discountedPrice != nil {
+            cell.priceLabel.text = "\(productInformation.currency) \(productInformation.price) \(String(describing: productInformation.discountedPrice))"
+        } else {
+            cell.priceLabel.text = "\(productInformation.currency) \(productInformation.price)"
+        }
+        
+        if productInformation.stock == 0 {
+            cell.stockLabel.text = "품절"
+        } else {
+            cell.stockLabel.text = "재고: \(productInformation.stock)"
+        }
+        
+        cell.nameLabel.text = productInformation.title
+        
+        DispatchQueue.global().async {
+            guard let imageStringPath = productInformation.thumbnails?.first,
+                  let imageURL: URL = URL(string: imageStringPath),
+                  let imageData: Data = try? Data(contentsOf: imageURL) else {
+                return
+            }
+            
+            DispatchQueue.main.async {
+                if let index: IndexPath = collectionView.indexPath(for: cell) {
+                    if index.row == indexPath.row {
+                        cell.thumbnailImageView.image = UIImage(data: imageData)
+                    }
+                }
+            }
+        }
         
         return cell
     }
