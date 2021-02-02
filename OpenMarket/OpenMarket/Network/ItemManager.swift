@@ -25,11 +25,11 @@ struct ItemManager {
     }
     
     func uploadData(method: HttpMethod, path: PathOfURL, item: ItemToUpload, param: UInt? = nil, completion: @escaping resultHandler) {
-        guard let requestUrl = makeURL(method: method, path: path, param: param) else {
+        guard let requestURL = makeURL(method: method, path: path, param: param) else {
             return completion(.failure(.failSetUpURL))
         }
         
-        guard let request = makeURLRequestWithRequestBody(method: method, requestURL: requestUrl, item: item) else {
+        guard let request = makeURLRequestWithRequestBody(method: method, requestURL: requestURL, item: item) else {
             return completion(.failure(.failMakeURLRequest))
         }
         
