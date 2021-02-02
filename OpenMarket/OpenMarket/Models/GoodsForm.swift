@@ -7,6 +7,16 @@
 
 import Foundation
 
+protocol RegisterForm {
+    func makeRegisterParameter() throws -> [String : Any]
+}
+protocol EditForm {
+    func makeEditForm() -> [String : Any]
+}
+protocol DeleteForm {
+    func makeDeleteForm() throws -> [String : Any]
+}
+
 struct GoodsForm {
     let password: String
     var id: UInt? = nil
@@ -66,13 +76,38 @@ struct GoodsForm {
         self.discountedPrice = nil
         self.images = nil
     }
-    
-    var convertParameter: [String : Any]? {
+}
+// TODO: edit multipart to images
+extension GoodsForm: RegisterForm {
+    func makeRegisterParameter() throws -> [String : Any] {
+        guard let title = self.title,
+              let descriptions = self.descriptions,
+              let price = self.price,
+              let currency = self.currency,
+              let stock = self.stock,
+              let images = self.images else {
+            throw OpenMarketError.fillForm
+        }
         var parameter: [String : Any] = [:]
         parameter["password"] = password
-        if let id = id {
-            parameter["id"] = id
+        parameter["title"] = title
+        parameter["descriptions"] = descriptions
+        parameter["price"] = price
+        parameter["currency"] = currency
+        parameter["stock"] = stock
+        parameter["images"] = images
+        if let discountedPrice = discountedPrice  {
+            parameter["discounted_price"] = discountedPrice
         }
+        
+        return parameter
+    }
+}
+
+extension GoodsForm: EditForm {
+    func makeEditForm() -> [String : Any] {
+        var parameter: [String : Any] = [:]
+        parameter["password"] = password
         if let title = title {
             parameter["title"] = title
         }
@@ -89,12 +124,25 @@ struct GoodsForm {
             parameter["stock"] = stock
         }
         if let discountedPrice = discountedPrice {
-            parameter["discountedPrice"] = discountedPrice
+            parameter["discounted_price"] = discountedPrice
         }
-        // TODO: edit multi
         if let images = images {
             parameter["images"] = images
         }
+        
+        return parameter
+    }
+}
+
+extension GoodsForm: DeleteForm {
+    func makeDeleteForm() throws -> [String : Any] {
+        guard let id = self.id else {
+            throw OpenMarketError.fillForm
+        }
+        var parameter: [String : Any] = [:]
+        parameter["id"] = id
+        parameter["password"] = password
+        
         return parameter
     }
 }

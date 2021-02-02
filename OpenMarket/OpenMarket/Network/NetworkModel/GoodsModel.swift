@@ -8,6 +8,8 @@
 import Foundation
 
 struct GoodsModel {
+    typealias GoodsFormParameter = [String : Any]
+    
     private static let task = NetworkTask(dispatcher: NetworkDispatcher())
     
     private class GoodsModelRequest: Request {
@@ -23,27 +25,27 @@ struct GoodsModel {
             self.method = .get
         }
         
-        init(registerParams: GoodsForm) {
+        init(registerParams: GoodsFormParameter) {
             self.path.append(NetworkConfig.makeURLPath(api: .registerGoods, with: nil))
             self.method = .post
             self.headers = NetworkConfig.multipartContentType
-            self.bodyParams = registerParams.convertParameter
+            self.bodyParams = registerParams
         }
         
-        init(editParams: GoodsForm,
+        init(editParams: GoodsFormParameter,
              editID: UInt) {
             self.path.append(NetworkConfig.makeURLPath(api: .editGoods, with: editID))
             self.method = .patch
             self.headers = NetworkConfig.multipartContentType
-            self.bodyParams = editParams.convertParameter
+            self.bodyParams = editParams
         }
         
-        init(deleteParams: GoodsForm,
+        init(deleteParams: GoodsFormParameter,
              deleteID: UInt) {
             self.path.append(NetworkConfig.makeURLPath(api: .deleteGoods, with: deleteID))
             self.method = .delete
             self.headers = NetworkConfig.jsonContentType
-            self.bodyParams = deleteParams.convertParameter
+            self.bodyParams = deleteParams
         }
     }
     
@@ -58,7 +60,7 @@ struct GoodsModel {
         }
     }
     
-    static func registerGoods(params: GoodsForm, completion: @escaping(Result<Any, Error>) -> Void) {
+    static func registerGoods(params: GoodsFormParameter, completion: @escaping(Result<Any, Error>) -> Void) {
         task.perform(request: GoodsModelRequest(registerParams: params), dataType: Goods.self) { result in
             switch result {
             case .success(let decodedData):
@@ -69,7 +71,7 @@ struct GoodsModel {
         }
     }
     
-    static func editGoods(id: UInt, params: GoodsForm, completion: @escaping(Result<Any, Error>) -> Void) {
+    static func editGoods(id: UInt, params: GoodsFormParameter, completion: @escaping(Result<Any, Error>) -> Void) {
         task.perform(request: GoodsModelRequest(editParams: params, editID: id), dataType: Goods.self) { result in
             switch result {
             case .success(let decodedData):
@@ -80,7 +82,7 @@ struct GoodsModel {
         }
     }
     
-    static func deleteGoods(id: UInt, params: GoodsForm, completion: @escaping(Result<Any, Error>) -> Void) {
+    static func deleteGoods(id: UInt, params: GoodsFormParameter, completion: @escaping(Result<Any, Error>) -> Void) {
         task.perform(request: GoodsModelRequest(deleteParams: params, deleteID: id), dataType: [String : UInt].self) { result in
             switch result {
             case .success(let decodedData):
