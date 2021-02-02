@@ -1,7 +1,7 @@
 
 import Foundation
-import XCTest
-@testable import OpenMarket
+//import XCTest
+//@testable import OpenMarket
 
 class MockURLSession: URLSessionProtocol {
 

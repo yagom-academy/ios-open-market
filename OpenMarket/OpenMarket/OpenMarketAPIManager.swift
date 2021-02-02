@@ -8,6 +8,7 @@ protocol URLSessionProtocol {
                    from bodyData: Data?,
         completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionUploadTask
 }
+
 extension URLSession: URLSessionProtocol { }
 
 enum OpenMarketNetworkError: Error {
@@ -22,7 +23,7 @@ struct OpenMarketAPIManager {
     static let baseURL = "https://camp-open-market.herokuapp.com"
     let session: URLSessionProtocol
     
-    init(session: URLSessionProtocol) {
+    init(session: URLSessionProtocol = URLSession(configuration: .default)) {
         self.session = session
     }
     
@@ -31,10 +32,10 @@ struct OpenMarketAPIManager {
             print(OpenMarketNetworkError.failedURLRequest)
             return
         }
-        
+    
         let dataTask: URLSessionDataTask = session.dataTask(with: urlRequest) { (data, response, error)  in
             guard let receivedData = data else {
-                completionHandler(.failure(.invalidData))
+                completionHandler(.failure(.invalidURL))
                 return
             }
             
@@ -61,7 +62,7 @@ struct OpenMarketAPIManager {
             return
         }
         
-        urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        urlRequest.setValue("multipart/form-data", forHTTPHeaderField: "Content-Type")
         let productData = try! JSONEncoder().encode(product)
         urlRequest.httpBody = productData
         

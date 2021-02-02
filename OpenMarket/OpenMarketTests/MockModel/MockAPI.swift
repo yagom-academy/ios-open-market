@@ -1,7 +1,7 @@
 import UIKit
 import Foundation
-import XCTest
-@testable import OpenMarket
+//import XCTest
+//@testable import OpenMarket
 
 enum MockAPI {
     case test
