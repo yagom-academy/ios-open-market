@@ -47,7 +47,25 @@ extension ViewController: UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "cell") as? TestTableViewCell else {
             return UITableViewCell()
         }
-        cell.testImage.loadImage(at: self.testArray[indexPath.row % 3])
+        let token = ImageLoader.shared.load(urlString: self.testArray[indexPath.row % 3]) { result in
+            switch result {
+            case .failure(let error):
+                debugPrint("❌:\(error.localizedDescription)")
+            case .success(let image):
+                DispatchQueue.main.async {
+                    if let index: IndexPath = tableView.indexPath(for: cell) {
+                        if index.row == indexPath.row {
+                            cell.testImage.image = image
+                        }
+                    }
+                }
+            }
+        }
+        cell.onReuse = {
+            if let token = token {
+                ImageLoader.shared.cancelLoad(token)
+            }
+        }
         return cell
     }
     
