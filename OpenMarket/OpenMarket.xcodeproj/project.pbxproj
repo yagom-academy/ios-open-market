@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		26228A2A25C9049500D73641 /* Item.json in Resources */ = {isa = PBXBuildFile; fileRef = 26228A2925C9049500D73641 /* Item.json */; };
 		2678E79425BFB49D00938BED /* ItemList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2678E79325BFB49D00938BED /* ItemList.swift */; };
 		2678E79725BFB4D400938BED /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2678E79625BFB4D400938BED /* Item.swift */; };
 		2678E79E25BFB9A900938BED /* ItemToUpload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2678E79D25BFB9A900938BED /* ItemToUpload.swift */; };
@@ -36,6 +37,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		26228A2925C9049500D73641 /* Item.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Item.json; sourceTree = "<group>"; };
 		2678E79325BFB49D00938BED /* ItemList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemList.swift; sourceTree = "<group>"; };
 		2678E79625BFB4D400938BED /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		2678E79D25BFB9A900938BED /* ItemToUpload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemToUpload.swift; sourceTree = "<group>"; };
@@ -111,6 +113,7 @@
 			children = (
 				2678E7C125C013D900938BED /* OpenMarketTests.swift */,
 				2678E7C325C013D900938BED /* Info.plist */,
+				26228A2925C9049500D73641 /* Item.json */,
 			);
 			path = OpenMarketTests;
 			sourceTree = "<group>";
@@ -230,6 +233,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				26228A2A25C9049500D73641 /* Item.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
