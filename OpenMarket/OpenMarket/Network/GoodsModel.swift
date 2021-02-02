@@ -23,7 +23,10 @@ struct GoodsModel {
             self.method = .get
         }
         
-        init(registerParams: RegisterForm) {
+        init(registerParams: GoodsForm) {
+            self.path.append(NetworkConfig.makeURLPath(api: .registerGoods, with: nil))
+            self.method = .post
+            self.headers = NetworkConfig.multipartContentType
             
         }
     }

@@ -66,4 +66,6 @@ struct GoodsForm {
         self.discountedPrice = nil
         self.images = nil
     }
+    
+    var 
 }
