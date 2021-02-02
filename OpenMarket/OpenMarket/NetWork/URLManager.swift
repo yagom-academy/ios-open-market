@@ -7,28 +7,100 @@
 
 import Foundation
 
-enum NetworkMethod {
-    case getItemList
-    case getItem
-    case postItem
-    case patchItem
-    case deleteItem
+enum HTTPMethod {
+    case get
+    case post
+    case patch
+    case delete
+    
+    var description: String {
+        switch self {
+        case .get:
+            return "GET"
+        case .post:
+            return "POST"
+        case .patch:
+            return "PATCH"
+        case .delete:
+            return "DELETE"
+        }
+    }
+}
+
+enum RequestType {
+    case loadItemList(page: Int)
+    case loadItem(id: Int)
+    case uploadItem(item: ItemToPost)
+    case editItem(id: Int, item: ItemToPatch)
+    case deleteItem(id: Int, item: ItemToDelete)
     
     var path: String {
         switch self {
-        case .getItemList:
-            return "/items"
-        case .getItem, .postItem, .patchItem, .deleteItem:
+        case .loadItemList(let page):
+            return "/items/\(page)"
+        case .loadItem(let id):
+            return "/item/\(id)"
+        case .editItem(let id, _):
+            return "/item/\(id)"
+        case .deleteItem(let id, _):
+            return "/item/\(id)"
+        case .uploadItem:
             return "/item"
         }
+    }
+    
+    var method: HTTPMethod {
+        switch self {
+        case .uploadItem:
+            return .post
+        case .editItem:
+            return .patch
+        case .deleteItem:
+            return .delete
+        default:
+            return .get
+        }
+    }
+    
+    var encodedData: Data? {
+        switch self {
+        case .deleteItem(_, let item):
+            return Parser.encodeData(item)
+        default:
+            return nil
+        }
+    }
+    
+    var urlRequest: URLRequest? {
+        guard let url = URLManager.makeURL(type: self) else {
+            return nil
+        }
+        var urlRequest = URLRequest(url: url)
+        urlRequest.httpMethod = self.method.description
+        switch self {
+        case .uploadItem(let item):
+            let boundary = item.generateBoundary()
+            urlRequest.httpBody = item.makeDataBody(boundary: boundary)
+            urlRequest.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        case .editItem(_, let item):
+            let boundary = item.generateBoundary()
+            urlRequest.httpBody = item.makeDataBody(boundary: boundary)
+            urlRequest.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        case .deleteItem:
+            urlRequest.httpBody = self.encodedData
+            urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        default:
+            urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        }
+        return urlRequest
     }
 }
 
 struct URLManager {
     private static let baseURL = "https://camp-open-market.herokuapp.com"
     
-    static func makeURL(type: NetworkMethod, value: Int?) -> URL? {
-        guard let urlString = makeUrlString(type: type, value: value) else {
+    static func makeURL(type: RequestType) -> URL? {
+        guard let urlString = makeUrlString(type: type) else {
             print("url 없음")
             return nil
         }
@@ -36,30 +108,9 @@ struct URLManager {
         return url
     }
     
-    private static func makeUrlString(type: NetworkMethod, value: Int?) -> String? {
+    private static func makeUrlString(type: RequestType) -> String? {
         var urlString = URLManager.baseURL
         urlString.append(type.path)
-        switch type {
-        case .getItemList:
-            guard let page = value else {
-                print("페이지를 입력하세요?")
-                return nil
-            }
-            urlString.append("/\(page)")
-            return urlString
-        case .postItem:
-            guard value == nil else {
-                print("??")
-                return nil
-            }
-            return urlString
-        case .getItem, .patchItem, .deleteItem:
-            guard let id = value else {
-                print("id를 입력하세요")
-                return nil
-            }
-            urlString.append("/\(id)")
-            return urlString
-        }
+        return urlString
     }
 }
