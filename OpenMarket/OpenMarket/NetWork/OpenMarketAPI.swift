@@ -20,35 +20,30 @@ enum OpenMarketAPIError: Error {
 class OpenMarketAPI {
     
     private static var session = URLSession(configuration: .default)
-    private static var ephemeralSession = URLSession(configuration: .ephemeral)
     
-    static func request<T: Decodable>(_ type: RequestType, _ completionHandler: @escaping (Result<T, Error>) -> Void) {
-            guard let url = URLManager.makeURL(type: type) else {
-                print("URL Error")
-                return
-            }
-            session.dataTask(with: url) { (data, response, error) in
-                let result = Network.getResult(T.self, data: data, response: response, error: error)
-                completionHandler(result)
-            }.resume()
-        }
-    
-    static func postItem(_ type: RequestType, itemToPost: ItemToPost, _ completionHandler: @escaping(Result<ItemAfterPost, Error>) -> Void) {
-        guard let url = URLManager.makeURL(type: type) else {
-            completionHandler(.failure(OpenMarketAPIError.wrongURL))
-            return
-        }
-        // TODO: URLRequest 부분 따로 구현.
-        var urlRequest = URLRequest(url: url)
-        urlRequest.httpMethod = "POST"
-        urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        guard let dataToPost = Parser.encodeData(itemToPost) else {
-            print("Encoding Error")
-            return
-        }
-        ephemeralSession.uploadTask(with: urlRequest, from: dataToPost) { (data, response, error) in
-            let result = Network.getResult(ItemAfterPost.self, data: data, response: response, error: error)
+    private static func sendRequest(_ request: URLRequest, completionHandler: @escaping (Result<Data, Error>) -> Void) {
+        session.dataTask(with: request) { (data, response, error) in
+            let result = Network.getResult(data: data, response: response, error: error)
             completionHandler(result)
         }.resume()
     }
+    
+    static func request<T: Decodable>(_ type: RequestType, completionHandler: @escaping (Result<T, Error>) -> Void) {
+        guard let request = type.urlRequest() else {
+            return
+        }
+        self.sendRequest(request) { result in
+            switch result {
+            case .success(let data):
+                guard let decodedData = Parser.decodeData(T.self, data) else {
+                    completionHandler(.failure(OpenMarketAPIError.dataDecodingError))
+                    return
+                }
+                completionHandler(.success(decodedData))
+            case .failure(let error):
+                completionHandler(.failure(error))
+            }
+        }
+    }
+    
 }

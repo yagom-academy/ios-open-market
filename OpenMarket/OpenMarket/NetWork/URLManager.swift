@@ -30,20 +30,64 @@ enum HTTPMethod {
 enum RequestType {
     case loadItemList(page: Int)
     case loadItem(id: Int)
-    case uploadItem
-    case editItem(id: Int)
-    case deleteItem(id: Int)
+    case uploadItem(item: ItemToPost)
+    case editItem(id: Int, item: ItemToPatch)
+    case deleteItem(id: Int, item: ItemToDelete)
     
     var path: String {
         switch self {
         case .loadItemList(let page):
             return "/items/\(page)"
-        case .loadItem(let id), .editItem(let id), .deleteItem(let id):
+        case .loadItem(let id):
+            return "/item/\(id)"
+        case .editItem(let id, _):
+            return "/item/\(id)"
+        case .deleteItem(let id, _):
             return "/item/\(id)"
         case .uploadItem:
             return"/item"
         }
     }
+    
+    var method: HTTPMethod {
+        switch self {
+        case .uploadItem:
+            return .post
+        case .editItem:
+            return .patch
+        case .deleteItem:
+            return .delete
+        default:
+            return .get
+        }
+    }
+    
+    var encodedData: Data? {
+        switch self {
+        case .loadItemList:
+            return nil
+        case .loadItem:
+            return nil
+        case .editItem(_, let item):
+            return Parser.encodeData(item)
+        case .deleteItem(_, let item):
+            return Parser.encodeData(item)
+        case .uploadItem(let item):
+            return Parser.encodeData(item)
+        }
+    }
+    
+    func urlRequest() -> URLRequest? {
+        guard let url = URLManager.makeURL(type: self) else {
+            return nil
+        }
+        var urlRequest = URLRequest(url: url)
+        urlRequest.httpMethod = self.method.description
+        urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        urlRequest.httpBody = self.encodedData
+        return urlRequest
+    }
+    
 }
 
 struct URLManager {
