@@ -21,7 +21,7 @@ struct MarketGoodsListModel {
         }
     }
     
-    static func fetchMarketGoodsList(page: UInt, completion: @escaping(Result<Any, Error>) -> Void) {
+    static func fetchMarketGoodsList(page: UInt, completion: @escaping(Result<MarketGoods, Error>) -> Void) {
         task.perform(request: GoodsListModelRequest(fetchPage: page), dataType: MarketGoods.self) { result in
             switch result {
             case .success(let decodedData):

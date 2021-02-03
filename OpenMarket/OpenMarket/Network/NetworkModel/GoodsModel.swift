@@ -52,7 +52,7 @@ struct GoodsModel {
         }
     }
     
-    static func fetchGoods(id: UInt, completion: @escaping(Result<Any, Error>) -> Void) {
+    static func fetchGoods(id: UInt, completion: @escaping(Result<Goods, Error>) -> Void) {
         task.perform(request: GoodsModelRequest(fetchID: id), dataType: Goods.self) { result in
             switch result {
             case .success(let decodedData):
@@ -63,7 +63,7 @@ struct GoodsModel {
         }
     }
     
-    static func registerGoods(params: GoodsFormParameter, completion: @escaping(Result<Any, Error>) -> Void) {
+    static func registerGoods(params: GoodsFormParameter, completion: @escaping(Result<Goods, Error>) -> Void) {
         task.perform(request: GoodsModelRequest(registerParams: params), dataType: Goods.self) { result in
             switch result {
             case .success(let decodedData):
@@ -74,7 +74,7 @@ struct GoodsModel {
         }
     }
     
-    static func editGoods(id: UInt, params: GoodsFormParameter, completion: @escaping(Result<Any, Error>) -> Void) {
+    static func editGoods(id: UInt, params: GoodsFormParameter, completion: @escaping(Result<Goods, Error>) -> Void) {
         task.perform(request: GoodsModelRequest(editParams: params, editID: id), dataType: Goods.self) { result in
             switch result {
             case .success(let decodedData):
@@ -85,7 +85,7 @@ struct GoodsModel {
         }
     }
     
-    static func deleteGoods(id: UInt, params: GoodsFormParameter, completion: @escaping(Result<Any, Error>) -> Void) {
+    static func deleteGoods(id: UInt, params: GoodsFormParameter, completion: @escaping(Result<[String : UInt], Error>) -> Void) {
         task.perform(request: GoodsModelRequest(deleteParams: params, deleteID: id), dataType: [String : UInt].self) { result in
             switch result {
             case .success(let decodedData):
