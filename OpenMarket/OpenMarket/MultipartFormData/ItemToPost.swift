@@ -42,7 +42,7 @@ struct ItemToPost: MultipartFormData {
         let mimeType = "image/jpg"
         let key = "images[]"
         for (index, image) in images.enumerated() {
-            if let imageData = image.jpegData(compressionQuality: 1), let media = Media(data: imageData, mimeType: mimeType , key: key, fileName: "\(index).jpg") {
+            if let imageData = image.jpegData(compressionQuality: 1), let media = Media(key: key, fileName: "\(index).jpg", mimeType: mimeType,  data: imageData) {
                 medias?.append(media)
             }
         }
