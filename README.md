@@ -16,7 +16,7 @@
 
 - Branch
     - '1-sole' branch에는 최종 제출할 내용을 PR 보내고 머지는 상대방이.
-    - 'step1-sole-feat', 'step1-bam-fix' branch 에서 작업 후 해당 branch를 깃헙에 푸쉬.
+    - 'step1-sole', 'step1-bam' branch 에서 작업 후 해당 branch를 깃헙에 푸쉬.
 - 커밋메세지 규칙
     - 커밋단위 :  빌드되는 상태에서, 기능단위로 커밋하기.
     - "<Type>: <Contents>"
