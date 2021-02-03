@@ -9,8 +9,9 @@ import Foundation
 
 enum OpenMarketAPIError: Error {
     case dataDecodingError
-    case clientSideError
-    case serverSideError
+    case redirectionMessage
+    case clientSideErrorResponse
+    case serverSideErrorResponse
     case noData
     case noResponse
     case wrongURL
