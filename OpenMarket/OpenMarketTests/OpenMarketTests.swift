@@ -129,20 +129,20 @@ class OpenMarketTests: XCTestCase {
         guard let airPodMaxImage1 = UIImage(named: "AirPodMax1"), let airPodMaxImage2 = UIImage(named: "AirPodMax2") else {
             return
         }
-        var imageDataStringArray: [String] = []
+        var imageData: [Data] = []
         guard let airPodMaxImageData1 = UIImageToData(image: airPodMaxImage1), let airPodMaxImageData2 = UIImageToData(image: airPodMaxImage2) else {
             return
         }
-        imageDataStringArray.append(airPodMaxImageData1)
-        imageDataStringArray.append(airPodMaxImageData2)
+        imageData.append(airPodMaxImageData1)
+        imageData.append(airPodMaxImageData2)
         
         let newItem = ItemToUpload(title: "AirPod Max",
                                    descriptions: "귀를 호강시켜주는 에어팟 맥스! 사주실 분 구해요ㅠ",
                                    price: 700000,
                                    currency: "KRW",
                                    stock: 10000,
-                                   discountedPrice: nil,
-                                   images: imageDataStringArray,
+                                   discountedPrice: 69000,
+                                   images: imageData,
                                    password: "asdfqwerzxcv")
         
         ItemManager.shared.uploadData(method: .post, path: .item, item: newItem, param: nil) { [self] result in
@@ -178,7 +178,7 @@ class OpenMarketTests: XCTestCase {
     
     func testPatchItem() {
         let expectation = XCTestExpectation(description: "APIPrivoderTaskExpectation")
-        let param: UInt = 392
+        let param: UInt = 82
         let patchItem = ItemToUpload(title: nil,
                                      descriptions: nil,
                                      price: 750000,
@@ -221,17 +221,16 @@ class OpenMarketTests: XCTestCase {
         XCTAssertEqual(stock, 500000)
     }
     
-    private func UIImageToData(image: UIImage) -> String? {
-        guard let data = image.jpegData(compressionQuality: 0.8)?.base64EncodedData() else {
+    private func UIImageToData(image: UIImage) -> Data? {
+        guard let data = image.jpegData(compressionQuality: 0.8) else {
             return nil
         }
-        let dataString = String(decoding: data, as: UTF8.self)
-        return dataString
+        return data
     }
     
     func testDeleteData() {
         let expectation = XCTestExpectation(description: "APIPrivoderTaskExpectation")
-        let param: UInt = 394
+        let param: UInt = 76
         let item = ItemToDelete(id: param, password: "asdfqwerzxcv")
         
         ItemManager.shared.deleteData(method: .delete, path: .item, item: item, param: param) { [self] result in
