@@ -17,7 +17,8 @@ struct GoodsModel {
         var path: String = NetworkConfig.openMarketFixedURL
         var method: HTTPMethod
         var headers: [String : String]?
-        var bodyParams: [String : Any]?
+        var bodyParams: Data?
+        var boundary: String?
         
         init(fetchID: UInt) {
             self.id = fetchID
@@ -28,24 +29,26 @@ struct GoodsModel {
         init(registerParams: GoodsFormParameter) {
             self.path.append(NetworkConfig.makeURLPath(api: .registerGoods, with: nil))
             self.method = .post
-            self.headers = NetworkConfig.multipartContentType
-            self.bodyParams = registerParams
+            self.boundary = UUID().uuidString
+            self.headers = ["Content-Type" : String(format: NetworkConfig.headerType.multipartForm, self.boundary ?? "")]
+            self.bodyParams = GoodsForm.makeBodyData(with: registerParams, boundary: self.boundary ?? "")
         }
         
         init(editParams: GoodsFormParameter,
              editID: UInt) {
             self.path.append(NetworkConfig.makeURLPath(api: .editGoods, with: editID))
             self.method = .patch
-            self.headers = NetworkConfig.multipartContentType
-            self.bodyParams = editParams
+            self.boundary = UUID().uuidString
+            self.headers = ["Content-Type" : String(format: NetworkConfig.headerType.multipartForm, self.boundary ?? "")]
+            self.bodyParams = GoodsForm.makeBodyData(with: editParams, boundary: self.boundary ?? "")
         }
         
         init(deleteParams: GoodsFormParameter,
              deleteID: UInt) {
             self.path.append(NetworkConfig.makeURLPath(api: .deleteGoods, with: deleteID))
             self.method = .delete
-            self.headers = NetworkConfig.jsonContentType
-            self.bodyParams = deleteParams
+            self.headers = ["Content-Type" : NetworkConfig.headerType.json]
+            self.bodyParams = try? JSONSerialization.data(withJSONObject: deleteParams)
         }
     }
     

@@ -36,6 +36,16 @@ class ViewController: UIViewController {
 //                debugPrint("❌:\(error.localizedDescription)")
 //            }
 //        }
+        let testImage = UIImage(named: "test1")!
+        let form = try? GoodsForm(registerPassword: "1234", title: "test-joons", descriptions: "test-joons", price: 10000, currency: "KRW", stock: 1, discountedPrice: nil, images: [testImage, testImage]).makeRegisterForm()
+        GoodsModel.registerGoods(params: form!) { result in
+            switch result {
+            case .success(let data):
+                debugPrint("👋: \(data)")
+            case .failure(let error):
+                debugPrint("❌:\(error.localizedDescription)")
+            }
+        }
     }
 }
 extension ViewController: UITableViewDataSource {

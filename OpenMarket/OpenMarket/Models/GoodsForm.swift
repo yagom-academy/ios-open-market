@@ -6,15 +6,16 @@
 //
 
 import Foundation
+import UIKit
 
-protocol RegisterForm {
+protocol MakeForm {
     func makeRegisterForm() throws -> [String : Any]
-}
-protocol EditForm {
     func makeEditForm() -> [String : Any]
-}
-protocol DeleteForm {
     func makeDeleteForm() throws -> [String : Any]
+}
+
+protocol ConvertMultipartForm {
+    static func makeBodyData(with parameter: [String : Any], boundary: String) -> Data
 }
 
 struct GoodsForm {
@@ -26,7 +27,7 @@ struct GoodsForm {
     let currency: String?
     let stock: Int?
     let discountedPrice: Int?
-    let images: [Data]?
+    let images: [UIImage]?
     
     init(registerPassword: String,
          title: String,
@@ -35,7 +36,7 @@ struct GoodsForm {
          currency: String,
          stock: Int,
          discountedPrice: Int?,
-         images: [Data]) {
+         images: [UIImage]) {
         self.password = registerPassword
         self.title = title
         self.descriptions = descriptions
@@ -53,7 +54,7 @@ struct GoodsForm {
          currency: String?,
          stock: Int?,
          discountedPrice: Int?,
-         images: [Data]?) {
+         images: [UIImage]?) {
         self.password = editPassword
         self.title = title
         self.descriptions = descriptions
@@ -77,8 +78,8 @@ struct GoodsForm {
         self.images = nil
     }
 }
-// TODO: edit multipart to images
-extension GoodsForm: RegisterForm {
+
+extension GoodsForm: MakeForm {
     func makeRegisterForm() throws -> [String : Any] {
         guard let title = self.title,
               let descriptions = self.descriptions,
@@ -95,16 +96,16 @@ extension GoodsForm: RegisterForm {
         parameter["price"] = price
         parameter["currency"] = currency
         parameter["stock"] = stock
-        parameter["images"] = images
+        
+        let imagesData = images.map { $0.pngData() }.compactMap { $0 }
+        parameter["images"] = imagesData
         if let discountedPrice = discountedPrice  {
             parameter["discounted_price"] = discountedPrice
         }
         
         return parameter
     }
-}
-
-extension GoodsForm: EditForm {
+    
     func makeEditForm() -> [String : Any] {
         var parameter: [String : Any] = [:]
         parameter["password"] = password
@@ -127,14 +128,13 @@ extension GoodsForm: EditForm {
             parameter["discounted_price"] = discountedPrice
         }
         if let images = images {
-            parameter["images"] = images
+            let imagesData = images.map { $0.jpegData(compressionQuality: 1.0) }.compactMap { $0 }
+            parameter["images"] = imagesData
         }
         
         return parameter
     }
-}
-
-extension GoodsForm: DeleteForm {
+    
     func makeDeleteForm() throws -> [String : Any] {
         guard let id = self.id else {
             throw OpenMarketError.fillForm
@@ -144,5 +144,60 @@ extension GoodsForm: DeleteForm {
         parameter["password"] = password
         
         return parameter
+    }
+}
+
+extension GoodsForm: ConvertMultipartForm {
+    static func makeBodyData(with parameter: [String : Any], boundary: String) -> Data {
+        var body = Data()
+        
+        for (key, value) in parameter {
+            if key == "images" {
+                body.append(makeMultiformParameter(key: key, value: value, boundary: boundary))
+            } else {
+                body.append(makeMultiformParameter(key: key, value: value, boundary: boundary))
+            }
+        }
+        
+        let lastBoundaryLine = "--\(boundary)--\r\n"
+        body.append(lastBoundaryLine)
+
+        return body
+    }
+    
+    static private func makeMultiformParameter(key: String, value: [Data], boundary: String) -> Data {
+        var body = Data()
+        for image in value {
+            body.append("--\(boundary)\r\n")
+            body.append("Content-Disposition: form-data; name=\"\(key)[]\"; filename=\"image1.png\"\r\n")
+            body.append("Content-Type: image/png\r\n\r\n")
+            body.append(image)
+            body.append("\r\n")
+        }
+
+        return body
+    }
+    
+    static private func makeMultiformParameter(key: String, value: Any, boundary: String) -> Data {
+        var body = Data()
+
+        body.append("--\(boundary)\r\n")
+        body.append("Content-Disposition: form-data; name=\"\(key)\"\r\n\r\n")
+        if let data = value as? String {
+            body.append(data)
+        } else if let data = value as? Int {
+            body.append(String(data))
+        }
+        body.append("\r\n")
+
+        return body
+    }
+}
+
+extension Data {
+    mutating func append(_ string: String, using encoding: String.Encoding = .utf8) {
+        if let data = string.data(using: encoding) {
+            append(data)
+        }
     }
 }
