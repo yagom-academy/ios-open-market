@@ -23,6 +23,13 @@ extension UIViewController {
         let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
         alertController.addAction(okAction)
         alertController.addAction(cancelAction)
-        self.present(alertController, animated: true, completion: nil)
+        
+        showAlert(with: alertController)
+    }
+    
+    private func showAlert(with alert: UIAlertController) {
+        DispatchQueue.main.async {
+            self.present(alert, animated: true, completion: nil)
+        }
     }
 }
