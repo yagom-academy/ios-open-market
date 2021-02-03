@@ -10,30 +10,26 @@ import UIKit
 
 protocol ImageLoadable: class {
     typealias Handler = (Result<UIImage, Error>) -> Void
-    func load(urlString: String, completion: @escaping Handler) -> UUID?
-//    func cancelLoad(_ uuid: UUID)
+    func load(urlString: String, completion: @escaping Handler)
 }
 
 class ImageLoader {
     static let shared: ImageLoadable = ImageLoader()
-    
     private var imageCache = NSCache<NSURL, UIImage>()
-//    private var runningRequests = [UUID : URLSessionDataTask]()
 }
 
 extension ImageLoader: ImageLoadable {
-    func load(urlString: String, completion: @escaping Handler) -> UUID? {
+    func load(urlString: String, completion: @escaping Handler) {
         guard let url = URL(string: urlString) else {
             completion(.failure(NetworkError.url))
-            return nil
+            return
         }
         if let cacheData = imageCache.object(forKey: url as NSURL) {
             completion(.success(cacheData))
-            return nil
+            return
         }
         let uuid = UUID()
         let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
-//            defer { self.runningRequests.removeValue(forKey: uuid) }
             if let error = error {
                 completion(.failure(error))
             }
@@ -45,12 +41,5 @@ extension ImageLoader: ImageLoadable {
             }
         }
         task.resume()
-//        runningRequests[uuid] = task
-        return uuid
     }
-    
-//    func cancelLoad(_ uuid: UUID) {
-//        runningRequests[uuid]?.cancel()
-//        runningRequests.removeValue(forKey: uuid)
-//    }
 }

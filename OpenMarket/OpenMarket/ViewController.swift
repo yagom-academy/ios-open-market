@@ -65,7 +65,6 @@ class ViewController: UIViewController {
         // test cell, will delete
         collectionView.register(UINib(nibName: "TestCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "cell")
         collectionView.register(UINib(nibName: "GoodsListCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "listCell")
-//        collectionView.register(GoodsListCollectionViewCell.self, forCellWithReuseIdentifier: "listCell")
         // TODO: Joons - CollectionView Grid Type cell Regist
     }
     
@@ -143,9 +142,6 @@ extension ViewController: UICollectionViewDataSource {
                   let goodsList = self.goodsList else {
                 return UICollectionViewCell()
             }
-            if let firstThumbnailImage = goodsList[indexPath.row].thumbnails.first {
-                cell.goodsImageView.setImageWithURL(urlString: firstThumbnailImage)
-            }
             cell.settingWithGoods(goodsList[indexPath.row])
             return cell
         case .grid:
@@ -156,28 +152,3 @@ extension ViewController: UICollectionViewDataSource {
         }
     }
 }
-
-/* 이미지 불러올때 예시
- guard let cell = tableView.dequeueReusableCell(withIdentifier: "cell") as? TestTableViewCell else {
-     return UITableViewCell()
- }
- let token = ImageLoader.shared.load(urlString: self.testArray[indexPath.row % 3]) { result in
-     switch result {
-     case .failure(let error):
-         debugPrint("❌:\(error.localizedDescription)")
-     case .success(let image):
-         DispatchQueue.main.async {
-             if let index: IndexPath = tableView.indexPath(for: cell) {
-                 if index.row == indexPath.row {
-                     cell.testImage.image = image
-                 }
-             }
-         }
-     }
- }
- cell.onReuse = {
-     if let token = token {
-         ImageLoader.shared.cancelLoad(token)
-     }
- }
- */
