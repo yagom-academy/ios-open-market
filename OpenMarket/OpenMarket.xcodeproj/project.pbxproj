@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2604B29B25CA736600C24242 /* DataExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2604B29A25CA736600C24242 /* DataExtension.swift */; };
 		26228A2A25C9049500D73641 /* Item.json in Resources */ = {isa = PBXBuildFile; fileRef = 26228A2925C9049500D73641 /* Item.json */; };
 		2678E79425BFB49D00938BED /* ItemList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2678E79325BFB49D00938BED /* ItemList.swift */; };
 		2678E79725BFB4D400938BED /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2678E79625BFB4D400938BED /* Item.swift */; };
@@ -37,6 +38,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2604B29A25CA736600C24242 /* DataExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataExtension.swift; sourceTree = "<group>"; };
 		26228A2925C9049500D73641 /* Item.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Item.json; sourceTree = "<group>"; };
 		2678E79325BFB49D00938BED /* ItemList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemList.swift; sourceTree = "<group>"; };
 		2678E79625BFB4D400938BED /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
@@ -78,6 +80,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2604B29925CA735200C24242 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				2604B29A25CA736600C24242 /* DataExtension.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
 		2678E79925BFB5DB00938BED /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -139,6 +149,7 @@
 		C70FB0F925BEF61C00C9924E /* OpenMarket */ = {
 			isa = PBXGroup;
 			children = (
+				2604B29925CA735200C24242 /* Extension */,
 				2678E7AE25BFCA3F00938BED /* Error */,
 				2678E7A325BFBAAC00938BED /* Network */,
 				2678E79925BFB5DB00938BED /* Model */,
@@ -268,6 +279,7 @@
 				2678E7B025BFCADD00938BED /* OpenMarketError.swift in Sources */,
 				2678E7AC25BFBB2700938BED /* NetworkConfig.swift in Sources */,
 				2678E7B425BFCC5B00938BED /* ItemManager.swift in Sources */,
+				2604B29B25CA736600C24242 /* DataExtension.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
