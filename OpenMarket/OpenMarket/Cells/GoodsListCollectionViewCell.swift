@@ -20,13 +20,20 @@ class GoodsListCollectionViewCell: UICollectionViewCell {
     
     func settingWithGoods(_ goods: Goods) {
         goodsNameLabel.text = goods.title
-        if let finalPrice =  goods.discountedPrice {
+        if let finalPrice = goods.discountedPrice {
             goodsOriginalPriceLabel.isHidden = false
             goodsOriginalPriceLabel.text = PriceFormat.makePriceString(currency: goods.currency, price: goods.price)
             goodsFinalPriceLabel.text = PriceFormat.makePriceString(currency: goods.currency, price: finalPrice)
         } else {
             goodsOriginalPriceLabel.isHidden = true
             goodsFinalPriceLabel.text = PriceFormat.makePriceString(currency: goods.currency, price: goods.price)
+        }
+        if goods.stock == 0 {
+            goodsStockLabel.textColor = .systemYellow
+            goodsStockLabel.text = "품절"
+        } else {
+            goodsStockLabel.textColor = .systemGray2
+            goodsStockLabel.text = "\(goods.stock)"
         }
     }
 }
