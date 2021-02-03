@@ -36,19 +36,6 @@ class ViewController: UIViewController {
         setUpSegment()
     }
     
-    // MARK: - setUp Segment
-    private func setUpSegment() {
-        for (index, element) in SegmentValueTypes.allCases.enumerated() {
-            segment.setTitle(element.valueString, forSegmentAt: index)
-        }
-        segment.addTarget(self, action: #selector(changedSegmentValue(_:)), for: .valueChanged)
-        reloadCollectionView()
-    }
-    
-    @objc func changedSegmentValue(_ sender: UISegmentedControl) {
-        reloadCollectionView()
-    }
-    
     // MARK: - setUp CollectionView
     private func setUpCollectionViewLayouts() {
         for valueType in SegmentValueTypes.allCases {
@@ -82,6 +69,19 @@ class ViewController: UIViewController {
         collectionView.register(UINib(nibName: "TestCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "cell")
         // TODO: Lasagna - CollectionView List Type cell regist
         // TODO: Joons - CollectionView Grid Type cell Regist
+    }
+    
+    // MARK: - setUp Segment
+    private func setUpSegment() {
+        for (index, element) in SegmentValueTypes.allCases.enumerated() {
+            segment.setTitle(element.valueString, forSegmentAt: index)
+        }
+        segment.addTarget(self, action: #selector(changedSegmentValue(_:)), for: .valueChanged)
+        reloadCollectionView()
+    }
+    
+    @objc func changedSegmentValue(_ sender: UISegmentedControl) {
+        reloadCollectionView()
     }
     
     private func reloadCollectionView() {
