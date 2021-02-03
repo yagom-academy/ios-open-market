@@ -9,14 +9,14 @@ import UIKit
 
 struct Media {
     let key: String
-    let data: Data
     let fileName: String
     let mimeType: String
+    let data: Data
     
-    init?(data: Data, mimeType: String, key: String, fileName: String) {
+    init?(key: String, fileName: String, mimeType: String, data: Data) {
         self.key = key
-        self.mimeType = mimeType
         self.fileName = fileName
+        self.mimeType = mimeType
         self.data = data
     }
 }

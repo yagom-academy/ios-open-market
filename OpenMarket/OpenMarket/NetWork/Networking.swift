@@ -16,9 +16,11 @@ struct Network {
         case 200..<300:
             return nil
         case 300..<400:
-            return OpenMarketAPIError.clientSideError
+            return OpenMarketAPIError.redirectionMessage
         case 400..<500:
-            return OpenMarketAPIError.serverSideError
+            return OpenMarketAPIError.clientSideErrorResponse
+        case 500..<600:
+            return OpenMarketAPIError.serverSideErrorResponse
         default:
             return OpenMarketAPIError.unknown
         }
