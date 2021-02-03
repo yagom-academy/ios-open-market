@@ -167,14 +167,16 @@ extension GoodsForm: ConvertMultipartForm {
     
     static private func makeMultiformParameter(key: String, value: [Data], boundary: String) -> Data {
         var body = Data()
-        for image in value {
+        var filename = String()
+        for (index, image) in value.enumerated() {
+            filename = "image\(index).png"
             body.append("--\(boundary)\r\n")
-            body.append("Content-Disposition: form-data; name=\"\(key)[]\"; filename=\"image1.png\"\r\n")
+            body.append("Content-Disposition: form-data; name=\"\(key)[]\"; filename=\"\(filename)\"\r\n")
             body.append("Content-Type: image/png\r\n\r\n")
             body.append(image)
             body.append("\r\n")
         }
-
+        
         return body
     }
     
