@@ -24,6 +24,7 @@ class GoodsGridCollectionViewCell: UICollectionViewCell {
     
     //Config Cell
     public func configure(goods: Goods) {
+        productTitleLabel.text = goods.title
         if let thumbnails = goods.thumbnails.first {
             thumbnailImageView.setImageWithURL(urlString: thumbnails)
         }

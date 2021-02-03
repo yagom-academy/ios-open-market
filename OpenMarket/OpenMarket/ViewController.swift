@@ -92,7 +92,14 @@ class ViewController: UIViewController {
         // TODO: Joons - add CollectionView Grid Type Layout
         // This is test layout code
         let layout = UICollectionViewFlowLayout()
-        layout.estimatedItemSize = CGSize(width: UIScreen.main.bounds.width / 2 - 30, height: 90)
+        let screenWidth = UIScreen.main.bounds.width
+        let numberOfItemsPerRow: CGFloat = 2
+        let interSpacing: CGFloat = 8
+        let totalSpacing = numberOfItemsPerRow * interSpacing
+        let itemWidth = (screenWidth - totalSpacing) / numberOfItemsPerRow
+        layout.itemSize = CGSize(width: itemWidth, height: 300)
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        layout.minimumInteritemSpacing = interSpacing
         return layout
     }
     
