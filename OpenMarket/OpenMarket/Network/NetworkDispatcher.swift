@@ -22,7 +22,7 @@ class NetworkDispatcher {
         if let body = request.bodyParams {
             urlRequest.httpBody = body
         }
-        
+
         URLSession.shared.dataTask(with: urlRequest) { (data, response, error) in
             if error != nil {
                 return completion(.failure(NetworkError.response))

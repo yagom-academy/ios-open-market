@@ -5,7 +5,7 @@ enum OpenMarketAPITypes {
     case registerGoods
     case fetchGoods
     case editGoods
-    case removeGoods
+    case deleteGoods
     
     var urlPath: String {
         switch self {
@@ -17,7 +17,7 @@ enum OpenMarketAPITypes {
             return "/item/"
         case .editGoods:
             return "/item/"
-        case .removeGoods:
+        case .deleteGoods:
             return "/item/"
         }
     }
