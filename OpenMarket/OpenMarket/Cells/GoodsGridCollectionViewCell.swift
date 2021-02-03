@@ -8,6 +8,7 @@
 import UIKit
 
 class GoodsGridCollectionViewCell: UICollectionViewCell {
+    @IBOutlet weak var cellView: UIView!
     @IBOutlet weak var thumbnailImageView: UIImageView!
     @IBOutlet weak var productTitleLabel: UILabel!
     @IBOutlet weak var discountedPriceLabel: UILabel!
@@ -22,8 +23,9 @@ class GoodsGridCollectionViewCell: UICollectionViewCell {
         stockLabel.text = nil
     }
     
-    //Config Cell
+    //MARK: - Configure Cell with Goods
     public func configure(goods: Goods) {
+        setupCellView()
         productTitleLabel.text = goods.title
         if let thumbnails = goods.thumbnails.first {
             thumbnailImageView.setImageWithURL(urlString: thumbnails)
@@ -64,5 +66,13 @@ class GoodsGridCollectionViewCell: UICollectionViewCell {
     private func settingStock(with stock: UInt) {
         stockLabel.textColor = .systemGray2
         stockLabel.text = String(format: StockFormat.quantity, stock)
+    }
+    
+    //MARK: - setting entire cell's view
+    private func setupCellView() {
+        cellView.layer.borderWidth = 2.0
+        cellView.layer.cornerRadius = 8
+        cellView.layer.masksToBounds = false
+        cellView.layer.borderColor = UIColor.systemGray2.cgColor
     }
 }

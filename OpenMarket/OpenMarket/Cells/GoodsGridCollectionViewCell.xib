@@ -107,6 +107,7 @@
             </constraints>
             <size key="customSize" width="252" height="418"/>
             <connections>
+                <outlet property="cellView" destination="REM-cJ-bH9" id="Ov5-Lh-tzx"/>
                 <outlet property="discountedPriceLabel" destination="qJ4-n1-SmC" id="bQB-yp-Qp6"/>
                 <outlet property="priceLabel" destination="6da-Gi-ikb" id="yWN-Ye-VeN"/>
                 <outlet property="productTitleLabel" destination="4Dp-fu-Em8" id="q3M-Qq-LZb"/>
