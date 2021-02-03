@@ -75,6 +75,7 @@ class ViewController: UIViewController {
         // TODO: Lasagna - add CollectionView List Type Layout
         let layout = UICollectionViewFlowLayout()
         layout.estimatedItemSize = CGSize(width: UIScreen.main.bounds.width, height: 81)
+        layout.minimumLineSpacing = 0
         return layout
     }
     
