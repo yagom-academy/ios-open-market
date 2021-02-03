@@ -16,7 +16,7 @@ class MockOpenMarketTests: XCTestCase {
         let expectation = XCTestExpectation()
         let response = try? JSONDecoder().decode(ProductList.self, from: MockAPI.test.sampleItems.data)
         
-        sut.fetchProductList(of: 1) { (result) in
+        sut.requestProductList(of: 1) { (result) in
             switch result {
             case .success(let productList):
                 XCTAssertEqual(productList.items[3].id, response?.items[3].id)
@@ -37,7 +37,7 @@ class MockOpenMarketTests: XCTestCase {
         sut = .init(session: MockURLSession(makeRequestFail: true))
         let expectation = XCTestExpectation()
         
-        sut.fetchProductList(of: 1) { (result) in
+        sut.requestProductList(of: 1) { (result) in
             switch result {
             case .success(let product):
                 XCTFail()

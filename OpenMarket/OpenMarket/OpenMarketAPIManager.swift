@@ -24,7 +24,7 @@ struct OpenMarketAPIManager {
         self.session = session
     }
     
-    func fetchProductList(of page: Int, completionHandler: @escaping (Result<ProductList, OpenMarketNetworkError>) -> Void) {
+    func requestProductList(of page: Int, completionHandler: @escaping (Result<ProductList, OpenMarketNetworkError>) -> Void) {
         guard let urlRequest = OpenMarketURLMaker.makeRequestURL(httpMethod: .get, mode: .listSearch(page: page)) else {
             print(OpenMarketNetworkError.failedURLRequest)
             return
@@ -48,7 +48,7 @@ struct OpenMarketAPIManager {
             "price" : product.price,
             "currency" : product.currency,
             "stock" : product.stock,
-            "discounted_price" : product.discountedPrice  ?? 0,
+            "discounted_price" : product.discountedPrice ?? 0,
             "password" : product.password ?? ""
         ]
         
@@ -57,27 +57,6 @@ struct OpenMarketAPIManager {
         fetchData(feature: .productRegistration, url: urlRequest, completion: completionHandler)
     }
     
-    private func createBody(boundary: String, mimeType: String, params: [String : Any], imageArray: [Data]) -> Data {
-        var body = Data()
-        let boundaryPrefix = "--\(boundary)\r\n"
-        
-        for (key,value) in params {
-            body.append(string: boundaryPrefix, encoding: .utf8)
-            body.append(string: "Content-Disposition: form-data; name=\"\(key)\"\r\n\r\n", encoding: .utf8)
-            body.append(string: "\(value)\r\n", encoding: .utf8)
-        }
-        
-        for (index,data) in imageArray.enumerated() {
-            body.append(string: boundaryPrefix, encoding: .utf8)
-            body.append(string: "Content-Disposition: form-data; name=\"images\"; filename=\"image\"\(index)\"\r\n", encoding: .utf8)
-            body.append(string: "Content-Type: \(mimeType)\r\n\r\n", encoding: .utf8)
-            body.append(data)
-            body.append(string: "\r\n", encoding: .utf8)
-        }
-        body.append(string: "--".appending(boundary.appending("--")), encoding: .utf8)
-
-        return body
-    }
 }
 extension OpenMarketAPIManager {
     private func fetchData<T: Decodable>(feature: FeatureList, url: URLRequest, completion: @escaping (Result<T,OpenMarketNetworkError>) -> Void) {
@@ -112,6 +91,28 @@ extension OpenMarketAPIManager {
             }
         }
         dataTask.resume()
+    }
+    
+    private func createBody(boundary: String, mimeType: String, params: [String : Any], imageArray: [Data]) -> Data {
+        var body = Data()
+        let boundaryPrefix = "--\(boundary)\r\n"
+        
+        for (key,value) in params {
+            body.append(string: boundaryPrefix, encoding: .utf8)
+            body.append(string: "Content-Disposition: form-data; name=\"\(key)\"\r\n\r\n", encoding: .utf8)
+            body.append(string: "\(value)\r\n", encoding: .utf8)
+        }
+        
+        for (index,data) in imageArray.enumerated() {
+            body.append(string: boundaryPrefix, encoding: .utf8)
+            body.append(string: "Content-Disposition: form-data; name=\"images\"; filename=\"image\"\(index)\"\r\n", encoding: .utf8)
+            body.append(string: "Content-Type: \(mimeType)\r\n\r\n", encoding: .utf8)
+            body.append(data)
+            body.append(string: "\r\n", encoding: .utf8)
+        }
+        body.append(string: "--".appending(boundary.appending("--")), encoding: .utf8)
+
+        return body
     }
 }
 extension Data {

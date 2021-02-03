@@ -41,7 +41,7 @@ class ViewController: UIViewController {
         setUpProductListCollectionView()
         setUpNavigationItem()
         
-        self.openMarketAPIManager.fetchProductList(of: 1) { (result) in
+        self.openMarketAPIManager.requestProductList(of: 1) { (result) in
             switch result {
             case .success(let productList):
                 for i in 0..<productList.items.count {
