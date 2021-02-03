@@ -17,7 +17,7 @@ protocol ImageLoadable: class {
 class ImageLoader {
     static let shared: ImageLoadable = ImageLoader()
     
-    private var loadedImages = [URL : UIImage]()
+    private var imageCache = NSCache<NSURL, UIImage>()
     private var runningRequests = [UUID : URLSessionDataTask]()
 }
 
@@ -27,7 +27,7 @@ extension ImageLoader: ImageLoadable {
             completion(.failure(NetworkError.url))
             return nil
         }
-        if let cacheData = loadedImages[url] {
+        if let cacheData = imageCache.object(forKey: url as NSURL) {
             completion(.success(cacheData))
             return nil
         }
@@ -39,7 +39,7 @@ extension ImageLoader: ImageLoadable {
             }
             if let data = data,
                let image = UIImage(data: data) {
-                self.loadedImages[url] = image
+                self.imageCache.setObject(image, forKey: url as NSURL)
                 completion(.success(image))
                 return
             }
