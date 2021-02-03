@@ -114,6 +114,13 @@
                 <constraint firstAttribute="trailing" secondItem="bBo-St-cFB" secondAttribute="trailing" id="lYP-S5-R9F"/>
                 <constraint firstItem="bBo-St-cFB" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="tBz-sz-mM5"/>
             </constraints>
+            <connections>
+                <outlet property="goodsFinalPriceLabel" destination="pFn-pU-al0" id="bfC-3h-PfH"/>
+                <outlet property="goodsImageView" destination="z7C-CB-FpQ" id="GNs-ne-mrU"/>
+                <outlet property="goodsNameLabel" destination="nMq-F9-cJg" id="nue-uI-XsX"/>
+                <outlet property="goodsOriginalPriceLabel" destination="If8-OQ-0N6" id="hSZ-gO-w3m"/>
+                <outlet property="goodsStockLabel" destination="rbZ-iC-d7x" id="l6p-ef-gHp"/>
+            </connections>
             <point key="canvasLocation" x="141" y="157"/>
         </collectionViewCell>
     </objects>

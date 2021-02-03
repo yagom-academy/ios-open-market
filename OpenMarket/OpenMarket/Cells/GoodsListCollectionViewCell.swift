@@ -8,15 +8,25 @@
 import UIKit
 
 class GoodsListCollectionViewCell: UICollectionViewCell {
-//    @IBOutlet weak var goodsImageView: UIImageView!
-//    @IBOutlet weak var goodsNameLabel: UILabel!
-//    @IBOutlet weak var goodsOriginalPriceLabel: UILabel!
-//    @IBOutlet weak var goodsFinalPriceLabel: UILabel!
-//    @IBOutlet weak var goodsStockLAbel: UILabel!
-
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
+    @IBOutlet weak var goodsImageView: UIImageView!
+    @IBOutlet weak var goodsNameLabel: UILabel!
+    @IBOutlet weak var goodsOriginalPriceLabel: UILabel!
+    @IBOutlet weak var goodsFinalPriceLabel: UILabel!
+    @IBOutlet weak var goodsStockLabel: UILabel!
+    
+    override func prepareForReuse() {
+        goodsImageView.image = nil
     }
-
+    
+    func settingWithGoods(_ goods: Goods) {
+        goodsNameLabel.text = goods.title
+        if let finalPrice =  goods.discountedPrice {
+            goodsOriginalPriceLabel.isHidden = false
+            goodsOriginalPriceLabel.text = PriceFormat.makePriceString(currency: goods.currency, price: goods.price)
+            goodsFinalPriceLabel.text = PriceFormat.makePriceString(currency: goods.currency, price: finalPrice)
+        } else {
+            goodsOriginalPriceLabel.isHidden = true
+            goodsFinalPriceLabel.text = PriceFormat.makePriceString(currency: goods.currency, price: goods.price)
+        }
+    }
 }

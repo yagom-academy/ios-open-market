@@ -28,7 +28,7 @@ class ViewController: UIViewController {
     private lazy var collectionViewLayouts: [UICollectionViewFlowLayout] = []
     
     // MARK: - data
-    private var page = 1
+    private var page = 2
     private var goodsList: [Goods] = []
     
     override func viewDidLoad() {
@@ -130,6 +130,7 @@ extension ViewController: UICollectionViewDataSource {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "listCell", for: indexPath) as? GoodsListCollectionViewCell else {
                 return UICollectionViewCell()
             }
+            cell.settingWithGoods(goodsList[indexPath.row])
             return cell
         case .grid:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as? TestCollectionViewCell else {
