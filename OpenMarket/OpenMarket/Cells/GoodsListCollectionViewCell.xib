@@ -116,7 +116,7 @@
             </constraints>
             <connections>
                 <outlet property="goodsFinalPriceLabel" destination="pFn-pU-al0" id="bfC-3h-PfH"/>
-                <outlet property="goodsImageView" destination="z7C-CB-FpQ" id="GNs-ne-mrU"/>
+                <outlet property="goodsImageView" destination="z7C-CB-FpQ" id="uLe-b4-k4y"/>
                 <outlet property="goodsNameLabel" destination="nMq-F9-cJg" id="nue-uI-XsX"/>
                 <outlet property="goodsOriginalPriceLabel" destination="If8-OQ-0N6" id="hSZ-gO-w3m"/>
                 <outlet property="goodsStockLabel" destination="rbZ-iC-d7x" id="l6p-ef-gHp"/>

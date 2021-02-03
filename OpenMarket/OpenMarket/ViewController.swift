@@ -28,15 +28,23 @@ class ViewController: UIViewController {
     private lazy var collectionViewLayouts: [UICollectionViewFlowLayout] = []
     
     // MARK: - data
-    private var page = 2
-    private var goodsList: [Goods] = []
+    private var page = 1
+    private var goodsList: [Goods]? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        getMarketGoodsList(with: UInt(page))
         setUpCollectionViewLayouts()
         setUpCollection()
         setUpSegment()
-        getMarketGoodsList(with: UInt(page))
+    }
+    
+    private func addGoodsListData(_ data: [Goods]) {
+        if goodsList == nil {
+            goodsList = data
+        } else {
+            goodsList?.append(contentsOf: data)
+        }
     }
     
     private func getMarketGoodsList(with page: UInt) {
@@ -45,7 +53,7 @@ class ViewController: UIViewController {
             case .failure(let error):
                 self.showErrorAlert(with: error, okHandler: nil)
             case .success(let data):
-                self.goodsList.append(contentsOf: data.list)
+                self.addGoodsListData(data.list)
                 self.reloadCollectionView(isMoveTop: false)
             }
         }
@@ -57,6 +65,7 @@ class ViewController: UIViewController {
         // test cell, will delete
         collectionView.register(UINib(nibName: "TestCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "cell")
         collectionView.register(UINib(nibName: "GoodsListCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "listCell")
+//        collectionView.register(GoodsListCollectionViewCell.self, forCellWithReuseIdentifier: "listCell")
         // TODO: Joons - CollectionView Grid Type cell Regist
     }
     
@@ -118,7 +127,10 @@ class ViewController: UIViewController {
 
 extension ViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.goodsList.count
+        guard let goodsList = self.goodsList else {
+            return 0
+        }
+        return goodsList.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -127,8 +139,12 @@ extension ViewController: UICollectionViewDataSource {
         }
         switch layoutType {
         case .list:
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "listCell", for: indexPath) as? GoodsListCollectionViewCell else {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "listCell", for: indexPath) as? GoodsListCollectionViewCell,
+                  let goodsList = self.goodsList else {
                 return UICollectionViewCell()
+            }
+            if let firstThumbnailImage = goodsList[indexPath.row].thumbnails.first {
+                cell.goodsImageView.setImageWithURL(urlString: firstThumbnailImage)
             }
             cell.settingWithGoods(goodsList[indexPath.row])
             return cell

@@ -7,6 +7,21 @@
 
 import UIKit
 
+extension UIImageView {
+    func setImageWithURL(urlString: String) {
+        ImageLoader.shared.load(urlString: urlString) { result in
+            switch result {
+            case .failure(let error):
+                debugPrint("❌:\(error.localizedDescription)")
+            case .success(let image):
+                DispatchQueue.main.async {
+                    self.image = image
+                }
+            }
+        }
+    }
+}
+
 class GoodsListCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var goodsImageView: UIImageView!
     @IBOutlet weak var goodsNameLabel: UILabel!
@@ -16,11 +31,14 @@ class GoodsListCollectionViewCell: UICollectionViewCell {
     
     override func prepareForReuse() {
         goodsImageView.image = nil
+        goodsNameLabel.text = nil
+        goodsOriginalPriceLabel.text = nil
+        goodsFinalPriceLabel.text = nil
+        goodsStockLabel.text = nil
     }
     
     func settingWithGoods(_ goods: Goods) {
         goodsNameLabel.text = goods.title
-        settingThumbnailImage(with: goods.thumbnails)
         if let discountedPrice = goods.discountedPrice {
             settingPriceWithDiscount(with: goods.currency, price: goods.price, discountedPrice: discountedPrice)
         } else {
@@ -31,11 +49,6 @@ class GoodsListCollectionViewCell: UICollectionViewCell {
         } else {
             settingStock(with: goods.stock)
         }
-    }
-    
-    // MARK: - setting thumbnail
-    private func settingThumbnailImage(with thumbnails: [String]) {
-        
     }
     
     // MARK: - setting Price UI
