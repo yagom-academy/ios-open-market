@@ -29,14 +29,22 @@ class ViewController: UIViewController {
     
     // MARK: - data
     private var page = 1
-    private var goodsList: [Goods] = []
+    private var goodsList: [Goods]? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        getMarketGoodsList(with: UInt(page))
         setUpCollectionViewLayouts()
         setUpCollection()
         setUpSegment()
-        getMarketGoodsList(with: UInt(page))
+    }
+    
+    private func addGoodsListData(_ data: [Goods]) {
+        if goodsList == nil {
+            goodsList = data
+        } else {
+            goodsList?.append(contentsOf: data)
+        }
     }
     
     private func getMarketGoodsList(with page: UInt) {
@@ -45,7 +53,7 @@ class ViewController: UIViewController {
             case .failure(let error):
                 self.showErrorAlert(with: error, okHandler: nil)
             case .success(let data):
-                self.goodsList.append(contentsOf: data.list)
+                self.addGoodsListData(data.list)
                 self.reloadCollectionView(isMoveTop: false)
             }
         }
@@ -56,7 +64,7 @@ class ViewController: UIViewController {
         collectionView.dataSource = self
         // test cell, will delete
         collectionView.register(UINib(nibName: "TestCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "cell")
-        // TODO: Lasagna - CollectionView List Type cell regist
+        collectionView.register(UINib(nibName: "GoodsListCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "listCell")
         // TODO: Joons - CollectionView Grid Type cell Regist
     }
     
@@ -74,7 +82,8 @@ class ViewController: UIViewController {
     private func makeListCollectionViewLayout() -> UICollectionViewFlowLayout {
         // TODO: Lasagna - add CollectionView List Type Layout
         let layout = UICollectionViewFlowLayout()
-        layout.estimatedItemSize = CGSize(width: UIScreen.main.bounds.width, height: 90)
+        layout.estimatedItemSize = CGSize(width: UIScreen.main.bounds.width, height: 81)
+        layout.minimumLineSpacing = 0
         return layout
     }
     
@@ -117,36 +126,29 @@ class ViewController: UIViewController {
 
 extension ViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.goodsList.count
+        guard let goodsList = self.goodsList else {
+            return 0
+        }
+        return goodsList.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! TestCollectionViewCell
-        return cell
+        guard let layoutType = SegmentValueTypes(rawValue: self.segment.selectedSegmentIndex) else {
+            return UICollectionViewCell()
+        }
+        switch layoutType {
+        case .list:
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "listCell", for: indexPath) as? GoodsListCollectionViewCell,
+                  let goodsList = self.goodsList else {
+                return UICollectionViewCell()
+            }
+            cell.settingWithGoods(goodsList[indexPath.row])
+            return cell
+        case .grid:
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as? TestCollectionViewCell else {
+                return UICollectionViewCell()
+            }
+            return cell
+        }
     }
 }
-
-/* 이미지 불러올때 예시
- guard let cell = tableView.dequeueReusableCell(withIdentifier: "cell") as? TestTableViewCell else {
-     return UITableViewCell()
- }
- let token = ImageLoader.shared.load(urlString: self.testArray[indexPath.row % 3]) { result in
-     switch result {
-     case .failure(let error):
-         debugPrint("❌:\(error.localizedDescription)")
-     case .success(let image):
-         DispatchQueue.main.async {
-             if let index: IndexPath = tableView.indexPath(for: cell) {
-                 if index.row == indexPath.row {
-                     cell.testImage.image = image
-                 }
-             }
-         }
-     }
- }
- cell.onReuse = {
-     if let token = token {
-         ImageLoader.shared.cancelLoad(token)
-     }
- }
- */

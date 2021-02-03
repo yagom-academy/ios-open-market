@@ -7,21 +7,17 @@
 
 import UIKit
 
-//extension UIImageView {
-//    func setImageWithURL(with urlString: String) {
-//        ImageLoader.shared.load(urlString: urlString) { result in
-//            switch result {
-//            case .success(let data):
-//                self.setImage(with: data)
-//            case .failure(let error):
-//                debugPrint("❌:\(error.localizedDescription)")
-//            }
-//        }
-//    }
-//    
-//    private func setImage(with data: Data) {
-//        DispatchQueue.main.async {
-//            self.image = UIImage(data: data)
-//        }
-//    }
-//}
+extension UIImageView {
+    func setImageWithURL(urlString: String) {
+        ImageLoader.shared.load(urlString: urlString) { result in
+            switch result {
+            case .failure(let error):
+                debugPrint("❌:\(error.localizedDescription)")
+            case .success(let image):
+                DispatchQueue.main.async {
+                    self.image = image
+                }
+            }
+        }
+    }
+}
