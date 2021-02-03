@@ -7,6 +7,11 @@
 import UIKit
 
 class ViewController: UIViewController {
+    // MARK: - IBOutlets
+    @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var segment: UISegmentedControl!
+    
+    // MARK: - segmanetValue
     enum SegmentValueTypes: Int, CaseIterable {
         case list = 0
         case grid
@@ -21,10 +26,7 @@ class ViewController: UIViewController {
         }
     }
     
-    // MARK: - IBOutlets
-    @IBOutlet weak var collectionView: UICollectionView!
-    @IBOutlet weak var segment: UISegmentedControl!
-    
+    // MARK: - collectionView Layout array
     private lazy var collectionViewLayouts: [UICollectionViewFlowLayout] = []
     
     override func viewDidLoad() {
