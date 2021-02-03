@@ -13,7 +13,7 @@ enum FeatureList {
         case .listSearch(let page):
             return "/items/\(page)"
         case .productRegistration:
-            return "/item/"
+            return "/item"
         case .productSearch(let id):
             return "/item/\(id)"
         case .productModification(let id):

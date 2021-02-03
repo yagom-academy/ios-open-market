@@ -41,7 +41,7 @@ class ViewController: UIViewController {
         setUpProductListCollectionView()
         setUpNavigationItem()
         
-        self.openMarketAPIManager.fetchProductList(of: 1) { (result) in
+        self.openMarketAPIManager.fetchProductList(of: 4) { (result) in
             switch result {
             case .success(let productList):
                 for i in 0..<productList.items.count {
@@ -56,48 +56,20 @@ class ViewController: UIViewController {
                 print(error)
             }
         }
+        
+        let testProduct = Product(id: nil, title: "태태의 볼펜", descriptions: "비밀번호 486", price: 20000, currency: "KRW", stock: 100, discountedPrice: 10000, thumbnails: nil, images: [], registrationDate: nil, password: "486")
+        
+        self.openMarketAPIManager.requestRegistration(of: testProduct) { (result) in
+            switch result {
+            case .success(let testProduct):
+                print(testProduct)
+            case .failure(let error):
+                print(error)
+            }
+        }
     }
-    
-    private func setUpProductListTableView() {
-        productListTableView.delegate = self
-        productListTableView.dataSource = self
-        
-        productListTableView.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            productListTableView.topAnchor.constraint(equalTo: self.view.topAnchor),
-            productListTableView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-            productListTableView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-            productListTableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
-        ])
-        
-        productListTableView.register(ProductInformationCell.self, forCellReuseIdentifier: ProductInformationCell.identifier)
-        productListTableView.rowHeight = (self.view.frame.height) / 10
-    }
-    
-    private func setUpProductListCollectionView() {
-        productListCollectionView.delegate = self
-        productListCollectionView.dataSource = self
-        
-        productListCollectionView.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            productListCollectionView.topAnchor.constraint(equalTo: self.view.topAnchor),
-            productListCollectionView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-            productListCollectionView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-            productListCollectionView.heightAnchor.constraint(equalToConstant: self.view.frame.height)
-        ])
-        
-        productListCollectionView.register(ProductInformationGridCell.self, forCellWithReuseIdentifier: ProductInformationGridCell.identifier)
-        productListCollectionView.isHidden = true
-    }
-    
-    private func setUpNavigationItem() {
-        self.navigationItem.titleView = listPresentingStyleSegmentControl
-        self.navigationItem.rightBarButtonItem = addProductButton
-    }
-    
 }
+
 extension ViewController: UITableViewDelegate {
     
 }
@@ -175,13 +147,49 @@ extension ViewController: UICollectionViewDataSource {
                 }
             }
         }
-        
         return cell
     }
-    
-    
 }
 extension ViewController {
+    private func setUpProductListTableView() {
+        productListTableView.delegate = self
+        productListTableView.dataSource = self
+        
+        productListTableView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            productListTableView.topAnchor.constraint(equalTo: self.view.topAnchor),
+            productListTableView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            productListTableView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+            productListTableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
+        ])
+        
+        productListTableView.register(ProductInformationCell.self, forCellReuseIdentifier: ProductInformationCell.identifier)
+        productListTableView.rowHeight = (self.view.frame.height) / 10
+    }
+    
+    private func setUpProductListCollectionView() {
+        productListCollectionView.delegate = self
+        productListCollectionView.dataSource = self
+        
+        productListCollectionView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            productListCollectionView.topAnchor.constraint(equalTo: self.view.topAnchor),
+            productListCollectionView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            productListCollectionView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+            productListCollectionView.heightAnchor.constraint(equalToConstant: self.view.frame.height)
+        ])
+        
+        productListCollectionView.register(ProductInformationGridCell.self, forCellWithReuseIdentifier: ProductInformationGridCell.identifier)
+        productListCollectionView.isHidden = true
+    }
+    
+    private func setUpNavigationItem() {
+        self.navigationItem.titleView = listPresentingStyleSegmentControl
+        self.navigationItem.rightBarButtonItem = addProductButton
+    }
+    
     @objc private func handleSegmentedControlValueChanged(_ sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex {
         case 0:

@@ -10,7 +10,7 @@ struct Product: Codable {
     let stock: Int
     let discountedPrice: Int?
     let thumbnails: [String]?
-    let images: [String]?
+    let images: [Data]?
     let registrationDate: Double?
     let password: String?
     

@@ -39,7 +39,7 @@ class MockOpenMarketTests: XCTestCase {
         
         sut.fetchProductList(of: 1) { (result) in
             switch result {
-            case .success:
+            case .success(let product):
                 XCTFail()
             case .failure(let error):
                 XCTAssertEqual(error.self, .invalidData)
@@ -49,9 +49,26 @@ class MockOpenMarketTests: XCTestCase {
         wait(for: [expectation], timeout: 5.0)
     }
     
+    func testFetchProductofIdEleven() {
+        sut = .init(session: MockURLSession(makeRequestFail: false))
+        let expectationn = XCTestExpectation()
+        let response = try? JSONDecoder().decode(Product.self, from: MockAPI.test.sampleItem.data)
+        
+        sut.fetchProductInformation(of: 11) { (result) in
+            switch result {
+            case .success(let product):
+                XCTAssertEqual(product.title, response?.title)
+            case .failure(let error):
+                XCTFail()
+            }
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 5.0)
+    }
+    
     func testRequestProductRegistration() {
         sut = .init(session: URLSession(configuration: .default))
-        let product = Product.init(id: nil, title: "태태의 연필", descriptions: "비밀번호486", price: 500, currency: "USD", stock: 2, discountedPrice: nil, thumbnails: nil, images: [""], registrationDate: nil, password: "486")
+        let product = Product.init(id: nil, title: "태태의 연필", descriptions: "비밀번호486", price: 500, currency: "USD", stock: 2, discountedPrice: 50, thumbnails: nil, images: [], registrationDate: nil, password: "486")
         let expectation = XCTestExpectation()
         
         sut.requestRegistration(product: product) { result in
