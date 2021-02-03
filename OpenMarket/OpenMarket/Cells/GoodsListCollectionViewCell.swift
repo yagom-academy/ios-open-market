@@ -20,20 +20,25 @@ class GoodsListCollectionViewCell: UICollectionViewCell {
     
     func settingWithGoods(_ goods: Goods) {
         goodsNameLabel.text = goods.title
-        if let finalPrice = goods.discountedPrice {
-            goodsOriginalPriceLabel.isHidden = false
-            goodsOriginalPriceLabel.text = PriceFormat.makePriceString(currency: goods.currency, price: goods.price)
-            goodsFinalPriceLabel.text = PriceFormat.makePriceString(currency: goods.currency, price: finalPrice)
-        } else {
-            goodsOriginalPriceLabel.isHidden = true
-            goodsFinalPriceLabel.text = PriceFormat.makePriceString(currency: goods.currency, price: goods.price)
-        }
+        settingPrice(with: goods.currency, price: goods.price, discountedPrice: goods.discountedPrice)
+        
         if goods.stock == 0 {
             goodsStockLabel.textColor = .systemYellow
             goodsStockLabel.text = "품절"
         } else {
             goodsStockLabel.textColor = .systemGray2
             goodsStockLabel.text = "\(goods.stock)"
+        }
+    }
+    
+    private func settingPrice(with currency: String, price: UInt, discountedPrice: UInt?) {
+        if let discountedPrice = discountedPrice {
+            goodsOriginalPriceLabel.isHidden = false
+            goodsOriginalPriceLabel.attributedText = PriceFormat.makePriceStringWithStrike(currency: currency, price: discountedPrice)
+            goodsFinalPriceLabel.text = PriceFormat.makePriceString(currency: currency, price: discountedPrice)
+        } else {
+            goodsOriginalPriceLabel.isHidden = true
+            goodsFinalPriceLabel.text = PriceFormat.makePriceString(currency: currency, price: price)
         }
     }
 }

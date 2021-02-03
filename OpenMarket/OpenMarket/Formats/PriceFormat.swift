@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 struct PriceFormat {
     static func makePriceString(currency: String, price: UInt) -> String {
@@ -16,5 +17,14 @@ struct PriceFormat {
         }
     
         return "\(currency) \(priceWithComma)"
+    }
+    
+    static func makePriceStringWithStrike(currency: String, price: UInt) -> NSMutableAttributedString? {
+        let priceString = makePriceString(currency: currency, price: price)
+        
+        let attributeString = NSMutableAttributedString(string: priceString)
+        let range = (priceString as NSString).range(of: priceString)
+        attributeString.addAttribute(.strikethroughStyle, value:1,  range: range)
+        return attributeString
     }
 }
