@@ -33,7 +33,7 @@ struct OpenMarketAPIManager {
         fetchData(feature: .listSearch(page: page), url: urlRequest, completion: completionHandler)
     }
     
-    func requestRegistration(of product: Product, completionHandler: @escaping (Result<Any,OpenMarketNetworkError>) -> ()) {
+    func requestRegistration(of product: Product, completionHandler: @escaping (Result<Data,OpenMarketNetworkError>) -> ()) {
         guard var urlRequest = OpenMarketURLMaker.makeRequestURL(httpMethod: .post, mode: .productRegistration) else {
             print(OpenMarketNetworkError.failedURLRequest)
             return
@@ -42,7 +42,6 @@ struct OpenMarketAPIManager {
         let boundary = "Boundary-\(UUID().uuidString)"
         urlRequest.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
         let mimeType = "image/jpg"
-        
         let params: [String : Any] = [
             "title" : product.title,
             "descriptions" : product.descriptions ?? "",
@@ -53,6 +52,12 @@ struct OpenMarketAPIManager {
             "password" : product.password ?? ""
         ]
         
+        urlRequest.httpBody = createBody(boundary: boundary, mimeType: mimeType, params: params, imageArray: product.images ?? [])
+        
+        fetchData(feature: .productRegistration, url: urlRequest, completion: completionHandler)
+    }
+    
+    private func createBody(boundary: String, mimeType: String, params: [String : Any], imageArray: [Data]) -> Data {
         var body = Data()
         let boundaryPrefix = "--\(boundary)\r\n"
         
@@ -61,23 +66,8 @@ struct OpenMarketAPIManager {
             body.append(string: "Content-Disposition: form-data; name=\"\(key)\"\r\n\r\n", encoding: .utf8)
             body.append(string: "\(value)\r\n", encoding: .utf8)
         }
-
-        guard let image = UIImage(systemName: "bell") else {
-            print("이미지 변환 실패")
-            return
-        }
-        guard let imageConvertedToData = image.jpegData(compressionQuality: 1.0) else {
-            print("이미지 변환 실패 2")
-            return
-        }
         
-        var dataArray = [Data]()
-        var imageArray = [imageConvertedToData]
-        for (index, image) in imageArray.enumerated() {
-            dataArray.append(image)
-        }
-        
-        for (index,data) in dataArray.enumerated() {
+        for (index,data) in imageArray.enumerated() {
             body.append(string: boundaryPrefix, encoding: .utf8)
             body.append(string: "Content-Disposition: form-data; name=\"images\"; filename=\"image\"\(index)\"\r\n", encoding: .utf8)
             body.append(string: "Content-Type: \(mimeType)\r\n\r\n", encoding: .utf8)
@@ -85,24 +75,8 @@ struct OpenMarketAPIManager {
             body.append(string: "\r\n", encoding: .utf8)
         }
         body.append(string: "--".appending(boundary.appending("--")), encoding: .utf8)
-        
-        urlRequest.httpBody = body
-        
-        let dataTask: URLSessionDataTask = session.dataTask(with: urlRequest) { data,response,error in
-            guard let postingData = data else {
-                completionHandler(.failure(.invalidData))
-                return
-            }
 
-            guard let response = response as? HTTPURLResponse,
-                  (200..<300).contains(response.statusCode) else {
-                completionHandler(.failure(.failedHTTPRequest))
-                return
-            }
-
-            completionHandler(.success(postingData))
-        }
-        dataTask.resume()
+        return body
     }
 }
 extension OpenMarketAPIManager {
@@ -120,7 +94,7 @@ extension OpenMarketAPIManager {
             }
             
             switch feature {
-            case .listSearch(let page):
+            case .listSearch:
                 do {
                     let productList = try JSONDecoder().decode(T.self, from: receivedData)
                     completion(.success(productList))
@@ -128,7 +102,7 @@ extension OpenMarketAPIManager {
                     completion(.failure(.decodingFailure))
                 }
             case .productRegistration:
-                break
+                completion(.success(receivedData as! T))
             case .deleteProduct(let id):
                 break
             case .productSearch(let id):
