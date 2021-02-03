@@ -97,7 +97,7 @@ extension GoodsForm: MakeForm {
         parameter["currency"] = currency
         parameter["stock"] = stock
         
-        let imagesData = images.map { $0.pngData() }.compactMap { $0 }
+        let imagesData = images.map { $0.pngData() }
         parameter["images"] = imagesData
         if let discountedPrice = discountedPrice  {
             parameter["discounted_price"] = discountedPrice
@@ -152,8 +152,8 @@ extension GoodsForm: ConvertMultipartForm {
         var body = Data()
         
         for (key, value) in parameter {
-            if key == "images" {
-                body.append(makeMultiformParameter(key: key, value: value, boundary: boundary))
+            if let data = value as? [Data] {
+                body.append(makeMultiformParameter(key: key, value: data, boundary: boundary))
             } else {
                 body.append(makeMultiformParameter(key: key, value: value, boundary: boundary))
             }
