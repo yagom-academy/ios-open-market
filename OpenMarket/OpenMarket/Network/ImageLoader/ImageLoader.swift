@@ -28,7 +28,6 @@ extension ImageLoader: ImageLoadable {
             completion(.success(cacheData))
             return
         }
-        let uuid = UUID()
         let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
             if let error = error {
                 completion(.failure(error))
