@@ -17,12 +17,12 @@ enum HTTPMethod: String {
 protocol Request {
     var path: String { get }
     var method: HTTPMethod { get }
-    var bodyParams: [String : Any]? { get }
+    var bodyParams: Data? { get }
     var headers: [String : String]? { get }
 }
 
 extension Request {
     var method: HTTPMethod { return .get }
-    var bodyParams: [String : Any]? { return nil }
+    var bodyParams: Data? { return nil }
     var headers: [String : String]? { return nil }
 }

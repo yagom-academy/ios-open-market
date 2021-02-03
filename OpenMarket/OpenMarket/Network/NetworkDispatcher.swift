@@ -20,7 +20,7 @@ class NetworkDispatcher {
             }
         }
         if let body = request.bodyParams {
-            urlRequest.httpBody = try? JSONSerialization.data(withJSONObject: body)
+            urlRequest.httpBody = body
         }
 
         URLSession.shared.dataTask(with: urlRequest) { (data, response, error) in
