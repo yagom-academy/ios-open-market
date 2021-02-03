@@ -97,8 +97,8 @@ class ViewController: UIViewController {
         let interSpacing: CGFloat = 8
         let totalSpacing = numberOfItemsPerRow * interSpacing
         let itemWidth = (screenWidth - totalSpacing) / numberOfItemsPerRow
-        layout.itemSize = CGSize(width: itemWidth, height: 300)
-        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        layout.itemSize = CGSize(width: itemWidth, height: itemWidth * 1.5)
+        layout.sectionInset = UIEdgeInsets(top: 4, left: 4, bottom: 4, right: 4)
         layout.minimumInteritemSpacing = interSpacing
         return layout
     }
