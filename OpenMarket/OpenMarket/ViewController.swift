@@ -33,10 +33,10 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        getMarketGoodsList(with: UInt(page))
         setUpCollectionViewLayouts()
         setUpCollection()
         setUpSegment()
+        getMarketGoodsList(with: UInt(page))
     }
     
     private func getMarketGoodsList(with page: UInt) {
@@ -46,12 +46,20 @@ class ViewController: UIViewController {
                 self.showErrorAlert(with: error, okHandler: nil)
             case .success(let data):
                 self.goodsList.append(contentsOf: data.list)
-                self.reloadCollectionView()
+                self.reloadCollectionView(isMoveTop: false)
             }
         }
     }
     
     // MARK: - setUp CollectionView
+    private func setUpCollection() {
+        collectionView.dataSource = self
+        // test cell, will delete
+        collectionView.register(UINib(nibName: "TestCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "cell")
+        // TODO: Lasagna - CollectionView List Type cell regist
+        // TODO: Joons - CollectionView Grid Type cell Regist
+    }
+    
     private func setUpCollectionViewLayouts() {
         for valueType in SegmentValueTypes.allCases {
             switch valueType {
@@ -78,31 +86,26 @@ class ViewController: UIViewController {
         return layout
     }
     
-    private func setUpCollection() {
-        collectionView.dataSource = self
-        // test cell, will delete
-        collectionView.register(UINib(nibName: "TestCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "cell")
-        // TODO: Lasagna - CollectionView List Type cell regist
-        // TODO: Joons - CollectionView Grid Type cell Regist
-    }
-    
     // MARK: - setUp Segment
     private func setUpSegment() {
         for (index, element) in SegmentValueTypes.allCases.enumerated() {
             segment.setTitle(element.valueString, forSegmentAt: index)
         }
         segment.addTarget(self, action: #selector(changedSegmentValue(_:)), for: .valueChanged)
-        reloadCollectionView()
+        reloadCollectionView(isMoveTop: true)
     }
     
     @objc func changedSegmentValue(_ sender: UISegmentedControl) {
-        reloadCollectionView()
+        reloadCollectionView(isMoveTop: true)
     }
     
-    private func reloadCollectionView() {
+    private func reloadCollectionView(isMoveTop: Bool) {
         DispatchQueue.main.async {
             self.collectionView.collectionViewLayout = self.collectionViewLayouts[self.segment.selectedSegmentIndex]
             self.collectionView.reloadData()
+            if isMoveTop {
+                self.collectionView.setContentOffset(CGPoint.zero, animated: true)
+            }
         }
     }
     
