@@ -18,38 +18,3 @@ struct Goods: Decodable {
         case discountedPrice = "discounted_price"
     }
 }
-
-protocol GoodsForm: Encodable {
-    var password: String { get }
-}
-
-protocol RegisterGoodsForm: GoodsForm {
-    var title: String { get }
-    var descriptions: String { get }
-    var price: Int { get }
-    var currency: String { get }
-    var stock: Int { get }
-    var discountedPrice: Int? { get }
-    var images: [Data] { get }
-    
-    init(title: String, descriptions: String, price: Int, currency: String, stock: Int, discountedPrice: Int?, images: [Data], password: String)
-}
-
-protocol EditGoodsForm: GoodsForm {
-    var title: String? { get }
-    var descriptions: String? { get }
-    var price: Int? { get }
-    var currency: String? { get }
-    var stock: Int? { get }
-    var discountedPrice: Int? { get }
-    var images: [Data]? { get }
-    var id: UInt { get }
-    
-    init(title: String?, descriptions: String?, price: Int?, currency: String?, stock: Int?, discountedPrice: Int?, images: [Data]?, id: UInt, password: String)
-}
-
-protocol DeleteGoodsForm: GoodsForm {
-    var id: UInt { get }
-    
-    init(id: UInt, password: String)
-}
