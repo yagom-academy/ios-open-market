@@ -10,6 +10,7 @@ import Foundation
 struct ItemManager {
     typealias resultHandler = (Result<Data?, OpenMarketError>) -> Void
     static let shared = ItemManager()
+    private let boundary = UUID().uuidString
     private init() {}
     
     func loadData(method: HttpMethod, path: PathOfURL, param: UInt, completion: @escaping resultHandler) {
@@ -63,19 +64,20 @@ struct ItemManager {
     func makeURLRequestWithRequestBody<T>(method: HttpMethod, requestURL: URL, item: T) -> URLRequest? {
         var request = URLRequest(url: requestURL)
         request.httpMethod = method.rawValue
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
         if method == .delete {
+            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
             guard let jsonData = try? JSONEncoder().encode(item as? ItemToDelete) else {
                 return nil
             }
             request.httpBody = jsonData
         }
         else if method == .post || method == .patch {
-            guard let jsonData = try? JSONEncoder().encode(item as? ItemToUpload) else {
+            request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+            guard let httpBody = makeMultipartFormDataBody(with: item) else {
                 return nil
             }
-            request.httpBody = jsonData
+            request.httpBody = httpBody
         }
         return request
     }
@@ -102,5 +104,52 @@ struct ItemManager {
             return completion(.success(data))
         }
         dataTask.resume()
+    }
+    
+    func makeMultipartFormDataBody<T>(with item: T) -> Data? {
+        var body = Data()
+        guard let item = item as? ItemToUpload else {
+            return nil
+        }
+        for (key, value) in item.parameters {
+            if case Optional<Any>.none = value {
+                continue
+            }
+            if let data = value as? [Data] {
+                body.append(createHttpBodyWithDataFormat(key: key, value: data))
+            }
+            else {
+                body.append(createHttpBody(key: key, value: value))
+            }
+        }
+        body.append("--\(boundary)--\r\n")
+        return body
+    }
+    
+    private func createHttpBodyWithDataFormat(key: String, value: [Data]) -> Data {
+        var body = Data()
+        for image in value {
+            body.append("--\(boundary)\r\n")
+            body.append("Content-Disposition: form-data; name=\"\(key)[]\"; filename=\"\(Date()).jpeg\"\r\n")
+            body.append("Content-Type: image/jpeg\r\n\r\n")
+            body.append(image)
+            body.append("\r\n")
+        }
+        return body
+    }
+    
+    private func createHttpBody(key: String, value: Any) -> Data {
+        var body = Data()
+        body.append("--\(boundary)\r\n")
+        body.append("Content-Disposition: form-data; name=\"\(key)\"\r\n\r\n")
+        if let data = value as? String {
+            body.append(data)
+        }
+        else if let data = value as? UInt {
+            body.append(String(data))
+        }
+        body.append("\r\n")
+        
+        return body
     }
 }
