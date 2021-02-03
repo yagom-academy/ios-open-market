@@ -74,7 +74,7 @@ class ViewController: UIViewController {
     private func makeListCollectionViewLayout() -> UICollectionViewFlowLayout {
         // TODO: Lasagna - add CollectionView List Type Layout
         let layout = UICollectionViewFlowLayout()
-        layout.estimatedItemSize = CGSize(width: UIScreen.main.bounds.width, height: 90)
+        layout.estimatedItemSize = CGSize(width: UIScreen.main.bounds.width, height: 81)
         return layout
     }
     
