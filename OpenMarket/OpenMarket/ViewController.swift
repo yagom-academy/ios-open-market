@@ -56,7 +56,7 @@ class ViewController: UIViewController {
         collectionView.dataSource = self
         // test cell, will delete
         collectionView.register(UINib(nibName: "TestCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "cell")
-        // TODO: Lasagna - CollectionView List Type cell regist
+        collectionView.register(UINib(nibName: "GoodsListCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "listCell")
         // TODO: Joons - CollectionView Grid Type cell Regist
     }
     
@@ -121,8 +121,21 @@ extension ViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! TestCollectionViewCell
-        return cell
+        guard let layoutType = SegmentValueTypes(rawValue: self.segment.selectedSegmentIndex) else {
+            return UICollectionViewCell()
+        }
+        switch layoutType {
+        case .list:
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "listCell", for: indexPath) as? GoodsListCollectionViewCell else {
+                return UICollectionViewCell()
+            }
+            return cell
+        case .grid:
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as? TestCollectionViewCell else {
+                return UICollectionViewCell()
+            }
+            return cell
+        }
     }
 }
 
