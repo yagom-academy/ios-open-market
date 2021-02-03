@@ -63,7 +63,8 @@ class ViewController: UIViewController {
     private func setUpCollection() {
         collectionView.dataSource = self
         // test cell, will delete
-        collectionView.register(UINib(nibName: "TestCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "cell")
+        collectionView.register(UINib(nibName: String(describing: GoodsGridCollectionViewCell.self),
+                                      bundle: nil), forCellWithReuseIdentifier: "gridCell")
         collectionView.register(UINib(nibName: "GoodsListCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "listCell")
         // TODO: Joons - CollectionView Grid Type cell Regist
     }
@@ -145,9 +146,11 @@ extension ViewController: UICollectionViewDataSource {
             cell.settingWithGoods(goodsList[indexPath.row])
             return cell
         case .grid:
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as? TestCollectionViewCell else {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "gridCell", for: indexPath) as? GoodsGridCollectionViewCell,
+                  let goodsList = self.goodsList else {
                 return UICollectionViewCell()
             }
+            cell.configure(goods: goodsList[indexPath.row])
             return cell
         }
     }
