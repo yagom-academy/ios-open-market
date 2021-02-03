@@ -21,14 +21,7 @@ class GoodsListCollectionViewCell: UICollectionViewCell {
     func settingWithGoods(_ goods: Goods) {
         goodsNameLabel.text = goods.title
         settingPrice(with: goods.currency, price: goods.price, discountedPrice: goods.discountedPrice)
-        
-        if goods.stock == 0 {
-            goodsStockLabel.textColor = .systemYellow
-            goodsStockLabel.text = "품절"
-        } else {
-            goodsStockLabel.textColor = .systemGray2
-            goodsStockLabel.text = "\(goods.stock)"
-        }
+        settingStock(with: goods.stock)
     }
     
     private func settingPrice(with currency: String, price: UInt, discountedPrice: UInt?) {
@@ -39,6 +32,16 @@ class GoodsListCollectionViewCell: UICollectionViewCell {
         } else {
             goodsOriginalPriceLabel.isHidden = true
             goodsFinalPriceLabel.text = PriceFormat.makePriceString(currency: currency, price: price)
+        }
+    }
+    
+    private func settingStock(with stock: UInt) {
+        if goods.stock == 0 {
+            goodsStockLabel.textColor = .systemYellow
+            goodsStockLabel.text = "품절"
+        } else {
+            goodsStockLabel.textColor = .systemGray2
+            goodsStockLabel.text = "\(goods.stock)"
         }
     }
 }
