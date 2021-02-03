@@ -11,7 +11,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var segment: UISegmentedControl!
     
-    // MARK: - segmanetValue
+    // MARK: - UI Properties
     enum SegmentValueTypes: Int, CaseIterable {
         case list = 0
         case grid
@@ -25,15 +25,30 @@ class ViewController: UIViewController {
             }
         }
     }
-    
-    // MARK: - collectionView Layout array
     private lazy var collectionViewLayouts: [UICollectionViewFlowLayout] = []
+    
+    // MARK: - data
+    private var page = 1
+    private var goodsList: [Goods] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        getMarketGoodsList(with: UInt(page))
         setUpCollectionViewLayouts()
         setUpCollection()
         setUpSegment()
+    }
+    
+    private func getMarketGoodsList(with page: UInt) {
+        MarketGoodsListModel.fetchMarketGoodsList(page: page) { result in
+            switch result {
+            case .failure(let error):
+                self.showErrorAlert(with: error, okHandler: nil)
+            case .success(let data):
+                self.goodsList.append(contentsOf: data.list)
+                self.reloadCollectionView()
+            }
+        }
     }
     
     // MARK: - setUp CollectionView
@@ -85,8 +100,10 @@ class ViewController: UIViewController {
     }
     
     private func reloadCollectionView() {
-        collectionView.collectionViewLayout = collectionViewLayouts[segment.selectedSegmentIndex]
-        self.collectionView.reloadData()
+        DispatchQueue.main.async {
+            self.collectionView.collectionViewLayout = self.collectionViewLayouts[self.segment.selectedSegmentIndex]
+            self.collectionView.reloadData()
+        }
     }
     
     @IBAction func touchUpAddButton(_ sender: UIButton) {
@@ -97,7 +114,7 @@ class ViewController: UIViewController {
 
 extension ViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return self.goodsList.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
