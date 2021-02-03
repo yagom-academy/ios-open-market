@@ -7,11 +7,12 @@
 import UIKit
 
 class LoadViewController: UIViewController {
+    
+    @IBOutlet var spinner: UIActivityIndicatorView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
-
+        spinner.startAnimating()
     }
 }
 
