@@ -24,11 +24,11 @@
                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yLZ-iA-E6Q">
                                 <rect key="frame" x="10" y="10" width="480" height="60"/>
                                 <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="test1" translatesAutoresizingMaskIntoConstraints="NO" id="z7C-CB-FpQ">
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" image="test1" translatesAutoresizingMaskIntoConstraints="NO" id="z7C-CB-FpQ">
                                         <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" secondItem="z7C-CB-FpQ" secondAttribute="width" multiplier="1:1" id="1NE-qy-0HC"/>
-                                            <constraint firstAttribute="width" constant="60" id="qw3-LC-Jqk"/>
+                                            <constraint firstAttribute="width" secondItem="z7C-CB-FpQ" secondAttribute="height" multiplier="1:1" id="1NE-qy-0HC"/>
+                                            <constraint firstAttribute="height" constant="60" id="Wos-eu-BO3"/>
                                         </constraints>
                                     </imageView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IZc-uX-lR9">
