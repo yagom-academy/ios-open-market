@@ -75,10 +75,13 @@ class ProductListTableViewCell: UITableViewCell {
             productPriceLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5),
             
             productStockLabel.topAnchor.constraint(equalTo: productNameLabel.topAnchor),
-            productStockLabel.leadingAnchor.constraint(equalTo: productNameLabel.trailingAnchor),
+            productStockLabel.leadingAnchor.constraint(equalTo: productNameLabel.trailingAnchor, constant: 5),
             productStockLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
             
         ])
+    }
+    override func prepareForReuse() {
+        productStockLabel.textColor = .gray
     }
 }
 

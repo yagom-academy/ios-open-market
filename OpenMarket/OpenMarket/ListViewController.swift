@@ -67,7 +67,10 @@ extension ListViewController: UITableViewDataSource {
         cell.productPriceLabel.text = "\(product.currency) \(price.addComma())"
         cell.productStockLabel.text = "잔여수량 : \(stock.addComma())"
         cell.accessoryType = .disclosureIndicator
-        
+        if stock == 0 {
+            cell.productStockLabel.text = "품절"
+            cell.productStockLabel.textColor = .systemOrange
+        }
         DispatchQueue.global().async {
             guard let imageURLText = product.thumbnails?.first, let imageURL = URL(string: imageURLText), let imageData: Data = try? Data(contentsOf: imageURL)  else {
                 return
@@ -82,6 +85,4 @@ extension ListViewController: UITableViewDataSource {
         }
         return cell
     }
-    
 }
-
