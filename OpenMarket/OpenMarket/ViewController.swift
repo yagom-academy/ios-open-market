@@ -57,12 +57,21 @@ class ViewController: UIViewController {
             }
         }
         
-        let testProduct = Product(id: nil, title: "태애태애", descriptions: "비밀번호 486", price: 20000, currency: "KRW", stock: 100, discountedPrice: 10000, thumbnails: nil, images: [], registrationDate: nil, password: "486")
+        let testProduct = Product(id: nil, title: "태애태", descriptions: "비밀번호 486", price: 20000, currency: "KRW", stock: 100, discountedPrice: 10000, thumbnails: nil, images: [], registrationDate: nil, password: "486")
 
         self.openMarketAPIManager.requestRegistration(of: testProduct) { (result) in
             switch result {
             case .success(let testProduct):
                 print(testProduct)
+            case .failure(let error):
+                print(error)
+            }
+        }
+        
+        self.openMarketAPIManager.requestProduct(of: 90) { (result) in
+            switch result {
+            case .success(let product):
+                print(product)
             case .failure(let error):
                 print(error)
             }

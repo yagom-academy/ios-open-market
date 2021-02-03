@@ -57,6 +57,13 @@ struct OpenMarketAPIManager {
         fetchData(feature: .productRegistration, url: urlRequest, completion: completionHandler)
     }
     
+    func requestProduct(of id: Int, completionHandler: @escaping (Result<Product, OpenMarketNetworkError>) -> Void) {
+        guard let urlRequest = OpenMarketURLMaker.makeRequestURL(httpMethod: .get, mode: .productSearch(id: id)) else {
+            print(OpenMarketNetworkError.failedURLRequest)
+            return
+        }
+        fetchData(feature: .productSearch(id: id), url: urlRequest, completion: completionHandler)
+    }
 }
 extension OpenMarketAPIManager {
     private func fetchData<T: Decodable>(feature: FeatureList, url: URLRequest, completion: @escaping (Result<T,OpenMarketNetworkError>) -> Void) {
@@ -84,8 +91,13 @@ extension OpenMarketAPIManager {
                 completion(.success(receivedData as! T))
             case .deleteProduct(let id):
                 break
-            case .productSearch(let id):
-                break
+            case .productSearch:
+                do {
+                    let product = try JSONDecoder().decode(T.self, from: receivedData)
+                    completion(.success(product))
+                } catch {
+                    completion(.failure(.decodingFailure))
+                }
             case .productModification(let id):
                 break
             }
@@ -111,7 +123,7 @@ extension OpenMarketAPIManager {
             body.append(string: "\r\n", encoding: .utf8)
         }
         body.append(string: "--".appending(boundary.appending("--")), encoding: .utf8)
-
+        
         return body
     }
 }
