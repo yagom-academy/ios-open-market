@@ -36,12 +36,12 @@ class GoodsListCollectionViewCell: UICollectionViewCell {
     }
     
     private func settingStock(with stock: UInt) {
-        if goods.stock == 0 {
+        if stock == 0 {
             goodsStockLabel.textColor = .systemYellow
-            goodsStockLabel.text = "품절"
+            goodsStockLabel.text = StockFormat.soldOut
         } else {
             goodsStockLabel.textColor = .systemGray2
-            goodsStockLabel.text = "\(goods.stock)"
+            goodsStockLabel.text = String(format: StockFormat.quantity, stock)
         }
     }
 }
