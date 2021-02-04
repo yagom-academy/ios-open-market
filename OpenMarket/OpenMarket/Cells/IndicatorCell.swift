@@ -13,6 +13,7 @@ class IndicatorCell: UICollectionViewCell {
         view.style = .large
         return view
     }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
