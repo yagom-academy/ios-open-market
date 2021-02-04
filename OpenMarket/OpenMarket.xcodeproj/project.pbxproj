@@ -18,7 +18,6 @@
 		287C3A1725C92E940083D46E /* GoodsForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287C3A1625C92E940083D46E /* GoodsForm.swift */; };
 		287C3A2A25C9373B0083D46E /* MarketGoodsListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287C3A2925C9373B0083D46E /* MarketGoodsListModel.swift */; };
 		287C3A3625C93EAD0083D46E /* UIImageViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287C3A3525C93EAD0083D46E /* UIImageViewExtension.swift */; };
-		287C3A3D25C946770083D46E /* GoodsImageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287C3A3C25C946770083D46E /* GoodsImageModel.swift */; };
 		288D24DE25C3A24900790A15 /* OpenMarketError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288D24DD25C3A24900790A15 /* OpenMarketError.swift */; };
 		288D24EA25C3E12500790A15 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288D24E925C3E12500790A15 /* Request.swift */; };
 		288D24EE25C3E27E00790A15 /* NetworkDispatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288D24ED25C3E27E00790A15 /* NetworkDispatcher.swift */; };
@@ -64,7 +63,6 @@
 		287C3A1625C92E940083D46E /* GoodsForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoodsForm.swift; sourceTree = "<group>"; };
 		287C3A2925C9373B0083D46E /* MarketGoodsListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketGoodsListModel.swift; sourceTree = "<group>"; };
 		287C3A3525C93EAD0083D46E /* UIImageViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageViewExtension.swift; sourceTree = "<group>"; };
-		287C3A3C25C946770083D46E /* GoodsImageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoodsImageModel.swift; sourceTree = "<group>"; };
 		288D24DD25C3A24900790A15 /* OpenMarketError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketError.swift; sourceTree = "<group>"; };
 		288D24E925C3E12500790A15 /* Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
 		288D24ED25C3E27E00790A15 /* NetworkDispatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkDispatcher.swift; sourceTree = "<group>"; };
@@ -154,7 +152,6 @@
 			children = (
 				287C3A1225C92A8A0083D46E /* GoodsModel.swift */,
 				287C3A2925C9373B0083D46E /* MarketGoodsListModel.swift */,
-				287C3A3C25C946770083D46E /* GoodsImageModel.swift */,
 			);
 			path = NetworkModel;
 			sourceTree = "<group>";
@@ -385,7 +382,6 @@
 				287C3A1725C92E940083D46E /* GoodsForm.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
 				285A6FC825CB94DA009D086A /* IndicatorCell.swift in Sources */,
-				287C3A3D25C946770083D46E /* GoodsImageModel.swift in Sources */,
 				B43EE7DB25C0612C003089C9 /* OpenMarketAPITypes.swift in Sources */,
 				287C3A3625C93EAD0083D46E /* UIImageViewExtension.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
