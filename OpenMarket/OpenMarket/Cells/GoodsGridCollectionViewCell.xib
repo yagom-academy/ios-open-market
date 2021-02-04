@@ -39,13 +39,13 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="XJ2-rn-Q8a">
                                         <rect key="frame" x="0.0" y="73" width="242" height="67.5"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6da-Gi-ikb">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qJ4-n1-SmC">
                                                 <rect key="frame" x="0.0" y="0.0" width="242" height="33.5"/>
                                                 <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
-                                                <nil key="textColor"/>
+                                                <color key="textColor" systemColor="systemRedColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qJ4-n1-SmC">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6da-Gi-ikb">
                                                 <rect key="frame" x="0.0" y="33.5" width="242" height="34"/>
                                                 <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                                                 <nil key="textColor"/>
@@ -86,8 +86,8 @@
             <size key="customSize" width="252" height="381"/>
             <connections>
                 <outlet property="cellView" destination="REM-cJ-bH9" id="Ov5-Lh-tzx"/>
-                <outlet property="discountedPriceLabel" destination="qJ4-n1-SmC" id="bQB-yp-Qp6"/>
-                <outlet property="priceLabel" destination="6da-Gi-ikb" id="yWN-Ye-VeN"/>
+                <outlet property="finalPriceLabel" destination="6da-Gi-ikb" id="yWN-Ye-VeN"/>
+                <outlet property="originalPriceLabel" destination="qJ4-n1-SmC" id="bQB-yp-Qp6"/>
                 <outlet property="productTitleLabel" destination="4Dp-fu-Em8" id="q3M-Qq-LZb"/>
                 <outlet property="stockLabel" destination="Nin-7c-nWU" id="oOP-X3-YV4"/>
                 <outlet property="thumbnailImageView" destination="64a-FH-HfC" id="Frg-FC-o53"/>
@@ -98,6 +98,9 @@
     <resources>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemRedColor">
+            <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

@@ -11,15 +11,15 @@ class GoodsGridCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var cellView: UIView!
     @IBOutlet weak var thumbnailImageView: UIImageView!
     @IBOutlet weak var productTitleLabel: UILabel!
-    @IBOutlet weak var discountedPriceLabel: UILabel!
-    @IBOutlet weak var priceLabel: UILabel!
+    @IBOutlet weak var originalPriceLabel: UILabel!
+    @IBOutlet weak var finalPriceLabel: UILabel!
     @IBOutlet weak var stockLabel: UILabel!
     
     override func prepareForReuse() {
         thumbnailImageView.image = nil
         productTitleLabel.text = nil
-        discountedPriceLabel.text = nil
-        priceLabel.text = nil
+        originalPriceLabel.text = nil
+        finalPriceLabel.text = nil
         stockLabel.text = nil
     }
     
@@ -47,14 +47,14 @@ class GoodsGridCollectionViewCell: UICollectionViewCell {
     
     // MARK: - setting Price UI
     private func settingPriceWithDiscount(currency: String, price: UInt, discountedPrice: UInt) {
-        priceLabel.isHidden = false
-        priceLabel.attributedText = PriceFormat.makePriceStringWithStrike(currency: currency, price: discountedPrice)
-        priceLabel.text = PriceFormat.makePriceString(currency: currency, price: discountedPrice)
+        originalPriceLabel.isHidden = false
+        originalPriceLabel.attributedText = PriceFormat.makePriceStringWithStrike(currency: currency, price: discountedPrice)
+        finalPriceLabel.text = PriceFormat.makePriceString(currency: currency, price: discountedPrice)
     }
     
     private func settingPrice(currency: String, price: UInt) {
-        priceLabel.isHidden = true
-        discountedPriceLabel.text = PriceFormat.makePriceString(currency: currency, price: price)
+        originalPriceLabel.isHidden = true
+        finalPriceLabel.text = PriceFormat.makePriceString(currency: currency, price: price)
     }
     
     // MARK: - setting stock UI
