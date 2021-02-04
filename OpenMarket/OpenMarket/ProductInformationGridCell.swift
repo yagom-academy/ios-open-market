@@ -26,6 +26,11 @@ class ProductInformationGridCell: UICollectionViewCell {
         priceLabel.translatesAutoresizingMaskIntoConstraints = false
         return priceLabel
     }()
+    let discountedPriceLabel: UILabel = {
+        let discountedPriceLabel = UILabel()
+        discountedPriceLabel.translatesAutoresizingMaskIntoConstraints = false
+        return discountedPriceLabel
+    }()
     let stockLabel: UILabel = {
         let stockLabel = UILabel()
         stockLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -46,12 +51,14 @@ class ProductInformationGridCell: UICollectionViewCell {
         contentView.addSubview(thumbnailImageView)
         contentView.addSubview(nameLabel)
         contentView.addSubview(priceLabel)
+        contentView.addSubview(discountedPriceLabel)
         contentView.addSubview(stockLabel)
     }
     
     private func setUpCell() {
         nameLabel.textAlignment = .center
         priceLabel.textAlignment = .center
+        discountedPriceLabel.textAlignment = .center
         stockLabel.textAlignment = .center
         
         NSLayoutConstraint.activate([
@@ -68,7 +75,12 @@ class ProductInformationGridCell: UICollectionViewCell {
             priceLabel.leadingAnchor.constraint(equalTo: thumbnailImageView.leadingAnchor),
             priceLabel.trailingAnchor.constraint(equalTo: thumbnailImageView.trailingAnchor),
             
-            stockLabel.topAnchor.constraint(equalTo: priceLabel.bottomAnchor, constant: 10),
+            discountedPriceLabel.topAnchor.constraint(equalTo: priceLabel.bottomAnchor, constant: 10),
+            discountedPriceLabel.leadingAnchor.constraint(equalTo: thumbnailImageView.leadingAnchor),
+            discountedPriceLabel.trailingAnchor.constraint(equalTo: thumbnailImageView.trailingAnchor),
+            
+            
+            stockLabel.topAnchor.constraint(equalTo: discountedPriceLabel.bottomAnchor, constant: 10),
             stockLabel.leadingAnchor.constraint(equalTo: thumbnailImageView.leadingAnchor),
             stockLabel.trailingAnchor.constraint(equalTo: thumbnailImageView.trailingAnchor),
         ])

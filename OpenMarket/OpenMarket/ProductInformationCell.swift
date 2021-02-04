@@ -25,6 +25,11 @@ class ProductInformationCell: UITableViewCell {
         priceLabel.translatesAutoresizingMaskIntoConstraints = false
         return priceLabel
     }()
+    let discountedPriceLabel: UILabel = {
+        let discountedPriceLabel = UILabel()
+        discountedPriceLabel.translatesAutoresizingMaskIntoConstraints = false
+        return discountedPriceLabel
+    }()
     let stockLabel: UILabel = {
         let stockLabel = UILabel()
         stockLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -45,6 +50,7 @@ class ProductInformationCell: UITableViewCell {
         contentView.addSubview(thumbnailImageView)
         contentView.addSubview(nameLabel)
         contentView.addSubview(priceLabel)
+        contentView.addSubview(discountedPriceLabel)
         contentView.addSubview(stockLabel)
     }
     
@@ -65,6 +71,9 @@ class ProductInformationCell: UITableViewCell {
             priceLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             priceLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor),
             priceLabel.heightAnchor.constraint(equalTo: nameLabel.heightAnchor),
+            
+            discountedPriceLabel.topAnchor.constraint(equalTo: priceLabel.topAnchor),
+            discountedPriceLabel.leadingAnchor.constraint(equalTo: priceLabel.trailingAnchor, constant: margin),
             
             stockLabel.centerYAnchor.constraint(equalTo:self.centerYAnchor),
             stockLabel.trailingAnchor.constraint(equalTo:self.trailingAnchor, constant: -margin)

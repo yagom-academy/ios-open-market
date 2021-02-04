@@ -41,7 +41,7 @@ class ViewController: UIViewController {
         setUpProductListCollectionView()
         setUpNavigationItem()
         
-        self.openMarketAPIManager.requestProductList(of: 1) { (result) in
+        self.openMarketAPIManager.requestProductList(of: 4) { (result) in
             switch result {
             case .success(let productList):
                 for i in 0..<productList.items.count {
@@ -57,25 +57,25 @@ class ViewController: UIViewController {
             }
         }
         
-        let testProduct = Product(id: nil, title: "태애태", descriptions: "비밀번호 486", price: 20000, currency: "KRW", stock: 100, discountedPrice: 10000, thumbnails: nil, images: [], registrationDate: nil, password: "486")
-
-        self.openMarketAPIManager.requestRegistration(of: testProduct) { (result) in
-            switch result {
-            case .success(let testProduct):
-                print(testProduct)
-            case .failure(let error):
-                print(error)
-            }
-        }
-        
-        self.openMarketAPIManager.requestProduct(of: 90) { (result) in
-            switch result {
-            case .success(let product):
-                print(product)
-            case .failure(let error):
-                print(error)
-            }
-        }
+//        let testProduct = Product(id: nil, title: "태애태", descriptions: "비밀번호 486", price: 20000, currency: "KRW", stock: 100, discountedPrice: 10000, thumbnails: nil, images: [], registrationDate: nil, password: "486")
+//
+//        self.openMarketAPIManager.requestRegistration(of: testProduct) { (result) in
+//            switch result {
+//            case .success(let testProduct):
+//                print(testProduct)
+//            case .failure(let error):
+//                print(error)
+//            }
+//        }
+//
+//        self.openMarketAPIManager.requestProduct(of: 90) { (result) in
+//            switch result {
+//            case .success(let product):
+//                print(product)
+//            case .failure(let error):
+//                print(error)
+//            }
+//        }
     }
 }
 
@@ -94,6 +94,12 @@ extension ViewController: UITableViewDataSource {
         
         let productInformation = productList[indexPath.row]
         cell.priceLabel.text = productInformation.discountedPrice != nil ? "\(productInformation.currency) \(productInformation.price) \(String(describing: productInformation.discountedPrice))" : "\(productInformation.currency) \(productInformation.price)"
+        cell.priceLabel.text = "\(productInformation.currency) \(productInformation.price)"
+        
+        if let discountedPrice = productInformation.discountedPrice {
+            cell.discountedPriceLabel.text = "\(discountedPrice)"
+        }
+        
         cell.stockLabel.text = productInformation.stock > 0 ? "재고: \(productInformation.stock)" : "품절"
         cell.nameLabel.text = productInformation.title
         cell.thumbnailImageView.image = nil
@@ -136,6 +142,11 @@ extension ViewController: UICollectionViewDataSource {
         
         let productInformation = productList[indexPath.item]
         cell.priceLabel.text = productInformation.discountedPrice != nil ? "\(productInformation.currency) \(productInformation.price) \(String(describing: productInformation.discountedPrice))" : "\(productInformation.currency) \(productInformation.price)"
+        cell.priceLabel.text = "\(productInformation.currency) \(productInformation.price)"
+        
+        if let discountedPrice = productInformation.discountedPrice {
+            cell.discountedPriceLabel.text = "\(discountedPrice)"
+        }
         cell.stockLabel.text = productInformation.stock > 0 ? "재고: \(productInformation.stock)" : "품절"
         cell.nameLabel.text = productInformation.title
         cell.backgroundColor = .white
