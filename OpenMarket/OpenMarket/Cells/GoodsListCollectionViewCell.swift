@@ -22,7 +22,7 @@ class GoodsListCollectionViewCell: UICollectionViewCell {
         goodsStockLabel.text = nil
     }
     
-    func settingWithGoods(_ goods: Goods) {
+    func configure(_ goods: Goods) {
         goodsNameLabel.text = goods.title
         if let firstThumbnail = goods.thumbnails.first {
             settingThumbnail(with: firstThumbnail)

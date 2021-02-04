@@ -161,7 +161,7 @@ extension ViewController: UICollectionViewDataSource {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "listCell", for: indexPath) as? GoodsListCollectionViewCell else {
                 return UICollectionViewCell()
             }
-            cell.settingWithGoods(goodsList[indexPath.row])
+            cell.configure(goodsList[indexPath.row])
             return cell
         case .grid:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "gridCell", for: indexPath) as? GoodsGridCollectionViewCell else {
