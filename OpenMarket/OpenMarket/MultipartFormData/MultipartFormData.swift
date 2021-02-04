@@ -16,7 +16,7 @@ protocol MultipartFormData {
 
 extension MultipartFormData {
     func generateBoundary() -> String {
-        return "Boundary-\(NSUUID().uuidString)"
+        return "Boundary-\(UUID().uuidString)"
     }
     
     func makeDataBody(boundary: String) -> Data? {
