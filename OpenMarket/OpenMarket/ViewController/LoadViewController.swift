@@ -8,7 +8,7 @@ import UIKit
 
 class LoadViewController: UIViewController {
     
-    @IBOutlet var spinner: UIActivityIndicatorView!
+    @IBOutlet weak var spinner: UIActivityIndicatorView!
 
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -13,7 +13,7 @@ class MainViewController: UIViewController {
     @IBOutlet weak var collectionView: UIView!
     
     override func viewDidLoad() {
-        super.viewDidLoad()  
+        super.viewDidLoad()
     }
     
     @IBAction func switchView(_ sender: UISegmentedControl){
