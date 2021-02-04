@@ -62,6 +62,7 @@ class ViewController: UIViewController {
     // MARK: - setUp CollectionView
     private func setUpCollection() {
         collectionView.dataSource = self
+        collectionView.register(IndicatorCell.self, forCellWithReuseIdentifier: "loading")
         collectionView.register(UINib(nibName: String(describing: GoodsGridCollectionViewCell.self),
                                       bundle: nil), forCellWithReuseIdentifier: "gridCell")
         collectionView.register(UINib(nibName: "GoodsListCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "listCell")
@@ -130,7 +131,7 @@ class ViewController: UIViewController {
 extension ViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         guard let goodsList = self.goodsList else {
-            return 0
+            return 1
         }
         return goodsList.count
     }
@@ -139,17 +140,21 @@ extension ViewController: UICollectionViewDataSource {
         guard let layoutType = SegmentValueTypes(rawValue: self.segment.selectedSegmentIndex) else {
             return UICollectionViewCell()
         }
+        guard let goodsList = self.goodsList else {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "loading", for: indexPath) as! IndicatorCell
+            cell.indicator.startAnimating()
+            return cell
+        }
+        
         switch layoutType {
         case .list:
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "listCell", for: indexPath) as? GoodsListCollectionViewCell,
-                  let goodsList = self.goodsList else {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "listCell", for: indexPath) as? GoodsListCollectionViewCell else {
                 return UICollectionViewCell()
             }
             cell.settingWithGoods(goodsList[indexPath.row])
             return cell
         case .grid:
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "gridCell", for: indexPath) as? GoodsGridCollectionViewCell,
-                  let goodsList = self.goodsList else {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "gridCell", for: indexPath) as? GoodsGridCollectionViewCell else {
                 return UICollectionViewCell()
             }
             cell.configure(goods: goodsList[indexPath.row])
