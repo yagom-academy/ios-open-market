@@ -44,6 +44,8 @@ class ViewController: UIViewController {
     private func setUpDelegateAndDataSource() {
         itemTableView.delegate = self
         itemTableView.dataSource = self
+        itemCollectionView.delegate = self
+        itemCollectionView.dataSource = self
     }
     
     private func setUpNavigationBar() {
