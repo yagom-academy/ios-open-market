@@ -45,7 +45,11 @@ extension CollectionViewController: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         let item = items.items[indexPath.item]
-        
+        if let imageURLString = item.thumbnails.first,
+           let thumnailURL = URL(string: imageURLString),
+           let thumnailData = try? Data(contentsOf: thumnailURL) {
+            cell.imagView.image = UIImage(data: thumnailData)
+        }
         cell.titleLabel.text = item.title
         if let discountedPrice = item.discountedPrice {
             cell.discountedPriceLabel.text = String(discountedPrice)
