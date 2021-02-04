@@ -32,7 +32,6 @@ class ViewController: UIViewController {
     private var hasNextPage = true
     private var page: UInt = 1
     private var goodsList: [Goods]? = nil
-    private let contentSection = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -138,13 +137,9 @@ class ViewController: UIViewController {
 
 extension ViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        guard let goodsList = self.goodsList else {
-            return 1
-        }
-        
-        if section == 0 {
-            return goodsList.count
-        } else if section == 1 && isPagingLoading && hasNextPage {
+        guard let goodsList = self.goodsList,
+              isPagingLoading == false,
+              hasNextPage == true else {
             return 1
         }
         
@@ -155,8 +150,7 @@ extension ViewController: UICollectionViewDataSource {
         guard let layoutType = SegmentValueTypes(rawValue: self.segment.selectedSegmentIndex) else {
             return UICollectionViewCell()
         }
-        guard let goodsList = self.goodsList,
-              indexPath.section == 0 else {
+        guard let goodsList = self.goodsList else {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "loading", for: indexPath) as! IndicatorCell
             cell.indicator.startAnimating()
             return cell
