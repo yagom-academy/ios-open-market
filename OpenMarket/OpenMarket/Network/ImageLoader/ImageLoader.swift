@@ -21,7 +21,7 @@ class ImageLoader {
 extension ImageLoader: ImageLoadable {
     func load(urlString: String, completion: @escaping Handler) {
         guard let url = URL(string: urlString) else {
-            completion(.failure(NetworkError.url))
+            completion(.failure(NetworkError.convertURL))
             return
         }
         if let cacheData = imageCache.object(forKey: url as NSURL) {
