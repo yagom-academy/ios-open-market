@@ -15,7 +15,7 @@ struct ItemToUpload: Encodable {
     let stock: UInt?
     let discountedPrice: UInt?
     let images: [String]?
-    let password: String?
+    let password: String
     
     enum CodingKeys: String, CodingKey {
         case title, descriptions, price, currency, images, stock, password
