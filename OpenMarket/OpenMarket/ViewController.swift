@@ -32,6 +32,7 @@ class ViewController: UIViewController {
     private var hasNextPage = true
     private var page: UInt = 1
     private var goodsList: [Goods]? = nil
+    private let contentSection = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
