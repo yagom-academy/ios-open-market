@@ -238,7 +238,7 @@
                                     <inset key="sectionInset" minX="9" minY="0.0" maxX="9" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="gridCell" id="GTl-Q0-sPb" customClass="GridCell" customModule="OpenMarket" customModuleProvider="target">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="GridCell" id="GTl-Q0-sPb" customClass="GridCell" customModule="OpenMarket" customModuleProvider="target">
                                         <rect key="frame" x="88.666666666666671" y="0.0" width="198" height="293"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="CYR-mf-DAE">
