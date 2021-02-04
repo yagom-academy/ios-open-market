@@ -8,25 +8,53 @@
 import UIKit
 
 class TableViewController: UIViewController {
-
+    
+    @IBOutlet weak var tableView: UITableView!
+    var page: Int = 1
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
+    
 }
 
 extension TableViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print(indexPath)
+        
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        guard let mainViewController = self.parent as? MainViewController else {
+            return
+        }
+        if indexPath.row == mainViewController.itemsCount - 2 {
+            page += 1
+            mainViewController.requestItems(page: page) {
+                DispatchQueue.main.async {
+                    tableView.reloadData() // TODO: 코드 Depth 줄이기.
+                }
+            }
+        }
     }
 }
 
 extension TableViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        guard let mainViewController = self.parent as? MainViewController else {
+            return 0
+        }
+        return mainViewController.itemsCount
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ListCell", for: indexPath)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "listCell") as? ListCell,
+              let mainViewController = self.parent as? MainViewController,
+              let item = mainViewController.getItem(indexPath.row)else {
+            return UITableViewCell()
+        }
+        
+        // TODO: Cell 컨텐츠 초기화.
+    
         return cell
     }
 }

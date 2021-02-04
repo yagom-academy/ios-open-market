@@ -12,6 +12,7 @@
 		36861AB525C92DA70052B091 /* MultipartFormData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36861AB425C92DA70052B091 /* MultipartFormData.swift */; };
 		36861ABD25C92EE70052B091 /* Media.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36861ABC25C92EE70052B091 /* Media.swift */; };
 		36861AC125C930DB0052B091 /* ItemToPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36861AC025C930DB0052B091 /* ItemToPost.swift */; };
+		36861ADA25CBEB2B0052B091 /* ListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36861AD925CBEB2B0052B091 /* ListCell.swift */; };
 		369FA78B25BF36850014D058 /* OpenMarketTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 369FA78A25BF36850014D058 /* OpenMarketTests.swift */; };
 		369FA79525BF3D840014D058 /* RetrieveListResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = 369FA79425BF3D840014D058 /* RetrieveListResponse.json */; };
 		369FA79925BF3D9F0014D058 /* RetrieveListResponseOneItem.json in Resources */ = {isa = PBXBuildFile; fileRef = 369FA79825BF3D9F0014D058 /* RetrieveListResponseOneItem.json */; };
@@ -28,7 +29,6 @@
 		FD09F4D725CB87D000462012 /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD09F4D625CB87D000462012 /* TableViewController.swift */; };
 		FD09F4DB25CB87D900462012 /* CollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD09F4DA25CB87D900462012 /* CollectionViewController.swift */; };
 		FD09F4E325CB9C7B00462012 /* GridCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD09F4E225CB9C7B00462012 /* GridCell.swift */; };
-		FD09F4ED25CBF47700462012 /* ListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD09F4EC25CBF47700462012 /* ListCell.swift */; };
 		FD253CA925BF55E500525912 /* ItemsToGet.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD253CA825BF55E500525912 /* ItemsToGet.swift */; };
 		FD253CAF25BF563A00525912 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD253CAE25BF563A00525912 /* Item.swift */; };
 		FD253CBD25BF56D800525912 /* ItemToDelete.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD253CBC25BF56D800525912 /* ItemToDelete.swift */; };
@@ -55,6 +55,7 @@
 		36861AB425C92DA70052B091 /* MultipartFormData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipartFormData.swift; sourceTree = "<group>"; };
 		36861ABC25C92EE70052B091 /* Media.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Media.swift; sourceTree = "<group>"; };
 		36861AC025C930DB0052B091 /* ItemToPost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemToPost.swift; sourceTree = "<group>"; };
+		36861AD925CBEB2B0052B091 /* ListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCell.swift; sourceTree = "<group>"; };
 		369FA78825BF36850014D058 /* OpenMarketTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenMarketTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		369FA78A25BF36850014D058 /* OpenMarketTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketTests.swift; sourceTree = "<group>"; };
 		369FA78C25BF36850014D058 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -75,7 +76,6 @@
 		FD09F4D625CB87D000462012 /* TableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
 		FD09F4DA25CB87D900462012 /* CollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewController.swift; sourceTree = "<group>"; };
 		FD09F4E225CB9C7B00462012 /* GridCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridCell.swift; sourceTree = "<group>"; };
-		FD09F4EC25CBF47700462012 /* ListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCell.swift; sourceTree = "<group>"; };
 		FD253CA825BF55E500525912 /* ItemsToGet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsToGet.swift; sourceTree = "<group>"; };
 		FD253CAE25BF563A00525912 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		FD253CBC25BF56D800525912 /* ItemToDelete.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemToDelete.swift; sourceTree = "<group>"; };
@@ -202,8 +202,8 @@
 				FD299EBB25CB7797005BF35E /* MainViewController.swift */,
 				FD09F4D625CB87D000462012 /* TableViewController.swift */,
 				FD09F4DA25CB87D900462012 /* CollectionViewController.swift */,
-				FD09F4EC25CBF47700462012 /* ListCell.swift */,
 				FD09F4E225CB9C7B00462012 /* GridCell.swift */,
+				36861AD925CBEB2B0052B091 /* ListCell.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -324,7 +324,7 @@
 				FD253CA925BF55E500525912 /* ItemsToGet.swift in Sources */,
 				FD253CAF25BF563A00525912 /* Item.swift in Sources */,
 				36861AB525C92DA70052B091 /* MultipartFormData.swift in Sources */,
-				FD09F4ED25CBF47700462012 /* ListCell.swift in Sources */,
+				36861ADA25CBEB2B0052B091 /* ListCell.swift in Sources */,
 				FD253CBD25BF56D800525912 /* ItemToDelete.swift in Sources */,
 				FD253D0B25C0030000525912 /* Parser.swift in Sources */,
 				36861A6925C0596F0052B091 /* ItemAfterDelete.swift in Sources */,
@@ -537,6 +537,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = OpenMarket/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -556,6 +557,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = OpenMarket/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				LD_RUNPATH_SEARCH_PATHS = (
