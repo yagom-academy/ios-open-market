@@ -9,17 +9,6 @@ import XCTest
 @testable import OpenMarket
 
 class OpenMarketTests: XCTestCase {
-    
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-        try super.setUpWithError()
-    }
-
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-        try super.tearDownWithError()
-    }
-
     func testMakeItemsListURL() throws {
         // 1. given
         let expectResult = URL(string: "https://camp-open-market.herokuapp.com/items/1")

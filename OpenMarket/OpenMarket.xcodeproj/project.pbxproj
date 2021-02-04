@@ -7,12 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		34622A3825CB42EA006B0A97 /* RequestType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34622A3725CB42EA006B0A97 /* RequestType.swift */; };
 		34D584F025BF061600ED3642 /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34D584EF25BF061600ED3642 /* APIManager.swift */; };
 		34D584F425BF062300ED3642 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34D584F325BF062300ED3642 /* Item.swift */; };
 		34D584F725BF063600ED3642 /* URLManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34D584F625BF063600ED3642 /* URLManager.swift */; };
 		34D5850125BF066000ED3642 /* OpenMarketTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34D5850025BF066000ED3642 /* OpenMarketTests.swift */; };
 		34D5850D25C19DDD00ED3642 /* Items.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34D5850C25C19DDD00ED3642 /* Items.swift */; };
-		34D5851125C1A66500ED3642 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34D5851025C1A66500ED3642 /* Parser.swift */; };
 		34D5851725C2B08100ED3642 /* NetworkingError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34D5851625C2B08100ED3642 /* NetworkingError.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
 		C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */; };
@@ -20,9 +20,8 @@
 		C70FB10225BEF61C00C9924E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C70FB10025BEF61C00C9924E /* Main.storyboard */; };
 		C70FB10425BEF61D00C9924E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C70FB10325BEF61D00C9924E /* Assets.xcassets */; };
 		C70FB10725BEF61D00C9924E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */; };
-		EAEF9D0225C44E3000BD5142 /* ItemToPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAEF9D0125C44E3000BD5142 /* ItemToPost.swift */; };
+		EAEF9D0225C44E3000BD5142 /* ItemToUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAEF9D0125C44E3000BD5142 /* ItemToUpdate.swift */; };
 		EAEF9D0625C463E200BD5142 /* ItemToDelete.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAEF9D0525C463E200BD5142 /* ItemToDelete.swift */; };
-		EAEF9D0A25C46E1E00BD5142 /* ItemToPatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAEF9D0925C46E1E00BD5142 /* ItemToPatch.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +35,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		34622A3725CB42EA006B0A97 /* RequestType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestType.swift; sourceTree = "<group>"; };
 		34D584EF25BF061600ED3642 /* APIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
 		34D584F325BF062300ED3642 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		34D584F625BF063600ED3642 /* URLManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLManager.swift; sourceTree = "<group>"; };
@@ -43,7 +43,6 @@
 		34D5850025BF066000ED3642 /* OpenMarketTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketTests.swift; sourceTree = "<group>"; };
 		34D5850225BF066000ED3642 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		34D5850C25C19DDD00ED3642 /* Items.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Items.swift; sourceTree = "<group>"; };
-		34D5851025C1A66500ED3642 /* Parser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
 		34D5851625C2B08100ED3642 /* NetworkingError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingError.swift; sourceTree = "<group>"; };
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -53,9 +52,8 @@
 		C70FB10325BEF61D00C9924E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C70FB10625BEF61D00C9924E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C70FB10825BEF61D00C9924E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		EAEF9D0125C44E3000BD5142 /* ItemToPost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemToPost.swift; sourceTree = "<group>"; };
+		EAEF9D0125C44E3000BD5142 /* ItemToUpdate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemToUpdate.swift; sourceTree = "<group>"; };
 		EAEF9D0525C463E200BD5142 /* ItemToDelete.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemToDelete.swift; sourceTree = "<group>"; };
-		EAEF9D0925C46E1E00BD5142 /* ItemToPatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemToPatch.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,10 +77,10 @@
 		34D584E825BF05A100ED3642 /* Networking */ = {
 			isa = PBXGroup;
 			children = (
+				34622A3725CB42EA006B0A97 /* RequestType.swift */,
 				34D5851625C2B08100ED3642 /* NetworkingError.swift */,
 				34D584F625BF063600ED3642 /* URLManager.swift */,
 				34D584EF25BF061600ED3642 /* APIManager.swift */,
-				34D5851025C1A66500ED3642 /* Parser.swift */,
 			);
 			name = Networking;
 			sourceTree = "<group>";
@@ -108,9 +106,8 @@
 			children = (
 				34D584F325BF062300ED3642 /* Item.swift */,
 				34D5850C25C19DDD00ED3642 /* Items.swift */,
-				EAEF9D0125C44E3000BD5142 /* ItemToPost.swift */,
+				EAEF9D0125C44E3000BD5142 /* ItemToUpdate.swift */,
 				EAEF9D0525C463E200BD5142 /* ItemToDelete.swift */,
-				EAEF9D0925C46E1E00BD5142 /* ItemToPatch.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -277,14 +274,13 @@
 				34D584F025BF061600ED3642 /* APIManager.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ItemsListViewController.swift in Sources */,
 				34D584F425BF062300ED3642 /* Item.swift in Sources */,
-				EAEF9D0225C44E3000BD5142 /* ItemToPost.swift in Sources */,
+				EAEF9D0225C44E3000BD5142 /* ItemToUpdate.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				34D5851725C2B08100ED3642 /* NetworkingError.swift in Sources */,
-				34D5851125C1A66500ED3642 /* Parser.swift in Sources */,
+				34622A3825CB42EA006B0A97 /* RequestType.swift in Sources */,
 				EAEF9D0625C463E200BD5142 /* ItemToDelete.swift in Sources */,
 				34D5850D25C19DDD00ED3642 /* Items.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
-				EAEF9D0A25C46E1E00BD5142 /* ItemToPatch.swift in Sources */,
 				34D584F725BF063600ED3642 /* URLManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
