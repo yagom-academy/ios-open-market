@@ -186,6 +186,7 @@ extension ViewController: UICollectionViewDelegate {
         
         if offsetY > (contentHeight - height) {
             if isPagingLoading == false && hasNextPage {
+                self.isPagingLoading = true
                 self.page = self.page + 1
                 self.appendMarketGoodsList(with: self.page)
             }
