@@ -62,11 +62,9 @@ class ViewController: UIViewController {
     // MARK: - setUp CollectionView
     private func setUpCollection() {
         collectionView.dataSource = self
-        // test cell, will delete
         collectionView.register(UINib(nibName: String(describing: GoodsGridCollectionViewCell.self),
                                       bundle: nil), forCellWithReuseIdentifier: "gridCell")
         collectionView.register(UINib(nibName: "GoodsListCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "listCell")
-        // TODO: Joons - CollectionView Grid Type cell Regist
     }
     
     private func setUpCollectionViewLayouts() {
@@ -81,7 +79,6 @@ class ViewController: UIViewController {
     }
     
     private func makeListCollectionViewLayout() -> UICollectionViewFlowLayout {
-        // TODO: Lasagna - add CollectionView List Type Layout
         let layout = UICollectionViewFlowLayout()
         layout.estimatedItemSize = CGSize(width: UIScreen.main.bounds.width, height: 81)
         layout.minimumLineSpacing = 0
@@ -89,8 +86,6 @@ class ViewController: UIViewController {
     }
     
     private func makeGridCollectionViewLayout() -> UICollectionViewFlowLayout {
-        // TODO: Joons - add CollectionView Grid Type Layout
-        // This is test layout code
         let layout = UICollectionViewFlowLayout()
         let screenWidth = UIScreen.main.bounds.width
         let numberOfItemsPerRow: CGFloat = 2
