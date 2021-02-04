@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import UIKit
 
 struct PriceFormat {
     static func makePriceString(currency: String, price: UInt) -> String {
