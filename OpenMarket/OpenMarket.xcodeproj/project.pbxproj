@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		820605DE25CAD7FA0051289D /* ProductRegistration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 820605DD25CAD7FA0051289D /* ProductRegistration.swift */; };
 		82186D6525C14CCF003AD8FB /* HTTPMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82186D6425C14CCF003AD8FB /* HTTPMethods.swift */; };
 		82186D6D25C14E01003AD8FB /* FeatureList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82186D6C25C14E01003AD8FB /* FeatureList.swift */; };
 		82934AC425BFB022006C7624 /* MockOpenMarketTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82934AC325BFB022006C7624 /* MockOpenMarketTests.swift */; };
@@ -48,6 +49,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		820605DD25CAD7FA0051289D /* ProductRegistration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductRegistration.swift; sourceTree = "<group>"; };
 		82186D6425C14CCF003AD8FB /* HTTPMethods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethods.swift; sourceTree = "<group>"; };
 		82186D6C25C14E01003AD8FB /* FeatureList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureList.swift; sourceTree = "<group>"; };
 		82934AC125BFB022006C7624 /* OpenMarketTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenMarketTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -145,6 +147,7 @@
 				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
 				C70FB10825BEF61D00C9924E /* Info.plist */,
 				D928368C25BF2B5F00C98F6F /* Product.swift */,
+				820605DD25CAD7FA0051289D /* ProductRegistration.swift */,
 				D928368F25BF2B6C00C98F6F /* ProductList.swift */,
 				D928369D25BF31A600C98F6F /* OpenMarketAPIManager.swift */,
 				82186D6C25C14E01003AD8FB /* FeatureList.swift */,
@@ -313,6 +316,7 @@
 				82B552EE25C53F9E00C76325 /* ListViewController.swift in Sources */,
 				D928369E25BF31A600C98F6F /* OpenMarketAPIManager.swift in Sources */,
 				D928369025BF2B6C00C98F6F /* ProductList.swift in Sources */,
+				820605DE25CAD7FA0051289D /* ProductRegistration.swift in Sources */,
 				82B552E925C53F3600C76325 /* GridViewController.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
 				82186D6525C14CCF003AD8FB /* HTTPMethods.swift in Sources */,
