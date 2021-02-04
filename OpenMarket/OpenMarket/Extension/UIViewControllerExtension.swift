@@ -16,12 +16,6 @@ extension UIViewController {
         alertController.addAction(okAction)
         alertController.addAction(cancelAction)
         
-        showAlert(with: alertController)
-    }
-    
-    private func showAlert(with alert: UIAlertController) {
-        DispatchQueue.main.async {
-            self.present(alert, animated: true, completion: nil)
-        }
+        self.present(alertController, animated: true, completion: nil)
     }
 }

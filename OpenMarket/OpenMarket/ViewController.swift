@@ -59,7 +59,9 @@ class ViewController: UIViewController {
         MarketGoodsListModel.fetchMarketGoodsList(page: page) { result in
             switch result {
             case .failure(let error):
-                self.showErrorAlert(with: error, okHandler: nil)
+                DispatchQueue.main.async {
+                    self.showErrorAlert(with: error, okHandler: nil)
+                }
             case .success(let data):
                 if data.list.isEmpty {
                     self.hasNextPage = false
