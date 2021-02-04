@@ -8,7 +8,7 @@
 import UIKit
 
 extension UIImageView {
-    func setImageWithURL(urlString: String) {
+    func setWebImage(urlString: String) {
         ImageLoader.shared.load(urlString: urlString) { result in
             switch result {
             case .failure(let error):

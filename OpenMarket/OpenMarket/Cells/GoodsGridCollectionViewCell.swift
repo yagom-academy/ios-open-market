@@ -28,7 +28,7 @@ class GoodsGridCollectionViewCell: UICollectionViewCell {
         setupCellView()
         productTitleLabel.text = goods.title
         if let thumbnails = goods.thumbnails.first {
-            thumbnailImageView.setImageWithURL(urlString: thumbnails)
+            thumbnailImageView.setWebImage(urlString: thumbnails)
         }
         if let discountedPrice = goods.discountedPrice {
             setGoodsDiscountPriceLabel(currency: goods.currency,

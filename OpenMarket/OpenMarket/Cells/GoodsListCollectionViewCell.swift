@@ -42,7 +42,7 @@ class GoodsListCollectionViewCell: UICollectionViewCell {
     
     // MARK: - setting Thumbnail UI
     private func setGoodsThumbnail(with urlString: String) {
-        goodsImageView.setImageWithURL(urlString: urlString)
+        goodsImageView.setWebImage(urlString: urlString)
     }
     
     // MARK: - setting Price UI
