@@ -25,12 +25,15 @@
 		C70FB10225BEF61C00C9924E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C70FB10025BEF61C00C9924E /* Main.storyboard */; };
 		C70FB10425BEF61D00C9924E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C70FB10325BEF61D00C9924E /* Assets.xcassets */; };
 		C70FB10725BEF61D00C9924E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */; };
+		FD09F4D725CB87D000462012 /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD09F4D625CB87D000462012 /* TableViewController.swift */; };
+		FD09F4DB25CB87D900462012 /* CollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD09F4DA25CB87D900462012 /* CollectionViewController.swift */; };
 		FD253CA925BF55E500525912 /* ItemsToGet.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD253CA825BF55E500525912 /* ItemsToGet.swift */; };
 		FD253CAF25BF563A00525912 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD253CAE25BF563A00525912 /* Item.swift */; };
 		FD253CBD25BF56D800525912 /* ItemToDelete.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD253CBC25BF56D800525912 /* ItemToDelete.swift */; };
 		FD253CF325BFD28C00525912 /* URLManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD253CF225BFD28C00525912 /* URLManager.swift */; };
 		FD253CFF25BFF21800525912 /* OpenMarketAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD253CFE25BFF21800525912 /* OpenMarketAPI.swift */; };
 		FD253D0B25C0030000525912 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD253D0A25C0030000525912 /* Parser.swift */; };
+		FD299EBC25CB7797005BF35E /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD299EBB25CB7797005BF35E /* MainViewController.swift */; };
 		FD51327725C7F589000D8E91 /* Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD51327625C7F589000D8E91 /* Networking.swift */; };
 /* End PBXBuildFile section */
 
@@ -67,12 +70,15 @@
 		C70FB10325BEF61D00C9924E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C70FB10625BEF61D00C9924E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C70FB10825BEF61D00C9924E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FD09F4D625CB87D000462012 /* TableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
+		FD09F4DA25CB87D900462012 /* CollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewController.swift; sourceTree = "<group>"; };
 		FD253CA825BF55E500525912 /* ItemsToGet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsToGet.swift; sourceTree = "<group>"; };
 		FD253CAE25BF563A00525912 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		FD253CBC25BF56D800525912 /* ItemToDelete.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemToDelete.swift; sourceTree = "<group>"; };
 		FD253CF225BFD28C00525912 /* URLManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLManager.swift; sourceTree = "<group>"; };
 		FD253CFE25BFF21800525912 /* OpenMarketAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketAPI.swift; sourceTree = "<group>"; };
 		FD253D0A25C0030000525912 /* Parser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
+		FD299EBB25CB7797005BF35E /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		FD51327625C7F589000D8E91 /* Networking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Networking.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -189,6 +195,9 @@
 			isa = PBXGroup;
 			children = (
 				C70FB0FE25BEF61C00C9924E /* LoadViewController.swift */,
+				FD299EBB25CB7797005BF35E /* MainViewController.swift */,
+				FD09F4D625CB87D000462012 /* TableViewController.swift */,
+				FD09F4DA25CB87D900462012 /* CollectionViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -313,9 +322,12 @@
 				FD253D0B25C0030000525912 /* Parser.swift in Sources */,
 				36861A6925C0596F0052B091 /* ItemAfterDelete.swift in Sources */,
 				FD253CF325BFD28C00525912 /* URLManager.swift in Sources */,
+				FD09F4D725CB87D000462012 /* TableViewController.swift in Sources */,
+				FD299EBC25CB7797005BF35E /* MainViewController.swift in Sources */,
 				FD51327725C7F589000D8E91 /* Networking.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* LoadViewController.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
+				FD09F4DB25CB87D900462012 /* CollectionViewController.swift in Sources */,
 				FD253CFF25BFF21800525912 /* OpenMarketAPI.swift in Sources */,
 				36861AC125C930DB0052B091 /* ItemToPost.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
