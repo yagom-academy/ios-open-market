@@ -5,7 +5,9 @@ import UIKit
 protocol URLSessionProtocol {
     func dataTask(with request: URLRequest,
                   completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask
+    func uploadTask(with request: URLRequest, from bodyData: Data?, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionUploadTask
 }
+
 extension URLSession: URLSessionProtocol { }
 
 enum OpenMarketNetworkError: Error {
@@ -18,11 +20,12 @@ enum OpenMarketNetworkError: Error {
 
 struct OpenMarketAPIManager {
     static let baseURL = "https://camp-open-market.herokuapp.com"
-    let session: URLSessionProtocol
+    private let boundary = UUID().uuidString
+        let session: URLSessionProtocol
     
-    init(session: URLSessionProtocol) {
-        self.session = session
-    }
+        init(session: URLSessionProtocol = URLSession(configuration: .default)) {
+            self.session = session
+        }
     
     func requestProductList(of page: Int, completionHandler: @escaping (Result<ProductList, OpenMarketNetworkError>) -> Void) {
         guard let urlRequest = OpenMarketURLMaker.makeRequestURL(httpMethod: .get, mode: .listSearch(page: page)) else {
@@ -33,7 +36,7 @@ struct OpenMarketAPIManager {
         fetchData(feature: .listSearch(page: page), url: urlRequest, completion: completionHandler)
     }
     
-    func requestRegistration(of product: Product, completionHandler: @escaping (Result<Data,OpenMarketNetworkError>) -> ()) {
+    func requestRegistration(product: Product, completionHandler: @escaping (Result<Data,OpenMarketNetworkError>) -> ()) {
         guard var urlRequest = OpenMarketURLMaker.makeRequestURL(httpMethod: .post, mode: .productRegistration) else {
             print(OpenMarketNetworkError.failedURLRequest)
             return
@@ -67,41 +70,42 @@ struct OpenMarketAPIManager {
 }
 extension OpenMarketAPIManager {
     private func fetchData<T: Decodable>(feature: FeatureList, url: URLRequest, completion: @escaping (Result<T,OpenMarketNetworkError>) -> Void) {
-        let dataTask: URLSessionDataTask = session.dataTask(with: url) { (data, response, error)  in
-            guard let receivedData = data else {
-                completion(.failure(.invalidData))
-                return
-            }
-            
-            guard let response = response as? HTTPURLResponse,
-                  (200..<300).contains(response.statusCode) else {
-                completion(.failure(.failedHTTPRequest))
-                return
-            }
-            
-            switch feature {
-            case .listSearch:
-                do {
-                    let productList = try JSONDecoder().decode(T.self, from: receivedData)
-                    completion(.success(productList))
-                } catch {
-                    completion(.failure(.decodingFailure))
+        let dataTask: URLSessionDataTask = session
+            .dataTask(with: url) { (data, response, error)  in
+                guard let receivedData = data else {
+                    completion(.failure(.invalidData))
+                    return
                 }
-            case .productRegistration:
-                completion(.success(receivedData as! T))
-            case .deleteProduct(let id):
-                break
-            case .productSearch:
-                do {
-                    let product = try JSONDecoder().decode(T.self, from: receivedData)
-                    completion(.success(product))
-                } catch {
-                    completion(.failure(.decodingFailure))
+                
+                guard let response = response as? HTTPURLResponse,
+                      (200..<300).contains(response.statusCode) else {
+                    completion(.failure(.failedHTTPRequest))
+                    return
                 }
-            case .productModification(let id):
-                break
+                
+                switch feature {
+                case .listSearch:
+                    do {
+                        let productList = try JSONDecoder().decode(T.self, from: receivedData)
+                        completion(.success(productList))
+                    } catch {
+                        completion(.failure(.decodingFailure))
+                    }
+                case .productRegistration:
+                    completion(.success(receivedData as! T))
+                case .deleteProduct(let id):
+                    break
+                case .productSearch:
+                    do {
+                        let product = try JSONDecoder().decode(T.self, from: receivedData)
+                        completion(.success(product))
+                    } catch {
+                        completion(.failure(.decodingFailure))
+                    }
+                case .productModification(let id):
+                    break
+                }
             }
-        }
         dataTask.resume()
     }
     
@@ -127,10 +131,10 @@ extension OpenMarketAPIManager {
         return body
     }
 }
+
 extension Data {
     mutating func append(string: String, encoding: String.Encoding) {
-        if let data = string.data(using: encoding) {
-            append(data)
-        }
+        if let data = string.data(using: encoding) { append(data) }
     }
 }
+

@@ -45,9 +45,9 @@ class MockURLSession: URLSessionProtocol {
                                               statusCode: 410,
                                               httpVersion: "1.1",
                                               headerFields: nil)
-        
+
         let sessionUploadTask = MockURLSessionUploadTask()
-        
+
         sessionUploadTask.resumeDidCall = {
             if self.makeRequestFail {
                 completionHandler(nil, failureResponse, nil)
@@ -58,4 +58,5 @@ class MockURLSession: URLSessionProtocol {
         self.sessionUploadTask = sessionUploadTask
         return sessionUploadTask
     }
+    
 }
