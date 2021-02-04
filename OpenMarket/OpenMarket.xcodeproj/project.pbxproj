@@ -23,6 +23,7 @@
 		288D24EA25C3E12500790A15 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288D24E925C3E12500790A15 /* Request.swift */; };
 		288D24EE25C3E27E00790A15 /* NetworkDispatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288D24ED25C3E27E00790A15 /* NetworkDispatcher.swift */; };
 		288D24F225C3E3BA00790A15 /* NetworkTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288D24F125C3E3BA00790A15 /* NetworkTask.swift */; };
+		28E283D225CC5046008FA35A /* NotificationNameExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E283D125CC5046008FA35A /* NotificationNameExtension.swift */; };
 		B427769B25BFA61E0093639B /* Goods.swift in Sources */ = {isa = PBXBuildFile; fileRef = B427769A25BFA61E0093639B /* Goods.swift */; };
 		B42776A325BFA7CE0093639B /* MarketGoods.swift in Sources */ = {isa = PBXBuildFile; fileRef = B42776A225BFA7CE0093639B /* MarketGoods.swift */; };
 		B42776AC25BFA9AA0093639B /* OpenMarketTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B42776AB25BFA9AA0093639B /* OpenMarketTests.swift */; };
@@ -68,6 +69,7 @@
 		288D24E925C3E12500790A15 /* Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
 		288D24ED25C3E27E00790A15 /* NetworkDispatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkDispatcher.swift; sourceTree = "<group>"; };
 		288D24F125C3E3BA00790A15 /* NetworkTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkTask.swift; sourceTree = "<group>"; };
+		28E283D125CC5046008FA35A /* NotificationNameExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationNameExtension.swift; sourceTree = "<group>"; };
 		B427769A25BFA61E0093639B /* Goods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Goods.swift; sourceTree = "<group>"; };
 		B42776A225BFA7CE0093639B /* MarketGoods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketGoods.swift; sourceTree = "<group>"; };
 		B42776A925BFA9AA0093639B /* OpenMarketTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenMarketTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -113,6 +115,7 @@
 			children = (
 				287C3A3525C93EAD0083D46E /* UIImageViewExtension.swift */,
 				28081E0225C7A88E00794802 /* UIViewControllerExtension.swift */,
+				28E283D125CC5046008FA35A /* NotificationNameExtension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -370,6 +373,7 @@
 				288D24F225C3E3BA00790A15 /* NetworkTask.swift in Sources */,
 				28081E0325C7A88E00794802 /* UIViewControllerExtension.swift in Sources */,
 				288D24EA25C3E12500790A15 /* Request.swift in Sources */,
+				28E283D225CC5046008FA35A /* NotificationNameExtension.swift in Sources */,
 				282F99F725CA98F9005A39CB /* GoodsListCollectionViewCell.swift in Sources */,
 				B43EE7DF25C06171003089C9 /* NetworkConfig.swift in Sources */,
 				287C3A1325C92A8A0083D46E /* GoodsModel.swift in Sources */,

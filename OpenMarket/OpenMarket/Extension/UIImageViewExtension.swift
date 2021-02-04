@@ -12,7 +12,7 @@ extension UIImageView {
         ImageLoader.shared.load(urlString: urlString) { result in
             switch result {
             case .failure(let error):
-                debugPrint("❌:\(error.localizedDescription)")
+                NotificationCenter.default.post(name: Notification.Name.failureImageLoad, object: error)
             case .success(let image):
                 DispatchQueue.main.async {
                     self.image = image

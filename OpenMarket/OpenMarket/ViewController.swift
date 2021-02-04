@@ -35,20 +35,26 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setUpNotification()
         appendMarketGoodsList(with: page)
         setUpCollectionViewLayouts()
         setUpCollection()
         setUpSegment()
     }
     
-    private func addGoodsListData(_ data: [Goods]) {
-        if goodsList == nil {
-            goodsList = data
-        } else {
-            goodsList?.append(contentsOf: data)
-        }
+    // MARK: - setUp Notification
+    private func setUpNotification() {
+        NotificationCenter.default.addObserver(self, selector: #selector(manageFailureImageLoad(_:)), name: .failureImageLoad, object: nil)
     }
     
+    @objc func manageFailureImageLoad(_ notification: Notification) {
+        guard let error = notification.object as? Error else {
+            return
+        }
+        self.showErrorAlert(with: error, okHandler: nil)
+    }
+    
+    // MARK: - add data
     private func appendMarketGoodsList(with page: UInt) {
         MarketGoodsListModel.fetchMarketGoodsList(page: page) { result in
             switch result {
@@ -62,6 +68,14 @@ class ViewController: UIViewController {
                 self.isPagingLoading = false
                 self.reloadCollectionView(isMoveTop: false)
             }
+        }
+    }
+    
+    private func addGoodsListData(_ data: [Goods]) {
+        if goodsList == nil {
+            goodsList = data
+        } else {
+            goodsList?.append(contentsOf: data)
         }
     }
     
