@@ -97,15 +97,21 @@ struct ItemManager {
                 return completion(.failure(.failDeleteData))
             }
             
-            guard let mimeType = httpResponse.mimeType, mimeType == "application/json" else {
-                return completion(.failure(.failMatchMimeType))
-            }
-            
             guard let data = data else {
                 return completion(.failure(.failGetData))
             }
             return completion(.success(data))
         }
         dataTask.resume()
+    }
+    
+    func loadItemImage(with url: String, completion: @escaping resultHandler) {
+        guard let imageURL = URL(string: url) else {
+            return completion(.failure(.failSetUpURL))
+        }
+        guard let request = makeURLRequestWithoutRequestBody(method: .get, requestURL: imageURL) else {
+            return completion(.failure(.failMakeURLRequest))
+        }
+        communicateToServerWithDataTask(with: request, completion: completion)
     }
 }
