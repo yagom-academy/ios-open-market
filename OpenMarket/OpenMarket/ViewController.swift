@@ -28,7 +28,7 @@ class ViewController: UIViewController {
     private lazy var collectionViewLayouts: [UICollectionViewFlowLayout] = []
     
     // MARK: - data
-    private var page = 2
+    private var page = 1
     private var goodsList: [Goods]? = nil
     
     override func viewDidLoad() {
