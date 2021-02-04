@@ -60,13 +60,13 @@
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Xxq-lg-rWK" userLabel="CollectionView">
                                 <rect key="frame" x="0.0" y="88" width="375" height="724"/>
                                 <connections>
-                                    <segue destination="wJ8-cp-fxM" kind="embed" id="OwN-fm-8dO"/>
+                                    <segue destination="wJ8-cp-fxM" kind="embed" identifier="" id="OwN-fm-8dO"/>
                                 </connections>
                             </containerView>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yV1-ea-tBq" userLabel="TableView">
                                 <rect key="frame" x="0.0" y="88" width="375" height="724"/>
                                 <connections>
-                                    <segue destination="etw-DH-dUb" kind="embed" id="U4R-27-zls"/>
+                                    <segue destination="etw-DH-dUb" kind="embed" identifier="" id="U4R-27-zls"/>
                                 </connections>
                             </containerView>
                         </subviews>
@@ -138,7 +138,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="724"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ListCell" rowHeight="100" id="SEd-ZA-s6W" customClass="ListCell" customModule="OpenMarket" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="listCell" rowHeight="100" id="SEd-ZA-s6W" customClass="ListCell" customModule="OpenMarket" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="100"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="SEd-ZA-s6W" id="DAb-dS-AQJ">
@@ -215,6 +215,9 @@
                             <constraint firstItem="NkX-98-ArR" firstAttribute="leading" secondItem="9D3-Cz-FFJ" secondAttribute="leading" id="S5m-Lw-2E9"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="tableView" destination="NkX-98-ArR" id="KME-UL-4eB"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vry-KA-zby" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
