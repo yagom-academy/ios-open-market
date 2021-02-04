@@ -22,47 +22,48 @@ class GoodsListCollectionViewCell: UICollectionViewCell {
         goodsStockLabel.text = nil
     }
     
+    //MARK: - Configure Cell with Goods
     func configure(_ goods: Goods) {
         goodsNameLabel.text = goods.title
         if let firstThumbnail = goods.thumbnails.first {
-            settingThumbnail(with: firstThumbnail)
+            setGoodsThumbnail(with: firstThumbnail)
         }
         if let discountedPrice = goods.discountedPrice {
-            settingPriceWithDiscount(with: goods.currency, price: goods.price, discountedPrice: discountedPrice)
+            setGoodsDiscountPriceLabel(with: goods.currency, price: goods.price, discountedPrice: discountedPrice)
         } else {
-            settingPrice(with: goods.currency, price: goods.price)
+            setGoodsPriceLabel(with: goods.currency, price: goods.price)
         }
         if goods.stock == 0 {
-            settingSoldOut()
+            setSoldOutLabel()
         } else {
-            settingStock(with: goods.stock)
+            setStockLabel(with: goods.stock)
         }
     }
     
     // MARK: - setting Thumbnail UI
-    private func settingThumbnail(with urlString: String) {
+    private func setGoodsThumbnail(with urlString: String) {
         goodsImageView.setImageWithURL(urlString: urlString)
     }
     
     // MARK: - setting Price UI
-    private func settingPriceWithDiscount(with currency: String, price: UInt, discountedPrice: UInt) {
+    private func setGoodsDiscountPriceLabel(with currency: String, price: UInt, discountedPrice: UInt) {
         goodsOriginalPriceLabel.isHidden = false
         goodsOriginalPriceLabel.attributedText = PriceFormat.makePriceStringWithStrike(currency: currency, price: discountedPrice)
         goodsFinalPriceLabel.text = PriceFormat.makePriceString(currency: currency, price: discountedPrice)
     }
     
-    private func settingPrice(with currency: String, price: UInt) {
+    private func setGoodsPriceLabel(with currency: String, price: UInt) {
         goodsOriginalPriceLabel.isHidden = true
         goodsFinalPriceLabel.text = PriceFormat.makePriceString(currency: currency, price: price)
     }
     
     // MARK: - setting stock UI
-    private func settingSoldOut() {
+    private func setSoldOutLabel() {
         goodsStockLabel.textColor = .systemYellow
         goodsStockLabel.text = StockFormat.soldOut
     }
     
-    private func settingStock(with stock: UInt) {
+    private func setStockLabel(with stock: UInt) {
         goodsStockLabel.textColor = .systemGray2
         goodsStockLabel.text = String(format: StockFormat.quantity, stock)
     }

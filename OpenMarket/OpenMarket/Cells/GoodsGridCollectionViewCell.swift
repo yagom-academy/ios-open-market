@@ -31,39 +31,39 @@ class GoodsGridCollectionViewCell: UICollectionViewCell {
             thumbnailImageView.setImageWithURL(urlString: thumbnails)
         }
         if let discountedPrice = goods.discountedPrice {
-            settingPriceWithDiscount(currency: goods.currency,
+            setGoodsDiscountPriceLabel(currency: goods.currency,
                                      price: goods.price,
                                      discountedPrice: discountedPrice)
         } else {
-            settingPrice(currency: goods.currency, price: goods.price)
+            setGoodsPriceLabel(currency: goods.currency, price: goods.price)
         }
         
         if goods.stock == 0 {
-            settingSoldOut()
+            setSoldOutLabel()
         } else {
-            settingStock(with: goods.stock)
+            setStockLabel(with: goods.stock)
         }
     }
     
     // MARK: - setting Price UI
-    private func settingPriceWithDiscount(currency: String, price: UInt, discountedPrice: UInt) {
+    private func setGoodsDiscountPriceLabel(currency: String, price: UInt, discountedPrice: UInt) {
         originalPriceLabel.isHidden = false
         originalPriceLabel.attributedText = PriceFormat.makePriceStringWithStrike(currency: currency, price: discountedPrice)
         finalPriceLabel.text = PriceFormat.makePriceString(currency: currency, price: discountedPrice)
     }
     
-    private func settingPrice(currency: String, price: UInt) {
+    private func setGoodsPriceLabel(currency: String, price: UInt) {
         originalPriceLabel.isHidden = true
         finalPriceLabel.text = PriceFormat.makePriceString(currency: currency, price: price)
     }
     
     // MARK: - setting stock UI
-    private func settingSoldOut() {
+    private func setSoldOutLabel() {
         stockLabel.textColor = .systemYellow
         stockLabel.text = StockFormat.soldOut
     }
     
-    private func settingStock(with stock: UInt) {
+    private func setStockLabel(with stock: UInt) {
         stockLabel.textColor = .systemGray2
         stockLabel.text = String(format: StockFormat.quantity, stock)
     }
