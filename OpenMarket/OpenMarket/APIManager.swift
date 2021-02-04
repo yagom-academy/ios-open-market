@@ -19,6 +19,7 @@ struct APIManager {
                     return
                 }
 
+                dump(response)
                 guard let response = response as? HTTPURLResponse,
                       (200...299).contains(response.statusCode) else {
                     result(.failure(NetworkingError.failedResponse))
@@ -48,16 +49,18 @@ struct APIManager {
         case .getPage, .getItem:
             URLSession.shared.dataTask(with: request, completionHandler: completionHandler).resume()
             
-        case .post(let itme):
-            let data = makeDataToUpload(item: itme)
-            request.setValue("multipart/form-data", forHTTPHeaderField: "Content-Type")
+        case .post(let item):
+            let boundary = "--OdongBoundary"
+            let data = makeDataToUpload(item: item, boundary: boundary)
+            request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
             request.httpBody = data
         
             URLSession.shared.uploadTask(with: request, from: data, completionHandler: completionHandler).resume()
             
         case .patch(_, let item):
-            let data = makeDataToUpload(item: item)
-            request.setValue("multipart/form-data", forHTTPHeaderField: "Content-Type")
+            let boundary = "--OdongBoundary"
+            let data = makeDataToUpload(item: item, boundary: boundary)
+            request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
             request.httpBody = data
         
             URLSession.shared.uploadTask(with: request, from: data, completionHandler: completionHandler).resume()
@@ -71,8 +74,7 @@ struct APIManager {
         }
     }
     
-    static private func makeDataToUpload(item: ItemToUpdate) -> Data {
-        let boundary = "-- OdongBoundary"
+    static private func makeDataToUpload(item: ItemToUpdate, boundary: String) -> Data {
         let parameters = item.makeParameters()
         let imageList = item.makeImageListToUpload()
         var bodyData = Data()
@@ -90,10 +92,10 @@ struct APIManager {
                 bodyData.append("Content-Type: \(i.mimeType)\r\n\r\n".data(using: .utf8)!)
                 bodyData.append(i.imageData)
                 bodyData.append("\r\n".data(using: .utf8)!)
-                bodyData.append("--".appending(boundary.appending("--")).data(using: .utf8)!)
             }
         }
         
+        bodyData.append("--".appending(boundary.appending("--")).data(using: .utf8)!)
         return bodyData
     }
 }
