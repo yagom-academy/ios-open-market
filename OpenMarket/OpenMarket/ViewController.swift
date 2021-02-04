@@ -28,7 +28,7 @@ class ViewController: UIViewController {
     private lazy var collectionViewLayouts: [UICollectionViewFlowLayout] = []
     
     // MARK: - data
-    private var page = 1
+    private var page = 2
     private var goodsList: [Goods]? = nil
     
     override func viewDidLoad() {
@@ -62,10 +62,10 @@ class ViewController: UIViewController {
     // MARK: - setUp CollectionView
     private func setUpCollection() {
         collectionView.dataSource = self
-        // test cell, will delete
-        collectionView.register(UINib(nibName: "TestCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "cell")
+        collectionView.register(IndicatorCell.self, forCellWithReuseIdentifier: "loading")
+        collectionView.register(UINib(nibName: String(describing: GoodsGridCollectionViewCell.self),
+                                      bundle: nil), forCellWithReuseIdentifier: "gridCell")
         collectionView.register(UINib(nibName: "GoodsListCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "listCell")
-        // TODO: Joons - CollectionView Grid Type cell Regist
     }
     
     private func setUpCollectionViewLayouts() {
@@ -80,7 +80,6 @@ class ViewController: UIViewController {
     }
     
     private func makeListCollectionViewLayout() -> UICollectionViewFlowLayout {
-        // TODO: Lasagna - add CollectionView List Type Layout
         let layout = UICollectionViewFlowLayout()
         layout.estimatedItemSize = CGSize(width: UIScreen.main.bounds.width, height: 81)
         layout.minimumLineSpacing = 0
@@ -88,10 +87,15 @@ class ViewController: UIViewController {
     }
     
     private func makeGridCollectionViewLayout() -> UICollectionViewFlowLayout {
-        // TODO: Joons - add CollectionView Grid Type Layout
-        // This is test layout code
         let layout = UICollectionViewFlowLayout()
-        layout.estimatedItemSize = CGSize(width: UIScreen.main.bounds.width / 2 - 30, height: 90)
+        let screenWidth = UIScreen.main.bounds.width
+        let numberOfItemsPerRow: CGFloat = 2
+        let interSpacing: CGFloat = 8
+        let totalSpacing = numberOfItemsPerRow * interSpacing
+        let itemWidth = (screenWidth - totalSpacing) / numberOfItemsPerRow
+        layout.itemSize = CGSize(width: itemWidth, height: itemWidth * 1.5)
+        layout.sectionInset = UIEdgeInsets(top: 4, left: 4, bottom: 4, right: 4)
+        layout.minimumInteritemSpacing = interSpacing
         return layout
     }
     
@@ -127,7 +131,7 @@ class ViewController: UIViewController {
 extension ViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         guard let goodsList = self.goodsList else {
-            return 0
+            return 1
         }
         return goodsList.count
     }
@@ -136,18 +140,24 @@ extension ViewController: UICollectionViewDataSource {
         guard let layoutType = SegmentValueTypes(rawValue: self.segment.selectedSegmentIndex) else {
             return UICollectionViewCell()
         }
+        guard let goodsList = self.goodsList else {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "loading", for: indexPath) as! IndicatorCell
+            cell.indicator.startAnimating()
+            return cell
+        }
+        
         switch layoutType {
         case .list:
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "listCell", for: indexPath) as? GoodsListCollectionViewCell,
-                  let goodsList = self.goodsList else {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "listCell", for: indexPath) as? GoodsListCollectionViewCell else {
                 return UICollectionViewCell()
             }
             cell.settingWithGoods(goodsList[indexPath.row])
             return cell
         case .grid:
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as? TestCollectionViewCell else {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "gridCell", for: indexPath) as? GoodsGridCollectionViewCell else {
                 return UICollectionViewCell()
             }
+            cell.configure(goods: goodsList[indexPath.row])
             return cell
         }
     }
