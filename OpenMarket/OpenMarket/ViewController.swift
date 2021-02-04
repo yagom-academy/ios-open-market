@@ -15,6 +15,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpNavigationBar()
+        setUpDelegateAndDataSource()
         loadItemList(page: currentPage)
     }
     
@@ -38,6 +39,11 @@ class ViewController: UIViewController {
                 self.errorHandling(error: error)
             }
         }
+    }
+    
+    private func setUpDelegateAndDataSource() {
+        itemTableView.delegate = self
+        itemTableView.dataSource = self
     }
     
     private func setUpNavigationBar() {
