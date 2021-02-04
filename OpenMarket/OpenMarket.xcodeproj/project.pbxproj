@@ -27,6 +27,7 @@
 		C70FB10725BEF61D00C9924E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */; };
 		FD09F4D725CB87D000462012 /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD09F4D625CB87D000462012 /* TableViewController.swift */; };
 		FD09F4DB25CB87D900462012 /* CollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD09F4DA25CB87D900462012 /* CollectionViewController.swift */; };
+		FD09F4E325CB9C7B00462012 /* ListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD09F4E225CB9C7B00462012 /* ListCell.swift */; };
 		FD253CA925BF55E500525912 /* ItemsToGet.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD253CA825BF55E500525912 /* ItemsToGet.swift */; };
 		FD253CAF25BF563A00525912 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD253CAE25BF563A00525912 /* Item.swift */; };
 		FD253CBD25BF56D800525912 /* ItemToDelete.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD253CBC25BF56D800525912 /* ItemToDelete.swift */; };
@@ -72,6 +73,7 @@
 		C70FB10825BEF61D00C9924E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FD09F4D625CB87D000462012 /* TableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
 		FD09F4DA25CB87D900462012 /* CollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewController.swift; sourceTree = "<group>"; };
+		FD09F4E225CB9C7B00462012 /* ListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCell.swift; sourceTree = "<group>"; };
 		FD253CA825BF55E500525912 /* ItemsToGet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsToGet.swift; sourceTree = "<group>"; };
 		FD253CAE25BF563A00525912 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		FD253CBC25BF56D800525912 /* ItemToDelete.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemToDelete.swift; sourceTree = "<group>"; };
@@ -198,6 +200,7 @@
 				FD299EBB25CB7797005BF35E /* MainViewController.swift */,
 				FD09F4D625CB87D000462012 /* TableViewController.swift */,
 				FD09F4DA25CB87D900462012 /* CollectionViewController.swift */,
+				FD09F4E225CB9C7B00462012 /* ListCell.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -328,6 +331,7 @@
 				C70FB0FF25BEF61C00C9924E /* LoadViewController.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				FD09F4DB25CB87D900462012 /* CollectionViewController.swift in Sources */,
+				FD09F4E325CB9C7B00462012 /* ListCell.swift in Sources */,
 				FD253CFF25BFF21800525912 /* OpenMarketAPI.swift in Sources */,
 				36861AC125C930DB0052B091 /* ItemToPost.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
