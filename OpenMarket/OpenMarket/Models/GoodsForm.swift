@@ -87,7 +87,7 @@ extension GoodsForm: MakeForm {
               let currency = self.currency,
               let stock = self.stock,
               let images = self.images else {
-            throw OpenMarketError.fillForm
+            throw OpenMarketError.shortageForm
         }
         var parameter: [String : Any] = [:]
         parameter["password"] = password
@@ -137,7 +137,7 @@ extension GoodsForm: MakeForm {
     
     func makeDeleteForm() throws -> [String : Any] {
         guard let id = self.id else {
-            throw OpenMarketError.fillForm
+            throw OpenMarketError.shortageForm
         }
         var parameter: [String : Any] = [:]
         parameter["id"] = id
