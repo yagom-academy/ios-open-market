@@ -28,12 +28,14 @@ class ViewController: UIViewController {
     private lazy var collectionViewLayouts: [UICollectionViewFlowLayout] = []
     
     // MARK: - data
-    private var page = 1
+    private var isPagingLoading = false
+    private var hasNextPage = true
+    private var page: UInt = 1
     private var goodsList: [Goods]? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        getMarketGoodsList(with: UInt(page))
+        appendMarketGoodsList(with: page)
         setUpCollectionViewLayouts()
         setUpCollection()
         setUpSegment()
@@ -47,13 +49,17 @@ class ViewController: UIViewController {
         }
     }
     
-    private func getMarketGoodsList(with page: UInt) {
+    private func appendMarketGoodsList(with page: UInt) {
         MarketGoodsListModel.fetchMarketGoodsList(page: page) { result in
             switch result {
             case .failure(let error):
                 self.showErrorAlert(with: error, okHandler: nil)
             case .success(let data):
+                if data.list.isEmpty {
+                    self.hasNextPage = false
+                }
                 self.addGoodsListData(data.list)
+                self.isPagingLoading = false
                 self.reloadCollectionView(isMoveTop: false)
             }
         }
@@ -62,6 +68,7 @@ class ViewController: UIViewController {
     // MARK: - setUp CollectionView
     private func setUpCollection() {
         collectionView.dataSource = self
+        collectionView.delegate = self
         collectionView.register(IndicatorCell.self, forCellWithReuseIdentifier: "loading")
         collectionView.register(UINib(nibName: String(describing: GoodsGridCollectionViewCell.self),
                                       bundle: nil), forCellWithReuseIdentifier: "gridCell")
@@ -133,6 +140,13 @@ extension ViewController: UICollectionViewDataSource {
         guard let goodsList = self.goodsList else {
             return 1
         }
+        
+        if section == 0 {
+            return goodsList.count
+        } else if section == 1 && isPagingLoading && hasNextPage {
+            return 1
+        }
+        
         return goodsList.count
     }
     
@@ -140,7 +154,8 @@ extension ViewController: UICollectionViewDataSource {
         guard let layoutType = SegmentValueTypes(rawValue: self.segment.selectedSegmentIndex) else {
             return UICollectionViewCell()
         }
-        guard let goodsList = self.goodsList else {
+        guard let goodsList = self.goodsList,
+              indexPath.section == 0 else {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "loading", for: indexPath) as! IndicatorCell
             cell.indicator.startAnimating()
             return cell
@@ -159,6 +174,22 @@ extension ViewController: UICollectionViewDataSource {
             }
             cell.configure(goods: goodsList[indexPath.row])
             return cell
+        }
+    }
+}
+
+extension ViewController: UICollectionViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let offsetY = scrollView.contentOffset.y
+        let contentHeight = scrollView.contentSize.height
+        let height = scrollView.frame.height
+        
+        if offsetY > (contentHeight - height) {
+            if isPagingLoading == false && hasNextPage {
+                self.isPagingLoading = true
+                self.page = self.page + 1
+                self.appendMarketGoodsList(with: self.page)
+            }
         }
     }
 }
