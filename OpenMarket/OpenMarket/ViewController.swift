@@ -1,18 +1,43 @@
 //
 //  OpenMarket - ViewController.swift
-//  Created by yagom. 
+//  Created by yagom.
 //  Copyright © yagom. All rights reserved.
-// 
+//
 
 import UIKit
 
 class ViewController: UIViewController {
     @IBOutlet weak var itemCollectionView: UICollectionView!
     @IBOutlet weak var itemTableView: UITableView!
+    var itemList: ItemList?
+    var currentPage: UInt = 1
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpNavigationBar()
+        loadItemList(page: currentPage)
+    }
+    
+    func loadItemList(page: UInt) {
+        ItemManager.shared.loadData(method: .get, path: .items, param: page) { result in
+            switch result {
+            case .success(let data):
+                guard let data = data else {
+                    return
+                }
+                self.itemList = try? JSONDecoder().decode(ItemList.self, from: data)
+                DispatchQueue.main.async {
+                    if self.itemTableView.isHidden {
+                        self.itemCollectionView.reloadData()
+                    }
+                    else if self.itemCollectionView.isHidden {
+                        self.itemTableView.reloadData()
+                    }
+                }
+            case .failure(let error):
+                self.errorHandling(error: error)
+            }
+        }
     }
     
     private func setUpNavigationBar() {
