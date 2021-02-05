@@ -2,10 +2,6 @@ import UIKit
 
 class ItemListViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
-    
-    override func viewDidLoad() {
-        print(tableView)
-    }
 }
 
 extension ItemListViewController: UITableViewDataSource {
