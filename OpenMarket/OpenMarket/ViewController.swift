@@ -30,17 +30,16 @@ class ViewController: UIViewController {
         setUpNavigationItem()
         setUpView()
         
-//        let testProduct = Product(id: nil, title: "오늘의태태2", descriptions: "비밀번호 486", price: 20000, currency: "KRW", stock: 100, discountedPrice: nil, thumbnails: nil, images: [], registrationDate: nil, password: "486")
-//
-//        OpenMarketAPIManager().requestRegistration(product: testProduct) { (result) in
-//            switch result {
-//            case .success(let testProduct):
-//                print(testProduct)
-//            case .failure(let error):
-//                print(error)
-//            }
-//        }
-//
+        let testProduct = ProductRegistration(title: "오늘의태태6", descriptions: "hihi", price: 50000, currency: "KRW", stock: 50, discountedPrice: nil, images: [], password: "1234")
+
+        OpenMarketAPIManager().requestRegistration(product: testProduct) { (result) in
+            switch result {
+            case .success(let testProduct):
+                print(testProduct)
+            case .failure(let error):
+                print(error)
+            }
+        }
 //        OpenMarketAPIManager().requestProduct(of: 90) { (result) in
 //            switch result {
 //            case .success(let product):

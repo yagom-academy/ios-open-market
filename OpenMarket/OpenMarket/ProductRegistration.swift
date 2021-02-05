@@ -17,7 +17,6 @@ struct ProductRegistration {
         "price": price,
         "currency": currency,
         "stock": stock,
-        "discounted_price": discountedPrice,
         "images": images,
         "password": password
     ]}

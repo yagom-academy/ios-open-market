@@ -36,7 +36,7 @@ struct OpenMarketAPIManager {
         fetchData(feature: .listSearch(page: page), url: urlRequest, completion: completionHandler)
     }
     
-    func requestRegistration(product: Product, completionHandler: @escaping (Result<Data,OpenMarketNetworkError>) -> ()) {
+    func requestRegistration(product: ProductRegistration, completionHandler: @escaping (Result<Data,OpenMarketNetworkError>) -> ()) {
         guard var urlRequest = OpenMarketURLMaker.makeRequestURL(httpMethod: .post, mode: .productRegistration) else {
             print(OpenMarketNetworkError.failedURLRequest)
             return
@@ -45,9 +45,9 @@ struct OpenMarketAPIManager {
         let boundary = "Boundary-\(UUID().uuidString)"
         urlRequest.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
         let mimeType = "image/jpg"
-        let params = product.registrationDescription
+        let params = product.description
         
-        urlRequest.httpBody = createBody(boundary: boundary, mimeType: mimeType, params: params, imageArray: product.images ?? [])
+        urlRequest.httpBody = createBody(boundary: boundary, mimeType: mimeType, params: params, imageArray: product.images)
         
         fetchData(feature: .productRegistration, url: urlRequest, completion: completionHandler)
     }
@@ -94,14 +94,16 @@ extension OpenMarketAPIManager {
         dataTask.resume()
     }
     
-    private func createBody(boundary: String, mimeType: String, params: [String : Any], imageArray: [Data]) -> Data {
+    private func createBody(boundary: String, mimeType: String, params: [String : Any?], imageArray: [Data]) -> Data {
         var body = Data()
         let boundaryPrefix = "--\(boundary)\r\n"
         
         for (key,value) in params {
-            body.append(string: boundaryPrefix, encoding: .utf8)
-            body.append(string: "Content-Disposition: form-data; name=\"\(key)\"\r\n\r\n", encoding: .utf8)
-            body.append(string: "\(value)\r\n", encoding: .utf8)
+            if let convertedValue = value {
+                body.append(string: boundaryPrefix, encoding: .utf8)
+                body.append(string: "Content-Disposition: form-data; name=\"\(key)\"\r\n\r\n", encoding: .utf8)
+                body.append(string: "\(convertedValue)\r\n", encoding: .utf8)
+            }
         }
         
         for (index,data) in imageArray.enumerated() {
