@@ -9,6 +9,7 @@ import UIKit
 class ViewController: UIViewController {
     @IBOutlet weak var itemCollectionView: UICollectionView!
     @IBOutlet weak var itemTableView: UITableView!
+    @IBOutlet weak var loadingIndicatorView: UIActivityIndicatorView!
     var itemList: ItemList?
     var itemArray: [Item?] = []
     var isPaging: Bool = false
@@ -17,10 +18,17 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setUpLoadingIndicatorView()
         setUpNavigationBar()
         setUpNotification()
         setUpDelegateAndDataSource()
         loadItemList(page: currentPage)
+    }
+    
+    //MARK: SetUpLoadingIndicatorView
+    private func setUpLoadingIndicatorView() {
+        self.view.bringSubviewToFront(loadingIndicatorView)
+        loadingIndicatorView.startAnimating()
     }
     
     //MARK: SetUpNaviationBar
@@ -29,7 +37,7 @@ class ViewController: UIViewController {
         let segmentControl: UISegmentedControl = UISegmentedControl(items: titles)
         segmentControl.selectedSegmentTintColor = UIColor.systemBlue
         segmentControl.backgroundColor = UIColor.white
-        segmentControl.selectedSegmentIndex = 1
+        segmentControl.selectedSegmentIndex = 0
         for index in 0...titles.count - 1 {
             segmentControl.setWidth(80, forSegmentAt: index)
         }
@@ -109,6 +117,7 @@ class ViewController: UIViewController {
                 self.itemArray.append(contentsOf: items)
                 
                 DispatchQueue.main.async {
+                    self.loadingIndicatorView.stopAnimating()
                     if self.itemTableView.isHidden {
                         self.itemCollectionView.reloadData()
                     }
