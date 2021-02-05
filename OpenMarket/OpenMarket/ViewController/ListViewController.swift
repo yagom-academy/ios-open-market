@@ -52,16 +52,16 @@ extension ListViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         cell.productNameLabel.text = product.title
-        cell.productStockLabel.text = "잔여수량 : \(stock.addComma())"
-        cell.productPriceLabel.text = "\(product.currency) \(price.addComma())"
+        cell.productStockLabel.text = "잔여수량 : \(stock.distinguishNumberUnit())"
+        cell.productPriceLabel.text = "\(product.currency) \(price.distinguishNumberUnit())"
         
         if let discountedPrice = product.discountedPrice {
-            let originalPriceText = "\(product.currency) \(price.addComma())"
+            let originalPriceText = "\(product.currency) \(price.distinguishNumberUnit())"
             let attributeText = NSMutableAttributedString(string: originalPriceText)
             let range = originalPriceText.checkRange(of: originalPriceText)
             attributeText.addAttribute(.strikethroughStyle, value:1,  range: range)
             cell.productPriceLabel.attributedText = attributeText
-            cell.productDiscountedPriceLabel.text = "\(product.currency) \((price - discountedPrice).addComma())"
+            cell.productDiscountedPriceLabel.text = "\(product.currency) \((price - discountedPrice).distinguishNumberUnit())"
         }
         
         cell.accessoryType = .disclosureIndicator

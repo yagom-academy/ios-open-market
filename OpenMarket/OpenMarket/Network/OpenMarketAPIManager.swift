@@ -64,8 +64,7 @@ struct OpenMarketAPIManager {
 }
 extension OpenMarketAPIManager {
     private func fetchData<T: Decodable>(feature: FeatureList, url: URLRequest, completion: @escaping (Result<T,OpenMarketNetworkError>) -> Void) {
-        let dataTask: URLSessionDataTask = session
-            .dataTask(with: url) { (data, response, error)  in
+        let dataTask: URLSessionDataTask = session.dataTask(with: url) { (data, response, error)  in
                 guard let receivedData = data else {
                     completion(.failure(.invalidData))
                     return
