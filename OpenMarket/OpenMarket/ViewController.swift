@@ -100,10 +100,21 @@ class ViewController: UIViewController {
                         self.loadingIndicator.stopAnimating()
                     }
                 }
-                self.goodsList.append(contentsOf: data.list)
-                self.isPagingLoading = false
-                self.reloadCollectionView(isMoveTop: false)
+                self.reloadCollectionView(with: data.list)
             }
+        }
+    }
+    
+    private func reloadCollectionView(with appendGoods: [Goods]) {
+        let startAppendIndex = self.goodsList.count
+        var insertIndexPaths: [IndexPath] = []
+        for (index, _) in appendGoods.enumerated() {
+            insertIndexPaths.append(IndexPath(row: startAppendIndex + index, section: 0))
+        }
+        self.goodsList.append(contentsOf: appendGoods)
+        self.isPagingLoading = false
+        DispatchQueue.main.async {
+            self.collectionView.insertItems(at: insertIndexPaths)
         }
     }
     
@@ -121,20 +132,18 @@ class ViewController: UIViewController {
             segment.setTitle(element.valueString, forSegmentAt: index)
         }
         segment.addTarget(self, action: #selector(changedSegmentValue(_:)), for: .valueChanged)
-        reloadCollectionView(isMoveTop: true)
+        reloadAllCollectionView()
     }
     
     @objc func changedSegmentValue(_ sender: UISegmentedControl) {
-        reloadCollectionView(isMoveTop: true)
+        reloadAllCollectionView()
     }
     
-    private func reloadCollectionView(isMoveTop: Bool) {
+    private func reloadAllCollectionView() {
         DispatchQueue.main.async {
             self.collectionView.collectionViewLayout = self.collectionViewLayouts[self.segment.selectedSegmentIndex]
             self.collectionView.reloadData()
-            if isMoveTop {
-                self.collectionView.setContentOffset(CGPoint.zero, animated: true)
-            }
+            self.collectionView.setContentOffset(CGPoint.zero, animated: true)
         }
     }
     
