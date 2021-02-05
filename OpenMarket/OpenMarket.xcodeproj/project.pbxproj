@@ -80,14 +80,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		2604B29925CA735200C24242 /* Extension */ = {
-			isa = PBXGroup;
-			children = (
-				2604B29A25CA736600C24242 /* DataExtension.swift */,
-			);
-			path = Extension;
-			sourceTree = "<group>";
-		};
 		2678E79925BFB5DB00938BED /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -149,13 +141,13 @@
 		C70FB0F925BEF61C00C9924E /* OpenMarket */ = {
 			isa = PBXGroup;
 			children = (
-				2604B29925CA735200C24242 /* Extension */,
 				2678E7AE25BFCA3F00938BED /* Error */,
 				2678E7A325BFBAAC00938BED /* Network */,
 				2678E79925BFB5DB00938BED /* Model */,
 				C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */,
 				C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */,
 				C70FB0FE25BEF61C00C9924E /* ViewController.swift */,
+				2604B29A25CA736600C24242 /* DataExtension.swift */,
 				C70FB10025BEF61C00C9924E /* Main.storyboard */,
 				C70FB10325BEF61D00C9924E /* Assets.xcassets */,
 				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
