@@ -176,21 +176,21 @@ extension ViewController: UICollectionViewDataSource {
               let goodsList = self.goodsList else {
             return UICollectionViewCell()
         }
-        
+        var marketCell: MarketCell
         switch layoutType {
         case .list:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "listCell", for: indexPath) as? GoodsListCollectionViewCell else {
                 return UICollectionViewCell()
             }
-            cell.configure(goodsList[indexPath.row], isLast: indexPath.row == goodsList.count - 1)
-            return cell
+            marketCell = cell
         case .grid:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "gridCell", for: indexPath) as? GoodsGridCollectionViewCell else {
                 return UICollectionViewCell()
             }
-            cell.configure(goodsList[indexPath.row], isLast: indexPath.row == goodsList.count - 1)
-            return cell
+            marketCell = cell
         }
+        marketCell.configure(goodsList[indexPath.row], isLast: indexPath.row == goodsList.count - 1)
+        return marketCell
     }
 }
 
