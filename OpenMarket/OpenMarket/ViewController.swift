@@ -54,7 +54,7 @@ class ViewController: UIViewController {
     private var isPagingLoading = false
     private var hasNextPage = true
     private var page: UInt = 1
-    private var goodsList: [Goods]? = nil
+    private var goodsList: [Goods] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -95,23 +95,15 @@ class ViewController: UIViewController {
                 if data.list.isEmpty {
                     self.hasNextPage = false
                 }
-                if self.goodsList == nil {
+                if self.goodsList.isEmpty {
                     DispatchQueue.main.async {
                         self.loadingIndicator.stopAnimating()
                     }
                 }
-                self.addGoodsListData(data.list)
+                self.goodsList.append(contentsOf: data.list)
                 self.isPagingLoading = false
                 self.reloadCollectionView(isMoveTop: false)
             }
-        }
-    }
-    
-    private func addGoodsListData(_ data: [Goods]) {
-        if goodsList == nil {
-            goodsList = data
-        } else {
-            goodsList?.append(contentsOf: data)
         }
     }
     
@@ -154,12 +146,11 @@ class ViewController: UIViewController {
 
 extension ViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return goodsList?.count ?? 0
+        return goodsList.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let layoutType = SegmentValueTypes(rawValue: self.segment.selectedSegmentIndex),
-              let goodsList = self.goodsList else {
+        guard let layoutType = SegmentValueTypes(rawValue: self.segment.selectedSegmentIndex) else {
             return UICollectionViewCell()
         }
         guard let marketCell: MarketCell = collectionView.dequeueReusableCell(withReuseIdentifier: layoutType == .list ? "listCell" : "gridCell", for: indexPath) as? MarketCell else {
