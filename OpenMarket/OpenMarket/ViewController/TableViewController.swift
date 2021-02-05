@@ -22,20 +22,6 @@ extension TableViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
     }
-    
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        guard let mainViewController = self.parent as? MainViewController else {
-            return
-        }
-        if indexPath.row == mainViewController.itemsCount - 2 {
-            page += 1
-            mainViewController.requestItems(page: page) {
-                DispatchQueue.main.async {
-                    tableView.reloadData() // TODO: 코드 Depth 줄이기.
-                }
-            }
-        }
-    }
 }
 
 extension TableViewController: UITableViewDataSource {
@@ -49,12 +35,29 @@ extension TableViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "listCell") as? ListCell,
               let mainViewController = self.parent as? MainViewController,
-              let item = mainViewController.getItem(indexPath.row)else {
+              let item = mainViewController.getItem(indexPath.row) else {
             return UITableViewCell()
         }
         
-        // TODO: Cell 컨텐츠 초기화.
-    
+        cell.tag = indexPath.row
+        cell.setContents(with: item)
         return cell
+    }
+}
+
+extension TableViewController: UITableViewDataSourcePrefetching {
+    func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
+        guard let row = indexPaths.last?.row,
+              let mainViewController = self.parent as? MainViewController else {
+            return
+        }
+        if row >= mainViewController.itemsCount - 2 {
+            page += 1
+            mainViewController.requestItems(page: page) {
+                DispatchQueue.main.async {
+                    tableView.reloadData() // TODO: 코드 Depth 줄이기.
+                }
+            }
+        }
     }
 }
