@@ -13,6 +13,4 @@ extension String {
         let attributeString = NSAttributedString(string: self, attributes: attributes)
         return attributeString
     }
-    
-    
 }
