@@ -10,6 +10,9 @@ class ViewController: UIViewController {
     @IBOutlet weak var itemCollectionView: UICollectionView!
     @IBOutlet weak var itemTableView: UITableView!
     var itemList: ItemList?
+    var itemArray: [Item?] = []
+    var isPaging: Bool = false
+    var hasNextPage: Bool = false
     var currentPage: UInt = 1
     
     override func viewDidLoad() {
@@ -27,6 +30,18 @@ class ViewController: UIViewController {
                     return
                 }
                 self.itemList = try? JSONDecoder().decode(ItemList.self, from: data)
+                guard let items = self.itemList?.items, items.count > 0 else {
+                    self.hasNextPage = false
+                    if self.itemCollectionView.isHidden {
+                        DispatchQueue.main.async {
+                            self.itemTableView.reloadData()
+                        }
+                    }
+                    return
+                }
+                self.hasNextPage = true
+                self.itemArray.append(contentsOf: items)
+                
                 DispatchQueue.main.async {
                     if self.itemTableView.isHidden {
                         self.itemCollectionView.reloadData()
@@ -53,7 +68,7 @@ class ViewController: UIViewController {
         let segmentControl: UISegmentedControl = UISegmentedControl(items: titles)
         segmentControl.selectedSegmentTintColor = UIColor.systemBlue
         segmentControl.backgroundColor = UIColor.white
-        segmentControl.selectedSegmentIndex = 0
+        segmentControl.selectedSegmentIndex = 1
         for index in 0...titles.count - 1 {
             segmentControl.setWidth(80, forSegmentAt: index)
         }
