@@ -11,12 +11,14 @@ class ProductGridViewCell: UICollectionViewCell {
     static let identifier: String = "ProductGridViewCell"
     let productNameLabel: UILabel = UILabel()
     let productPriceLabel: UILabel = UILabel()
+    let productDiscountedPriceLabel: UILabel = UILabel()
     let productStockLabel: UILabel = UILabel()
     let productThumbnailImageView: UIImageView = UIImageView()
     lazy var stackView: UIStackView = {
         let stackView = UIStackView()
         stackView.addArrangedSubview(productNameLabel)
         stackView.addArrangedSubview(productPriceLabel)
+        stackView.addArrangedSubview(productDiscountedPriceLabel)
         stackView.addArrangedSubview(productStockLabel)
         stackView.alignment = .center
         stackView.axis = .vertical
@@ -60,6 +62,12 @@ class ProductGridViewCell: UICollectionViewCell {
         productPriceLabel.adjustsFontForContentSizeCategory = true
         productPriceLabel.textColor = .gray
         productPriceLabel.minimumScaleFactor = .leastNormalMagnitude
+        
+        productDiscountedPriceLabel.translatesAutoresizingMaskIntoConstraints = false
+        productDiscountedPriceLabel.font = .preferredFont(forTextStyle: .body)
+        productDiscountedPriceLabel.adjustsFontForContentSizeCategory = true
+        productDiscountedPriceLabel.textColor = .gray
+        productDiscountedPriceLabel.minimumScaleFactor = .leastNormalMagnitude
     }
     
     private func setUpConstraints() {

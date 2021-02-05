@@ -63,7 +63,16 @@ extension GridViewController: UICollectionViewDataSource {
         cell.productNameLabel.text = product.title
         cell.productPriceLabel.text = "\(product.currency) \(price.addComma())"
         if let discountedPrice = product.discountedPrice {
-            cell.productPriceLabel.text = "\(product.currency) \(price.addComma()) \(String(describing: discountedPrice))"
+            let attrRedStrikethroughStyle = [
+                NSAttributedString.Key.strikethroughStyle: NSNumber(value: NSUnderlineStyle.single.rawValue)
+            ]
+            
+            let text = NSAttributedString(string: "\(product.currency) \(price.addComma())", attributes: attrRedStrikethroughStyle)
+            
+            cell.productPriceLabel.attributedText = text
+            cell.productPriceLabel.textColor = .red
+            cell.productDiscountedPriceLabel.text = "\(product.currency) \(discountedPrice.addComma())"
+            
         }
         cell.productStockLabel.text = "잔여수량 : \(stock.addComma())"
         if stock == 0 {
