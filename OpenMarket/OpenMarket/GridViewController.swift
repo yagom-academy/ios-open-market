@@ -13,7 +13,8 @@ class GridViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        openMarketAPIManager.requestProductList(of: 7) { (result) in
+
+        openMarketAPIManager.requestProductList(of: 1) { (result) in
             switch result {
             case .success (let product):
                 self.productList.append(contentsOf: product.items)
@@ -86,11 +87,7 @@ extension GridViewController: UICollectionViewDataSource {
                 return
             }
             DispatchQueue.main.async {
-                if let index: IndexPath = collectionView.indexPath(for: cell) {
-                    if index.row == indexPath.row {
-                        cell.productThumbnailImageView.image = UIImage(data: imageData)
-                    }
-                }
+                cell.productThumbnailImageView.image = UIImage(data: imageData)
             }
         }
         return cell

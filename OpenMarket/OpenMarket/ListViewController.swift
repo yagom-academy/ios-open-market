@@ -8,7 +8,7 @@ class ListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        openMarketAPIManager.requestProductList(of: 4) { (result) in
+        openMarketAPIManager.requestProductList(of: 7) { (result) in
             switch result {
             case .success (let product):
                 self.productList.append(contentsOf: product.items)
@@ -62,15 +62,12 @@ extension ListViewController: UITableViewDataSource {
 
         cell.productPriceLabel.text = "\(product.currency) \(price.addComma())"
         if let discountedPrice = product.discountedPrice {
-            let attrRedStrikethroughStyle = [
-                NSAttributedString.Key.strikethroughStyle: NSNumber(value: NSUnderlineStyle.single.rawValue)
-            ]
-            
-            let text = NSAttributedString(string: "\(product.currency) \(price.addComma())", attributes: attrRedStrikethroughStyle)
-            
-            cell.productPriceLabel.attributedText = text
-            cell.productPriceLabel.textColor = .red
-            cell.productDiscountedPriceLabel.text = "\(product.currency) \(discountedPrice.addComma())"
+            let originalPriceText = "\(product.currency) \(price.addComma())"
+            let attributeText = NSMutableAttributedString(string: originalPriceText)
+            let range = originalPriceText.checkRange(of: originalPriceText)
+            attributeText.addAttribute(.strikethroughStyle, value:1,  range: range)
+            cell.productDiscountedPriceLabel.attributedText = attributeText
+            cell.productPriceLabel.text = "\(product.currency) \((price - discountedPrice).addComma())"
         }
         
         cell.accessoryType = .disclosureIndicator
@@ -93,5 +90,11 @@ extension ListViewController: UITableViewDataSource {
             }
         }
         return cell
+    }
+}
+extension String {
+    func checkRange(of value : String) -> NSRange {
+        let string : NSString = NSString(string: self)
+        return string.range(of: value)
     }
 }

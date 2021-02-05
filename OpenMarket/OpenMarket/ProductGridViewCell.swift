@@ -14,6 +14,7 @@ class ProductGridViewCell: UICollectionViewCell {
         stackView.addArrangedSubview(productPriceLabel)
         stackView.addArrangedSubview(productDiscountedPriceLabel)
         stackView.addArrangedSubview(productStockLabel)
+        stackView.distribution = .equalSpacing
         stackView.alignment = .center
         stackView.axis = .vertical
         return stackView
@@ -68,7 +69,7 @@ class ProductGridViewCell: UICollectionViewCell {
         contentView.addSubview(productThumbnailImageView)
         contentView.addSubview(stackView)
         NSLayoutConstraint.activate([
-            productThumbnailImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            productThumbnailImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
             productThumbnailImageView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             productThumbnailImageView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.7),
             productThumbnailImageView.heightAnchor.constraint(equalTo: productThumbnailImageView.widthAnchor, multiplier: 1),

@@ -22,7 +22,6 @@ class ProductListTableViewCell: UITableViewCell {
     
     private func setUpImageView() {
         productThumbnailImageView.translatesAutoresizingMaskIntoConstraints = false
-        productThumbnailImageView.contentMode = .scaleAspectFit
     }
     
     private func setUpLabel() {
@@ -42,17 +41,15 @@ class ProductListTableViewCell: UITableViewCell {
         productStockLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         productStockLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         
+        productDiscountedPriceLabel.translatesAutoresizingMaskIntoConstraints = false
+        productDiscountedPriceLabel.font = .preferredFont(forTextStyle: .body)
+        productDiscountedPriceLabel.adjustsFontForContentSizeCategory = true
+        productDiscountedPriceLabel.textColor = .red
+        
         productPriceLabel.translatesAutoresizingMaskIntoConstraints = false
         productPriceLabel.font = .preferredFont(forTextStyle: .body)
         productPriceLabel.adjustsFontForContentSizeCategory = true
         productPriceLabel.textColor = .gray
-        productPriceLabel.minimumScaleFactor = .leastNormalMagnitude
-        
-        productDiscountedPriceLabel.translatesAutoresizingMaskIntoConstraints = false
-        productDiscountedPriceLabel.font = .preferredFont(forTextStyle: .body)
-        productDiscountedPriceLabel.adjustsFontForContentSizeCategory = true
-        productDiscountedPriceLabel.textColor = .gray
-        productDiscountedPriceLabel.minimumScaleFactor = .leastNormalMagnitude
     }
     
     private func setUpConstraints() {
@@ -66,16 +63,16 @@ class ProductListTableViewCell: UITableViewCell {
             productThumbnailImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
             productThumbnailImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
             productThumbnailImageView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.2),
-            productThumbnailImageView.heightAnchor.constraint(equalTo: productThumbnailImageView.widthAnchor, multiplier: 1),
             productThumbnailImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            
             
             productNameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
             productNameLabel.leadingAnchor.constraint(equalTo: productThumbnailImageView.trailingAnchor, constant: 10),
             
             productPriceLabel.topAnchor.constraint(equalTo: productNameLabel.bottomAnchor, constant: 5),
-            productPriceLabel.leadingAnchor.constraint(equalTo: productNameLabel.leadingAnchor),
+            productPriceLabel.leadingAnchor.constraint(equalTo: productDiscountedPriceLabel.trailingAnchor, constant: 5),
             productPriceLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5),
-            
+        
             productDiscountedPriceLabel.topAnchor.constraint(equalTo: productPriceLabel.topAnchor),
             productDiscountedPriceLabel.leadingAnchor.constraint(equalTo: productPriceLabel.trailingAnchor, constant: 5),
             productDiscountedPriceLabel.bottomAnchor.constraint(equalTo: productPriceLabel.bottomAnchor),
