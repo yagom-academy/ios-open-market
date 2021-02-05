@@ -43,7 +43,7 @@ class ListCell: UITableViewCell {
             stockLabel.textColor = .systemYellow
             return
         }
-        stockLabel.text = "잔여수량 : \(count)"
+        stockLabel.text = "잔여수량 : \(count.convertedToStringWithComma() ?? "0")"
     }
     
     private func setThumbnailImage(_ url: String?) {

@@ -31,15 +31,28 @@ class MainViewController: UIViewController {
                 }
             }
         }
+        if let list = collectionView.subviews.first?.subviews.first as? UICollectionView {
+            requestItems(page: 1) {
+                DispatchQueue.main.async {
+                    list.reloadData()
+                }
+            }
+        }
     }
     
     @IBAction func switchView(_ sender: UISegmentedControl){
         if sender.selectedSegmentIndex == 0 {
             tableView.isHidden = false
+            if let list = tableView.subviews.first?.subviews.first as? UITableView {
+                list.reloadData()
+            }
             collectionView.isHidden = true
         } else {
             tableView.isHidden = true
             collectionView.isHidden = false
+            if let list = collectionView.subviews.first?.subviews.first as? UICollectionView {
+                list.reloadData()
+            }
         }
     }
 }
@@ -47,6 +60,7 @@ class MainViewController: UIViewController {
 extension MainViewController {
     func requestItems(page: Int, _ completionHandler: @escaping () -> Void) {
         guard self.items[page] == nil else {
+            completionHandler()
             return
         }
         OpenMarketAPI.request(.loadItemList(page: page)) { (result: Result<ItemsToGet, Error>) in
