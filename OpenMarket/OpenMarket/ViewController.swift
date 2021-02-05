@@ -182,13 +182,13 @@ extension ViewController: UICollectionViewDataSource {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "listCell", for: indexPath) as? GoodsListCollectionViewCell else {
                 return UICollectionViewCell()
             }
-            cell.configure(goodsList[indexPath.row])
+            cell.configure(goodsList[indexPath.row], isLast: indexPath.row == goodsList.count - 1)
             return cell
         case .grid:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "gridCell", for: indexPath) as? GoodsGridCollectionViewCell else {
                 return UICollectionViewCell()
             }
-            cell.configure(goods: goodsList[indexPath.row])
+            cell.configure(goodsList[indexPath.row], isLast: indexPath.row == goodsList.count - 1)
             return cell
         }
     }

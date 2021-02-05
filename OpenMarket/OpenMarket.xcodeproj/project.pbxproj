@@ -22,6 +22,7 @@
 		288D24EE25C3E27E00790A15 /* NetworkDispatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288D24ED25C3E27E00790A15 /* NetworkDispatcher.swift */; };
 		288D24F225C3E3BA00790A15 /* NetworkTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288D24F125C3E3BA00790A15 /* NetworkTask.swift */; };
 		28E283D225CC5046008FA35A /* NotificationNameExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E283D125CC5046008FA35A /* NotificationNameExtension.swift */; };
+		28E368BD25CCF3F300518F3D /* MarketCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E368BC25CCF3F300518F3D /* MarketCell.swift */; };
 		B427769B25BFA61E0093639B /* Goods.swift in Sources */ = {isa = PBXBuildFile; fileRef = B427769A25BFA61E0093639B /* Goods.swift */; };
 		B42776A325BFA7CE0093639B /* MarketGoods.swift in Sources */ = {isa = PBXBuildFile; fileRef = B42776A225BFA7CE0093639B /* MarketGoods.swift */; };
 		B42776AC25BFA9AA0093639B /* OpenMarketTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B42776AB25BFA9AA0093639B /* OpenMarketTests.swift */; };
@@ -65,6 +66,7 @@
 		288D24ED25C3E27E00790A15 /* NetworkDispatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkDispatcher.swift; sourceTree = "<group>"; };
 		288D24F125C3E3BA00790A15 /* NetworkTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkTask.swift; sourceTree = "<group>"; };
 		28E283D125CC5046008FA35A /* NotificationNameExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationNameExtension.swift; sourceTree = "<group>"; };
+		28E368BC25CCF3F300518F3D /* MarketCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketCell.swift; sourceTree = "<group>"; };
 		B427769A25BFA61E0093639B /* Goods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Goods.swift; sourceTree = "<group>"; };
 		B42776A225BFA7CE0093639B /* MarketGoods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketGoods.swift; sourceTree = "<group>"; };
 		B42776A925BFA9AA0093639B /* OpenMarketTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenMarketTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -121,6 +123,7 @@
 				282F99F625CA98F9005A39CB /* GoodsListCollectionViewCell.xib */,
 				B45DF17E25CAEB9E00FEAACD /* GoodsGridCollectionViewCell.swift */,
 				B45DF17F25CAEB9E00FEAACD /* GoodsGridCollectionViewCell.xib */,
+				28E368BC25CCF3F300518F3D /* MarketCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -361,6 +364,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B427769B25BFA61E0093639B /* Goods.swift in Sources */,
+				28E368BD25CCF3F300518F3D /* MarketCell.swift in Sources */,
 				288D24F225C3E3BA00790A15 /* NetworkTask.swift in Sources */,
 				28081E0325C7A88E00794802 /* UIViewControllerExtension.swift in Sources */,
 				288D24EA25C3E12500790A15 /* Request.swift in Sources */,

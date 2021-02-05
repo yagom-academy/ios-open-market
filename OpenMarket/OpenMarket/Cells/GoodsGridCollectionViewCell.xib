@@ -86,11 +86,11 @@
             <size key="customSize" width="252" height="381"/>
             <connections>
                 <outlet property="cellView" destination="REM-cJ-bH9" id="Ov5-Lh-tzx"/>
-                <outlet property="finalPriceLabel" destination="6da-Gi-ikb" id="yWN-Ye-VeN"/>
-                <outlet property="originalPriceLabel" destination="qJ4-n1-SmC" id="bQB-yp-Qp6"/>
-                <outlet property="productTitleLabel" destination="4Dp-fu-Em8" id="q3M-Qq-LZb"/>
-                <outlet property="stockLabel" destination="Nin-7c-nWU" id="oOP-X3-YV4"/>
-                <outlet property="thumbnailImageView" destination="64a-FH-HfC" id="Frg-FC-o53"/>
+                <outlet property="goodsFinalPriceLabel" destination="6da-Gi-ikb" id="ba7-u3-cir"/>
+                <outlet property="goodsImageView" destination="64a-FH-HfC" id="ceC-bk-gO8"/>
+                <outlet property="goodsNameLabel" destination="4Dp-fu-Em8" id="sOP-Ep-xDh"/>
+                <outlet property="goodsOriginalPriceLabel" destination="qJ4-n1-SmC" id="WDU-Yd-ySX"/>
+                <outlet property="goodsStockLabel" destination="Nin-7c-nWU" id="x4G-wo-2t9"/>
             </connections>
             <point key="canvasLocation" x="255.07246376811597" y="200.55803571428569"/>
         </collectionViewCell>

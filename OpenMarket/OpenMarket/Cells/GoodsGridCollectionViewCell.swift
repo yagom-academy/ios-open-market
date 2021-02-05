@@ -7,65 +7,12 @@
 
 import UIKit
 
-class GoodsGridCollectionViewCell: UICollectionViewCell {
+class GoodsGridCollectionViewCell: MarketCell {
     @IBOutlet weak var cellView: UIView!
-    @IBOutlet weak var thumbnailImageView: UIImageView!
-    @IBOutlet weak var productTitleLabel: UILabel!
-    @IBOutlet weak var originalPriceLabel: UILabel!
-    @IBOutlet weak var finalPriceLabel: UILabel!
-    @IBOutlet weak var stockLabel: UILabel!
     
-    override func prepareForReuse() {
-        thumbnailImageView.image = nil
-        productTitleLabel.text = nil
-        originalPriceLabel.text = nil
-        finalPriceLabel.text = nil
-        stockLabel.text = nil
-    }
-    
-    //MARK: - Configure Cell with Goods
-    public func configure(goods: Goods) {
+    override func configure(_ goods: Goods, isLast: Bool) {
+        super.configure(goods, isLast: isLast)
         setupCellView()
-        productTitleLabel.text = goods.title
-        if let thumbnails = goods.thumbnails.first {
-            thumbnailImageView.setWebImage(urlString: thumbnails)
-        }
-        if let discountedPrice = goods.discountedPrice {
-            setGoodsDiscountPriceLabel(currency: goods.currency,
-                                     price: goods.price,
-                                     discountedPrice: discountedPrice)
-        } else {
-            setGoodsPriceLabel(currency: goods.currency, price: goods.price)
-        }
-        
-        if goods.stock == 0 {
-            setSoldOutLabel()
-        } else {
-            setStockLabel(with: goods.stock)
-        }
-    }
-    
-    // MARK: - setting Price UI
-    private func setGoodsDiscountPriceLabel(currency: String, price: UInt, discountedPrice: UInt) {
-        originalPriceLabel.isHidden = false
-        originalPriceLabel.attributedText = PriceFormat.makePriceStringWithStrike(currency: currency, price: discountedPrice)
-        finalPriceLabel.text = PriceFormat.makePriceString(currency: currency, price: discountedPrice)
-    }
-    
-    private func setGoodsPriceLabel(currency: String, price: UInt) {
-        originalPriceLabel.isHidden = true
-        finalPriceLabel.text = PriceFormat.makePriceString(currency: currency, price: price)
-    }
-    
-    // MARK: - setting stock UI
-    private func setSoldOutLabel() {
-        stockLabel.textColor = .systemYellow
-        stockLabel.text = StockFormat.soldOut
-    }
-    
-    private func setStockLabel(with stock: UInt) {
-        stockLabel.textColor = .systemGray2
-        stockLabel.text = String(format: StockFormat.quantity, stock)
     }
     
     //MARK: - setting entire cell's view

@@ -87,7 +87,7 @@
                                     </view>
                                 </subviews>
                             </stackView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eq3-by-hBw" userLabel="LineView">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eq3-by-hBw" userLabel="BarView">
                                 <rect key="frame" x="20" y="80" width="480" height="1"/>
                                 <color key="backgroundColor" systemColor="opaqueSeparatorColor"/>
                                 <constraints>
@@ -115,6 +115,7 @@
                 <constraint firstItem="bBo-St-cFB" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="tBz-sz-mM5"/>
             </constraints>
             <connections>
+                <outlet property="barView" destination="eq3-by-hBw" id="anu-O8-eXV"/>
                 <outlet property="goodsFinalPriceLabel" destination="pFn-pU-al0" id="bfC-3h-PfH"/>
                 <outlet property="goodsImageView" destination="z7C-CB-FpQ" id="uLe-b4-k4y"/>
                 <outlet property="goodsNameLabel" destination="nMq-F9-cJg" id="nue-uI-XsX"/>
