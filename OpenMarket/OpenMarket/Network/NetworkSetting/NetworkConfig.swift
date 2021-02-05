@@ -2,10 +2,22 @@ import Foundation
 
 struct NetworkConfig {
     static let openMarketFixedURL = "https://camp-open-market.herokuapp.com"
-
-    enum headerType {
-        static let json = "application/json"
-        static let multipartForm = "multipart/form-data; boundary=%@"
+    
+    enum OpenMarketAPITypes {
+        case fetchGoodsList
+        case registerGoods
+        case fetchGoods
+        case editGoods
+        case deleteGoods
+        
+        var urlPath: String {
+            switch self {
+            case .fetchGoodsList:
+                return "/items/"
+            default:
+                return "/item/"
+            }
+        }
     }
     
     static func makeURLPath(api: OpenMarketAPITypes, with pathParameter: UInt?) -> String {

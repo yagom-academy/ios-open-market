@@ -30,7 +30,7 @@ struct GoodsNetworkModel {
             self.path.append(NetworkConfig.makeURLPath(api: .registerGoods, with: nil))
             self.method = .post
             self.boundary = UUID().uuidString
-            self.headers = ["Content-Type" : String(format: NetworkConfig.headerType.multipartForm, self.boundary ?? "")]
+            self.headers = ["Content-Type" : String(format: HeaderType.multipartForm, self.boundary ?? "")]
             self.bodyParams = GoodsForm.makeBodyData(with: registerParams, boundary: self.boundary ?? "")
         }
         
@@ -39,7 +39,7 @@ struct GoodsNetworkModel {
             self.path.append(NetworkConfig.makeURLPath(api: .editGoods, with: editID))
             self.method = .patch
             self.boundary = UUID().uuidString
-            self.headers = ["Content-Type" : String(format: NetworkConfig.headerType.multipartForm, self.boundary ?? "")]
+            self.headers = ["Content-Type" : String(format: HeaderType.multipartForm, self.boundary ?? "")]
             self.bodyParams = GoodsForm.makeBodyData(with: editParams, boundary: self.boundary ?? "")
         }
         
@@ -47,7 +47,7 @@ struct GoodsNetworkModel {
              deleteID: UInt) {
             self.path.append(NetworkConfig.makeURLPath(api: .deleteGoods, with: deleteID))
             self.method = .delete
-            self.headers = ["Content-Type" : NetworkConfig.headerType.json]
+            self.headers = ["Content-Type" : HeaderType.json]
             self.bodyParams = try? JSONSerialization.data(withJSONObject: deleteParams)
         }
     }

@@ -14,6 +14,11 @@ enum HTTPMethod: String {
     case delete = "DELETE"
 }
 
+enum HeaderType {
+    static let json = "application/json"
+    static let multipartForm = "multipart/form-data; boundary=%@"
+}
+
 protocol Request {
     var path: String { get }
     var method: HTTPMethod { get }
