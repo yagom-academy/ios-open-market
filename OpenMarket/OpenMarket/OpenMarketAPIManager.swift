@@ -84,10 +84,10 @@ extension OpenMarketAPIManager {
                 }
                 
                 switch feature {
-                case .listSearch:
+                case .listSearch, .productSearch:
                     do {
-                        let productList = try JSONDecoder().decode(T.self, from: receivedData)
-                        completion(.success(productList))
+                        let convertedData = try JSONDecoder().decode(T.self, from: receivedData)
+                        completion(.success(convertedData))
                     } catch {
                         completion(.failure(.decodingFailure))
                     }
@@ -95,13 +95,6 @@ extension OpenMarketAPIManager {
                     completion(.success(receivedData as! T))
                 case .deleteProduct(let id):
                     break
-                case .productSearch:
-                    do {
-                        let product = try JSONDecoder().decode(T.self, from: receivedData)
-                        completion(.success(product))
-                    } catch {
-                        completion(.failure(.decodingFailure))
-                    }
                 case .productModification(let id):
                     break
                 }
