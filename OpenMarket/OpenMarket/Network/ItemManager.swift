@@ -91,11 +91,7 @@ struct ItemManager {
             
             guard let httpResponse = response as? HTTPURLResponse,
                   (200...299).contains(httpResponse.statusCode) else {
-                return completion(.failure(.failDeleteData))
-            }
-            
-            guard let mimeType = httpResponse.mimeType, mimeType == "application/json" else {
-                return completion(.failure(.failMatchMimeType))
+                return completion(.failure(.failFetchData))
             }
             
             guard let data = data else {
@@ -151,5 +147,15 @@ struct ItemManager {
         body.append("\r\n")
         
         return body
+    }
+    
+    func loadItemImage(with url: String, completion: @escaping resultHandler) {
+        guard let imageURL = URL(string: url) else {
+            return completion(.failure(.failSetUpURL))
+        }
+        guard let request = makeURLRequestWithoutRequestBody(method: .get, requestURL: imageURL) else {
+            return completion(.failure(.failMakeURLRequest))
+        }
+        communicateToServerWithDataTask(with: request, completion: completion)
     }
 }
