@@ -18,8 +18,21 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpNavigationBar()
+        setUpNotification()
         setUpDelegateAndDataSource()
         loadItemList(page: currentPage)
+    }
+    
+    //MARK: SetUpNotification
+    private func setUpNotification() {
+        NotificationCenter.default.addObserver(self, selector: #selector(handleLoadImageError), name: Notification.Name("failFetchImage"), object: nil)
+    }
+    
+    @objc func handleLoadImageError(_ notification: Notification) {
+        guard let error = notification.object as? OpenMarketError else {
+            return
+        }
+        self.errorHandling(error: error)
     }
     
     func loadItemList(page: UInt) {

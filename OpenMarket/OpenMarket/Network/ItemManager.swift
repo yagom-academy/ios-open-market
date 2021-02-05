@@ -94,7 +94,7 @@ struct ItemManager {
             
             guard let httpResponse = response as? HTTPURLResponse,
                   (200...299).contains(httpResponse.statusCode) else {
-                return completion(.failure(.failDeleteData))
+                return completion(.failure(.failFetchData))
             }
             
             guard let data = data else {

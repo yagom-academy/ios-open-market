@@ -19,8 +19,7 @@ extension UIImageView {
                     self.image = image
                 }
             case .failure(let error):
-                print(error)
-                //NotificationCenter.default.post(name: Notification.Name.failGetImage, object: error)
+                NotificationCenter.default.post(name: Notification.Name("failFetchImage"), object: error)
             }
         }
     }
