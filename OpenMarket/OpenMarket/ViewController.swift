@@ -32,8 +32,8 @@ class ViewController: UIViewController {
                 self.itemList = try? JSONDecoder().decode(ItemList.self, from: data)
                 guard let items = self.itemList?.items, items.count > 0 else {
                     self.hasNextPage = false
-                    if self.itemCollectionView.isHidden {
-                        DispatchQueue.main.async {
+                    DispatchQueue.main.async {
+                        if self.itemCollectionView.isHidden {
                             self.itemTableView.reloadData()
                         }
                     }
