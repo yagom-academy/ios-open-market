@@ -10,45 +10,6 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--LoadView Controller-->
-        <scene sceneID="tne-QT-ifu">
-            <objects>
-                <viewController id="BYZ-38-t0r" userLabel="LoadView Controller" customClass="LoadViewController" customModule="OpenMarket" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="IMG_0299" translatesAutoresizingMaskIntoConstraints="NO" id="PYN-T3-WbJ">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
-                            </imageView>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="8Yn-b5-GDl" userLabel="spinner">
-                                <rect key="frame" x="137.66666666666666" y="508" width="100" height="100"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="100" id="2c4-4z-V2s"/>
-                                    <constraint firstAttribute="height" constant="100" id="95X-Ga-dAO"/>
-                                </constraints>
-                                <color key="color" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            </activityIndicatorView>
-                        </subviews>
-                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <constraints>
-                            <constraint firstAttribute="bottom" secondItem="PYN-T3-WbJ" secondAttribute="bottom" id="7S4-An-U8u"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="8Yn-b5-GDl" secondAttribute="bottom" constant="170" id="EGa-Ky-PMe"/>
-                            <constraint firstItem="PYN-T3-WbJ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="JJx-e0-2tp"/>
-                            <constraint firstItem="PYN-T3-WbJ" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="OUA-Yu-gEu"/>
-                            <constraint firstItem="PYN-T3-WbJ" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="WWZ-1u-4c9"/>
-                            <constraint firstItem="8Yn-b5-GDl" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="Zp5-SN-pT8"/>
-                        </constraints>
-                    </view>
-                    <connections>
-                        <outlet property="spinner" destination="8Yn-b5-GDl" id="doz-0i-18d"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="250" y="83"/>
-        </scene>
         <!--MainView Controller-->
         <scene sceneID="dhx-y4-Ixt">
             <objects>
@@ -69,6 +30,10 @@
                                     <segue destination="etw-DH-dUb" kind="embed" identifier="" id="U4R-27-zls"/>
                                 </connections>
                             </containerView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" hidesWhenStopped="YES" animating="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="ztc-cS-sXW">
+                                <rect key="frame" x="177" y="440" width="20" height="20"/>
+                                <color key="color" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </activityIndicatorView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="yao-Vl-eER"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -76,10 +41,12 @@
                             <constraint firstItem="Xxq-lg-rWK" firstAttribute="leading" secondItem="yao-Vl-eER" secondAttribute="leading" id="1OO-Lp-vJl"/>
                             <constraint firstItem="yV1-ea-tBq" firstAttribute="leading" secondItem="yao-Vl-eER" secondAttribute="leading" id="TMs-mY-wJq"/>
                             <constraint firstItem="yV1-ea-tBq" firstAttribute="top" secondItem="yao-Vl-eER" secondAttribute="top" id="Uvc-EI-Js9"/>
+                            <constraint firstItem="ztc-cS-sXW" firstAttribute="centerY" secondItem="yao-Vl-eER" secondAttribute="centerY" id="WEK-ET-z6Q"/>
                             <constraint firstItem="Xxq-lg-rWK" firstAttribute="bottom" secondItem="yao-Vl-eER" secondAttribute="bottom" constant="34" id="b2b-56-x0I"/>
                             <constraint firstItem="Xxq-lg-rWK" firstAttribute="top" secondItem="yao-Vl-eER" secondAttribute="top" id="g21-46-oXV"/>
                             <constraint firstItem="yV1-ea-tBq" firstAttribute="bottom" secondItem="yao-Vl-eER" secondAttribute="bottom" constant="34" id="hqp-kM-fIZ"/>
                             <constraint firstItem="yao-Vl-eER" firstAttribute="trailing" secondItem="Xxq-lg-rWK" secondAttribute="trailing" id="kzE-QF-uTh"/>
+                            <constraint firstItem="ztc-cS-sXW" firstAttribute="centerX" secondItem="yao-Vl-eER" secondAttribute="centerX" id="uo4-Eu-uVa"/>
                             <constraint firstItem="yao-Vl-eER" firstAttribute="trailing" secondItem="yV1-ea-tBq" secondAttribute="trailing" id="yrG-SS-Wlf"/>
                         </constraints>
                     </view>
@@ -101,12 +68,13 @@
                     </navigationItem>
                     <connections>
                         <outlet property="collectionView" destination="Xxq-lg-rWK" id="ILw-oG-mIy"/>
+                        <outlet property="spinner" destination="ztc-cS-sXW" id="IEl-kH-Ehw"/>
                         <outlet property="tableView" destination="yV1-ea-tBq" id="gXg-co-kBd"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yJZ-oE-xkZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1981.1594202898552" y="83.705357142857139"/>
+            <point key="canvasLocation" x="1980" y="83.497536945812811"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="hJH-jK-GKI">
@@ -331,7 +299,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="IMG_0299" width="1239" height="2394"/>
         <image name="chevron.right" catalog="system" width="96" height="128"/>
         <systemColor name="linkColor">
             <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
