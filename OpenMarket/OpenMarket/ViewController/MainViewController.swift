@@ -11,7 +11,9 @@ class MainViewController: UIViewController {
 
     @IBOutlet weak var tableView: UIView!
     @IBOutlet weak var collectionView: UIView!
-    var items: [Int: [Item]] = [:]
+    @IBOutlet weak var spinner: UIActivityIndicatorView!
+    typealias Page = Int
+    var items: [Page: [Item]] = [:]
     var itemsCount: Int {
         return items.reduce(0) { currentCount, next in
             currentCount + next.value.count
@@ -20,10 +22,12 @@ class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         if let list = tableView.subviews.first?.subviews.first as? UITableView {
             requestItems(page: 1) {
                 DispatchQueue.main.async {
                     list.reloadData() // TODO: 코드 Depth 줄이기.
+                    self.spinner.stopAnimating()
                 }
             }
         }
@@ -65,3 +69,4 @@ extension MainViewController {
         return nil
     }
 }
+
