@@ -28,6 +28,7 @@ class ViewController: UIViewController {
     //MARK: SetUpLoadingIndicatorView
     private func setUpLoadingIndicatorView() {
         self.view.bringSubviewToFront(loadingIndicatorView)
+        loadingIndicatorView.center = CGPoint(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 2)
         loadingIndicatorView.startAnimating()
     }
     
