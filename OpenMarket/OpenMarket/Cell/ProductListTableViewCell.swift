@@ -69,7 +69,7 @@ class ProductListTableViewCell: UITableViewCell {
             productNameLabel.leadingAnchor.constraint(equalTo: productThumbnailImageView.trailingAnchor, constant: 10),
             
             productPriceLabel.topAnchor.constraint(equalTo: productNameLabel.bottomAnchor, constant: 5),
-            productPriceLabel.leadingAnchor.constraint(equalTo: productDiscountedPriceLabel.trailingAnchor, constant: 5),
+            productPriceLabel.leadingAnchor.constraint(equalTo: productThumbnailImageView.trailingAnchor, constant: 5),
             productPriceLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5),
         
             productDiscountedPriceLabel.topAnchor.constraint(equalTo: productPriceLabel.topAnchor),
