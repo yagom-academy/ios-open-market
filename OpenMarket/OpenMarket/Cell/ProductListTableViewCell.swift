@@ -44,12 +44,12 @@ class ProductListTableViewCell: UITableViewCell {
         productDiscountedPriceLabel.translatesAutoresizingMaskIntoConstraints = false
         productDiscountedPriceLabel.font = .preferredFont(forTextStyle: .body)
         productDiscountedPriceLabel.adjustsFontForContentSizeCategory = true
-        productDiscountedPriceLabel.textColor = .red
+        productDiscountedPriceLabel.textColor = .gray
         
         productPriceLabel.translatesAutoresizingMaskIntoConstraints = false
         productPriceLabel.font = .preferredFont(forTextStyle: .body)
         productPriceLabel.adjustsFontForContentSizeCategory = true
-        productPriceLabel.textColor = .gray
+        productPriceLabel.textColor = .red
     }
     
     private func setUpConstraints() {

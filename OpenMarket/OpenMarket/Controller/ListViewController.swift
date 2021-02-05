@@ -54,15 +54,15 @@ extension ListViewController: UITableViewDataSource {
         }
         cell.productNameLabel.text = product.title
         cell.productStockLabel.text = "잔여수량 : \(stock.addComma())"
-        cell.productPriceLabel.text = "\(product.currency) \(price.addComma())"
+        cell.productDiscountedPriceLabel.text = "\(product.currency) \(price.addComma())"
         
         if let discountedPrice = product.discountedPrice {
             let originalPriceText = "\(product.currency) \(price.addComma())"
             let attributeText = NSMutableAttributedString(string: originalPriceText)
             let range = originalPriceText.checkRange(of: originalPriceText)
             attributeText.addAttribute(.strikethroughStyle, value:1,  range: range)
-            cell.productDiscountedPriceLabel.attributedText = attributeText
-            cell.productPriceLabel.text = "\(product.currency) \((price - discountedPrice).addComma())"
+            cell.productPriceLabel.attributedText = attributeText
+            cell.productDiscountedPriceLabel.text = "\(product.currency) \((price - discountedPrice).addComma())"
         }
         
         cell.accessoryType = .disclosureIndicator
