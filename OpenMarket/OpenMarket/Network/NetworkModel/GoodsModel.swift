@@ -20,9 +20,9 @@ struct GoodsModel {
         var bodyParams: Data?
         var boundary: String?
         
-        init(fetchID: UInt) {
-            self.id = fetchID
-            self.path.append(NetworkConfig.makeURLPath(api: .fetchGoods, with: fetchID))
+        init(idToFetch: UInt) {
+            self.id = idToFetch
+            self.path.append(NetworkConfig.makeURLPath(api: .fetchGoods, with: idToFetch))
             self.method = .get
         }
         
@@ -53,7 +53,7 @@ struct GoodsModel {
     }
     
     static func fetchGoods(id: UInt, completion: @escaping(Result<Goods, Error>) -> Void) {
-        task.perform(request: GoodsModelRequest(fetchID: id), dataType: Goods.self) { result in
+        task.perform(request: GoodsModelRequest(idToFetch: id), dataType: Goods.self) { result in
             switch result {
             case .success(let decodedData):
                 completion(.success(decodedData))
