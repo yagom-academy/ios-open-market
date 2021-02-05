@@ -26,6 +26,11 @@ class ViewController: UIViewController {
         }
     }
     private lazy var collectionViewLayouts: [UICollectionViewFlowLayout] = []
+    private lazy var loadingIndicator: UIActivityIndicatorView = {
+        let view = UIActivityIndicatorView()
+        view.style = .large
+        return view
+    }()
     
     // MARK: - data
     private var isPagingLoading = false
@@ -36,6 +41,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpNotification()
+        setUpLoadingIndicator()
         appendMarketGoodsList(with: page)
         setUpCollectionViewLayouts()
         setUpCollection()
@@ -54,6 +60,12 @@ class ViewController: UIViewController {
         self.showErrorAlert(with: error, okHandler: nil)
     }
     
+    private func setUpLoadingIndicator() {
+        self.view.addSubview(loadingIndicator)
+        loadingIndicator.center = CGPoint(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 2)
+        loadingIndicator.startAnimating()
+    }
+    
     // MARK: - add data
     private func appendMarketGoodsList(with page: UInt) {
         MarketGoodsListModel.fetchMarketGoodsList(page: page) { result in
@@ -65,6 +77,11 @@ class ViewController: UIViewController {
             case .success(let data):
                 if data.list.isEmpty {
                     self.hasNextPage = false
+                }
+                if self.goodsList == nil {
+                    DispatchQueue.main.async {
+                        self.loadingIndicator.stopAnimating()
+                    }
                 }
                 self.addGoodsListData(data.list)
                 self.isPagingLoading = false
@@ -85,7 +102,6 @@ class ViewController: UIViewController {
     private func setUpCollection() {
         collectionView.dataSource = self
         collectionView.delegate = self
-        collectionView.register(IndicatorCell.self, forCellWithReuseIdentifier: "loading")
         collectionView.register(UINib(nibName: String(describing: GoodsGridCollectionViewCell.self),
                                       bundle: nil), forCellWithReuseIdentifier: "gridCell")
         collectionView.register(UINib(nibName: "GoodsListCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "listCell")
@@ -153,21 +169,13 @@ class ViewController: UIViewController {
 
 extension ViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        guard let goodsList = self.goodsList else {
-            return 1
-        }
-        
-        return goodsList.count
+        return goodsList?.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let layoutType = SegmentValueTypes(rawValue: self.segment.selectedSegmentIndex) else {
+        guard let layoutType = SegmentValueTypes(rawValue: self.segment.selectedSegmentIndex),
+              let goodsList = self.goodsList else {
             return UICollectionViewCell()
-        }
-        guard let goodsList = self.goodsList else {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "loading", for: indexPath) as! IndicatorCell
-            cell.indicator.startAnimating()
-            return cell
         }
         
         switch layoutType {
