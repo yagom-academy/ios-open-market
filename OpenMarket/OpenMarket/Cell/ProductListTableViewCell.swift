@@ -87,14 +87,3 @@ class ProductListTableViewCell: UITableViewCell {
         productStockLabel.textColor = .gray
     }
 }
-
-extension Int {
-    func addComma() -> String {
-        let numberFormatter = NumberFormatter()
-        numberFormatter.numberStyle = .decimal
-        guard let changedUnit = numberFormatter.string(from: NSNumber(value: self)) else {
-            return ""
-        }
-        return changedUnit
-    }
-}
