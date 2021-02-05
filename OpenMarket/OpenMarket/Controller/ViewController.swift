@@ -54,8 +54,7 @@ class ViewController: UIViewController {
         if segment.selectedSegmentIndex == 0 {
             listView.view.isHidden = false
             gridView.view.isHidden = true
-        }
-        else {
+        } else {
             gridView.view.isHidden = false
             listView.view.isHidden = true
         }

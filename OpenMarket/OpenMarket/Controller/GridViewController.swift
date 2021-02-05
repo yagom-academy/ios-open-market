@@ -80,8 +80,6 @@ extension GridViewController: UICollectionViewDataSource {
             cell.productStockLabel.text = "품절"
             cell.productStockLabel.textColor = .systemOrange
         }
-        
-        
         DispatchQueue.global().async {
             guard let imageURLText = product.thumbnails?.first, let imageURL = URL(string: imageURLText), let imageData: Data = try? Data(contentsOf: imageURL)  else {
                 return
@@ -105,9 +103,3 @@ extension GridViewController: UICollectionViewDelegateFlowLayout {
         return CGSize(width: width, height: height)
     }
 }
-
-extension GridViewController: UICollectionViewDelegate {
-    
-}
-
-

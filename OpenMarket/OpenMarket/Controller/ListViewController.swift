@@ -24,7 +24,6 @@ class ListViewController: UIViewController {
     
     private func setUpTableView() {
         tableView.dataSource = self
-        tableView.delegate = self
         self.tableView.register(ProductListTableViewCell.self, forCellReuseIdentifier: ProductListTableViewCell.identifier)
         
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -38,10 +37,6 @@ class ListViewController: UIViewController {
             tableView.bottomAnchor.constraint(equalTo: safeLayoutGuide.bottomAnchor)
         ])
     }
-}
-
-extension ListViewController: UITableViewDelegate {
-    
 }
 
 extension ListViewController: UITableViewDataSource {
@@ -59,8 +54,8 @@ extension ListViewController: UITableViewDataSource {
         }
         cell.productNameLabel.text = product.title
         cell.productStockLabel.text = "잔여수량 : \(stock.addComma())"
-
         cell.productPriceLabel.text = "\(product.currency) \(price.addComma())"
+        
         if let discountedPrice = product.discountedPrice {
             let originalPriceText = "\(product.currency) \(price.addComma())"
             let attributeText = NSMutableAttributedString(string: originalPriceText)
