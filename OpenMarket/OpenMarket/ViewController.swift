@@ -72,7 +72,10 @@ class ViewController: UIViewController {
     }
     
     @objc func moveToPostViewController() {
-        
+        guard let postViewController = self.storyboard?.instantiateViewController(identifier: "PostViewController") else {
+            return
+        }
+        self.navigationController?.pushViewController(postViewController, animated: true)
     }
     
     //MARK: SetUpNotification
