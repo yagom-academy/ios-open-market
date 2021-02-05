@@ -88,15 +88,11 @@ class OpenMarketTests: XCTestCase {
     }
     
     func testPostItem1() {
-        postProdcut()
+        postProduct()
     }
     
     func testPostItem2() {
-        postProdcut()
-    }
-    
-    func testPatchItem() {
-        patchProduct(158)
+        postProduct()
     }
 }
 
@@ -104,7 +100,7 @@ extension OpenMarketTests {
     func loadPageFromMock(_ number: UInt, success: Bool) -> ProductList? {
         let expectation = XCTestExpectation(description: "pageLoad")
         var productList: ProductList?
-        let networkHandler = NetworkHandler(session: MockURLSession(makeRequestSuccess: success, apiRequestType: .loadPage(page: number)))
+        let networkHandler = NetworkHandler(session: MockURLSession(isSuccess: success, apiRequestType: .loadPage(page: number)))
         
         OpenMarketJSONDecoder<ProductList>.decodeData(about: .loadPage(page: number), networkHandler: networkHandler) { result in
             switch result {
@@ -122,13 +118,13 @@ extension OpenMarketTests {
     
     func loadProductFromMock(_ number: UInt, success: Bool) -> Product? {
         let expectation = XCTestExpectation(description: "pageLoad")
-        var Product: Product?
-        let networkHandler = NetworkHandler(session: MockURLSession(makeRequestSuccess: success, apiRequestType: .loadProduct(id: number)))
+        var product: Product?
+        let networkHandler = NetworkHandler(session: MockURLSession(isSuccess: success, apiRequestType: .loadProduct(id: number)))
         
         OpenMarketJSONDecoder<Product>.decodeData(about: .loadProduct(id: number), networkHandler: networkHandler) { result in
             switch result {
             case .success(let data):
-                Product = data
+                product = data
             case .failure(let error):
                 print("error: \(error.localizedDescription)")
             }
@@ -136,7 +132,7 @@ extension OpenMarketTests {
         }
         
         wait(for: [expectation], timeout: 5.0)
-        return Product
+        return product
     }
     
     func loadPage(_ number: UInt) -> ProductList? {
@@ -193,10 +189,10 @@ extension OpenMarketTests {
         wait(for: [expectation], timeout: 5.0)
     }
     
-    func postProdcut() {
+    func postProduct() {
         let expectation = XCTestExpectation(description: "itemPatch")
         
-        let product = Product(forPostPassword: "12345", title: "또 올려봅니다.", descriptions: "password 12345", price: 20000, currency: "KRW", stock: 1, discountedPrice: nil, images: [""])
+        let product = Product(forPostPassword: "12345", title: "Mac Mini", descriptions: "password 12345", price: 20000, currency: "KRW", stock: 1, discountedPrice: nil, images: [""])
         
         Uploader.uploadData(by: .post, product: product, apiRequestType: .postProduct) { result in
             switch result {
