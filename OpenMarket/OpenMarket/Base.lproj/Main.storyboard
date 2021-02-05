@@ -47,15 +47,21 @@
                     <navigationItem key="navigationItem" id="m6N-vg-DsI">
                         <nil key="title"/>
                         <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="RBX-bO-HYX">
-                            <rect key="frame" x="141.5" y="6" width="131" height="33"/>
+                            <rect key="frame" x="141.5" y="5.5" width="131" height="33"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <segments>
                                 <segment title="List"/>
                                 <segment title="Grid"/>
                             </segments>
+                            <connections>
+                                <action selector="selectionDidChange:" destination="BYZ-38-t0r" eventType="valueChanged" id="IfW-4E-RTf"/>
+                            </connections>
                         </segmentedControl>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="Awa-Lo-G8d"/>
                     </navigationItem>
+                    <connections>
+                        <outlet property="segmentedControl" destination="RBX-bO-HYX" id="QSn-2q-iP6"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
@@ -130,6 +136,13 @@
                                                 <constraint firstAttribute="bottom" secondItem="B5f-RA-zEI" secondAttribute="bottom" id="w6B-jD-VGB"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="itemDiscountedPriceLabel" destination="JXp-wE-bD2" id="yez-1Z-Kmq"/>
+                                            <outlet property="itemImageView" destination="B5f-RA-zEI" id="dHC-Zc-KPu"/>
+                                            <outlet property="itemPriceLabel" destination="LTg-N7-X5N" id="E5k-1D-ymM"/>
+                                            <outlet property="itemStockLabel" destination="Vcj-gi-klH" id="vsh-b7-sMV"/>
+                                            <outlet property="itemTitleLabel" destination="uCG-xd-hk0" id="lxI-8P-oKj"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>
@@ -138,6 +151,7 @@
                                 </connections>
                             </tableView>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="jne-uz-FtV"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="YuM-jL-Tlh" secondAttribute="trailing" id="5WN-AU-7dM"/>
@@ -146,6 +160,9 @@
                             <constraint firstAttribute="bottom" secondItem="YuM-jL-Tlh" secondAttribute="bottom" id="xCF-RD-Mx7"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="tableView" destination="YuM-jL-Tlh" id="OEw-k9-YC0"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="og2-tb-rec" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -234,6 +251,7 @@
                                 </connections>
                             </collectionView>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="ZTn-P6-EnG"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="GuL-oj-klU" secondAttribute="trailing" id="LtV-Fa-8ac"/>
@@ -242,6 +260,9 @@
                             <constraint firstAttribute="bottom" secondItem="GuL-oj-klU" secondAttribute="bottom" id="e8t-jt-qKS"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="collectionView" destination="GuL-oj-klU" id="tp2-YS-ZZg"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HIa-7a-79c" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

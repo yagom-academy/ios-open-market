@@ -8,8 +8,10 @@
 import Foundation
 
 struct NetworkLayer {
+    static let shared = NetworkLayer()
     private let httpRequest = OpenMarketHTTPRequest()
     
+    private init() {}
     func requestItemList(page: Int, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) {
         guard let urlRequest = httpRequest.buildItemList(page) else {
             return

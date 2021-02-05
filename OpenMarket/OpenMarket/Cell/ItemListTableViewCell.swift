@@ -8,16 +8,18 @@
 import UIKit
 
 class ItemListTableViewCell: UITableViewCell {
-
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
+    @IBOutlet weak var itemImageView: UIImageView!
+    @IBOutlet weak var itemTitleLabel: UILabel!
+    @IBOutlet weak var itemStockLabel: UILabel!
+    @IBOutlet weak var itemPriceLabel: UILabel!
+    @IBOutlet weak var itemDiscountedPriceLabel: UILabel!
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        itemImageView.image = nil
+        itemTitleLabel.text = nil
+        itemStockLabel.text = nil
+        itemPriceLabel.text = nil
+        itemDiscountedPriceLabel.text = nil
     }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
-
 }
