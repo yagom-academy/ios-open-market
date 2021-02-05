@@ -13,6 +13,7 @@ class ItemListTableViewCell: UITableViewCell {
     @IBOutlet weak var itemStockLabel: UILabel!
     @IBOutlet weak var itemPriceLabel: UILabel!
     @IBOutlet weak var itemDiscountedPriceLabel: UILabel!
+    private var model: ItemViewModel?
     
     override func prepareForReuse() {
         super.prepareForReuse()
@@ -21,5 +22,29 @@ class ItemListTableViewCell: UITableViewCell {
         itemStockLabel.text = nil
         itemPriceLabel.text = nil
         itemDiscountedPriceLabel.text = nil
+    }
+    
+    func setModel(_ model: ItemViewModel) {
+        self.model = model
+        updateUI()
+    }
+    
+    func updateUI() {
+        guard let item = model else { return }
+        item.getImage { [weak self] image in
+            self?.itemImageView.image = image
+        }
+        itemTitleLabel.text = item.title
+        itemStockLabel.text = item.stock
+        itemStockLabel.textColor = item.stockColor
+        
+        if let discountedPrice = item.discountedPrice {
+            itemPriceLabel.isHidden = false
+            itemPriceLabel.attributedText = NSAttributedString(string: item.price, attributes: [.strikethroughStyle: 1])
+            itemDiscountedPriceLabel.text = discountedPrice
+        } else {
+            itemPriceLabel.isHidden = true
+            itemDiscountedPriceLabel.text = item.price
+        }
     }
 }

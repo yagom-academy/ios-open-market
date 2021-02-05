@@ -5,7 +5,7 @@
 //  Created by Zero DotOne on 2021/01/27.
 //
 
-import Foundation
+import UIKit
 
 struct NetworkLayer {
     static let shared = NetworkLayer()

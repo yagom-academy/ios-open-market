@@ -21,7 +21,7 @@ class MainViewController: UIViewController {
         NetworkLayer.shared.requestItemList(page: page) { result in
             switch result {
             case .success(let itemList):
-                self.itemList.append(itemList)
+                ItemListModel.shared.data.append(contentsOf: itemList.items)
                 DispatchQueue.main.async {
                     self.listViewController.tableView.reloadData()
                 }

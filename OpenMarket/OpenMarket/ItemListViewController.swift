@@ -6,11 +6,15 @@ class ItemListViewController: UIViewController {
 
 extension ItemListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        0
+        ItemListModel.shared.data.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = tableView.dequeueReusableCell(withIdentifier: "ItemListTableViewCell") as? ItemListTableViewCell {
+            
+            let model = ItemListModel.shared.data[indexPath.row]
+            cell.setModel(ItemViewModel(model))
+            
             return cell
         } else {
             return .init()
