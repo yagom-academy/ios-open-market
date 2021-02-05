@@ -15,6 +15,8 @@ class MarketCell: UICollectionViewCell {
     @IBOutlet weak var goodsStockLabel: UILabel!
     
     override func prepareForReuse() {
+        super.prepareForReuse()
+        
         goodsImageView.image = nil
         goodsNameLabel.text = nil
         goodsOriginalPriceLabel.text = nil
