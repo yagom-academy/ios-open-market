@@ -8,8 +8,8 @@ import UIKit
 
 class ViewController: UIViewController {
 
-    let listView = ListViewController()
-    let gridView = GridViewController()
+    let listViewController = ListViewController()
+    let gridViewController = GridViewController()
     let listPresentingStyleSelection = ["LIST","GRID"]
     lazy var listPresentingStyleSegmentControl: UISegmentedControl = {
         let control = UISegmentedControl(items: listPresentingStyleSelection)
@@ -32,7 +32,7 @@ class ViewController: UIViewController {
         
         let testProduct = ProductRegistration(title: "오늘의태태8", descriptions: "hihi", price: 50000, currency: "KRW", stock: 50, discountedPrice: nil, images: [], password: "1234")
 
-        OpenMarketAPIManager().requestRegistration(product: testProduct) { (result) in
+        OpenMarketAPIManager.shared.requestRegistration(product: testProduct) { (result) in
             switch result {
             case .success(let testProduct):
                 print(testProduct)
@@ -40,7 +40,7 @@ class ViewController: UIViewController {
                 print(error)
             }
         }
-        OpenMarketAPIManager().requestProduct(of: 90) { (result) in
+        OpenMarketAPIManager.shared.requestProduct(of: 90) { (result) in
             switch result {
             case .success(let product):
                 print(product)
@@ -52,28 +52,28 @@ class ViewController: UIViewController {
     
     @objc private func didTapSegment(segment: UISegmentedControl) {
         if segment.selectedSegmentIndex == 0 {
-            listView.view.isHidden = false
-            gridView.view.isHidden = true
+            listViewController.view.isHidden = false
+            gridViewController.view.isHidden = true
         } else {
-            gridView.view.isHidden = false
-            listView.view.isHidden = true
+            gridViewController.view.isHidden = false
+            listViewController.view.isHidden = true
         }
     }
     
     private func setUpView() {
-        addChild(listView)
-        addChild(gridView)
+        addChild(listViewController)
+        addChild(gridViewController)
         
-        self.view.addSubview(listView.view)
-        self.view.addSubview(gridView.view)
+        self.view.addSubview(listViewController.view)
+        self.view.addSubview(gridViewController.view)
         
-        listView.didMove(toParent: self)
-        gridView.didMove(toParent: self)
+        listViewController.didMove(toParent: self)
+        gridViewController.didMove(toParent: self)
         
-        listView.view.frame = self.view.bounds
-        gridView.view.frame = self.view.bounds
+        listViewController.view.frame = self.view.bounds
+        gridViewController.view.frame = self.view.bounds
         
-        gridView.view.isHidden = true
+        gridViewController.view.isHidden = true
     }
     
     private func setUpNavigationItem() {

@@ -9,12 +9,10 @@ class GridViewController: UIViewController {
         return collectionView
     }()
     var productList = [Product]()
-    let openMarketAPIManager = OpenMarketAPIManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        openMarketAPIManager.requestProductList(of: 7) { (result) in
+        OpenMarketAPIManager.shared.requestProductList(of: 7) { (result) in
             switch result {
             case .success (let product):
                 self.productList.append(contentsOf: product.items)
