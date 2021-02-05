@@ -23,59 +23,7 @@ class ViewController: UIViewController {
         loadItemList(page: currentPage)
     }
     
-    //MARK: SetUpNotification
-    private func setUpNotification() {
-        NotificationCenter.default.addObserver(self, selector: #selector(handleLoadImageError), name: Notification.Name("failFetchImage"), object: nil)
-    }
-    
-    @objc func handleLoadImageError(_ notification: Notification) {
-        guard let error = notification.object as? OpenMarketError else {
-            return
-        }
-        self.errorHandling(error: error)
-    }
-    
-    func loadItemList(page: UInt) {
-        ItemManager.shared.loadData(method: .get, path: .items, param: page) { result in
-            switch result {
-            case .success(let data):
-                guard let data = data else {
-                    return
-                }
-                self.itemList = try? JSONDecoder().decode(ItemList.self, from: data)
-                guard let items = self.itemList?.items, items.count > 0 else {
-                    self.hasNextPage = false
-                    DispatchQueue.main.async {
-                        if self.itemCollectionView.isHidden {
-                            self.itemTableView.reloadData()
-                        }
-                    }
-                    return
-                }
-                self.hasNextPage = true
-                self.itemArray.append(contentsOf: items)
-                
-                DispatchQueue.main.async {
-                    if self.itemTableView.isHidden {
-                        self.itemCollectionView.reloadData()
-                    }
-                    else if self.itemCollectionView.isHidden {
-                        self.itemTableView.reloadData()
-                    }
-                }
-            case .failure(let error):
-                self.errorHandling(error: error)
-            }
-        }
-    }
-    
-    private func setUpDelegateAndDataSource() {
-        itemTableView.delegate = self
-        itemTableView.dataSource = self
-        itemCollectionView.delegate = self
-        itemCollectionView.dataSource = self
-    }
-    
+    //MARK: SetUpNaviationBar
     private func setUpNavigationBar() {
         let titles = ["List", "Grid"]
         let segmentControl: UISegmentedControl = UISegmentedControl(items: titles)
@@ -117,6 +65,61 @@ class ViewController: UIViewController {
     
     @objc func moveToPostViewController() {
         
+    }
+    
+    //MARK: SetUpNotification
+    private func setUpNotification() {
+        NotificationCenter.default.addObserver(self, selector: #selector(handleLoadImageError), name: Notification.Name("failFetchImage"), object: nil)
+    }
+    
+    @objc func handleLoadImageError(_ notification: Notification) {
+        guard let error = notification.object as? OpenMarketError else {
+            return
+        }
+        self.errorHandling(error: error)
+    }
+    
+    //MARK: SetUpDelegateAndDataSource
+    private func setUpDelegateAndDataSource() {
+        itemTableView.delegate = self
+        itemTableView.dataSource = self
+        itemCollectionView.delegate = self
+        itemCollectionView.dataSource = self
+    }
+    
+    //MARK: loadItemList
+    func loadItemList(page: UInt) {
+        ItemManager.shared.loadData(method: .get, path: .items, param: page) { result in
+            switch result {
+            case .success(let data):
+                guard let data = data else {
+                    return
+                }
+                self.itemList = try? JSONDecoder().decode(ItemList.self, from: data)
+                guard let items = self.itemList?.items, items.count > 0 else {
+                    self.hasNextPage = false
+                    DispatchQueue.main.async {
+                        if self.itemCollectionView.isHidden {
+                            self.itemTableView.reloadData()
+                        }
+                    }
+                    return
+                }
+                self.hasNextPage = true
+                self.itemArray.append(contentsOf: items)
+                
+                DispatchQueue.main.async {
+                    if self.itemTableView.isHidden {
+                        self.itemCollectionView.reloadData()
+                    }
+                    else if self.itemCollectionView.isHidden {
+                        self.itemTableView.reloadData()
+                    }
+                }
+            case .failure(let error):
+                self.errorHandling(error: error)
+            }
+        }
     }
 }
 
