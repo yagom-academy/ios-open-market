@@ -250,6 +250,13 @@
                                             </constraints>
                                         </collectionViewCellContentView>
                                         <size key="customSize" width="217" height="314"/>
+                                        <connections>
+                                            <outlet property="itemDiscountedPriceLabel" destination="I2c-MW-IE6" id="E9N-LT-WHu"/>
+                                            <outlet property="itemImageView" destination="MwO-wg-JRV" id="BFe-kW-h72"/>
+                                            <outlet property="itemPriceLabel" destination="2ll-oO-eXt" id="9lU-Fo-HXN"/>
+                                            <outlet property="itemStockLabel" destination="mBV-8Q-bLT" id="J98-0a-KqJ"/>
+                                            <outlet property="itemTitleLabel" destination="SIH-kO-b3P" id="yIU-YL-XIg"/>
+                                        </connections>
                                     </collectionViewCell>
                                 </cells>
                                 <connections>

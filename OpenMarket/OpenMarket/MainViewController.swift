@@ -26,8 +26,10 @@ class MainViewController: UIViewController {
     
     private func setupView() {
         let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
-        listViewController = storyboard.instantiateViewController(withIdentifier: "ItemListViewController") as? ItemListViewController
-        gridViewController = storyboard.instantiateViewController(withIdentifier: "ItemGridViewController") as? ItemGridViewController
+//        listViewController = storyboard.instantiateViewController(withIdentifier: "ItemListViewController") as? ItemListViewController
+        listViewController = children[1] as? ItemListViewController
+//        gridViewController = storyboard.instantiateViewController(withIdentifier: "ItemGridViewController") as? ItemGridViewController
+        gridViewController = children[0] as? ItemGridViewController
     }
     
     private func getItemList(page: Int) {
