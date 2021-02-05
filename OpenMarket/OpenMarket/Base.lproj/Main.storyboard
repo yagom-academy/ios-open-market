@@ -4,6 +4,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
@@ -65,6 +66,12 @@
                                 <action selector="switchView:" destination="f5o-PB-hzr" eventType="valueChanged" id="vJ0-xw-GxJ"/>
                             </connections>
                         </segmentedControl>
+                        <barButtonItem key="rightBarButtonItem" id="onE-In-PvL">
+                            <imageReference key="image" image="plus" catalog="system" symbolScale="small"/>
+                            <connections>
+                                <segue destination="TDg-wB-cDg" kind="presentation" identifier="ㅔㅇㄹpostingSegueㅐㅔㅐㄹ" modalPresentationStyle="fullScreen" id="4Du-DS-Nov"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="collectionView" destination="Xxq-lg-rWK" id="ILw-oG-mIy"/>
@@ -75,6 +82,44 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yJZ-oE-xkZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1980" y="83.497536945812811"/>
+        </scene>
+        <!--PostingView Controller-->
+        <scene sceneID="reF-kZ-bvy">
+            <objects>
+                <viewController id="TDg-wB-cDg" userLabel="PostingView Controller" customClass="PostingItemViewController" customModule="OpenMarket" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="JwK-G8-6Lx">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0F5-7Q-IZ4">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <items>
+                                    <navigationItem id="Osd-SH-z2X"/>
+                                </items>
+                            </navigationBar>
+                            <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sfc-Hq-Dg5">
+                                <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <items>
+                                    <navigationItem title="상품등록" id="QW1-lt-Hkf">
+                                        <barButtonItem key="leftBarButtonItem" title="취소" id="8n2-3b-gHf">
+                                            <connections>
+                                                <action selector="cancle" destination="TDg-wB-cDg" id="Qsj-XU-ZAA"/>
+                                            </connections>
+                                        </barButtonItem>
+                                        <barButtonItem key="rightBarButtonItem" title="등록" id="eU0-7m-Udf"/>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="pYN-Fp-sM8"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="34x-te-Nz0" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2804" y="83"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="hJH-jK-GKI">
@@ -314,6 +359,7 @@
     </scenes>
     <resources>
         <image name="chevron.right" catalog="system" width="96" height="128"/>
+        <image name="plus" catalog="system" width="128" height="113"/>
         <systemColor name="linkColor">
             <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
