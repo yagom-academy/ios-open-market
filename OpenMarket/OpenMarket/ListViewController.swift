@@ -8,7 +8,7 @@ class ListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        openMarketAPIManager.requestProductList(of: 4) { (result) in
+        openMarketAPIManager.requestProductList(of: 1) { (result) in
             switch result {
             case .success (let product):
                 self.productList.append(contentsOf: product.items)
@@ -62,7 +62,12 @@ extension ListViewController: UITableViewDataSource {
 
         cell.productPriceLabel.text = "\(product.currency) \(price.addComma())"
         if let discountedPrice = product.discountedPrice {
-            cell.productPriceLabel.text = "\(product.currency) \(price.addComma()) \(String(describing: discountedPrice))"
+            let originalPriceText = "\(product.currency) \(price.addComma())"
+            let attributeText = NSMutableAttributedString(string: originalPriceText)
+            let range = originalPriceText.checkRange(of: originalPriceText)
+            attributeText.addAttribute(.strikethroughStyle, value:1,  range: range)
+            cell.productDiscountLabel.attributedText = attributeText
+            cell.productPriceLabel.text = "\(product.currency) \((price - discountedPrice).addComma())"
         }
         
         cell.accessoryType = .disclosureIndicator
@@ -85,5 +90,11 @@ extension ListViewController: UITableViewDataSource {
             }
         }
         return cell
+    }
+}
+extension String {
+    func checkRange(of value : String) -> NSRange {
+        let string : NSString = NSString(string: self)
+        return string.range(of: value)
     }
 }
