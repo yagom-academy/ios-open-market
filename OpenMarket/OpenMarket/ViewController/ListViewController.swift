@@ -54,7 +54,7 @@ extension ListViewController: UITableViewDataSource {
         }
         cell.productNameLabel.text = product.title
         cell.productStockLabel.text = "잔여수량 : \(stock.addComma())"
-        cell.productDiscountedPriceLabel.text = "\(product.currency) \(price.addComma())"
+        cell.productPriceLabel.text = "\(product.currency) \(price.addComma())"
         
         if let discountedPrice = product.discountedPrice {
             let originalPriceText = "\(product.currency) \(price.addComma())"

@@ -72,7 +72,7 @@ extension GridViewController: UICollectionViewDataSource {
             
             cell.productPriceLabel.attributedText = text
             cell.productPriceLabel.textColor = .red
-            cell.productDiscountedPriceLabel.text = "\(product.currency) \(discountedPrice.addComma())"
+            cell.productDiscountedPriceLabel.text = "\(product.currency) \((price-discountedPrice).addComma())"
             
         }
         cell.productStockLabel.text = "잔여수량 : \(stock.addComma())"
