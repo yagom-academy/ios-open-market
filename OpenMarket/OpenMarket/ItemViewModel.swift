@@ -45,12 +45,8 @@ struct ItemViewModel {
         }
     }
     
-    func getImage(completion: @escaping (UIImage) -> Void) {
-        if let thumbnail = model.thumbnails.first {
-            NetworkLayer.shared.requestImage(urlString: thumbnail) { completion($0) }
-        } else {
-            completion(UIImage(named: "image1")!)
-        }
+    var thumbnail: String? {
+        return model.thumbnails.first
     }
 }
 

@@ -60,6 +60,8 @@
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="Awa-Lo-G8d"/>
                     </navigationItem>
                     <connections>
+                        <outlet property="gridView" destination="sMH-hn-S5a" id="MAX-pp-6bb"/>
+                        <outlet property="listView" destination="alc-bu-Xfo" id="ewo-dw-NKy"/>
                         <outlet property="segmentedControl" destination="RBX-bO-HYX" id="QSn-2q-iP6"/>
                     </connections>
                 </viewController>
@@ -70,7 +72,7 @@
         <!--Item List View Controller-->
         <scene sceneID="L3L-SS-y0j">
             <objects>
-                <viewController id="98H-lU-q3B" customClass="ItemListViewController" customModule="OpenMarket" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ItemListViewController" id="98H-lU-q3B" customClass="ItemListViewController" customModule="OpenMarket" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="mRs-Dd-7M9">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="774"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -171,7 +173,7 @@
         <!--Item Grid View Controller-->
         <scene sceneID="cq9-BV-gKF">
             <objects>
-                <viewController id="EWB-vy-9uJ" customClass="ItemGridViewController" customModule="OpenMarket" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ItemGridViewController" id="EWB-vy-9uJ" customClass="ItemGridViewController" customModule="OpenMarket" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="3Jx-na-GA0">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="774"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

@@ -13,6 +13,7 @@ class ItemListTableViewCell: UITableViewCell {
     @IBOutlet weak var itemStockLabel: UILabel!
     @IBOutlet weak var itemPriceLabel: UILabel!
     @IBOutlet weak var itemDiscountedPriceLabel: UILabel!
+    private var index: Int?
     private var model: ItemViewModel?
     
     override func prepareForReuse() {
@@ -24,15 +25,23 @@ class ItemListTableViewCell: UITableViewCell {
         itemDiscountedPriceLabel.text = nil
     }
     
-    func setModel(_ model: ItemViewModel) {
+    func setModel(index: Int, _ model: ItemViewModel) {
+        self.index = index
         self.model = model
         updateUI()
     }
     
     func updateUI() {
-        guard let item = model else { return }
-        item.getImage { [weak self] image in
-            self?.itemImageView.image = image
+        guard let item = model,
+              let index = index else { return }
+        
+        if let thumbnail = item.thumbnail {
+            NetworkLayer.shared.requestImage(urlString: thumbnail, index: index) { [weak self] image, index in
+                guard index == self?.index else { return }
+                self?.itemImageView.image = image
+            }
+        } else {
+            itemImageView.image = UIImage(named: "image1")
         }
         itemTitleLabel.text = item.title
         itemStockLabel.text = item.stock

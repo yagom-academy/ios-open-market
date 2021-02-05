@@ -1,7 +1,7 @@
 import UIKit
 
 class ItemGridViewController: UIViewController {
-    @IBOutlet private weak var collectionView: UICollectionView!
+    @IBOutlet weak var collectionView: UICollectionView!
 }
 
 extension ItemGridViewController: UICollectionViewDataSource {
@@ -13,11 +13,9 @@ extension ItemGridViewController: UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ItemGridCollectionViewCell", for: indexPath)
         if let cell = cell as? ItemGridCollectionViewCell {
             let model = ItemListModel.shared.data[indexPath.row]
-            cell.setModel(ItemViewModel(model))
+            cell.setModel(index: indexPath.item, ItemViewModel(model))
         }
         
         return cell
     }
-    
-    
 }

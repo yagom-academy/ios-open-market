@@ -1,7 +1,7 @@
 import UIKit
 
 class ItemListViewController: UIViewController {
-    @IBOutlet private weak var tableView: UITableView!
+    @IBOutlet weak var tableView: UITableView!
 }
 
 extension ItemListViewController: UITableViewDataSource {
@@ -13,7 +13,7 @@ extension ItemListViewController: UITableViewDataSource {
         if let cell = tableView.dequeueReusableCell(withIdentifier: "ItemListTableViewCell") as? ItemListTableViewCell {
             
             let model = ItemListModel.shared.data[indexPath.row]
-            cell.setModel(ItemViewModel(model))
+            cell.setModel(index: indexPath.row ,ItemViewModel(model))
             
             return cell
         } else {

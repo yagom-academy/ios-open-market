@@ -10,6 +10,10 @@ import UIKit
 class MainViewController: UIViewController {
     @IBOutlet private weak var segmentedControl: UISegmentedControl!
     private var page = 1
+    @IBOutlet weak var gridView: UIView!
+    @IBOutlet weak var listView: UIView!
+    private var listViewController: ItemListViewController?
+    private var gridViewController: ItemGridViewController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -17,22 +21,27 @@ class MainViewController: UIViewController {
         getItemList(page: page)
     }
     
+    private func setupView() {
+        let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+        listViewController = storyboard.instantiateViewController(withIdentifier: "ItemListViewController") as? ItemListViewController
+        gridViewController = storyboard.instantiateViewController(withIdentifier: "ItemGridViewController") as? ItemGridViewController
+    }
+    
     private func getItemList(page: Int) {
         NetworkLayer.shared.requestItemList(page: page) { result in
             switch result {
             case .success(let itemList):
                 ItemListModel.shared.data.append(contentsOf: itemList.items)
-                DispatchQueue.main.async {
-                    self.listViewController.tableView.reloadData()
+                DispatchQueue.main.async { [weak self] in
+                    guard let listViewController = self?.listViewController,
+                          let gridViewController = self?.gridViewController else { fatalError() }
+                    listViewController.tableView.reloadData()
+                    gridViewController.collectionView.reloadData()
                 }
             case .failure(let error):
                 print(error.localizedDescription)
             }
         }
-    }
-    
-    private func setupView() {
-        
     }
     
     @IBAction func selectionDidChange(_ sender: UISegmentedControl) {
@@ -41,11 +50,11 @@ class MainViewController: UIViewController {
     
     private func updateView() {
         if segmentedControl.selectedSegmentIndex == 0 {
-            remove(asChildViewController: gridViewController)
-            add(asChildViewController: listViewController)
+            listView.isHidden = false
+            gridView.isHidden = true
         } else {
-            remove(asChildViewController: listViewController)
-            add(asChildViewController: gridViewController)
+            listView.isHidden = true
+            gridView.isHidden = false
         }
     }
 }
