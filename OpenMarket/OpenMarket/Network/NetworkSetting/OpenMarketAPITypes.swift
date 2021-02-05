@@ -11,13 +11,7 @@ enum OpenMarketAPITypes {
         switch self {
         case .fetchGoodsList:
             return "/items/"
-        case .registerGoods:
-            return "/item"
-        case .fetchGoods:
-            return "/item/"
-        case .editGoods:
-            return "/item/"
-        case .deleteGoods:
+        default:
             return "/item/"
         }
     }
