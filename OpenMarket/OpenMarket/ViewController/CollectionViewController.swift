@@ -9,24 +9,11 @@ import UIKit
 
 class CollectionViewController: UIViewController {
     
-    var items = ItemsToGet(items: [], page: 1)
-    
     @IBOutlet var collectionView: UICollectionView!
+    var page: Int = 1
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        OpenMarketAPI.request(.loadItemList(page: 1)) { (result: Result<ItemsToGet, Error>) in
-            switch result {
-            case .success(let data):
-                DispatchQueue.main.async {
-                    self.items = data
-                    self.collectionView.reloadData()
-                }
-                print("1페이지에 몇갠거야? -------------------------\(data.items.count)")
-            case .failure(let error):
-                print(error.localizedDescription)
-            }
-        }
     }
 }
 
@@ -36,34 +23,38 @@ extension CollectionViewController: UICollectionViewDelegate {
 
 extension CollectionViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return items.items.count
+        guard let mainViewController = self.parent as? MainViewController else {
+            return 0
+        }
+        return mainViewController.itemsCount
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "GridCell", for: indexPath) as? GridCell else {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "GridCell", for: indexPath) as? GridCell,
+              let mainViewController = self.parent as? MainViewController,
+              let item = mainViewController.getItem(indexPath.item) else {
             return UICollectionViewCell()
         }
-        let item = items.items[indexPath.item]
-        if let imageURLString = item.thumbnails.first,
-           let thumnailURL = URL(string: imageURLString),
-           let thumnailData = try? Data(contentsOf: thumnailURL) {
-            cell.imagView.image = UIImage(data: thumnailData)
-        }
-        cell.titleLabel.text = item.title
-        if let discountedPrice = item.discountedPrice {
-            cell.discountedPriceLabel.text = String(discountedPrice)
-        } else {
-            cell.discountedPriceLabel.isHidden = true
-        }
-        cell.priceLabel.text = String(item.price)
-        if item.stock == 0 {
-            cell.stockLabel.text = "품절"
-        } else {
-            cell.stockLabel.text = String(item.stock)
-        }
-        cell.backgroundColor = .orange
+        cell.tag = indexPath.item
+        cell.setContents(with: item)
         return cell
+    }
+}
+
+extension CollectionViewController: UICollectionViewDataSourcePrefetching {
+    func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
+        guard let row = indexPaths.last?.item,
+              let mainViewController = self.parent as? MainViewController else {
+            return
+        }
+        if row >= mainViewController.itemsCount - 2 {
+            page += 1
+            mainViewController.requestItems(page: page) {
+                DispatchQueue.main.async {
+                    collectionView.reloadData()
+                }
+            }
+        }
     }
 }
 
