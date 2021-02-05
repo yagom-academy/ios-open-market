@@ -25,7 +25,25 @@ class ViewController: UIViewController {
             }
         }
     }
-    private lazy var collectionViewLayouts: [UICollectionViewFlowLayout] = []
+    private let listCollectionViewLayout: UICollectionViewFlowLayout = {
+        let layout = UICollectionViewFlowLayout()
+        layout.estimatedItemSize = CGSize(width: UIScreen.main.bounds.width, height: 81)
+        layout.minimumLineSpacing = 0
+        return layout
+    }()
+    private let gridCollectionViewLayout: UICollectionViewFlowLayout = {
+            let layout = UICollectionViewFlowLayout()
+            let screenWidth = UIScreen.main.bounds.width
+            let numberOfItemsPerRow: CGFloat = 2
+            let interSpacing: CGFloat = 8
+            let totalSpacing = numberOfItemsPerRow * interSpacing
+            let itemWidth = (screenWidth - totalSpacing) / numberOfItemsPerRow
+            layout.itemSize = CGSize(width: itemWidth, height: itemWidth * 1.5)
+            layout.sectionInset = UIEdgeInsets(top: 4, left: 4, bottom: 4, right: 4)
+            layout.minimumInteritemSpacing = interSpacing
+            return layout
+    }()
+    private lazy var collectionViewLayouts: [UICollectionViewFlowLayout] = [listCollectionViewLayout, gridCollectionViewLayout]
     private lazy var loadingIndicator: UIActivityIndicatorView = {
         let view = UIActivityIndicatorView()
         view.style = .large
@@ -43,7 +61,6 @@ class ViewController: UIViewController {
         setUpNotification()
         setUpLoadingIndicator()
         appendMarketGoodsList(with: page)
-        setUpCollectionViewLayouts()
         setUpCollection()
         setUpSegment()
     }
@@ -104,37 +121,6 @@ class ViewController: UIViewController {
         collectionView.delegate = self
         collectionView.register(UINib(nibName: String(describing: GoodsGridCollectionViewCell.self), bundle: nil), forCellWithReuseIdentifier: "gridCell")
         collectionView.register(UINib(nibName: String(describing: GoodsListCollectionViewCell.self), bundle: nil), forCellWithReuseIdentifier: "listCell")
-    }
-    
-    private func setUpCollectionViewLayouts() {
-        for valueType in SegmentValueTypes.allCases {
-            switch valueType {
-            case .list:
-                collectionViewLayouts.append(makeListCollectionViewLayout())
-            case .grid:
-                collectionViewLayouts.append(makeGridCollectionViewLayout())
-            }
-        }
-    }
-    
-    private func makeListCollectionViewLayout() -> UICollectionViewFlowLayout {
-        let layout = UICollectionViewFlowLayout()
-        layout.estimatedItemSize = CGSize(width: UIScreen.main.bounds.width, height: 81)
-        layout.minimumLineSpacing = 0
-        return layout
-    }
-    
-    private func makeGridCollectionViewLayout() -> UICollectionViewFlowLayout {
-        let layout = UICollectionViewFlowLayout()
-        let screenWidth = UIScreen.main.bounds.width
-        let numberOfItemsPerRow: CGFloat = 2
-        let interSpacing: CGFloat = 8
-        let totalSpacing = numberOfItemsPerRow * interSpacing
-        let itemWidth = (screenWidth - totalSpacing) / numberOfItemsPerRow
-        layout.itemSize = CGSize(width: itemWidth, height: itemWidth * 1.5)
-        layout.sectionInset = UIEdgeInsets(top: 4, left: 4, bottom: 4, right: 4)
-        layout.minimumInteritemSpacing = interSpacing
-        return layout
     }
     
     // MARK: - setUp Segment
