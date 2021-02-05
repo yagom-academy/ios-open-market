@@ -30,6 +30,10 @@
                                     <segue destination="98H-lU-q3B" kind="embed" id="8Ih-Am-ezv"/>
                                 </connections>
                             </containerView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="BMH-CZ-and">
+                                <rect key="frame" x="197" y="413" width="20" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </activityIndicatorView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -60,6 +64,7 @@
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="Awa-Lo-G8d"/>
                     </navigationItem>
                     <connections>
+                        <outlet property="activityIndicator" destination="BMH-CZ-and" id="arK-T8-CgM"/>
                         <outlet property="gridView" destination="sMH-hn-S5a" id="MAX-pp-6bb"/>
                         <outlet property="listView" destination="alc-bu-Xfo" id="ewo-dw-NKy"/>
                         <outlet property="segmentedControl" destination="RBX-bO-HYX" id="QSn-2q-iP6"/>

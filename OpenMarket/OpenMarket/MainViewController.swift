@@ -14,10 +14,13 @@ class MainViewController: UIViewController {
     @IBOutlet weak var listView: UIView!
     private var listViewController: ItemListViewController?
     private var gridViewController: ItemGridViewController?
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
+        activityIndicator.isHidden = false
+        activityIndicator.startAnimating()
         getItemList(page: page)
     }
     
@@ -37,6 +40,8 @@ class MainViewController: UIViewController {
                           let gridViewController = self?.gridViewController else { fatalError() }
                     listViewController.tableView.reloadData()
                     gridViewController.collectionView.reloadData()
+                    self?.activityIndicator.stopAnimating()
+                    self?.activityIndicator.isHidden = true
                 }
             case .failure(let error):
                 print(error.localizedDescription)
