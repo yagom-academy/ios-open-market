@@ -202,9 +202,15 @@
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="MwO-wg-JRV">
                                                     <rect key="frame" x="10" y="5" width="159" height="187"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="150" id="9y2-yJ-iIB"/>
+                                                    </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SIH-kO-b3P">
                                                     <rect key="frame" x="10" y="202" width="159" height="20.5"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="20.5" id="zU3-Rb-uNZ"/>
+                                                    </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -225,9 +231,15 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                     </subviews>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="51" id="oeG-pc-auR"/>
+                                                    </constraints>
                                                 </stackView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I2c-MW-IE6">
                                                     <rect key="frame" x="10" y="293.5" width="159" height="20.5"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="20.5" id="eBh-4H-qRW"/>
+                                                    </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -235,7 +247,6 @@
                                             </subviews>
                                             <constraints>
                                                 <constraint firstAttribute="trailing" secondItem="MwO-wg-JRV" secondAttribute="trailing" constant="10" id="4nM-Bf-Vcb"/>
-                                                <constraint firstItem="SIH-kO-b3P" firstAttribute="top" secondItem="MwO-wg-JRV" secondAttribute="bottom" constant="10" id="BSI-bQ-uTO"/>
                                                 <constraint firstItem="F5i-IS-XZM" firstAttribute="leading" secondItem="ZU2-iD-aur" secondAttribute="leading" constant="10" id="CRh-1h-Fqh"/>
                                                 <constraint firstAttribute="trailing" secondItem="I2c-MW-IE6" secondAttribute="trailing" constant="10" id="DYF-Rj-Eit"/>
                                                 <constraint firstItem="MwO-wg-JRV" firstAttribute="leading" secondItem="ZU2-iD-aur" secondAttribute="leading" constant="10" id="HlZ-pL-Oq2"/>
@@ -243,6 +254,7 @@
                                                 <constraint firstAttribute="trailing" secondItem="SIH-kO-b3P" secondAttribute="trailing" constant="10" id="Wex-1O-WKP"/>
                                                 <constraint firstItem="I2c-MW-IE6" firstAttribute="leading" secondItem="ZU2-iD-aur" secondAttribute="leading" constant="10" id="ZuV-N2-HbQ"/>
                                                 <constraint firstAttribute="trailing" secondItem="F5i-IS-XZM" secondAttribute="trailing" constant="10" id="jMr-M7-1Gz"/>
+                                                <constraint firstItem="SIH-kO-b3P" firstAttribute="top" secondItem="MwO-wg-JRV" secondAttribute="bottom" constant="10" id="mjn-le-fY6"/>
                                                 <constraint firstItem="I2c-MW-IE6" firstAttribute="top" secondItem="F5i-IS-XZM" secondAttribute="bottom" constant="10" id="r3p-YY-Qsj"/>
                                                 <constraint firstItem="MwO-wg-JRV" firstAttribute="top" secondItem="ZU2-iD-aur" secondAttribute="top" constant="5" id="vk6-8H-tpa"/>
                                                 <constraint firstAttribute="bottom" secondItem="I2c-MW-IE6" secondAttribute="bottom" constant="5" id="wJX-Bi-fI8"/>
