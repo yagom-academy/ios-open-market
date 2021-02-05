@@ -102,9 +102,8 @@ class ViewController: UIViewController {
     private func setUpCollection() {
         collectionView.dataSource = self
         collectionView.delegate = self
-        collectionView.register(UINib(nibName: String(describing: GoodsGridCollectionViewCell.self),
-                                      bundle: nil), forCellWithReuseIdentifier: "gridCell")
-        collectionView.register(UINib(nibName: "GoodsListCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "listCell")
+        collectionView.register(UINib(nibName: String(describing: GoodsGridCollectionViewCell.self), bundle: nil), forCellWithReuseIdentifier: "gridCell")
+        collectionView.register(UINib(nibName: String(describing: GoodsListCollectionViewCell.self), bundle: nil), forCellWithReuseIdentifier: "listCell")
     }
     
     private func setUpCollectionViewLayouts() {
