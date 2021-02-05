@@ -45,15 +45,7 @@ struct OpenMarketAPIManager {
         let boundary = "Boundary-\(UUID().uuidString)"
         urlRequest.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
         let mimeType = "image/jpg"
-        let params: [String : Any] = [
-            "title" : product.title,
-            "descriptions" : product.descriptions ?? "",
-            "price" : product.price,
-            "currency" : product.currency,
-            "stock" : product.stock,
-            "discounted_price" : product.discountedPrice ?? 0,
-            "password" : product.password ?? ""
-        ]
+        let params = product.registrationDescription
         
         urlRequest.httpBody = createBody(boundary: boundary, mimeType: mimeType, params: params, imageArray: product.images ?? [])
         

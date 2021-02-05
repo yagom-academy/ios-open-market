@@ -13,7 +13,7 @@ class GridViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        openMarketAPIManager.requestProductList(of: 4) { (result) in
+        openMarketAPIManager.requestProductList(of: 7) { (result) in
             switch result {
             case .success (let product):
                 self.productList.append(contentsOf: product.items)

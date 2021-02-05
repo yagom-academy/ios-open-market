@@ -27,4 +27,14 @@ struct Product: Codable {
         case registrationDate = "registration_date"
         case password
     }
+    
+    var registrationDescription: [String: Any?] {[
+        "title": self.title,
+        "descriptions": self.descriptions ?? "",
+        "price": self.price,
+        "currency": self.currency,
+        "stock": self.stock,
+        "discounted_price": self.discountedPrice ?? 0,
+        "password": self.password ?? ""
+    ]}
 }

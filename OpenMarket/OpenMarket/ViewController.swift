@@ -30,7 +30,7 @@ class ViewController: UIViewController {
         setUpNavigationItem()
         setUpView()
         
-//        let testProduct = Product(id: nil, title: "태태태태dodododo", descriptions: "비밀번호 486", price: 20000, currency: "KRW", stock: 100, discountedPrice: 10000, thumbnails: nil, images: [], registrationDate: nil, password: "486")
+//        let testProduct = Product(id: nil, title: "오늘의태태2", descriptions: "비밀번호 486", price: 20000, currency: "KRW", stock: 100, discountedPrice: nil, thumbnails: nil, images: [], registrationDate: nil, password: "486")
 //
 //        OpenMarketAPIManager().requestRegistration(product: testProduct) { (result) in
 //            switch result {
