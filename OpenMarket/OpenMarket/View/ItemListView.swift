@@ -9,42 +9,58 @@ import Foundation
 import UIKit
 
 extension ViewController: UITableViewDataSource {
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 2
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let itemListCount = self.itemList?.items.count else {
-            return 0
+        if section == 0 {
+            return self.itemArray.count
         }
-        return itemListCount
+        else if section == 1 && isPaging && hasNextPage {
+            return 1
+        }
+        return 0
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "ItemTableViewCell", for: indexPath) as? ItemTableViewCell else {
-            return UITableViewCell()
-        }
-        guard let list = itemList else {
-            return cell
-        }
-        cell.setUpView(with: list.items[indexPath.row])
-        
-        if let imageURL = list.items[indexPath.row].thumbnails.first {
-            ItemManager.shared.loadItemImage(with: imageURL) { result in
-                switch result {
-                case .success(let data):
-                    guard let image = data else {
-                        return self.errorHandling(error: .failGetData)
-                    }
-                    DispatchQueue.main.async {
-                        if let index: IndexPath = tableView.indexPath(for: cell){
-                            if index.row == indexPath.row {
-                                cell.itemImageView.image = UIImage(data: image)
+        if indexPath.section == 0 {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "ItemTableViewCell", for: indexPath) as? ItemTableViewCell else {
+                return UITableViewCell()
+            }
+            guard let item = itemArray[indexPath.row] else {
+                return cell
+            }
+            cell.setUpView(with: item)
+            
+            if let imageURL = item.thumbnails.first {
+                ItemManager.shared.loadItemImage(with: imageURL) { result in
+                    switch result {
+                    case .success(let data):
+                        guard let image = data else {
+                            return self.errorHandling(error: .failGetData)
+                        }
+                        DispatchQueue.main.async {
+                            if let index: IndexPath = tableView.indexPath(for: cell){
+                                if index.row == indexPath.row {
+                                    cell.itemImageView.image = UIImage(data: image)
+                                }
                             }
                         }
+                    case .failure(let error):
+                        self.errorHandling(error: error)
                     }
-                case .failure(let error):
-                    self.errorHandling(error: error)
                 }
             }
+            return cell
         }
-        return cell
+        else {
+            guard let loadingCell = tableView.dequeueReusableCell(withIdentifier: "LoadingCell", for: indexPath) as? LoadingCell else {
+                return UITableViewCell()
+            }
+            loadingCell.start()
+            return loadingCell
+        }
     }
 }
 
