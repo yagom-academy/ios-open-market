@@ -34,21 +34,11 @@ extension ViewController: UITableViewDataSource {
             cell.setUpView(with: item)
             
             if let imageURL = item.thumbnails.first {
-                ItemManager.shared.loadItemImage(with: imageURL) { result in
-                    switch result {
-                    case .success(let data):
-                        guard let image = data else {
-                            return self.errorHandling(error: .failGetData)
+                DispatchQueue.main.async {
+                    if let index: IndexPath = tableView.indexPath(for: cell){
+                        if index.item == indexPath.item {
+                            cell.itemImageView.setImageFromServer(with: imageURL)
                         }
-                        DispatchQueue.main.async {
-                            if let index: IndexPath = tableView.indexPath(for: cell){
-                                if index.row == indexPath.row {
-                                    cell.itemImageView.image = UIImage(data: image)
-                                }
-                            }
-                        }
-                    case .failure(let error):
-                        self.errorHandling(error: error)
                     }
                 }
             }
