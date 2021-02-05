@@ -14,7 +14,7 @@ struct GoodsNetworkModel {
     
     private class GoodsModelRequest: Request {
         var id: UInt?
-        var path: String = NetworkConfig.openMarketFixedURL
+        var path: String = NetworkEndPoints.openMarketFixedURL
         var method: HTTPMethod
         var headers: [String : String]?
         var bodyParams: Data?
@@ -22,12 +22,12 @@ struct GoodsNetworkModel {
         
         init(idToFetch: UInt) {
             self.id = idToFetch
-            self.path.append(NetworkConfig.makeURLPath(api: .fetchGoods, with: idToFetch))
+            self.path.append(NetworkEndPoints.makeURLPath(api: .fetchGoods, with: idToFetch))
             self.method = .get
         }
         
         init(registerParams: GoodsFormParameter) {
-            self.path.append(NetworkConfig.makeURLPath(api: .registerGoods, with: nil))
+            self.path.append(NetworkEndPoints.makeURLPath(api: .registerGoods, with: nil))
             self.method = .post
             self.boundary = UUID().uuidString
             self.headers = ["Content-Type" : String(format: HeaderType.multipartForm, self.boundary ?? "")]
@@ -36,7 +36,7 @@ struct GoodsNetworkModel {
         
         init(editParams: GoodsFormParameter,
              editID: UInt) {
-            self.path.append(NetworkConfig.makeURLPath(api: .editGoods, with: editID))
+            self.path.append(NetworkEndPoints.makeURLPath(api: .editGoods, with: editID))
             self.method = .patch
             self.boundary = UUID().uuidString
             self.headers = ["Content-Type" : String(format: HeaderType.multipartForm, self.boundary ?? "")]
@@ -45,7 +45,7 @@ struct GoodsNetworkModel {
         
         init(deleteParams: GoodsFormParameter,
              deleteID: UInt) {
-            self.path.append(NetworkConfig.makeURLPath(api: .deleteGoods, with: deleteID))
+            self.path.append(NetworkEndPoints.makeURLPath(api: .deleteGoods, with: deleteID))
             self.method = .delete
             self.headers = ["Content-Type" : HeaderType.json]
             self.bodyParams = try? JSONSerialization.data(withJSONObject: deleteParams)

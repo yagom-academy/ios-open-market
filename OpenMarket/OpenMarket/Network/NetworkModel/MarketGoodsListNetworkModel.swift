@@ -11,12 +11,12 @@ struct MarketGoodsListNetworkModel {
     private static let task = NetworkTask(dispatcher: NetworkDispatcher())
     private class GoodsListModelRequest: Request {
         var page: UInt?
-        var path: String = NetworkConfig.openMarketFixedURL
+        var path: String = NetworkEndPoints.openMarketFixedURL
         var method: HTTPMethod
         
         init(fetchPage: UInt) {
             self.page = fetchPage
-            self.path.append(NetworkConfig.makeURLPath(api: .fetchGoodsList, with: fetchPage))
+            self.path.append(NetworkEndPoints.makeURLPath(api: .fetchGoodsList, with: fetchPage))
             self.method = .get
         }
     }

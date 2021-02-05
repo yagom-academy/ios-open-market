@@ -1,6 +1,6 @@
 import Foundation
 
-struct NetworkConfig {
+struct NetworkEndPoints {
     static let openMarketFixedURL = "https://camp-open-market.herokuapp.com"
     
     enum OpenMarketAPITypes {
