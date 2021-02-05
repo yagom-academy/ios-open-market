@@ -65,7 +65,6 @@ class ProductListTableViewCell: UITableViewCell {
             productThumbnailImageView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.2),
             productThumbnailImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             
-            
             productNameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
             productNameLabel.leadingAnchor.constraint(equalTo: productThumbnailImageView.trailingAnchor, constant: 10),
             

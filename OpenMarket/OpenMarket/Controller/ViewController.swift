@@ -30,7 +30,7 @@ class ViewController: UIViewController {
         setUpNavigationItem()
         setUpView()
         
-        let testProduct = ProductRegistration(title: "오늘의태태6", descriptions: "hihi", price: 50000, currency: "KRW", stock: 50, discountedPrice: nil, images: [], password: "1234")
+        let testProduct = ProductRegistration(title: "오늘의태태8", descriptions: "hihi", price: 50000, currency: "KRW", stock: 50, discountedPrice: nil, images: [], password: "1234")
 
         OpenMarketAPIManager().requestRegistration(product: testProduct) { (result) in
             switch result {
@@ -40,14 +40,14 @@ class ViewController: UIViewController {
                 print(error)
             }
         }
-//        OpenMarketAPIManager().requestProduct(of: 90) { (result) in
-//            switch result {
-//            case .success(let product):
-//                print(product)
-//            case .failure(let error):
-//                print(error)
-//            }
-//        }
+        OpenMarketAPIManager().requestProduct(of: 90) { (result) in
+            switch result {
+            case .success(let product):
+                print(product)
+            case .failure(let error):
+                print(error)
+            }
+        }
     }
     
     @objc private func didTapSegment(segment: UISegmentedControl) {

@@ -133,25 +133,57 @@
 		C70FB0F925BEF61C00C9924E /* OpenMarket */ = {
 			isa = PBXGroup;
 			children = (
+				D945C66425CCEF67003B55EC /* Network */,
+				D945C66325CCEF13003B55EC /* Model */,
+				D945C66125CCEEC5003B55EC /* Controller */,
+				D945C66225CCEEF7003B55EC /* Cell */,
 				C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */,
 				C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */,
-				C70FB0FE25BEF61C00C9924E /* ViewController.swift */,
-				82B552E825C53F3600C76325 /* GridViewController.swift */,
-				82A18BA925C943F5003A38B3 /* ProductGridViewCell.swift */,
-				82B552ED25C53F9E00C76325 /* ListViewController.swift */,
-				82B552E325C2BF8D00C76325 /* ProductListTableViewCell.swift */,
 				C70FB10325BEF61D00C9924E /* Assets.xcassets */,
 				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
 				C70FB10825BEF61D00C9924E /* Info.plist */,
-				D928368C25BF2B5F00C98F6F /* Product.swift */,
-				820605DD25CAD7FA0051289D /* ProductRegistration.swift */,
-				D928368F25BF2B6C00C98F6F /* ProductList.swift */,
-				D928369D25BF31A600C98F6F /* OpenMarketAPIManager.swift */,
+			);
+			path = OpenMarket;
+			sourceTree = "<group>";
+		};
+		D945C66125CCEEC5003B55EC /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				C70FB0FE25BEF61C00C9924E /* ViewController.swift */,
+				82B552ED25C53F9E00C76325 /* ListViewController.swift */,
+				82B552E825C53F3600C76325 /* GridViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		D945C66225CCEEF7003B55EC /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				82A18BA925C943F5003A38B3 /* ProductGridViewCell.swift */,
+				82B552E325C2BF8D00C76325 /* ProductListTableViewCell.swift */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
+		D945C66325CCEF13003B55EC /* Model */ = {
+			isa = PBXGroup;
+			children = (
 				82186D6C25C14E01003AD8FB /* FeatureList.swift */,
+				D928368C25BF2B5F00C98F6F /* Product.swift */,
+				D928368F25BF2B6C00C98F6F /* ProductList.swift */,
+				820605DD25CAD7FA0051289D /* ProductRegistration.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		D945C66425CCEF67003B55EC /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				D928369D25BF31A600C98F6F /* OpenMarketAPIManager.swift */,
 				82186D6425C14CCF003AD8FB /* HTTPMethods.swift */,
 				D92DDE1F25C1D5E400036BB9 /* OpenMarketURLMaker.swift */,
 			);
-			path = OpenMarket;
+			path = Network;
 			sourceTree = "<group>";
 		};
 		D9B255B725C070E80039C0FE /* MockModel */ = {
