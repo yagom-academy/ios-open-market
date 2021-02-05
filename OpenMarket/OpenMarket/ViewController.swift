@@ -68,7 +68,7 @@ class ViewController: UIViewController {
     
     // MARK: - add data
     private func appendMarketGoodsList(with page: UInt) {
-        MarketGoodsListModel.fetchMarketGoodsList(page: page) { result in
+        MarketGoodsListNetworkModel.fetchMarketGoodsList(page: page) { result in
             switch result {
             case .failure(let error):
                 DispatchQueue.main.async {

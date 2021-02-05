@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct MarketGoodsListModel {
+struct MarketGoodsListNetworkModel {
     private static let task = NetworkTask(dispatcher: NetworkDispatcher())
     private class GoodsListModelRequest: Request {
         var page: UInt?

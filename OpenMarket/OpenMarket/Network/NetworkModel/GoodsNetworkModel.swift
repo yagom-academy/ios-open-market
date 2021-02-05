@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct GoodsModel {
+struct GoodsNetworkModel {
     typealias GoodsFormParameter = [String : Any]
     
     private static let task = NetworkTask(dispatcher: NetworkDispatcher())
