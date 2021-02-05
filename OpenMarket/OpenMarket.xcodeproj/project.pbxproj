@@ -204,6 +204,8 @@
 				FD299EBB25CB7797005BF35E /* MainViewController.swift */,
 				FD09F4D625CB87D000462012 /* TableViewController.swift */,
 				FD09F4DA25CB87D900462012 /* CollectionViewController.swift */,
+                3686F84325CD21CF0097B942 /* String+Style.swift */,
+                3686F84925CD2C900097B942 /* Int+Style.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -213,8 +215,6 @@
 			children = (
 				FD09F4E225CB9C7B00462012 /* GridCell.swift */,
 				36861AD925CBEB2B0052B091 /* ListCell.swift */,
-				3686F84325CD21CF0097B942 /* String+Style.swift */,
-				3686F84925CD2C900097B942 /* Int+Style.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
