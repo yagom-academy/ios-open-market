@@ -10,25 +10,25 @@ import UIKit
 
 extension ViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        guard let itemListCount = self.itemList?.items.count else {
-            return 0
+        if self.itemArray.count > 0 {
+            return self.itemArray.count
         }
-        return itemListCount
+        return 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ItemCollectionViewCell", for: indexPath) as? ItemCollectionViewCell else {
             return UICollectionViewCell()
         }
-        guard let list = itemList else {
+        guard let item = itemArray[indexPath.row] else {
             return cell
         }
         cell.layer.borderWidth = 2.0
         cell.layer.borderColor = UIColor.systemGray2.cgColor
         cell.layer.cornerRadius = 10.0
-        cell.setUpView(with: list.items[indexPath.item])
+        cell.setUpView(with: item)
         
-        if let imageURL = list.items[indexPath.item].thumbnails.first {
+        if let imageURL = item.thumbnails.first {
             ItemManager.shared.loadItemImage(with: imageURL) { result in
                 switch result {
                 case .success(let data):
