@@ -162,18 +162,8 @@ extension ViewController: UICollectionViewDataSource {
               let goodsList = self.goodsList else {
             return UICollectionViewCell()
         }
-        var marketCell: MarketCell
-        switch layoutType {
-        case .list:
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "listCell", for: indexPath) as? GoodsListCollectionViewCell else {
-                return UICollectionViewCell()
-            }
-            marketCell = cell
-        case .grid:
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "gridCell", for: indexPath) as? GoodsGridCollectionViewCell else {
-                return UICollectionViewCell()
-            }
-            marketCell = cell
+        guard let marketCell: MarketCell = collectionView.dequeueReusableCell(withReuseIdentifier: layoutType == .list ? "listCell" : "gridCell", for: indexPath) as? MarketCell else {
+            return UICollectionViewCell()
         }
         marketCell.configure(goodsList[indexPath.row], isLast: indexPath.row == goodsList.count - 1)
         return marketCell
