@@ -38,6 +38,7 @@
 		FD253D0B25C0030000525912 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD253D0A25C0030000525912 /* Parser.swift */; };
 		FD299EBC25CB7797005BF35E /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD299EBB25CB7797005BF35E /* MainViewController.swift */; };
 		FD51327725C7F589000D8E91 /* Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD51327625C7F589000D8E91 /* Networking.swift */; };
+		FD9250F225CDFACB00E90F18 /* PostingItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9250F125CDFACB00E90F18 /* PostingItemViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -86,6 +87,7 @@
 		FD253D0A25C0030000525912 /* Parser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
 		FD299EBB25CB7797005BF35E /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		FD51327625C7F589000D8E91 /* Networking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Networking.swift; sourceTree = "<group>"; };
+		FD9250F125CDFACB00E90F18 /* PostingItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostingItemViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -204,8 +206,9 @@
 				FD299EBB25CB7797005BF35E /* MainViewController.swift */,
 				FD09F4D625CB87D000462012 /* TableViewController.swift */,
 				FD09F4DA25CB87D900462012 /* CollectionViewController.swift */,
-                3686F84325CD21CF0097B942 /* String+Style.swift */,
-                3686F84925CD2C900097B942 /* Int+Style.swift */,
+				FD9250F125CDFACB00E90F18 /* PostingItemViewController.swift */,
+				3686F84325CD21CF0097B942 /* String+Style.swift */,
+				3686F84925CD2C900097B942 /* Int+Style.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -335,6 +338,7 @@
 				FD253CA925BF55E500525912 /* ItemsToGet.swift in Sources */,
 				FD253CAF25BF563A00525912 /* Item.swift in Sources */,
 				36861AB525C92DA70052B091 /* MultipartFormData.swift in Sources */,
+				FD9250F225CDFACB00E90F18 /* PostingItemViewController.swift in Sources */,
 				36861ADA25CBEB2B0052B091 /* ListCell.swift in Sources */,
 				FD253CBD25BF56D800525912 /* ItemToDelete.swift in Sources */,
 				FD253D0B25C0030000525912 /* Parser.swift in Sources */,
