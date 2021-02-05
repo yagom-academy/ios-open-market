@@ -153,9 +153,7 @@ class ViewController: UIViewController {
 
 extension ViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        guard let goodsList = self.goodsList,
-              isPagingLoading == false,
-              hasNextPage == true else {
+        guard let goodsList = self.goodsList else {
             return 1
         }
         
