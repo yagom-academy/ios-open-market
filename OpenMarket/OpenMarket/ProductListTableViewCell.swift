@@ -5,6 +5,7 @@ class ProductListTableViewCell: UITableViewCell {
     static let identifier: String = "ProductListTableViewCell"
     let productNameLabel: UILabel = UILabel()
     let productPriceLabel: UILabel = UILabel()
+    let productDiscountedPriceLabel: UILabel = UILabel()
     let productStockLabel: UILabel = UILabel()
     let productThumbnailImageView: UIImageView = UIImageView()
     
@@ -46,11 +47,18 @@ class ProductListTableViewCell: UITableViewCell {
         productPriceLabel.adjustsFontForContentSizeCategory = true
         productPriceLabel.textColor = .gray
         productPriceLabel.minimumScaleFactor = .leastNormalMagnitude
+        
+        productDiscountedPriceLabel.translatesAutoresizingMaskIntoConstraints = false
+        productDiscountedPriceLabel.font = .preferredFont(forTextStyle: .body)
+        productDiscountedPriceLabel.adjustsFontForContentSizeCategory = true
+        productDiscountedPriceLabel.textColor = .gray
+        productDiscountedPriceLabel.minimumScaleFactor = .leastNormalMagnitude
     }
     
     private func setUpConstraints() {
         self.contentView.addSubview(productNameLabel)
         self.contentView.addSubview(productPriceLabel)
+        self.contentView.addSubview(productDiscountedPriceLabel)
         self.contentView.addSubview(productThumbnailImageView)
         self.contentView.addSubview(productStockLabel)
         
@@ -67,6 +75,10 @@ class ProductListTableViewCell: UITableViewCell {
             productPriceLabel.topAnchor.constraint(equalTo: productNameLabel.bottomAnchor, constant: 5),
             productPriceLabel.leadingAnchor.constraint(equalTo: productNameLabel.leadingAnchor),
             productPriceLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5),
+            
+            productDiscountedPriceLabel.topAnchor.constraint(equalTo: productPriceLabel.topAnchor),
+            productDiscountedPriceLabel.leadingAnchor.constraint(equalTo: productPriceLabel.trailingAnchor, constant: 5),
+            productDiscountedPriceLabel.bottomAnchor.constraint(equalTo: productPriceLabel.bottomAnchor),
             
             productStockLabel.topAnchor.constraint(equalTo: productNameLabel.topAnchor),
             productStockLabel.leadingAnchor.constraint(equalTo: productNameLabel.trailingAnchor, constant: 5),
