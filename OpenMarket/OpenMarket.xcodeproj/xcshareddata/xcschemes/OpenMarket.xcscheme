@@ -37,6 +37,14 @@
                BlueprintName = "OpenMarketTests"
                ReferencedContainer = "container:OpenMarket.xcodeproj">
             </BuildableReference>
+            <SkippedTests>
+               <Test
+                  Identifier = "MockOpenMarketTests">
+               </Test>
+               <Test
+                  Identifier = "MockURLSessionUploadTask">
+               </Test>
+            </SkippedTests>
          </TestableReference>
       </Testables>
    </TestAction>

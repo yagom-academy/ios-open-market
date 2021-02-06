@@ -1,0 +1,111 @@
+
+import UIKit
+
+class ProductGridViewCell: UICollectionViewCell {
+    static let identifier: String = "ProductGridViewCell"
+    lazy var productNameLabel: UILabel = {
+        let productNameLabel = UILabel()
+        productNameLabel.translatesAutoresizingMaskIntoConstraints = false
+        productNameLabel.font = .preferredFont(forTextStyle: .headline)
+        productNameLabel.textAlignment = .center
+        productNameLabel.adjustsFontForContentSizeCategory = true
+        productNameLabel.textColor = .black
+        productNameLabel.setContentHuggingPriority(.defaultLow, for: .horizontal)
+        productNameLabel.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+        productNameLabel.adjustsFontSizeToFitWidth = true
+        return productNameLabel
+    }()
+    lazy var productPriceLabel: UILabel = {
+        let productPriceLabel = UILabel()
+        productPriceLabel.translatesAutoresizingMaskIntoConstraints = false
+        productPriceLabel.font = .preferredFont(forTextStyle: .body)
+        productPriceLabel.textAlignment = .center
+        productPriceLabel.adjustsFontForContentSizeCategory = true
+        productPriceLabel.textColor = .gray
+        productPriceLabel.adjustsFontSizeToFitWidth = true
+        return productPriceLabel
+    }()
+    lazy var productDiscountedPriceLabel: UILabel = {
+        let productDiscountedPriceLabel = UILabel()
+        productDiscountedPriceLabel.translatesAutoresizingMaskIntoConstraints = false
+        productDiscountedPriceLabel.font = .preferredFont(forTextStyle: .body)
+        productDiscountedPriceLabel.textAlignment = .center
+        productDiscountedPriceLabel.adjustsFontForContentSizeCategory = true
+        productDiscountedPriceLabel.textColor = .gray
+        productDiscountedPriceLabel.adjustsFontSizeToFitWidth = true
+        return productDiscountedPriceLabel
+    }()
+    lazy var productStockLabel: UILabel = {
+       let productStockLabel = UILabel()
+        productStockLabel.translatesAutoresizingMaskIntoConstraints = false
+        productStockLabel.font = .preferredFont(forTextStyle: .body)
+        productStockLabel.textAlignment = .center
+        productStockLabel.adjustsFontSizeToFitWidth = true
+        productStockLabel.adjustsFontForContentSizeCategory = true
+        productStockLabel.textColor = .gray
+        productStockLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        productStockLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        productStockLabel.adjustsFontSizeToFitWidth = true
+        return productStockLabel
+    }()
+    lazy var productThumbnailImageView: UIImageView = {
+        let productThumbnailImageView = UIImageView()
+        productThumbnailImageView.translatesAutoresizingMaskIntoConstraints = false
+        return productThumbnailImageView
+    }()
+    lazy var stackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.addArrangedSubview(productNameLabel)
+        stackView.addArrangedSubview(productPriceLabel)
+        stackView.addArrangedSubview(productDiscountedPriceLabel)
+        stackView.addArrangedSubview(productStockLabel)
+        stackView.distribution = .equalSpacing
+        stackView.alignment = .center
+        stackView.axis = .vertical
+        return stackView
+    }()
+
+    override init(frame: CGRect) {
+        super .init(frame: frame)
+        self.layer.borderWidth = 1
+        self.layer.borderColor = UIColor.magenta.cgColor
+        setUpConstraints()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    private func setUpConstraints() {
+        contentView.addSubview(productThumbnailImageView)
+        contentView.addSubview(stackView)
+        
+        NSLayoutConstraint.activate([
+            productThumbnailImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
+            productThumbnailImageView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            productThumbnailImageView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.7),
+            productThumbnailImageView.heightAnchor.constraint(equalTo: productThumbnailImageView.widthAnchor, multiplier: 1),
+            
+            productPriceLabel.leadingAnchor.constraint(equalTo: productThumbnailImageView.leadingAnchor),
+            productPriceLabel.trailingAnchor.constraint(equalTo: productThumbnailImageView.trailingAnchor),
+            
+            productNameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 5),
+            productNameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -5),
+            
+            productStockLabel.leadingAnchor.constraint(equalTo: productNameLabel.leadingAnchor),
+            productStockLabel.trailingAnchor.constraint(equalTo: productNameLabel.trailingAnchor),
+
+            stackView.topAnchor.constraint(equalTo: productThumbnailImageView.bottomAnchor),
+            stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            stackView.centerXAnchor.constraint(equalTo: productThumbnailImageView.centerXAnchor)
+
+        ])
+    }
+    
+    override func prepareForReuse() {
+        productThumbnailImageView.image = nil
+        productStockLabel.textColor = .gray
+    }
+}
+
