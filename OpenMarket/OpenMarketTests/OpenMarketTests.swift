@@ -10,31 +10,31 @@ import XCTest
 
 class OpenMarketTests: XCTestCase {
     func test_networkconfig_makeURLPath_fetchGoodsList() {
-        let path = NetworkConfig.makeURLPath(api: .fetchGoodsList, with: 1)
+        let path = NetworkEndPoints.makeURLPath(api: .fetchGoodsList, with: 1)
         let targetPath = "/items/1"
         XCTAssertEqual(targetPath, path)
     }
     
     func test_networkconfig_makeURLPath_fetchGoods() {
-        let path = NetworkConfig.makeURLPath(api: .fetchGoods, with: 1)
+        let path = NetworkEndPoints.makeURLPath(api: .fetchGoods, with: 1)
         let targetPath = "/item/1"
         XCTAssertEqual(targetPath, path)
     }
     
     func test_networkconfig_makeURLPath_registerGoods() {
-        let path = NetworkConfig.makeURLPath(api: .registerGoods, with: nil)
+        let path = NetworkEndPoints.makeURLPath(api: .registerGoods, with: nil)
         let targetPath = "/item"
         XCTAssertEqual(targetPath, path)
     }
     
     func test_networkconfig_makeURLPath_editGoods() {
-        let path = NetworkConfig.makeURLPath(api: .editGoods, with: 1)
+        let path = NetworkEndPoints.makeURLPath(api: .editGoods, with: 1)
         let targetPath = "/item/1"
         XCTAssertEqual(targetPath, path)
     }
     
     func test_networkconfig_makeURLPath_removeGoods() {
-        let path = NetworkConfig.makeURLPath(api: .removeGoods, with: 1)
+        let path = NetworkEndPoints.makeURLPath(api: .removeGoods, with: 1)
         let targetPath = "/item/1"
         XCTAssertEqual(targetPath, path)
     }

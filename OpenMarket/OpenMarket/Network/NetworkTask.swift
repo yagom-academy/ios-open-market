@@ -14,7 +14,7 @@ class NetworkTask {
         self.dispatcher = dispatcher
     }
     
-    func perform<T: Decodable>(request: Request, dataType: T.Type, completion: @escaping(Result<Any, Error>) -> Void) {
+    func perform<T: Decodable>(request: Request, dataType: T.Type, completion: @escaping(Result<T, Error>) -> Void) {
         dispatcher.execute(request: request) { result in
             switch result {
             case .success(let data):
