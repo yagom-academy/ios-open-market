@@ -37,13 +37,12 @@ struct APIManager {
         }
     }
     
-    static func request(of requestType: RequestType, completionHandler: @escaping URLSessionHandling) throws {
+    static private func request(of requestType: RequestType, completionHandler: @escaping URLSessionHandling) throws {
         let request = try makeURLRequest(requestType: requestType)
         
         switch requestType {
         case .getPage, .getItem, .delete:
             URLSession.shared.dataTask(with: request, completionHandler: completionHandler).resume()
-            
         case .post, .patch:
             URLSession.shared.uploadTask(with: request, from: request.httpBody, completionHandler: completionHandler).resume()
         }
@@ -59,19 +58,10 @@ struct APIManager {
         switch requestType {
         case .getPage, .getItem:
             break
-            
         case .post(let item):
-            let boundary = "--OdongBoundary"
-            let data = makeDataToUpload(item: item, boundary: boundary)
-            request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
-            request.httpBody = data
-            
+            makeRequsetToUpdate(request: &request, item: item)
         case .patch(_, let item):
-            let boundary = "--OdongBoundary"
-            let data = makeDataToUpload(item: item, boundary: boundary)
-            request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
-            request.httpBody = data
-            
+            makeRequsetToUpdate(request: &request, item: item)
         case .delete(_, let item):
             let data = try? JSONEncoder().encode(item)
             request.setValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -79,6 +69,13 @@ struct APIManager {
         }
         
         return request
+    }
+    
+    static private func makeRequsetToUpdate(request: inout URLRequest, item: ItemToUpdate) {
+        let boundary = "--OdongBoundary"
+        let data = makeDataToUpload(item: item, boundary: boundary)
+        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        request.httpBody = data
     }
     
     static private func makeDataToUpload(item: ItemToUpdate, boundary: String) -> Data {
