@@ -11,15 +11,14 @@ struct APIManager {
     typealias URLSessionHandling = (Data?, URLResponse?, Error?) -> Void
     typealias ResultDataHandling = (Result<Data, Error>) -> ()
     
-    static func request(requestType: RequestType, result: @escaping ResultDataHandling) {
+    static func handleRequest(requestType: RequestType, result: @escaping ResultDataHandling) {
         do {
-            try makeURLRequest(requestType: requestType) { data, response, error in
+            try request(of: requestType) { data, response, error in
                 guard error == nil else {
                     result(.failure(NetworkingError.failedRequest))
                     return
                 }
 
-                dump(response)
                 guard let response = response as? HTTPURLResponse,
                       (200...299).contains(response.statusCode) else {
                     result(.failure(NetworkingError.failedResponse))
@@ -38,7 +37,19 @@ struct APIManager {
         }
     }
     
-    static private func makeURLRequest(requestType: RequestType, completionHandler: @escaping URLSessionHandling) throws {
+    static func request(of requestType: RequestType, completionHandler: @escaping URLSessionHandling) throws {
+        let request = try makeURLRequest(requestType: requestType)
+        
+        switch requestType {
+        case .getPage, .getItem, .delete:
+            URLSession.shared.dataTask(with: request, completionHandler: completionHandler).resume()
+            
+        case .post, .patch:
+            URLSession.shared.uploadTask(with: request, from: request.httpBody, completionHandler: completionHandler).resume()
+        }
+    }
+    
+    static private func makeURLRequest(requestType: RequestType) throws -> URLRequest {
         guard let url = requestType.url else {
             throw NetworkingError.invalidURL
         }
@@ -47,31 +58,27 @@ struct APIManager {
         
         switch requestType {
         case .getPage, .getItem:
-            URLSession.shared.dataTask(with: request, completionHandler: completionHandler).resume()
+            break
             
         case .post(let item):
             let boundary = "--OdongBoundary"
             let data = makeDataToUpload(item: item, boundary: boundary)
             request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
             request.httpBody = data
-        
-            URLSession.shared.uploadTask(with: request, from: data, completionHandler: completionHandler).resume()
             
         case .patch(_, let item):
             let boundary = "--OdongBoundary"
             let data = makeDataToUpload(item: item, boundary: boundary)
             request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
             request.httpBody = data
-        
-            URLSession.shared.uploadTask(with: request, from: data, completionHandler: completionHandler).resume()
             
         case .delete(_, let item):
             let data = try? JSONEncoder().encode(item)
             request.setValue("application/json", forHTTPHeaderField: "Content-Type")
             request.httpBody = data
-            
-            URLSession.shared.dataTask(with: request, completionHandler: completionHandler).resume()
         }
+        
+        return request
     }
     
     static private func makeDataToUpload(item: ItemToUpdate, boundary: String) -> Data {
