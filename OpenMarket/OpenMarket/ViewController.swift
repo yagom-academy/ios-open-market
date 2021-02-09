@@ -112,7 +112,7 @@ class ViewController: UIViewController {
                     self.hasNextPage = false
                     DispatchQueue.main.async {
                         if self.itemCollectionView.isHidden {
-                            self.itemTableView.reloadData()
+                            self.itemTableView.reloadSections(IndexSet(integer: 1), with: .none)
                         }
                     }
                     return
