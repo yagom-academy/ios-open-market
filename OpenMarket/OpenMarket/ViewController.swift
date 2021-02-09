@@ -58,15 +58,11 @@ class ViewController: UIViewController {
         case 0:
             itemTableView.isHidden = false
             itemCollectionView.isHidden = true
-            DispatchQueue.main.async {
-                self.itemTableView.reloadData()
-            }
+            self.itemTableView.reloadData()
         case 1:
             itemTableView.isHidden = true
             itemCollectionView.isHidden = false
-            DispatchQueue.main.async {
-                self.itemCollectionView.reloadData()
-            }
+            self.itemCollectionView.reloadData()
         default:
             break
         }
