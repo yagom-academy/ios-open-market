@@ -18,8 +18,10 @@ extension UIImageView {
                 DispatchQueue.main.async {
                     self.image = image
                 }
-            case .failure(let error):
-                NotificationCenter.default.post(name: Notification.Name("failFetchImage"), object: error)
+            case .failure:
+                DispatchQueue.main.async {
+                    self.image = UIImage(named: "DefaultImage")
+                }
             }
         }
     }

@@ -21,7 +21,6 @@ class ViewController: UIViewController {
         setUpLoadingIndicatorView()
         setUpSegmentedControl()
         setUpNavigationRightBarButton()
-        setUpNotification()
         setUpDelegateAndDataSource()
         loadItemList(page: currentPage)
     }
@@ -77,18 +76,6 @@ class ViewController: UIViewController {
             return
         }
         self.navigationController?.pushViewController(postViewController, animated: true)
-    }
-    
-    //MARK: SetUpNotification
-    private func setUpNotification() {
-        NotificationCenter.default.addObserver(self, selector: #selector(handleLoadImageError), name: Notification.Name("failFetchImage"), object: nil)
-    }
-    
-    @objc func handleLoadImageError(_ notification: Notification) {
-        guard let error = notification.object as? OpenMarketError else {
-            return
-        }
-        self.errorHandling(error: error)
     }
     
     //MARK: SetUpDelegateAndDataSource
