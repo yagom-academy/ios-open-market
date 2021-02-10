@@ -16,8 +16,8 @@
 		2604B2CD25CCEE1400C24242 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2604B2CC25CCEE1400C24242 /* StringExtension.swift */; };
 		2604B2D325CD126200C24242 /* UIImageViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2604B2D225CD126200C24242 /* UIImageViewExtension.swift */; };
 		2604B2D725CD314900C24242 /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2604B2D625CD314900C24242 /* PostViewController.swift */; };
-		26228A1A25C8398300D73641 /* ItemListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26228A1925C8398300D73641 /* ItemListView.swift */; };
-		26228A1E25C83B8400D73641 /* ItemGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26228A1D25C83B8400D73641 /* ItemGridView.swift */; };
+		26228A1A25C8398300D73641 /* ViewControllerItemListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26228A1925C8398300D73641 /* ViewControllerItemListView.swift */; };
+		26228A1E25C83B8400D73641 /* ViewControllerItemGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26228A1D25C83B8400D73641 /* ViewControllerItemGridView.swift */; };
 		26228A2A25C9049500D73641 /* Item.json in Resources */ = {isa = PBXBuildFile; fileRef = 26228A2925C9049500D73641 /* Item.json */; };
 		2678E79425BFB49D00938BED /* ItemList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2678E79325BFB49D00938BED /* ItemList.swift */; };
 		2678E79725BFB4D400938BED /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2678E79625BFB4D400938BED /* Item.swift */; };
@@ -57,8 +57,8 @@
 		2604B2CC25CCEE1400C24242 /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
 		2604B2D225CD126200C24242 /* UIImageViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageViewExtension.swift; sourceTree = "<group>"; };
 		2604B2D625CD314900C24242 /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
-		26228A1925C8398300D73641 /* ItemListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemListView.swift; sourceTree = "<group>"; };
-		26228A1D25C83B8400D73641 /* ItemGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemGridView.swift; sourceTree = "<group>"; };
+		26228A1925C8398300D73641 /* ViewControllerItemListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerItemListView.swift; sourceTree = "<group>"; };
+		26228A1D25C83B8400D73641 /* ViewControllerItemGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerItemGridView.swift; sourceTree = "<group>"; };
 		26228A2925C9049500D73641 /* Item.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Item.json; sourceTree = "<group>"; };
 		2678E79325BFB49D00938BED /* ItemList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemList.swift; sourceTree = "<group>"; };
 		2678E79625BFB4D400938BED /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
@@ -115,8 +115,8 @@
 		2604B2A425CAB74C00C24242 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				26228A1925C8398300D73641 /* ItemListView.swift */,
-				26228A1D25C83B8400D73641 /* ItemGridView.swift */,
+				26228A1925C8398300D73641 /* ViewControllerItemListView.swift */,
+				26228A1D25C83B8400D73641 /* ViewControllerItemGridView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -326,7 +326,7 @@
 				2678E7AC25BFBB2700938BED /* NetworkConfig.swift in Sources */,
 				2604B2AD25CAB95600C24242 /* ItemTableViewCell.swift in Sources */,
 				2604B2B925CC081E00C24242 /* TableViewLoadingCell.swift in Sources */,
-				26228A1E25C83B8400D73641 /* ItemGridView.swift in Sources */,
+				26228A1E25C83B8400D73641 /* ViewControllerItemGridView.swift in Sources */,
 				2604B2D325CD126200C24242 /* UIImageViewExtension.swift in Sources */,
 				2678E7B425BFCC5B00938BED /* ItemManager.swift in Sources */,
 				2604B29B25CA736600C24242 /* DataExtension.swift in Sources */,
@@ -335,7 +335,7 @@
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				2604B28D25C94F4300C24242 /* UIViewControllerExtensionError.swift in Sources */,
 				2604B2CD25CCEE1400C24242 /* StringExtension.swift in Sources */,
-				26228A1A25C8398300D73641 /* ItemListView.swift in Sources */,
+				26228A1A25C8398300D73641 /* ViewControllerItemListView.swift in Sources */,
 				2604B2C325CC3D7E00C24242 /* ViewControllerExtension.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 				2678E79E25BFB9A900938BED /* ItemToUpload.swift in Sources */,
