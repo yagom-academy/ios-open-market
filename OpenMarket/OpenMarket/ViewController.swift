@@ -19,7 +19,8 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpLoadingIndicatorView()
-        setUpNavigationBar()
+        setUpSegmentedControl()
+        setUpNavigationRightBarButton()
         setUpNotification()
         setUpDelegateAndDataSource()
         loadItemList(page: currentPage)
@@ -33,7 +34,7 @@ class ViewController: UIViewController {
     }
     
     //MARK: SetUpNaviationBar
-    private func setUpNavigationBar() {
+    private func setUpSegmentedControl() {
         let titles = ["List", "Grid"]
         let segmentControl: UISegmentedControl = UISegmentedControl(items: titles)
         segmentControl.selectedSegmentTintColor = UIColor.systemBlue
@@ -49,8 +50,6 @@ class ViewController: UIViewController {
         segmentControl.sendActions(for: .valueChanged)
         
         navigationItem.titleView = segmentControl
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "+", style: .plain, target: self, action: #selector(moveToPostViewController))
-        navigationItem.rightBarButtonItem?.tintColor = UIColor.systemBlue
     }
     
     @objc func segmentChanged(_ sender: UISegmentedControl) {
@@ -66,6 +65,11 @@ class ViewController: UIViewController {
         default:
             break
         }
+    }
+    
+    private func setUpNavigationRightBarButton() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "+", style: .plain, target: self, action: #selector(moveToPostViewController))
+        navigationItem.rightBarButtonItem?.tintColor = UIColor.systemBlue
     }
     
     @objc func moveToPostViewController() {
