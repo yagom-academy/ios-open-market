@@ -77,7 +77,9 @@ struct APIManager {
         request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
         request.httpBody = data
     }
-    
+}
+
+extension APIManager {
     static private func makeDataToUpload(item: ItemToUpdate, boundary: String) -> Data {
         let parameters = item.makeParameters()
         let imageList = item.makeImageListToUpload()

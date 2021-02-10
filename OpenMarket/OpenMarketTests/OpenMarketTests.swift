@@ -28,7 +28,7 @@ class OpenMarketTests: XCTestCase {
         
         let item = ItemToUpdate(title: "AAAAAAAAAAAAAAAAAAAA", descriptions: "AAAAAAAAAAAAAAAA", price: 2, currency: "KRW", stock: 10, discountedPrice: 1, images: [image1, image2], password: "0")
         
-        APIManager.request(requestType: .post(itme: item)) { result in
+        APIManager.handleRequest(requestType: .post(itme: item)) { result in
             switch result {
             case .success(let data):
                 dump(data)
@@ -39,7 +39,7 @@ class OpenMarketTests: XCTestCase {
             expectation.fulfill()
         }
         
-        wait(for: [expectation], timeout: 10)
+        wait(for: [expectation], timeout: 30)
     }
 }
     
