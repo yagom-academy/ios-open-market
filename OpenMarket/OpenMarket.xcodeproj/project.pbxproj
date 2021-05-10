@@ -15,7 +15,18 @@
 		C70FB10725BEF61D00C9924E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */; };
 		FF6AB59D26491B160075073E /* OpenMarketItemsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF6AB59C26491B160075073E /* OpenMarketItemsList.swift */; };
 		FF6AB5A126491C0F0075073E /* OpenMarketItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF6AB5A026491C0F0075073E /* OpenMarketItem.swift */; };
+		FF6AB5AA26491DED0075073E /* OpenMarketTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF6AB5A926491DED0075073E /* OpenMarketTests.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		FF6AB5AC26491DED0075073E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C70FB0EF25BEF61C00C9924E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C70FB0F625BEF61C00C9924E;
+			remoteInfo = OpenMarket;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -28,10 +39,20 @@
 		C70FB10825BEF61D00C9924E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FF6AB59C26491B160075073E /* OpenMarketItemsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketItemsList.swift; sourceTree = "<group>"; };
 		FF6AB5A026491C0F0075073E /* OpenMarketItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketItem.swift; sourceTree = "<group>"; };
+		FF6AB5A726491DED0075073E /* OpenMarketTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenMarketTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		FF6AB5A926491DED0075073E /* OpenMarketTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketTests.swift; sourceTree = "<group>"; };
+		FF6AB5AB26491DED0075073E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		C70FB0F425BEF61C00C9924E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FF6AB5A426491DED0075073E /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -45,6 +66,7 @@
 			isa = PBXGroup;
 			children = (
 				C70FB0F925BEF61C00C9924E /* OpenMarket */,
+				FF6AB5A826491DED0075073E /* OpenMarketTests */,
 				C70FB0F825BEF61C00C9924E /* Products */,
 			);
 			sourceTree = "<group>";
@@ -53,6 +75,7 @@
 			isa = PBXGroup;
 			children = (
 				C70FB0F725BEF61C00C9924E /* OpenMarket.app */,
+				FF6AB5A726491DED0075073E /* OpenMarketTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -97,6 +120,15 @@
 			path = Controller;
 			sourceTree = "<group>";
 		};
+		FF6AB5A826491DED0075073E /* OpenMarketTests */ = {
+			isa = PBXGroup;
+			children = (
+				FF6AB5A926491DED0075073E /* OpenMarketTests.swift */,
+				FF6AB5AB26491DED0075073E /* Info.plist */,
+			);
+			path = OpenMarketTests;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -117,17 +149,39 @@
 			productReference = C70FB0F725BEF61C00C9924E /* OpenMarket.app */;
 			productType = "com.apple.product-type.application";
 		};
+		FF6AB5A626491DED0075073E /* OpenMarketTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FF6AB5AE26491DED0075073E /* Build configuration list for PBXNativeTarget "OpenMarketTests" */;
+			buildPhases = (
+				FF6AB5A326491DED0075073E /* Sources */,
+				FF6AB5A426491DED0075073E /* Frameworks */,
+				FF6AB5A526491DED0075073E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				FF6AB5AD26491DED0075073E /* PBXTargetDependency */,
+			);
+			name = OpenMarketTests;
+			productName = OpenMarketTests;
+			productReference = FF6AB5A726491DED0075073E /* OpenMarketTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		C70FB0EF25BEF61C00C9924E /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1230;
+				LastSwiftUpdateCheck = 1210;
 				LastUpgradeCheck = 1230;
 				TargetAttributes = {
 					C70FB0F625BEF61C00C9924E = {
 						CreatedOnToolsVersion = 12.3;
+					};
+					FF6AB5A626491DED0075073E = {
+						CreatedOnToolsVersion = 12.1;
+						TestTargetID = C70FB0F625BEF61C00C9924E;
 					};
 				};
 			};
@@ -145,6 +199,7 @@
 			projectRoot = "";
 			targets = (
 				C70FB0F625BEF61C00C9924E /* OpenMarket */,
+				FF6AB5A626491DED0075073E /* OpenMarketTests */,
 			);
 		};
 /* End PBXProject section */
@@ -157,6 +212,13 @@
 				C70FB10725BEF61D00C9924E /* LaunchScreen.storyboard in Resources */,
 				C70FB10425BEF61D00C9924E /* Assets.xcassets in Resources */,
 				C70FB10225BEF61C00C9924E /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FF6AB5A526491DED0075073E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -175,7 +237,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		FF6AB5A326491DED0075073E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FF6AB5AA26491DED0075073E /* OpenMarketTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		FF6AB5AD26491DED0075073E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C70FB0F625BEF61C00C9924E /* OpenMarket */;
+			targetProxy = FF6AB5AC26491DED0075073E /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		C70FB10025BEF61C00C9924E /* Main.storyboard */ = {
@@ -351,6 +429,48 @@
 			};
 			name = Release;
 		};
+		FF6AB5AF26491DED0075073E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = UQ7NNW9PV7;
+				INFOPLIST_FILE = OpenMarketTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = SJSJ.OpenMarketTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OpenMarket.app/OpenMarket";
+			};
+			name = Debug;
+		};
+		FF6AB5B026491DED0075073E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = UQ7NNW9PV7;
+				INFOPLIST_FILE = OpenMarketTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = SJSJ.OpenMarketTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OpenMarket.app/OpenMarket";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -368,6 +488,15 @@
 			buildConfigurations = (
 				C70FB10C25BEF61D00C9924E /* Debug */,
 				C70FB10D25BEF61D00C9924E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FF6AB5AE26491DED0075073E /* Build configuration list for PBXNativeTarget "OpenMarketTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FF6AB5AF26491DED0075073E /* Debug */,
+				FF6AB5B026491DED0075073E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
