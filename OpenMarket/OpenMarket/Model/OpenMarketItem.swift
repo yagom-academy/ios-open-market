@@ -15,6 +15,6 @@ struct OpenMarketItem: Codable {
     let stock: Int
     let discounted_price: Int?
     let thumbnails: [String]
-    let images: [String]
-    let registration_date: Int
+//    let images: [String]
+    let registration_date: Double
 }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct OpenMarketItemsList {
+struct OpenMarketItemsList: Codable {
     let page: Int
     let items: [OpenMarketItem]
 }
