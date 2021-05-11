@@ -16,6 +16,7 @@ struct GetItemIdentityResponse: Decodable {
     var stock: Int
     var discountedPrice: Int?
     var thumbnails: [String]
+    var images: [String]
     var registrationDate: Double
     
     private enum CodingKeys: String, CodingKey {
@@ -27,6 +28,7 @@ struct GetItemIdentityResponse: Decodable {
         case stock
         case discountedPrice = "discounted_price"
         case thumbnails
+        case images
         case registrationDate = "registration_date"
     }
 }
