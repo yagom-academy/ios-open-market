@@ -38,7 +38,7 @@ class OpenMarketTests: XCTestCase {
             XCTFail()
             return
         }
-
+        print("Hello111")
         XCTAssertEqual(result.page, 1)
         XCTAssertEqual(result.items.count, 20)
         XCTAssertEqual(result.items[0].id, 43)
@@ -61,5 +61,32 @@ class OpenMarketTests: XCTestCase {
         
         guard let jsonString = String(data: jsonData, encoding: .utf8) else { XCTFail(); return}
         XCTAssertEqual(jsonString, resultJson)
+    }
+    
+    func test_Http_DELETE_메소드_보내기() {
+        guard let url = URL(string: "https://camp-open-market-2.herokuapp.com/item/77")
+        else { XCTFail(); return }
+        
+        let promise = expectation(description: "Status code: 200")
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "DELETE"
+        request.httpBody = "{ \"password\": \"123\" }".data(using: .utf8)
+        
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue("application/json", forHTTPHeaderField: "Accept")
+    
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            guard error == nil else {
+                XCTFail()
+                return
+            }
+            if let statusCode = (response as? HTTPURLResponse)?.statusCode {
+                XCTAssertEqual(statusCode, 200)
+                promise.fulfill()
+            }
+        }.resume()
+        
+        wait(for: [promise], timeout: 2)
     }
 }
