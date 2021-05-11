@@ -33,7 +33,6 @@ class ModelTest: XCTestCase {
             """
         let jsonData = json.data(using: .utf8)!
         let getItemPageResponse = try JSONDecoder().decode(GetItemPageResponse.self, from: jsonData)
-        print("@@@@@",getItemPageResponse.items[0])
         XCTAssertEqual(getItemPageResponse.page, 1)
         XCTAssertEqual(getItemPageResponse.items[0].id, 1)
         XCTAssertEqual(getItemPageResponse.items[0].title, "MacBook Pro")
