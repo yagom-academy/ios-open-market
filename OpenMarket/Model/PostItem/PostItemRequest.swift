@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct PostItemRequest: Encodable{
+struct PostItemRequest: Codable {
     var title: String
     var descriptions: String
     var price: Int

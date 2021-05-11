@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct PatchItemIdentityRequest: Encodable{
+struct PatchItemIdentityRequest: Codable{
     var title: String?
     var descriptions: String?
     var price: Int?
@@ -16,7 +16,7 @@ struct PatchItemIdentityRequest: Encodable{
     var discountedPrice: Int?
     var images: [String]?
     var password: String
-    
+
     private enum CodingKeys: String, CodingKey {
         case title
         case descriptions
