@@ -21,7 +21,6 @@ class OpenMarketTests: XCTestCase {
     func test_URL요청하기() {
         let url = URL(string: "https://camp-open-market-2.herokuapp.com/items/1")
         let response = try? String(contentsOf: url!)
-        print(response)
         XCTAssertNotNil(response)
     }
     
@@ -49,5 +48,18 @@ class OpenMarketTests: XCTestCase {
         XCTAssertEqual(result.items[0].price, 165)
         XCTAssertEqual(result.items[0].discounted_price, 160)
         XCTAssertEqual(result.items[0].registration_date, 1620633347.3906322)
+    }
+    
+    func test_상품_등록_폼_인스턴스를_Json으로_변환() {
+        let form = ItemRegistrationForm(title: "m2맥북", descriptions: "빨리나와", price: 1999, currency: "USD", stock: 100, discounted_price: 1800, images: ["hello"], password: "1234")
+        let encoder = JSONEncoder()
+        let resultJson = """
+        {"images":["hello"],"password":"1234","discounted_price":1800,"price":1999,"stock":100,"title":"m2맥북","descriptions":"빨리나와","currency":"USD"}
+        """
+        
+        guard let jsonData = try? encoder.encode(form) else { XCTFail(); return }
+        
+        guard let jsonString = String(data: jsonData, encoding: .utf8) else { XCTFail(); return}
+        XCTAssertEqual(jsonString, resultJson)
     }
 }
