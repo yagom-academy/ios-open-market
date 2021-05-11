@@ -7,14 +7,14 @@
 
 import Foundation
 
-struct ItemForm {
-    var title: String
-    var descriptions: String
-    var price: Int
-    var currency: String
-    var stock: Int
-    var discounted_price: Int
-    var images: [String]
+struct PatchItemIdentityRequest: Encodable{
+    var title: String?
+    var descriptions: String?
+    var price: Int?
+    var currency: String?
+    var stock: Int?
+    var discountedPrice: Int?
+    var images: [String]?
     var password: String
     
     private enum CodingKeys: String, CodingKey {

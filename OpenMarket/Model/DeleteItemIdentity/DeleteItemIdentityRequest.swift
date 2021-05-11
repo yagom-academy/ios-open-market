@@ -7,6 +7,6 @@
 
 import Foundation
 
-struct Password {
+struct DeleteItemIdentityRequest: Encodable {
     var password: String
 }
