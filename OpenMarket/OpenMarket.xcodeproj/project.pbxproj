@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		768E885F264A1F9C008D19C0 /* EntireArticle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768E885E264A1F9C008D19C0 /* EntireArticle.swift */; };
+		768E8861264A1FB5008D19C0 /* EssentialArticle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768E8860264A1FB5008D19C0 /* EssentialArticle.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
 		C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */; };
 		C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FE25BEF61C00C9924E /* ViewController.swift */; };
@@ -16,6 +18,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		768E885E264A1F9C008D19C0 /* EntireArticle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntireArticle.swift; sourceTree = "<group>"; };
+		768E8860264A1FB5008D19C0 /* EssentialArticle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EssentialArticle.swift; sourceTree = "<group>"; };
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -63,6 +67,8 @@
 				C70FB10325BEF61D00C9924E /* Assets.xcassets */,
 				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
 				C70FB10825BEF61D00C9924E /* Info.plist */,
+				768E885E264A1F9C008D19C0 /* EntireArticle.swift */,
+				768E8860264A1FB5008D19C0 /* EssentialArticle.swift */,
 			);
 			path = OpenMarket;
 			sourceTree = "<group>";
@@ -138,8 +144,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
+				768E885F264A1F9C008D19C0 /* EntireArticle.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
+				768E8861264A1FB5008D19C0 /* EssentialArticle.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
