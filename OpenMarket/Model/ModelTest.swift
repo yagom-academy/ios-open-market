@@ -58,7 +58,7 @@ class ModelTest: XCTestCase {
     }
     
     func testPostItemResponse() throws {
-        // description \n 오류
+   
         let json = """
                 {
                     "id": 1,
