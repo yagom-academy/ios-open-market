@@ -10,15 +10,10 @@ import XCTest
 class OpenMarketTests: XCTestCase {
     private var sut_marketItemList: MarketItemList?
     
-    override func setUp() {
-        super.setUp()
+    override func setUpWithError() throws {
+        try super.setUpWithError()
         guard let marketListAsset = NSDataAsset.init(name: "Items") else { return }
-        do {
-            sut_marketItemList = try JSONDecoder().decode(MarketItemList.self, from: marketListAsset.data)
-
-        } catch {
-            print(error.localizedDescription)
-        }
+        sut_marketItemList = try JSONDecoder().decode(MarketItemList.self, from: marketListAsset.data)
         
     }
     
@@ -28,12 +23,20 @@ class OpenMarketTests: XCTestCase {
     }
     
     func test_marketItemList_page() {
-        guard let marketItemList = sut_marketItemList else { return }
+        guard let marketItemList = sut_marketItemList else {
+            XCTAssert(false)
+            return
+            
+        }
         XCTAssertEqual(marketItemList.page, 2)
     }
     
     func test_marketItemList_items_thumbnails() {
-        guard let marketItemList = sut_marketItemList else { return }
+        guard let marketItemList = sut_marketItemList else {
+            XCTFail()
+            return
+            
+        }
         XCTAssertNil(marketItemList.items[0].thumbnails)
         XCTAssertEqual(marketItemList.items[0].thumbnails[1], "aa")
     }

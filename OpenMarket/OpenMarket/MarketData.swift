@@ -20,8 +20,8 @@ struct Items: Decodable {
     let price: Int
     let currency: String
     let stock: Int
-    let descriptions: String
-    let discountedPrice: Int?
+//    let descriptions: String
+//    let discountedPrice: Int?
     let thumbnails: [String]
     let registrationDate: Double
     
@@ -31,8 +31,8 @@ struct Items: Decodable {
         case price
         case currency
         case stock
-        case descriptions
-        case discountedPrice = "discounted_price"
+//        case descriptions
+//        case discountedPrice = "discounted_price"
         case thumbnails
         case registrationDate = "registration_date"
     }
