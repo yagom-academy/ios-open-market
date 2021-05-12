@@ -17,6 +17,11 @@ struct PatchingItem: Encodable {
     let images: [Data]?
     let password: String
 
+    enum CodingKeys: String, CodingKey {
+        case title, descriptions, price, stock, images, password
+        case discountedPrice = "discounted_price"
+    }
+
     var textFields: [String: String] {
         var fields: [String: String] = [:]
 
