@@ -108,12 +108,12 @@ class OpenMarketTests: XCTestCase {
         request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
         
         let params: [String: String] = [
-            "title": "SJTest",
-            "descriptions": "UIMaster",
-            "price": "1000000000",
-            "currency": "USD",
-            "stock": "100",
-            "discounted_price": "990",
+            "title": "키오",
+            "descriptions": "키오환불금지",
+            "price": "880000",
+            "currency": "KRW",
+            "stock": "25",
+            "discounted_price": "700000",
             "password": "1234"
         ]
         
@@ -128,16 +128,24 @@ class OpenMarketTests: XCTestCase {
         }
         
         let imageKey = "images[]"
-        let filename = "yagom.png"
-        let mimeType = "image/png"
-        let imageURL = "/Users/steven/Desktop/test/kane.png"
+        let filename = "kio.gif"
+        let mimeType = "image/gif"
+        let imageURL = "/Users/steven/Desktop/test/kio.gif"
         let imageData = try? NSData(contentsOfFile: imageURL, options: []) as Data
-        // 이미지 테이터 추가
+        // 이미지 테이터 추가1
         body.append(boundaryPrefix.data(using: .utf8)!)
         body.append("Content-Disposition: form-data; name=\"\(imageKey)\"; filename=\"\(filename)\"\r\n".data(using: .utf8)!)
         body.append("Content-Type: \(mimeType)\r\n\r\n".data(using: .utf8)!)
         body.append(imageData!)
         body.append("\r\n".data(using: .utf8)!)
+        
+        // 이미지 테이터 추가2
+        body.append(boundaryPrefix.data(using: .utf8)!)
+        body.append("Content-Disposition: form-data; name=\"\(imageKey)\"; filename=\"\(filename)\"\r\n".data(using: .utf8)!)
+        body.append("Content-Type: \(mimeType)\r\n\r\n".data(using: .utf8)!)
+        body.append(imageData!)
+        body.append("\r\n".data(using: .utf8)!)
+        
         body.append("--".appending(boundary.appending("--")).data(using: .utf8)!)
         
         request.httpBody = body
