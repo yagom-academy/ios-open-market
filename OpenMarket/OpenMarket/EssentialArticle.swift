@@ -1,4 +1,4 @@
-//
+                    //
 //  EssentialArticle.swift
 //  OpenMarket
 //
