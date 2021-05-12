@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BAA704EE264B8196006CAC97 /* ItemDelete.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAA704ED264B8196006CAC97 /* ItemDelete.swift */; };
 		BAEA69F9264B6616005163B3 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAEA69F8264B6616005163B3 /* Product.swift */; };
 		BAEA69FB264B6A28005163B3 /* MarketItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAEA69FA264B6A28005163B3 /* MarketItems.swift */; };
 		BAEA69FD264B6A33005163B3 /* MarketItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAEA69FC264B6A33005163B3 /* MarketItem.swift */; };
@@ -23,6 +24,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		BAA704ED264B8196006CAC97 /* ItemDelete.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemDelete.swift; sourceTree = "<group>"; };
 		BAEA69F8264B6616005163B3 /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
 		BAEA69FA264B6A28005163B3 /* MarketItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketItems.swift; sourceTree = "<group>"; };
 		BAEA69FC264B6A33005163B3 /* MarketItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketItem.swift; sourceTree = "<group>"; };
@@ -59,6 +61,7 @@
 				BAEA69FC264B6A33005163B3 /* MarketItem.swift */,
 				BAEA6A00264B70D3005163B3 /* ItemUpload.swift */,
 				BAEA6A02264B71A2005163B3 /* ItemDetailUpload.swift */,
+				BAA704ED264B8196006CAC97 /* ItemDelete.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -180,6 +183,7 @@
 				BAEA69F9264B6616005163B3 /* Product.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				BAEA69FB264B6A28005163B3 /* MarketItems.swift in Sources */,
+				BAA704EE264B8196006CAC97 /* ItemDelete.swift in Sources */,
 				BAEA69FD264B6A33005163B3 /* MarketItem.swift in Sources */,
 				BAEA6A06264B726D005163B3 /* MarketNetwork.swift in Sources */,
 				BAEA6A0A264B728F005163B3 /* MarketAPI.swift in Sources */,
