@@ -160,8 +160,8 @@
 		1C7D1D76264BA59700ADE23A /* API model */ = {
 			isa = PBXGroup;
 			children = (
-				1C7D1D77264BA5B200ADE23A /* PostingItem.swift */,
 				1C7D1D84264BABA800ADE23A /* PatchingItem.swift */,
+				1C7D1D77264BA5B200ADE23A /* PostingItem.swift */,
 				02609787264BB4C80086A8C5 /* ResponsedItem.swift */,
 				02609789264BB5660086A8C5 /* ResponsedPage.swift */,
 			);

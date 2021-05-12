@@ -4,9 +4,10 @@
 //
 //  Created by Neph on 2021/05/12.
 //
+
 import Foundation
 
-struct PostingItem: Encodable {
+struct PostingItem: Encodable, FormData {
     let title: String
     let descriptions: String
     let price: Int
@@ -19,26 +20,5 @@ struct PostingItem: Encodable {
     enum CodingKeys: String, CodingKey {
         case title, descriptions, price, stock, images, password
         case discountedPrice = "discounted_price"
-    }
-
-    var textFields: [String: String?] {
-        let fields: [String: String?] = [
-            "title": title,
-            "descriptions": descriptions,
-            "price": price.description,
-            "currency": currency,
-            "stock": stock.description,
-            "discountedPrice": discountedPrice?.description,
-            "password": password
-        ]
-
-        return fields
-    }
-
-    var fileFields: [Data] {
-        var fields: [Data] = []
-        fields.append(contentsOf: images)
-
-        return fields
     }
 }
