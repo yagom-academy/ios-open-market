@@ -12,7 +12,6 @@ struct ItemList: Decodable {
     let items: [Item]
 }
 
-
 struct Item: Decodable {
     let id: Int
     let title: String
