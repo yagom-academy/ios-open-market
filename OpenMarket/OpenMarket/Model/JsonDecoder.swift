@@ -11,15 +11,15 @@ import UIKit
 struct JsonDecoder {
     let jsonDecoder = JSONDecoder()
     
-    func jsonDataLoad(dataName: String) -> Result<Data, OpenMarketError> {
+    func jsonDataLoad(dataName: String) throws -> Data {
         guard let jsonData: NSDataAsset = NSDataAsset(name: dataName) else {
-            return .failure(OpenMarketError.notFindData)
+            throw OpenMarketError.notFindData
         }
         
-        return .success(jsonData.data)
+        return jsonData.data
     }
     
-    func jsonDecode<T: Decodable>(data: Data, modelType: T) -> Result<T, OpenMarketError> {
+    func jsonDecode<T: Decodable>(data: Data, modelType: T.Type) -> Result<T, OpenMarketError> {
         do {
             let result = try jsonDecoder.decode(T.self, from: data)
             return .success(result)
