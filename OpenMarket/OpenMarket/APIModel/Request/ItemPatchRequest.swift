@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct RequestItemPatch {
+struct ItemPatchRequest: Encodable {
     let title: String
     let descriptions: String
     let price: Int

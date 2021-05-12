@@ -9,12 +9,16 @@
 /* Begin PBXBuildFile section */
 		70D53D8C264B643D0044ABB7 /* JsonDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70D53D8B264B643D0044ABB7 /* JsonDecoder.swift */; };
 		70D53D8E264B66780044ABB7 /* OpenMaketError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70D53D8D264B66780044ABB7 /* OpenMaketError.swift */; };
-		70D53D91264B7E270044ABB7 /* ItemList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70D53D90264B7E270044ABB7 /* ItemList.swift */; };
-		70D53D97264B81600044ABB7 /* ResponseItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70D53D96264B81600044ABB7 /* ResponseItem.swift */; };
-		70D53D99264B83F10044ABB7 /* RequestItemRegistration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70D53D98264B83F10044ABB7 /* RequestItemRegistration.swift */; };
-		70D53D9B264B847F0044ABB7 /* RequestItemPatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70D53D9A264B847F0044ABB7 /* RequestItemPatch.swift */; };
-		70D53D9D264B84E10044ABB7 /* RequestItemDelete.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70D53D9C264B84E10044ABB7 /* RequestItemDelete.swift */; };
+		70D53D91264B7E270044ABB7 /* ItemListSearchResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70D53D90264B7E270044ABB7 /* ItemListSearchResponse.swift */; };
+		70D53D97264B81600044ABB7 /* ItemSearchResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70D53D96264B81600044ABB7 /* ItemSearchResponse.swift */; };
+		70D53D99264B83F10044ABB7 /* ItemRegistrationRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70D53D98264B83F10044ABB7 /* ItemRegistrationRequest.swift */; };
+		70D53D9B264B847F0044ABB7 /* ItemPatchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70D53D9A264B847F0044ABB7 /* ItemPatchRequest.swift */; };
+		70D53D9D264B84E10044ABB7 /* ItemDeleteRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70D53D9C264B84E10044ABB7 /* ItemDeleteRequest.swift */; };
 		70D53DA6264B8A7B0044ABB7 /* OpenMarketTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70D53DA5264B8A7B0044ABB7 /* OpenMarketTests.swift */; };
+		70D53DAE264B8CBE0044ABB7 /* APIModelResponseTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70D53DAD264B8CBE0044ABB7 /* APIModelResponseTest.swift */; };
+		70D53DB0264B93CB0044ABB7 /* ItemRegistrationResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70D53DAF264B93CB0044ABB7 /* ItemRegistrationResponse.swift */; };
+		70D53DB2264B945E0044ABB7 /* ItemPatchResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70D53DB1264B945E0044ABB7 /* ItemPatchResponse.swift */; };
+		70D53DB4264B947F0044ABB7 /* ItemDeleteResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70D53DB3264B947F0044ABB7 /* ItemDeleteResponse.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
 		C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */; };
 		C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FE25BEF61C00C9924E /* ViewController.swift */; };
@@ -36,14 +40,18 @@
 /* Begin PBXFileReference section */
 		70D53D8B264B643D0044ABB7 /* JsonDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonDecoder.swift; sourceTree = "<group>"; };
 		70D53D8D264B66780044ABB7 /* OpenMaketError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMaketError.swift; sourceTree = "<group>"; };
-		70D53D90264B7E270044ABB7 /* ItemList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemList.swift; sourceTree = "<group>"; };
-		70D53D96264B81600044ABB7 /* ResponseItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseItem.swift; sourceTree = "<group>"; };
-		70D53D98264B83F10044ABB7 /* RequestItemRegistration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestItemRegistration.swift; sourceTree = "<group>"; };
-		70D53D9A264B847F0044ABB7 /* RequestItemPatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestItemPatch.swift; sourceTree = "<group>"; };
-		70D53D9C264B84E10044ABB7 /* RequestItemDelete.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestItemDelete.swift; sourceTree = "<group>"; };
+		70D53D90264B7E270044ABB7 /* ItemListSearchResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemListSearchResponse.swift; sourceTree = "<group>"; };
+		70D53D96264B81600044ABB7 /* ItemSearchResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemSearchResponse.swift; sourceTree = "<group>"; };
+		70D53D98264B83F10044ABB7 /* ItemRegistrationRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemRegistrationRequest.swift; sourceTree = "<group>"; };
+		70D53D9A264B847F0044ABB7 /* ItemPatchRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemPatchRequest.swift; sourceTree = "<group>"; };
+		70D53D9C264B84E10044ABB7 /* ItemDeleteRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemDeleteRequest.swift; sourceTree = "<group>"; };
 		70D53DA3264B8A7A0044ABB7 /* OpenMarketTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenMarketTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		70D53DA5264B8A7B0044ABB7 /* OpenMarketTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketTests.swift; sourceTree = "<group>"; };
 		70D53DA7264B8A7B0044ABB7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		70D53DAD264B8CBE0044ABB7 /* APIModelResponseTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIModelResponseTest.swift; sourceTree = "<group>"; };
+		70D53DAF264B93CB0044ABB7 /* ItemRegistrationResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemRegistrationResponse.swift; sourceTree = "<group>"; };
+		70D53DB1264B945E0044ABB7 /* ItemPatchResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemPatchResponse.swift; sourceTree = "<group>"; };
+		70D53DB3264B947F0044ABB7 /* ItemDeleteResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemDeleteResponse.swift; sourceTree = "<group>"; };
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -84,9 +92,9 @@
 		70D53D92264B7E3C0044ABB7 /* Request */ = {
 			isa = PBXGroup;
 			children = (
-				70D53D98264B83F10044ABB7 /* RequestItemRegistration.swift */,
-				70D53D9A264B847F0044ABB7 /* RequestItemPatch.swift */,
-				70D53D9C264B84E10044ABB7 /* RequestItemDelete.swift */,
+				70D53D98264B83F10044ABB7 /* ItemRegistrationRequest.swift */,
+				70D53D9A264B847F0044ABB7 /* ItemPatchRequest.swift */,
+				70D53D9C264B84E10044ABB7 /* ItemDeleteRequest.swift */,
 			);
 			path = Request;
 			sourceTree = "<group>";
@@ -94,8 +102,11 @@
 		70D53D93264B7E440044ABB7 /* Response */ = {
 			isa = PBXGroup;
 			children = (
-				70D53D90264B7E270044ABB7 /* ItemList.swift */,
-				70D53D96264B81600044ABB7 /* ResponseItem.swift */,
+				70D53D90264B7E270044ABB7 /* ItemListSearchResponse.swift */,
+				70D53DAF264B93CB0044ABB7 /* ItemRegistrationResponse.swift */,
+				70D53D96264B81600044ABB7 /* ItemSearchResponse.swift */,
+				70D53DB1264B945E0044ABB7 /* ItemPatchResponse.swift */,
+				70D53DB3264B947F0044ABB7 /* ItemDeleteResponse.swift */,
 			);
 			path = Response;
 			sourceTree = "<group>";
@@ -114,6 +125,7 @@
 			children = (
 				70D53DA5264B8A7B0044ABB7 /* OpenMarketTests.swift */,
 				70D53DA7264B8A7B0044ABB7 /* Info.plist */,
+				70D53DAD264B8CBE0044ABB7 /* APIModelResponseTest.swift */,
 			);
 			path = OpenMarketTests;
 			sourceTree = "<group>";
@@ -252,6 +264,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				70D53DAE264B8CBE0044ABB7 /* APIModelResponseTest.swift in Sources */,
 				70D53DA6264B8A7B0044ABB7 /* OpenMarketTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -260,15 +273,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				70D53DB2264B945E0044ABB7 /* ItemPatchResponse.swift in Sources */,
 				70D53D8E264B66780044ABB7 /* OpenMaketError.swift in Sources */,
-				70D53D9D264B84E10044ABB7 /* RequestItemDelete.swift in Sources */,
-				70D53D91264B7E270044ABB7 /* ItemList.swift in Sources */,
-				70D53D97264B81600044ABB7 /* ResponseItem.swift in Sources */,
-				70D53D99264B83F10044ABB7 /* RequestItemRegistration.swift in Sources */,
+				70D53DB0264B93CB0044ABB7 /* ItemRegistrationResponse.swift in Sources */,
+				70D53D9D264B84E10044ABB7 /* ItemDeleteRequest.swift in Sources */,
+				70D53D91264B7E270044ABB7 /* ItemListSearchResponse.swift in Sources */,
+				70D53D97264B81600044ABB7 /* ItemSearchResponse.swift in Sources */,
+				70D53D99264B83F10044ABB7 /* ItemRegistrationRequest.swift in Sources */,
 				70D53D8C264B643D0044ABB7 /* JsonDecoder.swift in Sources */,
+				70D53DB4264B947F0044ABB7 /* ItemDeleteResponse.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
-				70D53D9B264B847F0044ABB7 /* RequestItemPatch.swift in Sources */,
+				70D53D9B264B847F0044ABB7 /* ItemPatchRequest.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

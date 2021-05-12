@@ -1,5 +1,5 @@
 //
-//  RequestItemList.swift
+//  ItemDeleteResponse.swift
 //  OpenMarket
 //
 //  Created by 기원우 on 2021/05/12.
@@ -7,30 +7,28 @@
 
 import Foundation
 
-struct ListSearch: Decodable {
-    let page: Int
-    let items: [Item]
-}
-
-struct Item: Decodable {
+struct ItemDeleteResponse: Decodable {
     let id: Int
     let title: String
+    let descriptions: String
     let price: Int
     let currency: String
     let stock: Int
-    let thumbnails: [String]
-    let registerationDate: Double
     let discountedPrice: Int?
+    let thumbnails: [String]
+    let images: [String]
+    let registrationDate: Double
     
     enum CodingKeys: String, CodingKey {
         case id
         case title
+        case descriptions
         case price
         case currency
         case stock
-        case thumbnails
-        case registerationDate = "registration_date"
         case discountedPrice = "discounted_price"
+        case thumbnails
+        case images
+        case registrationDate = "registration_date"
     }
-    
 }

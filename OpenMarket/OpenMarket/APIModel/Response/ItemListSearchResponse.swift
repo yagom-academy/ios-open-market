@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ListSearch: Decodable {
+struct ItemListSearchResponse: Decodable {
     let page: Int
     let items: [Item]
 }

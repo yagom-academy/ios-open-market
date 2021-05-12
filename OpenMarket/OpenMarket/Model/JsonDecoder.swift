@@ -9,9 +9,9 @@ import Foundation
 import UIKit
 
 struct JsonDecoder {
-    let jsonDecoder = JSONDecoder()
+    static let jsonDecoder = JSONDecoder()
     
-    func jsonDataLoad(dataName: String) throws -> Data {
+    static func jsonDataLoad(dataName: String) throws -> Data {
         guard let jsonData: NSDataAsset = NSDataAsset(name: dataName) else {
             throw OpenMarketError.notFindData
         }
@@ -19,7 +19,7 @@ struct JsonDecoder {
         return jsonData.data
     }
     
-    func jsonDecode<T: Decodable>(data: Data, modelType: T.Type) -> Result<T, OpenMarketError> {
+    static func jsonDecode<T: Decodable>(data: Data, modelType: T.Type) -> Result<T, OpenMarketError> {
         do {
             let result = try jsonDecoder.decode(T.self, from: data)
             return .success(result)
