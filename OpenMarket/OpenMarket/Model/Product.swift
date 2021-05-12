@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol MarketSecurity {
+protocol MarketSecurity: Encodable {
     var password: String { get }
 }
 
@@ -33,7 +33,7 @@ protocol ProductDetail: ProductInfo {
     var images: [String] { get }
 }
 
-protocol ProductReigistrate: Encodable, MarketSecurity {
+protocol ProductReigistrate: MarketSecurity {
     var title: String { get }
     var descriptions: String { get }
     var price: UInt { get }
@@ -43,7 +43,7 @@ protocol ProductReigistrate: Encodable, MarketSecurity {
     var images: [Data] { get }
 }
 
-protocol ProductEdit: Encodable, MarketSecurity {
+protocol ProductEdit: MarketSecurity {
     var title: String? { get }
     var descriptions: String? { get }
     var price: UInt? { get }
