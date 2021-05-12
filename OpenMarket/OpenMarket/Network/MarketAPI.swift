@@ -7,6 +7,10 @@
 
 import Foundation
 
+enum MarketAPI {
+    static let api = "https://camp-open-market-2.herokuapp.com"
+}
+
 enum MarketAPIType: CustomStringConvertible {
     case get
     case post
