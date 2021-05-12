@@ -89,4 +89,74 @@ class OpenMarketTests: XCTestCase {
         
         wait(for: [promise], timeout: 2)
     }
+    
+    func test_상품_등록() {
+        // 임시로 입력 폼 인스턴스 만들기
+//        let form = ItemRegistrationForm(title: "m2맥북", descriptions: "빨리나와", price: 1999, currency: "USD", stock: 100, discounted_price: 1800, images: ["hello.png"], password: "1234")
+//        let encoder = JSONEncoder()
+//        guard let jsonData = try? encoder.encode(form) else { XCTFail(); return }
+        
+        guard let url = URL(string: "https://camp-open-market-2.herokuapp.com/item") else {
+            XCTFail(); return
+        }
+        var request = URLRequest(url: url)
+        
+        request.httpMethod = "POST"
+//        request.httpBody = jsonData
+        
+        let boundary = "Boundary-\(UUID().uuidString)"
+        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        
+        let params: [String: String] = [
+            "title": "SJTest",
+            "descriptions": "UIMaster",
+            "price": "1000000000",
+            "currency": "USD",
+            "stock": "100",
+            "discounted_price": "990",
+            "password": "1234"
+        ]
+        
+        var body = Data()
+        let boundaryPrefix = "--\(boundary)\r\n"
+        
+        // 기본 데이터 추가
+        for (key, value) in params {
+            body.append(boundaryPrefix.data(using: .utf8)!)
+            body.append("Content-Disposition: form-data; name=\"\(key)\"\r\n\r\n".data(using: .utf8)!)
+            body.append("\(value)\r\n".data(using: .utf8)!)
+        }
+        
+        let imageKey = "images[]"
+        let filename = "yagom.png"
+        let mimeType = "image/png"
+        let imageURL = "/Users/steven/Desktop/test/kane.png"
+        let imageData = try? NSData(contentsOfFile: imageURL, options: []) as Data
+        // 이미지 테이터 추가
+        body.append(boundaryPrefix.data(using: .utf8)!)
+        body.append("Content-Disposition: form-data; name=\"\(imageKey)\"; filename=\"\(filename)\"\r\n".data(using: .utf8)!)
+        body.append("Content-Type: \(mimeType)\r\n\r\n".data(using: .utf8)!)
+        body.append(imageData!)
+        body.append("\r\n".data(using: .utf8)!)
+        body.append("--".appending(boundary.appending("--")).data(using: .utf8)!)
+        
+        request.httpBody = body
+        
+        let promise = expectation(description: "post")
+
+        URLSession.shared.dataTask(with: request) { (data, response, error) in
+            guard error == nil else {
+                XCTFail()
+                return
+            }
+            if let statusCode = (response as? HTTPURLResponse)?.statusCode {
+//                XCTAssertNil(String(decoding: data!, as: UTF8.self))
+                XCTAssertEqual(statusCode, 200)
+                promise.fulfill()
+            }
+        }.resume()
+
+        wait(for: [promise], timeout: 5)
+        
+    }
 }
