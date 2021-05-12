@@ -59,9 +59,76 @@
 		024D5D34264B9DC200980107 /* OpenMarketTests */ = {
 			isa = PBXGroup;
 			children = (
-				024D5D37264B9DC200980107 /* Info.plist */,
+				024D5D44264BA01500980107 /* Sources */,
+				024D5D45264BA03D00980107 /* Supporting File */,
 			);
 			path = OpenMarketTests;
+			sourceTree = "<group>";
+		};
+		024D5D3E264B9EE600980107 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				C70FB10325BEF61D00C9924E /* Assets.xcassets */,
+				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
+				C70FB10025BEF61C00C9924E /* Main.storyboard */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		024D5D3F264B9F6800980107 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		024D5D40264B9F7400980107 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				C70FB0FE25BEF61C00C9924E /* ViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		024D5D41264B9F9100980107 /* Entry */ = {
+			isa = PBXGroup;
+			children = (
+				C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */,
+			);
+			path = Entry;
+			sourceTree = "<group>";
+		};
+		024D5D42264B9FA800980107 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				024D5D41264B9F9100980107 /* Entry */,
+				024D5D3F264B9F6800980107 /* Models */,
+				024D5D40264B9F7400980107 /* ViewControllers */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		024D5D43264B9FB400980107 /* Supporting File */ = {
+			isa = PBXGroup;
+			children = (
+				C70FB10825BEF61D00C9924E /* Info.plist */,
+			);
+			path = "Supporting File";
+			sourceTree = "<group>";
+		};
+		024D5D44264BA01500980107 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		024D5D45264BA03D00980107 /* Supporting File */ = {
+			isa = PBXGroup;
+			children = (
+				024D5D37264B9DC200980107 /* Info.plist */,
+			);
+			path = "Supporting File";
 			sourceTree = "<group>";
 		};
 		C70FB0EE25BEF61C00C9924E = {
@@ -86,12 +153,9 @@
 		C70FB0F925BEF61C00C9924E /* OpenMarket */ = {
 			isa = PBXGroup;
 			children = (
-				C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */,
-				C70FB0FE25BEF61C00C9924E /* ViewController.swift */,
-				C70FB10025BEF61C00C9924E /* Main.storyboard */,
-				C70FB10325BEF61D00C9924E /* Assets.xcassets */,
-				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
-				C70FB10825BEF61D00C9924E /* Info.plist */,
+				024D5D3E264B9EE600980107 /* Resources */,
+				024D5D42264B9FA800980107 /* Sources */,
+				024D5D43264B9FB400980107 /* Supporting File */,
 			);
 			path = OpenMarket;
 			sourceTree = "<group>";
