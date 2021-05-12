@@ -14,6 +14,7 @@ struct ItemSearchResponse: Decodable {
     let price: Int
     let currency: String
     let stock: Int
+    let discountedPrice: Int?
     let thumbnails: [String]
     let images: [String]
     let registrationDate: Double
@@ -25,6 +26,7 @@ struct ItemSearchResponse: Decodable {
         case price
         case currency
         case stock
+        case discountedPrice = "discounted_price"
         case thumbnails
         case images
         case registrationDate = "registration_date"
