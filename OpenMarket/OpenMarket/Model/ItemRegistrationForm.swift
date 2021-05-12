@@ -13,7 +13,7 @@ struct ItemRegistrationForm: Codable {
     let price: Int
     let currency: String
     let stock: Int
-    let discounted_price: Int
+    let discounted_price: Int?
     let images: [String]
     let password: String
 }

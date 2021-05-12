@@ -34,7 +34,7 @@ class OpenMarketTests: XCTestCase {
             return
         }
         let decoder = JSONDecoder()
-        guard let result = try? decoder.decode(OpenMarketItemsList.self, from: data) else {
+        guard let result = try? decoder.decode(ItemsList.self, from: data) else {
             XCTFail()
             return
         }
@@ -46,8 +46,8 @@ class OpenMarketTests: XCTestCase {
         XCTAssertEqual(result.items[0].currency, "USD")
         XCTAssertEqual(result.items[0].title, "Apple Pencil")
         XCTAssertEqual(result.items[0].price, 165)
-        XCTAssertEqual(result.items[0].discounted_price, 160)
-        XCTAssertEqual(result.items[0].registration_date, 1620633347.3906322)
+        XCTAssertEqual(result.items[0].discountedPrice, 160)
+        XCTAssertEqual(result.items[0].registrationDate, 1620633347.3906322)
     }
     
     func test_상품_등록_폼_인스턴스를_Json으로_변환() {
@@ -108,15 +108,14 @@ class OpenMarketTests: XCTestCase {
         request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
         
         let params: [String: String] = [
-            "title": "키오",
-            "descriptions": "키오환불금지",
-            "price": "880000",
+            "title": "키오123123",
+            "descriptions": "키오환불금지111111",
+            "price": "12300000",
             "currency": "KRW",
-            "stock": "25",
-            "discounted_price": "700000",
+            "stock": "254",
+            /*"discounted_price": "700000",*/
             "password": "1234"
         ]
-        
         var body = Data()
         let boundaryPrefix = "--\(boundary)\r\n"
         
