@@ -22,7 +22,7 @@ struct MarketItem: ProductInfo, ProductDetail {
     enum CodingKeys: String, CodingKey {
         case id, title, descriptions, price, currency, stock, thumbnails, images
         case discountedPrice = "discounted_price"
-        case registrationData = "registration_data"
+        case registrationData = "registration_date"
     }
     
     init(from decoder: Decoder) throws {
