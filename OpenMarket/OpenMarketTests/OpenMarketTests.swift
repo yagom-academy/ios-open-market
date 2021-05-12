@@ -101,16 +101,17 @@ class OpenMarketTests: XCTestCase {
         })
         wait(for: [exception], timeout: 10.0)
         XCTAssertEqual(marketItemsData?.page, 1)
-        XCTAssertEqual(marketItemsData?.items.first?.id, 1)
-        XCTAssertEqual(marketItemsData?.items.first?.title, "MacBook Pro")
-        XCTAssertEqual(marketItemsData?.items.first?.price, 1690)
+        XCTAssertEqual(marketItemsData?.items.first?.id, 43)
+        XCTAssertEqual(marketItemsData?.items.first?.title, "Apple Pencil")
+        XCTAssertEqual(marketItemsData?.items.first?.price, 165)
         XCTAssertEqual(marketItemsData?.items.first?.currency, "USD")
-        XCTAssertEqual(marketItemsData?.items.first?.stock, 0)
+        XCTAssertEqual(marketItemsData?.items.first?.discountedPrice, 160)
+        XCTAssertEqual(marketItemsData?.items.first?.stock, 5000000)
         XCTAssertEqual(marketItemsData?.items.first?.thumbnails, [
-            "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/thumbnails/1-1.png",
-            "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/thumbnails/1-2.png"
+                       "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/thumbnails/3371E602-2C29-4734-8A9A-83A37DD24EAE.png",
+                       "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/thumbnails/847BD5A2-8BFF-4A7F-BAD4-75E59330445D.png"
         ])
-        XCTAssertEqual(marketItemsData?.items.first?.registrationData, 1611523563.7237701)
+        XCTAssertEqual(marketItemsData?.items.first?.registrationData, 1620633347.3906322)
         
     }
     
