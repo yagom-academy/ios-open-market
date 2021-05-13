@@ -10,7 +10,9 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
+        let dataManager = DataManager()
+        dataManager.requestItemList(url: OpenMarketURL.viewItemList(1).url)
     }
 
 

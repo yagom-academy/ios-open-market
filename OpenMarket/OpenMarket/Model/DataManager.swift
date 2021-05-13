@@ -9,10 +9,21 @@ import Foundation
 
 struct DataManager {
     
-    func requestItemList(url: String) {
-        let session = URLSession.shared
-        guard let requestURL = URL(string: url) else { return }
+    let session = URLSession.shared
+    
+    func decode<Decoded>(to decodeType: Decoded.Type, from data: Data) -> Decoded? where Decoded: Decodable {
+        let jsonDecoder = JSONDecoder()
         
+        do {
+            let decoded: Decoded = try jsonDecoder.decode(Decoded.self, from: data)
+            return decoded
+        } catch {
+            print(error)
+            return nil
+        }
+    }
+    
+    func dataTask(_ requestURL: URL, completionHandler: @escaping (Data) -> Void) {
         session.dataTask(with: requestURL) { data, response, error in
             guard error == nil else {
                 print(error!.localizedDescription)
@@ -27,15 +38,22 @@ struct DataManager {
             
             if let mimeType = response.mimeType, mimeType == "application/json",
                let data = data {
-                do {
-                    let itemListResponse = try JSONDecoder().decode(ItemList.self, from: data)
-                    print(itemListResponse)
-                } catch(let error) {
-                    print(error.localizedDescription)
-                }
+                completionHandler(data)
             }
-        
+            
         }.resume()
+    }
+    
+    func requestItemList(url: URL?) {
+        guard let requestURL = url else { return }
+        
+        dataTask(requestURL) { data in
+            let itemList = decode(to: ItemList.self, from: data)
+            print(itemList!)
+        }
+    }
+    
+    func requestItemDetail(url: String) {
     }
 }
 
