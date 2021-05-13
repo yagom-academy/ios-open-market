@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		70D53D8C264B643D0044ABB7 /* JsonDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70D53D8B264B643D0044ABB7 /* JsonDecoder.swift */; };
 		70D53D8E264B66780044ABB7 /* OpenMaketError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70D53D8D264B66780044ABB7 /* OpenMaketError.swift */; };
 		70D53D91264B7E270044ABB7 /* ItemListSearchResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70D53D90264B7E270044ABB7 /* ItemListSearchResponse.swift */; };
 		70D53D97264B81600044ABB7 /* ItemSearchResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70D53D96264B81600044ABB7 /* ItemSearchResponse.swift */; };
@@ -38,7 +37,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		70D53D8B264B643D0044ABB7 /* JsonDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonDecoder.swift; sourceTree = "<group>"; };
 		70D53D8D264B66780044ABB7 /* OpenMaketError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMaketError.swift; sourceTree = "<group>"; };
 		70D53D90264B7E270044ABB7 /* ItemListSearchResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemListSearchResponse.swift; sourceTree = "<group>"; };
 		70D53D96264B81600044ABB7 /* ItemSearchResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemSearchResponse.swift; sourceTree = "<group>"; };
@@ -114,7 +112,6 @@
 		70D53D9E264B84FA0044ABB7 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				70D53D8B264B643D0044ABB7 /* JsonDecoder.swift */,
 				70D53D8D264B66780044ABB7 /* OpenMaketError.swift */,
 			);
 			path = Model;
@@ -280,7 +277,6 @@
 				70D53D91264B7E270044ABB7 /* ItemListSearchResponse.swift in Sources */,
 				70D53D97264B81600044ABB7 /* ItemSearchResponse.swift in Sources */,
 				70D53D99264B83F10044ABB7 /* ItemRegistrationRequest.swift in Sources */,
-				70D53D8C264B643D0044ABB7 /* JsonDecoder.swift in Sources */,
 				70D53DB4264B947F0044ABB7 /* ItemDeleteResponse.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,

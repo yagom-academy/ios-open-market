@@ -11,8 +11,8 @@ import XCTest
 class APIModelResponseTest: XCTestCase {
     
     func test_GET_ItemListSearchResponse() {
-        let jsonData = try! JsonDecoder.jsonDataLoad(dataName: "Items")
-        let GETItemList = try! JSONDecoder().decode(ItemListSearchResponse.self, from: jsonData)
+        guard let jsonData = NSDataAsset(name: "items") else { return }
+        let GETItemList = try! JSONDecoder().decode(ItemListSearchResponse.self, from: jsonData.data)
         
         XCTAssertEqual(GETItemList.page, 1)
         XCTAssertEqual(GETItemList.items[7].id, 8)
@@ -28,8 +28,8 @@ class APIModelResponseTest: XCTestCase {
     }
     
     func test_GET_ItemSearchResponse() {
-        let jsonData = try! JsonDecoder.jsonDataLoad(dataName: "Item")
-        let GETResponseItem = try! JSONDecoder().decode(ItemSearchResponse.self, from: jsonData)
+        guard let jsonData = NSDataAsset(name: "item") else { return }
+        let GETResponseItem = try! JSONDecoder().decode(ItemSearchResponse.self, from: jsonData.data)
         
         XCTAssertEqual(GETResponseItem.id, 1)
         XCTAssertEqual(GETResponseItem.title, "MacBook Pro")
