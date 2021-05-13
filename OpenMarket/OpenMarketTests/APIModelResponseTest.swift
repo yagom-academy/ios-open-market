@@ -1,5 +1,5 @@
 //
-//  APIModelTest.swift
+//  APIModelResponseTest.swift
 //  OpenMarketTests
 //
 //  Created by 기원우 on 2021/05/12.
@@ -47,4 +47,5 @@ class APIModelResponseTest: XCTestCase {
         ])
         XCTAssertEqual(getResponseItem.registrationDate, 1611523563.719116)
     }
+    
 }

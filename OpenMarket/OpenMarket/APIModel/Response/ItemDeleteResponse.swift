@@ -31,4 +31,5 @@ struct ItemDeleteResponse: Decodable {
         case images
         case registrationDate = "registration_date"
     }
+    
 }

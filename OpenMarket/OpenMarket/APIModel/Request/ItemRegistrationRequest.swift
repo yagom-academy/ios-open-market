@@ -1,5 +1,5 @@
 //
-//  RequestItemRegistration.swift
+//  ItemRegistrationRequest.swift
 //  OpenMarket
 //
 //  Created by 기원우 on 2021/05/12.
@@ -27,4 +27,5 @@ struct ItemRegistrationRequest: Encodable {
         case images
         case password
     }
+    
 }

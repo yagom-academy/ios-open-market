@@ -1,5 +1,5 @@
 //
-//  RequestItemList.swift
+//  ItemListSearchResponse.swift
 //  OpenMarket
 //
 //  Created by 기원우 on 2021/05/12.
@@ -10,6 +10,7 @@ import Foundation
 struct ItemListSearchResponse: Decodable {
     let page: Int
     let items: [Item]
+    
 }
 
 struct Item: Decodable {

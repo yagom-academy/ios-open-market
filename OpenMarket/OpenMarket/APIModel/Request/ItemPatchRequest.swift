@@ -1,5 +1,5 @@
 //
-//  RequestItemPatch.swift
+//  ItemPatchRequest.swift
 //  OpenMarket
 //
 //  Created by 기원우 on 2021/05/12.
@@ -16,4 +16,5 @@ struct ItemPatchRequest: Encodable {
     let discounted_price: Int?
     let images: [String]?
     let password: String
+    
 }
