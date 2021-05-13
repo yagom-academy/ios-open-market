@@ -6,3 +6,9 @@
 //
 
 import Foundation
+
+struct items: Codable {
+    var page: Int
+    var items: [item]
+}
+
