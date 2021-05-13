@@ -15,7 +15,7 @@
 		C70FB10725BEF61D00C9924E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */; };
 		EAC68443264A4C46002A9CE3 /* MarketData.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAC68442264A4C46002A9CE3 /* MarketData.swift */; };
 		EACA42C0264ADC0E00F4188E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C70FB10325BEF61D00C9924E /* Assets.xcassets */; };
-		EAE938B8264AD034009737E0 /* OpenMarketTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAC6844A264A55FE002A9CE3 /* OpenMarketTests.swift */; };
+		EAE938B8264AD034009737E0 /* OpenMarketJSONParsingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAC6844A264A55FE002A9CE3 /* OpenMarketJSONParsingTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -39,7 +39,7 @@
 		C70FB10825BEF61D00C9924E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EAC68442264A4C46002A9CE3 /* MarketData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketData.swift; sourceTree = "<group>"; };
 		EAC68448264A55FD002A9CE3 /* OpenMarketTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenMarketTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		EAC6844A264A55FE002A9CE3 /* OpenMarketTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketTests.swift; sourceTree = "<group>"; };
+		EAC6844A264A55FE002A9CE3 /* OpenMarketJSONParsingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketJSONParsingTests.swift; sourceTree = "<group>"; };
 		EAC6844C264A55FE002A9CE3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -97,7 +97,7 @@
 		EAC68449264A55FE002A9CE3 /* OpenMarketTests */ = {
 			isa = PBXGroup;
 			children = (
-				EAC6844A264A55FE002A9CE3 /* OpenMarketTests.swift */,
+				EAC6844A264A55FE002A9CE3 /* OpenMarketJSONParsingTests.swift */,
 				EAC6844C264A55FE002A9CE3 /* Info.plist */,
 			);
 			path = OpenMarketTests;
@@ -215,7 +215,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EAE938B8264AD034009737E0 /* OpenMarketTests.swift in Sources */,
+				EAE938B8264AD034009737E0 /* OpenMarketJSONParsingTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
