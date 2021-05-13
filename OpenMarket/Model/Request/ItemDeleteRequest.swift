@@ -7,6 +7,6 @@
 
 import Foundation
 
-struct DeleteItemIdentityRequest: Codable {
+struct ItemDeleteRequest: Codable, Equatable {
     var password: String
 }

@@ -1,5 +1,5 @@
 //
-//  DeleteItemIdentityResponse.swift
+//  PatchItemIdentityResponse.swift
 //  OpenMarket
 //
 //  Created by 최정민 on 2021/05/11.
@@ -7,8 +7,8 @@
 
 import Foundation
 
-struct DeleteItemIdentityResponse: Decodable {
-//    var id: Int
+struct InformationOfItemResponse: Decodable, Equatable {
+    var id: Int
     var title: String
     var descriptions: String
     var price: Int
@@ -20,7 +20,7 @@ struct DeleteItemIdentityResponse: Decodable {
     var registrationDate: Double
     
     private enum CodingKeys: String, CodingKey {
-//        case id
+        case id
         case title
         case descriptions
         case price
@@ -32,3 +32,4 @@ struct DeleteItemIdentityResponse: Decodable {
         case registrationDate = "registration_date"
     }
 }
+
