@@ -24,8 +24,8 @@ struct ItemInfo: Codable {
         case registrationDate = "registration_date"
     }
     
-    init(from decorder: Decoder) throws {
-        let values = try decorder.container(keyedBy: CodingKeys.self)
+    init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
         id = try values.decode(Int.self, forKey: .id)
         title = try values.decode(String.self, forKey: .title)
         price = try values.decode(Int.self, forKey: .price)

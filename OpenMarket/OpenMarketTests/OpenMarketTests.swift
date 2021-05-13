@@ -50,18 +50,18 @@ class OpenMarketTests: XCTestCase {
         XCTAssertEqual(result.items[0].registrationDate, 1620633347.3906322)
     }
     
-    func test_상품_등록_폼_인스턴스를_Json으로_변환() {
-        let form = ItemRegistrationForm(title: "m2맥북", descriptions: "빨리나와", price: 1999, currency: "USD", stock: 100, discounted_price: 1800, images: ["hello"], password: "1234")
-        let encoder = JSONEncoder()
-        let resultJson = """
-        {"images":["hello"],"password":"1234","discounted_price":1800,"price":1999,"stock":100,"title":"m2맥북","descriptions":"빨리나와","currency":"USD"}
-        """
-        
-        guard let jsonData = try? encoder.encode(form) else { XCTFail(); return }
-        
-        guard let jsonString = String(data: jsonData, encoding: .utf8) else { XCTFail(); return}
-        XCTAssertEqual(jsonString, resultJson)
-    }
+//    func test_상품_등록_폼_인스턴스를_Json으로_변환() {
+//        let form = ItemRegistrationForm(title: "m2맥북", descriptions: "빨리나와", price: 1999, currency: "USD", stock: 100, discounted_price: 1800, images: ["hello"], password: "1234")
+//        let encoder = JSONEncoder()
+//        let resultJson = """
+//        {"images":["hello"],"password":"1234","discounted_price":1800,"price":1999,"stock":100,"title":"m2맥북","descriptions":"빨리나와","currency":"USD"}
+//        """
+//        
+//        guard let jsonData = try? encoder.encode(form) else { XCTFail(); return }
+//        
+//        guard let jsonString = String(data: jsonData, encoding: .utf8) else { XCTFail(); return}
+//        XCTAssertEqual(jsonString, resultJson)
+//    }
     
     func test_Http_DELETE_메소드_보내기() {
         guard let url = URL(string: "https://camp-open-market-2.herokuapp.com/item/77")
@@ -182,5 +182,22 @@ class OpenMarketTests: XCTestCase {
         XCTAssertEqual(result.items.count, 20)
         XCTAssertNil(result.items[0].discountedPrice)
         XCTAssertNil(result.items[0].images)
+    }
+    
+    func test_item_mockData_parse() {
+        let decoder = JSONDecoder()
+        
+        guard let dataAsset = NSDataAsset(name: "item") else {
+            XCTFail()
+            return
+        }
+        
+        guard let result = try? decoder.decode(ItemInfo.self, from: dataAsset.data) else {
+            XCTFail()
+            return
+        }
+        
+        XCTAssertEqual(result.id, 1)
+        XCTAssertEqual(result.title, "MacBook Pro")
     }
 }
