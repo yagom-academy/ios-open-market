@@ -13,6 +13,7 @@
 		02609788264BB4C80086A8C5 /* ResponsedItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02609787264BB4C80086A8C5 /* ResponsedItem.swift */; };
 		0260978A264BB5660086A8C5 /* ResponsedPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02609789264BB5660086A8C5 /* ResponsedPage.swift */; };
 		0260978D264BCF800086A8C5 /* FormData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0260978C264BCF800086A8C5 /* FormData.swift */; };
+		0298BF1B264D108F00865555 /* UIImageExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0298BF1A264D108F00865555 /* UIImageExtensionTests.swift */; };
 		1C3FE4FE264D0B400051D507 /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C3FE4FD264D0B400051D507 /* UIImageExtension.swift */; };
 		1C7D1D78264BA5B200ADE23A /* PostingItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C7D1D77264BA5B200ADE23A /* PostingItem.swift */; };
 		1C7D1D85264BABA800ADE23A /* PatchingItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C7D1D84264BABA800ADE23A /* PatchingItem.swift */; };
@@ -42,6 +43,7 @@
 		02609787264BB4C80086A8C5 /* ResponsedItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponsedItem.swift; sourceTree = "<group>"; };
 		02609789264BB5660086A8C5 /* ResponsedPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponsedPage.swift; sourceTree = "<group>"; };
 		0260978C264BCF800086A8C5 /* FormData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormData.swift; sourceTree = "<group>"; };
+		0298BF1A264D108F00865555 /* UIImageExtensionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageExtensionTests.swift; sourceTree = "<group>"; };
 		1C3FE4FD264D0B400051D507 /* UIImageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageExtension.swift; sourceTree = "<group>"; };
 		1C7D1D77264BA5B200ADE23A /* PostingItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PostingItem.swift; path = OpenMarket/Sources/Models/PostingItem.swift; sourceTree = SOURCE_ROOT; };
 		1C7D1D84264BABA800ADE23A /* PatchingItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatchingItem.swift; sourceTree = "<group>"; };
@@ -140,6 +142,7 @@
 		024D5D44264BA01500980107 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				0298BF1A264D108F00865555 /* UIImageExtensionTests.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -258,6 +261,7 @@
 				TargetAttributes = {
 					024D5D32264B9DC200980107 = {
 						CreatedOnToolsVersion = 12.5;
+						LastSwiftMigration = 1250;
 						TestTargetID = C70FB0F625BEF61C00C9924E;
 					};
 					C70FB0F625BEF61C00C9924E = {
@@ -330,6 +334,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0298BF1B264D108F00865555 /* UIImageExtensionTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -384,6 +389,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = "OpenMarketTests/Supporting File/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
@@ -394,6 +400,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = duckbok.OpenMarketTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OpenMarket.app/OpenMarket";
@@ -404,6 +411,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = "OpenMarketTests/Supporting File/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
