@@ -12,3 +12,15 @@ struct Person: Codable {
     let age: Int
     let gender: Bool
 }
+
+struct JSONPersonData {
+    var personData: [Person] = []
+    
+    mutating func parseJSONData(assetName: String) {
+        let decoder = JSONDecoder()
+        
+        guard let dataAsset = NSDataAsset(name: assetName) else { return }
+        guard let personData = try? decoder.decode([Person].self, from: dataAsset.data) else { return }
+        self.personData = personData
+    }
+}
