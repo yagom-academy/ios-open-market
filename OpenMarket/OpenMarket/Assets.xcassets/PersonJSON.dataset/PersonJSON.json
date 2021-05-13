@@ -1,0 +1,10 @@
+[{
+    "name": "야곰",
+    "age": 10,
+    "gender": true
+},
+{
+    "name": "코지",
+    "age": 20,
+    "gender": false
+}]
