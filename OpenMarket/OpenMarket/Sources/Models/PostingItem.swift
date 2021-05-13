@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct PostingItem: Encodable, FormData {
+struct PostingItem: FormData {
     let title: String
     let descriptions: String
     let price: Int
@@ -17,8 +17,14 @@ struct PostingItem: Encodable, FormData {
     let images: [Data]
     let password: String
 
-    enum CodingKeys: String, CodingKey {
-        case title, descriptions, price, stock, images, password
-        case discountedPrice = "discounted_price"
-    }
+    let codingKeys: [String: String] = [
+        "title": "title",
+        "descriptions": "descriptions",
+        "price": "price",
+        "currency": "currency",
+        "stock": "stock",
+        "discountedPrice": "discounted_price",
+        "images": "images[]",
+        "password": "password"
+    ]
 }
