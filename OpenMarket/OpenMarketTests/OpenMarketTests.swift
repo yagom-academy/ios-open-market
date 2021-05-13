@@ -16,7 +16,7 @@ class OpenMarketTests: XCTestCase {
         XCTAssertNotNil(response)
     }
     
-    func test_아이템을_받아왔는지_확인() {
+    func test_상품목록을_조회해서_itemList로_변환하기() {
         guard let url = URL(string: "https://camp-open-market-2.herokuapp.com/items/1") else {
             XCTFail()
             return
@@ -55,7 +55,7 @@ class OpenMarketTests: XCTestCase {
 //        XCTAssertEqual(jsonString, resultJson)
 //    }
     
-    func test_Http_DELETE_메소드_보내기() {
+    func test_상품_삭제_요청하기() {
         guard let url = URL(string: "https://camp-open-market-2.herokuapp.com/item/77")
         else { XCTFail(); return }
         
@@ -82,7 +82,7 @@ class OpenMarketTests: XCTestCase {
         wait(for: [promise], timeout: 2)
     }
     
-    func test_상품_등록() {
+    func test_상품_등록_요청하기() {
         // 임시로 입력 폼 인스턴스 만들기
         guard let url = URL(string: "https://camp-open-market-2.herokuapp.com/item") else {
             XCTFail(); return
@@ -155,7 +155,7 @@ class OpenMarketTests: XCTestCase {
         wait(for: [promise], timeout: 5)
     }
     
-    func test_items_mockData_parse() {
+    func test_items_mock데이터_파싱하기() {
         let decoder = JSONDecoder()
         
         guard let dataAsset = NSDataAsset(name: "items") else {
@@ -173,7 +173,7 @@ class OpenMarketTests: XCTestCase {
         XCTAssertNil(result.items[0].images)
     }
     
-    func test_item_mockData_parse() {
+    func test_item_mock데이터_파싱하기() {
         let decoder = JSONDecoder()
         
         guard let dataAsset = NSDataAsset(name: "item") else {
