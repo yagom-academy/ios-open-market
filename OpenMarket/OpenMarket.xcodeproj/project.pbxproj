@@ -14,6 +14,7 @@
 		0260978A264BB5660086A8C5 /* ResponsedPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02609789264BB5660086A8C5 /* ResponsedPage.swift */; };
 		0260978D264BCF800086A8C5 /* FormData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0260978C264BCF800086A8C5 /* FormData.swift */; };
 		0298BF1B264D108F00865555 /* UIImageExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0298BF1A264D108F00865555 /* UIImageExtensionTests.swift */; };
+		0298BF20264D20CA00865555 /* APIModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0298BF1F264D20CA00865555 /* APIModelTests.swift */; };
 		1C3FE4FE264D0B400051D507 /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C3FE4FD264D0B400051D507 /* UIImageExtension.swift */; };
 		1C7D1D78264BA5B200ADE23A /* PostingItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C7D1D77264BA5B200ADE23A /* PostingItem.swift */; };
 		1C7D1D85264BABA800ADE23A /* PatchingItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C7D1D84264BABA800ADE23A /* PatchingItem.swift */; };
@@ -44,6 +45,7 @@
 		02609789264BB5660086A8C5 /* ResponsedPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponsedPage.swift; sourceTree = "<group>"; };
 		0260978C264BCF800086A8C5 /* FormData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormData.swift; sourceTree = "<group>"; };
 		0298BF1A264D108F00865555 /* UIImageExtensionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageExtensionTests.swift; sourceTree = "<group>"; };
+		0298BF1F264D20CA00865555 /* APIModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIModelTests.swift; sourceTree = "<group>"; };
 		1C3FE4FD264D0B400051D507 /* UIImageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageExtension.swift; sourceTree = "<group>"; };
 		1C7D1D77264BA5B200ADE23A /* PostingItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PostingItem.swift; path = OpenMarket/Sources/Models/PostingItem.swift; sourceTree = SOURCE_ROOT; };
 		1C7D1D84264BABA800ADE23A /* PatchingItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatchingItem.swift; sourceTree = "<group>"; };
@@ -143,6 +145,7 @@
 			isa = PBXGroup;
 			children = (
 				0298BF1A264D108F00865555 /* UIImageExtensionTests.swift */,
+				0298BF1F264D20CA00865555 /* APIModelTests.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -334,6 +337,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0298BF20264D20CA00865555 /* APIModelTests.swift in Sources */,
 				0298BF1B264D108F00865555 /* UIImageExtensionTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
