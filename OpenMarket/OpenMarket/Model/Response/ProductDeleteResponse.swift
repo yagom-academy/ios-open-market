@@ -1,5 +1,5 @@
 //
-//  상품수정response.swift
+//  상품삭제.swift
 //  OpenMarket
 //
 //  Created by 강경 on 2021/05/13.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct 상품수정response: Decodable {
+struct ProductDeleteResponse: Decodable {
   let id: Int
   let title: String
   let descriptions: String
@@ -19,7 +19,7 @@ struct 상품수정response: Decodable {
   let images: [String]
   let registrationDate: Int
   
-  private enum CodingKeys: String, CodingKey {
+  enum CodingKeys: String, CodingKey {
     case id, title, descriptions, price, currency, stock, thumbnails, images
     case discountedPrice = "discounted_price"
     case registrationDate = "registration_date"

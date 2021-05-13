@@ -7,14 +7,14 @@
 
 import Foundation
 
-struct 상품등록request: Encodable {
+struct ProductRegisterRequest: Registratable {
   let title: String
   let description: String
   let price: Int
   let currency: String
   let stock: Int
   let discountedPrice: Int?
-  let images: [String]
+  let images: [Data]
   let password: String
   
   enum CodingKeys: String, CodingKey {

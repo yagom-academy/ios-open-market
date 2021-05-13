@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol InfoSearchalbe: Decodable {
+protocol InfoSearchable: Decodable {
   var id: Int { get }
   var title: String { get }
   var price: Int { get }
@@ -15,5 +15,5 @@ protocol InfoSearchalbe: Decodable {
   var stock: Int { get }
   var discountedPrice: Int? { get }
   var thumbnails: [String] { get }
-  var registrationData: Double { get }
+  var registrationDate: Double { get }
 }

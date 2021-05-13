@@ -7,18 +7,18 @@
 
 import Foundation
 
-struct 상품수정request: Encodable {
-  let title: String
-  let descriptions: String
+struct ProductUpdateRequest: Editable {    
+  let title: String?
+  let description: String?
   let price: Int?
   let currency: String?
   let stock: Int?
   let discountedPrice: Int?
-  let images: [String]?
+  let images: [Data]?
   let password: String
   
   private enum CodingKeys: String, CodingKey {
-    case title, descriptions, price, currency, stock, images, password
+    case title, description, price, currency, stock, images, password
     case discountedPrice = "discounted_price"
   }
 }

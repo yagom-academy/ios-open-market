@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct 상품등록response: Decodable {
+struct ProductRegisterResponse: InfoSearchable, Detailable {  
   let id: Int
   let title: String
   let description: String
@@ -16,7 +16,7 @@ struct 상품등록response: Decodable {
   let stock: Int
   let discountedPrice: Int?
   let thumbnails: [String]
-  let images: [String]
+  let images: [Data]
   let registrationDate: Double
   
   enum CodingKeys: String, CodingKey {

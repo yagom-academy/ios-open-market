@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol Detailable: ListSearchable {
+protocol Detailable: InfoSearchable {
   var description: String { get }
-  var images: [String] { get }
+  var images: [Data] { get }
 }

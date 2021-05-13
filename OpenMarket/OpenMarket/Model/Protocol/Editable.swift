@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol Editable {
+protocol Editable: Authenticatable {
   var title: String? { get }
   var description: String? { get }
   var price: Int? { get }

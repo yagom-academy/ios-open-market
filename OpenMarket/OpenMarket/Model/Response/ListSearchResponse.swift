@@ -7,11 +7,11 @@
 
 import Foundation
 
-struct 목록조회response: Decodable {
+struct ListSearchResponse: ListSearchable {
   let page: Int
-  let items: [Item]
+  let itmes: [Item]
 
-  struct Item: Codable {
+  struct Item: InfoSearchable {
     let id: Int
     let title: String
     let price: Int
@@ -19,9 +19,9 @@ struct 목록조회response: Decodable {
     let stock: Int
     let discountedPrice: Int?
     let thumbnails: [String]
-    let registrationDate: Int
+    let registrationDate: Double
 
-    private enum CodingKeys: String, CodingKey {
+    enum CodingKeys: String, CodingKey {
       case id, title, price, currency, stock, thumbnails
       case discountedPrice = "discounted_price"
       case registrationDate = "registration_date"

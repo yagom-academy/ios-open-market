@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol ListSearchable {
+protocol ListSearchable: Decodable {
   associatedtype T
   
   var page: Int { get }
