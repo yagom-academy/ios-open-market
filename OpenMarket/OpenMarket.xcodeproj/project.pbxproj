@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		70D53D8E264B66780044ABB7 /* OpenMaketError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70D53D8D264B66780044ABB7 /* OpenMaketError.swift */; };
 		70D53D91264B7E270044ABB7 /* ItemListSearchResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70D53D90264B7E270044ABB7 /* ItemListSearchResponse.swift */; };
 		70D53D97264B81600044ABB7 /* ItemSearchResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70D53D96264B81600044ABB7 /* ItemSearchResponse.swift */; };
 		70D53D99264B83F10044ABB7 /* ItemRegistrationRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70D53D98264B83F10044ABB7 /* ItemRegistrationRequest.swift */; };
@@ -37,7 +36,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		70D53D8D264B66780044ABB7 /* OpenMaketError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMaketError.swift; sourceTree = "<group>"; };
 		70D53D90264B7E270044ABB7 /* ItemListSearchResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemListSearchResponse.swift; sourceTree = "<group>"; };
 		70D53D96264B81600044ABB7 /* ItemSearchResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemSearchResponse.swift; sourceTree = "<group>"; };
 		70D53D98264B83F10044ABB7 /* ItemRegistrationRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemRegistrationRequest.swift; sourceTree = "<group>"; };
@@ -109,14 +107,6 @@
 			path = Response;
 			sourceTree = "<group>";
 		};
-		70D53D9E264B84FA0044ABB7 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				70D53D8D264B66780044ABB7 /* OpenMaketError.swift */,
-			);
-			path = Model;
-			sourceTree = "<group>";
-		};
 		70D53DA4264B8A7B0044ABB7 /* OpenMarketTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -148,7 +138,6 @@
 		C70FB0F925BEF61C00C9924E /* OpenMarket */ = {
 			isa = PBXGroup;
 			children = (
-				70D53D9E264B84FA0044ABB7 /* Model */,
 				70D53D8F264B7E100044ABB7 /* APIModel */,
 				C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */,
 				C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */,
@@ -271,7 +260,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				70D53DB2264B945E0044ABB7 /* ItemPatchResponse.swift in Sources */,
-				70D53D8E264B66780044ABB7 /* OpenMaketError.swift in Sources */,
 				70D53DB0264B93CB0044ABB7 /* ItemRegistrationResponse.swift in Sources */,
 				70D53D9D264B84E10044ABB7 /* ItemDeleteRequest.swift in Sources */,
 				70D53D91264B7E270044ABB7 /* ItemListSearchResponse.swift in Sources */,
