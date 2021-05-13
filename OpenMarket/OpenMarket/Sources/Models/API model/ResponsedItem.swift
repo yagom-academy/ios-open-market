@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 struct ResponsedItem: Decodable {
     let id: Int
@@ -23,5 +24,32 @@ struct ResponsedItem: Decodable {
         case id, title, descriptions, price, currency, stock, thumbnails, images
         case discountedPrice = "discounted_price"
         case registrationDate = "registration_date"
+    }
+
+    func toItem() -> Item? {
+        var images: [UIImage] = []
+        var thumbnails: [UIImage] = []
+        let date = Date(timeIntervalSince1970: registrationDate)
+
+        for url in self.images {
+            guard let image = UIImage.fetchImageFromURL(url: url) else { return nil }
+            images.append(image)
+        }
+
+        for url in self.thumbnails {
+            guard let image = UIImage.fetchImageFromURL(url: url) else { return nil }
+            thumbnails.append(image)
+        }
+
+        return Item(id: id,
+                    title: title,
+                    descriptions: descriptions,
+                    price: price,
+                    currency: currency,
+                    stock: stock,
+                    discountedPrice: discountedPrice,
+                    thumbnails: thumbnails,
+                    images: images,
+                    registrationData: date)
     }
 }
