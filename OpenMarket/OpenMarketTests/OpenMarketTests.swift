@@ -18,16 +18,13 @@ class OpenMarketTests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    func test_JSON데이터가_JSONParser에_Decoding_돼서_id의_값이_1인지확인해보는_함수() {
+        var jsonParser = JSONParser<Item>()
+        
+        jsonParser.parse(assetName: "Item")
+        
+        guard let data: Item = jsonParser.convertedData else { return }
+        
+        XCTAssertEqual(data.id, 1)
     }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        measure {
-            // Put the code you want to measure the time of here.
-        }
-    }
-
 }

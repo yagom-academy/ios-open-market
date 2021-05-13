@@ -9,6 +9,6 @@ import Foundation
 
 struct Items: Codable {
     var page: Int
-    var items: [item]
+    var items: [Item]
 }
 
