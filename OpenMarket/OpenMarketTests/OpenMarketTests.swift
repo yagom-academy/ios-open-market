@@ -10,14 +10,6 @@ import XCTest
 
 class OpenMarketTests: XCTestCase {
     
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-    }
-
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
-    
     func test_URL요청하기() {
         let url = URL(string: "https://camp-open-market-2.herokuapp.com/items/1")
         let response = try? String(contentsOf: url!)
@@ -38,7 +30,7 @@ class OpenMarketTests: XCTestCase {
             XCTFail()
             return
         }
-        print("Hello111")
+
         XCTAssertEqual(result.page, 1)
         XCTAssertEqual(result.items.count, 20)
         XCTAssertEqual(result.items[0].id, 43)
@@ -92,17 +84,12 @@ class OpenMarketTests: XCTestCase {
     
     func test_상품_등록() {
         // 임시로 입력 폼 인스턴스 만들기
-//        let form = ItemRegistrationForm(title: "m2맥북", descriptions: "빨리나와", price: 1999, currency: "USD", stock: 100, discounted_price: 1800, images: ["hello.png"], password: "1234")
-//        let encoder = JSONEncoder()
-//        guard let jsonData = try? encoder.encode(form) else { XCTFail(); return }
-        
         guard let url = URL(string: "https://camp-open-market-2.herokuapp.com/item") else {
             XCTFail(); return
         }
         var request = URLRequest(url: url)
         
         request.httpMethod = "POST"
-//        request.httpBody = jsonData
         
         let boundary = "Boundary-\(UUID().uuidString)"
         request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
@@ -126,11 +113,13 @@ class OpenMarketTests: XCTestCase {
             body.append("\(value)\r\n".data(using: .utf8)!)
         }
         
+        // 이미지 테이터들
         let imageKey = "images[]"
         let filename = "kio.gif"
         let mimeType = "image/gif"
         let imageURL = "/Users/steven/Desktop/test/kio.gif"
         let imageData = try? NSData(contentsOfFile: imageURL, options: []) as Data
+        
         // 이미지 테이터 추가1
         body.append(boundaryPrefix.data(using: .utf8)!)
         body.append("Content-Disposition: form-data; name=\"\(imageKey)\"; filename=\"\(filename)\"\r\n".data(using: .utf8)!)
@@ -150,14 +139,14 @@ class OpenMarketTests: XCTestCase {
         request.httpBody = body
         
         let promise = expectation(description: "post")
-
+        
+        // 서버 api로 요청하기
         URLSession.shared.dataTask(with: request) { (data, response, error) in
             guard error == nil else {
                 XCTFail()
                 return
             }
             if let statusCode = (response as? HTTPURLResponse)?.statusCode {
-//                XCTAssertNil(String(decoding: data!, as: UTF8.self))
                 XCTAssertEqual(statusCode, 200)
                 promise.fulfill()
             }
