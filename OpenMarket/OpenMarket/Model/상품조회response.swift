@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct MarkItems: Codable {
+struct 상품조회: Codable {
   let page: Int
   let items: [Item]
 
