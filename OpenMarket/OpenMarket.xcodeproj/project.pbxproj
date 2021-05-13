@@ -13,6 +13,7 @@
 		02609788264BB4C80086A8C5 /* ResponsedItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02609787264BB4C80086A8C5 /* ResponsedItem.swift */; };
 		0260978A264BB5660086A8C5 /* ResponsedPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02609789264BB5660086A8C5 /* ResponsedPage.swift */; };
 		0260978D264BCF800086A8C5 /* FormData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0260978C264BCF800086A8C5 /* FormData.swift */; };
+		1C3FE4FE264D0B400051D507 /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C3FE4FD264D0B400051D507 /* UIImageExtension.swift */; };
 		1C7D1D78264BA5B200ADE23A /* PostingItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C7D1D77264BA5B200ADE23A /* PostingItem.swift */; };
 		1C7D1D85264BABA800ADE23A /* PatchingItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C7D1D84264BABA800ADE23A /* PatchingItem.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
@@ -41,6 +42,7 @@
 		02609787264BB4C80086A8C5 /* ResponsedItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponsedItem.swift; sourceTree = "<group>"; };
 		02609789264BB5660086A8C5 /* ResponsedPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponsedPage.swift; sourceTree = "<group>"; };
 		0260978C264BCF800086A8C5 /* FormData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormData.swift; sourceTree = "<group>"; };
+		1C3FE4FD264D0B400051D507 /* UIImageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageExtension.swift; sourceTree = "<group>"; };
 		1C7D1D77264BA5B200ADE23A /* PostingItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PostingItem.swift; path = OpenMarket/Sources/Models/PostingItem.swift; sourceTree = SOURCE_ROOT; };
 		1C7D1D84264BABA800ADE23A /* PatchingItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatchingItem.swift; sourceTree = "<group>"; };
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -118,6 +120,7 @@
 		024D5D42264B9FA800980107 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				1C3FE4FC264D0B2B0051D507 /* Extensions */,
 				024D5D41264B9F9100980107 /* Entry */,
 				024D5D3F264B9F6800980107 /* Models */,
 				0260978B264BCF400086A8C5 /* Protocols */,
@@ -155,6 +158,14 @@
 				0260978C264BCF800086A8C5 /* FormData.swift */,
 			);
 			path = Protocols;
+			sourceTree = "<group>";
+		};
+		1C3FE4FC264D0B2B0051D507 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				1C3FE4FD264D0B400051D507 /* UIImageExtension.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		1C7D1D76264BA59700ADE23A /* API model */ = {
@@ -329,6 +340,7 @@
 				02609788264BB4C80086A8C5 /* ResponsedItem.swift in Sources */,
 				024D5D49264BA62400980107 /* Item.swift in Sources */,
 				0260978D264BCF800086A8C5 /* FormData.swift in Sources */,
+				1C3FE4FE264D0B400051D507 /* UIImageExtension.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
 				1C7D1D85264BABA800ADE23A /* PatchingItem.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
