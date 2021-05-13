@@ -9,25 +9,66 @@ import XCTest
 @testable import OpenMarket
 
 class OpenMarketTests: XCTestCase {
-
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+    func extractData(_ item: String) -> NSDataAsset? {
+        guard let itemData = NSDataAsset(name: item) else {
+            return nil
+        }
+        return itemData
     }
-
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
-
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-    }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        measure {
-            // Put the code you want to measure the time of here.
+    
+    func decodeExtractedData<T: Decodable>(_ object: T.Type, of data: Data) -> T? {
+        let decoder = JSONDecoder()
+        
+        do {
+            let contents = try decoder.decode(object, from: data)
+            return contents
+        } catch {
+            return nil
         }
     }
-
+    
+    func test_Mock_Item데이터추출() {
+        XCTAssertNil(extractData("Itemss"))
+    }
+    
+    func test_Mock_Items데이터추출() {
+        XCTAssertNil(extractData("Items"))
+    }
+    
+    func test_Mock_Items디코딩() {
+        let extractedData = extractData("Items")
+        XCTAssertNil(decodeExtractedData(EntireArticle.self, of: extractedData!.data))
+    }
+    
+    func test_Mock_Item디코딩_withEsstialArticle() {
+        let extractedData = extractData("Item")
+        XCTAssertNil(decodeExtractedData(EssentialArticle.self, of: extractedData!.data))
+    }
+    
+    func test_Mock_Item디코딩_withDetailArticle() {
+        let extractedData = extractData("Item")
+        XCTAssertNil(decodeExtractedData(DetailArticle.self, of: extractedData!.data))
+    }
+    
+    func test_추출된데이터확인() {
+        let itemData = extractData("Item")
+        
+        guard let contents = decodeExtractedData(DetailArticle.self, of: itemData!.data) else { XCTFail(); return }
+        XCTAssertEqual(contents.id, 1)
+        XCTAssertEqual(contents.title, "abc")
+        XCTAssertEqual(contents.price, 123)
+        XCTAssertEqual(contents.descriptions, "abc")
+        XCTAssertEqual(contents.currency, "KRW")
+        XCTAssertEqual(contents.stock, 123)
+        XCTAssertEqual(contents.images, [
+            "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/images/1-.png",
+            "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/images/1-2.png"
+        ])
+        XCTAssertEqual(contents.discountedPrice, 123)
+        XCTAssertEqual(contents.thumbnails, [
+            "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/thumbnails/1-.png",
+            "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/thumbnails/1-.png"
+        ])
+        XCTAssertEqual(contents.registrationDate, 123.12)
+    }
 }
