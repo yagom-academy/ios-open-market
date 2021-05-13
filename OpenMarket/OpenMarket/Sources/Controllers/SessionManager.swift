@@ -43,7 +43,7 @@ class SessionManager {
 
     }
 
-    private func body(from formData: FormData) -> Data {
+    func body(from formData: FormData) -> Data {
         return Data()
     }
 
