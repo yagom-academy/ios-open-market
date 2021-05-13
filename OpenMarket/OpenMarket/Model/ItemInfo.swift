@@ -15,12 +15,25 @@ struct ItemInfo: Codable {
     let stock: Int
     let discountedPrice: Int?
     let thumbnails: [String]
-//    let images: [String]
+    let images: [String]?
     let registrationDate: Double
     
     enum CodingKeys: String, CodingKey {
-        case id, title, price, currency, stock, thumbnails
+        case id, title, price, currency, stock, thumbnails, images
         case discountedPrice = "discounted_price"
         case registrationDate = "registration_date"
+    }
+    
+    init(from decorder: Decoder) throws {
+        let values = try decorder.container(keyedBy: CodingKeys.self)
+        id = try values.decode(Int.self, forKey: .id)
+        title = try values.decode(String.self, forKey: .title)
+        price = try values.decode(Int.self, forKey: .price)
+        currency = try values.decode(String.self, forKey: .currency)
+        stock = try values.decode(Int.self, forKey: .stock)
+        discountedPrice = try values.decodeIfPresent(Int.self, forKey: .discountedPrice)
+        thumbnails = try values.decode([String].self, forKey: .thumbnails)
+        images = try values.decodeIfPresent([String].self, forKey: .images)
+        registrationDate = try values.decode(Double.self, forKey: .registrationDate)
     }
 }

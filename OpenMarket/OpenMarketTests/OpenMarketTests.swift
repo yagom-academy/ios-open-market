@@ -164,6 +164,23 @@ class OpenMarketTests: XCTestCase {
         }.resume()
 
         wait(for: [promise], timeout: 5)
+    }
+    
+    func test_items_mockData_parse() {
+        let decoder = JSONDecoder()
         
+        guard let dataAsset = NSDataAsset(name: "items") else {
+            XCTFail()
+            return
+        }
+        
+        guard let result = try? decoder.decode(ItemsList.self, from: dataAsset.data) else {
+            XCTFail()
+            return
+        }
+        
+        XCTAssertEqual(result.items.count, 20)
+        XCTAssertNil(result.items[0].discountedPrice)
+        XCTAssertNil(result.items[0].images)
     }
 }
