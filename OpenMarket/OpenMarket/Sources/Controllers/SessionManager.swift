@@ -35,11 +35,11 @@ class SessionManager {
     }
 
     func patchItem(id: Int, patchingItem: PatchingItem,
-                   completionHandler: @escaping (Result<ResponsedPage, Error>) -> Void) {
+                   completionHandler: @escaping (Result<ResponsedItem, Error>) -> Void) {
 
     }
 
-    func deleteItem(id: Int, password: String, completionHandler: @escaping () -> Void) {
+    func deleteItem(id: Int, password: String, completionHandler: @escaping (Result<ResponsedItem, Error>) -> Void) {
 
     }
 
@@ -58,5 +58,6 @@ class SessionManager {
     enum Error: Swift.Error {
         case invalidURL
         case dataIsNotJSON
+        case invalidIDOrPassword
     }
 }
