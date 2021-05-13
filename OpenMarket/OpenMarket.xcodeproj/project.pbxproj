@@ -15,6 +15,12 @@
 		C39DA42D264D4855001F1B33 /* 상품등록response.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39DA42C264D4855001F1B33 /* 상품등록response.swift */; };
 		C39DA42F264D495B001F1B33 /* 상품조회response.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39DA42E264D495B001F1B33 /* 상품조회response.swift */; };
 		C39DA431264D4A5F001F1B33 /* 상품삭제request.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39DA430264D4A5F001F1B33 /* 상품삭제request.swift */; };
+		C39DA433264D4FC3001F1B33 /* Authenticatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39DA432264D4FC3001F1B33 /* Authenticatable.swift */; };
+		C39DA435264D51B5001F1B33 /* InfoSearchable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39DA434264D51B5001F1B33 /* InfoSearchable.swift */; };
+		C39DA437264D5238001F1B33 /* ListSearchable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39DA436264D5238001F1B33 /* ListSearchable.swift */; };
+		C39DA439264D52F2001F1B33 /* Detailable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39DA438264D52F2001F1B33 /* Detailable.swift */; };
+		C39DA43B264D5359001F1B33 /* Registratable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39DA43A264D5359001F1B33 /* Registratable.swift */; };
+		C39DA43D264D53B8001F1B33 /* Editable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39DA43C264D53B8001F1B33 /* Editable.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
 		C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */; };
 		C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FE25BEF61C00C9924E /* ViewController.swift */; };
@@ -32,6 +38,12 @@
 		C39DA42C264D4855001F1B33 /* 상품등록response.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "상품등록response.swift"; sourceTree = "<group>"; };
 		C39DA42E264D495B001F1B33 /* 상품조회response.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "상품조회response.swift"; sourceTree = "<group>"; };
 		C39DA430264D4A5F001F1B33 /* 상품삭제request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "상품삭제request.swift"; sourceTree = "<group>"; };
+		C39DA432264D4FC3001F1B33 /* Authenticatable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Authenticatable.swift; sourceTree = "<group>"; };
+		C39DA434264D51B5001F1B33 /* InfoSearchable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoSearchable.swift; sourceTree = "<group>"; };
+		C39DA436264D5238001F1B33 /* ListSearchable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListSearchable.swift; sourceTree = "<group>"; };
+		C39DA438264D52F2001F1B33 /* Detailable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Detailable.swift; sourceTree = "<group>"; };
+		C39DA43A264D5359001F1B33 /* Registratable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Registratable.swift; sourceTree = "<group>"; };
+		C39DA43C264D53B8001F1B33 /* Editable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Editable.swift; sourceTree = "<group>"; };
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -64,6 +76,12 @@
 				C39DA42E264D495B001F1B33 /* 상품조회response.swift */,
 				85227395264CF822002BDEC3 /* 상품삭제response.swift */,
 				C39DA430264D4A5F001F1B33 /* 상품삭제request.swift */,
+				C39DA432264D4FC3001F1B33 /* Authenticatable.swift */,
+				C39DA434264D51B5001F1B33 /* InfoSearchable.swift */,
+				C39DA436264D5238001F1B33 /* ListSearchable.swift */,
+				C39DA438264D52F2001F1B33 /* Detailable.swift */,
+				C39DA43A264D5359001F1B33 /* Registratable.swift */,
+				C39DA43C264D53B8001F1B33 /* Editable.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -172,13 +190,19 @@
 				85227394264CF808002BDEC3 /* 상품수정request.swift in Sources */,
 				C39DA42F264D495B001F1B33 /* 상품조회response.swift in Sources */,
 				C39DA431264D4A5F001F1B33 /* 상품삭제request.swift in Sources */,
+				C39DA437264D5238001F1B33 /* ListSearchable.swift in Sources */,
 				C39DA42D264D4855001F1B33 /* 상품등록response.swift in Sources */,
 				C39DA42B264D47C0001F1B33 /* 상품등록request.swift in Sources */,
+				C39DA43D264D53B8001F1B33 /* Editable.swift in Sources */,
 				85227392264CF716002BDEC3 /* 목록조회response.swift in Sources */,
+				C39DA43B264D5359001F1B33 /* Registratable.swift in Sources */,
 				85227396264CF822002BDEC3 /* 상품삭제response.swift in Sources */,
+				C39DA439264D52F2001F1B33 /* Detailable.swift in Sources */,
+				C39DA435264D51B5001F1B33 /* InfoSearchable.swift in Sources */,
 				85227398264CFB64002BDEC3 /* 상품수정response.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
+				C39DA433264D4FC3001F1B33 /* Authenticatable.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
