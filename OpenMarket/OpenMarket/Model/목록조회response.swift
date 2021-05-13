@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct 상품조회: Codable {
+struct 목록조회response: Codable {
   let page: Int
   let items: [Item]
 
