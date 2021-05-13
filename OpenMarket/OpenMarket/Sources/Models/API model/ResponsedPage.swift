@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 struct ResponsedPage: Decodable {
     let page: Int
@@ -25,6 +26,25 @@ struct ResponsedPage: Decodable {
             case id, title, price, currency, stock, thumbnails
             case discountedPrice = "discounted_price"
             case registrationDate = "registration_date"
+        }
+
+        func toPageItem() -> Page.Item? {
+            var thumbnails: [UIImage] = []
+            let date = Date(timeIntervalSince1970: registrationDate)
+
+            for url in self.thumbnails {
+                guard let image = UIImage.fetchImageFromURL(url: url) else { return nil }
+                thumbnails.append(image)
+            }
+
+            return Page.Item(id: id,
+                             title: title,
+                             price: price,
+                             currency: currency,
+                             stock: stock,
+                             discountedPrice: discountedPrice,
+                             thumbnails: thumbnails,
+                             registrationDate: date)
         }
     }
 }
