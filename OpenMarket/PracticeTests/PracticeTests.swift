@@ -19,6 +19,14 @@ class PracticeTests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         //테스트가 끝났을 때 이걸 해줄게
     }
+    
+    func test_personJSON데이터가_personData에_Decoding_되어서_0번째인덱스에_야곰이들어왔는지확인() {
+        var jsonPersonData = JSONPersonData()
+        
+        jsonPersonData.parseJSONData(assetName: "PersonJSON")
+        
+        XCTAssertEqual(jsonPersonData.personData[0].name, "야곰")
+    }
 }
 
 
