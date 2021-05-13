@@ -13,6 +13,7 @@
 		768E8865264A2076008D19C0 /* CreateArticle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768E8864264A2076008D19C0 /* CreateArticle.swift */; };
 		768E8867264A208C008D19C0 /* UpdateArticle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768E8866264A208C008D19C0 /* UpdateArticle.swift */; };
 		768E886F264A20CA008D19C0 /* OpenMarketTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768E886E264A20CA008D19C0 /* OpenMarketTests.swift */; };
+		B4148825264D595500184497 /* DeleteArticle.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4148824264D595500184497 /* DeleteArticle.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
 		C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */; };
 		C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FE25BEF61C00C9924E /* ViewController.swift */; };
@@ -40,6 +41,7 @@
 		768E886C264A20CA008D19C0 /* OpenMarketTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenMarketTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		768E886E264A20CA008D19C0 /* OpenMarketTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketTests.swift; sourceTree = "<group>"; };
 		768E8870264A20CA008D19C0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B4148824264D595500184497 /* DeleteArticle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteArticle.swift; sourceTree = "<group>"; };
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -77,6 +79,19 @@
 			path = OpenMarketTests;
 			sourceTree = "<group>";
 		};
+		B4148821264D58DF00184497 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				768E885E264A1F9C008D19C0 /* EntireArticle.swift */,
+				768E8860264A1FB5008D19C0 /* EssentialArticle.swift */,
+				768E8862264A201E008D19C0 /* DetailArticle.swift */,
+				768E8864264A2076008D19C0 /* CreateArticle.swift */,
+				768E8866264A208C008D19C0 /* UpdateArticle.swift */,
+				B4148824264D595500184497 /* DeleteArticle.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		C70FB0EE25BEF61C00C9924E = {
 			isa = PBXGroup;
 			children = (
@@ -98,6 +113,7 @@
 		C70FB0F925BEF61C00C9924E /* OpenMarket */ = {
 			isa = PBXGroup;
 			children = (
+				B4148821264D58DF00184497 /* Models */,
 				C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */,
 				C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */,
 				C70FB0FE25BEF61C00C9924E /* ViewController.swift */,
@@ -105,11 +121,6 @@
 				C70FB10325BEF61D00C9924E /* Assets.xcassets */,
 				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
 				C70FB10825BEF61D00C9924E /* Info.plist */,
-				768E885E264A1F9C008D19C0 /* EntireArticle.swift */,
-				768E8860264A1FB5008D19C0 /* EssentialArticle.swift */,
-				768E8862264A201E008D19C0 /* DetailArticle.swift */,
-				768E8864264A2076008D19C0 /* CreateArticle.swift */,
-				768E8866264A208C008D19C0 /* UpdateArticle.swift */,
 			);
 			path = OpenMarket;
 			sourceTree = "<group>";
@@ -226,6 +237,7 @@
 				768E885F264A1F9C008D19C0 /* EntireArticle.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
+				B4148825264D595500184497 /* DeleteArticle.swift in Sources */,
 				768E8861264A1FB5008D19C0 /* EssentialArticle.swift in Sources */,
 				768E8867264A208C008D19C0 /* UpdateArticle.swift in Sources */,
 				768E8863264A201F008D19C0 /* DetailArticle.swift in Sources */,
