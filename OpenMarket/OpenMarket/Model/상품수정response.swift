@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct 상품수정response: Codable {
+struct 상품수정response: Decodable {
   let id: Int
   let title: String
   let descriptions: String

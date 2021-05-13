@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct 상품삭제: Codable {
+struct 상품삭제response: Decodable {
   let id: Int
   let title: String
   let descriptions: String

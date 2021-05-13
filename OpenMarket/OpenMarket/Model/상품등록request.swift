@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct 상품등록request {
+struct 상품등록request: Encodable {
   let title: String
   let description: String
   let price: Int

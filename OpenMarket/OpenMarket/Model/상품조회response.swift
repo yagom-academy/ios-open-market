@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct 상품조회response: Codable {
+struct 상품조회response: Decodable {
   let id: Int
   let title: String
   let descriptions: String

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct 상품수정request: Codable {
+struct 상품수정request: Encodable {
   let title: String
   let descriptions: String
   let price: Int?

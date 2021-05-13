@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct 목록조회response: Codable {
+struct 목록조회response: Decodable {
   let page: Int
   let items: [Item]
 
