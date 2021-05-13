@@ -47,4 +47,15 @@ struct ResponsedPage: Decodable {
                              registrationDate: date)
         }
     }
+
+    func toPage() -> Page? {
+        var items: [Page.Item] = []
+
+        for item in self.items {
+            guard let pageItem = item.toPageItem() else { return nil }
+            items.append(pageItem)
+        }
+
+        return Page(page: page, items: items)
+    }
 }

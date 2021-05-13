@@ -96,7 +96,7 @@
 		024D5D3F264B9F6800980107 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				1C7D1D76264BA59700ADE23A /* API model */,
+				1C7D1D76264BA59700ADE23A /* APIModel */,
 				024D5D48264BA62400980107 /* Item.swift */,
 				024D5D46264BA1FC00980107 /* Page.swift */,
 			);
@@ -171,7 +171,7 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
-		1C7D1D76264BA59700ADE23A /* API model */ = {
+		1C7D1D76264BA59700ADE23A /* APIModel */ = {
 			isa = PBXGroup;
 			children = (
 				1C7D1D84264BABA800ADE23A /* PatchingItem.swift */,
@@ -179,7 +179,7 @@
 				02609787264BB4C80086A8C5 /* ResponsedItem.swift */,
 				02609789264BB5660086A8C5 /* ResponsedPage.swift */,
 			);
-			path = "API model";
+			path = APIModel;
 			sourceTree = "<group>";
 		};
 		C70FB0EE25BEF61C00C9924E = {
