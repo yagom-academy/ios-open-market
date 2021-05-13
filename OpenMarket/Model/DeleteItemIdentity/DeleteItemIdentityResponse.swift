@@ -8,7 +8,7 @@
 import Foundation
 
 struct DeleteItemIdentityResponse: Decodable {
-    var id: Int
+//    var id: Int
     var title: String
     var descriptions: String
     var price: Int
@@ -20,7 +20,7 @@ struct DeleteItemIdentityResponse: Decodable {
     var registrationDate: Double
     
     private enum CodingKeys: String, CodingKey {
-        case id
+//        case id
         case title
         case descriptions
         case price
