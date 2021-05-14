@@ -38,6 +38,7 @@ class SessionManager {
 
         guard let url = URL(string: urlString) else {
             completionHandler(.failure(.invalidURL))
+
             return
         }
 
@@ -58,7 +59,31 @@ class SessionManager {
     }
 
     func postItem(_ postingItem: PostingItem, completionHandler: @escaping (Result<ResponsedItem, Error>) -> Void) {
+        guard let url = URL(string: BaseURL.item) else {
+            completionHandler(.failure(.invalidURL))
 
+            return
+        }
+
+        var request = URLRequest(url: url)
+        request.httpMethod = HTTPMethod.post
+        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        request.httpBody = body(from: postingItem)
+
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            guard let data = data else {
+                completionHandler(.failure(.didNotReceivedData(statusCode: (response as? HTTPURLResponse)?.statusCode,
+                                                               errorMessage: error?.localizedDescription)))
+                return
+            }
+
+            do {
+                let jsonData = try JSONDecoder().decode(ResponsedItem.self, from: data)
+                completionHandler(.success(jsonData))
+            } catch {
+                completionHandler(.failure(.dataIsNotJSON))
+            }
+        }.resume()
     }
 
     func patchItem(id: Int, patchingItem: PatchingItem,
@@ -86,7 +111,7 @@ class SessionManager {
         }
 
         formDataBody.append("--\(boundary)--")
-
+        print(String(decoding: formDataBody, as: UTF8.self))
         return formDataBody
     }
 

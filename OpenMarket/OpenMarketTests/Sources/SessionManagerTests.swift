@@ -14,13 +14,13 @@ class SessionManagerHTTPTests: XCTestCase {
     var dummyPatchingItem: PatchingItem!
     
     override func setUpWithError() throws {
-        dummyPostingItem = PostingItem(title: "귀여운 딸기",
-                                       descriptions: "귀여운 딸기입니다.",
+        dummyPostingItem = PostingItem(title: "끔찍한 디버깅",
+                                       descriptions: "끔찍한 디버깅입니다.",
                                        price: 1000,
                                        currency: "KRW",
                                        stock: 10,
                                        discountedPrice: nil,
-                                       images: [],
+                                       images: [UIImage(systemName: "zzz")!.jpegData(compressionQuality: 1)!],
                                        password: "1234")
         
         dummyPatchingItem = PatchingItem(title: "귀여운 바나나",
@@ -41,10 +41,10 @@ class SessionManagerHTTPTests: XCTestCase {
     
     func test_get_성공시_completionHandler의_인자로_success가_전달된다() {
         let expectation = XCTestExpectation()
-        XCTWaiter().wait(for: [expectation], timeout: 5)
         
-        sut.get(id: 1) { (result: Result<ResponsedPage, SessionManager.Error>) in
-            expectation.fulfill()
+        sut.get(id: 63) { (result: Result<ResponsedItem, SessionManager.Error>) in
+            let a = try! result.get()
+            XCTAssertEqual(a.title, "Neph")
             
             switch result {
             case .success:
@@ -52,7 +52,11 @@ class SessionManagerHTTPTests: XCTestCase {
             case .failure(let error):
                 XCTFail(error.localizedDescription)
             }
+            
+            expectation.fulfill()
         }
+        
+        wait(for: [expectation], timeout: 5)
     }
     
     func test_URL이_잘못된_경우_get_completionHandler의_인자로_failure_invalidURL이_전달된다() {
@@ -89,10 +93,10 @@ class SessionManagerHTTPTests: XCTestCase {
     
     func test_postItem_성공시_completionHandler의_인자로_success가_전달된다() {
         let expectation = XCTestExpectation()
-        XCTWaiter().wait(for: [expectation], timeout: 5)
+        
         
         sut.postItem(dummyPostingItem) { (result: Result<ResponsedItem, SessionManager.Error>) in
-            expectation.fulfill()
+//            expectation.fulfill()
             
             switch result {
             case .success:
@@ -101,6 +105,7 @@ class SessionManagerHTTPTests: XCTestCase {
                 XCTFail(error.localizedDescription)
             }
         }
+        XCTWaiter().wait(for: [expectation], timeout: 5)
     }
     
     func test_URL이_잘못된_경우_postItem_completionHandler의_인자로_failure_invalidURL이_전달된다() {
