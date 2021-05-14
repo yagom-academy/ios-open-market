@@ -9,6 +9,7 @@ import Foundation
 
 struct ItemForEdit: Codable {
     let title: String?
+    let price: Double?
     let descriptions: String?
     let currency: String?
     let stock: Int?
@@ -17,7 +18,7 @@ struct ItemForEdit: Codable {
     let password: String
     
     enum CodingKeys: String, CodingKey {
-        case title, descriptions, currency, stock, images, password
+        case title, price, descriptions, currency, stock, images, password
         case discountedPrice = "discounted_price"
     }
 }
