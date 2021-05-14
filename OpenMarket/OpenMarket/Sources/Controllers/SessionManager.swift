@@ -47,8 +47,15 @@ class SessionManager {
         return Data()
     }
 
-    private func converFileField(key: String, source: String, mimeType: String, value: Data) -> Data {
-        return Data()
+    private func convertFileField(key: String, source: String, mimeType: String, value: Data) -> Data {
+        var dataField = Data()
+
+        dataField.append("--\(boundary)\r\n")
+        dataField.append("Content-Disposition: form-data; name=\"\(key)\"; filename=\"\(source)\"\r\n")
+        dataField.append("Content-Type: \"\(mimeType)\"\r\n\r\n")
+        dataField.append(value)
+        dataField.append("\r\n")
+        return dataField
     }
 
     private func convertTextField(key: String, value: String) -> String {
