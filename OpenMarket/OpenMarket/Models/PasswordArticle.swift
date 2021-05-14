@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct DeleteArticle: Codable {
+struct PasswordArticle: Codable {
     
     let password: String
     

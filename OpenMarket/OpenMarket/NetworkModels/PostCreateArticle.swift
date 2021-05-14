@@ -44,7 +44,7 @@ class PostCreateArticle {
                 print("에러")
                 return
             }
-            if self.urlProcess.checkResponseCode(response: response) {
+            if !self.urlProcess.checkResponseCode(response: response) {
                 print("응답코드 에러")
             }
             else {
@@ -57,12 +57,12 @@ class PostCreateArticle {
         // Text 데이터
         var httpBody = Data()
         
-        httpBody.append(convertFormField(name: "title", value: "감자", boundary: boundary).data(using: .utf8)!)
-        httpBody.append(convertFormField(name: "descriptions", value: "강원도 감자특산물", boundary: boundary).data(using: .utf8)!)
-        httpBody.append(convertFormField(name: "price", value: "1300", boundary: boundary).data(using: .utf8)!)
+        httpBody.append(convertFormField(name: "title", value: "맥북M1 - 바비", boundary: boundary).data(using: .utf8)!)
+        httpBody.append(convertFormField(name: "descriptions", value: "바비의 맥북", boundary: boundary).data(using: .utf8)!)
+        httpBody.append(convertFormField(name: "price", value: "123456789", boundary: boundary).data(using: .utf8)!)
         httpBody.append(convertFormField(name: "currency", value: "KRW", boundary: boundary).data(using: .utf8)!)
-        httpBody.append(convertFormField(name: "stock", value: "5", boundary: boundary).data(using: .utf8)!)
-        httpBody.append(convertFormField(name: "discounted_price", value: "1100", boundary: boundary).data(using: .utf8)!)
+        httpBody.append(convertFormField(name: "stock", value: "1", boundary: boundary).data(using: .utf8)!)
+        httpBody.append(convertFormField(name: "discounted_price", value: "1234567", boundary: boundary).data(using: .utf8)!)
         httpBody.append(convertFileData(fieldName: "images[]", fileName: "github.png", mimeType: "image/png", fileData: imageData, boundary: boundary))
         httpBody.append(convertFormField(name: "password", value: "1234", boundary: boundary).data(using: .utf8)!)
         httpBody.append("--\(boundary)--".data(using: .utf8)!)

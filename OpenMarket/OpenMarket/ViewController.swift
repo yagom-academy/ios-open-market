@@ -26,11 +26,11 @@ class ViewController: UIViewController {
         let yagomBoundary = "Boundary-\(UUID().uuidString)"
         
         let httpBody = postArticle.makeRequestBody(boundary: yagomBoundary, imageData: pngImage)
-        //let updateBody = patchArticle.updateRequestBody(boundary: yagomBoundary)
+        let updateBody = patchArticle.updateRequestBody(boundary: yagomBoundary, imageData: pngImage)
         
-        guard let request = urlProcess.setURLRequest(requestMethodType: "POST", boundary: yagomBoundary) else { return }
+        guard let request = urlProcess.setURLRequest(requestMethodType: "PATCH", boundary: yagomBoundary) else { return }
 
-        postArticle.postData(request: request, requestBody: httpBody)
+        postArticle.postData(request: request, requestBody: updateBody)
     }
     
     func convertDataToAssetImage(imageName: String) -> Data {
