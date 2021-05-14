@@ -59,60 +59,27 @@ class SessionManagerHTTPTests: XCTestCase {
         wait(for: [expectation], timeout: 5)
     }
     
-    func test_URL이_잘못된_경우_get_completionHandler의_인자로_failure_invalidURL이_전달된다() {
-        let expectation = XCTestExpectation()
-        XCTWaiter().wait(for: [expectation], timeout: 5)
-        
-        sut.get(id: -1) { (result: Result<ResponsedPage, SessionManager.Error>) in
-            expectation.fulfill()
-            
-            switch result {
-            case .success:
-                break
-            case .failure(let error):
-                XCTAssertEqual(error, SessionManager.Error.invalidURL)
-            }
-        }
-    }
-    
     func test_JSON_data로_변환할_수_없다면_get_completionHandler의_인자로_failure_dataIsNotJSON이_전달된다() {
         let expectation = XCTestExpectation()
-        XCTWaiter().wait(for: [expectation], timeout: 5)
         
         sut.get(id: -1) { (result: Result<ResponsedPage, SessionManager.Error>) in
-            expectation.fulfill()
-            
             switch result {
             case .success:
                 break
             case .failure(let error):
                 XCTAssertEqual(error, SessionManager.Error.dataIsNotJSON)
             }
+            
+            expectation.fulfill()
         }
+        
+        wait(for: [expectation], timeout: 5)
     }
     
     func test_postItem_성공시_completionHandler의_인자로_success가_전달된다() {
         let expectation = XCTestExpectation()
         
-        
         sut.postItem(dummyPostingItem) { (result: Result<ResponsedItem, SessionManager.Error>) in
-//            expectation.fulfill()
-            
-            switch result {
-            case .success:
-                break
-            case .failure(let error):
-                XCTFail(error.localizedDescription)
-            }
-        }
-        XCTWaiter().wait(for: [expectation], timeout: 5)
-    }
-    
-    func test_URL이_잘못된_경우_postItem_completionHandler의_인자로_failure_invalidURL이_전달된다() {
-        let expectation = XCTestExpectation()
-        
-        sut.postItem(dummyPostingItem) { (result: Result<ResponsedItem, SessionManager.Error>) in
-            
             switch result {
             case .success:
                 break
@@ -131,7 +98,6 @@ class SessionManagerHTTPTests: XCTestCase {
         let itemId = 134
         
         sut.patchItem(id: itemId, patchingItem: dummyPatchingItem) { (result: Result<ResponsedItem, SessionManager.Error>) in
-            
             switch result {
             case .success:
                 break
@@ -150,7 +116,6 @@ class SessionManagerHTTPTests: XCTestCase {
         let itemId = 53
         
         sut.patchItem(id: itemId, patchingItem: dummyPatchingItem) { (result: Result<ResponsedItem, SessionManager.Error>) in
-            
             switch result {
             case .success:
                 XCTFail("성공했음")
@@ -159,6 +124,7 @@ class SessionManagerHTTPTests: XCTestCase {
                     XCTFail(error.localizedDescription)
                 }
             }
+            
             expectation.fulfill()
         }
         
@@ -177,6 +143,7 @@ class SessionManagerHTTPTests: XCTestCase {
                     XCTFail(error.localizedDescription)
                 }
             }
+            
             expectation.fulfill()
         }
         
@@ -195,20 +162,10 @@ class SessionManagerHTTPTests: XCTestCase {
                     XCTFail(error.localizedDescription)
                 }
             }
+            
             expectation.fulfill()
         }
         
         wait(for: [expectation], timeout: 5)
-    }
-    
-}
-
-class SessionManagerBodyTests: XCTestCase {
-    override func setUpWithError() throws {
-
-    }
-
-    override func tearDownWithError() throws {
-
     }
 }
