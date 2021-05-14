@@ -14,13 +14,15 @@
 		C70FB10225BEF61C00C9924E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C70FB10025BEF61C00C9924E /* Main.storyboard */; };
 		C70FB10425BEF61D00C9924E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C70FB10325BEF61D00C9924E /* Assets.xcassets */; };
 		C70FB10725BEF61D00C9924E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */; };
+		E22B5D9B264E1DE800160A3A /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E22B5D9A264E1DE800160A3A /* APIError.swift */; };
+		E22B5D9D264E38FF00160A3A /* ResponseType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E22B5D9C264E38FF00160A3A /* ResponseType.swift */; };
 		E27CB873264A58B3007741DE /* ItemList.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27CB872264A58B3007741DE /* ItemList.swift */; };
 		E27CB875264A58BE007741DE /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27CB874264A58BE007741DE /* Item.swift */; };
 		E27CB877264A58E4007741DE /* ItemForRegistration.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27CB876264A58E4007741DE /* ItemForRegistration.swift */; };
 		E27CB879264A58F9007741DE /* ItemResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27CB878264A58F9007741DE /* ItemResponse.swift */; };
 		E27CB87B264A5904007741DE /* ItemForEdit.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27CB87A264A5904007741DE /* ItemForEdit.swift */; };
 		E27CB87D264A590F007741DE /* ItemForDelete.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27CB87C264A590F007741DE /* ItemForDelete.swift */; };
-		E27CB87F264A591A007741DE /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27CB87E264A591A007741DE /* DataManager.swift */; };
+		E27CB87F264A591A007741DE /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27CB87E264A591A007741DE /* NetworkManager.swift */; };
 		E27CB887264A75F3007741DE /* OpenMarketTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27CB886264A75F3007741DE /* OpenMarketTests.swift */; };
 /* End PBXBuildFile section */
 
@@ -44,13 +46,15 @@
 		C70FB10325BEF61D00C9924E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C70FB10625BEF61D00C9924E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C70FB10825BEF61D00C9924E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E22B5D9A264E1DE800160A3A /* APIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
+		E22B5D9C264E38FF00160A3A /* ResponseType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseType.swift; sourceTree = "<group>"; };
 		E27CB872264A58B3007741DE /* ItemList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemList.swift; sourceTree = "<group>"; };
 		E27CB874264A58BE007741DE /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		E27CB876264A58E4007741DE /* ItemForRegistration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemForRegistration.swift; sourceTree = "<group>"; };
 		E27CB878264A58F9007741DE /* ItemResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemResponse.swift; sourceTree = "<group>"; };
 		E27CB87A264A5904007741DE /* ItemForEdit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemForEdit.swift; sourceTree = "<group>"; };
 		E27CB87C264A590F007741DE /* ItemForDelete.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemForDelete.swift; sourceTree = "<group>"; };
-		E27CB87E264A591A007741DE /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
+		E27CB87E264A591A007741DE /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		E27CB884264A75F3007741DE /* OpenMarketTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenMarketTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E27CB886264A75F3007741DE /* OpenMarketTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketTests.swift; sourceTree = "<group>"; };
 		E27CB888264A75F3007741DE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -107,17 +111,51 @@
 			path = OpenMarket;
 			sourceTree = "<group>";
 		};
-		E27CB871264A587C007741DE /* Model */ = {
+		E22B5D99264E1DD800160A3A /* Error */ = {
+			isa = PBXGroup;
+			children = (
+				E22B5D9A264E1DE800160A3A /* APIError.swift */,
+			);
+			path = Error;
+			sourceTree = "<group>";
+		};
+		E2362B76264D872600C5F59E /* Request */ = {
+			isa = PBXGroup;
+			children = (
+				E27CB876264A58E4007741DE /* ItemForRegistration.swift */,
+				E27CB87A264A5904007741DE /* ItemForEdit.swift */,
+				E27CB87C264A590F007741DE /* ItemForDelete.swift */,
+			);
+			path = Request;
+			sourceTree = "<group>";
+		};
+		E2362B77264D875A00C5F59E /* Response */ = {
 			isa = PBXGroup;
 			children = (
 				E27CB872264A58B3007741DE /* ItemList.swift */,
 				E27CB874264A58BE007741DE /* Item.swift */,
-				E27CB876264A58E4007741DE /* ItemForRegistration.swift */,
 				E27CB878264A58F9007741DE /* ItemResponse.swift */,
-				E27CB87A264A5904007741DE /* ItemForEdit.swift */,
-				E27CB87C264A590F007741DE /* ItemForDelete.swift */,
-				E27CB87E264A591A007741DE /* DataManager.swift */,
+			);
+			path = Response;
+			sourceTree = "<group>";
+		};
+		E2362B78264D877300C5F59E /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				E27CB87E264A591A007741DE /* NetworkManager.swift */,
 				AA04F852264CFDB100232D1E /* OpenMarketURL.swift */,
+				E22B5D9C264E38FF00160A3A /* ResponseType.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		E27CB871264A587C007741DE /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				E22B5D99264E1DD800160A3A /* Error */,
+				E2362B78264D877300C5F59E /* Network */,
+				E2362B77264D875A00C5F59E /* Response */,
+				E2362B76264D872600C5F59E /* Request */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -232,12 +270,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				E27CB87B264A5904007741DE /* ItemForEdit.swift in Sources */,
-				E27CB87F264A591A007741DE /* DataManager.swift in Sources */,
+				E27CB87F264A591A007741DE /* NetworkManager.swift in Sources */,
 				E27CB875264A58BE007741DE /* Item.swift in Sources */,
 				E27CB873264A58B3007741DE /* ItemList.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
+				E22B5D9B264E1DE800160A3A /* APIError.swift in Sources */,
 				E27CB87D264A590F007741DE /* ItemForDelete.swift in Sources */,
 				E27CB879264A58F9007741DE /* ItemResponse.swift in Sources */,
+				E22B5D9D264E38FF00160A3A /* ResponseType.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				AA04F853264CFDB100232D1E /* OpenMarketURL.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
