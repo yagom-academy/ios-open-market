@@ -14,8 +14,10 @@ class ViewController: UIViewController {
         let getArticle = GetEssentialArticle()
         let postArticle = PostCreateArticle()
         let urlProcess = URLProcess()
+        let patchArticle = PatchUpdateArticle()
         
-        getArticle.getParsing()
+        
+        //getArticle.getParsing()
         
         let pngImage = convertDataToAssetImage(imageName: "github")
         
@@ -24,6 +26,7 @@ class ViewController: UIViewController {
         let yagomBoundary = "Boundary-\(UUID().uuidString)"
         
         let httpBody = postArticle.makeRequestBody(boundary: yagomBoundary, imageData: pngImage)
+        //let updateBody = patchArticle.updateRequestBody(boundary: yagomBoundary)
         
         guard let request = urlProcess.setURLRequest(requestMethodType: "POST", boundary: yagomBoundary) else { return }
 

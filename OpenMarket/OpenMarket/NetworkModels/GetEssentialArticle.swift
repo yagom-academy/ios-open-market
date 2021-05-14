@@ -9,15 +9,17 @@ import Foundation
 
 class GetEssentialArticle {
     
+    let urlProcess = URLProcess()
+    
     func getParsing() {
-        guard let baseUrl = URL(string: "https://camp-open-market-2.herokuapp.com/items/1") else { return }
+        guard let relativeURL = urlProcess.setURLPath(methodType: "POST") else { return }
 
         let config = URLSessionConfiguration.default
         let session = URLSession(configuration: config)
-        let dataTask = session.dataTask(with: baseUrl) { (data, response, error) in
+        let dataTask = session.dataTask(with: relativeURL) { (data, response, error) in
             guard error == nil else { return }
 
-            if self.checkResponseCode(response: response) {
+            if self.urlProcess.checkResponseCode(response: response) {
                 guard let resultData = data else { return }
                 self.decodeData(data: resultData)
             } else { return }
@@ -25,13 +27,7 @@ class GetEssentialArticle {
         dataTask.resume()
     }
     
-    func checkResponseCode(response: URLResponse?) -> Bool {
-        guard let successResponse = (response as? HTTPURLResponse)?.statusCode else { return false }
-        
-        if successResponse >= 200 && successResponse < 300 { return true }
-        
-        return false
-    }
+
     
     func decodeData(data: Data) {
         

@@ -46,4 +46,12 @@ class URLProcess {
         return request
     }
     
+    func checkResponseCode(response: URLResponse?) -> Bool {
+        guard let successResponse = (response as? HTTPURLResponse)?.statusCode else { return false }
+        
+        if successResponse >= 200 && successResponse < 300 { return true }
+        
+        return false
+    }
+    
 }
