@@ -10,6 +10,7 @@
 		767CE4FE264E45FC00B93FB4 /* HttpMethodType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767CE4FD264E45FC00B93FB4 /* HttpMethodType.swift */; };
 		767CE500264E47C700B93FB4 /* GetEssentialArticle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767CE4FF264E47C700B93FB4 /* GetEssentialArticle.swift */; };
 		767CE502264E4C1300B93FB4 /* PostCreateArticle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767CE501264E4C1300B93FB4 /* PostCreateArticle.swift */; };
+		767CE504264E505B00B93FB4 /* URLProcess.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767CE503264E505B00B93FB4 /* URLProcess.swift */; };
 		768E885F264A1F9C008D19C0 /* EntireArticle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768E885E264A1F9C008D19C0 /* EntireArticle.swift */; };
 		768E8861264A1FB5008D19C0 /* EssentialArticle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768E8860264A1FB5008D19C0 /* EssentialArticle.swift */; };
 		768E8863264A201F008D19C0 /* DetailArticle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768E8862264A201E008D19C0 /* DetailArticle.swift */; };
@@ -39,6 +40,7 @@
 		767CE4FD264E45FC00B93FB4 /* HttpMethodType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpMethodType.swift; sourceTree = "<group>"; };
 		767CE4FF264E47C700B93FB4 /* GetEssentialArticle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetEssentialArticle.swift; sourceTree = "<group>"; };
 		767CE501264E4C1300B93FB4 /* PostCreateArticle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCreateArticle.swift; sourceTree = "<group>"; };
+		767CE503264E505B00B93FB4 /* URLProcess.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLProcess.swift; sourceTree = "<group>"; };
 		768E885E264A1F9C008D19C0 /* EntireArticle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntireArticle.swift; sourceTree = "<group>"; };
 		768E8860264A1FB5008D19C0 /* EssentialArticle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EssentialArticle.swift; sourceTree = "<group>"; };
 		768E8862264A201E008D19C0 /* DetailArticle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailArticle.swift; sourceTree = "<group>"; };
@@ -91,6 +93,7 @@
 				767CE4FD264E45FC00B93FB4 /* HttpMethodType.swift */,
 				767CE4FF264E47C700B93FB4 /* GetEssentialArticle.swift */,
 				767CE501264E4C1300B93FB4 /* PostCreateArticle.swift */,
+				767CE503264E505B00B93FB4 /* URLProcess.swift */,
 			);
 			path = NetworkModels;
 			sourceTree = "<group>";
@@ -258,6 +261,7 @@
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 				B4148825264D595500184497 /* DeleteArticle.swift in Sources */,
+				767CE504264E505B00B93FB4 /* URLProcess.swift in Sources */,
 				768E8861264A1FB5008D19C0 /* EssentialArticle.swift in Sources */,
 				768E8867264A208C008D19C0 /* UpdateArticle.swift in Sources */,
 				768E8863264A201F008D19C0 /* DetailArticle.swift in Sources */,
