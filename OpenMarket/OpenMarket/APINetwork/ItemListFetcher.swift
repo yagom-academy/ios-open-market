@@ -20,8 +20,17 @@ class ItemListFetcher {
         let task = URLSession.shared.dataTask(with: apiURI, completionHandler: { data, response, error in
             guard let data = data, error == nil else { return }
             var result: ItemListVO?
-            result = try? JSONDecoder().decode(ItemListVO.self, from: data)
-            self.itemList = result
+            do {
+                result = try JSONDecoder().decode(ItemListVO.self, from: data)
+            } catch {
+                // Error를 throw하려면 extension으로 throw 가능한 메소드로 override 해야하나?
+                print("JSON Parsing Error")
+            }
+            // 이 구문이 없으면 result가 정상적으로 동작했는지 알 수 없다. 위에서 Error 핸들링이 가능하다면 없어도 될지도?
+            guard let json = result else {
+                return
+            }
+            self.itemList = json
             semaphore.signal()
         })
         task.resume()
