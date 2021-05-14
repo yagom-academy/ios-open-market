@@ -19,7 +19,7 @@ struct ProductRegisterResponse: InfoSearchable, Detailable {
   let images: [Data]
   let registrationDate: Double
   
-  enum CodingKeys: String, CodingKey {
+  private enum CodingKeys: String, CodingKey {
     case id, title, description, price, currency, stock, thumbnails, images
     case discountedPrice = "discounted_price"
     case registrationDate = "registration_date"

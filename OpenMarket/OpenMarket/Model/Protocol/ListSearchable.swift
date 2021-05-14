@@ -11,5 +11,5 @@ protocol ListSearchable: Decodable {
   associatedtype T
   
   var page: Int { get }
-  var itmes: [T] { get }
+  var items: [T] { get }
 }

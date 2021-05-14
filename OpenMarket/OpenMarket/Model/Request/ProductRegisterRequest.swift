@@ -17,7 +17,7 @@ struct ProductRegisterRequest: Registratable {
   let images: [Data]
   let password: String
   
-  enum CodingKeys: String, CodingKey {
+  private enum CodingKeys: String, CodingKey {
     case title, description, price, currency, stock, images, password
     case discountedPrice = "discounted_price"
   }
