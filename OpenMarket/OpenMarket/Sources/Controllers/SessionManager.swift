@@ -92,7 +92,37 @@ class SessionManager {
     }
 
     func deleteItem(id: Int, password: String, completionHandler: @escaping (Result<ResponsedItem, Error>) -> Void) {
+        guard let url = URL(string: BaseURL.item + String(id)) else {
+            completionHandler(.failure(.invalidURL))
 
+            return
+        }
+
+        var request = URLRequest(url: url)
+        request.httpMethod = HTTPMethod.delete
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        do {
+            request.httpBody = try JSONEncoder().encode(["password": password])
+        } catch {
+            completionHandler(.failure(.dataIsNotJSON))
+
+            return
+        }
+
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            guard let data = data else {
+                completionHandler(.failure(.didNotReceivedData(statusCode: (response as? HTTPURLResponse)?.statusCode,
+                                                               errorMessage: error?.localizedDescription)))
+                return
+            }
+
+            do {
+                let jsonData = try JSONDecoder().decode(ResponsedItem.self, from: data)
+                completionHandler(.success(jsonData))
+            } catch {
+                completionHandler(.failure(.dataIsNotJSON))
+            }
+        }.resume()
     }
 
     func body(from formData: FormData) -> Data {

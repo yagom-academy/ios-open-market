@@ -158,18 +158,18 @@ class SessionManagerHTTPTests: XCTestCase {
     
     func test_delete_성공시_completionHandler가_호출된다() {
         let expectation = XCTestExpectation()
-        XCTWaiter().wait(for: [expectation], timeout: 5)
         
-        sut.deleteItem(id: 1, password: "1234") { (result: Result<ResponsedItem, SessionManager.Error>) in
-            expectation.fulfill()
-            
+        sut.deleteItem(id: 138, password: "1234") { (result: Result<ResponsedItem, SessionManager.Error>) in
             switch result {
             case .success:
                 break
             case .failure(let error):
                 XCTFail(error.localizedDescription)
             }
+            expectation.fulfill()
         }
+        
+        wait(for: [expectation], timeout: 5)
     }
     
     func test_잘못된_id나_password로_delete_시도시_completionHandler의_인자로_failure가_전달된다() {
