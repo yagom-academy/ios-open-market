@@ -8,6 +8,7 @@
 import Foundation
 
 struct UpdateArticle: Encodable {
+    
     let title: String?
     let descriptions: String?
     let price: Int?
@@ -21,4 +22,5 @@ struct UpdateArticle: Encodable {
         case title, descriptions, price, currency, stock, password, images
         case discountedPrice = "discounted_price"
     }
+    
 }

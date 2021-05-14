@@ -8,6 +8,7 @@
 import Foundation
 
 struct DetailArticle: Codable {
+    
     let id: Int
     let title: String
     let price: Int
@@ -24,4 +25,5 @@ struct DetailArticle: Codable {
         case discountedPrice = "discounted_price"
         case registrationDate = "registration_date"
     }
+    
 }

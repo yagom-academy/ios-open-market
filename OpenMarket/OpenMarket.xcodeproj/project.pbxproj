@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		767CE4FE264E45FC00B93FB4 /* HttpMethodType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767CE4FD264E45FC00B93FB4 /* HttpMethodType.swift */; };
 		768E885F264A1F9C008D19C0 /* EntireArticle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768E885E264A1F9C008D19C0 /* EntireArticle.swift */; };
 		768E8861264A1FB5008D19C0 /* EssentialArticle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768E8860264A1FB5008D19C0 /* EssentialArticle.swift */; };
 		768E8863264A201F008D19C0 /* DetailArticle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768E8862264A201E008D19C0 /* DetailArticle.swift */; };
@@ -33,6 +34,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		767CE4FD264E45FC00B93FB4 /* HttpMethodType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpMethodType.swift; sourceTree = "<group>"; };
 		768E885E264A1F9C008D19C0 /* EntireArticle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntireArticle.swift; sourceTree = "<group>"; };
 		768E8860264A1FB5008D19C0 /* EssentialArticle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EssentialArticle.swift; sourceTree = "<group>"; };
 		768E8862264A201E008D19C0 /* DetailArticle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailArticle.swift; sourceTree = "<group>"; };
@@ -79,6 +81,14 @@
 			path = OpenMarketTests;
 			sourceTree = "<group>";
 		};
+		768F6F73264E39DF0048D951 /* NetworkModels */ = {
+			isa = PBXGroup;
+			children = (
+				767CE4FD264E45FC00B93FB4 /* HttpMethodType.swift */,
+			);
+			path = NetworkModels;
+			sourceTree = "<group>";
+		};
 		B4148821264D58DF00184497 /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -113,6 +123,7 @@
 		C70FB0F925BEF61C00C9924E /* OpenMarket */ = {
 			isa = PBXGroup;
 			children = (
+				768F6F73264E39DF0048D951 /* NetworkModels */,
 				B4148821264D58DF00184497 /* Models */,
 				C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */,
 				C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */,
@@ -235,6 +246,7 @@
 			files = (
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
 				768E885F264A1F9C008D19C0 /* EntireArticle.swift in Sources */,
+				767CE4FE264E45FC00B93FB4 /* HttpMethodType.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 				B4148825264D595500184497 /* DeleteArticle.swift in Sources */,

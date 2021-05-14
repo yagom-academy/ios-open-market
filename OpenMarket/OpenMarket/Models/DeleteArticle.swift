@@ -8,5 +8,7 @@
 import Foundation
 
 struct DeleteArticle: Codable {
+    
     let password: String
+    
 }
