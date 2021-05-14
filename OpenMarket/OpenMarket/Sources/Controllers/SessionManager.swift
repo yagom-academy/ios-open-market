@@ -71,7 +71,23 @@ class SessionManager {
     }
 
     func body(from formData: FormData) -> Data {
-        return Data()
+        var formDataBody = Data()
+
+        for textField in formData.textFields {
+            formDataBody.append(convertTextField(key: textField.key,
+                                                 value: textField.value))
+        }
+
+        for fileField in formData.fileFields {
+            formDataBody.append(convertFileField(key: fileField.key,
+                                                 source: "image0.jpg",
+                                                 mimeType: "image/jpeg",
+                                                 value: fileField.value))
+        }
+
+        formDataBody.append("--\(boundary)--")
+
+        return formDataBody
     }
 
     private func convertFileField(key: String, source: String, mimeType: String, value: Data) -> Data {
