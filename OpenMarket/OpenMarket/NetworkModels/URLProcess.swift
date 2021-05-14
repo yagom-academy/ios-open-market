@@ -25,7 +25,7 @@ class URLProcess {
             guard let relativeURL = URL(string: "item/157", relativeTo: baseURL) else { return nil }
             return relativeURL
         case HttpMethodType.delete.stringMethod :
-            guard let relativeURL = URL(string: "item/112", relativeTo: baseURL) else { return nil }
+            guard let relativeURL = URL(string: "item/157", relativeTo: baseURL) else { return nil }
             return relativeURL
         default:
             return nil
