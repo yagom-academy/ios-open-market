@@ -126,18 +126,18 @@ class SessionManagerHTTPTests: XCTestCase {
     
     func test_patchItem_성공시_completionHandler의_인자로_success가_전달된다() {
         let expectation = XCTestExpectation()
-        XCTWaiter().wait(for: [expectation], timeout: 5)
         
-        sut.patchItem(id: 1, patchingItem: dummyPatchingItem) { (result: Result<ResponsedItem, SessionManager.Error>) in
-            expectation.fulfill()
-            
+        sut.patchItem(id: 134, patchingItem: dummyPatchingItem) { (result: Result<ResponsedItem, SessionManager.Error>) in
             switch result {
             case .success:
                 break
             case .failure(let error):
                 XCTFail(error.localizedDescription)
             }
+            expectation.fulfill()
         }
+        
+        wait(for: [expectation], timeout: 15)
     }
     
     func test_URL이_잘못된_경우_patchItem_completionHandler의_인자로_failure_invalidURL이_전달된다() {
@@ -159,12 +159,14 @@ class SessionManagerHTTPTests: XCTestCase {
     func test_delete_성공시_completionHandler가_호출된다() {
         let expectation = XCTestExpectation()
         
-        sut.deleteItem(id: 138, password: "1234") { (result: Result<ResponsedItem, SessionManager.Error>) in
+        sut.deleteItem(id: 180, password: "1234") { (result: Result<ResponsedItem, SessionManager.Error>) in
             switch result {
             case .success:
                 break
             case .failure(let error):
-                XCTFail(error.localizedDescription)
+                if error != .invalidIDOrPassword {
+                    XCTFail(error.localizedDescription)
+                }
             }
             expectation.fulfill()
         }
@@ -172,20 +174,22 @@ class SessionManagerHTTPTests: XCTestCase {
         wait(for: [expectation], timeout: 5)
     }
     
-    func test_잘못된_id나_password로_delete_시도시_completionHandler의_인자로_failure가_전달된다() {
+    func test_잘못된_id나_password로_delete_시도시_completionHandler의_인자로_failure_invalidIDOrPassword가_전달된다() {
         let expectation = XCTestExpectation()
-        XCTWaiter().wait(for: [expectation], timeout: 5)
         
         sut.deleteItem(id: 1, password: "1234") { (result: Result<ResponsedItem, SessionManager.Error>) in
-            expectation.fulfill()
-            
             switch result {
             case .success:
-                XCTFail()
-            case .failure:
-                break
+                XCTFail("success가 전달됨")
+            case .failure(let error):
+                if error != .invalidIDOrPassword {
+                    XCTFail(error.localizedDescription)
+                }
             }
+            expectation.fulfill()
         }
+        
+        wait(for: [expectation], timeout: 5)
     }
     
 }

@@ -117,10 +117,19 @@ class SessionManager {
             }
 
             do {
-                let jsonData = try JSONDecoder().decode(ResponsedItem.self, from: data)
-                completionHandler(.success(jsonData))
+                let errorData = try JSONDecoder().decode(ResponsedItem.self, from: data)
+                completionHandler(.success(errorData))
             } catch {
-                completionHandler(.failure(.dataIsNotJSON))
+                guard let errorData = try? JSONSerialization.jsonObject(with: data,
+                                                                        options: []) as? [String: String] else {
+                    completionHandler(.failure(.dataIsNotJSON))
+
+                    return
+                }
+
+                if errorData["message"] == "Cannot find data for ID and password" {
+                    completionHandler(.failure(.invalidIDOrPassword))
+                }
             }
         }.resume()
     }
