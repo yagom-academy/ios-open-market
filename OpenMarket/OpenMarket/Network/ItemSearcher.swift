@@ -7,7 +7,7 @@
 
 import Foundation
 
-class ItemSearcher: ItemSearcherProtocol {
+final class ItemSearcher: ItemSearcherProtocol {
   func search(id: Int, completionHandler: @escaping (ProductSearchResponse?) -> ()) {
     let url = "https://camp-open-market-2.herokuapp.com/item/\(id)"
     guard let requestURL: URL = URL(string: url) else { return }

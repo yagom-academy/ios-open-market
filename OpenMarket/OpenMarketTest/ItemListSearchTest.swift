@@ -11,14 +11,14 @@ import XCTest
 class ItemListSearchTest: XCTestCase {
   var listSearcher: MockItemListSearcher!
   
-    override func setUpWithError() throws {
-      listSearcher = MockItemListSearcher()
-    }
-
-    override func tearDownWithError() throws {
-      listSearcher = nil
-    }
-
+  override func setUpWithError() throws {
+    listSearcher = MockItemListSearcher()
+  }
+  
+  override func tearDownWithError() throws {
+    listSearcher = nil
+  }
+  
   func test_MocklistFile_3번째_item확인() {
     let expectation = XCTestExpectation(description: "network connect")
     var result: ListSearchResponse?

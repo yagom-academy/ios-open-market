@@ -11,23 +11,23 @@ import XCTest
 class ItemSearchTest: XCTestCase {
   var itemSearcher: MockItemSearcher!
   
-    override func setUpWithError() throws {
-      itemSearcher = MockItemSearcher()
-    }
-
-    override func tearDownWithError() throws {
-      itemSearcher = nil
-    }
+  override func setUpWithError() throws {
+    itemSearcher = MockItemSearcher()
+  }
+  
+  override func tearDownWithError() throws {
+    itemSearcher = nil
+  }
   
   func test_첫번째_아이템_조회() {
     let expectation = XCTestExpectation(description: "network connect")
     var result: ProductSearchResponse?
-    
+
     itemSearcher.search(id: 50, completionHandler: { product in
       result = product
       expectation.fulfill()
     })
-    
+
     wait(for: [expectation], timeout: 5)
     guard let result = result else {
       XCTFail()
