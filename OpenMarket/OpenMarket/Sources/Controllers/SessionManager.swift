@@ -20,6 +20,13 @@ enum BaseURL {
 }
 
 class SessionManager {
+    enum Error: Swift.Error, Equatable {
+        case invalidURL
+        case dataIsNotJSON
+        case invalidIDOrPassword
+        case didNotReceivedData(statusCode: Int?, errorMessage: String?)
+    }
+
     static let shared = SessionManager()
     private let boundary: String = "Boundary-\(UUID().uuidString)"
 
@@ -27,7 +34,27 @@ class SessionManager {
 
     func get<DecodedType: Decodable>(id: Int,
                                      completionHandler: @escaping (Result<DecodedType, Error>) -> Void) {
+        let urlString = (DecodedType.self is ResponsedPage.Type) ? BaseURL.page + String(id) : BaseURL.item + String(id)
 
+        guard let url = URL(string: urlString) else {
+            completionHandler(.failure(.invalidURL))
+            return
+        }
+
+        URLSession.shared.dataTask(with: URLRequest(url: url)) { data, response, error in
+            guard let data = data else {
+                completionHandler(.failure(.didNotReceivedData(statusCode: (response as? HTTPURLResponse)?.statusCode,
+                                                               errorMessage: error?.localizedDescription)))
+                return
+            }
+
+            do {
+                let jsonData = try JSONDecoder().decode(DecodedType.self, from: data)
+                completionHandler(.success(jsonData))
+            } catch {
+                completionHandler(.failure(.dataIsNotJSON))
+            }
+        }.resume()
     }
 
     func postItem(_ postingItem: PostingItem, completionHandler: @escaping (Result<ResponsedItem, Error>) -> Void) {
@@ -67,11 +94,5 @@ class SessionManager {
         textField.append("\(value)\r\n")
 
         return textField
-    }
-
-    enum Error: Swift.Error {
-        case invalidURL
-        case dataIsNotJSON
-        case invalidIDOrPassword
     }
 }
