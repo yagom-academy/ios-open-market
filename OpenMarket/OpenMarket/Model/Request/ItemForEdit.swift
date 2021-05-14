@@ -13,7 +13,7 @@ struct ItemForEdit: Codable {
     let currency: String?
     let stock: Int?
     let discountedPrice: Double?
-    let images: [String]?
+    let images: [Data]?
     let password: String
     
     enum CodingKeys: String, CodingKey {
