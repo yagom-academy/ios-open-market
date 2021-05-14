@@ -13,6 +13,7 @@
 		02609788264BB4C80086A8C5 /* ResponsedItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02609787264BB4C80086A8C5 /* ResponsedItem.swift */; };
 		0260978A264BB5660086A8C5 /* ResponsedPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02609789264BB5660086A8C5 /* ResponsedPage.swift */; };
 		0260978D264BCF800086A8C5 /* FormData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0260978C264BCF800086A8C5 /* FormData.swift */; };
+		028CB615264DFF56005E7914 /* DataExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 028CB614264DFF56005E7914 /* DataExtension.swift */; };
 		0298BF1B264D108F00865555 /* UIImageExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0298BF1A264D108F00865555 /* UIImageExtensionTests.swift */; };
 		0298BF20264D20CA00865555 /* APIModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0298BF1F264D20CA00865555 /* APIModelTests.swift */; };
 		1C3FE4FE264D0B400051D507 /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C3FE4FD264D0B400051D507 /* UIImageExtension.swift */; };
@@ -46,6 +47,7 @@
 		02609787264BB4C80086A8C5 /* ResponsedItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponsedItem.swift; sourceTree = "<group>"; };
 		02609789264BB5660086A8C5 /* ResponsedPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponsedPage.swift; sourceTree = "<group>"; };
 		0260978C264BCF800086A8C5 /* FormData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormData.swift; sourceTree = "<group>"; };
+		028CB614264DFF56005E7914 /* DataExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataExtension.swift; sourceTree = "<group>"; };
 		0298BF1A264D108F00865555 /* UIImageExtensionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageExtensionTests.swift; sourceTree = "<group>"; };
 		0298BF1F264D20CA00865555 /* APIModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIModelTests.swift; sourceTree = "<group>"; };
 		1C3FE4FD264D0B400051D507 /* UIImageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageExtension.swift; sourceTree = "<group>"; };
@@ -176,6 +178,7 @@
 			isa = PBXGroup;
 			children = (
 				1C3FE4FD264D0B400051D507 /* UIImageExtension.swift */,
+				028CB614264DFF56005E7914 /* DataExtension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -362,6 +365,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				02609788264BB4C80086A8C5 /* ResponsedItem.swift in Sources */,
+				028CB615264DFF56005E7914 /* DataExtension.swift in Sources */,
 				024D5D49264BA62400980107 /* Item.swift in Sources */,
 				0260978D264BCF800086A8C5 /* FormData.swift in Sources */,
 				1C3FE4FE264D0B400051D507 /* UIImageExtension.swift in Sources */,
