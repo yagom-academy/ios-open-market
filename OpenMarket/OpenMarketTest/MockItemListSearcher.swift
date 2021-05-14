@@ -1,26 +1,26 @@
 //
-//  MockItemSearcher.swift
+//  MockItemListSearcher.swift
 //  OpenMarketTest
 //
 //  Created by 이영우 on 2021/05/14.
 //
-
 import XCTest
 import Foundation
 @testable import OpenMarket
 
-class MockItemSearcher {
+class MockItemListSearcher {
   var shouldReturnError = false
   var searchWasCalled = false
-  var sut_item: ProductSearchResponse? = nil
+  var sut: ListSearchResponse? = nil
   
   init() {
-    guard let itemAsset = NSDataAsset.init(name: "Item") else {
+    guard let itemAsset = NSDataAsset(name: "Items") else {
       XCTFail()
       return
     }
-    do {
-      sut_item = try JSONDecoder().decode(ProductSearchResponse.self, from: itemAsset.data)
+    
+    do{
+      self.sut = try JSONDecoder().decode(ListSearchResponse.self, from: itemAsset.data)
     } catch {
       XCTFail()
       print(MockServiceError.search)
@@ -28,15 +28,15 @@ class MockItemSearcher {
   }
 }
 
-extension MockItemSearcher: ItemSearcherProtocol {
-  func search(id: Int, completionHandler: @escaping (ProductSearchResponse?) -> ()) {
+extension MockItemListSearcher: ItemListSearcherProtocol {
+  func search(page: Int, completionHandler: @escaping (ListSearchResponse?) -> ()) {
     searchWasCalled = true
     
     if shouldReturnError {
       completionHandler(nil)
       XCTFail()
     } else {
-      completionHandler(sut_item)
+      completionHandler(sut)
     }
   }
 }
