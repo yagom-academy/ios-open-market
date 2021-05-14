@@ -18,13 +18,7 @@ struct ItemEditRequest: Codable, Equatable {
     var password: String
 
     private enum CodingKeys: String, CodingKey {
-        case title
-        case descriptions
-        case price
-        case currency
-        case stock
+        case title, descriptions, price, currency, stock, images, password
         case discountedPrice = "discounted_price"
-        case images
-        case password
     }
 }

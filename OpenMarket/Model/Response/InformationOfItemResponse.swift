@@ -20,16 +20,9 @@ struct InformationOfItemResponse: Decodable, Equatable {
     var registrationDate: Double
     
     private enum CodingKeys: String, CodingKey {
-        case id
-        case title
-        case descriptions
-        case price
-        case currency
-        case stock
-        case discountedPrice = "discounted_price"
-        case thumbnails
-        case images
-        case registrationDate = "registration_date"
-    }
+            case id, title, descriptions, price, currency, stock, thumbnails, images
+            case discountedPrice = "discounted_price"
+            case registrationDate = "registration_date"
+        }
 }
 

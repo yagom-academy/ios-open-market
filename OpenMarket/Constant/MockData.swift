@@ -10,6 +10,9 @@ import Foundation
 enum MockData {
     static let ItemsOfPageReponseJSON = #"""
                     {
+                        "extra": 1,
+                        "extra": 1,
+                        "extra": 1,
                         "page": 1,
                         "items": [
                             {
