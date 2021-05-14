@@ -6,6 +6,7 @@
 //
 
 import XCTest
+@testable import OpenMarket
 
 class OpenMarketTests: XCTestCase {
 
@@ -16,10 +17,14 @@ class OpenMarketTests: XCTestCase {
     override func tearDownWithError() throws {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
-
+    
     func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+        let url = Bundle.main.url(forResource: "items", withExtension: ".json")
+        guard let dataURL = url, let data = try? Data(contentsOf: dataURL) else {
+             return }
+        print(data)
+        
+        
     }
 
     func testPerformanceExample() throws {
