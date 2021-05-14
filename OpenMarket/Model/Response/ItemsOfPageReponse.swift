@@ -8,7 +8,6 @@
 import Foundation
 
 struct ItemsOfPageReponse: Decodable, Equatable {
- 
     var page: Int
     var items: [Item]
 }
