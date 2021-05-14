@@ -1,5 +1,5 @@
 //
-//  DataManager.swift
+//  NetworkManager.swift
 //  OpenMarket
 //
 //  Created by 배은서 on 2021/05/11.
@@ -7,173 +7,88 @@
 
 import Foundation
 
-struct DataManager {
+struct NetworkManager {
     
     let session = URLSession.shared
-
-    enum OpenMarketError: Error, LocalizedError {
-        case invalidURL
-        case decodingFailure
-        case encodingFailure
-        
-        var errorDescription: String? {
-            switch self {
-            case .invalidURL:
-                return "잘못된 URL입니다🚨"
-            case .decodingFailure:
-                return "디코딩 실패🚨"
-            case .encodingFailure:
-                return "인코딩 실패🚨"
-            }
-        }
-    }
     
-    enum HTTPMethod: CustomStringConvertible {
-        case get, post, put, patch, delete
-        
-        var description: String {
-            switch self {
-            case .get:
-                return "GET"
-            case .post:
-                return "POST"
-            case .put:
-                return "PUT"
-            case .patch:
-                return "PATCH"
-            case .delete:
-                return "DELETE"
-            }
-        }
-    }
-    
-    func dataTaskWithNoBody(_ requestURL: URL, completionHandler: @escaping (Data) -> Void) {
-        session.dataTask(with: requestURL) { data, response, error in
-            guard error == nil else {
-                print(error!.localizedDescription)
-                return
-            }
-            
-            guard let response = response as? HTTPURLResponse,
-                  (200...299).contains(response.statusCode) else {
-                print("response")
-                return
-            }
-            
-            if let mimeType = response.mimeType, mimeType == "application/json",
-               let data = data {
-                completionHandler(data)
-            }
-            
-        }.resume()
-    }
-    
-    func dataTaskWithBody(_ urlRequest: URLRequest, completionHandler: @escaping (ItemResponse) -> Void) {
+    func dataTask(_ urlRequest: URLRequest, completionHandler: @escaping (Result<Data, APIError>) -> Void) {
         session.dataTask(with: urlRequest) { data, response, error in
             guard error == nil else {
-                print(error!.localizedDescription)
+                completionHandler(.failure(.requestFailure))
                 return
             }
             
-            print(response)
-            guard let response = response as? HTTPURLResponse,
-                  (200...299).contains(response.statusCode) else {
-                print("response")
+            guard let response = response as? HTTPURLResponse else {
+                completionHandler(.failure(.downcastingFailure("HTTPURLResponse")))
+                return
+            }
+            
+            guard (200...299).contains(response.statusCode) else {
+                completionHandler(.failure(.networkFailure(response.statusCode)))
                 return
             }
             
             guard let data = data else {
-                print("data")
+                completionHandler(.failure(.invalidData))
                 return
             }
             
-            guard let output = try? JSONDecoder().decode(ItemResponse.self, from: data) else {
-                print(OpenMarketError.decodingFailure)
-                return
-            }
-            
-            completionHandler(output)
+            completionHandler(.success(data))
         }.resume()
     }
     
-    func requestItemList(url: URL?, completionHandler: @escaping (Result<ItemList, OpenMarketError>) -> Void) {
+    func request<Decoded: Decodable>(_ type: Decoded.Type, url: URL?, completionHandler: @escaping (Result<Decoded, APIError>) -> Void) {
         guard let requestURL = url else { return }
         
-        dataTaskWithNoBody(requestURL) { data in
-            do {
-                let decodedData = try JSONDecoder().decode(ItemList.self, from: data)
+        let request = URLRequest.set(url: requestURL, httpMethod: .get)
+        
+        dataTask(request) { result in
+            switch result {
+            case .success(let data):
+                guard let decodedData = try? JSONDecoder().decode(type.self, from: data) else {
+                    completionHandler(.failure(.decodingFailure))
+                    return
+                }
                 completionHandler(.success(decodedData))
-            } catch {
-                completionHandler(.failure(.decodingFailure))
+            case .failure(let error):
+                completionHandler(.failure(error))
             }
-
+            
         }
     }
     
-    func requestItemDetail(url: URL?) {
+    func deleteItem(url: URL?, body: ItemForDelete, completionHandler: @escaping (Result<ItemResponse, APIError>) -> Void) {
         guard let requestURL = url else { return }
         
-        dataTaskWithNoBody(requestURL) { data in
-            do {
-                let decodedData = try JSONDecoder().decode(Item.self, from: data)
-                print(decodedData)
-            } catch {
-                print(OpenMarketError.decodingFailure)
-            }
-        }
-    }
-    
-    func deleteItem(url: URL?, body: ItemForDelete) {
-        guard let requestURL = url else { return }
-        
-        var request = URLRequest(url: requestURL)
-        request.httpMethod = HTTPMethod.delete.description
+        var request = URLRequest.set(url: requestURL, httpMethod: .delete)
         guard let body = try? JSONEncoder().encode(body) else { return }
         request.httpBody = body
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.addValue("application/json", forHTTPHeaderField: "Accept")
         
-        dataTaskWithBody(request) { data in
-            print(data)
+        dataTask(request) { result in
+            switch result {
+            case .success(let data):
+                guard let decodedData = try? JSONDecoder().decode(ItemResponse.self, from: data) else {
+                    completionHandler(.failure(.decodingFailure))
+                    return
+                }
+                completionHandler(.success(decodedData))
+            case .failure(let error):
+                completionHandler(.failure(error))
+            }
         }
     }
     
-    private func generateBoundaryString() -> String {
+    func generateBoundaryString() -> String {
         return "Boundary-\(UUID().uuidString)"
     }
-    
-//    private func createBody(
-//        parameters: [String: Any],
-//        boundary: String,
-//        data: Data,
-//        mimeType: String,
-//        filename: String
-//    ) -> Data {
-//        var body = Data()
-//        let imgDataKey = "img"
-//        let boundaryPrefix = "--\(boundary)\r\n"
-//
-//        for (key, value) in parameters {
-//            body.append(boundaryPrefix.data(using: .utf8)!)
-//            body.append("Content-Disposition: form-data; name=\"\(key)\"\r\n\r\n".data(using: .utf8)!)
-//            body.append("\(value)\r\n".data(using: .utf8)!)
-//        }
-//
-//        body.append(boundaryPrefix.data(using: .utf8)!)
-//        body.append("Content-Disposition: form-data; name=\"\(imgDataKey)\"; filename=\"\(filename)\"\r\n".data(using: .utf8)!)
-//        body.append("Content-Type: \(mimeType)\r\n\r\n".data(using: .utf8)!)
-//        body.append(data)
-//        body.append("\r\n".data(using: .utf8)!)
-//        body.append("--".appending(boundary.appending("--")).data(using: .utf8)!)
-//        return body
-//    }
     
     func createBody(parameters: [String: Any], boundary: String) -> Data {
         var body = Data()
         
         for (key, value) in parameters {
             if let value = value as? [Data] {
-                body.append(converFormData(name: key, images: value, boundary: boundary))
+                body.append(convertFormData(name: key, images: value, boundary: boundary))
             } else {
                 body.append(convertFormData(name: key, value: value, boundary: boundary))
             }
@@ -194,7 +109,7 @@ struct DataManager {
         return data
     }
     
-    func converFormData(name: String, images: [Data], boundary: String) -> Data {
+    func convertFormData(name: String, images: [Data], boundary: String) -> Data {
         var data = Data()
         var imageIndex = 0
         
@@ -210,64 +125,109 @@ struct DataManager {
         
         return data
     }
-        
     
-    func editItem(url: URL?, body: ItemForEdit) {
+    
+    func editItem(url: URL?, body: ItemForEdit, completionHandler: @escaping (Result<ItemResponse, APIError>) -> Void) {
         let boundary = generateBoundaryString()
         guard let requestURL = url else { return }
-        
-        //var resource = Resource(url: requestURL, method: .patch, boundary: boundary)
-        
-        guard let encoded: Data = try? JSONEncoder().encode(body) else {
-            print(OpenMarketError.encodingFailure)
-            return
-        }
-        let body: [String: Any] = try! JSONSerialization.jsonObject(with: encoded, options: []) as! [String : Any]
-        print(body)
+        guard let body: [String: Any] = body.asDictionary() else { return }
         let bodyData = createBody(parameters: body, boundary: boundary)
         
-        var request = URLRequest(url: requestURL)
-        request.httpMethod = "PATCH"
+        var request = URLRequest.set(url: requestURL, httpMethod: .patch)
         request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
         request.httpBody = bodyData
         
-        //let bodyDataString = try! JSONSerialization.jsonObject(with: bodyData, options: [])
-        
         print(bodyData)
         
-        dataTaskWithBody(request) { data in
-            //guard let itemResponse = try? JSONDecoder().decode(ItemResponse.self, from: data) else { return }
-            print(data)
+        dataTask(request) { result in
+            switch result {
+            case .success(let data):
+                guard let decodedData = try? JSONDecoder().decode(ItemResponse.self, from: data) else {
+                    completionHandler(.failure(.decodingFailure))
+                    return
+                }
+                completionHandler(.success(decodedData))
+            case .failure(let error):
+                completionHandler(.failure(error))
+            }
+            
         }
     }
     
-    func registerItem(url: URL?, body: ItemForRegistration) {
+    func registerItem(url: URL?, body: ItemForRegistration, completionHandler: @escaping (Result<ItemResponse, APIError>) -> Void) {
         let boundary = generateBoundaryString()
         guard let requestURL = url else { return }
-        
-        //var resource = Resource(url: requestURL, method: .patch, boundary: boundary)
-        
-        guard let encoded: Data = try? JSONEncoder().encode(body) else {
-            print(OpenMarketError.encodingFailure)
-            return
-        }
-        let body: [String: Any] = try! JSONSerialization.jsonObject(with: encoded, options: []) as! [String : Any]
-        print(body)
+        guard let body: [String: Any] = body.asDictionary() else { return }
         let bodyData = createBody(parameters: body, boundary: boundary)
         
-        var request = URLRequest(url: requestURL)
-        request.httpMethod = "POST"
+        var request = URLRequest.set(url: requestURL, httpMethod: .post)
         request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
         request.httpBody = bodyData
         
-        //let bodyDataString = try! JSONSerialization.jsonObject(with: bodyData, options: [])
-        
         print(bodyData)
         
-        dataTaskWithBody(request) { data in
-            //guard let itemResponse = try? JSONDecoder().decode(ItemResponse.self, from: data) else { return }
-            print(data)
+        dataTask(request) { result in
+            switch result {
+            case .success(let data):
+                guard let decodedData = try? JSONDecoder().decode(ItemResponse.self, from: data) else {
+                    completionHandler(.failure(.decodingFailure))
+                    return
+                }
+                completionHandler(.success(decodedData))
+            case .failure(let error):
+                completionHandler(.failure(error))
+            }
         }
     }
     
+}
+
+extension Encodable {
+  func asDictionary() -> [String: Any]? {
+    guard let data = try? JSONEncoder().encode(self) else {
+        print(APIError.encodingFailure)
+        return nil
+    }
+    guard let dictionary = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any] else {
+        print(APIError.dictionaryConversionFailure)
+        return nil
+    }
+    
+    return dictionary
+  }
+}
+
+
+
+enum HTTPMethod {
+    //    static let get = "GET"
+    //    static let post = "POST"
+    //    static let put = "PUT"
+    //    static let patch = "PATCH"
+    //    static let delete = "DELETE"
+    case get, post, put, patch, delete
+    
+    var description: String {
+        switch self {
+        case .get:
+            return "GET"
+        case .post:
+            return "POST"
+        case .put:
+            return "PUT"
+        case .patch:
+            return "PATCH"
+        case .delete:
+            return "DELETE"
+        }
+    }
+}
+
+extension URLRequest {
+    static func set(url: URL, httpMethod: HTTPMethod) -> URLRequest {
+        var urlRequest = URLRequest(url: url)
+        urlRequest.httpMethod = httpMethod.description
+        
+        return urlRequest
+    }
 }
