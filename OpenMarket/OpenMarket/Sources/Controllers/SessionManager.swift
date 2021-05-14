@@ -55,11 +55,18 @@ class SessionManager {
         dataField.append("Content-Type: \"\(mimeType)\"\r\n\r\n")
         dataField.append(value)
         dataField.append("\r\n")
+
         return dataField
     }
 
     private func convertTextField(key: String, value: String) -> String {
-        return ""
+        var textField: String = "--\(boundary)\r\n"
+
+        textField.append("Content-Disposition: form-data; name=\"\(key)\"\r\n")
+        textField.append("\r\n")
+        textField.append("\(value)\r\n")
+
+        return textField
     }
 
     enum Error: Swift.Error {
