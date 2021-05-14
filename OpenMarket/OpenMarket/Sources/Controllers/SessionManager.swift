@@ -88,7 +88,41 @@ class SessionManager {
 
     func patchItem(id: Int, patchingItem: PatchingItem,
                    completionHandler: @escaping (Result<ResponsedItem, Error>) -> Void) {
+        let urlString = BaseURL.item + id.description
 
+        guard let url = URL(string: urlString) else {
+            completionHandler(.failure(.invalidURL))
+
+            return
+        }
+
+        var request = URLRequest(url: url)
+        request.httpMethod = HTTPMethod.patch
+        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        request.httpBody = body(from: patchingItem)
+
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            guard let data = data else {
+                completionHandler(.failure(.didNotReceivedData(statusCode: (response as? HTTPURLResponse)?.statusCode,
+                                                               errorMessage: error?.localizedDescription)))
+                return
+            }
+
+            do {
+                let jsonData = try JSONDecoder().decode(ResponsedItem.self, from: data)
+                completionHandler(.success(jsonData))
+            } catch {
+                guard let errorData = try? JSONSerialization.jsonObject(with: data,
+                                                                       options: []) as? [String: String] else {
+                    completionHandler(.failure(.dataIsNotJSON))
+                    return
+                }
+
+                if errorData["message"] == "Cannot find data for ID and password" {
+                    completionHandler(.failure(.invalidIDOrPassword))
+                }
+            }
+        }.resume()
     }
 
     func deleteItem(id: Int, password: String, completionHandler: @escaping (Result<ResponsedItem, Error>) -> Void) {

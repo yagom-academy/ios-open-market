@@ -110,10 +110,8 @@ class SessionManagerHTTPTests: XCTestCase {
     
     func test_URL이_잘못된_경우_postItem_completionHandler의_인자로_failure_invalidURL이_전달된다() {
         let expectation = XCTestExpectation()
-        XCTWaiter().wait(for: [expectation], timeout: 5)
         
         sut.postItem(dummyPostingItem) { (result: Result<ResponsedItem, SessionManager.Error>) in
-            expectation.fulfill()
             
             switch result {
             case .success:
@@ -121,31 +119,18 @@ class SessionManagerHTTPTests: XCTestCase {
             case .failure(let error):
                 XCTFail(error.localizedDescription)
             }
+            
+            expectation.fulfill()
         }
+        
+        wait(for: [expectation], timeout: 5)
     }
     
     func test_patchItem_성공시_completionHandler의_인자로_success가_전달된다() {
         let expectation = XCTestExpectation()
+        let itemId = 134
         
-        sut.patchItem(id: 134, patchingItem: dummyPatchingItem) { (result: Result<ResponsedItem, SessionManager.Error>) in
-            switch result {
-            case .success:
-                break
-            case .failure(let error):
-                XCTFail(error.localizedDescription)
-            }
-            expectation.fulfill()
-        }
-        
-        wait(for: [expectation], timeout: 15)
-    }
-    
-    func test_URL이_잘못된_경우_patchItem_completionHandler의_인자로_failure_invalidURL이_전달된다() {
-        let expectation = XCTestExpectation()
-        XCTWaiter().wait(for: [expectation], timeout: 5)
-        
-        sut.patchItem(id: 1, patchingItem: dummyPatchingItem) { (result: Result<ResponsedItem, SessionManager.Error>) in
-            expectation.fulfill()
+        sut.patchItem(id: itemId, patchingItem: dummyPatchingItem) { (result: Result<ResponsedItem, SessionManager.Error>) in
             
             switch result {
             case .success:
@@ -153,7 +138,31 @@ class SessionManagerHTTPTests: XCTestCase {
             case .failure(let error):
                 XCTFail(error.localizedDescription)
             }
+            
+            expectation.fulfill()
         }
+        
+        wait(for: [expectation], timeout: 10)
+    }
+    
+    func test_id나_password가_틀릴_경우_patchItem_completionHandler의_인자로_failure_invalidIDOrPassword가_전달된다() {
+        let expectation = XCTestExpectation()
+        let itemId = 53
+        
+        sut.patchItem(id: itemId, patchingItem: dummyPatchingItem) { (result: Result<ResponsedItem, SessionManager.Error>) in
+            
+            switch result {
+            case .success:
+                XCTFail("성공했음")
+            case .failure(let error):
+                if error != .invalidIDOrPassword {
+                    XCTFail(error.localizedDescription)
+                }
+            }
+            expectation.fulfill()
+        }
+        
+        wait(for: [expectation], timeout: 5)
     }
     
     func test_delete_성공시_completionHandler가_호출된다() {
