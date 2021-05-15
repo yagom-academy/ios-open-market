@@ -27,4 +27,14 @@ class OpenMarketTests: XCTestCase {
         
         XCTAssertEqual(data.id, 1)
     }
+    
+    func test_ItemsJSON데이터가_JSONParser에_Decoding_돼서_page의_값이_1인지확인해보는_함수() {
+        var jsonParserItems = JSONParser<Items>()
+        
+        jsonParserItems.parse(assetName: "Items")
+        
+        guard let datas: Items = jsonParserItems.convertedData else { return }
+        
+        XCTAssertEqual(datas.page, 1)
+    }
 }
