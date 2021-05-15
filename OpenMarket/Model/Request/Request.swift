@@ -10,7 +10,7 @@ import Foundation
 struct Request: Codable, Equatable {
     var path: String?
     var httpMethod: HTTPMethod?
-    
+
     var title: String?
     var descriptions: String?
     var price: Int?
@@ -21,15 +21,39 @@ struct Request: Codable, Equatable {
     var password: String?
 
     private enum CodingKeys: String, CodingKey {
+        case title, descriptions, price, currency, stock, images, password
         case discountedPrice = "discounted_price"
     }
-    
-    init() throws {
+
+    init(path:String?,
+         httpMethod: HTTPMethod?,
+         title: String?,
+         descriptions: String?,
+         price: Int?,
+         currency: String?,
+         stock: Int?,
+         discountedPrice: Int?,
+         images: [String]?,
+         password: String?) throws {
+
+        self.title = title
+        self.descriptions = descriptions
+        self.price = price
+        self.currency = currency
+        self.stock = stock
+        self.discountedPrice = discountedPrice
+        self.images = images
+        self.password = password
+
         guard let path = path, let httpMethod = httpMethod, checkValidation(path: path, httpMethod: httpMethod) else {
+            print("@@error")
             throw EncodingError.invalidParameter
         }
+        
+        self.path = nil
+        self.httpMethod = nil
     }
-    
+
     func checkValidation(path: String, httpMethod: HTTPMethod) -> Bool {
         switch httpMethod {
         case HTTPMethod.POST:
@@ -42,10 +66,10 @@ struct Request: Codable, Equatable {
             return false
         }
     }
-    
+
     func checkPathOfPatch(path: String) -> Bool {
         switch path {
-        case Path.Item.page:
+        case Path.Item.id:
             guard let _ = password else {
                 return false
             }
@@ -54,7 +78,7 @@ struct Request: Codable, Equatable {
             return false
         }
     }
-    
+
     func checkPathOfPost(path: String) -> Bool {
         switch path {
         case Path.item :
@@ -66,7 +90,7 @@ struct Request: Codable, Equatable {
             return false
         }
     }
-    
+
     func checkPathOfDelete(path: String) -> Bool {
         switch path {
         case Path.Item.id :
