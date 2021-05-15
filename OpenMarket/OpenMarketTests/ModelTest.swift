@@ -100,4 +100,10 @@ class ModelTest: XCTestCase {
         XCTAssertEqual(decodedData, itemDeleteRequest)
     }
     
+    func test_Request() throws {
+        let jsonData = MockData.ItemDeleteRequestJSON.data(using: .utf8)!
+        let decodedData = try JSONDecoder().decode(ItemDeleteRequest.self, from: jsonData)
+        let itemDeleteRequest = ItemDeleteRequest(password: "password")
+        XCTAssertEqual(decodedData, itemDeleteRequest)
+    }
 }

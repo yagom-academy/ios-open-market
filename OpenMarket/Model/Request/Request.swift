@@ -9,7 +9,7 @@ import Foundation
 
 struct Request: Codable, Equatable {
     var path: String?
-    var httpMethod: String?
+    var httpMethod: HTTPMethod?
     
     var title: String?
     var descriptions: String?
@@ -30,13 +30,13 @@ struct Request: Codable, Equatable {
         }
     }
     
-    func checkValidation(path: String, httpMethod: String) -> Bool {
+    func checkValidation(path: String, httpMethod: HTTPMethod) -> Bool {
         switch httpMethod {
-        case "POST":
+        case HTTPMethod.POST:
             return checkPathOfPost(path: path)
-        case "PATCH":
+        case HTTPMethod.PATCH:
             return checkPathOfPatch(path: path)
-        case "DELETE":
+        case HTTPMethod.DELETE:
             return checkPathOfDelete(path: path)
         default:
             return false
@@ -45,7 +45,7 @@ struct Request: Codable, Equatable {
     
     func checkPathOfPatch(path: String) -> Bool {
         switch path {
-        case "/Item/:id":
+        case Path.Item.page:
             guard let _ = password else {
                 return false
             }
@@ -57,7 +57,7 @@ struct Request: Codable, Equatable {
     
     func checkPathOfPost(path: String) -> Bool {
         switch path {
-        case "/Item" :
+        case Path.item :
             guard let _ = title, let _ = descriptions, let _ = price, let _ = currency, let _ = stock, let _ = discountedPrice, let _ = images, let _ = password else {
                 return false
             }
@@ -69,7 +69,7 @@ struct Request: Codable, Equatable {
     
     func checkPathOfDelete(path: String) -> Bool {
         switch path {
-        case "/Item:id" :
+        case Path.Item.id :
             guard let _ = password else {
                 return false
             }

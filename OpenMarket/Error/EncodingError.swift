@@ -6,3 +6,13 @@
 //
 
 import Foundation
+
+enum EncodingError: Error {
+    case invalidParameter
+}
+
+extension EncodingError: LocalizedError {
+    var errorDescription: String? {
+        return "Parameter is not matched"
+    }
+}
