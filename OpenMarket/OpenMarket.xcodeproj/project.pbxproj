@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		707917ED264E8E860046FF0D /* ListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 707917EC264E8E860046FF0D /* ListVC.swift */; };
+		707917EF264E8E910046FF0D /* GridVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 707917EE264E8E910046FF0D /* GridVC.swift */; };
 		70D53D91264B7E270044ABB7 /* ItemListSearchResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70D53D90264B7E270044ABB7 /* ItemListSearchResponse.swift */; };
 		70D53D97264B81600044ABB7 /* ItemSearchResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70D53D96264B81600044ABB7 /* ItemSearchResponse.swift */; };
 		70D53D99264B83F10044ABB7 /* ItemRegistrationRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70D53D98264B83F10044ABB7 /* ItemRegistrationRequest.swift */; };
@@ -36,6 +38,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		707917EC264E8E860046FF0D /* ListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListVC.swift; sourceTree = "<group>"; };
+		707917EE264E8E910046FF0D /* GridVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridVC.swift; sourceTree = "<group>"; };
 		70D53D90264B7E270044ABB7 /* ItemListSearchResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemListSearchResponse.swift; sourceTree = "<group>"; };
 		70D53D96264B81600044ABB7 /* ItemSearchResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemSearchResponse.swift; sourceTree = "<group>"; };
 		70D53D98264B83F10044ABB7 /* ItemRegistrationRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemRegistrationRequest.swift; sourceTree = "<group>"; };
@@ -76,6 +80,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		70CE0A12264E4DAA0094C102 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				C70FB0FE25BEF61C00C9924E /* ViewController.swift */,
+				707917EC264E8E860046FF0D /* ListVC.swift */,
+				707917EE264E8E910046FF0D /* GridVC.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
 		70D53D8F264B7E100044ABB7 /* APIModel */ = {
 			isa = PBXGroup;
 			children = (
@@ -138,10 +152,10 @@
 		C70FB0F925BEF61C00C9924E /* OpenMarket */ = {
 			isa = PBXGroup;
 			children = (
+				70CE0A12264E4DAA0094C102 /* ViewController */,
 				70D53D8F264B7E100044ABB7 /* APIModel */,
 				C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */,
 				C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */,
-				C70FB0FE25BEF61C00C9924E /* ViewController.swift */,
 				C70FB10025BEF61C00C9924E /* Main.storyboard */,
 				C70FB10325BEF61D00C9924E /* Assets.xcassets */,
 				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
@@ -260,7 +274,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				70D53DB2264B945E0044ABB7 /* ItemPatchResponse.swift in Sources */,
+				707917EF264E8E910046FF0D /* GridVC.swift in Sources */,
 				70D53DB0264B93CB0044ABB7 /* ItemRegistrationResponse.swift in Sources */,
+				707917ED264E8E860046FF0D /* ListVC.swift in Sources */,
 				70D53D9D264B84E10044ABB7 /* ItemDeleteRequest.swift in Sources */,
 				70D53D91264B7E270044ABB7 /* ItemListSearchResponse.swift in Sources */,
 				70D53D97264B81600044ABB7 /* ItemSearchResponse.swift in Sources */,
