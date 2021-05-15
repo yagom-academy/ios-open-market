@@ -18,12 +18,12 @@ class OpenMarketTests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
-    func test_JSON데이터가_JSONParser에_Decoding_돼서_id의_값이_1인지확인해보는_함수() {
-        var jsonParser = JSONParser<Item>()
+    func test_ItemJSON데이터가_JSONParser에_Decoding_돼서_id의_값이_1인지확인해보는_함수() {
+        var jsonParserItem = JSONParser<Item>()
         
-        jsonParser.parse(assetName: "Item")
+        jsonParserItem.parse(assetName: "Item")
         
-        guard let data: Item = jsonParser.convertedData else { return }
+        guard let data: Item = jsonParserItem.convertedData else { return }
         
         XCTAssertEqual(data.id, 1)
     }
