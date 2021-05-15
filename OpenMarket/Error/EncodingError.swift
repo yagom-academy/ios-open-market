@@ -13,6 +13,6 @@ enum EncodingError: Error {
 
 extension EncodingError: LocalizedError {
     var errorDescription: String? {
-        return "Parameter is not matched"
+        return "Error: Invalid Parameter"
     }
 }

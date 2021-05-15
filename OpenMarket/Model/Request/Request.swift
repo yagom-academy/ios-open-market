@@ -25,7 +25,7 @@ struct Request: Codable, Equatable {
         case discountedPrice = "discounted_price"
     }
 
-    init(path:String?,
+    init(path: String?,
          httpMethod: HTTPMethod?,
          title: String?,
          descriptions: String?,
@@ -46,12 +46,8 @@ struct Request: Codable, Equatable {
         self.password = password
 
         guard let path = path, let httpMethod = httpMethod, checkValidation(path: path, httpMethod: httpMethod) else {
-            print("@@error")
             throw EncodingError.invalidParameter
         }
-        
-        self.path = nil
-        self.httpMethod = nil
     }
 
     func checkValidation(path: String, httpMethod: HTTPMethod) -> Bool {
@@ -81,7 +77,7 @@ struct Request: Codable, Equatable {
 
     func checkPathOfPost(path: String) -> Bool {
         switch path {
-        case Path.item :
+        case Path.item:
             guard let _ = title, let _ = descriptions, let _ = price, let _ = currency, let _ = stock, let _ = discountedPrice, let _ = images, let _ = password else {
                 return false
             }
@@ -93,7 +89,7 @@ struct Request: Codable, Equatable {
 
     func checkPathOfDelete(path: String) -> Bool {
         switch path {
-        case Path.Item.id :
+        case Path.Item.id:
             guard let _ = password else {
                 return false
             }
