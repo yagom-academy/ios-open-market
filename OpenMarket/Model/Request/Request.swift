@@ -45,7 +45,9 @@ struct Request: Codable, Equatable {
         self.images = images
         self.password = password
 
-        guard let path = path, let httpMethod = httpMethod, checkValidation(path: path, httpMethod: httpMethod) else {
+        guard let path = path,
+              let httpMethod = httpMethod,
+              checkValidation(path: path, httpMethod: httpMethod) else {
             throw EncodingError.invalidParameter
         }
     }
