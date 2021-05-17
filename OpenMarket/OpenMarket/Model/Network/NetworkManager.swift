@@ -8,8 +8,11 @@
 import Foundation
 
 struct NetworkManager: Requestable {
+    
+    let session: URLSessionProtocol
+    
     func dataTask<Decoded: Decodable>(_ urlRequest: URLRequest, _ type: Decoded.Type, completionHandler: @escaping (Result<Decoded, APIError>) -> Void) {
-        URLSession.shared.dataTask(with: urlRequest) { data, response, error in
+        session.dataTask(with: urlRequest) { data, response, error in
             guard error == nil else {
                 completionHandler(.failure(.requestFailure))
                 return
