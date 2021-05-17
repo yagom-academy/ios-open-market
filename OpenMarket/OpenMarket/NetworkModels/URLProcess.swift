@@ -11,39 +11,50 @@ class URLProcess {
     
     let baseURL:URL? = URL(string: "https://camp-open-market-2.herokuapp.com/")
     
-    
-    func setURLPath(methodType: String) -> URL? {
+    func setURLPath(methodType: String, index: String = "", isPage: Bool = true) -> URL? {
         
         switch methodType {
         case HttpMethodType.get.stringMethod :
-            guard let relativeURL = URL(string: "items/1", relativeTo: baseURL) else { return nil }
-            return relativeURL
+            if isPage {
+                return refactorURL(firstPath: "items", secondPath: index)
+            }
+            return refactorURL(firstPath: "item", secondPath: index)
         case HttpMethodType.post.stringMethod :
-            guard let relativeURL = URL(string: "item", relativeTo: baseURL) else { return nil }
-            return relativeURL
+            return refactorURL(firstPath: "item", secondPath: index)
         case HttpMethodType.patch.stringMethod :
-            guard let relativeURL = URL(string: "item/157", relativeTo: baseURL) else { return nil }
-            return relativeURL
+            return refactorURL(firstPath: "item", secondPath: index)
         case HttpMethodType.delete.stringMethod :
-            guard let relativeURL = URL(string: "item/157", relativeTo: baseURL) else { return nil }
-            return relativeURL
+            return refactorURL(firstPath: "item", secondPath: index)
         default:
             return nil
         }
+        
     }
     
-    func setURLRequest(requestMethodType: String, boundary: String) -> URLRequest? {
-        // URLRequest 객체를 정의
-        guard let url = setURLPath(methodType: requestMethodType) else {
-            return nil
-        }
+    func refactorURL(firstPath: String, secondPath: String) -> URL? {
+        guard let relativeURL = URL(string: "\(firstPath)/\(secondPath))", relativeTo: baseURL) else { return nil }
+        print("\(baseURL)\(firstPath)/\(secondPath))")
+        return relativeURL
+    }
+    
+    func setURLRequest(requestMethodType: String, boundary: String = "") -> URLRequest? {
+        
+        guard let url = setURLPath(methodType: requestMethodType) else { return nil }
         
         var request = URLRequest(url: url)
         request.httpMethod = requestMethodType
-        // HTTP 메시지 헤더
-        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
         
-        return request
+        switch requestMethodType {
+        case HttpMethodType.post.stringMethod, HttpMethodType.post.stringMethod:
+            request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+            return request
+        case HttpMethodType.delete.stringMethod:
+            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            return request
+        default:
+            return nil
+        }
+    
     }
     
     func checkResponseCode(response: URLResponse?) -> Bool {

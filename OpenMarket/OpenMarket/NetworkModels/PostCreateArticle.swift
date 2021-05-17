@@ -10,45 +10,25 @@ import UIKit
 
 class PostCreateArticle {
     
-    let getArticle = GetEssentialArticle()
+    let manageMultipartForm = ManageMultipartForm()
     let urlProcess = URLProcess()
     
-    func convertFormField(name: String, value: String, boundary: String) -> String {
-        var fieldString = "--\(boundary)\r\n"
+    func postData(urlRequest: URLRequest?, requestBody: Data) {
         
-        fieldString += "Content-Disposition: form-data; name=\"\(name)\"\r\n"
-        fieldString += "\r\n"
-        fieldString += "\(value)\r\n"
-
-        return fieldString
-    }
-    
-    // 마지막 데이터 처리
-    func convertFileData(fieldName: String, fileName: String, mimeType: String, fileData: Data, boundary: String) -> Data {
-        var data = Data()
-         
-        data.append("--\(boundary)\r\n".data(using: .utf8)!)
-        data.append("Content-Disposition: form-data; name=\"\(fieldName)\"; filename=\"\(fileName)\"\r\n".data(using: .utf8)!)
-        data.append("Content-Type: \(mimeType)\r\n\r\n".data(using: .utf8)!)
-        data.append(fileData)
-        data.append("\r\n".data(using: .utf8)!)
-         
-        return data
-    }
-    
-    func postData(request: URLRequest, requestBody: Data) {
+        guard let request = urlRequest else { return }
+        
         // URLSession 객체를 통해 전송, 응답값 처리
         URLSession.shared.uploadTask(with: request, from: requestBody) { (data, response, error) in
 
-            if let error = error {
-                print("에러")
+            if error == nil {
+                print("접속 에러")
                 return
             }
-            if !self.urlProcess.checkResponseCode(response: response) {
-                print("응답코드 에러")
+            if self.urlProcess.checkResponseCode(response: response) {
+                print("post성공")
             }
             else {
-                print("성공")
+                print("post 보내기 실패")
             }
         }.resume()
     }
@@ -57,25 +37,18 @@ class PostCreateArticle {
         // Text 데이터
         var httpBody = Data()
         
-        httpBody.append(convertFormField(name: "title", value: "맥북M1 - 바비", boundary: boundary).data(using: .utf8)!)
-        httpBody.append(convertFormField(name: "descriptions", value: "바비의 맥북", boundary: boundary).data(using: .utf8)!)
-        httpBody.append(convertFormField(name: "price", value: "123456789", boundary: boundary).data(using: .utf8)!)
-        httpBody.append(convertFormField(name: "currency", value: "KRW", boundary: boundary).data(using: .utf8)!)
-        httpBody.append(convertFormField(name: "stock", value: "1", boundary: boundary).data(using: .utf8)!)
-        httpBody.append(convertFormField(name: "discounted_price", value: "1234567", boundary: boundary).data(using: .utf8)!)
-        httpBody.append(convertFileData(fieldName: "images[]", fileName: "github.png", mimeType: "image/png", fileData: imageData, boundary: boundary))
-        httpBody.append(convertFormField(name: "password", value: "1234", boundary: boundary).data(using: .utf8)!)
-        httpBody.append("--\(boundary)--".data(using: .utf8)!)
+        httpBody.appendString(manageMultipartForm.convertFormField(name: "title", value: "맥북M1 - 바비", boundary: boundary))
+        httpBody.appendString(manageMultipartForm.convertFormField(name: "descriptions", value: "바비의 맥북", boundary: boundary))
+        httpBody.appendString(manageMultipartForm.convertFormField(name: "price", value: "123456789", boundary: boundary))
+        httpBody.appendString(manageMultipartForm.convertFormField(name: "currency", value: "KRW", boundary: boundary))
+        httpBody.appendString(manageMultipartForm.convertFormField(name: "stock", value: "1", boundary: boundary))
+        httpBody.appendString(manageMultipartForm.convertFormField(name: "discounted_price", value: "1234567", boundary: boundary))
+        httpBody.append(manageMultipartForm.convertFileData(fieldName: "images[]", fileName: "github.png", mimeType: "image/png", fileData: imageData, boundary: boundary))
+        httpBody.appendString("--\(boundary)--")
         
         return httpBody
     }
     
 }
 
-extension Data {
-    mutating func appendString(_ string: String) {
-        if let data = string.data(using: .utf8) {
-          self.append(data)
-        }
-  }
-}
+

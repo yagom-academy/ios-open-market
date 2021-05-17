@@ -8,17 +8,21 @@
 import Foundation
 
 class PatchUpdateArticle {
-    let postCreateArticle = PostCreateArticle()
+    let manageMultipartForm = ManageMultipartForm()
     
     func updateRequestBody(boundary: String, imageData: Data) -> Data {
         // Text 데이터
         var httpBody = Data()
         
-        httpBody.append(postCreateArticle.convertFormField(name: "title", value: "맥북M1 - 512", boundary: boundary).data(using: .utf8)!)
-        httpBody.append(postCreateArticle.convertFormField(name: "descriptions", value: "수킴의 맥북", boundary: boundary).data(using: .utf8)!)
-        httpBody.append(postCreateArticle.convertFileData(fieldName: "images[]", fileName: "github.png", mimeType: "image/png", fileData: imageData, boundary: boundary))
-        httpBody.append(postCreateArticle.convertFormField(name: "password", value: "1234", boundary: boundary).data(using: .utf8)!)
-        httpBody.append("--\(boundary)--".data(using: .utf8)!)
+        httpBody.appendString(manageMultipartForm.convertFormField(name: "title", value: "맥북M1 - 바비", boundary: boundary))
+        httpBody.appendString(manageMultipartForm.convertFormField(name: "descriptions", value: "바비의 맥북", boundary: boundary))
+        httpBody.appendString(manageMultipartForm.convertFormField(name: "price", value: "123456789", boundary: boundary))
+        httpBody.appendString(manageMultipartForm.convertFormField(name: "currency", value: "KRW", boundary: boundary))
+        httpBody.appendString(manageMultipartForm.convertFormField(name: "stock", value: "1", boundary: boundary))
+        httpBody.appendString(manageMultipartForm.convertFormField(name: "discounted_price", value: "1234567", boundary: boundary))
+        httpBody.appendString(manageMultipartForm.convertFormField(name: "password", value: "1234567", boundary: boundary))
+        httpBody.append(manageMultipartForm.convertFileData(fieldName: "images[]", fileName: "github.png", mimeType: "image/png", fileData: imageData, boundary: boundary))
+        httpBody.appendString("--\(boundary)--")
         
         return httpBody
     }
