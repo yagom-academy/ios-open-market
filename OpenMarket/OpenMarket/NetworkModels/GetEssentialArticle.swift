@@ -26,8 +26,6 @@ class GetEssentialArticle {
         dataTask.resume()
     }
     
-
-    
     func decodeData<T: Decodable>(type: T.Type, data: Data) -> T? {
         
         do {

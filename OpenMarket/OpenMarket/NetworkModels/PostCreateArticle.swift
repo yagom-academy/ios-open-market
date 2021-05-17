@@ -35,18 +35,18 @@ class PostCreateArticle {
         }.resume()
     }
     
-    func makeRequestBody(boundary: String, imageData: Data) -> Data {
+    func makeRequestBody(formdat: CreateArticle, boundary: String, imageData: Data) -> Data {
         // Text 데이터
         var httpBody = Data()
         
-        httpBody.appendString(manageMultipartForm.convertFormField(name: "title", value: "전자레인지2", boundary: boundary))
-        httpBody.appendString(manageMultipartForm.convertFormField(name: "descriptions", value: "바비의 전자레인지2", boundary: boundary))
-        httpBody.appendString(manageMultipartForm.convertFormField(name: "price", value: "123456789", boundary: boundary))
-        httpBody.appendString(manageMultipartForm.convertFormField(name: "currency", value: "KRW", boundary: boundary))
-        httpBody.appendString(manageMultipartForm.convertFormField(name: "stock", value: "5", boundary: boundary))
-        httpBody.appendString(manageMultipartForm.convertFormField(name: "discounted_price", value: "1234567", boundary: boundary))
+        httpBody.appendString(manageMultipartForm.convertFormField(name: "title", value: formdat.title, boundary: boundary))
+        httpBody.appendString(manageMultipartForm.convertFormField(name: "descriptions", value: formdat.descriptions, boundary: boundary))
+        httpBody.appendString(manageMultipartForm.convertFormField(name: "price", value: "\(formdat.price)", boundary: boundary))
+        httpBody.appendString(manageMultipartForm.convertFormField(name: "currency", value: formdat.currency, boundary: boundary))
+        httpBody.appendString(manageMultipartForm.convertFormField(name: "stock", value: "\(formdat.stock)", boundary: boundary))
+        httpBody.appendString(manageMultipartForm.convertFormField(name: "discounted_price", value: "\(formdat.discountedPrice)", boundary: boundary))
         httpBody.append(manageMultipartForm.convertFileData(fieldName: "images[]", fileName: "github.png", mimeType: "image/png", fileData: imageData, boundary: boundary))
-        httpBody.appendString(manageMultipartForm.convertFormField(name: "password", value: "123", boundary: boundary))
+        httpBody.appendString(manageMultipartForm.convertFormField(name: "password", value: formdat.password, boundary: boundary))
         httpBody.appendString("--\(boundary)--")
         
         return httpBody

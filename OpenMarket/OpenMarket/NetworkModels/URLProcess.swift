@@ -38,7 +38,7 @@ class URLProcess {
     
     func setURLRequest(requestMethodType: String, boundary: String = "") -> URLRequest? {
         
-        guard let url = setURLPath(methodType: requestMethodType, index: "165") else { return nil }
+        guard let url = setURLPath(methodType: requestMethodType, index: "149") else { return nil }
         
         var request = URLRequest(url: url)
         request.httpMethod = requestMethodType

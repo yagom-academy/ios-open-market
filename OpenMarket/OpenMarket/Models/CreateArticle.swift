@@ -15,7 +15,7 @@ struct CreateArticle: Encodable {
     let currency: String
     let stock: Int
     let discountedPrice: Int?
-    let images: [String]
+    let images: [Data]
     let password: String
     
     enum Codingkeys: String, CodingKey {
