@@ -14,7 +14,7 @@ struct Item: Codable {
     var price: Int
     var currency: String
     var stock: Int
-    var thumnails: [String]
+    var thumbnails: [String]
     var images: [String]?
     var registration_date: Double
 }
