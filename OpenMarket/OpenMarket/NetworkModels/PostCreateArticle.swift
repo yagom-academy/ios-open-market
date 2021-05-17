@@ -17,10 +17,12 @@ class PostCreateArticle {
         
         guard let request = urlRequest else { return }
         
+        
+        
         // URLSession 객체를 통해 전송, 응답값 처리
         URLSession.shared.uploadTask(with: request, from: requestBody) { (data, response, error) in
 
-            if error == nil {
+            if error != nil {
                 print("접속 에러")
                 return
             }
@@ -37,13 +39,14 @@ class PostCreateArticle {
         // Text 데이터
         var httpBody = Data()
         
-        httpBody.appendString(manageMultipartForm.convertFormField(name: "title", value: "맥북M1 - 바비", boundary: boundary))
-        httpBody.appendString(manageMultipartForm.convertFormField(name: "descriptions", value: "바비의 맥북", boundary: boundary))
+        httpBody.appendString(manageMultipartForm.convertFormField(name: "title", value: "전자레인지2", boundary: boundary))
+        httpBody.appendString(manageMultipartForm.convertFormField(name: "descriptions", value: "바비의 전자레인지2", boundary: boundary))
         httpBody.appendString(manageMultipartForm.convertFormField(name: "price", value: "123456789", boundary: boundary))
         httpBody.appendString(manageMultipartForm.convertFormField(name: "currency", value: "KRW", boundary: boundary))
-        httpBody.appendString(manageMultipartForm.convertFormField(name: "stock", value: "1", boundary: boundary))
+        httpBody.appendString(manageMultipartForm.convertFormField(name: "stock", value: "5", boundary: boundary))
         httpBody.appendString(manageMultipartForm.convertFormField(name: "discounted_price", value: "1234567", boundary: boundary))
         httpBody.append(manageMultipartForm.convertFileData(fieldName: "images[]", fileName: "github.png", mimeType: "image/png", fileData: imageData, boundary: boundary))
+        httpBody.appendString(manageMultipartForm.convertFormField(name: "password", value: "123", boundary: boundary))
         httpBody.appendString("--\(boundary)--")
         
         return httpBody

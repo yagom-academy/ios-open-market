@@ -9,6 +9,29 @@ import Foundation
 
 class PatchUpdateArticle {
     let manageMultipartForm = ManageMultipartForm()
+    let urlProcess = URLProcess()
+    
+    func patchData(urlRequest: URLRequest?, requestBody: Data) {
+        
+        guard let request = urlRequest else { return }
+        
+        
+        
+        // URLSession 객체를 통해 전송, 응답값 처리
+        URLSession.shared.uploadTask(with: request, from: requestBody) { (data, response, error) in
+
+            if error != nil {
+                print("접속 에러")
+                return
+            }
+            if self.urlProcess.checkResponseCode(response: response) {
+                print("post성공")
+            }
+            else {
+                print("post 보내기 실패")
+            }
+        }.resume()
+    }
     
     func updateRequestBody(boundary: String, imageData: Data) -> Data {
         // Text 데이터
@@ -20,7 +43,7 @@ class PatchUpdateArticle {
         httpBody.appendString(manageMultipartForm.convertFormField(name: "currency", value: "KRW", boundary: boundary))
         httpBody.appendString(manageMultipartForm.convertFormField(name: "stock", value: "1", boundary: boundary))
         httpBody.appendString(manageMultipartForm.convertFormField(name: "discounted_price", value: "1234567", boundary: boundary))
-        httpBody.appendString(manageMultipartForm.convertFormField(name: "password", value: "1234567", boundary: boundary))
+        httpBody.appendString(manageMultipartForm.convertFormField(name: "password", value: "123", boundary: boundary))
         httpBody.append(manageMultipartForm.convertFileData(fieldName: "images[]", fileName: "github.png", mimeType: "image/png", fileData: imageData, boundary: boundary))
         httpBody.appendString("--\(boundary)--")
         

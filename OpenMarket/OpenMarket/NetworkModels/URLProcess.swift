@@ -32,20 +32,19 @@ class URLProcess {
     }
     
     func refactorURL(firstPath: String, secondPath: String) -> URL? {
-        guard let relativeURL = URL(string: "\(firstPath)/\(secondPath))", relativeTo: baseURL) else { return nil }
-        print("\(baseURL)\(firstPath)/\(secondPath))")
+        guard let relativeURL = URL(string: "\(firstPath)/\(secondPath)", relativeTo: baseURL) else { return nil }
         return relativeURL
     }
     
     func setURLRequest(requestMethodType: String, boundary: String = "") -> URLRequest? {
         
-        guard let url = setURLPath(methodType: requestMethodType) else { return nil }
+        guard let url = setURLPath(methodType: requestMethodType, index: "165") else { return nil }
         
         var request = URLRequest(url: url)
         request.httpMethod = requestMethodType
         
         switch requestMethodType {
-        case HttpMethodType.post.stringMethod, HttpMethodType.post.stringMethod:
+        case HttpMethodType.post.stringMethod, HttpMethodType.patch.stringMethod:
             request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
             return request
         case HttpMethodType.delete.stringMethod:

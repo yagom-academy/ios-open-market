@@ -17,9 +17,7 @@ class DeleteArticle {
 
         do {
             let data = try encoder.encode(ones)
-            
-            let url = urlProcess.setURLPath(methodType: "DELETE", index: "123")
-            
+        
             guard var request = urlProcess.setURLRequest(requestMethodType: "DELETE") else { return }
             request.httpBody = data
             

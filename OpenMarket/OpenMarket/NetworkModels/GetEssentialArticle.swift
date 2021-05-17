@@ -14,9 +14,7 @@ class GetEssentialArticle {
     func getParsing() {
         guard let relativeURL = urlProcess.setURLPath(methodType: "GET", index: "5") else { return }
 
-        let url = URL(string: "https://camp-open-market-2.herokuapp.com/items/5")
-        
-        let dataTask = URLSession.shared.dataTask(with: url!) { (data, response, error) in
+        let dataTask = URLSession.shared.dataTask(with: relativeURL) { (data, response, error) in
             if error != nil { return }
 
             if self.urlProcess.checkResponseCode(response: response) {
