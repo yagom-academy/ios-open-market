@@ -42,7 +42,6 @@ class ManageMultipartForm {
     
     func convertDataToURLImage(imageURL: String) -> Data {
         let url = URL(string: imageURL)
-        var image: UIImage?
         
         let data = try? Data(contentsOf: url!)
         
