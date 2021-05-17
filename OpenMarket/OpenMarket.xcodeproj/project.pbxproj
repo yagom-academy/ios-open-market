@@ -12,6 +12,8 @@
 		488D2B62264C127100BCAAA3 /* StringContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 488D2B61264C127000BCAAA3 /* StringContainer.swift */; };
 		488D2B67264C172E00BCAAA3 /* ItemListFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 488D2B66264C172E00BCAAA3 /* ItemListFetcher.swift */; };
 		489CAB9C264E373900E9FCE2 /* ItemDetailFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 489CAB9B264E373900E9FCE2 /* ItemDetailFetcher.swift */; };
+		489CABA1264E57B900E9FCE2 /* Item.json in Resources */ = {isa = PBXBuildFile; fileRef = 489CAB9F264E57B900E9FCE2 /* Item.json */; };
+		489CABA2264E57B900E9FCE2 /* Items.json in Resources */ = {isa = PBXBuildFile; fileRef = 489CABA0264E57B900E9FCE2 /* Items.json */; };
 		48A541E9264CF26800581B2C /* OpenMarketAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48A541E8264CF26800581B2C /* OpenMarketAPI.swift */; };
 		48A541F3264D3BA600581B2C /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48A541F2264D3BA600581B2C /* APIError.swift */; };
 		48A541F7264D4BA200581B2C /* JSONParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48A541F6264D4BA200581B2C /* JSONParser.swift */; };
@@ -41,6 +43,8 @@
 		488D2B61264C127000BCAAA3 /* StringContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringContainer.swift; sourceTree = "<group>"; };
 		488D2B66264C172E00BCAAA3 /* ItemListFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemListFetcher.swift; sourceTree = "<group>"; };
 		489CAB9B264E373900E9FCE2 /* ItemDetailFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemDetailFetcher.swift; sourceTree = "<group>"; };
+		489CAB9F264E57B900E9FCE2 /* Item.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = Item.json; path = ../../../../../../Desktop/Item.json; sourceTree = "<group>"; };
+		489CABA0264E57B900E9FCE2 /* Items.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = Items.json; path = ../../../../../../Desktop/Items.json; sourceTree = "<group>"; };
 		48A541E8264CF26800581B2C /* OpenMarketAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketAPI.swift; sourceTree = "<group>"; };
 		48A541F2264D3BA600581B2C /* APIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
 		48A541F6264D4BA200581B2C /* JSONParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONParser.swift; sourceTree = "<group>"; };
@@ -75,6 +79,8 @@
 		48348FEA264BAAE3006A1EAA /* OpenMarketTests */ = {
 			isa = PBXGroup;
 			children = (
+				489CAB9F264E57B900E9FCE2 /* Item.json */,
+				489CABA0264E57B900E9FCE2 /* Items.json */,
 				48348FEB264BAAE3006A1EAA /* OpenMarketTests.swift */,
 				48348FED264BAAE3006A1EAA /* Info.plist */,
 			);
@@ -232,6 +238,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				489CABA2264E57B900E9FCE2 /* Items.json in Resources */,
+				489CABA1264E57B900E9FCE2 /* Item.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -29,7 +29,7 @@ enum HTTPMethod {
 }
 
 enum OpenMarketAPIPathByDescription: CustomStringConvertible {
-
+    // customdebugstringconvertible
     case itemListSearch
     case itemRegister
     case itemSearch
