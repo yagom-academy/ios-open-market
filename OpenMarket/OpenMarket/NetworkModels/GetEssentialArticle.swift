@@ -11,7 +11,7 @@ class GetEssentialArticle {
     
     let urlProcess = URLProcess()
     
-    func getParsing() {
+    func getParsing<T: Decodable>(completion: @escaping (T) -> Void) {
         guard let relativeURL = urlProcess.setURLPath(methodType: "GET", index: "5") else { return }
 
         let dataTask = URLSession.shared.dataTask(with: relativeURL) { (data, response, error) in
@@ -19,7 +19,8 @@ class GetEssentialArticle {
 
             if self.urlProcess.checkResponseCode(response: response) {
                 guard let resultData = data else { return }
-                self.decodeData(data: resultData)
+                let final = self.decodeData(type: T.self, data: resultData)
+                completion(final!)
             } else { return }
         }
         dataTask.resume()
@@ -27,17 +28,17 @@ class GetEssentialArticle {
     
 
     
-    func decodeData(data: Data) {
+    func decodeData<T: Decodable>(type: T.Type, data: Data) -> T? {
         
         do {
             let decoder = JSONDecoder()
-            let parsingData = try decoder.decode(EntireArticle.self, from: data)
+            let parsingData = try decoder.decode(type, from: data)
 
-            let items = parsingData.items
+            let items = parsingData
 
-            print("\(items.first?.title)")
+            return items
         } catch {
-            print("에러")
+            return nil
         }
         
     }

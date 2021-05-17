@@ -20,7 +20,10 @@ class ViewController: UIViewController {
         // MARK - GET메소드로 정보조회하기 -> 데이터 추출 escaping closure
         let getEssentialArticle = GetEssentialArticle()
         
-        getEssentialArticle.getParsing()
+        getEssentialArticle.getParsing { (testParam: EntireArticle) in
+            print(testParam.page)
+            print(testParam.items.first?.title)
+        }
         
         // MARK - POST메소드 정보보내기
         let postCreateArticle = PostCreateArticle()
