@@ -2,13 +2,15 @@
 //  TableViewCell.swift
 //  OpenMarket
 //
-//  Created by 최정민 on 2021/05/17.
+//  Created by 최정민 on 2021/05/18.
 //
 
 import UIKit
 
 class TableViewCell: UITableViewCell {
-
+    
+    static let identifier = "TableViewCell"
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
