@@ -20,32 +20,24 @@ enum BaseURL {
 }
 
 class SessionManager {
-    enum Error: Swift.Error, Equatable {
-        case invalidURL
-        case dataIsNotJSON
-        case invalidIDOrPassword
-        case didNotReceivedData(statusCode: Int?, errorMessage: String?)
-    }
-
     static let shared = SessionManager()
     private let boundary: String = "Boundary-\(UUID().uuidString)"
 
     private init() {}
 
     func get<DecodedType: Decodable>(id: Int,
-                                     completionHandler: @escaping (Result<DecodedType, Error>) -> Void) {
+                                     completionHandler: @escaping (Result<DecodedType, OpenMarketError>) -> Void) {
         let urlString = (DecodedType.self is Page.Type) ? BaseURL.page + String(id) : BaseURL.item + String(id)
 
         guard let url = URL(string: urlString) else {
-            completionHandler(.failure(.invalidURL))
+            completionHandler(.failure(.invalidURL(urlString)))
 
             return
         }
 
         URLSession.shared.dataTask(with: URLRequest(url: url)) { data, response, error in
             guard let data = data else {
-                completionHandler(.failure(.didNotReceivedData(statusCode: (response as? HTTPURLResponse)?.statusCode,
-                                                               errorMessage: error?.localizedDescription)))
+                completionHandler(.failure(.didNotReceivedData))
                 return
             }
 
@@ -53,14 +45,14 @@ class SessionManager {
                 let jsonData = try JSONDecoder().decode(DecodedType.self, from: data)
                 completionHandler(.success(jsonData))
             } catch {
-                completionHandler(.failure(.dataIsNotJSON))
+                completionHandler(.failure(.invalidData(data)))
             }
         }.resume()
     }
 
-    func postItem(_ postingItem: PostingItem, completionHandler: @escaping (Result<Item, Error>) -> Void) {
+    func postItem(_ postingItem: PostingItem, completionHandler: @escaping (Result<Item, OpenMarketError>) -> Void) {
         guard let url = URL(string: BaseURL.item) else {
-            completionHandler(.failure(.invalidURL))
+            completionHandler(.failure(.invalidURL(BaseURL.item)))
 
             return
         }
@@ -72,8 +64,7 @@ class SessionManager {
 
         URLSession.shared.dataTask(with: request) { data, response, error in
             guard let data = data else {
-                completionHandler(.failure(.didNotReceivedData(statusCode: (response as? HTTPURLResponse)?.statusCode,
-                                                               errorMessage: error?.localizedDescription)))
+                completionHandler(.failure(.didNotReceivedData))
                 return
             }
 
@@ -81,17 +72,17 @@ class SessionManager {
                 let jsonData = try JSONDecoder().decode(Item.self, from: data)
                 completionHandler(.success(jsonData))
             } catch {
-                completionHandler(.failure(.dataIsNotJSON))
+                completionHandler(.failure(.invalidData(data)))
             }
         }.resume()
     }
 
     func patchItem(id: Int, patchingItem: PatchingItem,
-                   completionHandler: @escaping (Result<Item, Error>) -> Void) {
+                   completionHandler: @escaping (Result<Item, OpenMarketError>) -> Void) {
         let urlString = BaseURL.item + id.description
 
         guard let url = URL(string: urlString) else {
-            completionHandler(.failure(.invalidURL))
+            completionHandler(.failure(.invalidURL(urlString)))
 
             return
         }
@@ -103,8 +94,7 @@ class SessionManager {
 
         URLSession.shared.dataTask(with: request) { data, response, error in
             guard let data = data else {
-                completionHandler(.failure(.didNotReceivedData(statusCode: (response as? HTTPURLResponse)?.statusCode,
-                                                               errorMessage: error?.localizedDescription)))
+                completionHandler(.failure(.didNotReceivedData))
                 return
             }
 
@@ -114,20 +104,20 @@ class SessionManager {
             } catch {
                 guard let errorData = try? JSONSerialization.jsonObject(with: data,
                                                                        options: []) as? [String: String] else {
-                    completionHandler(.failure(.dataIsNotJSON))
+                    completionHandler(.failure(.invalidData(data)))
                     return
                 }
 
                 if errorData["message"] == "Cannot find data for ID and password" {
-                    completionHandler(.failure(.invalidIDOrPassword))
+                    completionHandler(.failure(.unauthorizedAccess))
                 }
             }
         }.resume()
     }
 
-    func deleteItem(id: Int, password: String, completionHandler: @escaping (Result<Item, Error>) -> Void) {
+    func deleteItem(id: Int, password: String, completionHandler: @escaping (Result<Item, OpenMarketError>) -> Void) {
         guard let url = URL(string: BaseURL.item + String(id)) else {
-            completionHandler(.failure(.invalidURL))
+            completionHandler(.failure(.invalidURL(BaseURL.item)))
 
             return
         }
@@ -138,15 +128,14 @@ class SessionManager {
         do {
             request.httpBody = try JSONEncoder().encode(["password": password])
         } catch {
-            completionHandler(.failure(.dataIsNotJSON))
+            completionHandler(.failure(.JSONEncdoingError))
 
             return
         }
 
         URLSession.shared.dataTask(with: request) { data, response, error in
             guard let data = data else {
-                completionHandler(.failure(.didNotReceivedData(statusCode: (response as? HTTPURLResponse)?.statusCode,
-                                                               errorMessage: error?.localizedDescription)))
+                completionHandler(.failure(.didNotReceivedData))
                 return
             }
 
@@ -156,13 +145,13 @@ class SessionManager {
             } catch {
                 guard let errorData = try? JSONSerialization.jsonObject(with: data,
                                                                         options: []) as? [String: String] else {
-                    completionHandler(.failure(.dataIsNotJSON))
+                    completionHandler(.failure(.invalidData(data)))
 
                     return
                 }
 
                 if errorData["message"] == "Cannot find data for ID and password" {
-                    completionHandler(.failure(.invalidIDOrPassword))
+                    completionHandler(.failure(.unauthorizedAccess))
                 }
             }
         }.resume()
