@@ -7,10 +7,10 @@
 
 import Foundation
 
-enum OpenMarketError: Error, Equatable {
-    case invalidURL(String)
-    case invalidData(Data)
-    case unauthorizedAccess
+enum OpenMarketError: Error {
+    case invalidURL
+    case invalidData
+    case wrongResponse
     case didNotReceivedData
     case JSONEncodingError
     case sessionError
