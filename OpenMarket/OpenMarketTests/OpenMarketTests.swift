@@ -32,7 +32,7 @@ class OpenMarketTests: XCTestCase {
                                      "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/images/1-2.png"],
                             registrationDate: 1611523563.719116)
         
-        XCTAssertEqual(mockData, data)
+        XCTAssertEqual(mockData.thumbnails, data.thumbnails)
     }
     
     func test_parser메소드를_통해_디코딩된_datas의_page값이_1인지확인해보는_함수() {

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Item: Codable, Equatable {
+struct Item: Codable {
     enum CodingKeys: String, CodingKey {
         case id
         case title
