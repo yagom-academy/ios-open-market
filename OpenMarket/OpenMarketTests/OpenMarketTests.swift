@@ -10,107 +10,128 @@ import XCTest
 
 class OpenMarketTests: XCTestCase {
     
-    var sut: NetworkManager!
+    var client: NetworkManager!
     
     override func setUpWithError() throws {
-        sut = NetworkManager(session: MockURLSession())
+        let configuration = URLSessionConfiguration.ephemeral
+        configuration.protocolClasses = [MockURLProtocol.self]
+        let urlSession = URLSession(configuration: configuration)
+        client = NetworkManager(session: urlSession)
     }
     
-    func testDataTask() {
+    override class func tearDown() {
+        MockURLProtocol.loadingHandler = nil
+    }
+    
+    private func setLoadingHandler(_ data: Data) {
+        MockURLProtocol.loadingHandler = { request in
+            let response = HTTPURLResponse(url: request.url!, statusCode: 200, httpVersion: nil, headerFields: nil)!
+            return (response, data, nil)
+        }
+    }
+    
+    func testGetItems() {
         guard let url = OpenMarketURL.viewItemList(1).url else { return }
-        let request = URLRequest.set(url: url, httpMethod: .get)
-        guard let data = NSDataAsset(name: "items")?.data else { return }
-        guard let response = try? JSONDecoder().decode(ItemList.self, from: data) else { return }
+        guard let data = NSDataAsset(name: "Items")?.data else { return }
+        guard let decodedData = try? JSONDecoder().decode(ItemList.self, from: data) else { return }
         
-        sut.dataTask(request, ItemList.self) { result in
-            switch result {
-            case .success(let itemList):
-                XCTAssertEqual(itemList.page, response.page)
-                XCTAssertEqual(itemList.items, response.items)
-            case .failure:
-                XCTFail()
-            }
-        }
-    }
-    
-    func testDataTask_failure() {
-        sut = NetworkManager(session: MockURLSession(makeRequestFail: true))
-        guard let url = OpenMarketURL.viewItemList(1).url else { return }
-        let request = URLRequest.set(url: url, httpMethod: .get)
+        setLoadingHandler(data)
         
-        sut.dataTask(request, ItemList.self) { result in
+        let expectation = XCTestExpectation(description: "Loading")
+        
+        client.request(ItemList.self, url: url) { result in
             switch result {
-            case .success:
-                XCTFail()
+            case .success(let responseData):
+                XCTAssertEqual(responseData, decodedData)
             case .failure(let error):
-                XCTAssertEqual(error, .networkFailure(404))
+                XCTFail("Request was not successful: \(error.localizedDescription)")
             }
+            expectation.fulfill()
         }
+        wait(for: [expectation], timeout: 1)
     }
     
-    func testRequest() {
-        guard let data = NSDataAsset(name: "items")?.data else { return }
-        let response = try? JSONDecoder().decode(ItemList.self, from: data)
-        
-        sut.request(ItemList.self,
-                    url: OpenMarketURL.viewItemList(1).url) { result in
-            switch result {
-            case .success(let itemResponse):
-                XCTAssertEqual(itemResponse.page, response?.page)
-                XCTAssertEqual(itemResponse.items, response?.items)
-            case .failure:
-                XCTFail()
-            }
-        }
-    }
-    
-    func testRequest_failure() {
-        sut = NetworkManager(session: MockURLSession(makeRequestFail: true))
-        
-        sut.request(ItemList.self,
-                    url: OpenMarketURL.viewItemList(1).url) { result in
-            switch result {
-            case .success:
-                XCTFail()
-            case .failure(let error):
-                XCTAssertEqual(error, .networkFailure(404))
-            }
-        }
-    }
-    
-    func testDeleteItem() {
+    func testGetItem() {
         guard let url = OpenMarketURL.viewItemDetail(1).url else { return }
-        let deleteBody = ItemForDelete(password: "Hailey")
+        guard let data = NSDataAsset(name: "Item")?.data else { return }
+        guard let decodedData = try? JSONDecoder().decode(ItemResponse.self, from: data) else { return }
         
-        guard let data = NSDataAsset(name: "item")?.data else { return }
-        let response = try? JSONDecoder().decode(ItemResponse.self, from: data)
+        setLoadingHandler(data)
         
-        sut.deleteItem(url: url,
-                       body: deleteBody) { result in
+        let expectation = XCTestExpectation(description: "Loading")
+        
+        client.request(ItemResponse.self, url: url) { result in
             switch result {
-            case .success(let itemResponse):
-                XCTAssertEqual(itemResponse.id, response?.id)
-                XCTAssertEqual(itemResponse.descriptions, response?.descriptions)
-                XCTAssertEqual(itemResponse.images, response?.images)
-            case .failure:
-                XCTFail()
+            case .success(let responseData):
+                XCTAssertEqual(responseData, decodedData)
+            case .failure(let error):
+                XCTFail("Request was not successful: \(error.localizedDescription)")
             }
+            expectation.fulfill()
         }
+        wait(for: [expectation], timeout: 1)
     }
     
-    func testDeleteItem_failure() {
-        sut = NetworkManager(session: MockURLSession(makeRequestFail: true))
-        guard let url = OpenMarketURL.viewItemDetail(1).url else { return }
-        let deleteBody = ItemForDelete(password: "Hailey")
+    func testEditItem() {
+        guard let url = OpenMarketURL.editItem(1).url else { return }
         
-        sut.deleteItem(url: url,
-                       body: deleteBody) { result in
+        let mockData = ItemResponse(id: 1, title: "pencil", descriptions: "apple pencil", price: 1690000, currency: "KRW", stock: 1000000000000, discountedPrice: nil, thumbnails: [
+            "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/thumbnails/1-1.png",
+            "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/thumbnails/1-2.png"
+        ], images: [
+            "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/images/1-1.png",
+            "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/images/1-2.png"
+        ], registrationDate: 1611523563.719116)
+        guard let encodedMockData = try? JSONEncoder().encode(mockData) else { return }
+        
+        let editBody = ItemForEdit(title: "pencil", price: nil, descriptions: "apple pencil", currency: nil, stock: nil, discountedPrice: nil, images: nil, password: "")
+        
+        setLoadingHandler(encodedMockData)
+        
+        let expectation = XCTestExpectation(description: "Loading")
+        
+        client.editItem(url: url, body: editBody) { result in
             switch result {
-            case .success:
-                XCTFail()
+            case .success(let responseData):
+                XCTAssertEqual(responseData.title, editBody.title)
+                XCTAssertEqual(responseData.descriptions, editBody.descriptions)
             case .failure(let error):
-                XCTAssertEqual(error, .networkFailure(404))
+                XCTFail("Request was not successful: \(error.localizedDescription)")
             }
+            expectation.fulfill()
         }
+        wait(for: [expectation], timeout: 1)
+    }
+    
+    func testPostItem() {
+        guard let url = OpenMarketURL.registerItem.url else { return }
+        
+        let mockData = ItemResponse(id: 1, title: "pencil", descriptions: "apple pencil", price: 1690000, currency: "KRW", stock: 1000000000000, discountedPrice: nil, thumbnails: [
+            "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/thumbnails/1-1.png",
+            "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/thumbnails/1-2.png"
+        ], images: [
+            "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/images/1-1.png",
+            "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/images/1-2.png"
+        ], registrationDate: 1611523563.719116)
+        guard let encodedMockData = try? JSONEncoder().encode(mockData) else { return }
+        
+        guard let image = UIImage(named: "test_image")?.pngData() else { return }
+        
+        let postBody = ItemForRegistration(title: "pencil", descriptions: "apple pencil", price: 1690000, currency: "KRW", stock: 1000000000000, discountedPrice: nil, images: [image], password: "1234")
+        
+        setLoadingHandler(encodedMockData)
+        
+        let expectation = XCTestExpectation(description: "Loading")
+        
+        client.registerItem(url: url, body: postBody) { result in
+            switch result {
+            case .success(let responseData):
+                XCTAssertEqual(responseData.title, postBody.title)
+            case .failure(let error):
+                XCTFail("Request was not successful: \(error.localizedDescription)")
+            }
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 1)
     }
 }
