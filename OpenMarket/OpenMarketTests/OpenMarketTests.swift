@@ -30,7 +30,7 @@ class OpenMarketTests: XCTestCase {
                                          "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/thumbnails/1-2.png"],
                             images: ["https://camp-open-market.s3.ap-northeast-2.amazonaws.com/images/1-1.png",
                                      "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/images/1-2.png"],
-                            registration_date: 1611523563.719116)
+                            registrationDate: 1611523563.719116)
         
         XCTAssertEqual(mockData, data)
     }

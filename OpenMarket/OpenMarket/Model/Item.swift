@@ -8,6 +8,18 @@
 import Foundation
 
 struct Item: Codable, Equatable {
+    enum CodingKeys: String, CodingKey {
+        case id
+        case title
+        case descriptions
+        case price
+        case currency
+        case stock
+        case thumbnails
+        case images
+        case registrationDate = "registration_date"
+    }
+
     var id: Int
     var title: String
     var descriptions: String?
@@ -16,5 +28,5 @@ struct Item: Codable, Equatable {
     var stock: Int
     var thumbnails: [String]
     var images: [String]?
-    var registration_date: Double
+    var registrationDate: Double
 }
