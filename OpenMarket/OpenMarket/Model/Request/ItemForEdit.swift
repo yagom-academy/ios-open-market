@@ -9,11 +9,11 @@ import Foundation
 
 struct ItemForEdit: Codable {
     let title: String?
-    let price: Double?
+    let price: Int?
     let descriptions: String?
     let currency: String?
     let stock: Int?
-    let discountedPrice: Double?
+    let discountedPrice: Int?
     let images: [Data]?
     let password: String
     

@@ -9,7 +9,7 @@ import Foundation
 
 protocol MultipartConvertible {
     func generateBoundaryString() -> String
-    func createBody(parameters: [String: Any], boundary: String) -> Data
+    func createBody(parameters: [String: Any?], boundary: String) -> Data
     func convertFormData(name: String, value: Any, boundary: String) -> Data
     func convertFormData(name: String, images: [Data], boundary: String) -> Data
 }
@@ -19,18 +19,22 @@ extension MultipartConvertible {
         return "Boundary-\(UUID().uuidString)"
     }
     
-    func createBody(parameters: [String: Any], boundary: String) -> Data {
+    func createBody(parameters: [String: Any?], boundary: String) -> Data {
         var body = Data()
+        print(parameters)
         
         for (key, value) in parameters {
-            if let value = value as? [Data] {
+            print(key,type(of: value))
+            if value == nil {
+                continue
+            } else if let value = value as? [Data] {
                 body.append(convertFormData(name: key, images: value, boundary: boundary))
-            } else {
+            } else if let value = value {
                 body.append(convertFormData(name: key, value: value, boundary: boundary))
             }
         }
         
-        body.append("--\(boundary)--\r\n".data(using: .utf8)!)
+        body.appendString("--\(boundary)--\r\n")
         
         return body
     }
@@ -38,9 +42,9 @@ extension MultipartConvertible {
     func convertFormData(name: String, value: Any, boundary: String) -> Data {
         var data = Data()
         
-        data.append("--\(boundary)\r\n".data(using: .utf8)!)
-        data.append("Content-Disposition: form-data; name=\"\(name)\"\r\n\r\n".data(using: .utf8)!)
-        data.append("\(value)\r\n".data(using: .utf8)!)
+        data.appendString("--\(boundary)\r\n")
+        data.appendString("Content-Disposition: form-data; name=\"\(name)\"\r\n\r\n")
+        data.appendString("\(value)\r\n")
         
         return data
     }
@@ -50,12 +54,11 @@ extension MultipartConvertible {
         var imageIndex = 0
         
         for image in images {
-            data.append("--\(boundary)\r\n".data(using: .utf8)!)
-            data.append("Content-Disposition: form-data; name=\"images[]\"; filename=\"aaa.png\"\r\n".data(using: .utf8)!)
-            data.append("Content-Type: image/png\r\n\r\n".data(using: .utf8)!)
+            data.appendString("--\(boundary)\r\n")
+            data.appendString("Content-Disposition: form-data; name=\"images[]\"; filename=\"image\(imageIndex).png\"\r\n")
+            data.appendString("Content-Type: image/png\r\n\r\n")
             data.append(image)
-            data.append("\r\n".data(using: .utf8)!)
-//            data.append("--".appending(boundary.appending("--")).data(using: .utf8)!)
+            data.appendString("\r\n")
             imageIndex += 1
         }
         

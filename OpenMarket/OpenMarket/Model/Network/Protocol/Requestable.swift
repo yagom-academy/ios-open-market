@@ -15,8 +15,15 @@ protocol Requestable: MultipartConvertible {
 extension Requestable {
     func setMultipartRequest<Body: Encodable>(_ url: URL, _ body: Body, httpMethod: HTTPMethod) -> URLRequest? {
         let boundary = generateBoundaryString()
-        guard let body: [String: Any] = body.asDictionary() else { return nil }
-        let bodyData = createBody(parameters: body, boundary: boundary)
+        let mirror = Mirror(reflecting: body)
+        var parameter: [String: Any] = [:]
+        
+        mirror.children.forEach({ child in
+            guard let label = child.label else { return }
+            parameter["\(label)"] = child.value
+        })
+        
+        let bodyData = createBody(parameters: parameter, boundary: boundary)
         
         var request = URLRequest.set(url: url, httpMethod: httpMethod)
         request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")

@@ -9,7 +9,7 @@ import Foundation
 
 struct NetworkManager: Requestable {
     
-    let session: URLSessionProtocol
+    let session: URLSession
     
     func dataTask<Decoded: Decodable>(_ urlRequest: URLRequest, _ type: Decoded.Type, completionHandler: @escaping (Result<Decoded, APIError>) -> Void) {
         session.dataTask(with: urlRequest) { data, response, error in
