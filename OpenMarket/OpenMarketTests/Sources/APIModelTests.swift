@@ -17,10 +17,10 @@ class APIModelTests: XCTestCase {
     }
 
     func test_RespondedPage가_잘_Decode된다() {
-        XCTAssertNotNil(try? JSONDecoder().decode(ResponsedPage.self, from: mockPageData))
+        XCTAssertNotNil(try? JSONDecoder().decode(Page.self, from: mockPageData))
     }
 
     func test_RespondedItem가_잘_Decode된다() {
-        XCTAssertNotNil(try? JSONDecoder().decode(ResponsedItem.self, from: mockItemData))
+        XCTAssertNotNil(try? JSONDecoder().decode(Item.self, from: mockItemData))
     }
 }

@@ -34,7 +34,7 @@ class SessionManager {
 
     func get<DecodedType: Decodable>(id: Int,
                                      completionHandler: @escaping (Result<DecodedType, Error>) -> Void) {
-        let urlString = (DecodedType.self is ResponsedPage.Type) ? BaseURL.page + String(id) : BaseURL.item + String(id)
+        let urlString = (DecodedType.self is Page.Type) ? BaseURL.page + String(id) : BaseURL.item + String(id)
 
         guard let url = URL(string: urlString) else {
             completionHandler(.failure(.invalidURL))
@@ -58,7 +58,7 @@ class SessionManager {
         }.resume()
     }
 
-    func postItem(_ postingItem: PostingItem, completionHandler: @escaping (Result<ResponsedItem, Error>) -> Void) {
+    func postItem(_ postingItem: PostingItem, completionHandler: @escaping (Result<Item, Error>) -> Void) {
         guard let url = URL(string: BaseURL.item) else {
             completionHandler(.failure(.invalidURL))
 
@@ -78,7 +78,7 @@ class SessionManager {
             }
 
             do {
-                let jsonData = try JSONDecoder().decode(ResponsedItem.self, from: data)
+                let jsonData = try JSONDecoder().decode(Item.self, from: data)
                 completionHandler(.success(jsonData))
             } catch {
                 completionHandler(.failure(.dataIsNotJSON))
@@ -87,7 +87,7 @@ class SessionManager {
     }
 
     func patchItem(id: Int, patchingItem: PatchingItem,
-                   completionHandler: @escaping (Result<ResponsedItem, Error>) -> Void) {
+                   completionHandler: @escaping (Result<Item, Error>) -> Void) {
         let urlString = BaseURL.item + id.description
 
         guard let url = URL(string: urlString) else {
@@ -109,7 +109,7 @@ class SessionManager {
             }
 
             do {
-                let jsonData = try JSONDecoder().decode(ResponsedItem.self, from: data)
+                let jsonData = try JSONDecoder().decode(Item.self, from: data)
                 completionHandler(.success(jsonData))
             } catch {
                 guard let errorData = try? JSONSerialization.jsonObject(with: data,
@@ -125,7 +125,7 @@ class SessionManager {
         }.resume()
     }
 
-    func deleteItem(id: Int, password: String, completionHandler: @escaping (Result<ResponsedItem, Error>) -> Void) {
+    func deleteItem(id: Int, password: String, completionHandler: @escaping (Result<Item, Error>) -> Void) {
         guard let url = URL(string: BaseURL.item + String(id)) else {
             completionHandler(.failure(.invalidURL))
 
@@ -151,7 +151,7 @@ class SessionManager {
             }
 
             do {
-                let errorData = try JSONDecoder().decode(ResponsedItem.self, from: data)
+                let errorData = try JSONDecoder().decode(Item.self, from: data)
                 completionHandler(.success(errorData))
             } catch {
                 guard let errorData = try? JSONSerialization.jsonObject(with: data,

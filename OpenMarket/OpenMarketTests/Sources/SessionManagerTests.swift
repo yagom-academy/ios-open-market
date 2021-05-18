@@ -42,7 +42,7 @@ class SessionManagerHTTPTests: XCTestCase {
     func test_get_성공시_completionHandler의_인자로_success가_전달된다() {
         let expectation = XCTestExpectation()
         
-        sut.get(id: 63) { (result: Result<ResponsedItem, SessionManager.Error>) in
+        sut.get(id: 63) { (result: Result<Item, SessionManager.Error>) in
             let a = try! result.get()
             XCTAssertEqual(a.title, "Neph")
             
@@ -62,7 +62,7 @@ class SessionManagerHTTPTests: XCTestCase {
     func test_JSON_data로_변환할_수_없다면_get_completionHandler의_인자로_failure_dataIsNotJSON이_전달된다() {
         let expectation = XCTestExpectation()
         
-        sut.get(id: -1) { (result: Result<ResponsedPage, SessionManager.Error>) in
+        sut.get(id: -1) { (result: Result<Page, SessionManager.Error>) in
             switch result {
             case .success:
                 break
@@ -79,7 +79,7 @@ class SessionManagerHTTPTests: XCTestCase {
     func test_postItem_성공시_completionHandler의_인자로_success가_전달된다() {
         let expectation = XCTestExpectation()
         
-        sut.postItem(dummyPostingItem) { (result: Result<ResponsedItem, SessionManager.Error>) in
+        sut.postItem(dummyPostingItem) { (result: Result<Item, SessionManager.Error>) in
             switch result {
             case .success:
                 break
@@ -97,7 +97,7 @@ class SessionManagerHTTPTests: XCTestCase {
         let expectation = XCTestExpectation()
         let itemId = 134
         
-        sut.patchItem(id: itemId, patchingItem: dummyPatchingItem) { (result: Result<ResponsedItem, SessionManager.Error>) in
+        sut.patchItem(id: itemId, patchingItem: dummyPatchingItem) { (result: Result<Item, SessionManager.Error>) in
             switch result {
             case .success:
                 break
@@ -115,7 +115,7 @@ class SessionManagerHTTPTests: XCTestCase {
         let expectation = XCTestExpectation()
         let itemId = 53
         
-        sut.patchItem(id: itemId, patchingItem: dummyPatchingItem) { (result: Result<ResponsedItem, SessionManager.Error>) in
+        sut.patchItem(id: itemId, patchingItem: dummyPatchingItem) { (result: Result<Item, SessionManager.Error>) in
             switch result {
             case .success:
                 XCTFail("성공했음")
@@ -134,7 +134,7 @@ class SessionManagerHTTPTests: XCTestCase {
     func test_delete_성공시_completionHandler가_호출된다() {
         let expectation = XCTestExpectation()
         
-        sut.deleteItem(id: 180, password: "1234") { (result: Result<ResponsedItem, SessionManager.Error>) in
+        sut.deleteItem(id: 180, password: "1234") { (result: Result<Item, SessionManager.Error>) in
             switch result {
             case .success:
                 break
@@ -153,7 +153,7 @@ class SessionManagerHTTPTests: XCTestCase {
     func test_잘못된_id나_password로_delete_시도시_completionHandler의_인자로_failure_invalidIDOrPassword가_전달된다() {
         let expectation = XCTestExpectation()
         
-        sut.deleteItem(id: 1, password: "1234") { (result: Result<ResponsedItem, SessionManager.Error>) in
+        sut.deleteItem(id: 1, password: "1234") { (result: Result<Item, SessionManager.Error>) in
             switch result {
             case .success:
                 XCTFail("success가 전달됨")
