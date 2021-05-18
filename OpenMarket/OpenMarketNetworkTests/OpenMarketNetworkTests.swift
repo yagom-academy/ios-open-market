@@ -35,9 +35,8 @@ class OpenMarketNetworkTests: XCTestCase {
         let expectation = XCTestExpectation()
         // given
         
-        let url = sut_openMarketListItemURL
-        guard let itemListRequest = NSDataAsset.init(name: "Items") else { return }
-        let requestData = try? JSONDecoder().decode(MarketItemList.self, from: itemListRequest.data)
+        guard let url = SampleOpenMarketAPI.connection.itemListURL else { return }
+        let requestData = try? JSONDecoder().decode(MarketItemList.self, from: SampleOpenMarketAPI.connection.itemListData)
         MockURLProtocol.requestHandler = { request in
             
             guard let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: nil, headerFields: nil) else {
@@ -45,7 +44,7 @@ class OpenMarketNetworkTests: XCTestCase {
                 return (HTTPURLResponse(), Data())
             }
             
-            return (response, itemListRequest.data)
+            return (response, SampleOpenMarketAPI.connection.itemListData)
         }
         // when
         sut_openMarketAPIProvider.fetchItemListData { result in
