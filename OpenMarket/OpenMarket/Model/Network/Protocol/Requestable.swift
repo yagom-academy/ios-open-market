@@ -8,12 +8,24 @@
 import Foundation
 
 protocol Requestable: MultipartConvertible {
-    func setMultipartRequest<Body: Encodable>(_ url: URL, _ body: Body, httpMethod: HTTPMethod) -> URLRequest?
-    func makeRequest<Body: Encodable>(url: URL?, httpMethod: HTTPMethod, _ body: Body) -> URLRequest?
+    func setMultipartRequest<Body: Encodable>(
+        _ url: URL,
+        _ body: Body,
+        httpMethod: HTTPMethod
+    ) -> URLRequest?
+    func makeRequest<Body: Encodable>(
+        url: URL?,
+        httpMethod: HTTPMethod,
+        _ body: Body
+    ) -> URLRequest?
 }
 
 extension Requestable {
-    func setMultipartRequest<Body: Encodable>(_ url: URL, _ body: Body, httpMethod: HTTPMethod) -> URLRequest? {
+    func setMultipartRequest<Body: Encodable>(
+        _ url: URL,
+        _ body: Body,
+        httpMethod: HTTPMethod
+    ) -> URLRequest? {
         let boundary = generateBoundaryString()
         let mirror = Mirror(reflecting: body)
         var parameter: [String: Any] = [:]
@@ -26,13 +38,20 @@ extension Requestable {
         let bodyData = createBody(parameters: parameter, boundary: boundary)
         
         var request = URLRequest.set(url: url, httpMethod: httpMethod)
-        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        request.setValue(
+            "multipart/form-data; boundary=\(boundary)",
+            forHTTPHeaderField: "Content-Type"
+        )
         request.httpBody = bodyData
         
         return request
     }
     
-    func makeRequest<Body: Encodable>(url: URL?, httpMethod: HTTPMethod, _ body: Body) -> URLRequest? {
+    func makeRequest<Body: Encodable>(
+        url: URL?,
+        httpMethod: HTTPMethod,
+        _ body: Body
+    ) -> URLRequest? {
         guard let requestURL = url else { return nil }
         
         switch httpMethod {

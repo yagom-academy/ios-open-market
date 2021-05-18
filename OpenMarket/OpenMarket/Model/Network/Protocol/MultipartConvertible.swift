@@ -50,7 +50,7 @@ extension MultipartConvertible {
     
     func convertFormData(name: String, images: [Data], boundary: String) -> Data {
         var data = Data()
-        var imageIndex = 0
+        var imageIndex = 1
         
         for image in images {
             data.appendString("--\(boundary)\r\n")

@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum APIError: Error, LocalizedError, Equatable {
+enum APIError: Error, Equatable {
     case invalidURL
     case decodingFailure
     case encodingFailure
@@ -15,7 +15,9 @@ enum APIError: Error, LocalizedError, Equatable {
     case networkFailure(Int)
     case requestFailure
     case downcastingFailure(String)
-    
+}
+
+extension APIError: LocalizedError {
     var errorDescription: String? {
         switch self {
         case .invalidURL:

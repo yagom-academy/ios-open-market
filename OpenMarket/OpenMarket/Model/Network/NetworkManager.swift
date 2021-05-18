@@ -11,7 +11,11 @@ struct NetworkManager: Requestable {
     
     let session: URLSession
     
-    func dataTask<Decoded: Decodable>(_ urlRequest: URLRequest, _ type: Decoded.Type, completionHandler: @escaping (Result<Decoded, APIError>) -> Void) {
+    func dataTask<Decoded: Decodable>(
+        _ urlRequest: URLRequest,
+        _ type: Decoded.Type,
+        completionHandler: @escaping (Result<Decoded, APIError>) -> Void
+    ) {
         session.dataTask(with: urlRequest) { data, response, error in
             guard error == nil else {
                 completionHandler(.failure(.requestFailure))
@@ -42,7 +46,11 @@ struct NetworkManager: Requestable {
         }.resume()
     }
     
-    func request<Decoded: Decodable>(_ type: Decoded.Type, url: URL?, completionHandler: @escaping (Result<Decoded, APIError>) -> Void) {
+    func request<Decoded: Decodable>(
+        _ type: Decoded.Type,
+        url: URL?,
+        completionHandler: @escaping (Result<Decoded, APIError>) -> Void
+    ) {
         guard let requestURL = url else { return }
         
         let request = URLRequest.set(url: requestURL, httpMethod: .get)
@@ -52,7 +60,11 @@ struct NetworkManager: Requestable {
         }
     }
     
-    func deleteItem(url: URL?, body: ItemForDelete, completionHandler: @escaping (Result<ItemResponse, APIError>) -> Void) {
+    func deleteItem(
+        url: URL?,
+        body: ItemForDelete,
+        completionHandler: @escaping (Result<ItemResponse, APIError>) -> Void
+    ) {
         guard let request = makeRequest(url: url, httpMethod: .delete, body) else { return }
         
         dataTask(request, ItemResponse.self) { result in
@@ -60,7 +72,11 @@ struct NetworkManager: Requestable {
         }
     }
     
-    func editItem(url: URL?, body: ItemForEdit, completionHandler: @escaping (Result<ItemResponse, APIError>) -> Void) {
+    func editItem(
+        url: URL?,
+        body: ItemForEdit,
+        completionHandler: @escaping (Result<ItemResponse, APIError>) -> Void
+    ) {
         guard let request = makeRequest(url: url, httpMethod: .patch, body) else { return }
         
         dataTask(request, ItemResponse.self) { result in
@@ -68,7 +84,11 @@ struct NetworkManager: Requestable {
         }
     }
     
-    func registerItem(url: URL?, body: ItemForRegistration, completionHandler: @escaping (Result<ItemResponse, APIError>) -> Void) {
+    func registerItem(
+        url: URL?,
+        body: ItemForRegistration,
+        completionHandler: @escaping (Result<ItemResponse, APIError>) -> Void
+    ) {
         guard let request = makeRequest(url: url, httpMethod: .post, body) else { return }
         
         dataTask(request, ItemResponse.self) { result in

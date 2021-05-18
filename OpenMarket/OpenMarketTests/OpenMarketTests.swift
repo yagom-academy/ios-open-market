@@ -91,16 +91,36 @@ final class OpenMarketTests: XCTestCase {
     func testEditItem() {
         guard let url = OpenMarketURL.editItem(1).url else { return }
         
-        let mockData = ItemResponse(id: 1, title: "pencil", descriptions: "apple pencil", price: 1690000, currency: "KRW", stock: 1000000000000, discountedPrice: nil, thumbnails: [
+        let mockData = ItemResponse(
+            id: 1,
+            title: "pencil",
+            descriptions: "apple pencil",
+            price: 1690000,
+            currency: "KRW",
+            stock: 1000000000000,
+            discountedPrice: nil,
+            thumbnails: [
             "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/thumbnails/1-1.png",
             "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/thumbnails/1-2.png"
-        ], images: [
+        ],
+            images: [
             "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/images/1-1.png",
             "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/images/1-2.png"
-        ], registrationDate: 1611523563.719116)
+        ],
+            registrationDate: 1611523563.719116
+        )
         guard let encodedMockData = try? JSONEncoder().encode(mockData) else { return }
         
-        let editBody = ItemForEdit(title: "pencil", price: nil, descriptions: "apple pencil", currency: nil, stock: nil, discountedPrice: nil, images: nil, password: "")
+        let editBody = ItemForEdit(
+            title: "pencil",
+            price: nil,
+            descriptions: "apple pencil",
+            currency: nil,
+            stock: nil,
+            discountedPrice: nil,
+            images: nil,
+            password: ""
+        )
         
         setLoadingHandler(encodedMockData)
         
@@ -122,18 +142,38 @@ final class OpenMarketTests: XCTestCase {
     func testPostItem() {
         guard let url = OpenMarketURL.registerItem.url else { return }
         
-        let mockData = ItemResponse(id: 1, title: "pencil", descriptions: "apple pencil", price: 1690000, currency: "KRW", stock: 1000000000000, discountedPrice: nil, thumbnails: [
+        let mockData = ItemResponse(
+            id: 1,
+            title: "pencil",
+            descriptions: "apple pencil",
+            price: 1690000,
+            currency: "KRW",
+            stock: 1000000000000,
+            discountedPrice: nil,
+            thumbnails: [
             "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/thumbnails/1-1.png",
             "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/thumbnails/1-2.png"
-        ], images: [
+        ],
+            images: [
             "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/images/1-1.png",
             "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/images/1-2.png"
-        ], registrationDate: 1611523563.719116)
+        ],
+            registrationDate: 1611523563.719116
+        )
         guard let encodedMockData = try? JSONEncoder().encode(mockData) else { return }
         
         guard let image = UIImage(named: "test_image")?.pngData() else { return }
         
-        let postBody = ItemForRegistration(title: "pencil", descriptions: "apple pencil", price: 1690000, currency: "KRW", stock: 1000000000000, discountedPrice: nil, images: [image], password: "1234")
+        let postBody = ItemForRegistration(
+            title: "pencil",
+            descriptions: "apple pencil",
+            price: 1690000,
+            currency: "KRW",
+            stock: 1000000000000,
+            discountedPrice: nil,
+            images: [image],
+            password: "1234"
+        )
         
         setLoadingHandler(encodedMockData)
         
@@ -156,7 +196,13 @@ extension OpenMarketTests {
     // MARK: - Private Methods for test
     private func setLoadingHandler(_ data: Data) {
         MockURLProtocol.loadingHandler = { request in
-            let response = HTTPURLResponse(url: request.url!, statusCode: 200, httpVersion: nil, headerFields: nil)!
+            let response = HTTPURLResponse(
+                url: request.url!,
+                statusCode: 200,
+                httpVersion: nil,
+                headerFields: nil
+            )!
+            
             return (response, data, nil)
         }
     }
