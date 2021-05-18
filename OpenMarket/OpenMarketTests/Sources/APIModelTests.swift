@@ -89,10 +89,4 @@ class APIModelTests: XCTestCase {
             XCTAssertEqual(sut[i].value, expectedResult[i].value)
         }
     }
-    
-    func test_UIKit() {
-        let data = UIImage(systemName: "zzz")!.jpegData(compressionQuality: 1)!
-        XCTAssertEqual(String(decoding: data, as: UTF8.self), String(decoding: data, as: UTF8.self))
-        
-    }
 }
