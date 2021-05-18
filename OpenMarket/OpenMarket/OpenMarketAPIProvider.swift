@@ -10,8 +10,8 @@ import Foundation
 class OpenMarketAPIProvider {
     let urlSession: URLSession
     
-    init(urlSession: URLSession) {
-        self.urlSession = URLSession.shared
+    init(urlSession: URLSession = .shared) {
+        self.urlSession = urlSession
     }
     
     func fetchItemListData(completion: @escaping(_ result: Result <MarketItemList, Error>) -> Void) {
