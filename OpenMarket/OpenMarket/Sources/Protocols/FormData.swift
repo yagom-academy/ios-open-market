@@ -20,11 +20,13 @@ extension FormData {
         for (key, value) in Mirror(reflecting: self).children {
             guard let key = key,
                   let codingKey = codingKeys[key],
-                  !(value is Data || value is [Data]),
-                  let realValue = value as Any?,
-                  let text = realValue as? CustomStringConvertible else { continue }
+                  !(value is Data || value is [Data]) else { continue }
 
-            fields.append((codingKey, text.description))
+            if let text = value as? String {
+                fields.append((codingKey, text))
+            } else if let number = value as? NSNumber {
+                fields.append((codingKey, number.description))
+            }
         }
 
         return fields

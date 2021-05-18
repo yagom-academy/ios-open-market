@@ -8,7 +8,7 @@
 import Foundation
 
 struct RequestBodyEncoder: RequestBodyEncoderProtocol {
-    let boundary: String = "Boundary-\(UUID().uuidString)"
+    static let boundary: String = "Boundary-\(UUID().uuidString)"
 
     func encode<T: RequestData>(_ value: T) throws -> Data {
         if value is JSONData {
@@ -24,7 +24,7 @@ struct RequestBodyEncoder: RequestBodyEncoderProtocol {
         var formDataBody = Data()
 
         guard let formData = value as? FormData else {
-            throw OpenMarketError.invalidData(Data())
+            throw OpenMarketError.invalidData
         }
 
         for textField in formData.textFields {
@@ -39,15 +39,14 @@ struct RequestBodyEncoder: RequestBodyEncoderProtocol {
                                                  value: fileField.value))
         }
 
-        formDataBody.append("--\(boundary)--")
-        print(String(decoding: formDataBody, as: UTF8.self))
+        formDataBody.append("--\(Self.boundary)--")
         return formDataBody
     }
 
     private func convertFileField(key: String, source: String, mimeType: String, value: Data) -> Data {
         var dataField = Data()
 
-        dataField.append("--\(boundary)\r\n")
+        dataField.append("--\(Self.boundary)\r\n")
         dataField.append("Content-Disposition: form-data; name=\"\(key)\"; filename=\"\(source)\"\r\n")
         dataField.append("Content-Type: \"\(mimeType)\"\r\n\r\n")
         dataField.append(value)
@@ -57,7 +56,7 @@ struct RequestBodyEncoder: RequestBodyEncoderProtocol {
     }
 
     private func convertTextField(key: String, value: String) -> String {
-        var textField: String = "--\(boundary)\r\n"
+        var textField: String = "--\(Self.boundary)\r\n"
 
         textField.append("Content-Disposition: form-data; name=\"\(key)\"\r\n")
         textField.append("\r\n")

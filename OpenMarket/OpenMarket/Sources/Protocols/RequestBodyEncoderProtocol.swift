@@ -8,6 +8,6 @@
 import Foundation
 
 protocol RequestBodyEncoderProtocol {
-    var boundary: String { get }
+    static var boundary: String { get }
     func encode<T: RequestData>(_ value: T) throws -> Data
 }
