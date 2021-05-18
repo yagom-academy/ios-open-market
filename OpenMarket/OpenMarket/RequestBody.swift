@@ -2,12 +2,12 @@
 //  RequestBody.swift
 //  OpenMarket
 //
-//  Created by Sunny on 2021/05/14.
+//  Created by Sunny, James on 2021/05/14.
 //
 
 import Foundation
 
-struct PostItem: Encodable {
+struct ItemInformationToPost: Encodable {
     let title: String
     let descriptions: String
     let price: Int
@@ -23,7 +23,7 @@ struct PostItem: Encodable {
     }
 }
 
-struct PatchItem: Encodable {
+struct ItemInformationToEdit: Encodable {
     let title: String?
     let descriptions: String?
     let price: Int?
@@ -39,6 +39,6 @@ struct PatchItem: Encodable {
     }
 }
 
-struct DeleteItem: Encodable {
+struct ItemInformationToDelete: Encodable {
     let password: String
 }

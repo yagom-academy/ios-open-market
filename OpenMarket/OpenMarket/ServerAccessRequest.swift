@@ -9,10 +9,10 @@ import Foundation
 
 struct MarketItemList: Decodable {
     let page: Int
-    let items: [Item]
+    let items: [ItemInformation]
 }
 
-struct Item: Decodable {
+struct ItemInformation: Decodable {
     let id: Int
     let title: String
     let price: Int
@@ -29,7 +29,7 @@ struct Item: Decodable {
     }
 }
 
-struct ItemPage: Decodable {
+struct DetailedItemInformation: Decodable {
     let id: Int
     let title: String
     let descriptions: String
