@@ -32,7 +32,7 @@ enum RequestAddress {
         case .readItem(let id):
             return RequestAddress.BaseURL + RequestAddress.item + String(id)
         case .createItem:
-            return RequestAddress.BaseURL + RequestAddress.item 
+            return RequestAddress.BaseURL + RequestAddress.item
         case .updateItem(let id):
             return RequestAddress.BaseURL + RequestAddress.item + String(id)
         case .deleteItem(let id):
@@ -57,5 +57,15 @@ struct NetworkHelper {
             return
         }
         completion(.success(response))        
+    }
+    
+    func readItem(itemNum: Int, completion: @escaping (Result<ItemInfo, Error>) -> Void ) {
+        if let url = URL(string: RequestAddress.readItem(id: itemNum).url),
+              let data = try? String(contentsOf: url).data(using: .utf8),
+              let response = try? JSONDecoder().decode(ItemInfo.self, from: data) {
+            completion(.success(response))
+            return
+        }
+        completion(.failure(fatalError()))
     }
 }
