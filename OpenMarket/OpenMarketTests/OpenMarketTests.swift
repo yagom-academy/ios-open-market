@@ -23,13 +23,6 @@ final class OpenMarketTests: XCTestCase {
         MockURLProtocol.loadingHandler = nil
     }
     
-    private func setLoadingHandler(_ data: Data) {
-        MockURLProtocol.loadingHandler = { request in
-            let response = HTTPURLResponse(url: request.url!, statusCode: 200, httpVersion: nil, headerFields: nil)!
-            return (response, data, nil)
-        }
-    }
-    
     func testGetItems() {
         guard let url = OpenMarketURL.viewItemList(1).url else { return }
         guard let data = NSDataAsset(name: "Items")?.data else { return }
@@ -156,5 +149,15 @@ final class OpenMarketTests: XCTestCase {
             expectation.fulfill()
         }
         wait(for: [expectation], timeout: 1)
+    }
+}
+
+extension OpenMarketTests {
+    // MARK: - Private Methods for test
+    private func setLoadingHandler(_ data: Data) {
+        MockURLProtocol.loadingHandler = { request in
+            let response = HTTPURLResponse(url: request.url!, statusCode: 200, httpVersion: nil, headerFields: nil)!
+            return (response, data, nil)
+        }
     }
 }
