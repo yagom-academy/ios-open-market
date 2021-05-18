@@ -29,12 +29,13 @@ class URLProcess {
         var request = URLRequest(url: url)
         request.httpMethod = userAction.setHttpMethod()
         
-        switch request.httpMethod {
+        switch userAction.setHttpMethod() {
         case HttpMethodType.post.stringMethod, HttpMethodType.patch.stringMethod:
             guard let boundary = boundary else { return nil }
             request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
             return request
         case HttpMethodType.delete.stringMethod:
+            
             request.setValue("application/json", forHTTPHeaderField: "Content-Type")
             return request
         default:

@@ -13,12 +13,16 @@ class OpenMarketTests: XCTestCase {
     var sut_urlProcess: URLProcess!
     var sut_getEssentialArticle: GetEssentialArticle!
     var sut_postCreateArticle: PostCreateArticle!
+    var sut_patchUpdateArticle: PatchUpdateArticle!
+    var sut_deleteArticle: DeleteArticle!
     
     override func setUpWithError() throws {
         super.setUp()
         sut_urlProcess = URLProcess()
         sut_getEssentialArticle = GetEssentialArticle()
         sut_postCreateArticle = PostCreateArticle()
+        sut_patchUpdateArticle = PatchUpdateArticle()
+        sut_deleteArticle = DeleteArticle()
     }
     
     override func tearDownWithError() throws {
@@ -26,6 +30,8 @@ class OpenMarketTests: XCTestCase {
         sut_urlProcess = nil
         sut_getEssentialArticle = nil
         sut_postCreateArticle = nil
+        sut_patchUpdateArticle = nil
+        sut_deleteArticle = nil
     }
     
     func extractData(_ item: String) -> NSDataAsset? {
@@ -155,13 +161,25 @@ class OpenMarketTests: XCTestCase {
         guard let baseUrl = sut_urlProcess.setBaseURL(urlString: "https://camp-open-market-2.herokuapp.com/") else { return }
         guard let httpURL = sut_urlProcess.setUserActionURL(baseURL: baseUrl, userAction: .addArticle) else { return }
         
-        let createArticle: CreateArticle = CreateArticle(title: "귀마개", descriptions: "싸구려", price: 15326, currency: "KRW", stock: 15, discountedPrice: 222, images: [pngImage], password: "1234")
+        let createArticle = CreateArticle(title: "귀감", descriptions: "싸구려", price: 15326, currency: "KRW", stock: 15, discountedPrice: 222, images: [pngImage], password: "1234")
 
-        let postRequest = sut_urlProcess.setURLRequest(url: sut_urlProcess.setUserActionURL(baseURL: httpURL, userAction: .addArticle)!, userAction: .addArticle, boundary: boundary)
+        let postRequest = sut_urlProcess.setURLRequest(url: httpURL, userAction: .addArticle, boundary: boundary)
+        let data = sut_postCreateArticle.makeRequestBody(formdat: createArticle, boundary: boundary, imageData: pngImage)
+        sut_postCreateArticle.postData(urlRequest: postRequest, requestBody: data)
+        guard let httpURL = sut_urlProcess.setUserActionURL(baseURL: baseUrl, userAction: .viewArticleList, index: "6") else { return }
         
-        sut_postCreateArticle.postData(urlRequest: postRequest!, requestBody: sut_postCreateArticle.makeRequestBody(formdat: createArticle, boundary: boundary, imageData: pngImage))
-       
-        expt.fulfill()
+        
+        sut_getEssentialArticle.getParsing(url: httpURL) { (testParam: EntireArticle) in
+            
+            for i in 1..<testParam.items.count
+            {
+                XCTAssertEqual(testParam.items[i].title, "궁")
+            }
+            XCTAssertEqual(testParam.page, 54)
+            
+            expt.fulfill()
+        }
+        
         waitForExpectations(timeout: 5.0, handler: nil)
     }
     
@@ -179,28 +197,54 @@ class OpenMarketTests: XCTestCase {
         
         return data!
     }
-//
-//    func test_patchMethod() {
-//        // MARK - PATCH메소드 정보수정하기
-//
-//        let yagomBoundary = "Boundary-\(UUID().uuidString)"
-//        let patchUpdateArticle = PatchUpdateArticle()
-//        let postCreateArticle = PostCreateArticle()
-//        let pngImage = postCreateArticle.manageMultipartForm.convertDataToAssetImage(imageName: "github")
-//
-//        let updateArticle: UpdateArticle = UpdateArticle(title: "쭈구미", descriptions: "싸구려", price: 15326, currency: "KRW", stock: 15, discountedPrice: 222, images: [pngImage], password: "1234")
-//
-//        let patchRequest = sut_urlProcess.setURLRequest(requestMethodType: "PATCH", boundary: yagomBoundary)
-//        let patchRequestBody = patchUpdateArticle.updateRequestBody(formdat: updateArticle,boundary: yagomBoundary, imageData: pngImage)
-//        postCreateArticle.postData(urlRequest: patchRequest, requestBody: patchRequestBody)
-//
-//    }
-//
-//    func test_deleteMethod() {
-//        // MARK - DELETE메소드 정보삭제하기
-//        let deleteArticle = DeleteArticle()
-//
-//        deleteArticle.encodePassword(password: "123")
-//    }
+    
+    func test_PATCH메소드_상품수정() {
+        let expt = expectation(description: "Waiting done harkWork...")
+        let boundary = "Boundary-\(UUID().uuidString)"
+        let pngImage = convertDataToAssetImage(imageName: "github")
+        guard let baseUrl = sut_urlProcess.setBaseURL(urlString: "https://camp-open-market-2.herokuapp.com/") else { return }
+        guard let httpURL = sut_urlProcess.setUserActionURL(baseURL: baseUrl, userAction: .updateArticle, index: "188") else { return }
+        
+        let updateArticle = UpdateArticle(title: "감자파니다", descriptions: "싸구려", price: 15326, currency: "KRW", stock: 15, discountedPrice: 222, images: [pngImage], password: "1234")
+
+        let updateRequest = sut_urlProcess.setURLRequest(url: httpURL, userAction: .updateArticle, boundary: boundary)
+        let data = sut_patchUpdateArticle.updateRequestBody(formdat: updateArticle, boundary: boundary, imageData: pngImage)
+        sut_patchUpdateArticle.patchData(urlRequest: updateRequest, requestBody: data)
+        sut_getEssentialArticle.getParsing(url: httpURL) { (testParam: EntireArticle) in
+            
+            for i in 1..<testParam.items.count
+            {
+                XCTAssertEqual(testParam.items[i].title, "궁")
+            }
+            XCTAssertEqual(testParam.page, 54)
+            
+            expt.fulfill()
+        }
+        
+        waitForExpectations(timeout: 5.0, handler: nil)
+    }
+    
+
+    func test_DELETE메소드_상품삭제() {
+        let expt = expectation(description: "Waiting done harkWork...")
+        guard let baseUrl = sut_urlProcess.setBaseURL(urlString: "https://camp-open-market-2.herokuapp.com/") else { return }
+        guard let httpURL = sut_urlProcess.setUserActionURL(baseURL: baseUrl, userAction: .deleteArticle, index: "188") else { return }
+        let deleteRequest = sut_urlProcess.setURLRequest(url: httpURL, userAction: .deleteArticle)
+        let data = sut_deleteArticle.encodePassword(urlRequest: deleteRequest, password: "1234")
+        sut_deleteArticle.deleteData(urlRequest: deleteRequest, data: data)
+        
+        sut_getEssentialArticle.getParsing(url: httpURL) { (testParam: EntireArticle) in
+            
+            for i in 1..<testParam.items.count
+            {
+                XCTAssertEqual(testParam.items[i].title, "궁")
+            }
+            XCTAssertEqual(testParam.page, 54)
+            
+            expt.fulfill()
+        }
+        
+        waitForExpectations(timeout: 5.0, handler: nil)
+    }
 
 }

@@ -36,7 +36,7 @@ class PostCreateArticle {
         httpBody.appendString(manageMultipartForm.convertFormField(name: "price", value: "\(formdat.price)", boundary: boundary))
         httpBody.appendString(manageMultipartForm.convertFormField(name: "currency", value: formdat.currency, boundary: boundary))
         httpBody.appendString(manageMultipartForm.convertFormField(name: "stock", value: "\(formdat.stock)", boundary: boundary))
-        httpBody.appendString(manageMultipartForm.convertFormField(name: "discounted_price", value: "\(formdat.discountedPrice)", boundary: boundary))
+        httpBody.appendString(manageMultipartForm.convertFormField(name: "discounted_price", value: "\(formdat.discountedPrice!)", boundary: boundary))
         httpBody.append(manageMultipartForm.convertFileData(fieldName: "images[]", fileName: "github.png", mimeType: "image/png", fileData: imageData, boundary: boundary))
         httpBody.appendString(manageMultipartForm.convertFormField(name: "password", value: formdat.password, boundary: boundary))
         httpBody.appendString("--\(boundary)--")
