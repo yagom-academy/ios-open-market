@@ -32,7 +32,7 @@ enum RequestAddress {
         case .readItem(let id):
             return RequestAddress.BaseURL + RequestAddress.item + String(id)
         case .createItem:
-            return RequestAddress.BaseURL + RequestAddress.item
+            return RequestAddress.BaseURL + RequestAddress.item 
         case .updateItem(let id):
             return RequestAddress.BaseURL + RequestAddress.item + String(id)
         case .deleteItem(let id):
@@ -40,6 +40,22 @@ enum RequestAddress {
         }
     }
 }
+
 struct NetworkHelper {
     
+    let session: URLSession
+    init (session: URLSession = .shared) {
+        self.session = session
+    }
+    
+    func readList(pageNum: Int, completion: @escaping (Result<ItemsList, Error>) -> Void) {
+        guard let url = URL(string: RequestAddress.readList(page: pageNum).url),
+              let data = try? String(contentsOf: url).data(using: .utf8),
+              let response = try? JSONDecoder().decode(ItemsList.self, from: data)
+        else {
+            completion(.failure(fatalError()))
+            return
+        }
+        completion(.success(response))        
+    }
 }
