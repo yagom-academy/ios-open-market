@@ -24,7 +24,6 @@ extension MultipartConvertible {
         print(parameters)
         
         for (key, value) in parameters {
-            print(key,type(of: value))
             if value == nil {
                 continue
             } else if let value = value as? [Data] {
