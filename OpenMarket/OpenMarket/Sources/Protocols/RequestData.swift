@@ -7,6 +7,6 @@
 
 import Foundation
 
-protocol RequestData {
+protocol RequestData: Encodable {
 
 }

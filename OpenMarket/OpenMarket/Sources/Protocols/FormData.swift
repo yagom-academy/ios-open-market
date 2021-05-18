@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol FormData {
+protocol FormData: RequestData {
     var textFields: [(key: String, value: String)] { get }
     var fileFields: [(key: String, value: Data)] { get }
     var codingKeys: [String: String] { get }

@@ -12,6 +12,7 @@ enum OpenMarketError: Error, Equatable {
     case invalidData(Data)
     case unauthorizedAccess
     case didNotReceivedData
-    case JSONEncdoingError
+    case JSONEncodingError
     case sessionError
+    case bodyEncodingError
 }

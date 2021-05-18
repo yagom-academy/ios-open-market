@@ -20,10 +20,11 @@ enum BaseURL {
 }
 
 class SessionManager {
-    static let shared = SessionManager()
-    private let boundary: String = "Boundary-\(UUID().uuidString)"
-
-    private init() {}
+    static let shared = SessionManager(requestBodyEncoder: RequestBodyEncoder())
+    let requestBodyEncoder: RequestBodyEncoderProtocol
+    private init(requestBodyEncoder: RequestBodyEncoderProtocol) {
+        self.requestBodyEncoder = requestBodyEncoder
+    }
 
     func get<DecodedType: Decodable>(id: Int,
                                      completionHandler: @escaping (Result<DecodedType, OpenMarketError>) -> Void) {
@@ -59,8 +60,15 @@ class SessionManager {
 
         var request = URLRequest(url: url)
         request.httpMethod = HTTPMethod.post.rawValue
-        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
-        request.httpBody = body(from: postingItem)
+        request.setValue("multipart/form-data; boundary=\(requestBodyEncoder.boundary)",
+                         forHTTPHeaderField: "Content-Type")
+        do {
+            request.httpBody = try requestBodyEncoder.encode(postingItem)
+        } catch let error as OpenMarketError {
+            completionHandler(.failure(error))
+        } catch {
+            completionHandler(.failure(.bodyEncodingError))
+        }
 
         URLSession.shared.dataTask(with: request) { data, response, error in
             guard let data = data else {
@@ -89,8 +97,15 @@ class SessionManager {
 
         var request = URLRequest(url: url)
         request.httpMethod = HTTPMethod.patch.rawValue
-        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
-        request.httpBody = body(from: patchingItem)
+        request.setValue("multipart/form-data; boundary=\(requestBodyEncoder.boundary)",
+                         forHTTPHeaderField: "Content-Type")
+        do {
+            request.httpBody = try requestBodyEncoder.encode(patchingItem)
+        } catch let error as OpenMarketError {
+            completionHandler(.failure(error))
+        } catch {
+            completionHandler(.failure(.bodyEncodingError))
+        }
 
         URLSession.shared.dataTask(with: request) { data, response, error in
             guard let data = data else {
@@ -128,7 +143,7 @@ class SessionManager {
         do {
             request.httpBody = try JSONEncoder().encode(["password": password])
         } catch {
-            completionHandler(.failure(.JSONEncdoingError))
+            completionHandler(.failure(.JSONEncodingError))
 
             return
         }
@@ -155,47 +170,5 @@ class SessionManager {
                 }
             }
         }.resume()
-    }
-
-    func body(from formData: FormData) -> Data {
-        var formDataBody = Data()
-
-        for textField in formData.textFields {
-            formDataBody.append(convertTextField(key: textField.key,
-                                                 value: textField.value))
-        }
-
-        for fileField in formData.fileFields {
-            formDataBody.append(convertFileField(key: fileField.key,
-                                                 source: "image0.jpg",
-                                                 mimeType: "image/jpeg",
-                                                 value: fileField.value))
-        }
-
-        formDataBody.append("--\(boundary)--")
-        print(String(decoding: formDataBody, as: UTF8.self))
-        return formDataBody
-    }
-
-    private func convertFileField(key: String, source: String, mimeType: String, value: Data) -> Data {
-        var dataField = Data()
-
-        dataField.append("--\(boundary)\r\n")
-        dataField.append("Content-Disposition: form-data; name=\"\(key)\"; filename=\"\(source)\"\r\n")
-        dataField.append("Content-Type: \"\(mimeType)\"\r\n\r\n")
-        dataField.append(value)
-        dataField.append("\r\n")
-
-        return dataField
-    }
-
-    private func convertTextField(key: String, value: String) -> String {
-        var textField: String = "--\(boundary)\r\n"
-
-        textField.append("Content-Disposition: form-data; name=\"\(key)\"\r\n")
-        textField.append("\r\n")
-        textField.append("\(value)\r\n")
-
-        return textField
     }
 }
