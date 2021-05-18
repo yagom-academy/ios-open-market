@@ -68,4 +68,29 @@ struct NetworkHelper {
         }
         completion(.failure(fatalError()))
     }
+    
+    func createItem(itemForm: ItemRegistrationForm ,completion: @escaping (Result<ItemInfo, Error>) -> Void) {
+        guard let url = URL(string: RequestAddress.createItem.url) else {
+            completion(.failure(fatalError()))
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        let boundary = "Boundary-\(UUID().uuidString)"
+        
+        request.httpMethod = HttpMethod.post
+        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        request.httpBody = HttpBodyCreater(boundary: boundary, itemForm: itemForm).make()
+    }
+}
+
+struct HttpBodyCreater {
+    let boundary: String
+    let itemForm: ItemRegistrationForm
+    
+    func make() -> Data {
+        var data = Data()
+        
+        return data
+    }
 }
