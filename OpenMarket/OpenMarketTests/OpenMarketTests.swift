@@ -10,7 +10,7 @@ import XCTest
 
 class OpenMarketTests: XCTestCase {
 
-    func test_ItemJSON데이터가_JSONParser에_Decoding_돼서_thumbnails의_값을_확인하는함수() {
+    func test_parser메소드를_통해_디코딩된_data가_mockData와_같은지_확인하는함수() {
         var jsonParserItem = JSONParser<Item>()
         
         jsonParserItem.parse(assetName: "Item")
@@ -35,7 +35,7 @@ class OpenMarketTests: XCTestCase {
         XCTAssertEqual(mockData, data)
     }
     
-    func test_ItemsJSON데이터가_JSONParser에_Decoding_돼서_page의_값이_1인지확인해보는_함수() {
+    func test_parser메소드를_통해_디코딩된_datas의_page값이_1인지확인해보는_함수() {
         var jsonParserItems = JSONParser<Items>()
         
         jsonParserItems.parse(assetName: "Items")
