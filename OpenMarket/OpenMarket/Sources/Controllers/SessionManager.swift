@@ -19,6 +19,32 @@ enum BaseURL {
     static let item = "https://camp-open-market-2.herokuapp.com/item/"
 }
 
+enum URLPath {
+    case page(id: Int?)
+    case item(id: Int?)
+
+    func asURL() throws -> URL {
+        var urlString: String = "https://camp-open-market-2.herokuapp.com/"
+
+        switch self {
+        case .page(let id):
+            urlString.append("items/")
+            if let id = id {
+                urlString.append(id.description)
+            }
+        case .item(let id):
+            urlString.append("item/")
+            if let id = id {
+                urlString.append(id.description)
+            }
+        }
+
+        guard let url = URL(string: urlString) else { throw OpenMarketError.invalidURL(urlString) }
+
+        return url
+    }
+}
+
 class SessionManager {
     static let shared = SessionManager(requestBodyEncoder: RequestBodyEncoder())
     let requestBodyEncoder: RequestBodyEncoderProtocol
