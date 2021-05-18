@@ -12,10 +12,6 @@ import XCTest
 class OpenMarketNetworkTests: XCTestCase {
     
     var sut_openMarketAPIProvider: OpenMarketAPIProvider!
-    var sut_openMarketItemURL = URL(string: "https://camp-open-market-2.herokuapp.com/items/1")!
-    var sut_openMarketListItemURL = URL(string: "https://camp-open-market-2.herokuapp.com/item")!
-    var sut_marketItemList: MarketItemList!
-    var sut_detailedItemInformation: DetailedItemInformation!
     
     override func setUpWithError() throws {
         setUpProtocolClassesConfiguration()
@@ -25,7 +21,6 @@ class OpenMarketNetworkTests: XCTestCase {
     
     override func tearDownWithError() throws {
         sut_openMarketAPIProvider = nil
-        sut_marketItemList = nil
         try super.tearDownWithError()
     }
     
