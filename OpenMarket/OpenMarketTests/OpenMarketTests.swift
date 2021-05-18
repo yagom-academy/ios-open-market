@@ -72,6 +72,29 @@ class OpenMarketTests: XCTestCase {
         wait(for: [expectation], timeout: 1)
     }
     
+    func testDeleteItem() {
+        guard let url = OpenMarketURL.deleteItem(1).url else { return }
+        guard let data = NSDataAsset(name: "Item")?.data else { return }
+        guard let decodedData = try? JSONDecoder().decode(ItemResponse.self, from: data) else { return }
+        
+        let deleteBody = ItemForDelete(password: "1234")
+        
+        setLoadingHandler(data)
+        
+        let expectation = XCTestExpectation(description: "Loading")
+        
+        client.deleteItem(url: url, body: deleteBody) { result in
+            switch result {
+            case .success(let responseData):
+                XCTAssertEqual(responseData, decodedData)
+            case .failure(let error):
+                XCTFail("Request was not successful: \(error.localizedDescription)")
+            }
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 1)
+    }
+    
     func testEditItem() {
         guard let url = OpenMarketURL.editItem(1).url else { return }
         
