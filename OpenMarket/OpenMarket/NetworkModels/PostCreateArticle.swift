@@ -14,18 +14,11 @@ class PostCreateArticle {
     let urlProcess = URLProcess()
     
     func postData(urlRequest: URLRequest?, requestBody: Data) {
-        
         guard let request = urlRequest else { return }
         
-        
-        
-        // URLSession 객체를 통해 전송, 응답값 처리
         URLSession.shared.uploadTask(with: request, from: requestBody) { (data, response, error) in
 
-            if error != nil {
-                print("접속 에러")
-                return
-            }
+            if error != nil { return }
             if self.urlProcess.checkResponseCode(response: response) {
                 print("post성공")
             }
@@ -36,7 +29,6 @@ class PostCreateArticle {
     }
     
     func makeRequestBody(formdat: CreateArticle, boundary: String, imageData: Data) -> Data {
-        // Text 데이터
         var httpBody = Data()
         
         httpBody.appendString(manageMultipartForm.convertFormField(name: "title", value: formdat.title, boundary: boundary))
@@ -44,7 +36,7 @@ class PostCreateArticle {
         httpBody.appendString(manageMultipartForm.convertFormField(name: "price", value: "\(formdat.price)", boundary: boundary))
         httpBody.appendString(manageMultipartForm.convertFormField(name: "currency", value: formdat.currency, boundary: boundary))
         httpBody.appendString(manageMultipartForm.convertFormField(name: "stock", value: "\(formdat.stock)", boundary: boundary))
-        httpBody.appendString(manageMultipartForm.convertFormField(name: "discounted_price", value: "\(String(describing: formdat.discountedPrice))", boundary: boundary))
+        httpBody.appendString(manageMultipartForm.convertFormField(name: "discounted_price", value: "\(formdat.discountedPrice)", boundary: boundary))
         httpBody.append(manageMultipartForm.convertFileData(fieldName: "images[]", fileName: "github.png", mimeType: "image/png", fileData: imageData, boundary: boundary))
         httpBody.appendString(manageMultipartForm.convertFormField(name: "password", value: formdat.password, boundary: boundary))
         httpBody.appendString("--\(boundary)--")
@@ -53,5 +45,3 @@ class PostCreateArticle {
     }
     
 }
-
-

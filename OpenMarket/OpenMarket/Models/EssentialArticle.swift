@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct EssentialArticle: Codable {
+struct EssentialArticle: Decodable {
     
     let id: Int
     let title: String

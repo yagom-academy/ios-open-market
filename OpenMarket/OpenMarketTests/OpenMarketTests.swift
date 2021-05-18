@@ -9,6 +9,25 @@ import XCTest
 @testable import OpenMarket
 
 class OpenMarketTests: XCTestCase {
+    
+    var sut_urlProcess: URLProcess!
+    var sut_getEssentialArticle: GetEssentialArticle!
+    var sut_postCreateArticle: PostCreateArticle!
+    
+    override func setUpWithError() throws {
+        super.setUp()
+        sut_urlProcess = URLProcess()
+        sut_getEssentialArticle = GetEssentialArticle()
+        sut_postCreateArticle = PostCreateArticle()
+    }
+    
+    override func tearDownWithError() throws {
+        super.tearDown()
+        sut_urlProcess = nil
+        sut_getEssentialArticle = nil
+        sut_postCreateArticle = nil
+    }
+    
     func extractData(_ item: String) -> NSDataAsset? {
         guard let itemData = NSDataAsset(name: item) else {
             return nil
@@ -71,4 +90,117 @@ class OpenMarketTests: XCTestCase {
         ])
         XCTAssertEqual(contents.registrationDate, 123.12)
     }
+    
+    func test_baseURL생성() {
+        XCTAssertNotNil(sut_urlProcess.setBaseURL(urlString: "https://camp-open-market-2.herokuapp.com/"))
+        XCTAssertNotNil(sut_urlProcess.setBaseURL(urlString: "https://s3.us-west-2.amazonaws.com/secure.notion-static.com/aef0661e-ef05-426c-a9cf-a0ebf061ecbe/Items.json?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAT73L2G45O3KS52Y5%2F20210518%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20210518T064020Z&X-Amz-Expires=86400&X-Amz-Signature=e0fc4d4fe0ae89c9c4b9608f0194065d3e2a12766f1afce9db1ddc1574b751c4&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22Items.json%22"))
+        XCTAssertNotNil(sut_urlProcess.setBaseURL(urlString: "https://s3.us-west-2.amazonaws.com/secure.notion-static.com/a8c6f8d6-ad24-4cf9-8629-45bc6541771e/Item.json?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAT73L2G45O3KS52Y5%2F20210518%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20210518T064023Z&X-Amz-Expires=86400&X-Amz-Signature=f2866423786a6fe31485403b948108d1eef757584346daa428f88935393e32ff&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22Item.json%22"))
+    }
+    
+    func test_유저액션URL생성() {
+        
+        guard let baseURL = sut_urlProcess.setBaseURL(urlString: "https://camp-open-market-2.herokuapp.com/") else { return }
+        
+        XCTAssertNotNil(sut_urlProcess.setUserActionURL(baseURL: baseURL, userAction: .viewArticleList, index: "1"))
+        XCTAssertNotNil(sut_urlProcess.setUserActionURL(baseURL: baseURL, userAction: .viewArticle, index: "1"))
+        XCTAssertNotNil(sut_urlProcess.setUserActionURL(baseURL: baseURL, userAction: .addArticle, index: "1"))
+        XCTAssertNotNil(sut_urlProcess.setUserActionURL(baseURL: baseURL, userAction: .updateArticle, index: "1"))
+        XCTAssertNotNil(sut_urlProcess.setUserActionURL(baseURL: baseURL, userAction: .deleteArticle, index: "1"))
+        
+    }
+    
+    func test_URLRequest생성() {
+        guard let baseURL = sut_urlProcess.setBaseURL(urlString: "https://camp-open-market-2.herokuapp.com/") else { return }
+        
+        XCTAssertNil(sut_urlProcess.setURLRequest(url: sut_urlProcess.setUserActionURL(baseURL: baseURL, userAction: .viewArticleList, index: "1")!, userAction: .viewArticleList ))
+        XCTAssertNil(sut_urlProcess.setURLRequest(url: sut_urlProcess.setUserActionURL(baseURL: baseURL, userAction: .viewArticle, index: "1")!, userAction: .viewArticle ))
+        XCTAssertNotNil(sut_urlProcess.setURLRequest(url: sut_urlProcess.setUserActionURL(baseURL: baseURL, userAction: .addArticle, index: "1")!, userAction: .addArticle ))
+        XCTAssertNotNil(sut_urlProcess.setURLRequest(url: sut_urlProcess.setUserActionURL(baseURL: baseURL, userAction: .updateArticle, index: "1")!, userAction: .updateArticle ))
+        XCTAssertNotNil(sut_urlProcess.setURLRequest(url: sut_urlProcess.setUserActionURL(baseURL: baseURL, userAction: .deleteArticle, index: "1")!, userAction: .deleteArticle ))
+    }
+    
+    func test_decodeData() {
+        let extractedData = extractData("Item")
+        XCTAssertNil(sut_getEssentialArticle.decodeData(type: DetailArticle.self, data: extractedData!.data))
+    }
+    
+    func test_GET메소드_상품조회() {
+        let expt = expectation(description: "Waiting done harkWork...")
+        guard let baseURL = sut_urlProcess.setBaseURL(urlString: "https://s3.us-west-2.amazonaws.com/secure.notion-static.com/aef0661e-ef05-426c-a9cf-a0ebf061ecbe/Items.json?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAT73L2G45O3KS52Y5%2F20210518%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20210518T064020Z&X-Amz-Expires=86400&X-Amz-Signature=e0fc4d4fe0ae89c9c4b9608f0194065d3e2a12766f1afce9db1ddc1574b751c4&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22Items.json%22") else { return }
+        
+        guard let itemBaseURL = sut_urlProcess.setBaseURL(urlString: "https://s3.us-west-2.amazonaws.com/secure.notion-static.com/a8c6f8d6-ad24-4cf9-8629-45bc6541771e/Item.json?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAT73L2G45O3KS52Y5%2F20210518%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20210518T064023Z&X-Amz-Expires=86400&X-Amz-Signature=f2866423786a6fe31485403b948108d1eef757584346daa428f88935393e32ff&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22Item.json%22") else { return }
+        
+        
+        
+        sut_getEssentialArticle.getParsing(url: itemBaseURL) { (testParam: DetailArticle) in
+            XCTAssertEqual(testParam.title, "rr")
+            XCTAssertEqual(testParam.currency, "궁")
+        }
+        
+        sut_getEssentialArticle.getParsing(url: baseURL) { (testParam: EntireArticle) in
+            XCTAssertEqual(testParam.page, 54)
+            XCTAssertEqual(testParam.items.first?.title, "궁")
+
+            expt.fulfill()
+        }
+        
+        waitForExpectations(timeout: 5.0, handler: nil)
+    }
+    
+    func test_POST메소드_상품등록() {
+
+        let expt = expectation(description: "Waiting done harkWork...")
+        let boundary = "Boundary-\(UUID().uuidString)"
+        let pngImage = convertDataToAssetImage(imageName: "github")
+        guard let baseUrl = sut_urlProcess.setBaseURL(urlString: "https://camp-open-market-2.herokuapp.com/") else { return }
+        guard let httpURL = sut_urlProcess.setUserActionURL(baseURL: baseUrl, userAction: .addArticle) else { return }
+        
+        let createArticle: CreateArticle = CreateArticle(title: "귀마개", descriptions: "싸구려", price: 15326, currency: "KRW", stock: 15, discountedPrice: 222, images: [pngImage], password: "1234")
+
+        let postRequest = sut_urlProcess.setURLRequest(url: sut_urlProcess.setUserActionURL(baseURL: httpURL, userAction: .addArticle)!, userAction: .addArticle, boundary: boundary)
+        
+        sut_postCreateArticle.postData(urlRequest: postRequest!, requestBody: sut_postCreateArticle.makeRequestBody(formdat: createArticle, boundary: boundary, imageData: pngImage))
+       
+        expt.fulfill()
+        waitForExpectations(timeout: 5.0, handler: nil)
+    }
+    
+    func convertDataToAssetImage(imageName: String) -> Data {
+        let profileImage:UIImage = UIImage(named: imageName)!
+        let imageData:Data = profileImage.pngData()!
+        
+        return imageData
+    }
+    
+    func convertDataToURLImage(imageURL: String) -> Data {
+        let url = URL(string: imageURL)
+        
+        let data = try? Data(contentsOf: url!)
+        
+        return data!
+    }
+//
+//    func test_patchMethod() {
+//        // MARK - PATCH메소드 정보수정하기
+//
+//        let yagomBoundary = "Boundary-\(UUID().uuidString)"
+//        let patchUpdateArticle = PatchUpdateArticle()
+//        let postCreateArticle = PostCreateArticle()
+//        let pngImage = postCreateArticle.manageMultipartForm.convertDataToAssetImage(imageName: "github")
+//
+//        let updateArticle: UpdateArticle = UpdateArticle(title: "쭈구미", descriptions: "싸구려", price: 15326, currency: "KRW", stock: 15, discountedPrice: 222, images: [pngImage], password: "1234")
+//
+//        let patchRequest = sut_urlProcess.setURLRequest(requestMethodType: "PATCH", boundary: yagomBoundary)
+//        let patchRequestBody = patchUpdateArticle.updateRequestBody(formdat: updateArticle,boundary: yagomBoundary, imageData: pngImage)
+//        postCreateArticle.postData(urlRequest: patchRequest, requestBody: patchRequestBody)
+//
+//    }
+//
+//    func test_deleteMethod() {
+//        // MARK - DELETE메소드 정보삭제하기
+//        let deleteArticle = DeleteArticle()
+//
+//        deleteArticle.encodePassword(password: "123")
+//    }
+
 }

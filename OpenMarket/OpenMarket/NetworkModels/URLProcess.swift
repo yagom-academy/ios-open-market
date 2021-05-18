@@ -9,42 +9,29 @@ import Foundation
 
 class URLProcess {
     
-    let baseURL:URL? = URL(string: "https://camp-open-market-2.herokuapp.com/")
+    func setBaseURL(urlString: String) -> URL? {
+        guard let resultURL = URL(string: urlString) else { return nil }
+        return resultURL
+    }
     
-    func setURLPath(methodType: String, index: String = "", isPage: Bool = true) -> URL? {
-        
-        switch methodType {
-        case HttpMethodType.get.stringMethod :
-            if isPage {
-                return refactorURL(firstPath: "items", secondPath: index)
-            }
-            return refactorURL(firstPath: "item", secondPath: index)
-        case HttpMethodType.post.stringMethod :
-            return refactorURL(firstPath: "item", secondPath: index)
-        case HttpMethodType.patch.stringMethod :
-            return refactorURL(firstPath: "item", secondPath: index)
-        case HttpMethodType.delete.stringMethod :
-            return refactorURL(firstPath: "item", secondPath: index)
-        default:
-            return nil
+    func setUserActionURL(baseURL: URL, userAction: UserAction, index: String = "") -> URL? {
+        switch userAction {
+        case .viewArticleList:
+            return URL(string: "items/" + index , relativeTo: baseURL)
+        case .addArticle:
+            return URL(string: "item" , relativeTo: baseURL)
+        default :
+            return URL(string: "item/" + index , relativeTo: baseURL)
         }
-        
     }
     
-    func refactorURL(firstPath: String, secondPath: String) -> URL? {
-        guard let relativeURL = URL(string: "\(firstPath)/\(secondPath)", relativeTo: baseURL) else { return nil }
-        return relativeURL
-    }
-    
-    func setURLRequest(requestMethodType: String, boundary: String = "") -> URLRequest? {
-        
-        guard let url = setURLPath(methodType: requestMethodType, index: "149") else { return nil }
-        
+    func setURLRequest(url: URL, userAction: UserAction, boundary: String? = nil) -> URLRequest? {
         var request = URLRequest(url: url)
-        request.httpMethod = requestMethodType
+        request.httpMethod = userAction.setHttpMethod()
         
-        switch requestMethodType {
+        switch request.httpMethod {
         case HttpMethodType.post.stringMethod, HttpMethodType.patch.stringMethod:
+            guard let boundary = boundary else { return nil }
             request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
             return request
         case HttpMethodType.delete.stringMethod:
@@ -53,7 +40,6 @@ class URLProcess {
         default:
             return nil
         }
-    
     }
     
     func checkResponseCode(response: URLResponse?) -> Bool {

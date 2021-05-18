@@ -12,45 +12,25 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         let urlProcess = URLProcess()
-        
-        // UUID로 고유 식별자 추출
-        let yagomBoundary = "Boundary-\(UUID().uuidString)"
-        
-        // MARK - GET메소드로 정보조회하기 -> 데이터 추출 escaping closure
-//        let getEssentialArticle = GetEssentialArticle()
-//        
-//        getEssentialArticle.getParsing { (testParam: EntireArticle) in
-//            print(testParam.page)
-//            print(testParam.items.first?.title)
-//        }
-        
-        // MARK - POST메소드 정보보내기
         let postCreateArticle = PostCreateArticle()
-        let pngImage = postCreateArticle.manageMultipartForm.convertDataToAssetImage(imageName: "github")
         
+        let yagomBoundary = "Boundary-\(UUID().uuidString)"
+        let pngImage = convertDataToAssetImage(imageName: "github")
+        guard let baseUrl = urlProcess.setBaseURL(urlString: "https://camp-open-market-2.herokuapp.com/") else { return }
+        guard let httpURL = urlProcess.setUserActionURL(baseURL: baseUrl, userAction: .addArticle) else { return }
         
-//        let createArticle: CreateArticle = CreateArticle(title: "귀마개", descriptions: "싸구려", price: 15326, currency: "KRW", stock: 15, discountedPrice: 222, images: [pngImage], password: "1234")
-//
-//        let postRequest = urlProcess.setURLRequest(requestMethodType: "POST", boundary: yagomBoundary)
-//        let postRequestBody = postCreateArticle.makeRequestBody(formdat: createArticle ,boundary: yagomBoundary, imageData: pngImage)
-//        postCreateArticle.postData(urlRequest: postRequest, requestBody: postRequestBody)
+        let createArticle = CreateArticle(title: "귀마개", descriptions: "싸구려", price: 15326, currency: "KRW", stock: 15, discountedPrice: 222, images: [pngImage], password: "1234")
 
-        // MARK - PATCH메소드 정보수정하기
-        let patchUpdateArticle = PatchUpdateArticle()
+        let postRequest = urlProcess.setURLRequest(url: urlProcess.setUserActionURL(baseURL: httpURL, userAction: .addArticle)!, userAction: .addArticle, boundary: yagomBoundary)
+        
+        postCreateArticle.postData(urlRequest: postRequest!, requestBody: postCreateArticle.makeRequestBody(formdat: createArticle, boundary: yagomBoundary, imageData: pngImage))
 
-        let updateArticle: UpdateArticle = UpdateArticle(title: "쭈구미", descriptions: "싸구려", price: 15326, currency: "KRW", stock: 15, discountedPrice: 222, images: [pngImage], password: "1234")
-        
-        let patchRequest = urlProcess.setURLRequest(requestMethodType: "PATCH", boundary: yagomBoundary)
-        let patchRequestBody = patchUpdateArticle.updateRequestBody(formdat: updateArticle,boundary: yagomBoundary, imageData: pngImage)
-        postCreateArticle.postData(urlRequest: patchRequest, requestBody: patchRequestBody)
-
-        
-        // MARK - DELETE메소드 정보삭제하기
-//        let deleteArticle = DeleteArticle()
-//
-//        deleteArticle.encodePassword(password: "123")
-        
     }
-    
+    func convertDataToAssetImage(imageName: String) -> Data {
+        let profileImage:UIImage = UIImage(named: imageName)!
+        let imageData:Data = profileImage.pngData()!
+        
+        return imageData
+    }
 
 }

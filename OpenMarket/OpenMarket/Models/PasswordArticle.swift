@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct PasswordArticle: Codable {
+struct PasswordArticle: Encodable {
     
     let password: String
     

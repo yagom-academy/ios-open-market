@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct EntireArticle: Codable {
+struct EntireArticle: Decodable {
     
     let page: Int
     let items: [EssentialArticle]

@@ -8,22 +8,16 @@
 import Foundation
 
 class PatchUpdateArticle {
+    
     let manageMultipartForm = ManageMultipartForm()
     let urlProcess = URLProcess()
     
     func patchData(urlRequest: URLRequest?, requestBody: Data) {
-        
         guard let request = urlRequest else { return }
         
-        
-        
-        // URLSession 객체를 통해 전송, 응답값 처리
         URLSession.shared.uploadTask(with: request, from: requestBody) { (data, response, error) in
 
-            if error != nil {
-                print("접속 에러")
-                return
-            }
+            if error != nil { return }
             if self.urlProcess.checkResponseCode(response: response) {
                 print("post성공")
             }
@@ -34,7 +28,6 @@ class PatchUpdateArticle {
     }
     
     func updateRequestBody(formdat: UpdateArticle ,boundary: String, imageData: Data) -> Data {
-        // Text 데이터
         var httpBody = Data()
         
         httpBody.appendString(manageMultipartForm.convertFormField(name: "title", value: formdat.title!, boundary: boundary))

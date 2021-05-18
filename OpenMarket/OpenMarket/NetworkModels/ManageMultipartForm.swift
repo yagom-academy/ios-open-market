@@ -20,7 +20,6 @@ class ManageMultipartForm {
         return fieldString
     }
     
-    // 마지막 데이터 처리
     func convertFileData(fieldName: String, fileName: String, mimeType: String, fileData: Data, boundary: String) -> Data {
         var data = Data()
          
@@ -33,20 +32,6 @@ class ManageMultipartForm {
         return data
     }
     
-    func convertDataToAssetImage(imageName: String) -> Data {
-        let profileImage:UIImage = UIImage(named: imageName)!
-        let imageData:Data = profileImage.pngData()!
-        
-        return imageData
-    }
-    
-    func convertDataToURLImage(imageURL: String) -> Data {
-        let url = URL(string: imageURL)
-        
-        let data = try? Data(contentsOf: url!)
-        
-        return data!
-    }
 }
 
 extension Data {
@@ -54,5 +39,5 @@ extension Data {
         if let data = string.data(using: .utf8) {
           self.append(data)
         }
-  }
+    }
 }
