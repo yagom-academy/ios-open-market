@@ -18,7 +18,13 @@ class TableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        self.itemImage.image = UIImage(named: "indicator")
+    }
+    override func prepareForReuse() {
+        self.itemImage.image = UIImage(named: "indicator")
+        self.itemTitle.text = ""
+        self.numberOfItemStock.text = ""
+        self.itemPrice.text = ""
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -27,16 +33,17 @@ class TableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    func update(data: ItemsOfPageReponse, indexOfItems: Int) {
-        
-        let imageURL = URL(string: data.items[indexOfItems].thumbnails[0])
+    func update(data: ItemsOfPageReponse, indexPath: IndexPath, tableView: UITableView) {
+        let itemIndex = indexPath.row % 20
+        let imageURL = URL(string: data.items[itemIndex].thumbnails[0])
         do {
             let imageData = try Data(contentsOf: imageURL!)
             DispatchQueue.main.async {
+                guard tableView.indexPath(for: self) == indexPath else { return }
                 self.itemImage.image = UIImage(data: imageData)
-                self.itemTitle.text = data.items[indexOfItems].title
-                self.numberOfItemStock.text = String(data.items[indexOfItems].stock)
-                self.itemPrice.text = data.items[indexOfItems].currency + " " + String(data.items[indexOfItems].price)
+                self.itemTitle.text = data.items[itemIndex].title
+                self.numberOfItemStock.text = String(data.items[itemIndex].stock)
+                self.itemPrice.text = data.items[itemIndex].currency + " " + String(data.items[itemIndex].price)
             }
             
         } catch {

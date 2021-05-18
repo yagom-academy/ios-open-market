@@ -72,38 +72,35 @@ class ViewController: UIViewController {
                                        for: UIControl.State.selected)
     }
     
+    func checkValidation(data: Data?, response: URLResponse?, error: Error?) {
+        if let error = error {
+            fatalError("\(error)")
+        }
+        guard let httpResponse = response as? HTTPURLResponse else {
+            print("Invalid Response")
+            return
+        }
+        guard (200...299).contains(httpResponse.statusCode) else {
+            print("Status Code: \(httpResponse.statusCode)")
+            return
+        }
+        guard let _ = data else {
+            print("Invalid Data")
+            return
+        }
+    }
+    
     func getItemsOfPageData(cell: TableViewCell, indexPath: IndexPath)  {
-        
-        let session = URLSession.shared
+                
         let url = Network.baseURL + "/items/\(indexPath.row/20+1)"
-        print(url)
         guard let urlRequest = URL(string: url) else { return  }
-//        guard var urlComponent = URLComponents(string: Network.baseURL) else { return nil }
-//        let pageQuery = URLQueryItem(name: "page", value: "\(indexPath.row/20)")
-//        urlComponent.queryItems?.append(pageQuery)
-//        guard let urlRequest = urlComponent.url else { return nil }
-        
-        session.dataTask(with: urlRequest) { (data, response, error) in
-            if let error = error {
-                fatalError("\(error)")
-            }
-            guard let httpResponse = response as? HTTPURLResponse else {
-                print("Invalid Response")
-                return
-            }
-            guard (200...299).contains(httpResponse.statusCode) else {
-                print("Status Code: \(httpResponse.statusCode)")
-                return
-            }
-            guard let data = data else {
-                print("Invalid Data")
-                return
-            }
+
+        URLSession.shared.dataTask(with: urlRequest) { (data, response, error) in
+            self.checkValidation(data: data, response: response, error: error)
             do {
                 let decoder = JSONDecoder()
-                let data = try decoder.decode(ItemsOfPageReponse.self, from: data)
-                
-                cell.update(data: data, indexOfItems: indexPath.row)
+                let data = try decoder.decode(ItemsOfPageReponse.self, from: data!)
+                cell.update(data: data, indexPath: indexPath ,tableView: self.tableView)
                
             } catch {
                 fatalError("Failed to decode")
@@ -117,7 +114,7 @@ class ViewController: UIViewController {
 
 extension ViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 20
+        return 119
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
