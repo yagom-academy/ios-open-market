@@ -37,9 +37,9 @@ enum RequestAddress {
             return RequestAddress.BaseURL + RequestAddress.item + String(id)
         case .deleteItem(let id):
             return RequestAddress.BaseURL + RequestAddress.item + String(id)
+        }
     }
 }
-
 struct NetworkHelper {
     
 }

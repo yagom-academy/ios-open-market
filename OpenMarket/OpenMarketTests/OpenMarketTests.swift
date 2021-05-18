@@ -14,6 +14,7 @@ class OpenMarketTests: XCTestCase {
         let url = URL(string: "https://camp-open-market-2.herokuapp.com/items/1")
         let response = try? String(contentsOf: url!)
         XCTAssertNotNil(response)
+        
     }
     
     func test_상품목록을_조회해서_itemList로_변환하기() {
