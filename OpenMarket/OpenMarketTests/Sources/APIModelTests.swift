@@ -23,4 +23,12 @@ class APIModelTests: XCTestCase {
     func test_RespondedItem가_잘_Decode된다() {
         XCTAssertNotNil(try? JSONDecoder().decode(Item.self, from: mockItemData))
     }
+    
+    func test_formData의_textFields() {
+        
+    }
+    
+    func test_formData의_fileFields() {
+        
+    }
 }

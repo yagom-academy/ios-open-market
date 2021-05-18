@@ -39,5 +39,23 @@ class SessionManagerHTTPTests: XCTestCase {
         dummyPatchingItem = nil
     }
     
+    func test_request_get_호출시_completionHandler에_Item이_인자로_전달된다() {
+        
+    }
     
+    func test_request_get_호출시_completionHandler에_Page가_인자로_전달된다() {
+        
+    }
+    
+    func test_request_post_호출시_completionHandler에_post된_Item이_인자로_전달된다() {
+        
+    }
+    
+    func test_request_patch_호출시_completionHandler에_patch된_Item이_인자로_전달된다() {
+        
+    }
+    
+    func test_request_delete_호출시_completionHandler에_삭제된_Item이_인자로_전달된다() {
+        
+    }
 }
