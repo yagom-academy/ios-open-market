@@ -10,7 +10,7 @@ import Foundation
 class ItemDetailFetcher {
     // static으로 하는 것이 나을지, 매번 디테일을 들어갈 때 인스턴스를 생성하는 것이 나을지
     var id: UInt?
-    var item: ItemVO?
+    var item: Item?
     
     init(id: UInt) {
         self.id = id
@@ -24,9 +24,9 @@ class ItemDetailFetcher {
         let semaphore: DispatchSemaphore = DispatchSemaphore(value: 0)
         let task = URLSession.shared.dataTask(with: apiURI, completionHandler: { data, response, error in
             guard let data = data, error == nil else { return }
-            var result: ItemVO?
+            var result: Item?
             do {
-                result = try JSONDecoder().decode(ItemVO.self, from: data)
+                result = try JSONDecoder().decode(Item.self, from: data)
             } catch {
                 // Error를 throw하려면 extension으로 throw 가능한 메소드로 override 해야하나?
                 print("JSON Parsing Error")

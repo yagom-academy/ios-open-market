@@ -10,7 +10,7 @@ import Foundation
 class ItemListFetcher {
     
     private var page = 1
-    var itemList: ItemListVO?
+    var itemList: ItemList?
     
     func fetchItemList() throws {
         let url = OpenMarketAPI.baseURL + OpenMarketAPIPathByDescription.itemListSearch.description + "\(self.page)"
@@ -19,8 +19,8 @@ class ItemListFetcher {
         let semaphore: DispatchSemaphore = DispatchSemaphore(value: 0)
         let task = URLSession.shared.dataTask(with: apiURI, completionHandler: { data, response, error in
             guard let data = data, error == nil else { return }
-            var result: ItemListVO?
-            result = try? JSONDecoder().decode(ItemListVO.self, from: data)
+            var result: ItemList?
+            result = try? JSONDecoder().decode(ItemList.self, from: data)
             self.itemList = result
             semaphore.signal()
         })

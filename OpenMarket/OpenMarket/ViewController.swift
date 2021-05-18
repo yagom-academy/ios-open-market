@@ -8,7 +8,7 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    var itemList: ItemListVO?
+    var itemList: ItemList?
     
     override func viewDidLoad() {
         let item = ItemListFetcher()
