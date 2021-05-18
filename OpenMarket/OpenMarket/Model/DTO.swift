@@ -7,14 +7,14 @@
 
 import Foundation
 
-struct ItemVO {
+struct Item {
     var id, price, stock, discountedPrice: UInt?
     var title, currency, description: String?
     var thumnails, images: [String]?
     var registrationDate: Double?
 }
 
-extension ItemVO: Codable {
+extension Item: Codable {
     enum CodingKeys: String, CodingKey {
         case id, price, stock, title, currency, thumnails, images
         case description = "descriptions"
@@ -23,12 +23,12 @@ extension ItemVO: Codable {
     }
 }
 
-struct ItemListVO {
+struct ItemList {
     var page: UInt?
-    var itemList: [ItemVO]? // 타입 고민
+    var itemList: [Item]? // 타입 고민
 }
 
-extension ItemListVO: Codable {
+extension ItemList: Codable {
     enum CodingKeys: String, CodingKey {
         case itemList = "items"
     }

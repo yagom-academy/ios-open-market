@@ -7,8 +7,7 @@
 
 import Foundation
 
-class JSONParser {
-    
+struct JSONParser {
     func parseJSONDataToValueObject<T: Decodable>(with jsonData: Data) throws -> T {
         let jsonDecoder = JSONDecoder()
         
