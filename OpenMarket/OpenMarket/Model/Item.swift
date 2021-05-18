@@ -8,6 +8,16 @@
 import Foundation
 
 struct Item: Codable {
+    var id: Int
+    var title: String
+    var descriptions: String?
+    var price: Int
+    var currency: String
+    var stock: Int
+    var thumbnails: [String]
+    var images: [String]?
+    var registrationDate: Double
+    
     enum CodingKeys: String, CodingKey {
         case id
         case title
@@ -19,14 +29,4 @@ struct Item: Codable {
         case images
         case registrationDate = "registration_date"
     }
-
-    var id: Int
-    var title: String
-    var descriptions: String?
-    var price: Int
-    var currency: String
-    var stock: Int
-    var thumbnails: [String]
-    var images: [String]?
-    var registrationDate: Double
 }
