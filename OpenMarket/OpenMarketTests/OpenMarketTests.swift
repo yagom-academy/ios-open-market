@@ -19,7 +19,7 @@ final class OpenMarketTests: XCTestCase {
         client = NetworkManager(session: urlSession)
     }
     
-    override class func tearDown() {
+    override func tearDownWithError() throws {
         MockURLProtocol.loadingHandler = nil
     }
     
