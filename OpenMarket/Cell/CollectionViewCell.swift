@@ -8,10 +8,18 @@
 import UIKit
 
 class CollectionViewCell: UICollectionViewCell {
-
+    
+    static let identifier = "CollectionViewCell"
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        self.layer.borderWidth = 1
+        self.layer.cornerRadius = 10
+        self.layer.borderColor = UIColor.lightGray.cgColor
     }
-
+    
+    func update() {
+        self.layer.borderWidth = 1
+        self.layer.cornerRadius = 10
+        self.layer.borderColor = UIColor.lightGray.cgColor
+    }
 }

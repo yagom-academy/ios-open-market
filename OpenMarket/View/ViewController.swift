@@ -33,24 +33,16 @@ class ViewController: UIViewController {
         setUpSegmentedControl()
         setUpTableView()
         setUpCollectionView()
-//        setUpURL(url: Network.baseURL)
     }
     
-//    private func setUpURL(url: String){
-//        guard let url = URLComponents(string: Network.baseURL) else {
-//            fatalError("Invalid URL")
-//        }
-//        self.url = url
-//    }
-//
     private func setUpCollectionView() {
         let flowLayout = UICollectionViewFlowLayout()
         collectionView = UICollectionView(frame: CGRect(x: 10, y: 10, width: superView.frame.width-20, height: superView.frame.height), collectionViewLayout: flowLayout)
         collectionView.backgroundColor = .white
         self.collectionView.delegate = self
         self.collectionView.dataSource = self
-        let collectionViewNib = UINib(nibName: "CollectionViewCell", bundle: nil)
-        self.collectionView.register(collectionViewNib, forCellWithReuseIdentifier: "CollectionViewCell")
+        let collectionViewNib = UINib(nibName: CollectionViewCell.identifier, bundle: nil)
+        self.collectionView.register(collectionViewNib, forCellWithReuseIdentifier: CollectionViewCell.identifier)
     }
     
     private func setUpTableView() {
@@ -90,7 +82,7 @@ class ViewController: UIViewController {
         }
     }
     
-    func getItemsOfPageData(cell: TableViewCell, indexPath: IndexPath)  {
+    func getItemsOfPageData<T:CellProtocol>(cell: T, indexPath: IndexPath)  {
                 
         let url = Network.baseURL + "/items/\(indexPath.row/20+1)"
         guard let urlRequest = URL(string: url) else { return  }
@@ -98,18 +90,15 @@ class ViewController: UIViewController {
         URLSession.shared.dataTask(with: urlRequest) { (data, response, error) in
             self.checkValidation(data: data, response: response, error: error)
             do {
-                let decoder = JSONDecoder()
-                let data = try decoder.decode(ItemsOfPageReponse.self, from: data!)
-                cell.update(data: data, indexPath: indexPath ,tableView: self.tableView)
-               
+                let data = try JSONDecoder().decode(ItemsOfPageReponse.self, from: data!)
+                cell.update(data: data, indexPath: indexPath, view: self.tableView)
             } catch {
                 fatalError("Failed to decode")
             }
-            
         }.resume()
-       
     }
 }
+
 
 
 extension ViewController: UITableViewDataSource {
@@ -148,9 +137,7 @@ extension ViewController: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         
-        cell.layer.borderWidth = 1
-        cell.layer.cornerRadius = 10
-        cell.layer.borderColor = UIColor.lightGray.cgColor
+//        cell.update
         
         return cell
     }

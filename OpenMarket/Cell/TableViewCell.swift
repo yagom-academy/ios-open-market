@@ -7,7 +7,16 @@
 
 import UIKit
 
-class TableViewCell: UITableViewCell {
+protocol CellProtocol {
+    func update<T: IndexPathProtocol>(data: ItemsOfPageReponse, indexPath: IndexPath, view: T)
+}
+
+protocol IndexPathProtocol {
+    func indexPath(for cell: UITableViewCell) -> IndexPath?
+    func indexPath(for cell: UICollectionViewCell) -> IndexPath?
+}
+
+class TableViewCell: UITableViewCell, CellProtocol {
     
     static let identifier = "TableViewCell"
     
@@ -18,28 +27,27 @@ class TableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.itemImage.image = UIImage(named: "indicator")
+        initCellProperty()
     }
+
     override func prepareForReuse() {
+        initCellProperty()
+    }
+
+    func initCellProperty() {
         self.itemImage.image = UIImage(named: "indicator")
         self.itemTitle.text = ""
         self.numberOfItemStock.text = ""
         self.itemPrice.text = ""
     }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
     
-    func update(data: ItemsOfPageReponse, indexPath: IndexPath, tableView: UITableView) {
+    func update<T>: IndexPathProtocol>(data: ItemsOfPageReponse, indexPath: IndexPath, view: T) {
         let itemIndex = indexPath.row % 20
         let imageURL = URL(string: data.items[itemIndex].thumbnails[0])
         do {
             let imageData = try Data(contentsOf: imageURL!)
             DispatchQueue.main.async {
-                guard tableView.indexPath(for: self) == indexPath else { return }
+                guard view.indexPath(for: self) == indexPath else { return }
                 self.itemImage.image = UIImage(data: imageData)
                 self.itemTitle.text = data.items[itemIndex].title
                 self.numberOfItemStock.text = String(data.items[itemIndex].stock)
