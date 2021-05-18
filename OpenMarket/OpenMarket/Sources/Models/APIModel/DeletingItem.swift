@@ -6,3 +6,7 @@
 //
 
 import Foundation
+
+struct DeletingItem: JSONData {
+    let password: String
+}
