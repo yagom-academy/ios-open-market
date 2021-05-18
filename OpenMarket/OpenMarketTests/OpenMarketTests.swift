@@ -8,9 +8,9 @@
 import XCTest
 @testable import OpenMarket
 
-class OpenMarketTests: XCTestCase {
+final class OpenMarketTests: XCTestCase {
     
-    var client: NetworkManager!
+    private var client: NetworkManager!
     
     override func setUpWithError() throws {
         let configuration = URLSessionConfiguration.ephemeral

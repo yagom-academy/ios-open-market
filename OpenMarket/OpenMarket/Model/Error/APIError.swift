@@ -15,7 +15,6 @@ enum APIError: Error, LocalizedError, Equatable {
     case networkFailure(Int)
     case requestFailure
     case downcastingFailure(String)
-    case dictionaryConversionFailure
     
     var errorDescription: String? {
         switch self {
@@ -33,8 +32,6 @@ enum APIError: Error, LocalizedError, Equatable {
             return "서버에 요청하지 못했습니다🚨"
         case .downcastingFailure(let type):
             return "\(type)의 다운캐스팅에 실패하였습니다🚨"
-        case .dictionaryConversionFailure:
-            return "딕셔너리 타입으로 변환하지 못했어요😢"
         }
     }
 }

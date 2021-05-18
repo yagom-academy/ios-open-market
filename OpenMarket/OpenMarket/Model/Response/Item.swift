@@ -17,7 +17,7 @@ struct Item: Decodable, Equatable {
     let thumbnails: [String]
     let registrationDate: Double
     
-    enum CodingKeys: String, CodingKey {
+    private enum CodingKeys: String, CodingKey {
         case id, title, price, currency, stock, thumbnails
         case discountedPrice = "discounted_price"
         case registrationDate = "registration_date"

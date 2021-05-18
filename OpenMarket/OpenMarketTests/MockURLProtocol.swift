@@ -8,7 +8,7 @@
 import Foundation
 import XCTest
 
-class MockURLProtocol: URLProtocol {
+final class MockURLProtocol: URLProtocol {
     static var loadingHandler: ((URLRequest) -> (HTTPURLResponse, Data?, Error?))?
     
     override class func canInit(with request: URLRequest) -> Bool {

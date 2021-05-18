@@ -19,7 +19,7 @@ struct ItemResponse: Codable, Equatable {
     let images: [String]
     let registrationDate: Double
     
-    enum CodingKeys: String, CodingKey {
+    private enum CodingKeys: String, CodingKey {
         case id, title, descriptions, price, currency, stock, thumbnails, images
         case discountedPrice = "discounted_price"
         case registrationDate = "registration_date"
