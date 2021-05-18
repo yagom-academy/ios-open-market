@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3C9D1D9A264D09E10092C9F9 /* PracticeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C9D1D99264D09E10092C9F9 /* PracticeTests.swift */; };
 		3C9D1DA8264D50B70092C9F9 /* OpenMarketTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C9D1DA7264D50B70092C9F9 /* OpenMarketTests.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
 		C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */; };
@@ -18,7 +17,6 @@
 		D03D66CE264D455C0017069F /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03D66CD264D455B0017069F /* Item.swift */; };
 		D03D66D2264D45690017069F /* Items.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03D66D1264D45690017069F /* Items.swift */; };
 		D03D66D9264D4CEF0017069F /* JSONParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03D66D8264D4CEF0017069F /* JSONParser.swift */; };
-		D0C364ED264A1F5700E0B934 /* Practice.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C364EC264A1F5700E0B934 /* Practice.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,8 +38,6 @@
 
 /* Begin PBXFileReference section */
 		3C9D1D97264D09E10092C9F9 /* PracticeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PracticeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		3C9D1D99264D09E10092C9F9 /* PracticeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PracticeTests.swift; sourceTree = "<group>"; };
-		3C9D1D9B264D09E10092C9F9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3C9D1DA5264D50B70092C9F9 /* OpenMarketTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenMarketTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3C9D1DA7264D50B70092C9F9 /* OpenMarketTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketTests.swift; sourceTree = "<group>"; };
 		3C9D1DA9264D50B70092C9F9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -56,7 +52,6 @@
 		D03D66CD264D455B0017069F /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		D03D66D1264D45690017069F /* Items.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Items.swift; sourceTree = "<group>"; };
 		D03D66D8264D4CEF0017069F /* JSONParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONParser.swift; sourceTree = "<group>"; };
-		D0C364EC264A1F5700E0B934 /* Practice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Practice.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,15 +79,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		3C9D1D98264D09E10092C9F9 /* PracticeTests */ = {
-			isa = PBXGroup;
-			children = (
-				3C9D1D99264D09E10092C9F9 /* PracticeTests.swift */,
-				3C9D1D9B264D09E10092C9F9 /* Info.plist */,
-			);
-			path = PracticeTests;
-			sourceTree = "<group>";
-		};
 		3C9D1DA6264D50B70092C9F9 /* OpenMarketTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -106,7 +92,6 @@
 			isa = PBXGroup;
 			children = (
 				C70FB0F925BEF61C00C9924E /* OpenMarket */,
-				3C9D1D98264D09E10092C9F9 /* PracticeTests */,
 				3C9D1DA6264D50B70092C9F9 /* OpenMarketTests */,
 				C70FB0F825BEF61C00C9924E /* Products */,
 			);
@@ -133,7 +118,6 @@
 				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
 				C70FB10825BEF61D00C9924E /* Info.plist */,
 				D03D66D5264D45730017069F /* Model */,
-				D0C364EF264A1F5B00E0B934 /* Practice */,
 			);
 			path = OpenMarket;
 			sourceTree = "<group>";
@@ -146,14 +130,6 @@
 				D03D66D8264D4CEF0017069F /* JSONParser.swift */,
 			);
 			path = Model;
-			sourceTree = "<group>";
-		};
-		D0C364EF264A1F5B00E0B934 /* Practice */ = {
-			isa = PBXGroup;
-			children = (
-				D0C364EC264A1F5700E0B934 /* Practice.swift */,
-			);
-			path = Practice;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -286,7 +262,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3C9D1D9A264D09E10092C9F9 /* PracticeTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -303,7 +278,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				D03D66CE264D455C0017069F /* Item.swift in Sources */,
-				D0C364ED264A1F5700E0B934 /* Practice.swift in Sources */,
 				D03D66D9264D4CEF0017069F /* JSONParser.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,

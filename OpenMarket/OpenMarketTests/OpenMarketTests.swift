@@ -10,14 +10,6 @@ import XCTest
 
 class OpenMarketTests: XCTestCase {
 
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-    }
-
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
-
     func test_ItemJSON데이터가_JSONParser에_Decoding_돼서_thumbnails의_값을_확인하는함수() {
         var jsonParserItem = JSONParser<Item>()
         
