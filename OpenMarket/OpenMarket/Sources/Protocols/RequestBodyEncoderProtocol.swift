@@ -6,3 +6,7 @@
 //
 
 import Foundation
+
+protocol RequestBodyEncoderProtocol {
+    func encode(_ value: RequestData) throws -> Data
+}
