@@ -10,6 +10,7 @@ class ViewController: UIViewController {
 
     var tableView: UITableView!
     var collectionView: UICollectionView!
+    var url: URLComponents?
     
     @IBOutlet var superView: UIView!
     @IBOutlet var control: UISegmentedControl!
@@ -32,8 +33,16 @@ class ViewController: UIViewController {
         setUpSegmentedControl()
         setUpTableView()
         setUpCollectionView()
+//        setUpURL(url: Network.baseURL)
     }
     
+//    private func setUpURL(url: String){
+//        guard let url = URLComponents(string: Network.baseURL) else {
+//            fatalError("Invalid URL")
+//        }
+//        self.url = url
+//    }
+//
     private func setUpCollectionView() {
         let flowLayout = UICollectionViewFlowLayout()
         collectionView = UICollectionView(frame: CGRect(x: 10, y: 10, width: superView.frame.width-20, height: superView.frame.height), collectionViewLayout: flowLayout)
@@ -62,6 +71,47 @@ class ViewController: UIViewController {
         control.setTitleTextAttributes([NSAttributedString.Key.foregroundColor : UIColor.white],
                                        for: UIControl.State.selected)
     }
+    
+    func getItemsOfPageData(cell: TableViewCell, indexPath: IndexPath)  {
+        
+        let session = URLSession.shared
+        let url = Network.baseURL + "/items/\(indexPath.row/20+1)"
+        print(url)
+        guard let urlRequest = URL(string: url) else { return  }
+//        guard var urlComponent = URLComponents(string: Network.baseURL) else { return nil }
+//        let pageQuery = URLQueryItem(name: "page", value: "\(indexPath.row/20)")
+//        urlComponent.queryItems?.append(pageQuery)
+//        guard let urlRequest = urlComponent.url else { return nil }
+        
+        session.dataTask(with: urlRequest) { (data, response, error) in
+            if let error = error {
+                fatalError("\(error)")
+            }
+            guard let httpResponse = response as? HTTPURLResponse else {
+                print("Invalid Response")
+                return
+            }
+            guard (200...299).contains(httpResponse.statusCode) else {
+                print("Status Code: \(httpResponse.statusCode)")
+                return
+            }
+            guard let data = data else {
+                print("Invalid Data")
+                return
+            }
+            do {
+                let decoder = JSONDecoder()
+                let data = try decoder.decode(ItemsOfPageReponse.self, from: data)
+                
+                cell.update(data: data, indexOfItems: indexPath.row)
+               
+            } catch {
+                fatalError("Failed to decode")
+            }
+            
+        }.resume()
+       
+    }
 }
 
 
@@ -75,7 +125,9 @@ extension ViewController: UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.identifier) as? TableViewCell else {
             return UITableViewCell()
         }
-
+        
+        getItemsOfPageData(cell: cell, indexPath: indexPath)
+        
         return cell
     }
     
