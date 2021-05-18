@@ -7,11 +7,11 @@
 
 import Foundation
 
-enum HTTPMethod {
-    static let get: String = "GET"
-    static let post: String = "POST"
-    static let patch: String = "PATCH"
-    static let delete: String = "DELETE"
+enum HTTPMethod: String {
+    case get = "GET"
+    case post = "POST"
+    case patch = "PATCH"
+    case delete = "DELETE"
 }
 
 enum BaseURL {
@@ -66,7 +66,7 @@ class SessionManager {
         }
 
         var request = URLRequest(url: url)
-        request.httpMethod = HTTPMethod.post
+        request.httpMethod = HTTPMethod.post.rawValue
         request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
         request.httpBody = body(from: postingItem)
 
@@ -97,7 +97,7 @@ class SessionManager {
         }
 
         var request = URLRequest(url: url)
-        request.httpMethod = HTTPMethod.patch
+        request.httpMethod = HTTPMethod.patch.rawValue
         request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
         request.httpBody = body(from: patchingItem)
 
@@ -133,7 +133,7 @@ class SessionManager {
         }
 
         var request = URLRequest(url: url)
-        request.httpMethod = HTTPMethod.delete
+        request.httpMethod = HTTPMethod.delete.rawValue
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         do {
             request.httpBody = try JSONEncoder().encode(["password": password])
