@@ -68,4 +68,23 @@ class NetworkHelperTest: XCTestCase {
         }
         wait(for: [promise], timeout: 5)
     }
+    
+    func test_상품_정보_수정_요청() {
+        let form = ItemRegistrationForm(title: "이미지수정abc", descriptions: nil, price: nil, currency: nil, stock: nil, discountedPrice: nil, images: [UIImage(named: "vanilla")!], password: "1234")
+        let id = 196
+        
+        let promise = expectation(description: "form")
+        
+        NetworkHelper().updateItem(itemNum: id, itemForm: form) { result in
+            switch result {
+            case .success(let item):
+                XCTAssertEqual(form.title, item.title)
+            case .failure:
+                XCTFail()
+            }
+            promise.fulfill()
+        }
+        wait(for: [promise], timeout: 5)
+        
+    }
 }

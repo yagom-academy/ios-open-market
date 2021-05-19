@@ -88,7 +88,32 @@ struct NetworkHelper {
                 completion(.failure(fatalError()))
                 return
             }
-            
+            if let data = data,
+               let responedItem = try? JSONDecoder().decode(ItemInfo.self, from: data){
+                completion(.success(responedItem))
+                return
+            }
+            completion(.failure(fatalError()))
+        }.resume()
+    }
+    
+    func updateItem(itemNum: Int, itemForm: ItemRegistrationForm, completion: @escaping (Result<ItemInfo, Error>) -> Void) {
+        guard let url = URL(string: RequestAddress.updateItem(id: itemNum).url) else {
+            completion(.failure(fatalError()))
+            return
+        }
+        var request = URLRequest(url: url)
+        let boundary = "Boundary-\(UUID().uuidString)"
+        request.httpMethod = HttpMethod.patch
+        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        request.httpBody = HttpBodyCreater(boundary: boundary, itemForm: itemForm).make()
+        
+        session.dataTask(with: request) { data, response, error in
+            guard let response = response as? HTTPURLResponse,
+                  (200...399).contains(response.statusCode) else {
+                completion(.failure(fatalError()))
+                return
+            }
             if let data = data,
                let responedItem = try? JSONDecoder().decode(ItemInfo.self, from: data){
                 completion(.success(responedItem))
