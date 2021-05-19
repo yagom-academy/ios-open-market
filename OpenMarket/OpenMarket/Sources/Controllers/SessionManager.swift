@@ -56,33 +56,52 @@ class SessionManager {
     let requestBodyEncoder: RequestBodyEncoderProtocol
     let session: URLSessionProtocol
 
-    private init(requestBodyEncoder: RequestBodyEncoderProtocol, session: URLSessionProtocol) {
+    init(requestBodyEncoder: RequestBodyEncoderProtocol, session: URLSessionProtocol) {
         self.requestBodyEncoder = requestBodyEncoder
         self.session = session
     }
 
-    func request<DecodedType: Decodable, RequestingType: RequestData>(method: HTTPMethod,
-                                                                      path: URLPath,
-                                                                      data: RequestingType? = nil,
-                                                                      completionHandler: @escaping (Result<DecodedType, OpenMarketError>) -> Void) {
-        guard var request = try? URLRequest(url: path.asURL()) else {
+    func request<DecodedType: Decodable>(method: HTTPMethod,
+                                         path: URLPath,
+                                         completionHandler: @escaping (Result<DecodedType, OpenMarketError>) -> Void) {
+        guard let request = try? configureRequestHeader(method: method, path: path) else {
             return completionHandler(.failure(.invalidURL))
         }
+
+        dataTask(request: request, completionHandler: completionHandler).resume()
+    }
+
+    func request<DecodedType: Decodable, RequestingType: RequestData>(method: HTTPMethod,
+                                                                      path: URLPath,
+                                                                      data: RequestingType,
+                                                                      completionHandler: @escaping (Result<DecodedType, OpenMarketError>) -> Void) {
+        guard var request = try? configureRequestHeader(method: method, path: path) else {
+            return completionHandler(.failure(.invalidURL))
+        }
+
+        do {
+            request.httpBody = try requestBodyEncoder.encode(data)
+        } catch let error as OpenMarketError {
+            completionHandler(.failure(error))
+        } catch {
+            completionHandler(.failure(.bodyEncodingError))
+        }
+
+        dataTask(request: request, completionHandler: completionHandler).resume()
+    }
+
+    private func configureRequestHeader(method: HTTPMethod, path: URLPath) throws -> URLRequest {
+        var request = try URLRequest(url: path.asURL())
 
         request.httpMethod = method.rawValue
         request.setValue(method.mimeType, forHTTPHeaderField: "Content-Type")
 
-        if let data = data {
-            do {
-                request.httpBody = try requestBodyEncoder.encode(data)
-            } catch let error as OpenMarketError {
-                completionHandler(.failure(error))
-            } catch {
-                completionHandler(.failure(.bodyEncodingError))
-            }
-        }
+        return request
+    }
 
-        session.dataTask(with: request) { data, response, error in
+    private func dataTask<DecodedType: Decodable>(request: URLRequest,
+                                                  completionHandler: @escaping (Result<DecodedType, OpenMarketError>) -> Void) -> URLSessionDataTask {
+        return session.dataTask(with: request) { data, response, error in
             if error != nil {
                 return completionHandler(.failure(.sessionError))
             }
@@ -98,6 +117,6 @@ class SessionManager {
             }
 
             completionHandler(.success(decodedData))
-        }.resume()
+        }
     }
 }
