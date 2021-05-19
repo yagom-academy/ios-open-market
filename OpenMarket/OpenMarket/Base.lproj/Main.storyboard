@@ -52,6 +52,9 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
                                 <state key="normal" title="+"/>
+                                <connections>
+                                    <segue destination="DXc-2r-jz8" kind="show" id="g2V-UC-uDh"/>
+                                </connections>
                             </button>
                         </barButtonItem>
                     </navigationItem>
