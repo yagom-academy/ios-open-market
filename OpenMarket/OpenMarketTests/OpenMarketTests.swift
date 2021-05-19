@@ -3,6 +3,7 @@ import XCTest
 
 class OpenMarketTests: XCTestCase {
     
+    // MARK:- Tool for test preparation
     func readLocalFile(forName name: String) -> Data? {
         do {
             if let bundlePath = Bundle.main.path(forResource: name,
@@ -26,6 +27,7 @@ class OpenMarketTests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
     
+    // MARK:- JSONParsing Test with Local JSON files
     func test_JSONParser_for_Item() throws {
         guard let localJSONData = readLocalFile(forName: "Item") else { throw APIError.JSONParseError }
         let jsonParser = JSONParser()
