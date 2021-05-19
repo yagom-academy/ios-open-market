@@ -9,29 +9,28 @@ import XCTest
 @testable import OpenMarket
 
 class SessionManagerHTTPTests: XCTestCase {
-    var sut = SessionManager.shared
+    var sut: SessionManager!
     var dummyPostingItem: PostingItem!
     var dummyPatchingItem: PatchingItem!
+    var dummyDeletingItem: DeletingItem!
     
     override func setUpWithError() throws {
-        dummyPostingItem = PostingItem(title: "끔찍한 디버깅",
-                                       descriptions: "끔찍한 디버깅입니다.",
-                                       price: 1000,
-                                       currency: "KRW",
-                                       stock: 10,
-                                       discountedPrice: nil,
-                                       images: [UIImage(systemName: "zzz")!.jpegData(compressionQuality: 1)!],
-                                       password: "1234")
+        let configuration = URLSessionConfiguration.default
+        configuration.protocolClasses = [MockURLProtocol.self]
         
-        dummyPatchingItem = PatchingItem(title: "귀여운 바나나",
-                                         descriptions: "귀여운 바나나입니다.",
-                                         price: 1000,
-                                         currency: "KRW",
-                                         stock: 10,
-                                         discountedPrice: nil,
-                                         images: [],
-                                         password: "1234")
+        let urlSession = URLSession(configuration: configuration)
         
+        sut = SessionManager(requestBodyEncoder: MockRequestBodyEncoder(), session: urlSession)
+        
+        dummyPostingItem = PostingItem(title: "끔찍한 디버깅", descriptions: "끔찍한 디버깅입니다.", price: 1000,
+                                       currency: "KRW", stock: 10, discountedPrice: nil,
+                                       images: [UIImage(systemName: "zzz")!.jpegData(compressionQuality: 1)!], password: "1234")
+        
+        dummyPatchingItem = PatchingItem(title: "귀여운 바나나", descriptions: "귀여운 바나나입니다.", price: 1000,
+                                         currency: "KRW", stock: 10, discountedPrice: nil,
+                                         images: [], password: "1234")
+        
+        dummyDeletingItem = DeletingItem(password: "1234")
     }
 
     override func tearDownWithError() throws {

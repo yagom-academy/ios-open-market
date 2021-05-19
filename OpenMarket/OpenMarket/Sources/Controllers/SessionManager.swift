@@ -54,9 +54,9 @@ enum URLPath {
 class SessionManager {
     static let shared = SessionManager(requestBodyEncoder: RequestBodyEncoder(), session: URLSession.shared)
     let requestBodyEncoder: RequestBodyEncoderProtocol
-    let session: URLSessionProtocol
+    let session: URLSession
 
-    init(requestBodyEncoder: RequestBodyEncoderProtocol, session: URLSessionProtocol) {
+    init(requestBodyEncoder: RequestBodyEncoderProtocol, session: URLSession) {
         self.requestBodyEncoder = requestBodyEncoder
         self.session = session
     }
