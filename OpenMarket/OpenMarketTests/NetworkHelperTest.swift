@@ -52,4 +52,20 @@ class NetworkHelperTest: XCTestCase {
         }
     }
     
+    func test_상품_등록_요청() {
+        let form = ItemRegistrationForm(title: "샘플", descriptions: "샘플", price: 100, currency: "KRW", stock: 12, discountedPrice: 99, images: [UIImage(named: "sample")!], password: "1234")
+        
+        let promise = expectation(description: "form")
+        
+        NetworkHelper().createItem(itemForm: form) { result in
+            switch result {
+            case .success(let item):
+                XCTAssertEqual(form.title, item.title)
+            case .failure:
+                XCTFail()
+            }
+            promise.fulfill()
+        }
+        wait(for: [promise], timeout: 5)
+    }
 }

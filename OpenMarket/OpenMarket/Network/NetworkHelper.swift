@@ -95,7 +95,7 @@ struct NetworkHelper {
                 return
             }
             completion(.failure(fatalError()))
-        }
+        }.resume()
     }
 }
 
