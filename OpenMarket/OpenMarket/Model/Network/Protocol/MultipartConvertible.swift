@@ -2,7 +2,7 @@
 //  MultipartConvertible.swift
 //  OpenMarket
 //
-//  Created by Ryan-Son on 2021/05/17.
+//  Created by Hailey, Ryan on 2021/05/17.
 //
 
 import Foundation
