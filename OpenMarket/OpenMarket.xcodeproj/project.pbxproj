@@ -8,13 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		BAA704EE264B8196006CAC97 /* ItemDelete.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAA704ED264B8196006CAC97 /* ItemDelete.swift */; };
-		BAA704F2264BA386006CAC97 /* PostItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAA704F1264BA386006CAC97 /* PostItem.swift */; };
-		BAA704F4264BA394006CAC97 /* PatchItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAA704F3264BA394006CAC97 /* PatchItem.swift */; };
-		BAA704F6264BA3A0006CAC97 /* DeleteItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAA704F5264BA3A0006CAC97 /* DeleteItem.swift */; };
-		BAA704F8264BA85E006CAC97 /* GetItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAA704F7264BA85E006CAC97 /* GetItem.swift */; };
-		BAA704FA264BA866006CAC97 /* GetItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAA704F9264BA865006CAC97 /* GetItems.swift */; };
 		BAA70504264BB366006CAC97 /* OpenMarketTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAA70503264BB366006CAC97 /* OpenMarketTests.swift */; };
 		BAA7050B264BB747006CAC97 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C70FB10325BEF61D00C9924E /* Assets.xcassets */; };
+		BACD563A264FF17700625FCF /* MarketNetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BACD5639264FF17700625FCF /* MarketNetworkManager.swift */; };
+		BACD563C2652634700625FCF /* MarketNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = BACD563B2652634700625FCF /* MarketNetwork.swift */; };
+		BACD563E2654157400625FCF /* MockMarketNetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BACD563D2654157400625FCF /* MockMarketNetworkManager.swift */; };
+		BACD5642265417A800625FCF /* MarketError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BACD5641265417A800625FCF /* MarketError.swift */; };
 		BAEA69F9264B6616005163B3 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAEA69F8264B6616005163B3 /* Product.swift */; };
 		BAEA69FB264B6A28005163B3 /* MarketItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAEA69FA264B6A28005163B3 /* MarketItems.swift */; };
 		BAEA69FD264B6A33005163B3 /* MarketItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAEA69FC264B6A33005163B3 /* MarketItem.swift */; };
@@ -41,14 +40,13 @@
 
 /* Begin PBXFileReference section */
 		BAA704ED264B8196006CAC97 /* ItemDelete.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemDelete.swift; sourceTree = "<group>"; };
-		BAA704F1264BA386006CAC97 /* PostItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostItem.swift; sourceTree = "<group>"; };
-		BAA704F3264BA394006CAC97 /* PatchItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatchItem.swift; sourceTree = "<group>"; };
-		BAA704F5264BA3A0006CAC97 /* DeleteItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteItem.swift; sourceTree = "<group>"; };
-		BAA704F7264BA85E006CAC97 /* GetItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetItem.swift; sourceTree = "<group>"; };
-		BAA704F9264BA865006CAC97 /* GetItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetItems.swift; sourceTree = "<group>"; };
 		BAA70501264BB366006CAC97 /* OpenMarketTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenMarketTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BAA70503264BB366006CAC97 /* OpenMarketTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketTests.swift; sourceTree = "<group>"; };
 		BAA70505264BB366006CAC97 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BACD5639264FF17700625FCF /* MarketNetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketNetworkManager.swift; sourceTree = "<group>"; };
+		BACD563B2652634700625FCF /* MarketNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketNetwork.swift; sourceTree = "<group>"; };
+		BACD563D2654157400625FCF /* MockMarketNetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockMarketNetworkManager.swift; sourceTree = "<group>"; };
+		BACD5641265417A800625FCF /* MarketError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketError.swift; sourceTree = "<group>"; };
 		BAEA69F8264B6616005163B3 /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
 		BAEA69FA264B6A28005163B3 /* MarketItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketItems.swift; sourceTree = "<group>"; };
 		BAEA69FC264B6A33005163B3 /* MarketItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketItem.swift; sourceTree = "<group>"; };
@@ -86,6 +84,7 @@
 		BAA70502264BB366006CAC97 /* OpenMarketTests */ = {
 			isa = PBXGroup;
 			children = (
+				BACD563D2654157400625FCF /* MockMarketNetworkManager.swift */,
 				BAA70503264BB366006CAC97 /* OpenMarketTests.swift */,
 				BAA70505264BB366006CAC97 /* Info.plist */,
 			);
@@ -101,6 +100,7 @@
 				BAEA6A00264B70D3005163B3 /* ItemUpload.swift */,
 				BAEA6A02264B71A2005163B3 /* ItemDetailUpload.swift */,
 				BAA704ED264B8196006CAC97 /* ItemDelete.swift */,
+				BAEA6A04264B7225005163B3 /* Network */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -108,12 +108,10 @@
 		BAEA6A04264B7225005163B3 /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				BACD563B2652634700625FCF /* MarketNetwork.swift */,
+				BACD5641265417A800625FCF /* MarketError.swift */,
 				BAEA6A09264B728F005163B3 /* MarketAPI.swift */,
-				BAA704F9264BA865006CAC97 /* GetItems.swift */,
-				BAA704F7264BA85E006CAC97 /* GetItem.swift */,
-				BAA704F1264BA386006CAC97 /* PostItem.swift */,
-				BAA704F3264BA394006CAC97 /* PatchItem.swift */,
-				BAA704F5264BA3A0006CAC97 /* DeleteItem.swift */,
+				BACD5639264FF17700625FCF /* MarketNetworkManager.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -140,9 +138,8 @@
 			isa = PBXGroup;
 			children = (
 				BAEA69EA26496D3F005163B3 /* Model */,
-				BAEA6A04264B7225005163B3 /* Network */,
-				C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */,
 				C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */,
+				C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */,
 				C70FB0FE25BEF61C00C9924E /* ViewController.swift */,
 				C70FB10025BEF61C00C9924E /* Main.storyboard */,
 				C70FB10325BEF61D00C9924E /* Assets.xcassets */,
@@ -253,6 +250,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BACD563E2654157400625FCF /* MockMarketNetworkManager.swift in Sources */,
 				BAA70504264BB366006CAC97 /* OpenMarketTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -261,19 +259,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BAA704FA264BA866006CAC97 /* GetItems.swift in Sources */,
 				BAEA6A03264B71A2005163B3 /* ItemDetailUpload.swift in Sources */,
 				BAEA6A01264B70D3005163B3 /* ItemUpload.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
 				BAEA69F9264B6616005163B3 /* Product.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				BAEA69FB264B6A28005163B3 /* MarketItems.swift in Sources */,
-				BAA704F8264BA85E006CAC97 /* GetItem.swift in Sources */,
+				BACD563C2652634700625FCF /* MarketNetwork.swift in Sources */,
+				BACD563A264FF17700625FCF /* MarketNetworkManager.swift in Sources */,
 				BAA704EE264B8196006CAC97 /* ItemDelete.swift in Sources */,
+				BACD5642265417A800625FCF /* MarketError.swift in Sources */,
 				BAEA69FD264B6A33005163B3 /* MarketItem.swift in Sources */,
-				BAA704F2264BA386006CAC97 /* PostItem.swift in Sources */,
-				BAA704F6264BA3A0006CAC97 /* DeleteItem.swift in Sources */,
-				BAA704F4264BA394006CAC97 /* PatchItem.swift in Sources */,
 				BAEA6A0A264B728F005163B3 /* MarketAPI.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 			);
