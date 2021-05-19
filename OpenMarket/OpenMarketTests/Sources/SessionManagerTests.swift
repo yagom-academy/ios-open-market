@@ -27,8 +27,8 @@ class SessionManagerHTTPTests: XCTestCase {
         let currency = "KRW"
         let stock = 1000000000000
         let images: [Data] = [
-            NSDataAsset(name: "image0")!.data,
-            NSDataAsset(name: "image1")!.data
+            UIImage(named: "image0")!.pngData()!,
+            UIImage(named: "image1")!.pngData()!
         ]
         let password = "1234"
         
@@ -67,18 +67,102 @@ class SessionManagerHTTPTests: XCTestCase {
     }
     
     func test_request_실행중_client_error_발생시_sessionError를_completionHandler에_전달한다() {
+        let expectation = XCTestExpectation()
         
+        MockURLProtocol.requestHandler = { request in
+            let error = OpenMarketError.didNotReceivedData as Error
+            
+            return (nil, nil, error)
+        }
+        
+        sut.request(method: .get, path: .item(id: 1)) { (result: Result<Item, OpenMarketError>) in
+            switch result {
+            case .success:
+                XCTFail("success가 전달됨")
+            case .failure(let error):
+                if error != .sessionError {
+                    XCTFail("sessionError가 아닌 \(error)가 전달됨")
+                }
+            }
+            expectation.fulfill()
+        }
+        
+        wait(for: [expectation], timeout: 10)
     }
     
     func test_원하는_response가_오지않은_경우_wrongResponse를_completionHandler에_전달한다() {
+        let expectation = XCTestExpectation()
+
+        MockURLProtocol.requestHandler = { request in
+            let url = URL(string: "https://camp-open-market-2.herokuapp.com/")!
+            let response = HTTPURLResponse(url: url, statusCode: 404, httpVersion: nil, headerFields: nil)!
+            let data = NSDataAsset(name: "Item")!.data
+            
+            return (response, data, nil)
+        }
         
+        sut.request(method: .get, path: .item(id: 1)) { (result: Result<Item, OpenMarketError>) in
+            switch result {
+            case .success:
+                XCTFail("success가 전달됨")
+            case .failure(let error):
+                if error != .wrongResponse {
+                    XCTFail("wrongResponse가 아닌 \(error)가 전달됨")
+                }
+            }
+            expectation.fulfill()
+        }
+        
+        wait(for: [expectation], timeout: 10)
     }
     
     func test_received_data가_nil인경우_invalidData를_completionHandler에_전달한다() {
+        let expectation = XCTestExpectation()
+
+        MockURLProtocol.requestHandler = { request in
+            let url = URL(string: "https://camp-open-market-2.herokuapp.com/")!
+            let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: nil, headerFields: nil)!
+            
+            return (response, nil, nil)
+        }
         
+        sut.request(method: .get, path: .item(id: 1)) { (result: Result<Item, OpenMarketError>) in
+            switch result {
+            case .success:
+                XCTFail("success가 전달됨")
+            case .failure(let error):
+                if error != .invalidData {
+                    XCTFail("invalidData가 아닌 \(error)가 전달됨")
+                }
+            }
+            expectation.fulfill()
+        }
+        
+        wait(for: [expectation], timeout: 10)
     }
     
     func test_received_data를_json으로_decode할_수_없는_경우_invalidData를_completionHandler에_전달한다() {
+        let expectation = XCTestExpectation()
+
+        MockURLProtocol.requestHandler = { request in
+            let url = URL(string: "https://camp-open-market-2.herokuapp.com/")!
+            let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: nil, headerFields: nil)!
+            let data = UIImage(named: "image0")!.pngData()!
+            return (response, data, nil)
+        }
         
+        sut.request(method: .get, path: .item(id: 1)) { (result: Result<Item, OpenMarketError>) in
+            switch result {
+            case .success:
+                XCTFail("success가 전달됨")
+            case .failure(let error):
+                if error != .invalidData {
+                    XCTFail("invalidData가 아닌 \(error)가 전달됨")
+                }
+            }
+            expectation.fulfill()
+        }
+        
+        wait(for: [expectation], timeout: 10)
     }
 }

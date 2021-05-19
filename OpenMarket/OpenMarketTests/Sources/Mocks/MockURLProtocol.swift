@@ -8,7 +8,7 @@
 import Foundation
 
 class MockURLProtocol: URLProtocol {
-    static var requestHandler: ((URLRequest) -> (HTTPURLResponse, Data?, Error?))?
+    static var requestHandler: ((URLRequest) -> (HTTPURLResponse?, Data?, Error?))?
     
     class override func canInit(with request: URLRequest) -> Bool {
         true
@@ -29,7 +29,9 @@ class MockURLProtocol: URLProtocol {
             client?.urlProtocol(self, didFailWithError: error)
         }
         
-        client?.urlProtocol(self, didReceive: response, cacheStoragePolicy: .notAllowed)
+        if let response = response {
+            client?.urlProtocol(self, didReceive: response, cacheStoragePolicy: .notAllowed)
+        }
         
         if let data = data {
             client?.urlProtocol(self, didLoad: data)
