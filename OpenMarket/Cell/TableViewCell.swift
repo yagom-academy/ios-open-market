@@ -28,12 +28,12 @@ class TableViewCell: UITableViewCell {
     
     func initCellProperty() {
         self.itemImage.image = UIImage(named: "indicator")
+        self.itemPrice.attributedText = self.itemPrice.text?.removeStrikeThrough()
         self.itemTitle.text = ""
         self.numberOfItemStock.text = ""
         self.itemPrice.text = ""
         self.discountedPrice.text = ""
         self.discountedPrice.isHidden = true
-        self.itemPrice.attributedText = nil
         self.itemPrice.textColor = UIColor.lightGray
     }
     
@@ -73,6 +73,13 @@ extension String {
         attributeString.addAttribute(NSAttributedString.Key.strikethroughStyle, value: NSUnderlineStyle.single.rawValue, range: NSMakeRange(0,attributeString.length))
         return attributeString
     }
+    
+    func removeStrikeThrough() -> NSAttributedString {
+        let attributeString = NSMutableAttributedString(string: self)
+        attributeString.removeAttribute(NSAttributedString.Key.strikethroughStyle, range: NSMakeRange(0, attributeString.length))
+        return attributeString
+    }
+
 }
 
 

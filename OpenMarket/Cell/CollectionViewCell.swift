@@ -31,11 +31,12 @@ class CollectionViewCell: UICollectionViewCell {
     
     func initCellProperty() {
         self.itemImage.image = UIImage(named: "indicator")
+        self.itemPrice.attributedText = self.itemPrice.text?.removeStrikeThrough()
         self.itemTitle.text = ""
         self.numberOfItemStock.text = ""
         self.itemPrice.text = ""
         self.discountedPrice.isHidden = true
-        self.itemPrice.attributedText = nil
+        self.itemPrice.attributedText = NSAttributedString(string: "")
         self.itemPrice.textColor = UIColor.lightGray
     }
     
