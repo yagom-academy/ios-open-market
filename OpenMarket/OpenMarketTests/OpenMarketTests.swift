@@ -25,19 +25,19 @@ final class OpenMarketTests: XCTestCase {
     
     func testGetItems() {
         guard let url = OpenMarketURL.viewItemList(1).url else { return }
-        guard let data = NSDataAsset(name: "Items")?.data else { return }
+        guard let data = NSDataAsset(name: TestAssets.itemList)?.data else { return }
         guard let decodedData = try? JSONDecoder().decode(ItemList.self, from: data) else { return }
         
         setLoadingHandler(data)
         
-        let expectation = XCTestExpectation(description: "Loading")
+        let expectation = XCTestExpectation(description: TestAssets.loadingString)
         
         client.request(ItemList.self, url: url) { result in
             switch result {
             case .success(let responseData):
                 XCTAssertEqual(responseData, decodedData)
             case .failure(let error):
-                XCTFail("Request was not successful: \(error.localizedDescription)")
+                XCTFail("\(TestAssets.requestErrorString + error.localizedDescription)")
             }
             expectation.fulfill()
         }
@@ -46,19 +46,19 @@ final class OpenMarketTests: XCTestCase {
     
     func testGetItem() {
         guard let url = OpenMarketURL.viewItemDetail(1).url else { return }
-        guard let data = NSDataAsset(name: "Item")?.data else { return }
+        guard let data = NSDataAsset(name: TestAssets.item)?.data else { return }
         guard let decodedData = try? JSONDecoder().decode(ItemResponse.self, from: data) else { return }
         
         setLoadingHandler(data)
         
-        let expectation = XCTestExpectation(description: "Loading")
+        let expectation = XCTestExpectation(description: TestAssets.loadingString)
         
         client.request(ItemResponse.self, url: url) { result in
             switch result {
             case .success(let responseData):
                 XCTAssertEqual(responseData, decodedData)
             case .failure(let error):
-                XCTFail("Request was not successful: \(error.localizedDescription)")
+                XCTFail("\(TestAssets.requestErrorString + error.localizedDescription)")
             }
             expectation.fulfill()
         }
@@ -67,64 +67,35 @@ final class OpenMarketTests: XCTestCase {
     
     func testDeleteItem() {
         guard let url = OpenMarketURL.deleteItem(1).url else { return }
-        guard let data = NSDataAsset(name: "Item")?.data else { return }
+        guard let data = NSDataAsset(name: TestAssets.item)?.data else { return }
         guard let decodedData = try? JSONDecoder().decode(ItemResponse.self, from: data) else { return }
-        
-        let deleteBody = ItemForDelete(password: "1234")
+        let deleteBody: ItemForDelete = TestAssets.deleteBody
         
         setLoadingHandler(data)
         
-        let expectation = XCTestExpectation(description: "Loading")
+        let expectation = XCTestExpectation(description: TestAssets.loadingString)
         
         client.deleteItem(url: url, body: deleteBody) { result in
             switch result {
             case .success(let responseData):
                 XCTAssertEqual(responseData, decodedData)
             case .failure(let error):
-                XCTFail("Request was not successful: \(error.localizedDescription)")
+                XCTFail("\(TestAssets.requestErrorString + error.localizedDescription)")
             }
             expectation.fulfill()
         }
         wait(for: [expectation], timeout: 1)
     }
     
-    func testEditItem() {
+    func testPatchItem() {
         guard let url = OpenMarketURL.editItem(1).url else { return }
-        
-        let mockData = ItemResponse(
-            id: 1,
-            title: "pencil",
-            descriptions: "apple pencil",
-            price: 1690000,
-            currency: "KRW",
-            stock: 1000000000000,
-            discountedPrice: nil,
-            thumbnails: [
-            "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/thumbnails/1-1.png",
-            "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/thumbnails/1-2.png"
-        ],
-            images: [
-            "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/images/1-1.png",
-            "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/images/1-2.png"
-        ],
-            registrationDate: 1611523563.719116
-        )
-        guard let encodedMockData = try? JSONEncoder().encode(mockData) else { return }
-        
-        let editBody = ItemForEdit(
-            title: "pencil",
-            price: nil,
-            descriptions: "apple pencil",
-            currency: nil,
-            stock: nil,
-            discountedPrice: nil,
-            images: nil,
-            password: ""
-        )
+        let mockData: ItemResponse = TestAssets.mockItemResponse
+        guard let encodedMockData: Data = try? JSONEncoder().encode(mockData) else { return }
+        let editBody: ItemForEdit = TestAssets.editBody
         
         setLoadingHandler(encodedMockData)
         
-        let expectation = XCTestExpectation(description: "Loading")
+        let expectation = XCTestExpectation(description: TestAssets.loadingString)
         
         client.editItem(url: url, body: editBody) { result in
             switch result {
@@ -132,7 +103,7 @@ final class OpenMarketTests: XCTestCase {
                 XCTAssertEqual(responseData.title, editBody.title)
                 XCTAssertEqual(responseData.descriptions, editBody.descriptions)
             case .failure(let error):
-                XCTFail("Request was not successful: \(error.localizedDescription)")
+                XCTFail("\(TestAssets.requestErrorString + error.localizedDescription)")
             }
             expectation.fulfill()
         }
@@ -141,50 +112,20 @@ final class OpenMarketTests: XCTestCase {
     
     func testPostItem() {
         guard let url = OpenMarketURL.registerItem.url else { return }
-        
-        let mockData = ItemResponse(
-            id: 1,
-            title: "pencil",
-            descriptions: "apple pencil",
-            price: 1690000,
-            currency: "KRW",
-            stock: 1000000000000,
-            discountedPrice: nil,
-            thumbnails: [
-            "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/thumbnails/1-1.png",
-            "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/thumbnails/1-2.png"
-        ],
-            images: [
-            "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/images/1-1.png",
-            "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/images/1-2.png"
-        ],
-            registrationDate: 1611523563.719116
-        )
+        let mockData: ItemResponse = TestAssets.mockItemResponse
         guard let encodedMockData = try? JSONEncoder().encode(mockData) else { return }
-        
-        guard let image = UIImage(named: "test_image")?.pngData() else { return }
-        
-        let postBody = ItemForRegistration(
-            title: "pencil",
-            descriptions: "apple pencil",
-            price: 1690000,
-            currency: "KRW",
-            stock: 1000000000000,
-            discountedPrice: nil,
-            images: [image],
-            password: "1234"
-        )
+        let postBody: ItemForRegistration = TestAssets.postBody
         
         setLoadingHandler(encodedMockData)
         
-        let expectation = XCTestExpectation(description: "Loading")
+        let expectation = XCTestExpectation(description: TestAssets.loadingString)
         
         client.registerItem(url: url, body: postBody) { result in
             switch result {
             case .success(let responseData):
                 XCTAssertEqual(responseData.title, postBody.title)
             case .failure(let error):
-                XCTFail("Request was not successful: \(error.localizedDescription)")
+                XCTFail("\(TestAssets.requestErrorString + error.localizedDescription)")
             }
             expectation.fulfill()
         }

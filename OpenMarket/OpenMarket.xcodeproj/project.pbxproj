@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		AA04F853264CFDB100232D1E /* OpenMarketURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA04F852264CFDB100232D1E /* OpenMarketURL.swift */; };
+		AA29243B2654C57A00E283ED /* TestAssets.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA29243A2654C57A00E283ED /* TestAssets.swift */; };
 		AAE7912E265247D000F89BAE /* MultipartConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE7912D265247D000F89BAE /* MultipartConvertible.swift */; };
 		AAE791302652488100F89BAE /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE7912F2652488100F89BAE /* HTTPMethod.swift */; };
 		AAE79132265248D000F89BAE /* URLRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE79131265248D000F89BAE /* URLRequest.swift */; };
@@ -43,6 +44,7 @@
 
 /* Begin PBXFileReference section */
 		AA04F852264CFDB100232D1E /* OpenMarketURL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketURL.swift; sourceTree = "<group>"; };
+		AA29243A2654C57A00E283ED /* TestAssets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestAssets.swift; sourceTree = "<group>"; };
 		AAE7912D265247D000F89BAE /* MultipartConvertible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipartConvertible.swift; sourceTree = "<group>"; };
 		AAE7912F2652488100F89BAE /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
 		AAE79131265248D000F89BAE /* URLRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLRequest.swift; sourceTree = "<group>"; };
@@ -196,6 +198,7 @@
 				E27CB886264A75F3007741DE /* OpenMarketTests.swift */,
 				E27CB888264A75F3007741DE /* Info.plist */,
 				E23130212652CF66008CAC47 /* MockURLProtocol.swift */,
+				AA29243A2654C57A00E283ED /* TestAssets.swift */,
 			);
 			path = OpenMarketTests;
 			sourceTree = "<group>";
@@ -325,6 +328,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E23130222652CF66008CAC47 /* MockURLProtocol.swift in Sources */,
+				AA29243B2654C57A00E283ED /* TestAssets.swift in Sources */,
 				E27CB887264A75F3007741DE /* OpenMarketTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
