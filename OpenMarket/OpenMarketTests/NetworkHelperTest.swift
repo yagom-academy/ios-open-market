@@ -71,7 +71,7 @@ class NetworkHelperTest: XCTestCase {
     
     func test_상품_정보_수정_요청() {
         let form = ItemRegistrationForm(title: "이미지수정abc", descriptions: nil, price: nil, currency: nil, stock: nil, discountedPrice: nil, images: [UIImage(named: "vanilla")!], password: "1234")
-        let id = 196
+        let id = 198
         
         let promise = expectation(description: "form")
         
@@ -88,7 +88,7 @@ class NetworkHelperTest: XCTestCase {
     }
     
     func test_상품_삭제_요청() {
-        let id = 195
+        let id = 198
         
         let promise = expectation(description: "form")
         
