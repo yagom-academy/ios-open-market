@@ -69,7 +69,6 @@ class SessionManagerHTTPTests: XCTestCase {
                 XCTAssertEqual(item.price, 1690000)
                 XCTAssertEqual(item.currency, "KRW")
                 XCTAssertEqual(item.stock, 1000000000000)
-                
             case .failure(let error):
                 XCTFail(error.localizedDescription)
             }
@@ -98,7 +97,6 @@ class SessionManagerHTTPTests: XCTestCase {
                 XCTAssertEqual(item.price, 1690000)
                 XCTAssertEqual(item.currency, "KRW")
                 XCTAssertEqual(item.stock, 1000000000000)
-                
             case .failure(let error):
                 XCTFail(error.localizedDescription)
             }
@@ -128,7 +126,6 @@ class SessionManagerHTTPTests: XCTestCase {
                     XCTAssertEqual(item.price, 1690000)
                     XCTAssertEqual(item.currency, "KRW")
                     XCTAssertEqual(item.stock, 1000000000000)
-                    
                 case .failure(let error):
                     XCTFail(error.localizedDescription)
                 }
@@ -159,7 +156,6 @@ class SessionManagerHTTPTests: XCTestCase {
                     XCTAssertEqual(item.price, 1690000)
                     XCTAssertEqual(item.currency, "KRW")
                     XCTAssertEqual(item.stock, 1000000000000)
-                    
                 case .failure(let error):
                     XCTFail(error.localizedDescription)
                 }
@@ -267,6 +263,54 @@ class SessionManagerHTTPTests: XCTestCase {
             expectation.fulfill()
         }
         
+        wait(for: [expectation], timeout: 10)
+    }
+    
+    func test_타입과_맞지않는_데이터를_request하려는_경우_requestDataTypeNotMatch를_completionHanlder에_전달한다() {
+        let expectation = XCTestExpectation()
+        let url: URL = URL(string: "https://yagom.net/")!
+
+        MockURLProtocol.requestHandler = { request in
+            let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: nil, headerFields: nil)!
+            let data = NSDataAsset(name: "Item")!.data
+
+            return (response, data, nil)
+        }
+
+        sut.request(method: .post, path: .item(id: nil), data: dummyPatchingItem) { (result: Result<Item, OpenMarketError>) in
+            switch result {
+            case .success:
+                XCTFail("성공하면 안됨")
+            case .failure(let error):
+                XCTAssertEqual(error, .requestDataTypeNotMatch)
+            }
+            expectation.fulfill()
+        }
+
+        wait(for: [expectation], timeout: 10)
+    }
+    
+    func test_GET으로_request를_할때_데이터를_전달하는_경우_requestGETWithData를_completionHanlder에_전달한다() {
+        let expectation = XCTestExpectation()
+        let url: URL = URL(string: "https://yagom.net/")!
+
+        MockURLProtocol.requestHandler = { request in
+            let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: nil, headerFields: nil)!
+            let data = NSDataAsset(name: "Item")!.data
+
+            return (response, data, nil)
+        }
+
+        sut.request(method: .get, path: .item(id: nil), data: dummyPatchingItem) { (result: Result<Item, OpenMarketError>) in
+            switch result {
+            case .success:
+                XCTFail("성공하면 안됨")
+            case .failure(let error):
+                XCTAssertEqual(error, .requestGETWithData)
+            }
+            expectation.fulfill()
+        }
+
         wait(for: [expectation], timeout: 10)
     }
 }
