@@ -122,6 +122,32 @@ struct NetworkHelper {
             completion(.failure(fatalError()))
         }.resume()
     }
+    
+    func deleteItem(itemNum: Int, password: String, completion: @escaping (Result<ItemInfo, Error>) -> Void) {
+        guard let url = URL(string: RequestAddress.updateItem(id: itemNum).url) else {
+            completion(.failure(fatalError()))
+            return
+        }
+        var request = URLRequest(url: url)
+        request.httpMethod = HttpMethod.delete
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue("application/json", forHTTPHeaderField: "Accept")
+        request.httpBody = "{ \"password\": \"\(password)\" }".data(using: .utf8)
+        
+        session.dataTask(with: request) { data, response, error in
+            guard let response = response as? HTTPURLResponse,
+                  (200...399).contains(response.statusCode) else {
+                completion(.failure(fatalError()))
+                return
+            }
+            if let data = data,
+               let responedItem = try? JSONDecoder().decode(ItemInfo.self, from: data){
+                completion(.success(responedItem))
+                return
+            }
+            completion(.failure(fatalError()))
+        }.resume()
+    }
 }
 
 struct HttpBodyCreater {

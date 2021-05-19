@@ -85,6 +85,22 @@ class NetworkHelperTest: XCTestCase {
             promise.fulfill()
         }
         wait(for: [promise], timeout: 5)
+    }
+    
+    func test_상품_삭제_요청() {
+        let id = 195
         
+        let promise = expectation(description: "form")
+        
+        NetworkHelper().deleteItem(itemNum: id, password: "1234") { result in
+            switch result {
+            case .success(let item):
+                XCTAssertEqual(id, item.id)
+            case .failure:
+                XCTFail()
+            }
+            promise.fulfill()
+        }
+        wait(for: [promise], timeout: 5)
     }
 }
