@@ -34,6 +34,9 @@ class CollectionViewCell: UICollectionViewCell {
         self.itemTitle.text = ""
         self.numberOfItemStock.text = ""
         self.itemPrice.text = ""
+        self.discountedPrice.isHidden = true
+        self.itemPrice.attributedText = nil
+        self.itemPrice.textColor = UIColor.lightGray
     }
     
     func update(data: ItemsOfPageReponse, indexPath: IndexPath ,collectionView: UICollectionView) {

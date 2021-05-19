@@ -33,6 +33,7 @@ class TableViewCell: UITableViewCell {
         self.itemPrice.text = ""
         self.discountedPrice.text = ""
         self.discountedPrice.isHidden = true
+        self.itemPrice.attributedText = nil
         self.itemPrice.textColor = UIColor.lightGray
     }
     
