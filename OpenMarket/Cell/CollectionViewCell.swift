@@ -43,10 +43,8 @@ class CollectionViewCell: UICollectionViewCell {
             let imageData = try Data(contentsOf: imageURL!)
             
             DispatchQueue.main.async {
-                print(indexPath, collectionView.indexPath(for: self))
                 guard collectionView.indexPath(for: self) == indexPath else { return }
                 
-                print("@ ",indexPath)
                 self.itemImage.image = UIImage(data: imageData)
                 self.itemTitle.text = data.items[itemIndex].title
                 self.numberOfItemStock.text = "잔여수량 : " + String(data.items[itemIndex].stock)

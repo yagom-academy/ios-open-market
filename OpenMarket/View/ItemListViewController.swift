@@ -156,8 +156,6 @@ extension ItemListViewController: UICollectionViewDelegateFlowLayout {
     }
 }
 
-struct ItemListModel {
-   
-}
+
 
 

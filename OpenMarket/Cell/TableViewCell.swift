@@ -42,9 +42,8 @@ class TableViewCell: UITableViewCell {
         do {
             let imageData = try Data(contentsOf: imageURL!)
             DispatchQueue.main.async {
-                print(indexPath, tableView.indexPath(for: self))
                 guard tableView.indexPath(for: self) == indexPath else { return }
-                print("@ ",indexPath)
+
                 self.itemImage.image = UIImage(data: imageData)
                 self.itemTitle.text = data.items[itemIndex].title
                 self.numberOfItemStock.text = "잔여수량 : " + String(data.items[itemIndex].stock)
@@ -67,7 +66,7 @@ class TableViewCell: UITableViewCell {
     
 }
 
-extension String { // 취소선 긋기
+extension String { 
     func strikeThrough() -> NSAttributedString {
         let attributeString = NSMutableAttributedString(string: self)
         attributeString.addAttribute(NSAttributedString.Key.strikethroughStyle, value: NSUnderlineStyle.single.rawValue, range: NSMakeRange(0,attributeString.length))
