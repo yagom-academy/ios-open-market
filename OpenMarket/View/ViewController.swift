@@ -82,7 +82,7 @@ class ViewController: UIViewController {
         }
     }
     
-    func getItemsOfPageData<T:CellProtocol>(cell: T, indexPath: IndexPath)  {
+    func getItemsOfPageData(tableViewCell: TableViewCell?, collectionViewCell: CollectionViewCell?, indexPath: IndexPath)  {
                 
         let url = Network.baseURL + "/items/\(indexPath.row/20+1)"
         guard let urlRequest = URL(string: url) else { return  }
@@ -91,14 +91,17 @@ class ViewController: UIViewController {
             self.checkValidation(data: data, response: response, error: error)
             do {
                 let data = try JSONDecoder().decode(ItemsOfPageReponse.self, from: data!)
-                cell.update(data: data, indexPath: indexPath, view: self.tableView)
+                if let tableViewCell = tableViewCell {
+                    tableViewCell.update(data: data, indexPath: indexPath ,tableView: self.tableView)
+                }
+                guard let collectionViewCell = collectionViewCell else { return }
+                collectionViewCell.update(data: data, indexPath: indexPath, collectionView: self.collectionView)
             } catch {
                 fatalError("Failed to decode")
             }
         }.resume()
     }
 }
-
 
 
 extension ViewController: UITableViewDataSource {
@@ -112,13 +115,13 @@ extension ViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         
-        getItemsOfPageData(cell: cell, indexPath: indexPath)
+        getItemsOfPageData(tableViewCell: cell, collectionViewCell: nil, indexPath: indexPath)
         
         return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 60
+        return 70
     }
 }
 
@@ -128,7 +131,7 @@ extension ViewController: UITableViewDelegate {
 
 extension ViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return 119
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -137,7 +140,7 @@ extension ViewController: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         
-//        cell.update
+        getItemsOfPageData(tableViewCell: nil, collectionViewCell: cell, indexPath: indexPath)
         
         return cell
     }
