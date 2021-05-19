@@ -8,26 +8,24 @@ import UIKit
 
 class ItemListViewController: UIViewController {
 
-//    var tableView: UITableView!
-//    var collectionView: UICollectionView!
-//    var url: URLComponents?
-    var itemListModel = ItemListModel()
+    var tableView: UITableView!
+    var collectionView: UICollectionView!
     
     @IBOutlet var superView: UIView!
     @IBOutlet var control: UISegmentedControl!
     
     @IBAction func didChangeSegement(_ sender: UISegmentedControl) {
         if sender.selectedSegmentIndex == 0 {
-            itemListModel.collectionView.removeFromSuperview()
-            superView.addSubview(itemListModel.tableView)
+            self.collectionView.removeFromSuperview()
+            superView.addSubview(self.tableView)
             control.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white],
                                            for: UIControl.State.selected)
             control.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.systemBlue],
                                            for: UIControl.State.normal)
             return
         }
-        itemListModel.tableView.removeFromSuperview()
-        superView.addSubview(itemListModel.collectionView)
+        self.tableView.removeFromSuperview()
+        superView.addSubview(self.collectionView)
     }
     
     override func viewDidLoad() {
@@ -39,21 +37,21 @@ class ItemListViewController: UIViewController {
     
     private func setUpCollectionView() {
         let flowLayout = UICollectionViewFlowLayout()
-        self.itemListModel.collectionView = UICollectionView(frame: CGRect(x: 10, y: 10, width: superView.frame.width-20, height: superView.frame.height), collectionViewLayout: flowLayout)
-        self.itemListModel.collectionView.backgroundColor = UIColor.white
-        self.itemListModel.collectionView.delegate = self
-        self.itemListModel.collectionView.dataSource = self
+        self.self.collectionView = UICollectionView(frame: CGRect(x: 10, y: 10, width: superView.frame.width-20, height: superView.frame.height), collectionViewLayout: flowLayout)
+        self.self.collectionView.backgroundColor = UIColor.white
+        self.self.collectionView.delegate = self
+        self.self.collectionView.dataSource = self
         let collectionViewNib = UINib(nibName: CollectionViewCell.identifier, bundle: nil)
-        self.itemListModel.collectionView.register(collectionViewNib, forCellWithReuseIdentifier: CollectionViewCell.identifier)
+        self.self.collectionView.register(collectionViewNib, forCellWithReuseIdentifier: CollectionViewCell.identifier)
     }
     
     private func setUpTableView() {
-        self.itemListModel.tableView = UITableView(frame: CGRect(x: 0, y: 0, width: superView.frame.width, height: superView.frame.height))
-        self.itemListModel.tableView.delegate = self
-        self.itemListModel.tableView.dataSource = self
+        self.self.tableView = UITableView(frame: CGRect(x: 0, y: 0, width: superView.frame.width, height: superView.frame.height))
+        self.self.tableView.delegate = self
+        self.self.tableView.dataSource = self
         let tableViewNib = UINib(nibName: TableViewCell.identifier, bundle: nil)
-        self.itemListModel.tableView.register(tableViewNib, forCellReuseIdentifier: TableViewCell.identifier)
-        superView.addSubview(self.itemListModel.tableView)
+        self.self.tableView.register(tableViewNib, forCellReuseIdentifier: TableViewCell.identifier)
+        superView.addSubview(self.self.tableView)
     }
     
     private func setUpSegmentedControl() {
@@ -94,10 +92,10 @@ class ItemListViewController: UIViewController {
             do {
                 let data = try JSONDecoder().decode(ItemsOfPageReponse.self, from: data!)
                 if let tableViewCell = tableViewCell {
-                    tableViewCell.update(data: data, indexPath: indexPath ,tableView: self.itemListModel.tableView)
+                    tableViewCell.update(data: data, indexPath: indexPath ,tableView: self.self.tableView)
                 }
                 guard let collectionViewCell = collectionViewCell else { return }
-                collectionViewCell.update(data: data, indexPath: indexPath, collectionView: self.itemListModel.collectionView)
+                collectionViewCell.update(data: data, indexPath: indexPath, collectionView: self.self.collectionView)
             } catch {
                 fatalError("Failed to decode")
             }
@@ -123,7 +121,7 @@ extension ItemListViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 70
+        return 80
     }
 }
 
@@ -159,8 +157,7 @@ extension ItemListViewController: UICollectionViewDelegateFlowLayout {
 }
 
 struct ItemListModel {
-    var tableView: UITableView!
-    var collectionView: UICollectionView!
+   
 }
 
 
