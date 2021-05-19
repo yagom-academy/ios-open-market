@@ -20,11 +20,14 @@ class OpenMarketAPI {
         let path: String = "/items/1"
         guard let url = URL(string: baseUrl + path) else { return }
         
-        let request = URLRequest(url: url)
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        
         let task: URLSessionDataTask = session
             .dataTask(with: request) { data, urlResponse, error in
             
-            guard let response = urlResponse as? HTTPURLResponse, (200...399).contains(response.statusCode) else {
+            guard let response = urlResponse as? HTTPURLResponse,
+                  (200...399).contains(response.statusCode) else {
                 completion([])
                 return
             }
