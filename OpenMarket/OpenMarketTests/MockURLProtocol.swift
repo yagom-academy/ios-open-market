@@ -2,7 +2,7 @@
 //  MockURLProtocol.swift
 //  OpenMarketTests
 //
-//  Created by 배은서 on 2021/05/18.
+//  Created by Hailey, Ryan on 2021/05/18.
 //
 
 import XCTest

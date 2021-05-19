@@ -2,7 +2,7 @@
 //  OpenMarketURL.swift
 //  OpenMarket
 //
-//  Created by Ryan-Son on 2021/05/13.
+//  Created by Hailey, Ryan on 2021/05/13.
 //
 
 import Foundation

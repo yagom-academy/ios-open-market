@@ -2,7 +2,7 @@
 //  TestAsset.swift
 //  OpenMarketTests
 //
-//  Created by Ryan-Son on 2021/05/19.
+//  Created by Hailey, Ryan on 2021/05/19.
 //
 
 import UIKit.UIImage
