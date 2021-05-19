@@ -42,13 +42,13 @@ enum TestAssets {
         stock: 1000000000000,
         discountedPrice: nil,
         thumbnails: [
-        "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/thumbnails/1-1.png",
-        "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/thumbnails/1-2.png"
-    ],
+            "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/thumbnails/1-1.png",
+            "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/thumbnails/1-2.png"
+        ],
         images: [
-        "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/images/1-1.png",
-        "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/images/1-2.png"
-    ],
+            "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/images/1-1.png",
+            "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/images/1-2.png"
+        ],
         registrationDate: 1611523563.719116
     )
     static let loadingString: String = "Loading"
