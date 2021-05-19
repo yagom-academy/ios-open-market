@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 struct ItemRegistrationForm/*: Codable*/ {
     let title: String?
@@ -14,8 +15,19 @@ struct ItemRegistrationForm/*: Codable*/ {
     let currency: String?
     let stock: Int?
     let discountedPrice: Int?
-    let images: [String]?
+    let images: [UIImage]?
     let password: String
+    
+    var imagesDatas: [Data] {
+        var datas: [Data] = []
+        guard let images = images else {
+            return []
+        }
+        for image in images {
+            datas.append(image.pngData()!)
+        }
+        return datas
+    }
     
     var multiFormData: [String: String] {
         var datas: [String: String] = [:]
@@ -42,12 +54,6 @@ struct ItemRegistrationForm/*: Codable*/ {
         
         if let discountedPrice = discountedPrice {
             datas["discounted_price"] = String(discountedPrice)
-        }
-        
-        if let images = images {
-            for image in images {
-                datas["images[]"] = image
-            }
         }
         
         datas["password"] = password

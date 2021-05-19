@@ -81,6 +81,21 @@ struct NetworkHelper {
         request.httpMethod = HttpMethod.post
         request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
         request.httpBody = HttpBodyCreater(boundary: boundary, itemForm: itemForm).make()
+        
+        session.dataTask(with: request) { data, response, error in
+            guard let response = response as? HTTPURLResponse,
+                  (200...399).contains(response.statusCode) else {
+                completion(.failure(fatalError()))
+                return
+            }
+            
+            if let data = data,
+               let responedItem = try? JSONDecoder().decode(ItemInfo.self, from: data){
+                completion(.success(responedItem))
+                return
+            }
+            completion(.failure(fatalError()))
+        }
     }
 }
 
@@ -90,7 +105,32 @@ struct HttpBodyCreater {
     
     func make() -> Data {
         var data = Data()
+        let boundaryPrefix = "--\(boundary)\r\n"
+        
+        // 일반 데이터
+        for (key, value) in itemForm.multiFormData {
+            data.appendString(boundaryPrefix)
+            data.appendString("Content-Disposition: form-data; name=\"\(key)\"\r\n\r\n")
+            data.appendString("\(value)\r\n")
+        }
+        // 이미지 데이터
+        for imageData in itemForm.imagesDatas {
+            data.appendString(boundaryPrefix)
+            data.appendString("Content-Disposition: form-data; name=\"images[]\"; filename=\"image.png\"\r\n")
+            data.appendString("Content-Type: image/png\r\n\r\n")
+            data.append(imageData)
+            data.appendString("\r\n")
+        }
+        
+        data.appendString("--".appending(boundary.appending("--")))
         
         return data
+    }
+}
+
+extension Data {
+    mutating func appendString(_ string: String) {
+        guard let string = string.data(using: .utf8) else { return }
+        append(string)
     }
 }
