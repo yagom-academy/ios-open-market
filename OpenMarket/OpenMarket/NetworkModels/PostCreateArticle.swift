@@ -13,7 +13,7 @@ class PostCreateArticle {
     let manageMultipartForm = ManageMultipartForm()
     let urlProcess = URLProcess()
     
-    func postData(urlRequest: URLRequest?, requestBody: Data) {
+    func postData(urlRequest: URLRequest?, requestBody: Data, completion: @escaping (Bool) -> Void) {
         guard let request = urlRequest else { return }
         
         URLSession.shared.uploadTask(with: request, from: requestBody) { (data, response, error) in
@@ -21,9 +21,11 @@ class PostCreateArticle {
             if error != nil { return }
             if self.urlProcess.checkResponseCode(response: response) {
                 print("post성공")
+                completion(true)
             }
             else {
                 print("post 보내기 실패")
+                completion(false)
             }
         }.resume()
     }
