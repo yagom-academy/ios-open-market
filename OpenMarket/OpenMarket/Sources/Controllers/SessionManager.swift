@@ -79,6 +79,20 @@ class SessionManager {
             return completionHandler(.failure(.invalidURL))
         }
 
+        switch method {
+        case .get:
+            completionHandler(.failure(.requestGETWithData))
+        case .post:
+            if data is PostingItem { break }
+            completionHandler(.failure(.requestDataTypeNotMatch))
+        case .patch:
+            if data is PatchingItem { break }
+            completionHandler(.failure(.requestDataTypeNotMatch))
+        case .delete:
+            if data is DeletingItem { break }
+            completionHandler(.failure(.requestDataTypeNotMatch))
+        }
+
         do {
             request.httpBody = try requestBodyEncoder.encode(data)
         } catch let error as OpenMarketError {

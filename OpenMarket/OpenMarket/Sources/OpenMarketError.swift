@@ -15,4 +15,6 @@ enum OpenMarketError: Error {
     case JSONEncodingError
     case sessionError
     case bodyEncodingError
+    case requestDataTypeNotMatch
+    case requestGETWithData
 }
