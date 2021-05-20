@@ -8,11 +8,13 @@
 import Foundation
 
 struct ServerConnector {
+    let domain: String
     let url: URL
     let urlRequest: URLRequest
     
-    init(url: URL, method: String) {
-        self.url = url
+    init(domain: String) {
+        self.domain = domain
+        self.url = URL(string: domain)!
         self.urlRequest = URLRequest(url: url)
     }
     
@@ -23,5 +25,4 @@ struct ServerConnector {
     func patchSeversData() {}
     
     func deleteServersData() {}
-}
-
+} 
