@@ -33,7 +33,7 @@ extension MultipartConvertible {
             }
         }
         
-        body.appendString("--\(boundary)--\r\n")
+        body.append("--\(boundary)--\r\n")
         
         return body
     }
@@ -41,9 +41,9 @@ extension MultipartConvertible {
     func convertFormData(name: String, value: Any, boundary: String) -> Data {
         var data = Data()
         
-        data.appendString("--\(boundary)\r\n")
-        data.appendString("Content-Disposition: form-data; name=\"\(name)\"\r\n\r\n")
-        data.appendString("\(value)\r\n")
+        data.append("--\(boundary)\r\n")
+        data.append("Content-Disposition: form-data; name=\"\(name)\"\r\n\r\n")
+        data.append("\(value)\r\n")
         
         return data
     }
@@ -53,11 +53,11 @@ extension MultipartConvertible {
         var imageIndex = 1
         
         for image in images {
-            data.appendString("--\(boundary)\r\n")
-            data.appendString("Content-Disposition: form-data; name=\"images[]\"; filename=\"image\(imageIndex).png\"\r\n")
-            data.appendString("Content-Type: image/png\r\n\r\n")
+            data.append("--\(boundary)\r\n")
+            data.append("Content-Disposition: form-data; name=\"images[]\"; filename=\"image\(imageIndex).png\"\r\n")
+            data.append("Content-Type: image/png\r\n\r\n")
             data.append(image)
-            data.appendString("\r\n")
+            data.append("\r\n")
             imageIndex += 1
         }
         
