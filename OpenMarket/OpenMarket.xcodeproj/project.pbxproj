@@ -15,7 +15,7 @@
 		C70FB10425BEF61D00C9924E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C70FB10325BEF61D00C9924E /* Assets.xcassets */; };
 		C70FB10725BEF61D00C9924E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */; };
 		EA6F35E52652688B00768AE8 /* OpenMarketAPIProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA6F35E42652688B00768AE8 /* OpenMarketAPIProvider.swift */; };
-		EA6F35EA2652709D00768AE8 /* ErrorHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA6F35E92652709D00768AE8 /* ErrorHandling.swift */; };
+		EA6F35EA2652709D00768AE8 /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA6F35E92652709D00768AE8 /* APIError.swift */; };
 		EA6F35FB2652894900768AE8 /* MockURLProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DAE26BB264E6992008A1712 /* MockURLProtocol.swift */; };
 		EA6F35FC2652894900768AE8 /* SampleOpenMarketAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA6F35E6265268E700768AE8 /* SampleOpenMarketAPI.swift */; };
 		EAC68443264A4C46002A9CE3 /* ServerAccessRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAC68442264A4C46002A9CE3 /* ServerAccessRequest.swift */; };
@@ -45,7 +45,7 @@
 		C70FB10825BEF61D00C9924E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EA6F35E42652688B00768AE8 /* OpenMarketAPIProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketAPIProvider.swift; sourceTree = "<group>"; };
 		EA6F35E6265268E700768AE8 /* SampleOpenMarketAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleOpenMarketAPI.swift; sourceTree = "<group>"; };
-		EA6F35E92652709D00768AE8 /* ErrorHandling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorHandling.swift; sourceTree = "<group>"; };
+		EA6F35E92652709D00768AE8 /* APIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
 		EA6F35F12652893500768AE8 /* OpenMarketNetworkTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenMarketNetworkTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		EA6F35F52652893500768AE8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EAC68442264A4C46002A9CE3 /* ServerAccessRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerAccessRequest.swift; sourceTree = "<group>"; };
@@ -91,6 +91,7 @@
 		C70FB0F925BEF61C00C9924E /* OpenMarket */ = {
 			isa = PBXGroup;
 			children = (
+				EAEC6E682656297C0035337C /* OpenMarketAPI */,
 				C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */,
 				C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */,
 				C70FB0FE25BEF61C00C9924E /* ViewController.swift */,
@@ -98,10 +99,6 @@
 				C70FB10325BEF61D00C9924E /* Assets.xcassets */,
 				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
 				C70FB10825BEF61D00C9924E /* Info.plist */,
-				EAC68442264A4C46002A9CE3 /* ServerAccessRequest.swift */,
-				4DABBF26264E5A9D0044C06D /* RequestBody.swift */,
-				EA6F35E92652709D00768AE8 /* ErrorHandling.swift */,
-				EA6F35E42652688B00768AE8 /* OpenMarketAPIProvider.swift */,
 			);
 			path = OpenMarket;
 			sourceTree = "<group>";
@@ -115,6 +112,17 @@
 				EA6F35F52652893500768AE8 /* Info.plist */,
 			);
 			path = OpenMarketNetworkTests;
+			sourceTree = "<group>";
+		};
+		EAEC6E682656297C0035337C /* OpenMarketAPI */ = {
+			isa = PBXGroup;
+			children = (
+				EAC68442264A4C46002A9CE3 /* ServerAccessRequest.swift */,
+				4DABBF26264E5A9D0044C06D /* RequestBody.swift */,
+				EA6F35E92652709D00768AE8 /* APIError.swift */,
+				EA6F35E42652688B00768AE8 /* OpenMarketAPIProvider.swift */,
+			);
+			path = OpenMarketAPI;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -219,7 +227,7 @@
 			files = (
 				EA6F35E52652688B00768AE8 /* OpenMarketAPIProvider.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
-				EA6F35EA2652709D00768AE8 /* ErrorHandling.swift in Sources */,
+				EA6F35EA2652709D00768AE8 /* APIError.swift in Sources */,
 				EAC68443264A4C46002A9CE3 /* ServerAccessRequest.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				4DABBF27264E5A9D0044C06D /* RequestBody.swift in Sources */,
