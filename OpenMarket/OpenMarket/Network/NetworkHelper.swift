@@ -55,7 +55,7 @@ struct NetworkHelper {
                 return
             }
             if let data = data,
-               let responedItem = try? JSONDecoder().decode(ItemInfo.self, from: data){
+               let responedItem = try? JSONDecoder().decode(ItemInfo.self, from: data) {
                 completion(.success(responedItem))
                 return
             }
