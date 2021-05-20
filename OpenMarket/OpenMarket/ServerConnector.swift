@@ -8,6 +8,14 @@
 import Foundation
 
 struct ServerConnector {
+    let url: URL
+    let urlRequest : URLRequest
+    
+    init(url: URL, method: String) {
+        self.url = url
+        self.urlRequest = URLRequest(url: url)
+    }
+    
     func getServersData() {}
     
     func postClientsData() {}
@@ -16,3 +24,4 @@ struct ServerConnector {
     
     func deleteServersData() {}
 }
+
