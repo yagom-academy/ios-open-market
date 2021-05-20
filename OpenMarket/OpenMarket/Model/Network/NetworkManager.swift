@@ -53,7 +53,7 @@ struct NetworkManager: Requestable {
     ) {
         guard let requestURL = url else { return }
         
-        let request = URLRequest.set(url: requestURL, httpMethod: .get)
+        let request = URLRequest(url: requestURL, httpMethod: .get)
         
         dataTask(request, Decoded.self) { result in
             completionHandler(result)
