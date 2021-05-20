@@ -7,7 +7,8 @@
 
 import Foundation
 
-struct EssentialArticle: Codable {
+struct EssentialArticle: Decodable {
+    
     let id: Int
     let title: String
     let price: Int
@@ -22,4 +23,5 @@ struct EssentialArticle: Codable {
         case discountedPrice = "discounted_price"
         case registrationDate = "registration_date"
     }
+    
 }

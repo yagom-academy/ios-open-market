@@ -7,8 +7,7 @@
 
 import Foundation
 
-struct DetailArticle: Decodable {
-    
+struct DetailArticle: Codable {
     let id: Int
     let title: String
     let price: Int
@@ -25,5 +24,4 @@ struct DetailArticle: Decodable {
         case discountedPrice = "discounted_price"
         case registrationDate = "registration_date"
     }
-    
 }
