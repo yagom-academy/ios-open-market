@@ -9,7 +9,7 @@ import Foundation
 
 struct ServerConnector {
     let url: URL
-    let urlRequest : URLRequest
+    let urlRequest: URLRequest
     
     init(url: URL, method: String) {
         self.url = url
