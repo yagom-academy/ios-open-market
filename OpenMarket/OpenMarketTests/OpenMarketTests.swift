@@ -33,35 +33,47 @@ class OpenMarketTests: XCTestCase {
         sut_patchUpdateArticle = nil
         sut_deleteArticle = nil
     }
-    //Assets에 저장된 데이터 추출
+  
+    
+    func convertDataToAssetImage(imageName: String) -> Data {
+        let profileImage:UIImage = UIImage(named: imageName)!
+        let imageData:Data = profileImage.pngData()!
+        
+        return imageData
+    }
+    
+    func convertDataToURLImage(imageURL: String) -> Data {
+        let url = URL(string: imageURL)
+        let data = try? Data(contentsOf: url!)
+        
+        return data!
+    }
+    
     func extractAssetsData(_ item: String) -> NSDataAsset? {
-        guard let itemData = NSDataAsset(name: item) else {
-            return nil
-        }
+        guard let itemData = NSDataAsset(name: item) else { return nil }
+        
         return itemData
     }
     
-    func test_Mock_Item데이터추출() {
+    func test_AssetJSON데이터_추출() {
         XCTAssertNil(extractAssetsData("Itemss"))
-    }
-    
-    func test_Mock_Items데이터추출() {
         XCTAssertNotNil(extractAssetsData("Items"))
+        XCTAssertNotNil(extractAssetsData("Item"))
     }
     
-    func test_Mock_Items디코딩() {
-        let extractedData = extractAssetsData("Items")
-        XCTAssertNotNil(sut_getEssentialArticle.decodeData(type: EntireArticle.self, data: extractedData!.data))
-    }
-    
-    func test_Mock_Item디코딩_withEsstialArticle() {
-        let extractedData = extractAssetsData("Item")
-        XCTAssertNotNil(sut_getEssentialArticle.decodeData(type: EssentialArticle.self, data: extractedData!.data))
-    }
-    
-    func test_Mock_Item디코딩_withDetailArticle() {
-        let extractedData = extractAssetsData("Item")
-        XCTAssertNotNil(sut_getEssentialArticle.decodeData(type: DetailArticle.self, data: extractedData!.data))
+    func test_MockData디코딩() {
+        guard let extractedItemsData = extractAssetsData("Items") else {
+            XCTFail()
+            return
+        }
+        guard let extractedItemData = extractAssetsData("Item")  else {
+            XCTFail()
+            return
+        }
+
+        XCTAssertEqual(sut_getEssentialArticle.decodeData(type: EntireArticle.self, data: extractedItemsData.data)?.page, 1)
+        XCTAssertEqual(sut_getEssentialArticle.decodeData(type: EssentialArticle.self, data: extractedItemData.data)?.title, "MacBook Pro")
+        XCTAssertEqual(sut_getEssentialArticle.decodeData(type: DetailArticle.self, data: extractedItemData.data)?.title, "MacBook Pro")
     }
     
     func test_추출된데이터확인() {
@@ -123,16 +135,14 @@ Apple M1 칩은 13형 MacBook Pro에 믿을 수 없을 만큼의 속도와 파�
         
         guard let itemBaseURL = sut_urlProcess.setBaseURL(urlString: "https://s3.us-west-2.amazonaws.com/secure.notion-static.com/a8c6f8d6-ad24-4cf9-8629-45bc6541771e/Item.json?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAT73L2G45O3KS52Y5%2F20210519%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20210519T082830Z&X-Amz-Expires=86400&X-Amz-Signature=7721716c3b40ffa2b2bb3d17e3697497cdc832fb4b95fbb2de8f6bffca43dbaa&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22Item.json%22") else { return }
         
-        
-        
         sut_getEssentialArticle.getParsing(url: itemBaseURL) { (testParam: DetailArticle) in
-            XCTAssertEqual(testParam.title, "rr")
-            XCTAssertEqual(testParam.currency, "궁")
+            XCTAssertEqual(testParam.title, "MacBook Pro")
+            XCTAssertEqual(testParam.currency, "KRW")
         }
         
         sut_getEssentialArticle.getParsing(url: baseURL) { (testParam: EntireArticle) in
-            XCTAssertEqual(testParam.page, 54)
-            XCTAssertEqual(testParam.items.first?.title, "궁")
+            XCTAssertEqual(testParam.page, 1)
+            XCTAssertEqual(testParam.items.first?.title, "MacBook Pro")
 
             getExpt.fulfill()
         }
@@ -147,9 +157,7 @@ Apple M1 칩은 13형 MacBook Pro에 믿을 수 없을 만큼의 속도와 파�
         let pngImage = convertDataToAssetImage(imageName: "github")
         guard let baseUrl = sut_urlProcess.setBaseURL(urlString: "https://camp-open-market-2.herokuapp.com/") else { return }
         guard let httpURL = sut_urlProcess.setUserActionURL(baseURL: baseUrl, userAction: .addArticle) else { return }
-        
         let createArticle = CreateArticle(title: "도지", descriptions: "일론머스크", price: 100000, currency: "KRW", stock: 10000, discountedPrice: 222, images: [pngImage], password: "1234")
-
         let postRequest = sut_urlProcess.setURLRequest(url: httpURL, userAction: .addArticle, boundary: boundary)
         let data = sut_postCreateArticle.makeRequestBody(formdat: createArticle, boundary: boundary, imageData: pngImage)
         sut_postCreateArticle.postData(urlRequest: postRequest, requestBody: data) { (isSuccess) in
@@ -161,33 +169,17 @@ Apple M1 칩은 13형 MacBook Pro에 믿을 수 없을 만큼의 속도와 파�
         
         waitForExpectations(timeout: 5.0, handler: nil)
     }
-    
-    func convertDataToAssetImage(imageName: String) -> Data {
-        let profileImage:UIImage = UIImage(named: imageName)!
-        let imageData:Data = profileImage.pngData()!
-        
-        return imageData
-    }
-    
-    func convertDataToURLImage(imageURL: String) -> Data {
-        let url = URL(string: imageURL)
-        
-        let data = try? Data(contentsOf: url!)
-        
-        return data!
-    }
-    
+
     func test_PATCH메소드_상품수정() {
         let expt = expectation(description: "Waiting done harkWork...")
         let boundary = "Boundary-\(UUID().uuidString)"
         let pngImage = convertDataToAssetImage(imageName: "github")
         guard let baseUrl = sut_urlProcess.setBaseURL(urlString: "https://camp-open-market-2.herokuapp.com/") else { return }
         guard let httpURL = sut_urlProcess.setUserActionURL(baseURL: baseUrl, userAction: .updateArticle, index: "197") else { return }
-        
         let updateArticle = UpdateArticle(title: "폴리", descriptions: "매쓰", price: 30000, currency: "KRW", stock: 3000000, discountedPrice: 0, images: [pngImage], password: "1234")
-
         let updateRequest = sut_urlProcess.setURLRequest(url: httpURL, userAction: .updateArticle, boundary: boundary)
         let data = sut_patchUpdateArticle.updateRequestBody(formdat: updateArticle, boundary: boundary, imageData: pngImage)
+        
         sut_patchUpdateArticle.patchData(urlRequest: updateRequest, requestBody: data) { (isSuccess) in
             XCTAssertTrue(isSuccess)
             
@@ -203,6 +195,7 @@ Apple M1 칩은 13형 MacBook Pro에 믿을 수 없을 만큼의 속도와 파�
         guard let httpURL = sut_urlProcess.setUserActionURL(baseURL: baseUrl, userAction: .deleteArticle, index: "193") else { return }
         let deleteRequest = sut_urlProcess.setURLRequest(url: httpURL, userAction: .deleteArticle)
         let data = sut_deleteArticle.encodePassword(urlRequest: deleteRequest, password: "1234")
+        
         sut_deleteArticle.deleteData(urlRequest: deleteRequest, data: data) { (isSuccess) in
             XCTAssertTrue(isSuccess)
             

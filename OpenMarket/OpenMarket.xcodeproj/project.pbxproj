@@ -99,10 +99,10 @@
 			isa = PBXGroup;
 			children = (
 				767CE4FD264E45FC00B93FB4 /* HttpMethodType.swift */,
+				76CEF92D26539B3500199626 /* UserAction.swift */,
 				767CE503264E505B00B93FB4 /* URLProcess.swift */,
 				767CE4FF264E47C700B93FB4 /* GetEssentialArticle.swift */,
 				767CE501264E4C1300B93FB4 /* PostCreateArticle.swift */,
-				76CEF92D26539B3500199626 /* UserAction.swift */,
 				767CE505264E5C9700B93FB4 /* PatchUpdateArticle.swift */,
 				7698DD7A264E669D0033095A /* DeleteArticle.swift */,
 				76F2992B26528D7E00FE62B1 /* ManageMultipartForm.swift */,

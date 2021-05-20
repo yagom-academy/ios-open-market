@@ -9,7 +9,7 @@ import Foundation
 
 class PatchUpdateArticle {
     
-    let manageMultipartForm = ManageMultipartForm()
+    private let manageMultipartForm = ManageMultipartForm()
     let urlProcess = URLProcess()
     
     func patchData(urlRequest: URLRequest?, requestBody: Data, completion: @escaping (Bool) -> Void) {
