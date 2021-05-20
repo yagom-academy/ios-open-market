@@ -21,7 +21,6 @@ extension MultipartConvertible {
     
     func createBody(parameters: [String: Any?], boundary: String) -> Data {
         var body = Data()
-        print(parameters)
         
         for (key, value) in parameters {
             if value == nil {
