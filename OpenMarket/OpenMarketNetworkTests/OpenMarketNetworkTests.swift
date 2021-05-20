@@ -30,10 +30,12 @@ class OpenMarketNetworkTests: XCTestCase {
         let urlSession = URLSession.init(configuration: configuration)
         sut_openMarketAPIProvider = OpenMarketAPIProvider(urlSession: urlSession)
     }
+    
     // MARK: Test Successful Response
+    
     func test_OpenMarketList_SuccessfulResponse() {
         let expectation = XCTestExpectation()
-        // given\
+        // given
         guard let itemListDataAsset = NSDataAsset.init(name: "Items") else { return }
         let requestData = try? JSONDecoder().decode(MarketItemList.self, from: itemListDataAsset.data)
         
@@ -42,7 +44,7 @@ class OpenMarketNetworkTests: XCTestCase {
         MockURLProtocol.requestHandler = { request in
             guard let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: nil, headerFields: nil) else {
                 print("no response")
-                return (HTTPURLResponse(), Data())
+                throw APIError.invalidApproach
             }
             
             return (response, SampleOpenMarketAPI.connection.itemListData)
@@ -60,6 +62,40 @@ class OpenMarketNetworkTests: XCTestCase {
         }
         wait(for: [expectation], timeout: 1.0)
     }
+    
+    // MARK: Test Parsing Failure
+    
+    func test_OpenMarketList_ParsingFailure() {
+        let expectation = XCTestExpectation()
+        guard let url = SampleOpenMarketAPI.connection.itemListURL else { return }
+        // given
+        let data = Data()
+        MockURLProtocol.requestHandler = { request in
+            guard let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: nil, headerFields: nil) else {
+                throw APIError.invalidApproach
+            }
+            return (response, data)
+        }
+        // when
+        sut_openMarketAPIProvider.fetchItemListData { result in
+            switch result {
+        // then
+            case .success(_):
+                XCTFail("Success response was not expected.")
+            case .failure(let error):
+                guard let error = error as? APIError else {
+                    XCTFail("Incorrect error received.")
+                    expectation.fulfill()
+                    return
+                }
+                
+                XCTAssertEqual(error, APIError.invalidApproach, "Parsing error was expected.")
+            }
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 1.0)
+    }
+    
 }
 
 extension MarketItemList: Equatable {

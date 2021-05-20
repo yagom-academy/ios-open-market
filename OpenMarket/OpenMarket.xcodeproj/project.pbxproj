@@ -111,8 +111,8 @@
 			children = (
 				EA6F35E6265268E700768AE8 /* SampleOpenMarketAPI.swift */,
 				4DAE26BB264E6992008A1712 /* MockURLProtocol.swift */,
-				EA6F35F52652893500768AE8 /* Info.plist */,
 				EAEC6E5E2652D23E0035337C /* OpenMarketNetworkTests.swift */,
+				EA6F35F52652893500768AE8 /* Info.plist */,
 			);
 			path = OpenMarketNetworkTests;
 			sourceTree = "<group>";
