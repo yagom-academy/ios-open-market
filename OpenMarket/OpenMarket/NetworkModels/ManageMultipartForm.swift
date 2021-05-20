@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class ManageMultipartForm {
+class ManageMultipartForm: MultipartFormManagable {
     
     func convertFormField(name: String, value: String, boundary: String) -> String {
         var fieldString = "--\(boundary)\r\n"

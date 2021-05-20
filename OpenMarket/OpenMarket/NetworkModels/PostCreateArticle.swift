@@ -10,8 +10,13 @@ import UIKit
 
 class PostCreateArticle {
     
-    private let manageMultipartForm = ManageMultipartForm()
-    let urlProcess = URLProcess()
+    private let manageMultipartForm: MultipartFormManagable
+    private let urlProcess: URLProcessUsable
+    
+    init(manageMultipartForm: MultipartFormManagable, urlProcess: URLProcessUsable) {
+        self.manageMultipartForm = manageMultipartForm
+        self.urlProcess = urlProcess
+    }
     
     func postData(urlRequest: URLRequest?, requestBody: Data, completion: @escaping (Bool) -> Void) {
         guard let request = urlRequest else { return }

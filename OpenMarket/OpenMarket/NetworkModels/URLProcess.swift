@@ -7,7 +7,7 @@
 
 import Foundation
 
-class URLProcess {
+class URLProcess: URLProcessUsable {
     
     func setBaseURL(urlString: String) -> URL? {
         guard let resultURL = URL(string: urlString) else { return nil }

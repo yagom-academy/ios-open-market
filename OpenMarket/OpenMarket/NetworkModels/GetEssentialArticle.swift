@@ -9,7 +9,11 @@ import Foundation
 
 class GetEssentialArticle {
     
-    let urlProcess = URLProcess()
+    private let urlProcess: URLProcessUsable
+    
+    init(urlProcess: URLProcessUsable) {
+        self.urlProcess = urlProcess
+    }
     
     func getParsing<T: Decodable>(url: URL, completion: @escaping (T) -> Void) {
         URLSession.shared.dataTask(with: url) { (data, response, error) in

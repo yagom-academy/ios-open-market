@@ -9,7 +9,11 @@ import Foundation
 
 class DeleteArticle {
     
-    let urlProcess = URLProcess()
+    private let urlProcess: URLProcessUsable
+    
+    init(urlProcess: URLProcessUsable) {
+        self.urlProcess = urlProcess
+    }
     
     func encodePassword(urlRequest: URLRequest?, password: String) -> Data? {
         let ones = PasswordArticle(password: password)
