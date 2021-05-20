@@ -33,12 +33,13 @@ class OpenMarketNetworkTests: XCTestCase {
     // MARK: Test Successful Response
     func test_OpenMarketList_SuccessfulResponse() {
         let expectation = XCTestExpectation()
-        // given
+        // given\
+        guard let itemListDataAsset = NSDataAsset.init(name: "Items") else { return }
+        let requestData = try? JSONDecoder().decode(MarketItemList.self, from: itemListDataAsset.data)
         
         guard let url = SampleOpenMarketAPI.connection.itemListURL else { return }
-        let requestData = try? JSONDecoder().decode(MarketItemList.self, from: SampleOpenMarketAPI.connection.itemListData)
+        
         MockURLProtocol.requestHandler = { request in
-            
             guard let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: nil, headerFields: nil) else {
                 print("no response")
                 return (HTTPURLResponse(), Data())
