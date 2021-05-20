@@ -8,5 +8,11 @@
 import Foundation
 
 struct ServerConnector {
-
+    func getServersData() {}
+    
+    func postClientsData() {}
+    
+    func patchSeversData() {}
+    
+    func deleteServersData() {}
 }
