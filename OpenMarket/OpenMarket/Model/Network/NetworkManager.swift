@@ -9,7 +9,15 @@ import Foundation
 
 struct NetworkManager: Requestable {
     
-    let session: URLSession
+    private let session: URLSession
+    
+    init(_ session: URLSession) {
+        self.session = session
+    }
+    
+    enum HTTPStatusCode {
+        static let success: ClosedRange<Int> = 200...299
+    }
     
     func dataTask<Decoded: Decodable>(
         _ urlRequest: URLRequest,
@@ -27,7 +35,7 @@ struct NetworkManager: Requestable {
                 return
             }
             
-            guard (200...299).contains(response.statusCode) else {
+            guard isSuccessResponse(response) else {
                 completionHandler(.failure(.networkFailure(response.statusCode)))
                 return
             }
@@ -44,6 +52,14 @@ struct NetworkManager: Requestable {
             
             completionHandler(.success(decodedData))
         }.resume()
+    }
+    
+    func isSuccessResponse(_ response: HTTPURLResponse) -> Bool {
+        if (HTTPStatusCode.success).contains(response.statusCode) {
+            return true
+        } else {
+            return false
+        }
     }
     
     func request<Decoded: Decodable>(

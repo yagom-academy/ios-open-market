@@ -16,7 +16,7 @@ final class OpenMarketTests: XCTestCase {
         let configuration = URLSessionConfiguration.ephemeral
         configuration.protocolClasses = [MockURLProtocol.self]
         let urlSession = URLSession(configuration: configuration)
-        client = NetworkManager(session: urlSession)
+        client = NetworkManager(urlSession)
     }
     
     override func tearDownWithError() throws {
