@@ -14,8 +14,8 @@ class ItemCell: UICollectionViewCell {
         didSet { toggleLayoutMode() }
     }
 
-    private let itemImageView = ItemCellImageView(systemName: "photo")
-    private let itemTitleLabel = ItemCellLabel(textStyle: .headline)
+    private let imageView = ItemCellImageView(systemName: "photo")
+    private let titleLabel = ItemCellLabel(textStyle: .headline)
     private let priceLabel = ItemCellLabel(alpha: 0.5)
     private let discountedPriceLabel = ItemCellLabel(alpha: 0.5)
     private let stockLabel = ItemCellLabel(alpha: 0.5)
@@ -52,7 +52,46 @@ class ItemCell: UICollectionViewCell {
         }
     }
 
-    func addListConstraints() {}
+    func addListConstraints() {
+        let imageViewConstraints = [
+            imageView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.2),
+            imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor),
+            imageView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
+            imageView.centerYAnchor.constraint(equalTo: self.centerYAnchor)
+        ]
+
+        let titleLabelConstraints = [
+            titleLabel.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: 10),
+            titleLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 10)
+        ]
+
+        let priceLabelConstraints = [
+            priceLabel.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: 10),
+            priceLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 5)
+        ]
+
+        let discountedPriceLabelConstraints = [
+            discountedPriceLabel.leadingAnchor.constraint(equalTo: priceLabel.trailingAnchor, constant: 5),
+            discountedPriceLabel.topAnchor.constraint(equalTo: priceLabel.bottomAnchor)
+        ]
+
+        let disclosureIndicatorImageViewContraints = [
+            disclosureIndicatorImageView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
+            disclosureIndicatorImageView.topAnchor.constraint(equalTo: titleLabel.topAnchor)
+        ]
+
+        let stockLabelConstraints = [
+            stockLabel.trailingAnchor.constraint(equalTo: disclosureIndicatorImageView.leadingAnchor, constant: 10),
+            stockLabel.topAnchor.constraint(equalTo: titleLabel.topAnchor)
+        ]
+
+        currentConstraints.append(contentsOf: imageViewConstraints)
+        currentConstraints.append(contentsOf: titleLabelConstraints)
+        currentConstraints.append(contentsOf: priceLabelConstraints)
+        currentConstraints.append(contentsOf: discountedPriceLabelConstraints)
+        currentConstraints.append(contentsOf: disclosureIndicatorImageViewContraints)
+        currentConstraints.append(contentsOf: stockLabelConstraints)
+    }
 
     func addGridConstraints() {}
 }
