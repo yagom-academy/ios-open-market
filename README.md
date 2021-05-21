@@ -225,3 +225,31 @@
    위의 description을 통해서도 구현이 가능하지만 이미 해당 기능이 LocalizedError라는 형식으로 있었습니다. 다른 점은 description은 String 타입이고 LocalizedError의 errorDescription은 String? 이었습니다. 
 
    관련된 description이 정상 출력되는지 테스트 메소드를 추가 작성하여 확인했습니다.
+
+3. 무의미한 테스트일 수 있다:
+
+   ```swift
+   func test_APIError_description() { 
+           let notFoundErrorMessage = "[Error] Cannot find data"
+           let JSONParseErrorMessge = "[Error] Cannot parse JSONData"
+           guard let testNotFoundErrorMessage = APIError.NotFound404Error.errorDescription else { return }
+           guard let testJSONParseErrorMessage = APIError.JSONParseError.errorDescription else { return }
+           XCTAssertEqual(testNotFoundErrorMessage, notFoundErrorMessage)
+           XCTAssertEqual(testJSONParseErrorMessage, JSONParseErrorMessge)
+       }
+   ```
+
+   print문으로도 충분한 테스트이기 때문에 테스트를 위한 테스트일 수 있습니다. 추후에 API를 통할 때 일부러 에러를 발생시켜 에러메세지를 확인해 볼 수 있습니다.
+
+4. Model DTO의 Item과 ItemList분리:
+
+   받아와야할 JSON파일은 두가지 종류입니다. 아이템 리스트와 아이템 구조인데 두가지 옵션이 있었습니다.
+
+   >1. Item이라는 파일에 Item과 ItemList 구조를 모두 작성
+   >2. 파일을 하나 더 생성해서 ItemList를 분리
+
+   1번 옵션의 경우 코드의 양이 작고 Item에 관련된 DTO라는 공통점을 묶어놨다는 장점이 있지만, 반대로 ItemList에 대한 정보를 찾을 때 어려움이 있을 수 있습니다. 
+
+   2번 옵션의 경우 한 파일에 하나의 타입만 들어있고 파일이 많아질 수 있다는 단점이 있지만, 반대로 직관적인 구조로 찾기 쉬운 구조라고 할 수 있습니다. 
+
+   그래서 2번의 방식으로 진행했습니다.
