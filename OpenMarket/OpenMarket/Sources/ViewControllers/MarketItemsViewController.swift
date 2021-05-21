@@ -7,14 +7,19 @@
 import UIKit
 
 class MarketItemsViewController: UIViewController {
-    lazy var collectionView: UICollectionView = {
-        var collectionView = UICollectionView(frame: view.frame, collectionViewLayout: UICollectionViewFlowLayout())
+    private lazy var layoutSegmentedControl: UISegmentedControl = {
+        let segmentedControl = UISegmentedControl(items: ["LIST", "GRID"])
+        segmentedControl.selectedSegmentIndex = LayoutMode.list.rawValue
+        segmentedControl.addTarget(self, action: #selector(toggleLayoutMode), for: .valueChanged)
+        return segmentedControl
+    }()
 
+    private lazy var collectionView: UICollectionView = {
+        var collectionView = UICollectionView(frame: view.frame, collectionViewLayout: UICollectionViewFlowLayout())
         collectionView.register(ItemCell.self, forCellWithReuseIdentifier: ItemCell.reuseIdentifier)
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.backgroundColor = .systemBackground
-
         return collectionView
     }()
 
@@ -26,6 +31,12 @@ class MarketItemsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(collectionView)
+        navigationItem.titleView = layoutSegmentedControl
+    }
+
+    @objc private func toggleLayoutMode() {
+        LayoutMode.toggle()
+        collectionView.reloadData()
     }
 
 }
@@ -51,9 +62,10 @@ extension MarketItemsViewController: UICollectionViewDelegateFlowLayout {
     }
 }
 
-enum LayoutMode {
+enum LayoutMode: Int {
     static var current: LayoutMode = .list
-    case list, grid
+    case list = 0
+    case grid = 1
 
     static func toggle() {
         switch current {

@@ -10,9 +10,6 @@ import UIKit
 class ItemCell: UICollectionViewCell {
     static let reuseIdentifier = "itemCell"
     private var currentConstraints = [NSLayoutConstraint]()
-    private var currentLayoutMode: LayoutMode = .current {
-        didSet { toggleLayoutMode() }
-    }
 
     private let imageView = ItemCellImageView(systemName: "photo")
     private let titleLabel = ItemCellLabel(textStyle: .headline)
@@ -35,10 +32,9 @@ class ItemCell: UICollectionViewCell {
 
         switch LayoutMode.current {
         case .list:
-            addListConstraints()
-            NSLayoutConstraint.activate(currentConstraints)
+            activateListConstraints()
         case .grid:
-            break
+            activateGridConstraints()
         }
     }
 
@@ -46,17 +42,15 @@ class ItemCell: UICollectionViewCell {
         super.init(coder: coder)
     }
 
-    func toggleLayoutMode() {
-        NSLayoutConstraint.deactivate(currentConstraints)
-        currentConstraints.removeAll()
-        disclosureIndicatorImageView.isHidden.toggle()
-
-        switch currentLayoutMode {
+    override func prepareForReuse() {
+        switch LayoutMode.current {
         case .list:
-            addListConstraints()
+            activateListConstraints()
+            disclosureIndicatorImageView.isHidden = false
             layer.cornerRadius = 0
         case .grid:
-            addGridConstraints()
+            activateGridConstraints()
+            disclosureIndicatorImageView.isHidden = true
             layer.cornerRadius = 20
         }
     }
@@ -71,7 +65,10 @@ class ItemCell: UICollectionViewCell {
         addSubview(divisionLine)
     }
 
-    func addListConstraints() {
+    func activateListConstraints() {
+        NSLayoutConstraint.deactivate(currentConstraints)
+        currentConstraints.removeAll()
+
         let imageViewConstraints = [
             imageView.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.8),
             imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor),
@@ -118,7 +115,14 @@ class ItemCell: UICollectionViewCell {
         currentConstraints.append(contentsOf: disclosureIndicatorImageViewContraints)
         currentConstraints.append(contentsOf: stockLabelConstraints)
         currentConstraints.append(contentsOf: divisionLineCosntraints)
+
+        NSLayoutConstraint.activate(currentConstraints)
     }
 
-    func addGridConstraints() {}
+    func activateGridConstraints() {
+        NSLayoutConstraint.deactivate(currentConstraints)
+        currentConstraints.removeAll()
+
+        NSLayoutConstraint.activate(currentConstraints)
+    }
 }
