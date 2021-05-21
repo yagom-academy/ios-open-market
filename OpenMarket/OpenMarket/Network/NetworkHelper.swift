@@ -9,8 +9,8 @@ import Foundation
 
 struct NetworkHelper {
     
-    let session: URLSession
-    init (session: URLSession = .shared) {
+    let session: URLSessionProtocol
+    init (session: URLSessionProtocol = URLSession.shared) {
         self.session = session
     }
     
@@ -26,13 +26,30 @@ struct NetworkHelper {
     }
     
     func readItem(itemNum: Int, completion: @escaping (Result<ItemInfo, Error>) -> Void ) {
-        if let url = URL(string: RequestAddress.readItem(id: itemNum).url),
-              let data = try? String(contentsOf: url).data(using: .utf8),
-              let response = try? JSONDecoder().decode(ItemInfo.self, from: data) {
-            completion(.success(response))
-            return
+//        if let url = URL(string: RequestAddress.readItem(id: itemNum).url),
+//              let data = try? String(contentsOf: url).data(using: .utf8),
+//              let response = try? JSONDecoder().decode(ItemInfo.self, from: data) {
+//            completion(.success(response))
+//            return
+//        }
+//        completion(.failure(fatalError()))
+        let request = URLRequest(url: URL(string: RequestAddress.readItem(id: itemNum).url)!)
+        
+        let task: URLSessionDataTask = session.dataTask(with: request) { data, response, error in
+            guard let response = response as? HTTPURLResponse,
+                  (200...399).contains(response.statusCode) else {
+                completion(.failure(fatalError()))
+                return
+            }
+            
+            if let data = data,
+               let itemResponse = try? JSONDecoder().decode(ItemInfo.self, from: data) {
+                completion(.success(itemResponse))
+                return
+            }
+            completion(.failure(fatalError()))
         }
-        completion(.failure(fatalError()))
+        task.resume()
     }
     
     func createItem(itemForm: ItemRegistrationForm ,completion: @escaping (Result<ItemInfo, Error>) -> Void) {
@@ -46,7 +63,7 @@ struct NetworkHelper {
         
         request.httpMethod = HttpMethod.post
         request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
-        request.httpBody = HttpBodyCreater(boundary: boundary, itemForm: itemForm).make()
+        request.httpBody = HttpBodyCreator(boundary: boundary, itemForm: itemForm).make()
         
         session.dataTask(with: request) { data, response, error in
             guard let response = response as? HTTPURLResponse,
@@ -55,7 +72,7 @@ struct NetworkHelper {
                 return
             }
             if let data = data,
-               let responedItem = try? JSONDecoder().decode(ItemInfo.self, from: data){
+               let responedItem = try? JSONDecoder().decode(ItemInfo.self, from: data) {
                 completion(.success(responedItem))
                 return
             }
@@ -72,7 +89,7 @@ struct NetworkHelper {
         let boundary = "Boundary-\(UUID().uuidString)"
         request.httpMethod = HttpMethod.patch
         request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
-        request.httpBody = HttpBodyCreater(boundary: boundary, itemForm: itemForm).make()
+        request.httpBody = HttpBodyCreator(boundary: boundary, itemForm: itemForm).make()
         
         session.dataTask(with: request) { data, response, error in
             guard let response = response as? HTTPURLResponse,
@@ -118,7 +135,7 @@ struct NetworkHelper {
 
 extension Data {
     mutating func appendString(_ string: String) {
-        guard let string = string.data(using: .utf8) else { return }
-        append(string)
+        guard let stringData = string.data(using: .utf8) else { return }
+        append(stringData)
     }
 }
