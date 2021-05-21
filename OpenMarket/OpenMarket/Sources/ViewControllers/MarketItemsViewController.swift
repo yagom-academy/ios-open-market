@@ -18,6 +18,11 @@ class MarketItemsViewController: UIViewController {
         return collectionView
     }()
 
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        collectionView.frame = view.frame
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(collectionView)
@@ -42,7 +47,7 @@ extension MarketItemsViewController: UICollectionViewDataSource {
 
 extension MarketItemsViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: view.frame.width - 15, height: 70)
+        return CGSize(width: view.safeAreaLayoutGuide.layoutFrame.width, height: 70)
     }
 }
 
