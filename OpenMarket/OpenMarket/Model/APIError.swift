@@ -7,13 +7,13 @@
 
 import Foundation
 
-enum APIError: Error {
+enum APIError: LocalizedError {
     case NotFound404Error
     case JSONParseError
 }
 
-extension APIError: CustomStringConvertible {
-    var description: String {
+extension APIError {
+    var errorDescription: String? {
         switch self {
         case .NotFound404Error:
             return StringContainer.Error.description + StringContainer.NotFound404Error.description
