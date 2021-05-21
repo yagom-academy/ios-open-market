@@ -15,8 +15,21 @@ class ItemCell: UICollectionViewCell {
     private let titleLabel = ItemCellLabel(textStyle: .headline)
     private let priceLabel = ItemCellLabel(alpha: 0.5)
     private let discountedPriceLabel = ItemCellLabel(alpha: 0.5)
+
+    private lazy var priceStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .horizontal
+        stackView.alignment = .center
+        stackView.distribution = .fillEqually
+        stackView.addArrangedSubview(priceLabel)
+        stackView.addArrangedSubview(discountedPriceLabel)
+        return stackView
+    }()
+
     private let disclosureIndicatorImageView = ItemCellImageView(systemName: "chevron.forward")
     private let stockLabel = ItemCellLabel(alpha: 0.5)
+
     private let divisionLine: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -49,10 +62,12 @@ class ItemCell: UICollectionViewCell {
         case .list:
             activateListConstraints()
             disclosureIndicatorImageView.isHidden = false
+            priceStackView.axis = .horizontal
             layer.borderWidth = 0
         case .grid:
             activateGridConstraints()
             disclosureIndicatorImageView.isHidden = true
+            priceStackView.axis = .vertical
             layer.borderWidth = 1
         }
     }
@@ -60,8 +75,7 @@ class ItemCell: UICollectionViewCell {
     func addSubviews() {
         addSubview(imageView)
         addSubview(titleLabel)
-        addSubview(priceLabel)
-        addSubview(discountedPriceLabel)
+        addSubview(priceStackView)
         addSubview(disclosureIndicatorImageView)
         addSubview(stockLabel)
         addSubview(divisionLine)
@@ -83,14 +97,9 @@ class ItemCell: UICollectionViewCell {
             titleLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 10)
         ]
 
-        let priceLabelConstraints = [
-            priceLabel.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: 10),
-            priceLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 5)
-        ]
-
-        let discountedPriceLabelConstraints = [
-            discountedPriceLabel.leadingAnchor.constraint(equalTo: priceLabel.trailingAnchor, constant: 5),
-            discountedPriceLabel.topAnchor.constraint(equalTo: priceLabel.topAnchor)
+        let priceStackViewConstraints = [
+            priceStackView.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
+            priceStackView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 5)
         ]
 
         let disclosureIndicatorImageViewContraints = [
@@ -112,8 +121,7 @@ class ItemCell: UICollectionViewCell {
 
         currentConstraints.append(contentsOf: imageViewConstraints)
         currentConstraints.append(contentsOf: titleLabelConstraints)
-        currentConstraints.append(contentsOf: priceLabelConstraints)
-        currentConstraints.append(contentsOf: discountedPriceLabelConstraints)
+        currentConstraints.append(contentsOf: priceStackViewConstraints)
         currentConstraints.append(contentsOf: disclosureIndicatorImageViewContraints)
         currentConstraints.append(contentsOf: stockLabelConstraints)
         currentConstraints.append(contentsOf: divisionLineCosntraints)
@@ -137,25 +145,23 @@ class ItemCell: UICollectionViewCell {
             titleLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 10)
         ]
 
-        let priceLabelConstraints = [
-            priceLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            priceLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 10)
-        ]
+        titleLabel.setContentHuggingPriority(.required, for: .vertical)
 
-        let discountedPriceLabelConstraints = [
-            discountedPriceLabel.centerXAnchor.constraint(equalTo: priceLabel.centerXAnchor),
-            discountedPriceLabel.topAnchor.constraint(equalTo: priceLabel.bottomAnchor, constant: 10)
+        let priceStackViewConstraints = [
+            priceStackView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            priceStackView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 5)
         ]
 
         let stockLabelConstraints = [
             stockLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            stockLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 10)
+            stockLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -10)
         ]
+
+        stockLabel.setContentHuggingPriority(.required, for: .vertical)
 
         currentConstraints.append(contentsOf: imageViewConstraints)
         currentConstraints.append(contentsOf: titleLabelConstraints)
-        currentConstraints.append(contentsOf: priceLabelConstraints)
-        currentConstraints.append(contentsOf: discountedPriceLabelConstraints)
+        currentConstraints.append(contentsOf: priceStackViewConstraints)
         currentConstraints.append(contentsOf: stockLabelConstraints)
 
         NSLayoutConstraint.activate(currentConstraints)
