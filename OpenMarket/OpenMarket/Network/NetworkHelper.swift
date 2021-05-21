@@ -118,7 +118,7 @@ struct NetworkHelper {
 
 extension Data {
     mutating func appendString(_ string: String) {
-        guard let string = string.data(using: .utf8) else { return }
-        append(string)
+        guard let stringData = string.data(using: .utf8) else { return }
+        append(stringData)
     }
 }
