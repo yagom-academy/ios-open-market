@@ -29,6 +29,8 @@ class ItemCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         addSubviews()
+        layer.cornerRadius = 20
+        layer.borderColor = UIColor.systemGray3.cgColor
 
         switch LayoutMode.current {
         case .list:
@@ -47,11 +49,11 @@ class ItemCell: UICollectionViewCell {
         case .list:
             activateListConstraints()
             disclosureIndicatorImageView.isHidden = false
-            layer.cornerRadius = 0
+            layer.borderWidth = 0
         case .grid:
             activateGridConstraints()
             disclosureIndicatorImageView.isHidden = true
-            layer.cornerRadius = 20
+            layer.borderWidth = 1
         }
     }
 

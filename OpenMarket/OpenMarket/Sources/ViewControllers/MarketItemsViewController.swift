@@ -58,7 +58,19 @@ extension MarketItemsViewController: UICollectionViewDataSource {
 
 extension MarketItemsViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: view.safeAreaLayoutGuide.layoutFrame.width, height: 70)
+        let listCellWidth: CGFloat = view.safeAreaLayoutGuide.layoutFrame.width
+        let listCellHeight: CGFloat = 70
+        let gridCellWidth: CGFloat = (view.frame.width - 30) / 2
+        let gridCellHeight: CGFloat = gridCellWidth * 1.618
+
+        return LayoutMode.current == .list ? CGSize(width: listCellWidth, height: listCellHeight) :
+            CGSize(width: gridCellWidth, height: gridCellHeight)
+    }
+
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        insetForSectionAt section: Int) -> UIEdgeInsets {
+        return LayoutMode.current == .list ? UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0) : UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
     }
 }
 
