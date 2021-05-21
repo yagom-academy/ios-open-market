@@ -125,6 +125,39 @@ class ItemCell: UICollectionViewCell {
         NSLayoutConstraint.deactivate(currentConstraints)
         currentConstraints.removeAll()
 
+        let imageViewConstraints = [
+            imageView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.8),
+            imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor),
+            imageView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            imageView.topAnchor.constraint(equalTo: self.topAnchor, constant: 10)
+        ]
+
+        let titleLabelConstraints = [
+            titleLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            titleLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 10)
+        ]
+
+        let priceLabelConstraints = [
+            priceLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            priceLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 10)
+        ]
+
+        let discountedPriceLabelConstraints = [
+            discountedPriceLabel.centerXAnchor.constraint(equalTo: priceLabel.centerXAnchor),
+            discountedPriceLabel.topAnchor.constraint(equalTo: priceLabel.bottomAnchor, constant: 10)
+        ]
+
+        let stockLabelConstraints = [
+            stockLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            stockLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 10)
+        ]
+
+        currentConstraints.append(contentsOf: imageViewConstraints)
+        currentConstraints.append(contentsOf: titleLabelConstraints)
+        currentConstraints.append(contentsOf: priceLabelConstraints)
+        currentConstraints.append(contentsOf: discountedPriceLabelConstraints)
+        currentConstraints.append(contentsOf: stockLabelConstraints)
+
         NSLayoutConstraint.activate(currentConstraints)
     }
 }
