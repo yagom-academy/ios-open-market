@@ -46,7 +46,7 @@ struct NetworkHelper {
         
         request.httpMethod = HttpMethod.post
         request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
-        request.httpBody = HttpBodyCreater(boundary: boundary, itemForm: itemForm).make()
+        request.httpBody = HttpBodyCreator(boundary: boundary, itemForm: itemForm).make()
         
         session.dataTask(with: request) { data, response, error in
             guard let response = response as? HTTPURLResponse,
@@ -72,7 +72,7 @@ struct NetworkHelper {
         let boundary = "Boundary-\(UUID().uuidString)"
         request.httpMethod = HttpMethod.patch
         request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
-        request.httpBody = HttpBodyCreater(boundary: boundary, itemForm: itemForm).make()
+        request.httpBody = HttpBodyCreator(boundary: boundary, itemForm: itemForm).make()
         
         session.dataTask(with: request) { data, response, error in
             guard let response = response as? HTTPURLResponse,

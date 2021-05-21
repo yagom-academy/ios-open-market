@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		B067ACEB265505C400E63684 /* HttpMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = B067ACEA265505C400E63684 /* HttpMethod.swift */; };
 		B067ACEF265505DC00E63684 /* RequestAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = B067ACEE265505DC00E63684 /* RequestAddress.swift */; };
-		B067ACF32655060400E63684 /* HttpBodyCreater.swift in Sources */ = {isa = PBXBuildFile; fileRef = B067ACF22655060400E63684 /* HttpBodyCreater.swift */; };
+		B067ACF32655060400E63684 /* HttpBodyCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B067ACF22655060400E63684 /* HttpBodyCreator.swift */; };
 		B09AF0882653512900526568 /* NetworkHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B09AF0872653512900526568 /* NetworkHelper.swift */; };
 		B09AF08E26535B9700526568 /* NetworkHelperTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B09AF08D26535B9700526568 /* NetworkHelperTest.swift */; };
 		B0BF88BD264A27FD0090D83E /* ItemRegistrationForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0BF88BC264A27FD0090D83E /* ItemRegistrationForm.swift */; };
@@ -37,7 +37,7 @@
 /* Begin PBXFileReference section */
 		B067ACEA265505C400E63684 /* HttpMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpMethod.swift; sourceTree = "<group>"; };
 		B067ACEE265505DC00E63684 /* RequestAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestAddress.swift; sourceTree = "<group>"; };
-		B067ACF22655060400E63684 /* HttpBodyCreater.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpBodyCreater.swift; sourceTree = "<group>"; };
+		B067ACF22655060400E63684 /* HttpBodyCreator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpBodyCreator.swift; sourceTree = "<group>"; };
 		B09AF0872653512900526568 /* NetworkHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkHelper.swift; sourceTree = "<group>"; };
 		B09AF08D26535B9700526568 /* NetworkHelperTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkHelperTest.swift; sourceTree = "<group>"; };
 		B0BF88BC264A27FD0090D83E /* ItemRegistrationForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemRegistrationForm.swift; sourceTree = "<group>"; };
@@ -80,7 +80,7 @@
 				B09AF0872653512900526568 /* NetworkHelper.swift */,
 				B067ACEA265505C400E63684 /* HttpMethod.swift */,
 				B067ACEE265505DC00E63684 /* RequestAddress.swift */,
-				B067ACF22655060400E63684 /* HttpBodyCreater.swift */,
+				B067ACF22655060400E63684 /* HttpBodyCreator.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -261,7 +261,7 @@
 				FF6AB59D26491B160075073E /* ItemsList.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
 				B067ACEB265505C400E63684 /* HttpMethod.swift in Sources */,
-				B067ACF32655060400E63684 /* HttpBodyCreater.swift in Sources */,
+				B067ACF32655060400E63684 /* HttpBodyCreator.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 				B0BF88BD264A27FD0090D83E /* ItemRegistrationForm.swift in Sources */,

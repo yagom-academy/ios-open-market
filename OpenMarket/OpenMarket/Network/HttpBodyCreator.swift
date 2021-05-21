@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct HttpBodyCreater {
+struct HttpBodyCreator {
     let boundary: String
     let itemForm: ItemRegistrationForm
     
