@@ -18,24 +18,24 @@ enum MarketAPI {
     }
     
     enum Path {
-        case items
+        case items(page: Int)
         case registrate
-        case item
-        case edit
-        case delete
+        case item(id: Int)
+        case edit(id: Int)
+        case delete(id: Int)
         
-        var route: String {
+        var url: URL? {
             switch self {
-            case .items:
-                return "/items/"
+            case .items(let page):
+                return URL(string: MarketAPI.baseURL + "/items" + "\(page)")
             case .registrate:
-                return "/item"
-            case .item:
-                return "/item/"
-            case .edit:
-                return "/item/"
-            case .delete:
-                return "/item/"
+                return URL(string: MarketAPI.baseURL + "/item")
+            case .item(let id):
+                return URL(string: MarketAPI.baseURL + "/item" + "\(id)")
+            case .edit(let id):
+                return URL(string: MarketAPI.baseURL + "/item" + "\(id)")
+            case .delete(let id):
+                return URL(string: MarketAPI.baseURL + "/item" + "\(id)")
             }
         }
     }
