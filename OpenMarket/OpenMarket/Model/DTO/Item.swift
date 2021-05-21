@@ -23,15 +23,3 @@ extension Item: Codable {
         case registrationDate = "registration_date"
     }
 }
-
-// MARK:- DTO for Items(ItemList)
-struct ItemList {
-    var page: UInt?
-    var itemList: [Item]? // 타입 고민
-}
-
-extension ItemList: Codable {
-    enum CodingKeys: String, CodingKey {
-        case itemList = "items"
-    }
-}
