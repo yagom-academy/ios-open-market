@@ -7,28 +7,28 @@
 
 import Foundation
 
-struct MarketNetworkManager {
-    let client: MarketNetwork
+struct MarketNetworkManager: MarketRequest {
+    let loader: MarketNetwork
+    let decoder: DecoderProtocol
     
     func excute<T>(request: URLRequest, decodeType: T.Type, completion: @escaping (Result<T, Error>) -> Void) where T: Decodable {
-        client.excuteNetwork(request: request) { result in
+        loader.excuteNetwork(request: request) { result in
             switch result {
             case .failure(let error):
                 completion(.failure(error))
-                return
             case .success(let data):
                 do {
-                    let jsonDecode = try JSONDecoder().decode(T.self, from: data)
+                    let jsonDecode = try decoder.decode(T.self, from: data)
                     completion(.success(jsonDecode))
                 } catch {
-                    completion(.failure(MarketError.codable))
+                    completion(.failure(error))
                 }
             }
         }
     }
 }
 
-final class client: MarketNetwork {
+final class Networkloader: MarketNetwork {
     private let session: URLSession = .shared
     
     func excuteNetwork(request: URLRequest, completion: @escaping (Result<Data, Error>) -> Void) {
