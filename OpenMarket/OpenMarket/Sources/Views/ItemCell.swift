@@ -18,16 +18,19 @@ class ItemCell: UICollectionViewCell {
     private let titleLabel = ItemCellLabel(textStyle: .headline)
     private let priceLabel = ItemCellLabel(alpha: 0.5)
     private let discountedPriceLabel = ItemCellLabel(alpha: 0.5)
-    private let stockLabel = ItemCellLabel(alpha: 0.5)
     private let disclosureIndicatorImageView = ItemCellImageView(systemName: "chevron.forward")
+    private let stockLabel = ItemCellLabel(alpha: 0.5)
 
     private var item: Page.Item?
 
     override init(frame: CGRect) {
         super.init(frame: frame)
+        addSubviews()
+
         switch LayoutMode.current {
         case .list:
-            break
+            addListConstraints()
+            NSLayoutConstraint.activate(currentConstraints)
         case .grid:
             break
         }
@@ -52,11 +55,20 @@ class ItemCell: UICollectionViewCell {
         }
     }
 
+    func addSubviews() {
+        addSubview(imageView)
+        addSubview(titleLabel)
+        addSubview(priceLabel)
+        addSubview(discountedPriceLabel)
+        addSubview(disclosureIndicatorImageView)
+        addSubview(stockLabel)
+    }
+
     func addListConstraints() {
         let imageViewConstraints = [
             imageView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.2),
             imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor),
-            imageView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
+            imageView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             imageView.centerYAnchor.constraint(equalTo: self.centerYAnchor)
         ]
 
@@ -72,7 +84,7 @@ class ItemCell: UICollectionViewCell {
 
         let discountedPriceLabelConstraints = [
             discountedPriceLabel.leadingAnchor.constraint(equalTo: priceLabel.trailingAnchor, constant: 5),
-            discountedPriceLabel.topAnchor.constraint(equalTo: priceLabel.bottomAnchor)
+            discountedPriceLabel.topAnchor.constraint(equalTo: priceLabel.topAnchor)
         ]
 
         let disclosureIndicatorImageViewContraints = [
@@ -81,7 +93,7 @@ class ItemCell: UICollectionViewCell {
         ]
 
         let stockLabelConstraints = [
-            stockLabel.trailingAnchor.constraint(equalTo: disclosureIndicatorImageView.leadingAnchor, constant: 10),
+            stockLabel.trailingAnchor.constraint(equalTo: disclosureIndicatorImageView.leadingAnchor, constant: -10),
             stockLabel.topAnchor.constraint(equalTo: titleLabel.topAnchor)
         ]
 
