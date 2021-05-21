@@ -217,3 +217,11 @@
 
    🧐 이 과정에서 고민: 문자열을 직접 작성해주는 것이 아니라 유지보수를 위해 한 곳에 모아서 관리하기위해 StringContainer라는 enum을 생성했습니다. enum으로 생성한 이유는 struct나 class일 경우 문자열에 접근하기위해 인스턴스를 생성하거나 전역적으로 선언해야할 것 같은데 단순히 string을 관리하기 위해 두가지 작업을 하는 것은 오히려 번거로움을 가중시키는 일이라고 생각해서 enum을 사용했습니다. 하지만 이 경우 "오히려 가독성을 해치는 결과가 될 수도 있나?" 라는 고민이 듭니다. 그리고 출력을 위해 String을 받을 때 rawvalue를 통해 받는 것보다는 description을 통해 받는 편이 더 좋을 것 같아 마찬가지로 CustomStringConvertible을 채택했습니다.
 
+   🔨 추가 Review
+
+   >Error 또한 CustomStringConvertible로 description을 설정해주는 방법도 좋습니다 👍🏻
+   >추가로 [LocalizedError](https://developer.apple.com/documentation/foundation/localizederror)를 사용하는 방법 또한 존재합니다~!
+
+   위의 description을 통해서도 구현이 가능하지만 이미 해당 기능이 LocalizedError라는 형식으로 있었습니다. 다른 점은 description은 String 타입이고 LocalizedError의 errorDescription은 String? 이었습니다. 
+
+   관련된 description이 정상 출력되는지 테스트 메소드를 추가 작성하여 확인했습니다.
