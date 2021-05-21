@@ -16,7 +16,7 @@ class ListVCCell: UITableViewCell {
     @IBOutlet weak var stock: UILabel!
     
     func setup() {
-//        thumbnail.image = UIImage(named: "loading.jpeg")
+//        thumbnail.image = UIImage(named: item.thumbnails[0])
         title.text = "loading..."
         price.text = ""
         discountedPrice.text = ""

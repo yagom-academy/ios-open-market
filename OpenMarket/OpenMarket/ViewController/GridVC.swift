@@ -12,8 +12,6 @@ class GridVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // 모드 변경 확인용 백그라운드 컬러
-        view.backgroundColor = .blue
     }
 
     

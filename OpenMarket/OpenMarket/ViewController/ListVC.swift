@@ -16,10 +16,10 @@ class ListVC: UIViewController {
         
         tableView.delegate = self
         tableView.dataSource = self
-        
-    }
-    
 
+    }
+
+    
 }
 
 extension ListVC: UITableViewDelegate {
@@ -46,5 +46,13 @@ extension ListVC: UITableViewDataSource {
         return cell
     }
     
+    func titleSetup(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ListVCCell") as! ListVCCell
+        
+        cell.setup()
+        
+        return cell
+    }
 
+    
 }
