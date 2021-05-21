@@ -9,8 +9,8 @@ import Foundation
 
 struct NetworkHelper {
     
-    let session: URLSession
-    init (session: URLSession = .shared) {
+    let session: URLSessionProtocol
+    init (session: URLSessionProtocol = URLSession.shared) {
         self.session = session
     }
     
