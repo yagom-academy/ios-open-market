@@ -26,13 +26,30 @@ struct NetworkHelper {
     }
     
     func readItem(itemNum: Int, completion: @escaping (Result<ItemInfo, Error>) -> Void ) {
-        if let url = URL(string: RequestAddress.readItem(id: itemNum).url),
-              let data = try? String(contentsOf: url).data(using: .utf8),
-              let response = try? JSONDecoder().decode(ItemInfo.self, from: data) {
-            completion(.success(response))
-            return
+//        if let url = URL(string: RequestAddress.readItem(id: itemNum).url),
+//              let data = try? String(contentsOf: url).data(using: .utf8),
+//              let response = try? JSONDecoder().decode(ItemInfo.self, from: data) {
+//            completion(.success(response))
+//            return
+//        }
+//        completion(.failure(fatalError()))
+        let request = URLRequest(url: URL(string: RequestAddress.readItem(id: itemNum).url)!)
+        
+        let task: URLSessionDataTask = session.dataTask(with: request) { data, response, error in
+            guard let response = response as? HTTPURLResponse,
+                  (200...399).contains(response.statusCode) else {
+                completion(.failure(fatalError()))
+                return
+            }
+            
+            if let data = data,
+               let itemResponse = try? JSONDecoder().decode(ItemInfo.self, from: data) {
+                completion(.success(itemResponse))
+                return
+            }
+            completion(.failure(fatalError()))
         }
-        completion(.failure(fatalError()))
+        task.resume()
     }
     
     func createItem(itemForm: ItemRegistrationForm ,completion: @escaping (Result<ItemInfo, Error>) -> Void) {
