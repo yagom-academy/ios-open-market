@@ -20,6 +20,13 @@ class ItemCell: UICollectionViewCell {
     private let discountedPriceLabel = ItemCellLabel(alpha: 0.5)
     private let disclosureIndicatorImageView = ItemCellImageView(systemName: "chevron.forward")
     private let stockLabel = ItemCellLabel(alpha: 0.5)
+    private let divisionLine: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .black
+        view.alpha = 0.1
+        return view
+    }()
 
     private var item: Page.Item?
 
@@ -62,6 +69,7 @@ class ItemCell: UICollectionViewCell {
         addSubview(discountedPriceLabel)
         addSubview(disclosureIndicatorImageView)
         addSubview(stockLabel)
+        addSubview(divisionLine)
     }
 
     func addListConstraints() {
@@ -97,12 +105,20 @@ class ItemCell: UICollectionViewCell {
             stockLabel.topAnchor.constraint(equalTo: titleLabel.topAnchor)
         ]
 
+        let divisionLineCosntraints = [
+            divisionLine.heightAnchor.constraint(equalToConstant: 2),
+            divisionLine.leadingAnchor.constraint(equalTo: imageView.trailingAnchor),
+            divisionLine.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            divisionLine.bottomAnchor.constraint(equalTo: self.bottomAnchor)
+        ]
+
         currentConstraints.append(contentsOf: imageViewConstraints)
         currentConstraints.append(contentsOf: titleLabelConstraints)
         currentConstraints.append(contentsOf: priceLabelConstraints)
         currentConstraints.append(contentsOf: discountedPriceLabelConstraints)
         currentConstraints.append(contentsOf: disclosureIndicatorImageViewContraints)
         currentConstraints.append(contentsOf: stockLabelConstraints)
+        currentConstraints.append(contentsOf: divisionLineCosntraints)
     }
 
     func addGridConstraints() {}
