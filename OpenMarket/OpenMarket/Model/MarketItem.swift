@@ -24,18 +24,4 @@ struct MarketItem: ProductInfo, ProductDetail {
         case discountedPrice = "discounted_price"
         case registrationData = "registration_date"
     }
-    
-    init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.id = (try? container.decode(UInt.self, forKey: .id)) ?? 0
-        self.title = (try? container.decode(String.self, forKey: .title)) ?? ""
-        self.descriptions = (try? container.decode(String.self, forKey: .descriptions)) ?? ""
-        self.price = (try? container.decode(UInt.self, forKey: .price)) ?? 0
-        self.currency = (try? container.decode(String.self, forKey: .currency)) ?? ""
-        self.stock = (try? container.decode(UInt.self, forKey: .stock)) ?? 0
-        self.discountedPrice = (try? container.decode(UInt?.self, forKey: .discountedPrice)) ?? 0
-        self.thumbnails = (try? container.decode([String].self, forKey: .thumbnails)) ?? []
-        self.images = (try? container.decode([String].self, forKey: .images)) ?? []
-        self.registrationData = (try? container.decode(Double.self, forKey: .registrationData)) ?? 0.0
-    }
 }
