@@ -6,9 +6,10 @@
 //
 
 import XCTest
+@testable import OpenMarket
 
 final class MockURLProtocol: URLProtocol {
-    static var loadingHandler: ((URLRequest) -> (HTTPURLResponse, Data?, Error?))?
+    static var loadingHandler: ((URLRequest) -> (HTTPURLResponse, Data?))?
     
     override class func canInit(with request: URLRequest) -> Bool {
         return true
@@ -23,14 +24,15 @@ final class MockURLProtocol: URLProtocol {
             XCTFail("Loading handler is not set.")
             return
         }
-        let (response, data, error) = handler(request)
+        let (response, data) = handler(request)
+        
+        client?.urlProtocol(self, didReceive: response, cacheStoragePolicy: .notAllowed)
+        
         if let data = data {
-            client?.urlProtocol(self, didReceive: response, cacheStoragePolicy: .notAllowed)
             client?.urlProtocol(self, didLoad: data)
-            client?.urlProtocolDidFinishLoading(self)
-        } else {
-            client?.urlProtocol(self, didFailWithError: error!)
         }
+        
+        client?.urlProtocolDidFinishLoading(self)
     }
     
     override func stopLoading() {}

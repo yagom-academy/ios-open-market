@@ -37,7 +37,7 @@ extension Requestable {
         
         let bodyData = createBody(parameters: parameter, boundary: boundary)
         
-        var request = URLRequest.set(url: url, httpMethod: httpMethod)
+        var request = URLRequest(url: url, httpMethod: httpMethod)
         request.setValue(
             "multipart/form-data; boundary=\(boundary)",
             forHTTPHeaderField: "Content-Type"
@@ -56,7 +56,7 @@ extension Requestable {
         
         switch httpMethod {
         case .delete:
-            var request = URLRequest.set(url: requestURL, httpMethod: .delete)
+            var request = URLRequest(url: requestURL, httpMethod: .delete)
             guard let body = try? JSONEncoder().encode(body) else { return nil }
             request.httpBody = body
             request.addValue("application/json", forHTTPHeaderField: "Content-Type")

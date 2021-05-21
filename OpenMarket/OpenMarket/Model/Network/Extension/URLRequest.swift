@@ -8,10 +8,8 @@
 import Foundation
 
 extension URLRequest {
-    static func set(url: URL, httpMethod: HTTPMethod) -> URLRequest {
-        var urlRequest = URLRequest(url: url)
-        urlRequest.httpMethod = httpMethod.description
-        
-        return urlRequest
+    init(url: URL, httpMethod: HTTPMethod) {
+        self.init(url: url)
+        self.httpMethod = httpMethod.description
     }
 }
