@@ -1,5 +1,5 @@
 //
-//  상품조회response.swift
+//  ProductSearchResponse.swift
 //  OpenMarket
 //
 //  Created by 이영우 on 2021/05/13.
@@ -7,10 +7,10 @@
 
 import Foundation
 
-struct ProductSearchResponse: InfoSearchable, Detailable {  
+struct ProductSearchResponse: Decodable {
   let id: Int
   let title: String
-  let description: String
+  let descriptions: String
   let price: Int
   let currency: String
   let stock: Int
@@ -29,7 +29,7 @@ struct ProductSearchResponse: InfoSearchable, Detailable {
     let container = try decoder.container(keyedBy: CodingKeys.self)
     self.id = (try? container.decode(Int.self, forKey: .id)) ?? 0
     self.title = (try? container.decode(String.self, forKey: .title)) ?? ""
-    self.description = (try? container.decode(String.self, forKey: .title)) ?? ""
+    self.descriptions = (try? container.decode(String.self, forKey: .title)) ?? ""
     self.price = (try? container.decode(Int.self, forKey: .price)) ?? 0
     self.currency = (try? container.decode(String.self, forKey: .currency)) ?? ""
     self.stock = (try? container.decode(Int.self, forKey: .stock)) ?? 0
