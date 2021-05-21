@@ -23,8 +23,7 @@ class ItemCell: UICollectionViewCell {
     private let divisionLine: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .black
-        view.alpha = 0.1
+        view.backgroundColor = .systemGray3
         return view
     }()
 
@@ -74,9 +73,9 @@ class ItemCell: UICollectionViewCell {
 
     func addListConstraints() {
         let imageViewConstraints = [
-            imageView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.2),
-            imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor),
-            imageView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            imageView.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.8),
+            imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor),
+            imageView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
             imageView.centerYAnchor.constraint(equalTo: self.centerYAnchor)
         ]
 
@@ -106,8 +105,8 @@ class ItemCell: UICollectionViewCell {
         ]
 
         let divisionLineCosntraints = [
-            divisionLine.heightAnchor.constraint(equalToConstant: 2),
-            divisionLine.leadingAnchor.constraint(equalTo: imageView.trailingAnchor),
+            divisionLine.heightAnchor.constraint(equalToConstant: 1),
+            divisionLine.leadingAnchor.constraint(equalTo: imageView.leadingAnchor),
             divisionLine.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             divisionLine.bottomAnchor.constraint(equalTo: self.bottomAnchor)
         ]

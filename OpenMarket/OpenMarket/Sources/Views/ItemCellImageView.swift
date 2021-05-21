@@ -11,8 +11,8 @@ class ItemCellImageView: UIImageView {
     init(systemName: String) {
         super.init(image: UIImage(systemName: systemName))
         translatesAutoresizingMaskIntoConstraints = false
+        tintColor = .systemGray3
         contentMode = .scaleAspectFit
-        layoutMargins = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
     }
 
     required init?(coder: NSCoder) {
