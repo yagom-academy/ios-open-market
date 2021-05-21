@@ -9,6 +9,10 @@ import UIKit
 
 class ItemCell: UICollectionViewCell {
     static let reuseIdentifier = "itemCell"
+    private var currentConstraints = [NSLayoutConstraint]()
+    private var currentLayoutMode: LayoutMode = .current {
+        didSet { toggleLayoutMode() }
+    }
 
     private let itemImageView = ItemCellImageView(systemName: "photo")
     private let itemTitleLabel = ItemCellLabel(textStyle: .headline)
@@ -21,10 +25,34 @@ class ItemCell: UICollectionViewCell {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-
+        switch LayoutMode.current {
+        case .list:
+            break
+        case .grid:
+            break
+        }
     }
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
+
+    func toggleLayoutMode() {
+        NSLayoutConstraint.deactivate(currentConstraints)
+        currentConstraints.removeAll()
+        disclosureIndicatorImageView.isHidden.toggle()
+
+        switch currentLayoutMode {
+        case .list:
+            addListConstraints()
+            layer.cornerRadius = 0
+        case .grid:
+            addGridConstraints()
+            layer.cornerRadius = 20
+        }
+    }
+
+    func addListConstraints() {}
+
+    func addGridConstraints() {}
 }

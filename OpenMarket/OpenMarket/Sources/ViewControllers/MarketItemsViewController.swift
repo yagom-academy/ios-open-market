@@ -40,13 +40,13 @@ extension MarketItemsViewController: UICollectionViewDelegateFlowLayout {
 }
 
 enum LayoutMode {
-    static var currentMode: LayoutMode = .list
+    static var current: LayoutMode = .list
     case list, grid
 
     static func toggle() {
-        switch currentMode {
-        case .list: currentMode = .grid
-        case .grid: currentMode = .list
+        switch current {
+        case .list: current = .grid
+        case .grid: current = .list
         }
     }
 }
