@@ -6,7 +6,6 @@
 //
 
 import XCTest
-
 @testable import OpenMarket
 
 class ServerConnectorTests: XCTestCase { }

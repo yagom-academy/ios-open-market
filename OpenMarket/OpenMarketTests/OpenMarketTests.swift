@@ -9,7 +9,6 @@ import XCTest
 @testable import OpenMarket
 
 class OpenMarketTests: XCTestCase {
-
     func test_parser메소드를_통해_디코딩된_data가_mockData와_같은지_확인하는함수() {
         var jsonParserItem = JSONParser<Item>()
         
