@@ -7,8 +7,19 @@
 
 import Foundation
 
-struct StringContainer {
-    // enum vs struct
-    // 프로젝트 완전 전역적일 때
-    // 특정 클래스 안에서만 사용되면 그 안에서 프로퍼티로 private 제약
+enum StringContainer: CustomStringConvertible {
+    case Error
+    case NotFound404Error
+    case JSONParseError
+    
+    var description: String {
+        switch self {
+        case .Error:
+            return "[Error] "
+        case .NotFound404Error:
+            return "Cannot find data"
+        case .JSONParseError:
+            return "Cannot parse JSONData"
+        }
+    }
 }
