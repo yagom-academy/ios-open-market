@@ -41,4 +41,13 @@ class OpenMarketTests: XCTestCase {
         guard let parsedItemListData: ItemList = try? jsonParser.parseJSONDataToValueObject(with: localJSONData) else { throw APIError.JSONParseError }
         XCTAssertNotNil(parsedItemListData)
     }
+    
+    func test_APIError_description() {
+        let notFoundErrorMessage = "[Error] Cannot find data"
+        let JSONParseErrorMessge = "[Error] Cannot parse JSONData"
+        guard let testNotFoundErrorMessage = APIError.NotFound404Error.errorDescription else { return }
+        guard let testJSONParseErrorMessage = APIError.JSONParseError.errorDescription else { return }
+        XCTAssertEqual(testNotFoundErrorMessage, notFoundErrorMessage)
+        XCTAssertEqual(testJSONParseErrorMessage, JSONParseErrorMessge)
+    }
 }
