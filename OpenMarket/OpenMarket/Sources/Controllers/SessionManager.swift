@@ -61,9 +61,9 @@ class SessionManager {
         self.session = session
     }
 
-    func request<DecodedType: Decodable>(method: HTTPMethod,
-                                         path: URLPath,
-                                         completionHandler: @escaping (Result<DecodedType, OpenMarketError>) -> Void) {
+    func request<Model: Decodable>(method: HTTPMethod,
+                                   path: URLPath,
+                                   completionHandler: @escaping (Result<Model, OpenMarketError>) -> Void) {
         guard let request = try? configureRequestHeader(method: method, path: path) else {
             return completionHandler(.failure(.invalidURL))
         }
@@ -71,10 +71,10 @@ class SessionManager {
         dataTask(request: request, completionHandler: completionHandler).resume()
     }
 
-    func request<DecodedType: Decodable, RequestingType: RequestData>(method: HTTPMethod,
-                                                                      path: URLPath,
-                                                                      data: RequestingType,
-                                                                      completionHandler: @escaping (Result<DecodedType, OpenMarketError>) -> Void) {
+    func request<Model: Decodable, APIModel: RequestData>(method: HTTPMethod,
+                                                          path: URLPath,
+                                                          data: APIModel,
+                                                          completionHandler: @escaping (Result<Model, OpenMarketError>) -> Void) {
         guard var request = try? configureRequestHeader(method: method, path: path) else {
             return completionHandler(.failure(.invalidURL))
         }
@@ -113,8 +113,8 @@ class SessionManager {
         return request
     }
 
-    private func dataTask<DecodedType: Decodable>(request: URLRequest,
-                                                  completionHandler: @escaping (Result<DecodedType, OpenMarketError>) -> Void) -> URLSessionDataTask {
+    private func dataTask<Model: Decodable>(request: URLRequest,
+                                            completionHandler: @escaping (Result<Model, OpenMarketError>) -> Void) -> URLSessionDataTask {
         return session.dataTask(with: request) { data, response, error in
             if error != nil {
                 return completionHandler(.failure(.sessionError))
@@ -126,7 +126,7 @@ class SessionManager {
             }
 
             guard let data = data,
-                  let decodedData = try? JSONDecoder().decode(DecodedType.self, from: data) else {
+                  let decodedData = try? JSONDecoder().decode(Model.self, from: data) else {
                 return completionHandler(.failure(.invalidData))
             }
 
