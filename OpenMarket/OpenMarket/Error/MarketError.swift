@@ -8,27 +8,31 @@
 import Foundation
 
 enum MarketError: Error {
-    case request, response
-    case url, data, encoding, decoding
+    case request(Error), response(Int)
+    case encoding(Error), decoding(Error), casting(String), network(Error)
+    case url, data
     case get, post, patch, delete
-    case unknown
 }
 
 extension MarketError: LocalizedError {
     var description: String {
         switch self {
-        case .request:
-            return "⛔️ 요청 오류"
-        case .response:
-            return "⛔️ 응답 오류"
+        case .request(let requestError):
+            return "⛔️ 요청 오류 : \(requestError)"
+        case .response(let statusCode):
+            return "⛔️ 응답 상태코드 : \(statusCode)"
+        case .casting(let castingError):
+            return "⛔️ 캐스팅 오류 : \(castingError)"
+        case .network(let networkError):
+            return "⛔️ 네트워크 오류 : \(networkError)"
         case .data:
             return "⛔️ 데이터 오류"
-        case .encoding:
-            return "⛔️ 인코딩 오류"
-        case .decoding:
-            return "⛔️ 디코딩 오류"
+        case .encoding(let encodeError):
+            return "⛔️ 인코딩 오류 : \(encodeError)"
+        case .decoding(let decodeError):
+            return "⛔️ 디코딩 오류 : \(decodeError)"
         case .get:
-            return "⛔️ \"GET\" 메소드 오류"
+            return "⛔️ \"GET\" 메소드 createRequest 불필요"
         case .post:
             return "⛔️ \"POST\" 메소드 오류"
         case .patch:
@@ -37,8 +41,6 @@ extension MarketError: LocalizedError {
             return "⛔️ \"DELECT\" 메소드 오류"
         case .url:
             return "⛔️ URL 오류"
-        case .unknown:
-            return "⛔️ 알 수 없는 오류"
         }
     }
 }
