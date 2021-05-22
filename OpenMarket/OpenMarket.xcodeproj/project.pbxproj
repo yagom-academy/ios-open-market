@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		BAA704EE264B8196006CAC97 /* ItemDelete.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAA704ED264B8196006CAC97 /* ItemDelete.swift */; };
 		BAA7050B264BB747006CAC97 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C70FB10325BEF61D00C9924E /* Assets.xcassets */; };
+		BAAA69CF265906DD00F44322 /* Decoderable.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAAA69CE265906DD00F44322 /* Decoderable.swift */; };
 		BABE793C265604310062C44F /* TestData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BABE793B265604310062C44F /* TestData.swift */; };
 		BAC8172626574EA700CCBDF9 /* Mock.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC8172526574EA700CCBDF9 /* Mock.swift */; };
 		BAC8172C26575D0600CCBDF9 /* DecodeTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC8172B26575D0600CCBDF9 /* DecodeTest.swift */; };
@@ -47,6 +48,7 @@
 		BAA704ED264B8196006CAC97 /* ItemDelete.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemDelete.swift; sourceTree = "<group>"; };
 		BAA70501264BB366006CAC97 /* OpenMarketTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenMarketTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BAA70505264BB366006CAC97 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BAAA69CE265906DD00F44322 /* Decoderable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Decoderable.swift; sourceTree = "<group>"; };
 		BABE793B265604310062C44F /* TestData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestData.swift; sourceTree = "<group>"; };
 		BAC8172526574EA700CCBDF9 /* Mock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mock.swift; sourceTree = "<group>"; };
 		BAC8172B26575D0600CCBDF9 /* DecodeTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecodeTest.swift; sourceTree = "<group>"; };
@@ -136,10 +138,11 @@
 		BAEA6A04264B7225005163B3 /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				BAEA6A09264B728F005163B3 /* MarketAPI.swift */,
 				BACD564726557B6700625FCF /* MulitPartFormConvert.swift */,
 				BACD564526557B2300625FCF /* MarketRequest.swift */,
 				BACD563B2652634700625FCF /* MarketNetwork.swift */,
-				BAEA6A09264B728F005163B3 /* MarketAPI.swift */,
+				BAAA69CE265906DD00F44322 /* Decoderable.swift */,
 				BACD5639264FF17700625FCF /* MarketNetworkManager.swift */,
 			);
 			path = Network;
@@ -295,6 +298,7 @@
 				BAEA6A03264B71A2005163B3 /* ItemDetailUpload.swift in Sources */,
 				BACD564626557B2300625FCF /* MarketRequest.swift in Sources */,
 				BAEA6A01264B70D3005163B3 /* ItemUpload.swift in Sources */,
+				BAAA69CF265906DD00F44322 /* Decoderable.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
 				BAEA69F9264B6616005163B3 /* Product.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,

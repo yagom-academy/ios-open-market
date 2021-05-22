@@ -31,7 +31,7 @@ class NetworkTest: XCTestCase {
     func test_network_excute_GET_성공() {
         mockClient?.resultToreturn = .success(mockItems!)
         let sut = MarketNetworkManager(loader: mockClient!, decoder: mockDecode!)
-        let url = MarketAPI.Path.items(page: 1).url
+        let url = MarketAPI.items(page: 1).url
         let request = URLRequest(url: url!)
         let expectation = XCTestExpectation(description: "GET 목록조회")
         
@@ -52,7 +52,7 @@ class NetworkTest: XCTestCase {
     func test_network_excute_GET_실패() {
         mockClient?.resultToreturn = .failure(MarketError.get)
         let sut = MarketNetworkManager(loader: mockClient!, decoder: mockDecode!)
-        let url = MarketAPI.Path.items(page: 1).url
+        let url = MarketAPI.items(page: 1).url
         let request = URLRequest(url: url!)
         let expectation = XCTestExpectation(description: "GET 목록조회")
         
@@ -73,7 +73,7 @@ class NetworkTest: XCTestCase {
     func test_network_excute_POST_상품등록_성공() {
         mockClient?.resultToreturn = .success(Data())
         let sut = MarketNetworkManager(loader: mockClient!, decoder: mockDecode!)
-        let url = MarketAPI.Path.registrate.url
+        let url = MarketAPI.registrate.url
         let request = sut.createRequest(url: url, encodeBody: TestData.registrateData, method: .post)
         let result = try! request.get()
         let expectation = XCTestExpectation(description: "POST 상품등록")
@@ -96,7 +96,7 @@ class NetworkTest: XCTestCase {
     func test_network_excute_POST_상품등록_실패() {
         mockClient?.resultToreturn = .failure(MarketError.post)
         let sut = MarketNetworkManager(loader: mockClient!, decoder: mockDecode!)
-        let url = MarketAPI.Path.registrate.url
+        let url = MarketAPI.registrate.url
         let request = sut.createRequest(url: url, encodeBody: TestData.registrateData, method: .post)
         let result = try! request.get()
         let expectation = XCTestExpectation(description: "POST 상품등록")
@@ -119,7 +119,7 @@ class NetworkTest: XCTestCase {
     func test_network_excute_POST_상품삭제_성공() {
         mockClient?.resultToreturn = .success(Data())
         let sut = MarketNetworkManager(loader: mockClient!, decoder: mockDecode!)
-        let url = MarketAPI.Path.delete(id: 1).url
+        let url = MarketAPI.delete(id: 1).url
         let request = sut.createRequest(url: url, encodeBody: TestData.password, method: .delete)
         let result = try! request.get()
         let expectation = XCTestExpectation(description: "POST 상품삭제")
@@ -142,7 +142,7 @@ class NetworkTest: XCTestCase {
     func test_network_excute_POST_상품삭제_실패() {
         mockClient?.resultToreturn = .failure(MarketError.delete)
         let sut = MarketNetworkManager(loader: mockClient!, decoder: mockDecode!)
-        let url = MarketAPI.Path.delete(id: 1).url
+        let url = MarketAPI.delete(id: 1).url
         let request = sut.createRequest(url: url, encodeBody: TestData.password, method: .delete)
         let result = try! request.get()
         let expectation = XCTestExpectation(description: "POST 상품삭제")
@@ -165,7 +165,7 @@ class NetworkTest: XCTestCase {
     func test_network_excute_PATCH_상품수정_성공() {
         mockClient?.resultToreturn = .success(Data())
         let sut = MarketNetworkManager(loader: mockClient!, decoder: mockDecode!)
-        let url = MarketAPI.Path.edit(id: 1).url
+        let url = MarketAPI.edit(id: 1).url
         let request = sut.createRequest(url: url, encodeBody: TestData.editData, method: .delete)
         let result = try! request.get()
         let expectation = XCTestExpectation(description: "PATCH 상품수정")
@@ -188,7 +188,7 @@ class NetworkTest: XCTestCase {
     func test_network_excute_PATCH_상품수정_실패() {
         mockClient?.resultToreturn = .failure(MarketError.patch)
         let sut = MarketNetworkManager(loader: mockClient!, decoder: mockDecode!)
-        let url = MarketAPI.Path.edit(id: 1).url
+        let url = MarketAPI.edit(id: 1).url
         let request = sut.createRequest(url: url, encodeBody: TestData.editData, method: .delete)
         let result = try! request.get()
         let expectation = XCTestExpectation(description: "PATCH 상품수정")

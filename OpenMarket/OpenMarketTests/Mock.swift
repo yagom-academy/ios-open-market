@@ -23,7 +23,7 @@ class MockNetworkloader: MarketNetwork {
     }
 }
 
-class MockDecoder: DecoderProtocol {
+class MockDecoder: Decoderable {
     func decode<T>(_ type: T.Type, from: Data) throws -> T where T : Decodable {
         if type == MarketItems.self {
             return MarketItems(page: 1,
