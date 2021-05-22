@@ -13,12 +13,14 @@ class NetworkTest: XCTestCase {
     var mockItem: Data?
     var mockDecode: MockDecoder?
     var mockClient: MockNetworkloader?
+    var sut: MarketNetworkManager?
     
     override func setUpWithError() throws {
         mockItems = NSDataAsset(name: "Items")!.data
         mockItem = NSDataAsset(name: "Item")!.data
         mockDecode = MockDecoder()
         mockClient = MockNetworkloader()
+        sut = MarketNetworkManager(loader: mockClient!, decoder: mockDecode!)
     }
 
     override func tearDownWithError() throws {
@@ -26,16 +28,16 @@ class NetworkTest: XCTestCase {
         mockItem = nil
         mockDecode = nil
         mockClient = nil
+        sut = nil
     }
 
     func test_network_excute_GET_성공() {
         mockClient?.resultToreturn = .success(mockItems!)
-        let sut = MarketNetworkManager(loader: mockClient!, decoder: mockDecode!)
         let url = MarketAPI.items(page: 1).url
         let request = URLRequest(url: url!)
         let expectation = XCTestExpectation(description: "GET 목록조회")
         
-        sut.excute(request: request, decodeType: MarketItems.self) { (result: Result<MarketItems, Error>) in
+        sut!.excute(request: request, decodeType: MarketItems.self) { (result: Result<MarketItems, Error>) in
             switch result {
             case .success(_):
                 XCTAssert(true)
@@ -51,12 +53,11 @@ class NetworkTest: XCTestCase {
     
     func test_network_excute_GET_실패() {
         mockClient?.resultToreturn = .failure(MarketError.get)
-        let sut = MarketNetworkManager(loader: mockClient!, decoder: mockDecode!)
         let url = MarketAPI.items(page: 1).url
         let request = URLRequest(url: url!)
         let expectation = XCTestExpectation(description: "GET 목록조회")
         
-        sut.excute(request: request, decodeType: MarketItems.self) { (result: Result<MarketItems, Error>) in
+        sut!.excute(request: request, decodeType: MarketItems.self) { (result: Result<MarketItems, Error>) in
             switch result {
             case .success(_):
                 XCTFail()
@@ -72,13 +73,12 @@ class NetworkTest: XCTestCase {
     
     func test_network_excute_POST_상품등록_성공() {
         mockClient?.resultToreturn = .success(Data())
-        let sut = MarketNetworkManager(loader: mockClient!, decoder: mockDecode!)
         let url = MarketAPI.registrate.url
-        let request = sut.createRequest(url: url, encodeBody: TestData.registrateData, method: .post)
+        let request = sut!.createRequest(url: url, encodeBody: TestData.registrateData, method: .post)
         let result = try! request.get()
         let expectation = XCTestExpectation(description: "POST 상품등록")
         
-        sut.excute(request: result!, decodeType: MarketItem.self) { (result: Result<MarketItem, Error>) in
+        sut!.excute(request: result!, decodeType: MarketItem.self) { (result: Result<MarketItem, Error>) in
             switch result {
             case .success(_):
                 XCTAssert(true)
@@ -95,13 +95,12 @@ class NetworkTest: XCTestCase {
     
     func test_network_excute_POST_상품등록_실패() {
         mockClient?.resultToreturn = .failure(MarketError.post)
-        let sut = MarketNetworkManager(loader: mockClient!, decoder: mockDecode!)
         let url = MarketAPI.registrate.url
-        let request = sut.createRequest(url: url, encodeBody: TestData.registrateData, method: .post)
+        let request = sut!.createRequest(url: url, encodeBody: TestData.registrateData, method: .post)
         let result = try! request.get()
         let expectation = XCTestExpectation(description: "POST 상품등록")
         
-        sut.excute(request: result!, decodeType: MarketItem.self) { (result: Result<MarketItem, Error>) in
+        sut!.excute(request: result!, decodeType: MarketItem.self) { (result: Result<MarketItem, Error>) in
             switch result {
             case .success(_):
                 XCTFail()
@@ -118,13 +117,12 @@ class NetworkTest: XCTestCase {
     
     func test_network_excute_POST_상품삭제_성공() {
         mockClient?.resultToreturn = .success(Data())
-        let sut = MarketNetworkManager(loader: mockClient!, decoder: mockDecode!)
         let url = MarketAPI.delete(id: 1).url
-        let request = sut.createRequest(url: url, encodeBody: TestData.password, method: .delete)
+        let request = sut!.createRequest(url: url, encodeBody: TestData.password, method: .delete)
         let result = try! request.get()
         let expectation = XCTestExpectation(description: "POST 상품삭제")
         
-        sut.excute(request: result!, decodeType: MarketItem.self) { (result: Result<MarketItem, Error>) in
+        sut!.excute(request: result!, decodeType: MarketItem.self) { (result: Result<MarketItem, Error>) in
             switch result {
             case .success(_):
                 XCTAssert(true)
@@ -141,13 +139,13 @@ class NetworkTest: XCTestCase {
     
     func test_network_excute_POST_상품삭제_실패() {
         mockClient?.resultToreturn = .failure(MarketError.delete)
-        let sut = MarketNetworkManager(loader: mockClient!, decoder: mockDecode!)
+
         let url = MarketAPI.delete(id: 1).url
-        let request = sut.createRequest(url: url, encodeBody: TestData.password, method: .delete)
+        let request = sut!.createRequest(url: url, encodeBody: TestData.password, method: .delete)
         let result = try! request.get()
         let expectation = XCTestExpectation(description: "POST 상품삭제")
         
-        sut.excute(request: result!, decodeType: MarketItem.self) { (result: Result<MarketItem, Error>) in
+        sut!.excute(request: result!, decodeType: MarketItem.self) { (result: Result<MarketItem, Error>) in
             switch result {
             case .success(_):
                 XCTFail()
@@ -164,13 +162,12 @@ class NetworkTest: XCTestCase {
 
     func test_network_excute_PATCH_상품수정_성공() {
         mockClient?.resultToreturn = .success(Data())
-        let sut = MarketNetworkManager(loader: mockClient!, decoder: mockDecode!)
         let url = MarketAPI.edit(id: 1).url
-        let request = sut.createRequest(url: url, encodeBody: TestData.editData, method: .delete)
+        let request = sut!.createRequest(url: url, encodeBody: TestData.editData, method: .delete)
         let result = try! request.get()
         let expectation = XCTestExpectation(description: "PATCH 상품수정")
         
-        sut.excute(request: result!, decodeType: MarketItem.self) { (result: Result<MarketItem, Error>) in
+        sut!.excute(request: result!, decodeType: MarketItem.self) { (result: Result<MarketItem, Error>) in
             switch result {
             case .success(_):
                 XCTAssert(true)
@@ -187,13 +184,12 @@ class NetworkTest: XCTestCase {
     
     func test_network_excute_PATCH_상품수정_실패() {
         mockClient?.resultToreturn = .failure(MarketError.patch)
-        let sut = MarketNetworkManager(loader: mockClient!, decoder: mockDecode!)
         let url = MarketAPI.edit(id: 1).url
-        let request = sut.createRequest(url: url, encodeBody: TestData.editData, method: .delete)
+        let request = sut!.createRequest(url: url, encodeBody: TestData.editData, method: .delete)
         let result = try! request.get()
         let expectation = XCTestExpectation(description: "PATCH 상품수정")
         
-        sut.excute(request: result!, decodeType: MarketItem.self) { (result: Result<MarketItem, Error>) in
+        sut!.excute(request: result!, decodeType: MarketItem.self) { (result: Result<MarketItem, Error>) in
             switch result {
             case .success(_):
                 XCTFail()
