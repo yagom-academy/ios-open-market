@@ -9,19 +9,19 @@ import Foundation
 
 struct MarketNetworkManager: MarketRequest {
     let loader: MarketNetwork
-    let decoder: DecoderProtocol
+    let decoder: Decoderable
     
     func excute<T>(request: URLRequest, decodeType: T.Type, completion: @escaping (Result<T, Error>) -> Void) where T: Decodable {
         loader.excuteNetwork(request: request) { result in
             switch result {
             case .failure(let error):
-                completion(.failure(error))
+                completion(.failure(MarketError.network(error)))
             case .success(let data):
                 do {
                     let jsonDecode = try decoder.decode(T.self, from: data)
                     completion(.success(jsonDecode))
-                } catch {
-                    completion(.failure(error))
+                } catch  {
+                    completion(.failure(MarketError.decoding(error)))
                 }
             }
         }
@@ -33,13 +33,18 @@ final class Networkloader: MarketNetwork {
     
     func excuteNetwork(request: URLRequest, completion: @escaping (Result<Data, Error>) -> Void) {
         session.dataTask(with: request) { data, response, error in
-            guard error == nil else {
-                completion(.failure(MarketError.request))
+            if let error = error {
+                completion(.failure(MarketError.request(error)))
                 return
             }
             
-            guard let response = response as? HTTPURLResponse, (200...299) ~= response.statusCode else {
-                completion(.failure(MarketError.response))
+            guard let response = response as? HTTPURLResponse else {
+                completion(.failure(MarketError.casting("HTTPURLResponse")))
+                return
+            }
+            
+            guard (200...299) ~= response.statusCode else {
+                completion(.failure(MarketError.response(response.statusCode)))
                 return
             }
             

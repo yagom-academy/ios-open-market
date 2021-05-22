@@ -18,7 +18,12 @@ extension MarketRequest {
         
         switch method {
         case .delete:
-            guard let encode = try? JSONEncoder().encode(body) else { return .failure(MarketError.encoding)}
+            let encode: Data
+            do {
+                encode = try JSONEncoder().encode(body)
+            } catch {
+                return .failure(MarketError.encoding(error))
+            }
             var request = URLRequest(url: url)
             request.httpMethod = "DELETE"
             request.httpBody = encode
