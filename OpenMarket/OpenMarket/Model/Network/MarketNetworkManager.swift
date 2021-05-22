@@ -8,14 +8,12 @@
 import Foundation
 
 struct MarketNetworkManager: MarketRequest {
-    let loader: MarketNetwork
-    let decoder: Decoderable
+    private let loader: MarketNetwork
+    private let decoder: Decoderable
     
     func excute<T>(request: URLRequest, decodeType: T.Type, completion: @escaping (Result<T, Error>) -> Void) where T: Decodable {
         loader.excuteNetwork(request: request) { result in
             switch result {
-            case .failure(let error):
-                completion(.failure(MarketError.network(error)))
             case .success(let data):
                 do {
                     let jsonDecode = try decoder.decode(T.self, from: data)
@@ -23,6 +21,8 @@ struct MarketNetworkManager: MarketRequest {
                 } catch  {
                     completion(.failure(MarketError.decoding(error)))
                 }
+            case .failure(let error):
+                completion(.failure(MarketError.network(error)))
             }
         }
     }
