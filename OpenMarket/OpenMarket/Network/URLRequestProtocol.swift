@@ -10,8 +10,12 @@ import Foundation
 protocol URLRequestProtocol: MultiPartProtocol {
   static var boundary: String { get }
   func makeURLRequest(httpMethod: HttpMethod, apiRequestType: RequestType) -> URLRequest?
-  func setMultiPartBody(httpMethod: HttpMethod, apiRequestType: RequestType, product: Uploadable) -> URLRequest?
-  func setJsonBody(httpMethod: HttpMethod, apiRequestType: RequestType, product: ProductDeleteRequest) -> URLRequest?
+  func setMultiPartBody(httpMethod: HttpMethod,
+                        apiRequestType: RequestType,
+                        product: Uploadable) -> URLRequest?
+  func setJsonBody(httpMethod: HttpMethod,
+                   apiRequestType: RequestType,
+                   product: ProductDeleteRequest) -> URLRequest?
 }
 
 extension URLRequestProtocol {
@@ -30,8 +34,11 @@ extension URLRequestProtocol {
     return urlRequest
   }
   
-  func setMultiPartBody(httpMethod: HttpMethod, apiRequestType: RequestType, product: Uploadable) -> URLRequest? {
-    guard var urlRequest = makeURLRequest(httpMethod: httpMethod, apiRequestType: apiRequestType) else { return nil }
+  func setMultiPartBody(httpMethod: HttpMethod,
+                        apiRequestType: RequestType,
+                        product: Uploadable) -> URLRequest? {
+    guard var urlRequest = makeURLRequest(httpMethod: httpMethod,
+                                          apiRequestType: apiRequestType) else { return nil }
     var data: Data = Data()
     
     product.parameters.forEach { key, value in
@@ -47,8 +54,10 @@ extension URLRequestProtocol {
     return urlRequest
   }
   
-  func setJsonBody(httpMethod: HttpMethod, apiRequestType: RequestType, product: ProductDeleteRequest) -> URLRequest? {
-    guard var urlRequest = makeURLRequest(httpMethod: httpMethod, apiRequestType: apiRequestType) else { return nil }
+  func setJsonBody(httpMethod: HttpMethod, apiRequestType: RequestType,
+                   product: ProductDeleteRequest) -> URLRequest? {
+    guard var urlRequest = makeURLRequest(httpMethod: httpMethod,
+                                          apiRequestType: apiRequestType) else { return nil }
     guard let encodedData = try? JSONEncoder().encode(product) else { return nil }
     
     urlRequest.httpBody = encodedData
