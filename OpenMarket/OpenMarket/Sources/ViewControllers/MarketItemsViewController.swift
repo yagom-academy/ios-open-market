@@ -8,6 +8,12 @@ import UIKit
 
 class MarketItemsViewController: UIViewController {
     private var page: Page?
+    private lazy var loadingIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView(style: .large)
+        indicator.center = view.center
+        indicator.startAnimating()
+        return indicator
+    }()
 
     private lazy var layoutSegmentedControl: UISegmentedControl = {
         let segmentedControl = UISegmentedControl(items: ["LIST", "GRID"])
@@ -33,6 +39,7 @@ class MarketItemsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(collectionView)
+        view.addSubview(loadingIndicator)
         navigationItem.titleView = layoutSegmentedControl
         fetchPageData()
     }
@@ -48,7 +55,7 @@ class MarketItemsViewController: UIViewController {
             case .success(let page):
                 self.page = page
                 DispatchQueue.main.async {
-                    // TODO: Loading 화면 끝
+                    self.loadingIndicator.stopAnimating()
                     self.collectionView.reloadData()
                 }
             case .failure:
