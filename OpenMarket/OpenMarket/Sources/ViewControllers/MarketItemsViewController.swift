@@ -22,14 +22,12 @@ class MarketItemsViewController: UIViewController {
         return segmentedControl
     }()
 
-    private lazy var collectionView: UICollectionView = {
-        var collectionView = UICollectionView(frame: view.frame, collectionViewLayout: UICollectionViewFlowLayout())
-        collectionView.register(ItemCell.self, forCellWithReuseIdentifier: ItemCell.reuseIdentifier)
-        collectionView.dataSource = self
-        collectionView.delegate = self
-        collectionView.backgroundColor = .systemBackground
-        return collectionView
+    private lazy var registerItemButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(moveToRegisterView))
+        return button
     }()
+
+    private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
 
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
@@ -38,15 +36,28 @@ class MarketItemsViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.addSubview(collectionView)
-        view.addSubview(loadingIndicator)
-        navigationItem.titleView = layoutSegmentedControl
+        configureCollectionView()
+        addSubviews()
+        configureNavigationItems()
         fetchPageData()
     }
 
-    @objc private func toggleLayoutMode() {
-        LayoutMode.toggle()
-        collectionView.reloadData()
+    private func configureCollectionView() {
+        collectionView.frame = view.frame
+        collectionView.register(ItemCell.self, forCellWithReuseIdentifier: ItemCell.reuseIdentifier)
+        collectionView.dataSource = self
+        collectionView.delegate = self
+        collectionView.backgroundColor = .systemBackground
+    }
+
+    private func addSubviews() {
+        view.addSubview(collectionView)
+        view.addSubview(loadingIndicator)
+    }
+
+    private func configureNavigationItems() {
+        navigationItem.titleView = layoutSegmentedControl
+        navigationItem.rightBarButtonItem = registerItemButton
     }
 
     private func fetchPageData() {
@@ -63,6 +74,16 @@ class MarketItemsViewController: UIViewController {
                 return
             }
         }
+    }
+
+    @objc private func toggleLayoutMode() {
+        LayoutMode.toggle()
+        collectionView.reloadData()
+    }
+
+    @objc func moveToRegisterView() {
+        let view = ItemManagingViewController()
+        navigationController?.pushViewController(view, animated: true)
     }
 }
 
