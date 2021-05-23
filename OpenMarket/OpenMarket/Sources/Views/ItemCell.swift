@@ -13,22 +13,23 @@ class ItemCell: UICollectionViewCell {
 
     private let imageView = ItemCellImageView(systemName: "photo")
     private let titleLabel = ItemCellLabel(textStyle: .headline)
-    private let priceLabel = ItemCellLabel(alpha: 0.5)
-    private let discountedPriceLabel = ItemCellLabel(alpha: 0.5)
+    private let priceLabel = ItemCellLabel(textColor: .lightGray)
+    private let discountedPriceLabel = ItemCellLabel(textColor: .lightGray)
 
     private lazy var priceStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
         stackView.alignment = .center
-        stackView.distribution = .fillEqually
+        stackView.distribution = .equalSpacing
+        stackView.spacing = 10
         stackView.addArrangedSubview(priceLabel)
         stackView.addArrangedSubview(discountedPriceLabel)
         return stackView
     }()
 
     private let disclosureIndicatorImageView = ItemCellImageView(systemName: "chevron.forward")
-    private let stockLabel = ItemCellLabel(alpha: 0.5)
+    private let stockLabel = ItemCellLabel(textColor: .lightGray)
 
     private let divisionLine: UIView = {
         let view = UIView()
@@ -37,7 +38,39 @@ class ItemCell: UICollectionViewCell {
         return view
     }()
 
-    private var item: Page.Item?
+    var item: Page.Item? {
+        didSet {
+            DispatchQueue.main.async {
+                guard let thumnailURL = self.item?.thumbnails[0],
+                      let url = URL(string: thumnailURL),
+                      let data = try? Data(contentsOf: url),
+                      let image = UIImage(data: data) else { return }
+                self.imageView.image = image
+            }
+
+            titleLabel.text = item?.title
+
+            if let currency = item?.currency,
+               let price = item?.price {
+                priceLabel.text = "\(currency) \(price)"
+                if let discountedPrice = item?.discountedPrice {
+                    priceLabel.attributedText = NSAttributedString(string: "\(currency) \(price)",
+                                                                   attributes: [NSAttributedString.Key.strikethroughStyle: NSUnderlineStyle.single.rawValue])
+                    priceLabel.textColor = .systemRed
+                    discountedPriceLabel.text = "\(currency) \(discountedPrice)"
+                }
+            }
+
+            if let stock = item?.stock {
+                if stock > 0 {
+                    stockLabel.text = "잔여수량 : \(stock)"
+                } else {
+                    stockLabel.text = "품절"
+                    stockLabel.textColor = .systemOrange
+                }
+            }
+        }
+    }
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -58,6 +91,12 @@ class ItemCell: UICollectionViewCell {
     }
 
     override func prepareForReuse() {
+        imageView.image = UIImage(systemName: "photo")
+        titleLabel.reset()
+        priceLabel.reset()
+        discountedPriceLabel.reset()
+        stockLabel.reset()
+
         switch LayoutMode.current {
         case .list:
             activateListConstraints()

@@ -7,6 +7,8 @@
 import UIKit
 
 class MarketItemsViewController: UIViewController {
+    private var page: Page?
+
     private lazy var layoutSegmentedControl: UISegmentedControl = {
         let segmentedControl = UISegmentedControl(items: ["LIST", "GRID"])
         segmentedControl.selectedSegmentIndex = LayoutMode.list.rawValue
@@ -32,6 +34,7 @@ class MarketItemsViewController: UIViewController {
         super.viewDidLoad()
         view.addSubview(collectionView)
         navigationItem.titleView = layoutSegmentedControl
+        fetchPageData()
     }
 
     @objc private func toggleLayoutMode() {
@@ -39,11 +42,26 @@ class MarketItemsViewController: UIViewController {
         collectionView.reloadData()
     }
 
+    private func fetchPageData() {
+        SessionManager.shared.request(method: .get, path: .page(id: 1)) { (result: Result<Page, OpenMarketError>) in
+            switch result {
+            case .success(let page):
+                self.page = page
+                DispatchQueue.main.async {
+                    // TODO: Loading 화면 끝
+                    self.collectionView.reloadData()
+                }
+            case .failure:
+                // TODO: Alert 띄우기
+                return
+            }
+        }
+    }
 }
 
 extension MarketItemsViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return page?.items.count ?? 0
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -51,6 +69,7 @@ extension MarketItemsViewController: UICollectionViewDataSource {
                                                             for: indexPath) as? ItemCell else {
             return ItemCell()
         }
+        itemCell.item = page?.items[indexPath.item]
 
         return itemCell
     }

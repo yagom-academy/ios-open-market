@@ -8,14 +8,23 @@
 import UIKit
 
 class ItemCellLabel: UILabel {
-    init(textStyle: UIFont.TextStyle = .body, alpha: CGFloat = 1.0) {
+    private var baseTextColor: UIColor?
+
+    init(textStyle: UIFont.TextStyle = .body, textColor: UIColor? = nil) {
         super.init(frame: .zero)
-        self.translatesAutoresizingMaskIntoConstraints = false
-        self.font = .preferredFont(forTextStyle: textStyle)
-        self.alpha = alpha
+        translatesAutoresizingMaskIntoConstraints = false
+        font = .preferredFont(forTextStyle: textStyle)
+        self.textColor = textColor
+        baseTextColor = textColor
     }
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
+    }
+
+    func reset() {
+        text = nil
+        attributedText = nil
+        textColor = baseTextColor
     }
 }
