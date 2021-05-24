@@ -1,21 +1,21 @@
 //
-//  ItemVO.swift
+//  POSTItem.swift
 //  OpenMarket
 //
-//  Created by Seungjin Baek on 2021/05/12.
+//  Created by Seungjin Baek on 2021/05/24.
 //
 
 import Foundation
 
-// MARK:- DTO for Item
-struct Item {
-    var id, price, stock, discountedPrice: UInt?
-    var title, currency, description: String?
-    var thumnails, images: [String]?
-    var registrationDate: Double?
+struct POSTItem {
+    var id, price, stock: UInt
+    var discountedPrice: UInt?
+    var title, currency, description: String
+    var thumnails, images: [String]
+    var registrationDate: Double
 }
 
-extension Item: Codable {
+extension POSTItem: Decodable {
     enum CodingKeys: String, CodingKey {
         case id, price, stock, title, currency, thumnails, images
         case description = "descriptions"
