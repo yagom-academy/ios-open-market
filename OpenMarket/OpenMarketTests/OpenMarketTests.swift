@@ -56,7 +56,7 @@ class OpenMarketTests: XCTestCase {
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("application/json", forHTTPHeaderField: "Accept")
     
-        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+        URLSession.shared.dataTask(with: request) { (data, response, error) in
             guard error == nil else {
                 XCTFail()
                 return

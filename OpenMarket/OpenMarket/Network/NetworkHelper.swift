@@ -19,10 +19,10 @@ struct NetworkHelper {
               let data = try? String(contentsOf: url).data(using: .utf8),
               let response = try? JSONDecoder().decode(ItemsList.self, from: data)
         else {
-            completion(.failure(fatalError()))
+            completion(.failure(NetworkError.requestError))
             return
         }
-        completion(.success(response))        
+        completion(.success(response))
     }
     
     func readItem(itemNum: Int, completion: @escaping (Result<ItemInfo, Error>) -> Void ) {
@@ -31,7 +31,7 @@ struct NetworkHelper {
         let task: URLSessionDataTask = session.dataTask(with: request) { data, response, error in
             guard let response = response as? HTTPURLResponse,
                   (200...399).contains(response.statusCode) else {
-                completion(.failure(fatalError()))
+                completion(.failure(NetworkError.requestError))
                 return
             }
             
@@ -40,14 +40,14 @@ struct NetworkHelper {
                 completion(.success(itemResponse))
                 return
             }
-            completion(.failure(fatalError()))
+            completion(.failure(NetworkError.unknownError))
         }
         task.resume()
     }
     
     func createItem(itemForm: ItemRegistrationForm ,completion: @escaping (Result<ItemInfo, Error>) -> Void) {
         guard let url = URL(string: RequestAddress.createItem.url) else {
-            completion(.failure(fatalError()))
+            completion(.failure(NetworkError.urlError))
             return
         }
         
@@ -61,7 +61,7 @@ struct NetworkHelper {
         session.dataTask(with: request) { data, response, error in
             guard let response = response as? HTTPURLResponse,
                   (200...399).contains(response.statusCode) else {
-                completion(.failure(fatalError()))
+                completion(.failure(NetworkError.requestError))
                 return
             }
             if let data = data,
@@ -69,13 +69,13 @@ struct NetworkHelper {
                 completion(.success(responedItem))
                 return
             }
-            completion(.failure(fatalError()))
+            completion(.failure(NetworkError.unknownError))
         }.resume()
     }
     
     func updateItem(itemNum: Int, itemForm: ItemRegistrationForm, completion: @escaping (Result<ItemInfo, Error>) -> Void) {
         guard let url = URL(string: RequestAddress.updateItem(id: itemNum).url) else {
-            completion(.failure(fatalError()))
+            completion(.failure(NetworkError.urlError))
             return
         }
         var request = URLRequest(url: url)
@@ -87,7 +87,7 @@ struct NetworkHelper {
         session.dataTask(with: request) { data, response, error in
             guard let response = response as? HTTPURLResponse,
                   (200...399).contains(response.statusCode) else {
-                completion(.failure(fatalError()))
+                completion(.failure(NetworkError.requestError))
                 return
             }
             if let data = data,
@@ -95,13 +95,13 @@ struct NetworkHelper {
                 completion(.success(responedItem))
                 return
             }
-            completion(.failure(fatalError()))
+            completion(.failure(NetworkError.unknownError))
         }.resume()
     }
     
     func deleteItem(itemNum: Int, password: String, completion: @escaping (Result<ItemInfo, Error>) -> Void) {
         guard let url = URL(string: RequestAddress.updateItem(id: itemNum).url) else {
-            completion(.failure(fatalError()))
+            completion(.failure(NetworkError.urlError))
             return
         }
         var request = URLRequest(url: url)
@@ -113,7 +113,7 @@ struct NetworkHelper {
         session.dataTask(with: request) { data, response, error in
             guard let response = response as? HTTPURLResponse,
                   (200...399).contains(response.statusCode) else {
-                completion(.failure(fatalError()))
+                completion(.failure(NetworkError.requestError))
                 return
             }
             if let data = data,
@@ -121,7 +121,7 @@ struct NetworkHelper {
                 completion(.success(responedItem))
                 return
             }
-            completion(.failure(fatalError()))
+            completion(.failure(NetworkError.unknownError))
         }.resume()
     }
 }
