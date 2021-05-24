@@ -10,12 +10,13 @@ import Foundation
 struct Item: Codable {
     var id: Int
     var title: String
-    var descriptions: String?
+    var descriptions: String? = ""
     var price: Int
-    var currency: String
+    var currency: String = ""
     var stock: Int
+    var discountedPrice: Int?
     var thumbnails: [String]
-    var images: [String]?
+    var images: [String]? = []
     var registrationDate: Double
     
     enum CodingKeys: String, CodingKey {
@@ -25,6 +26,7 @@ struct Item: Codable {
         case price
         case currency
         case stock
+        case discountedPrice = "discounted_price"
         case thumbnails
         case images
         case registrationDate = "registration_date"

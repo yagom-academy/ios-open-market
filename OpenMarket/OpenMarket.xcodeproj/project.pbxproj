@@ -87,8 +87,8 @@
 			isa = PBXGroup;
 			children = (
 				3C9D1DA7264D50B70092C9F9 /* OpenMarketTests.swift */,
-				3C9D1DA9264D50B70092C9F9 /* Info.plist */,
 				D0256D4726577AE2005D994B /* ServerConnectorTests.swift */,
+				3C9D1DA9264D50B70092C9F9 /* Info.plist */,
 			);
 			path = OpenMarketTests;
 			sourceTree = "<group>";

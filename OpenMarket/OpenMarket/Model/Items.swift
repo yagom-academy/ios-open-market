@@ -11,4 +11,3 @@ struct Items: Codable {
     var page: Int
     var items: [Item]
 }
-

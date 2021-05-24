@@ -7,15 +7,15 @@
 
 import Foundation
 
-struct servedItems {
+struct ServedItems {
     static var items: Items!
 }
 
 struct ServerConnector {
     let domain: String
-    let url: URL
+    var url: URL
     var urlRequest: URLRequest
-    
+
     init(domain: String) {
         self.domain = domain
         self.url = URL(string: domain)!
@@ -24,7 +24,10 @@ struct ServerConnector {
     
     mutating func getServersData() {
         self.urlRequest.httpMethod = "Get"
-        
+        self.urlRequest.url = url
+        self.urlRequest.setValue("application/json",
+                          forHTTPHeaderField: "Content-Type")
+
         let task = URLSession.shared.dataTask(with: urlRequest) { data, response, error in
             if let error = error {
                 print("에러")
@@ -40,7 +43,7 @@ struct ServerConnector {
                mimeType == "application/json",
                let data = data,
                let convertedData = try? JSONDecoder().decode(Items.self, from: data) {
-                servedItems.items = convertedData
+                ServedItems.items = convertedData
             }
         }
         task.resume()
