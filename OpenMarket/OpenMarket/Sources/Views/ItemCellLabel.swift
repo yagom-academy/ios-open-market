@@ -27,3 +27,30 @@ class ItemCellLabel: UILabel {
         textColor = baseTextColor
     }
 }
+
+class PriceLabel: ItemCellLabel {
+    enum State {
+        case normal, discounted
+
+        var attributes: [NSAttributedString.Key: Any]? {
+            switch self {
+            case .normal: return nil
+            case .discounted: return [NSAttributedString.Key.strikethroughStyle: NSUnderlineStyle.single.rawValue]
+            }
+        }
+
+        var textColor: UIColor? {
+            switch self {
+            case .normal: return nil
+            case .discounted: return .systemRed
+            }
+        }
+    }
+
+    func setText(by state: State, _ currency: String, _ price: Int) {
+        attributedText = NSAttributedString(string: "\(currency) \(price)", attributes: state.attributes)
+        if let textColor = state.textColor {
+            self.textColor = textColor
+        }
+    }
+}

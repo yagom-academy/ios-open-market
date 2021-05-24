@@ -12,7 +12,7 @@ class ItemGridCell: UICollectionViewCell {
 
     private let imageView = ItemCellImageView(systemName: "photo")
     private let titleLabel = ItemCellLabel(textStyle: .headline)
-    private let priceLabel = ItemCellLabel(textColor: .lightGray)
+    private let priceLabel = PriceLabel(textColor: .lightGray)
     private let discountedPriceLabel = ItemCellLabel(textColor: .lightGray)
 
     private let priceStackView: UIStackView = {
@@ -51,14 +51,11 @@ class ItemGridCell: UICollectionViewCell {
 
             if let currency = item?.currency,
                let price = item?.price {
-                let baseText = "\(currency) \(price)"
                 if let discountedPrice = item?.discountedPrice {
-                    priceLabel.attributedText = NSAttributedString(string: "\(currency) \(price)",
-                                                                   attributes: [NSAttributedString.Key.strikethroughStyle: NSUnderlineStyle.single.rawValue])
-                    priceLabel.textColor = .systemRed
+                    priceLabel.setText(by: .discounted, currency, price)
                     discountedPriceLabel.text = "\(currency) \(discountedPrice)"
                 } else {
-                    priceLabel.text = baseText
+                    priceLabel.setText(by: .normal, currency, price)
                 }
             }
 
