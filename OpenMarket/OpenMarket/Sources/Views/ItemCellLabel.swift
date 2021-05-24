@@ -54,3 +54,37 @@ class PriceLabel: ItemCellLabel {
         }
     }
 }
+
+class StockLabel: ItemCellLabel {
+    private var state: State = .soldOut
+
+    enum State {
+        case inStock, soldOut
+
+        var baseText: String {
+            switch self {
+            case .inStock: return "잔여수량 : "
+            case .soldOut: return "품절"
+            }
+        }
+
+        var textColor: UIColor? {
+            switch self {
+            case .inStock: return nil
+            case .soldOut: return .systemOrange
+            }
+        }
+    }
+
+    func setText(_ stock: Int) {
+        state = stock > 0 ? .inStock : .soldOut
+
+        switch state {
+        case .inStock:
+            text = state.baseText + (stock > 99 ? "99+" : "\(stock)")
+        case .soldOut:
+            text = state.baseText
+            textColor = state.textColor
+        }
+    }
+}

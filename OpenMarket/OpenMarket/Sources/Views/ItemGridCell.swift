@@ -25,7 +25,7 @@ class ItemGridCell: UICollectionViewCell {
         return stackView
     }()
 
-    private let stockLabel = ItemCellLabel(textColor: .lightGray)
+    private let stockLabel = StockLabel(textColor: .lightGray)
 
     private let gridStackView: UIStackView = {
         let stackView = UIStackView()
@@ -60,13 +60,7 @@ class ItemGridCell: UICollectionViewCell {
             }
 
             if let stock = item?.stock {
-                if stock > 0 {
-                    let baseText: String = "잔여수량 : "
-                    stockLabel.text = baseText + (stock > 99 ? "99+" : "\(stock)")
-                } else {
-                    stockLabel.text = "품절"
-                    stockLabel.textColor = .systemOrange
-                }
+                stockLabel.setText(stock)
             }
         }
     }
