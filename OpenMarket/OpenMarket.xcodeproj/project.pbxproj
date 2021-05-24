@@ -14,10 +14,6 @@
 		8A90DE09264FD1F600719F03 /* Path.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A90DE08264FD1F600719F03 /* Path.swift */; };
 		8A90DE0D26500F7400719F03 /* FileName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A90DE0C26500F7400719F03 /* FileName.swift */; };
 		8A90DE19265025C000719F03 /* InformationOfItemResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A90DE18265025C000719F03 /* InformationOfItemResponse.swift */; };
-		8A90DE2B2651C1CD00719F03 /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A90DE292651C1CD00719F03 /* CollectionViewCell.swift */; };
-		8A90DE2C2651C1CD00719F03 /* CollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A90DE2A2651C1CD00719F03 /* CollectionViewCell.xib */; };
-		8A90DE432652D59000719F03 /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A90DE412652D59000719F03 /* TableViewCell.swift */; };
-		8A90DE442652D59000719F03 /* TableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A90DE422652D59000719F03 /* TableViewCell.xib */; };
 		8A90DE482653DFB100719F03 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A90DE472653DFB100719F03 /* Network.swift */; };
 		8A90DE81265A50A800719F03 /* GridCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A90DE7F265A50A800719F03 /* GridCollectionViewCell.swift */; };
 		8A90DE82265A50A800719F03 /* GridCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A90DE80265A50A800719F03 /* GridCollectionViewCell.xib */; };
@@ -55,10 +51,6 @@
 		8A90DE08264FD1F600719F03 /* Path.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Path.swift; sourceTree = "<group>"; };
 		8A90DE0C26500F7400719F03 /* FileName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileName.swift; sourceTree = "<group>"; };
 		8A90DE18265025C000719F03 /* InformationOfItemResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationOfItemResponse.swift; sourceTree = "<group>"; };
-		8A90DE292651C1CD00719F03 /* CollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
-		8A90DE2A2651C1CD00719F03 /* CollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CollectionViewCell.xib; sourceTree = "<group>"; };
-		8A90DE412652D59000719F03 /* TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
-		8A90DE422652D59000719F03 /* TableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TableViewCell.xib; sourceTree = "<group>"; };
 		8A90DE472653DFB100719F03 /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
 		8A90DE7F265A50A800719F03 /* GridCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridCollectionViewCell.swift; sourceTree = "<group>"; };
 		8A90DE80265A50A800719F03 /* GridCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GridCollectionViewCell.xib; sourceTree = "<group>"; };
@@ -145,10 +137,6 @@
 		8A90DE262651BF2000719F03 /* Cell */ = {
 			isa = PBXGroup;
 			children = (
-				8A90DE292651C1CD00719F03 /* CollectionViewCell.swift */,
-				8A90DE2A2651C1CD00719F03 /* CollectionViewCell.xib */,
-				8A90DE412652D59000719F03 /* TableViewCell.swift */,
-				8A90DE422652D59000719F03 /* TableViewCell.xib */,
 				8A90DE7F265A50A800719F03 /* GridCollectionViewCell.swift */,
 				8A90DE80265A50A800719F03 /* GridCollectionViewCell.xib */,
 				8A90DE8D265A7C2800719F03 /* ListCollectionViewCell.swift */,
@@ -160,6 +148,7 @@
 		8A90DE502654322400719F03 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				8A90DE262651BF2000719F03 /* Cell */,
 				C70FB0FE25BEF61C00C9924E /* ItemListViewController.swift */,
 				8A90DEDB265C048200719F03 /* IndicatorView.swift */,
 			);
@@ -171,6 +160,14 @@
 			children = (
 			);
 			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		8A90DEDF265C0DD900719F03 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				8A90DED2265B8AD000719F03 /* NetworkManager.swift */,
+			);
+			path = Network;
 			sourceTree = "<group>";
 		};
 		8AB1877B26490FF700B2A86C /* Model */ = {
@@ -185,10 +182,10 @@
 		C70FB0EE25BEF61C00C9924E = {
 			isa = PBXGroup;
 			children = (
+				8A90DEDF265C0DD900719F03 /* Network */,
 				8AB1877B26490FF700B2A86C /* Model */,
 				8A90DE502654322400719F03 /* View */,
 				8A90DE512654322B00719F03 /* ViewModel */,
-				8A90DE262651BF2000719F03 /* Cell */,
 				8A90DDFB264FC76900719F03 /* Error */,
 				8A90DDE6264D6D5B00719F03 /* Constant */,
 				C70FB0F925BEF61C00C9924E /* OpenMarket */,
@@ -215,7 +212,6 @@
 				C70FB10325BEF61D00C9924E /* Assets.xcassets */,
 				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
 				C70FB10825BEF61D00C9924E /* Info.plist */,
-				8A90DED2265B8AD000719F03 /* NetworkManager.swift */,
 			);
 			path = OpenMarket;
 			sourceTree = "<group>";
@@ -309,11 +305,9 @@
 			files = (
 				C70FB10725BEF61D00C9924E /* LaunchScreen.storyboard in Resources */,
 				8A90DE90265A7C2800719F03 /* ListCollectionViewCell.xib in Resources */,
-				8A90DE442652D59000719F03 /* TableViewCell.xib in Resources */,
 				8A90DE82265A50A800719F03 /* GridCollectionViewCell.xib in Resources */,
 				C70FB10425BEF61D00C9924E /* Assets.xcassets in Resources */,
 				C70FB10225BEF61C00C9924E /* Main.storyboard in Resources */,
-				8A90DE2C2651C1CD00719F03 /* CollectionViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -335,7 +329,6 @@
 			files = (
 				8AB187932649227D00B2A86C /* ItemsOfPageReponse.swift in Sources */,
 				8A90DE0D26500F7400719F03 /* FileName.swift in Sources */,
-				8A90DE2B2651C1CD00719F03 /* CollectionViewCell.swift in Sources */,
 				8AB187832649204B00B2A86C /* Request.swift in Sources */,
 				8A90DED3265B8AD000719F03 /* NetworkManager.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ItemListViewController.swift in Sources */,
@@ -347,7 +340,6 @@
 				8A90DEDC265C048300719F03 /* IndicatorView.swift in Sources */,
 				8A90DE09264FD1F600719F03 /* Path.swift in Sources */,
 				8A90DDFD264FC77D00719F03 /* EncodingError.swift in Sources */,
-				8A90DE432652D59000719F03 /* TableViewCell.swift in Sources */,
 				8A90DE19265025C000719F03 /* InformationOfItemResponse.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 			);

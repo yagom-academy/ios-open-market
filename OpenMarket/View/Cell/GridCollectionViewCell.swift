@@ -61,6 +61,4 @@ class GridCollectionViewCell: UICollectionViewCell {
         }
     }
     
-    
-    
 }

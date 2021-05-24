@@ -185,153 +185,19 @@ extension ItemListViewController: UICollectionViewDelegateFlowLayout {
 }
 
 
+extension String {
+    func strikeThrough() -> NSAttributedString {
+        let attributeString = NSMutableAttributedString(string: self)
+        attributeString.addAttribute(NSAttributedString.Key.strikethroughStyle, value: NSUnderlineStyle.single.rawValue, range: NSMakeRange(0,attributeString.length))
+        return attributeString
+    }
+
+    func removeStrikeThrough() -> NSAttributedString {
+        let attributeString = NSMutableAttributedString(string: self)
+        attributeString.removeAttribute(NSAttributedString.Key.strikethroughStyle, range: NSMakeRange(0, attributeString.length))
+        return attributeString
+    }
+
+}
 
 
-
-
-//
-//
-//
-//import UIKit
-//
-//class ItemListViewController: UIViewController {
-//
-//    var pageDataList: [Int : ItemsOfPageReponse] = [:]
-//    var reuseCollectionViewIdentifier = ListCollectionViewCell.identifier
-//
-//    @IBOutlet var collectionView: UICollectionView!
-//    @IBOutlet var control: UISegmentedControl!
-//    @IBAction func didChangeSegement(_ sender: UISegmentedControl) {
-//        if sender.selectedSegmentIndex == 0 {
-//            reuseCollectionViewIdentifier = ListCollectionViewCell.identifier
-//            registerCollectionViewCellNib()
-//            collectionView.reloadData()
-//            return
-//        }
-//
-//        reuseCollectionViewIdentifier = GridCollectionViewCell.identifier
-//        registerCollectionViewCellNib()
-//        collectionView.reloadData()
-//    }
-//
-//    override func viewDidLoad() {
-//        super.viewDidLoad()
-//        setUpSegmentedControl()
-//        setUpCollectionView()
-//        getItemsOfPageData(itemNumber: 0)
-//    }
-//
-////    private func checkPageExist(_ pageNumber: Int) -> [Bool] {
-////        var pageCheckList = [false, false, false]
-////        for pageData in pageDataList {
-////            if pageData.page == pageNumber - 1 { pageCheckList[0] = true }
-////            if pageData.page == pageNumber { pageCheckList[1] = true }
-////            if pageData.page == pageNumber + 1 { pageCheckList[2] = true }
-////        }
-////        return pageCheckList
-////    }
-//
-//    private func setUpCollectionView() {
-//        self.collectionView.delegate = self
-//        self.collectionView.dataSource = self
-//        registerCollectionViewCellNib()
-//    }
-//
-//    private func registerCollectionViewCellNib() {
-//        let collectionViewNib = UINib(nibName: reuseCollectionViewIdentifier, bundle: nil)
-//        self.self.collectionView.register(collectionViewNib, forCellWithReuseIdentifier: reuseCollectionViewIdentifier)
-//    }
-//
-//    private func setUpSegmentedControl() {
-//        control.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.systemBlue],
-//                                       for: UIControl.State.normal)
-//        control.layer.borderWidth = 0.5
-//        control.layer.borderColor = UIColor.systemBlue.cgColor
-//        control.backgroundColor = UIColor.white
-//        control.setTitleTextAttributes([NSAttributedString.Key.foregroundColor : UIColor.white],
-//                                       for: UIControl.State.selected)
-//    }
-//
-//    func checkValidation(data: Data?, response: URLResponse?, error: Error?) {
-//        if let error = error {
-//            fatalError("\(error)")
-//        }
-//        guard let httpResponse = response as? HTTPURLResponse else {
-//            print("Invalid Response")
-//            return
-//        }
-//        guard (200...299).contains(httpResponse.statusCode) else {
-//            print("Status Code: \(httpResponse.statusCode)")
-//            return
-//        }
-//        guard let _ = data else {
-//            print("Invalid Data")
-//            return
-//        }
-//    }
-//
-//    func getItemsOfPageData(itemNumber: Int)  {
-//        let pageNumber = itemNumber / 20 + 1
-//
-//        if let _ = pageDataList[pageNumber] {
-//            print("using cached data")
-//            return
-//        }
-//
-//        let url = Network.baseURL + "/items/\(pageNumber)"
-//        guard let urlRequest = URL(string: url) else { return  }
-//
-//        URLSession.shared.dataTask(with: urlRequest) { [weak self] (data, response, error) in
-//            self?.checkValidation(data: data, response: response, error: error)
-//            do {
-//                let data = try JSONDecoder().decode(ItemsOfPageReponse.self, from: data!)
-//                self?.pageDataList[pageNumber] = data
-//                self?.collectionView.reloadData()
-//            } catch {
-//                fatalError("Failed to decode")
-//            }
-//        }.resume()
-//    }
-//}
-//
-//extension ItemListViewController: UICollectionViewDataSource {
-//    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-//        return pageDataList.count * 20
-//    }
-//
-//    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-//        print("% willDisplay : \(indexPath)")
-//    }
-//
-//    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-//        print("@ \(indexPath)")
-//        if reuseCollectionViewIdentifier == GridCollectionViewCell.identifier {
-//            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseCollectionViewIdentifier, for: indexPath) as? GridCollectionViewCell else  {
-//                return UICollectionViewCell()
-//            }
-//            getItemsOfPageData(itemNumber: indexPath.item)
-//            return cell
-//        } else {
-//            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseCollectionViewIdentifier, for: indexPath) as? ListCollectionViewCell else  {
-//                return UICollectionViewCell()
-//            }
-//            getItemsOfPageData(itemNumber: indexPath.item)
-//            return cell
-//        }
-//    }
-//}
-//
-//extension ItemListViewController: UICollectionViewDelegate {
-//
-//}
-//
-//extension ItemListViewController: UICollectionViewDelegateFlowLayout {
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//
-//        if reuseCollectionViewIdentifier == ListCollectionViewCell.identifier {
-//            return CGSize(width: collectionView.frame.width, height: collectionView.frame.height/8)
-//        }
-//
-//        return CGSize(width: collectionView.frame.width/2-20, height: collectionView.frame.height/3.5)
-//    }
-//}
