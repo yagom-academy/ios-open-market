@@ -18,6 +18,11 @@ class MarketItemsViewController: UIViewController {
     private lazy var layoutSegmentedControl: UISegmentedControl = {
         let segmentedControl = UISegmentedControl(items: ["LIST", "GRID"])
         segmentedControl.selectedSegmentIndex = LayoutMode.list.rawValue
+        segmentedControl.layer.borderWidth = 2
+        segmentedControl.layer.borderColor = UIColor.systemBlue.cgColor
+        segmentedControl.selectedSegmentTintColor = .systemBlue
+        segmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.systemBlue], for: .normal)
+        segmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for: .selected)
         segmentedControl.addTarget(self, action: #selector(toggleLayoutMode), for: .valueChanged)
         return segmentedControl
     }()
