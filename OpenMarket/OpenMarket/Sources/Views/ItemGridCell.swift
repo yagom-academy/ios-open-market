@@ -35,12 +35,14 @@ class ItemGridCell: UICollectionViewCell {
 
     var item: Page.Item? {
         didSet {
-            DispatchQueue.main.async {
+            DispatchQueue.global().async {
                 guard let thumnailURL = self.item?.thumbnails[0],
                       let url = URL(string: thumnailURL),
                       let data = try? Data(contentsOf: url),
                       let image = UIImage(data: data) else { return }
-                self.imageView.image = image
+                DispatchQueue.main.async {
+                    self.imageView.image = image
+                }
             }
 
             titleLabel.text = item?.title

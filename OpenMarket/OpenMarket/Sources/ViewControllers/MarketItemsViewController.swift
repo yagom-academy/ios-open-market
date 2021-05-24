@@ -7,7 +7,8 @@
 import UIKit
 
 class MarketItemsViewController: UIViewController {
-    private var page: Page?
+    private var pages: [Page] = []
+
     private lazy var loadingIndicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView(style: .large)
         indicator.center = view.center
@@ -57,6 +58,7 @@ class MarketItemsViewController: UIViewController {
         collectionView.register(ItemGridCell.self, forCellWithReuseIdentifier: ItemGridCell.reuseIdentifier)
         collectionView.dataSource = self
         collectionView.delegate = self
+        collectionView.prefetchDataSource = self
         collectionView.backgroundColor = .systemBackground
     }
 
@@ -71,10 +73,10 @@ class MarketItemsViewController: UIViewController {
     }
 
     private func fetchPageData() {
-        SessionManager.shared.request(method: .get, path: .page(id: 1)) { (result: Result<Page, OpenMarketError>) in
+        SessionManager.shared.request(method: .get, path: .page(id: pages.count + 1)) { (result: Result<Page, OpenMarketError>) in
             switch result {
             case .success(let page):
-                self.page = page
+                self.pages.append(page)
                 DispatchQueue.main.async {
                     self.loadingIndicator.stopAnimating()
                     self.collectionView.reloadData()
@@ -98,8 +100,12 @@ class MarketItemsViewController: UIViewController {
 }
 
 extension MarketItemsViewController: UICollectionViewDataSource {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return pages.count
+    }
+
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return page?.items.count ?? 0
+        return pages[section].items.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -109,14 +115,14 @@ extension MarketItemsViewController: UICollectionViewDataSource {
                                                                 for: indexPath) as? ItemListCell else {
                 return ItemListCell()
             }
-            itemCell.item = page?.items[indexPath.item]
+            itemCell.item = pages[indexPath.section].items[indexPath.item]
             return itemCell
         case .grid:
             guard let itemCell = collectionView.dequeueReusableCell(withReuseIdentifier: ItemGridCell.reuseIdentifier,
                                                                 for: indexPath) as? ItemGridCell else {
                 return ItemListCell()
             }
-            itemCell.item = page?.items[indexPath.item]
+            itemCell.item = pages[indexPath.section].items[indexPath.item]
             return itemCell
         }
     }
@@ -137,6 +143,17 @@ extension MarketItemsViewController: UICollectionViewDelegateFlowLayout {
                         layout collectionViewLayout: UICollectionViewLayout,
                         insetForSectionAt section: Int) -> UIEdgeInsets {
         return LayoutMode.current == .list ? UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0) : UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
+    }
+}
+
+extension MarketItemsViewController: UICollectionViewDataSourcePrefetching {
+    func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
+        guard let lastPageItemCount = pages.last?.items.count,
+              let lastIndexPathsSection = indexPaths.last?.section else { return }
+
+        if indexPaths.contains(IndexPath(row: lastPageItemCount - 1, section: lastIndexPathsSection)) {
+            fetchPageData()
+        }
     }
 }
 
