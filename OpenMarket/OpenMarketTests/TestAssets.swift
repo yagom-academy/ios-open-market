@@ -12,40 +12,40 @@ enum TestAssets {
     static let itemList: String = "items"
     static let item: String = "item"
     static let image = UIImage(named: "test_image")?.pngData()
-    static let deleteBody = ItemForDelete(password: "1234")
-    static let editBody = ItemForEdit(
+    static let deleteBody = Item(forDeletePassword: "1234")
+    static let editBody = Item(
+        forPatchPassword: "1234",
         title: "pencil",
-        price: nil,
         descriptions: "apple pencil",
         currency: nil,
+        price: nil,
+        discountedPrice: nil,
         stock: nil,
-        discountedPrice: nil,
-        images: nil,
-        password: ""
+        images: nil
     )
-    static let postBody = ItemForRegistration(
+    static let postBody = Item(
+        forPostPassword: "1234",
         title: "pencil",
         descriptions: "apple pencil",
-        price: 1690000,
         currency: "KRW",
-        stock: 1000000000000,
+        price: 1690000,
         discountedPrice: nil,
-        images: [image!],
-        password: "1234"
+        stock: 1000000000000,
+        images: [image!]
     )
-    static let mockItemResponse = ItemResponse(
-        id: 1,
+    static let mockItem = Item(
+        forResponseID: 1,
         title: "pencil",
         descriptions: "apple pencil",
-        price: 1690000,
         currency: "KRW",
-        stock: 1000000000000,
+        price: 1690000,
         discountedPrice: nil,
+        stock: 1000000000000,
         thumbnails: [
             "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/thumbnails/1-1.png",
             "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/thumbnails/1-2.png"
         ],
-        images: [
+        imagesURL: [
             "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/images/1-1.png",
             "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/images/1-2.png"
         ],

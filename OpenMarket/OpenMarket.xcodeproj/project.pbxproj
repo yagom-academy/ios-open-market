@@ -24,10 +24,6 @@
 		E2735E252653984100C450E9 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2735E242653984100C450E9 /* Data.swift */; };
 		E27CB873264A58B3007741DE /* ItemList.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27CB872264A58B3007741DE /* ItemList.swift */; };
 		E27CB875264A58BE007741DE /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27CB874264A58BE007741DE /* Item.swift */; };
-		E27CB877264A58E4007741DE /* ItemForRegistration.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27CB876264A58E4007741DE /* ItemForRegistration.swift */; };
-		E27CB879264A58F9007741DE /* ItemResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27CB878264A58F9007741DE /* ItemResponse.swift */; };
-		E27CB87B264A5904007741DE /* ItemForEdit.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27CB87A264A5904007741DE /* ItemForEdit.swift */; };
-		E27CB87D264A590F007741DE /* ItemForDelete.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27CB87C264A590F007741DE /* ItemForDelete.swift */; };
 		E27CB87F264A591A007741DE /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27CB87E264A591A007741DE /* NetworkManager.swift */; };
 		E27CB887264A75F3007741DE /* OpenMarketTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27CB886264A75F3007741DE /* OpenMarketTests.swift */; };
 /* End PBXBuildFile section */
@@ -62,10 +58,6 @@
 		E2735E242653984100C450E9 /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
 		E27CB872264A58B3007741DE /* ItemList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemList.swift; sourceTree = "<group>"; };
 		E27CB874264A58BE007741DE /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
-		E27CB876264A58E4007741DE /* ItemForRegistration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemForRegistration.swift; sourceTree = "<group>"; };
-		E27CB878264A58F9007741DE /* ItemResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemResponse.swift; sourceTree = "<group>"; };
-		E27CB87A264A5904007741DE /* ItemForEdit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemForEdit.swift; sourceTree = "<group>"; };
-		E27CB87C264A590F007741DE /* ItemForDelete.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemForDelete.swift; sourceTree = "<group>"; };
 		E27CB87E264A591A007741DE /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		E27CB884264A75F3007741DE /* OpenMarketTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenMarketTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E27CB886264A75F3007741DE /* OpenMarketTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketTests.swift; sourceTree = "<group>"; };
@@ -149,26 +141,6 @@
 			path = Error;
 			sourceTree = "<group>";
 		};
-		E2362B76264D872600C5F59E /* Request */ = {
-			isa = PBXGroup;
-			children = (
-				E27CB876264A58E4007741DE /* ItemForRegistration.swift */,
-				E27CB87A264A5904007741DE /* ItemForEdit.swift */,
-				E27CB87C264A590F007741DE /* ItemForDelete.swift */,
-			);
-			path = Request;
-			sourceTree = "<group>";
-		};
-		E2362B77264D875A00C5F59E /* Response */ = {
-			isa = PBXGroup;
-			children = (
-				E27CB872264A58B3007741DE /* ItemList.swift */,
-				E27CB874264A58BE007741DE /* Item.swift */,
-				E27CB878264A58F9007741DE /* ItemResponse.swift */,
-			);
-			path = Response;
-			sourceTree = "<group>";
-		};
 		E2362B78264D877300C5F59E /* Network */ = {
 			isa = PBXGroup;
 			children = (
@@ -184,10 +156,10 @@
 		E27CB871264A587C007741DE /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				E27CB872264A58B3007741DE /* ItemList.swift */,
+				E27CB874264A58BE007741DE /* Item.swift */,
 				E22B5D99264E1DD800160A3A /* Error */,
 				E2362B78264D877300C5F59E /* Network */,
-				E2362B77264D875A00C5F59E /* Response */,
-				E2362B76264D872600C5F59E /* Request */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -303,7 +275,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E27CB87B264A5904007741DE /* ItemForEdit.swift in Sources */,
 				E27CB87F264A591A007741DE /* NetworkManager.swift in Sources */,
 				AAE791302652488100F89BAE /* HTTPMethod.swift in Sources */,
 				E27CB875264A58BE007741DE /* Item.swift in Sources */,
@@ -311,15 +282,12 @@
 				E27CB873264A58B3007741DE /* ItemList.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
 				E22B5D9B264E1DE800160A3A /* APIError.swift in Sources */,
-				E27CB87D264A590F007741DE /* ItemForDelete.swift in Sources */,
 				AAE79132265248D000F89BAE /* URLRequest.swift in Sources */,
-				E27CB879264A58F9007741DE /* ItemResponse.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				AA04F853264CFDB100232D1E /* OpenMarketURL.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 				E2735E252653984100C450E9 /* Data.swift in Sources */,
 				AAE791372652498200F89BAE /* Requestable.swift in Sources */,
-				E27CB877264A58E4007741DE /* ItemForRegistration.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

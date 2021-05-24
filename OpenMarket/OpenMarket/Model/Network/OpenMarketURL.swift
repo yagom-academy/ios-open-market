@@ -20,11 +20,11 @@ enum OpenMarketURL {
     var url: URL? {
         switch self {
         case .viewItemList(let page):
-            return URL(string: "\(OpenMarketURL.base)\(OpenMarketURL.itemListInfix)\(page)")
+            return URL(string: "\(OpenMarketURL.base + OpenMarketURL.itemListInfix)\(page)")
         case .registerItem:
-            return URL(string: "\(OpenMarketURL.base)\(OpenMarketURL.itemDetailInfix)")
+            return URL(string: "\(OpenMarketURL.base + OpenMarketURL.itemDetailInfix)")
         case .viewItemDetail(let id), .editItem(let id), .deleteItem(let id):
-            return URL(string: "\(OpenMarketURL.base)\(OpenMarketURL.itemDetailInfix)\(id)")
+            return URL(string: "\(OpenMarketURL.base + OpenMarketURL.itemDetailInfix)\(id)")
         }
     }
 }
