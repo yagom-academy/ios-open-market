@@ -19,9 +19,6 @@ class ItemGridCell: UICollectionViewCell {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
-        stackView.alignment = .center
-        stackView.distribution = .equalSpacing
-        stackView.spacing = 3
         return stackView
     }()
 
@@ -33,7 +30,6 @@ class ItemGridCell: UICollectionViewCell {
         stackView.axis = .vertical
         stackView.alignment = .center
         stackView.distribution = .equalSpacing
-        stackView.spacing = 10
         return stackView
     }()
 
