@@ -28,7 +28,7 @@ class ListCollectionViewCell: UICollectionViewCell {
     }
     
     func initCellProperty() {
-        self.itemImage.image = UIImage(named: "indicator")
+        self.itemImage.image = nil
         self.itemPrice.attributedText = self.itemPrice.text?.removeStrikeThrough()
         self.itemTitle.text = ""
         self.numberOfItemStock.text = ""

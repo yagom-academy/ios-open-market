@@ -8,7 +8,9 @@
 import UIKit
 
 class GridCollectionViewCell: UICollectionViewCell {
+    
     static let identifier = "GridCollectionViewCell"
+    var representedIdentifier: String = ""
     
     @IBOutlet var itemImage: UIImageView!
     @IBOutlet var itemTitle: UILabel!
@@ -26,7 +28,7 @@ class GridCollectionViewCell: UICollectionViewCell {
     }
     
     func initCellProperty() {
-        self.itemImage.image = UIImage(named: "indicator")
+        self.itemImage.image = nil
         self.itemPrice.attributedText = self.itemPrice.text?.removeStrikeThrough()
         self.itemTitle.text = ""
         self.numberOfItemStock.text = ""
@@ -36,33 +38,29 @@ class GridCollectionViewCell: UICollectionViewCell {
         self.itemPrice.textColor = UIColor.lightGray
     }
     
-    func update(data: ItemsOfPageReponse, indexPath: IndexPath ,collectionView: UICollectionView) {
-        let itemIndex = indexPath.row % 20
-        let imageURL = URL(string: data.items[itemIndex].thumbnails[0])
+    func update(data: ItemsOfPageReponse.Item) {
+        let imageURL = URL(string: data.thumbnails[0])
         do {
             let imageData = try Data(contentsOf: imageURL!)
             
-            DispatchQueue.main.async {
-                print("@ \(indexPath), # \(collectionView.indexPath(for: self))")
-                guard collectionView.indexPath(for: self) == indexPath else { return }
-                
-                self.itemImage.image = UIImage(data: imageData)
-                self.itemTitle.text = data.items[itemIndex].title
-                self.numberOfItemStock.text = "잔여수량 : " + String(data.items[itemIndex].stock)
-                if let discountedPrice = data.items[itemIndex].discountedPrice {
-                    self.discountedPrice.isHidden = false
-                    self.discountedPrice.text = data.items[itemIndex].currency + " " + String(discountedPrice)
-                    self.itemPrice.textColor = UIColor.red
-                    self.itemPrice.text = data.items[itemIndex].currency + " " + String(data.items[itemIndex].price)
-                    self.itemPrice.attributedText = self.itemPrice.text?.strikeThrough()
-                } else {
-                    self.itemPrice.text = data.items[itemIndex].currency + " " + String(data.items[itemIndex].price)
-                }
+            self.itemImage.image = UIImage(data: imageData)
+            self.itemTitle.text = data.title
+            self.numberOfItemStock.text = "잔여수량 : " + String(data.stock)
+            if let discountedPrice = data.discountedPrice {
+                self.discountedPrice.isHidden = false
+                self.discountedPrice.text = data.currency + " " + String(discountedPrice)
+                self.itemPrice.textColor = UIColor.red
+                self.itemPrice.text = data.currency + " " + String(data.price)
+                self.itemPrice.attributedText = self.itemPrice.text?.strikeThrough()
+            } else {
+                self.itemPrice.text = data.currency + " " + String(data.price)
             }
             
         } catch {
             print("Invalid URL")
         }
     }
+    
+    
     
 }
