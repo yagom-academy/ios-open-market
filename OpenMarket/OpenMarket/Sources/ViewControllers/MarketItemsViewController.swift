@@ -27,7 +27,11 @@ class MarketItemsViewController: UIViewController {
         return button
     }()
 
-    private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+    private let collectionView: UICollectionView = {
+        let flowLayout = UICollectionViewFlowLayout()
+        flowLayout.sectionInsetReference = .fromSafeArea
+        return UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
+    }()
 
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
