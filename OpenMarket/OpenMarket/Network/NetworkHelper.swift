@@ -9,8 +9,8 @@ import Foundation
 
 struct NetworkHelper {
     
-    let session: URLSessionProtocol
-    init (session: URLSessionProtocol = URLSession.shared) {
+    let session: URLSession
+    init (session: URLSession = .shared) {
         self.session = session
     }
     
@@ -26,13 +26,6 @@ struct NetworkHelper {
     }
     
     func readItem(itemNum: Int, completion: @escaping (Result<ItemInfo, Error>) -> Void ) {
-//        if let url = URL(string: RequestAddress.readItem(id: itemNum).url),
-//              let data = try? String(contentsOf: url).data(using: .utf8),
-//              let response = try? JSONDecoder().decode(ItemInfo.self, from: data) {
-//            completion(.success(response))
-//            return
-//        }
-//        completion(.failure(fatalError()))
         let request = URLRequest(url: URL(string: RequestAddress.readItem(id: itemNum).url)!)
         
         let task: URLSessionDataTask = session.dataTask(with: request) { data, response, error in
