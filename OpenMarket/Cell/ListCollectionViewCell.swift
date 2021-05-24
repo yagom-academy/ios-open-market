@@ -10,6 +10,7 @@ import UIKit
 class ListCollectionViewCell: UICollectionViewCell {
     
     static let identifier = "ListCollectionViewCell"
+    var representedIdentifier: String = ""
     
     @IBOutlet var itemImage: UIImageView!
     @IBOutlet var itemTitle: UILabel!
@@ -41,7 +42,6 @@ class ListCollectionViewCell: UICollectionViewCell {
         let imageURL = URL(string: data.thumbnails[0])
         do {
             let imageData = try Data(contentsOf: imageURL!)
-//            guard collectionView.indexPath(for: self) == indexPath else { return }
             
             self.itemImage.image = UIImage(data: imageData)
             self.itemTitle.text = data.title

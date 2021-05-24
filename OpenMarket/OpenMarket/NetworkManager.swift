@@ -18,7 +18,7 @@ class NetworkManager {
         session = URLSession(configuration: config)
     }
     
-    func getItemsOfPageData(pagination: Bool, pageNumber: Int, completion: @escaping (Data?)->(Void))  {
+    func getItemsOfPageData(pagination: Bool, pageNumber: Int, completion: @escaping (Data?, Int?)->(Void))  {
         if pagination {
             isPaginating = true
         }
@@ -29,7 +29,7 @@ class NetworkManager {
             if pagination {
                 self?.isPaginating = false
             }
-            completion(data)
+            completion(data, pageNumber)
         }.resume()
     }
     
