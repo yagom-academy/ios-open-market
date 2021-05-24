@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct PATCHItem {
+struct PATCHRequestItem {
     var title, description, currency: String?
     var password: String
     var price, stock: UInt?
@@ -15,8 +15,8 @@ struct PATCHItem {
     var images: [String]? // File
 }
 
-extension PATCHItem: Encodable {
-    enum CodingKey: String, CodingKey {
+extension PATCHRequestItem: Encodable {
+    enum CodingKeys: String, CodingKey {
         case description = "descriptions"
         case discountedPrice = "discounted_price"
     }

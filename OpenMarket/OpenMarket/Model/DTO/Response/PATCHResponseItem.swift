@@ -1,5 +1,5 @@
 //
-//  DELETEItem.swift
+//  PATCHItem.swift
 //  OpenMarket
 //
 //  Created by Seungjin Baek on 2021/05/24.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct DELETEItem {
+struct PATCHResponseItem {
     var id, price, stock: UInt
     var discountedPrice: UInt?
     var title, currency, description: String
@@ -15,7 +15,7 @@ struct DELETEItem {
     var registrationDate: Double
 }
 
-extension DELETEItem: Decodable {
+extension PATCHResponseItem: Decodable {
     enum CodingKeys: String, CodingKey {
         case id, price, stock, title, currency, thumnails, images
         case description = "descriptions"
