@@ -20,9 +20,10 @@
 		028CB615264DFF56005E7914 /* DataExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 028CB614264DFF56005E7914 /* DataExtension.swift */; };
 		0298BF1B264D108F00865555 /* UIImageExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0298BF1A264D108F00865555 /* UIImageExtensionTests.swift */; };
 		0298BF20264D20CA00865555 /* APIModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0298BF1F264D20CA00865555 /* APIModelTests.swift */; };
-		02A7EE6226576F9800562DF8 /* ItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02A7EE6126576F9800562DF8 /* ItemCell.swift */; };
+		02A7EE6226576F9800562DF8 /* ItemListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02A7EE6126576F9800562DF8 /* ItemListCell.swift */; };
 		02A7EE642657799600562DF8 /* ItemCellLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02A7EE632657799600562DF8 /* ItemCellLabel.swift */; };
 		02A7EE6626577BC800562DF8 /* ItemCellImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02A7EE6526577BC800562DF8 /* ItemCellImageView.swift */; };
+		02A7EE88265A75F100562DF8 /* ItemGridCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02A7EE87265A75F100562DF8 /* ItemGridCell.swift */; };
 		1C3FE4FE264D0B400051D507 /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C3FE4FD264D0B400051D507 /* UIImageExtension.swift */; };
 		1C3FE509264D39BC0051D507 /* SessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C3FE508264D39BC0051D507 /* SessionManager.swift */; };
 		1C3FE50D264D42B90051D507 /* SessionManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C3FE50C264D42B90051D507 /* SessionManagerTests.swift */; };
@@ -65,9 +66,10 @@
 		028CB614264DFF56005E7914 /* DataExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataExtension.swift; sourceTree = "<group>"; };
 		0298BF1A264D108F00865555 /* UIImageExtensionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageExtensionTests.swift; sourceTree = "<group>"; };
 		0298BF1F264D20CA00865555 /* APIModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIModelTests.swift; sourceTree = "<group>"; };
-		02A7EE6126576F9800562DF8 /* ItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemCell.swift; sourceTree = "<group>"; };
+		02A7EE6126576F9800562DF8 /* ItemListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemListCell.swift; sourceTree = "<group>"; };
 		02A7EE632657799600562DF8 /* ItemCellLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemCellLabel.swift; sourceTree = "<group>"; };
 		02A7EE6526577BC800562DF8 /* ItemCellImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemCellImageView.swift; sourceTree = "<group>"; };
+		02A7EE87265A75F100562DF8 /* ItemGridCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemGridCell.swift; sourceTree = "<group>"; };
 		1C3FE4FD264D0B400051D507 /* UIImageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageExtension.swift; sourceTree = "<group>"; };
 		1C3FE508264D39BC0051D507 /* SessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionManager.swift; sourceTree = "<group>"; };
 		1C3FE50C264D42B90051D507 /* SessionManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionManagerTests.swift; sourceTree = "<group>"; };
@@ -207,9 +209,10 @@
 		02A7EE6026576F6200562DF8 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				02A7EE6126576F9800562DF8 /* ItemCell.swift */,
 				02A7EE632657799600562DF8 /* ItemCellLabel.swift */,
 				02A7EE6526577BC800562DF8 /* ItemCellImageView.swift */,
+				02A7EE87265A75F100562DF8 /* ItemGridCell.swift */,
+				02A7EE6126576F9800562DF8 /* ItemListCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -420,9 +423,10 @@
 				024D5D49264BA62400980107 /* Item.swift in Sources */,
 				0260978D264BCF800086A8C5 /* FormData.swift in Sources */,
 				02899E7F2653564F00DB4A0B /* OpenMarketError.swift in Sources */,
+				02A7EE88265A75F100562DF8 /* ItemGridCell.swift in Sources */,
 				02A7EE6626577BC800562DF8 /* ItemCellImageView.swift in Sources */,
 				02899E742653559C00DB4A0B /* RequestData.swift in Sources */,
-				02A7EE6226576F9800562DF8 /* ItemCell.swift in Sources */,
+				02A7EE6226576F9800562DF8 /* ItemListCell.swift in Sources */,
 				1C3FE4FE264D0B400051D507 /* UIImageExtension.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* MarketItemsViewController.swift in Sources */,
 				1C7D1D85264BABA800ADE23A /* PatchingItem.swift in Sources */,
@@ -634,6 +638,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = "OpenMarket/Supporting File/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -653,6 +658,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = "OpenMarket/Supporting File/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				LD_RUNPATH_SEARCH_PATHS = (

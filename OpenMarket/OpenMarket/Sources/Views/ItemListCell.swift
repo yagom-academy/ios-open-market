@@ -1,5 +1,5 @@
 //
-//  ItemCell.swift
+//  ItemListCell.swift
 //  OpenMarket
 //
 //  Created by duckbok on 2021/05/21.
@@ -7,24 +7,21 @@
 
 import UIKit
 
-class ItemCell: UICollectionViewCell {
-    static let reuseIdentifier = "itemCell"
-    private var currentConstraints = [NSLayoutConstraint]()
+class ItemListCell: UICollectionViewCell {
+    static let reuseIdentifier = "itemListCell"
 
     private let imageView = ItemCellImageView(systemName: "photo")
     private let titleLabel = ItemCellLabel(textStyle: .headline)
     private let priceLabel = ItemCellLabel(textColor: .lightGray)
     private let discountedPriceLabel = ItemCellLabel(textColor: .lightGray)
 
-    private lazy var priceStackView: UIStackView = {
+    private let priceStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
         stackView.alignment = .center
         stackView.distribution = .equalSpacing
         stackView.spacing = 10
-        stackView.addArrangedSubview(priceLabel)
-        stackView.addArrangedSubview(discountedPriceLabel)
         return stackView
     }()
 
@@ -52,18 +49,21 @@ class ItemCell: UICollectionViewCell {
 
             if let currency = item?.currency,
                let price = item?.price {
-                priceLabel.text = "\(currency) \(price)"
+                let baseText = "\(currency) \(price)"
                 if let discountedPrice = item?.discountedPrice {
                     priceLabel.attributedText = NSAttributedString(string: "\(currency) \(price)",
                                                                    attributes: [NSAttributedString.Key.strikethroughStyle: NSUnderlineStyle.single.rawValue])
                     priceLabel.textColor = .systemRed
                     discountedPriceLabel.text = "\(currency) \(discountedPrice)"
+                } else {
+                    priceLabel.text = baseText
                 }
             }
 
             if let stock = item?.stock {
                 if stock > 0 {
-                    stockLabel.text = "잔여수량 : \(stock)"
+                    let baseText: String = "잔여수량 : "
+                    stockLabel.text = baseText + (stock > 99 ? "99+" : "\(stock)")
                 } else {
                     stockLabel.text = "품절"
                     stockLabel.textColor = .systemOrange
@@ -75,15 +75,7 @@ class ItemCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         addSubviews()
-        layer.cornerRadius = 20
-        layer.borderColor = UIColor.systemGray3.cgColor
-
-        switch LayoutMode.current {
-        case .list:
-            activateListConstraints()
-        case .grid:
-            activateGridConstraints()
-        }
+        activateConstraints()
     }
 
     required init?(coder: NSCoder) {
@@ -91,27 +83,17 @@ class ItemCell: UICollectionViewCell {
     }
 
     override func prepareForReuse() {
-        imageView.image = UIImage(systemName: "photo")
+        imageView.reset()
         titleLabel.reset()
         priceLabel.reset()
         discountedPriceLabel.reset()
         stockLabel.reset()
-
-        switch LayoutMode.current {
-        case .list:
-            activateListConstraints()
-            disclosureIndicatorImageView.isHidden = false
-            priceStackView.axis = .horizontal
-            layer.borderWidth = 0
-        case .grid:
-            activateGridConstraints()
-            disclosureIndicatorImageView.isHidden = true
-            priceStackView.axis = .vertical
-            layer.borderWidth = 1
-        }
     }
 
     func addSubviews() {
+        priceStackView.addArrangedSubview(priceLabel)
+        priceStackView.addArrangedSubview(discountedPriceLabel)
+
         addSubview(imageView)
         addSubview(titleLabel)
         addSubview(priceStackView)
@@ -120,9 +102,12 @@ class ItemCell: UICollectionViewCell {
         addSubview(divisionLine)
     }
 
-    func activateListConstraints() {
-        NSLayoutConstraint.deactivate(currentConstraints)
-        currentConstraints.removeAll()
+    func activateConstraints() {
+        var constraints = [NSLayoutConstraint]()
+
+        titleLabel.setContentCompressionResistancePriority(.defaultHigh - 1, for: .horizontal)
+        titleLabel.setContentCompressionResistancePriority(.defaultHigh, for: .vertical)
+        priceLabel.setContentCompressionResistancePriority(.defaultHigh - 1, for: .horizontal)
 
         let imageViewConstraints = [
             imageView.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.8),
@@ -133,12 +118,14 @@ class ItemCell: UICollectionViewCell {
 
         let titleLabelConstraints = [
             titleLabel.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: 10),
-            titleLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 10)
+            titleLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 10),
+            titleLabel.trailingAnchor.constraint(lessThanOrEqualTo: stockLabel.leadingAnchor, constant: -5)
         ]
 
         let priceStackViewConstraints = [
             priceStackView.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
-            priceStackView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 5)
+            priceStackView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 5),
+            priceStackView.trailingAnchor.constraint(lessThanOrEqualTo: self.trailingAnchor, constant: -10)
         ]
 
         let disclosureIndicatorImageViewContraints = [
@@ -158,51 +145,13 @@ class ItemCell: UICollectionViewCell {
             divisionLine.bottomAnchor.constraint(equalTo: self.bottomAnchor)
         ]
 
-        currentConstraints.append(contentsOf: imageViewConstraints)
-        currentConstraints.append(contentsOf: titleLabelConstraints)
-        currentConstraints.append(contentsOf: priceStackViewConstraints)
-        currentConstraints.append(contentsOf: disclosureIndicatorImageViewContraints)
-        currentConstraints.append(contentsOf: stockLabelConstraints)
-        currentConstraints.append(contentsOf: divisionLineCosntraints)
+        constraints.append(contentsOf: imageViewConstraints)
+        constraints.append(contentsOf: titleLabelConstraints)
+        constraints.append(contentsOf: priceStackViewConstraints)
+        constraints.append(contentsOf: disclosureIndicatorImageViewContraints)
+        constraints.append(contentsOf: stockLabelConstraints)
+        constraints.append(contentsOf: divisionLineCosntraints)
 
-        NSLayoutConstraint.activate(currentConstraints)
-    }
-
-    func activateGridConstraints() {
-        NSLayoutConstraint.deactivate(currentConstraints)
-        currentConstraints.removeAll()
-
-        let imageViewConstraints = [
-            imageView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.8),
-            imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor),
-            imageView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            imageView.topAnchor.constraint(equalTo: self.topAnchor, constant: 10)
-        ]
-
-        let titleLabelConstraints = [
-            titleLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            titleLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 10)
-        ]
-
-        titleLabel.setContentHuggingPriority(.required, for: .vertical)
-
-        let priceStackViewConstraints = [
-            priceStackView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            priceStackView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 5)
-        ]
-
-        let stockLabelConstraints = [
-            stockLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            stockLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -10)
-        ]
-
-        stockLabel.setContentHuggingPriority(.required, for: .vertical)
-
-        currentConstraints.append(contentsOf: imageViewConstraints)
-        currentConstraints.append(contentsOf: titleLabelConstraints)
-        currentConstraints.append(contentsOf: priceStackViewConstraints)
-        currentConstraints.append(contentsOf: stockLabelConstraints)
-
-        NSLayoutConstraint.activate(currentConstraints)
+        NSLayoutConstraint.activate(constraints)
     }
 }

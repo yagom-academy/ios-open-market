@@ -23,7 +23,6 @@ class ItemCellLabel: UILabel {
     }
 
     func reset() {
-        text = nil
         attributedText = nil
         textColor = baseTextColor
     }

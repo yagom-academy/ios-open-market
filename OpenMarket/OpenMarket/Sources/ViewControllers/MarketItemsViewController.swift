@@ -44,7 +44,8 @@ class MarketItemsViewController: UIViewController {
 
     private func configureCollectionView() {
         collectionView.frame = view.frame
-        collectionView.register(ItemCell.self, forCellWithReuseIdentifier: ItemCell.reuseIdentifier)
+        collectionView.register(ItemListCell.self, forCellWithReuseIdentifier: ItemListCell.reuseIdentifier)
+        collectionView.register(ItemGridCell.self, forCellWithReuseIdentifier: ItemGridCell.reuseIdentifier)
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.backgroundColor = .systemBackground
@@ -93,13 +94,22 @@ extension MarketItemsViewController: UICollectionViewDataSource {
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let itemCell = collectionView.dequeueReusableCell(withReuseIdentifier: ItemCell.reuseIdentifier,
-                                                            for: indexPath) as? ItemCell else {
-            return ItemCell()
+        switch LayoutMode.current {
+        case .list:
+            guard let itemCell = collectionView.dequeueReusableCell(withReuseIdentifier: ItemListCell.reuseIdentifier,
+                                                                for: indexPath) as? ItemListCell else {
+                return ItemListCell()
+            }
+            itemCell.item = page?.items[indexPath.item]
+            return itemCell
+        case .grid:
+            guard let itemCell = collectionView.dequeueReusableCell(withReuseIdentifier: ItemGridCell.reuseIdentifier,
+                                                                for: indexPath) as? ItemGridCell else {
+                return ItemListCell()
+            }
+            itemCell.item = page?.items[indexPath.item]
+            return itemCell
         }
-        itemCell.item = page?.items[indexPath.item]
-
-        return itemCell
     }
 }
 
@@ -107,7 +117,7 @@ extension MarketItemsViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let listCellWidth: CGFloat = view.safeAreaLayoutGuide.layoutFrame.width
         let listCellHeight: CGFloat = 70
-        let gridCellWidth: CGFloat = (view.frame.width - 30) / 2
+        let gridCellWidth: CGFloat = (view.safeAreaLayoutGuide.layoutFrame.width - 30) / 2
         let gridCellHeight: CGFloat = gridCellWidth * 1.618
 
         return LayoutMode.current == .list ? CGSize(width: listCellWidth, height: listCellHeight) :
