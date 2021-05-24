@@ -80,6 +80,7 @@ class OpenMarketTests: XCTestCase {
         let itemData = extractAssetsData("Item")
         
         guard let contents = sut_getEssentialArticle.decodeData(type: DetailArticle.self, data: itemData!.data) else { XCTFail(); return }
+        
         XCTAssertEqual(contents.id, 1)
         XCTAssertEqual(contents.title, "MacBook Pro")
         XCTAssertEqual(contents.price, 1690000)
@@ -143,10 +144,8 @@ Apple M1 칩은 13형 MacBook Pro에 믿을 수 없을 만큼의 속도와 파�
         sut_getEssentialArticle.getParsing(url: baseURL) { (testParam: EntireArticle) in
             XCTAssertEqual(testParam.page, 1)
             XCTAssertEqual(testParam.items.first?.title, "MacBook Pro")
-
             getExpt.fulfill()
         }
-        
         waitForExpectations(timeout: 5.0, handler: nil)
     }
     
@@ -160,13 +159,11 @@ Apple M1 칩은 13형 MacBook Pro에 믿을 수 없을 만큼의 속도와 파�
         let createArticle = CreateArticle(title: "도지", descriptions: "일론머스크", price: 100000, currency: "KRW", stock: 10000, discountedPrice: 222, images: [pngImage], password: "1234")
         let postRequest = sut_urlProcess.setURLRequest(url: httpURL, userAction: .addArticle, boundary: boundary)
         let data = sut_postCreateArticle.makeRequestBody(formdat: createArticle, boundary: boundary, imageData: pngImage)
+        
         sut_postCreateArticle.postData(urlRequest: postRequest, requestBody: data) { (isSuccess) in
             XCTAssertTrue(isSuccess)
-            
             expt.fulfill()
         }
-        
-        
         waitForExpectations(timeout: 5.0, handler: nil)
     }
 
@@ -182,7 +179,6 @@ Apple M1 칩은 13형 MacBook Pro에 믿을 수 없을 만큼의 속도와 파�
         
         sut_patchUpdateArticle.patchData(urlRequest: updateRequest, requestBody: data) { (isSuccess) in
             XCTAssertTrue(isSuccess)
-            
             expt.fulfill()
         }
         waitForExpectations(timeout: 5.0, handler: nil)
@@ -198,7 +194,6 @@ Apple M1 칩은 13형 MacBook Pro에 믿을 수 없을 만큼의 속도와 파�
         
         sut_deleteArticle.deleteData(urlRequest: deleteRequest, data: data) { (isSuccess) in
             XCTAssertTrue(isSuccess)
-            
             expt.fulfill()
         }
         waitForExpectations(timeout: 5.0, handler: nil)

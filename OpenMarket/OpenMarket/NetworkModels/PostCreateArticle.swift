@@ -22,7 +22,6 @@ class PostCreateArticle {
         guard let request = urlRequest else { return }
         
         URLSession.shared.uploadTask(with: request, from: requestBody) { (data, response, error) in
-
             if error != nil { return }
             if self.urlProcess.checkResponseCode(response: response) {
                 print("post성공")

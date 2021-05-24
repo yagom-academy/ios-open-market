@@ -21,6 +21,7 @@ class DeleteArticle {
 
         do {
             let data = try encoder.encode(ones)
+            
             return data
         } catch {
             return nil
@@ -31,7 +32,6 @@ class DeleteArticle {
         guard let request = urlRequest else { return }
         
         URLSession.shared.uploadTask(with: request, from: data) { (data, response, error) in
-
             if error != nil { return }
             if self.urlProcess.checkResponseCode(response: response) {
                 print("DELETE성공")

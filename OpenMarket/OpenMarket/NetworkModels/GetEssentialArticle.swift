@@ -22,8 +22,12 @@ class GetEssentialArticle {
             if self.urlProcess.checkResponseCode(response: response) {
                 guard let resultData = data else { return }
                 guard let final = self.decodeData(type: T.self, data: resultData) else { return }
+                
                 completion(final)
-            } else { return }
+            }
+            else {
+                return
+            }
         }.resume()
     }
     
