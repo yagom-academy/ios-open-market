@@ -47,6 +47,8 @@ extension Requestable {
         return request
     }
     
+    
+    
     func makeRequest<Body: Encodable>(
         url: URL?,
         httpMethod: HTTPMethod,
@@ -70,4 +72,6 @@ extension Requestable {
             return nil
         }
     }
+    
+//    makeRequest(url: url, httpMethod: .post)
 }

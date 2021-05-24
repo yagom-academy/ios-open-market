@@ -55,11 +55,7 @@ struct NetworkManager: Requestable {
     }
     
     func isSuccessResponse(_ response: HTTPURLResponse) -> Bool {
-        if (HTTPStatusCode.success).contains(response.statusCode) {
-            return true
-        } else {
-            return false
-        }
+        return (HTTPStatusCode.success).contains(response.statusCode)
     }
     
     func request<Decoded: Decodable>(
