@@ -11,6 +11,7 @@ class URLProcess: URLProcessUsable {
     
     func setBaseURL(urlString: String) -> URL? {
         guard let resultURL = URL(string: urlString) else { return nil }
+        
         return resultURL
     }
     
@@ -32,10 +33,10 @@ class URLProcess: URLProcessUsable {
         switch userAction.setHttpMethod() {
         case HttpMethodType.post.stringMethod, HttpMethodType.patch.stringMethod:
             guard let boundary = boundary else { return nil }
+            
             request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
             return request
         case HttpMethodType.delete.stringMethod:
-            
             request.setValue("application/json", forHTTPHeaderField: "Content-Type")
             return request
         default:
@@ -45,8 +46,8 @@ class URLProcess: URLProcessUsable {
     
     func checkResponseCode(response: URLResponse?) -> Bool {
         guard let successResponse = (response as? HTTPURLResponse)?.statusCode else { return false }
-        
-        if successResponse >= 200 && successResponse < 300 { return true }
+        let successRange = 200..<300
+        guard successRange.contains(successResponse) else { return true }
         
         return false
     }
