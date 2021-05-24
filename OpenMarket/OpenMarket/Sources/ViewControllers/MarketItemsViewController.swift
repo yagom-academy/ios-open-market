@@ -126,6 +126,11 @@ extension MarketItemsViewController: UICollectionViewDataSource {
             return itemCell
         }
     }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
+                        referenceSizeForHeaderInSection section: Int) -> CGSize {
+        return LayoutMode.current == .grid ? CGSize(width: 1, height: 10) : CGSize(width: 0, height: 0)
+    }
 }
 
 extension MarketItemsViewController: UICollectionViewDelegateFlowLayout {

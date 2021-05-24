@@ -80,6 +80,7 @@ class ItemGridCell: UICollectionViewCell {
         priceLabel.reset()
         discountedPriceLabel.reset()
         stockLabel.reset()
+        configureBorder()
     }
 
     func configureBorder() {
