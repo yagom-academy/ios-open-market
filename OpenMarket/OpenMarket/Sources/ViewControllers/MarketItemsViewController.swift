@@ -82,7 +82,10 @@ class MarketItemsViewController: UIViewController {
                     self.collectionView.reloadData()
                 }
             case .failure:
-                // TODO: Alert 띄우기
+                DispatchQueue.main.async {
+                    self.present(UIAlertController(title: "Failed to fetch Data", message: nil, preferredStyle: .alert),
+                                 animated: true, completion: nil)
+                }
                 return
             }
         }
