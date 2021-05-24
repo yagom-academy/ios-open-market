@@ -8,5 +8,5 @@
 import Foundation
 
 enum Network {
-    static let baseURL = "https://camp-open-market-2.herokuapp.com/"
+    static let baseURL = "https://camp-open-market-2.herokuapp.com"
 }

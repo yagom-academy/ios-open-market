@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ListCollectionViewCell" id="gTV-IL-0wX" customClass="ListCollectionViewCell" customModule="OpenMarket" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="349" height="66"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="349" height="66"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ylr-al-pen">
+                        <rect key="frame" x="0.0" y="0.0" width="349" height="66"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="RMP-48-F0Z">
+                                <rect key="frame" x="10" y="10" width="329" height="46"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="square.and.arrow.up.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="Shq-eN-vrI">
+                                        <rect key="frame" x="0.0" y="-1" width="46" height="47"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="Shq-eN-vrI" secondAttribute="height" multiplier="1:1" id="VIf-gn-n2I"/>
+                                        </constraints>
+                                    </imageView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="300" horizontalCompressionResistancePriority="1000" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="weK-Rl-39e">
+                                        <rect key="frame" x="56" y="0.0" width="160" height="46"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" verticalCompressionResistancePriority="1000" text="Mac mini" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5nz-1c-d7k">
+                                                <rect key="frame" x="0.0" y="0.0" width="160" height="21.5"/>
+                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <stackView opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="1000" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="OrM-tP-r9v">
+                                                <rect key="frame" x="0.0" y="31.5" width="160" height="14.5"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="KRW 1," lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="atu-rc-Qwb">
+                                                        <rect key="frame" x="0.0" y="0.0" width="160" height="14.5"/>
+                                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
+                                                        <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="1000" text="  " lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="V09-7r-Qq6">
+                                                        <rect key="frame" x="0.0" y="0.0" width="0.0" height="14.5"/>
+                                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
+                                                        <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                </subviews>
+                                            </stackView>
+                                        </subviews>
+                                    </stackView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="500" verticalHuggingPriority="251" text="잔여수량 : 148" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="39J-ok-kYm">
+                                        <rect key="frame" x="226" y="0.0" width="103" height="46"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
+                                        <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="RMP-48-F0Z" secondAttribute="bottom" constant="10" id="4Nz-3w-hIJ"/>
+                            <constraint firstItem="Shq-eN-vrI" firstAttribute="height" secondItem="ylr-al-pen" secondAttribute="height" multiplier="0.69697" id="NTH-4B-kfK"/>
+                            <constraint firstItem="RMP-48-F0Z" firstAttribute="top" secondItem="ylr-al-pen" secondAttribute="top" constant="10" id="hAT-dE-qZy"/>
+                            <constraint firstAttribute="trailing" secondItem="RMP-48-F0Z" secondAttribute="trailing" constant="10" id="ss3-UR-ygm"/>
+                            <constraint firstItem="RMP-48-F0Z" firstAttribute="leading" secondItem="ylr-al-pen" secondAttribute="leading" constant="10" id="y7U-XW-3U5"/>
+                        </constraints>
+                    </view>
+                </subviews>
+            </view>
+            <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="ylr-al-pen" secondAttribute="bottom" id="OIN-0y-HAi"/>
+                <constraint firstItem="ylr-al-pen" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="PJp-hh-rJ1"/>
+                <constraint firstAttribute="trailing" secondItem="ylr-al-pen" secondAttribute="trailing" id="T7N-eb-Ds7"/>
+                <constraint firstItem="ylr-al-pen" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="uay-zq-PJg"/>
+            </constraints>
+            <size key="customSize" width="349" height="66"/>
+            <connections>
+                <outlet property="discountedPrice" destination="V09-7r-Qq6" id="LdS-ZV-zI6"/>
+                <outlet property="itemImage" destination="Shq-eN-vrI" id="a5C-hZ-EZF"/>
+                <outlet property="itemPrice" destination="atu-rc-Qwb" id="QLa-o5-52D"/>
+                <outlet property="itemTitle" destination="5nz-1c-d7k" id="UEg-dW-Grp"/>
+                <outlet property="numberOfItemStock" destination="39J-ok-kYm" id="IPc-db-Bto"/>
+            </connections>
+            <point key="canvasLocation" x="-247.10144927536234" y="-8.7053571428571423"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <image name="square.and.arrow.up.fill" catalog="system" width="115" height="128"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

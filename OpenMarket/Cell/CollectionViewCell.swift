@@ -47,6 +47,7 @@ class CollectionViewCell: UICollectionViewCell {
             let imageData = try Data(contentsOf: imageURL!)
             
             DispatchQueue.main.async {
+                print("@ \(indexPath), # \(collectionView.indexPath(for: self))")
                 guard collectionView.indexPath(for: self) == indexPath else { return }
                 
                 self.itemImage.image = UIImage(data: imageData)
