@@ -5,7 +5,7 @@
 //  Created by duckbok on 2021/05/25.
 //
 
-import UIKit
+import Foundation
 
 class OpenMarketService {
     private let sessionManager: SessionManagerProtocol

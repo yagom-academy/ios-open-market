@@ -16,6 +16,8 @@ class MarketItemsViewController: UIViewController {
         static let segmentControlBorderWidth: CGFloat = 2
     }
 
+    private let openMarketService = OpenMarketService(sessionManager: SessionManager.shared)
+
     private var pages: [Page] = []
 
     private let loadingIndicator = UIActivityIndicatorView(style: .large)
@@ -88,21 +90,23 @@ class MarketItemsViewController: UIViewController {
     }
 
     private func fetchPageData() {
-        SessionManager.shared.request(method: .get, path: .page(id: pages.count + 1)) { (result: Result<Page, OpenMarketError>) in
-            switch result {
-            case .success(let page):
-                self.pages.append(page)
-                DispatchQueue.main.async {
-                    self.loadingIndicator.stopAnimating()
-                    self.collectionView.reloadData()
-                }
-            case .failure(let error):
-                DispatchQueue.main.async {
-                    self.present(UIAlertController(title: "Error", message: error.description, preferredStyle: .alert),
-                                 animated: true, completion: nil)
-                }
-                return
+        openMarketService.getPage(id: pages.count + 1, completionHandler: fetchPageDataCompletionHandler)
+    }
+
+    private func fetchPageDataCompletionHandler(_ result: Result<Page, OpenMarketError>) {
+        switch result {
+        case .success(let page):
+            self.pages.append(page)
+            DispatchQueue.main.async {
+                self.loadingIndicator.stopAnimating()
+                self.collectionView.reloadData()
             }
+        case .failure(let error):
+            DispatchQueue.main.async {
+                self.present(UIAlertController(title: "Error", message: error.description, preferredStyle: .alert),
+                             animated: true, completion: nil)
+            }
+            return
         }
     }
 
