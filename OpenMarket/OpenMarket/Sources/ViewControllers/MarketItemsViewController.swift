@@ -96,9 +96,9 @@ class MarketItemsViewController: UIViewController {
                     self.loadingIndicator.stopAnimating()
                     self.collectionView.reloadData()
                 }
-            case .failure:
+            case .failure(let error):
                 DispatchQueue.main.async {
-                    self.present(UIAlertController(title: "Failed to fetch Data", message: nil, preferredStyle: .alert),
+                    self.present(UIAlertController(title: "Error", message: error.description, preferredStyle: .alert),
                                  animated: true, completion: nil)
                 }
                 return

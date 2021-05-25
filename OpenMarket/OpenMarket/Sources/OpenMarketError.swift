@@ -17,4 +17,8 @@ enum OpenMarketError: Error {
     case bodyEncodingError
     case requestDataTypeNotMatch
     case requestGETWithData
+
+    var description: String {
+        return String(describing: self)
+    }
 }
