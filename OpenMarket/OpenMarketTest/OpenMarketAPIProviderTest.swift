@@ -27,12 +27,32 @@ class OpenMarketAPIProviderTest: XCTestCase {
   }
   
   //MARK: Test Function
+  func test_url_validity_check() {
+    MockURLProtocol.requestHandler = { request in
+      if request.url == nil {
+        XCTFail("유효하지 않는 url")
+        fatalError()
+      }
+      XCTAssert(true)
+      
+      return (nil, nil, nil)
+    }
+  }
+  
+  func test_mockData_validity_check() {
+    if NSDataAsset(name: "Item") != nil {
+      XCTAssert(true)
+      return
+    }
+    XCTFail("파일 존재x")
+  }
+  
   func test_Get_Item_Success() {
     //given
     setRequestHandler(shouldSuccess: true)
-    
     //when
     openMarketProvider.getData(apiRequestType: .loadProduct(id: 1), completionHandler: { result in
+      
       switch result {
       //then
       case .success:
@@ -229,9 +249,10 @@ class OpenMarketAPIProviderTest: XCTestCase {
   private func setRequestHandler(shouldSuccess: Bool) {
     MockURLProtocol.requestHandler = { request in
       guard let url = request.url else {
-        XCTFail("유효하지 않는 url")
         fatalError()
       }
+
+      XCTAssertEqual(url.absoluteString.contains(RequestType.baseURL), true)
       
       let response: HTTPURLResponse?
       if shouldSuccess {
@@ -247,7 +268,6 @@ class OpenMarketAPIProviderTest: XCTestCase {
       }
       
       guard let asset = NSDataAsset(name: "Item") else {
-        XCTFail("유효하지 않는파일")
         fatalError()
       }
       let data = asset.data
