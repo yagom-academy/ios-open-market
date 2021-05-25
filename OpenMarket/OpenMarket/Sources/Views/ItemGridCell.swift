@@ -104,9 +104,6 @@ class ItemGridCell: UICollectionViewCell {
     func activateConstraints() {
         var constraints = [NSLayoutConstraint]()
 
-        NSLayoutConstraint.deactivate(constraints)
-        constraints.removeAll()
-
         let imageViewConstraints = [
             imageView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.8),
             imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor),
