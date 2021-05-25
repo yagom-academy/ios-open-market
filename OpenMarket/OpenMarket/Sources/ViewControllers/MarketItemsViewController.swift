@@ -147,7 +147,7 @@ extension MarketItemsViewController: UICollectionViewDataSource {
         case .grid:
             guard let itemCell = collectionView.dequeueReusableCell(withReuseIdentifier: ItemGridCell.reuseIdentifier,
                                                                 for: indexPath) as? ItemGridCell else {
-                return ItemListCell()
+                return ItemGridCell()
             }
             itemCell.item = pages[indexPath.section].items[indexPath.item]
             return itemCell
