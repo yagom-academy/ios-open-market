@@ -111,6 +111,8 @@ class MockTest: XCTestCase {
         
         MockURLProtocol.requsetHandler = { request in
             
+            XCTAssertEqual(request.httpMethod, "POST")
+            
             let mockJsonData = """
             {
                 "id": 100,
@@ -148,4 +150,5 @@ class MockTest: XCTestCase {
         }
         wait(for: [promise], timeout: 2.0)
     }
+    
 }
