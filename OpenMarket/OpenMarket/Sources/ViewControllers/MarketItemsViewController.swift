@@ -7,7 +7,7 @@
 import UIKit
 
 class MarketItemsViewController: UIViewController {
-    enum Style {
+    private enum Style {
         static let goldenRatio: CGFloat = 1.618
         static let gridHorizontalInset: CGFloat = 10
         static let gridVerticalInset: CGFloat = 10

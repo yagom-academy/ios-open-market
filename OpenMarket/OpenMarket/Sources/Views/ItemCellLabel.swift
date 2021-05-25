@@ -8,6 +8,15 @@
 import UIKit
 
 class ItemCellLabel: UILabel {
+    fileprivate enum Style {
+        static let discountedPriceAttribute: [NSAttributedString.Key: Any] = [NSAttributedString.Key.strikethroughStyle: NSUnderlineStyle.single.rawValue]
+        static let discountedPriceTextColor: UIColor = .systemRed
+        static let inStockText: String = "잔여수량 : "
+        static let soldOutText: String = "품절"
+        static let soldOutTextColor: UIColor = .systemOrange
+        static let stockBounds: Int = 99
+    }
+
     private var baseTextColor: UIColor?
 
     init(textStyle: UIFont.TextStyle = .body, textColor: UIColor? = nil) {
@@ -31,26 +40,15 @@ class ItemCellLabel: UILabel {
 class PriceLabel: ItemCellLabel {
     enum State {
         case normal, discounted
-
-        var attributes: [NSAttributedString.Key: Any]? {
-            switch self {
-            case .normal: return nil
-            case .discounted: return [NSAttributedString.Key.strikethroughStyle: NSUnderlineStyle.single.rawValue]
-            }
-        }
-
-        var textColor: UIColor? {
-            switch self {
-            case .normal: return nil
-            case .discounted: return .systemRed
-            }
-        }
     }
 
     func setText(by state: State, _ currency: String, _ price: Int) {
-        attributedText = NSAttributedString(string: "\(currency) \(price)", attributes: state.attributes)
-        if let textColor = state.textColor {
-            self.textColor = textColor
+        switch state {
+        case .normal:
+            text = "\(currency) \(price)"
+        case .discounted:
+            attributedText = NSAttributedString(string: "\(currency) \(price)", attributes: Style.discountedPriceAttribute)
+            textColor = Style.discountedPriceTextColor
         }
     }
 }
@@ -60,20 +58,6 @@ class StockLabel: ItemCellLabel {
 
     enum State {
         case inStock, soldOut
-
-        var baseText: String {
-            switch self {
-            case .inStock: return "잔여수량 : "
-            case .soldOut: return "품절"
-            }
-        }
-
-        var textColor: UIColor? {
-            switch self {
-            case .inStock: return nil
-            case .soldOut: return .systemOrange
-            }
-        }
     }
 
     func setText(_ stock: Int) {
@@ -81,10 +65,10 @@ class StockLabel: ItemCellLabel {
 
         switch state {
         case .inStock:
-            text = state.baseText + (stock > 99 ? "99+" : "\(stock)")
+            text = Style.inStockText + (stock > Style.stockBounds ? "\(Style.stockBounds)+" : "\(stock)")
         case .soldOut:
-            text = state.baseText
-            textColor = state.textColor
+            text = Style.soldOutText
+            textColor = Style.soldOutTextColor
         }
     }
 }
