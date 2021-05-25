@@ -28,7 +28,7 @@ class MarketItemsViewController: UIViewController {
         segmentedControl.selectedSegmentTintColor = .systemBlue
         segmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.systemBlue], for: .normal)
         segmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for: .selected)
-        segmentedControl.addTarget(self, action: #selector(toggleLayoutMode), for: .valueChanged)
+        segmentedControl.addTarget(self, action: #selector(changeLayoutMode), for: .valueChanged)
         return segmentedControl
     }()
 
@@ -106,8 +106,9 @@ class MarketItemsViewController: UIViewController {
         }
     }
 
-    @objc private func toggleLayoutMode() {
-        LayoutMode.toggle()
+    @objc private func changeLayoutMode() {
+        let mode = LayoutMode(rawValue: layoutSegmentedControl.selectedSegmentIndex)!
+        LayoutMode.changeMode(into: mode)
         collectionView.reloadData()
     }
 
@@ -220,10 +221,7 @@ enum LayoutMode: Int {
         }
     }
 
-    static func toggle() {
-        switch current {
-        case .list: current = .grid
-        case .grid: current = .list
-        }
+    static func changeMode(into layoutMode: LayoutMode) {
+        current = layoutMode
     }
 }
