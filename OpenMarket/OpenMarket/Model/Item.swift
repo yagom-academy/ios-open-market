@@ -24,16 +24,16 @@ struct Item: Codable, Equatable {
     let registrationDate: Double?
     
     var multipart: MultipartType {
-            return [
-                "title": self.title,
-                "descriptions": self.descriptions,
-                "currency": self.currency,
-                "price": self.price,
-                "discountedPrice": self.discountedPrice,
-                "stock": self.stock,
-                "images[]": self.imagesFiles,
-                "password": self.password
-            ]
+        return [
+            "title": self.title,
+            "descriptions": self.descriptions,
+            "currency": self.currency,
+            "price": self.price,
+            "discountedPrice": self.discountedPrice,
+            "stock": self.stock,
+            "images[]": self.imagesFiles,
+            "password": self.password
+        ]
     }
     
     private enum CodingKeys: String, CodingKey {
