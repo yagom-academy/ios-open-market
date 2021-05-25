@@ -9,12 +9,7 @@ import UIKit
 class MarketItemsViewController: UIViewController {
     private var pages: [Page] = []
 
-    private lazy var loadingIndicator: UIActivityIndicatorView = {
-        let indicator = UIActivityIndicatorView(style: .large)
-        indicator.center = view.center
-        indicator.startAnimating()
-        return indicator
-    }()
+    private let loadingIndicator = UIActivityIndicatorView(style: .large)
 
     private lazy var layoutSegmentedControl: UISegmentedControl = {
         let segmentedControl = UISegmentedControl(items: ["LIST", "GRID"])
@@ -39,21 +34,28 @@ class MarketItemsViewController: UIViewController {
         return UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
     }()
 
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
-        collectionView.frame = view.frame
-    }
-
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureCollectionView()
         addSubviews()
+        configureCollectionView()
+        configureLoadingIndicator()
         configureNavigationItems()
         fetchPageData()
     }
 
+    private func addSubviews() {
+        view.addSubview(collectionView)
+        view.addSubview(loadingIndicator)
+    }
+
     private func configureCollectionView() {
-        collectionView.frame = view.frame
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            collectionView.topAnchor.constraint(equalTo: view.topAnchor),
+            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+        ])
         collectionView.register(ItemListCell.self, forCellWithReuseIdentifier: ItemListCell.reuseIdentifier)
         collectionView.register(ItemGridCell.self, forCellWithReuseIdentifier: ItemGridCell.reuseIdentifier)
         collectionView.dataSource = self
@@ -62,9 +64,13 @@ class MarketItemsViewController: UIViewController {
         collectionView.backgroundColor = .systemBackground
     }
 
-    private func addSubviews() {
-        view.addSubview(collectionView)
-        view.addSubview(loadingIndicator)
+    private func configureLoadingIndicator() {
+        loadingIndicator.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            loadingIndicator.centerXAnchor.constraint(equalTo: collectionView.centerXAnchor),
+            loadingIndicator.centerYAnchor.constraint(equalTo: collectionView.centerYAnchor)
+        ])
+        loadingIndicator.startAnimating()
     }
 
     private func configureNavigationItems() {
