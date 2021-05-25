@@ -106,19 +106,19 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gg3-eu-KxB">
-                                                    <rect key="frame" x="120" y="21" width="31.5" height="23"/>
+                                                    <rect key="frame" x="74" y="21" width="31.5" height="23"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleTitle2"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="price" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0bA-hS-K23">
-                                                    <rect key="frame" x="120" y="74" width="32.5" height="17"/>
+                                                    <rect key="frame" x="74" y="74" width="32.5" height="17"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="dicPrice" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BdX-xW-CsY">
-                                                    <rect key="frame" x="162.5" y="74" width="52.5" height="17"/>
+                                                    <rect key="frame" x="116.5" y="74" width="52.5" height="17"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -130,10 +130,10 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icloud.and.arrow.down" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="og0-KJ-du0">
-                                                    <rect key="frame" x="30" y="21" width="70" height="71"/>
+                                                    <rect key="frame" x="30" y="21" width="24" height="71"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="70" id="2wt-p7-aRN"/>
-                                                        <constraint firstAttribute="width" constant="70" id="Hog-aL-OKc"/>
+                                                        <constraint firstAttribute="height" relation="lessThanOrEqual" constant="70" id="2wt-p7-aRN"/>
+                                                        <constraint firstAttribute="width" relation="lessThanOrEqual" constant="70" id="Hog-aL-OKc"/>
                                                     </constraints>
                                                 </imageView>
                                             </subviews>
@@ -146,11 +146,14 @@
                                                 <constraint firstItem="og0-KJ-du0" firstAttribute="leading" secondItem="5Ql-4P-dKb" secondAttribute="leadingMargin" constant="10" id="R7v-7t-je9"/>
                                                 <constraint firstItem="LXG-iM-gm9" firstAttribute="top" secondItem="og0-KJ-du0" secondAttribute="top" id="TAk-6i-hcd"/>
                                                 <constraint firstItem="0bA-hS-K23" firstAttribute="leading" secondItem="gg3-eu-KxB" secondAttribute="leading" id="WkS-dk-ccD"/>
+                                                <constraint firstAttribute="bottomMargin" relation="greaterThanOrEqual" secondItem="LXG-iM-gm9" secondAttribute="bottom" constant="20" id="gNr-Lt-r9w"/>
                                                 <constraint firstItem="LXG-iM-gm9" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="gg3-eu-KxB" secondAttribute="trailing" constant="10" id="nbd-fR-YLp"/>
                                                 <constraint firstItem="0bA-hS-K23" firstAttribute="bottom" secondItem="og0-KJ-du0" secondAttribute="bottom" id="o2w-TC-Yxt"/>
                                                 <constraint firstItem="og0-KJ-du0" firstAttribute="top" secondItem="5Ql-4P-dKb" secondAttribute="topMargin" constant="10" id="rAK-Yw-mij"/>
                                                 <constraint firstItem="gg3-eu-KxB" firstAttribute="leading" secondItem="og0-KJ-du0" secondAttribute="trailing" constant="20" id="rhO-13-iD5"/>
+                                                <constraint firstItem="BdX-xW-CsY" firstAttribute="top" relation="greaterThanOrEqual" secondItem="5Ql-4P-dKb" secondAttribute="topMargin" constant="30" id="rpn-3q-txr"/>
                                                 <constraint firstItem="og0-KJ-du0" firstAttribute="bottom" secondItem="5Ql-4P-dKb" secondAttribute="bottomMargin" constant="-10" id="s5R-cH-K20"/>
+                                                <constraint firstItem="0bA-hS-K23" firstAttribute="top" relation="greaterThanOrEqual" secondItem="gg3-eu-KxB" secondAttribute="bottom" constant="20" id="vLt-IR-EpL"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
