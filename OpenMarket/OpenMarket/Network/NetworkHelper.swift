@@ -57,13 +57,16 @@ struct NetworkHelper {
         request.httpMethod = HttpMethod.post
         request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
         request.httpBody = HttpBodyCreator(boundary: boundary, itemForm: itemForm).make()
+        // 델마의 요청
+//        request.httpBody = try? JSONEncoder().encode(itemForm)
         
         session.dataTask(with: request) { data, response, error in
             guard let response = response as? HTTPURLResponse,
-                  (200...399).contains(response.statusCode) else {
+                  (200...600).contains(response.statusCode) else {
                 completion(.failure(NetworkError.requestError))
                 return
             }
+            print("status code =", response.statusCode)
             if let data = data,
                let responedItem = try? JSONDecoder().decode(ItemInfo.self, from: data) {
                 completion(.success(responedItem))
