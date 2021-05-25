@@ -15,15 +15,7 @@ protocol Requestable: MultipartConvertible {
 
 extension Requestable {
     func makeMultipartBody(_ body: Item, _ boundary: String) -> Data? {
-        let mirror = Mirror(reflecting: body)
-        var parameter: [String: Any] = [:]
-        
-        mirror.children.forEach({ child in
-            guard let label = child.label else { return }
-            parameter["\(label)"] = child.value
-        })
-        
-        return createBody(parameters: parameter, boundary: boundary)
+        return createBody(parameters: body.multipart, boundary: boundary)
     }
     
     func makeBody(_ body: Item) -> Data? {
