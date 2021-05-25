@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Item: Codable, Equatable {
+struct Item: Codable, Equatable, Hashable {
     typealias MultipartType = [String: Any?]
     
     let id: Int?
