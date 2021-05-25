@@ -21,7 +21,7 @@ enum TestAssets {
         price: nil,
         discountedPrice: nil,
         stock: nil,
-        images: nil
+        imagesFiles: nil
     )
     static let postBody = Item(
         forPostPassword: "1234",
@@ -31,7 +31,7 @@ enum TestAssets {
         price: 1690000,
         discountedPrice: nil,
         stock: 1000000000000,
-        images: [image!]
+        imagesFiles: [image!]
     )
     static let mockItem = Item(
         forResponseID: 1,
@@ -45,7 +45,7 @@ enum TestAssets {
             "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/thumbnails/1-1.png",
             "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/thumbnails/1-2.png"
         ],
-        imagesURL: [
+        images: [
             "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/images/1-1.png",
             "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/images/1-2.png"
         ],
