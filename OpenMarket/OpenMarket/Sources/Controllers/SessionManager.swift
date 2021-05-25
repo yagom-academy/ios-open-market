@@ -5,7 +5,7 @@
 //  Created by 천수현 on 2021/05/13.
 //
 
-import Foundation
+import UIKit
 
 enum HTTPMethod: String {
     case get = "GET"
@@ -102,6 +102,19 @@ class SessionManager: SessionManagerProtocol {
         }
 
         dataTask(request: request, completionHandler: completionHandler).resume()
+    }
+
+    func fetchImageDataTask(urlString: String?, completionHandler: @escaping (UIImage?) -> Void) -> URLSessionDataTask? {
+        guard let urlString = urlString,
+              let url = URL(string: urlString) else { return nil }
+
+        return dataTask(request: URLRequest(url: url)) { result in
+            guard let data = try? result.get() else {
+                return completionHandler(nil)
+            }
+            let image = UIImage(data: data)
+            completionHandler(image)
+        }
     }
 
     private func configureRequestHeader(method: HTTPMethod, path: URLPath) throws -> URLRequest {

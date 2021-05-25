@@ -156,7 +156,6 @@
 		024D5D42264B9FA800980107 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				02A7EE6026576F6200562DF8 /* Views */,
 				02899E7E2653564F00DB4A0B /* OpenMarketError.swift */,
 				1C3FE507264D399D0051D507 /* Controllers */,
 				024D5D41264B9F9100980107 /* Entry */,
@@ -164,6 +163,7 @@
 				024D5D3F264B9F6800980107 /* Models */,
 				0260978B264BCF400086A8C5 /* Protocols */,
 				024D5D40264B9F7400980107 /* ViewControllers */,
+				02A7EE6026576F6200562DF8 /* Views */,
 			);
 			path = Sources;
 			sourceTree = "<group>";

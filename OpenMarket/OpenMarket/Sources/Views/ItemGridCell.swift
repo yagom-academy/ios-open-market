@@ -10,6 +10,8 @@ import UIKit
 class ItemGridCell: UICollectionViewCell {
     static let reuseIdentifier = "ItemGridCell"
 
+    private var fetchImageDataTask: URLSessionDataTask?
+
     private let imageView = ItemCellImageView(systemName: "photo")
     private let titleLabel = ItemCellLabel(textStyle: .headline)
     private let priceLabel = PriceLabel(textColor: .lightGray)
@@ -35,12 +37,12 @@ class ItemGridCell: UICollectionViewCell {
 
     var item: Page.Item? {
         didSet {
-            DispatchQueue.global().async {
-                let image = UIImage.fetchImageFromURL(string: self.item?.thumbnails.first)
+            fetchImageDataTask = SessionManager.shared.fetchImageDataTask(urlString: item?.thumbnails.first) { image in
                 DispatchQueue.main.async {
                     self.imageView.image = image
                 }
             }
+            fetchImageDataTask?.resume()
 
             titleLabel.text = item?.title
 
@@ -72,6 +74,7 @@ class ItemGridCell: UICollectionViewCell {
     }
 
     override func prepareForReuse() {
+        fetchImageDataTask?.cancel()
         imageView.reset()
         titleLabel.reset()
         priceLabel.reset()
