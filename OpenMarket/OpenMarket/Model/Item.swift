@@ -16,13 +16,13 @@ struct Item: Codable, Equatable {
     let discountedPrice: Int?
     let stock: Int?
     let thumbnails: [String]?
-    let images: [Data]?
-    let imagesURL: [String]?
+    let imagesFiles: [Data]?
+    let images: [String]?
     let password: String?
     let registrationDate: Double?
     
     private enum CodingKeys: String, CodingKey {
-        case id, title, descriptions, currency, price, stock, thumbnails, images, imagesURL, password
+        case id, title, descriptions, currency, price, stock, thumbnails, imagesFiles, images, password
         case discountedPrice = "discounted_price"
         case registrationDate = "registration_date"
     }
@@ -45,8 +45,8 @@ struct Item: Codable, Equatable {
         self.registrationDate = registrationDate
         
         self.descriptions = nil
+        self.imagesFiles = nil
         self.images = nil
-        self.imagesURL = nil
         self.password = nil
     }
     
@@ -57,19 +57,19 @@ struct Item: Codable, Equatable {
          price: Int,
          discountedPrice: Int?,
          stock: Int,
-         images: [Data]) {
+         imagesFiles: [Data]) {
         self.title = title
         self.descriptions = descriptions
         self.currency = currency
         self.price = price
         self.discountedPrice = discountedPrice
         self.stock = stock
-        self.images = images
+        self.imagesFiles = imagesFiles
+        self.password = password
         
         self.id = nil
-        self.imagesURL = nil
+        self.images = nil
         self.thumbnails = nil
-        self.password = nil
         self.registrationDate = nil
     }
     
@@ -80,19 +80,19 @@ struct Item: Codable, Equatable {
          price: Int?,
          discountedPrice: Int?,
          stock: Int?,
-         images: [Data]?) {
+         imagesFiles: [Data]?) {
         self.title = title
         self.descriptions = descriptions
         self.currency = currency
         self.price = price
         self.discountedPrice = discountedPrice
         self.stock = stock
-        self.images = images
+        self.imagesFiles = imagesFiles
+        self.password = password
         
         self.id = nil
-        self.imagesURL = nil
+        self.images = nil
         self.thumbnails = nil
-        self.password = nil
         self.registrationDate = nil
     }
     
@@ -106,8 +106,8 @@ struct Item: Codable, Equatable {
         self.price = nil
         self.discountedPrice = nil
         self.stock = nil
+        self.imagesFiles = nil
         self.images = nil
-        self.imagesURL = nil
         self.thumbnails = nil
         self.registrationDate = nil
     }
@@ -120,7 +120,7 @@ struct Item: Codable, Equatable {
          discountedPrice: Int?,
          stock: Int,
          thumbnails: [String],
-         imagesURL: [String],
+         images: [String],
          registrationDate: Double) {
         self.id = id
         self.title = title
@@ -130,11 +130,11 @@ struct Item: Codable, Equatable {
         self.discountedPrice = discountedPrice
         self.stock = stock
         self.thumbnails = thumbnails
-        self.imagesURL = imagesURL
+        self.images = images
         self.registrationDate = registrationDate
         
         self.password = nil
-        self.images = nil
+        self.imagesFiles = nil
     }
 }
 

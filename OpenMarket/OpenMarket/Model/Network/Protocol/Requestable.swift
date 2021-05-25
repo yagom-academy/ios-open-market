@@ -8,14 +8,13 @@
 import Foundation
 
 protocol Requestable: MultipartConvertible {
-    func makeMultipartBody(_ body: Item) -> Data?
+    func makeMultipartBody(_ body: Item, _ boundary: String) -> Data?
     func makeBody(_ body: Item) -> Data?
     func makeRequest(url: URL?, httpMethod: HTTPMethod, body: Item) -> URLRequest?
 }
 
 extension Requestable {
-    func makeMultipartBody(_ body: Item) -> Data? {
-        let boundary = generateBoundaryString()
+    func makeMultipartBody(_ body: Item, _ boundary: String) -> Data? {
         let mirror = Mirror(reflecting: body)
         var parameter: [String: Any] = [:]
         
@@ -48,7 +47,7 @@ extension Requestable {
                 "multipart/form-data; boundary=\(boundary)",
                 forHTTPHeaderField: "Content-Type"
             )
-            request.httpBody = makeMultipartBody(body)
+            request.httpBody = makeMultipartBody(body, boundary)
             return request
         default:
             print("존재하지 않는 요청입니다.")
