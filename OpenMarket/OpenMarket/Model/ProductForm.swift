@@ -6,9 +6,8 @@
 //
 
 import Foundation
-import UIKit
 
-struct ItemRegistrationForm: Codable {
+struct ProductForm: Codable {
     let title: String?
     let descriptions: String?
     let price: Int?

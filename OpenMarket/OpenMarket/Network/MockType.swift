@@ -5,7 +5,6 @@
 //  Created by steven on 2021/05/21.
 //
 
-import Foundation
 import UIKit
 
 protocol URLSessionProtocol {

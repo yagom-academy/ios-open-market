@@ -39,7 +39,7 @@ class MockTest: XCTestCase {
             return
         }
         
-        guard let mockJsonItem = try? JSONDecoder().decode(ItemInfo.self, from: data) else {
+        guard let mockJsonItem = try? JSONDecoder().decode(Product.self, from: data) else {
             XCTFail()
             return
         }
@@ -67,7 +67,7 @@ class MockTest: XCTestCase {
     }
     
     func test_실제_상품_등록() {
-        let mockItemForm = ItemRegistrationForm(title: "수지", descriptions: "수지좋아", price: 1000, currency: "USD", stock: 90, discountedPrice: 999, images: [(UIImage(named: "vanilla")?.pngData())!], password: "1234")
+        let mockItemForm = ProductForm(title: "수지", descriptions: "수지좋아", price: 1000, currency: "USD", stock: 90, discountedPrice: 999, images: [(UIImage(named: "vanilla")?.pngData())!], password: "1234")
         
         let networkHelper = NetworkHelper()
         
@@ -87,7 +87,7 @@ class MockTest: XCTestCase {
     
     func test_상품_등록() {
         
-        let mockItemForm = ItemRegistrationForm(title: "수지", descriptions: "수지좋아", price: 1000, currency: "USD", stock: 90, discountedPrice: 999, images: [(UIImage(named: "vanilla")?.pngData())!], password: "1234")
+        let mockItemForm = ProductForm(title: "수지", descriptions: "수지좋아", price: 1000, currency: "USD", stock: 90, discountedPrice: 999, images: [(UIImage(named: "vanilla")?.pngData())!], password: "1234")
         
         
         let configuration = URLSessionConfiguration.default

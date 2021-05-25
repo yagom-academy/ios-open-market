@@ -27,7 +27,7 @@ class OpenMarketTests: XCTestCase {
             return
         }
         let decoder = JSONDecoder()
-        guard let result = try? decoder.decode(ItemsList.self, from: data) else {
+        guard let result = try? decoder.decode(ProductList.self, from: data) else {
             XCTFail()
             return
         }
@@ -151,7 +151,7 @@ class OpenMarketTests: XCTestCase {
             return
         }
         
-        guard let result = try? decoder.decode(ItemsList.self, from: dataAsset.data) else {
+        guard let result = try? decoder.decode(ProductList.self, from: dataAsset.data) else {
             XCTFail()
             return
         }
@@ -169,7 +169,7 @@ class OpenMarketTests: XCTestCase {
             return
         }
         
-        guard let result = try? decoder.decode(ItemInfo.self, from: dataAsset.data) else {
+        guard let result = try? decoder.decode(Product.self, from: dataAsset.data) else {
             XCTFail()
             return
         }

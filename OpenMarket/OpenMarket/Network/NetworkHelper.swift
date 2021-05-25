@@ -14,10 +14,10 @@ struct NetworkHelper {
         self.session = session
     }
     
-    func readList(pageNum: Int, completion: @escaping (Result<ItemsList, Error>) -> Void) {
+    func readList(pageNum: Int, completion: @escaping (Result<ProductList, Error>) -> Void) {
         guard let url = URL(string: RequestAddress.readList(page: pageNum).url),
               let data = try? String(contentsOf: url).data(using: .utf8),
-              let response = try? JSONDecoder().decode(ItemsList.self, from: data)
+              let response = try? JSONDecoder().decode(ProductList.self, from: data)
         else {
             completion(.failure(NetworkError.requestError))
             return
@@ -25,7 +25,7 @@ struct NetworkHelper {
         completion(.success(response))
     }
     
-    func readItem(itemNum: Int, completion: @escaping (Result<ItemInfo, Error>) -> Void ) {
+    func readItem(itemNum: Int, completion: @escaping (Result<Product, Error>) -> Void ) {
         let request = URLRequest(url: URL(string: RequestAddress.readItem(id: itemNum).url)!)
         
         let task: URLSessionDataTask = session.dataTask(with: request) { data, response, error in
@@ -36,7 +36,7 @@ struct NetworkHelper {
             }
             
             if let data = data,
-               let itemResponse = try? JSONDecoder().decode(ItemInfo.self, from: data) {
+               let itemResponse = try? JSONDecoder().decode(Product.self, from: data) {
                 completion(.success(itemResponse))
                 return
             }
@@ -45,7 +45,7 @@ struct NetworkHelper {
         task.resume()
     }
     
-    func createItem(itemForm: ItemRegistrationForm ,completion: @escaping (Result<ItemInfo, Error>) -> Void) {
+    func createItem(itemForm: ProductForm ,completion: @escaping (Result<Product, Error>) -> Void) {
         guard let url = URL(string: RequestAddress.createItem.url) else {
             completion(.failure(NetworkError.urlError))
             return
@@ -68,7 +68,7 @@ struct NetworkHelper {
             }
             print("status code =", response.statusCode)
             if let data = data,
-               let responedItem = try? JSONDecoder().decode(ItemInfo.self, from: data) {
+               let responedItem = try? JSONDecoder().decode(Product.self, from: data) {
                 completion(.success(responedItem))
                 return
             }
@@ -76,7 +76,7 @@ struct NetworkHelper {
         }.resume()
     }
     
-    func updateItem(itemNum: Int, itemForm: ItemRegistrationForm, completion: @escaping (Result<ItemInfo, Error>) -> Void) {
+    func updateItem(itemNum: Int, itemForm: ProductForm, completion: @escaping (Result<Product, Error>) -> Void) {
         guard let url = URL(string: RequestAddress.updateItem(id: itemNum).url) else {
             completion(.failure(NetworkError.urlError))
             return
@@ -94,7 +94,7 @@ struct NetworkHelper {
                 return
             }
             if let data = data,
-               let responedItem = try? JSONDecoder().decode(ItemInfo.self, from: data){
+               let responedItem = try? JSONDecoder().decode(Product.self, from: data){
                 completion(.success(responedItem))
                 return
             }
@@ -102,7 +102,7 @@ struct NetworkHelper {
         }.resume()
     }
     
-    func deleteItem(itemNum: Int, password: String, completion: @escaping (Result<ItemInfo, Error>) -> Void) {
+    func deleteItem(itemNum: Int, password: String, completion: @escaping (Result<Product, Error>) -> Void) {
         guard let url = URL(string: RequestAddress.updateItem(id: itemNum).url) else {
             completion(.failure(NetworkError.urlError))
             return
@@ -120,7 +120,7 @@ struct NetworkHelper {
                 return
             }
             if let data = data,
-               let responedItem = try? JSONDecoder().decode(ItemInfo.self, from: data){
+               let responedItem = try? JSONDecoder().decode(Product.self, from: data){
                 completion(.success(responedItem))
                 return
             }

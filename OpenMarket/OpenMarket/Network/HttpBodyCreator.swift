@@ -9,7 +9,7 @@ import Foundation
 
 struct HttpBodyCreator {
     let boundary: String
-    let itemForm: ItemRegistrationForm
+    let itemForm: ProductForm
     
     func make() -> Data {
         var data = Data()
