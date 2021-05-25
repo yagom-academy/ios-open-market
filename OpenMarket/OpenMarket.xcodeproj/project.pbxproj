@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7003B4B2265CBAE100D70245 /* NotificationNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7003B4B1265CBAE100D70245 /* NotificationNames.swift */; };
 		704BDE862654B70C00D8AC6F /* ListVCCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 704BDE852654B70C00D8AC6F /* ListVCCell.swift */; };
 		707917ED264E8E860046FF0D /* ListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 707917EC264E8E860046FF0D /* ListVC.swift */; };
 		707917EF264E8E910046FF0D /* GridVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 707917EE264E8E910046FF0D /* GridVC.swift */; };
@@ -40,6 +41,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		7003B4B1265CBAE100D70245 /* NotificationNames.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationNames.swift; sourceTree = "<group>"; };
 		704BDE852654B70C00D8AC6F /* ListVCCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListVCCell.swift; sourceTree = "<group>"; };
 		707917EC264E8E860046FF0D /* ListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListVC.swift; sourceTree = "<group>"; };
 		707917EE264E8E910046FF0D /* GridVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridVC.swift; sourceTree = "<group>"; };
@@ -95,14 +97,15 @@
 			path = ViewController;
 			sourceTree = "<group>";
 		};
-		70D53D8F264B7E100044ABB7 /* APIModel */ = {
+		70D53D8F264B7E100044ABB7 /* Model */ = {
 			isa = PBXGroup;
 			children = (
 				70D53D93264B7E440044ABB7 /* Response */,
 				70D53D92264B7E3C0044ABB7 /* Request */,
 				70A5E2832654E28A00452803 /* OpenMarketAPI.swift */,
+				7003B4B1265CBAE100D70245 /* NotificationNames.swift */,
 			);
-			path = APIModel;
+			path = Model;
 			sourceTree = "<group>";
 		};
 		70D53D92264B7E3C0044ABB7 /* Request */ = {
@@ -159,7 +162,7 @@
 			isa = PBXGroup;
 			children = (
 				70CE0A12264E4DAA0094C102 /* ViewController */,
-				70D53D8F264B7E100044ABB7 /* APIModel */,
+				70D53D8F264B7E100044ABB7 /* Model */,
 				C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */,
 				C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */,
 				C70FB10025BEF61C00C9924E /* Main.storyboard */,
@@ -292,6 +295,7 @@
 				70D53DB4264B947F0044ABB7 /* ItemDeleteResponse.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* MainViewController.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
+				7003B4B2265CBAE100D70245 /* NotificationNames.swift in Sources */,
 				70D53D9B264B847F0044ABB7 /* ItemPatchRequest.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 			);
