@@ -41,7 +41,6 @@ class ListCollectionViewCell: UICollectionViewListCell {
         NSLayoutConstraint.activate([separatorLayoutGuide.leadingAnchor.constraint(equalTo: itemImage.leadingAnchor)])
     }
     
-    
     func configure(with viewModel: CellViewModel) {
         let imageURL = URL(string: viewModel.item.thumbnails[0])
         do {

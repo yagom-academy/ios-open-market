@@ -41,7 +41,6 @@ class GridCollectionViewCell: UICollectionViewCell {
         self.itemPrice.textColor = UIColor.lightGray
     }
     
-    
     func configure(with viewModel: CellViewModel) {
         let imageURL = URL(string: viewModel.item.thumbnails[0])
         do {
@@ -59,10 +58,8 @@ class GridCollectionViewCell: UICollectionViewCell {
             } else {
                 self.itemPrice.text = viewModel.item.currency + " " + String(viewModel.item.price)
             }
-            
         } catch {
             print("Invalid URL")
         }
     }
-    
 }

@@ -45,7 +45,7 @@ class ItemListViewController: UIViewController {
         let collectionViewNib = UINib(nibName: reuseCollectionViewIdentifier, bundle: nil)
         self.self.collectionView.register(collectionViewNib, forCellWithReuseIdentifier: reuseCollectionViewIdentifier)
     }
-
+    
     private func setUpSegmentedControl() {
         control.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.systemBlue],
                                        for: UIControl.State.normal)
@@ -67,7 +67,6 @@ extension ItemListViewController: UICollectionViewDataSource {
         let pageIndex = indexPath.item / 20 + 1
         let itemIndex = indexPath.item % 20
         let representedIdentifier = String(describing: indexPath)
-      
         
         if reuseCollectionViewIdentifier == GridCollectionViewCell.identifier {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseCollectionViewIdentifier, for: indexPath) as? GridCollectionViewCell else  {
@@ -81,7 +80,7 @@ extension ItemListViewController: UICollectionViewDataSource {
                 cell.configure(with: CellViewModel(item: model))
                 return cell
             }
-
+            
             networkManager.getItemsOfPageData(pagination: false, pageNumber: pageIndex) { [weak self] data, pageNumber in
                 do {
                     let data = try JSONDecoder().decode(ItemsOfPageReponse.self, from: data!)
@@ -145,7 +144,6 @@ extension ItemListViewController: UICollectionViewDataSource {
             guard !networkManager.isPaginating else {
                 return
             }
-            indicatorView.show()
             indicatorView.showIndicator()
             networkManager.getItemsOfPageData(pagination: true, pageNumber: pageDataList.count + 1) { [weak self] data, pageNumber in
                 do {

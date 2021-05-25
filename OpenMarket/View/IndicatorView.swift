@@ -13,7 +13,7 @@ class IndicatorView {
     let containerView = UIView()
     let activityIndicator = UIActivityIndicatorView()
     
-    func show() {
+    private func show() {
         let window = UIWindow(frame: UIScreen.main.bounds)
         
         self.containerView.frame = window.frame
@@ -25,6 +25,7 @@ class IndicatorView {
     }
     
     func showIndicator() {
+        show()
         self.containerView.backgroundColor = UIColor(white: 0x000000, alpha: 0.4)
         
         self.activityIndicator.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
