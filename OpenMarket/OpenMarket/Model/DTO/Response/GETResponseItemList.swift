@@ -23,13 +23,13 @@ struct GETResponseListedItem {
     var id, price, stock: UInt
     var discountedPrice: UInt?
     var title, currency: String
-    var thumnails: [String]
+    var thumbnails: [String]
     var registrationDate: Double
 }
 
 extension GETResponseListedItem: Decodable {
     enum CodingKeys: String, CodingKey {
-        case id, price, stock, title, currency, thumnails
+        case id, price, stock, title, currency, thumbnails
         case discountedPrice = "discounted_price"
         case registrationDate = "registration_date"
     }

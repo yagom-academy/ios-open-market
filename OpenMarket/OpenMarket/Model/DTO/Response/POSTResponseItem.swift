@@ -11,13 +11,13 @@ struct POSTResponseItem {
     var id, price, stock: UInt
     var discountedPrice: UInt?
     var title, currency, description: String
-    var thumnails, images: [String]
+    var thumbnails, images: [String]
     var registrationDate: Double
 }
 
 extension POSTResponseItem: Decodable {
     enum CodingKeys: String, CodingKey {
-        case id, price, stock, title, currency, thumnails, images
+        case id, price, stock, title, currency, thumbnails, images
         case description = "descriptions"
         case discountedPrice = "discounted_price"
         case registrationDate = "registration_date"

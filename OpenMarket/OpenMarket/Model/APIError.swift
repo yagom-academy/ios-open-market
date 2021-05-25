@@ -10,6 +10,7 @@ import Foundation
 enum APIError: LocalizedError {
     case NotFound404Error
     case JSONParseError
+    case InvalidAddressError
 }
 
 extension APIError {
@@ -19,6 +20,8 @@ extension APIError {
             return StringContainer.Error.description + StringContainer.NotFound404Error.description
         case .JSONParseError:
             return StringContainer.Error.description + StringContainer.JSONParseError.description
+        case .InvalidAddressError:
+            return "invalid URL"
         }
     }
 }
