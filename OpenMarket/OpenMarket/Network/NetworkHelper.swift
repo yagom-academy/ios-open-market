@@ -9,52 +9,57 @@ import Foundation
 
 struct NetworkHelper {
     
-    let session: URLSessionProtocol
-    init (session: URLSessionProtocol = URLSession.shared) {
+    let session: URLSession
+    init (session: URLSession = .shared) {
         self.session = session
     }
     
-    func readList(pageNum: Int, completion: @escaping (Result<ItemsList, Error>) -> Void) {
-        guard let url = URL(string: RequestAddress.readList(page: pageNum).url),
-              let data = try? String(contentsOf: url).data(using: .utf8),
-              let response = try? JSONDecoder().decode(ItemsList.self, from: data)
-        else {
-            completion(.failure(fatalError()))
+    func readList(pageNum: Int, completion: @escaping (Result<ProductList, Error>) -> Void) {
+        guard let url = URL(string: RequestAddress.readList(page: pageNum).url) else {
+            completion(.failure(NetworkError.urlError))
             return
         }
-        completion(.success(response))        
+        let request = URLRequest(url: url)
+        
+        let task = session.dataTask(with: request) { data, response, error in
+            guard let response = response as? HTTPURLResponse,
+                  (200...399).contains(response.statusCode) else {
+                completion(.failure(NetworkError.requestError))
+                return
+            }
+            
+            if let data = data,
+               let listResponse = try? JSONDecoder().decode(ProductList.self, from: data) {
+                completion(.success(listResponse))
+                return
+            }
+        }
+        task.resume()
     }
     
-    func readItem(itemNum: Int, completion: @escaping (Result<ItemInfo, Error>) -> Void ) {
-//        if let url = URL(string: RequestAddress.readItem(id: itemNum).url),
-//              let data = try? String(contentsOf: url).data(using: .utf8),
-//              let response = try? JSONDecoder().decode(ItemInfo.self, from: data) {
-//            completion(.success(response))
-//            return
-//        }
-//        completion(.failure(fatalError()))
+    func readItem(itemNum: Int, completion: @escaping (Result<Product, Error>) -> Void ) {
         let request = URLRequest(url: URL(string: RequestAddress.readItem(id: itemNum).url)!)
         
         let task: URLSessionDataTask = session.dataTask(with: request) { data, response, error in
             guard let response = response as? HTTPURLResponse,
                   (200...399).contains(response.statusCode) else {
-                completion(.failure(fatalError()))
+                completion(.failure(NetworkError.requestError))
                 return
             }
             
             if let data = data,
-               let itemResponse = try? JSONDecoder().decode(ItemInfo.self, from: data) {
+               let itemResponse = try? JSONDecoder().decode(Product.self, from: data) {
                 completion(.success(itemResponse))
                 return
             }
-            completion(.failure(fatalError()))
+            completion(.failure(NetworkError.unknownError))
         }
         task.resume()
     }
     
-    func createItem(itemForm: ItemRegistrationForm ,completion: @escaping (Result<ItemInfo, Error>) -> Void) {
+    func createItem(itemForm: ProductForm ,completion: @escaping (Result<Product, Error>) -> Void) {
         guard let url = URL(string: RequestAddress.createItem.url) else {
-            completion(.failure(fatalError()))
+            completion(.failure(NetworkError.urlError))
             return
         }
         
@@ -68,21 +73,21 @@ struct NetworkHelper {
         session.dataTask(with: request) { data, response, error in
             guard let response = response as? HTTPURLResponse,
                   (200...399).contains(response.statusCode) else {
-                completion(.failure(fatalError()))
+                completion(.failure(NetworkError.requestError))
                 return
             }
             if let data = data,
-               let responedItem = try? JSONDecoder().decode(ItemInfo.self, from: data) {
+               let responedItem = try? JSONDecoder().decode(Product.self, from: data) {
                 completion(.success(responedItem))
                 return
             }
-            completion(.failure(fatalError()))
+            completion(.failure(NetworkError.unknownError))
         }.resume()
     }
     
-    func updateItem(itemNum: Int, itemForm: ItemRegistrationForm, completion: @escaping (Result<ItemInfo, Error>) -> Void) {
+    func updateItem(itemNum: Int, itemForm: ProductForm, completion: @escaping (Result<Product, Error>) -> Void) {
         guard let url = URL(string: RequestAddress.updateItem(id: itemNum).url) else {
-            completion(.failure(fatalError()))
+            completion(.failure(NetworkError.urlError))
             return
         }
         var request = URLRequest(url: url)
@@ -94,21 +99,21 @@ struct NetworkHelper {
         session.dataTask(with: request) { data, response, error in
             guard let response = response as? HTTPURLResponse,
                   (200...399).contains(response.statusCode) else {
-                completion(.failure(fatalError()))
+                completion(.failure(NetworkError.requestError))
                 return
             }
             if let data = data,
-               let responedItem = try? JSONDecoder().decode(ItemInfo.self, from: data){
+               let responedItem = try? JSONDecoder().decode(Product.self, from: data){
                 completion(.success(responedItem))
                 return
             }
-            completion(.failure(fatalError()))
+            completion(.failure(NetworkError.unknownError))
         }.resume()
     }
     
-    func deleteItem(itemNum: Int, password: String, completion: @escaping (Result<ItemInfo, Error>) -> Void) {
+    func deleteItem(itemNum: Int, password: String, completion: @escaping (Result<Product, Error>) -> Void) {
         guard let url = URL(string: RequestAddress.updateItem(id: itemNum).url) else {
-            completion(.failure(fatalError()))
+            completion(.failure(NetworkError.urlError))
             return
         }
         var request = URLRequest(url: url)
@@ -120,15 +125,15 @@ struct NetworkHelper {
         session.dataTask(with: request) { data, response, error in
             guard let response = response as? HTTPURLResponse,
                   (200...399).contains(response.statusCode) else {
-                completion(.failure(fatalError()))
+                completion(.failure(NetworkError.requestError))
                 return
             }
             if let data = data,
-               let responedItem = try? JSONDecoder().decode(ItemInfo.self, from: data){
+               let responedItem = try? JSONDecoder().decode(Product.self, from: data){
                 completion(.success(responedItem))
                 return
             }
-            completion(.failure(fatalError()))
+            completion(.failure(NetworkError.unknownError))
         }.resume()
     }
 }

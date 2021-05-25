@@ -27,7 +27,7 @@ class OpenMarketTests: XCTestCase {
             return
         }
         let decoder = JSONDecoder()
-        guard let result = try? decoder.decode(ItemsList.self, from: data) else {
+        guard let result = try? decoder.decode(ProductList.self, from: data) else {
             XCTFail()
             return
         }
@@ -56,7 +56,7 @@ class OpenMarketTests: XCTestCase {
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("application/json", forHTTPHeaderField: "Accept")
     
-        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+        URLSession.shared.dataTask(with: request) { (data, response, error) in
             guard error == nil else {
                 XCTFail()
                 return
@@ -71,7 +71,7 @@ class OpenMarketTests: XCTestCase {
     }
     
     func test_상품_등록_요청하기() {
-        // 임시로 입력 폼 인스턴스 만들기
+        
         guard let url = URL(string: "https://camp-open-market-2.herokuapp.com/item") else {
             XCTFail(); return
         }
@@ -88,34 +88,29 @@ class OpenMarketTests: XCTestCase {
             "price": "12300000",
             "currency": "KRW",
             "stock": "254",
-            /*"discounted_price": "700000",*/
             "password": "1234"
         ]
         var body = Data()
         let boundaryPrefix = "--\(boundary)\r\n"
         
-        // 기본 데이터 추가
         for (key, value) in params {
             body.append(boundaryPrefix.data(using: .utf8)!)
             body.append("Content-Disposition: form-data; name=\"\(key)\"\r\n\r\n".data(using: .utf8)!)
             body.append("\(value)\r\n".data(using: .utf8)!)
         }
         
-        // 이미지 테이터들
         let imageKey = "images[]"
         let filename = "kio.gif"
         let mimeType = "image/gif"
         let imageURL = "/Users/steven/Desktop/test/kio.gif"
         let imageData = try? NSData(contentsOfFile: imageURL, options: []) as Data
         
-        // 이미지 테이터 추가1
         body.append(boundaryPrefix.data(using: .utf8)!)
         body.append("Content-Disposition: form-data; name=\"\(imageKey)\"; filename=\"\(filename)\"\r\n".data(using: .utf8)!)
         body.append("Content-Type: \(mimeType)\r\n\r\n".data(using: .utf8)!)
         body.append(imageData!)
         body.append("\r\n".data(using: .utf8)!)
         
-        // 이미지 테이터 추가2
         body.append(boundaryPrefix.data(using: .utf8)!)
         body.append("Content-Disposition: form-data; name=\"\(imageKey)\"; filename=\"\(filename)\"\r\n".data(using: .utf8)!)
         body.append("Content-Type: \(mimeType)\r\n\r\n".data(using: .utf8)!)
@@ -128,7 +123,6 @@ class OpenMarketTests: XCTestCase {
         
         let promise = expectation(description: "post")
         
-        // 서버 api로 요청하기
         URLSession.shared.dataTask(with: request) { (data, response, error) in
             guard error == nil else {
                 XCTFail()
@@ -151,7 +145,7 @@ class OpenMarketTests: XCTestCase {
             return
         }
         
-        guard let result = try? decoder.decode(ItemsList.self, from: dataAsset.data) else {
+        guard let result = try? decoder.decode(ProductList.self, from: dataAsset.data) else {
             XCTFail()
             return
         }
@@ -169,7 +163,7 @@ class OpenMarketTests: XCTestCase {
             return
         }
         
-        guard let result = try? decoder.decode(ItemInfo.self, from: dataAsset.data) else {
+        guard let result = try? decoder.decode(Product.self, from: dataAsset.data) else {
             XCTFail()
             return
         }

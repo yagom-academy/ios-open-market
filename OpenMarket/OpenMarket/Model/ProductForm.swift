@@ -6,28 +6,16 @@
 //
 
 import Foundation
-import UIKit
 
-struct ItemRegistrationForm {
+struct ProductForm {
     let title: String?
     let descriptions: String?
     let price: Int?
     let currency: String?
     let stock: Int?
     let discountedPrice: Int?
-    let images: [UIImage]?
+    let images: [Data]?
     let password: String
-    
-    var imagesDatas: [Data] {
-        var datas: [Data] = []
-        guard let images = images else {
-            return []
-        }
-        for image in images {
-            datas.append(image.pngData()!)
-        }
-        return datas
-    }
     
     var multiFormData: [String: String] {
         var datas: [String: String] = [:]

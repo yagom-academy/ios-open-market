@@ -9,7 +9,7 @@ import Foundation
 
 struct HttpBodyCreator {
     let boundary: String
-    let itemForm: ItemRegistrationForm
+    let itemForm: ProductForm
     
     func make() -> Data {
         var data = Data()
@@ -20,7 +20,7 @@ struct HttpBodyCreator {
             data.appendString("Content-Disposition: form-data; name=\"\(key)\"\r\n\r\n")
             data.appendString("\(value)\r\n")
         }
-        for imageData in itemForm.imagesDatas {
+        for imageData in itemForm.images! {
             data.appendString(boundaryPrefix)
             data.appendString("Content-Disposition: form-data; name=\"images[]\"; filename=\"image.png\"\r\n")
             data.appendString("Content-Type: image/png\r\n\r\n")
