@@ -15,14 +15,26 @@ struct NetworkHelper {
     }
     
     func readList(pageNum: Int, completion: @escaping (Result<ProductList, Error>) -> Void) {
-        guard let url = URL(string: RequestAddress.readList(page: pageNum).url),
-              let data = try? String(contentsOf: url).data(using: .utf8),
-              let response = try? JSONDecoder().decode(ProductList.self, from: data)
-        else {
-            completion(.failure(NetworkError.requestError))
+        guard let url = URL(string: RequestAddress.readList(page: pageNum).url) else {
+            completion(.failure(NetworkError.urlError))
             return
         }
-        completion(.success(response))
+        let request = URLRequest(url: url)
+        
+        let task = session.dataTask(with: request) { data, response, error in
+            guard let response = response as? HTTPURLResponse,
+                  (200...399).contains(response.statusCode) else {
+                completion(.failure(NetworkError.requestError))
+                return
+            }
+            
+            if let data = data,
+               let listResponse = try? JSONDecoder().decode(ProductList.self, from: data) {
+                completion(.success(listResponse))
+                return
+            }
+        }
+        task.resume()
     }
     
     func readItem(itemNum: Int, completion: @escaping (Result<Product, Error>) -> Void ) {
