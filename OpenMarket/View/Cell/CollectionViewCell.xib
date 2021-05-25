@@ -59,6 +59,13 @@
                                     </label>
                                 </subviews>
                             </stackView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vr8-JC-rbY">
+                                <rect key="frame" x="10" y="67.5" width="290" height="0.5"/>
+                                <color key="backgroundColor" systemColor="systemGray4Color"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="0.5" id="Dn7-R0-m6R"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
@@ -67,10 +74,13 @@
                             <constraint firstItem="Q8k-Vn-vUX" firstAttribute="top" secondItem="Ns0-aj-XLJ" secondAttribute="top" constant="10" id="b1B-aL-51S"/>
                             <constraint firstItem="Q8k-Vn-vUX" firstAttribute="leading" secondItem="Ns0-aj-XLJ" secondAttribute="trailing" constant="15" id="dmu-dW-PeZ"/>
                             <constraint firstAttribute="trailing" secondItem="gO7-6m-HkV" secondAttribute="trailing" constant="20" id="g1R-YS-TA7"/>
+                            <constraint firstAttribute="bottom" secondItem="Vr8-JC-rbY" secondAttribute="bottom" id="kLg-Sj-Bpx"/>
                             <constraint firstItem="Ns0-aj-XLJ" firstAttribute="centerY" secondItem="U1M-si-WHM" secondAttribute="centerY" id="moS-ZE-j4k"/>
                             <constraint firstItem="cdn-zo-XJy" firstAttribute="leading" secondItem="Q8k-Vn-vUX" secondAttribute="leading" id="stm-6e-ZEv"/>
+                            <constraint firstItem="Vr8-JC-rbY" firstAttribute="leading" secondItem="U1M-si-WHM" secondAttribute="leading" constant="10" id="t47-rw-18V"/>
                             <constraint firstItem="cdn-zo-XJy" firstAttribute="top" secondItem="Q8k-Vn-vUX" secondAttribute="bottom" constant="10" id="vHy-tF-WNr"/>
                             <constraint firstItem="Ns0-aj-XLJ" firstAttribute="leading" secondItem="U1M-si-WHM" secondAttribute="leading" constant="10" id="yJ4-6h-TuU"/>
+                            <constraint firstAttribute="trailing" secondItem="Vr8-JC-rbY" secondAttribute="trailing" id="zrW-ic-CmK"/>
                         </constraints>
                     </view>
                 </subviews>
@@ -98,6 +108,9 @@
         <image name="square.and.arrow.up.fill" catalog="system" width="115" height="128"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemGray4Color">
+            <color red="0.81960784313725488" green="0.81960784313725488" blue="0.83921568627450982" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>
