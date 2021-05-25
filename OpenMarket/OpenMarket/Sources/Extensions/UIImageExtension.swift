@@ -8,8 +8,9 @@
 import UIKit
 
 extension UIImage {
-    static func fetchImageFromURL(url: String) -> UIImage? {
-        guard let url = URL(string: url),
+    static func fetchImageFromURL(string: String?) -> UIImage? {
+        guard let urlString = string,
+              let url = URL(string: urlString),
               let data = try? Data(contentsOf: url) else {
             return nil
         }

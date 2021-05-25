@@ -36,10 +36,7 @@ class ItemGridCell: UICollectionViewCell {
     var item: Page.Item? {
         didSet {
             DispatchQueue.global().async {
-                guard let thumnailURL = self.item?.thumbnails.first,
-                      let url = URL(string: thumnailURL),
-                      let data = try? Data(contentsOf: url),
-                      let image = UIImage(data: data) else { return }
+                let image = UIImage.fetchImageFromURL(string: self.item?.thumbnails.first)
                 DispatchQueue.main.async {
                     self.imageView.image = image
                 }
