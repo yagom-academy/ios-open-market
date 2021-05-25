@@ -37,6 +37,7 @@ class CollectionViewCell: UICollectionViewListCell {
         self.discountedPrice.isHidden = true
         self.itemPrice.attributedText = NSAttributedString(string: "")
         self.itemPrice.textColor = UIColor.lightGray
+        NSLayoutConstraint.activate([separatorLayoutGuide.leadingAnchor.constraint(equalTo: itemImage.leadingAnchor)])
     }
     
     
