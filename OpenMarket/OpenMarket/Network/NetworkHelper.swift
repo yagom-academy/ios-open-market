@@ -60,11 +60,10 @@ struct NetworkHelper {
         
         session.dataTask(with: request) { data, response, error in
             guard let response = response as? HTTPURLResponse,
-                  (200...600).contains(response.statusCode) else {
+                  (200...399).contains(response.statusCode) else {
                 completion(.failure(NetworkError.requestError))
                 return
             }
-            print("status code =", response.statusCode)
             if let data = data,
                let responedItem = try? JSONDecoder().decode(Product.self, from: data) {
                 completion(.success(responedItem))
