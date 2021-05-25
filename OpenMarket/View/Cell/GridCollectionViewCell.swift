@@ -30,9 +30,9 @@ class GridCollectionViewCell: UICollectionViewCell {
     func initCellProperty() {
         self.itemImage.image = nil
         self.itemPrice.attributedText = self.itemPrice.text?.removeStrikeThrough()
-        self.itemTitle.text = ""
-        self.numberOfItemStock.text = ""
-        self.itemPrice.text = ""
+        self.itemTitle.text = nil
+        self.numberOfItemStock.text = nil
+        self.itemPrice.text = nil
         self.discountedPrice.isHidden = true
         self.itemPrice.attributedText = NSAttributedString(string: "")
         self.itemPrice.textColor = UIColor.lightGray
@@ -61,28 +61,5 @@ class GridCollectionViewCell: UICollectionViewCell {
             print("Invalid URL")
         }
     }
-    
-//    func configure(data: ItemsOfPageReponse.Item) {
-//        let imageURL = URL(string: data.thumbnails[0])
-//        do {
-//            let imageData = try Data(contentsOf: imageURL!)
-//
-//            self.itemImage.image = UIImage(data: imageData)
-//            self.itemTitle.text = data.title
-//            self.numberOfItemStock.text = "잔여수량 : " + String(data.stock)
-//            if let discountedPrice = data.discountedPrice {
-//                self.discountedPrice.isHidden = false
-//                self.discountedPrice.text = data.currency + " " + String(discountedPrice)
-//                self.itemPrice.textColor = UIColor.red
-//                self.itemPrice.text = data.currency + " " + String(data.price)
-//                self.itemPrice.attributedText = self.itemPrice.text?.strikeThrough()
-//            } else {
-//                self.itemPrice.text = data.currency + " " + String(data.price)
-//            }
-//
-//        } catch {
-//            print("Invalid URL")
-//        }
-//    }
     
 }

@@ -1,15 +1,16 @@
 //
-//  CollectionViewCellLikeTableViewCell.swift
+//  CollectionViewCell.swift
 //  OpenMarket
 //
-//  Created by 최정민 on 2021/05/23.
+//  Created by 최정민 on 2021/05/25.
 //
 
 import UIKit
 
-class ListCollectionViewCell: UICollectionViewCell {
+@available(iOS 14.0, *)
+class CollectionViewCell: UICollectionViewListCell {
     
-    static let identifier = "ListCollectionViewCell"
+    static let identifier = "CollectionViewCell"
     var representedIdentifier: String = ""
     
     @IBOutlet var itemImage: UIImageView!
@@ -61,5 +62,6 @@ class ListCollectionViewCell: UICollectionViewCell {
             print("Invalid URL")
         }
     }
+    
     
 }

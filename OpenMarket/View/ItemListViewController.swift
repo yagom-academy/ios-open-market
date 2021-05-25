@@ -6,19 +6,33 @@
 
 import UIKit
 
+@available(iOS 14.0, *)
 class ItemListViewController: UIViewController {
     
     var pageDataList: [Int : ItemsOfPageReponse] = [:]
-    var reuseCollectionViewIdentifier = ListCollectionViewCell.identifier
+    var reuseCollectionViewIdentifier = CollectionViewCell.identifier
+//    var reuseCollectionViewIdentifier = ListCollectionViewCell.identifier
     var numberOfItems = 0
     
     let networkManager = NetworkManager.shared
  
     @IBOutlet var collectionView: UICollectionView!
     @IBOutlet var control: UISegmentedControl!
+//    @IBAction func didChangeSegement(_ sender: UISegmentedControl) {
+//        if sender.selectedSegmentIndex == 0 {
+//            reuseCollectionViewIdentifier = ListCollectionViewCell.identifier
+//            registerCollectionViewCellNib()
+//            collectionView.reloadData()
+//            return
+//        }
+//        reuseCollectionViewIdentifier = GridCollectionViewCell.identifier
+//        registerCollectionViewCellNib()
+//        collectionView.reloadData()
+//    }
+    
     @IBAction func didChangeSegement(_ sender: UISegmentedControl) {
         if sender.selectedSegmentIndex == 0 {
-            reuseCollectionViewIdentifier = ListCollectionViewCell.identifier
+            reuseCollectionViewIdentifier = CollectionViewCell.identifier
             registerCollectionViewCellNib()
             collectionView.reloadData()
             return
@@ -56,6 +70,7 @@ class ItemListViewController: UIViewController {
     }
 }
 
+@available(iOS 14.0, *)
 extension ItemListViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return numberOfItems
@@ -72,7 +87,7 @@ extension ItemListViewController: UICollectionViewDataSource {
                 return UICollectionViewCell()
             }
             
-            cell.representedIdentifier = representedIdentifier// configure 안에 집어넣으면 안됨
+            cell.representedIdentifier = representedIdentifier
 
             if let _ = self.pageDataList[pageIndex] {
                 guard let model = self.pageDataList[pageIndex]?.items[itemIndex] else { return cell }
@@ -101,11 +116,12 @@ extension ItemListViewController: UICollectionViewDataSource {
             
 
         } else {
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseCollectionViewIdentifier, for: indexPath) as? ListCollectionViewCell else  {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseCollectionViewIdentifier, for: indexPath) as? CollectionViewCell else  {
                 return UICollectionViewCell()
             }
             
             cell.representedIdentifier = representedIdentifier
+            cell.accessories = [.disclosureIndicator()]
             
             if let _ = self.pageDataList[pageIndex] {
                 guard let model = self.pageDataList[pageIndex]?.items[itemIndex] else { return cell }
@@ -133,7 +149,12 @@ extension ItemListViewController: UICollectionViewDataSource {
             return cell
         }
     }
-    
+
+//extension ItemListViewController: UICollectionViewDataSource {
+//    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+//        return numberOfItems
+//    }
+//
 //    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 //        let pageIndex = indexPath.item / 20 + 1
 //        let itemIndex = indexPath.item % 20
@@ -148,8 +169,8 @@ extension ItemListViewController: UICollectionViewDataSource {
 //            cell.representedIdentifier = representedIdentifier
 //
 //            if let _ = self.pageDataList[pageIndex] {
-//                guard let item = self.pageDataList[pageIndex]?.items[itemIndex] else { return cell }
-//                cell.configure(data: item)
+//                guard let model = self.pageDataList[pageIndex]?.items[itemIndex] else { return cell }
+//                cell.configure(with: CellViewModel(item: model))
 //                return cell
 //            }
 //
@@ -158,11 +179,11 @@ extension ItemListViewController: UICollectionViewDataSource {
 //                    let data = try JSONDecoder().decode(ItemsOfPageReponse.self, from: data!)
 //                    self?.pageDataList[pageIndex] = data
 //                    guard let pageData = self?.pageDataList[pageIndex] else { return }
-//                    let item = pageData.items[itemIndex]
+//                    let model = pageData.items[itemIndex]
 //                    DispatchQueue.main.async {
 //                        self?.numberOfItems += self?.pageDataList[pageIndex]?.items.count ?? 0
 //                        if representedIdentifier == cell.representedIdentifier {
-//                            cell.configure(data: item)
+//                            cell.configure(with: CellViewModel(item: model))
 //                        }
 //                        self?.collectionView.reloadData()
 //                    }
@@ -181,8 +202,8 @@ extension ItemListViewController: UICollectionViewDataSource {
 //            cell.representedIdentifier = representedIdentifier
 //
 //            if let _ = self.pageDataList[pageIndex] {
-//                guard let item = self.pageDataList[pageIndex]?.items[itemIndex] else { return cell }
-//                cell.configure(data: item)
+//                guard let model = self.pageDataList[pageIndex]?.items[itemIndex] else { return cell }
+//                cell.configure(with: CellViewModel(item: model))
 //                return cell
 //            }
 //
@@ -191,11 +212,11 @@ extension ItemListViewController: UICollectionViewDataSource {
 //                    let data = try JSONDecoder().decode(ItemsOfPageReponse.self, from: data!)
 //                    self?.pageDataList[pageIndex] = data
 //                    guard let pageData = self?.pageDataList[pageIndex] else { return }
-//                    let item = pageData.items[itemIndex]
+//                    let model = pageData.items[itemIndex]
 //                    DispatchQueue.main.async {
 //                        self?.numberOfItems += self?.pageDataList[pageIndex]?.items.count ?? 0
 //                        if representedIdentifier == cell.representedIdentifier {
-//                            cell.configure(data: item)
+//                            cell.configure(with: CellViewModel(item: model))
 //                        }
 //                        self?.collectionView.reloadData()
 //                    }
@@ -206,6 +227,7 @@ extension ItemListViewController: UICollectionViewDataSource {
 //            return cell
 //        }
 //    }
+
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let offsetY = scrollView.contentOffset.y
@@ -237,21 +259,35 @@ extension ItemListViewController: UICollectionViewDataSource {
     
 }
 
+@available(iOS 14.0, *)
 extension ItemListViewController: UICollectionViewDelegate {
     
 }
 
 
+@available(iOS 14.0, *)
 extension ItemListViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
 
-        if reuseCollectionViewIdentifier == ListCollectionViewCell.identifier {
+        if reuseCollectionViewIdentifier == CollectionViewCell.identifier {
             return CGSize(width: collectionView.frame.width, height: collectionView.frame.height/8)
         }
 
         return CGSize(width: collectionView.frame.width/2-20, height: collectionView.frame.height/3.5)
     }
 }
+
+//@available(iOS 14.0, *)
+//extension ItemListViewController: UICollectionViewDelegateFlowLayout {
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+//
+//        if reuseCollectionViewIdentifier == ListCollectionViewCell.identifier {
+//            return CGSize(width: collectionView.frame.width, height: collectionView.frame.height/8)
+//        }
+//
+//        return CGSize(width: collectionView.frame.width/2-20, height: collectionView.frame.height/3.5)
+//    }
+//}
 
 
 extension String {
