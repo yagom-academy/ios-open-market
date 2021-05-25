@@ -17,17 +17,6 @@ struct ProductForm: Codable {
     let images: [Data]?
     let password: String
     
-//    var imagesDatas: [Data] {
-//        var datas: [Data] = []
-//        guard let images = images else {
-//            return []
-//        }
-//        for image in images {
-//            datas.append(image.pngData()!)
-//        }
-//        return datas
-//    }
-    
     var multiFormData: [String: String] {
         var datas: [String: String] = [:]
         

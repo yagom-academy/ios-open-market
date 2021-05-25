@@ -11,7 +11,6 @@ class MockURLProtocol: URLProtocol {
     
     static var requsetHandler: ((URLRequest) throws -> (Data?, URLResponse?, Error?))?
     
-    // URLRequest로 초기화 가능
     override class func canInit(with request: URLRequest) -> Bool {
         return true
     }
@@ -28,7 +27,6 @@ class MockURLProtocol: URLProtocol {
         do {
             let (data, response, error) = try handler(request)
             
-            // 응답 받은 것을 고객에게 보내기!
             if let response = response {
                 client?.urlProtocol(self, didReceive: response, cacheStoragePolicy: .notAllowed)
             }

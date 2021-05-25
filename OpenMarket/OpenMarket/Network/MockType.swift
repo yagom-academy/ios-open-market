@@ -8,7 +8,6 @@
 import UIKit
 
 protocol URLSessionProtocol {
-    // 실제 URLSession에 있는 함수를 똑같이 선언!(매개변수 이름도 같게 해야함!)
     func dataTask(with resquest: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask
 }
 
