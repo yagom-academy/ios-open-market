@@ -8,63 +8,39 @@
 import Foundation
 
 protocol Requestable: MultipartConvertible {
-    func setMultipartRequest<Body: Encodable>(
-        _ url: URL,
-        _ body: Body,
-        httpMethod: HTTPMethod
-    ) -> URLRequest?
-    func makeRequest<Body: Encodable>(
-        url: URL?,
-        httpMethod: HTTPMethod,
-        _ body: Body
-    ) -> URLRequest?
+    func makeMultipartBody(_ body: Item, _ boundary: String) -> Data?
+    func makeBody(_ body: Item) -> Data?
+    func makeRequest(url: URL?, httpMethod: HTTPMethod, body: Item) -> URLRequest?
 }
 
 extension Requestable {
-    func setMultipartRequest<Body: Encodable>(
-        _ url: URL,
-        _ body: Body,
-        httpMethod: HTTPMethod
-    ) -> URLRequest? {
-        let boundary = generateBoundaryString()
-        let mirror = Mirror(reflecting: body)
-        var parameter: [String: Any] = [:]
-        
-        mirror.children.forEach({ child in
-            guard let label = child.label else { return }
-            parameter["\(label)"] = child.value
-        })
-        
-        let bodyData = createBody(parameters: parameter, boundary: boundary)
-        
-        var request = URLRequest(url: url, httpMethod: httpMethod)
-        request.setValue(
-            "multipart/form-data; boundary=\(boundary)",
-            forHTTPHeaderField: "Content-Type"
-        )
-        request.httpBody = bodyData
-        
-        return request
+    func makeMultipartBody(_ body: Item, _ boundary: String) -> Data? {
+        return createBody(parameters: body.multipart, boundary: boundary)
     }
     
-    func makeRequest<Body: Encodable>(
-        url: URL?,
-        httpMethod: HTTPMethod,
-        _ body: Body
-    ) -> URLRequest? {
+    func makeBody(_ body: Item) -> Data? {
+        guard let body = try? JSONEncoder().encode(body) else { return nil }
+        return body
+    }
+    
+    func makeRequest(url: URL?, httpMethod: HTTPMethod, body: Item) -> URLRequest? {
         guard let requestURL = url else { return nil }
         
         switch httpMethod {
         case .delete:
-            var request = URLRequest(url: requestURL, httpMethod: .delete)
-            guard let body = try? JSONEncoder().encode(body) else { return nil }
-            request.httpBody = body
+            var request = URLRequest(url: requestURL, httpMethod: httpMethod)
             request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+            request.httpBody = makeBody(body)
             return request
-        case .post:
-            return setMultipartRequest(requestURL, body, httpMethod: .post)
-        case .patch:
-            return setMultipartRequest(requestURL, body, httpMethod: .patch)
+        case .post, .patch:
+            let boundary = generateBoundaryString()
+            var request = URLRequest(url: requestURL, httpMethod: httpMethod)
+            request.setValue(
+                "multipart/form-data; boundary=\(boundary)",
+                forHTTPHeaderField: "Content-Type"
+            )
+            request.httpBody = makeMultipartBody(body, boundary)
+            return request
         default:
             print("존재하지 않는 요청입니다.")
             return nil

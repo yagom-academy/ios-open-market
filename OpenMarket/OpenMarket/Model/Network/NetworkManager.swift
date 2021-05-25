@@ -15,7 +15,7 @@ struct NetworkManager: Requestable {
         self.session = session
     }
     
-    enum HTTPStatusCode {
+    private enum HTTPStatusCode {
         static let success: ClosedRange<Int> = 200...299
     }
     
@@ -54,11 +54,23 @@ struct NetworkManager: Requestable {
         }.resume()
     }
     
-    func isSuccessResponse(_ response: HTTPURLResponse) -> Bool {
-        if (HTTPStatusCode.success).contains(response.statusCode) {
-            return true
-        } else {
-            return false
+    private func isSuccessResponse(_ response: HTTPURLResponse) -> Bool {
+        return (HTTPStatusCode.success).contains(response.statusCode)
+    }
+    
+    func request(
+        url: URL?,
+        httpMethod: HTTPMethod,
+        body: Item,
+        completionHandler: @escaping (Result<Item, APIError>) -> Void
+    ) {
+        guard let requestURL = url,
+              let request = makeRequest(url: requestURL,
+                                        httpMethod: httpMethod,
+                                        body: body) else { return }
+        
+        dataTask(request, Item.self) { result in
+            completionHandler(result)
         }
     }
     
@@ -68,46 +80,9 @@ struct NetworkManager: Requestable {
         completionHandler: @escaping (Result<Decoded, APIError>) -> Void
     ) {
         guard let requestURL = url else { return }
-        
         let request = URLRequest(url: requestURL, httpMethod: .get)
         
         dataTask(request, Decoded.self) { result in
-            completionHandler(result)
-        }
-    }
-    
-    func deleteItem(
-        url: URL?,
-        body: ItemForDelete,
-        completionHandler: @escaping (Result<ItemResponse, APIError>) -> Void
-    ) {
-        guard let request = makeRequest(url: url, httpMethod: .delete, body) else { return }
-        
-        dataTask(request, ItemResponse.self) { result in
-            completionHandler(result)
-        }
-    }
-    
-    func editItem(
-        url: URL?,
-        body: ItemForEdit,
-        completionHandler: @escaping (Result<ItemResponse, APIError>) -> Void
-    ) {
-        guard let request = makeRequest(url: url, httpMethod: .patch, body) else { return }
-        
-        dataTask(request, ItemResponse.self) { result in
-            completionHandler(result)
-        }
-    }
-    
-    func registerItem(
-        url: URL?,
-        body: ItemForRegistration,
-        completionHandler: @escaping (Result<ItemResponse, APIError>) -> Void
-    ) {
-        guard let request = makeRequest(url: url, httpMethod: .post, body) else { return }
-        
-        dataTask(request, ItemResponse.self) { result in
             completionHandler(result)
         }
     }

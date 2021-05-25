@@ -41,7 +41,7 @@ final class OpenMarketTests: XCTestCase {
             }
         }
     }
-    
+
     func testGetItems_failure() {
         setTestEnvironment(
             url: OpenMarketURL.viewItemList(1).url,
@@ -60,15 +60,15 @@ final class OpenMarketTests: XCTestCase {
             }
         }
     }
-    
+
     func testGetItem() {
         setTestEnvironment(
             url: OpenMarketURL.viewItemDetail(1).url,
             networkShouldSuccess: true,
-            decodeType: ItemResponse.self,
+            decodeType: Item.self,
             expectationTimeout: 1
         ) { url, decodedData, expectation in
-            client.request(ItemResponse.self, url: url) { result in
+            client.request(Item.self, url: url) { result in
                 switch result {
                 case .success(let responseData):
                     XCTAssertEqual(responseData, decodedData)
@@ -84,10 +84,10 @@ final class OpenMarketTests: XCTestCase {
         setTestEnvironment(
             url: OpenMarketURL.viewItemDetail(1).url,
             networkShouldSuccess: false,
-            decodeType: ItemResponse.self,
+            decodeType: Item.self,
             expectationTimeout: 1
         ) { url, decodedData, expectation in
-            client.request(ItemResponse.self, url: url) { result in
+            client.request(Item.self, url: url) { result in
                 switch result {
                 case .success:
                     XCTFail()
@@ -106,10 +106,10 @@ final class OpenMarketTests: XCTestCase {
             httpBody: TestAssets.deleteBody,
             expectationTimeout: 1
         ) { url, deleteBody, expectation in
-            client.deleteItem(url: url, body: deleteBody) { result in
+            client.request(url: url, httpMethod: .delete, body: deleteBody) { result in
                 switch result {
                 case .success(let responseData):
-                    XCTAssertEqual(responseData, TestAssets.mockItemResponse)
+                    XCTAssertEqual(responseData, TestAssets.mockItem)
                 case .failure(let error):
                     XCTFail("\(TestAssets.requestErrorString + error.localizedDescription)")
                 }
@@ -125,7 +125,7 @@ final class OpenMarketTests: XCTestCase {
             httpBody: TestAssets.deleteBody,
             expectationTimeout: 1
         ) { url, deleteBody, expectation in
-            client.deleteItem(url: url, body: deleteBody) { result in
+            client.request(url: url, httpMethod: .delete, body: deleteBody) { result in
                 switch result {
                 case .success:
                     XCTFail()
@@ -144,7 +144,7 @@ final class OpenMarketTests: XCTestCase {
             httpBody: TestAssets.editBody,
             expectationTimeout: 1
         ) { url, editBody, expectation in
-            client.editItem(url: url, body: editBody) { result in
+            client.request(url: url, httpMethod: .patch, body: editBody) { result in
                 switch result {
                 case .success(let responseData):
                     XCTAssertEqual(responseData.title, editBody.title)
@@ -164,7 +164,7 @@ final class OpenMarketTests: XCTestCase {
             httpBody: TestAssets.editBody,
             expectationTimeout: 1
         ) { url, editBody, expectation in
-            client.editItem(url: url, body: editBody) { result in
+            client.request(url: url, httpMethod: .patch, body: editBody) { result in
                 switch result {
                 case .success:
                     XCTFail()
@@ -183,7 +183,7 @@ final class OpenMarketTests: XCTestCase {
             httpBody: TestAssets.postBody,
             expectationTimeout: 1
         ) { url, postBody, expectation in
-            client.registerItem(url: url, body: postBody) { result in
+            client.request(url: url, httpMethod: .post, body: postBody) { result in
                 switch result {
                 case .success(let responseData):
                     XCTAssertEqual(responseData.title, postBody.title)
@@ -203,7 +203,7 @@ final class OpenMarketTests: XCTestCase {
             httpBody: TestAssets.postBody,
             expectationTimeout: 1
         ) { url, postBody, expectation in
-            client.registerItem(url: url, body: postBody) { result in
+            client.request(url: url, httpMethod: .post, body: postBody) { result in
                 switch result {
                 case .success:
                     XCTFail()
@@ -250,7 +250,7 @@ extension OpenMarketTests {
         test: (URL, HTTPBody, XCTestExpectation) -> Void
     ) {
         guard let url = url else { return }
-        let mockData: ItemResponse = TestAssets.mockItemResponse
+        let mockData: Item = TestAssets.mockItem
         guard let encodedMockData = try? JSONEncoder().encode(mockData) else { return }
         
         setLoadingHandler(networkShouldSuccess: networkShouldSuccess, encodedMockData)
@@ -270,7 +270,7 @@ extension OpenMarketTests {
         guard let url = url else { return }
         var data: Data?
         
-        if decodeType is ItemResponse.Type {
+        if decodeType is Item.Type {
             guard let assetData = NSDataAsset(name: TestAssets.item)?.data else { return }
             data = assetData
         } else if decodeType is ItemList.Type {
