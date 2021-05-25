@@ -8,6 +8,7 @@ import UIKit
 
 class MarketItemsViewController: UIViewController {
     private enum Style {
+        static let fetchHeightRatio: CGFloat = 1/3
         static let goldenRatio: CGFloat = 1.618
         static let gridHorizontalInset: CGFloat = 10
         static let gridVerticalInset: CGFloat = 10
@@ -19,6 +20,8 @@ class MarketItemsViewController: UIViewController {
     private let openMarketService = OpenMarketService(sessionManager: SessionManager.shared)
 
     private var pages: [Page] = []
+
+    private var isLoading = false
 
     private let loadingIndicator = UIActivityIndicatorView(style: .large)
 
@@ -71,7 +74,6 @@ class MarketItemsViewController: UIViewController {
         collectionView.register(ItemGridCell.self, forCellWithReuseIdentifier: ItemGridCell.reuseIdentifier)
         collectionView.dataSource = self
         collectionView.delegate = self
-        collectionView.prefetchDataSource = self
         collectionView.backgroundColor = .systemBackground
     }
 
@@ -96,10 +98,12 @@ class MarketItemsViewController: UIViewController {
     private func fetchPageDataCompletionHandler(_ result: Result<Page, OpenMarketError>) {
         switch result {
         case .success(let page):
+            if page.items.isEmpty { return }
             self.pages.append(page)
             DispatchQueue.main.async {
                 self.loadingIndicator.stopAnimating()
                 self.collectionView.reloadData()
+                self.isLoading = false
             }
         case .failure(let error):
             DispatchQueue.main.async {
@@ -182,6 +186,18 @@ extension MarketItemsViewController: UICollectionViewDelegateFlowLayout {
             return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         }
     }
+
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let offsetY = scrollView.contentOffset.y
+        let contentHeight = scrollView.contentSize.height
+        let scrollViewHeight = scrollView.frame.height
+        let remainScrollSize = contentHeight - (scrollViewHeight + offsetY)
+
+        if remainScrollSize < scrollViewHeight * Style.fetchHeightRatio && !isLoading {
+            isLoading = true
+            fetchPageData()
+        }
+    }
 }
 
 extension UICollectionView {
@@ -195,17 +211,6 @@ extension UICollectionView {
             return listCellWidth
         case .grid:
             return gridCellWidth
-        }
-    }
-}
-
-extension MarketItemsViewController: UICollectionViewDataSourcePrefetching {
-    func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
-        guard let lastPageItemCount = pages.last?.items.count,
-              let lastIndexPathsSection = indexPaths.last?.section else { return }
-
-        if indexPaths.contains(IndexPath(row: lastPageItemCount - 1, section: lastIndexPathsSection)) {
-            fetchPageData()
         }
     }
 }
