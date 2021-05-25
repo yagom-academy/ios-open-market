@@ -9,6 +9,7 @@ import Foundation
 
 struct OpenMarketAPIProvider: JsonProtocol, MultiPartProtocol {
   let session: URLSession
+  static var boundary: String = UUID().uuidString
   
   init(session: URLSession = URLSession.shared) {
     self.session = session
@@ -24,7 +25,7 @@ struct OpenMarketAPIProvider: JsonProtocol, MultiPartProtocol {
       
       guard let response = response as? HTTPURLResponse,
             RequestType.successStatusCode.contains(response.statusCode) else {
-        completionHandler(.failure(.connectionProblem))
+        completionHandler(.failure(.invalidResponse))
         return
       }
       

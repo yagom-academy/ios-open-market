@@ -13,10 +13,6 @@ protocol URLRequestProtocol {
 }
 
 extension URLRequestProtocol {
-  static var boundary: String {
-    return UUID().uuidString
-  }
-  
   func makeURLRequest(httpMethod: HttpMethod, apiRequestType: RequestType) -> URLRequest? {
     guard let url = apiRequestType.url else { return nil }
     var urlRequest = URLRequest(url: url)

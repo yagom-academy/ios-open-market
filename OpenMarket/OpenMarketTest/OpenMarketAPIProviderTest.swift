@@ -275,5 +275,4 @@ class OpenMarketAPIProviderTest: XCTestCase {
       return (response, data, nil)
     }
   }
-  
 }
