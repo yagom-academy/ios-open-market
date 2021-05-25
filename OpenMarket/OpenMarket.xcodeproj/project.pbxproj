@@ -17,13 +17,13 @@
 		8A90DE482653DFB100719F03 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A90DE472653DFB100719F03 /* Network.swift */; };
 		8A90DE81265A50A800719F03 /* GridCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A90DE7F265A50A800719F03 /* GridCollectionViewCell.swift */; };
 		8A90DE82265A50A800719F03 /* GridCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A90DE80265A50A800719F03 /* GridCollectionViewCell.xib */; };
-		8A90DE8F265A7C2800719F03 /* ListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A90DE8D265A7C2800719F03 /* ListCollectionViewCell.swift */; };
-		8A90DE90265A7C2800719F03 /* ListCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A90DE8E265A7C2800719F03 /* ListCollectionViewCell.xib */; };
 		8A90DED3265B8AD000719F03 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A90DED2265B8AD000719F03 /* NetworkManager.swift */; };
 		8A90DEDC265C048300719F03 /* IndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A90DEDB265C048200719F03 /* IndicatorView.swift */; };
 		8A90DEE3265CF84100719F03 /* CellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A90DEE2265CF84100719F03 /* CellViewModel.swift */; };
 		8A90DEEF265D02C300719F03 /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A90DEED265D02C300719F03 /* CollectionViewCell.swift */; };
 		8A90DEF0265D02C300719F03 /* CollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A90DEEE265D02C300719F03 /* CollectionViewCell.xib */; };
+		8A90DF02265D37FC00719F03 /* ListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A90DF00265D37FC00719F03 /* ListCollectionViewCell.swift */; };
+		8A90DF03265D37FC00719F03 /* ListCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A90DF01265D37FC00719F03 /* ListCollectionViewCell.xib */; };
 		8AB187832649204B00B2A86C /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AB187822649204B00B2A86C /* Request.swift */; };
 		8AB187932649227D00B2A86C /* ItemsOfPageReponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AB187922649227D00B2A86C /* ItemsOfPageReponse.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
@@ -57,13 +57,13 @@
 		8A90DE472653DFB100719F03 /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
 		8A90DE7F265A50A800719F03 /* GridCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridCollectionViewCell.swift; sourceTree = "<group>"; };
 		8A90DE80265A50A800719F03 /* GridCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GridCollectionViewCell.xib; sourceTree = "<group>"; };
-		8A90DE8D265A7C2800719F03 /* ListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCollectionViewCell.swift; sourceTree = "<group>"; };
-		8A90DE8E265A7C2800719F03 /* ListCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ListCollectionViewCell.xib; sourceTree = "<group>"; };
 		8A90DED2265B8AD000719F03 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		8A90DEDB265C048200719F03 /* IndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndicatorView.swift; sourceTree = "<group>"; };
 		8A90DEE2265CF84100719F03 /* CellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellViewModel.swift; sourceTree = "<group>"; };
 		8A90DEED265D02C300719F03 /* CollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
 		8A90DEEE265D02C300719F03 /* CollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CollectionViewCell.xib; sourceTree = "<group>"; };
+		8A90DF00265D37FC00719F03 /* ListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCollectionViewCell.swift; sourceTree = "<group>"; };
+		8A90DF01265D37FC00719F03 /* ListCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ListCollectionViewCell.xib; sourceTree = "<group>"; };
 		8AB187822649204B00B2A86C /* Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
 		8AB187922649227D00B2A86C /* ItemsOfPageReponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsOfPageReponse.swift; sourceTree = "<group>"; };
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -145,10 +145,10 @@
 			children = (
 				8A90DE7F265A50A800719F03 /* GridCollectionViewCell.swift */,
 				8A90DE80265A50A800719F03 /* GridCollectionViewCell.xib */,
-				8A90DE8D265A7C2800719F03 /* ListCollectionViewCell.swift */,
-				8A90DE8E265A7C2800719F03 /* ListCollectionViewCell.xib */,
 				8A90DEED265D02C300719F03 /* CollectionViewCell.swift */,
 				8A90DEEE265D02C300719F03 /* CollectionViewCell.xib */,
+				8A90DF00265D37FC00719F03 /* ListCollectionViewCell.swift */,
+				8A90DF01265D37FC00719F03 /* ListCollectionViewCell.xib */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -313,8 +313,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				C70FB10725BEF61D00C9924E /* LaunchScreen.storyboard in Resources */,
-				8A90DE90265A7C2800719F03 /* ListCollectionViewCell.xib in Resources */,
 				8A90DEF0265D02C300719F03 /* CollectionViewCell.xib in Resources */,
+				8A90DF03265D37FC00719F03 /* ListCollectionViewCell.xib in Resources */,
 				8A90DE82265A50A800719F03 /* GridCollectionViewCell.xib in Resources */,
 				C70FB10425BEF61D00C9924E /* Assets.xcassets in Resources */,
 				C70FB10225BEF61C00C9924E /* Main.storyboard in Resources */,
@@ -344,12 +344,12 @@
 				8A90DED3265B8AD000719F03 /* NetworkManager.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ItemListViewController.swift in Sources */,
 				8A90DE482653DFB100719F03 /* Network.swift in Sources */,
-				8A90DE8F265A7C2800719F03 /* ListCollectionViewCell.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				8A90DE05264FD1EB00719F03 /* HTTPMethod.swift in Sources */,
 				8A90DE81265A50A800719F03 /* GridCollectionViewCell.swift in Sources */,
 				8A90DEE3265CF84100719F03 /* CellViewModel.swift in Sources */,
 				8A90DEDC265C048300719F03 /* IndicatorView.swift in Sources */,
+				8A90DF02265D37FC00719F03 /* ListCollectionViewCell.swift in Sources */,
 				8A90DE09264FD1F600719F03 /* Path.swift in Sources */,
 				8A90DDFD264FC77D00719F03 /* EncodingError.swift in Sources */,
 				8A90DE19265025C000719F03 /* InformationOfItemResponse.swift in Sources */,

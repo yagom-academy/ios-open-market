@@ -1,13 +1,15 @@
 //
-//  CollectionViewCellLikeTableViewCell.swift
+//  ListCollectionViewCell.swift
 //  OpenMarket
 //
-//  Created by 최정민 on 2021/05/23.
+//  Created by 최정민 on 2021/05/25.
 //
 
 import UIKit
 
-class ListCollectionViewCell: UICollectionViewCell {
+
+@available(iOS 14.0, *)
+class ListCollectionViewCell: UICollectionViewListCell {
     
     static let identifier = "ListCollectionViewCell"
     var representedIdentifier: String = ""
@@ -36,6 +38,7 @@ class ListCollectionViewCell: UICollectionViewCell {
         self.discountedPrice.isHidden = true
         self.itemPrice.attributedText = NSAttributedString(string: "")
         self.itemPrice.textColor = UIColor.lightGray
+        NSLayoutConstraint.activate([separatorLayoutGuide.leadingAnchor.constraint(equalTo: itemImage.leadingAnchor)])
     }
     
     
@@ -61,5 +64,6 @@ class ListCollectionViewCell: UICollectionViewCell {
             print("Invalid URL")
         }
     }
+    
     
 }
