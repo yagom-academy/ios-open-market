@@ -15,12 +15,28 @@ class ListVCCell: UITableViewCell {
     @IBOutlet weak var discountedPrice: UILabel!
     @IBOutlet weak var stock: UILabel!
     
+    var item: Item?
+    
     func setup() {
 //        thumbnail.image = UIImage(named: item.thumbnails[0])
         title.text = "loading..."
         price.text = ""
         discountedPrice.text = ""
         stock.text = ""
+    }
+    
+    func setupItem() {
+        if let data: Item = self.item {
+            title.text = data.title
+            price.text = "\(data.price)"
+            if let salePrice = data.discountedPrice {
+                discountedPrice.text = "\(salePrice)"
+            }
+            stock.text = "\(data.stock)"
+        } else {
+            print("item이 없는뎁쇼")
+        }
+        
     }
     
     

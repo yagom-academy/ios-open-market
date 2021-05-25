@@ -27,6 +27,11 @@ class ListVC: UIViewController {
             self.items = receiveItems
             
             print("노티 받기 완료!")
+            
+            DispatchQueue.main.async {
+                print("리로드데이터 실행!")
+                self.tableView.reloadData()
+            }
         }
     }
     
@@ -53,13 +58,10 @@ extension ListVC: UITableViewDataSource {
         
         cell.setup()
         
-        return cell
-    }
-    
-    func titleSetup(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ListVCCell") as! ListVCCell
-        
-        cell.setup()
+        if self.items.count > 0 {
+            cell.item = items[indexPath.row]
+            cell.setupItem()
+        }
         
         return cell
     }
