@@ -24,6 +24,8 @@
 		02A7EE642657799600562DF8 /* ItemCellLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02A7EE632657799600562DF8 /* ItemCellLabel.swift */; };
 		02A7EE6626577BC800562DF8 /* ItemCellImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02A7EE6526577BC800562DF8 /* ItemCellImageView.swift */; };
 		02A7EE88265A75F100562DF8 /* ItemGridCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02A7EE87265A75F100562DF8 /* ItemGridCell.swift */; };
+		02B39A44265CDB6700EBCF44 /* OpenMarketService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02B39A43265CDB6700EBCF44 /* OpenMarketService.swift */; };
+		02B39A46265CDC3A00EBCF44 /* SessionManagerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02B39A45265CDC3A00EBCF44 /* SessionManagerProtocol.swift */; };
 		1C3FE4FE264D0B400051D507 /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C3FE4FD264D0B400051D507 /* UIImageExtension.swift */; };
 		1C3FE509264D39BC0051D507 /* SessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C3FE508264D39BC0051D507 /* SessionManager.swift */; };
 		1C3FE50D264D42B90051D507 /* SessionManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C3FE50C264D42B90051D507 /* SessionManagerTests.swift */; };
@@ -69,6 +71,8 @@
 		02A7EE632657799600562DF8 /* ItemCellLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemCellLabel.swift; sourceTree = "<group>"; };
 		02A7EE6526577BC800562DF8 /* ItemCellImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemCellImageView.swift; sourceTree = "<group>"; };
 		02A7EE87265A75F100562DF8 /* ItemGridCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemGridCell.swift; sourceTree = "<group>"; };
+		02B39A43265CDB6700EBCF44 /* OpenMarketService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketService.swift; sourceTree = "<group>"; };
+		02B39A45265CDC3A00EBCF44 /* SessionManagerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionManagerProtocol.swift; sourceTree = "<group>"; };
 		1C3FE4FD264D0B400051D507 /* UIImageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageExtension.swift; sourceTree = "<group>"; };
 		1C3FE508264D39BC0051D507 /* SessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionManager.swift; sourceTree = "<group>"; };
 		1C3FE50C264D42B90051D507 /* SessionManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionManagerTests.swift; sourceTree = "<group>"; };
@@ -199,6 +203,7 @@
 				02899E712653552B00DB4A0B /* JSONData.swift */,
 				02899E79265355F200DB4A0B /* RequestBodyEncoderProtocol.swift */,
 				02899E732653559C00DB4A0B /* RequestData.swift */,
+				02B39A45265CDC3A00EBCF44 /* SessionManagerProtocol.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -226,6 +231,7 @@
 		1C3FE507264D399D0051D507 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				02B39A43265CDB6700EBCF44 /* OpenMarketService.swift */,
 				02899E7C2653563700DB4A0B /* RequestBodyEncoder.swift */,
 				1C3FE508264D39BC0051D507 /* SessionManager.swift */,
 			);
@@ -423,6 +429,7 @@
 				02A7EE6626577BC800562DF8 /* ItemCellImageView.swift in Sources */,
 				02899E742653559C00DB4A0B /* RequestData.swift in Sources */,
 				02A7EE6226576F9800562DF8 /* ItemListCell.swift in Sources */,
+				02B39A46265CDC3A00EBCF44 /* SessionManagerProtocol.swift in Sources */,
 				1C3FE4FE264D0B400051D507 /* UIImageExtension.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* MarketItemsViewController.swift in Sources */,
 				1C7D1D85264BABA800ADE23A /* PatchingItem.swift in Sources */,
@@ -436,6 +443,7 @@
 				1C7D1D78264BA5B200ADE23A /* PostingItem.swift in Sources */,
 				1C3FE509264D39BC0051D507 /* SessionManager.swift in Sources */,
 				02899E7A265355F200DB4A0B /* RequestBodyEncoderProtocol.swift in Sources */,
+				02B39A44265CDB6700EBCF44 /* OpenMarketService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

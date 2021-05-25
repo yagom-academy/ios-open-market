@@ -26,8 +26,8 @@ enum HTTPMethod: String {
 }
 
 enum URLPath {
-    case page(id: Int?)
-    case item(id: Int?)
+    case page(id: Int? = nil)
+    case item(id: Int? = nil)
 
     func asURL() throws -> URL {
         var urlString: String = "https://camp-open-market-2.herokuapp.com/"
