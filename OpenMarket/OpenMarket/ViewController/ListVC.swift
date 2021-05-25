@@ -11,14 +11,24 @@ class ListVC: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     
+    var items: [Item] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         tableView.delegate = self
         tableView.dataSource = self
-
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(Self.setupItems(_:)), name: NotificationNames.items.notificaion, object: nil)
     }
-
+    
+    @objc func setupItems(_ notification: Notification) {
+        if let receiveItems = notification.object as? [Item] {
+            self.items = receiveItems
+            
+            print("노티 받기 완료!")
+        }
+    }
     
 }
 

@@ -32,6 +32,9 @@ class MainViewController: UIViewController {
         self.openMarketAPI.getItemList { result in
             self.items = result
             print("다운로드 완료!")
+            
+            NotificationCenter.default.post(name: NotificationNames.items.notificaion, object: result)
+            
         }
     }
     
