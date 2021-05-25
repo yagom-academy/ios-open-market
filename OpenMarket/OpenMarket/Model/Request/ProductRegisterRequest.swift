@@ -22,16 +22,3 @@ struct ProductRegisterRequest: Encodable {
     case discountedPrice = "discounted_price"
   }
 }
-
-extension ProductRegisterRequest: Uploadable {
-  var parameters: [String: Any?] {
-    ["title":title,
-     "descriptions":descriptions,
-     "price":price,
-     "currency":currency,
-     "stock":stock,
-     "discounted_price":discountedPrice,
-     "images":images,
-     "paswword":password]
-  }
-}

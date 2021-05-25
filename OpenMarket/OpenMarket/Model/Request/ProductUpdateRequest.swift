@@ -22,16 +22,3 @@ struct ProductUpdateRequest: Encodable {
     case discountedPrice = "discounted_price"
   }
 }
-
-extension ProductUpdateRequest: Uploadable {
-  var parameters: [String: Any?] {
-    ["title":title,
-     "descriptions":descriptions,
-     "price":price,
-     "currency":currency,
-     "stock":stock,
-     "discounted_price":discountedPrice,
-     "images":images,
-     "paswword":password]
-  }
-}
