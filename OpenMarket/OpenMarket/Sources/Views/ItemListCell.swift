@@ -36,7 +36,7 @@ class ItemListCell: UICollectionViewCell {
     var item: Page.Item? {
         didSet {
             DispatchQueue.global().async {
-                guard let thumnailURL = self.item?.thumbnails[0],
+                guard let thumnailURL = self.item?.thumbnails.first,
                       let url = URL(string: thumnailURL),
                       let data = try? Data(contentsOf: url),
                       let image = UIImage(data: data) else { return }
