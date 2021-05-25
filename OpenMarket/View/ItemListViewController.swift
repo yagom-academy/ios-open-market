@@ -23,7 +23,6 @@ class ItemListViewController: UIViewController {
             collectionView.reloadData()
             return
         }
-
         reuseCollectionViewIdentifier = GridCollectionViewCell.identifier
         registerCollectionViewCellNib()
         collectionView.reloadData()
@@ -73,11 +72,11 @@ extension ItemListViewController: UICollectionViewDataSource {
                 return UICollectionViewCell()
             }
             
-            cell.representedIdentifier = representedIdentifier
+            cell.representedIdentifier = representedIdentifier// configure 안에 집어넣으면 안됨
 
             if let _ = self.pageDataList[pageIndex] {
-                guard let item = self.pageDataList[pageIndex]?.items[itemIndex] else { return cell }
-                cell.update(data: item)
+                guard let model = self.pageDataList[pageIndex]?.items[itemIndex] else { return cell }
+                cell.configure(with: CellViewModel(item: model))
                 return cell
             }
 
@@ -86,11 +85,11 @@ extension ItemListViewController: UICollectionViewDataSource {
                     let data = try JSONDecoder().decode(ItemsOfPageReponse.self, from: data!)
                     self?.pageDataList[pageIndex] = data
                     guard let pageData = self?.pageDataList[pageIndex] else { return }
-                    let item = pageData.items[itemIndex]
+                    let model = pageData.items[itemIndex]
                     DispatchQueue.main.async {
                         self?.numberOfItems += self?.pageDataList[pageIndex]?.items.count ?? 0
                         if representedIdentifier == cell.representedIdentifier {
-                            cell.update(data: item)
+                            cell.configure(with: CellViewModel(item: model))
                         }
                         self?.collectionView.reloadData()
                     }
@@ -109,8 +108,8 @@ extension ItemListViewController: UICollectionViewDataSource {
             cell.representedIdentifier = representedIdentifier
             
             if let _ = self.pageDataList[pageIndex] {
-                guard let item = self.pageDataList[pageIndex]?.items[itemIndex] else { return cell }
-                cell.update(data: item)
+                guard let model = self.pageDataList[pageIndex]?.items[itemIndex] else { return cell }
+                cell.configure(with: CellViewModel(item: model))
                 return cell
             }
          
@@ -119,11 +118,11 @@ extension ItemListViewController: UICollectionViewDataSource {
                     let data = try JSONDecoder().decode(ItemsOfPageReponse.self, from: data!)
                     self?.pageDataList[pageIndex] = data
                     guard let pageData = self?.pageDataList[pageIndex] else { return }
-                    let item = pageData.items[itemIndex]
+                    let model = pageData.items[itemIndex]
                     DispatchQueue.main.async {
                         self?.numberOfItems += self?.pageDataList[pageIndex]?.items.count ?? 0
                         if representedIdentifier == cell.representedIdentifier {
-                            cell.update(data: item)
+                            cell.configure(with: CellViewModel(item: model))
                         }
                         self?.collectionView.reloadData()
                     }
@@ -132,11 +131,81 @@ extension ItemListViewController: UICollectionViewDataSource {
                 }
             }
             return cell
-            
         }
-        
-        
     }
+    
+//    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+//        let pageIndex = indexPath.item / 20 + 1
+//        let itemIndex = indexPath.item % 20
+//        let representedIdentifier = String(describing: indexPath)
+//
+//
+//        if reuseCollectionViewIdentifier == GridCollectionViewCell.identifier {
+//            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseCollectionViewIdentifier, for: indexPath) as? GridCollectionViewCell else  {
+//                return UICollectionViewCell()
+//            }
+//
+//            cell.representedIdentifier = representedIdentifier
+//
+//            if let _ = self.pageDataList[pageIndex] {
+//                guard let item = self.pageDataList[pageIndex]?.items[itemIndex] else { return cell }
+//                cell.configure(data: item)
+//                return cell
+//            }
+//
+//            networkManager.getItemsOfPageData(pagination: false, pageNumber: pageIndex) { [weak self] data, pageNumber in
+//                do {
+//                    let data = try JSONDecoder().decode(ItemsOfPageReponse.self, from: data!)
+//                    self?.pageDataList[pageIndex] = data
+//                    guard let pageData = self?.pageDataList[pageIndex] else { return }
+//                    let item = pageData.items[itemIndex]
+//                    DispatchQueue.main.async {
+//                        self?.numberOfItems += self?.pageDataList[pageIndex]?.items.count ?? 0
+//                        if representedIdentifier == cell.representedIdentifier {
+//                            cell.configure(data: item)
+//                        }
+//                        self?.collectionView.reloadData()
+//                    }
+//                } catch {
+//                    fatalError("Failed to decode")
+//                }
+//            }
+//            return cell
+//
+//
+//        } else {
+//            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseCollectionViewIdentifier, for: indexPath) as? ListCollectionViewCell else  {
+//                return UICollectionViewCell()
+//            }
+//
+//            cell.representedIdentifier = representedIdentifier
+//
+//            if let _ = self.pageDataList[pageIndex] {
+//                guard let item = self.pageDataList[pageIndex]?.items[itemIndex] else { return cell }
+//                cell.configure(data: item)
+//                return cell
+//            }
+//
+//            networkManager.getItemsOfPageData(pagination: false, pageNumber: pageIndex) { [weak self] data, pageNumber in
+//                do {
+//                    let data = try JSONDecoder().decode(ItemsOfPageReponse.self, from: data!)
+//                    self?.pageDataList[pageIndex] = data
+//                    guard let pageData = self?.pageDataList[pageIndex] else { return }
+//                    let item = pageData.items[itemIndex]
+//                    DispatchQueue.main.async {
+//                        self?.numberOfItems += self?.pageDataList[pageIndex]?.items.count ?? 0
+//                        if representedIdentifier == cell.representedIdentifier {
+//                            cell.configure(data: item)
+//                        }
+//                        self?.collectionView.reloadData()
+//                    }
+//                } catch {
+//                    fatalError("Failed to decode")
+//                }
+//            }
+//            return cell
+//        }
+//    }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let offsetY = scrollView.contentOffset.y

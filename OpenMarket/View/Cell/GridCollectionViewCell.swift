@@ -38,27 +38,51 @@ class GridCollectionViewCell: UICollectionViewCell {
         self.itemPrice.textColor = UIColor.lightGray
     }
     
-    func update(data: ItemsOfPageReponse.Item) {
-        let imageURL = URL(string: data.thumbnails[0])
+    
+    func configure(with viewModel: CellViewModel) {
+        let imageURL = URL(string: viewModel.item.thumbnails[0])
         do {
             let imageData = try Data(contentsOf: imageURL!)
             
             self.itemImage.image = UIImage(data: imageData)
-            self.itemTitle.text = data.title
-            self.numberOfItemStock.text = "잔여수량 : " + String(data.stock)
-            if let discountedPrice = data.discountedPrice {
+            self.itemTitle.text = viewModel.item.title
+            self.numberOfItemStock.text = "잔여수량 : " + String(viewModel.item.stock)
+            if let discountedPrice = viewModel.item.discountedPrice {
                 self.discountedPrice.isHidden = false
-                self.discountedPrice.text = data.currency + " " + String(discountedPrice)
+                self.discountedPrice.text = viewModel.item.currency + " " + String(discountedPrice)
                 self.itemPrice.textColor = UIColor.red
-                self.itemPrice.text = data.currency + " " + String(data.price)
+                self.itemPrice.text = viewModel.item.currency + " " + String(viewModel.item.price)
                 self.itemPrice.attributedText = self.itemPrice.text?.strikeThrough()
             } else {
-                self.itemPrice.text = data.currency + " " + String(data.price)
+                self.itemPrice.text = viewModel.item.currency + " " + String(viewModel.item.price)
             }
             
         } catch {
             print("Invalid URL")
         }
     }
+    
+//    func configure(data: ItemsOfPageReponse.Item) {
+//        let imageURL = URL(string: data.thumbnails[0])
+//        do {
+//            let imageData = try Data(contentsOf: imageURL!)
+//
+//            self.itemImage.image = UIImage(data: imageData)
+//            self.itemTitle.text = data.title
+//            self.numberOfItemStock.text = "잔여수량 : " + String(data.stock)
+//            if let discountedPrice = data.discountedPrice {
+//                self.discountedPrice.isHidden = false
+//                self.discountedPrice.text = data.currency + " " + String(discountedPrice)
+//                self.itemPrice.textColor = UIColor.red
+//                self.itemPrice.text = data.currency + " " + String(data.price)
+//                self.itemPrice.attributedText = self.itemPrice.text?.strikeThrough()
+//            } else {
+//                self.itemPrice.text = data.currency + " " + String(data.price)
+//            }
+//
+//        } catch {
+//            print("Invalid URL")
+//        }
+//    }
     
 }
