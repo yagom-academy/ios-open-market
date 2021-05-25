@@ -7,9 +7,7 @@
 
 import Foundation
 
-struct Item: Codable, Equatable {
-    typealias MultipartType = [String: Any?]
-    
+struct Item: Codable, Equatable, MultipartTypeConverter {
     let id: Int?
     let title: String?
     let descriptions: String?
@@ -22,19 +20,6 @@ struct Item: Codable, Equatable {
     let images: [String]?
     let password: String?
     let registrationDate: Double?
-    
-    var multipart: MultipartType {
-        return [
-            "title": self.title,
-            "descriptions": self.descriptions,
-            "currency": self.currency,
-            "price": self.price,
-            "discountedPrice": self.discountedPrice,
-            "stock": self.stock,
-            "images[]": self.imagesFiles,
-            "password": self.password
-        ]
-    }
     
     private enum CodingKeys: String, CodingKey {
         case id, title, descriptions, currency, price, stock, thumbnails, imagesFiles, images, password
