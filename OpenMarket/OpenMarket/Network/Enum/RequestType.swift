@@ -14,6 +14,7 @@ enum RequestType {
   case patchProduct(id: Int)
   case deleteProduct(id: Int)
   
+  static let successStatusCode: ClosedRange<Int> = (200...299)
   static let baseURL: String = "https://camp-open-market-2.herokuapp.com"
   private var urlPath: String {
     switch self {

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct OpenMarketAPIProvider: URLRequestProtocol {
+struct OpenMarketAPIProvider: JsonProtocol, MultiPartProtocol {
   let session: URLSession
   
   init(session: URLSession = URLSession.shared) {
@@ -23,7 +23,7 @@ struct OpenMarketAPIProvider: URLRequestProtocol {
       }
       
       guard let response = response as? HTTPURLResponse,
-            (200...299).contains(response.statusCode) else {
+            RequestType.successStatusCode.contains(response.statusCode) else {
         completionHandler(.failure(.connectionProblem))
         return
       }
