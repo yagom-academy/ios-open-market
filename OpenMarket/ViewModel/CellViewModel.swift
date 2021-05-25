@@ -6,3 +6,7 @@
 //
 
 import Foundation
+
+struct CellViewModel {
+    var item: Item
+}
