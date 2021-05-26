@@ -69,7 +69,7 @@ class OpenMarketServiceTests: XCTestCase {
     func test_request_post() {
         let expectation = XCTestExpectation()
 
-        sut.postItem { result in
+        sut.postItem(data: dummyPostingItem) { result in
             switch result {
             case .success(let item):
                 XCTAssertEqual(item.title, "MacBook Pro")
@@ -89,7 +89,7 @@ class OpenMarketServiceTests: XCTestCase {
     func test_request_patch() {
         let expectation = XCTestExpectation()
 
-        sut.patchItem(id: 1) { result in
+        sut.patchItem(id: 1, data: dummyPatchingItem) { result in
             switch result {
             case .success(let item):
                 XCTAssertEqual(item.title, "MacBook Pro")
@@ -108,7 +108,7 @@ class OpenMarketServiceTests: XCTestCase {
     
     func test_request_delete() {
         let expectation = XCTestExpectation()
-        sut.deleteItem(id: 1) { result in
+        sut.deleteItem(id: 1, data: dummyDeletingItem) { result in
             switch result {
             case .success(let item):
                 XCTAssertEqual(item.title, "MacBook Pro")
