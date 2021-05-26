@@ -22,6 +22,7 @@
 		8A90DF02265D37FC00719F03 /* ListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A90DF00265D37FC00719F03 /* ListCollectionViewCell.swift */; };
 		8A90DF03265D37FC00719F03 /* ListCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A90DF01265D37FC00719F03 /* ListCollectionViewCell.xib */; };
 		8A90DF0D265E87A100719F03 /* LayoutType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A90DF0C265E87A100719F03 /* LayoutType.swift */; };
+		8A90DF13265E958200719F03 /* ItemPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A90DF12265E958200719F03 /* ItemPostViewController.swift */; };
 		8AB187832649204B00B2A86C /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AB187822649204B00B2A86C /* Request.swift */; };
 		8AB187932649227D00B2A86C /* ItemsOfPageReponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AB187922649227D00B2A86C /* ItemsOfPageReponse.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
@@ -60,6 +61,7 @@
 		8A90DF00265D37FC00719F03 /* ListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCollectionViewCell.swift; sourceTree = "<group>"; };
 		8A90DF01265D37FC00719F03 /* ListCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ListCollectionViewCell.xib; sourceTree = "<group>"; };
 		8A90DF0C265E87A100719F03 /* LayoutType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutType.swift; sourceTree = "<group>"; };
+		8A90DF12265E958200719F03 /* ItemPostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemPostViewController.swift; sourceTree = "<group>"; };
 		8AB187822649204B00B2A86C /* Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
 		8AB187922649227D00B2A86C /* ItemsOfPageReponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsOfPageReponse.swift; sourceTree = "<group>"; };
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -153,6 +155,7 @@
 				8A90DE262651BF2000719F03 /* Cell */,
 				C70FB0FE25BEF61C00C9924E /* ItemListViewController.swift */,
 				8A90DEDB265C048200719F03 /* IndicatorView.swift */,
+				8A90DF12265E958200719F03 /* ItemPostViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -331,6 +334,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8AB187932649227D00B2A86C /* ItemsOfPageReponse.swift in Sources */,
+				8A90DF13265E958200719F03 /* ItemPostViewController.swift in Sources */,
 				8A90DE0D26500F7400719F03 /* FileName.swift in Sources */,
 				8AB187832649204B00B2A86C /* Request.swift in Sources */,
 				8A90DED3265B8AD000719F03 /* NetworkManager.swift in Sources */,
