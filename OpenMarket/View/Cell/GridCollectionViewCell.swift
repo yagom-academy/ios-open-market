@@ -10,7 +10,7 @@ import UIKit
 class GridCollectionViewCell: UICollectionViewCell {
     
     static let identifier = "GridCollectionViewCell"
-    var representedIdentifier: String = ""
+    var representedIdentifier: IndexPath?
     
     @IBOutlet var itemImage: UIImageView!
     @IBOutlet var itemTitle: UILabel!
@@ -41,25 +41,31 @@ class GridCollectionViewCell: UICollectionViewCell {
         self.itemPrice.textColor = UIColor.lightGray
     }
     
-    func configure(with viewModel: CellViewModel) {
-        let imageURL = URL(string: viewModel.item.thumbnails[0])
-        do {
-            let imageData = try Data(contentsOf: imageURL!)
-            
-            self.itemImage.image = UIImage(data: imageData)
-            self.itemTitle.text = viewModel.item.title
-            self.numberOfItemStock.text = "잔여수량 : " + String(viewModel.item.stock)
-            if let discountedPrice = viewModel.item.discountedPrice {
-                self.discountedPrice.isHidden = false
-                self.discountedPrice.text = viewModel.item.currency + " " + String(discountedPrice)
-                self.itemPrice.textColor = UIColor.red
-                self.itemPrice.text = viewModel.item.currency + " " + String(viewModel.item.price)
-                self.itemPrice.attributedText = self.itemPrice.text?.strikeThrough()
-            } else {
-                self.itemPrice.text = viewModel.item.currency + " " + String(viewModel.item.price)
+    func configure(with data: Item) {
+        let imageURL = URL(string: data.thumbnails[0])
+        DispatchQueue.global().async {
+            do {
+                let imageData = try Data(contentsOf: imageURL!)
+                DispatchQueue.main.async{
+                    self.itemImage.image = UIImage(data: imageData)
+                }
+            } catch {
+                print("Invalid URL")
+                return
             }
-        } catch {
-            print("Invalid URL")
+        }
+        
+        self.itemTitle.text = data.title
+        self.numberOfItemStock.text = "잔여수량 : " + String(data.stock)
+        if let discountedPrice = data.discountedPrice {
+            self.discountedPrice.isHidden = false
+            self.discountedPrice.text = data.currency + " " + String(discountedPrice)
+            self.itemPrice.textColor = UIColor.red
+            self.itemPrice.text = data.currency + " " + String(data.price)
+            self.itemPrice.attributedText = self.itemPrice.text?.strikeThrough()
+        } else {
+            self.itemPrice.text = data.currency + " " + String(data.price)
         }
     }
+    
 }

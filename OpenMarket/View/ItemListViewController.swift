@@ -10,8 +10,10 @@ import UIKit
 class ItemListViewController: UIViewController {
     
     var pageDataList: [Int : ItemsOfPageReponse] = [:]
-    var reuseCollectionViewIdentifier = ListCollectionViewCell.identifier
+    var layoutType = LayoutType.list
     var numberOfItems = 0
+    var maxPageNumber = 0
+    var minPageNumber = 0
     
     let networkManager = NetworkManager.shared
  
@@ -19,13 +21,11 @@ class ItemListViewController: UIViewController {
     @IBOutlet var control: UISegmentedControl!
     @IBAction func didChangeSegement(_ sender: UISegmentedControl) {
         if sender.selectedSegmentIndex == 0 {
-            reuseCollectionViewIdentifier = ListCollectionViewCell.identifier
-            registerCollectionViewCellNib()
+            layoutType = LayoutType.list
             collectionView.reloadData()
             return
         }
-        reuseCollectionViewIdentifier = GridCollectionViewCell.identifier
-        registerCollectionViewCellNib()
+        layoutType = LayoutType.grid
         collectionView.reloadData()
     }
     
@@ -42,8 +42,10 @@ class ItemListViewController: UIViewController {
     }
     
     private func registerCollectionViewCellNib() {
-        let collectionViewNib = UINib(nibName: reuseCollectionViewIdentifier, bundle: nil)
-        self.self.collectionView.register(collectionViewNib, forCellWithReuseIdentifier: reuseCollectionViewIdentifier)
+        let listCollectionViewNib = UINib(nibName: ListCollectionViewCell.identifier, bundle: nil)
+        let gridCollectionViewNib = UINib(nibName: GridCollectionViewCell.identifier, bundle: nil)
+        self.collectionView.register(listCollectionViewNib, forCellWithReuseIdentifier: ListCollectionViewCell.identifier)
+        self.collectionView.register(gridCollectionViewNib, forCellWithReuseIdentifier: GridCollectionViewCell.identifier)
     }
     
     private func setUpSegmentedControl() {
@@ -66,94 +68,90 @@ extension ItemListViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let pageIndex = indexPath.item / 20 + 1
         let itemIndex = indexPath.item % 20
-        let representedIdentifier = String(describing: indexPath)
         
-        if reuseCollectionViewIdentifier == GridCollectionViewCell.identifier {
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseCollectionViewIdentifier, for: indexPath) as? GridCollectionViewCell else  {
+        if layoutType == LayoutType.grid {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: GridCollectionViewCell.identifier, for: indexPath) as? GridCollectionViewCell else  {
                 return UICollectionViewCell()
             }
             
-            cell.representedIdentifier = representedIdentifier
-
-            if let _ = self.pageDataList[pageIndex] {
-                guard let model = self.pageDataList[pageIndex]?.items[itemIndex] else { return cell }
-                cell.configure(with: CellViewModel(item: model))
-                return cell
-            }
+            cell.representedIdentifier = indexPath
+            guard let _ = self.pageDataList[pageIndex] else { return cell }
+            guard let data = self.pageDataList[pageIndex]?.items[itemIndex] else { return cell }
             
-            networkManager.getItemsOfPageData(pagination: false, pageNumber: pageIndex) { [weak self] data, pageNumber in
+            DispatchQueue.global().async {
                 do {
-                    let data = try JSONDecoder().decode(ItemsOfPageReponse.self, from: data!)
-                    self?.pageDataList[pageIndex] = data
-                    guard let pageData = self?.pageDataList[pageIndex] else { return }
-                    let model = pageData.items[itemIndex]
-                    DispatchQueue.main.async {
-                        self?.numberOfItems += self?.pageDataList[pageIndex]?.items.count ?? 0
-                        if representedIdentifier == cell.representedIdentifier {
-                            cell.configure(with: CellViewModel(item: model))
+                    guard let imageURL = URL(string: data.thumbnails[0]) else { return }
+                    let imageData = try Data(contentsOf: imageURL)
+                    DispatchQueue.main.async{
+                        if indexPath == cell.representedIdentifier {
+                            cell.itemImage.image = UIImage(data: imageData)
+                            cell.configure(with: data)
                         }
-                        self?.collectionView.reloadData()
                     }
                 } catch {
-                    fatalError("Failed to decode")
+                    print("Invalid URL")
+                    return
                 }
             }
+            
             return cell
             
-
         } else {
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseCollectionViewIdentifier, for: indexPath) as? ListCollectionViewCell else  {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ListCollectionViewCell.identifier, for: indexPath) as? ListCollectionViewCell else  {
                 return UICollectionViewCell()
             }
-            
-            cell.representedIdentifier = representedIdentifier
+            cell.representedIdentifier = indexPath
             cell.accessories = [.disclosureIndicator()]
+            guard let _ = self.pageDataList[pageIndex] else { return cell }
+            guard let data = self.pageDataList[pageIndex]?.items[itemIndex] else { return cell }
             
-            if let _ = self.pageDataList[pageIndex] {
-                guard let model = self.pageDataList[pageIndex]?.items[itemIndex] else { return cell }
-                cell.configure(with: CellViewModel(item: model))
-                return cell
-            }
-         
-            networkManager.getItemsOfPageData(pagination: false, pageNumber: pageIndex) { [weak self] data, pageNumber in
+            DispatchQueue.global().async {
                 do {
-                    let data = try JSONDecoder().decode(ItemsOfPageReponse.self, from: data!)
-                    self?.pageDataList[pageIndex] = data
-                    guard let pageData = self?.pageDataList[pageIndex] else { return }
-                    let model = pageData.items[itemIndex]
-                    DispatchQueue.main.async {
-                        self?.numberOfItems += self?.pageDataList[pageIndex]?.items.count ?? 0
-                        if representedIdentifier == cell.representedIdentifier {
-                            cell.configure(with: CellViewModel(item: model))
+                    guard let imageURL = URL(string: data.thumbnails[0]) else { return }
+                    let imageData = try Data(contentsOf: imageURL)
+                    DispatchQueue.main.async{
+                        if indexPath == cell.representedIdentifier {
+                            cell.itemImage.image = UIImage(data: imageData)
+                            cell.configure(with: data)
                         }
-                        self?.collectionView.reloadData()
                     }
                 } catch {
-                    fatalError("Failed to decode")
+                    print("Invalid URL")
+                    return
                 }
             }
+
             return cell
         }
     }
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let offsetY = scrollView.contentOffset.y
-        let contentHeight = scrollView.contentSize.height
-        let indicatorView = IndicatorView.shared
-        if offsetY > contentHeight - scrollView.frame.height {
-            guard !networkManager.isPaginating else {
-                return
-            }
-            indicatorView.showIndicator()
-            networkManager.getItemsOfPageData(pagination: true, pageNumber: pageDataList.count + 1) { [weak self] data, pageNumber in
+        let offsetY = scrollView.contentOffset.y // 스크롤뷰 y의 위치
+        let contentHeight = scrollView.contentSize.height // 스크롤뷰 콘텐츠의 총길이, 셀이 추가될때마다 변한다.
+        
+        if offsetY > contentHeight - scrollView.frame.height { //
+            if let _ = self.pageDataList[maxPageNumber + 1] { return }
+      
+            guard !networkManager.isPaginating else { return }
+            
+            IndicatorView.shared.showIndicator()
+            networkManager.getItemsOfPageData(pagination: true, pageNumber: maxPageNumber + 1) { [weak self] data, pageNumber in
                 do {
                     let data = try JSONDecoder().decode(ItemsOfPageReponse.self, from: data!)
-                    guard let pageNumber = self?.pageDataList.count else { return }
-                    self?.pageDataList[pageNumber + 1] = data
+                    guard data.items.count != 0 else {
+                        DispatchQueue.main.async {
+                            IndicatorView.shared.dismiss()
+                        }
+                        return
+                    }
+                    guard let pageNumber = pageNumber else { return }
+                    self?.pageDataList[pageNumber] = data
+                    self?.numberOfItems += self?.pageDataList[pageNumber]?.items.count ?? 0
+                    self?.updatePageNumber(pageNumber: pageNumber)
+//                    self?.updatePageDataList(pageNumber: pageNumber)
                     DispatchQueue.main.async {
-                        self?.numberOfItems += self?.pageDataList[pageNumber+1]?.items.count ?? 0
                         self?.collectionView.reloadData()
-                        indicatorView.dismiss()
+                        IndicatorView.shared.dismiss()
                     }
                 } catch {
                     fatalError("Failed to decode")
@@ -161,8 +159,27 @@ extension ItemListViewController: UICollectionViewDataSource {
             }
             
         }
+        
     }
     
+    func updatePageNumber(pageNumber: Int) {
+        self.maxPageNumber = max(pageNumber, self.maxPageNumber)
+        self.minPageNumber = min(pageNumber, self.minPageNumber)
+    }
+    
+    func updatePageDataList(pageNumber: Int) {
+        guard pageDataList.count > 4 else { return }
+        if self.maxPageNumber == pageNumber {
+            self.pageDataList.removeValue(forKey: pageNumber - 4 )
+            self.minPageNumber+=1
+            print("\(numberOfItems)")
+            print("\(pageDataList.count)")
+        }
+        if self.minPageNumber == pageNumber {
+            self.pageDataList.removeValue(forKey: pageNumber + 4 )
+            self.maxPageNumber-=1
+        }
+    }
 }
 
 @available(iOS 14.0, *)
@@ -174,7 +191,7 @@ extension ItemListViewController: UICollectionViewDelegate {
 extension ItemListViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
 
-        if reuseCollectionViewIdentifier == ListCollectionViewCell.identifier {
+        if layoutType == LayoutType.list {
             return CGSize(width: collectionView.frame.width, height: collectionView.frame.height/10)
         }
 
