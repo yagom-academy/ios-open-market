@@ -98,7 +98,7 @@ class MarketItemsViewController: UIViewController {
             }
         case .failure(let error):
             DispatchQueue.main.async {
-                self.present(UIAlertController(title: "Error", message: error.description, preferredStyle: .alert),
+                self.present(UIAlertController(title: error.name, message: error.description, preferredStyle: .alert),
                              animated: true, completion: nil)
             }
         }

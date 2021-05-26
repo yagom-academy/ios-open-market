@@ -130,13 +130,16 @@ class SessionManager: SessionManagerProtocol {
                 return completionHandler(.failure(.sessionError))
             }
 
-            guard let httpResponse = response as? HTTPURLResponse,
-                  (200...299).contains(httpResponse.statusCode) else {
-                return completionHandler(.failure(.wrongResponse))
+            guard let httpResponse = response as? HTTPURLResponse else {
+                return completionHandler(.failure(.didNotReceivedResponse))
+            }
+
+            guard (200...299).contains(httpResponse.statusCode) else {
+                return completionHandler(.failure(.wrongResponse(httpResponse.statusCode)))
             }
 
             guard let data = data else {
-                return completionHandler(.failure(.invalidData))
+                return completionHandler(.failure(.didNotReceivedData))
             }
 
             completionHandler(.success(data))
