@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum OpenMarketError: Error {
+enum OpenMarketError: Error, Equatable {
     case invalidURL
     case invalidData
     case didNotReceivedResponse

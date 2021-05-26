@@ -9,8 +9,8 @@ import UIKit
 @testable import OpenMarket
 
 class MockSessionManager: SessionManagerProtocol {
-    let items = NSDataAsset(name: "items")!.data
-    let item = NSDataAsset(name: "items")!.data
+    let items = NSDataAsset(name: "Page")!.data
+    let item = NSDataAsset(name: "Item")!.data
 
     func request(method: HTTPMethod,
                  path: URLPath,
