@@ -37,7 +37,8 @@ class ItemListCell: UICollectionViewCell {
 
     var item: Page.Item? {
         didSet {
-            fetchImageDataTask = SessionManager.shared.fetchImageDataTask(urlString: item?.thumbnails.first) { image in
+            fetchImageDataTask = SessionManager.shared.fetchImageDataTask(urlString: item?.thumbnails.first) { data in
+                guard let image = UIImage(data: data) else { return }
                 DispatchQueue.main.async {
                     self.imageView.image = image
                 }
