@@ -8,21 +8,17 @@ import UIKit
 
 class MarketItemsViewController: UIViewController {
     private enum Style {
-        static let fetchHeightRatio: CGFloat = 1/3
         static let goldenRatio: CGFloat = 1.618
         static let gridHorizontalInset: CGFloat = 10
-        static let gridVerticalInset: CGFloat = 10
         static let listCellHeight: CGFloat = 70
+        static let numberOfCellsToTriggerFetch = 3
         static let numberOfGridColumns: Int = 2
         static let segmentControlBorderWidth: CGFloat = 2
     }
 
-    private let openMarketService = OpenMarketService(sessionManager: SessionManager.shared)
-
-    private var pages: [Page] = []
-
-    private var isLoading = false
-
+    private let openMarketService = OpenMarketService()
+    private var marketItems: [Page.Item] = []
+    private var lastPageId: Int = 0
     private let loadingIndicator = UIActivityIndicatorView(style: .large)
 
     private lazy var layoutSegmentedControl: UISegmentedControl = {
@@ -92,25 +88,27 @@ class MarketItemsViewController: UIViewController {
     }
 
     private func fetchPageData() {
-        openMarketService.getPage(id: pages.count + 1, completionHandler: fetchPageDataCompletionHandler)
+        openMarketService.getPage(id: lastPageId + 1, completionHandler: fetchPageDataCompletionHandler)
     }
 
     private func fetchPageDataCompletionHandler(_ result: Result<Page, OpenMarketError>) {
         switch result {
         case .success(let page):
             if page.items.isEmpty { return }
-            self.pages.append(page)
+
+            let rangeToInsert: Range<Int> = marketItems.count ..< marketItems.count + page.items.count
+            self.marketItems.append(contentsOf: page.items)
+            lastPageId = page.page
+
             DispatchQueue.main.async {
+                self.collectionView.insertItems(at: rangeToInsert.map { IndexPath(item: $0, section: 0) })
                 self.loadingIndicator.stopAnimating()
-                self.collectionView.reloadData()
-                self.isLoading = false
             }
         case .failure(let error):
             DispatchQueue.main.async {
                 self.present(UIAlertController(title: "Error", message: error.description, preferredStyle: .alert),
                              animated: true, completion: nil)
             }
-            return
         }
     }
 
@@ -127,40 +125,31 @@ class MarketItemsViewController: UIViewController {
 }
 
 extension MarketItemsViewController: UICollectionViewDataSource {
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return pages.count
-    }
-
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return pages[section].items.count
+        return marketItems.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         switch LayoutMode.current {
         case .list:
-            guard let itemCell = collectionView.dequeueReusableCell(withReuseIdentifier: ItemListCell.reuseIdentifier,
-                                                                for: indexPath) as? ItemListCell else {
-                return ItemListCell()
-            }
-            itemCell.item = pages[indexPath.section].items[indexPath.item]
-            return itemCell
+            return collectionView.dequeueReusableCell(withReuseIdentifier: ItemListCell.reuseIdentifier, for: indexPath)
         case .grid:
-            guard let itemCell = collectionView.dequeueReusableCell(withReuseIdentifier: ItemGridCell.reuseIdentifier,
-                                                                for: indexPath) as? ItemGridCell else {
-                return ItemGridCell()
-            }
-            itemCell.item = pages[indexPath.section].items[indexPath.item]
-            return itemCell
+            return collectionView.dequeueReusableCell(withReuseIdentifier: ItemGridCell.reuseIdentifier, for: indexPath)
         }
     }
 
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
-                        referenceSizeForHeaderInSection section: Int) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if indexPath.item == marketItems.count - Style.numberOfCellsToTriggerFetch {
+            fetchPageData()
+        }
+
         switch LayoutMode.current {
+        case .list:
+            guard let itemCell = cell as? ItemListCell else { return }
+            itemCell.item = marketItems[indexPath.row]
         case .grid:
-            return CGSize(width: 0, height: Style.gridVerticalInset)
-        default:
-            return CGSize(width: 0, height: 0)
+            guard let itemCell = cell as? ItemGridCell else { return }
+            itemCell.item = marketItems[indexPath.item]
         }
     }
 }
@@ -184,18 +173,6 @@ extension MarketItemsViewController: UICollectionViewDelegateFlowLayout {
             return UIEdgeInsets(top: 0, left: Style.gridHorizontalInset, bottom: 0, right: Style.gridHorizontalInset)
         default:
             return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        }
-    }
-
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let offsetY = scrollView.contentOffset.y
-        let contentHeight = scrollView.contentSize.height
-        let scrollViewHeight = scrollView.frame.height
-        let remainScrollSize = contentHeight - (scrollViewHeight + offsetY)
-
-        if remainScrollSize < scrollViewHeight * Style.fetchHeightRatio && !isLoading {
-            isLoading = true
-            fetchPageData()
         }
     }
 }

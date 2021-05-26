@@ -10,7 +10,7 @@ import Foundation
 class OpenMarketService {
     private let sessionManager: SessionManagerProtocol
 
-    init(sessionManager: SessionManagerProtocol) {
+    init(sessionManager: SessionManagerProtocol = SessionManager.shared) {
         self.sessionManager = sessionManager
     }
 
