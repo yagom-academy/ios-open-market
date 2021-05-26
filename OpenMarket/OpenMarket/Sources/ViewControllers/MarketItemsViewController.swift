@@ -7,19 +7,11 @@
 import UIKit
 
 class MarketItemsViewController: UIViewController {
-    private enum Style {
-        static let goldenRatio: CGFloat = 1.618
-        static let gridHorizontalInset: CGFloat = 10
-        static let listCellHeight: CGFloat = 70
-        static let numberOfCellsToTriggerFetch = 3
-        static let numberOfGridColumns: Int = 2
-        static let segmentControlBorderWidth: CGFloat = 2
-    }
-
     private let openMarketService = OpenMarketService()
     private var marketItems: [Page.Item] = []
     private var lastPageId: Int = 0
     private let loadingIndicator = UIActivityIndicatorView(style: .large)
+    private var layoutMode: LayoutMode = .list
 
     private lazy var layoutSegmentedControl: UISegmentedControl = {
         let segmentedControl = UISegmentedControl(items: [LayoutMode.list.name, LayoutMode.grid.name])
@@ -112,9 +104,22 @@ class MarketItemsViewController: UIViewController {
         }
     }
 
+    private func getCellWidth(numberOfcolumns: Int, inset: CGFloat) -> CGFloat {
+        let listCellWidth: CGFloat = collectionView.safeAreaLayoutGuide.layoutFrame.width
+        let rowWidthWithoutInset: CGFloat = collectionView.safeAreaLayoutGuide.layoutFrame.width - inset * CGFloat(numberOfcolumns + 1)
+        let gridCellWidth: CGFloat = rowWidthWithoutInset / CGFloat(numberOfcolumns)
+
+        switch layoutMode {
+        case .list:
+            return listCellWidth
+        case .grid:
+            return gridCellWidth
+        }
+    }
+
     @objc private func changeLayoutMode() {
         let mode = LayoutMode(rawValue: layoutSegmentedControl.selectedSegmentIndex)!
-        LayoutMode.changeMode(into: mode)
+        layoutMode.changeMode(into: mode)
         collectionView.reloadData()
     }
 
@@ -130,7 +135,7 @@ extension MarketItemsViewController: UICollectionViewDataSource {
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        switch LayoutMode.current {
+        switch layoutMode {
         case .list:
             return collectionView.dequeueReusableCell(withReuseIdentifier: ItemListCell.reuseIdentifier, for: indexPath)
         case .grid:
@@ -143,7 +148,7 @@ extension MarketItemsViewController: UICollectionViewDataSource {
             fetchPageData()
         }
 
-        switch LayoutMode.current {
+        switch layoutMode {
         case .list:
             guard let itemCell = cell as? ItemListCell else { return }
             itemCell.item = marketItems[indexPath.row]
@@ -158,17 +163,17 @@ extension MarketItemsViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let listCellWidth: CGFloat = collectionView.safeAreaLayoutGuide.layoutFrame.width
         let listCellHeight: CGFloat = Style.listCellHeight
-        let gridCellWidth: CGFloat = collectionView.getCellWidth(numberOfcolumns: 2, inset: 10)
+        let gridCellWidth: CGFloat = getCellWidth(numberOfcolumns: 2, inset: 10)
         let gridCellHeight: CGFloat = gridCellWidth * Style.goldenRatio
 
-        return LayoutMode.current == .list ? CGSize(width: listCellWidth, height: listCellHeight) :
+        return layoutMode == .list ? CGSize(width: listCellWidth, height: listCellHeight) :
             CGSize(width: gridCellWidth, height: gridCellHeight)
     }
 
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         insetForSectionAt section: Int) -> UIEdgeInsets {
-        switch LayoutMode.current {
+        switch layoutMode {
         case .grid:
             return UIEdgeInsets(top: 0, left: Style.gridHorizontalInset, bottom: 0, right: Style.gridHorizontalInset)
         default:
@@ -177,37 +182,31 @@ extension MarketItemsViewController: UICollectionViewDelegateFlowLayout {
     }
 }
 
-extension UICollectionView {
-    func getCellWidth(numberOfcolumns: Int, inset: CGFloat) -> CGFloat {
-        let listCellWidth: CGFloat = safeAreaLayoutGuide.layoutFrame.width
-        let rowWidthWithoutInset: CGFloat = safeAreaLayoutGuide.layoutFrame.width - inset * CGFloat(numberOfcolumns + 1)
-        let gridCellWidth: CGFloat = rowWidthWithoutInset / CGFloat(numberOfcolumns)
-
-        switch LayoutMode.current {
-        case .list:
-            return listCellWidth
-        case .grid:
-            return gridCellWidth
-        }
-    }
-}
-
-enum LayoutMode: Int {
-    case list = 0
-    case grid = 1
-
-    static var current: LayoutMode = .list
-
-    var name: String {
-        switch self {
-        case .list:
-            return "LIST"
-        case .grid:
-            return "GRID"
-        }
+extension MarketItemsViewController {
+    private enum Style {
+        static let goldenRatio: CGFloat = 1.618
+        static let gridHorizontalInset: CGFloat = 10
+        static let listCellHeight: CGFloat = 70
+        static let numberOfCellsToTriggerFetch = 3
+        static let numberOfGridColumns: Int = 2
+        static let segmentControlBorderWidth: CGFloat = 2
     }
 
-    static func changeMode(into layoutMode: LayoutMode) {
-        current = layoutMode
+    private enum LayoutMode: Int {
+        case list = 0
+        case grid = 1
+
+        var name: String {
+            switch self {
+            case .list:
+                return "LIST"
+            case .grid:
+                return "GRID"
+            }
+        }
+
+        mutating func changeMode(into layoutMode: LayoutMode) {
+            self = layoutMode
+        }
     }
 }
