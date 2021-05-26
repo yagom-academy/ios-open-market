@@ -1,5 +1,5 @@
 //
-//  Page.swift
+//  MarketPage.swift
 //  OpenMarket
 //
 //  Created by duckbok on 2021/05/12.
@@ -7,9 +7,9 @@
 
 import Foundation
 
-struct Page: Decodable {
-    let page: Int
-    let items: [Page.Item]
+struct MarketPage: Decodable {
+    let id: Int
+    let items: [MarketPage.Item]
 
     struct Item: Decodable {
         let id: Int
@@ -26,5 +26,10 @@ struct Page: Decodable {
             case discountedPrice = "discounted_price"
             case registrationDate = "registration_date"
         }
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case items
+        case id = "page"
     }
 }

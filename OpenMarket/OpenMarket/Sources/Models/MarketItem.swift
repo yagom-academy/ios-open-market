@@ -1,5 +1,5 @@
 //
-//  Item.swift
+//  MarketItem.swift
 //  OpenMarket
 //
 //  Created by duckbok on 2021/05/12.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Item: Decodable {
+struct MarketItem: Decodable {
     let id: Int
     let title: String
     let descriptions: String

@@ -23,9 +23,7 @@ struct RequestBodyEncoder: RequestBodyEncoderProtocol {
 
         var formDataBody = Data()
 
-        guard let formData = value as? FormData else {
-            throw OpenMarketError.invalidData
-        }
+        guard let formData = value as? FormData else { fatalError() }
 
         for textField in formData.textFields {
             formDataBody.append(convertTextField(key: textField.key,

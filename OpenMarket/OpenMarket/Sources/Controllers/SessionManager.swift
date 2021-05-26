@@ -25,9 +25,9 @@ enum HTTPMethod: String {
     }
 }
 
-enum URLPath {
-    case page(id: Int?)
-    case item(id: Int?)
+enum URLPath: Equatable {
+    case page(id: Int? = nil)
+    case item(id: Int? = nil)
 
     func asURL() throws -> URL {
         var urlString: String = "https://camp-open-market-2.herokuapp.com/"
@@ -51,7 +51,7 @@ enum URLPath {
     }
 }
 
-class SessionManager {
+class SessionManager: SessionManagerProtocol {
     static let shared = SessionManager(requestBodyEncoder: RequestBodyEncoder(), session: URLSession.shared)
     private let requestBodyEncoder: RequestBodyEncoderProtocol
     private let session: URLSession
@@ -61,9 +61,9 @@ class SessionManager {
         self.session = session
     }
 
-    func request<DecodedType: Decodable>(method: HTTPMethod,
-                                         path: URLPath,
-                                         completionHandler: @escaping (Result<DecodedType, OpenMarketError>) -> Void) {
+    func request(method: HTTPMethod,
+                 path: URLPath,
+                 completionHandler: @escaping (Result<Data, OpenMarketError>) -> Void) {
         guard let request = try? configureRequestHeader(method: method, path: path) else {
             return completionHandler(.failure(.invalidURL))
         }
@@ -71,10 +71,10 @@ class SessionManager {
         dataTask(request: request, completionHandler: completionHandler).resume()
     }
 
-    func request<DecodedType: Decodable, RequestingType: RequestData>(method: HTTPMethod,
-                                                                      path: URLPath,
-                                                                      data: RequestingType,
-                                                                      completionHandler: @escaping (Result<DecodedType, OpenMarketError>) -> Void) {
+    func request<APIModel: RequestData>(method: HTTPMethod,
+                                        path: URLPath,
+                                        data: APIModel,
+                                        completionHandler: @escaping (Result<Data, OpenMarketError>) -> Void) {
         guard var request = try? configureRequestHeader(method: method, path: path) else {
             return completionHandler(.failure(.invalidURL))
         }
@@ -104,6 +104,16 @@ class SessionManager {
         dataTask(request: request, completionHandler: completionHandler).resume()
     }
 
+    func fetchImageDataTask(urlString: String?, completionHandler: @escaping (Data) -> Void) -> URLSessionDataTask? {
+        guard let urlString = urlString,
+              let url = URL(string: urlString) else { return nil }
+
+        return dataTask(request: URLRequest(url: url)) { result in
+            guard let data = try? result.get() else { return }
+            return completionHandler(data)
+        }
+    }
+
     private func configureRequestHeader(method: HTTPMethod, path: URLPath) throws -> URLRequest {
         var request = try URLRequest(url: path.asURL())
 
@@ -113,24 +123,26 @@ class SessionManager {
         return request
     }
 
-    private func dataTask<DecodedType: Decodable>(request: URLRequest,
-                                                  completionHandler: @escaping (Result<DecodedType, OpenMarketError>) -> Void) -> URLSessionDataTask {
+    private func dataTask(request: URLRequest,
+                          completionHandler: @escaping (Result<Data, OpenMarketError>) -> Void) -> URLSessionDataTask {
         return session.dataTask(with: request) { data, response, error in
             if error != nil {
                 return completionHandler(.failure(.sessionError))
             }
 
-            guard let httpResponse = response as? HTTPURLResponse,
-                  (200...299).contains(httpResponse.statusCode) else {
-                return completionHandler(.failure(.wrongResponse))
+            guard let httpResponse = response as? HTTPURLResponse else {
+                return completionHandler(.failure(.didNotReceivedResponse))
             }
 
-            guard let data = data,
-                  let decodedData = try? JSONDecoder().decode(DecodedType.self, from: data) else {
-                return completionHandler(.failure(.invalidData))
+            guard (200...299).contains(httpResponse.statusCode) else {
+                return completionHandler(.failure(.wrongResponse(httpResponse.statusCode)))
             }
 
-            completionHandler(.success(decodedData))
+            guard let data = data else {
+                return completionHandler(.failure(.didNotReceivedData))
+            }
+
+            completionHandler(.success(data))
         }
     }
 }
