@@ -20,6 +20,8 @@ class MockSessionManager: SessionManagerProtocol {
             completionHandler(.success(items))
         case .get where path == .item(id: 1):
             completionHandler(.success(item))
+        case .get where path == .item(id: 404):
+            completionHandler(.success(Data()))
         default:
             completionHandler(.failure(.sessionError))
         }
