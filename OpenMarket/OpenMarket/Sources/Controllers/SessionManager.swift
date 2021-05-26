@@ -25,7 +25,7 @@ enum HTTPMethod: String {
     }
 }
 
-enum URLPath {
+enum URLPath: Equatable {
     case page(id: Int? = nil)
     case item(id: Int? = nil)
 
