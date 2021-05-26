@@ -10,38 +10,15 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="TableViewCell" rowHeight="191" id="KGk-i7-Jjw" customClass="TableViewCell" customModule="OpenMarket" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="191"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="none" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="TableViewCell" rowHeight="50" id="KGk-i7-Jjw" customClass="TableViewCell" customModule="OpenMarket" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="284" height="50"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="191"/>
+                <rect key="frame" x="0.0" y="0.0" width="257" height="50"/>
                 <autoresizingMask key="autoresizingMask"/>
-                <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f8H-gM-BUJ">
-                        <rect key="frame" x="10" y="10" width="94" height="48"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="40"/>
-                        <nil key="textColor"/>
-                        <nil key="highlightedColor"/>
-                    </label>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Dlp-wI-EYz">
-                        <rect key="frame" x="26" y="68" width="268" height="102"/>
-                    </imageView>
-                </subviews>
-                <constraints>
-                    <constraint firstItem="Dlp-wI-EYz" firstAttribute="top" secondItem="f8H-gM-BUJ" secondAttribute="bottom" constant="10" id="7YD-5F-LJs"/>
-                    <constraint firstAttribute="trailingMargin" secondItem="Dlp-wI-EYz" secondAttribute="trailing" constant="10" id="CUZ-sB-vox"/>
-                    <constraint firstItem="f8H-gM-BUJ" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="IOx-ND-6GT"/>
-                    <constraint firstItem="Dlp-wI-EYz" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="10" id="IeK-vm-Mrb"/>
-                    <constraint firstAttribute="bottomMargin" secondItem="Dlp-wI-EYz" secondAttribute="bottom" constant="10" id="VZe-bw-0V3"/>
-                    <constraint firstItem="f8H-gM-BUJ" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="afY-it-1wT"/>
-                </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
-            <connections>
-                <outlet property="image00" destination="Dlp-wI-EYz" id="kxY-Sp-mcq"/>
-                <outlet property="number" destination="f8H-gM-BUJ" id="GcR-ot-SNa"/>
-            </connections>
-            <point key="canvasLocation" x="28.985507246376812" y="179.79910714285714"/>
+            <point key="canvasLocation" x="2.8985507246376816" y="133.92857142857142"/>
         </tableViewCell>
     </objects>
 </document>
