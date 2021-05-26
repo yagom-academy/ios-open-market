@@ -129,7 +129,7 @@ extension ItemListViewController: UICollectionViewDataSource {
         let offsetY = scrollView.contentOffset.y
         let contentHeight = scrollView.contentSize.height
         
-        if offsetY > contentHeight - scrollView.frame.height { 
+        if offsetY > contentHeight - scrollView.frame.height {
             if let _ = self.pageDataList[maxPageNumber + 1] { return }
       
             guard !networkManager.isPaginating else { return }

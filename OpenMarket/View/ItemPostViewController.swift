@@ -8,7 +8,16 @@
 import UIKit
 
 class ItemPostViewController: UIViewController {
-
+    
+    @IBOutlet var imageCollectionView: UICollectionView!
+    @IBOutlet var itemPostTitle: UITextField!
+    @IBOutlet var currency: UITextField!
+    @IBOutlet var price: UITextField!
+    @IBOutlet var discountedPrice: UITextField!
+    @IBOutlet var password: UITextField!
+    @IBOutlet var descriptions: UITextView!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 

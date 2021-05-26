@@ -146,7 +146,7 @@
                                             </view>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="글 제목" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="VaL-SK-L0w">
                                                 <rect key="frame" x="10" y="141.66666666666666" width="357" height="27.333333333333343"/>
-                                                <color key="textColor" systemColor="systemGray4Color"/>
+                                                <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits"/>
                                             </textField>
@@ -159,7 +159,7 @@
                                             </view>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="화폐 단위" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="VNW-TP-tZ9">
                                                 <rect key="frame" x="10" y="189.66666666666669" width="355" height="27.666666666666657"/>
-                                                <color key="textColor" systemColor="systemGray4Color"/>
+                                                <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits"/>
                                             </textField>
@@ -172,7 +172,7 @@
                                             </view>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="가격 입력" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Cjc-Hx-yzJ">
                                                 <rect key="frame" x="10" y="237.66666666666669" width="355" height="27.666666666666686"/>
-                                                <color key="textColor" systemColor="systemGray4Color"/>
+                                                <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits"/>
                                             </textField>
@@ -185,6 +185,7 @@
                                             </view>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="할인 가격 입력(선택사항)" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="geK-CG-Kaq">
                                                 <rect key="frame" x="10" y="285.66666666666669" width="357" height="27.666666666666686"/>
+                                                <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits"/>
                                             </textField>
@@ -211,6 +212,7 @@
                                             </textView>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="상품 수정/삭제 비밀번호" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="djX-2S-vti">
                                                 <rect key="frame" x="10" y="334" width="355" height="27.666666666666686"/>
+                                                <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits"/>
                                             </textField>
@@ -303,6 +305,15 @@
                             </button>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="currency" destination="VNW-TP-tZ9" id="OXd-il-CT3"/>
+                        <outlet property="descriptions" destination="RAK-BT-niL" id="joi-Yx-QDf"/>
+                        <outlet property="discountedPrice" destination="geK-CG-Kaq" id="mPh-C2-gQr"/>
+                        <outlet property="imageCollectionView" destination="b08-cK-94T" id="ZZp-XQ-zeC"/>
+                        <outlet property="itemPostTitle" destination="VaL-SK-L0w" id="Sv9-o2-m65"/>
+                        <outlet property="password" destination="djX-2S-vti" id="nN6-LJ-RSV"/>
+                        <outlet property="price" destination="Cjc-Hx-yzJ" id="0u4-fl-LMS"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="U85-Dd-vz4" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

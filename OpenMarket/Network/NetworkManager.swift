@@ -22,9 +22,8 @@ class NetworkManager {
         if pagination {
             isPaginating = true
         }
-        let url = Network.baseURL + "/items/\(pageNumber)"
-        guard let urlRequest = URL(string: url) else { return  }
-        URLSession.shared.dataTask(with: urlRequest) { [weak self] (data, response, error) in
+        guard let url = URL(string: Network.baseURL + "/items/\(pageNumber)") else { return  }
+        URLSession.shared.dataTask(with: url) { [weak self] (data, response, error) in
             self?.checkValidation(data: data, response: response, error: error)
             if pagination {
                 self?.isPaginating = false
@@ -54,6 +53,28 @@ class NetworkManager {
         }
     }
     
+    func postItem(requestData: Request, completion: @escaping (Data?)->(Void)){
+        
+        guard let url = URL(string: Network.baseURL + "/item") else { return }
+        
+        var request = URLRequest(url: url)
+        
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpMethod = HTTPMethod.POST.rawValue
+        request.httpBody = encodedData(data: requestData)
+        
+        URLSession.shared.dataTask(with: request) { [weak self] (data, response, error) in
+            self?.checkValidation(data: data, response: response, error: error)
+            
+            completion(data)
+        }.resume()
+        
+    }
+    
+    func encodedData(data: Request) -> Data? {
+        let encoder = JSONEncoder()
+        return try? encoder.encode(data)
+    }
 }
 
 
