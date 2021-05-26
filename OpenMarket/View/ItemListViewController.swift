@@ -126,10 +126,10 @@ extension ItemListViewController: UICollectionViewDataSource {
     }
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let offsetY = scrollView.contentOffset.y // 스크롤뷰 y의 위치
-        let contentHeight = scrollView.contentSize.height // 스크롤뷰 콘텐츠의 총길이, 셀이 추가될때마다 변한다.
+        let offsetY = scrollView.contentOffset.y
+        let contentHeight = scrollView.contentSize.height
         
-        if offsetY > contentHeight - scrollView.frame.height { //
+        if offsetY > contentHeight - scrollView.frame.height { 
             if let _ = self.pageDataList[maxPageNumber + 1] { return }
       
             guard !networkManager.isPaginating else { return }
@@ -148,7 +148,6 @@ extension ItemListViewController: UICollectionViewDataSource {
                     self?.pageDataList[pageNumber] = data
                     self?.numberOfItems += self?.pageDataList[pageNumber]?.items.count ?? 0
                     self?.updatePageNumber(pageNumber: pageNumber)
-//                    self?.updatePageDataList(pageNumber: pageNumber)
                     DispatchQueue.main.async {
                         self?.collectionView.reloadData()
                         IndicatorView.shared.dismiss()
@@ -167,19 +166,6 @@ extension ItemListViewController: UICollectionViewDataSource {
         self.minPageNumber = min(pageNumber, self.minPageNumber)
     }
     
-    func updatePageDataList(pageNumber: Int) {
-        guard pageDataList.count > 4 else { return }
-        if self.maxPageNumber == pageNumber {
-            self.pageDataList.removeValue(forKey: pageNumber - 4 )
-            self.minPageNumber+=1
-            print("\(numberOfItems)")
-            print("\(pageDataList.count)")
-        }
-        if self.minPageNumber == pageNumber {
-            self.pageDataList.removeValue(forKey: pageNumber + 4 )
-            self.maxPageNumber-=1
-        }
-    }
 }
 
 @available(iOS 14.0, *)

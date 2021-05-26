@@ -31,7 +31,7 @@ class GridCollectionViewCell: UICollectionViewCell {
     }
     
     func initCellProperty() {
-        self.itemImage.image = nil
+        self.itemImage.image = UIImage(named: "indicator")
         self.itemPrice.attributedText = self.itemPrice.text?.removeStrikeThrough()
         self.itemTitle.text = nil
         self.numberOfItemStock.text = nil
@@ -42,19 +42,6 @@ class GridCollectionViewCell: UICollectionViewCell {
     }
     
     func configure(with data: Item) {
-        let imageURL = URL(string: data.thumbnails[0])
-        DispatchQueue.global().async {
-            do {
-                let imageData = try Data(contentsOf: imageURL!)
-                DispatchQueue.main.async{
-                    self.itemImage.image = UIImage(data: imageData)
-                }
-            } catch {
-                print("Invalid URL")
-                return
-            }
-        }
-        
         self.itemTitle.text = data.title
         self.numberOfItemStock.text = "잔여수량 : " + String(data.stock)
         if let discountedPrice = data.discountedPrice {
