@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BA2142F4265E352A00D80DE2 /* ItemListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA2142F3265E352A00D80DE2 /* ItemListCell.swift */; };
+		BA2142F6265E357400D80DE2 /* ItemConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA2142F5265E357400D80DE2 /* ItemConfiguration.swift */; };
+		BA2142F8265E35E500D80DE2 /* ItemContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA2142F7265E35E500D80DE2 /* ItemContentView.swift */; };
+		BA2142FC265E376B00D80DE2 /* ItemContentView.xib in Resources */ = {isa = PBXBuildFile; fileRef = BA2142FB265E376B00D80DE2 /* ItemContentView.xib */; };
 		BAA704EE264B8196006CAC97 /* ItemDelete.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAA704ED264B8196006CAC97 /* ItemDelete.swift */; };
 		BAA7050B264BB747006CAC97 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C70FB10325BEF61D00C9924E /* Assets.xcassets */; };
 		BAAA69CF265906DD00F44322 /* Decoderable.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAAA69CE265906DD00F44322 /* Decoderable.swift */; };
@@ -46,6 +50,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		BA2142F3265E352A00D80DE2 /* ItemListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemListCell.swift; sourceTree = "<group>"; };
+		BA2142F5265E357400D80DE2 /* ItemConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemConfiguration.swift; sourceTree = "<group>"; };
+		BA2142F7265E35E500D80DE2 /* ItemContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemContentView.swift; sourceTree = "<group>"; };
+		BA2142FB265E376B00D80DE2 /* ItemContentView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ItemContentView.xib; sourceTree = "<group>"; };
 		BAA704ED264B8196006CAC97 /* ItemDelete.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemDelete.swift; sourceTree = "<group>"; };
 		BAA70501264BB366006CAC97 /* OpenMarketTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenMarketTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BAA70505264BB366006CAC97 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -95,6 +103,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		BA2142EF265E318C00D80DE2 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				BA2142F3265E352A00D80DE2 /* ItemListCell.swift */,
+				BA2142F5265E357400D80DE2 /* ItemConfiguration.swift */,
+				BA2142F7265E35E500D80DE2 /* ItemContentView.swift */,
+				BA2142FB265E376B00D80DE2 /* ItemContentView.xib */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		BA2142F0265E31A400D80DE2 /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		BAA70502264BB366006CAC97 /* OpenMarketTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -207,6 +233,8 @@
 			isa = PBXGroup;
 			children = (
 				BAEA69EA26496D3F005163B3 /* Model */,
+				BA2142EF265E318C00D80DE2 /* ViewModel */,
+				BA2142F0265E31A400D80DE2 /* View */,
 				C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */,
 				C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */,
 				C70FB0FE25BEF61C00C9924E /* ViewController.swift */,
@@ -307,6 +335,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C70FB10725BEF61D00C9924E /* LaunchScreen.storyboard in Resources */,
+				BA2142FC265E376B00D80DE2 /* ItemContentView.xib in Resources */,
 				C70FB10425BEF61D00C9924E /* Assets.xcassets in Resources */,
 				C70FB10225BEF61C00C9924E /* Main.storyboard in Resources */,
 			);
@@ -333,7 +362,9 @@
 				BAEA6A03264B71A2005163B3 /* ItemDetailUpload.swift in Sources */,
 				BACD564626557B2300625FCF /* MarketRequest.swift in Sources */,
 				BAEA6A01264B70D3005163B3 /* ItemUpload.swift in Sources */,
+				BA2142F4265E352A00D80DE2 /* ItemListCell.swift in Sources */,
 				BAAA69CF265906DD00F44322 /* Decoderable.swift in Sources */,
+				BA2142F6265E357400D80DE2 /* ItemConfiguration.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
 				BAEA69F9264B6616005163B3 /* Product.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
@@ -344,6 +375,7 @@
 				BACD5642265417A800625FCF /* MarketError.swift in Sources */,
 				BAAA69D626590B9F00F44322 /* JSONDecoder.swift in Sources */,
 				BACD564826557B6700625FCF /* MulitPartFormConvert.swift in Sources */,
+				BA2142F8265E35E500D80DE2 /* ItemContentView.swift in Sources */,
 				BAEA69FD264B6A33005163B3 /* MarketItem.swift in Sources */,
 				BAEA6A0A264B728F005163B3 /* MarketAPI.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
