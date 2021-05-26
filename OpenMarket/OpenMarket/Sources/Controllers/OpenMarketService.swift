@@ -14,13 +14,13 @@ class OpenMarketService {
         self.sessionManager = sessionManager
     }
 
-    func getPage(id: Int, completionHandler: @escaping (Result<Page, OpenMarketError>) -> Void) {
+    func getPage(id: Int, completionHandler: @escaping (Result<MarketPage, OpenMarketError>) -> Void) {
         sessionManager.request(method: .get, path: .page(id: id)) { result in
             switch result {
             case .failure(let error):
                 completionHandler(.failure(error))
             case .success(let data):
-                guard let decodedData = try? JSONDecoder().decode(Page.self, from: data) else {
+                guard let decodedData = try? JSONDecoder().decode(MarketPage.self, from: data) else {
                     return completionHandler(.failure(.invalidData))
                 }
                 completionHandler(.success(decodedData))
@@ -28,13 +28,13 @@ class OpenMarketService {
         }
     }
 
-    func getItem(id: Int, completionHandler: @escaping (Result<Item, OpenMarketError>) -> Void) {
+    func getItem(id: Int, completionHandler: @escaping (Result<MarketItem, OpenMarketError>) -> Void) {
         sessionManager.request(method: .get, path: .item(id: id)) { result in
             switch result {
             case .failure(let error):
                 completionHandler(.failure(error))
             case .success(let data):
-                guard let decodedData = try? JSONDecoder().decode(Item.self, from: data) else {
+                guard let decodedData = try? JSONDecoder().decode(MarketItem.self, from: data) else {
                     return completionHandler(.failure(.invalidData))
                 }
                 completionHandler(.success(decodedData))
@@ -42,13 +42,13 @@ class OpenMarketService {
         }
     }
 
-    func postItem(data: PostingItem, completionHandler: @escaping (Result<Item, OpenMarketError>) -> Void) {
+    func postItem(data: PostingItem, completionHandler: @escaping (Result<MarketItem, OpenMarketError>) -> Void) {
         sessionManager.request(method: .post, path: .item(), data: data) { result in
             switch result {
             case .failure(let error):
                 completionHandler(.failure(error))
             case .success(let data):
-                guard let decodedData = try? JSONDecoder().decode(Item.self, from: data) else {
+                guard let decodedData = try? JSONDecoder().decode(MarketItem.self, from: data) else {
                     return completionHandler(.failure(.invalidData))
                 }
                 completionHandler(.success(decodedData))
@@ -56,13 +56,13 @@ class OpenMarketService {
         }
     }
 
-    func patchItem(id: Int, data: PatchingItem, completionHandler: @escaping (Result<Item, OpenMarketError>) -> Void) {
+    func patchItem(id: Int, data: PatchingItem, completionHandler: @escaping (Result<MarketItem, OpenMarketError>) -> Void) {
         sessionManager.request(method: .patch, path: .item(id: id), data: data) { result in
             switch result {
             case .failure(let error):
                 completionHandler(.failure(error))
             case .success(let data):
-                guard let decodedData = try? JSONDecoder().decode(Item.self, from: data) else {
+                guard let decodedData = try? JSONDecoder().decode(MarketItem.self, from: data) else {
                     return completionHandler(.failure(.invalidData))
                 }
                 completionHandler(.success(decodedData))
@@ -70,13 +70,13 @@ class OpenMarketService {
         }
     }
 
-    func deleteItem(id: Int, data: DeletingItem, completionHandler: @escaping (Result<Item, OpenMarketError>) -> Void) {
+    func deleteItem(id: Int, data: DeletingItem, completionHandler: @escaping (Result<MarketItem, OpenMarketError>) -> Void) {
         sessionManager.request(method: .delete, path: .item(id: id), data: data) { result in
             switch result {
             case .failure(let error):
                 completionHandler(.failure(error))
             case .success(let data):
-                guard let decodedData = try? JSONDecoder().decode(Item.self, from: data) else {
+                guard let decodedData = try? JSONDecoder().decode(MarketItem.self, from: data) else {
                     return completionHandler(.failure(.invalidData))
                 }
                 completionHandler(.success(decodedData))

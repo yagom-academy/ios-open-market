@@ -8,7 +8,7 @@ import UIKit
 
 class MarketItemsViewController: UIViewController {
     private let openMarketService = OpenMarketService()
-    private var marketItems: [Page.Item] = []
+    private var marketItems: [MarketPage.Item] = []
     private var lastPageId: Int = 0
     private let loadingIndicator = UIActivityIndicatorView(style: .large)
     private var layoutMode: LayoutMode = .list
@@ -83,14 +83,14 @@ class MarketItemsViewController: UIViewController {
         openMarketService.getPage(id: lastPageId + 1, completionHandler: fetchPageDataCompletionHandler)
     }
 
-    private func fetchPageDataCompletionHandler(_ result: Result<Page, OpenMarketError>) {
+    private func fetchPageDataCompletionHandler(_ result: Result<MarketPage, OpenMarketError>) {
         switch result {
         case .success(let page):
             if page.items.isEmpty { return }
 
             let rangeToInsert: Range<Int> = marketItems.count ..< marketItems.count + page.items.count
             self.marketItems.append(contentsOf: page.items)
-            lastPageId = page.page
+            lastPageId = page.id
 
             DispatchQueue.main.async {
                 self.collectionView.insertItems(at: rangeToInsert.map { IndexPath(item: $0, section: 0) })

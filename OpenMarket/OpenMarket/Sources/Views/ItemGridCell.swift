@@ -35,7 +35,7 @@ class ItemGridCell: UICollectionViewCell {
         return stackView
     }()
 
-    var item: Page.Item? {
+    var item: MarketPage.Item? {
         didSet {
             fetchImageDataTask = SessionManager.shared.fetchImageDataTask(urlString: item?.thumbnails.first) { data in
                 guard let image = UIImage(data: data) else { return }
