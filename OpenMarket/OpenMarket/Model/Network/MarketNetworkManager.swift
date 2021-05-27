@@ -11,6 +11,11 @@ struct MarketNetworkManager: MarketRequest {
     private let loader: MarketNetwork
     private let decoder: Decoderable
     
+    init(loader: MarketNetwork, decoder: Decoderable) {
+        self.loader = loader
+        self.decoder = decoder
+    }
+    
     func excute<T>(request: URLRequest, decodeType: T.Type, completion: @escaping (Result<T, Error>) -> Void) where T: Decodable {
         loader.excuteNetwork(request: request) { result in
             switch result {
