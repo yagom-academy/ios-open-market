@@ -17,7 +17,7 @@ class ItemPostViewController: UIViewController {
     @IBOutlet var password: UITextField!
     @IBOutlet var descriptions: UITextView!
     @IBOutlet var stock: UITextField!
-    var images: [String] = [""]
+    var images: [String] = ["clear"]
     
     
     var itemPostInformation: Request?
@@ -29,14 +29,14 @@ class ItemPostViewController: UIViewController {
     
     
     @IBAction func postItem(_ sender: Any) {
-//        do {
-//            itemPostInformation = try Request(path: Path.item, httpMethod: HTTPMethod.POST, title: itemPostTitle.text, descriptions: descriptions.text, price: Int(price.text!), currency: currency.text, stock: Int(stock.text!), discountedPrice: Int(discountedPrice.text!), images: images, password: password.text)
-//        } catch {
-//            print("Input Error")
-//        }
-//        guard let itemPostInformation = itemPostInformation else { return }
-//        NetworkManager.shared.postItem(requestData: itemPostInformation) {[weak self] data in
-            NetworkManager.shared.postItem{[weak self] data in
+        do {
+            itemPostInformation = try Request(path: Path.item, httpMethod: HTTPMethod.POST, title: itemPostTitle.text, descriptions: descriptions.text, price: Int(price.text!), currency: currency.text, stock: Int(stock.text!), discountedPrice: Int(discountedPrice.text!), images: images, password: password.text)
+        } catch {
+            print("Input Error")
+        }
+        guard let itemPostInformation = itemPostInformation else { return }
+        NetworkManager.shared.postItem(requestData: itemPostInformation) {[weak self] data in
+      
             do {
                 print("data : \(data)")
                 let data = try JSONDecoder().decode(InformationOfItemResponse.self, from: data!)

@@ -123,14 +123,18 @@ extension ItemListViewController: UICollectionViewDataSource {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let offsetY = scrollView.contentOffset.y
         let contentHeight = scrollView.contentSize.height
+        var pageNumber = Cache.shared.maxPageNumber + 1
         
         if offsetY > contentHeight - scrollView.frame.height {
-            if let _ = Cache.shared.pageDataList[Cache.shared.maxPageNumber + 1] { return }
-      
+            if let itemCount = Cache.shared.pageDataList[Cache.shared.maxPageNumber]?.items.count, itemCount < 20 {
+                pageNumber = Cache.shared.maxPageNumber
+            }
+            print("page : ",Cache.shared.pageDataList.count)
+            print("count : ",Cache.shared.pageDataList[Cache.shared.maxPageNumber]?.items.count)
             guard !NetworkManager.shared.isPaginating else { return }
             
             IndicatorView.shared.showIndicator()
-            NetworkManager.shared.getItemsOfPageData(pagination: true, pageNumber: Cache.shared.maxPageNumber + 1) { [weak self] data, pageNumber in
+            NetworkManager.shared.getItemsOfPageData(pagination: true, pageNumber: pageNumber) { [weak self] data, pageNumber in
                 do {
                     let data = try JSONDecoder().decode(ItemsOfPageReponse.self, from: data!)
                     guard data.items.count != 0 else {
@@ -141,7 +145,7 @@ extension ItemListViewController: UICollectionViewDataSource {
                     }
                     guard let pageNumber = pageNumber else { return }
                     Cache.shared.pageDataList[pageNumber] = data
-                    Cache.shared.numberOfItems += Cache.shared.pageDataList[pageNumber]?.items.count ?? 0
+                    Cache.shared.numberOfItems = (Cache.shared.pageDataList.count-1) * 20 + (Cache.shared.pageDataList[pageNumber]?.items.count ?? 0)
                     self?.updatePageNumber(pageNumber: pageNumber)
                     DispatchQueue.main.async {
                         self?.collectionView.reloadData()

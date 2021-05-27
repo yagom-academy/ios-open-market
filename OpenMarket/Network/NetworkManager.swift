@@ -78,17 +78,40 @@ class NetworkManager {
     //        return try? encoder.encode(data)
     //    }
     
-//    func postItem(requestData: Request, completion: @escaping (Data?)->(Void)){
-    func postItem(completion: @escaping (Data?)->(Void)){
-        let parameters = ["title": "test",
-                          "descriptions": "My tutorial test ",
-                          "price":"1000",
-                          "currency":"$",
-                          "stock":"10",
-                          "discountedPrice":"900",
-                          "password":"1234" ]
-        guard let mediaImage = Media(withImage: UIImage(named: "clear")!, forKey: "images[]") else { return }
+    func classifyKeyValue(model: Request) -> Parameters {
+        guard let title = model.title else { return [:] }
+        guard let descriptions = model.descriptions else { return [:] }
+        guard let price = model.price else { return [:] }
+        guard let currency = model.currency else { return [:] }
+        guard let stock = model.stock else { return [:] }
+        guard let discountedPrice = model.discountedPrice else { return [:] }
+        guard let password = model.password else { return [:] }
         
+        return ["title": "\(title)",
+                "descriptions": "\(descriptions)",
+                "price":"\(price)",
+                "currency":"\(currency)",
+                "stock":"\(stock)",
+                "discounted_price":"\(discountedPrice)",
+                "password":"\(password)" ]
+    }
+    
+    func setUpImage(model: Request) -> [ItemImage] {
+        var images: [ItemImage] = []
+        guard let requestedImages = model.images else { return [] }
+        for image in requestedImages {
+            guard let uiImage = UIImage(named: image) else { return [] }
+            guard let itemImage = ItemImage(withImage: uiImage, forKey: "images[]", fileName: image) else { return [] }
+            images.append(itemImage)
+        }
+        return images
+    }
+    
+    func postItem(requestData: Request, completion: @escaping (Data?)->(Void)){
+       
+        guard let mediaImage = ItemImage(withImage: UIImage(named: "clear")!, forKey: "images[]",fileName: "clear") else { return }
+        print(classifyKeyValue(model: requestData))
+        print(setUpImage(model: requestData))
         guard let url = URL(string: Network.baseURL + "/item") else { return }
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
@@ -96,9 +119,8 @@ class NetworkManager {
         let boundary = generateBoundary()
         
         request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
-//        request.addValue("Client-ID f65203f7020dddc", forHTTPHeaderField: "Authorization")
         
-        let dataBody = createDataBody(withParameters: parameters, media: [mediaImage], boundary: boundary)
+        let dataBody = createDataBody(withParameters: classifyKeyValue(model: requestData), itemImages: setUpImage(model: requestData), boundary: boundary)
         request.httpBody = dataBody
         
         
@@ -123,7 +145,7 @@ class NetworkManager {
         return "Boundary-\(NSUUID().uuidString)"
     }
     
-    func createDataBody(withParameters params: Parameters?, media: [Media]?, boundary: String) -> Data {
+    func createDataBody(withParameters params: Parameters?, itemImages: [ItemImage]?, boundary: String) -> Data {
         
         let lineBreak = "\r\n"
         var body = Data()
@@ -136,10 +158,10 @@ class NetworkManager {
             }
         }
         
-        if let media = media {
-            for photo in media {
+        if let itemImages = itemImages {
+            for photo in itemImages {
                 body.append("--\(boundary + lineBreak)")
-                body.append("Content-Disposition: form-data; name=\"\(photo.key)\"; filename=\"\(photo.filename)\"\(lineBreak)")
+                body.append("Content-Disposition: form-data; name=\"\(photo.key)\"; filename=\"\(photo.fileName)\"\(lineBreak)")
                 body.append("Content-Type: \(photo.mimeType + lineBreak + lineBreak)")
                 body.append(photo.data)
                 body.append(lineBreak)
@@ -163,26 +185,19 @@ extension Data {
 
 typealias Parameters = [String: String]
 
-struct Media {
+struct ItemImage {
     let key: String
-    let filename: String
+    let fileName: String
     let data: Data
     let mimeType: String
     
-    init?(withImage image: UIImage, forKey key: String) {
+    init?(withImage image: UIImage, forKey key: String, fileName: String) {
         self.key = key
         self.mimeType = "image/jpeg"
-        self.filename = "clear.jpg"
+        self.fileName = fileName + ".jpg"
         
-        if mimeType == "image/jpeg" {
-            print("UIImage : ",image)
-            guard let jpgData = image.jpegData(compressionQuality: 0.7) else { return nil }
-            self.data = jpgData
-            print("data : ",self.data)
-        } else {
-            guard let pngData = image.pngData() else { return nil }
-            self.data = pngData
-        }
+        guard let jpgData = image.jpegData(compressionQuality: 0.7) else { return nil }
+        self.data = jpgData
     }
     
 }
