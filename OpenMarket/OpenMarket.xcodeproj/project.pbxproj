@@ -11,6 +11,8 @@
 		BA2142F6265E357400D80DE2 /* ItemConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA2142F5265E357400D80DE2 /* ItemConfiguration.swift */; };
 		BA2142F8265E35E500D80DE2 /* ItemContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA2142F7265E35E500D80DE2 /* ItemContentView.swift */; };
 		BA2142FC265E376B00D80DE2 /* ItemContentView.xib in Resources */ = {isa = PBXBuildFile; fileRef = BA2142FB265E376B00D80DE2 /* ItemContentView.xib */; };
+		BA2142FE265E740400D80DE2 /* MarketItemsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA2142FD265E740300D80DE2 /* MarketItemsViewController.swift */; };
+		BA214302265FD5F800D80DE2 /* ItemGridCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA214301265FD5F800D80DE2 /* ItemGridCell.swift */; };
 		BAA704EE264B8196006CAC97 /* ItemDelete.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAA704ED264B8196006CAC97 /* ItemDelete.swift */; };
 		BAA7050B264BB747006CAC97 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C70FB10325BEF61D00C9924E /* Assets.xcassets */; };
 		BAAA69CF265906DD00F44322 /* Decoderable.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAAA69CE265906DD00F44322 /* Decoderable.swift */; };
@@ -54,6 +56,8 @@
 		BA2142F5265E357400D80DE2 /* ItemConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemConfiguration.swift; sourceTree = "<group>"; };
 		BA2142F7265E35E500D80DE2 /* ItemContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemContentView.swift; sourceTree = "<group>"; };
 		BA2142FB265E376B00D80DE2 /* ItemContentView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ItemContentView.xib; sourceTree = "<group>"; };
+		BA2142FD265E740300D80DE2 /* MarketItemsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketItemsViewController.swift; sourceTree = "<group>"; };
+		BA214301265FD5F800D80DE2 /* ItemGridCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemGridCell.swift; sourceTree = "<group>"; };
 		BAA704ED264B8196006CAC97 /* ItemDelete.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemDelete.swift; sourceTree = "<group>"; };
 		BAA70501264BB366006CAC97 /* OpenMarketTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenMarketTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BAA70505264BB366006CAC97 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -106,10 +110,9 @@
 		BA2142EF265E318C00D80DE2 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				BA2142F3265E352A00D80DE2 /* ItemListCell.swift */,
+				BA214300265FD31400D80DE2 /* ItemGrid */,
+				BA2142FF265FD30600D80DE2 /* ItemList */,
 				BA2142F5265E357400D80DE2 /* ItemConfiguration.swift */,
-				BA2142F7265E35E500D80DE2 /* ItemContentView.swift */,
-				BA2142FB265E376B00D80DE2 /* ItemContentView.xib */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -117,8 +120,44 @@
 		BA2142F0265E31A400D80DE2 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				BA214304265FD75100D80DE2 /* ItemList */,
+				BA214303265FD74E00D80DE2 /* ItemGrid */,
+				BA2142FD265E740300D80DE2 /* MarketItemsViewController.swift */,
+				C70FB10025BEF61C00C9924E /* Main.storyboard */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		BA2142FF265FD30600D80DE2 /* ItemList */ = {
+			isa = PBXGroup;
+			children = (
+				BA2142F3265E352A00D80DE2 /* ItemListCell.swift */,
+			);
+			path = ItemList;
+			sourceTree = "<group>";
+		};
+		BA214300265FD31400D80DE2 /* ItemGrid */ = {
+			isa = PBXGroup;
+			children = (
+				BA214301265FD5F800D80DE2 /* ItemGridCell.swift */,
+			);
+			path = ItemGrid;
+			sourceTree = "<group>";
+		};
+		BA214303265FD74E00D80DE2 /* ItemGrid */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ItemGrid;
+			sourceTree = "<group>";
+		};
+		BA214304265FD75100D80DE2 /* ItemList */ = {
+			isa = PBXGroup;
+			children = (
+				BA2142F7265E35E500D80DE2 /* ItemContentView.swift */,
+				BA2142FB265E376B00D80DE2 /* ItemContentView.xib */,
+			);
+			path = ItemList;
 			sourceTree = "<group>";
 		};
 		BAA70502264BB366006CAC97 /* OpenMarketTests */ = {
@@ -238,7 +277,6 @@
 				C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */,
 				C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */,
 				C70FB0FE25BEF61C00C9924E /* ViewController.swift */,
-				C70FB10025BEF61C00C9924E /* Main.storyboard */,
 				C70FB10325BEF61D00C9924E /* Assets.xcassets */,
 				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
 				C70FB10825BEF61D00C9924E /* Info.plist */,
@@ -375,11 +413,13 @@
 				BACD5642265417A800625FCF /* MarketError.swift in Sources */,
 				BAAA69D626590B9F00F44322 /* JSONDecoder.swift in Sources */,
 				BACD564826557B6700625FCF /* MulitPartFormConvert.swift in Sources */,
+				BA214302265FD5F800D80DE2 /* ItemGridCell.swift in Sources */,
 				BA2142F8265E35E500D80DE2 /* ItemContentView.swift in Sources */,
 				BAEA69FD264B6A33005163B3 /* MarketItem.swift in Sources */,
 				BAEA6A0A264B728F005163B3 /* MarketAPI.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 				BACD564B2655E09900625FCF /* Data.swift in Sources */,
+				BA2142FE265E740400D80DE2 /* MarketItemsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
