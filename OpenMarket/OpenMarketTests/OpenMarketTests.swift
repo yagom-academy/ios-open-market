@@ -15,14 +15,22 @@ class OpenMarketTests: XCTestCase {
     var sut_postCreateArticle: PostCreateArticle!
     var sut_patchUpdateArticle: PatchUpdateArticle!
     var sut_deleteArticle: DeleteArticle!
+
     
     override func setUpWithError() throws {
         super.setUp()
+        
+        let configuration = URLSessionConfiguration.default
+        configuration.protocolClasses = [MockURLProtocol.self]
+        let urlSession = URLSession.init(configuration: configuration)
+        
         sut_urlProcess = URLProcess()
-        sut_getEssentialArticle = GetEssentialArticle()
-        sut_postCreateArticle = PostCreateArticle()
-        sut_patchUpdateArticle = PatchUpdateArticle()
-        sut_deleteArticle = DeleteArticle()
+        sut_getEssentialArticle = GetEssentialArticle(urlProcess: URLProcess(), session: urlSession)
+        sut_postCreateArticle = PostCreateArticle(manageMultipartForm: ManageMultipartForm(), urlProcess: URLProcess())
+        sut_patchUpdateArticle = PatchUpdateArticle(manageMultipartForm: ManageMultipartForm(), urlProcess: URLProcess())
+        sut_deleteArticle = DeleteArticle(urlProcess: URLProcess())
+        
+
     }
     
     override func tearDownWithError() throws {
@@ -136,14 +144,27 @@ Apple M1 칩은 13형 MacBook Pro에 믿을 수 없을 만큼의 속도와 파�
         
         guard let itemBaseURL = sut_urlProcess.setBaseURL(urlString: "https://s3.us-west-2.amazonaws.com/secure.notion-static.com/a8c6f8d6-ad24-4cf9-8629-45bc6541771e/Item.json?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAT73L2G45O3KS52Y5%2F20210519%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20210519T082830Z&X-Amz-Expires=86400&X-Amz-Signature=7721716c3b40ffa2b2bb3d17e3697497cdc832fb4b95fbb2de8f6bffca43dbaa&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22Item.json%22") else { return }
         
-        sut_getEssentialArticle.getParsing(url: itemBaseURL) { (testParam: DetailArticle) in
-            XCTAssertEqual(testParam.title, "MacBook Pro")
-            XCTAssertEqual(testParam.currency, "KRW")
+        sut_getEssentialArticle.getParsing(url: itemBaseURL) { (testParam: Result<DetailArticle, Error>) in
+            
+            switch testParam {
+            case .success(let post):
+                XCTAssertEqual(post.title, "MacBook Pro")
+                XCTAssertEqual(post.currency, "KRW")
+            case .failure(let error):
+                XCTFail(error.localizedDescription)
+            }
+
         }
         
-        sut_getEssentialArticle.getParsing(url: baseURL) { (testParam: EntireArticle) in
-            XCTAssertEqual(testParam.page, 1)
-            XCTAssertEqual(testParam.items.first?.title, "MacBook Pro")
+        sut_getEssentialArticle.getParsing(url: baseURL) { (testParam: Result<EntireArticle, Error>) in
+            
+            switch testParam {
+            case .success(let post):
+                XCTAssertEqual(post.page, 1)
+                XCTAssertEqual(post.items.first?.title, "KRW")
+            case .failure(let error):
+                XCTFail(error.localizedDescription)
+            }
             getExpt.fulfill()
         }
         waitForExpectations(timeout: 5.0, handler: nil)
@@ -199,4 +220,33 @@ Apple M1 칩은 13형 MacBook Pro에 믿을 수 없을 만큼의 속도와 파�
         waitForExpectations(timeout: 5.0, handler: nil)
     }
 
+    func test_서버통신하지않는응답성공() {
+        let expt2 = expectation(description: "Waiting done harkWork...")
+        guard let assetData = NSDataAsset(name: "Item") else { return }
+        
+        guard let baseUrl = sut_urlProcess.setBaseURL(urlString: "https://camp-open-market-2.herokuapp.com/") else { return }
+        guard let httpURL = sut_urlProcess.setUserActionURL(baseURL: baseUrl, userAction: .viewArticle, index: "1") else { return }
+        
+        MockURLProtocol.requestHandler = { request in
+            
+            let response = HTTPURLResponse(url: httpURL, statusCode: 200, httpVersion: nil, headerFields: nil)!
+            return (response, assetData.data)
+        }
+        
+        // Call API.
+        sut_getEssentialArticle.getParsing(url: httpURL) { (result: Result<DetailArticle, Error>) in
+            switch result {
+            case .success(let post):
+                XCTAssertEqual(post.id, 5)
+                XCTAssertEqual(post.title, "Incorrect title.")
+                XCTAssertEqual(post.currency, "Incorrect body.")
+            case .failure(let error):
+                XCTFail("Error was not expected: \(error.localizedDescription)")
+            }
+            expt2.fulfill()
+        }
+        wait(for: [expt2], timeout: 1.0)
+    }
+    
+    
 }

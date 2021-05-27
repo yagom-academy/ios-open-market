@@ -10,24 +10,33 @@ import Foundation
 class GetEssentialArticle {
     
     private let urlProcess: URLProcessUsable
+    private let session: URLSession
     
-    init(urlProcess: URLProcessUsable) {
+    init(urlProcess: URLProcessUsable, session: URLSession = URLSession.shared) {
         self.urlProcess = urlProcess
+        self.session = session
     }
     
-    func getParsing<T: Decodable>(url: URL, completion: @escaping (T) -> Void) {
-        URLSession.shared.dataTask(with: url) { (data, response, error) in
+    func getParsing<T: Decodable>(url: URL, completion: @escaping (Result<T, Error>) -> Void) {
+        session.dataTask(with: url) { (data, response, error) in
             if error != nil { return }
 
-            if self.urlProcess.checkResponseCode(response: response) {
+            guard let response = response as? HTTPURLResponse,
+                  (200...399).contains(response.statusCode) else {
+                completion(.failure(error ?? OpenMarketError.responseError(15326)))
+                return
+            }
+            
+  //          if self.urlProcess.checkResponseCode(response: response) {
                 guard let resultData = data else { return }
                 guard let final = self.decodeData(type: T.self, data: resultData) else { return }
                 
-                completion(final)
-            }
-            else {
-                return
-            }
+                completion(.success(final))
+//            }
+//            else {
+//                completion(.failure(OpenMarketError.unknownError))
+//                return
+//            }
         }.resume()
     }
     
