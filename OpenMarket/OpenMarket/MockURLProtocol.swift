@@ -8,6 +8,7 @@
 import Foundation
 
 class MockURLProtocol: URLProtocol {
+    
     static var requestHandler: ((URLRequest) throws -> (HTTPURLResponse, Data?))?
     
     override class func canInit(with request: URLRequest) -> Bool {
@@ -35,7 +36,6 @@ class MockURLProtocol: URLProtocol {
         }
     }
     
-    override func stopLoading() {
-    // This is called if the request gets canceled or completed.
-    }
+    override func stopLoading() { }
+    
 }

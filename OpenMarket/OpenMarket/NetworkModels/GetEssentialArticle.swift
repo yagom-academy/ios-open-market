@@ -23,20 +23,14 @@ class GetEssentialArticle {
 
             guard let response = response as? HTTPURLResponse,
                   (200...399).contains(response.statusCode) else {
-                completion(.failure(error ?? OpenMarketError.responseError(15326)))
+                completion(.failure(error ?? OpenMarketError.unknownError))
                 return
             }
             
-  //          if self.urlProcess.checkResponseCode(response: response) {
-                guard let resultData = data else { return }
-                guard let final = self.decodeData(type: T.self, data: resultData) else { return }
+            guard let resultData = data else { return }
+            guard let final = self.decodeData(type: T.self, data: resultData) else { return }
                 
-                completion(.success(final))
-//            }
-//            else {
-//                completion(.failure(OpenMarketError.unknownError))
-//                return
-//            }
+            completion(.success(final))
         }.resume()
     }
     

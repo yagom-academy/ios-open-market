@@ -29,8 +29,6 @@ class OpenMarketTests: XCTestCase {
         sut_postCreateArticle = PostCreateArticle(manageMultipartForm: ManageMultipartForm(), urlProcess: URLProcess())
         sut_patchUpdateArticle = PatchUpdateArticle(manageMultipartForm: ManageMultipartForm(), urlProcess: URLProcess())
         sut_deleteArticle = DeleteArticle(urlProcess: URLProcess())
-        
-
     }
     
     override func tearDownWithError() throws {
@@ -221,31 +219,29 @@ Apple M1 칩은 13형 MacBook Pro에 믿을 수 없을 만큼의 속도와 파�
     }
 
     func test_서버통신하지않는응답성공() {
-        let expt2 = expectation(description: "Waiting done harkWork...")
+        let expt = expectation(description: "Waiting done harkWork...")
         guard let assetData = NSDataAsset(name: "Item") else { return }
         
         guard let baseUrl = sut_urlProcess.setBaseURL(urlString: "https://camp-open-market-2.herokuapp.com/") else { return }
         guard let httpURL = sut_urlProcess.setUserActionURL(baseURL: baseUrl, userAction: .viewArticle, index: "1") else { return }
         
         MockURLProtocol.requestHandler = { request in
-            
             let response = HTTPURLResponse(url: httpURL, statusCode: 200, httpVersion: nil, headerFields: nil)!
             return (response, assetData.data)
         }
         
-        // Call API.
         sut_getEssentialArticle.getParsing(url: httpURL) { (result: Result<DetailArticle, Error>) in
             switch result {
             case .success(let post):
-                XCTAssertEqual(post.id, 5)
-                XCTAssertEqual(post.title, "Incorrect title.")
-                XCTAssertEqual(post.currency, "Incorrect body.")
+                XCTAssertEqual(post.id, 1)
+                XCTAssertEqual(post.title, "MacBook Pro")
+                XCTAssertEqual(post.currency, "KRW")
             case .failure(let error):
                 XCTFail("Error was not expected: \(error.localizedDescription)")
             }
-            expt2.fulfill()
+            expt.fulfill()
         }
-        wait(for: [expt2], timeout: 1.0)
+        wait(for: [expt], timeout: 1.0)
     }
     
     
