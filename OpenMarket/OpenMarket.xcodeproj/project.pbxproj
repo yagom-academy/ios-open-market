@@ -30,6 +30,10 @@
 		8A90DF27265F896000719F03 /* ItemEditRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A90DF26265F896000719F03 /* ItemEditRequest.swift */; };
 		8A90DF2B265F897500719F03 /* ItemRegisterRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A90DF2A265F897500719F03 /* ItemRegisterRequest.swift */; };
 		8A90DF2F265F935500719F03 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A90DF2E265F935500719F03 /* Message.swift */; };
+		8A90DF36265FEA6B00719F03 /* PlusPhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A90DF34265FEA6B00719F03 /* PlusPhotoCollectionViewCell.swift */; };
+		8A90DF37265FEA6B00719F03 /* PlusPhotoCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A90DF35265FEA6B00719F03 /* PlusPhotoCollectionViewCell.xib */; };
+		8A90DF48265FF24600719F03 /* ModalPhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A90DF46265FF24600719F03 /* ModalPhotoViewController.swift */; };
+		8A90DF49265FF24600719F03 /* ModalPhotoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A90DF47265FF24600719F03 /* ModalPhotoViewController.xib */; };
 		8AB187832649204B00B2A86C /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AB187822649204B00B2A86C /* Request.swift */; };
 		8AB187932649227D00B2A86C /* ItemsOfPageReponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AB187922649227D00B2A86C /* ItemsOfPageReponse.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
@@ -76,6 +80,10 @@
 		8A90DF26265F896000719F03 /* ItemEditRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemEditRequest.swift; sourceTree = "<group>"; };
 		8A90DF2A265F897500719F03 /* ItemRegisterRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemRegisterRequest.swift; sourceTree = "<group>"; };
 		8A90DF2E265F935500719F03 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
+		8A90DF34265FEA6B00719F03 /* PlusPhotoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusPhotoCollectionViewCell.swift; sourceTree = "<group>"; };
+		8A90DF35265FEA6B00719F03 /* PlusPhotoCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PlusPhotoCollectionViewCell.xib; sourceTree = "<group>"; };
+		8A90DF46265FF24600719F03 /* ModalPhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalPhotoViewController.swift; sourceTree = "<group>"; };
+		8A90DF47265FF24600719F03 /* ModalPhotoViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ModalPhotoViewController.xib; sourceTree = "<group>"; };
 		8AB187822649204B00B2A86C /* Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
 		8AB187922649227D00B2A86C /* ItemsOfPageReponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsOfPageReponse.swift; sourceTree = "<group>"; };
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -165,6 +173,8 @@
 				8A90DF01265D37FC00719F03 /* ListCollectionViewCell.xib */,
 				8A90DF16265F7C3000719F03 /* PhotoCollectionViewCell.swift */,
 				8A90DF17265F7C3100719F03 /* PhotoCollectionViewCell.xib */,
+				8A90DF34265FEA6B00719F03 /* PlusPhotoCollectionViewCell.swift */,
+				8A90DF35265FEA6B00719F03 /* PlusPhotoCollectionViewCell.xib */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -172,9 +182,8 @@
 		8A90DE502654322400719F03 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				8A90DF4C265FFA7300719F03 /* ViewController */,
 				8A90DE262651BF2000719F03 /* Cell */,
-				C70FB0FE25BEF61C00C9924E /* ItemListViewController.swift */,
-				8A90DF12265E958200719F03 /* ItemPostViewController.swift */,
 				8A90DEDB265C048200719F03 /* IndicatorView.swift */,
 			);
 			path = View;
@@ -193,6 +202,17 @@
 				8A90DED2265B8AD000719F03 /* NetworkManager.swift */,
 			);
 			path = Network;
+			sourceTree = "<group>";
+		};
+		8A90DF4C265FFA7300719F03 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				C70FB0FE25BEF61C00C9924E /* ItemListViewController.swift */,
+				8A90DF12265E958200719F03 /* ItemPostViewController.swift */,
+				8A90DF46265FF24600719F03 /* ModalPhotoViewController.swift */,
+				8A90DF47265FF24600719F03 /* ModalPhotoViewController.xib */,
+			);
+			path = ViewController;
 			sourceTree = "<group>";
 		};
 		8AB1877B26490FF700B2A86C /* Model */ = {
@@ -332,6 +352,8 @@
 			files = (
 				C70FB10725BEF61D00C9924E /* LaunchScreen.storyboard in Resources */,
 				8A90DF03265D37FC00719F03 /* ListCollectionViewCell.xib in Resources */,
+				8A90DF37265FEA6B00719F03 /* PlusPhotoCollectionViewCell.xib in Resources */,
+				8A90DF49265FF24600719F03 /* ModalPhotoViewController.xib in Resources */,
 				8A90DE82265A50A800719F03 /* GridCollectionViewCell.xib in Resources */,
 				8A90DF19265F7C3100719F03 /* PhotoCollectionViewCell.xib in Resources */,
 				C70FB10425BEF61D00C9924E /* Assets.xcassets in Resources */,
@@ -364,6 +386,7 @@
 				C70FB0FF25BEF61C00C9924E /* ItemListViewController.swift in Sources */,
 				8A90DE482653DFB100719F03 /* Network.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
+				8A90DF48265FF24600719F03 /* ModalPhotoViewController.swift in Sources */,
 				8A90DF23265F893E00719F03 /* ItemDeleteRequest.swift in Sources */,
 				8A90DE05264FD1EB00719F03 /* HTTPMethod.swift in Sources */,
 				8A90DF27265F896000719F03 /* ItemEditRequest.swift in Sources */,
@@ -374,6 +397,7 @@
 				8A90DF0D265E87A100719F03 /* LayoutType.swift in Sources */,
 				8A90DF2F265F935500719F03 /* Message.swift in Sources */,
 				8A90DF2B265F897500719F03 /* ItemRegisterRequest.swift in Sources */,
+				8A90DF36265FEA6B00719F03 /* PlusPhotoCollectionViewCell.swift in Sources */,
 				8A90DE09264FD1F600719F03 /* Path.swift in Sources */,
 				8A90DDFD264FC77D00719F03 /* EncodingError.swift in Sources */,
 				8A90DE19265025C000719F03 /* InformationOfItemResponse.swift in Sources */,

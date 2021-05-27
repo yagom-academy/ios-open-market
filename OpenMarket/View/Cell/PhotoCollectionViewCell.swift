@@ -8,7 +8,9 @@
 import UIKit
 
 class PhotoCollectionViewCell: UICollectionViewCell {
-
+    
+    static let identifier = "PhotoCollectionViewCell"
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

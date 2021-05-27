@@ -54,30 +54,6 @@ class NetworkManager {
         }
     }
     
-    //    func postItem(requestData: Request, completion: @escaping (Data?)->(Void)){
-    //
-    //        guard let url = URL(string: Network.baseURL + "/item") else { return }
-    //
-    //        var request = URLRequest(url: url)
-    //        let boundary = generateBoundary()
-    //        request.addValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
-    //        request.httpMethod = HTTPMethod.POST.rawValue
-    //        request.httpBody = encodedData(data: requestData)
-    //
-    //        URLSession.shared.dataTask(with: request) { [weak self] (data, response, error) in
-    //            self?.checkValidation(data: data, response: response, error: error)
-    //            print("data : ",data)
-    //            print("response : ",response)
-    //            print("error : ",error)
-    //            completion(data)
-    //        }.resume()
-    //
-    //    }
-    //    func encodedData(data: Request) -> Data? {
-    //        let encoder = JSONEncoder()
-    //        return try? encoder.encode(data)
-    //    }
-    
     func classifyKeyValue(model: Request) -> Parameters {
         guard let title = model.title else { return [:] }
         guard let descriptions = model.descriptions else { return [:] }
