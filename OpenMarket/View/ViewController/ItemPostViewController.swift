@@ -17,10 +17,8 @@ class ItemPostViewController: UIViewController {
     @IBOutlet var password: UITextField!
     @IBOutlet var descriptions: UITextView!
     @IBOutlet var stock: UITextField!
-    static var images: [String] = []
+    static var images: [Int : String] = [:]
     var itemPostInformation: Request?
-    
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,9 +39,19 @@ class ItemPostViewController: UIViewController {
         self.imageCollectionView.register(PlusPhotoCollectionViewCellNib, forCellWithReuseIdentifier: PlusPhotoCollectionViewCell.identifier)
     }
     
+    func convertDictionaryToArray(_ dictionary:[Int:String]) -> [String]{
+        var array: [String] = []
+        guard dictionary.count > 0 else { return [] }
+        for key in 0...dictionary.count-1 {
+            guard let value = dictionary[key] else { return [] }
+            array.append(value)
+        }
+        return array
+    }
+    
     @IBAction func postItem(_ sender: Any) {
         do {
-            itemPostInformation = try Request(path: Path.item, httpMethod: HTTPMethod.POST, title: itemPostTitle.text, descriptions: descriptions.text, price: Int(price.text!), currency: currency.text, stock: Int(stock.text!), discountedPrice: Int(discountedPrice.text!), images: ItemPostViewController.images, password: password.text)
+            itemPostInformation = try Request(path: Path.item, httpMethod: HTTPMethod.POST, title: itemPostTitle.text, descriptions: descriptions.text, price: Int(price.text!), currency: currency.text, stock: Int(stock.text!), discountedPrice: Int(discountedPrice.text!), images: convertDictionaryToArray(ItemPostViewController.images), password: password.text)
         } catch {
             print("Input Error")
         }
@@ -110,7 +118,6 @@ extension ItemPostViewController: UITextViewDelegate {
 
 extension ItemPostViewController: ModalPresentDelegate {
     func presentModalViewController(_ viewContorller: UIViewController, anitmated: Bool) {
-        print("push2")
         viewContorller.modalPresentationStyle = .pageSheet
         self.present(viewContorller, animated: anitmated, completion: nil)
     }
@@ -124,12 +131,21 @@ extension ItemPostViewController: UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PlusPhotoCollectionViewCell.identifier, for: indexPath) as? PlusPhotoCollectionViewCell else  {
-            return UICollectionViewCell()
+        if indexPath.item == 0 {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PlusPhotoCollectionViewCell.identifier, for: indexPath) as? PlusPhotoCollectionViewCell else  {
+                return UICollectionViewCell()
+            }
+            cell.modalPresentDelegate = self
+            return cell
+        } else {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotoCollectionViewCell.identifier, for: indexPath) as? PhotoCollectionViewCell else  {
+                return UICollectionViewCell()
+            }
+            guard let imageName = ItemPostViewController.images[indexPath.item-1] else { return cell }
+            cell.itemImage.image = UIImage(named: imageName)
+            return cell
         }
-        cell.modalPresentDelegate = self
         
-        return cell
     }
     
 }

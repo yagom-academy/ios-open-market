@@ -19,7 +19,8 @@ class PlusPhotoCollectionViewCell: UICollectionViewCell {
         // Initialization code
     }
     @IBAction func addPhoto(_ sender: Any) {
-        print("push")
+        ModalPhotoViewController.selectedImageCount = 0
+        ItemPostViewController.images = [:]
         let modalPhotoViewController = ModalPhotoViewController()
         self.modalPresentDelegate?.presentModalViewController(modalPhotoViewController, anitmated: true)
     }

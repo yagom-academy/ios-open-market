@@ -15,5 +15,5 @@ class Cache {
     var numberOfItems = 0
     var maxPageNumber = 0
     var minPageNumber = 0
-    var imageFiles: [String] = []
+    var imageFiles: [String] = ["clear", "airpodMax", "imac1", "imac2", "imac3", "imac4", "imac5"]
 }

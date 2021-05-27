@@ -21,7 +21,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="7ka-GS-7u1">
-                    <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                    <rect key="frame" x="0.0" y="89" width="414" height="807"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="HQi-Rj-5rU">
                         <size key="itemSize" width="128" height="128"/>
@@ -30,14 +30,26 @@
                         <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                     </collectionViewFlowLayout>
                 </collectionView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dxp-uF-z0q">
+                    <rect key="frame" x="20" y="54" width="30" height="30"/>
+                    <state key="normal" title="취소"/>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fpJ-wY-oJf">
+                    <rect key="frame" x="364" y="54" width="30" height="30"/>
+                    <state key="normal" title="확인"/>
+                </button>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
                 <constraint firstItem="7ka-GS-7u1" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="3k5-ei-r0S"/>
                 <constraint firstItem="7ka-GS-7u1" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="95t-3X-x4I"/>
+                <constraint firstItem="7ka-GS-7u1" firstAttribute="top" secondItem="fpJ-wY-oJf" secondAttribute="bottom" constant="5" id="JXz-Tz-Pgi"/>
+                <constraint firstItem="dxp-uF-z0q" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="MUO-aM-6wH"/>
+                <constraint firstItem="fpJ-wY-oJf" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="10" id="aVx-Y1-2Av"/>
                 <constraint firstAttribute="bottom" secondItem="7ka-GS-7u1" secondAttribute="bottom" id="gby-7a-bdv"/>
-                <constraint firstItem="7ka-GS-7u1" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="hhc-ln-dlX"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="fpJ-wY-oJf" secondAttribute="trailing" constant="20" id="nsl-gf-W6B"/>
+                <constraint firstItem="dxp-uF-z0q" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="10" id="xwX-Sq-EgU"/>
             </constraints>
             <point key="canvasLocation" x="131.8840579710145" y="130.58035714285714"/>
         </view>
