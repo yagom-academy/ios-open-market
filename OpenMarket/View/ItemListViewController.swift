@@ -9,13 +9,8 @@ import UIKit
 @available(iOS 14.0, *)
 class ItemListViewController: UIViewController {
     
-    var pageDataList: [Int : ItemsOfPageReponse] = [:]
-    var layoutType = LayoutType.list
-    var numberOfItems = 0
-    var maxPageNumber = 0
-    var minPageNumber = 0
     
-    let networkManager = NetworkManager.shared
+    var layoutType = LayoutType.list
  
     @IBOutlet var collectionView: UICollectionView!
     @IBOutlet var control: UISegmentedControl!
@@ -62,7 +57,7 @@ class ItemListViewController: UIViewController {
 @available(iOS 14.0, *)
 extension ItemListViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return numberOfItems
+        return Cache.shared.numberOfItems
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -75,8 +70,8 @@ extension ItemListViewController: UICollectionViewDataSource {
             }
             
             cell.representedIdentifier = indexPath
-            guard let _ = self.pageDataList[pageIndex] else { return cell }
-            guard let data = self.pageDataList[pageIndex]?.items[itemIndex] else { return cell }
+            guard let _ = Cache.shared.pageDataList[pageIndex] else { return cell }
+            guard let data = Cache.shared.pageDataList[pageIndex]?.items[itemIndex] else { return cell }
             
             DispatchQueue.global().async {
                 do {
@@ -102,8 +97,8 @@ extension ItemListViewController: UICollectionViewDataSource {
             }
             cell.representedIdentifier = indexPath
             cell.accessories = [.disclosureIndicator()]
-            guard let _ = self.pageDataList[pageIndex] else { return cell }
-            guard let data = self.pageDataList[pageIndex]?.items[itemIndex] else { return cell }
+            guard let _ = Cache.shared.pageDataList[pageIndex] else { return cell }
+            guard let data = Cache.shared.pageDataList[pageIndex]?.items[itemIndex] else { return cell }
             
             DispatchQueue.global().async {
                 do {
@@ -130,12 +125,12 @@ extension ItemListViewController: UICollectionViewDataSource {
         let contentHeight = scrollView.contentSize.height
         
         if offsetY > contentHeight - scrollView.frame.height {
-            if let _ = self.pageDataList[maxPageNumber + 1] { return }
+            if let _ = Cache.shared.pageDataList[Cache.shared.maxPageNumber + 1] { return }
       
-            guard !networkManager.isPaginating else { return }
+            guard !NetworkManager.shared.isPaginating else { return }
             
             IndicatorView.shared.showIndicator()
-            networkManager.getItemsOfPageData(pagination: true, pageNumber: maxPageNumber + 1) { [weak self] data, pageNumber in
+            NetworkManager.shared.getItemsOfPageData(pagination: true, pageNumber: Cache.shared.maxPageNumber + 1) { [weak self] data, pageNumber in
                 do {
                     let data = try JSONDecoder().decode(ItemsOfPageReponse.self, from: data!)
                     guard data.items.count != 0 else {
@@ -145,8 +140,8 @@ extension ItemListViewController: UICollectionViewDataSource {
                         return
                     }
                     guard let pageNumber = pageNumber else { return }
-                    self?.pageDataList[pageNumber] = data
-                    self?.numberOfItems += self?.pageDataList[pageNumber]?.items.count ?? 0
+                    Cache.shared.pageDataList[pageNumber] = data
+                    Cache.shared.numberOfItems += Cache.shared.pageDataList[pageNumber]?.items.count ?? 0
                     self?.updatePageNumber(pageNumber: pageNumber)
                     DispatchQueue.main.async {
                         self?.collectionView.reloadData()
@@ -162,8 +157,8 @@ extension ItemListViewController: UICollectionViewDataSource {
     }
     
     func updatePageNumber(pageNumber: Int) {
-        self.maxPageNumber = max(pageNumber, self.maxPageNumber)
-        self.minPageNumber = min(pageNumber, self.minPageNumber)
+        Cache.shared.maxPageNumber = max(pageNumber, Cache.shared.maxPageNumber)
+        Cache.shared.minPageNumber = min(pageNumber, Cache.shared.minPageNumber)
     }
     
 }

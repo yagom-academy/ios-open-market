@@ -1,9 +1,9 @@
 //
-//  PostItemRequest.swift
+//  ItemRegisterRequest.swift
 //  OpenMarket
 //
-//  Created by 최정민 on 2021/05/11.
-
+//  Created by 최정민 on 2021/05/27.
+//
 
 import Foundation
 

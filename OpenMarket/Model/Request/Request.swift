@@ -24,7 +24,7 @@ struct Request: Codable, Equatable {
         case title, descriptions, price, currency, stock, images, password
         case discountedPrice = "discounted_price"
     }
-
+    
     init(path: String?,
          httpMethod: HTTPMethod?,
          title: String?,
@@ -35,7 +35,7 @@ struct Request: Codable, Equatable {
          discountedPrice: Int?,
          images: [String]?,
          password: String?) throws {
-
+        
         self.title = title
         self.descriptions = descriptions
         self.price = price
@@ -44,7 +44,7 @@ struct Request: Codable, Equatable {
         self.discountedPrice = discountedPrice
         self.images = images
         self.password = password
-
+        
         guard let path = path,
               let httpMethod = httpMethod,
               checkValidation(path: path, httpMethod: httpMethod) else {
