@@ -26,10 +26,10 @@ class ListVC: UIViewController {
         if let receiveItems = notification.object as? [Item] {
             self.items = receiveItems
             
-            print("노티 받기 완료!")
+            print("success notification")
             
             DispatchQueue.main.async {
-                print("리로드데이터 실행!")
+                print("success reloadData")
                 self.tableView.reloadData()
             }
         }
