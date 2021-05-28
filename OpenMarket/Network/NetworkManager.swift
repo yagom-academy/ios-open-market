@@ -29,8 +29,6 @@ class NetworkManager {
             if pagination {
                 self?.isPaginating = false
             }
-            print(data)
-            print(response)
             completion(data, pageNumber)
         }.resume()
     }
@@ -100,8 +98,7 @@ class NetworkManager {
     func postItem(requestData: Request, completion: @escaping (Data?)->(Void)){
        
         guard let mediaImage = ItemImage(withImage: UIImage(named: "clear")!, forKey: "images[]",fileName: "clear") else { return }
-        print(classifyKeyValue(model: requestData))
-        print(setUpImage(model: requestData))
+        
         guard let url = URL(string: Network.baseURL + "/item") else { return }
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
@@ -127,7 +124,6 @@ class NetworkManager {
                     print(error)
                 }
             }
-            print("response : \(response)")
             completion(data)
         }.resume()
     }
@@ -169,7 +165,7 @@ class NetworkManager {
 extension Data {
     mutating func append(_ string: String) {
         if let data = string.data(using: .utf8) {
-            append(data)//?
+            append(data)
         }
     }
 }

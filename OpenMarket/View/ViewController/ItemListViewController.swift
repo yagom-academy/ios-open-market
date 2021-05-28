@@ -149,8 +149,7 @@ extension ItemListViewController: UICollectionViewDataSource {
             if let itemCount = Cache.shared.pageDataList[Cache.shared.maxPageNumber]?.items.count, itemCount < 20 {
                 pageNumber = Cache.shared.maxPageNumber
             }
-            print("page : ",Cache.shared.pageDataList.count)
-            print("count : ",Cache.shared.pageDataList[Cache.shared.maxPageNumber]?.items.count)
+           
             guard !NetworkManager.shared.isPaginating else { return }
             
             IndicatorView.shared.showIndicator()
