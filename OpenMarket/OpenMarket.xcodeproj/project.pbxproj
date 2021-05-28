@@ -35,6 +35,7 @@
 		8A90DF48265FF24600719F03 /* ModalPhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A90DF46265FF24600719F03 /* ModalPhotoViewController.swift */; };
 		8A90DF49265FF24600719F03 /* ModalPhotoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A90DF47265FF24600719F03 /* ModalPhotoViewController.xib */; };
 		8A90DF50266043D000719F03 /* ScreenMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A90DF4F266043D000719F03 /* ScreenMode.swift */; };
+		8A90DF542660C02600719F03 /* DetailItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A90DF532660C02600719F03 /* DetailItemViewController.swift */; };
 		8AB187832649204B00B2A86C /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AB187822649204B00B2A86C /* Request.swift */; };
 		8AB187932649227D00B2A86C /* ItemsOfPageReponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AB187922649227D00B2A86C /* ItemsOfPageReponse.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
@@ -86,6 +87,7 @@
 		8A90DF46265FF24600719F03 /* ModalPhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalPhotoViewController.swift; sourceTree = "<group>"; };
 		8A90DF47265FF24600719F03 /* ModalPhotoViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ModalPhotoViewController.xib; sourceTree = "<group>"; };
 		8A90DF4F266043D000719F03 /* ScreenMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenMode.swift; sourceTree = "<group>"; };
+		8A90DF532660C02600719F03 /* DetailItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailItemViewController.swift; sourceTree = "<group>"; };
 		8AB187822649204B00B2A86C /* Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
 		8AB187922649227D00B2A86C /* ItemsOfPageReponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsOfPageReponse.swift; sourceTree = "<group>"; };
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -213,6 +215,7 @@
 				8A90DF12265E958200719F03 /* ItemPostViewController.swift */,
 				8A90DF46265FF24600719F03 /* ModalPhotoViewController.swift */,
 				8A90DF47265FF24600719F03 /* ModalPhotoViewController.xib */,
+				8A90DF532660C02600719F03 /* DetailItemViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -385,6 +388,7 @@
 				8A90DE0D26500F7400719F03 /* FileName.swift in Sources */,
 				8AB187832649204B00B2A86C /* Request.swift in Sources */,
 				8A90DF50266043D000719F03 /* ScreenMode.swift in Sources */,
+				8A90DF542660C02600719F03 /* DetailItemViewController.swift in Sources */,
 				8A90DED3265B8AD000719F03 /* NetworkManager.swift in Sources */,
 				8A90DF18265F7C3100719F03 /* PhotoCollectionViewCell.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ItemListViewController.swift in Sources */,

@@ -29,7 +29,21 @@ class NetworkManager {
             if pagination {
                 self?.isPaginating = false
             }
+            print(data)
+            print(response)
             completion(data, pageNumber)
+        }.resume()
+    }
+    
+    func getDetailItemData( itemId: Int, completion: @escaping (Data?)->(Void))  {
+       
+        guard let url = URL(string: Network.baseURL + "/items/\(itemId)") else { return  }
+        URLSession.shared.dataTask(with: url) { [weak self] (data, response, error) in
+            self?.checkValidation(data: data, response: response, error: error)
+            print(itemId)
+            print(data)
+            print(response)
+            completion(data)
         }.resume()
     }
     
@@ -113,6 +127,7 @@ class NetworkManager {
                     print(error)
                 }
             }
+            print("response : \(response)")
             completion(data)
         }.resume()
     }
