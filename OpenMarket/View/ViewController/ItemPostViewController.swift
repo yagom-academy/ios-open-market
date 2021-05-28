@@ -21,14 +21,14 @@ class ItemPostViewController: UIViewController {
     var itemPostInformation: Request?
     var screenMode: ScreenMode?
     static let storyboardID = "ItemPostViewController"
-    lazy var cancelButton: UIButton = {
+    private lazy var cancelButton: UIButton = {
         let button = UIButton()
         button.setTitleColor(UIColor.systemBlue, for: .normal)
         button.setTitle("취소", for: .normal)
         button.addTarget(self, action: #selector(cancelItemPost), for: .touchDown)
         return button
     }()
-    lazy var compeleteButton: UIButton = {
+    private lazy var compeleteButton: UIButton = {
         let button = UIButton()
         button.setTitleColor(UIColor.systemBlue, for: .normal)
         button.addTarget(self, action: #selector(postItem), for: .touchDown)
@@ -76,7 +76,7 @@ class ItemPostViewController: UIViewController {
         self.imageCollectionView.register(PlusPhotoCollectionViewCellNib, forCellWithReuseIdentifier: PlusPhotoCollectionViewCell.identifier)
     }
     
-    func convertDictionaryToArray(_ dictionary:[Int:String]) -> [String]{
+    private func convertDictionaryToArray(_ dictionary:[Int:String]) -> [String]{
         var array: [String] = []
         guard dictionary.count > 0 else { return [] }
         for key in 0...dictionary.count-1 {
@@ -86,13 +86,13 @@ class ItemPostViewController: UIViewController {
         return array
     }
     
-    @objc func cancelItemPost(_ sender: Any) {
+    @objc private func cancelItemPost(_ sender: Any) {
         navigationController?.popViewController(animated: true)
     }
     
     
     
-    @objc func postItem(_ sender: Any) {
+    @objc private func postItem(_ sender: Any) {
         do {
             itemPostInformation = try Request(path: Path.item, httpMethod: HTTPMethod.POST, title: itemPostTitle.text, descriptions: descriptions.text, price: Int(price.text!), currency: currency.text, stock: Int(stock.text!), discountedPrice: Int(discountedPrice.text!), images: convertDictionaryToArray(ItemPostViewController.images), password: password.text)
         } catch {

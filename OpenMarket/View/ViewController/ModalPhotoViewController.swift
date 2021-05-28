@@ -9,16 +9,16 @@ import UIKit
 
 class ModalPhotoViewController: UIViewController {
     
-    @IBOutlet var collectionView: UICollectionView!
+    @IBOutlet private var collectionView: UICollectionView!
     static var selectedImageCount = 0
     var imageCollectionView: UICollectionView?
         
-    @IBAction func completeChoosingImage(_ sender: Any) {
+    @IBAction private func completeChoosingImage(_ sender: Any) {
         self.imageCollectionView?.reloadData()
         self.dismiss(animated: true, completion: nil)
     }
     
-    @IBAction func cancelChoosingImage(_ sender: Any) {
+    @IBAction private func cancelChoosingImage(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
     }
     

@@ -12,7 +12,7 @@ class NetworkManager {
     
     static var shared = NetworkManager()
     var isPaginating = false
-    let session: URLSession
+    private let session: URLSession
     
     init() {
         let config = URLSessionConfiguration.default
@@ -66,7 +66,7 @@ class NetworkManager {
         }
     }
     
-    func classifyKeyValue(model: Request) -> Parameters {
+    private func classifyKeyValue(model: Request) -> Parameters {
         guard let title = model.title else { return [:] }
         guard let descriptions = model.descriptions else { return [:] }
         guard let price = model.price else { return [:] }
@@ -84,7 +84,7 @@ class NetworkManager {
                 "password":"\(password)" ]
     }
     
-    func setUpImage(model: Request) -> [ItemImage] {
+    private func setUpImage(model: Request) -> [ItemImage] {
         var images: [ItemImage] = []
         guard let requestedImages = model.images else { return [] }
         for image in requestedImages {
@@ -128,11 +128,11 @@ class NetworkManager {
         }.resume()
     }
     
-    func generateBoundary() -> String {
+    private func generateBoundary() -> String {
         return "Boundary-\(NSUUID().uuidString)"
     }
     
-    func createDataBody(withParameters params: Parameters?, itemImages: [ItemImage]?, boundary: String) -> Data {
+    private func createDataBody(withParameters params: Parameters?, itemImages: [ItemImage]?, boundary: String) -> Data {
         
         let lineBreak = "\r\n"
         var body = Data()

@@ -10,7 +10,7 @@ import UIKit
 class ItemListViewController: UIViewController {
     
     
-    var layoutType = LayoutType.list
+    private var layoutType = LayoutType.list
     lazy var rightNvigationItem: UIButton = {
         let button = UIButton()
         button.setTitle("+", for: .normal)
@@ -179,7 +179,7 @@ extension ItemListViewController: UICollectionViewDataSource {
         
     }
     
-    func updatePageNumber(pageNumber: Int) {
+    private func updatePageNumber(pageNumber: Int) {
         Cache.shared.maxPageNumber = max(pageNumber, Cache.shared.maxPageNumber)
         Cache.shared.minPageNumber = min(pageNumber, Cache.shared.minPageNumber)
     }

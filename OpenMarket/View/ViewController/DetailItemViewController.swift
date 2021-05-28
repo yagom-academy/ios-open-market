@@ -17,7 +17,7 @@ class DetailItemViewController: UIViewController {
     @IBOutlet var descriptions: UILabel!
     static let storyboardID = "DetailItemViewController"
     var detailItemData: InformationOfItemResponse?
-    lazy var actionSheetButton: UIButton = {
+    private lazy var actionSheetButton: UIButton = {
         let button = UIButton()
         button.setBackgroundImage(UIImage(systemName: "square.and.arrow.up"), for: .normal)
         button.tintColor = UIColor.systemBlue
@@ -37,24 +37,22 @@ class DetailItemViewController: UIViewController {
         let PhotoCollectionViewCellNib = UINib(nibName: PhotoCollectionViewCell.identifier, bundle: nil)
         self.collectionView.register(PhotoCollectionViewCellNib, forCellWithReuseIdentifier: PhotoCollectionViewCell.identifier)
     }
-    func initNavigationBar() {
+    private func initNavigationBar() {
         self.navigationController?.navigationBar.topItem?.backButtonTitle = ""
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: actionSheetButton)
-        self.navigationItem.title = "27형 iMac Retina"
+        
     }
     
-    func setUpDataOfViewController() {
+    private func setUpDataOfViewController() {
         guard let detailItemData = detailItemData else { return }
-       
+        self.navigationItem.title = detailItemData.title
         postTitle.text = detailItemData.title
         stock.text = String(detailItemData.stock)
         price.text = String(detailItemData.price)
         descriptions.text = detailItemData.descriptions
-        
-        
     }
     
-    func presentAlert(
+    private func presentAlert(
                       isCancelActionIncluded: Bool = false,
                       preferredStyle style: UIAlertController.Style = .alert,
                       with actions: UIAlertAction ...) {
@@ -67,7 +65,7 @@ class DetailItemViewController: UIViewController {
         self.present(alert, animated: true, completion: nil)
     }
     
-    @objc func showActionSheet(_ sender: Any) {
+    @objc private func showActionSheet(_ sender: Any) {
         let editAction = UIAlertAction(title: "수정", style: .default) { action in
             
         }
@@ -82,9 +80,8 @@ class DetailItemViewController: UIViewController {
 extension DetailItemViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-//        guard let detailItemData = detailItemData else { return 0 }
-//        return detailItemData.images.count
-        return 1
+        guard let detailItemData = detailItemData else { return 0 }
+        return detailItemData.images.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -92,9 +89,8 @@ extension DetailItemViewController: UICollectionViewDataSource {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotoCollectionViewCell.identifier, for: indexPath) as? PhotoCollectionViewCell else  {
             return UICollectionViewCell()
         }
-//        guard let detailItemData = detailItemData else { return cell }
-//        cell.itemImage.image = UIImage(named: detailItemData.images[indexPath.item])
-        cell.itemImage.image = UIImage(named: "imac1")
+        guard let detailItemData = detailItemData else { return cell }
+        cell.itemImage.image = UIImage(named: detailItemData.images[indexPath.item])
         return cell
         
     }
