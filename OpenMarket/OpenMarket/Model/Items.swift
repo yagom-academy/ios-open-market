@@ -6,3 +6,8 @@
 //
 
 import Foundation
+
+struct Items: Decodable {
+    let page: Int
+    let items: [Item]
+}
