@@ -67,7 +67,11 @@ class DetailItemViewController: UIViewController {
     
     @objc private func showActionSheet(_ sender: Any) {
         let editAction = UIAlertAction(title: "수정", style: .default) { action in
-            
+            guard let ItemPostViewController = self.storyboard?.instantiateViewController(identifier: ItemPostViewController.storyboardID) as? ItemPostViewController else {
+                return
+            }
+            ItemPostViewController.screenMode = ScreenMode.edit
+            self.navigationController?.pushViewController(ItemPostViewController, animated: true)
         }
         let deleteAction = UIAlertAction(title: "삭제", style: .default) { action in
             

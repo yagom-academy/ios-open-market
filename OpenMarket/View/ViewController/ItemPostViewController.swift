@@ -129,7 +129,6 @@ extension ItemPostViewController: UITextViewDelegate {
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
-        print(textView.text)
         
         if textView.text == "" {
             textViewSetupView()
