@@ -18,10 +18,9 @@ class ListVCCell: UITableViewCell {
     var item: Item?
     
     func setup() {
-//        thumbnail.image = UIImage(named: item.thumbnails[0])
         title.text = "loading..."
         price.text = ""
-        discountedPrice.text = ""
+        discountedPrice.attributedText = NSAttributedString(string: "")
         stock.text = ""
     }
     
@@ -32,6 +31,8 @@ class ListVCCell: UITableViewCell {
             price.text = "\(data.price)"
             if let salePrice = data.discountedPrice {
                 discountedPrice.text = "\(salePrice)"
+                discountedPrice.attributedText = discountedPrice.text?.strikeThrough()
+                discountedPrice.textColor = UIColor.red
             }
             stock.text = "\(data.stock)"
         } else {

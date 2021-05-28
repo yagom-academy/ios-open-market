@@ -20,6 +20,7 @@ class GridVC: UIViewController {
         collectionView.dataSource = self
         
         NotificationCenter.default.addObserver(self, selector: #selector(Self.setupItems(_:)), name: NotificationNames.items.notificaion, object: nil)
+        
     }
     
     @objc func setupItems(_ notification: Notification) {
@@ -56,10 +57,29 @@ extension GridVC: UICollectionViewDataSource {
         if self.items.count > 0 {
             cell.item = items[indexPath.row]
             cell.setupItem()
+            
+            cell.layer.borderColor = UIColor.lightGray.cgColor
+            cell.layer.borderWidth = 1.0
+            cell.layer.cornerRadius = 10.0
         }
         return cell
     }
+
     
 }
-    
+
+extension String {
+    func strikeThrough() -> NSAttributedString {
+        let attributeString = NSMutableAttributedString(string: self)
+        attributeString.addAttribute(NSAttributedString.Key.strikethroughStyle, value: NSUnderlineStyle.single.rawValue, range: NSMakeRange(0,attributeString.length))
+        return attributeString
+    }
+
+    func removeStrikeThrough() -> NSAttributedString {
+        let attributeString = NSMutableAttributedString(string: self)
+        attributeString.removeAttribute(NSAttributedString.Key.strikethroughStyle, range: NSMakeRange(0, attributeString.length))
+        return attributeString
+    }
+
+}
     
