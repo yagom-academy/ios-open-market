@@ -49,7 +49,9 @@ struct ServerConnector {
         task.resume()
     }
 
-    func postClientsData() {}
+    func postClientsData() {
+
+    }
     
     func patchSeversData() {}
     
