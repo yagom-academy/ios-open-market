@@ -19,11 +19,36 @@ class ItemPostViewController: UIViewController {
     @IBOutlet var stock: UITextField!
     static var images: [Int : String] = [:]
     var itemPostInformation: Request?
+    var screenMode: ScreenMode?
+    var cancelButton = UIButton()
+    var compeleteButton = UIButton()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         descriptions.delegate = self
         setUpCollectionView()
+        initNavigationBar()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        ModalPhotoViewController.selectedImageCount = 0
+        ItemPostViewController.images = [:]
+    }
+    
+    private func initNavigationBar() {
+        switch screenMode {
+        case .register:
+            compeleteButton.setTitle("등록", for: .normal)
+            self.navigationItem.title = "등록"
+        case .edit:
+            compeleteButton.setTitle("수정", for: .normal)
+            self.navigationItem.title = "수정"
+        case .none:
+            return
+        }
+        cancelButton.setTitle("취소", for: .normal)
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: cancelButton)
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: compeleteButton)
     }
     
     private func setUpCollectionView() {
@@ -48,6 +73,12 @@ class ItemPostViewController: UIViewController {
         }
         return array
     }
+    
+    @IBAction func cancelItemPost(_ sender: Any) {
+        navigationController?.popViewController(animated: true)
+    }
+    
+    
     
     @IBAction func postItem(_ sender: Any) {
         do {
@@ -136,6 +167,8 @@ extension ItemPostViewController: UICollectionViewDataSource {
                 return UICollectionViewCell()
             }
             cell.modalPresentDelegate = self
+            cell.imageCollectionView = self.imageCollectionView
+            cell.currentPhotoCount.text = "\(ItemPostViewController.images.count)/5"
             return cell
         } else {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotoCollectionViewCell.identifier, for: indexPath) as? PhotoCollectionViewCell else  {

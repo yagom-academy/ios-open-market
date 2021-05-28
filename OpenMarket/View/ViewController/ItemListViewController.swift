@@ -11,7 +11,7 @@ class ItemListViewController: UIViewController {
     
     
     var layoutType = LayoutType.list
- 
+    
     @IBOutlet var collectionView: UICollectionView!
     @IBOutlet var control: UISegmentedControl!
     @IBAction func didChangeSegement(_ sender: UISegmentedControl) {
@@ -23,12 +23,17 @@ class ItemListViewController: UIViewController {
         layoutType = LayoutType.grid
         collectionView.reloadData()
     }
+    @IBAction func unwind(_ unwindSegue: UIStoryboardSegue) {
+        
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpSegmentedControl()
         setUpCollectionView()
+        
     }
+    
     
     private func setUpCollectionView() {
         self.collectionView.delegate = self

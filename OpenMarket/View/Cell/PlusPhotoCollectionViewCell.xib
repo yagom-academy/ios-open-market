@@ -56,7 +56,7 @@
             </constraints>
             <size key="customSize" width="101" height="99"/>
             <connections>
-                <outlet property="currentPhotoNumber" destination="CwZ-bG-i4L" id="c1x-pH-dvt"/>
+                <outlet property="currentPhotoCount" destination="CwZ-bG-i4L" id="dpg-Ho-o1u"/>
             </connections>
             <point key="canvasLocation" x="39.855072463768117" y="146.98660714285714"/>
         </collectionViewCell>

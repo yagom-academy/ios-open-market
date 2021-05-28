@@ -11,8 +11,9 @@ class PlusPhotoCollectionViewCell: UICollectionViewCell {
     
     static let identifier = "PlusPhotoCollectionViewCell"
 
-    @IBOutlet var currentPhotoNumber: UILabel!
+    @IBOutlet var currentPhotoCount: UILabel!
     var modalPresentDelegate: ModalPresentDelegate?
+    var imageCollectionView: UICollectionView?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -22,6 +23,7 @@ class PlusPhotoCollectionViewCell: UICollectionViewCell {
         ModalPhotoViewController.selectedImageCount = 0
         ItemPostViewController.images = [:]
         let modalPhotoViewController = ModalPhotoViewController()
+        modalPhotoViewController.imageCollectionView = imageCollectionView
         self.modalPresentDelegate?.presentModalViewController(modalPhotoViewController, anitmated: true)
     }
     

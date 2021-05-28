@@ -15,7 +15,6 @@ class PhotoCollectionViewCell: UICollectionViewCell {
     var imageFileName = ""
     var isHighlight = false
     
-    
     override func awakeFromNib() {
         super.awakeFromNib()
         initData()

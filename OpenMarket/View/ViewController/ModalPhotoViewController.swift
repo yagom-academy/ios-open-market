@@ -11,6 +11,16 @@ class ModalPhotoViewController: UIViewController {
     
     @IBOutlet var collectionView: UICollectionView!
     static var selectedImageCount = 0
+    var imageCollectionView: UICollectionView?
+        
+    @IBAction func completeChoosingImage(_ sender: Any) {
+        self.imageCollectionView?.reloadData()
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    @IBAction func cancelChoosingImage(_ sender: Any) {
+        self.dismiss(animated: true, completion: nil)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,7 +30,6 @@ class ModalPhotoViewController: UIViewController {
         self.collectionView.register(PhotoCollectionViewCellNib, forCellWithReuseIdentifier: PhotoCollectionViewCell.identifier)
     }
     
-
 }
 
 extension ModalPhotoViewController: UICollectionViewDataSource {

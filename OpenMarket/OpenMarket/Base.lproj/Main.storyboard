@@ -117,7 +117,7 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vM7-qT-AXi">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="993.33333333333337"/>
                                         <subviews>
-                                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="b08-cK-94T">
+                                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="b08-cK-94T">
                                                 <rect key="frame" x="10" y="10" width="355" height="111"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="KlJ-8k-UNB">
@@ -282,11 +282,11 @@
                                     </view>
                                 </subviews>
                                 <constraints>
+                                    <constraint firstItem="vM7-qT-AXi" firstAttribute="width" secondItem="dVY-lN-ctP" secondAttribute="width" id="6Og-JK-wyy"/>
                                     <constraint firstAttribute="trailing" secondItem="vM7-qT-AXi" secondAttribute="trailing" id="8lo-hG-SvS"/>
                                     <constraint firstItem="vM7-qT-AXi" firstAttribute="leading" secondItem="9d5-35-l56" secondAttribute="leading" id="EAL-kO-5al"/>
                                     <constraint firstItem="vM7-qT-AXi" firstAttribute="top" secondItem="9d5-35-l56" secondAttribute="top" id="V5w-d3-5WO"/>
                                     <constraint firstAttribute="bottom" secondItem="vM7-qT-AXi" secondAttribute="bottom" id="bLh-4D-zuZ"/>
-                                    <constraint firstItem="vM7-qT-AXi" firstAttribute="width" secondItem="dVY-lN-ctP" secondAttribute="width" id="xpJ-dO-fFY"/>
                                 </constraints>
                                 <viewLayoutGuide key="contentLayoutGuide" id="1iq-2B-l8w"/>
                                 <viewLayoutGuide key="frameLayoutGuide" id="dVY-lN-ctP"/>
@@ -310,13 +310,23 @@
                             <constraint firstItem="kSz-2o-Iw0" firstAttribute="width" secondItem="oOV-dy-iCf" secondAttribute="width" multiplier="0.946667" id="dAQ-Qq-1hX"/>
                             <constraint firstItem="djX-2S-vti" firstAttribute="width" secondItem="oOV-dy-iCf" secondAttribute="width" multiplier="0.946667" id="dGJ-F7-wHq"/>
                             <constraint firstItem="9d5-35-l56" firstAttribute="leading" secondItem="oOV-dy-iCf" secondAttribute="leading" id="gOz-e4-aCu"/>
-                            <constraint firstItem="RAK-BT-niL" firstAttribute="width" secondItem="oOV-dy-iCf" secondAttribute="width" multiplier="0.946667" id="pTE-Aq-Ofe"/>
+                            <constraint firstItem="RAK-BT-niL" firstAttribute="width" secondItem="oOV-dy-iCf" secondAttribute="width" multiplier="0.946667" priority="999" id="pTE-Aq-Ofe"/>
                             <constraint firstItem="geK-CG-Kaq" firstAttribute="height" secondItem="oOV-dy-iCf" secondAttribute="height" multiplier="0.04" id="paE-80-vGw"/>
                             <constraint firstItem="geK-CG-Kaq" firstAttribute="width" secondItem="oOV-dy-iCf" secondAttribute="width" multiplier="0.952" id="rJf-sQ-0l5"/>
                             <constraint firstItem="VaL-SK-L0w" firstAttribute="width" secondItem="oOV-dy-iCf" secondAttribute="width" multiplier="0.952" id="rsZ-cV-Jkh"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="상품등록" id="3BL-k2-MkV">
+                        <barButtonItem key="leftBarButtonItem" style="plain" id="Y66-G7-CCw">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="3Ef-wn-hFU">
+                                <rect key="frame" x="16" y="7" width="83" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="취소"/>
+                                <connections>
+                                    <segue destination="pxM-u2-D9T" kind="unwind" unwindAction="unwind:" id="k4g-K2-3PS"/>
+                                </connections>
+                            </button>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" style="plain" id="US8-sH-1T9">
                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="2pU-y0-ako">
                                 <rect key="frame" x="276" y="7" width="83" height="30"/>
@@ -326,6 +336,9 @@
                                     <action selector="postItem:" destination="DXc-2r-jz8" eventType="touchUpInside" id="TpB-vN-5Yr"/>
                                 </connections>
                             </button>
+                            <connections>
+                                <action selector="completeButton:" destination="pxM-u2-D9T" id="ix2-XA-6p2"/>
+                            </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
@@ -340,6 +353,7 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="U85-Dd-vz4" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="pxM-u2-D9T" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="1949.5999999999999" y="106.40394088669952"/>
         </scene>
