@@ -8,7 +8,9 @@ import UIKit
 
 @available(iOS 14.0, *)
 class ViewController: UIViewController {
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var viewModeSegmentedControl: UISegmentedControl!
+    @IBOutlet weak var itemDetailButton: UIBarButtonItem!
     
     enum Section {
         case main
@@ -23,11 +25,11 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
-        
         let listCellNibName = UINib(nibName: "ListCollectionViewCell", bundle: nil)
         let gridCellNibName = UINib(nibName: "GridCollectionViewCell", bundle: nil)
         configureHierarchy()
+        self.view.addSubview(activityIndicator)
+        activityIndicator.startAnimating()
         configureDataSource()
         collectionView.register(listCellNibName, forCellWithReuseIdentifier: "ListCollectionViewCell")
         collectionView.register(gridCellNibName, forCellWithReuseIdentifier: "GridCollectionViewCell")
@@ -78,7 +80,6 @@ extension ViewController {
     }
     
     func loadItems(from page: Int, _ networkManager: NetworkManager) {
-        
         networkManager.request(ItemList.self, url: OpenMarketURL.viewItemList(page).url) { result in
             switch result {
             case .success(let itemList):
@@ -90,6 +91,13 @@ extension ViewController {
                 print(error.localizedDescription)
             }
         }
+    }
+    
+    private func changeNumberStyleToComma(_ number: Int) -> String? {
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .decimal
+        
+        return numberFormatter.string(for: number)
     }
     
     private func configureDataSource() {
@@ -106,55 +114,74 @@ extension ViewController {
                 cell?.layer.cornerRadius = 10
             }
         
+            let group = DispatchGroup()
+            group.enter()
+            
             DispatchQueue.global().async {
                 let data = try? Data(contentsOf: URL(string: item.thumbnails![0])!)
                 
                 DispatchQueue.main.async {
                     cell?.thumbnailImageView.image = UIImage(data: data!)
-                    cell?.titleLabel.text = item.title
-                    
-                    if item.discountedPrice == nil {
-                        cell?.priceLabel.attributedText = NSAttributedString(
-                            string: "\(item.currency!) \(item.price!)"
-                        )
-                        cell?.discountedPriceLabel.isHidden = true
-                    } else {
-                        cell?.priceLabel.attributedText = "\(item.currency!) \(item.price!)".strikeThrough()
-                        cell?.priceLabel.textColor = .red
-                        cell?.discountedPriceLabel.text = item.currency! + " \(item.discountedPrice!)"
-                    }
-                    
-                    guard let stock = item.stock else {
-                        cell?.stockLabel.text = "정보 없음"
-                        return
-                    }
-                    
-                    if stock > 999 {
-                        cell?.stockLabel.text = "잔여수량 : 999+"
-                    } else if stock == 0 {
-                        cell?.stockLabel.text = "품절"
-                        cell?.stockLabel.textColor = .orange
-                    } else {
-                        cell?.stockLabel.text = "잔여수량 : " + "\(item.stock!)"
-                    }
                 }
+                
+                group.leave()
+                
+                DispatchQueue.main.async {
+                    self.activityIndicator.isHidden = true
+                    self.activityIndicator.stopAnimating()
+                }
+            }
+            
+            guard let price = item.price else { return nil }
+            guard let formattedPrice = self.changeNumberStyleToComma(price) else { return nil }
+            guard let currency = item.currency else { return nil }
+            
+            cell?.titleLabel.text = item.title
+            
+            if item.discountedPrice == nil {
+                cell?.priceLabel.attributedText = NSAttributedString(
+                    string: "\(currency) \(formattedPrice)"
+                )
+                cell?.priceLabel.textColor = .gray
+                cell?.discountedPriceLabel.isHidden = true
+            } else {
+                guard let discountedPrice = item.discountedPrice else { return nil }
+                guard let formattedDiscountedPrice = self.changeNumberStyleToComma(discountedPrice) else { return nil }
+                cell?.priceLabel.attributedText = "\(currency) \(formattedPrice)".strikeThrough()
+                cell?.priceLabel.textColor = .red
+                cell?.discountedPriceLabel.text = currency + " \(formattedDiscountedPrice)"
+                cell?.discountedPriceLabel.textColor = .gray
+            }
+            
+            guard let stock = item.stock else {
+                cell?.stockLabel.text = "정보 없음"
+                return nil
+            }
+            
+            cell?.stockLabel.textColor = .gray
+            if stock > 999 {
+                cell?.stockLabel.text = "잔여수량 : 999+"
+            } else if stock == 0 {
+                cell?.stockLabel.text = "품절"
+                cell?.stockLabel.textColor = .orange
+            } else {
+                cell?.stockLabel.text = "잔여수량 : " + "\(item.stock!)"
             }
             
             return cell as? UICollectionViewCell
         }
+        
+        guard snapshot.numberOfItems == 0 else {
+            let listCellNibName = UINib(nibName: "ListCollectionViewCell", bundle: nil)
+            let gridCellNibName = UINib(nibName: "GridCollectionViewCell", bundle: nil)
+            collectionView.register(listCellNibName, forCellWithReuseIdentifier: "ListCollectionViewCell")
+            collectionView.register(gridCellNibName, forCellWithReuseIdentifier: "GridCollectionViewCell")
+            self.dataSource.apply(self.snapshot, animatingDifferences: false)
+            return
+        }
 
         self.snapshot = NSDiffableDataSourceSnapshot<Section, Item>()
         snapshot.appendSections([.main])
-        
-//        networkManager.request(ItemList.self, url: OpenMarketURL.viewItemList(1).url) { result in
-//            switch result {
-//            case .success(let itemList):
-//                self.snapshot.appendItems(itemList.items)
-//                self.dataSource.apply(self.snapshot, animatingDifferences: false)
-//            case .failure(let error):
-//                print(error.localizedDescription)
-//            }
-//        }
         
         currentPage += 1
         loadItems(from: currentPage, networkManager)
@@ -167,19 +194,14 @@ extension ViewController {
 
 @available(iOS 14.0, *)
 extension ViewController: UICollectionViewDelegate {
-//    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-//
-//    }
-    
     func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         print(self.snapshot.numberOfItems, indexPath.row)
         print(currentPage)
-        if indexPath.row == self.snapshot.numberOfItems - 14 {
+        if indexPath.row == self.snapshot.numberOfItems - 18 {
             currentPage += 1
             loadItems(from: currentPage, networkManager)
         }
     }
-    
 }
 
 extension String {

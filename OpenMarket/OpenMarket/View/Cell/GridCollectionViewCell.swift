@@ -22,6 +22,7 @@ class GridCollectionViewCell: UICollectionViewCell, OpenMarketCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         
+        thumbnailImageView.image = nil
         priceLabel.attributedText = nil
         priceLabel.textColor = .black
         stockLabel.textColor = .black

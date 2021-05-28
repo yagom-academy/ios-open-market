@@ -22,9 +22,10 @@ class ListCollectionViewCell: UICollectionViewCell, OpenMarketCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         
+        thumbnailImageView.image = nil
         priceLabel.attributedText = nil
-        priceLabel.textColor = .black
-        stockLabel.textColor = .black
+        priceLabel.textColor = nil
+        stockLabel.textColor = nil
         discountedPriceLabel.isHidden = false
     }
 }
