@@ -40,6 +40,7 @@ class DetailItemViewController: UIViewController {
     func initNavigationBar() {
         self.navigationController?.navigationBar.topItem?.backButtonTitle = ""
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: actionSheetButton)
+        self.navigationItem.title = "27형 iMac Retina"
     }
     
     func setUpDataOfViewController() {
@@ -73,6 +74,7 @@ class DetailItemViewController: UIViewController {
         let deleteAction = UIAlertAction(title: "삭제", style: .default) { action in
             
         }
+        deleteAction.setValue(UIColor.red, forKey: "titleTextColor")
         presentAlert(isCancelActionIncluded: true, preferredStyle: .actionSheet, with: editAction,deleteAction)
     }
 }
