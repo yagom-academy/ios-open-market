@@ -63,17 +63,6 @@
                                 <action selector="didChangeSegement:" destination="BYZ-38-t0r" eventType="valueChanged" id="W1j-T6-9uy"/>
                             </connections>
                         </segmentedControl>
-                        <barButtonItem key="rightBarButtonItem" style="plain" id="Aaz-JU-eme">
-                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="trailing" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="bMQ-aR-NEu">
-                                <rect key="frame" x="276" y="4" width="83" height="36"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
-                                <state key="normal" title="+"/>
-                                <connections>
-                                    <segue destination="DXc-2r-jz8" kind="show" id="g2V-UC-uDh"/>
-                                </connections>
-                            </button>
-                        </barButtonItem>
                     </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
@@ -103,22 +92,22 @@
             </objects>
             <point key="canvasLocation" x="-79.200000000000003" y="115.27093596059113"/>
         </scene>
-        <!--상품등록-->
+        <!--Item Post View Controller-->
         <scene sceneID="lwd-je-1zJ">
             <objects>
-                <viewController id="DXc-2r-jz8" customClass="ItemPostViewController" customModule="OpenMarket" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ItemPostViewController" id="DXc-2r-jz8" customClass="ItemPostViewController" customModule="OpenMarket" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="xq2-Nl-ynL">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9d5-35-l56">
-                                <rect key="frame" x="0.0" y="88" width="375" height="724"/>
+                                <rect key="frame" x="0.0" y="44" width="375" height="768"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vM7-qT-AXi">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="993.33333333333337"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="1046"/>
                                         <subviews>
                                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="b08-cK-94T">
-                                                <rect key="frame" x="10" y="10" width="355" height="111"/>
+                                                <rect key="frame" x="10" y="10" width="355" height="118"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="KlJ-8k-UNB">
                                                     <size key="itemSize" width="128" height="128"/>
@@ -128,7 +117,7 @@
                                                 </collectionViewFlowLayout>
                                                 <cells>
                                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="Mv8-1R-PDv">
-                                                        <rect key="frame" x="0.0" y="-8.6666666666666661" width="128" height="128"/>
+                                                        <rect key="frame" x="0.0" y="-5" width="128" height="128"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="WJ8-in-vjK">
                                                             <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
@@ -138,92 +127,92 @@
                                                 </cells>
                                             </collectionView>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bEI-Lh-SHR">
-                                                <rect key="frame" x="0.0" y="131" width="375" height="0.66666666666665719"/>
+                                                <rect key="frame" x="0.0" y="138" width="375" height="0.66666666666665719"/>
                                                 <color key="backgroundColor" systemColor="systemGray4Color"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="0.5" id="8vO-Eg-dON"/>
                                                 </constraints>
                                             </view>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="글 제목" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="VaL-SK-L0w">
-                                                <rect key="frame" x="10" y="141.66666666666666" width="357" height="27.333333333333343"/>
+                                                <rect key="frame" x="10" y="148.66666666666666" width="357" height="29.333333333333343"/>
                                                 <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits"/>
                                             </textField>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3wy-1Z-6EH">
-                                                <rect key="frame" x="0.0" y="179" width="375" height="0.66666666666665719"/>
+                                                <rect key="frame" x="0.0" y="188" width="375" height="0.33333333333334281"/>
                                                 <color key="backgroundColor" systemColor="systemGray4Color"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="0.5" id="eOl-lF-GfC"/>
                                                 </constraints>
                                             </view>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="화폐 단위" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="VNW-TP-tZ9">
-                                                <rect key="frame" x="10" y="189.66666666666669" width="355" height="27.666666666666657"/>
+                                                <rect key="frame" x="10" y="198.33333333333334" width="355" height="29.333333333333343"/>
                                                 <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits"/>
                                             </textField>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cZa-GV-7KD">
-                                                <rect key="frame" x="0.0" y="227.33333333333331" width="375" height="0.33333333333334281"/>
+                                                <rect key="frame" x="0.0" y="237.66666666666669" width="375" height="0.66666666666665719"/>
                                                 <color key="backgroundColor" systemColor="systemGray4Color"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="0.5" id="OWp-tX-HKM"/>
                                                 </constraints>
                                             </view>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="가격 입력" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Cjc-Hx-yzJ">
-                                                <rect key="frame" x="10" y="237.66666666666669" width="355" height="27.666666666666686"/>
+                                                <rect key="frame" x="10" y="248.33333333333334" width="355" height="29.333333333333343"/>
                                                 <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits"/>
                                             </textField>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6Bd-2n-rbQ">
-                                                <rect key="frame" x="0.0" y="275.33333333333331" width="375" height="0.33333333333331439"/>
+                                                <rect key="frame" x="0.0" y="287.66666666666669" width="375" height="0.33333333333331439"/>
                                                 <color key="backgroundColor" systemColor="systemGray4Color"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="0.5" id="qrB-Sq-5I5"/>
                                                 </constraints>
                                             </view>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="할인 가격 입력(선택사항)" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="geK-CG-Kaq">
-                                                <rect key="frame" x="10" y="285.66666666666669" width="357" height="27.666666666666686"/>
+                                                <rect key="frame" x="10" y="298" width="357" height="29.666666666666686"/>
                                                 <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits"/>
                                             </textField>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6He-Mw-tNG">
-                                                <rect key="frame" x="0.0" y="323.33333333333331" width="375" height="0.66666666666668561"/>
+                                                <rect key="frame" x="0.0" y="337.66666666666669" width="375" height="0.33333333333331439"/>
                                                 <color key="backgroundColor" systemColor="systemGray4Color"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="0.5" id="Kxw-DT-Kme"/>
                                                 </constraints>
                                             </view>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="재고수량" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="kSz-2o-Iw0">
-                                                <rect key="frame" x="10" y="334" width="355" height="27.666666666666686"/>
+                                                <rect key="frame" x="10" y="348" width="355" height="29.333333333333314"/>
                                                 <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits"/>
                                             </textField>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tCg-jH-wlc">
-                                                <rect key="frame" x="0.0" y="371.66666666666669" width="375" height="0.33333333333331439"/>
+                                                <rect key="frame" x="0.0" y="387.33333333333331" width="375" height="0.66666666666668561"/>
                                                 <color key="backgroundColor" systemColor="systemGray4Color"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="0.5" id="i9D-LX-kHE"/>
                                                 </constraints>
                                             </view>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="상품 수정/삭제 비밀번호" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="djX-2S-vti">
-                                                <rect key="frame" x="10" y="382" width="355" height="27.666666666666686"/>
+                                                <rect key="frame" x="10" y="398" width="355" height="29.333333333333314"/>
                                                 <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits"/>
                                             </textField>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="N2g-4s-aDK">
-                                                <rect key="frame" x="0.0" y="419.66666666666669" width="375" height="0.66666666666668561"/>
+                                                <rect key="frame" x="0.0" y="437.33333333333331" width="375" height="0.66666666666668561"/>
                                                 <color key="backgroundColor" systemColor="systemGray4Color"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="0.5" id="mZW-zG-z1y"/>
                                                 </constraints>
                                             </view>
                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="제품 상세 설명" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="RAK-BT-niL">
-                                                <rect key="frame" x="10" y="430.33333333333337" width="355" height="553"/>
+                                                <rect key="frame" x="10" y="448" width="355" height="588"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 <color key="textColor" systemColor="systemGray4Color"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -316,31 +305,6 @@
                             <constraint firstItem="VaL-SK-L0w" firstAttribute="width" secondItem="oOV-dy-iCf" secondAttribute="width" multiplier="0.952" id="rsZ-cV-Jkh"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="상품등록" id="3BL-k2-MkV">
-                        <barButtonItem key="leftBarButtonItem" style="plain" id="Y66-G7-CCw">
-                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="3Ef-wn-hFU">
-                                <rect key="frame" x="16" y="7" width="83" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="취소"/>
-                                <connections>
-                                    <segue destination="pxM-u2-D9T" kind="unwind" unwindAction="unwind:" id="k4g-K2-3PS"/>
-                                </connections>
-                            </button>
-                        </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" style="plain" id="US8-sH-1T9">
-                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="2pU-y0-ako">
-                                <rect key="frame" x="276" y="7" width="83" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="등록"/>
-                                <connections>
-                                    <action selector="postItem:" destination="DXc-2r-jz8" eventType="touchUpInside" id="TpB-vN-5Yr"/>
-                                </connections>
-                            </button>
-                            <connections>
-                                <action selector="completeButton:" destination="pxM-u2-D9T" id="ix2-XA-6p2"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
                     <connections>
                         <outlet property="currency" destination="VNW-TP-tZ9" id="OXd-il-CT3"/>
                         <outlet property="descriptions" destination="RAK-BT-niL" id="joi-Yx-QDf"/>
@@ -353,7 +317,6 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="U85-Dd-vz4" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-                <exit id="pxM-u2-D9T" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="1949.5999999999999" y="106.40394088669952"/>
         </scene>

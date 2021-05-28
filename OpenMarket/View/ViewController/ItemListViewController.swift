@@ -11,6 +11,13 @@ class ItemListViewController: UIViewController {
     
     
     var layoutType = LayoutType.list
+    lazy var rightNvigationItem: UIButton = {
+        let button = UIButton()
+        button.setTitle("+", for: .normal)
+        button.setTitleColor(UIColor.systemBlue, for: .normal)
+        button.addTarget(self, action: #selector(movePostScreen), for: .touchDown)
+        return button
+    }()
     
     @IBOutlet var collectionView: UICollectionView!
     @IBOutlet var control: UISegmentedControl!
@@ -23,6 +30,7 @@ class ItemListViewController: UIViewController {
         layoutType = LayoutType.grid
         collectionView.reloadData()
     }
+    
     @IBAction func unwind(_ unwindSegue: UIStoryboardSegue) {
         
     }
@@ -31,9 +39,16 @@ class ItemListViewController: UIViewController {
         super.viewDidLoad()
         setUpSegmentedControl()
         setUpCollectionView()
-        
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightNvigationItem)
     }
     
+    @objc func movePostScreen() {
+        guard let ItemPostViewController = self.storyboard?.instantiateViewController(identifier: ItemPostViewController.storyboardID) as? ItemPostViewController else {
+            return
+        }
+        ItemPostViewController.screenMode = ScreenMode.register
+        navigationController?.pushViewController(ItemPostViewController, animated: true)
+    }
     
     private func setUpCollectionView() {
         self.collectionView.delegate = self

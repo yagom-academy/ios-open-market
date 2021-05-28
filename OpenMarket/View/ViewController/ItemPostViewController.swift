@@ -20,8 +20,20 @@ class ItemPostViewController: UIViewController {
     static var images: [Int : String] = [:]
     var itemPostInformation: Request?
     var screenMode: ScreenMode?
-    var cancelButton = UIButton()
-    var compeleteButton = UIButton()
+    static let storyboardID = "ItemPostViewController"
+    lazy var cancelButton: UIButton = {
+        let button = UIButton()
+        button.setTitleColor(UIColor.systemBlue, for: .normal)
+        button.setTitle("취소", for: .normal)
+        button.addTarget(self, action: #selector(cancelItemPost), for: .touchDown)
+        return button
+    }()
+    lazy var compeleteButton: UIButton = {
+        let button = UIButton()
+        button.setTitleColor(UIColor.systemBlue, for: .normal)
+        button.addTarget(self, action: #selector(postItem), for: .touchDown)
+        return button
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,10 +51,10 @@ class ItemPostViewController: UIViewController {
         switch screenMode {
         case .register:
             compeleteButton.setTitle("등록", for: .normal)
-            self.navigationItem.title = "등록"
+            self.navigationItem.title = "상품등록"
         case .edit:
             compeleteButton.setTitle("수정", for: .normal)
-            self.navigationItem.title = "수정"
+            self.navigationItem.title = "상품수정"
         case .none:
             return
         }
@@ -74,13 +86,13 @@ class ItemPostViewController: UIViewController {
         return array
     }
     
-    @IBAction func cancelItemPost(_ sender: Any) {
+    @objc func cancelItemPost(_ sender: Any) {
         navigationController?.popViewController(animated: true)
     }
     
     
     
-    @IBAction func postItem(_ sender: Any) {
+    @objc func postItem(_ sender: Any) {
         do {
             itemPostInformation = try Request(path: Path.item, httpMethod: HTTPMethod.POST, title: itemPostTitle.text, descriptions: descriptions.text, price: Int(price.text!), currency: currency.text, stock: Int(stock.text!), discountedPrice: Int(discountedPrice.text!), images: convertDictionaryToArray(ItemPostViewController.images), password: password.text)
         } catch {
