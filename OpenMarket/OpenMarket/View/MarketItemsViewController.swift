@@ -9,35 +9,27 @@ import UIKit
 
 @available(iOS 14.0, *)
 class MarketItemsViewController: UIViewController {
-//    @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var indicator: UIActivityIndicatorView!
     var collectionView: UICollectionView!
     var dataSource: UICollectionViewDiffableDataSource<Section, MarketItems.Infomation>!
-    var snapshot: NSDiffableDataSourceSnapshot<Section, MarketItems.Infomation>!
+    var snapshot = NSDiffableDataSourceSnapshot<Section, MarketItems.Infomation>()
     var segmentControl: UISegmentedControl!
-    var dataItems: [MarketItems.Infomation]? {
-        didSet {
-            DispatchQueue.main.async {
-                self.setCollectionView()
-                self.registrateCell()
-                self.setSnapshot()
-            }
-        }
-    }
+    var MarketItemPage = 1
+    var dataItems: [MarketItems.Infomation]?
     
     enum Section {
-        case marketItems
+        case marketItemsList
+        case marketItmesGrid
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         segmentedControllerinNevigationItme()
+        setCollectionViewList()
+        self.collectionView.backgroundColor = .clear
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        fetchItem() {}
-    }
-    
-    private func setCollectionView() {
+    private func setCollectionViewList() {
         let layoutConfig = UICollectionLayoutListConfiguration(appearance: .plain)
         let listLayout = UICollectionViewCompositionalLayout.list(using: layoutConfig)
         
@@ -51,28 +43,71 @@ class MarketItemsViewController: UIViewController {
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0.0),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0.0),
         ])
+        
+        collectionView.showsVerticalScrollIndicator = false
     }
     
-    private func registrateCell() {
+    private func setCollectionViewGrid() {
+        let layout = UICollectionViewCompositionalLayout { (secionIndex: Int, layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection in
+            let columns = 2
+            let spacing = CGFloat(5)
+            let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                                  heightDimension: .fractionalHeight(1.0))
+            let item = NSCollectionLayoutItem(layoutSize: itemSize)
+            let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(self.view.bounds.width-10), heightDimension: .absolute(self.view.bounds.height/4))
+            let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: columns)
+            group.interItemSpacing = .fixed(spacing)
+            
+            let section = NSCollectionLayoutSection(group: group)
+            section.interGroupSpacing = spacing
+            section.contentInsets = NSDirectionalEdgeInsets(top: spacing, leading: spacing, bottom: spacing, trailing: 0)
+            
+            return section
+        }
+        collectionView.collectionViewLayout = layout
+    }
+    
+    private func registrateListCell() {
         let cellRegistration = UICollectionView.CellRegistration<ItemListCell, MarketItems.Infomation> { (cell, indexPath, item) in
-
             cell.item = item
         }
         
         dataSource = UICollectionViewDiffableDataSource<Section, MarketItems.Infomation>(collectionView: collectionView) { (collectionView: UICollectionView, indexPath: IndexPath, identifier: MarketItems.Infomation) -> UICollectionViewCell in
             let cell = collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: identifier)
             cell.accessories = [.disclosureIndicator()]
+    
             return cell
         }
     }
     
-    private func setSnapshot() {
+    private func registrateGridCell() {
+        let cellRegistration = UICollectionView.CellRegistration<ItemsGridCell, MarketItems.Infomation> { (cell, indexPath, item) in
+            cell.item = item
+        }
+        
+        dataSource = UICollectionViewDiffableDataSource<Section, MarketItems.Infomation>(collectionView: collectionView) { (collectionView: UICollectionView, indexPath: IndexPath, identifier: MarketItems.Infomation) -> UICollectionViewCell in
+            let cell = collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: identifier)
+    
+            return cell
+        }
+    }
+    
+    private func setSnapshotList() {
         guard let data = dataItems else { return }
         snapshot = NSDiffableDataSourceSnapshot<Section, MarketItems.Infomation>()
-        snapshot.appendSections([.marketItems])
-        snapshot.appendItems(data, toSection: .marketItems)
+        snapshot.appendSections([.marketItemsList])
+        snapshot.appendItems(data, toSection: .marketItemsList)
         
-        dataSource.apply(snapshot, animatingDifferences: false)
+        self.dataSource.apply(snapshot, animatingDifferences: true)
+    }
+    
+    private func setSnapshotGrid() {
+        guard let data = dataItems else { return }
+        snapshot = NSDiffableDataSourceSnapshot<Section, MarketItems.Infomation>()
+        snapshot.appendSections([.marketItmesGrid])
+        snapshot.appendItems(data, toSection: .marketItmesGrid)
+        
+        dataSource.apply(snapshot, animatingDifferences: true)
     }
     
     func segmentedControllerinNevigationItme() {
@@ -91,26 +126,44 @@ class MarketItemsViewController: UIViewController {
         segmentControl.sendActions(for: .valueChanged)
         
         navigationItem.titleView = segmentControl
-        
     }
     
     @objc func segmentChanged() {
-        print("\(segmentControl.selectedSegmentIndex)")
         
         switch segmentControl.selectedSegmentIndex {
         case 0:
             // list
-            self.view.backgroundColor = .cyan
+            indicator.startAnimating()
+            fetchItem(MarketItemPage) {
+                DispatchQueue.main.async {
+                    let layoutConfig = UICollectionLayoutListConfiguration(appearance: .plain)
+                    let listLayout = UICollectionViewCompositionalLayout.list(using: layoutConfig)
+                    self.collectionView.collectionViewLayout = listLayout
+                    self.registrateListCell()
+                    self.setSnapshotList()
+                    self.indicator.stopAnimating()
+                    self.indicator.isHidden = true
+                }
+            }
         case 1:
             // grid
-            self.view.backgroundColor = .green
+            indicator.startAnimating()
+            fetchItem(MarketItemPage) {
+                DispatchQueue.main.async {
+                    self.setCollectionViewGrid()
+                    self.registrateGridCell()
+                    self.setSnapshotGrid()
+                    self.indicator.stopAnimating()
+                    self.indicator.isHidden = true
+                }
+            }
         default:
             return
         }
     }
     
-    private func fetchItem(completion: @escaping () -> ()) {
-        guard let url = MarketAPI.items(page: 1).url else { return }
+    private func fetchItem(_ page: Int, completion: @escaping () -> ()) {
+        guard let url = MarketAPI.items(page: page).url else { return }
         let request = URLRequest(url: url)
         let itemData = MarketNetworkManager(loader: Networkloader(), decoder: JSONDecoder())
 

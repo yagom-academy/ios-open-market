@@ -7,12 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BA07BFB7266248D9001AD70E /* ItemsGridCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA07BFB5266248D9001AD70E /* ItemsGridCell.swift */; };
+		BA07BFBA26627D27001AD70E /* ItemGridContentView.xib in Resources */ = {isa = PBXBuildFile; fileRef = BA07BFB926627D27001AD70E /* ItemGridContentView.xib */; };
 		BA2142F4265E352A00D80DE2 /* ItemListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA2142F3265E352A00D80DE2 /* ItemListCell.swift */; };
 		BA2142F6265E357400D80DE2 /* ItemConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA2142F5265E357400D80DE2 /* ItemConfiguration.swift */; };
 		BA2142F8265E35E500D80DE2 /* ItemContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA2142F7265E35E500D80DE2 /* ItemContentView.swift */; };
 		BA2142FC265E376B00D80DE2 /* ItemContentView.xib in Resources */ = {isa = PBXBuildFile; fileRef = BA2142FB265E376B00D80DE2 /* ItemContentView.xib */; };
 		BA2142FE265E740400D80DE2 /* MarketItemsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA2142FD265E740300D80DE2 /* MarketItemsViewController.swift */; };
-		BA214302265FD5F800D80DE2 /* ItemGridCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA214301265FD5F800D80DE2 /* ItemGridCell.swift */; };
+		BA2143062661032300D80DE2 /* ItemGridContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA2143052661032300D80DE2 /* ItemGridContentView.swift */; };
 		BAA704EE264B8196006CAC97 /* ItemDelete.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAA704ED264B8196006CAC97 /* ItemDelete.swift */; };
 		BAA7050B264BB747006CAC97 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C70FB10325BEF61D00C9924E /* Assets.xcassets */; };
 		BAAA69CF265906DD00F44322 /* Decoderable.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAAA69CE265906DD00F44322 /* Decoderable.swift */; };
@@ -52,12 +54,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		BA07BFB5266248D9001AD70E /* ItemsGridCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsGridCell.swift; sourceTree = "<group>"; };
+		BA07BFB926627D27001AD70E /* ItemGridContentView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ItemGridContentView.xib; sourceTree = "<group>"; };
 		BA2142F3265E352A00D80DE2 /* ItemListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemListCell.swift; sourceTree = "<group>"; };
 		BA2142F5265E357400D80DE2 /* ItemConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemConfiguration.swift; sourceTree = "<group>"; };
 		BA2142F7265E35E500D80DE2 /* ItemContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemContentView.swift; sourceTree = "<group>"; };
 		BA2142FB265E376B00D80DE2 /* ItemContentView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ItemContentView.xib; sourceTree = "<group>"; };
 		BA2142FD265E740300D80DE2 /* MarketItemsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketItemsViewController.swift; sourceTree = "<group>"; };
-		BA214301265FD5F800D80DE2 /* ItemGridCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemGridCell.swift; sourceTree = "<group>"; };
+		BA2143052661032300D80DE2 /* ItemGridContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemGridContentView.swift; sourceTree = "<group>"; };
 		BAA704ED264B8196006CAC97 /* ItemDelete.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemDelete.swift; sourceTree = "<group>"; };
 		BAA70501264BB366006CAC97 /* OpenMarketTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenMarketTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BAA70505264BB366006CAC97 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -139,7 +143,7 @@
 		BA214300265FD31400D80DE2 /* ItemGrid */ = {
 			isa = PBXGroup;
 			children = (
-				BA214301265FD5F800D80DE2 /* ItemGridCell.swift */,
+				BA07BFB5266248D9001AD70E /* ItemsGridCell.swift */,
 			);
 			path = ItemGrid;
 			sourceTree = "<group>";
@@ -147,6 +151,8 @@
 		BA214303265FD74E00D80DE2 /* ItemGrid */ = {
 			isa = PBXGroup;
 			children = (
+				BA2143052661032300D80DE2 /* ItemGridContentView.swift */,
+				BA07BFB926627D27001AD70E /* ItemGridContentView.xib */,
 			);
 			path = ItemGrid;
 			sourceTree = "<group>";
@@ -376,6 +382,7 @@
 				BA2142FC265E376B00D80DE2 /* ItemContentView.xib in Resources */,
 				C70FB10425BEF61D00C9924E /* Assets.xcassets in Resources */,
 				C70FB10225BEF61C00C9924E /* Main.storyboard in Resources */,
+				BA07BFBA26627D27001AD70E /* ItemGridContentView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -404,6 +411,7 @@
 				BAAA69CF265906DD00F44322 /* Decoderable.swift in Sources */,
 				BA2142F6265E357400D80DE2 /* ItemConfiguration.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
+				BA2143062661032300D80DE2 /* ItemGridContentView.swift in Sources */,
 				BAEA69F9264B6616005163B3 /* Product.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				BAEA69FB264B6A28005163B3 /* MarketItems.swift in Sources */,
@@ -413,12 +421,12 @@
 				BACD5642265417A800625FCF /* MarketError.swift in Sources */,
 				BAAA69D626590B9F00F44322 /* JSONDecoder.swift in Sources */,
 				BACD564826557B6700625FCF /* MulitPartFormConvert.swift in Sources */,
-				BA214302265FD5F800D80DE2 /* ItemGridCell.swift in Sources */,
 				BA2142F8265E35E500D80DE2 /* ItemContentView.swift in Sources */,
 				BAEA69FD264B6A33005163B3 /* MarketItem.swift in Sources */,
 				BAEA6A0A264B728F005163B3 /* MarketAPI.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 				BACD564B2655E09900625FCF /* Data.swift in Sources */,
+				BA07BFB7266248D9001AD70E /* ItemsGridCell.swift in Sources */,
 				BA2142FE265E740400D80DE2 /* MarketItemsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
