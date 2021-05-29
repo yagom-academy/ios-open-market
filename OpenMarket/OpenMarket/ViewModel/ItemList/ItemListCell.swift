@@ -21,6 +21,7 @@ class ItemListCell: UICollectionViewListCell {
         newConfiguration.price = item?.price
         newConfiguration.discountPrice = item?.discountedPrice
         newConfiguration.currency = item?.currency
+        newConfiguration.mode = "List"
         contentConfiguration = newConfiguration
         
         var newBgConfiguration = UIBackgroundConfiguration.listGroupedCell()
