@@ -20,15 +20,14 @@ class OpenMarketItemListViewController: UIViewController {
     private var snapshot = NSDiffableDataSourceSnapshot<Section, Item>()
     private let networkManager = NetworkManager(.shared)
     private var currentPage: Int = 0
+    
+    /// Page loads new items when the cell ends displaying (total item numbers - triggingPagingBound).
+    /// See collectionView(_:didEndDisplaying:forItemAt:) for further understanding.
     private let triggingPagingBound: Int = 18
     // MARK: - Namespaces
     enum Section {
         case main
     }
-    
-    
-        
-    
     
     enum Cell {
         enum ReuseIdentifier {
@@ -151,6 +150,7 @@ extension OpenMarketItemListViewController {
         loadItems(from: currentPage, networkManager)
     }
     
+    // MARK: - Component Methods for Configuring Data Source
     private func dequeueCellByViewMode(_ cell: inout OpenMarketCell?,
                                        _ collectionView: UICollectionView,
                                        _ indexPath: IndexPath) {
@@ -179,7 +179,7 @@ extension OpenMarketItemListViewController {
     
     private func insertTextToLabels(to cell: OpenMarketCell?, with item: Item) {
         guard let price: Int = item.price else { return }
-        guard let formattedPrice: String = self.formattedNumber(price) else { return }
+        guard let formattedPrice: String = price.formatInDecimalStyle() else { return }
         guard let currency: String = item.currency else { return }
         
         cell?.titleLabel.text = item.title
@@ -192,7 +192,7 @@ extension OpenMarketItemListViewController {
             cell?.discountedPriceLabel.isHidden = true
         } else {
             guard let discountedPrice = item.discountedPrice else { return }
-            guard let formattedDiscountedPrice = self.formattedNumber(discountedPrice) else { return }
+            guard let formattedDiscountedPrice = discountedPrice.formatInDecimalStyle() else { return }
             cell?.priceLabel.attributedText = "\(currency) \(formattedPrice)".strikeThrough()
             cell?.priceLabel.textColor = .red
             cell?.discountedPriceLabel.text = currency + " \(formattedDiscountedPrice)"
@@ -235,11 +235,13 @@ extension OpenMarketItemListViewController {
         self.dataSource.apply(self.snapshot, animatingDifferences: false)
     }
     
+    // MARK: - IBAction Methods
     @IBAction func onClickSegmentedControl(_ sender: UISegmentedControl) {
         viewDidLoad()
     }
 }
 
+// MARK: - CollectionView Delegate
 @available(iOS 14.0, *)
 extension OpenMarketItemListViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
@@ -250,6 +252,7 @@ extension OpenMarketItemListViewController: UICollectionViewDelegate {
     }
 }
 
+// MARK: - Networking
 @available(iOS 14.0, *)
 extension OpenMarketItemListViewController {
     private func loadItems(from page: Int, _ networkManager: NetworkManager) {
@@ -264,12 +267,5 @@ extension OpenMarketItemListViewController {
                 print(error.localizedDescription)
             }
         }
-    }
-    
-    private func formattedNumber(_ number: Int) -> String? {
-        let numberFormatter = NumberFormatter()
-        numberFormatter.numberStyle = .decimal
-        
-        return numberFormatter.string(for: number)
     }
 }
