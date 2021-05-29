@@ -17,9 +17,15 @@ struct ItemConfiguration: UIContentConfiguration, Hashable {
     var price: UInt?
     var discountPrice: UInt?
     var currency: String?
+    var mode: String?
     
     func makeContentView() -> UIView & UIContentView {
-        return ItemContentView(configuration: self)
+        if mode == "List" {
+            return ItemContentView(configuration: self)
+        } else {
+            return ItemGridContentView(configuration: self)
+        }
+        
     }
     
     func updated(for state: UIConfigurationState) -> Self {
