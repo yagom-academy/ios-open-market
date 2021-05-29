@@ -20,10 +20,14 @@ class OpenMarketItemListViewController: UIViewController {
     private var snapshot = NSDiffableDataSourceSnapshot<Section, Item>()
     private let networkManager = NetworkManager(.shared)
     private var currentPage: Int = 0
+    private var nextPage: Int {
+        return currentPage + 1
+    }
     
     /// Page loads new items when the cell ends displaying (total item numbers - triggingPagingBound).
     /// See collectionView(_:didEndDisplaying:forItemAt:) for further understanding.
-    private let pagingTriggingBound: Int = 18
+    private let pagingTriggerBound: Int = 20
+    
     // MARK: - Namespaces
     enum Section {
         case main
@@ -61,14 +65,14 @@ class OpenMarketItemListViewController: UIViewController {
             static let defaultThumbnail = UIImage(systemName: "photo.fill")
             static let stockLabelTextColor: UIColor = .gray
             static let priceLabelTextColor: UIColor = .gray
-            static let priceLabelWhenItemHasDiscountedPrice: UIColor = .red
+            static let priceLabelTextColorWhenItemHasDiscountedPrice: UIColor = .red
             static let discountedPriceLabelTextColor: UIColor = .gray
             static let stockLabelUpperBound: Int = 999
             static let stockNumberExpressedAsOutOfStock: Int = 0
             static let stockLabelWhenExceedsBoundedSet: String = "잔여수량 : 999+"
             static let stockLabelWhenOutOfStock: String = "품절"
             static let stockLabelTextColorWhenOutOfStock: UIColor = .orange
-            static let stockLabelForRemaining: String = "잔여수량 : "
+            static let stockLabelPrefix: String = "잔여수량 : "
         }
     }
     
@@ -78,9 +82,8 @@ class OpenMarketItemListViewController: UIViewController {
 
         configureHierarchy()
         configureDataSource()
+        registerCells()
         
-        collectionView.register(listCellNibName, forCellWithReuseIdentifier: Cell.ReuseIdentifier.listCell)
-        collectionView.register(gridCellNibName, forCellWithReuseIdentifier: Cell.ReuseIdentifier.gridCell)
         self.view.addSubview(activityIndicator)
         activityIndicator.startAnimating()
     }
@@ -135,21 +138,21 @@ extension OpenMarketItemListViewController {
             var cell: OpenMarketCell?
             
             self.dequeueCellByViewMode(&cell, collectionView, indexPath)
-            self.showActivityIndicatorUntilThumbnailLoadFinishes(cell, item)
+            self.showActivityIndicatorUntilThumbnailLoadFinishes(for: cell, with: item)
             self.insertTextToLabels(to: cell, with: item)
             
             return cell as? UICollectionViewCell
         }
         
         guard snapshot.numberOfItems == 0 else {
-            changeViewModeWithCurrentDataSource()
+            self.changeViewModeWithCurrentDataSource()
             return
         }
 
         self.snapshot = NSDiffableDataSourceSnapshot<Section, Item>()
-        snapshot.appendSections([.main])
+        self.snapshot.appendSections([.main])
         
-        loadItems(from: currentPage + 1, networkManager)
+        self.loadItems(from: nextPage, networkManager)
     }
     
     // MARK: - Component Methods for Configuring Data Source
@@ -162,11 +165,14 @@ extension OpenMarketItemListViewController {
         } else {
             cell = collectionView.dequeueReusableCell(withReuseIdentifier: Cell.ReuseIdentifier.gridCell,
                                                       for: indexPath) as! GridCollectionViewCell
-            
-            cell?.layer.borderWidth = Cell.GridCellDesign.borderWidth
-            cell?.layer.cornerRadius = Cell.GridCellDesign.cornerRadius
-            cell?.layer.borderColor = Cell.GridCellDesign.borderColor
+            self.applyGridCellDesign(to: cell)
         }
+    }
+    
+    private func applyGridCellDesign(to cell: OpenMarketCell?) {
+        cell?.layer.borderWidth = Cell.GridCellDesign.borderWidth
+        cell?.layer.cornerRadius = Cell.GridCellDesign.cornerRadius
+        cell?.layer.borderColor = Cell.GridCellDesign.borderColor
     }
     
     private func loadThumbnails(for cell: OpenMarketCell?, with item: Item) {
@@ -183,7 +189,7 @@ extension OpenMarketItemListViewController {
     
     private func insertTextToLabels(to cell: OpenMarketCell?, with item: Item) {
         guard let price: Int = item.price,
-              let formattedPrice: String = price.formatInDecimalStyle(),
+              let formattedPrice: String = price.decimalStyleFormat,
               let currency: String = item.currency else { return }
         
         cell?.titleLabel.text = item.title
@@ -196,9 +202,9 @@ extension OpenMarketItemListViewController {
             cell?.discountedPriceLabel.isHidden = true
         } else {
             guard let discountedPrice = item.discountedPrice,
-                  let formattedDiscountedPrice = discountedPrice.formatInDecimalStyle() else { return }
-            cell?.priceLabel.attributedText = "\(currency) \(formattedPrice)".strikeThrough()
-            cell?.priceLabel.textColor = Cell.UIContents.priceLabelWhenItemHasDiscountedPrice
+                  let formattedDiscountedPrice = discountedPrice.decimalStyleFormat else { return }
+            cell?.priceLabel.attributedText = "\(currency) \(formattedPrice)".strikeThrough
+            cell?.priceLabel.textColor = Cell.UIContents.priceLabelTextColorWhenItemHasDiscountedPrice
             cell?.discountedPriceLabel.text = currency + " \(formattedDiscountedPrice)"
             cell?.discountedPriceLabel.textColor = Cell.UIContents.discountedPriceLabelTextColor
         }
@@ -212,12 +218,12 @@ extension OpenMarketItemListViewController {
             cell?.stockLabel.text = Cell.UIContents.stockLabelWhenOutOfStock
             cell?.stockLabel.textColor = Cell.UIContents.stockLabelTextColorWhenOutOfStock
         } else {
-            cell?.stockLabel.text = Cell.UIContents.stockLabelForRemaining + "\(stock)"
+            cell?.stockLabel.text = Cell.UIContents.stockLabelPrefix + "\(stock)"
         }
     }
     
     /// This method contains the task for loading thumbnails.
-    private func showActivityIndicatorUntilThumbnailLoadFinishes(_ cell: OpenMarketCell?, _ item: Item) {
+    private func showActivityIndicatorUntilThumbnailLoadFinishes(for cell: OpenMarketCell?, with item: Item) {
         let thumbnailProcessingDispatchGroup = DispatchGroup()
         thumbnailProcessingDispatchGroup.enter()
         
@@ -239,6 +245,11 @@ extension OpenMarketItemListViewController {
         self.dataSource.apply(self.snapshot, animatingDifferences: false)
     }
     
+    private func registerCells() {
+        collectionView.register(listCellNibName, forCellWithReuseIdentifier: Cell.ReuseIdentifier.listCell)
+        collectionView.register(gridCellNibName, forCellWithReuseIdentifier: Cell.ReuseIdentifier.gridCell)
+    }
+    
     // MARK: - IBAction Methods
     @IBAction func onClickSegmentedControl(_ sender: UISegmentedControl) {
         viewDidLoad()
@@ -251,8 +262,8 @@ extension OpenMarketItemListViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView,
                         didEndDisplaying cell: UICollectionViewCell,
                         forItemAt indexPath: IndexPath) {
-        if indexPath.item == self.snapshot.numberOfItems - self.pagingTriggingBound {
-            loadItems(from: currentPage + 1, networkManager)
+        if indexPath.item == self.snapshot.numberOfItems - self.pagingTriggerBound {
+            self.loadItems(from: nextPage, networkManager)
         }
     }
 }

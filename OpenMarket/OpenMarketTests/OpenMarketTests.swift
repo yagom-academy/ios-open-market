@@ -294,7 +294,7 @@ extension OpenMarketTests {
     func testNumberFormatInDecimalStyle() {
         let number: Int = 1234567890
         
-        guard let formattedNumber: String = number.formatInDecimalStyle() else { return }
+        guard let formattedNumber: String = number.decimalStyleFormat else { return }
         
         XCTAssertEqual(formattedNumber, "1,234,567,890")
     }
