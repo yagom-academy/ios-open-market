@@ -201,13 +201,6 @@ extension ItemListViewController: UICollectionViewDelegate {
                 print("Failed to decode")
             }
             
-            do {
-                let message = try JSONDecoder().decode(Message.self, from: data!)
-                print("message : ", message)
-            } catch {
-                print("Failed to decode")
-            }
-            
         }
         navigationController?.pushViewController(DetailItemViewController, animated: true)
     }

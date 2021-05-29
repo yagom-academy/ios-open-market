@@ -16,7 +16,18 @@ class DetailItemViewController: UIViewController {
     @IBOutlet var price: UILabel!
     @IBOutlet var descriptions: UILabel!
     static let storyboardID = "DetailItemViewController"
-    var detailItemData: InformationOfItemResponse?
+    var detailItemData: InformationOfItemResponse? = nil {
+        willSet {
+            print("변경될 예장")
+        }
+        
+        didSet {
+            DispatchQueue.main.async {
+                self.setUpDataOfViewController()
+            }
+            print("변경됨")
+        }
+    }
     private lazy var actionSheetButton: UIButton = {
         let button = UIButton()
         button.setBackgroundImage(UIImage(systemName: "square.and.arrow.up"), for: .normal)
@@ -29,6 +40,7 @@ class DetailItemViewController: UIViewController {
         super.viewDidLoad()
         setUpCollectionView()
         initNavigationBar()
+        
     }
     
     private func setUpCollectionView() {
@@ -47,9 +59,18 @@ class DetailItemViewController: UIViewController {
         guard let detailItemData = detailItemData else { return }
         self.navigationItem.title = detailItemData.title
         postTitle.text = detailItemData.title
-        stock.text = String(detailItemData.stock)
-        price.text = String(detailItemData.price)
+        stock.text = "남은 수량 : " + String(detailItemData.stock)
         descriptions.text = detailItemData.descriptions
+        if let discountedPrice = detailItemData.discountedPrice {
+            self.discountedPrice.isHidden = false
+            self.discountedPrice.text = detailItemData.currency + " " + String(discountedPrice)
+            self.price.textColor = UIColor.red
+            self.price.text = detailItemData.currency + " " + String(detailItemData.price)
+            self.price.attributedText = self.price.text?.strikeThrough()
+        } else {
+            self.price.text = detailItemData.currency + " " + String(detailItemData.price)
+        }
+        
     }
     
     private func presentAlert(

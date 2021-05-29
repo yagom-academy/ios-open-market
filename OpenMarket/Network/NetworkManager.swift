@@ -35,12 +35,9 @@ class NetworkManager {
     
     func getDetailItemData( itemId: Int, completion: @escaping (Data?)->(Void))  {
        
-        guard let url = URL(string: Network.baseURL + "/items/\(itemId)") else { return  }
+        guard let url = URL(string: Network.baseURL + "/item/\(itemId)") else { return  }
         URLSession.shared.dataTask(with: url) { [weak self] (data, response, error) in
             self?.checkValidation(data: data, response: response, error: error)
-            print(itemId)
-            print(data)
-            print(response)
             completion(data)
         }.resume()
     }
