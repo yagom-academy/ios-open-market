@@ -23,7 +23,7 @@ class OpenMarketItemListViewController: UIViewController {
     
     /// Page loads new items when the cell ends displaying (total item numbers - triggingPagingBound).
     /// See collectionView(_:didEndDisplaying:forItemAt:) for further understanding.
-    private let triggingPagingBound: Int = 18
+    private let pagingTriggingBound: Int = 18
     // MARK: - Namespaces
     enum Section {
         case main
@@ -61,7 +61,10 @@ class OpenMarketItemListViewController: UIViewController {
             static let defaultThumbnail = UIImage(systemName: "photo.fill")
             static let stockLabelTextColor: UIColor = .gray
             static let priceLabelTextColor: UIColor = .gray
-            static let stockLabelBound: Int = 999
+            static let priceLabelWhenItemHasDiscountedPrice: UIColor = .red
+            static let discountedPriceLabelTextColor: UIColor = .gray
+            static let stockLabelUpperBound: Int = 999
+            static let stockNumberExpressedAsOutOfStock: Int = 0
             static let stockLabelWhenExceedsBoundedSet: String = "잔여수량 : 999+"
             static let stockLabelWhenOutOfStock: String = "품절"
             static let stockLabelTextColorWhenOutOfStock: UIColor = .orange
@@ -146,8 +149,7 @@ extension OpenMarketItemListViewController {
         self.snapshot = NSDiffableDataSourceSnapshot<Section, Item>()
         snapshot.appendSections([.main])
         
-        currentPage += 1
-        loadItems(from: currentPage, networkManager)
+        loadItems(from: currentPage + 1, networkManager)
     }
     
     // MARK: - Component Methods for Configuring Data Source
@@ -168,7 +170,9 @@ extension OpenMarketItemListViewController {
     }
     
     private func loadThumbnails(for cell: OpenMarketCell?, with item: Item) {
-        if let data = try? Data(contentsOf: URL(string: item.thumbnails![0])!) {
+        if let thumbnail = item.thumbnails?.first,
+            let thumbnailURL = URL(string: thumbnail),
+            let data = try? Data(contentsOf: thumbnailURL) {
             DispatchQueue.main.async {
                 cell?.thumbnailImageView.image = UIImage(data: data)
             }
@@ -178,9 +182,9 @@ extension OpenMarketItemListViewController {
     }
     
     private func insertTextToLabels(to cell: OpenMarketCell?, with item: Item) {
-        guard let price: Int = item.price else { return }
-        guard let formattedPrice: String = price.formatInDecimalStyle() else { return }
-        guard let currency: String = item.currency else { return }
+        guard let price: Int = item.price,
+              let formattedPrice: String = price.formatInDecimalStyle(),
+              let currency: String = item.currency else { return }
         
         cell?.titleLabel.text = item.title
         
@@ -188,27 +192,27 @@ extension OpenMarketItemListViewController {
             cell?.priceLabel.attributedText = NSAttributedString(
                 string: "\(currency) \(formattedPrice)"
             )
-            cell?.priceLabel.textColor = .gray
+            cell?.priceLabel.textColor = Cell.UIContents.priceLabelTextColor
             cell?.discountedPriceLabel.isHidden = true
         } else {
-            guard let discountedPrice = item.discountedPrice else { return }
-            guard let formattedDiscountedPrice = discountedPrice.formatInDecimalStyle() else { return }
+            guard let discountedPrice = item.discountedPrice,
+                  let formattedDiscountedPrice = discountedPrice.formatInDecimalStyle() else { return }
             cell?.priceLabel.attributedText = "\(currency) \(formattedPrice)".strikeThrough()
-            cell?.priceLabel.textColor = .red
+            cell?.priceLabel.textColor = Cell.UIContents.priceLabelWhenItemHasDiscountedPrice
             cell?.discountedPriceLabel.text = currency + " \(formattedDiscountedPrice)"
-            cell?.discountedPriceLabel.textColor = .gray
+            cell?.discountedPriceLabel.textColor = Cell.UIContents.discountedPriceLabelTextColor
         }
         
         guard let stock = item.stock else { return }
         
         cell?.stockLabel.textColor = Cell.UIContents.stockLabelTextColor
-        if stock > Cell.UIContents.stockLabelBound {
+        if stock > Cell.UIContents.stockLabelUpperBound {
             cell?.stockLabel.text = Cell.UIContents.stockLabelWhenExceedsBoundedSet
-        } else if stock == 0 {
+        } else if stock == Cell.UIContents.stockNumberExpressedAsOutOfStock {
             cell?.stockLabel.text = Cell.UIContents.stockLabelWhenOutOfStock
             cell?.stockLabel.textColor = Cell.UIContents.stockLabelTextColorWhenOutOfStock
         } else {
-            cell?.stockLabel.text = Cell.UIContents.stockLabelForRemaining + "\(item.stock!)"
+            cell?.stockLabel.text = Cell.UIContents.stockLabelForRemaining + "\(stock)"
         }
     }
     
@@ -244,10 +248,11 @@ extension OpenMarketItemListViewController {
 // MARK: - CollectionView Delegate
 @available(iOS 14.0, *)
 extension OpenMarketItemListViewController: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        if indexPath.row == self.snapshot.numberOfItems - self.triggingPagingBound {
-            currentPage += 1
-            loadItems(from: currentPage, networkManager)
+    func collectionView(_ collectionView: UICollectionView,
+                        didEndDisplaying cell: UICollectionViewCell,
+                        forItemAt indexPath: IndexPath) {
+        if indexPath.item == self.snapshot.numberOfItems - self.pagingTriggingBound {
+            loadItems(from: currentPage + 1, networkManager)
         }
     }
 }
@@ -255,8 +260,9 @@ extension OpenMarketItemListViewController: UICollectionViewDelegate {
 // MARK: - Networking
 @available(iOS 14.0, *)
 extension OpenMarketItemListViewController {
-    private func loadItems(from page: Int, _ networkManager: NetworkManager) {
-        networkManager.request(ItemList.self, url: OpenMarketURL.viewItemList(page).url) { result in
+    private func loadItems(from nextPage: Int, _ networkManager: NetworkManager) {
+        self.currentPage = nextPage
+        networkManager.request(ItemList.self, url: OpenMarketURL.viewItemList(nextPage).url) { result in
             switch result {
             case .success(let itemList):
                 if itemList.items.isEmpty { return }
