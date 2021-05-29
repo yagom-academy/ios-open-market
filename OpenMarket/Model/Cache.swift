@@ -12,6 +12,7 @@ class Cache {
     static var shared = Cache()
     var pageDataList: [Int : ItemsOfPageReponse] = [:]
     var detailItemInformationList: [Int : InformationOfItemResponse] = [:]
+    var imageDataList: [Int : [Data]] = [:]
     var numberOfItems = 0
     var maxPageNumber = 0
     var minPageNumber = 0

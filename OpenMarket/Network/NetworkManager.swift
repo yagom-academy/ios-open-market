@@ -92,13 +92,11 @@ class NetworkManager {
         return images
     }
     
-    func postItem(requestData: Request, completion: @escaping (Data?)->(Void)){
-       
-        guard let mediaImage = ItemImage(withImage: UIImage(named: "clear")!, forKey: "images[]",fileName: "clear") else { return }
+    func postItem(requestData: Request){
         
         guard let url = URL(string: Network.baseURL + "/item") else { return }
         var request = URLRequest(url: url)
-        request.httpMethod = "POST"
+        request.httpMethod = HTTPMethod.POST.rawValue
         
         let boundary = generateBoundary()
         
@@ -121,7 +119,6 @@ class NetworkManager {
                     print(error)
                 }
             }
-            completion(data)
         }.resume()
     }
     

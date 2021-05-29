@@ -9,7 +9,6 @@ import UIKit
 @available(iOS 14.0, *)
 class ItemListViewController: UIViewController {
     
-    
     private var layoutType = LayoutType.list
     lazy var rightNvigationItem: UIButton = {
         let button = UIButton()
@@ -93,20 +92,8 @@ extension ItemListViewController: UICollectionViewDataSource {
             guard let _ = Cache.shared.pageDataList[pageIndex] else { return cell }
             guard let data = Cache.shared.pageDataList[pageIndex]?.items[itemIndex] else { return cell }
             
-            DispatchQueue.global().async {
-                do {
-                    guard let imageURL = URL(string: data.thumbnails[0]) else { return }
-                    let imageData = try Data(contentsOf: imageURL)
-                    DispatchQueue.main.async{
-                        if indexPath == cell.representedIdentifier {
-                            cell.itemImage.image = UIImage(data: imageData)
-                            cell.configure(with: data)
-                        }
-                    }
-                } catch {
-                    print("Invalid URL")
-                    return
-                }
+            if indexPath == cell.representedIdentifier {
+                cell.configure(with: data, pageIndex: pageIndex, itemIndex: itemIndex)
             }
             
             return cell
@@ -120,26 +107,39 @@ extension ItemListViewController: UICollectionViewDataSource {
             guard let _ = Cache.shared.pageDataList[pageIndex] else { return cell }
             guard let data = Cache.shared.pageDataList[pageIndex]?.items[itemIndex] else { return cell }
             
-            DispatchQueue.global().async {
-                do {
-                    guard let imageURL = URL(string: data.thumbnails[0]) else { return }
-                    let imageData = try Data(contentsOf: imageURL)
-                    DispatchQueue.main.async{
-                        if indexPath == cell.representedIdentifier {
-                            cell.itemImage.image = UIImage(data: imageData)
-                            cell.configure(with: data)
-                        }
-                    }
-                } catch {
-                    print("Invalid URL")
-                    return
-                }
+            if indexPath == cell.representedIdentifier {
+                cell.configure(with: data, pageIndex: pageIndex, itemIndex: itemIndex)
             }
 
             return cell
         }
     }
-
+    
+    private func isThereItemInItems(items: [Item]) -> Bool {
+        guard items.count != 0 else {
+            DispatchQueue.main.async {
+                IndicatorView.shared.dismiss()
+            }
+            return false
+        }
+        return true
+    }
+    
+    private func cacheImageData(items: [Item], pageNumber: Int) {
+        var imageDataList: [Data] = []
+        for item in items {
+            do {
+                guard let imageURL = URL(string: item.thumbnails[0]) else { return }
+                let imageData = try Data(contentsOf: imageURL)
+                imageDataList.append(imageData)
+            } catch {
+                print("Invalid URL")
+                return
+            }
+        }
+        Cache.shared.imageDataList[pageNumber] = imageDataList
+    }
+    
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let offsetY = scrollView.contentOffset.y
         let contentHeight = scrollView.contentSize.height
@@ -156,13 +156,9 @@ extension ItemListViewController: UICollectionViewDataSource {
             NetworkManager.shared.getItemsOfPageData(pagination: true, pageNumber: pageNumber) { [weak self] data, pageNumber in
                 do {
                     let data = try JSONDecoder().decode(ItemsOfPageReponse.self, from: data!)
-                    guard data.items.count != 0 else {
-                        DispatchQueue.main.async {
-                            IndicatorView.shared.dismiss()
-                        }
-                        return
-                    }
+                    guard self?.isThereItemInItems(items: data.items) == true else { return }
                     guard let pageNumber = pageNumber else { return }
+                    self?.cacheImageData(items:data.items, pageNumber: pageNumber)
                     Cache.shared.pageDataList[pageNumber] = data
                     Cache.shared.numberOfItems = (Cache.shared.pageDataList.count-1) * 20 + (Cache.shared.pageDataList[pageNumber]?.items.count ?? 0)
                     self?.updatePageNumber(pageNumber: pageNumber)

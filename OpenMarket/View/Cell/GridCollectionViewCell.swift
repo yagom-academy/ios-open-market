@@ -41,7 +41,7 @@ class GridCollectionViewCell: UICollectionViewCell {
         self.itemPrice.textColor = UIColor.lightGray
     }
     
-    func configure(with data: Item) {
+    func configure(with data: Item, pageIndex: Int, itemIndex: Int) {
         self.itemTitle.text = data.title
         self.numberOfItemStock.text = "잔여수량 : " + String(data.stock)
         if let discountedPrice = data.discountedPrice {
@@ -53,6 +53,8 @@ class GridCollectionViewCell: UICollectionViewCell {
         } else {
             self.itemPrice.text = data.currency + " " + String(data.price)
         }
+        guard let images = Cache.shared.imageDataList[pageIndex]  else { return }
+        self.itemImage.image = UIImage(data: images[itemIndex])
     }
     
 }

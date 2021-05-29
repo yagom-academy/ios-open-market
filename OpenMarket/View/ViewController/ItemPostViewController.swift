@@ -99,25 +99,7 @@ class ItemPostViewController: UIViewController {
             print("Input Error")
         }
         guard let itemPostInformation = itemPostInformation else { return }
-        NetworkManager.shared.postItem(requestData: itemPostInformation) {[weak self] data in
-            do {
-                print("rawData : \(data)")
-                let data = try JSONDecoder().decode(InformationOfItemResponse.self, from: data!)
-                Cache.shared.detailItemInformationList[data.id] = data
-                print("decodedData : \(data)")
-                return
-            } catch {
-                print("Failed to decode")
-            }
-            
-            do {
-                let message = try JSONDecoder().decode(Message.self, from: data!)
-                print("message : ",message)
-            } catch {
-                print("Failed to decode")
-            }
-            
-        }
+        NetworkManager.shared.postItem(requestData: itemPostInformation) 
         navigationController?.popViewController(animated: true)
     }
 }
