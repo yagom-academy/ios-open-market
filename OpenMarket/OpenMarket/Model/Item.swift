@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Item: Codable, Equatable, MultipartTypeConverter {
+struct Item: Codable, Equatable, Hashable, MultipartTypeConverter {
     let id: Int?
     let title: String?
     let descriptions: String?

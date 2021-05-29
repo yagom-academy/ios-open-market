@@ -290,4 +290,12 @@ extension OpenMarketTests {
         test(url, decodedMockData, expectation)
         wait(for: [expectation], timeout: expectationTimeout)
     }
+    
+    func testNumberFormatInDecimalStyle() {
+        let number: Int = 1234567890
+        
+        guard let formattedNumber: String = number.formatInDecimalStyle() else { return }
+        
+        XCTAssertEqual(formattedNumber, "1,234,567,890")
+    }
 }
