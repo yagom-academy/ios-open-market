@@ -16,16 +16,12 @@ class DetailItemViewController: UIViewController {
     @IBOutlet var price: UILabel!
     @IBOutlet var descriptions: UILabel!
     static let storyboardID = "DetailItemViewController"
+    var imageDataList: [Data] = []
     var detailItemData: InformationOfItemResponse? = nil {
-        willSet {
-            print("변경될 예장")
-        }
-        
         didSet {
             DispatchQueue.main.async {
                 self.setUpDataOfViewController()
             }
-            print("변경됨")
         }
     }
     private lazy var actionSheetButton: UIButton = {
@@ -70,7 +66,23 @@ class DetailItemViewController: UIViewController {
         } else {
             self.price.text = detailItemData.currency + " " + String(detailItemData.price)
         }
-        
+        self.collectionView.reloadData()
+    }
+    
+    private func setUpImageData(detailItemData:InformationOfItemResponse) throws {
+        DispatchQueue.global().async {
+            for image in detailItemData.images {
+                do {
+                    guard let imageURL = URL(string: image) else { return }
+                    let imageData = try Data(contentsOf: imageURL)
+                    self.imageDataList.append(imageData)
+                } catch {
+                    print("Invalid URL")
+                    return
+                }
+            }
+            print(self.imageDataList)
+        }
     }
     
     private func presentAlert(
@@ -114,8 +126,21 @@ extension DetailItemViewController: UICollectionViewDataSource {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotoCollectionViewCell.identifier, for: indexPath) as? PhotoCollectionViewCell else  {
             return UICollectionViewCell()
         }
+        
         guard let detailItemData = detailItemData else { return cell }
-        cell.itemImage.image = UIImage(named: detailItemData.images[indexPath.item])
+        DispatchQueue.global().async {
+            do {
+                guard let imageURL = URL(string: detailItemData.images[indexPath.item]) else { return }
+                let imageData = try Data(contentsOf: imageURL)
+                DispatchQueue.main.async{
+                    cell.itemImage.image = UIImage(data: imageData)
+                }
+            } catch {
+                print("Invalid URL")
+            }
+        }
+        
+        
         return cell
         
     }
