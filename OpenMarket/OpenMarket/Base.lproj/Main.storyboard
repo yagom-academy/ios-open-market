@@ -59,6 +59,11 @@
                                 <action selector="didTapSegmentWithSegment:" destination="BYZ-38-t0r" eventType="valueChanged" id="1oS-a3-45f"/>
                             </connections>
                         </segmentedControl>
+                        <barButtonItem key="rightBarButtonItem" title="+" id="n86-am-LhH">
+                            <connections>
+                                <segue destination="QgT-QK-jyY" kind="show" id="gLH-93-KOa"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="gridContainer" destination="KDm-1c-hkF" id="fJv-5G-699"/>
@@ -184,6 +189,22 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pfi-qO-ZSw" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1792.753623188406" y="-169.41964285714286"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="1wd-Kp-Qni">
+            <objects>
+                <viewController id="QgT-QK-jyY" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="eCV-ha-ZUJ">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="ifD-pQ-nAM"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="QXZ-bZ-wGh"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="sfj-d1-HMM" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1793" y="1062"/>
         </scene>
         <!--GridVC-->
         <scene sceneID="1hc-C4-l1o">
