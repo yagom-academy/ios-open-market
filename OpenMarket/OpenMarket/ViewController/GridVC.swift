@@ -12,7 +12,7 @@ class GridVC: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
     
     var items: [Item] = []
-   
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -35,11 +35,13 @@ class GridVC: UIViewController {
             }
         }
     }
+    
+    
 }
 
 
 extension GridVC: UICollectionViewDelegate {
-
+    
     
 }
 
@@ -52,19 +54,19 @@ extension GridVC: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "GridVCCell", for: indexPath) as! GridVCCell
         
+        cell.layer.borderColor = UIColor.lightGray.cgColor
+        cell.layer.borderWidth = 1.0
+        cell.layer.cornerRadius = 10.0
+        
         cell.setup()
-
+        
         if self.items.count > 0 {
             cell.item = items[indexPath.row]
             cell.setupItem()
-            
-            cell.layer.borderColor = UIColor.lightGray.cgColor
-            cell.layer.borderWidth = 1.0
-            cell.layer.cornerRadius = 10.0
         }
         return cell
     }
-
+    
     
 }
 
@@ -74,12 +76,13 @@ extension String {
         attributeString.addAttribute(NSAttributedString.Key.strikethroughStyle, value: NSUnderlineStyle.single.rawValue, range: NSMakeRange(0,attributeString.length))
         return attributeString
     }
-
+    
     func removeStrikeThrough() -> NSAttributedString {
         let attributeString = NSMutableAttributedString(string: self)
         attributeString.removeAttribute(NSAttributedString.Key.strikethroughStyle, range: NSMakeRange(0, attributeString.length))
         return attributeString
     }
-
-}
     
+    
+}
+
