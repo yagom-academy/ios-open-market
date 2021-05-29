@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="GridCollectionViewCell" customModule="OpenMarket" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="200" height="302"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="200" height="302"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" adjustsImageSizeForAccessibilityContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Hhe-LK-ebO">
+                        <rect key="frame" x="14" y="16" width="173" height="135"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="135" id="e2F-DX-XXW"/>
+                            <constraint firstAttribute="width" priority="999" constant="173" id="qQE-OL-Dyy"/>
+                        </constraints>
+                    </imageView>
+                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="2Sa-im-uRf">
+                        <rect key="frame" x="10" y="171" width="180" height="106"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="1000" text="Title" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WqK-rV-cZa">
+                                <rect key="frame" x="0.0" y="0.0" width="180" height="17"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="CsD-FT-0l0">
+                                <rect key="frame" x="0.0" y="40" width="180" height="29"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="250" text="Price" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fvb-re-ZsN">
+                                        <rect key="frame" x="0.0" y="0.0" width="180" height="14.5"/>
+                                        <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="250" text="Discounted Price" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DQG-3X-L3P">
+                                        <rect key="frame" x="0.0" y="14.5" width="180" height="14.5"/>
+                                        <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                            </stackView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="250" text="Stock" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3ZM-8p-jio">
+                                <rect key="frame" x="0.0" y="91.5" width="180" height="14.5"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                    </stackView>
+                </subviews>
+            </view>
+            <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
+            <constraints>
+                <constraint firstItem="Hhe-LK-ebO" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="16" id="6RR-Ek-elk"/>
+                <constraint firstAttribute="trailing" secondItem="Hhe-LK-ebO" secondAttribute="trailing" constant="13" id="8Tk-aC-kRu"/>
+                <constraint firstItem="2Sa-im-uRf" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="BO2-qG-Noj"/>
+                <constraint firstAttribute="bottom" secondItem="2Sa-im-uRf" secondAttribute="bottom" constant="25" id="FOr-Kn-nJe"/>
+                <constraint firstItem="2Sa-im-uRf" firstAttribute="top" secondItem="Hhe-LK-ebO" secondAttribute="bottom" constant="20" id="Zj3-F2-fqB"/>
+                <constraint firstItem="2Sa-im-uRf" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="10" id="fJX-d7-8MR"/>
+                <constraint firstItem="Hhe-LK-ebO" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="14" id="o0u-tq-yN9"/>
+                <constraint firstAttribute="trailing" secondItem="2Sa-im-uRf" secondAttribute="trailing" constant="10" id="uNL-9C-gDz"/>
+            </constraints>
+            <size key="customSize" width="200" height="302"/>
+            <connections>
+                <outlet property="discountedPriceLabel" destination="DQG-3X-L3P" id="4Vz-EQ-5j0"/>
+                <outlet property="priceLabel" destination="fvb-re-ZsN" id="xoI-HM-bQs"/>
+                <outlet property="stockLabel" destination="3ZM-8p-jio" id="PYo-7l-TVm"/>
+                <outlet property="thumbnailImageView" destination="Hhe-LK-ebO" id="tFN-s1-xDd"/>
+                <outlet property="titleLabel" destination="WqK-rV-cZa" id="xGd-bI-02D"/>
+            </connections>
+            <point key="canvasLocation" x="246.37681159420291" y="218.97321428571428"/>
+        </collectionViewCell>
+    </objects>
+</document>
