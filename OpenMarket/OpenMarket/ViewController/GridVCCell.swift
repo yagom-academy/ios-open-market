@@ -28,13 +28,15 @@ class GridVCCell: UICollectionViewCell {
         if let data: Item = self.item {
             thumbnail.downloadImage(from: data.thumbnails[0])
             title.text = data.title
-            price.text = "\(data.price)"
+            price.text = data.currency + " \(data.price)"
+            price.textColor = UIColor.lightGray
             if let salePrice = data.discountedPrice {
-                discountedPrice.text = "\(salePrice)"
+                discountedPrice.text = data.currency + " \(salePrice)"
                 discountedPrice.attributedText = discountedPrice.text?.strikeThrough()
                 discountedPrice.textColor = UIColor.red
             }
             stock.text = "잔여수량 : " + "\(data.stock)"
+            stock.textColor = UIColor.lightGray
         } else {
             print("no item")
         }
