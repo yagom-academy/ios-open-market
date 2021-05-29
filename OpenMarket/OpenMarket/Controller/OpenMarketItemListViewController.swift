@@ -20,15 +20,15 @@ class OpenMarketItemListViewController: UIViewController {
     private var snapshot = NSDiffableDataSourceSnapshot<Section, Item>()
     private let networkManager = NetworkManager(.shared)
     private var currentPage: Int = 0
-    
+    private let triggingPagingBound: Int = 18
     // MARK: - Namespaces
     enum Section {
         case main
     }
     
-    enum Paging {
-        static let triggerBound: Int = 18
-    }
+    
+        
+    
     
     enum Cell {
         enum ReuseIdentifier {
@@ -243,7 +243,7 @@ extension OpenMarketItemListViewController {
 @available(iOS 14.0, *)
 extension OpenMarketItemListViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        if indexPath.row == self.snapshot.numberOfItems - Paging.triggerBound {
+        if indexPath.row == self.snapshot.numberOfItems - self.triggingPagingBound {
             currentPage += 1
             loadItems(from: currentPage, networkManager)
         }
