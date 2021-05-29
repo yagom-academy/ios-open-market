@@ -16,14 +16,28 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="Lz6-T0-DYd">
+                                <rect key="frame" x="177" y="418" width="60" height="60"/>
+                            </activityIndicatorView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Lz6-T0-DYd" secondAttribute="trailing" constant="177" id="IgH-ak-2h9"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="Lz6-T0-DYd" secondAttribute="bottom" constant="384" id="gEg-gf-HF4"/>
+                            <constraint firstItem="Lz6-T0-DYd" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="177" id="gbc-v4-5S5"/>
+                            <constraint firstItem="Lz6-T0-DYd" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="330" id="x3p-DG-pMj"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="kb7-j7-2O9"/>
+                    <connections>
+                        <outlet property="indicator" destination="Lz6-T0-DYd" id="mOM-dm-4tr"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1042.0289855072465" y="115.84821428571428"/>
+            <point key="canvasLocation" x="1047.8260869565217" y="115.84821428571428"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="hcl-Pa-jE1">
