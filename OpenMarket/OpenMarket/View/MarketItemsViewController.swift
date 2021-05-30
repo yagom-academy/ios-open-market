@@ -108,20 +108,12 @@ class MarketItemsViewController: UIViewController {
         }
     }
     
-    private func setSnapshotList() {
+    private func setSnapshot(_ section: Section) {
         guard let data = dataItems else { return }
         snapshot = NSDiffableDataSourceSnapshot<Section, MarketItems.Infomation>()
-        snapshot.appendSections([.marketItemsList])
-        snapshot.appendItems(data, toSection: .marketItemsList)
+        snapshot.appendSections([section])
+        snapshot.appendItems(data, toSection: section)
         self.dataSource.apply(snapshot, animatingDifferences: true)
-    }
-    
-    private func setSnapshotGrid() {
-        guard let data = dataItems else { return }
-        snapshot = NSDiffableDataSourceSnapshot<Section, MarketItems.Infomation>()
-        snapshot.appendSections([.marketItmesGrid])
-        snapshot.appendItems(data, toSection: .marketItmesGrid)
-        dataSource.apply(snapshot, animatingDifferences: true)
     }
     
     func segmentedControllerinNevigationItme() {
@@ -154,7 +146,7 @@ class MarketItemsViewController: UIViewController {
                 DispatchQueue.main.async {
                     self.collectionView.collectionViewLayout = listLayout
                     self.registrateListCell()
-                    self.setSnapshotList()
+                    self.setSnapshot(.marketItemsList)
                     self.indicator.stopAnimating()
                     self.indicator.isHidden = true
                 }
@@ -167,7 +159,7 @@ class MarketItemsViewController: UIViewController {
                 DispatchQueue.main.async {
                     self.setCollectionViewGrid()
                     self.registrateGridCell()
-                    self.setSnapshotGrid()
+                    self.setSnapshot(.marketItmesGrid)
                     self.indicator.stopAnimating()
                     self.indicator.isHidden = true
                 }
