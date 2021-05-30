@@ -17,9 +17,7 @@ class MarketItemsViewController: UIViewController {
     var MarketItemPage = 1 {
         willSet {
             fetchItem(newValue) {
-                if self.dataItems == nil {
-                    return
-                }
+                if self.dataItems == nil { return }
                 DispatchQueue.main.async {
                     if self.segmentControl.numberOfSegments == 0 {
                         self.snapshot.appendItems(self.dataItems!)
