@@ -104,7 +104,7 @@ extension ItemContentView {
         DispatchQueue.global().async {
             guard let data = try? Data(contentsOf: url) else { return }
             DispatchQueue.main.async {
-                self.ItemImageView.image = UIImage(data: data)!
+                self.ItemImageView.image = UIImage(data: data) ?? UIImage()
             }
         }
     }

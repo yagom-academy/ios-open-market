@@ -14,7 +14,25 @@ class MarketItemsViewController: UIViewController {
     var dataSource: UICollectionViewDiffableDataSource<Section, MarketItems.Infomation>!
     var snapshot = NSDiffableDataSourceSnapshot<Section, MarketItems.Infomation>()
     var segmentControl: UISegmentedControl!
-    var MarketItemPage = 1
+    var currentCell = 0
+    var MarketItemPage = 1 {
+        willSet {
+            fetchItem(newValue) {
+                if self.dataItems == nil {
+                    return
+                }
+                DispatchQueue.main.async {
+                    if self.segmentControl.numberOfSegments == 0 {
+                        self.snapshot.appendItems(self.dataItems!)
+                        self.dataSource.apply(self.snapshot, animatingDifferences: true)
+                    } else {
+                        self.snapshot.appendItems(self.dataItems!)
+                        self.dataSource.apply(self.snapshot, animatingDifferences: true)
+                    }
+                }
+            }
+        }
+    }
     var dataItems: [MarketItems.Infomation]?
     
     enum Section {
@@ -26,6 +44,7 @@ class MarketItemsViewController: UIViewController {
         super.viewDidLoad()
         segmentedControllerinNevigationItme()
         setCollectionViewList()
+        self.collectionView.delegate = self
         self.collectionView.backgroundColor = .clear
     }
     
@@ -75,7 +94,7 @@ class MarketItemsViewController: UIViewController {
         dataSource = UICollectionViewDiffableDataSource<Section, MarketItems.Infomation>(collectionView: collectionView) { (collectionView: UICollectionView, indexPath: IndexPath, identifier: MarketItems.Infomation) -> UICollectionViewCell in
             let cell = collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: identifier)
             cell.accessories = [.disclosureIndicator()]
-    
+            
             return cell
         }
     }
@@ -87,7 +106,10 @@ class MarketItemsViewController: UIViewController {
         
         dataSource = UICollectionViewDiffableDataSource<Section, MarketItems.Infomation>(collectionView: collectionView) { (collectionView: UICollectionView, indexPath: IndexPath, identifier: MarketItems.Infomation) -> UICollectionViewCell in
             let cell = collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: identifier)
-    
+            print(indexPath.row)
+            if indexPath.row == 17 {
+                self.MarketItemPage += 1
+            }
             return cell
         }
     }
@@ -129,15 +151,15 @@ class MarketItemsViewController: UIViewController {
     }
     
     @objc func segmentChanged() {
-        
         switch segmentControl.selectedSegmentIndex {
         case 0:
             // list
             indicator.startAnimating()
-            fetchItem(MarketItemPage) {
+            fetchItem(1) {
+                self.MarketItemPage = 1
+                let layoutConfig = UICollectionLayoutListConfiguration(appearance: .plain)
+                let listLayout = UICollectionViewCompositionalLayout.list(using: layoutConfig)
                 DispatchQueue.main.async {
-                    let layoutConfig = UICollectionLayoutListConfiguration(appearance: .plain)
-                    let listLayout = UICollectionViewCompositionalLayout.list(using: layoutConfig)
                     self.collectionView.collectionViewLayout = listLayout
                     self.registrateListCell()
                     self.setSnapshotList()
@@ -148,7 +170,8 @@ class MarketItemsViewController: UIViewController {
         case 1:
             // grid
             indicator.startAnimating()
-            fetchItem(MarketItemPage) {
+            fetchItem(1) {
+                self.MarketItemPage = 1
                 DispatchQueue.main.async {
                     self.setCollectionViewGrid()
                     self.registrateGridCell()
@@ -176,6 +199,16 @@ class MarketItemsViewController: UIViewController {
                 // TODO: 디코드 실패시 오류 처리
                 fatalError()
             }
+        }
+    }
+}
+
+@available(iOS 14.0, *)
+extension MarketItemsViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        print(indexPath.row)
+        if indexPath.row == self.snapshot.numberOfItems - 8 {
+            self.MarketItemPage += 1
         }
     }
 }
