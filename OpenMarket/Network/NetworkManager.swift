@@ -34,7 +34,6 @@ class NetworkManager {
     }
     
     func getDetailItemData( itemId: Int, completion: @escaping (Data?)->(Void))  {
-       
         guard let url = URL(string: Network.baseURL + "/item/\(itemId)") else { return  }
         URLSession.shared.dataTask(with: url) { [weak self] (data, response, error) in
             self?.checkValidation(data: data, response: response, error: error)
@@ -51,6 +50,8 @@ class NetworkManager {
             print("Invalid Response")
             return
         }
+        print("\(httpResponse)")
+        print(Cache.shared.itemDataList.count)
         
         guard (200...299).contains(httpResponse.statusCode) else {
             print("Status Code: \(httpResponse.statusCode)")

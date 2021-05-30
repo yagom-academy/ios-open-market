@@ -30,10 +30,6 @@ class ItemListViewController: UIViewController {
         collectionView.reloadData()
     }
     
-    @IBAction func unwind(_ unwindSegue: UIStoryboardSegue) {
-        
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpSegmentedControl()
@@ -76,12 +72,12 @@ class ItemListViewController: UIViewController {
 @available(iOS 14.0, *)
 extension ItemListViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return Cache.shared.numberOfItems
+        return Cache.shared.itemDataList.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let pageIndex = indexPath.item / 20 + 1
-        let itemIndex = indexPath.item % 20
+//        let pageIndex = indexPath.item / 20 + 1
+//        let itemIndex = indexPath.item % 20
         
         if layoutType == LayoutType.grid {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: GridCollectionViewCell.identifier, for: indexPath) as? GridCollectionViewCell else  {
@@ -89,11 +85,11 @@ extension ItemListViewController: UICollectionViewDataSource {
             }
             
             cell.representedIdentifier = indexPath
-            guard let _ = Cache.shared.pageDataList[pageIndex] else { return cell }
-            guard let data = Cache.shared.pageDataList[pageIndex]?.items[itemIndex] else { return cell }
+            guard Cache.shared.itemDataList.count > indexPath.item else { return cell}
+            let data = Cache.shared.itemDataList[indexPath.item]
             
             if indexPath == cell.representedIdentifier {
-                cell.configure(with: data, pageIndex: pageIndex, itemIndex: itemIndex)
+                cell.configure(with: data, itemIndexPath: indexPath.item)
             }
             
             return cell
@@ -104,11 +100,10 @@ extension ItemListViewController: UICollectionViewDataSource {
             }
             cell.representedIdentifier = indexPath
             cell.accessories = [.disclosureIndicator()]
-            guard let _ = Cache.shared.pageDataList[pageIndex] else { return cell }
-            guard let data = Cache.shared.pageDataList[pageIndex]?.items[itemIndex] else { return cell }
-            
+            guard Cache.shared.itemDataList.count > indexPath.item else { return cell}
+            let data = Cache.shared.itemDataList[indexPath.item]
             if indexPath == cell.representedIdentifier {
-                cell.configure(with: data, pageIndex: pageIndex, itemIndex: itemIndex)
+                cell.configure(with: data, itemIndexPath: indexPath.item)
             }
 
             return cell
@@ -125,19 +120,31 @@ extension ItemListViewController: UICollectionViewDataSource {
         return true
     }
     
-    private func cacheImageData(items: [Item], pageNumber: Int) {
-        var imageDataList: [Data] = []
+    private func cacheThumbnailImageData(items: [Item]) -> [Data] {
+        var thumbnailImageDataList: [Data] = []
         for item in items {
             do {
-                guard let imageURL = URL(string: item.thumbnails[0]) else { return }
+                guard let imageURL = URL(string: item.thumbnails[0]) else { return [] }
                 let imageData = try Data(contentsOf: imageURL)
-                imageDataList.append(imageData)
+                thumbnailImageDataList.append(imageData)
             } catch {
                 print("Invalid URL")
-                return
+                return []
             }
         }
-        Cache.shared.imageDataList[pageNumber] = imageDataList
+        return thumbnailImageDataList
+    }
+    
+    private func updateItemDataList(itemDataList: [Item], thumbnailImageDataList: [Data]) {
+        if Cache.shared.recentUpdatedItemDataCountOfItemDataList > 0, Cache.shared.recentUpdatedItemDataCountOfItemDataList < 20 {
+            for _ in 1...Cache.shared.recentUpdatedItemDataCountOfItemDataList {
+                Cache.shared.itemDataList.removeLast()
+                Cache.shared.thumbnailImageDataList.removeLast()
+            }
+        }
+        Cache.shared.thumbnailImageDataList += thumbnailImageDataList
+        Cache.shared.itemDataList += itemDataList
+        Cache.shared.recentUpdatedItemDataCountOfItemDataList = itemDataList.count
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -146,7 +153,7 @@ extension ItemListViewController: UICollectionViewDataSource {
         var pageNumber = Cache.shared.maxPageNumber + 1
         
         if offsetY > contentHeight - scrollView.frame.height {
-            if let itemCount = Cache.shared.pageDataList[Cache.shared.maxPageNumber]?.items.count, itemCount < 20 {
+            if Cache.shared.recentUpdatedItemDataCountOfItemDataList < 20, Cache.shared.maxPageNumber != 0  {
                 pageNumber = Cache.shared.maxPageNumber
             }
            
@@ -155,14 +162,18 @@ extension ItemListViewController: UICollectionViewDataSource {
             IndicatorView.shared.showIndicator()
             NetworkManager.shared.getItemsOfPageData(pagination: true, pageNumber: pageNumber) { [weak self] data, pageNumber in
                 do {
+                    print("count : ", Cache.shared.recentUpdatedItemDataCountOfItemDataList)
                     let data = try JSONDecoder().decode(ItemsOfPageReponse.self, from: data!)
+                    print("1 \(pageNumber)")
                     guard self?.isThereItemInItems(items: data.items) == true else { return }
+                    print("2")
+                    guard let thumbnailImageDataList = self?.cacheThumbnailImageData(items: data.items) else { return }
+                    print("3")
                     guard let pageNumber = pageNumber else { return }
-                    self?.cacheImageData(items:data.items, pageNumber: pageNumber)
-                    Cache.shared.pageDataList[pageNumber] = data
-                    Cache.shared.numberOfItems = (Cache.shared.pageDataList.count-1) * 20 + (Cache.shared.pageDataList[pageNumber]?.items.count ?? 0)
                     self?.updatePageNumber(pageNumber: pageNumber)
                     DispatchQueue.main.async {
+                        print("4")
+                        self?.updateItemDataList(itemDataList: data.items, thumbnailImageDataList: thumbnailImageDataList)
                         self?.collectionView.reloadData()
                         IndicatorView.shared.dismiss()
                     }

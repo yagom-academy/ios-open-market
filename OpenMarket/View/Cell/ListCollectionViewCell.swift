@@ -41,7 +41,7 @@ class ListCollectionViewCell: UICollectionViewListCell {
         NSLayoutConstraint.activate([separatorLayoutGuide.leadingAnchor.constraint(equalTo: itemImage.leadingAnchor)])
     }
     
-    func configure(with data: Item, pageIndex: Int, itemIndex: Int) {
+    func configure(with data: Item, itemIndexPath: Int) {
         self.itemTitle.text = data.title
         self.numberOfItemStock.text = "잔여수량 : " + String(data.stock)
         if let discountedPrice = data.discountedPrice {
@@ -53,8 +53,9 @@ class ListCollectionViewCell: UICollectionViewListCell {
         } else {
             self.itemPrice.text = data.currency + " " + String(data.price)
         }
-        guard let images = Cache.shared.imageDataList[pageIndex]  else { return }
-        self.itemImage.image = UIImage(data: images[itemIndex])
+        guard Cache.shared.thumbnailImageDataList.count > itemIndexPath else { return }
+        let thumbnailImage = Cache.shared.thumbnailImageDataList[itemIndexPath]
+        self.itemImage.image = UIImage(data: thumbnailImage)
     }
     
     
