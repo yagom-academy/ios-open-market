@@ -126,8 +126,6 @@ class ItemPostViewController: UIViewController {
     
     @objc private func editItem(_ sender: Any) {
         do {
-            print("itemPostTitle : \(itemPostTitle.text)\n descriptions : \(descriptions.text)\nprice : \(Int(price.text!))\n\(currency.text)\nstock : \(Int(stock.text!))\ndiscountedPrice : \(Int(discountedPrice.text!))\nimages : \(convertDictionaryToArray(ItemPostViewController.images))\npassword : \(password.text)")
-            
             requestData = try Request(path: Path.Item.id,
                                       httpMethod: HTTPMethod.PATCH,
                                       title: itemPostTitle.text,
@@ -146,7 +144,6 @@ class ItemPostViewController: UIViewController {
         NetworkManager.shared.patchEditItemData(requestData: itemEditInformation, postId: detailItemData.id)
         navigationController?.popViewController(animated: true)
     }
-    
 }
 
 extension ItemPostViewController: UITextViewDelegate {
