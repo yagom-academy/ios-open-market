@@ -18,8 +18,10 @@ class ItemPostViewController: UIViewController {
     @IBOutlet var descriptions: UITextView!
     @IBOutlet var stock: UITextField!
     static var images: [Int : String] = [:]
-    var itemPostInformation: Request?
+    var requestData: Request?
     var screenMode: ScreenMode?
+    var imageDataList: [Data]?
+    var detailItemData: InformationOfItemResponse?
     static let storyboardID = "ItemPostViewController"
     private lazy var cancelButton: UIButton = {
         let button = UIButton()
@@ -31,7 +33,14 @@ class ItemPostViewController: UIViewController {
     private lazy var compeleteButton: UIButton = {
         let button = UIButton()
         button.setTitleColor(UIColor.systemBlue, for: .normal)
-        button.addTarget(self, action: #selector(postItem), for: .touchDown)
+        switch screenMode {
+        case .register:
+            button.addTarget(self, action: #selector(postItem), for: .touchDown)
+        case . edit:
+            button.addTarget(self, action: #selector(editItem), for: .touchDown)
+        case .none:
+            return button
+        }
         return button
     }()
     
@@ -40,6 +49,7 @@ class ItemPostViewController: UIViewController {
         descriptions.delegate = self
         setUpCollectionView()
         initNavigationBar()
+        setUpTextFields()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -69,6 +79,19 @@ class ItemPostViewController: UIViewController {
         registerCollectionViewCellNib()
     }
     
+    private func setUpTextFields(){
+        guard let detailItemData = detailItemData else { return }
+        itemPostTitle.text = detailItemData.title
+        currency.text = detailItemData.currency
+        price.text = String(detailItemData.price)
+        if let discountedPrice = detailItemData.discountedPrice {
+            self.discountedPrice.text = String(discountedPrice)
+        }
+        descriptions.textColor = .black
+        descriptions.text = detailItemData.descriptions
+        stock.text = String(detailItemData.stock)
+    }
+    
     private func registerCollectionViewCellNib() {
         let PhotoCollectionViewCellNib = UINib(nibName: PhotoCollectionViewCell.identifier, bundle: nil)
         let PlusPhotoCollectionViewCellNib = UINib(nibName: PlusPhotoCollectionViewCell.identifier, bundle: nil)
@@ -91,33 +114,54 @@ class ItemPostViewController: UIViewController {
     }
     
     
-    
     @objc private func postItem(_ sender: Any) {
         do {
-            itemPostInformation = try Request(path: Path.item, httpMethod: HTTPMethod.POST, title: itemPostTitle.text, descriptions: descriptions.text, price: Int(price.text!), currency: currency.text, stock: Int(stock.text!), discountedPrice: Int(discountedPrice.text!), images: convertDictionaryToArray(ItemPostViewController.images), password: password.text)
+            requestData = try Request(path: Path.item, httpMethod: HTTPMethod.POST, title: itemPostTitle.text, descriptions: descriptions.text, price: Int(price.text!), currency: currency.text, stock: Int(stock.text!), discountedPrice: Int(discountedPrice.text!), images: convertDictionaryToArray(ItemPostViewController.images), password: password.text)
         } catch {
             print("Input Error")
         }
-        guard let itemPostInformation = itemPostInformation else { return }
-        NetworkManager.shared.postItem(requestData: itemPostInformation) 
+        guard let itemPostInformation = requestData else { return }
+        NetworkManager.shared.postItem(requestData: itemPostInformation)
         navigationController?.popViewController(animated: true)
     }
+    
+    @objc private func editItem(_ sender: Any) {
+        do {
+            requestData = try Request(path: Path.item,
+                                      httpMethod: HTTPMethod.PATCH,
+                                      title: itemPostTitle.text,
+                                      descriptions: descriptions.text,
+                                      price: Int(price.text!),
+                                      currency: currency.text,
+                                      stock: Int(stock.text!),
+                                      discountedPrice: Int(discountedPrice.text!),
+                                      images: convertDictionaryToArray(ItemPostViewController.images),
+                                      password: password.text)
+        } catch {
+            print("Input Error")
+        }
+        guard let itemEditInformation = requestData else { return }
+        guard let detailItemData = detailItemData else { return }
+        NetworkManager.shared.patchEditItemData(requestData: itemEditInformation, postId: detailItemData.id)
+        navigationController?.popViewController(animated: true)
+    }
+    
 }
 
 extension ItemPostViewController: UITextViewDelegate {
     
     func textViewDidBeginEditing(_ textView: UITextView) {
-        textViewSetupView()
+        setUpTextView()
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
         
         if textView.text == "" {
-            textViewSetupView()
+            setUpTextView()
         }
         
         if textView.text != "", textView.text != "제품 상세 설명" {
-            itemPostInformation?.descriptions = textView.text
+            requestData?.descriptions = textView.text
         }
         
     }
@@ -129,7 +173,7 @@ extension ItemPostViewController: UITextViewDelegate {
         return true
     }
     
-    func textViewSetupView() {
+    func setUpTextView() {
         if descriptions.text == "제품 상세 설명" {
             descriptions.text = ""
             descriptions.textColor = UIColor.black
@@ -151,9 +195,23 @@ extension ItemPostViewController: ModalPresentDelegate {
 extension ItemPostViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return ItemPostViewController.images.count + 1
+        switch screenMode {
+        case .register :
+            return ItemPostViewController.images.count + 1
+        case .edit :
+            if ItemPostViewController.images.count != 0 {
+                self.imageDataList = []
+            }
+            guard let imageDataList = self.imageDataList else { return 0 }
+            if imageDataList.count != 0 {
+                return imageDataList.count + 1
+            }
+            return ItemPostViewController.images.count + 1
+        case .none:
+            return 0
+        }
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         if indexPath.item == 0 {
@@ -168,8 +226,15 @@ extension ItemPostViewController: UICollectionViewDataSource {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotoCollectionViewCell.identifier, for: indexPath) as? PhotoCollectionViewCell else  {
                 return UICollectionViewCell()
             }
-            guard let imageName = ItemPostViewController.images[indexPath.item-1] else { return cell }
-            cell.itemImage.image = UIImage(named: imageName)
+            
+            if ItemPostViewController.images.count == 0 {
+                guard let imageName = imageDataList?[indexPath.item-1] else { return cell }
+                cell.itemImage.image = UIImage(data: imageName)
+            } else {
+                guard let imageName = ItemPostViewController.images[indexPath.item-1] else { return cell }
+                cell.itemImage.image = UIImage(named: imageName)
+            }
+            
             return cell
         }
         
@@ -183,7 +248,7 @@ extension ItemPostViewController: UICollectionViewDelegate {
 
 extension ItemPostViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-
+        
         return CGSize(width: imageCollectionView.frame.height, height: imageCollectionView.frame.height)
     }
     

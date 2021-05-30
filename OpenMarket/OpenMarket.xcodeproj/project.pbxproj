@@ -203,10 +203,10 @@
 			isa = PBXGroup;
 			children = (
 				C70FB0FE25BEF61C00C9924E /* ItemListViewController.swift */,
+				8A90DF532660C02600719F03 /* DetailItemViewController.swift */,
 				8A90DF12265E958200719F03 /* ItemPostViewController.swift */,
 				8A90DF46265FF24600719F03 /* ModalPhotoViewController.swift */,
 				8A90DF47265FF24600719F03 /* ModalPhotoViewController.xib */,
-				8A90DF532660C02600719F03 /* DetailItemViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";

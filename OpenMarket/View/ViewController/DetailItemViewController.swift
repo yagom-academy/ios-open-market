@@ -53,6 +53,7 @@ class DetailItemViewController: UIViewController {
     
     private func setUpDataOfViewController() {
         guard let detailItemData = detailItemData else { return }
+        self.setUpImageData(detailItemData: detailItemData)
         self.navigationItem.title = detailItemData.title
         postTitle.text = detailItemData.title
         stock.text = "남은 수량 : " + String(detailItemData.stock)
@@ -69,7 +70,7 @@ class DetailItemViewController: UIViewController {
         self.collectionView.reloadData()
     }
     
-    private func setUpImageData(detailItemData:InformationOfItemResponse) throws {
+    private func setUpImageData(detailItemData: InformationOfItemResponse) {
         DispatchQueue.global().async {
             for image in detailItemData.images {
                 do {
@@ -81,7 +82,6 @@ class DetailItemViewController: UIViewController {
                     return
                 }
             }
-            print(self.imageDataList)
         }
     }
     
@@ -103,6 +103,9 @@ class DetailItemViewController: UIViewController {
             guard let ItemPostViewController = self.storyboard?.instantiateViewController(identifier: ItemPostViewController.storyboardID) as? ItemPostViewController else {
                 return
             }
+            print("imageDataList:\(self.imageDataList)")
+            ItemPostViewController.imageDataList = self.imageDataList
+            ItemPostViewController.detailItemData = self.detailItemData
             ItemPostViewController.screenMode = ScreenMode.edit
             self.navigationController?.pushViewController(ItemPostViewController, animated: true)
         }

@@ -63,35 +63,6 @@ class NetworkManager {
         }
     }
     
-    private func classifyKeyValue(model: Request) -> Parameters {
-        guard let title = model.title else { return [:] }
-        guard let descriptions = model.descriptions else { return [:] }
-        guard let price = model.price else { return [:] }
-        guard let currency = model.currency else { return [:] }
-        guard let stock = model.stock else { return [:] }
-        guard let discountedPrice = model.discountedPrice else { return [:] }
-        guard let password = model.password else { return [:] }
-        
-        return ["title": "\(title)",
-                "descriptions": "\(descriptions)",
-                "price":"\(price)",
-                "currency":"\(currency)",
-                "stock":"\(stock)",
-                "discounted_price":"\(discountedPrice)",
-                "password":"\(password)" ]
-    }
-    
-    private func setUpImage(model: Request) -> [ItemImage] {
-        var images: [ItemImage] = []
-        guard let requestedImages = model.images else { return [] }
-        for image in requestedImages {
-            guard let uiImage = UIImage(named: image) else { return [] }
-            guard let itemImage = ItemImage(withImage: uiImage, forKey: "images[]", fileName: image) else { return [] }
-            images.append(itemImage)
-        }
-        return images
-    }
-    
     func postItem(requestData: Request){
         
         guard let url = URL(string: Network.baseURL + "/item") else { return }
@@ -152,6 +123,63 @@ class NetworkManager {
         body.append("--\(boundary)--\(lineBreak)")
         
         return body
+    }
+    
+    private func classifyKeyValue(model: Request) -> Parameters {
+        guard let title = model.title else { return [:] }
+        guard let descriptions = model.descriptions else { return [:] }
+        guard let price = model.price else { return [:] }
+        guard let currency = model.currency else { return [:] }
+        guard let stock = model.stock else { return [:] }
+        guard let discountedPrice = model.discountedPrice else { return [:] }
+        guard let password = model.password else { return [:] }
+        
+        return ["title": "\(title)",
+                "descriptions": "\(descriptions)",
+                "price":"\(price)",
+                "currency":"\(currency)",
+                "stock":"\(stock)",
+                "discounted_price":"\(discountedPrice)",
+                "password":"\(password)" ]
+    }
+    
+    private func setUpImage(model: Request) -> [ItemImage] {
+        var images: [ItemImage] = []
+        guard let requestedImages = model.images else { return [] }
+        for image in requestedImages {
+            guard let uiImage = UIImage(named: image) else { return [] }
+            guard let itemImage = ItemImage(withImage: uiImage, forKey: "images[]", fileName: image) else { return [] }
+            images.append(itemImage)
+        }
+        return images
+    }
+    
+    func patchEditItemData(requestData: Request, postId: Int) {
+        guard let url = URL(string: Network.baseURL + "/item/\(postId)") else { return }
+        var request = URLRequest(url: url)
+        request.httpMethod = HTTPMethod.PATCH.rawValue
+        
+        let boundary = generateBoundary()
+        
+        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        
+        let dataBody = createDataBody(withParameters: classifyKeyValue(model: requestData), itemImages: setUpImage(model: requestData), boundary: boundary)
+        request.httpBody = dataBody
+        
+        URLSession.shared.dataTask(with: request) { (data, response, error) in
+            if let response = response {
+                print(response)
+            }
+            
+            if let data = data {
+                do {
+                    let json = try JSONSerialization.jsonObject(with: data, options: [])
+                    print(json)
+                } catch {
+                    print(error)
+                }
+            }
+        }.resume()
     }
 }
 
