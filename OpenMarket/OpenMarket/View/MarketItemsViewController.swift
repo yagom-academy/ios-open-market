@@ -135,12 +135,13 @@ class MarketItemsViewController: UIViewController {
     }
     
     @objc func segmentChanged() {
+        let initPage = 1
         switch segmentControl.selectedSegmentIndex {
         case 0:
             // list
             indicator.startAnimating()
-            fetchItem(1) {
-                self.MarketItemPage = 1
+            fetchItem(initPage) {
+                self.MarketItemPage = initPage
                 let layoutConfig = UICollectionLayoutListConfiguration(appearance: .plain)
                 let listLayout = UICollectionViewCompositionalLayout.list(using: layoutConfig)
                 DispatchQueue.main.async {
@@ -154,8 +155,8 @@ class MarketItemsViewController: UIViewController {
         case 1:
             // grid
             indicator.startAnimating()
-            fetchItem(1) {
-                self.MarketItemPage = 1
+            fetchItem(initPage) {
+                self.MarketItemPage = initPage
                 DispatchQueue.main.async {
                     self.setCollectionViewGrid()
                     self.registrateGridCell()
