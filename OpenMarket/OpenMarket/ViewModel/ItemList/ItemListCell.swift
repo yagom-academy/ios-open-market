@@ -10,7 +10,6 @@ import UIKit
 
 @available(iOS 14.0, *)
 class ItemListCell: UICollectionViewListCell {
-    
     var item: MarketItems.Infomation?
     
     override func updateConfiguration(using state: UICellConfigurationState) {

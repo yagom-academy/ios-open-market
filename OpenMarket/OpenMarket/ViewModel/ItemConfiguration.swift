@@ -10,7 +10,6 @@ import Foundation
 
 @available(iOS 14.0, *)
 struct ItemConfiguration: UIContentConfiguration, Hashable {
-    
     var image: [String]?
     var title: String?
     var stock: UInt?

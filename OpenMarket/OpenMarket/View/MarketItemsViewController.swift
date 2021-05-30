@@ -62,7 +62,6 @@ class MarketItemsViewController: UIViewController {
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0.0),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0.0),
         ])
-        
         collectionView.showsVerticalScrollIndicator = false
     }
     
@@ -73,6 +72,7 @@ class MarketItemsViewController: UIViewController {
             let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                                   heightDimension: .fractionalHeight(1.0))
             let item = NSCollectionLayoutItem(layoutSize: itemSize)
+            
             let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(self.view.bounds.width-10), heightDimension: .absolute(self.view.bounds.height/4))
             let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: columns)
             group.interItemSpacing = .fixed(spacing)
@@ -116,7 +116,6 @@ class MarketItemsViewController: UIViewController {
         snapshot = NSDiffableDataSourceSnapshot<Section, MarketItems.Infomation>()
         snapshot.appendSections([.marketItemsList])
         snapshot.appendItems(data, toSection: .marketItemsList)
-        
         self.dataSource.apply(snapshot, animatingDifferences: true)
     }
     
@@ -125,7 +124,6 @@ class MarketItemsViewController: UIViewController {
         snapshot = NSDiffableDataSourceSnapshot<Section, MarketItems.Infomation>()
         snapshot.appendSections([.marketItmesGrid])
         snapshot.appendItems(data, toSection: .marketItmesGrid)
-        
         dataSource.apply(snapshot, animatingDifferences: true)
     }
     
