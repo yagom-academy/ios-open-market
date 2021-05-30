@@ -17,6 +17,8 @@ class DetailItemViewController: UIViewController {
     @IBOutlet var descriptions: UILabel!
     static let storyboardID = "DetailItemViewController"
     var imageDataList: [Data] = []
+    var itemIndexPath: Int?
+    var isItemPostEdited = false
     var detailItemData: InformationOfItemResponse? = nil {
         didSet {
             DispatchQueue.main.async {
@@ -34,9 +36,33 @@ class DetailItemViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("detailItemData : ",detailItemData)
         setUpCollectionView()
         initNavigationBar()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        if isItemPostEdited {
+            guard let itemIndexPath = itemIndexPath else { return }
+            editItemDataInCache(itemIndexPath: itemIndexPath)
+        }
         
+//        if isItemPostdeleted {
+//            guard let itemIndexPath = itemIndexPath else { return }
+//            deleteItemDataInCache(itemIndexPath: itemIndexPath)
+//        }
+        
+    }
+    
+    private func editItemDataInCache(itemIndexPath: Int) {
+        guard let detailItemData = detailItemData else { return }
+        Cache.shared.itemDataList[itemIndexPath] = Item(id: detailItemData.id, title: detailItemData.title, price: detailItemData.price, currency: detailItemData.currency, stock: detailItemData.stock, discountedPrice: detailItemData.discountedPrice, thumbnails: detailItemData.thumbnails, registrationDate: detailItemData.registrationDate)
+        Cache.shared.thumbnailImageDataList[itemIndexPath] = imageDataList[0]
+    }
+    
+    private func deleteItemDataInCache(itemIndexPath: Int) {
+        Cache.shared.itemDataList.remove(at: itemIndexPath)
+        Cache.shared.thumbnailImageDataList.remove(at: itemIndexPath)
     }
     
     private func setUpCollectionView() {
@@ -45,10 +71,10 @@ class DetailItemViewController: UIViewController {
         let PhotoCollectionViewCellNib = UINib(nibName: PhotoCollectionViewCell.identifier, bundle: nil)
         self.collectionView.register(PhotoCollectionViewCellNib, forCellWithReuseIdentifier: PhotoCollectionViewCell.identifier)
     }
+    
     private func initNavigationBar() {
         self.navigationController?.navigationBar.topItem?.backButtonTitle = ""
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: actionSheetButton)
-        
     }
     
     private func setUpDataOfViewController() {
@@ -72,15 +98,30 @@ class DetailItemViewController: UIViewController {
     
     private func setUpImageData(detailItemData: InformationOfItemResponse) {
         DispatchQueue.global().async {
+            usleep(10000)
             for image in detailItemData.images {
                 do {
                     guard let imageURL = URL(string: image) else { return }
                     let imageData = try Data(contentsOf: imageURL)
                     self.imageDataList.append(imageData)
+                    print("imageDataList :",self.imageDataList)
                 } catch {
-                    print("Invalid URL")
+                    print("setUpImageData Invalid URL \(URL(string: image)!)")
+                }
+                
+                do {
+                    guard let imageURL = URL(string: image) else { return }
+                    let imageData = try Data(contentsOf: imageURL)
+                    self.imageDataList.append(imageData)
+                    print("imageDataList :",self.imageDataList)
+                } catch {
+                    print("setUpImageData Invalid URL \(URL(string: image)!)")
                     return
                 }
+                
+            }
+            DispatchQueue.main.async {
+                self.collectionView.reloadData()
             }
         }
     }
@@ -107,6 +148,7 @@ class DetailItemViewController: UIViewController {
             ItemPostViewController.images = self.convertArrayToDictionary(Array: detailItemData.images)
             itemPostViewController.detailItemData = self.detailItemData
             itemPostViewController.screenMode = ScreenMode.edit
+            itemPostViewController.detailViewController = self
             self.navigationController?.pushViewController(itemPostViewController, animated: true)
         }
         let deleteAction = UIAlertAction(title: "삭제", style: .default) { action in
@@ -149,7 +191,7 @@ extension DetailItemViewController: UICollectionViewDataSource {
                     cell.itemImage.image = UIImage(data: imageData)
                 }
             } catch {
-                print("Invalid URL")
+                print("collectionView Invalid URL")
             }
         }
         

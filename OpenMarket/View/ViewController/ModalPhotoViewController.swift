@@ -29,7 +29,6 @@ class ModalPhotoViewController: UIViewController {
         let PhotoCollectionViewCellNib = UINib(nibName: PhotoCollectionViewCell.identifier, bundle: nil)
         self.collectionView.register(PhotoCollectionViewCellNib, forCellWithReuseIdentifier: PhotoCollectionViewCell.identifier)
     }
-    
 }
 
 extension ModalPhotoViewController: UICollectionViewDataSource {

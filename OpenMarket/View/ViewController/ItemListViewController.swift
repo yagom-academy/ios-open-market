@@ -125,7 +125,7 @@ extension ItemListViewController: UICollectionViewDataSource {
                 let imageData = try Data(contentsOf: imageURL)
                 thumbnailImageDataList.append(imageData)
             } catch {
-                print("Invalid URL")
+                print("cacheThumbnailImageData Invalid URL")
                 return []
             }
         }
@@ -188,6 +188,7 @@ extension ItemListViewController: UICollectionViewDataSource {
 @available(iOS 14.0, *)
 extension ItemListViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print("\nindexPath: \(indexPath.item)\n")
         guard Cache.shared.itemDataList.count > indexPath.item else { return }
         let itemId = Cache.shared.itemDataList[indexPath.item].id
         guard let DetailItemViewController = self.storyboard?.instantiateViewController(identifier: DetailItemViewController.storyboardID) as? DetailItemViewController else { return }
@@ -199,6 +200,7 @@ extension ItemListViewController: UICollectionViewDelegate {
                 print("Failed to decode")
             }
         }
+        DetailItemViewController.itemIndexPath = indexPath.item
         navigationController?.pushViewController(DetailItemViewController, animated: true)
     }
 }

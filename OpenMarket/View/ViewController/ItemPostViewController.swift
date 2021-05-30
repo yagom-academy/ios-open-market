@@ -21,6 +21,7 @@ class ItemPostViewController: UIViewController {
     var requestData: Request?
     var screenMode: ScreenMode?
     var detailItemData: InformationOfItemResponse?
+    var detailViewController: DetailItemViewController?
     static let storyboardID = "ItemPostViewController"
     private lazy var cancelButton: UIButton = {
         let button = UIButton()
@@ -141,7 +142,16 @@ class ItemPostViewController: UIViewController {
         }
         guard let itemEditInformation = requestData else { return }
         guard let detailItemData = detailItemData else { return }
-        NetworkManager.shared.patchEditItemData(requestData: itemEditInformation, postId: detailItemData.id)
+        NetworkManager.shared.patchEditItemData(requestData: itemEditInformation, postId: detailItemData.id) { [weak self] data in
+            do {
+                let data = try JSONDecoder().decode(InformationOfItemResponse.self, from: data!)
+                guard let detailViewController = self?.detailViewController else { return }
+                detailViewController.detailItemData = data
+                detailViewController.isItemPostEdited = true
+            } catch {
+                print("Failed to decode")
+            }
+        }
         navigationController?.popViewController(animated: true)
     }
 }
@@ -222,7 +232,7 @@ extension ItemPostViewController: UICollectionViewDataSource {
                         cell.itemImage.image = UIImage(data: imageData)
                     }
                 } catch {
-                    print("Invalid URL")
+                    print("ItemPostViewController Invalid URL")
                     return
                 }
             }

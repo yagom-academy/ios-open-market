@@ -153,7 +153,7 @@ class NetworkManager {
         return images
     }
     
-    func patchEditItemData(requestData: Request, postId: Int) {
+    func patchEditItemData(requestData: Request, postId: Int, completion: @escaping (Data?)->(Void)) {
         guard let url = URL(string: Network.baseURL + "/item/\(postId)") else { return }
         var request = URLRequest(url: url)
         request.httpMethod = HTTPMethod.PATCH.rawValue
@@ -166,18 +166,11 @@ class NetworkManager {
         request.httpBody = dataBody
         
         URLSession.shared.dataTask(with: request) { (data, response, error) in
+            self.checkValidation(data: data, response: response, error: error)
             if let response = response {
                 print(response)
             }
-            
-            if let data = data {
-                do {
-                    let json = try JSONSerialization.jsonObject(with: data, options: [])
-                    print(json)
-                } catch {
-                    print(error)
-                }
-            }
+            completion(data)
         }.resume()
     }
 }
