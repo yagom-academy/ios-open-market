@@ -40,7 +40,7 @@ class MockDecoder: Decoderable {
                               images: [],
                               registrationData: 0.0) as! T
         } else {
-            throw(MarketError.data)
+            throw(MarketModelError.data)
         }
     }
 }

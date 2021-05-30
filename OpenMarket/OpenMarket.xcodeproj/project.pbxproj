@@ -25,7 +25,7 @@
 		BAC8172F26575D1A00CCBDF9 /* NetworkTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC8172D26575D1A00CCBDF9 /* NetworkTest.swift */; };
 		BACD563A264FF17700625FCF /* MarketNetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BACD5639264FF17700625FCF /* MarketNetworkManager.swift */; };
 		BACD563C2652634700625FCF /* MarketNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = BACD563B2652634700625FCF /* MarketNetwork.swift */; };
-		BACD5642265417A800625FCF /* MarketError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BACD5641265417A800625FCF /* MarketError.swift */; };
+		BACD5642265417A800625FCF /* MarketModelError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BACD5641265417A800625FCF /* MarketModelError.swift */; };
 		BACD564626557B2300625FCF /* MarketRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BACD564526557B2300625FCF /* MarketRequest.swift */; };
 		BACD564826557B6700625FCF /* MulitPartFormConvert.swift in Sources */ = {isa = PBXBuildFile; fileRef = BACD564726557B6700625FCF /* MulitPartFormConvert.swift */; };
 		BACD564B2655E09900625FCF /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = BACD564A2655E09900625FCF /* Data.swift */; };
@@ -73,7 +73,7 @@
 		BAC8172D26575D1A00CCBDF9 /* NetworkTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkTest.swift; sourceTree = "<group>"; };
 		BACD5639264FF17700625FCF /* MarketNetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketNetworkManager.swift; sourceTree = "<group>"; };
 		BACD563B2652634700625FCF /* MarketNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketNetwork.swift; sourceTree = "<group>"; };
-		BACD5641265417A800625FCF /* MarketError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketError.swift; sourceTree = "<group>"; };
+		BACD5641265417A800625FCF /* MarketModelError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketModelError.swift; sourceTree = "<group>"; };
 		BACD564526557B2300625FCF /* MarketRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketRequest.swift; sourceTree = "<group>"; };
 		BACD564726557B6700625FCF /* MulitPartFormConvert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MulitPartFormConvert.swift; sourceTree = "<group>"; };
 		BACD564A2655E09900625FCF /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
@@ -208,7 +208,7 @@
 		BAAA69D426590B7600F44322 /* Error */ = {
 			isa = PBXGroup;
 			children = (
-				BACD5641265417A800625FCF /* MarketError.swift */,
+				BACD5641265417A800625FCF /* MarketModelError.swift */,
 			);
 			path = Error;
 			sourceTree = "<group>";
@@ -418,7 +418,7 @@
 				BACD563C2652634700625FCF /* MarketNetwork.swift in Sources */,
 				BACD563A264FF17700625FCF /* MarketNetworkManager.swift in Sources */,
 				BAA704EE264B8196006CAC97 /* ItemDelete.swift in Sources */,
-				BACD5642265417A800625FCF /* MarketError.swift in Sources */,
+				BACD5642265417A800625FCF /* MarketModelError.swift in Sources */,
 				BAAA69D626590B9F00F44322 /* JSONDecoder.swift in Sources */,
 				BACD564826557B6700625FCF /* MulitPartFormConvert.swift in Sources */,
 				BA2142F8265E35E500D80DE2 /* ItemContentView.swift in Sources */,

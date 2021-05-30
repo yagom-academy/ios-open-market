@@ -14,7 +14,7 @@ protocol MarketRequest: MulitPartFormConvert {
 
 extension MarketRequest {
     func createRequest<T: Encodable>(url: URL?, encodeBody body: T, method: MarketAPI.Method) -> Result<URLRequest?, Error> {
-        guard let url = url else { return .failure(MarketError.url) }
+        guard let url = url else { return .failure(MarketModelError.url) }
         
         switch method {
         case .delete:
@@ -22,7 +22,7 @@ extension MarketRequest {
             do {
                 encode = try JSONEncoder().encode(body)
             } catch {
-                return .failure(MarketError.encoding(error))
+                return .failure(MarketModelError.encoding(error))
             }
             var request = URLRequest(url: url)
             request.httpMethod = "DELETE"
@@ -34,7 +34,7 @@ extension MarketRequest {
         case .patch:
             return .success(createMultipartFormRequest(url: url, encodeBody: body, method: .patch))
         case .get:
-            return .failure(MarketError.get)
+            return .failure(MarketModelError.get)
         }
     }
     
