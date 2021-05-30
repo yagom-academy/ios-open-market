@@ -14,7 +14,6 @@ class MarketItemsViewController: UIViewController {
     var dataSource: UICollectionViewDiffableDataSource<Section, MarketItems.Infomation>!
     var snapshot = NSDiffableDataSourceSnapshot<Section, MarketItems.Infomation>()
     var segmentControl: UISegmentedControl!
-    var currentCell = 0
     var MarketItemPage = 1 {
         willSet {
             fetchItem(newValue) {
