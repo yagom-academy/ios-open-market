@@ -98,27 +98,22 @@ class DetailItemViewController: UIViewController {
     
     private func setUpImageData(detailItemData: InformationOfItemResponse) {
         DispatchQueue.global().async {
-            usleep(10000)
+            
             for image in detailItemData.images {
-                do {
-                    guard let imageURL = URL(string: image) else { return }
-                    let imageData = try Data(contentsOf: imageURL)
-                    self.imageDataList.append(imageData)
-                    print("imageDataList :",self.imageDataList)
-                } catch {
-                    print("setUpImageData Invalid URL \(URL(string: image)!)")
+                var count = 0
+                while true {
+                    do {
+                        count += 1
+                        guard count < 50 else { break }
+                        guard let imageURL = URL(string: image) else { return }
+                        let imageData = try Data(contentsOf: imageURL)
+                        self.imageDataList.append(imageData)
+                        print("imageDataList :",self.imageDataList)
+                        break
+                    } catch {
+                        print("setUpImageData Invalid URL \(URL(string: image)!)")
+                    }
                 }
-                
-                do {
-                    guard let imageURL = URL(string: image) else { return }
-                    let imageData = try Data(contentsOf: imageURL)
-                    self.imageDataList.append(imageData)
-                    print("imageDataList :",self.imageDataList)
-                } catch {
-                    print("setUpImageData Invalid URL \(URL(string: image)!)")
-                    return
-                }
-                
             }
             DispatchQueue.main.async {
                 self.collectionView.reloadData()
