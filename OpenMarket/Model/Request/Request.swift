@@ -73,6 +73,7 @@ struct Request: Codable, Equatable {
             }
             return true
         default:
+            print("패치 오류")
             return false
         }
     }

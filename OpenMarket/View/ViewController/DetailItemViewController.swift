@@ -100,20 +100,30 @@ class DetailItemViewController: UIViewController {
     
     @objc private func showActionSheet(_ sender: Any) {
         let editAction = UIAlertAction(title: "수정", style: .default) { action in
-            guard let ItemPostViewController = self.storyboard?.instantiateViewController(identifier: ItemPostViewController.storyboardID) as? ItemPostViewController else {
+            guard let itemPostViewController = self.storyboard?.instantiateViewController(identifier: ItemPostViewController.storyboardID) as? ItemPostViewController else {
                 return
             }
-            print("imageDataList:\(self.imageDataList)")
-            ItemPostViewController.imageDataList = self.imageDataList
-            ItemPostViewController.detailItemData = self.detailItemData
-            ItemPostViewController.screenMode = ScreenMode.edit
-            self.navigationController?.pushViewController(ItemPostViewController, animated: true)
+            guard let detailItemData = self.detailItemData else { return }
+            ItemPostViewController.images = self.convertArrayToDictionary(Array: detailItemData.images)
+            itemPostViewController.detailItemData = self.detailItemData
+            itemPostViewController.screenMode = ScreenMode.edit
+            self.navigationController?.pushViewController(itemPostViewController, animated: true)
         }
         let deleteAction = UIAlertAction(title: "삭제", style: .default) { action in
             
         }
         deleteAction.setValue(UIColor.red, forKey: "titleTextColor")
         presentAlert(isCancelActionIncluded: true, preferredStyle: .actionSheet, with: editAction,deleteAction)
+    }
+    
+    private func convertArrayToDictionary(Array: [String]) -> [Int : String] {
+        var index = 0
+        var dictionary : [Int : String] = [:]
+        for string in Array {
+            dictionary[index] = string
+            index += 1
+        }
+        return dictionary
     }
 }
 

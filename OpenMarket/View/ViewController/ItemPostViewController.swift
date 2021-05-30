@@ -20,7 +20,6 @@ class ItemPostViewController: UIViewController {
     static var images: [Int : String] = [:]
     var requestData: Request?
     var screenMode: ScreenMode?
-    var imageDataList: [Data]?
     var detailItemData: InformationOfItemResponse?
     static let storyboardID = "ItemPostViewController"
     private lazy var cancelButton: UIButton = {
@@ -127,7 +126,9 @@ class ItemPostViewController: UIViewController {
     
     @objc private func editItem(_ sender: Any) {
         do {
-            requestData = try Request(path: Path.item,
+            print("itemPostTitle : \(itemPostTitle.text)\n descriptions : \(descriptions.text)\nprice : \(Int(price.text!))\n\(currency.text)\nstock : \(Int(stock.text!))\ndiscountedPrice : \(Int(discountedPrice.text!))\nimages : \(convertDictionaryToArray(ItemPostViewController.images))\npassword : \(password.text)")
+            
+            requestData = try Request(path: Path.Item.id,
                                       httpMethod: HTTPMethod.PATCH,
                                       title: itemPostTitle.text,
                                       descriptions: descriptions.text,
@@ -158,9 +159,7 @@ extension ItemPostViewController: UITextViewDelegate {
         
         if textView.text == "" {
             setUpTextView()
-        }
-        
-        if textView.text != "", textView.text != "제품 상세 설명" {
+        } else if textView.text != "", textView.text != "제품 상세 설명" {
             requestData?.descriptions = textView.text
         }
         
@@ -195,21 +194,7 @@ extension ItemPostViewController: ModalPresentDelegate {
 extension ItemPostViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        switch screenMode {
-        case .register :
-            return ItemPostViewController.images.count + 1
-        case .edit :
-            if ItemPostViewController.images.count != 0 {
-                self.imageDataList = []
-            }
-            guard let imageDataList = self.imageDataList else { return 0 }
-            if imageDataList.count != 0 {
-                return imageDataList.count + 1
-            }
-            return ItemPostViewController.images.count + 1
-        case .none:
-            return 0
-        }
+        return ItemPostViewController.images.count + 1
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -227,12 +212,22 @@ extension ItemPostViewController: UICollectionViewDataSource {
                 return UICollectionViewCell()
             }
             
-            if ItemPostViewController.images.count == 0 {
-                guard let imageName = imageDataList?[indexPath.item-1] else { return cell }
-                cell.itemImage.image = UIImage(data: imageName)
-            } else {
-                guard let imageName = ItemPostViewController.images[indexPath.item-1] else { return cell }
-                cell.itemImage.image = UIImage(named: imageName)
+            guard let imageName = ItemPostViewController.images[indexPath.item-1] else { return cell }
+            if let uiImage = UIImage(named: imageName) {
+                cell.itemImage.image = uiImage
+                return cell
+            }
+            DispatchQueue.global().async {
+                do {
+                    guard let imageURL = URL(string: imageName) else { return }
+                    let imageData = try Data(contentsOf: imageURL)
+                    DispatchQueue.main.async {
+                        cell.itemImage.image = UIImage(data: imageData)
+                    }
+                } catch {
+                    print("Invalid URL")
+                    return
+                }
             }
             
             return cell
