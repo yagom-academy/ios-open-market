@@ -50,8 +50,6 @@ class NetworkManager {
             print("Invalid Response")
             return
         }
-        print("\(httpResponse)")
-        print(Cache.shared.itemDataList.count)
         
         guard (200...299).contains(httpResponse.statusCode) else {
             print("Status Code: \(httpResponse.statusCode)")

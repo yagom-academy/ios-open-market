@@ -76,9 +76,6 @@ extension ItemListViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-//        let pageIndex = indexPath.item / 20 + 1
-//        let itemIndex = indexPath.item % 20
-        
         if layoutType == LayoutType.grid {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: GridCollectionViewCell.identifier, for: indexPath) as? GridCollectionViewCell else  {
                 return UICollectionViewCell()
@@ -162,17 +159,12 @@ extension ItemListViewController: UICollectionViewDataSource {
             IndicatorView.shared.showIndicator()
             NetworkManager.shared.getItemsOfPageData(pagination: true, pageNumber: pageNumber) { [weak self] data, pageNumber in
                 do {
-                    print("count : ", Cache.shared.recentUpdatedItemDataCountOfItemDataList)
                     let data = try JSONDecoder().decode(ItemsOfPageReponse.self, from: data!)
-                    print("1 \(pageNumber)")
                     guard self?.isThereItemInItems(items: data.items) == true else { return }
-                    print("2")
                     guard let thumbnailImageDataList = self?.cacheThumbnailImageData(items: data.items) else { return }
-                    print("3")
                     guard let pageNumber = pageNumber else { return }
                     self?.updatePageNumber(pageNumber: pageNumber)
                     DispatchQueue.main.async {
-                        print("4")
                         self?.updateItemDataList(itemDataList: data.items, thumbnailImageDataList: thumbnailImageDataList)
                         self?.collectionView.reloadData()
                         IndicatorView.shared.dismiss()
@@ -196,9 +188,8 @@ extension ItemListViewController: UICollectionViewDataSource {
 @available(iOS 14.0, *)
 extension ItemListViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let pageNumber = indexPath.item / 20 + 1
-        let itemIndex = indexPath.item % 20
-        guard let itemId = Cache.shared.pageDataList[pageNumber]?.items[itemIndex].id else { return }
+        guard Cache.shared.itemDataList.count > indexPath.item else { return }
+        let itemId = Cache.shared.itemDataList[indexPath.item].id
         guard let DetailItemViewController = self.storyboard?.instantiateViewController(identifier: DetailItemViewController.storyboardID) as? DetailItemViewController else { return }
         
         NetworkManager.shared.getDetailItemData(itemId: itemId) { data in
@@ -207,7 +198,6 @@ extension ItemListViewController: UICollectionViewDelegate {
             } catch {
                 print("Failed to decode")
             }
-            
         }
         navigationController?.pushViewController(DetailItemViewController, animated: true)
     }

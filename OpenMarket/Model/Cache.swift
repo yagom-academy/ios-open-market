@@ -8,14 +8,11 @@
 import Foundation
 
 class Cache {
-    
     static var shared = Cache()
-    var pageDataList: [Int : ItemsOfPageReponse] = [:] // 제거 대상
     var itemDataList: [Item] = []
+    var thumbnailImageDataList: [Data] = []
     var recentUpdatedItemDataCountOfItemDataList = 0
     var detailItemInformationList: [Int : InformationOfItemResponse] = [:]
-//    var imageDataList: [Int : [Data]] = [:] // 제거 대상
-    var thumbnailImageDataList: [Data] = []
     var numberOfItems = 0
     var maxPageNumber = 0
     var minPageNumber = 0
