@@ -67,17 +67,18 @@ extension ItemGridContentView {
 
     private func cancelTextLine(_ configuration: ItemConfiguration) {
         resetPrice()
-        if configuration.discountPrice == nil {
-            self.price.text = String("\(configuration.currency!) \(configuration.price ?? 0)")
-            self.discountPrice.isHidden = true
-        } else {
-            let attributeString: NSMutableAttributedString = NSMutableAttributedString(string: String("\(configuration.currency!) \(configuration.price ?? 0)"))
+        guard let price = configuration.price, let currency = configuration.currency else { return }
+        if let discountPrice = configuration.discountPrice {
+            let attributeString: NSMutableAttributedString = NSMutableAttributedString(string: String("\(configuration.currency!) \(price)"))
             attributeString.addAttribute(NSAttributedString.Key.strikethroughStyle, value: 2, range: NSMakeRange(0, attributeString.length))
-            self.price.text = String("\(configuration.currency!) \(configuration.price ?? 0)")
+            self.price.text = String("\(currency) \(price)")
             self.price.textColor = .red
             self.price.attributedText = attributeString
             self.discountPrice.isHidden = false
-            self.discountPrice.text = "\(configuration.currency!) " + String(configuration.discountPrice!)
+            self.discountPrice.text = "\(currency) " + String(discountPrice)
+        } else {
+            self.price.text = String("\(currency) \(price)")
+            self.discountPrice.isHidden = true
         }
     }
     
@@ -102,6 +103,7 @@ extension ItemGridContentView {
     }
     
     private func fetchImage(_ configuration: ItemConfiguration)   {
+        self.itemImageView.image = nil
         guard let image = configuration.image, let firstImage = image.first else { return }
         guard let url = URL(string: firstImage) else { return }
         
