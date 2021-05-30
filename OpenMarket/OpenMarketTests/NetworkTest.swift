@@ -52,7 +52,7 @@ class NetworkTest: XCTestCase {
     }
     
     func test_network_excute_GET_실패() {
-        mockClient?.resultToreturn = .failure(MarketError.get)
+        mockClient?.resultToreturn = .failure(MarketModelError.get)
         let url = MarketAPI.items(page: 1).url
         let request = URLRequest(url: url!)
         let expectation = XCTestExpectation(description: "GET 목록조회")
@@ -94,7 +94,7 @@ class NetworkTest: XCTestCase {
     }
     
     func test_network_excute_POST_상품등록_실패() {
-        mockClient?.resultToreturn = .failure(MarketError.post)
+        mockClient?.resultToreturn = .failure(MarketModelError.post)
         let url = MarketAPI.registrate.url
         let request = sut!.createRequest(url: url, encodeBody: TestData.registrateData, method: .post)
         let result = try! request.get()
@@ -138,7 +138,7 @@ class NetworkTest: XCTestCase {
     }
     
     func test_network_excute_POST_상품삭제_실패() {
-        mockClient?.resultToreturn = .failure(MarketError.delete)
+        mockClient?.resultToreturn = .failure(MarketModelError.delete)
 
         let url = MarketAPI.delete(id: 1).url
         let request = sut!.createRequest(url: url, encodeBody: TestData.password, method: .delete)
@@ -183,7 +183,7 @@ class NetworkTest: XCTestCase {
     }
     
     func test_network_excute_PATCH_상품수정_실패() {
-        mockClient?.resultToreturn = .failure(MarketError.patch)
+        mockClient?.resultToreturn = .failure(MarketModelError.patch)
         let url = MarketAPI.edit(id: 1).url
         let request = sut!.createRequest(url: url, encodeBody: TestData.editData, method: .delete)
         let result = try! request.get()
