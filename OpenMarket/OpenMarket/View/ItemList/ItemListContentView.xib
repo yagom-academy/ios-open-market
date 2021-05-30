@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_7" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ItemListContentView" customModule="OpenMarket" customModuleProvider="target">
+            <connections>
+                <outlet property="containerView" destination="iN0-l3-epB" id="RyU-f1-P3v"/>
+                <outlet property="discountPrice" destination="BHM-pa-8eN" id="sg8-aw-b0x"/>
+                <outlet property="itemImageView" destination="gbs-ZO-5JF" id="Vhq-cx-1n9"/>
+                <outlet property="price" destination="Msg-cl-Hz2" id="Zin-Lf-QCT"/>
+                <outlet property="stock" destination="NTx-Mf-M3z" id="MdX-mh-tQx"/>
+                <outlet property="title" destination="ZB8-Q6-pxW" id="Ixl-Lk-gIH"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="150"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tropicalstorm" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="gbs-ZO-5JF">
+                    <rect key="frame" x="20.000000000000007" y="13.666666666666664" width="124.66666666666669" height="123.66666666666669"/>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="gbs-ZO-5JF" secondAttribute="height" multiplier="1:1" id="J0p-2l-VeQ"/>
+                        <constraint firstAttribute="height" priority="999" constant="100" id="KQR-MT-cK8"/>
+                    </constraints>
+                </imageView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZB8-Q6-pxW">
+                    <rect key="frame" x="164.66666666666666" y="22.666666666666668" width="30" height="17.000000000000004"/>
+                    <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Stock" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NTx-Mf-M3z">
+                    <rect key="frame" x="374" y="25.666666666666668" width="30" height="13.333333333333332"/>
+                    <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <fontDescription key="fontDescription" style="UICTFontTextStyleCaption2"/>
+                    <color key="textColor" systemColor="systemGrayColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Price" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Msg-cl-Hz2">
+                    <rect key="frame" x="164.66666666666666" y="110.66666666666667" width="29" height="14.333333333333329"/>
+                    <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
+                    <color key="textColor" systemColor="systemGrayColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="DiscountPrice" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BHM-pa-8eN">
+                    <rect key="frame" x="213.66666666666666" y="110.66666666666667" width="78.999999999999972" height="15"/>
+                    <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
+                    <color key="textColor" systemColor="systemGrayColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="gbs-ZO-5JF" secondAttribute="bottom" constant="12.666666666666657" id="CWU-1T-WDH"/>
+                <constraint firstItem="ZB8-Q6-pxW" firstAttribute="width" relation="lessThanOrEqual" secondItem="iN0-l3-epB" secondAttribute="width" multiplier="0.4" priority="998" id="DGs-Tf-MCL"/>
+                <constraint firstItem="ZB8-Q6-pxW" firstAttribute="leading" secondItem="gbs-ZO-5JF" secondAttribute="trailing" constant="20" id="Gqg-hg-i5w"/>
+                <constraint firstAttribute="trailing" secondItem="NTx-Mf-M3z" secondAttribute="trailing" constant="10" id="Jeq-UP-t5U"/>
+                <constraint firstItem="NTx-Mf-M3z" firstAttribute="top" secondItem="ZB8-Q6-pxW" secondAttribute="top" constant="3" id="Qds-xe-MF8"/>
+                <constraint firstItem="Msg-cl-Hz2" firstAttribute="leading" secondItem="ZB8-Q6-pxW" secondAttribute="leading" id="UY7-zb-5kx"/>
+                <constraint firstItem="NTx-Mf-M3z" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="ZB8-Q6-pxW" secondAttribute="trailing" priority="999" constant="15" id="WGt-PO-mfa"/>
+                <constraint firstItem="BHM-pa-8eN" firstAttribute="leading" secondItem="Msg-cl-Hz2" secondAttribute="trailing" constant="19.999999999999972" id="XBG-C9-K5r"/>
+                <constraint firstItem="gbs-ZO-5JF" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="12.666666666666671" id="d5U-Gf-6o4"/>
+                <constraint firstItem="gbs-ZO-5JF" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" symbolic="YES" id="h8j-fy-Xsd"/>
+                <constraint firstItem="BHM-pa-8eN" firstAttribute="top" secondItem="Msg-cl-Hz2" secondAttribute="top" id="ht1-Dr-txt"/>
+                <constraint firstAttribute="bottom" secondItem="Msg-cl-Hz2" secondAttribute="bottom" constant="25" id="lZe-ZH-fe4"/>
+                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="BHM-pa-8eN" secondAttribute="trailing" priority="999" constant="20" id="qLy-wd-IC4"/>
+                <constraint firstItem="gbs-ZO-5JF" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="sjI-tT-4iH"/>
+                <constraint firstItem="ZB8-Q6-pxW" firstAttribute="top" secondItem="gbs-ZO-5JF" secondAttribute="top" constant="10" id="tNa-aY-9B1"/>
+                <constraint firstItem="Msg-cl-Hz2" firstAttribute="top" relation="greaterThanOrEqual" secondItem="ZB8-Q6-pxW" secondAttribute="bottom" priority="999" constant="20" id="tTF-zb-NxX"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="131.77570093457942" y="130.88552915766741"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="tropicalstorm" catalog="system" width="91" height="128"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemGrayColor">
+            <color red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>

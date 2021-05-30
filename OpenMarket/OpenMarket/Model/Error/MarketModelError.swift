@@ -7,14 +7,14 @@
 
 import Foundation
 
-enum MarketError: Error {
+enum MarketModelError: Error {
     case request(Error), response(Int)
     case encoding(Error), decoding(Error), casting(String), network(Error)
     case url, data
     case get, post, patch, delete
 }
 
-extension MarketError: LocalizedError {
+extension MarketModelError: LocalizedError {
     var description: String {
         switch self {
         case .request(let requestError):

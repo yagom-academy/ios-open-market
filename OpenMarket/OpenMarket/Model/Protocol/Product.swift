@@ -11,13 +11,13 @@ protocol MarketSecurity: Encodable {
     var password: String { get }
 }
 
-protocol ProductList: Decodable {
+protocol ProductList: Decodable, Hashable {
     associatedtype T
     var page: UInt { get }
     var items: [T] { get }
 }
 
-protocol ProductInfo: Decodable {
+protocol ProductInfo: Decodable, Hashable {
     var id: UInt { get }
     var title: String { get }
     var price: UInt { get }

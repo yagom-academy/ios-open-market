@@ -18,15 +18,15 @@ enum MarketAPI {
     var url: URL? {
         switch self {
         case .items(let page):
-            return URL(string: MarketAPI.baseURL + "/items" + "\(page)")
+            return URL(string: MarketAPI.baseURL + "/items/" + "\(page)")
         case .registrate:
             return URL(string: MarketAPI.baseURL + "/item")
         case .item(let id):
-            return URL(string: MarketAPI.baseURL + "/item" + "\(id)")
+            return URL(string: MarketAPI.baseURL + "/item/" + "\(id)")
         case .edit(let id):
-            return URL(string: MarketAPI.baseURL + "/item" + "\(id)")
+            return URL(string: MarketAPI.baseURL + "/item/" + "\(id)")
         case .delete(let id):
-            return URL(string: MarketAPI.baseURL + "/item" + "\(id)")
+            return URL(string: MarketAPI.baseURL + "/item/" + "\(id)")
         }
     }
     
