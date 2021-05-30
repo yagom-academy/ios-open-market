@@ -200,8 +200,7 @@ class MarketItemsViewController: UIViewController {
 @available(iOS 14.0, *)
 extension MarketItemsViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        print(indexPath.row)
-        if indexPath.row == self.snapshot.numberOfItems - 8 {
+        if indexPath.row == self.snapshot.numberOfItems - Int(dataItems!.count/2)  {
             self.MarketItemPage += 1
         }
     }
