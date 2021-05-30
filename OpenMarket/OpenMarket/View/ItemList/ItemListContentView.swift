@@ -10,7 +10,7 @@ import UIKit
 @available(iOS 14.0, *)
 class ItemListContentView: UIView, UIContentView, Contentable {
     @IBOutlet var containerView: UIView!
-    @IBOutlet weak var ItemImageView: UIImageView!
+    @IBOutlet weak var itemImageView: UIImageView!
     @IBOutlet weak var title: UILabel!
     @IBOutlet weak var stock: UILabel!
     @IBOutlet weak var price: UILabel!
@@ -39,9 +39,9 @@ class ItemListContentView: UIView, UIContentView, Contentable {
 }
 
 @available(iOS 14.0, *)
-extension ItemContentView {
+extension ItemListContentView {
     private func loadNib() {
-        Bundle.main.loadNibNamed("\(ItemContentView.self)", owner: self, options: nil)
+        Bundle.main.loadNibNamed("\(ItemListContentView.self)", owner: self, options: nil)
         addSubview(containerView)
         containerView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([

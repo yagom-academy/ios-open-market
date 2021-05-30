@@ -20,7 +20,7 @@ struct ItemConfiguration: UIContentConfiguration, Hashable {
     
     func makeContentView() -> UIView & UIContentView {
         if mode == "List" {
-            return ItemContentView(configuration: self)
+            return ItemListContentView(configuration: self)
         } else {
             return ItemGridContentView(configuration: self)
         }
