@@ -108,7 +108,7 @@ extension ItemGridContentView {
         DispatchQueue.global().async {
             guard let data = try? Data(contentsOf: url) else { return }
             DispatchQueue.main.async {
-                self.itemImageView.image = UIImage(data: data)!
+                self.itemImageView.image = UIImage(data: data) ?? UIImage()
             }
         }
     }
