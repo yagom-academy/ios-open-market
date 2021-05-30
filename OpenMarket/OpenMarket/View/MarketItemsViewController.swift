@@ -106,10 +106,7 @@ class MarketItemsViewController: UIViewController {
         
         dataSource = UICollectionViewDiffableDataSource<Section, MarketItems.Infomation>(collectionView: collectionView) { (collectionView: UICollectionView, indexPath: IndexPath, identifier: MarketItems.Infomation) -> UICollectionViewCell in
             let cell = collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: identifier)
-            print(indexPath.row)
-            if indexPath.row == 17 {
-                self.MarketItemPage += 1
-            }
+            
             return cell
         }
     }

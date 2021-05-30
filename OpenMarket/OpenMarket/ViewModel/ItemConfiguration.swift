@@ -25,7 +25,6 @@ struct ItemConfiguration: UIContentConfiguration, Hashable {
         } else {
             return ItemGridContentView(configuration: self)
         }
-        
     }
     
     func updated(for state: UIConfigurationState) -> Self {
