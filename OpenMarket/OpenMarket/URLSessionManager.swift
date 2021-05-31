@@ -6,3 +6,15 @@
 //
 
 import Foundation
+
+struct URLSessionManager {
+    let urlSession = URLSession()
+    let url
+    
+    func GetServersData() {
+        
+    }
+    
+    
+    let url: String
+}
