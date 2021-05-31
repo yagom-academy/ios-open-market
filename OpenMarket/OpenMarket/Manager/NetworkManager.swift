@@ -12,16 +12,26 @@ enum Result<T, U> {
     case failure(U)
 }
 
-class NetworkManager {
-    func getItemList(node: APINode, completionHandler: @escaping (_ result: Result <OpenMarketItemList, APIError>) -> Void) {
-        guard let url = URL(string: node.urlForItemList) else { return }
+final class NetworkManager {
+    var urlSession: URLSession
+    
+    init(urlSession: URLSession = URLSession.shared) {
+        self.urlSession = urlSession
+    }
+    
+    func getItemList(node: APINode, page: Int, completionHandler: @escaping (_ result: Result <OpenMarketItemList, APIError>) -> Void) {
+        guard let url = URL(string: "\(node.urlForItemList)\(page)") else {
+            return completionHandler(.failure(APIError.decoding))
+            
+        }
         
         var urlRequest = URLRequest(url: url)
         
         urlRequest.httpMethod = HTTPMethods.get.rawValue
         
-        URLSession.shared.dataTask(with: urlRequest) { data, response, error in
+        urlSession.dataTask(with: urlRequest) { data, response, error in
             if let dataError = error {
+                completionHandler(.failure(APIError.network))
                 print(dataError.localizedDescription)
             }
             guard let urlResponse = response as? HTTPURLResponse,
