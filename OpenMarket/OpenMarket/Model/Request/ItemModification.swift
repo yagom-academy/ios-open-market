@@ -17,7 +17,7 @@ struct ItemModification {
     let images: [String]?
     let password: String
     
-    enum CodingKeys: String, CodingKey {
+    private enum CodingKeys: String, CodingKey {
         case title, descriptions, price, currency, stock, images, password
         case discountedPrice = "discounted_price"
     }
