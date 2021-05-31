@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ItemModification {
+struct ItemModification: Equatable {
     let title: String?
     let descriptions: String?
     let price: Int?

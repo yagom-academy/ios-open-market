@@ -7,12 +7,12 @@
 
 import Foundation
 
-struct ItemPage: Decodable {
+struct ItemPage: Decodable, Equatable {
     let page: Int
     let items: [ItemShortInformaion]
 }
 
-struct ItemShortInformaion: Decodable {
+struct ItemShortInformaion: Decodable, Equatable {
     let id: Int
     let title: String
     let price: Int
