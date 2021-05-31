@@ -1,28 +1,4 @@
 # 오픈마켓 프로젝트 학습
 
 
-### 타임라인
-
-- 05/31(월)
-  - 강의) Core Data, Database
-- 06/01(화)
-- 06/02(수)
-- 06/03(목)
-- 06/04(금)
-
-
-<br>
-
-### 학습키워드
-
-<br>
-
-### 트러블슈팅 (Troubleshooting)
-
-<br>
-
-### 참고 링크
-
-
-<br>
-
+[README](https://github.com/Kioding/ios-open-market/tree/main)
