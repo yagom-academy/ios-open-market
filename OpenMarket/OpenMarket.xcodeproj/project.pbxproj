@@ -17,7 +17,7 @@
 		D0E77D342660DF9E006DDCB4 /* Items.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E77D332660DF9E006DDCB4 /* Items.swift */; };
 		D0E77D362660DFAB006DDCB4 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E77D352660DFAB006DDCB4 /* Item.swift */; };
 		D0E77D392660E70A006DDCB4 /* URLSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E77D382660E70A006DDCB4 /* URLSessionManager.swift */; };
-		D0E77D3B2660F41A006DDCB4 /* APIInformations.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E77D3A2660F41A006DDCB4 /* APIInformations.swift */; };
+		D0E77D3B2660F41A006DDCB4 /* ClientRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E77D3A2660F41A006DDCB4 /* ClientRequest.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,7 +33,7 @@
 		D0E77D332660DF9E006DDCB4 /* Items.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Items.swift; sourceTree = "<group>"; };
 		D0E77D352660DFAB006DDCB4 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		D0E77D382660E70A006DDCB4 /* URLSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionManager.swift; sourceTree = "<group>"; };
-		D0E77D3A2660F41A006DDCB4 /* APIInformations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIInformations.swift; sourceTree = "<group>"; };
+		D0E77D3A2660F41A006DDCB4 /* ClientRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientRequest.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,7 +85,7 @@
 			children = (
 				D0E77D332660DF9E006DDCB4 /* Items.swift */,
 				D0E77D352660DFAB006DDCB4 /* Item.swift */,
-				D0E77D3A2660F41A006DDCB4 /* APIInformations.swift */,
+				D0E77D3A2660F41A006DDCB4 /* ClientRequest.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -165,7 +165,7 @@
 				D0E77D362660DFAB006DDCB4 /* Item.swift in Sources */,
 				D0E77D342660DF9E006DDCB4 /* Items.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
-				D0E77D3B2660F41A006DDCB4 /* APIInformations.swift in Sources */,
+				D0E77D3B2660F41A006DDCB4 /* ClientRequest.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 			);

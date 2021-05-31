@@ -8,6 +8,7 @@
 import Foundation
 
 struct URLSessionManager {
+    let clientRequest = ClientRequest(page: <#T##Int#>, descriptionAboutMenu: <#T##DescriptionAboutMenu#>)
     let urlSession = URLSession()
     let url
     

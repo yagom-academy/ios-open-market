@@ -28,7 +28,7 @@ struct ClientRequest {
     var header: Header?
     var body: Body?
     let baseURLWithString: String = "https://camp-open-market-2.herokuapp.com/"
-    var page: Int = 0
+    var page: Int?
     var path: String = ""
     let contentType: String = ""
     let descriptionAboutMenu: DescriptionAboutMenu
@@ -42,7 +42,7 @@ struct ClientRequest {
     mutating func setProperty(by description: DescriptionAboutMenu){
         switch description {
         case .목록조회:
-            path = "items/:\(page)"
+            if let page = page { path = "items/:\(page)" }
             header = Header(url: URL(string: baseURLWithString + path)!, method: description.rawValue, contentsType: "application/json")
             body = nil
         case .상품등록:
