@@ -1,5 +1,5 @@
 //
-//  ItemPageInformation.swift
+//  ItemPage.swift
 //  OpenMarket
 //
 //  Created by kio on 2021/05/31.
@@ -7,12 +7,12 @@
 
 import Foundation
 
-struct ItemPage {
+struct ItemPage: Decodable {
     let page: Int
     let items: [ItemShortInformaion]
 }
 
-struct ItemShortInformaion {
+struct ItemShortInformaion: Decodable {
     let id: Int
     let title: String
     let price: Int
@@ -25,6 +25,6 @@ struct ItemShortInformaion {
     private enum CodingKeys: String, CodingKey {
         case id, title, price, currency, stock, thumbnails
         case discountedPrice = "discounted_price"
-        case registrationDate = "registration_date"
+        case registrationData = "registration_date"
     }
 }

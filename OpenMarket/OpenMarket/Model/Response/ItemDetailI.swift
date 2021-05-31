@@ -1,5 +1,5 @@
 //
-//  ItemDetailInformation.swift
+//  ItemDetail.swift
 //  OpenMarket
 //
 //  Created by kio on 2021/05/31.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ItemDetail {
+struct ItemDetail: Decodable {
     let id: Int
     let title: String
     let descriptions: String

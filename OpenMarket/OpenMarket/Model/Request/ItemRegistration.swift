@@ -1,5 +1,5 @@
 //
-//  ItemRegistrationForm.swift
+//  ItemRegistration.swift
 //  OpenMarket
 //
 //  Created by kio on 2021/05/31.
