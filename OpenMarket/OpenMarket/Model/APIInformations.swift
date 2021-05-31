@@ -36,6 +36,7 @@ struct ClientRequest {
     init(page: Int, descriptionAboutMenu: DescriptionAboutMenu){
         self.page = page
         self.descriptionAboutMenu = descriptionAboutMenu
+        setProperty(by: descriptionAboutMenu)
     }
     
     mutating func setProperty(by description: DescriptionAboutMenu){
