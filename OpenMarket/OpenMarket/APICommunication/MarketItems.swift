@@ -1,5 +1,5 @@
 //
-//  Items.swift
+//  MarketItems.swift
 //  OpenMarket
 //
 //  Created by Tak on 2021/06/01.
