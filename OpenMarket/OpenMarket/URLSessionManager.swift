@@ -12,7 +12,7 @@ struct URLSessionManager<T: Decodable> {
     let clientRequest: ClientRequest
     let urlSessionForGet = URLSession()
     
-    init(clientRequest: ClientRequest, urlRequest: URLRequest){
+    init(clientRequest: ClientRequest){
         self.clientRequest = clientRequest
     }
     
