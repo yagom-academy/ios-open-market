@@ -12,42 +12,43 @@ protocol Deletable {
 }
 
 protocol ProductList: Decodable {
-    var page: Int { get }
-    var items: [String] { get }
+    associatedtype T
+    var page: UInt { get }
+    var items: [T] { get }
 }
 
 protocol ProductInfo: Decodable {
-    var id: Int { get }
+    var id: UInt { get }
     var title: String { get }
-    var price: Int { get }
+    var price: UInt { get }
     var currency: String { get }
-    var stock: Int { get }
-    var discountedPrice: Int { get }
+    var stock: UInt { get }
+    var discountedPrice: UInt? { get }
     var thumbnails: [String] { get }
-    var registrationDate: Int { get }
+    var registrationDate: Double { get }
 }
 
 protocol ProductDetail: ProductInfo {
     var images: [String] { get }
-    var registrationDate: Int { get }
+    var descriptions: String { get }
 }
 
 protocol ProductRegistration: Encodable, Deletable {
     var title: String { get }
     var descriptions: String { get }
-    var price: Int { get }
+    var price: UInt { get }
     var currency: String { get }
-    var stock: Int { get }
-    var discountedPrice: Int? { get }
+    var stock: UInt { get }
+    var discountedPrice: UInt? { get }
     var images: [Data] { get }
 }
 
 protocol ProductModify: Encodable, Deletable {
     var title: String? { get }
     var descriptions: String? { get }
-    var price: Int? { get }
+    var price: UInt? { get }
     var currency: String? { get }
-    var stock: Int? { get }
-    var discountedPrice: Int? { get }
+    var stock: UInt? { get }
+    var discountedPrice: UInt? { get }
     var images: [Data]? { get }
 }
