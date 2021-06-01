@@ -8,17 +8,16 @@
 import XCTest
 @testable import OpenMarket
 final class OpenMarketNetworkTests: XCTestCase {
-    var sut_mockNetworkManager: MockNetworkManager!
+    var sut_networkManager: NetworkManageable!
     
     override func setUpWithError() throws {
         try super.setUpWithError()
-        sut_mockNetworkManager = MockNetworkManager(urlSession: MockURLSession())
-        
+        sut_networkManager = NetworkManager(urlSession: MockURLSession())
     }
 
     override func tearDownWithError() throws {
         try super.tearDownWithError()
-        sut_mockNetworkManager = nil
+        sut_networkManager = nil
 
     }
     
@@ -27,7 +26,7 @@ final class OpenMarketNetworkTests: XCTestCase {
         let expectation = XCTestExpectation()
         
         // when
-        sut_mockNetworkManager.getItemList(page: 1) { result in
+        sut_networkManager.examineNetworkResponse(page: 1) { result in
             
             // then
             switch result {
@@ -44,11 +43,11 @@ final class OpenMarketNetworkTests: XCTestCase {
     
     func test_getItemList_failureResponse() {
         // given
-        sut_mockNetworkManager = MockNetworkManager(urlSession: MockURLSession.init(buildRequestFail: true))
+        sut_networkManager = NetworkManager(urlSession: MockURLSession.init(buildRequestFail: true))
         let expectation = XCTestExpectation()
         
         // when
-        sut_mockNetworkManager.getItemList(page: 1) { result in
+        sut_networkManager.examineNetworkResponse(page: 1) { result in
             
             // then
             switch result {
