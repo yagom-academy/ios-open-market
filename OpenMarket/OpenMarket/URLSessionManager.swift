@@ -8,14 +8,16 @@
 import Foundation
 
 struct URLSessionManager {
-    let clientRequest = ClientRequest(page: <#T##Int#>, descriptionAboutMenu: <#T##DescriptionAboutMenu#>)
-    let urlSession = URLSession()
-    let url
+    let clientRequest: ClientRequest
+    let urlSessionForGet = URLSession()
     
-    func GetServersData() {
-        
+    init(clientRequest: ClientRequest, urlRequest: URLRequest){
+        self.clientRequest = clientRequest
     }
     
-    
-    let url: String
+    func getServerData(){
+        urlSessionForGet.dataTask(with: clientRequest.urlRequest){ data, response, error in
+            
+        }
+    }
 }
