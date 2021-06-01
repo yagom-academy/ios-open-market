@@ -7,8 +7,8 @@
 
 import Foundation
 
-final class NetworkManager {
-    private var urlSession: URLSessionProtocol
+final class NetworkManager: NetworkManageable {
+    var urlSession: URLSessionProtocol
     
     init(urlSession: URLSessionProtocol = URLSession.shared) {
         self.urlSession = urlSession
@@ -19,8 +19,6 @@ final class NetworkManager {
             return completionHandler(.failure(APIError.network))
             
         }
-        
-        
         var urlRequest = URLRequest(url: url)
         
         urlRequest.httpMethod = HTTPMethods.get.rawValue

@@ -22,7 +22,7 @@
 		EAB78586266613910090C7FC /* URLSessionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAB78585266613910090C7FC /* URLSessionProtocol.swift */; };
 		EAB785882666144E0090C7FC /* MockURLSessionDataTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAB785872666144E0090C7FC /* MockURLSessionDataTask.swift */; };
 		EAB7858C266615AF0090C7FC /* MockURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAB7858B266615AF0090C7FC /* MockURLSession.swift */; };
-		EAB7858E266622410090C7FC /* MockNetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAB7858D266622410090C7FC /* MockNetworkManager.swift */; };
+		EAB78592266639780090C7FC /* NetworkManageable.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAB78591266639780090C7FC /* NetworkManageable.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,7 +55,7 @@
 		EAB78585266613910090C7FC /* URLSessionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionProtocol.swift; sourceTree = "<group>"; };
 		EAB785872666144E0090C7FC /* MockURLSessionDataTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSessionDataTask.swift; sourceTree = "<group>"; };
 		EAB7858B266615AF0090C7FC /* MockURLSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSession.swift; sourceTree = "<group>"; };
-		EAB7858D266622410090C7FC /* MockNetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockNetworkManager.swift; sourceTree = "<group>"; };
+		EAB78591266639780090C7FC /* NetworkManageable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManageable.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -145,7 +145,6 @@
 				EAB785792665238A0090C7FC /* Info.plist */,
 				EAB785872666144E0090C7FC /* MockURLSessionDataTask.swift */,
 				EAB7858B266615AF0090C7FC /* MockURLSession.swift */,
-				EAB7858D266622410090C7FC /* MockNetworkManager.swift */,
 			);
 			path = OpenMarketNetworkTests;
 			sourceTree = "<group>";
@@ -154,6 +153,7 @@
 			isa = PBXGroup;
 			children = (
 				EAB78585266613910090C7FC /* URLSessionProtocol.swift */,
+				EAB78591266639780090C7FC /* NetworkManageable.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -263,6 +263,7 @@
 				EAB785702664E6980090C7FC /* APIError.swift in Sources */,
 				EAB785692664CCEF0090C7FC /* DecodingModel.swift in Sources */,
 				EAB7856E2664D1CE0090C7FC /* OpenMarketAPI.swift in Sources */,
+				EAB78592266639780090C7FC /* NetworkManageable.swift in Sources */,
 				EAB785662664C9760090C7FC /* HTTPMethods.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
@@ -276,7 +277,6 @@
 			files = (
 				EAB7858C266615AF0090C7FC /* MockURLSession.swift in Sources */,
 				EAB785782665238A0090C7FC /* OpenMarketNetworkTests.swift in Sources */,
-				EAB7858E266622410090C7FC /* MockNetworkManager.swift in Sources */,
 				EAB785882666144E0090C7FC /* MockURLSessionDataTask.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
