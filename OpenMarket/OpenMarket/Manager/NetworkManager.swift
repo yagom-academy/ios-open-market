@@ -7,23 +7,19 @@
 
 import Foundation
 
-enum Result<T, U> {
-    case success(T)
-    case failure(U)
-}
-
 final class NetworkManager {
-    var urlSession: URLSession
+    private var urlSession: URLSessionProtocol
     
-    init(urlSession: URLSession = URLSession.shared) {
+    init(urlSession: URLSessionProtocol = URLSession.shared) {
         self.urlSession = urlSession
     }
     
-    func getItemList(node: APINode, page: Int, completionHandler: @escaping (_ result: Result <OpenMarketItemList, APIError>) -> Void) {
-        guard let url = URL(string: "\(node.urlForItemList)\(page)") else {
-            return completionHandler(.failure(APIError.decoding))
+    func getItemList(page: Int, completionHandler: @escaping (_ result: Result <OpenMarketItemList, APIError>) -> Void) {
+        guard let url = URL(string: "\(OpenMarketAPI.connection.pathForItemList)\(page)") else {
+            return completionHandler(.failure(APIError.network))
             
         }
+        
         
         var urlRequest = URLRequest(url: url)
         
