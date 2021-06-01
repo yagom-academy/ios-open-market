@@ -22,9 +22,10 @@ struct Header {
 
 struct Body {
     let item: Item
+    let
 }
 
-struct ClientRequest {
+struct ClientRequest: {
     var header: Header?
     var body: Body?
     let baseURLWithString: String = "https://camp-open-market-2.herokuapp.com/"
@@ -32,8 +33,9 @@ struct ClientRequest {
     var path: String = ""
     let contentType: String = ""
     let descriptionAboutMenu: DescriptionAboutMenu
+    var urlRequest: URLRequest
     
-    init(page: Int, descriptionAboutMenu: DescriptionAboutMenu){
+    init(page: Int?, descriptionAboutMenu: DescriptionAboutMenu){
         self.page = page
         self.descriptionAboutMenu = descriptionAboutMenu
         setProperty(by: descriptionAboutMenu)
@@ -62,5 +64,8 @@ struct ClientRequest {
             header = Header(url: URL(string: baseURLWithString + path)!, method: description.rawValue, contentsType: "application/json")
             body = nil
         }
+        
+        urlRequest.url = URL(string: baseURLWithString + path)!
+        urlRequest.httpMethod = header?.method
     }
 }
