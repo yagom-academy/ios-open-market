@@ -1,6 +1,5 @@
 # 오픈마켓 프로젝트 학습
 
-
 ### 타임라인
 
 - 05/31(월)
@@ -195,3 +194,4 @@ struct ItemModification {
 
 ### Unit Test
 - Mock Data 파일로 decoding 하고, 같은 정보를 가진 가짜 객체를 만들어 XCTAssertEqual로 비교 
+
