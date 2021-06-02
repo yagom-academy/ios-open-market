@@ -13,6 +13,7 @@
 		452141BA26666E60006E45F7 /* MarketItemUpload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 452141B926666E60006E45F7 /* MarketItemUpload.swift */; };
 		452141BC26666F67006E45F7 /* MarketItemEdit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 452141BB26666F67006E45F7 /* MarketItemEdit.swift */; };
 		452141BE266670AC006E45F7 /* MarketItemDelete.swift in Sources */ = {isa = PBXBuildFile; fileRef = 452141BD266670AC006E45F7 /* MarketItemDelete.swift */; };
+		452141C326667FE9006E45F7 /* MarketAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 452141C226667FE9006E45F7 /* MarketAPI.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
 		C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */; };
 		C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FE25BEF61C00C9924E /* ViewController.swift */; };
@@ -28,6 +29,7 @@
 		452141B926666E60006E45F7 /* MarketItemUpload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketItemUpload.swift; sourceTree = "<group>"; };
 		452141BB26666F67006E45F7 /* MarketItemEdit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketItemEdit.swift; sourceTree = "<group>"; };
 		452141BD266670AC006E45F7 /* MarketItemDelete.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketItemDelete.swift; sourceTree = "<group>"; };
+		452141C226667FE9006E45F7 /* MarketAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketAPI.swift; sourceTree = "<group>"; };
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -60,13 +62,38 @@
 		452141B6266631CD006E45F7 /* APICommunication */ = {
 			isa = PBXGroup;
 			children = (
-				452141B4266631C6006E45F7 /* MarketItems.swift */,
-				452141B7266666C9006E45F7 /* MarketItem.swift */,
+				452141C0266671DF006E45F7 /* Response */,
+				452141BF266671D4006E45F7 /* Request */,
+			);
+			path = APICommunication;
+			sourceTree = "<group>";
+		};
+		452141BF266671D4006E45F7 /* Request */ = {
+			isa = PBXGroup;
+			children = (
 				452141B926666E60006E45F7 /* MarketItemUpload.swift */,
 				452141BB26666F67006E45F7 /* MarketItemEdit.swift */,
 				452141BD266670AC006E45F7 /* MarketItemDelete.swift */,
 			);
-			path = APICommunication;
+			path = Request;
+			sourceTree = "<group>";
+		};
+		452141C0266671DF006E45F7 /* Response */ = {
+			isa = PBXGroup;
+			children = (
+				452141B4266631C6006E45F7 /* MarketItems.swift */,
+				452141B7266666C9006E45F7 /* MarketItem.swift */,
+			);
+			path = Response;
+			sourceTree = "<group>";
+		};
+		452141C126667FBF006E45F7 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				452141B6266631CD006E45F7 /* APICommunication */,
+				452141C226667FE9006E45F7 /* MarketAPI.swift */,
+			);
+			path = Network;
 			sourceTree = "<group>";
 		};
 		C70FB0EE25BEF61C00C9924E = {
@@ -88,7 +115,7 @@
 		C70FB0F925BEF61C00C9924E /* OpenMarket */ = {
 			isa = PBXGroup;
 			children = (
-				452141B6266631CD006E45F7 /* APICommunication */,
+				452141C126667FBF006E45F7 /* Network */,
 				452141B3266518C8006E45F7 /* Model */,
 				C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */,
 				C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */,
@@ -179,6 +206,7 @@
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				452141B8266666C9006E45F7 /* MarketItem.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
+				452141C326667FE9006E45F7 /* MarketAPI.swift in Sources */,
 				452141BA26666E60006E45F7 /* MarketItemUpload.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
