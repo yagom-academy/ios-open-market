@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ItemUpload: ProductRegistration {
+struct MarketItemUpload: ProductRegistration {
     let title: String
     let descriptions: String
     let price: UInt
