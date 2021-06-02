@@ -59,7 +59,7 @@ class OpenMarketTests: XCTestCase {
     
     func testMockDataFromAssetItems() {
         guard let jsonData = NSDataAsset(name: "Items") else {
-            fatalError("Item 정보 읽기 실패")
+            fatalError("Items 정보 읽기 실패")
             return
         }
         
