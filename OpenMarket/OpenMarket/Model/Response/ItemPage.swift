@@ -20,7 +20,7 @@ struct ItemShortInformaion: Decodable, Equatable {
     let stock: Int
     let discountedPrice: Int?
     let thumbnails: [String]
-    let registrationData: Int
+    let registrationData: Double
     
     private enum CodingKeys: String, CodingKey {
         case id, title, price, currency, stock, thumbnails
