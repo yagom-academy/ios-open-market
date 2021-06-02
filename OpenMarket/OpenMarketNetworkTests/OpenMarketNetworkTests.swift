@@ -24,14 +24,54 @@ final class OpenMarketNetworkTests: XCTestCase {
     func test_getItemList_successfulResponse() {
         // given
         let expectation = XCTestExpectation()
-        
+        let pageNumber = 1
         // when
-        sut_networkManager.examineNetworkResponse(page: 1) { result in
+        sut_networkManager.examineNetworkResponse(page: pageNumber) { result in
             
             // then
             switch result {
             case .success(let response):
                 XCTAssertEqual(response.statusCode, 200)
+                // then
+            case .failure(let error):
+                XCTFail("\(error)")
+            }
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 1)
+    }
+    
+    func test_ItemList_url() {
+        // given
+        let expectation = XCTestExpectation()
+        let pageNumber = 1
+        // when
+        sut_networkManager.examineNetworkResponse(page: pageNumber) { result in
+            
+            // then
+            switch result {
+            case .success(let response):
+                XCTAssertEqual(response.url, URL(string: "\(OpenMarketAPI.connection.urlForItemList)\(pageNumber)"))
+                // then
+            case .failure(let error):
+                XCTFail("\(error)")
+            }
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 1)
+    }
+    
+    func test_ItemList_httpMethod_get() {
+        // given
+        let expectation = XCTestExpectation()
+        let pageNumber = 1
+        // when
+        sut_networkManager.examineNetworkRequest(page: pageNumber) { result in
+            
+            // then
+            switch result {
+            case .success(let request):
+                XCTAssertEqual(request.httpMethod, HTTPMethods.get.rawValue)
                 // then
             case .failure(let error):
                 XCTFail("\(error)")

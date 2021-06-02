@@ -8,7 +8,7 @@
 import Foundation
 @testable import OpenMarket
 final class MockURLSession: URLSessionProtocol {
-    
+    var pageNumber = 1
     var buildRequestFail: Bool = false
     
     init(buildRequestFail: Bool = false) {
@@ -19,7 +19,7 @@ final class MockURLSession: URLSessionProtocol {
     
     func dataTask(with request: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask {
         
-        guard let url = URL(string: OpenMarketAPI.connection.urlForItemList) else {
+        guard let url = URL(string: "\(OpenMarketAPI.connection.urlForItemList)\(pageNumber)") else {
             return URLSessionDataTask()
             
         }
