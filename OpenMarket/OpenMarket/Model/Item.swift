@@ -16,7 +16,7 @@ struct Item: Decodable {
     let discountedPrice: Int?
     let thumbnails: [String]
     let registrationDate: Double
-    
+
     enum CodingKeys: String, CodingKey {
         case id, title, price, currency, stock, thumbnails
         case discountedPrice = "discounted_price"

@@ -15,10 +15,10 @@ extension Networkable {
     func getServerData<T: Decodable>(url: URL, completionHandler: @escaping (T) -> Void) {
         URLSession.shared.dataTask(with: url){ data, response, error in
             if error != nil { return }
-            
+
             guard let httpResponse = response as? HTTPURLResponse,
                   (200...299).contains(httpResponse.statusCode) else { return }
-            
+
             if let mimeType = httpResponse.mimeType,
                mimeType == "application/json",
                let data = data {

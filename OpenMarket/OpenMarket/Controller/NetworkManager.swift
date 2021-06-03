@@ -8,7 +8,7 @@
 import Foundation
 class NetworkManager<T: Decodable>: Networkable {
     let clientRequest: GETRequest
-    
+
     init(clientRequest: GETRequest){
         self.clientRequest = clientRequest
     }
