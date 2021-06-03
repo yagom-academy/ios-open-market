@@ -9,10 +9,10 @@ import Foundation
 
 struct OpenMarketItemList: Decodable {
     var page: Int
-    var items: [Items]
+    var items: [Item]
 }
 
-struct Items: Decodable {
+struct Item: Decodable {
     var id: Int
     var title: String
     var price: Int
