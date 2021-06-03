@@ -11,10 +11,9 @@ protocol NetworkManageable {
     var urlSession: URLSessionProtocol { get set }
 }
 extension NetworkManageable {
-    func examineNetworkResponse(page: Int, completionHandler: @escaping (_ result: Result <HTTPURLResponse, APIError>) -> Void) {
+    func examineNetworkResponse(page: Int, completionHandler: @escaping (_ result: Result <HTTPURLResponse, Error>) -> Void) {
         guard let url = URL(string: "\(OpenMarketAPI.connection.pathForItemList)\(page)") else {
-            return completionHandler(.failure(APIError.network))
-            
+            return completionHandler(.failure(NetworkResponseError.badRequest))
         }
         
         var urlRequest = URLRequest(url: url)
@@ -23,15 +22,33 @@ extension NetworkManageable {
         
         urlSession.dataTask(with: urlRequest) { data, response, error in
             if let dataError = error {
-                completionHandler(.failure(APIError.network))
+                completionHandler(.failure(NetworkResponseError.noData))
                 print(dataError.localizedDescription)
             }
-            guard let urlResponse = response as? HTTPURLResponse,
-                  urlResponse.statusCode == 200 else {
-                return completionHandler(.failure(APIError.network))
+            if let urlResponse = response as? HTTPURLResponse {
+                let urlResponseError = self.handleNetworkResponseError(urlResponse)
+                switch urlResponseError {
+                case .failure(let networkError):
+                    completionHandler(.failure(networkError))
+                case .success:
+                    completionHandler(.success(urlResponse))
+                }
             }
-            completionHandler(.success(urlResponse))
-            
         }.resume()
+    }
+    
+    func handleNetworkResponseError(_ response: HTTPURLResponse) -> NetworkResponseResult<Error> {
+        switch response.statusCode {
+        case 200...299:
+            return .success
+        case 401...500:
+            return .failure(NetworkResponseError.authenticationError)
+        case 501...599:
+            return .failure(NetworkResponseError.badRequest)
+        case 600:
+            return .failure(NetworkResponseError.outdated)
+        default:
+            return .failure(NetworkResponseError.failed)
+        }
     }
 }

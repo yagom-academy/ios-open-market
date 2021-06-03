@@ -54,7 +54,7 @@ final class OpenMarketNetworkTests: XCTestCase {
             case .success:
                 XCTFail()
             case .failure(let error):
-                XCTAssertEqual(error.description, "Network is not responding")
+                XCTAssertEqual(error.localizedDescription, "The operation couldn’t be completed. (OpenMarket.NetworkResponseError error 3.)")
             }
             expectation.fulfill()
         }
