@@ -10,12 +10,16 @@ import XCTest
 
 class URLSessionManagerTests: XCTestCase {
     func test_getServerData메서드에서_요청을보냈을때_convertedData에_원하는데이터가_저장되는가(){
-        let clientRequest = ClientRequest(page: 1, descriptionAboutMenu: .목록조회)
+        let expectation = XCTestExpectation()
+        let clientRequest = GETRequest(page: 1, descriptionAboutMenu: .목록조회)
         let urlSessionManager = URLSessionManager<Items>(clientRequest: clientRequest)
         var a: Items?
-        urlSessionManager.getServerData{ a = $0 }
+        urlSessionManager.getServerData{ (convertedData: Items) in
+            a = convertedData
+            expectation.fulfill()
+        }
         
-        sleep(5)
+        wait(for: [expectation], timeout: 3)
         
         XCTAssertEqual(a?.page, 1)
     }

@@ -7,15 +7,14 @@
 
 import Foundation
 class URLSessionManager<T: Decodable> {
-    let urlSession = URLSession()
     let clientRequest: GETRequest
     
     init(clientRequest: GETRequest){
         self.clientRequest = clientRequest
     }
     
-    func getServerData<T: Decodable>(url: URL, completionHandler: @escaping (T) -> Void) {
-        urlSession.dataTask(with: url){ data, response, error in
+    func getServerData<T: Decodable>(completionHandler: @escaping (T) -> Void) {
+        URLSession.shared.dataTask(with: clientRequest.urlRequest.url!){ data, response, error in
             if error != nil { return }
             
             guard let httpResponse = response as? HTTPURLResponse,
