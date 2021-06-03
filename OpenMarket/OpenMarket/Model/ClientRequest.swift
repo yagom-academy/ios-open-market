@@ -23,4 +23,11 @@ struct GETRequest: GETRequestable {
         self.httpMethod = descriptionAboutMenu
         makeURLRequest(page: page, by: descriptionAboutMenu)
     }
-} 
+}
+
+//TODO: Step3 에서 구현 예정
+struct NonGetRequest: NonGetRequestable {
+    var urlRequest: URLRequest
+    var baseURLWithString: String
+    var httpMethod: HTTPMethod
+}
