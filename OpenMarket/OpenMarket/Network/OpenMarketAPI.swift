@@ -16,7 +16,6 @@ enum OpenMarketAPI {
     var pathForSingleItem: String {
         "item"
     }
-    
     var urlForItemList: String {
         return OpenMarketAPI.baseURL + pathForItemList
     }
