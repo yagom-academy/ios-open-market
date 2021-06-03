@@ -14,7 +14,7 @@ enum HTTPMethod: String{
     case 상품삭제 = "DELETE"
 }
 
-struct GETRequest: GETRequestable {
+struct GETRequest: GetRequestable {
     var urlRequest: URLRequest = URLRequest(url: URL(string: "placeHolder")!)
     let baseURLWithString: String = "https://camp-open-market-2.herokuapp.com/"
     let httpMethod: HTTPMethod
