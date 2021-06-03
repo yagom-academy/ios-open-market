@@ -9,8 +9,9 @@ import Foundation
 
 public enum APIError: Error {
     case decoding, encoding, network
-    
-    var description: String {
+}
+extension APIError: CustomStringConvertible {
+    public var description: String {
         switch self {
         case .network:
             return "Network is not responding"
@@ -20,4 +21,6 @@ public enum APIError: Error {
             return "Data was not encoded properly"
         }
     }
+    
+    
 }
