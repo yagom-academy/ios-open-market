@@ -12,8 +12,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
+        let viewController = OpenMarketViewController(nibName: nil, bundle: nil)
+        let navigationController = UINavigationController(rootViewController: viewController)
+        
         window = UIWindow(windowScene: windowScene)
-        window?.rootViewController = UINavigationController()
+        window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
     }
 
