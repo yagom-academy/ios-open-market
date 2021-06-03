@@ -42,7 +42,7 @@ extension GETRequestable {
 }
 
 // MARK:- Get 이외의 메서드를 사용하는 목록조회, 상품조회의 URLRequest를 생성하기 위한 protocol-extension
-// FIXME:- 기능요구서 상 Step3에서 구현 예정, frame만 만들어둔 상태.
+// TODO:- 기능요구서 상 Step3에서 구현 예정, frame만 만들어둔 상태.
 protocol NonGetRequestable: Requestable {
     mutating func makeURLRequest(page: Int, by description: HTTPMethod)
 }
