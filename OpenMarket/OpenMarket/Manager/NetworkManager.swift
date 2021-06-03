@@ -28,10 +28,11 @@ final class NetworkManager: NetworkManageable {
                 print(dataError.localizedDescription)
             }
             if let urlResponse = response as? HTTPURLResponse {
-                let urlResponseError = self.handleNetworkResponseError(urlResponse)
-                switch urlResponseError {
-                case .failure(let networkError):
-                    completionHandler(.failure(networkError))
+                let urlResponseResult = self.handleNetworkResponseError(urlResponse)
+                switch urlResponseResult {
+                case .failure(let errorDescription):
+                    print(errorDescription)
+                    return completionHandler(.failure(NetworkResponseError.badRequest))
                 case .success:
                     guard let itemListData = data else {
                         return completionHandler(.failure(NetworkResponseError.noData))
@@ -46,18 +47,18 @@ final class NetworkManager: NetworkManageable {
         }.resume()
     }
     
-    func handleNetworkResponseError(_ response: HTTPURLResponse) -> NetworkResponseResult<Error> {
+    func handleNetworkResponseError(_ response: HTTPURLResponse) -> NetworkResponseResult<String> {
         switch response.statusCode {
         case 200...299:
             return .success
         case 401...500:
-            return .failure(NetworkResponseError.authenticationError)
+            return .failure(NetworkResponseError.authenticationError.description)
         case 501...599:
-            return .failure(NetworkResponseError.badRequest)
+            return .failure(NetworkResponseError.badRequest.description)
         case 600:
-            return .failure(NetworkResponseError.outdated)
+            return .failure(NetworkResponseError.outdated.description)
         default:
-            return .failure(NetworkResponseError.failed)
+            return .failure(NetworkResponseError.failed.description)
         }
     }
 }

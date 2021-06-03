@@ -26,10 +26,11 @@ extension NetworkManageable {
                 print(dataError.localizedDescription)
             }
             if let urlResponse = response as? HTTPURLResponse {
-                let urlResponseError = self.handleNetworkResponseError(urlResponse)
-                switch urlResponseError {
-                case .failure(let networkError):
-                    completionHandler(.failure(networkError))
+                let urlResponseResult = self.handleNetworkResponseError(urlResponse)
+                switch urlResponseResult {
+                case .failure(let errorDescription):
+                    print(errorDescription)
+                    return completionHandler(.failure(NetworkResponseError.badRequest))
                 case .success:
                     completionHandler(.success(urlResponse))
                 }

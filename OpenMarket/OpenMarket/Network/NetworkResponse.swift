@@ -7,9 +7,9 @@
 
 import Foundation
 
-enum NetworkResponseResult<Error> {
+enum NetworkResponseResult<String> {
     case success
-    case failure(Error)
+    case failure(String)
 }
 
 enum NetworkResponseError: Error {
