@@ -31,15 +31,24 @@ class OpenMarketTests: XCTestCase {
     func test_JSONParser_for_Item() throws {
         guard let localJSONData = readLocalFile(forName: "Item") else { throw APIError.JSONParseError }
         let jsonParser = JSONParser()
-        guard let parsedItemData: Item = try? jsonParser.parseJSONDataToValueObject(with: localJSONData) else { throw APIError.JSONParseError }
+        guard let parsedItemData: GETResponseItem = try? jsonParser.parseJSONDataToValueObject(with: localJSONData) else { throw APIError.JSONParseError }
         XCTAssertNotNil(parsedItemData)
     }
     
     func test_JSONParser_for_ItemList() throws {
         guard let localJSONData = readLocalFile(forName: "Items") else { throw APIError.JSONParseError }
         let jsonParser = JSONParser()
-        guard let parsedItemListData: ItemList = try? jsonParser.parseJSONDataToValueObject(with: localJSONData) else { throw APIError.JSONParseError }
+        guard let parsedItemListData: GETResponseItemList = try? jsonParser.parseJSONDataToValueObject(with: localJSONData) else { throw APIError.JSONParseError }
         XCTAssertNotNil(parsedItemListData)
     }
     
+    func test_ItemListFetcher() throws {
+        var itemListFetcher = ItemListFetcher()
+        let expectation = XCTestExpectation(description: "Download apple.com home page")
+        try? itemListFetcher.fetchItemList(completion: { itemList in
+            expectation.fulfill()
+        })
+        wait(for: [expectation], timeout: 10.0)
+//        XCTAssertNotNil(itemListFetcher.fetchedItemList)
+    }
 }

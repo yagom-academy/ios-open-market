@@ -7,24 +7,21 @@
 
 import Foundation
 
-class ItemListFetcher {
+struct ItemListFetcher {
     
     private var page = 1
-    var itemList: ItemList?
     
-    func fetchItemList() throws {
-        let url = OpenMarketAPI.baseURL + OpenMarketAPIPathByDescription.itemListSearch.description + "\(self.page)"
-        guard let apiURI = URL(string: url) else { throw APIError.NotFound404Error }
+    mutating func fetchItemList(completion: @escaping (GETResponseItemList?) -> () ) throws {
         
-        let semaphore: DispatchSemaphore = DispatchSemaphore(value: 0)
-        let task = URLSession.shared.dataTask(with: apiURI, completionHandler: { data, response, error in
-            guard let data = data, error == nil else { return }
-            var result: ItemList?
-            result = try? JSONDecoder().decode(ItemList.self, from: data)
-            self.itemList = result
-            semaphore.signal()
-        })
+        let url = OpenMarketAPIPath.itemListSearch.path + "\(self.page)"
+        guard let apiURI = URL(string: url) else { throw APIError.InvalidAddressError }
+        
+        let task = URLSession.shared.dataTask(with: apiURI) { data, response, error in
+            // 에러처리
+            guard let data = data else { return }
+            let fetchedItemList = try? JSONDecoder().decode(GETResponseItemList.self, from: data)
+            completion(fetchedItemList)
+        }
         task.resume()
-        semaphore.wait()
     }
 }
