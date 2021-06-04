@@ -12,14 +12,14 @@ class OpenMarketTests: XCTestCase {
     
     func testMockDataFromAssetItem() {
         guard let jsonData = NSDataAsset(name: "Item") else {
-            fatalError("Item 정보 읽기 실패")
+            XCTFail("Item 정보 읽기 실패")
             return
         }
         
         let decoder = JSONDecoder()
 
         guard let decodeData = try? decoder.decode(ItemDetail.self, from: jsonData.data) else {
-            fatalError("Item 디코딩 실패")
+            XCTFail("Item 디코딩 실패")
             return
         }
         
@@ -39,14 +39,14 @@ class OpenMarketTests: XCTestCase {
     
     func testMockDataFromAssetItems() {
         guard let jsonData = NSDataAsset(name: "Items") else {
-            fatalError("Items 정보 읽기 실패")
+            XCTFail("Items 정보 읽기 실패")
             return
         }
         
         let decoder = JSONDecoder()
 
         guard let decodeData = try? decoder.decode(ItemPage.self, from: jsonData.data) else {
-            fatalError("Items 디코딩 실패")
+            XCTFail("Items 디코딩 실패")
             return
         }
     }
