@@ -15,7 +15,7 @@ final class NetworkManager: NetworkManageable {
     }
     
     func getItemList(page: Int, completionHandler: @escaping (_ result: Result <OpenMarketItemList, Error>) -> Void) {
-        guard let url = URL(string: "\(OpenMarketAPI.connection.urlForItemList)\(page)") else {
+        guard let url = URL(string: "\(OpenMarketAPI.urlForItemList)\(page)") else {
             return completionHandler(.failure(NetworkResponseError.badRequest))
         }
         var urlRequest = URLRequest(url: url)
@@ -45,20 +45,5 @@ final class NetworkManager: NetworkManageable {
                 }
             }
         }.resume()
-    }
-    
-    func handleNetworkResponseError(_ response: HTTPURLResponse) -> NetworkResponseResult<String> {
-        switch response.statusCode {
-        case 200...299:
-            return .success
-        case 401...500:
-            return .failure(NetworkResponseError.authenticationError.description)
-        case 501...599:
-            return .failure(NetworkResponseError.badRequest.description)
-        case 600:
-            return .failure(NetworkResponseError.outdated.description)
-        default:
-            return .failure(NetworkResponseError.failed.description)
-        }
     }
 }
