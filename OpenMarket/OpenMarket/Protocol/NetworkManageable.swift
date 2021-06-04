@@ -37,7 +37,7 @@ extension NetworkManageable {
             }
         }.resume()
     }
-    
+
     func examineNetworkRequest(page: Int, completionHandler: @escaping (_ result: Result <URLRequest, Error>) -> Void) {
         guard let url = URL(string: "\(OpenMarketAPI.urlForItemList)\(page)") else {
             return completionHandler(.failure(NetworkResponseError.badRequest))

@@ -25,7 +25,7 @@ final class OpenMarketNetworkTests: XCTestCase {
         // given
         let expectation = XCTestExpectation()
         let pageNumber: Int = 1
-        
+    
         // when
         sut_networkManager.examineNetworkResponse(page: pageNumber) { result in
             
