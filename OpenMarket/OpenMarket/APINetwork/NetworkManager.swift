@@ -11,35 +11,51 @@ struct NetworkManager {
     
     private var page = 1
     
-    func getJSONDataFromResponse<T: Decodable>(url: String, completionHandler: @escaping (T?) -> () ) throws {
+    func getJSONDataFromResponse<T: Decodable>(url: String, completionHandler: @escaping (Result<T, APIError>) -> () ) throws {
         guard let apiURI = URL(string: url) else { throw APIError.InvalidAddressError }
         
-        let task = URLSession.shared.dataTask(with: apiURI) { data, response, error in
-            guard let data = data else { return }
-            let decodedData = try? JSONDecoder().decode(T.self, from: data)
-            completionHandler(decodedData)
+        let task = URLSession.shared.dataTask(with: apiURI) { result in
+            switch result {
+            case .success(let data):
+                let decodedData = try? JSONDecoder().decode(T.self, from: data)
+                if let decodedData = decodedData {
+                    completionHandler(.success(decodedData))
+                } else {
+                    completionHandler(.failure(APIError.JSONParseError))
+                }
+            case .failure(let error):
+                completionHandler(.failure(APIError.NetworkFailure(error)))
+            }
         }
         task.resume()
     }
     
-    func sendFormDataWithRequest<SendType: Encodable, FetchType: Decodable>(data: SendType, HTTPMethod: HTTPMethod, url: String, completionHandler: @escaping (FetchType?) -> ()) throws {
+    func sendFormDataWithRequest<SendType: Encodable, FetchType: Decodable>(data: SendType, HTTPMethod: HTTPMethod, url: String, completionHandler: @escaping (Result<FetchType, APIError>) -> ()) throws {
         guard let apiURI = URL(string: url) else { throw APIError.InvalidAddressError }
         let boundary = "Boundary-\(UUID().uuidString)"
         var request = URLRequest(url: apiURI)
-        let encodedJSONData = try? JSONEncoder().encode(data) // Data로 반환
+        let encodedJSONData = try? JSONEncoder().encode(data)
         request.httpMethod = HTTPMethod.description
         request.httpBody = encodedJSONData
         request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
         
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            guard let data = data else { return }
-            let decodedData = try? JSONDecoder().decode(FetchType.self, from: data)
-            completionHandler(decodedData)
+        let task = URLSession.shared.dataTask(with: request) { result in
+            switch result {
+            case .success(let data):
+                let decodedData = try? JSONDecoder().decode(FetchType.self, from: data)
+                if let decodedData = decodedData {
+                    completionHandler(.success(decodedData))
+                } else {
+                    completionHandler(.failure(APIError.JSONParseError))
+                }
+            case .failure(let error):
+                completionHandler(.failure(APIError.NetworkFailure(error)))
+            }
         }
         task.resume()
     }
     
-    func fetchItemList(completion: @escaping (GETResponseItemList?) -> ()) throws {
+    func fetchItemList(completion: @escaping (Result<GETResponseItemList, APIError>) -> ()) throws {
         
         let fetchItemListURL = OpenMarketAPIPath.itemListSearch.path + "\(self.page)"
         do {
@@ -49,7 +65,7 @@ struct NetworkManager {
         }
     }
     
-    func fetchItem(completion: @escaping (GETResponseItem?) -> ()) throws {
+    func fetchItem(completion: @escaping (Result<GETResponseItem, APIError>) -> ()) throws {
         
         let fetchItemURL = OpenMarketAPIPath.itemSearch.path
         
@@ -60,7 +76,7 @@ struct NetworkManager {
         }
     }
     
-    func registerItem(registerItem: POSTRequestItem, completion: @escaping (POSTResponseItem?) -> ()) throws {
+    func registerItem(registerItem: POSTRequestItem, completion: @escaping (Result<POSTResponseItem, APIError>) -> ()) throws {
         let postItemURL = OpenMarketAPIPath.itemRegister.path
         do {
             try sendFormDataWithRequest(data: registerItem, HTTPMethod: HTTPMethod.post, url: postItemURL, completionHandler: completion)
@@ -69,7 +85,7 @@ struct NetworkManager {
         }
     }
     
-    func deleteItem(deleteItem: DELETERequestItem, completion: @escaping (DELETEResponseItem?) -> ()) throws {
+    func deleteItem(deleteItem: DELETERequestItem, completion: @escaping (Result<DELETEResponseItem, APIError>) -> ()) throws {
         let deleteItemURL = OpenMarketAPIPath.itemDeletion.path
         do {
             try sendFormDataWithRequest(data: deleteItem, HTTPMethod: HTTPMethod.delete, url: deleteItemURL, completionHandler: completion)
@@ -78,12 +94,40 @@ struct NetworkManager {
         }
     }
     
-    func editItemInformation(editItem: PATCHRequestItem, completion: @escaping (PATCHResponseItem?) -> ()) throws {
+    func editItemInformation(editItem: PATCHRequestItem, completion: @escaping (Result<PATCHResponseItem, APIError>) -> ()) throws {
         let editItemInformationURL = OpenMarketAPIPath.itemEdit.path
         do {
             try sendFormDataWithRequest(data: editItem, HTTPMethod: HTTPMethod.patch, url: editItemInformationURL, completionHandler: completion)
         } catch {
             throw APIError.NotFound404Error
+        }
+    }
+}
+
+extension URLSession {
+    func dataTask(
+        with url: URL,
+        handler: @escaping (Result<Data, Error>) -> Void
+    ) -> URLSessionDataTask {
+        dataTask(with: url) { data, _, error in
+            if let error = error {
+                handler(.failure(error))
+            } else {
+                handler(.success(data ?? Data()))
+            }
+        }
+    }
+    
+    func dataTask(
+        with request: URLRequest,
+        handler: @escaping (Result<Data, Error>) -> Void
+    ) -> URLSessionDataTask {
+        dataTask(with: request) { data, _, error in
+            if let error = error {
+                handler(.failure(error))
+            } else {
+                handler(.success(data ?? Data()))
+            }
         }
     }
 }

@@ -18,7 +18,6 @@
 		486B8DD8265B72E800418C97 /* PATCHResponseItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486B8DD7265B72E800418C97 /* PATCHResponseItem.swift */; };
 		486B8DDC265B72F400418C97 /* DELETEResponseItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486B8DDB265B72F400418C97 /* DELETEResponseItem.swift */; };
 		488D2B62264C127100BCAAA3 /* StringContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 488D2B61264C127000BCAAA3 /* StringContainer.swift */; };
-		488D2B67264C172E00BCAAA3 /* ItemListFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 488D2B66264C172E00BCAAA3 /* ItemListFetcher.swift */; };
 		48A541E9264CF26800581B2C /* OpenMarketAPIPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48A541E8264CF26800581B2C /* OpenMarketAPIPath.swift */; };
 		48A541F3264D3BA600581B2C /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48A541F2264D3BA600581B2C /* APIError.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
@@ -53,7 +52,6 @@
 		486B8DD7265B72E800418C97 /* PATCHResponseItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PATCHResponseItem.swift; sourceTree = "<group>"; };
 		486B8DDB265B72F400418C97 /* DELETEResponseItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DELETEResponseItem.swift; sourceTree = "<group>"; };
 		488D2B61264C127000BCAAA3 /* StringContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringContainer.swift; sourceTree = "<group>"; };
-		488D2B66264C172E00BCAAA3 /* ItemListFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemListFetcher.swift; sourceTree = "<group>"; };
 		48A541E8264CF26800581B2C /* OpenMarketAPIPath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketAPIPath.swift; sourceTree = "<group>"; };
 		48A541F2264D3BA600581B2C /* APIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -127,7 +125,6 @@
 		488D2B65264C16F700BCAAA3 /* APINetwork */ = {
 			isa = PBXGroup;
 			children = (
-				488D2B66264C172E00BCAAA3 /* ItemListFetcher.swift */,
 				481E94E2266763320002BD17 /* NetworkManager.swift */,
 			);
 			path = APINetwork;
@@ -311,7 +308,6 @@
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 				486B8DD0265B72B500418C97 /* GETResponseItemList.swift in Sources */,
 				486B8DDC265B72F400418C97 /* DELETEResponseItem.swift in Sources */,
-				488D2B67264C172E00BCAAA3 /* ItemListFetcher.swift in Sources */,
 				486B8DD8265B72E800418C97 /* PATCHResponseItem.swift in Sources */,
 				488D2B62264C127100BCAAA3 /* StringContainer.swift in Sources */,
 				486B8DD4265B72CA00418C97 /* POSTResponseItem.swift in Sources */,

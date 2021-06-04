@@ -11,6 +11,7 @@ enum APIError: LocalizedError {
     case NotFound404Error
     case JSONParseError
     case InvalidAddressError
+    case NetworkFailure(Error)
 }
 
 extension APIError {
@@ -22,6 +23,8 @@ extension APIError {
             return StringContainer.Error.description + StringContainer.JSONParseError.description
         case .InvalidAddressError:
             return StringContainer.Error.description + StringContainer.InvalidAddressError.description
+        case .NetworkFailure:
+            return StringContainer.Error.description + StringContainer.NetworkFailure.description
         }
     }
 }
