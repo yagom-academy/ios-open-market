@@ -8,13 +8,10 @@ import UIKit
 
 class ViewController: UITableViewController {
     
-    
-    
     override func viewDidLoad() {
-        var fetcher = ItemListFetcher()
+        let fetcher = NetworkManager()
         try? fetcher.fetchItemList { itemList in
-            //code
-            itemList?.itemList
+            print(itemList?.itemList)
         }
     }
 }

@@ -15,7 +15,6 @@ struct NetworkManager {
         guard let apiURI = URL(string: url) else { throw APIError.InvalidAddressError }
         
         let task = URLSession.shared.dataTask(with: apiURI) { data, response, error in
-            
             guard let data = data else { return }
             let decodedData = try? JSONDecoder().decode(T.self, from: data)
             completionHandler(decodedData)
@@ -30,8 +29,7 @@ struct NetworkManager {
         request.httpMethod = HTTPMethod.description
         request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
         
-        let task = URLSession.shared.dataTask(with: apiURI) { data, response, error in
-            
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
             guard let data = data else { return }
             let encodedJSONData = try? JSONEncoder().encode(data)
             completionHandler(encodedJSONData)
@@ -64,6 +62,12 @@ struct NetworkManager {
         let postItemURL = OpenMarketAPIPath.itemRegister.path
         do {
             try sendFormDataWithRequest(data: registerItem, HTTPMethod: HTTPMethod.post, url: postItemURL, completionHandler: completion)
+        } catch {
+            throw APIError.JSONParseError
+        }
+        
+        do {
+            try getJSONDataFromResponse(url: postItemURL, completionHandler: completion)
         } catch {
             throw APIError.JSONParseError
         }

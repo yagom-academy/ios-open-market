@@ -364,6 +364,10 @@
    
    <br/>
    
+   🧐 GET 메소드와 다르게 POST는 url을 통해서 데이터를 전송하고 그 response로 데이터를 받아오는데 GET과 같은 방식으로 Response를 받아올 수 있나?:
+   
+   GET 메소드에서는 JSON 데이터를 가져오기 위해 getJSONDataFromResponse 메소드를 이용합니다. GET 메소드가 url을 통해 데이터를 받아오는 반면 POST 메소드는 request를 보내고 그에 대한 response로 데이터를 받아옵니다. 같은 getJSONDataFromResponse 메소드로 값을 받아오려면 url을 입력해야하는데 같은 방식으로 작동하는 것인지 고민해 볼 필요가 있습니다.
+   
    
 
 <br/>

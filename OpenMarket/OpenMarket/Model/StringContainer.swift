@@ -11,6 +11,7 @@ enum StringContainer: CustomStringConvertible {
     case Error
     case NotFound404Error
     case JSONParseError
+    case InvalidAddressError
     
     var description: String {
         switch self {
@@ -20,6 +21,8 @@ enum StringContainer: CustomStringConvertible {
             return "Cannot find data"
         case .JSONParseError:
             return "Cannot parse JSONData"
+        case .InvalidAddressError:
+            return "invalid URL"
         }
     }
 }

@@ -21,7 +21,7 @@ extension APIError {
         case .JSONParseError:
             return StringContainer.Error.description + StringContainer.JSONParseError.description
         case .InvalidAddressError:
-            return "invalid URL"
+            return StringContainer.Error.description + StringContainer.InvalidAddressError.description
         }
     }
 }
