@@ -21,12 +21,13 @@ final class OpenMarketNetworkTests: XCTestCase {
 
     }
     
-    func test_getItemList_successfulResponse() {
+    func test_networkResponse_successfulResponse_receiveStatusCode200() {
         // given
         let expectation = XCTestExpectation()
+        let pageNumber: Int = 1
         
         // when
-        sut_networkManager.examineNetworkResponse(page: 1) { result in
+        sut_networkManager.examineNetworkResponse(page: pageNumber) { result in
             
             // then
             switch result {
@@ -41,13 +42,14 @@ final class OpenMarketNetworkTests: XCTestCase {
         wait(for: [expectation], timeout: 1)
     }
     
-    func test_getItemList_failureResponse() {
+    func test_networkResponse_failureResponse_receiveStatusCode400() {
         // given
         sut_networkManager = NetworkManager(urlSession: MockURLSession.init(buildRequestFail: true))
         let expectation = XCTestExpectation()
+        let pageNumber: Int = 1
         
         // when
-        sut_networkManager.examineNetworkResponse(page: 1) { result in
+        sut_networkManager.examineNetworkResponse(page: pageNumber) { result in
             
             // then
             switch result {
@@ -60,5 +62,42 @@ final class OpenMarketNetworkTests: XCTestCase {
         }
         wait(for: [expectation], timeout: 1)
     }
+    
+    func test_networkRequest_correctURL() {
+        // given
+        let expectation = XCTestExpectation()
+        let pageNumber: Int = 1
+        
+        // when
+        sut_networkManager.examineNetworkRequest(page: pageNumber) { result in
 
+            // then
+            switch result {
+            case .success(let request):
+                XCTAssertEqual(request.url, URL(string: "\(OpenMarketAPI.urlForItemList)\(pageNumber)"))
+            case .failure(let errror):
+                XCTFail("\(errror)")
+            }
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 1)
+    }
+    
+    func test_networkRequest_correctHTTPMethod_GET() {
+        //given
+        let expectation = XCTestExpectation()
+        let pageNumber: Int = 1
+        
+        //when
+        sut_networkManager.examineNetworkRequest(page: pageNumber) { result in
+            switch result {
+            case .success(let request):
+                XCTAssertEqual(request.httpMethod, HTTPMethods.get.rawValue)
+            case .failure(let error):
+                XCTFail("\(error)")
+            }
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 1)
+    }
 }
