@@ -21,10 +21,11 @@ final class OpenMarketNetworkTests: XCTestCase {
 
     }
     
-    func test_getItemList_successfulResponse() {
+    func test_networkResponse_successfulResponse_receiveStatusCode200() {
         // given
         let expectation = XCTestExpectation()
-        let pageNumber = 1
+        let pageNumber: Int = 1
+    
         // when
         sut_networkManager.examineNetworkResponse(page: pageNumber) { result in
             
@@ -41,64 +42,62 @@ final class OpenMarketNetworkTests: XCTestCase {
         wait(for: [expectation], timeout: 1)
     }
     
-    func test_ItemList_url() {
-        // given
-        let expectation = XCTestExpectation()
-        let pageNumber = 1
-        // when
-        sut_networkManager.examineNetworkResponse(page: pageNumber) { result in
-            
-            // then
-            switch result {
-            case .success(let response):
-                XCTAssertEqual(response.url, URL(string: "\(OpenMarketAPI.connection.urlForItemList)\(pageNumber)"))
-                // then
-            case .failure(let error):
-                XCTFail("\(error)")
-            }
-            expectation.fulfill()
-        }
-        wait(for: [expectation], timeout: 1)
-    }
-    
-    func test_ItemList_httpMethod_get() {
-        // given
-        let expectation = XCTestExpectation()
-        let pageNumber = 1
-        // when
-        sut_networkManager.examineNetworkRequest(page: pageNumber) { result in
-            
-            // then
-            switch result {
-            case .success(let request):
-                XCTAssertEqual(request.httpMethod, HTTPMethods.get.rawValue)
-                // then
-            case .failure(let error):
-                XCTFail("\(error)")
-            }
-            expectation.fulfill()
-        }
-        wait(for: [expectation], timeout: 1)
-    }
-    
-    func test_getItemList_failureResponse() {
+    func test_networkResponse_failureResponse_receiveStatusCode400() {
         // given
         sut_networkManager = NetworkManager(urlSession: MockURLSession.init(buildRequestFail: true))
         let expectation = XCTestExpectation()
+        let pageNumber: Int = 1
         
         // when
-        sut_networkManager.examineNetworkResponse(page: 1) { result in
+        sut_networkManager.examineNetworkResponse(page: pageNumber) { result in
             
             // then
             switch result {
             case .success:
                 XCTFail()
             case .failure(let error):
-                XCTAssertEqual(error.description, "Network is not responding")
+                XCTAssertNotNil(error)
             }
             expectation.fulfill()
         }
         wait(for: [expectation], timeout: 1)
     }
+    
+    func test_networkRequest_correctURL() {
+        // given
+        let expectation = XCTestExpectation()
+        let pageNumber: Int = 1
+        
+        // when
+        sut_networkManager.examineNetworkRequest(page: pageNumber) { result in
 
+            // then
+            switch result {
+            case .success(let request):
+                XCTAssertEqual(request.url, URL(string: "\(OpenMarketAPI.urlForItemList)\(pageNumber)"))
+            case .failure(let errror):
+                XCTFail("\(errror)")
+            }
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 1)
+    }
+    
+    func test_networkRequest_correctHTTPMethod_GET() {
+        //given
+        let expectation = XCTestExpectation()
+        let pageNumber: Int = 1
+        
+        //when
+        sut_networkManager.examineNetworkRequest(page: pageNumber) { result in
+            switch result {
+            case .success(let request):
+                XCTAssertEqual(request.httpMethod, HTTPMethods.get.rawValue)
+            case .failure(let error):
+                XCTFail("\(error)")
+            }
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 1)
+    }
 }

@@ -7,17 +7,18 @@
 
 import Foundation
 
-public enum APIError: Error {
-    case decoding, encoding, network
-    
-    var description: String {
+public enum DataError: Error {
+    case decoding, encoding
+}
+extension DataError: CustomStringConvertible {
+    public var description: String {
         switch self {
-        case .network:
-            return "Network is not responding"
         case .decoding:
             return "Data was not decoded properly"
         case .encoding:
             return "Data was not encoded properly"
         }
     }
+    
+    
 }
