@@ -12,7 +12,10 @@ struct NetworkManager {
     private var page = 1
     
     func getJSONDataFromResponse<T: Decodable>(url: String, completionHandler: @escaping (Result<T, APIError>) -> () ) throws {
-        guard let apiURI = URL(string: url) else { throw APIError.InvalidAddressError }
+        guard let apiURI = URL(string: url) else {
+            completionHandler(.failure(APIError.InvalidAddressError))
+            return
+        }
         
         let task = URLSession.shared.dataTask(with: apiURI) { result in
             switch result {
@@ -31,7 +34,10 @@ struct NetworkManager {
     }
     
     func sendFormDataWithRequest<SendType: Encodable, FetchType: Decodable>(data: SendType, HTTPMethod: HTTPMethod, url: String, completionHandler: @escaping (Result<FetchType, APIError>) -> ()) throws {
-        guard let apiURI = URL(string: url) else { throw APIError.InvalidAddressError }
+        guard let apiURI = URL(string: url) else {
+            completionHandler(.failure(APIError.InvalidAddressError))
+            return
+        }
         let boundary = "Boundary-\(UUID().uuidString)"
         var request = URLRequest(url: apiURI)
         let encodedJSONData = try? JSONEncoder().encode(data)
