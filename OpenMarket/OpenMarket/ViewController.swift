@@ -11,7 +11,7 @@ class ViewController: UITableViewController {
     override func viewDidLoad() {
         let fetcher = NetworkManager()
         try? fetcher.fetchItemList { itemList in
-            print(itemList?.itemList)
+            print(try? itemList.get())
         }
     }
 }
