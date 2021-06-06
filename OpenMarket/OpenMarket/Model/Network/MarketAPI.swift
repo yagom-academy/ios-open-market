@@ -9,23 +9,23 @@ import Foundation
 
 enum MarketAPI {
     static let baseURL = "https://camp-open-market-2.herokuapp.com/"
-    case items(page: Int)
-    case registrate
-    case item(id: Int)
-    case edit(id: Int)
-    case delete(id: Int)
+    case 목록조회(page: Int)
+    case 상품등록
+    case 상품조회(id: Int)
+    case 상품수정(id: Int)
+    case 상품삭제(id: Int)
     
     var url: URL? {
         switch self {
-        case .items(let page):
+        case .목록조회(let page):
             return URL(string: MarketAPI.baseURL + "/items/" + "\(page)")
-        case .registrate:
+        case .상품등록:
             return URL(string: MarketAPI.baseURL + "/item")
-        case .item(let id):
+        case .상품조회(let id):
             return URL(string: MarketAPI.baseURL + "/item/" + "\(id)")
-        case .edit(let id):
+        case .상품수정(let id):
             return URL(string: MarketAPI.baseURL + "/item/" + "\(id)")
-        case .delete(let id):
+        case .상품삭제(let id):
             return URL(string: MarketAPI.baseURL + "/item/" + "\(id)")
         }
     }
