@@ -8,8 +8,8 @@
 import Foundation
 
 enum HTTPMethod: String {
-    case get = "GET"
-    case post = "POST"
-    case patch = "PATCH"
-    case delete = "DELETE"
+    case 목록조회, 상품조회 = "GET"
+    case 상품등록 = "POST"
+    case 상품수정 = "PATCH"
+    case 상품삭제 = "DELETE"
 }
