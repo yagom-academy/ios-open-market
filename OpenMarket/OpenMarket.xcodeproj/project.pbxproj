@@ -12,11 +12,8 @@
 		486B8DBB265B700A00418C97 /* POSTRequestItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486B8DBA265B700A00418C97 /* POSTRequestItem.swift */; };
 		486B8DC2265B724F00418C97 /* PATCHRequestItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486B8DC1265B724F00418C97 /* PATCHRequestItem.swift */; };
 		486B8DC6265B727F00418C97 /* DELETERequestItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486B8DC5265B727F00418C97 /* DELETERequestItem.swift */; };
-		486B8DCC265B72AB00418C97 /* GETResponseItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486B8DCB265B72AB00418C97 /* GETResponseItem.swift */; };
-		486B8DD0265B72B500418C97 /* GETResponseItemList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486B8DCF265B72B500418C97 /* GETResponseItemList.swift */; };
-		486B8DD4265B72CA00418C97 /* POSTResponseItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486B8DD3265B72CA00418C97 /* POSTResponseItem.swift */; };
-		486B8DD8265B72E800418C97 /* PATCHResponseItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486B8DD7265B72E800418C97 /* PATCHResponseItem.swift */; };
-		486B8DDC265B72F400418C97 /* DELETEResponseItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486B8DDB265B72F400418C97 /* DELETEResponseItem.swift */; };
+		486B8DCC265B72AB00418C97 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486B8DCB265B72AB00418C97 /* Item.swift */; };
+		486B8DD0265B72B500418C97 /* ItemList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486B8DCF265B72B500418C97 /* ItemList.swift */; };
 		488D2B62264C127100BCAAA3 /* StringContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 488D2B61264C127000BCAAA3 /* StringContainer.swift */; };
 		48A541E9264CF26800581B2C /* OpenMarketAPIPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48A541E8264CF26800581B2C /* OpenMarketAPIPath.swift */; };
 		48A541F3264D3BA600581B2C /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48A541F2264D3BA600581B2C /* APIError.swift */; };
@@ -47,11 +44,8 @@
 		486B8DBA265B700A00418C97 /* POSTRequestItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = POSTRequestItem.swift; sourceTree = "<group>"; };
 		486B8DC1265B724F00418C97 /* PATCHRequestItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PATCHRequestItem.swift; sourceTree = "<group>"; };
 		486B8DC5265B727F00418C97 /* DELETERequestItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DELETERequestItem.swift; sourceTree = "<group>"; };
-		486B8DCB265B72AB00418C97 /* GETResponseItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GETResponseItem.swift; sourceTree = "<group>"; };
-		486B8DCF265B72B500418C97 /* GETResponseItemList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GETResponseItemList.swift; sourceTree = "<group>"; };
-		486B8DD3265B72CA00418C97 /* POSTResponseItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = POSTResponseItem.swift; sourceTree = "<group>"; };
-		486B8DD7265B72E800418C97 /* PATCHResponseItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PATCHResponseItem.swift; sourceTree = "<group>"; };
-		486B8DDB265B72F400418C97 /* DELETEResponseItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DELETEResponseItem.swift; sourceTree = "<group>"; };
+		486B8DCB265B72AB00418C97 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
+		486B8DCF265B72B500418C97 /* ItemList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemList.swift; sourceTree = "<group>"; };
 		488D2B61264C127000BCAAA3 /* StringContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringContainer.swift; sourceTree = "<group>"; };
 		48A541E8264CF26800581B2C /* OpenMarketAPIPath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketAPIPath.swift; sourceTree = "<group>"; };
 		48A541F2264D3BA600581B2C /* APIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
@@ -115,11 +109,8 @@
 		486B8DB9265B6F8400418C97 /* Response */ = {
 			isa = PBXGroup;
 			children = (
-				486B8DCB265B72AB00418C97 /* GETResponseItem.swift */,
-				486B8DCF265B72B500418C97 /* GETResponseItemList.swift */,
-				486B8DD3265B72CA00418C97 /* POSTResponseItem.swift */,
-				486B8DD7265B72E800418C97 /* PATCHResponseItem.swift */,
-				486B8DDB265B72F400418C97 /* DELETEResponseItem.swift */,
+				486B8DCB265B72AB00418C97 /* Item.swift */,
+				486B8DCF265B72B500418C97 /* ItemList.swift */,
 			);
 			path = Response;
 			sourceTree = "<group>";
@@ -303,18 +294,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				481E94E3266763320002BD17 /* NetworkManager.swift in Sources */,
-				486B8DCC265B72AB00418C97 /* GETResponseItem.swift in Sources */,
+				486B8DCC265B72AB00418C97 /* Item.swift in Sources */,
 				486B8DC2265B724F00418C97 /* PATCHRequestItem.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
 				486B8DBB265B700A00418C97 /* POSTRequestItem.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
-				486B8DD0265B72B500418C97 /* GETResponseItemList.swift in Sources */,
+				486B8DD0265B72B500418C97 /* ItemList.swift in Sources */,
 				48D18D25266BA27800A87A56 /* ItemCell.swift in Sources */,
-				486B8DDC265B72F400418C97 /* DELETEResponseItem.swift in Sources */,
-				486B8DD8265B72E800418C97 /* PATCHResponseItem.swift in Sources */,
 				488D2B62264C127100BCAAA3 /* StringContainer.swift in Sources */,
-				486B8DD4265B72CA00418C97 /* POSTResponseItem.swift in Sources */,
 				486B8DC6265B727F00418C97 /* DELETERequestItem.swift in Sources */,
 				48A541F3264D3BA600581B2C /* APIError.swift in Sources */,
 				48A541E9264CF26800581B2C /* OpenMarketAPIPath.swift in Sources */,

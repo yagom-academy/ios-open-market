@@ -61,7 +61,7 @@ struct NetworkManager {
         task.resume()
     }
     
-    func fetchItemList(completion: @escaping (Result<GETResponseItemList, APIError>) -> ()) throws {
+    func fetchItemList(completion: @escaping (Result<ItemList, APIError>) -> ()) throws {
         
         let fetchItemListURL = OpenMarketAPIPath.itemListSearch.path + "\(self.page)"
         do {
@@ -71,7 +71,7 @@ struct NetworkManager {
         }
     }
     
-    func fetchItem(completion: @escaping (Result<GETResponseItem, APIError>) -> ()) throws {
+    func fetchItem(completion: @escaping (Result<Item, APIError>) -> ()) throws {
         
         let fetchItemURL = OpenMarketAPIPath.itemSearch.path
         
@@ -82,7 +82,7 @@ struct NetworkManager {
         }
     }
     
-    func registerItem(registerItem: POSTRequestItem, completion: @escaping (Result<POSTResponseItem, APIError>) -> ()) throws {
+    func registerItem(registerItem: POSTRequestItem, completion: @escaping (Result<Item, APIError>) -> ()) throws {
         let postItemURL = OpenMarketAPIPath.itemRegister.path
         do {
             try sendFormDataWithRequest(data: registerItem, HTTPMethod: HTTPMethod.post, url: postItemURL, completionHandler: completion)
@@ -91,7 +91,7 @@ struct NetworkManager {
         }
     }
     
-    func deleteItem(deleteItem: DELETERequestItem, completion: @escaping (Result<DELETEResponseItem, APIError>) -> ()) throws {
+    func deleteItem(deleteItem: DELETERequestItem, completion: @escaping (Result<Item, APIError>) -> ()) throws {
         let deleteItemURL = OpenMarketAPIPath.itemDeletion.path
         do {
             try sendFormDataWithRequest(data: deleteItem, HTTPMethod: HTTPMethod.delete, url: deleteItemURL, completionHandler: completion)
@@ -100,7 +100,7 @@ struct NetworkManager {
         }
     }
     
-    func editItemInformation(editItem: PATCHRequestItem, completion: @escaping (Result<PATCHResponseItem, APIError>) -> ()) throws {
+    func editItemInformation(editItem: PATCHRequestItem, completion: @escaping (Result<Item, APIError>) -> ()) throws {
         let editItemInformationURL = OpenMarketAPIPath.itemEdit.path
         do {
             try sendFormDataWithRequest(data: editItem, HTTPMethod: HTTPMethod.patch, url: editItemInformationURL, completionHandler: completion)

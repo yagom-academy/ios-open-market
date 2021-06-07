@@ -7,19 +7,19 @@
 
 import Foundation
 
-struct GETResponseItemList {
+struct ItemList {
     var page: UInt
-    var itemList: [GETResponseListedItem]
+    var itemList: [ListedItem]
 }
 
-extension GETResponseItemList: Decodable {
+extension ItemList: Decodable {
     enum CodingKeys: String, CodingKey {
         case page
         case itemList = "items"
     }
 }
 
-struct GETResponseListedItem {
+struct ListedItem {
     var id, price, stock: UInt
     var discountedPrice: UInt?
     var title, currency: String
@@ -27,7 +27,7 @@ struct GETResponseListedItem {
     var registrationDate: Double
 }
 
-extension GETResponseListedItem: Decodable {
+extension ListedItem: Decodable {
     enum CodingKeys: String, CodingKey {
         case id, price, stock, title, currency, thumbnails
         case discountedPrice = "discounted_price"

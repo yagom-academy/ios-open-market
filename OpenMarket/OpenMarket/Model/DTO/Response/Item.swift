@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct GETResponseItem {
+struct Item {
     var id, price, stock: UInt
     var discountedPrice: UInt?
     var title, currency, description: String
@@ -15,7 +15,7 @@ struct GETResponseItem {
     var registrationDate: Double
 }
 
-extension GETResponseItem: Decodable {
+extension Item: Decodable {
     enum CodingKeys: String, CodingKey {
         case id, price, stock, title, currency, thumbnails, images
         case description = "descriptions"
