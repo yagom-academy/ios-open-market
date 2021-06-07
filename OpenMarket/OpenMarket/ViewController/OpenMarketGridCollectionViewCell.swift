@@ -7,7 +7,7 @@
 
 import UIKit
 
-class OpenMarketGridCollectionViewCell: UICollectionViewCell {
+class OpenMarketGridCollectionViewCell: UICollectionViewCell, CellDataUpdatable {
     static let identifier: String = "OpenMarketGridCollectionViewCell"
     
     override init(frame: CGRect) {
@@ -21,7 +21,7 @@ class OpenMarketGridCollectionViewCell: UICollectionViewCell {
     
     // MARK: - Properties
     
-    private lazy var itemTitleLabel: UILabel = {
+    lazy var itemTitleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.preferredFont(forTextStyle: .title3)
         label.textAlignment = .center
@@ -33,7 +33,7 @@ class OpenMarketGridCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    private lazy var itemPriceLabel: UILabel = {
+    lazy var itemPriceLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.preferredFont(forTextStyle: .body)
         label.textAlignment = .center
@@ -44,7 +44,7 @@ class OpenMarketGridCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    private lazy var itemDiscountedPriceLabel: UILabel = {
+    lazy var itemDiscountedPriceLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.preferredFont(forTextStyle: .body)
         label.textAlignment = .center
@@ -55,7 +55,7 @@ class OpenMarketGridCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    private lazy var itemStockLabel: UILabel = {
+    lazy var itemStockLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.preferredFont(forTextStyle: .body)
         label.textAlignment = .center
@@ -67,7 +67,7 @@ class OpenMarketGridCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    private lazy var itemThumbnail: UIImageView = {
+    lazy var itemThumbnail: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.adjustsImageSizeForAccessibilityContentSizeCategory = true
@@ -75,7 +75,7 @@ class OpenMarketGridCollectionViewCell: UICollectionViewCell {
         return imageView
     }()
     
-    private lazy var itemPricesStack: UIStackView = {
+    lazy var itemPricesStack: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [itemPriceLabel, itemDiscountedPriceLabel])
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
@@ -115,5 +115,19 @@ extension OpenMarketGridCollectionViewCell {
             itemStockLabel.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -5),
             itemStockLabel.bottomAnchor.constraint(lessThanOrEqualTo: self.contentView.bottomAnchor, constant: -2 )
         ])
+    }
+}
+extension OpenMarketGridCollectionViewCell {
+    
+    // MARK: - configure cell
+    
+    func configure(_ itemList: OpenMarketItemList, indexPath: Int) {
+        itemTitleLabel.text = itemList.items[indexPath].title
+        itemPriceLabel.text = "\(itemList.items[indexPath].currency) \(itemList.items[indexPath].price)"
+        itemStockLabel.text = String(itemList.items[indexPath].stock)
+        
+        configureDiscountedPriceLabel(itemList, indexPath: indexPath)
+        configureStockLabel(itemList, indexPath: indexPath)
+        configureThumbnail(itemList, indexPath: indexPath)
     }
 }

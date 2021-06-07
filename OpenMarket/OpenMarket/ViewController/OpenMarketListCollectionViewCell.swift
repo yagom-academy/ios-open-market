@@ -7,7 +7,7 @@
 
 import UIKit
 
-class OpenMarketListCollectionViewCell: UICollectionViewCell {
+class OpenMarketListCollectionViewCell: UICollectionViewCell, CellDataUpdatable {
     static let identifier: String = "OpenMarketListCollectionViewCell"
     
     override init(frame: CGRect) {
@@ -27,11 +27,11 @@ class OpenMarketListCollectionViewCell: UICollectionViewCell {
         activityIndicator.center = itemThumbnail.center
         activityIndicator.color = UIColor.gray
         activityIndicator.hidesWhenStopped = true
-        activityIndicator.startAnimating()
+        activityIndicator.stopAnimating()
         return activityIndicator
     }()
     
-    private lazy var itemTitleLabel: UILabel = {
+    lazy var itemTitleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.preferredFont(forTextStyle: .title3)
         label.numberOfLines = 1
@@ -42,7 +42,7 @@ class OpenMarketListCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    private lazy var itemPriceLabel: UILabel = {
+    lazy var itemPriceLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.preferredFont(forTextStyle: .body)
         label.numberOfLines = 1
@@ -52,7 +52,7 @@ class OpenMarketListCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    private lazy var itemDiscountedPriceLabel: UILabel = {
+    lazy var itemDiscountedPriceLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.preferredFont(forTextStyle: .body)
         label.numberOfLines = 0
@@ -62,7 +62,7 @@ class OpenMarketListCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    private lazy var itemStockLabel: UILabel = {
+    lazy var itemStockLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.preferredFont(forTextStyle: .body)
         label.numberOfLines = 1
@@ -73,11 +73,11 @@ class OpenMarketListCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    private lazy var itemThumbnail: UIImageView = {
+    lazy var itemThumbnail: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.adjustsImageSizeForAccessibilityContentSizeCategory = true
-        imageView.image = UIImage(named: "macbook-pro-openmarket")
+//        imageView.image = UIImage(named: "macbook-pro-openmarket")
         return imageView
     }()
 }
@@ -139,43 +139,6 @@ extension OpenMarketListCollectionViewCell {
         configureThumbnail(itemList, indexPath: indexPath)
         
         
-    }
-    
-    private func configureDiscountedPriceLabel(_ itemList: OpenMarketItemList, indexPath: Int) {
-        if let discountedPrice = (itemList.items[indexPath].discountedPrice) {
-            itemPriceLabel.textColor = .red
-            itemPriceLabel.attributedText = itemPriceLabel.text?.strikeThrough()
-            itemDiscountedPriceLabel.text = "\(itemList.items[indexPath].currency) \(discountedPrice)"
-        } else {
-            itemDiscountedPriceLabel.text = nil
-        }
-        
-    }
-    
-    private func configureStockLabel(_ itemList: OpenMarketItemList, indexPath: Int) {
-        if itemList.items[indexPath].stock == 0 {
-            itemStockLabel.textColor = .yellow
-            itemStockLabel.text = "품절"
-        } else {
-            itemStockLabel.text = String(itemList.items[indexPath].stock)
-        }
-    }
-    
-    private func configureThumbnail(_ itemList: OpenMarketItemList, indexPath: Int) {
-        guard let url = URL(string: itemList.items[indexPath].thumbnails[0]) else { return }
-        downloadImage(url: url) { [weak self] image in
-            DispatchQueue.main.async {
-                self?.itemThumbnail.image = image
-            }
-        }
-    }
-    
-    private func downloadImage(url: URL, completionHandler: @escaping (UIImage) -> Void) {
-        DispatchQueue.global().async {
-            guard let thumbnailData = try? Data(contentsOf: url),
-                  let thumbnail = UIImage(data: thumbnailData) else { return }
-            completionHandler(thumbnail)
-        }
     }
 }
 
