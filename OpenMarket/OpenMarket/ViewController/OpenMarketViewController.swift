@@ -7,8 +7,10 @@
 import UIKit
 
 class OpenMarketViewController: UIViewController {
-    
-    lazy private var openMarkekCollectionView: UICollectionView = {
+    private var layoutType = LayoutType.list
+    private let networkManager: NetworkManageable = NetworkManager()
+
+    lazy private var openMarketCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: setUpCollectionViewLayout())
@@ -24,11 +26,6 @@ class OpenMarketViewController: UIViewController {
     private lazy var segmentedController: UISegmentedControl = {
         let segmentedControl = UISegmentedControl(items: ["LIST", "GRID"])
         segmentedControl.sizeToFit()
-        if #available(iOS 13.0, *) {
-            segmentedControl.selectedSegmentTintColor = .gray
-        } else {
-            segmentedControl.tintColor = .white
-        }
         segmentedControl.selectedSegmentIndex = 0
         return segmentedControl
     }()
@@ -37,21 +34,23 @@ class OpenMarketViewController: UIViewController {
         super.viewDidLoad()
         setUpCollectionView()
         setUpCollectionViewConstraint()
+        segmentedController.addTarget(self, action: #selector(didTapSegmentedControl(_:)), for: .valueChanged)
     }
     
     private func setUpCollectionView() {
-        self.view.addSubview(openMarkekCollectionView)
+        self.view.addSubview(openMarketCollectionView)
         self.navigationItem.titleView = segmentedController
+
     }
     
     private func setUpCollectionViewConstraint() {
         self.view.backgroundColor = .white
 
         let margins = view.safeAreaLayoutGuide
-        openMarkekCollectionView.leadingAnchor.constraint(equalTo: margins.leadingAnchor).isActive = true
-        openMarkekCollectionView.trailingAnchor.constraint(equalTo: margins.trailingAnchor).isActive = true
-        openMarkekCollectionView.topAnchor.constraint(equalTo: margins.topAnchor).isActive = true
-        openMarkekCollectionView.bottomAnchor.constraint(equalTo: margins.bottomAnchor).isActive = true
+        openMarketCollectionView.leadingAnchor.constraint(equalTo: margins.leadingAnchor).isActive = true
+        openMarketCollectionView.trailingAnchor.constraint(equalTo: margins.trailingAnchor).isActive = true
+        openMarketCollectionView.topAnchor.constraint(equalTo: margins.topAnchor).isActive = true
+        openMarketCollectionView.bottomAnchor.constraint(equalTo: margins.bottomAnchor).isActive = true
     }
     
     private func setUpCollectionViewLayout() -> UICollectionViewLayout {
@@ -68,28 +67,80 @@ class OpenMarketViewController: UIViewController {
 }
 extension OpenMarketViewController {
     
-    // MARK: -Segmented Control
+    // MARK: - Segmented Control
     
+    @objc private func didTapSegmentedControl(_ sender: UISegmentedControl) {
+        if sender.selectedSegmentIndex == 0 {
+            layoutType = .list
+            sender.tintColor = .gray
+            self.openMarketCollectionView.reloadData()
+        } else {
+            layoutType = .grid
+            sender.tintColor = .gray
+            self.openMarketCollectionView.reloadData()
+        }
+    }
 }
 extension OpenMarketViewController: UICollectionViewDelegate {
     
 }
 extension OpenMarketViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 12
+        return 8
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        switch layoutType {
+        case .list:
+            guard let cell: OpenMarketListCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: OpenMarketListCollectionViewCell.identifier, for: indexPath) as? OpenMarketListCollectionViewCell else {
+                return UICollectionViewCell()
+            }
+            networkManager.getItemList(page: 1) { result in
+                switch result {
+                case .success(let itemList):
+                    DispatchQueue.main.async {
+                        guard let cellIndex = collectionView.indexPath(for: cell),
+                              cellIndex == indexPath else { return }
+                        cell.configure(itemList, indexPath: indexPath.row)
+                    }
+                case .failure(let error):
+                    print(error)
+                }
+            }
+            return cell
+            
+        case .grid:
         guard let cell: OpenMarketGridCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: "OpenMarketGridCollectionViewCell", for: indexPath) as? OpenMarketGridCollectionViewCell else {
             return UICollectionViewCell()
         }
-        return cell
+            networkManager.getItemList(page: 1) { result in
+                switch result {
+                case .success(let itemList):
+                    DispatchQueue.main.async {
+                        guard let cellIndex = collectionView.indexPath(for: cell),
+                              cellIndex == indexPath else { return }
+                        cell.configure(itemList, indexPath: indexPath.row)
+                    }
+                case .failure(let error):
+                    print(error)
+                }
+            }
+            return cell
+        }
     }
 }
 extension OpenMarketViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let cellWidth = collectionView.bounds.width / 2
-        let cellHeight = collectionView.bounds.height / 3
-        return CGSize(width: cellWidth, height: cellHeight)
+        switch layoutType {
+        case .list:
+            let cellWidth = collectionView.bounds.width
+            let cellHeight = collectionView.bounds.height / 12
+            return CGSize(width: cellWidth, height: cellHeight)
+        case .grid:
+            let cellWidth = collectionView.bounds.width / 2
+            let cellHeight = collectionView.bounds.height / 3
+            return CGSize(width: cellWidth, height: cellHeight)
+        }
+        
     }
 }
