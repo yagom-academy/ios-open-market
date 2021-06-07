@@ -29,7 +29,6 @@ class OpenMarketGridCollectionViewCell: UICollectionViewCell, CellDataUpdatable 
         label.translatesAutoresizingMaskIntoConstraints = false
         label.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         label.textColor = .black
-        label.text = "Macbook Pro 16 M1"
         return label
     }()
     
@@ -40,7 +39,6 @@ class OpenMarketGridCollectionViewCell: UICollectionViewCell, CellDataUpdatable 
         label.numberOfLines = 1
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .black
-        label.text = "KRW 1600000"
         return label
     }()
     
@@ -51,7 +49,6 @@ class OpenMarketGridCollectionViewCell: UICollectionViewCell, CellDataUpdatable 
         label.numberOfLines = 0
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .black
-        label.text = "KRW 1500000"
         return label
     }()
     
@@ -63,7 +60,6 @@ class OpenMarketGridCollectionViewCell: UICollectionViewCell, CellDataUpdatable 
         label.translatesAutoresizingMaskIntoConstraints = false
         label.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         label.textColor = .black
-        label.text = "Stock : 200"
         return label
     }()
     
@@ -71,7 +67,7 @@ class OpenMarketGridCollectionViewCell: UICollectionViewCell, CellDataUpdatable 
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.adjustsImageSizeForAccessibilityContentSizeCategory = true
-        imageView.image = UIImage(named: "macbook-pro-openmarket")
+//        imageView.image = UIImage(named: "macbook-pro-openmarket")
         return imageView
     }()
     
@@ -113,7 +109,7 @@ extension OpenMarketGridCollectionViewCell {
             itemStockLabel.topAnchor.constraint(greaterThanOrEqualTo: itemPricesStack.bottomAnchor, constant: 5),
             itemStockLabel.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 5),
             itemStockLabel.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -5),
-            itemStockLabel.bottomAnchor.constraint(lessThanOrEqualTo: self.contentView.bottomAnchor, constant: -2 )
+            itemStockLabel.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -5 )
         ])
     }
 }

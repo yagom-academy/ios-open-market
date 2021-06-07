@@ -24,7 +24,6 @@ class OpenMarketListCollectionViewCell: UICollectionViewCell, CellDataUpdatable 
     private lazy var activityIndicator: UIActivityIndicatorView = {
         let activityIndicator = UIActivityIndicatorView()
         activityIndicator.frame = CGRect(x: 0, y: 0 / 2, width: 50, height: 50)
-        activityIndicator.center = itemThumbnail.center
         activityIndicator.color = UIColor.gray
         activityIndicator.hidesWhenStopped = true
         activityIndicator.stopAnimating()
@@ -38,7 +37,6 @@ class OpenMarketListCollectionViewCell: UICollectionViewCell, CellDataUpdatable 
         label.translatesAutoresizingMaskIntoConstraints = false
         label.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         label.textColor = .black
-        label.text = "Macbook Pro 16 M1"
         return label
     }()
     
@@ -48,7 +46,6 @@ class OpenMarketListCollectionViewCell: UICollectionViewCell, CellDataUpdatable 
         label.numberOfLines = 1
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .black
-        label.text = "KRW 1600000"
         return label
     }()
     
@@ -58,7 +55,6 @@ class OpenMarketListCollectionViewCell: UICollectionViewCell, CellDataUpdatable 
         label.numberOfLines = 0
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .black
-        label.text = "KRW 1500000"
         return label
     }()
     
@@ -69,7 +65,6 @@ class OpenMarketListCollectionViewCell: UICollectionViewCell, CellDataUpdatable 
         label.translatesAutoresizingMaskIntoConstraints = false
         label.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         label.textColor = .black
-        label.text = "Stock : 200"
         return label
     }()
     
@@ -118,7 +113,7 @@ extension OpenMarketListCollectionViewCell {
             
             itemStockLabel.topAnchor.constraint(equalTo: itemTitleLabel.topAnchor),
             itemStockLabel.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -5),
-            itemStockLabel.leadingAnchor.constraint(equalTo: itemTitleLabel.trailingAnchor, constant: 5),
+            itemStockLabel.leadingAnchor.constraint(greaterThanOrEqualTo: itemTitleLabel.trailingAnchor, constant: 5),
             itemStockLabel.bottomAnchor.constraint(equalTo: itemTitleLabel.bottomAnchor)
             
         ])
@@ -137,21 +132,5 @@ extension OpenMarketListCollectionViewCell {
         configureDiscountedPriceLabel(itemList, indexPath: indexPath)
         configureStockLabel(itemList, indexPath: indexPath)
         configureThumbnail(itemList, indexPath: indexPath)
-        
-        
-    }
-}
-
-extension String {
-    
-    // MARK: - UIText effect
-    
-    func strikeThrough() -> NSAttributedString {
-        let attributeString = NSMutableAttributedString(string: self)
-        attributeString.addAttribute(
-            NSAttributedString.Key.strikethroughStyle,
-            value: NSUnderlineStyle.single.rawValue,
-            range: NSMakeRange(0,attributeString.length))
-        return attributeString
     }
 }
