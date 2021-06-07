@@ -20,17 +20,33 @@ class OpenMarketViewController: UIViewController {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()
+    
+    private lazy var segmentedController: UISegmentedControl = {
+        let segmentedControl = UISegmentedControl(items: ["LIST", "GRID"])
+        segmentedControl.sizeToFit()
+        if #available(iOS 13.0, *) {
+            segmentedControl.selectedSegmentTintColor = .gray
+        } else {
+            segmentedControl.tintColor = .white
+        }
+        segmentedControl.selectedSegmentIndex = 0
+        return segmentedControl
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        setUpCollectionView()
         setUpCollectionViewConstraint()
+    }
+    
+    private func setUpCollectionView() {
+        self.view.addSubview(openMarkekCollectionView)
+        self.navigationItem.titleView = segmentedController
     }
     
     private func setUpCollectionViewConstraint() {
         self.view.backgroundColor = .white
-        
-        self.view.addSubview(openMarkekCollectionView)
-        
+
         let margins = view.safeAreaLayoutGuide
         openMarkekCollectionView.leadingAnchor.constraint(equalTo: margins.leadingAnchor).isActive = true
         openMarkekCollectionView.trailingAnchor.constraint(equalTo: margins.trailingAnchor).isActive = true
@@ -49,6 +65,11 @@ class OpenMarketViewController: UIViewController {
         layout.itemSize = CGSize(width: width, height: height)
         return layout
     }
+}
+extension OpenMarketViewController {
+    
+    // MARK: -Segmented Control
+    
 }
 extension OpenMarketViewController: UICollectionViewDelegate {
     

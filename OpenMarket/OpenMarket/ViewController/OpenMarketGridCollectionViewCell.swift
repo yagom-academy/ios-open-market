@@ -79,7 +79,7 @@ class OpenMarketGridCollectionViewCell: UICollectionViewCell {
         let stackView = UIStackView(arrangedSubviews: [itemPriceLabel, itemDiscountedPriceLabel])
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
-        stackView.distribution = .fillEqually
+        stackView.distribution = .fillProportionally
         return stackView
     }()
 }
@@ -110,7 +110,7 @@ extension OpenMarketGridCollectionViewCell {
             itemPricesStack.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 5),
             itemPricesStack.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -5),
             
-            itemStockLabel.topAnchor.constraint(lessThanOrEqualTo: itemPricesStack.bottomAnchor, constant: 5),
+            itemStockLabel.topAnchor.constraint(greaterThanOrEqualTo: itemPricesStack.bottomAnchor, constant: 5),
             itemStockLabel.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 5),
             itemStockLabel.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -5),
             itemStockLabel.bottomAnchor.constraint(lessThanOrEqualTo: self.contentView.bottomAnchor, constant: -2 )
