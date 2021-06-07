@@ -67,8 +67,8 @@ extension OpenMarketViewController: UICollectionViewDataSource {
 }
 extension OpenMarketViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let cellWidth = collectionView.frame.width
-        let cellHeight = collectionView.frame.height / 10
+        let cellWidth = collectionView.bounds.width
+        let cellHeight = collectionView.bounds.height / 10
         return CGSize(width: cellWidth, height: cellHeight)
     }
 }

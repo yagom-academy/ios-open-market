@@ -27,17 +27,8 @@ class OpenMarketCollectionViewCell: UICollectionViewCell {
         activityIndicator.center = itemThumbnail.center
         activityIndicator.color = UIColor.gray
         activityIndicator.hidesWhenStopped = true
-        activityIndicator.startAnimating()
+        activityIndicator.stopAnimating()
         return activityIndicator
-    }()
-    
-    private lazy var roundedBackgroundView: UIView = {
-        let view = UIView()
-        view.layer.cornerRadius = 10
-        view.layer.borderWidth = 1
-        view.layer.borderColor = UIColor.gray.cgColor
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
     }()
     
     private lazy var itemTitleLabel: UILabel = {
@@ -45,6 +36,7 @@ class OpenMarketCollectionViewCell: UICollectionViewCell {
         label.font = UIFont.preferredFont(forTextStyle: .body)
         label.numberOfLines = 1
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         label.textColor = .black
         label.text = "Macbook Pro 16 M1"
         return label
@@ -63,7 +55,7 @@ class OpenMarketCollectionViewCell: UICollectionViewCell {
     private lazy var itemDiscountedPriceLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.preferredFont(forTextStyle: .body)
-        label.numberOfLines = 1
+        label.numberOfLines = 0
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .black
         label.text = "KRW 1500000"
@@ -75,19 +67,17 @@ class OpenMarketCollectionViewCell: UICollectionViewCell {
         label.font = UIFont.preferredFont(forTextStyle: .body)
         label.numberOfLines = 1
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         label.textColor = .black
-        label.text = "수량 : 200"
+        label.text = "Stock : 200"
         return label
     }()
     
     private lazy var itemThumbnail: UIImageView = {
-        let imageHeight = (roundedBackgroundView.bounds.height) * 0.8
-        let imageWidth = (roundedBackgroundView.bounds.width / 20) * 0.9
-        let imageView = UIImageView(frame: CGRect(origin: roundedBackgroundView.bounds.origin, size: CGSize(width: imageWidth, height: imageHeight)))
+        let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.adjustsImageSizeForAccessibilityContentSizeCategory = true
-//        imageView.sizeThatFits(CGSize(width: imageWidth, height: imageHeight))
-        imageView.image = .strokedCheckmark
+        imageView.image = UIImage(named: "macbook-pro-openmarket")
         return imageView
     }()
 }
@@ -96,26 +86,27 @@ extension OpenMarketCollectionViewCell {
     // MARK: - setup UI
     
     private func setUpUI() {
-        self.contentView.addSubview(roundedBackgroundView)
-        roundedBackgroundView.addSubview(activityIndicator)
-        roundedBackgroundView.addSubview(itemTitleLabel)
-        roundedBackgroundView.addSubview(itemPriceLabel)
-        roundedBackgroundView.addSubview(itemDiscountedPriceLabel)
-        roundedBackgroundView.addSubview(itemStockLabel)
-        roundedBackgroundView.addSubview(itemThumbnail)
+        self.contentView.addSubview(activityIndicator)
+        self.contentView.addSubview(itemTitleLabel)
+        self.contentView.addSubview(itemPriceLabel)
+        self.contentView.addSubview(itemDiscountedPriceLabel)
+        self.contentView.addSubview(itemStockLabel)
+        self.contentView.addSubview(itemThumbnail)
+        
+        self.contentView.layer.cornerRadius = 10
+        self.contentView.layer.borderWidth = 1
         
         NSLayoutConstraint.activate([
-            roundedBackgroundView.topAnchor.constraint(equalTo: self.contentView.topAnchor),
-            roundedBackgroundView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor),
-            roundedBackgroundView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor),
-            roundedBackgroundView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor),
             
-            itemThumbnail.topAnchor.constraint(equalTo: roundedBackgroundView.topAnchor, constant: 5),
-            itemThumbnail.leadingAnchor.constraint(equalTo: roundedBackgroundView.leadingAnchor, constant: 5),
-            itemThumbnail.bottomAnchor.constraint(equalTo: roundedBackgroundView.bottomAnchor, constant: 5),
+            itemThumbnail.heightAnchor.constraint(greaterThanOrEqualToConstant: (contentView.bounds.height) - 10),
+            itemThumbnail.widthAnchor.constraint(lessThanOrEqualToConstant: (self.contentView.frame.width) / 5),
+            itemThumbnail.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 5),
+            itemThumbnail.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 5),
+            itemThumbnail.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -5),
             
-            itemTitleLabel.topAnchor.constraint(equalTo: itemThumbnail.topAnchor),
+            itemTitleLabel.topAnchor.constraint(equalTo: self.itemThumbnail.topAnchor),
             itemTitleLabel.leadingAnchor.constraint(equalTo: itemThumbnail.trailingAnchor, constant: 5),
+            itemTitleLabel.bottomAnchor.constraint(lessThanOrEqualTo: itemPriceLabel.topAnchor, constant: -5 ),
             
             itemPriceLabel.topAnchor.constraint(equalTo: itemTitleLabel.bottomAnchor, constant: 5),
             itemPriceLabel.leadingAnchor.constraint(equalTo: itemThumbnail.trailingAnchor, constant: 5),
@@ -123,12 +114,13 @@ extension OpenMarketCollectionViewCell {
             
             itemDiscountedPriceLabel.topAnchor.constraint(equalTo: itemPriceLabel.topAnchor),
             itemDiscountedPriceLabel.leadingAnchor.constraint(equalTo: itemPriceLabel.trailingAnchor, constant: 5),
-            itemDiscountedPriceLabel.bottomAnchor.constraint(equalTo: roundedBackgroundView.bottomAnchor, constant: 5),
-            itemDiscountedPriceLabel.trailingAnchor.constraint(greaterThanOrEqualTo: roundedBackgroundView.trailingAnchor, constant: 5),
+            itemDiscountedPriceLabel.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -5),
+            itemDiscountedPriceLabel.trailingAnchor.constraint(lessThanOrEqualTo: self.contentView.trailingAnchor, constant: -7),
             
             itemStockLabel.topAnchor.constraint(equalTo: itemTitleLabel.topAnchor),
-            itemStockLabel.trailingAnchor.constraint(equalTo: roundedBackgroundView.trailingAnchor, constant: 5),
-            itemStockLabel.leadingAnchor.constraint(equalTo: itemTitleLabel.trailingAnchor, constant: 5)
+            itemStockLabel.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -5),
+            itemStockLabel.leadingAnchor.constraint(equalTo: itemTitleLabel.trailingAnchor, constant: 5),
+            itemStockLabel.bottomAnchor.constraint(equalTo: itemTitleLabel.bottomAnchor)
             
         ])
         
