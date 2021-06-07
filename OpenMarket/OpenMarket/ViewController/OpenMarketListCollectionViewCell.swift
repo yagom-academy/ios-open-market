@@ -125,3 +125,70 @@ extension OpenMarketListCollectionViewCell {
         
     }
 }
+extension OpenMarketListCollectionViewCell {
+    
+    // MARK: - configure cell
+    
+    func configure(_ itemList: OpenMarketItemList, indexPath: Int) {
+        itemTitleLabel.text = itemList.items[indexPath].title
+        itemPriceLabel.text = "\(itemList.items[indexPath].currency) \(itemList.items[indexPath].price)"
+        itemStockLabel.text = String(itemList.items[indexPath].stock)
+        
+        configureDiscountedPriceLabel(itemList, indexPath: indexPath)
+        configureStockLabel(itemList, indexPath: indexPath)
+        configureThumbnail(itemList, indexPath: indexPath)
+        
+        
+    }
+    
+    private func configureDiscountedPriceLabel(_ itemList: OpenMarketItemList, indexPath: Int) {
+        if let discountedPrice = (itemList.items[indexPath].discountedPrice) {
+            itemPriceLabel.textColor = .red
+            itemPriceLabel.attributedText = itemPriceLabel.text?.strikeThrough()
+            itemDiscountedPriceLabel.text = "\(itemList.items[indexPath].currency) \(discountedPrice)"
+        } else {
+            itemDiscountedPriceLabel.text = nil
+        }
+        
+    }
+    
+    private func configureStockLabel(_ itemList: OpenMarketItemList, indexPath: Int) {
+        if itemList.items[indexPath].stock == 0 {
+            itemStockLabel.textColor = .yellow
+            itemStockLabel.text = "품절"
+        } else {
+            itemStockLabel.text = String(itemList.items[indexPath].stock)
+        }
+    }
+    
+    private func configureThumbnail(_ itemList: OpenMarketItemList, indexPath: Int) {
+        guard let url = URL(string: itemList.items[indexPath].thumbnails[0]) else { return }
+        downloadImage(url: url) { [weak self] image in
+            DispatchQueue.main.async {
+                self?.itemThumbnail.image = image
+            }
+        }
+    }
+    
+    private func downloadImage(url: URL, completionHandler: @escaping (UIImage) -> Void) {
+        DispatchQueue.global().async {
+            guard let thumbnailData = try? Data(contentsOf: url),
+                  let thumbnail = UIImage(data: thumbnailData) else { return }
+            completionHandler(thumbnail)
+        }
+    }
+}
+
+extension String {
+    
+    // MARK: - UIText effect
+    
+    func strikeThrough() -> NSAttributedString {
+        let attributeString = NSMutableAttributedString(string: self)
+        attributeString.addAttribute(
+            NSAttributedString.Key.strikethroughStyle,
+            value: NSUnderlineStyle.single.rawValue,
+            range: NSMakeRange(0,attributeString.length))
+        return attributeString
+    }
+}
