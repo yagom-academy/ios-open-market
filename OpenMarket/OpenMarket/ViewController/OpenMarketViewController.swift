@@ -12,7 +12,8 @@ class OpenMarketViewController: UIViewController {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: setUpCollectionViewLayout())
-        collectionView.register(OpenMarketCollectionViewCell.self, forCellWithReuseIdentifier: OpenMarketCollectionViewCell.identifier)
+        collectionView.register(OpenMarketListCollectionViewCell.self, forCellWithReuseIdentifier: OpenMarketListCollectionViewCell.identifier)
+        collectionView.register(OpenMarketGridCollectionViewCell.self, forCellWithReuseIdentifier: OpenMarketGridCollectionViewCell.identifier)
         collectionView.backgroundColor = .white
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -42,7 +43,6 @@ class OpenMarketViewController: UIViewController {
         let width = (UIScreen.main.bounds.width)
         let height = (UIScreen.main.bounds.height)
 
-//        layout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         layout.scrollDirection = .vertical
         layout.minimumLineSpacing = 0
         layout.minimumInteritemSpacing = 0
@@ -55,11 +55,11 @@ extension OpenMarketViewController: UICollectionViewDelegate {
 }
 extension OpenMarketViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 6
+        return 12
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell: OpenMarketCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: "OpenMarketCollectionViewCell", for: indexPath) as? OpenMarketCollectionViewCell else {
+        guard let cell: OpenMarketGridCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: "OpenMarketGridCollectionViewCell", for: indexPath) as? OpenMarketGridCollectionViewCell else {
             return UICollectionViewCell()
         }
         return cell
@@ -67,8 +67,8 @@ extension OpenMarketViewController: UICollectionViewDataSource {
 }
 extension OpenMarketViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let cellWidth = collectionView.bounds.width
-        let cellHeight = collectionView.bounds.height / 10
+        let cellWidth = collectionView.bounds.width / 2
+        let cellHeight = collectionView.bounds.height / 3
         return CGSize(width: cellWidth, height: cellHeight)
     }
 }
