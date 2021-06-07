@@ -20,7 +20,7 @@ struct OpenMarketItem: Decodable {
     var stock: Int
     var discountedPrice: Int?
     var thumbnails: [String]
-    var registrationDate: Int
+    var registrationDate: TimeInterval
     
     private enum CodingKeys: String, CodingKey {
         case id, title, price, currency, stock, thumbnails
