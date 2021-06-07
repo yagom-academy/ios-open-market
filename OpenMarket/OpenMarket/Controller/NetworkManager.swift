@@ -6,15 +6,17 @@
 //
 
 import Foundation
-class NetworkManager<T: Decodable>: Networkable {
+class NetworkManager<T: Decodable> {
     let clientRequest: GETRequest
+    let session: URLSessionProtocol
 
-    init(clientRequest: GETRequest){
+    init(clientRequest: GETRequest, session: URLSessionProtocol){
         self.clientRequest = clientRequest
+        self.session = session
     }
     
     func getServerData<T: Decodable>(url: URL, completionHandler: @escaping (T) -> Void) {
-        URLSession.shared.dataTask(with: url){ data, response, error in
+        session.dataTask(with: url){ data, response, error in
             if error != nil { return }
 
             guard let httpResponse = response as? HTTPURLResponse,
