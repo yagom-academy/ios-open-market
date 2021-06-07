@@ -11,7 +11,7 @@ struct NetworkManager {
     
     private var page = 1
     
-    func getJSONDataFromResponse<T: Decodable>(url: String, completionHandler: @escaping (Result<T, APIError>) -> () ) throws {
+    func getJSONDataFromResponse<T: Decodable>(url: String, completionHandler: @escaping (Result<T, APIError>) -> () ) {
         guard let apiURI = URL(string: url) else {
             completionHandler(.failure(APIError.InvalidAddressError))
             return
@@ -33,22 +33,12 @@ struct NetworkManager {
         task.resume()
     }
     
-    func sendFormDataWithRequest<SendType: Encodable, FetchType: Decodable>(data: SendType, HTTPMethod: HTTPMethod, url: String, completionHandler: @escaping (Result<FetchType, APIError>) -> ()) throws {
-        guard let apiURI = URL(string: url) else {
-            completionHandler(.failure(APIError.InvalidAddressError))
-            return
-        }
-        let boundary = "Boundary-\(UUID().uuidString)"
-        var request = URLRequest(url: apiURI)
-        let encodedJSONData = try? JSONEncoder().encode(data)
-        request.httpMethod = HTTPMethod.description
-        request.httpBody = encodedJSONData
-        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+    func handleTaskWithRequest<T: Decodable>(httpRequest: URLRequest, completionHandler: @escaping (Result<T, APIError>) -> ()) {
         
-        let task = URLSession.shared.dataTask(with: request) { result in
+        let task = URLSession.shared.dataTask(with: httpRequest) { result in
             switch result {
             case .success(let data):
-                let decodedData = try? JSONDecoder().decode(FetchType.self, from: data)
+                let decodedData = try? JSONDecoder().decode(T.self, from: data)
                 if let decodedData = decodedData {
                     completionHandler(.success(decodedData))
                 } else {
@@ -61,52 +51,74 @@ struct NetworkManager {
         task.resume()
     }
     
-    func fetchItemList(completion: @escaping (Result<ItemList, APIError>) -> ()) throws {
-        
+    func fetchItemList(completion: @escaping (Result<ItemList, APIError>) -> ()) {
         let fetchItemListURL = OpenMarketAPIPath.itemListSearch.path + "\(self.page)"
-        do {
-            try getJSONDataFromResponse(url: fetchItemListURL, completionHandler: completion)
-        } catch {
-            throw APIError.NotFound404Error
+        
+        guard let apiURI = URL(string: fetchItemListURL) else {
+            completion(.failure(APIError.InvalidAddressError))
+            return
         }
+
+        getJSONDataFromResponse(url: fetchItemListURL, completionHandler: completion)
     }
     
-    func fetchItem(completion: @escaping (Result<Item, APIError>) -> ()) throws {
-        
+    func fetchItem(completion: @escaping (Result<Item, APIError>) -> ()) {
         let fetchItemURL = OpenMarketAPIPath.itemSearch.path
-        
-        do {
-            try getJSONDataFromResponse(url: fetchItemURL, completionHandler: completion)
-        } catch {
-            throw APIError.NotFound404Error
-        }
+        getJSONDataFromResponse(url: fetchItemURL, completionHandler: completion)
     }
     
-    func registerItem(registerItem: POSTRequestItem, completion: @escaping (Result<Item, APIError>) -> ()) throws {
+    func registerItem(data: POSTRequestItem, completion: @escaping (Result<Item, APIError>) -> ()) {
         let postItemURL = OpenMarketAPIPath.itemRegister.path
-        do {
-            try sendFormDataWithRequest(data: registerItem, HTTPMethod: HTTPMethod.post, url: postItemURL, completionHandler: completion)
-        } catch {
-            throw APIError.NotFound404Error
+        
+        guard let apiURI = URL(string: postItemURL) else {
+            completion(.failure(APIError.InvalidAddressError))
+            return
         }
+        
+        let boundary = "Boundary-\(UUID().uuidString)"
+        var request = URLRequest(url: apiURI)
+        let encodedJSONData = try? JSONEncoder().encode(data)
+        request.httpMethod = HTTPMethod.post.description
+        request.httpBody = encodedJSONData
+        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        
+        handleTaskWithRequest(httpRequest: request, completionHandler: completion)
     }
     
-    func deleteItem(deleteItem: DELETERequestItem, completion: @escaping (Result<Item, APIError>) -> ()) throws {
+    func deleteItem(data: DELETERequestItem, completion: @escaping (Result<Item, APIError>) -> ()) {
         let deleteItemURL = OpenMarketAPIPath.itemDeletion.path
-        do {
-            try sendFormDataWithRequest(data: deleteItem, HTTPMethod: HTTPMethod.delete, url: deleteItemURL, completionHandler: completion)
-        } catch {
-            throw APIError.NotFound404Error
+        
+        guard let apiURI = URL(string: deleteItemURL) else {
+            completion(.failure(APIError.InvalidAddressError))
+            return
         }
+        
+        let boundary = "Boundary-\(UUID().uuidString)"
+        var request = URLRequest(url: apiURI)
+        let encodedJSONData = try? JSONEncoder().encode(data)
+        request.httpMethod = HTTPMethod.delete.description
+        request.httpBody = encodedJSONData
+        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        
+        handleTaskWithRequest(httpRequest: request, completionHandler: completion)
     }
     
-    func editItemInformation(editItem: PATCHRequestItem, completion: @escaping (Result<Item, APIError>) -> ()) throws {
-        let editItemInformationURL = OpenMarketAPIPath.itemEdit.path
-        do {
-            try sendFormDataWithRequest(data: editItem, HTTPMethod: HTTPMethod.patch, url: editItemInformationURL, completionHandler: completion)
-        } catch {
-            throw APIError.NotFound404Error
+    func editItem(data: PATCHRequestItem, completion: @escaping (Result<Item, APIError>) -> ()) {
+        let editItemURL = OpenMarketAPIPath.itemEdit.path
+        
+        guard let apiURI = URL(string: editItemURL) else {
+            completion(.failure(APIError.InvalidAddressError))
+            return
         }
+        
+        let boundary = "Boundary-\(UUID().uuidString)"
+        var request = URLRequest(url: apiURI)
+        let encodedJSONData = try? JSONEncoder().encode(data)
+        request.httpMethod = HTTPMethod.patch.description
+        request.httpBody = encodedJSONData
+        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        
+        handleTaskWithRequest(httpRequest: request, completionHandler: completion)
     }
 }
 

@@ -1,8 +1,8 @@
 //
-//  PATCHItem.swift
+//  PATCHRequestItem.swift
 //  OpenMarket
 //
-//  Created by Seungjin Baek on 2021/05/24.
+//  Created by Seungjin Baek on 2021/06/07.
 //
 
 import Foundation
@@ -10,8 +10,7 @@ import Foundation
 struct PATCHRequestItem {
     var title, description, currency: String?
     var password: String
-    var price, stock: UInt?
-    var discountedPrice: UInt?
+    var price, stock, discountedPrice: UInt?
     var images: [String]? // File
 }
 
