@@ -9,13 +9,14 @@ import Foundation
 
 final class NetworkManager: NetworkManageable {
     let urlSession: URLSessionProtocol
+    private var nextPageToLoad: Int = 1
     
     init(urlSession: URLSessionProtocol = URLSession.shared) {
         self.urlSession = urlSession
     }
     
-    func getItemList(page: Int, completionHandler: @escaping (_ result: Result <OpenMarketItemList, Error>) -> Void) {
-        guard let url = URL(string: "\(OpenMarketAPI.urlForItemList)\(page)") else {
+    func getItemList(page: Int, isCurrentlyLoading: Bool, completionHandler: @escaping (_ result: Result <OpenMarketItemList, Error>) -> Void) {
+        guard let url = URL(string: "\(OpenMarketAPI.urlForItemList)\(nextPageToLoad)") else {
             return completionHandler(.failure(NetworkResponseError.badRequest))
         }
         var urlRequest = URLRequest(url: url)
