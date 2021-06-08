@@ -19,9 +19,9 @@ struct GETRequest: GetRequestable {
     let baseURLWithString: String = "https://camp-open-market-2.herokuapp.com/"
     let httpMethod: HTTPMethod
 
-    init(page: Int, descriptionAboutMenu: HTTPMethod){
+    init(page: Int, id: Int, descriptionAboutMenu: HTTPMethod){
         self.httpMethod = descriptionAboutMenu
-        makeURLRequest(page: page, by: descriptionAboutMenu)
+        makeURLRequest(page: page, id: id, by: descriptionAboutMenu)
     }
 }
 

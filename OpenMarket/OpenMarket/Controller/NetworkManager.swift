@@ -20,18 +20,18 @@ class NetworkManager<T: Decodable> {
             if error != nil {
                 return completionHandler(.failure(.receiveError))
             }
-
+            
             guard let httpResponse = response as? HTTPURLResponse,
                   (200...299).contains(httpResponse.statusCode) else {
                 return completionHandler(.failure(.receiveUnwantedResponse))
             }
-
-            if let mimeType = httpResponse.mimeType,
-               mimeType == "application/json",
-               let data = data {
+            
+            if let data = data {
                 guard let convertedData = try? JSONDecoder().decode(T.self, from: data) else {
+                    print(1)
                     return completionHandler(.failure(.receiveUnwantedResponse))
                 }
+                print(2)
                 return completionHandler(.success(convertedData))
             }
         }.resume()

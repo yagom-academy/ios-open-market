@@ -25,16 +25,17 @@ extension Requestable {
 // MARK:- Get메서드를 사용하는 목록조회, 상품조회의 URLRequest를 생성하기 위한 protocol-extension
 // TODO: .목록조회와 .상품조회에서 필요한 property의 종류가 서로 다른데, 이를 어떻게 해결해주면 좋을지 고민 중 (.목록조회: page, .상품조회: id)
 protocol GetRequestable: Requestable {
-    mutating func makeURLRequest(page: Int, by description: HTTPMethod)
+    mutating func makeURLRequest(page: Int, id: Int, by description: HTTPMethod)
 }
 
 extension GetRequestable {
-    mutating func makeURLRequest(page: Int, by description: HTTPMethod) {
+    mutating func makeURLRequest(page: Int, id: Int, by description: HTTPMethod) {
         switch description {
         case .목록조회:
             urlRequest.url = makeURL(path: "items/\(page)")
             urlRequest.httpMethod = httpMethod.rawValue
         case .상품조회:
+            urlRequest.url = makeURL(path: "item/\(id)")
             urlRequest.httpMethod = httpMethod.rawValue
         default:
             return

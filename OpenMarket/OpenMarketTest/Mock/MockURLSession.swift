@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 @testable import OpenMarket
 
 enum CaseOfResponse {
@@ -17,20 +18,17 @@ enum CaseOfResponse {
 class MockURLSession: URLSessionProtocol {
     var mockURLSessionDataTask = MockURLSessionDataTask()
     let caseOfResponse: CaseOfResponse
-    let sampleData = {
-        guard let asset = NSDataAsset(named: "Items") else {fatalError("DataAsset 불러오지 못함")}
-        return JSONDecoder().decode(Items.self, from: asset.data)
-    }
+    let sampleData = NSDataAsset(name: "Item")!.data
     
-    let successResponse = HTTPURLResponse(url: GETRequest(page: 1, descriptionAboutMenu: .목록조회).urlRequest.url!,
+    let successResponse = HTTPURLResponse(url: GETRequest(page: 1, id: 1, descriptionAboutMenu: .상품조회).urlRequest.url!,
                                           statusCode: 200,
                                           httpVersion: "2",
                                           headerFields: nil)
     
-    let statusErrorResponse = HTTPURLResponse(url: GETRequest(page: 1, descriptionAboutMenu: .목록조회).urlRequest.url!,
-                                        statusCode: 403,
-                                        httpVersion: "2",
-                                        headerFields: nil)
+    let statusErrorResponse = HTTPURLResponse(url: GETRequest(page: 1, id: 1, descriptionAboutMenu: .상품조회).urlRequest.url!,
+                                              statusCode: 403,
+                                              httpVersion: "2",
+                                              headerFields: nil)
     
     init(caseOfResponse: CaseOfResponse){
         self.caseOfResponse = caseOfResponse
@@ -39,13 +37,13 @@ class MockURLSession: URLSessionProtocol {
     func dataTask(with url: URL, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask {
         switch caseOfResponse {
         case .rightCase:
-            mockURLSessionDataTask.resumeDidCall = completionHandler(sampleData, successResponse, nil)
+            mockURLSessionDataTask.resumeDidCall = { completionHandler(self.sampleData, self.successResponse, nil) }
             return mockURLSessionDataTask
         case .statusCode403:
-            mockURLSessionDataTask.resumeDidCall = completionHandler(nil, statusErrorResponse, nil)
+            mockURLSessionDataTask.resumeDidCall = { completionHandler(nil, self.statusErrorResponse, nil) }
             return mockURLSessionDataTask
         case .nonHTTPResponse:
-            mockURLSessionDataTask.resumeDidCall = completionHandler(nil, nil, nil)
+            mockURLSessionDataTask.resumeDidCall = { completionHandler(nil, nil, nil) }
             return mockURLSessionDataTask
         }
     }
