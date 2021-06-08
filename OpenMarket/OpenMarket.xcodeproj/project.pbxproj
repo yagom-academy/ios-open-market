@@ -119,11 +119,21 @@
 			path = Controller;
 			sourceTree = "<group>";
 		};
+		D03AA5EE266EF0BB0013A4B9 /* Mock */ = {
+			isa = PBXGroup;
+			children = (
+				D03AA5EA266EF0A30013A4B9 /* MockURLSession.swift */,
+				D03AA5EC266EF0B50013A4B9 /* MockURLSessionDataTask.swift */,
+			);
+			path = Mock;
+			sourceTree = "<group>";
+		};
 		D0C92DDF26663F560023EBCD /* OpenMarketTest */ = {
 			isa = PBXGroup;
 			children = (
 				D0C92DE826663F7B0023EBCD /* NetworkManagerTests.swift */,
 				D0C92DE226663F560023EBCD /* Info.plist */,
+				D03AA5EE266EF0BB0013A4B9 /* Mock */,
 			);
 			path = OpenMarketTest;
 			sourceTree = "<group>";
@@ -257,6 +267,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D03AA5ED266EF0B50013A4B9 /* MockURLSessionDataTask.swift in Sources */,
+				D03AA5EB266EF0A30013A4B9 /* MockURLSession.swift in Sources */,
 				D0C92DE926663F7B0023EBCD /* NetworkManagerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
