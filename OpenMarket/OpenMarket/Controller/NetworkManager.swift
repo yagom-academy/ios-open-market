@@ -15,7 +15,7 @@ class NetworkManager<T: Decodable> {
         self.session = session
     }
     
-    func getServerData<T: Decodable>(url: URL, completionHandler: @escaping (Result<T, NetworkError>) -> Void) {
+    func getServerData(url: URL, completionHandler: @escaping (Result<T, NetworkError>) -> Void) {
         session.dataTask(with: url){ data, response, error in
             if error != nil {
                 return completionHandler(.failure(.receiveError))
