@@ -2,17 +2,24 @@
 
 ### 타임라인
 
-- 05/31(월)
+- 05/31(Mon)
   - 강의) Core Data, Database
   - API 모델 타입 구현, Unit Test 공부
-- 06/01(화)
+- 06/01(Tues)
   - Mock Data 만들기 및 활용 방법
   - JSON Parse 공부
-- 06/02(수)
+- 06/02(Wed)
   - Unit Test
-- 06/03(목)
-- 06/04(금)
+- 06/03(Thur)~04(Fri)
+  - 테이블뷰
+  - 컬렉션뷰
+<br>
 
+- 06/07(Mon)
+  - 강의) Responder Chain / Touch Event
+  - [네트워킹 테스트-우아한형제들](https://woowabros.github.io/swift/2020/12/20/ios-networking-and-testing.html)
+- 06/08(Tues)
+  - WWDC 2021 Keynote 02:00~04:00
 
 <br>
 
@@ -21,6 +28,7 @@
 - Unit Test
   - Mock Data
 - JSON Parse
+
 <br>
 
 ### 트러블슈팅 (Troubleshooting)
@@ -42,7 +50,6 @@
 <br>
 
 Mock Data
-
 - [[블로그] [TIL] 27. Mock Data - leeeeunz](https://velog.io/@leeeeunz/Project-2.-Mock-Data)
 - [[블로그] Swift의 강력한 mock 객체 만들기 - Jon Reid](https://academy.realm.io/kr/posts/making-mock-objects-more-useful-try-swift-2017/)
 - [ObjGen - Mock Data 만드는 사이트](https://beta5.objgen.com/json/local/design)
@@ -50,11 +57,11 @@ Mock Data
 - [databasetestdata - Mock Data 만드는 사이트](https://www.databasetestdata.com/)
 
 Unit Test
-
 - [[블로그] UnitTest의 사용법 - Zedd](https://zeddios.tistory.com/48)
 - [[위키백과] 유닛테스트](https://ko.wikipedia.org/wiki/%EC%9C%A0%EB%8B%9B_%ED%85%8C%EC%8A%A4%ED%8A%B8)
 - [[developer.apple] xctest](https://developer.apple.com/documentation/xctest/xctest)
 - [[블로그] [iOS] Custom Mock Network Request - 민소네](http://minsone.github.io/ios/mac/ios-mock-network-request)
+- [[블로그] iOS Networking and Testing - 우아한형제들](https://woowabros.github.io/swift/2020/12/20/ios-networking-and-testing.html)
   
 JSON, Codable(Encodable, Decodable)
 - [Swift ) 왕초보를 위한 Codable / JSON Encoding and Decoding - Zedd](https://zeddios.tistory.com/373)
@@ -67,6 +74,9 @@ URLSession
 - [[웹사이트] Postman](https://www.postman.com/)
 - [[레퍼런스] HTTP Request Methods](https://developer.mozilla.org/ko/docs/Web/HTTP/Methods)
 
+CollectionView
+- [[유투브] 취준생을 위한 아이폰 앱개발 콜렉션뷰 콤포지셔널 레이아웃 fundamental Tutorial (2020) ios collectionView compositional layout](https://www.youtube.com/watch?v=kJMIx0GWYIw&t=398s)
+  
 </div>
 </details>
 
