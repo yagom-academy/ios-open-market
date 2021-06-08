@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum NetworkError {
+enum NetworkError: Error {
     case receiveNothing
     case receiveError
     case receiveUnwantedResponse
