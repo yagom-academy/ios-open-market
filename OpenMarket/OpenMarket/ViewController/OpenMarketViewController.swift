@@ -150,3 +150,12 @@ extension OpenMarketViewController: UICollectionViewDelegateFlowLayout {
         
     }
 }
+extension OpenMarketViewController: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let position = scrollView.contentOffset.y
+        if position > self.openMarketCollectionView.contentSize.height - 100 - scrollView.frame.height {
+            // fetch more data
+            print("fetch more data")
+        }
+    }
+}
