@@ -14,11 +14,12 @@ struct Item: Decodable {
     let currency: String
     let stock: Int
     let discountedPrice: Int?
-    let thumbnails: [String]
+    let thumbnailURLs: [String]
     let registrationDate: Double
 
     enum CodingKeys: String, CodingKey {
-        case id, title, price, currency, stock, thumbnails
+        case id, title, price, currency, stock
+        case thumbnailURLs = "thumbnails"
         case discountedPrice = "discounted_price"
         case registrationDate = "registration_date"
     }
