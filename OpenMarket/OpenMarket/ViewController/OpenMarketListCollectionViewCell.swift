@@ -72,7 +72,7 @@ class OpenMarketListCollectionViewCell: UICollectionViewCell, CellDataUpdatable 
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.adjustsImageSizeForAccessibilityContentSizeCategory = true
-//        imageView.image = UIImage(named: "macbook-pro-openmarket")
+        imageView.image = UIImage(named: "loading-Pic")
         return imageView
     }()
 }
@@ -124,13 +124,17 @@ extension OpenMarketListCollectionViewCell {
     
     // MARK: - configure cell
     
-    func configure(_ itemList: OpenMarketItemList, indexPath: Int) {
-        itemTitleLabel.text = itemList.items[indexPath].title
-        itemPriceLabel.text = "\(itemList.items[indexPath].currency) \(itemList.items[indexPath].price)"
-        itemStockLabel.text = String(itemList.items[indexPath].stock)
+    func configure(_ itemList: OpenMarketItemList?, indexPath: Int) {
+        guard let validItemList = itemList else {
+            print("could not configure cell")
+            return
+        }
+        itemTitleLabel.text = validItemList.items[indexPath].title
+        itemPriceLabel.text = "\(validItemList.items[indexPath].currency) \(validItemList.items[indexPath].price)"
+        itemStockLabel.text = String(validItemList.items[indexPath].stock)
         
-        configureDiscountedPriceLabel(itemList, indexPath: indexPath)
-        configureStockLabel(itemList, indexPath: indexPath)
-        configureThumbnail(itemList, indexPath: indexPath)
+        configureDiscountedPriceLabel(validItemList, indexPath: indexPath)
+        configureStockLabel(validItemList, indexPath: indexPath)
+        configureThumbnail(validItemList, indexPath: indexPath)
     }
 }
