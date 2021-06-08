@@ -12,7 +12,7 @@ class URLSessionManagerTests: XCTestCase {
     func test_getServerData메서드에서_서버에요청을보냈을때_convertedData에_원하는데이터가_저장되는가(){
         let expectation = XCTestExpectation()
         let clientRequest = GETRequest(page: 1, descriptionAboutMenu: .목록조회)
-        let networkManager = NetworkManager<Items>(clientRequest: clientRequest)
+        let networkManager = NetworkManager<Items>(clientRequest: clientRequest, session: URLSession())
         var a: Items?
         networkManager.getServerData(url: clientRequest.urlRequest.url!){ (convertedData: Items) in
             a = convertedData
