@@ -11,28 +11,6 @@ struct NetworkManager {
     
     private var page = 1
     
-    func getJSONDataFromResponse<T: Decodable>(url: String, completionHandler: @escaping (Result<T, APIError>) -> () ) {
-        guard let apiURI = URL(string: url) else {
-            completionHandler(.failure(APIError.InvalidAddressError))
-            return
-        }
-        
-        let task = URLSession.shared.dataTask(with: apiURI) { result in
-            switch result {
-            case .success(let data):
-                let decodedData = try? JSONDecoder().decode(T.self, from: data)
-                if let decodedData = decodedData {
-                    completionHandler(.success(decodedData))
-                } else {
-                    completionHandler(.failure(APIError.JSONParseError))
-                }
-            case .failure(let error):
-                completionHandler(.failure(APIError.NetworkFailure(error)))
-            }
-        }
-        task.resume()
-    }
-    
     func handleTaskWithRequest<T: Decodable>(httpRequest: URLRequest, completionHandler: @escaping (Result<T, APIError>) -> ()) {
         
         let task = URLSession.shared.dataTask(with: httpRequest) { result in
@@ -59,12 +37,23 @@ struct NetworkManager {
             return
         }
 
-        getJSONDataFromResponse(url: fetchItemListURL, completionHandler: completion)
+        let request = URLRequest(url:apiURI)
+        
+        handleTaskWithRequest(httpRequest: request, completionHandler: completion)
     }
     
     func fetchItem(completion: @escaping (Result<Item, APIError>) -> ()) {
         let fetchItemURL = OpenMarketAPIPath.itemSearch.path
-        getJSONDataFromResponse(url: fetchItemURL, completionHandler: completion)
+        
+        guard let apiURI = URL(string: fetchItemURL) else {
+            completion(.failure(APIError.InvalidAddressError))
+            return
+        }
+
+        let request = URLRequest(url:apiURI)
+        
+        handleTaskWithRequest(httpRequest: request, completionHandler: completion)
+        
     }
     
     func registerItem(data: POSTRequestItem, completion: @escaping (Result<Item, APIError>) -> ()) {
@@ -122,6 +111,8 @@ struct NetworkManager {
     }
 }
 
+//FIXME: - Error Handling in DataTask
+//MARK: - Customize URLSession
 extension URLSession {
     func dataTask(
         with url: URL,
@@ -130,8 +121,8 @@ extension URLSession {
         dataTask(with: url) { data, _, error in
             if let error = error {
                 handler(.failure(error))
-            } else {
-                handler(.success(data ?? Data()))
+            } else if let data = data {
+                handler(.success(data))
             }
         }
     }
@@ -143,8 +134,8 @@ extension URLSession {
         dataTask(with: request) { data, _, error in
             if let error = error {
                 handler(.failure(error))
-            } else {
-                handler(.success(data ?? Data()))
+            } else if let data = data {
+                handler(.success(data))
             }
         }
     }
