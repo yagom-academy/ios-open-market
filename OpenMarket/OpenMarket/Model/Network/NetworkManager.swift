@@ -13,7 +13,7 @@ class NetworkManager {
         let url = URL(string: "https://camp-open-market-2.herokuapp.com/items/1")!
         let task = URLSession.shared.dataTask(with: url) { data, response, error in
             if error != nil {
-                APIError.invalidURL
+                APIError.failedNetwork
                 return
             }
             guard let httpResponse = response as? HTTPURLResponse,
