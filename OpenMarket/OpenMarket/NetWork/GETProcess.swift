@@ -8,25 +8,25 @@
 import Foundation
 
 class GETProcess {
-    
     private let commonURLProcess: URLProcessUsable
+    private let urlSession: URLSession
 
-    init(commonURLProcess: URLProcessUsable) {
+    init(commonURLProcess: URLProcessUsable, urlSession: URLSession = .shared) {
         self.commonURLProcess = commonURLProcess
+        self.urlSession = urlSession
     }
     
     func dataParsing<T: Decodable>(index: String?, completionHandler: @escaping (Result<T, Error>) -> Void) {
         
         let url = commonURLProcess.completedURL(model: T.self, urlMethod: "GET", index: index)
-        
-        URLSession.shared.dataTask(with: url.url) { (data: Data?, response: URLResponse?, error: Error?) in
+
+        urlSession.dataTask(with: url.url) { (data: Data?, response: URLResponse?, error: Error?) in
             if error != nil {
-                print("4")
                 return
             }
             
             guard let response = response as? HTTPURLResponse, (200...399).contains(response.statusCode) else {
-                completionHandler(.failure(error ?? OpenMarketErrors.unkownError))
+                completionHandler(.failure(OpenMarketErrors.unknownError))
                 return
             }
             

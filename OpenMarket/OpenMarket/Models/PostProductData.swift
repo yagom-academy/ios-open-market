@@ -7,23 +7,19 @@
 
 import Foundation
 
-struct OpenMarketProductDetail {
+struct PostProductData: Encodable {
     
-    let id: Int? = nil
     let title: String
     let descriptions: String
     let price: Int
     let currency: String
     let stock: Int
     let discountedPrice: Double?
-    let thumbnails: [String]? = nil
     let images: [String]
-    let registrationDate: Int? = nil
-    let password: String? = nil
+    let password: String
     
     private enum CodingKeys: String, CodingKey {
-        case id, title, descriptions, price, currency, stock, images, thumbnails
+        case title, descriptions, price, currency, stock, images
         case discountedPrice = "discounted_price"
-        case registrationDate = "registration_date"
     }
 }

@@ -18,7 +18,7 @@ struct CommonURLProcess: URLProcessUsable {
             return (URL(string: self.baseURL + "item")!, urlMethod)
         }
         
-        if urlMethod == "GET" && model == OpenMarketProductList.self {
+        if urlMethod == HttpMethod.get.rawValue && model == GetProductList.self {
             return (URL(string: self.baseURL + "items/\(index)")!, urlMethod)
         } else {
             return (URL(string: self.baseURL + "item/\(index)")!, urlMethod)
@@ -29,7 +29,7 @@ struct CommonURLProcess: URLProcessUsable {
         var request = URLRequest(url: urlInformation.url)
         request.httpMethod = urlInformation.urlMethod
         
-        if urlInformation.urlMethod == "DELETE" {
+        if urlInformation.urlMethod == HttpMethod.delete.rawValue {
             request.setValue("application/json", forHTTPHeaderField: "Content-Type")
             
             return request

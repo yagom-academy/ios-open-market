@@ -8,12 +8,12 @@
 import Foundation
 
 enum OpenMarketErrors: LocalizedError {
-    case unkownError
+    case unknownError
     case responseError(Int)
     
     var errorDescription: String? {
         switch self {
-        case .unkownError:
+        case .unknownError:
             return "unknownError"
         case .responseError(let code):
             return "\(code)Error1"

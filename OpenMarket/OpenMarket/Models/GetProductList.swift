@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct OpenMarketProductList: Decodable {
+struct GetProductList: Decodable {
     
     let page: Int
     let items: [Item]
@@ -28,5 +28,4 @@ struct OpenMarketProductList: Decodable {
             case registrationDate = "registration_date"
         }
     }
-    
 }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct CertificationPassword {
+struct CertificationPassword: Encodable {
     
     let password: String
 }
