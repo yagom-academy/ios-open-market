@@ -29,4 +29,11 @@ enum MarketAPI {
             return URL(string: MarketAPI.baseURL + "/item/" + "\(id)")
         }
     }
+    
+    enum HTTPMethod: String {
+        case get = "GET"
+        case post = "POST"
+        case patch = "PATCH"
+        case delete = "DELETE"
+    }
 }

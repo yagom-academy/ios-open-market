@@ -16,7 +16,6 @@
 		452141C326667FE9006E45F7 /* MarketAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 452141C226667FE9006E45F7 /* MarketAPI.swift */; };
 		452141C5266798DF006E45F7 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 452141C4266798DF006E45F7 /* NetworkManager.swift */; };
 		452141DE2668B215006E45F7 /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 452141DD2668B215006E45F7 /* APIError.swift */; };
-		452141E02668BADF006E45F7 /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 452141DF2668BADF006E45F7 /* HTTPMethod.swift */; };
 		45214216266A4638006E45F7 /* OpenMarketTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45214215266A4638006E45F7 /* OpenMarketTests.swift */; };
 		45214220266A6CA1006E45F7 /* MockTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4521421F266A6CA1006E45F7 /* MockTest.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
@@ -47,7 +46,6 @@
 		452141C226667FE9006E45F7 /* MarketAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketAPI.swift; sourceTree = "<group>"; };
 		452141C4266798DF006E45F7 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		452141DD2668B215006E45F7 /* APIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
-		452141DF2668BADF006E45F7 /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
 		45214213266A4638006E45F7 /* OpenMarketTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenMarketTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		45214215266A4638006E45F7 /* OpenMarketTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketTests.swift; sourceTree = "<group>"; };
 		45214217266A4638006E45F7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -112,7 +110,6 @@
 		452141C126667FBF006E45F7 /* Network */ = {
 			isa = PBXGroup;
 			children = (
-				452141DF2668BADF006E45F7 /* HTTPMethod.swift */,
 				452141C226667FE9006E45F7 /* MarketAPI.swift */,
 				452141C4266798DF006E45F7 /* NetworkManager.swift */,
 				452141BF266671D4006E45F7 /* Request */,
@@ -300,7 +297,6 @@
 				452141B8266666C9006E45F7 /* MarketItem.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 				452141C326667FE9006E45F7 /* MarketAPI.swift in Sources */,
-				452141E02668BADF006E45F7 /* HTTPMethod.swift in Sources */,
 				452141BA26666E60006E45F7 /* MarketItemUpload.swift in Sources */,
 				452141C5266798DF006E45F7 /* NetworkManager.swift in Sources */,
 			);
