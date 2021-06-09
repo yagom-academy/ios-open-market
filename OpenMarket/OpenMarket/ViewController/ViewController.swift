@@ -7,13 +7,8 @@
 import UIKit
 
 class ViewController: UIViewController {
-    let segmentedControl = SegmentedControlViewController.segmentedControl
-    let collectionView: UICollectionView = {
-        let flowlayout = UICollectionViewFlowLayout()
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowlayout)
-        
-        return collectionView
-    }()
+    let segmentedControl = SegmentedControl.shared
+    let collectionView = CollectionView.shared
     
     override func viewDidLoad() {
         super.viewDidLoad()

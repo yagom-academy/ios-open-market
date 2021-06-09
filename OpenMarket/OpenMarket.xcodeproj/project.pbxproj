@@ -19,7 +19,8 @@
 		D0711AEB2667B66A009B3A1D /* Requestable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0711AEA2667B66A009B3A1D /* Requestable.swift */; };
 		D0C92DE926663F7B0023EBCD /* NetworkManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C92DE826663F7B0023EBCD /* NetworkManagerTests.swift */; };
 		D0D0ECC92670A4D4007DC8BB /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D0ECC82670A4D4007DC8BB /* CollectionViewCell.swift */; };
-		D0D0ECCD2670ACC6007DC8BB /* SegmentedControlViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D0ECCC2670ACC6007DC8BB /* SegmentedControlViewController.swift */; };
+		D0D0ECCD2670ACC6007DC8BB /* SegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D0ECCC2670ACC6007DC8BB /* SegmentedControl.swift */; };
+		D0D0ECCF2670D7B2007DC8BB /* CollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D0ECCE2670D7B2007DC8BB /* CollectionView.swift */; };
 		D0E77D342660DF9E006DDCB4 /* Items.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E77D332660DF9E006DDCB4 /* Items.swift */; };
 		D0E77D362660DFAB006DDCB4 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E77D352660DFAB006DDCB4 /* Item.swift */; };
 		D0E77D392660E70A006DDCB4 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E77D382660E70A006DDCB4 /* NetworkManager.swift */; };
@@ -53,7 +54,8 @@
 		D0C92DE226663F560023EBCD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D0C92DE826663F7B0023EBCD /* NetworkManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManagerTests.swift; sourceTree = "<group>"; };
 		D0D0ECC82670A4D4007DC8BB /* CollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
-		D0D0ECCC2670ACC6007DC8BB /* SegmentedControlViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedControlViewController.swift; sourceTree = "<group>"; };
+		D0D0ECCC2670ACC6007DC8BB /* SegmentedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedControl.swift; sourceTree = "<group>"; };
+		D0D0ECCE2670D7B2007DC8BB /* CollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionView.swift; sourceTree = "<group>"; };
 		D0E77D332660DF9E006DDCB4 /* Items.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Items.swift; sourceTree = "<group>"; };
 		D0E77D352660DFAB006DDCB4 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		D0E77D382660E70A006DDCB4 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
@@ -107,6 +109,7 @@
 				D0E77D372660DFB0006DDCB4 /* Model */,
 				D0161F952668A69800D8A24D /* Controller */,
 				D03AA5EF266F5FF40013A4B9 /* ViewController */,
+				D0D0ECD02670D7BD007DC8BB /* View */,
 			);
 			path = OpenMarket;
 			sourceTree = "<group>";
@@ -134,7 +137,6 @@
 			children = (
 				C70FB0FE25BEF61C00C9924E /* ViewController.swift */,
 				D0D0ECC82670A4D4007DC8BB /* CollectionViewCell.swift */,
-				D0D0ECCC2670ACC6007DC8BB /* SegmentedControlViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -147,6 +149,15 @@
 				D03AA5EE266EF0BB0013A4B9 /* Mock */,
 			);
 			path = OpenMarketTest;
+			sourceTree = "<group>";
+		};
+		D0D0ECD02670D7BD007DC8BB /* View */ = {
+			isa = PBXGroup;
+			children = (
+				D0D0ECCE2670D7B2007DC8BB /* CollectionView.swift */,
+				D0D0ECCC2670ACC6007DC8BB /* SegmentedControl.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		D0E77D372660DFB0006DDCB4 /* Model */ = {
@@ -265,13 +276,14 @@
 				D0711AEB2667B66A009B3A1D /* Requestable.swift in Sources */,
 				D0E77D362660DFAB006DDCB4 /* Item.swift in Sources */,
 				D0E77D342660DF9E006DDCB4 /* Items.swift in Sources */,
+				D0D0ECCF2670D7B2007DC8BB /* CollectionView.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
 				D0E77D3B2660F41A006DDCB4 /* ClientRequests.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 				D03AA5E9266EEA720013A4B9 /* NetworkError.swift in Sources */,
 				D0D0ECC92670A4D4007DC8BB /* CollectionViewCell.swift in Sources */,
-				D0D0ECCD2670ACC6007DC8BB /* SegmentedControlViewController.swift in Sources */,
+				D0D0ECCD2670ACC6007DC8BB /* SegmentedControl.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

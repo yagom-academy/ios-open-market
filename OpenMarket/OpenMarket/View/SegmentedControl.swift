@@ -7,8 +7,8 @@
 
 import UIKit
 
-class SegmentedControlViewController: UISegmentedControl {
-    static let segmentedControl: UISegmentedControl = {
+class SegmentedControl: UISegmentedControl {
+    static let shared: UISegmentedControl = {
         let titles = ["LIST", "GRID"]
         var segmentedControl = UISegmentedControl(items: titles)
         segmentedControl.tintColor = UIColor.white
