@@ -33,5 +33,4 @@ class SegmentedControlViewController: UISegmentedControl {
         default: return
         }
     }
-
 }
