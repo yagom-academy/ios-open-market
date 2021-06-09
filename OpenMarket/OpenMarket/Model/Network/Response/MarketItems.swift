@@ -18,11 +18,12 @@ struct MarketItems: ProductList {
         let currency: String
         let stock: UInt
         let discountedPrice: UInt?
-        let thumbnails: [String]
+        let thumbnailsURL: [String]
         let registrationDate: Double
     
         enum CodingKeys: String, CodingKey {
-            case id, title, price, currency, stock, thumbnails
+            case id, title, price, currency, stock
+            case thumbnailsURL = "thumbnails"
             case discountedPrice = "discounted_price"
             case registrationDate = "registration_date"
         }
