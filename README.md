@@ -20,6 +20,8 @@
   - [네트워킹 테스트-우아한형제들](https://woowabros.github.io/swift/2020/12/20/ios-networking-and-testing.html)
 - 06/08(Tues)
   - WWDC 2021 Keynote 02:00~04:00
+- 06/09(Thur)
+  - 강의) iOS File System
 
 <br>
 
@@ -38,7 +40,8 @@
 2. XCTAssertEqual failed
     - decoding한 data와 비교하는 객체의 값이 일치하지 않음. 이스케이프 문자 `\`로 인한 오류
     - 코드에서 json 문자열 안에 `\n`을 넣었을 때 된다면 `\`는 코드에서 문자열이 아닌 다른 내용을 구분하기 위해 사용되는 특별한 문자이기 때문에, 진짜 `\n`을 입력하려면 `\\n` 이라고 써줘야 한다. 참고로, 스위프트에서는 아래와 같이 문자열을 `#`으로 감싸면 `\\` 처리를 안해줘도 된다.
-    
+3. Thread 1:EXC_BAD_INSTRUCTION (code=EXC_I386_INVOP, subcode=0x0)
+    - 강제추출하는 경우 나타나는 오류라고 나왔는데, 초록색 혹은 빨간색으로 경고가 나왔다. 나의 경우 테스트 클래스 이름을 `OpenMarketTests`에서 `OpenMarketTest`로 바꾸니 해결되었다. 뭐지?
 <br>
 
 ### 참고 사이트
@@ -203,5 +206,8 @@ struct ItemModification {
 <br>
 
 ### Unit Test
-- Mock Data 파일로 decoding 하고, 같은 정보를 가진 가짜 객체를 만들어 XCTAssertEqual로 비교 
+첫번째 시도
+- Mock Data 파일로 decoding 하고, 같은 정보를 가진 가짜 객체를 만들어 XCTAssertEqual로 비교   
 
+두번째 시도
+- [iOS Networking and Testing](https://woowabros.github.io/swift/2020/12/20/ios-networking-and-testing.html)를 참고하여 URLSessionProtocol을 만들어봄.
