@@ -28,3 +28,5 @@ class CollectionView: UICollectionView {
         CollectionView.flowlayout.scrollDirection = .vertical
     }
 }
+
+
