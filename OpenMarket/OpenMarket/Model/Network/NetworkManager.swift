@@ -9,16 +9,16 @@ import Foundation
 
 class NetworkManager {
     var convertedData: MarketItems?
-    func startLoad() {
+    func startLoad(completionHandler: @escaping (Result<MarketItems,APIError>) -> Void) {
         let url = URL(string: "https://camp-open-market-2.herokuapp.com/items/1")!
         let task = URLSession.shared.dataTask(with: url) { data, response, error in
             if error != nil {
-                APIError.invalidURL
+                completionHandler(.failure(APIError.failedNetwork))
                 return
             }
             guard let httpResponse = response as? HTTPURLResponse,
                   (200...299).contains(httpResponse.statusCode) else {
-                APIError.responseProblem
+                completionHandler(.failure(APIError.responseProblem))
                 return
             }
             if let data = data {

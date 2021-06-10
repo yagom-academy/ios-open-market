@@ -8,7 +8,7 @@
 import Foundation
 
 enum MarketAPI {
-    static let baseURL = "https://camp-open-market-2.herokuapp.com/"
+    private static let baseURL = "https://camp-open-market-2.herokuapp.com/"
     case 목록조회(page: Int)
     case 상품등록
     case 상품조회(id: Int)
@@ -28,5 +28,12 @@ enum MarketAPI {
         case .상품삭제(let id):
             return URL(string: MarketAPI.baseURL + "/item/" + "\(id)")
         }
+    }
+    
+    enum HTTPMethod: String {
+        case get = "GET"
+        case post = "POST"
+        case patch = "PATCH"
+        case delete = "DELETE"
     }
 }

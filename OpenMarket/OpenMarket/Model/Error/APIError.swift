@@ -8,6 +8,7 @@
 import Foundation
 
 enum APIError: Error {
+    case failedNetwork
     case invalidURL
     case requestProblem
     case responseProblem
@@ -19,6 +20,8 @@ enum APIError: Error {
 extension APIError: LocalizedError {
     var errorDescription: String? {
         switch self {
+        case .failedNetwork:
+            return "실패한 네트워크"
         case .invalidURL:
             return "잘못된 URL"
         case .requestProblem:

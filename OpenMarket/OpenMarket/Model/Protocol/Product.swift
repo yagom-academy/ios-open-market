@@ -24,7 +24,7 @@ protocol ProductInfo: Decodable {
     var currency: String { get }
     var stock: UInt { get }
     var discountedPrice: UInt? { get }
-    var thumbnails: [String] { get }
+    var thumbnailsURL: [String] { get }
     var registrationDate: Double { get }
 }
 
