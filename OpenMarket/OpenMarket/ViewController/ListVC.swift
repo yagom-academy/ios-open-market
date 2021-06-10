@@ -16,7 +16,6 @@ class ListVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        tableView.delegate = self
         tableView.dataSource = self
         
         NotificationCenter.default.addObserver(self, selector: #selector(Self.setupItems(_:)), name: NotificationNames.items.notificaion, object: nil)
@@ -48,7 +47,7 @@ extension ListVC: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ListVCCell") as! ListVCCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: ListVCCell.self)) as! ListVCCell
         
         cell.setup()
         

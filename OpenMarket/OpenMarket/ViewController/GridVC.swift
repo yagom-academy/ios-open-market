@@ -16,7 +16,6 @@ class GridVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        collectionView.delegate = self
         collectionView.dataSource = self
         
         NotificationCenter.default.addObserver(self, selector: #selector(Self.setupItems(_:)), name: NotificationNames.items.notificaion, object: nil)
@@ -44,7 +43,7 @@ extension GridVC: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "GridVCCell", for: indexPath) as! GridVCCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: GridVCCell.self), for: indexPath) as! GridVCCell
         
         cell.layer.borderColor = UIColor.lightGray.cgColor
         cell.layer.borderWidth = 1.0
