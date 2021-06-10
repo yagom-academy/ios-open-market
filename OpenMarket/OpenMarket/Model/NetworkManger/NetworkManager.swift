@@ -15,7 +15,7 @@ class NetworkManger {
         self.session = session
     }
     
-    func getData(completion: @escaping (Result<ItemPage, Error>) -> Void) {
+    func getData(completion: @escaping (Result<ItemDetail, Error>) -> Void) {
         
         let request = URLRequest(url: Network.firstPage.url)
         
@@ -28,7 +28,7 @@ class NetworkManger {
                 }
                 
                 if let data = data {
-                    guard let decodingData = try? JSONDecoder().decode(ItemPage.self, from: data) else {
+                    guard let decodingData = try? JSONDecoder().decode(ItemDetail.self, from: data) else {
                         completion(.failure(APIError.unknownError))
                         return
                     }

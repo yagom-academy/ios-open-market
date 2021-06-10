@@ -9,19 +9,46 @@ import XCTest
 @testable import OpenMarket
 
 class OpenMarketTests: XCTestCase {
-    var sut = NetworkManger!
-    sut: MockURLSession
+    
+    let session: MockURLSessionProtocol
+    init(session: URLSession = .shared) {
+        self.session = session
+        super.init()
+    }
+    
+    func getData(completion: @escaping (Result<ItemDetail, Error>) -> Void) {
+        
+        let request = URLRequest(url: Network.firstPage.url)
+        
+        let task: URLSessionDataTask = session
+            .dataTask(with: request) { data, urlResponse, error in
+                guard let response = urlResponse as? HTTPURLResponse,
+                      (200...399).contains(response.statusCode) else {
+                    completion(.failure(error ?? APIError.unknownError))
+                    return
+                }
+                
+                if let data = data {
+                    guard let decodingData = try? JSONDecoder().decode(ItemDetail.self, from: data) else {
+                        completion(.failure(APIError.unknownError))
+                        return
+                    }
+                    completion(.success(decodingData))
+                }
+            }
+        task.resume()
+    }
+    
     
     func test_getData_AssetData() {
         let expectation = XCTestExpectation()
-        let response = try? JSONDecoder().decode(ItemPage.self,
+        let response = try? JSONDecoder().decode(ItemDetail.self,
                                                  from: NSDataAsset(name: "Items")!.data)
          
-        NetworkManger.get { result in
+        getData { result in
             switch result {
-            case .success(let joke):
-                XCTAssertEqual(joke.id, response?.value.id)
-                XCTAssertEqual(joke.joke, response?.value.joke)
+            case .success:
+                XCTAssertEqual("MacBook Pro", response?.title)
             case .failure:
                 XCTFail()
             }
