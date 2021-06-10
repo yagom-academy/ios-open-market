@@ -8,11 +8,6 @@ import UIKit
 
 class MainViewController: UIViewController {
     
-    enum SegmentIndexs {
-        static let list = 0
-        static let grid = 1
-    }
-    
     let openMarketAPI: OpenMarketAPI = OpenMarketAPI(session: URLSession.shared)
     var items: [Item] = []
     
@@ -41,12 +36,11 @@ class MainViewController: UIViewController {
         listContainer.isHidden = true
         gridContainer.isHidden = true
         
-        if segment.selectedSegmentIndex == SegmentIndexs.list {
+        if segment.selectedSegmentIndex == 0 {
             listContainer.isHidden = false
-            
             print("list on")
         
-        } else if segment.selectedSegmentIndex == SegmentIndexs.grid {
+        } else if segment.selectedSegmentIndex == 1 {
             gridContainer.isHidden = false
             print("grid on")
             
