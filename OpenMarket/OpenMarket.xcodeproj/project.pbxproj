@@ -7,9 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		33D1893F2671DB780021ED86 /* MockURLSessionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D1893E2671DB780021ED86 /* MockURLSessionProtocol.swift */; };
-		33D189472671DCE30021ED86 /* MockURLSessionDataTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D189462671DCE30021ED86 /* MockURLSessionDataTask.swift */; };
-		33D1894B2671DCF80021ED86 /* MockURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D1894A2671DCF80021ED86 /* MockURLSession.swift */; };
+		33D189572671E0C20021ED86 /* MockURLSessionDataTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D189462671DCE30021ED86 /* MockURLSessionDataTask.swift */; };
+		33D189612671E0E40021ED86 /* MockURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D1894A2671DCF80021ED86 /* MockURLSession.swift */; };
+		33D1897F2671EAB10021ED86 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D1897E2671EAB10021ED86 /* Network.swift */; };
+		33D1898B2671EFA30021ED86 /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D1898A2671EFA30021ED86 /* APIError.swift */; };
+		33D1898F2671F3BE0021ED86 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D1898E2671F3BE0021ED86 /* NetworkManager.swift */; };
+		33D189942671FAEE0021ED86 /* MockURLSessionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D1893E2671DB780021ED86 /* MockURLSessionProtocol.swift */; };
 		33DA9C232664AE3000AF8221 /* ItemRegistration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33DA9C222664AE3000AF8221 /* ItemRegistration.swift */; };
 		33DA9C272664AF5700AF8221 /* ItemModification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33DA9C262664AF5700AF8221 /* ItemModification.swift */; };
 		33DA9C2A2664B18E00AF8221 /* ItemDetailI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33DA9C292664B18E00AF8221 /* ItemDetailI.swift */; };
@@ -38,6 +41,9 @@
 		33D1893E2671DB780021ED86 /* MockURLSessionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSessionProtocol.swift; sourceTree = "<group>"; };
 		33D189462671DCE30021ED86 /* MockURLSessionDataTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSessionDataTask.swift; sourceTree = "<group>"; };
 		33D1894A2671DCF80021ED86 /* MockURLSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSession.swift; sourceTree = "<group>"; };
+		33D1897E2671EAB10021ED86 /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
+		33D1898A2671EFA30021ED86 /* APIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
+		33D1898E2671F3BE0021ED86 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		33DA9C222664AE3000AF8221 /* ItemRegistration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemRegistration.swift; sourceTree = "<group>"; };
 		33DA9C262664AF5700AF8221 /* ItemModification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemModification.swift; sourceTree = "<group>"; };
 		33DA9C292664B18E00AF8221 /* ItemDetailI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemDetailI.swift; sourceTree = "<group>"; };
@@ -74,20 +80,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		33D1893B2671DB580021ED86 /* MockURLSession */ = {
+		33D1897D2671EAA10021ED86 /* NetworkManger */ = {
 			isa = PBXGroup;
 			children = (
+				33D1897E2671EAB10021ED86 /* Network.swift */,
+				33D1898A2671EFA30021ED86 /* APIError.swift */,
+				33D1898E2671F3BE0021ED86 /* NetworkManager.swift */,
 				33D1893E2671DB780021ED86 /* MockURLSessionProtocol.swift */,
-				33D189462671DCE30021ED86 /* MockURLSessionDataTask.swift */,
-				33D1894A2671DCF80021ED86 /* MockURLSession.swift */,
 			);
-			path = MockURLSession;
+			path = NetworkManger;
 			sourceTree = "<group>";
 		};
 		33DA9C1F2664ADAE00AF8221 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				33D1893B2671DB580021ED86 /* MockURLSession */,
+				33D1897D2671EAA10021ED86 /* NetworkManger */,
 				33DA9C202664ADBC00AF8221 /* Request */,
 				33DA9C212664ADC300AF8221 /* Response */,
 			);
@@ -117,6 +124,8 @@
 			isa = PBXGroup;
 			children = (
 				33DA9C3C2664C96A00AF8221 /* OpenMarketTests.swift */,
+				33D1894A2671DCF80021ED86 /* MockURLSession.swift */,
+				33D189462671DCE30021ED86 /* MockURLSessionDataTask.swift */,
 				33DA9C3E2664C96A00AF8221 /* Info.plist */,
 			);
 			path = OpenMarketTests;
@@ -255,7 +264,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				33D189612671E0E40021ED86 /* MockURLSession.swift in Sources */,
 				33DA9C3D2664C96A00AF8221 /* OpenMarketTests.swift in Sources */,
+				33D189572671E0C20021ED86 /* MockURLSessionDataTask.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -263,10 +274,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				33D1893F2671DB780021ED86 /* MockURLSessionProtocol.swift in Sources */,
-				33D189472671DCE30021ED86 /* MockURLSessionDataTask.swift in Sources */,
+				33D1898F2671F3BE0021ED86 /* NetworkManager.swift in Sources */,
 				33DA9C272664AF5700AF8221 /* ItemModification.swift in Sources */,
-				33D1894B2671DCF80021ED86 /* MockURLSession.swift in Sources */,
+				33D189942671FAEE0021ED86 /* MockURLSessionProtocol.swift in Sources */,
+				33D1897F2671EAB10021ED86 /* Network.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
 				33DA9C2D2664B2C000AF8221 /* ItemPage.swift in Sources */,
 				33DA9C2A2664B18E00AF8221 /* ItemDetailI.swift in Sources */,
@@ -274,6 +285,7 @@
 				33E1717F2667F59E00D24C2A /* ItemDelete.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 				33DA9C232664AE3000AF8221 /* ItemRegistration.swift in Sources */,
+				33D1898B2671EFA30021ED86 /* APIError.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

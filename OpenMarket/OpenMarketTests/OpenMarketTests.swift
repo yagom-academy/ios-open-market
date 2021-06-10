@@ -9,33 +9,27 @@ import XCTest
 @testable import OpenMarket
 
 class OpenMarketTests: XCTestCase {
+    var sut = NetworkManger!
+    sut: MockURLSession
     
-    func testMockDataFromAssetItem() {
-        guard let jsonData = NSDataAsset(name: "Item") else {
-            XCTFail("Item 정보 읽기 실패")
-            return
+    func test_getData_AssetData() {
+        let expectation = XCTestExpectation()
+        let response = try? JSONDecoder().decode(ItemPage.self,
+                                                 from: NSDataAsset(name: "Items")!.data)
+         
+        NetworkManger.get { result in
+            switch result {
+            case .success(let joke):
+                XCTAssertEqual(joke.id, response?.value.id)
+                XCTAssertEqual(joke.joke, response?.value.joke)
+            case .failure:
+                XCTFail()
+            }
+            expectation.fulfill()
         }
         
-        let decoder = JSONDecoder()
-
-        guard let decodeData = try? decoder.decode(ItemDetail.self, from: jsonData.data) else {
-            XCTFail("Item 디코딩 실패")
-            return
-        }
+        wait(for: [expectation], timeout: 2.0)
     }
     
-    func testMockDataFromAssetItems() {
-        guard let jsonData = NSDataAsset(name: "Items") else {
-            XCTFail("Items 정보 읽기 실패")
-            return
-        }
-        
-        let decoder = JSONDecoder()
-
-        guard let decodeData = try? decoder.decode(ItemPage.self, from: jsonData.data) else {
-            XCTFail("Items 디코딩 실패")
-            return
-        }
-    }
 }
 

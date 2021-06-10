@@ -4,10 +4,10 @@
 //
 //  Created by kio on 2021/06/10.
 //
+import XCTest
+@testable import OpenMarket
 
-import Foundation
-
-class MockURLSessionDataTask: MockURLSessionDataTask {
+class MockURLSessionDataTask: URLSessionDataTask {
     override init() {}
     var resumeDidCall: () -> Void = {}
     
