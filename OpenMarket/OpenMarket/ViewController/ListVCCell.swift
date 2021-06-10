@@ -32,7 +32,7 @@ class ListVCCell: UITableViewCell {
             priceLabel.textColor = UIColor.lightGray
             if let salePrice = data.discountedPrice {
                 discountedPriceLabel.text = data.currency + " \(salePrice)"
-                discountedPriceLabel.attributedText = discountedPriceLabel.text?.strikeThrough()
+                discountedPriceLabel.attributedText = discountedPriceLabel.text?.attributedStrikeThrough()
                 discountedPriceLabel.textColor = UIColor.red
             }
             stockLabel.text = "\(data.stock)"
