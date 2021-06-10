@@ -25,10 +25,7 @@ class ListVC: UIViewController {
         if let receiveItems = notification.object as? [Item] {
             self.items = receiveItems
             
-            print("success notification")
-            
             DispatchQueue.main.async {
-                print("success reloadData")
                 self.tableView.reloadData()
             }
         }

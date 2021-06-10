@@ -26,10 +26,7 @@ class GridVC: UIViewController {
         if let receiveItems = notification.object as? [Item] {
             self.items = receiveItems
             
-            print("success CollectionView nofitication")
-            
             DispatchQueue.main.async {
-                print("success CollectionView reloadData")
                 self.collectionView.reloadData()
             }
         }
