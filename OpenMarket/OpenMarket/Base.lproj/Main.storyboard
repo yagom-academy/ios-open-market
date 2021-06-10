@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="l0D-gb-TzW">
-    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -15,17 +13,17 @@
             <objects>
                 <viewController title="MainVC" id="BYZ-38-t0r" customClass="MainViewController" customModule="OpenMarket" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PVs-bj-ej5">
-                                <rect key="frame" x="0.0" y="88" width="414" height="808"/>
+                                <rect key="frame" x="0.0" y="44" width="600" height="590"/>
                                 <connections>
                                     <segue destination="XVC-U4-g2x" kind="embed" id="8Gj-7O-5cX"/>
                                 </connections>
                             </containerView>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KDm-1c-hkF">
-                                <rect key="frame" x="0.0" y="88" width="414" height="808"/>
+                                <rect key="frame" x="0.0" y="44" width="600" height="590"/>
                                 <connections>
                                     <segue destination="Dqr-fc-rMD" kind="embed" id="gAy-xa-I5F"/>
                                 </connections>
@@ -101,42 +99,42 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="이" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="xqJ-fI-umy">
-                                <rect key="frame" x="0.0" y="44" width="414" height="764"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="ListVCCell" rowHeight="112" id="DdE-Vh-piR" customClass="ListVCCell" customModule="OpenMarket" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="24.5" width="414" height="112"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="DdE-Vh-piR" id="5Ql-4P-dKb">
-                                            <rect key="frame" x="0.0" y="0.0" width="384.5" height="112"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="388.5" height="112"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gg3-eu-KxB">
-                                                    <rect key="frame" x="74" y="21" width="31.5" height="23"/>
+                                                    <rect key="frame" x="70" y="21" width="31.5" height="23"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleTitle2"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="price" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0bA-hS-K23">
-                                                    <rect key="frame" x="74" y="74" width="32.5" height="17"/>
+                                                    <rect key="frame" x="70" y="74" width="32.5" height="17"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="dicPrice" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BdX-xW-CsY">
-                                                    <rect key="frame" x="116.5" y="74" width="52.5" height="17"/>
+                                                    <rect key="frame" x="112.5" y="74" width="52.5" height="17"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="stock" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LXG-iM-gm9">
-                                                    <rect key="frame" x="321" y="21" width="35.5" height="17"/>
+                                                    <rect key="frame" x="325" y="21" width="35.5" height="17"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icloud.and.arrow.down" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="og0-KJ-du0">
-                                                    <rect key="frame" x="30" y="21" width="24" height="71"/>
+                                                    <rect key="frame" x="26" y="21" width="24" height="71"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" relation="lessThanOrEqual" constant="70" id="2wt-p7-aRN"/>
                                                         <constraint firstAttribute="width" relation="lessThanOrEqual" constant="70" id="Hog-aL-OKc"/>
@@ -163,11 +161,11 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <outlet property="discountedPrice" destination="BdX-xW-CsY" id="Fwz-Gg-egn"/>
-                                            <outlet property="price" destination="0bA-hS-K23" id="KW9-aV-7ff"/>
-                                            <outlet property="stock" destination="LXG-iM-gm9" id="xgE-h4-XvF"/>
-                                            <outlet property="thumbnail" destination="og0-KJ-du0" id="IiF-Lh-XH7"/>
-                                            <outlet property="title" destination="gg3-eu-KxB" id="ufG-z6-4iW"/>
+                                            <outlet property="discountedPriceLabel" destination="BdX-xW-CsY" id="Fwz-Gg-egn"/>
+                                            <outlet property="priceLabel" destination="0bA-hS-K23" id="KW9-aV-7ff"/>
+                                            <outlet property="stockLabel" destination="LXG-iM-gm9" id="xgE-h4-XvF"/>
+                                            <outlet property="thumbnailImageView" destination="og0-KJ-du0" id="IiF-Lh-XH7"/>
+                                            <outlet property="titleLabel" destination="gg3-eu-KxB" id="ufG-z6-4iW"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -195,7 +193,7 @@
             <objects>
                 <viewController id="QgT-QK-jyY" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="eCV-ha-ZUJ">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="ifD-pQ-nAM"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -215,7 +213,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="jhM-80-juM">
-                                <rect key="frame" x="6" y="44" width="408" height="764"/>
+                                <rect key="frame" x="6" y="0.0" width="408" height="808"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="ujy-MD-9Iy">
                                     <size key="itemSize" width="175" height="260"/>
@@ -288,11 +286,11 @@
                                         </collectionViewCellContentView>
                                         <size key="customSize" width="175" height="260"/>
                                         <connections>
-                                            <outlet property="discountedPrice" destination="tuh-rt-Z2i" id="QeE-Qf-juH"/>
-                                            <outlet property="price" destination="gNH-yI-idN" id="SUf-Ie-Zc7"/>
-                                            <outlet property="stock" destination="fHY-Gu-4Uy" id="rLY-r0-E2e"/>
-                                            <outlet property="thumbnail" destination="0Te-Y9-NPz" id="jYo-mL-MIp"/>
-                                            <outlet property="title" destination="edY-Br-pLP" id="L0A-5s-0fC"/>
+                                            <outlet property="discountedPriceLabel" destination="tuh-rt-Z2i" id="QeE-Qf-juH"/>
+                                            <outlet property="priceLabel" destination="gNH-yI-idN" id="SUf-Ie-Zc7"/>
+                                            <outlet property="stockLabel" destination="fHY-Gu-4Uy" id="rLY-r0-E2e"/>
+                                            <outlet property="thumbnailImageView" destination="0Te-Y9-NPz" id="jYo-mL-MIp"/>
+                                            <outlet property="titleLabel" destination="edY-Br-pLP" id="L0A-5s-0fC"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>

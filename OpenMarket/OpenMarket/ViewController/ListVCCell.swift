@@ -9,34 +9,34 @@ import UIKit
 
 class ListVCCell: UITableViewCell {
 
-    @IBOutlet weak var thumbnail: UIImageView!
-    @IBOutlet weak var title: UILabel!
-    @IBOutlet weak var price: UILabel!
-    @IBOutlet weak var discountedPrice: UILabel!
-    @IBOutlet weak var stock: UILabel!
+    @IBOutlet weak var thumbnailImageView: UIImageView!
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var priceLabel: UILabel!
+    @IBOutlet weak var discountedPriceLabel: UILabel!
+    @IBOutlet weak var stockLabel: UILabel!
     
     var item: Item?
     
     func setup() {
-        title.text = "loading..."
-        price.text = ""
-        discountedPrice.attributedText = NSAttributedString(string: "")
-        stock.text = ""
+        titleLabel.text = "loading..."
+        priceLabel.text = ""
+        discountedPriceLabel.attributedText = NSAttributedString(string: "")
+        stockLabel.text = ""
     }
     
     func setupItem() {
         if let data: Item = self.item {
-            thumbnail.downloadImage(from: data.thumbnails[0])
-            title.text = data.title
-            price.text = data.currency + " \(data.price)"
-            price.textColor = UIColor.lightGray
+            thumbnailImageView.downloadImage(from: data.thumbnails[0])
+            titleLabel.text = data.title
+            priceLabel.text = data.currency + " \(data.price)"
+            priceLabel.textColor = UIColor.lightGray
             if let salePrice = data.discountedPrice {
-                discountedPrice.text = data.currency + " \(salePrice)"
-                discountedPrice.attributedText = discountedPrice.text?.strikeThrough()
-                discountedPrice.textColor = UIColor.red
+                discountedPriceLabel.text = data.currency + " \(salePrice)"
+                discountedPriceLabel.attributedText = discountedPriceLabel.text?.strikeThrough()
+                discountedPriceLabel.textColor = UIColor.red
             }
-            stock.text = "\(data.stock)"
-            stock.textColor = UIColor.lightGray
+            stockLabel.text = "\(data.stock)"
+            stockLabel.textColor = UIColor.lightGray
         } else {
             print("no item")
         }
