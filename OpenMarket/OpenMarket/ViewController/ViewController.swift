@@ -38,7 +38,12 @@ extension CollectionViewController: UICollectionViewDelegate {}
 
 extension CollectionViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let widthSize = ((view.frame.width - 20) / 2)
+        var widthSize = ((view.frame.width - 20) / 2)
+        
+        if widthSize > 200 {
+            widthSize = 160
+        }
+        
         return CGSize(width: widthSize, height: widthSize / 0.8)
     }
     
