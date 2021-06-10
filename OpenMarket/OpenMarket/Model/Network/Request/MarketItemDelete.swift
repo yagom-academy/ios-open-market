@@ -8,5 +8,6 @@
 import Foundation
 
 struct MarketItemDelete: Deletable {
+    let id: UInt
     let password: String
 }
