@@ -31,5 +31,4 @@ struct ItemSearchResponse: Decodable {
         case images
         case registrationDate = "registration_date"
     }
-
 }

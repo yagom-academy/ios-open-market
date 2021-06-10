@@ -31,5 +31,4 @@ struct ItemPatchResponse: Decodable {
         case images
         case registrationDate = "registration_date"
     }
-    
 }

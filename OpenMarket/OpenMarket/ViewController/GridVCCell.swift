@@ -41,7 +41,5 @@ class GridVCCell: UICollectionViewCell {
             print("no item")
         }
     }
-    
-    
 }
 

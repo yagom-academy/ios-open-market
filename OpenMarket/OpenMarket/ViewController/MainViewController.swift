@@ -34,7 +34,6 @@ class MainViewController: UIViewController {
             print("success download")
             
             NotificationCenter.default.post(name: NotificationNames.items.notificaion, object: result)
-            
         }
     }
     
@@ -53,6 +52,4 @@ class MainViewController: UIViewController {
             
         }
     }
- 
-    
 }

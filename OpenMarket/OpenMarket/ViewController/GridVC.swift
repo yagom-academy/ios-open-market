@@ -35,14 +35,6 @@ class GridVC: UIViewController {
             }
         }
     }
-    
-    
-}
-
-
-extension GridVC: UICollectionViewDelegate {
-    
-    
 }
 
 extension GridVC: UICollectionViewDataSource {
@@ -66,8 +58,6 @@ extension GridVC: UICollectionViewDataSource {
         }
         return cell
     }
-    
-    
 }
 
 extension String {
@@ -82,7 +72,5 @@ extension String {
         attributeString.removeAttribute(NSAttributedString.Key.strikethroughStyle, range: NSMakeRange(0, attributeString.length))
         return attributeString
     }
-    
-    
 }
 

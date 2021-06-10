@@ -10,7 +10,6 @@ import Foundation
 struct ItemListSearchResponse: Decodable {
     let page: Int
     let items: [Item]
-    
 }
 
 struct Item: Decodable {
@@ -33,5 +32,4 @@ struct Item: Decodable {
         case registerationDate = "registration_date"
         case discountedPrice = "discounted_price"
     }
-    
 }

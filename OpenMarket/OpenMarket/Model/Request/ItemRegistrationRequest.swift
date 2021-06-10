@@ -27,5 +27,4 @@ struct ItemRegistrationRequest: Encodable {
         case images
         case password
     }
-    
 }

@@ -34,12 +34,6 @@ class ListVC: UIViewController {
             }
         }
     }
-    
-}
-
-extension ListVC: UITableViewDelegate {
-
-    
 }
 
 extension ListVC: UITableViewDataSource {
@@ -65,6 +59,4 @@ extension ListVC: UITableViewDataSource {
         
         return cell
     }
-
-    
 }
