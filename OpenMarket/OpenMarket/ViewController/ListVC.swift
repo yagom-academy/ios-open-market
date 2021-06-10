@@ -17,7 +17,10 @@ class ListVC: UIViewController {
         super.viewDidLoad()
         
         tableView.dataSource = self
-        
+        notificationAddObserver()
+    }
+    
+    func notificationAddObserver() {
         NotificationCenter.default.addObserver(self, selector: #selector(Self.setupItems(_:)), name: NotificationNames.items.notificaion, object: nil)
     }
     

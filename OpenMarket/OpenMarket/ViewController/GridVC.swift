@@ -17,9 +17,11 @@ class GridVC: UIViewController {
         super.viewDidLoad()
         
         collectionView.dataSource = self
-        
+        notificationAddObserver()
+    }
+    
+    func notificationAddObserver() {
         NotificationCenter.default.addObserver(self, selector: #selector(Self.setupItems(_:)), name: NotificationNames.items.notificaion, object: nil)
-        
     }
     
     @objc func setupItems(_ notification: Notification) {
