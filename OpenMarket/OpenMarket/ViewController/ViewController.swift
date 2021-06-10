@@ -38,13 +38,16 @@ extension CollectionViewController: UICollectionViewDelegate {}
 
 extension CollectionViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let cellPadding: CGFloat = 5
-        var cellsPerRow: CGFloat = 2
-        let imageRatio: CGFloat = 0.5
-        
-        let widthMinusPadding = UIScreen.main.bounds.width - ( cellPadding + cellPadding * cellsPerRow )
-        let eachSide = widthMinusPadding / cellsPerRow
-        return CGSize(width: eachSide, height: eachSide / imageRatio)
+        let widthSize = ((view.frame.width - 20) / 2)
+        return CGSize(width: widthSize, height: widthSize / 0.8)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 10
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
     }
 }
 
