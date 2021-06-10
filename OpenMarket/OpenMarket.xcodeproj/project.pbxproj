@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		665051C7265F8F1A00EA1E74 /* GridVCCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 665051C6265F8F1A00EA1E74 /* GridVCCell.swift */; };
+		66F2D93B26725588008A035A /* StringStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66F2D93A26725588008A035A /* StringStyle.swift */; };
+		66F2D93D267266E6008A035A /* UIImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66F2D93C267266E6008A035A /* UIImageView.swift */; };
 		7003B4B2265CBAE100D70245 /* NotificationNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7003B4B1265CBAE100D70245 /* NotificationNames.swift */; };
 		704BDE862654B70C00D8AC6F /* ListVCCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 704BDE852654B70C00D8AC6F /* ListVCCell.swift */; };
 		707917ED264E8E860046FF0D /* ListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 707917EC264E8E860046FF0D /* ListVC.swift */; };
@@ -43,6 +45,8 @@
 
 /* Begin PBXFileReference section */
 		665051C6265F8F1A00EA1E74 /* GridVCCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridVCCell.swift; sourceTree = "<group>"; };
+		66F2D93A26725588008A035A /* StringStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringStyle.swift; sourceTree = "<group>"; };
+		66F2D93C267266E6008A035A /* UIImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageView.swift; sourceTree = "<group>"; };
 		7003B4B1265CBAE100D70245 /* NotificationNames.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationNames.swift; sourceTree = "<group>"; };
 		704BDE852654B70C00D8AC6F /* ListVCCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListVCCell.swift; sourceTree = "<group>"; };
 		707917EC264E8E860046FF0D /* ListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListVC.swift; sourceTree = "<group>"; };
@@ -96,6 +100,8 @@
 				707917EE264E8E910046FF0D /* GridVC.swift */,
 				665051C6265F8F1A00EA1E74 /* GridVCCell.swift */,
 				704BDE852654B70C00D8AC6F /* ListVCCell.swift */,
+				66F2D93A26725588008A035A /* StringStyle.swift */,
+				66F2D93C267266E6008A035A /* UIImageView.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -297,8 +303,10 @@
 				70A5E2842654E28A00452803 /* OpenMarketAPI.swift in Sources */,
 				70D53D99264B83F10044ABB7 /* ItemRegistrationRequest.swift in Sources */,
 				70D53DB4264B947F0044ABB7 /* ItemDeleteResponse.swift in Sources */,
+				66F2D93D267266E6008A035A /* UIImageView.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* MainViewController.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
+				66F2D93B26725588008A035A /* StringStyle.swift in Sources */,
 				7003B4B2265CBAE100D70245 /* NotificationNames.swift in Sources */,
 				70D53D9B264B847F0044ABB7 /* ItemPatchRequest.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
