@@ -15,12 +15,13 @@ struct ItemDetail: Decodable, Equatable {
     let currency: String
     let stock: Int
     let discountedPrice: Int?
-    let thumbnails: [String]
+    let thumbnailURLs: [String]
     let images: [String]
     let registrationDate: Double
     
     private enum CodingKeys: String, CodingKey {
-        case id, title, descriptions, price, currency, stock, thumbnails, images
+        case id, title, descriptions, price, currency, stock, images
+        case thumbnailURLs = "thumbnails"
         case discountedPrice = "discounted_price"
         case registrationDate = "registration_date"
     }
