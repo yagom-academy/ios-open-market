@@ -26,7 +26,6 @@ class MainViewController: UIViewController {
     func downloadData() {
         self.openMarketAPI.getItemList { result in
             self.items = result
-            print("success download")
             
             NotificationCenter.default.post(name: NotificationNames.items.notificaion, object: result)
         }
