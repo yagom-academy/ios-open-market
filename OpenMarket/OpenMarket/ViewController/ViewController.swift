@@ -6,35 +6,22 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class CollectionViewController: UIViewController {
     let segmentedControl = SegmentedControl.shared
-    let collectionView = CollectionView.shared
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.titleView = segmentedControl
         view.backgroundColor = .white
         
-        collectionView.dataSource = self
-        collectionView.delegate = self
+        CollectionView.shared.dataSource = self
+        CollectionView.shared.delegate = self
         
-        view.addSubview(collectionView)
-        
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
-        ])
-        
-        collectionView.backgroundColor = .yellow
-        collectionView.register(CollectionViewCell.self, forCellWithReuseIdentifier: "Cell")
+        CollectionView.shared.configureCollectionView(viewController: self)
     }
 }
 
-extension ViewController: UICollectionViewDataSource {
+extension CollectionViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 20
     }
@@ -47,6 +34,17 @@ extension ViewController: UICollectionViewDataSource {
     }
 }
 
-extension ViewController: UICollectionViewDelegate {
-    
+extension CollectionViewController: UICollectionViewDelegate {}
+
+extension CollectionViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let cellPadding: CGFloat = 5
+        var cellsPerRow: CGFloat = 2
+        let imageRatio: CGFloat = 0.5
+        
+        let widthMinusPadding = UIScreen.main.bounds.width - ( cellPadding + cellPadding * cellsPerRow )
+        let eachSide = widthMinusPadding / cellsPerRow
+        return CGSize(width: eachSide, height: eachSide / imageRatio)
+    }
 }
+

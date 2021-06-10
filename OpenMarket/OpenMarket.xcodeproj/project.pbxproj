@@ -136,7 +136,6 @@
 			isa = PBXGroup;
 			children = (
 				C70FB0FE25BEF61C00C9924E /* ViewController.swift */,
-				D0D0ECC82670A4D4007DC8BB /* CollectionViewCell.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -154,8 +153,9 @@
 		D0D0ECD02670D7BD007DC8BB /* View */ = {
 			isa = PBXGroup;
 			children = (
-				D0D0ECCE2670D7B2007DC8BB /* CollectionView.swift */,
 				D0D0ECCC2670ACC6007DC8BB /* SegmentedControl.swift */,
+				D0D0ECCE2670D7B2007DC8BB /* CollectionView.swift */,
+				D0D0ECC82670A4D4007DC8BB /* CollectionViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
