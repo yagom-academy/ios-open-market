@@ -47,11 +47,10 @@ extension GridVC: UICollectionViewDataSource {
         cell.layer.cornerRadius = 10.0
         
         cell.setup()
-        
-        if self.items.count > 0 {
-            cell.item = items[indexPath.row]
-            cell.setupItem()
-        }
+
+        cell.item = items[indexPath.row]
+        cell.setupItem()
+
         return cell
     }
 }
