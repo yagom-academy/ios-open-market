@@ -7,7 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		33D1893F2671DB780021ED86 /* URLSessionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D1893E2671DB780021ED86 /* URLSessionProtocol.swift */; };
+		33D1893F2671DB780021ED86 /* MockURLSessionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D1893E2671DB780021ED86 /* MockURLSessionProtocol.swift */; };
+		33D189472671DCE30021ED86 /* MockURLSessionDataTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D189462671DCE30021ED86 /* MockURLSessionDataTask.swift */; };
+		33D1894B2671DCF80021ED86 /* MockURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D1894A2671DCF80021ED86 /* MockURLSession.swift */; };
 		33DA9C232664AE3000AF8221 /* ItemRegistration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33DA9C222664AE3000AF8221 /* ItemRegistration.swift */; };
 		33DA9C272664AF5700AF8221 /* ItemModification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33DA9C262664AF5700AF8221 /* ItemModification.swift */; };
 		33DA9C2A2664B18E00AF8221 /* ItemDetailI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33DA9C292664B18E00AF8221 /* ItemDetailI.swift */; };
@@ -33,7 +35,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		33D1893E2671DB780021ED86 /* URLSessionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionProtocol.swift; sourceTree = "<group>"; };
+		33D1893E2671DB780021ED86 /* MockURLSessionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSessionProtocol.swift; sourceTree = "<group>"; };
+		33D189462671DCE30021ED86 /* MockURLSessionDataTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSessionDataTask.swift; sourceTree = "<group>"; };
+		33D1894A2671DCF80021ED86 /* MockURLSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSession.swift; sourceTree = "<group>"; };
 		33DA9C222664AE3000AF8221 /* ItemRegistration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemRegistration.swift; sourceTree = "<group>"; };
 		33DA9C262664AF5700AF8221 /* ItemModification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemModification.swift; sourceTree = "<group>"; };
 		33DA9C292664B18E00AF8221 /* ItemDetailI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemDetailI.swift; sourceTree = "<group>"; };
@@ -70,18 +74,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		33D1893B2671DB580021ED86 /* URLSession */ = {
+		33D1893B2671DB580021ED86 /* MockURLSession */ = {
 			isa = PBXGroup;
 			children = (
-				33D1893E2671DB780021ED86 /* URLSessionProtocol.swift */,
+				33D1893E2671DB780021ED86 /* MockURLSessionProtocol.swift */,
+				33D189462671DCE30021ED86 /* MockURLSessionDataTask.swift */,
+				33D1894A2671DCF80021ED86 /* MockURLSession.swift */,
 			);
-			path = URLSession;
+			path = MockURLSession;
 			sourceTree = "<group>";
 		};
 		33DA9C1F2664ADAE00AF8221 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				33D1893B2671DB580021ED86 /* URLSession */,
+				33D1893B2671DB580021ED86 /* MockURLSession */,
 				33DA9C202664ADBC00AF8221 /* Request */,
 				33DA9C212664ADC300AF8221 /* Response */,
 			);
@@ -257,8 +263,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				33D1893F2671DB780021ED86 /* URLSessionProtocol.swift in Sources */,
+				33D1893F2671DB780021ED86 /* MockURLSessionProtocol.swift in Sources */,
+				33D189472671DCE30021ED86 /* MockURLSessionDataTask.swift in Sources */,
 				33DA9C272664AF5700AF8221 /* ItemModification.swift in Sources */,
+				33D1894B2671DCF80021ED86 /* MockURLSession.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
 				33DA9C2D2664B2C000AF8221 /* ItemPage.swift in Sources */,
 				33DA9C2A2664B18E00AF8221 /* ItemDetailI.swift in Sources */,
