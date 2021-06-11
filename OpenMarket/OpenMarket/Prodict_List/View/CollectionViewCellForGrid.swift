@@ -7,7 +7,9 @@
 
 import UIKit
 
-class CollectionViewCell: UICollectionViewCell {
+class CollectionViewCellForGrid: UICollectionViewCell {
+    
+    static let identifier = "gridCell"
     
     let mainStackView: UIStackView = {
         let stackView = UIStackView()
@@ -86,6 +88,9 @@ class CollectionViewCell: UICollectionViewCell {
         super.init(frame: frame)
         
         self.addSubview(mainStackView)
+        self.layer.borderWidth = 2
+        self.layer.borderColor = UIColor.systemGray2.cgColor
+        self.layer.cornerRadius = 5
         
         mainStackView.addArrangedSubview(imageView)
         mainStackView.addArrangedSubview(product)
@@ -96,10 +101,10 @@ class CollectionViewCell: UICollectionViewCell {
         priceStackView.addArrangedSubview(discountedPriceLabel)
         
         NSLayoutConstraint.activate([
-            mainStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 5),
-            mainStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -5),
-            mainStackView.topAnchor.constraint(equalTo: self.topAnchor, constant: 5),
-            mainStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -5),
+            mainStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 2),
+            mainStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -2),
+            mainStackView.topAnchor.constraint(equalTo: self.topAnchor, constant: 2),
+            mainStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -2),
             
             imageView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.7),
             imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor),

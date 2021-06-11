@@ -26,14 +26,13 @@ class CollectionView: UICollectionView {
         
         NSLayoutConstraint.activate([
             self.topAnchor.constraint(equalTo: viewController.view.safeAreaLayoutGuide.topAnchor),
-            self.bottomAnchor.constraint(equalTo: viewController.view.safeAreaLayoutGuide.bottomAnchor),
+            self.bottomAnchor.constraint(equalTo: viewController.view.bottomAnchor),
             self.leadingAnchor.constraint(equalTo: viewController.view.safeAreaLayoutGuide.leadingAnchor),
             self.trailingAnchor.constraint(equalTo: viewController.view.safeAreaLayoutGuide.trailingAnchor)
         ])
         
         self.backgroundColor = .systemBackground
         self.flowlayout.scrollDirection = .vertical
-        self.register(CollectionViewCell.self, forCellWithReuseIdentifier: "Cell")
     }
 }
 
