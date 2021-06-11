@@ -56,11 +56,10 @@ struct NetworkManager {
         
     }
     
-    func addInformationOnRequest(request: inout URLRequest, httpBodyData: Data?) {
-        let boundary = "Boundary-\(UUID().uuidString)"
+    func addInformationOnRequest(request: inout URLRequest, httpBodyData: Data?, requestDataType: String, requestHeaderField: String) {
         request.httpMethod = HTTPMethod.post.description
         request.httpBody = httpBodyData
-        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        request.setValue(requestDataType, forHTTPHeaderField: requestHeaderField)
     }
     
     func registerItem(data: POSTRequestItem, completion: @escaping (Result<Item, APIError>) -> ()) {
@@ -73,7 +72,7 @@ struct NetworkManager {
         
         var request = URLRequest(url: apiURL)
         let encodedJSONData = try? JSONEncoder().encode(data)
-        addInformationOnRequest(request: &request, httpBodyData: encodedJSONData)
+        addInformationOnRequest(request: &request, httpBodyData: encodedJSONData, requestDataType: StringContainer.RequestFormDataType.description, requestHeaderField: StringContainer.RequestContentTypeHeaderField.description)
         handleTaskWithRequest(httpRequest: request, completionHandler: completion)
     }
     
@@ -88,7 +87,7 @@ struct NetworkManager {
         var request = URLRequest(url: apiURL)
         let encodedJSONData = try? JSONEncoder().encode(data)
         
-        addInformationOnRequest(request: &request, httpBodyData: encodedJSONData)
+        addInformationOnRequest(request: &request, httpBodyData: encodedJSONData, requestDataType: StringContainer.RequestFormDataType.description, requestHeaderField: StringContainer.RequestContentTypeHeaderField.description)
         handleTaskWithRequest(httpRequest: request, completionHandler: completion)
     }
     
@@ -103,7 +102,7 @@ struct NetworkManager {
         var request = URLRequest(url: apiURL)
         let encodedJSONData = try? JSONEncoder().encode(data)
         
-        addInformationOnRequest(request: &request, httpBodyData: encodedJSONData)
+        addInformationOnRequest(request: &request, httpBodyData: encodedJSONData, requestDataType: StringContainer.RequestFormDataType.description, requestHeaderField: StringContainer.RequestContentTypeHeaderField.description)
         handleTaskWithRequest(httpRequest: request, completionHandler: completion)
     }
 }

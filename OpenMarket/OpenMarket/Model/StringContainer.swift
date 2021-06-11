@@ -8,6 +8,8 @@
 import Foundation
 
 enum StringContainer: CustomStringConvertible {
+    case RequestFormDataType
+    case RequestContentTypeHeaderField
     case Error
     case NotFound404Error
     case JSONParseError
@@ -16,6 +18,10 @@ enum StringContainer: CustomStringConvertible {
     
     var description: String {
         switch self {
+        case .RequestFormDataType:
+            return "multipart/form-data; boundary=Boundary-\(UUID().uuidString)"
+        case .RequestContentTypeHeaderField:
+            return "Content-Type"
         case .Error:
             return "[Error] "
         case .NotFound404Error:
