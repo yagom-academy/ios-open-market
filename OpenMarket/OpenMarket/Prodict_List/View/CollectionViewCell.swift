@@ -13,8 +13,7 @@ class CollectionViewCell: UICollectionViewCell {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
-        stackView.spacing = 10
-        stackView.distribution = .fill
+        stackView.distribution = .equalSpacing
         stackView.alignment = .center
         stackView.backgroundColor = .white
         
@@ -44,7 +43,6 @@ class CollectionViewCell: UICollectionViewCell {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
-        stackView.spacing = 5
         stackView.distribution = .fill
         stackView.alignment = .center
         stackView.backgroundColor = .white
@@ -57,8 +55,8 @@ class CollectionViewCell: UICollectionViewCell {
         textLabel.text = "USD 1,000"
         textLabel.textColor = .lightGray
         textLabel.textAlignment = .center
+        textLabel.font = UIFont.systemFont(ofSize: 15)
         textLabel.translatesAutoresizingMaskIntoConstraints = false
-        textLabel.contentCompressionResistancePriority(for: .vertical)
         
         return textLabel
     }()
@@ -68,8 +66,19 @@ class CollectionViewCell: UICollectionViewCell {
         textLabel.text = "USD 2,000"
         textLabel.textColor = .lightGray
         textLabel.textAlignment = .center
+        textLabel.font = UIFont.systemFont(ofSize: 15)
         textLabel.translatesAutoresizingMaskIntoConstraints = false
 
+        return textLabel
+    }()
+    
+    let stockLable: UILabel = {
+        let textLabel = UILabel()
+        textLabel.text = "품절"
+        textLabel.textColor = .orange
+        textLabel.textAlignment = .center
+        textLabel.translatesAutoresizingMaskIntoConstraints = false
+        
         return textLabel
     }()
     
@@ -81,6 +90,7 @@ class CollectionViewCell: UICollectionViewCell {
         mainStackView.addArrangedSubview(imageView)
         mainStackView.addArrangedSubview(product)
         mainStackView.addArrangedSubview(priceStackView)
+        mainStackView.addArrangedSubview(stockLable)
         
         priceStackView.addArrangedSubview(originalPriceLabel)
         priceStackView.addArrangedSubview(discountedPriceLabel)
