@@ -16,6 +16,7 @@ struct NetworkManager {
         let task = URLSession.shared.dataTask(with: httpRequest) { result in
             switch result {
             case .success(let data):
+                // 호출하는 쪽에서 사용하게 재설정
                 let decodedData = try? JSONDecoder().decode(T.self, from: data)
                 if let decodedData = decodedData {
                     completionHandler(.success(decodedData))
@@ -27,6 +28,20 @@ struct NetworkManager {
             }
         }
         task.resume()
+    }
+    
+    func makeRequest(apiURL: String, httpBodyData: Data?, requestDataType: String, requestHeaderField: String) throws -> URLRequest {
+        
+        guard let apiURL = URL(string: apiURL) else {
+            throw APIError.InvalidAddressError
+        }
+        
+        var request = URLRequest(url: apiURL)
+        request.httpMethod = HTTPMethod.post.description
+        request.httpBody = httpBodyData
+        request.setValue(requestDataType, forHTTPHeaderField: requestHeaderField)
+        
+        return request
     }
     
     func fetchItemList(completion: @escaping (Result<ItemList, APIError>) -> ()) {
@@ -56,54 +71,34 @@ struct NetworkManager {
         
     }
     
-    func addInformationOnRequest(request: inout URLRequest, httpBodyData: Data?, requestDataType: String, requestHeaderField: String) {
-        request.httpMethod = HTTPMethod.post.description
-        request.httpBody = httpBodyData
-        request.setValue(requestDataType, forHTTPHeaderField: requestHeaderField)
-    }
-    
-    func registerItem(data: POSTRequestItem, completion: @escaping (Result<Item, APIError>) -> ()) {
+    func registerItem(data: POSTRequestItem, completion: @escaping (Result<Item, APIError>) -> ()) throws {
         let postItemURL = OpenMarketAPIPath.itemRegister.path
-        
-        guard let apiURL = URL(string: postItemURL) else {
-            completion(.failure(APIError.InvalidAddressError))
-            return
-        }
-        
-        var request = URLRequest(url: apiURL)
         let encodedJSONData = try? JSONEncoder().encode(data)
-        addInformationOnRequest(request: &request, httpBodyData: encodedJSONData, requestDataType: StringContainer.RequestFormDataType.description, requestHeaderField: StringContainer.RequestContentTypeHeaderField.description)
-        handleTaskWithRequest(httpRequest: request, completionHandler: completion)
+        if let request = try? makeRequest(apiURL: postItemURL, httpBodyData: encodedJSONData, requestDataType: StringContainer.RequestFormDataType.description, requestHeaderField: StringContainer.RequestContentTypeHeaderField.description){
+            handleTaskWithRequest(httpRequest: request, completionHandler: completion)
+        } else {
+            throw APIError.NotFound404Error
+        }
     }
     
-    func deleteItem(data: DELETERequestItem, completion: @escaping (Result<Item, APIError>) -> ()) {
+    func deleteItem(data: DELETERequestItem, completion: @escaping (Result<Item, APIError>) -> ()) throws {
         let deleteItemURL = OpenMarketAPIPath.itemDeletion.path
-        
-        guard let apiURL = URL(string: deleteItemURL) else {
-            completion(.failure(APIError.InvalidAddressError))
-            return
-        }
-        
-        var request = URLRequest(url: apiURL)
         let encodedJSONData = try? JSONEncoder().encode(data)
-        
-        addInformationOnRequest(request: &request, httpBodyData: encodedJSONData, requestDataType: StringContainer.RequestFormDataType.description, requestHeaderField: StringContainer.RequestContentTypeHeaderField.description)
-        handleTaskWithRequest(httpRequest: request, completionHandler: completion)
+        if let request = try? makeRequest(apiURL: deleteItemURL, httpBodyData: encodedJSONData, requestDataType: StringContainer.RequestFormDataType.description, requestHeaderField: StringContainer.RequestContentTypeHeaderField.description){
+            handleTaskWithRequest(httpRequest: request, completionHandler: completion)
+        } else {
+            throw APIError.NotFound404Error
+        }
     }
     
-    func editItem(data: PATCHRequestItem, completion: @escaping (Result<Item, APIError>) -> ()) {
+    func editItem(data: PATCHRequestItem, completion: @escaping (Result<Item, APIError>) -> ()) throws {
         let editItemURL = OpenMarketAPIPath.itemEdit.path
-        
-        guard let apiURL = URL(string: editItemURL) else {
-            completion(.failure(APIError.InvalidAddressError))
-            return
-        }
-        
-        var request = URLRequest(url: apiURL)
         let encodedJSONData = try? JSONEncoder().encode(data)
-        
-        addInformationOnRequest(request: &request, httpBodyData: encodedJSONData, requestDataType: StringContainer.RequestFormDataType.description, requestHeaderField: StringContainer.RequestContentTypeHeaderField.description)
-        handleTaskWithRequest(httpRequest: request, completionHandler: completion)
+        if let request = try? makeRequest(apiURL: editItemURL, httpBodyData: encodedJSONData, requestDataType: StringContainer.RequestFormDataType.description, requestHeaderField: StringContainer.RequestContentTypeHeaderField.description){
+            handleTaskWithRequest(httpRequest: request, completionHandler: completion)
+        } else {
+            throw APIError.NotFound404Error
+        }
     }
 }
 
