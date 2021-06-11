@@ -11,21 +11,10 @@ struct NetworkManager {
     
     private var page = 1
     
-    func handleTaskWithRequest<T: Decodable>(httpRequest: URLRequest, completionHandler: @escaping (Result<T, APIError>) -> ()) {
+    func handleTaskWithRequest(httpRequest: URLRequest, completionHandler: @escaping (Result<Data, Error>) -> ()) {
         
         let task = URLSession.shared.dataTask(with: httpRequest) { result in
-            switch result {
-            case .success(let data):
-                // 호출하는 쪽에서 사용하게 재설정
-                let decodedData = try? JSONDecoder().decode(T.self, from: data)
-                if let decodedData = decodedData {
-                    completionHandler(.success(decodedData))
-                } else {
-                    completionHandler(.failure(APIError.JSONParseError))
-                }
-            case .failure(let error):
-                completionHandler(.failure(APIError.NetworkFailure(error)))
-            }
+            completionHandler(result)
         }
         task.resume()
     }
@@ -51,10 +40,21 @@ struct NetworkManager {
             completion(.failure(APIError.InvalidAddressError))
             return
         }
-
-        let request = URLRequest(url:apiURL)
         
-        handleTaskWithRequest(httpRequest: request, completionHandler: completion)
+        let request = URLRequest(url: apiURL)
+        handleTaskWithRequest(httpRequest: request) { result in
+            switch result {
+            case .success(let data):
+                let decodedData = try? JSONDecoder().decode(ItemList.self, from: data)
+                if let decodedData = decodedData {
+                    completion(.success(decodedData))
+                } else {
+                    completion(.failure(APIError.JSONParseError))
+                }
+            case .failure(let error):
+                completion(.failure(APIError.NetworkFailure(error)))
+            }
+        }
     }
     
     func fetchItem(completion: @escaping (Result<Item, APIError>) -> ()) {
@@ -64,18 +64,42 @@ struct NetworkManager {
             completion(.failure(APIError.InvalidAddressError))
             return
         }
-
+        
         let request = URLRequest(url:apiURL)
         
-        handleTaskWithRequest(httpRequest: request, completionHandler: completion)
+        handleTaskWithRequest(httpRequest: request) { result in
+            switch result {
+            case .success(let data):
+                let decodedData = try? JSONDecoder().decode(Item.self, from: data)
+                if let decodedData = decodedData {
+                    completion(.success(decodedData))
+                } else {
+                    completion(.failure(APIError.JSONParseError))
+                }
+            case .failure(let error):
+                completion(.failure(APIError.NetworkFailure(error)))
+            }
+        }
         
     }
     
     func registerItem(data: POSTRequestItem, completion: @escaping (Result<Item, APIError>) -> ()) throws {
         let postItemURL = OpenMarketAPIPath.itemRegister.path
         let encodedJSONData = try? JSONEncoder().encode(data)
-        if let request = try? makeRequest(apiURL: postItemURL, httpBodyData: encodedJSONData, requestDataType: StringContainer.RequestFormDataType.description, requestHeaderField: StringContainer.RequestContentTypeHeaderField.description){
-            handleTaskWithRequest(httpRequest: request, completionHandler: completion)
+        if let request = try? makeRequest(apiURL: postItemURL, httpBodyData: encodedJSONData, requestDataType: StringContainer.RequestFormDataType.description, requestHeaderField: StringContainer.RequestContentTypeHeaderField.description) {
+            handleTaskWithRequest(httpRequest: request) { result in
+                switch result {
+                case .success(let data):
+                    let decodedData = try? JSONDecoder().decode(Item.self, from: data)
+                    if let decodedData = decodedData {
+                        completion(.success(decodedData))
+                    } else {
+                        completion(.failure(APIError.JSONParseError))
+                    }
+                case .failure(let error):
+                    completion(.failure(APIError.NetworkFailure(error)))
+                }
+            }
         } else {
             throw APIError.NotFound404Error
         }
@@ -84,8 +108,20 @@ struct NetworkManager {
     func deleteItem(data: DELETERequestItem, completion: @escaping (Result<Item, APIError>) -> ()) throws {
         let deleteItemURL = OpenMarketAPIPath.itemDeletion.path
         let encodedJSONData = try? JSONEncoder().encode(data)
-        if let request = try? makeRequest(apiURL: deleteItemURL, httpBodyData: encodedJSONData, requestDataType: StringContainer.RequestFormDataType.description, requestHeaderField: StringContainer.RequestContentTypeHeaderField.description){
-            handleTaskWithRequest(httpRequest: request, completionHandler: completion)
+        if let request = try? makeRequest(apiURL: deleteItemURL, httpBodyData: encodedJSONData, requestDataType: StringContainer.RequestFormDataType.description, requestHeaderField: StringContainer.RequestContentTypeHeaderField.description) {
+            handleTaskWithRequest(httpRequest: request) { result in
+                switch result {
+                case .success(let data):
+                    let decodedData = try? JSONDecoder().decode(Item.self, from: data)
+                    if let decodedData = decodedData {
+                        completion(.success(decodedData))
+                    } else {
+                        completion(.failure(APIError.JSONParseError))
+                    }
+                case .failure(let error):
+                    completion(.failure(APIError.NetworkFailure(error)))
+                }
+            }
         } else {
             throw APIError.NotFound404Error
         }
@@ -95,7 +131,19 @@ struct NetworkManager {
         let editItemURL = OpenMarketAPIPath.itemEdit.path
         let encodedJSONData = try? JSONEncoder().encode(data)
         if let request = try? makeRequest(apiURL: editItemURL, httpBodyData: encodedJSONData, requestDataType: StringContainer.RequestFormDataType.description, requestHeaderField: StringContainer.RequestContentTypeHeaderField.description){
-            handleTaskWithRequest(httpRequest: request, completionHandler: completion)
+            handleTaskWithRequest(httpRequest: request) { result in
+                switch result {
+                case .success(let data):
+                    let decodedData = try? JSONDecoder().decode(Item.self, from: data)
+                    if let decodedData = decodedData {
+                        completion(.success(decodedData))
+                    } else {
+                        completion(.failure(APIError.JSONParseError))
+                    }
+                case .failure(let error):
+                    completion(.failure(APIError.NetworkFailure(error)))
+                }
+            }
         } else {
             throw APIError.NotFound404Error
         }
