@@ -10,6 +10,7 @@
 		665051C7265F8F1A00EA1E74 /* GridVCCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 665051C6265F8F1A00EA1E74 /* GridVCCell.swift */; };
 		66F2D93B26725588008A035A /* StringStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66F2D93A26725588008A035A /* StringStyle.swift */; };
 		66F2D93D267266E6008A035A /* UIImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66F2D93C267266E6008A035A /* UIImageView.swift */; };
+		66F2D940267323FD008A035A /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66F2D93F267323FD008A035A /* Error.swift */; };
 		7003B4B2265CBAE100D70245 /* NotificationNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7003B4B1265CBAE100D70245 /* NotificationNames.swift */; };
 		704BDE862654B70C00D8AC6F /* ListVCCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 704BDE852654B70C00D8AC6F /* ListVCCell.swift */; };
 		707917ED264E8E860046FF0D /* ListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 707917EC264E8E860046FF0D /* ListVC.swift */; };
@@ -47,6 +48,7 @@
 		665051C6265F8F1A00EA1E74 /* GridVCCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridVCCell.swift; sourceTree = "<group>"; };
 		66F2D93A26725588008A035A /* StringStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringStyle.swift; sourceTree = "<group>"; };
 		66F2D93C267266E6008A035A /* UIImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageView.swift; sourceTree = "<group>"; };
+		66F2D93F267323FD008A035A /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
 		7003B4B1265CBAE100D70245 /* NotificationNames.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationNames.swift; sourceTree = "<group>"; };
 		704BDE852654B70C00D8AC6F /* ListVCCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListVCCell.swift; sourceTree = "<group>"; };
 		707917EC264E8E860046FF0D /* ListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListVC.swift; sourceTree = "<group>"; };
@@ -92,6 +94,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		66F2D93E267323DB008A035A /* Error */ = {
+			isa = PBXGroup;
+			children = (
+				66F2D93F267323FD008A035A /* Error.swift */,
+			);
+			path = Error;
+			sourceTree = "<group>";
+		};
 		70CE0A12264E4DAA0094C102 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -170,6 +180,7 @@
 		C70FB0F925BEF61C00C9924E /* OpenMarket */ = {
 			isa = PBXGroup;
 			children = (
+				66F2D93E267323DB008A035A /* Error */,
 				70CE0A12264E4DAA0094C102 /* ViewController */,
 				70D53D8F264B7E100044ABB7 /* Model */,
 				C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */,
@@ -299,6 +310,7 @@
 				70D53D9D264B84E10044ABB7 /* ItemDeleteRequest.swift in Sources */,
 				70D53D91264B7E270044ABB7 /* ItemListSearchResponse.swift in Sources */,
 				704BDE862654B70C00D8AC6F /* ListVCCell.swift in Sources */,
+				66F2D940267323FD008A035A /* Error.swift in Sources */,
 				70D53D97264B81600044ABB7 /* ItemSearchResponse.swift in Sources */,
 				70A5E2842654E28A00452803 /* OpenMarketAPI.swift in Sources */,
 				70D53D99264B83F10044ABB7 /* ItemRegistrationRequest.swift in Sources */,
