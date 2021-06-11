@@ -108,8 +108,7 @@
 				C70FB10825BEF61D00C9924E /* Info.plist */,
 				D0E77D372660DFB0006DDCB4 /* Model */,
 				D0161F952668A69800D8A24D /* Controller */,
-				D03AA5EF266F5FF40013A4B9 /* ViewController */,
-				D0D0ECD02670D7BD007DC8BB /* View */,
+				D028B7652673083500656111 /* Prodict_List */,
 			);
 			path = OpenMarket;
 			sourceTree = "<group>";
@@ -121,6 +120,15 @@
 				D0711AEA2667B66A009B3A1D /* Requestable.swift */,
 			);
 			path = Controller;
+			sourceTree = "<group>";
+		};
+		D028B7652673083500656111 /* Prodict_List */ = {
+			isa = PBXGroup;
+			children = (
+				D03AA5EF266F5FF40013A4B9 /* ViewController */,
+				D0D0ECD02670D7BD007DC8BB /* View */,
+			);
+			path = Prodict_List;
 			sourceTree = "<group>";
 		};
 		D03AA5EE266EF0BB0013A4B9 /* Mock */ = {

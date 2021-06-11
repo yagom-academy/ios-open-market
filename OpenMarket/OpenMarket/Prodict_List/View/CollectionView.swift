@@ -8,8 +8,16 @@
 import UIKit
 
 class CollectionView: UICollectionView {
-    static let flowlayout = UICollectionViewFlowLayout()
-    static let shared = CollectionView(frame: .zero, collectionViewLayout: CollectionView.flowlayout)
+    let flowlayout: UICollectionViewFlowLayout
+    
+    init(frame: CGRect, flowlayout: UICollectionViewFlowLayout) {
+        self.flowlayout = flowlayout
+        super.init(frame: frame, collectionViewLayout: flowlayout)
+    }
+    
+    required init(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     func configureCollectionView(viewController: UIViewController){
         viewController.view.addSubview(self)
@@ -23,9 +31,9 @@ class CollectionView: UICollectionView {
             self.trailingAnchor.constraint(equalTo: viewController.view.safeAreaLayoutGuide.trailingAnchor)
         ])
         
-        self.backgroundColor = UIColor.white
+        self.backgroundColor = .systemBackground
+        self.flowlayout.scrollDirection = .vertical
         self.register(CollectionViewCell.self, forCellWithReuseIdentifier: "Cell")
-        CollectionView.flowlayout.scrollDirection = .vertical
     }
 }
 

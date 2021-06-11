@@ -8,16 +8,17 @@ import UIKit
 
 class CollectionViewController: UIViewController {
     let segmentedControl = SegmentedControl.shared
+    let collectionView = CollectionView(frame: .zero, flowlayout: UICollectionViewFlowLayout())
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.titleView = segmentedControl
-        view.backgroundColor = .white
+        self.view.backgroundColor = .white
         
-        CollectionView.shared.dataSource = self
-        CollectionView.shared.delegate = self
+        collectionView.dataSource = self
+        collectionView.delegate = self
         
-        CollectionView.shared.configureCollectionView(viewController: self)
+        collectionView.configureCollectionView(viewController: self)
     }
 }
 
