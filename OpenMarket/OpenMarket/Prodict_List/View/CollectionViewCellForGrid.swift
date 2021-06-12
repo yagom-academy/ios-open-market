@@ -86,14 +86,19 @@ class CollectionViewCellForGrid: UICollectionViewCell {
     }()
     
     func configure() {
-        guard let data = try? Data(contentsOf: URL(string: item.thumbnailURLs[0])!) else { return }
+        DispatchQueue.global().async {
+            guard let data = try? Data(contentsOf: URL(string: self.item.thumbnailURLs[0])!) else { return }
+            
+            DispatchQueue.main.async {
+                self.imageView.image = UIImage(data: data)
+            } 
+        }
         
         self.product.text = item.title
-        self.imageView.image = UIImage(data: data)
         self.originalPriceLabel.text = "\(item.currency) \(item.price)"
         
         if item.discountedPrice != nil {
-            self.discountedPriceLabel.text = "\(item.currency) \(item.discountedPrice)"
+            self.discountedPriceLabel.text = "\(item.currency) \(String(describing: item.discountedPrice))"
         } else {
             self.discountedPriceLabel.text = nil
         }
@@ -103,9 +108,7 @@ class CollectionViewCellForGrid: UICollectionViewCell {
             self.stockLable.textColor = .orange
         } else {
             self.stockLable.text = "\(item.stock)"
-            
         }
-        
     }
     
     override init(frame: CGRect) {
