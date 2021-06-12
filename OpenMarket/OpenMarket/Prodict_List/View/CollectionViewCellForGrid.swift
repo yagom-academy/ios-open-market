@@ -77,13 +77,6 @@ class CollectionViewCellForGrid: UICollectionViewCell {
     
     var stockLable: UILabel = {
         var textLabel = UILabel()
-        var stock: Int = 0
-        
-        if stock == 0 {
-            textLabel.text = "품절"
-        } else {
-            textLabel.text = "\(stock)"
-        }
         
         textLabel.textColor = .orange
         textLabel.textAlignment = .center
@@ -104,6 +97,15 @@ class CollectionViewCellForGrid: UICollectionViewCell {
         } else {
             self.discountedPriceLabel.text = nil
         }
+        
+        if item.stock == 0 {
+            self.stockLable.text = "품절"
+            self.stockLable.textColor = .orange
+        } else {
+            self.stockLable.text = "\(item.stock)"
+            
+        }
+        
     }
     
     override init(frame: CGRect) {

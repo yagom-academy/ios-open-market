@@ -56,6 +56,7 @@ extension CollectionViewController: UICollectionViewDataSource {
             guard let items = items else { return cell }
             
             cell.item = items.items[indexPath.row]
+            
             cell.configure()
             
             return cell
