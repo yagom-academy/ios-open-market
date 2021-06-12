@@ -26,7 +26,7 @@ extension UIImageView {
              }
           }
         } catch {
-            print("Error")
+            print("DownloadImageError")
         }
    
    }
