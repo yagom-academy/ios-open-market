@@ -39,36 +39,36 @@ class CollectionViewController: UIViewController {
 }
 
 extension CollectionViewController: UICollectionViewDataSource {
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 20
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        var cell: UICollectionViewCell
-        var items: Items = handleResult(result: parseData())
+        let items: Items? = parseData()
         
         if isListView {
-            cell = collectionView.dequeueReusableCell(withReuseIdentifier: CollectionViewCellForList.identifier, for: indexPath)
+            var cell = collectionView.dequeueReusableCell(withReuseIdentifier: CollectionViewCellForList.identifier, for: indexPath)
+            return cell
         } else {
-            cell = collectionView.dequeueReusableCell(withReuseIdentifier: CollectionViewCellForGrid.identifier, for: indexPath)
+            var cell = collectionView.dequeueReusableCell(withReuseIdentifier: CollectionViewCellForGrid.identifier, for: indexPath) as! CollectionViewCellForGrid
+            
+            guard let items = items else { return cell }
+            
+            cell.item = items.items[indexPath.row]
+            cell.configure()
+            
+            return cell
         }
 
-        return cell
-    }
-    
-    func parseData() -> Result<Items, NetworkError> {
-        guard let data = NSDataAsset(name: "items")?.data else { return .failure(.receiveError) }
-        guard let parsedData = try? JSONDecoder().decode(Items.self, from: data) else { return .failure(.receiveError) }
         
-        return .success(parsedData)
     }
     
-    func handleResult(result: Result<Items, NetworkError>) -> Items {
-        switch result {
-        case .failure: print("에러남")
-        case .success(let data):
-            return data
-        }
+    func parseData() -> Items? {
+        guard let data = NSDataAsset(name: "Items")?.data else { return nil }
+        guard let parsedData = try? JSONDecoder().decode(Items.self, from: data) else { return nil }
+        
+        return parsedData
     }
 }
 

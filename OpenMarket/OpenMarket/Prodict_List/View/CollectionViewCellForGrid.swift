@@ -10,6 +10,7 @@ import UIKit
 class CollectionViewCellForGrid: UICollectionViewCell {
     
     static let identifier = "gridCell"
+    var item: Item!
     
     let mainStackView: UIStackView = {
         let stackView = UIStackView()
@@ -91,13 +92,15 @@ class CollectionViewCellForGrid: UICollectionViewCell {
         return textLabel
     }()
     
-    func configure(product: String, images: [String], originalPrice: Int,  discountedPrice: Int?, currency: String, stock: Int) {
-        self.product.text = product
-        self.imageView.image = UIImage(named: images[0])
-        self.originalPriceLabel.text = "\(currency) \(originalPrice)"
+    func configure() {
+        guard let data = try? Data(contentsOf: URL(string: item.thumbnailURLs[0])!) else { return }
         
-        if discountedPrice != nil {
-            self.discountedPriceLabel.text = "\(currency) \(discountedPriceLabel)"
+        self.product.text = item.title
+        self.imageView.image = UIImage(data: data)
+        self.originalPriceLabel.text = "\(item.currency) \(item.price)"
+        
+        if item.discountedPrice != nil {
+            self.discountedPriceLabel.text = "\(item.currency) \(item.discountedPrice)"
         } else {
             self.discountedPriceLabel.text = nil
         }
