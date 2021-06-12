@@ -7,9 +7,10 @@
 import UIKit
 
 class CollectionViewController: UIViewController {
-    let segmentedControl = SegmentedControl.shared
+    let segmentedControl = SegmentedControl()
     let collectionView = CollectionView(frame: .zero, flowlayout: UICollectionViewFlowLayout())
-
+    var isListView: Bool = true
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.titleView = segmentedControl
@@ -17,8 +18,26 @@ class CollectionViewController: UIViewController {
 
         collectionView.dataSource = self
         collectionView.delegate = self
-
+        
         collectionView.configureCollectionView(viewController: self)
+        
+        self.segmentedControl.addTarget(self,
+                                        action: #selector(changed),
+                                        for: .valueChanged)
+    }
+    
+    @objc func changed() {
+        switch self.segmentedControl.selectedSegmentIndex {
+        case 0:
+            self.isListView = true
+            self.collectionView.reloadData()
+            return
+        case 1:
+            self.isListView = false
+            self.collectionView.reloadData()
+            return
+        default: return
+        }
     }
 }
 
@@ -28,9 +47,14 @@ extension CollectionViewController: UICollectionViewDataSource {
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        collectionView.register(CollectionViewCellForList.self, forCellWithReuseIdentifier: CollectionViewCellForList.identifier)
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CollectionViewCellForList.identifier, for: indexPath)
+        var cell: UICollectionViewCell
         
+        if isListView {
+            cell = collectionView.dequeueReusableCell(withReuseIdentifier: CollectionViewCellForList.identifier, for: indexPath)
+        } else {
+            cell = collectionView.dequeueReusableCell(withReuseIdentifier: CollectionViewCellForGrid.identifier, for: indexPath)
+        }
+
         return cell
     }
 }
@@ -39,14 +63,22 @@ extension CollectionViewController: UICollectionViewDelegate {}
 
 extension CollectionViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//        var widthSize = ((view.frame.width - 20) / 2)
-//
-//        if widthSize > 200 {
-//            widthSize = 160
-//        }
+        var widthSize: CGFloat
+        var heightSize: CGFloat
+        
+        if isListView {
+            widthSize = view.frame.width - 10
+            heightSize = widthSize * 0.25
+        } else {
+            widthSize = ((view.frame.width - 20) / 2)
+            heightSize = widthSize  * 1.3
+            
+            if widthSize > 200 {
+                widthSize = 160
+            }
+        }
 
-        let widthSize = view.frame.width - 10
-        return CGSize(width: widthSize, height: widthSize * 0.25)
+        return CGSize(width: widthSize, height: heightSize)
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {

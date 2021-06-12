@@ -3,7 +3,6 @@
 //  OpenMarket
 //
 //  Created by 김찬우 on 2021/06/09.
-//
 
 import UIKit
 
@@ -13,6 +12,9 @@ class CollectionView: UICollectionView {
     init(frame: CGRect, flowlayout: UICollectionViewFlowLayout) {
         self.flowlayout = flowlayout
         super.init(frame: frame, collectionViewLayout: flowlayout)
+        
+        self.register(CollectionViewCellForList.self, forCellWithReuseIdentifier: CollectionViewCellForList.identifier)
+        self.register(CollectionViewCellForGrid.self, forCellWithReuseIdentifier: CollectionViewCellForGrid.identifier)
     }
     
     required init(coder: NSCoder) {
