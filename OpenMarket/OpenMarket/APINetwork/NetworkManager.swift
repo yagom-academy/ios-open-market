@@ -19,6 +19,25 @@ struct NetworkManager {
         task.resume()
     }
     
+    func fetchModel<T: Decodable>(with urlRequest: URLRequest, completionHandler: @escaping (Result<T, APIError>) -> Void) {
+        URLSession.shared.dataTask(with: urlRequest) { data, response, error in
+            guard let data = data else {
+                return completionHandler(.failure(APIError.NotFound404Error))
+            }
+            
+            guard let httpResponse = response as? HTTPURLResponse,
+                  (200...299).contains(httpResponse.statusCode) else {
+                return completionHandler(.failure(APIError.NetworkFailure))
+            }
+            
+            guard let model = try? JSONDecoder().decode(T.self, from: data) else {
+                return completionHandler(.failure(APIError.JSONParseError))
+            }
+            
+            completionHandler(.success(model))
+        }.resume()
+    }
+    
     func makeRequest(apiURL: String, httpBodyData: Data?, requestDataType: String, requestHeaderField: String) throws -> URLRequest {
         
         guard let apiURL = URL(string: apiURL) else {
@@ -42,19 +61,7 @@ struct NetworkManager {
         }
         
         let request = URLRequest(url: apiURL)
-        handleTaskWithRequest(httpRequest: request) { result in
-            switch result {
-            case .success(let data):
-                let decodedData = try? JSONDecoder().decode(ItemList.self, from: data)
-                if let decodedData = decodedData {
-                    completion(.success(decodedData))
-                } else {
-                    completion(.failure(APIError.JSONParseError))
-                }
-            case .failure(let error):
-                completion(.failure(APIError.NetworkFailure(error)))
-            }
-        }
+        fetchModel(with: request, completionHandler: completion)
     }
     
     func fetchItem(completion: @escaping (Result<Item, APIError>) -> ()) {
@@ -67,19 +74,7 @@ struct NetworkManager {
         
         let request = URLRequest(url:apiURL)
         
-        handleTaskWithRequest(httpRequest: request) { result in
-            switch result {
-            case .success(let data):
-                let decodedData = try? JSONDecoder().decode(Item.self, from: data)
-                if let decodedData = decodedData {
-                    completion(.success(decodedData))
-                } else {
-                    completion(.failure(APIError.JSONParseError))
-                }
-            case .failure(let error):
-                completion(.failure(APIError.NetworkFailure(error)))
-            }
-        }
+        fetchModel(with: request, completionHandler: completion)
         
     }
     
@@ -87,19 +82,7 @@ struct NetworkManager {
         let postItemURL = OpenMarketAPIPath.itemRegister.path
         let encodedJSONData = try? JSONEncoder().encode(data)
         if let request = try? makeRequest(apiURL: postItemURL, httpBodyData: encodedJSONData, requestDataType: StringContainer.RequestFormDataType.description, requestHeaderField: StringContainer.RequestContentTypeHeaderField.description) {
-            handleTaskWithRequest(httpRequest: request) { result in
-                switch result {
-                case .success(let data):
-                    let decodedData = try? JSONDecoder().decode(Item.self, from: data)
-                    if let decodedData = decodedData {
-                        completion(.success(decodedData))
-                    } else {
-                        completion(.failure(APIError.JSONParseError))
-                    }
-                case .failure(let error):
-                    completion(.failure(APIError.NetworkFailure(error)))
-                }
-            }
+            fetchModel(with: request, completionHandler: completion)
         } else {
             throw APIError.NotFound404Error
         }
@@ -109,19 +92,7 @@ struct NetworkManager {
         let deleteItemURL = OpenMarketAPIPath.itemDeletion.path
         let encodedJSONData = try? JSONEncoder().encode(data)
         if let request = try? makeRequest(apiURL: deleteItemURL, httpBodyData: encodedJSONData, requestDataType: StringContainer.RequestFormDataType.description, requestHeaderField: StringContainer.RequestContentTypeHeaderField.description) {
-            handleTaskWithRequest(httpRequest: request) { result in
-                switch result {
-                case .success(let data):
-                    let decodedData = try? JSONDecoder().decode(Item.self, from: data)
-                    if let decodedData = decodedData {
-                        completion(.success(decodedData))
-                    } else {
-                        completion(.failure(APIError.JSONParseError))
-                    }
-                case .failure(let error):
-                    completion(.failure(APIError.NetworkFailure(error)))
-                }
-            }
+            fetchModel(with: request, completionHandler: completion)
         } else {
             throw APIError.NotFound404Error
         }
@@ -131,19 +102,7 @@ struct NetworkManager {
         let editItemURL = OpenMarketAPIPath.itemEdit.path
         let encodedJSONData = try? JSONEncoder().encode(data)
         if let request = try? makeRequest(apiURL: editItemURL, httpBodyData: encodedJSONData, requestDataType: StringContainer.RequestFormDataType.description, requestHeaderField: StringContainer.RequestContentTypeHeaderField.description){
-            handleTaskWithRequest(httpRequest: request) { result in
-                switch result {
-                case .success(let data):
-                    let decodedData = try? JSONDecoder().decode(Item.self, from: data)
-                    if let decodedData = decodedData {
-                        completion(.success(decodedData))
-                    } else {
-                        completion(.failure(APIError.JSONParseError))
-                    }
-                case .failure(let error):
-                    completion(.failure(APIError.NetworkFailure(error)))
-                }
-            }
+            fetchModel(with: request, completionHandler: completion)
         } else {
             throw APIError.NotFound404Error
         }

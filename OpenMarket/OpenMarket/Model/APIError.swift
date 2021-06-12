@@ -11,7 +11,7 @@ enum APIError: LocalizedError {
     case NotFound404Error
     case JSONParseError
     case InvalidAddressError
-    case NetworkFailure(Error)
+    case NetworkFailure
 }
 
 extension APIError {
