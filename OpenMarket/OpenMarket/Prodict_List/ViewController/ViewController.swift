@@ -45,7 +45,7 @@ extension CollectionViewController: UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         var cell: UICollectionViewCell
-        
+        var items: Items = handleResult(result: parseData())
         
         if isListView {
             cell = collectionView.dequeueReusableCell(withReuseIdentifier: CollectionViewCellForList.identifier, for: indexPath)
@@ -61,6 +61,14 @@ extension CollectionViewController: UICollectionViewDataSource {
         guard let parsedData = try? JSONDecoder().decode(Items.self, from: data) else { return .failure(.receiveError) }
         
         return .success(parsedData)
+    }
+    
+    func handleResult(result: Result<Items, NetworkError>) -> Items {
+        switch result {
+        case .failure: print("에러남")
+        case .success(let data):
+            return data
+        }
     }
 }
 
