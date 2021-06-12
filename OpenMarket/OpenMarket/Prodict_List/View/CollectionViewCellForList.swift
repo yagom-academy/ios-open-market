@@ -59,13 +59,14 @@ class CollectionViewCellForList: UICollectionViewCell {
         stackView.distribution = .fill
         stackView.alignment = .center
         stackView.backgroundColor = .white
+        stackView.spacing = 5
         
         return stackView
     }()
     
     let discountedPriceLabel: UILabel = {
         let textLabel = UILabel()
-        textLabel.text = "USD 1,000"
+        textLabel.text = "KRW 1,000"
         textLabel.textColor = .lightGray
         textLabel.textAlignment = .center
         textLabel.font = UIFont.systemFont(ofSize: 15)
@@ -116,11 +117,17 @@ class CollectionViewCellForList: UICollectionViewCell {
             mainStackView.topAnchor.constraint(equalTo: self.topAnchor, constant: 2),
             mainStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -2),
             
-            imageView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.2),
-            imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor),
-            
-            
+            imageView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.18),
+            imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor)
         ])
+        
+        if discountedPriceLabel.text != nil {
+            originalPriceLabel.textColor = UIColor.systemRed
+            
+            originalPriceLabel.attributedText = originalPriceLabel.text?.strikeThrough()
+        } else {
+            discountedPriceLabel.isHidden = true
+        }
     }
     
     required init?(coder: NSCoder) {

@@ -19,11 +19,11 @@ class SegmentedControl: UISegmentedControl {
     
     func configure() {
         self.tintColor = UIColor.white
-        self.backgroundColor = UIColor.blue
+        self.backgroundColor = UIColor.lightGray
         self.selectedSegmentIndex = 0
         
         for index in 0...1 {
-            self.setWidth(120, forSegmentAt: index)
+            self.setWidth(60, forSegmentAt: index)
         }
         
         self.sizeToFit()

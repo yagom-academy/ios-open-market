@@ -33,8 +33,8 @@ class CollectionViewCellForGrid: UICollectionViewCell {
         return imageView
     }()
     
-    let product: UILabel = {
-        let textLabel = UILabel()
+    var product: UILabel = {
+        var textLabel = UILabel()
         textLabel.text = "야곰아카데미"
         textLabel.translatesAutoresizingMaskIntoConstraints = false
         
@@ -52,8 +52,8 @@ class CollectionViewCellForGrid: UICollectionViewCell {
         return stackView
     }()
     
-    let discountedPriceLabel: UILabel = {
-        let textLabel = UILabel()
+    var discountedPriceLabel: UILabel = {
+        var textLabel = UILabel()
         textLabel.text = "USD 1,000"
         textLabel.textColor = .lightGray
         textLabel.textAlignment = .center
@@ -63,8 +63,8 @@ class CollectionViewCellForGrid: UICollectionViewCell {
         return textLabel
     }()
     
-    let originalPriceLabel: UILabel = {
-        let textLabel = UILabel()
+    var originalPriceLabel: UILabel = {
+        var textLabel = UILabel()
         textLabel.text = "USD 2,000"
         textLabel.textColor = .lightGray
         textLabel.textAlignment = .center
@@ -74,15 +74,34 @@ class CollectionViewCellForGrid: UICollectionViewCell {
         return textLabel
     }()
     
-    let stockLable: UILabel = {
-        let textLabel = UILabel()
-        textLabel.text = "품절"
+    var stockLable: UILabel = {
+        var textLabel = UILabel()
+        var stock: Int = 0
+        
+        if stock == 0 {
+            textLabel.text = "품절"
+        } else {
+            textLabel.text = "\(stock)"
+        }
+        
         textLabel.textColor = .orange
         textLabel.textAlignment = .center
         textLabel.translatesAutoresizingMaskIntoConstraints = false
         
         return textLabel
     }()
+    
+    func configure(product: String, images: [String], originalPrice: Int,  discountedPrice: Int?, currency: String, stock: Int) {
+        self.product.text = product
+        self.imageView.image = UIImage(named: images[0])
+        self.originalPriceLabel.text = "\(currency) \(originalPrice)"
+        
+        if discountedPrice != nil {
+            self.discountedPriceLabel.text = "\(currency) \(discountedPriceLabel)"
+        } else {
+            self.discountedPriceLabel.text = nil
+        }
+    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)

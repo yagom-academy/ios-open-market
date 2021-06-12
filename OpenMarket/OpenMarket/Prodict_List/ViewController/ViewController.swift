@@ -30,14 +30,11 @@ class CollectionViewController: UIViewController {
         switch self.segmentedControl.selectedSegmentIndex {
         case 0:
             self.isListView = true
-            self.collectionView.reloadData()
-            return
-        case 1:
-            self.isListView = false
-            self.collectionView.reloadData()
-            return
+        case 1: self.isListView = false
         default: return
         }
+        
+        self.collectionView.reloadData()
     }
 }
 
@@ -49,6 +46,7 @@ extension CollectionViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         var cell: UICollectionViewCell
         
+        
         if isListView {
             cell = collectionView.dequeueReusableCell(withReuseIdentifier: CollectionViewCellForList.identifier, for: indexPath)
         } else {
@@ -56,6 +54,13 @@ extension CollectionViewController: UICollectionViewDataSource {
         }
 
         return cell
+    }
+    
+    func parseData() -> Result<Items, NetworkError> {
+        guard let data = NSDataAsset(name: "items")?.data else { return .failure(.receiveError) }
+        guard let parsedData = try? JSONDecoder().decode(Items.self, from: data) else { return .failure(.receiveError) }
+        
+        return .success(parsedData)
     }
 }
 
