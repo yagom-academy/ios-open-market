@@ -17,28 +17,28 @@ protocol CellDataUpdatable {
 }
 extension CellDataUpdatable {
 
-    func configureDiscountedPriceLabel(_ itemList: OpenMarketItemList, indexPath: Int) {
-        if let discountedPrice = (itemList.items[indexPath].discountedPrice) {
+    func configureDiscountedPriceLabel(_ openMarketItems: [OpenMarketItem], indexPath: Int) {
+        if let discountedPrice = (openMarketItems[indexPath].discountedPrice) {
             itemPriceLabel.textColor = .red
             itemPriceLabel.attributedText = itemPriceLabel.text?.strikeThrough()
-            itemDiscountedPriceLabel.text = "\(itemList.items[indexPath].currency) \(discountedPrice)"
+            itemDiscountedPriceLabel.text = "\(openMarketItems[indexPath].currency) \(discountedPrice)"
         } else {
             itemDiscountedPriceLabel.text = nil
         }
         
     }
     
-    func configureStockLabel(_ itemList: OpenMarketItemList, indexPath: Int) {
-        if itemList.items[indexPath].stock == 0 {
+    func configureStockLabel(_ openMarketItems: [OpenMarketItem], indexPath: Int) {
+        if openMarketItems[indexPath].stock == 0 {
             itemStockLabel.textColor = .orange
             itemStockLabel.text = "품절"
         } else {
-            itemStockLabel.text = "잔여수량 : \(itemList.items[indexPath].stock)"
+            itemStockLabel.text = "잔여수량 : \(openMarketItems[indexPath].stock)"
         }
     }
     
-    func configureThumbnail(_ itemList: OpenMarketItemList, indexPath: Int) {
-        guard let url = URL(string: itemList.items[indexPath].thumbnails[0]) else { return }
+    func configureThumbnail(_ openMarketItems: [OpenMarketItem], indexPath: Int) {
+        guard let url = URL(string: openMarketItems[indexPath].thumbnails[0]) else { return }
         downloadImage(url: url) { image in
             DispatchQueue.main.async {
                 self.itemThumbnail.image = image

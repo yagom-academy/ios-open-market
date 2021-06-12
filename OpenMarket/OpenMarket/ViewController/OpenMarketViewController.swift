@@ -8,10 +8,10 @@ import UIKit
 
 class OpenMarketViewController: UIViewController {
     private var layoutType = LayoutType.list
-    private let networkManager: NetworkManageable = NetworkManager()
+    private var networkManager: NetworkManageable = NetworkManager()
     private var isPageRefreshing: Bool = false
     private var nextPageToLoad: Int = 1
-    private var openMarketItemList: OpenMarketItemList?
+    private var openMarketItems: [OpenMarketItem] = []
     
     lazy private var openMarketCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -37,12 +37,16 @@ class OpenMarketViewController: UIViewController {
         super.viewDidLoad()
         setUpCollectionView()
         setUpCollectionViewConstraint()
-        networkManager.getItemList(page: nextPageToLoad, isCurrentlyLoading: false) { [weak self] result in
+        networkManager.getItemList(page: 1, loadingFinished: true) { [weak self] result in
             switch result {
             case .success(let itemList):
-                self?.openMarketItemList = itemList
+                self?.openMarketItems.append(contentsOf: itemList.items)
                 DispatchQueue.main.async {
-                    self?.openMarketCollectionView.reloadData()
+                    guard let weakSelf = self else { return }
+                    weakSelf.openMarketCollectionView.performBatchUpdates({
+                        let indexPaths = weakSelf.openMarketItems.enumerated().map { IndexPath(item: $0.offset , section: 0)}
+                        weakSelf.openMarketCollectionView.insertItems(at: indexPaths)
+                    }, completion: nil)
                 }
             case .failure(let error):
                 print(error.localizedDescription)
@@ -101,6 +105,9 @@ extension OpenMarketViewController {
     }
 }
 extension OpenMarketViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        
+    }
 
 }
 extension OpenMarketViewController: UICollectionViewDataSource {
@@ -108,8 +115,8 @@ extension OpenMarketViewController: UICollectionViewDataSource {
     // MARK: - Cell Data
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        guard let validItemList = openMarketItemList else { return 0}
-        return validItemList.items.count
+        
+        return openMarketItems.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -118,16 +125,15 @@ extension OpenMarketViewController: UICollectionViewDataSource {
             guard let cell: OpenMarketListCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: OpenMarketListCollectionViewCell.identifier, for: indexPath) as? OpenMarketListCollectionViewCell else {
                 return UICollectionViewCell()
             }
-            cell.configure(openMarketItemList, indexPath: indexPath.row)
-            nextPageToLoad += 1
+            
+            cell.configure(openMarketItems, indexPath: indexPath.row)
             return cell
             
         case .grid:
             guard let cell: OpenMarketGridCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: OpenMarketGridCollectionViewCell.identifier, for: indexPath) as? OpenMarketGridCollectionViewCell else {
                 return UICollectionViewCell()
             }
-            cell.configure(openMarketItemList, indexPath: indexPath.row)
-            nextPageToLoad += 1
+            cell.configure(openMarketItems, indexPath: indexPath.row)
             return cell
         }
     }
@@ -139,8 +145,8 @@ extension OpenMarketViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         switch layoutType {
         case .list:
-            let cellWidth = collectionView.bounds.width
-            let cellHeight = collectionView.bounds.height / 12
+            let cellWidth = collectionView.frame.width
+            let cellHeight = collectionView.frame.height / 12
             return CGSize(width: cellWidth, height: cellHeight)
         case .grid:
             let cellWidth = collectionView.bounds.width / 2
@@ -153,9 +159,36 @@ extension OpenMarketViewController: UICollectionViewDelegateFlowLayout {
 extension OpenMarketViewController: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let position = scrollView.contentOffset.y
-        if position > self.openMarketCollectionView.contentSize.height - 100 - scrollView.frame.height {
-            // fetch more data
-            print("fetch more data")
+        if (position > (scrollView.contentSize.height - scrollView.frame.size.height)) {
+            
+            if networkManager.isReadyToPaginate == false {
+                print("need to fetch more data but previous network task isn't finished yet")
+                return
+            }
+            print("fetching data")
+            
+            nextPageToLoad += 1
+            networkManager.getItemList(page: nextPageToLoad, loadingFinished: true) { [weak self] result in
+                switch result {
+                case .success(let additionalItemList):
+                    
+                    guard let weakSelf = self else { return }
+                    
+                    let range = weakSelf.openMarketItems.count..<additionalItemList.items.count + weakSelf.openMarketItems.count
+                    self?.openMarketItems.append(contentsOf: additionalItemList.items)
+                    DispatchQueue.main.async {
+                        weakSelf.openMarketCollectionView.performBatchUpdates({
+                            for item in range {
+                                let indexPath = IndexPath(row: item, section: 0)
+                                self?.openMarketCollectionView.insertItems(at: [indexPath])
+                            }
+                        }, completion: nil)
+                        
+                    }
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
+            }
         }
     }
 }

@@ -9,8 +9,9 @@ import Foundation
 
 protocol NetworkManageable {
     var urlSession: URLSessionProtocol { get }
+    var isReadyToPaginate: Bool { get set }
     
-    func getItemList(page: Int, isCurrentlyLoading: Bool, completionHandler: @escaping (_ result: Result <OpenMarketItemList, Error>) -> Void)
+    func getItemList(page: Int, loadingFinished: Bool, completionHandler: @escaping (_ result: Result <OpenMarketItemList, Error>) -> Void)
 }
 extension NetworkManageable {
     func examineNetworkResponse(page: Int, completionHandler: @escaping (_ result: Result <HTTPURLResponse, Error>) -> Void) {

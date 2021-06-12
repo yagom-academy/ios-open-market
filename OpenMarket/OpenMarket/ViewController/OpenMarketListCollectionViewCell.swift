@@ -72,7 +72,7 @@ class OpenMarketListCollectionViewCell: UICollectionViewCell, CellDataUpdatable 
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.adjustsImageSizeForAccessibilityContentSizeCategory = true
-        imageView.image = UIImage(named: "loading-Pic")
+        imageView.image = UIImage(named: "loadingPic")
         return imageView
     }()
 }
@@ -124,17 +124,25 @@ extension OpenMarketListCollectionViewCell {
     
     // MARK: - configure cell
     
-    func configure(_ itemList: OpenMarketItemList?, indexPath: Int) {
-        guard let validItemList = itemList else {
-            print("could not configure cell")
-            return
+    func configure(_ openMarketItems: [OpenMarketItem], indexPath: Int) {
+        for _ in openMarketItems {
+            itemTitleLabel.text = openMarketItems[indexPath].title
+            itemPriceLabel.text = "\(openMarketItems[indexPath].currency) \(openMarketItems[indexPath].price)"
+            itemStockLabel.text = String(openMarketItems[indexPath].stock)
+            
+            configureDiscountedPriceLabel(openMarketItems, indexPath: indexPath)
+            configureStockLabel(openMarketItems, indexPath: indexPath)
+            configureThumbnail(openMarketItems, indexPath: indexPath)
         }
-        itemTitleLabel.text = validItemList.items[indexPath].title
-        itemPriceLabel.text = "\(validItemList.items[indexPath].currency) \(validItemList.items[indexPath].price)"
-        itemStockLabel.text = String(validItemList.items[indexPath].stock)
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
         
-        configureDiscountedPriceLabel(validItemList, indexPath: indexPath)
-        configureStockLabel(validItemList, indexPath: indexPath)
-        configureThumbnail(validItemList, indexPath: indexPath)
+        self.itemThumbnail.image = UIImage(named: "loadingPic")
+        self.itemTitleLabel.text = nil
+        self.itemPriceLabel.text = nil
+        self.itemStockLabel.text = nil
+        self.itemDiscountedPriceLabel.text = nil
     }
 }

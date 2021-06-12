@@ -8,15 +8,20 @@
 import Foundation
 
 final class NetworkManager: NetworkManageable {
+    var isReadyToPaginate: Bool = false
     let urlSession: URLSessionProtocol
-    private var nextPageToLoad: Int = 1
     
     init(urlSession: URLSessionProtocol = URLSession.shared) {
         self.urlSession = urlSession
     }
     
-    func getItemList(page: Int, isCurrentlyLoading: Bool, completionHandler: @escaping (_ result: Result <OpenMarketItemList, Error>) -> Void) {
-        guard let url = URL(string: "\(OpenMarketAPI.urlForItemList)\(nextPageToLoad)") else {
+    func getItemList(page: Int, loadingFinished: Bool = false, completionHandler: @escaping (_ result: Result <OpenMarketItemList, Error>) -> Void) {
+        
+        if loadingFinished {
+            isReadyToPaginate = false
+        }
+        
+        guard let url = URL(string: "\(OpenMarketAPI.urlForItemList)\(page)") else {
             return completionHandler(.failure(NetworkResponseError.badRequest))
         }
         var urlRequest = URLRequest(url: url)
@@ -40,6 +45,10 @@ final class NetworkManager: NetworkManageable {
                     }
                     if let itemList = try? JSONDecoder().decode(OpenMarketItemList.self, from: itemListData) {
                         completionHandler(.success(itemList))
+                        if loadingFinished {
+                            self.isReadyToPaginate = true
+                        }
+                        
                     } else {
                         completionHandler(.failure(DataError.decoding))
                     }
