@@ -15,7 +15,7 @@
 		EA8E967C266DE472001280CF /* OpenMarketGridCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA8E967B266DE472001280CF /* OpenMarketGridCollectionViewCell.swift */; };
 		EA8E967E266DF913001280CF /* CellLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA8E967D266DF913001280CF /* CellLayout.swift */; };
 		EA8E9680266E4085001280CF /* CellDataUpdatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA8E967F266E4085001280CF /* CellDataUpdatable.swift */; };
-		EA8E9683266E478A001280CF /* StringEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA8E9682266E478A001280CF /* StringEffect.swift */; };
+		EA8E9683266E478A001280CF /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA8E9682266E478A001280CF /* String+Extension.swift */; };
 		EAB785662664C9760090C7FC /* HTTPMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAB785652664C9760090C7FC /* HTTPMethods.swift */; };
 		EAB785692664CCEF0090C7FC /* OpenMarketItemList.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAB785682664CCEF0090C7FC /* OpenMarketItemList.swift */; };
 		EAB7856C2664D0CF0090C7FC /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAB7856B2664D0CF0090C7FC /* NetworkManager.swift */; };
@@ -51,7 +51,7 @@
 		EA8E967B266DE472001280CF /* OpenMarketGridCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketGridCollectionViewCell.swift; sourceTree = "<group>"; };
 		EA8E967D266DF913001280CF /* CellLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellLayout.swift; sourceTree = "<group>"; };
 		EA8E967F266E4085001280CF /* CellDataUpdatable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellDataUpdatable.swift; sourceTree = "<group>"; };
-		EA8E9682266E478A001280CF /* StringEffect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringEffect.swift; sourceTree = "<group>"; };
+		EA8E9682266E478A001280CF /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		EAB785652664C9760090C7FC /* HTTPMethods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethods.swift; sourceTree = "<group>"; };
 		EAB785682664CCEF0090C7FC /* OpenMarketItemList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketItemList.swift; sourceTree = "<group>"; };
 		EAB7856B2664D0CF0090C7FC /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
@@ -125,7 +125,7 @@
 		EA8E9681266E4769001280CF /* Utility */ = {
 			isa = PBXGroup;
 			children = (
-				EA8E9682266E478A001280CF /* StringEffect.swift */,
+				EA8E9682266E478A001280CF /* String+Extension.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -289,7 +289,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EAB78586266613910090C7FC /* URLSessionProtocol.swift in Sources */,
-				EA8E9683266E478A001280CF /* StringEffect.swift in Sources */,
+				EA8E9683266E478A001280CF /* String+Extension.swift in Sources */,
 				EAB7856C2664D0CF0090C7FC /* NetworkManager.swift in Sources */,
 				EAB785702664E6980090C7FC /* DataError.swift in Sources */,
 				EAB785692664CCEF0090C7FC /* OpenMarketItemList.swift in Sources */,
@@ -460,15 +460,18 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = Z34KHT5SJG;
 				INFOPLIST_FILE = OpenMarket/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = net.yagom.OpenMarket;
+				PRODUCT_BUNDLE_IDENTIFIER = net.yagom.OpenMarket.james;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -479,15 +482,18 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = Z34KHT5SJG;
 				INFOPLIST_FILE = OpenMarket/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = net.yagom.OpenMarket;
+				PRODUCT_BUNDLE_IDENTIFIER = net.yagom.OpenMarket.james;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

@@ -7,16 +7,18 @@
 import UIKit
 
 class OpenMarketViewController: UIViewController {
-    private var layoutType = LayoutType.list
+    private var layoutType = OpenMarketCellLayoutType.list
     private var networkManager: NetworkManageable = NetworkManager()
     private var isPageRefreshing: Bool = false
     private var nextPageToLoad: Int = 1
     private var openMarketItems: [OpenMarketItem] = []
     
-    lazy private var openMarketCollectionView: UICollectionView = {
+    // MARK: - Views
+    
+    private lazy var openMarketCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: setUpCollectionViewLayout())
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: createCollectionViewLayout())
         collectionView.register(OpenMarketListCollectionViewCell.self, forCellWithReuseIdentifier: OpenMarketListCollectionViewCell.identifier)
         collectionView.register(OpenMarketGridCollectionViewCell.self, forCellWithReuseIdentifier: OpenMarketGridCollectionViewCell.identifier)
         collectionView.backgroundColor = .white
@@ -36,38 +38,22 @@ class OpenMarketViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpCollectionView()
-        setUpCollectionViewConstraint()
-        networkManager.getItemList(page: 1, loadingFinished: true) { [weak self] result in
-            switch result {
-            case .success(let itemList):
-                self?.openMarketItems.append(contentsOf: itemList.items)
-                DispatchQueue.main.async {
-                    guard let weakSelf = self else { return }
-                    weakSelf.openMarketCollectionView.performBatchUpdates({
-                        let indexPaths = weakSelf.openMarketItems.enumerated().map { IndexPath(item: $0.offset , section: 0)}
-                        weakSelf.openMarketCollectionView.insertItems(at: indexPaths)
-                    }, completion: nil)
-                }
-            case .failure(let error):
-                print(error.localizedDescription)
-            }
-        }
+        configureCollectionViewConstraint()
+        fetchOpenMarketItems()
+        segmentedController.addTarget(self, action: #selector(didTapSegmentedControl(_:)), for: .valueChanged)
     }
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        segmentedController.addTarget(self, action: #selector(didTapSegmentedControl(_:)), for: .valueChanged)
-        }
+    // MARK: - Setup CollectionView
     
     private func setUpCollectionView() {
         self.view.addSubview(openMarketCollectionView)
         self.navigationItem.titleView = segmentedController
-
+        
     }
     
-    private func setUpCollectionViewConstraint() {
+    private func configureCollectionViewConstraint() {
         self.view.backgroundColor = .white
-
+        
         let margins = view.safeAreaLayoutGuide
         openMarketCollectionView.leadingAnchor.constraint(equalTo: margins.leadingAnchor).isActive = true
         openMarketCollectionView.trailingAnchor.constraint(equalTo: margins.trailingAnchor).isActive = true
@@ -75,11 +61,11 @@ class OpenMarketViewController: UIViewController {
         openMarketCollectionView.bottomAnchor.constraint(equalTo: margins.bottomAnchor).isActive = true
     }
     
-    private func setUpCollectionViewLayout() -> UICollectionViewLayout {
+    private func createCollectionViewLayout() -> UICollectionViewLayout {
         let layout = UICollectionViewFlowLayout()
         let width = (UIScreen.main.bounds.width)
         let height = (UIScreen.main.bounds.height)
-
+        
         layout.scrollDirection = .vertical
         layout.minimumLineSpacing = 0
         layout.minimumInteritemSpacing = 0
@@ -87,6 +73,26 @@ class OpenMarketViewController: UIViewController {
         return layout
     }
     
+    // MARK: - Initial Data fetching
+    
+    private func fetchOpenMarketItems() {
+        networkManager.getItemList(page: 1, loadingFinished: true) { [weak self] result in
+            switch result {
+            case .success(let itemList):
+                self?.openMarketItems.append(contentsOf: itemList.items)
+                DispatchQueue.main.async {
+                    guard let weakSelf = self else { return }
+                    //                    weakSelf.openMarketCollectionView.performBatchUpdates({
+                    //                        let indexPaths = weakSelf.openMarketItems.enumerated().map { IndexPath(item: $0.offset , section: 0)}
+                    //                        weakSelf.openMarketCollectionView.insertItems(at: indexPaths)
+                    //                    }, completion: nil)
+                    weakSelf.openMarketCollectionView.reloadData()
+                }
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
 }
 extension OpenMarketViewController {
     
@@ -104,12 +110,6 @@ extension OpenMarketViewController {
         }
     }
 }
-extension OpenMarketViewController: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        
-    }
-
-}
 extension OpenMarketViewController: UICollectionViewDataSource {
     
     // MARK: - Cell Data
@@ -118,7 +118,7 @@ extension OpenMarketViewController: UICollectionViewDataSource {
         
         return openMarketItems.count
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         switch layoutType {
         case .list:
@@ -157,37 +157,39 @@ extension OpenMarketViewController: UICollectionViewDelegateFlowLayout {
     }
 }
 extension OpenMarketViewController: UIScrollViewDelegate {
+    
+    // MARK: - Fetch additional Data
+    
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let position = scrollView.contentOffset.y
-        if (position > (scrollView.contentSize.height - scrollView.frame.size.height)) {
+        if (position > (scrollView.contentSize.height - 100 - scrollView.frame.size.height)) {
             
-            if networkManager.isReadyToPaginate == false {
-                print("need to fetch more data but previous network task isn't finished yet")
-                return
-            }
-            print("fetching data")
+            guard  networkManager.isReadyToPaginate == false else { return }
             
             nextPageToLoad += 1
-            networkManager.getItemList(page: nextPageToLoad, loadingFinished: true) { [weak self] result in
-                switch result {
-                case .success(let additionalItemList):
-                    
-                    guard let weakSelf = self else { return }
-                    
-                    let range = weakSelf.openMarketItems.count..<additionalItemList.items.count + weakSelf.openMarketItems.count
-                    self?.openMarketItems.append(contentsOf: additionalItemList.items)
-                    DispatchQueue.main.async {
-                        weakSelf.openMarketCollectionView.performBatchUpdates({
-                            for item in range {
-                                let indexPath = IndexPath(row: item, section: 0)
-                                self?.openMarketCollectionView.insertItems(at: [indexPath])
-                            }
-                        }, completion: nil)
-                        
-                    }
-                case .failure(let error):
-                    print(error.localizedDescription)
+            fetchAdditionalData()
+        }
+    }
+    
+    private func fetchAdditionalData() {
+        networkManager.getItemList(page: nextPageToLoad, loadingFinished: true) { [weak self] result in
+            switch result {
+            case .success(let additionalItemList):
+                
+                guard let weakSelf = self else { return }
+                
+                let range = weakSelf.openMarketItems.count..<additionalItemList.items.count + weakSelf.openMarketItems.count
+                self?.openMarketItems.append(contentsOf: additionalItemList.items)
+                DispatchQueue.main.async {
+                    weakSelf.openMarketCollectionView.performBatchUpdates({
+                        for item in range {
+                            let indexPath = IndexPath(row: item, section: 0)
+                            self?.openMarketCollectionView.insertItems(at: [indexPath])
+                        }
+                    }, completion: nil)
                 }
+            case .failure(let error):
+                print(error.localizedDescription)
             }
         }
     }
