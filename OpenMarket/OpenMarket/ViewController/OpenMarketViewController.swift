@@ -76,17 +76,14 @@ class OpenMarketViewController: UIViewController {
     // MARK: - Initial Data fetching
     
     private func fetchOpenMarketItems() {
-        networkManager.getItemList(page: 1, loadingFinished: true) { [weak self] result in
+        networkManager.getItemList(page: 1, loadingFinished: false) { [weak self] result in
             switch result {
             case .success(let itemList):
                 self?.openMarketItems.append(contentsOf: itemList.items)
                 DispatchQueue.main.async {
-                    guard let weakSelf = self else { return }
-                    //                    weakSelf.openMarketCollectionView.performBatchUpdates({
-                    //                        let indexPaths = weakSelf.openMarketItems.enumerated().map { IndexPath(item: $0.offset , section: 0)}
-                    //                        weakSelf.openMarketCollectionView.insertItems(at: indexPaths)
-                    //                    }, completion: nil)
-                    weakSelf.openMarketCollectionView.reloadData()
+                    guard let self = self else { return }
+                    self.openMarketCollectionView.reloadData()
+                    self.networkManager.isReadyToPaginate = true
                 }
             case .failure(let error):
                 print(error.localizedDescription)
@@ -176,15 +173,15 @@ extension OpenMarketViewController: UIScrollViewDelegate {
             switch result {
             case .success(let additionalItemList):
                 
-                guard let weakSelf = self else { return }
+                guard let self = self else { return }
                 
-                let range = weakSelf.openMarketItems.count..<additionalItemList.items.count + weakSelf.openMarketItems.count
-                self?.openMarketItems.append(contentsOf: additionalItemList.items)
+                let range = self.openMarketItems.count..<additionalItemList.items.count + self.openMarketItems.count
+                self.openMarketItems.append(contentsOf: additionalItemList.items)
                 DispatchQueue.main.async {
-                    weakSelf.openMarketCollectionView.performBatchUpdates({
+                    self.openMarketCollectionView.performBatchUpdates({
                         for item in range {
                             let indexPath = IndexPath(row: item, section: 0)
-                            self?.openMarketCollectionView.insertItems(at: [indexPath])
+                            self.openMarketCollectionView.insertItems(at: [indexPath])
                         }
                     }, completion: nil)
                 }
