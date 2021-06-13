@@ -7,6 +7,11 @@
 
 import Foundation
 
-enum LayoutType {
-    case list, grid
+extension OpenMarketViewController {
+    
+    // MARK: - Cell Layout
+    
+    enum OpenMarketCellLayoutType {
+        case list, grid
+    }
 }
