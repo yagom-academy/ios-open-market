@@ -116,7 +116,7 @@ extension OpenMarketGridCollectionViewCell {
 extension OpenMarketGridCollectionViewCell {
     
     // MARK: - configure cell
-
+    
     func configure(_ openMarketItems: [OpenMarketItem], indexPath: Int) {
         for _ in openMarketItems {
             itemTitleLabel.text = openMarketItems[indexPath].title

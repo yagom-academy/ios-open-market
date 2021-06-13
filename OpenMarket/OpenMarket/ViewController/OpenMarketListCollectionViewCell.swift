@@ -21,15 +21,6 @@ class OpenMarketListCollectionViewCell: UICollectionViewCell, CellDataUpdatable 
     
     // MARK: - Properties
     
-    private lazy var activityIndicator: UIActivityIndicatorView = {
-        let activityIndicator = UIActivityIndicatorView()
-        activityIndicator.frame = CGRect(x: 0, y: 0 / 2, width: 50, height: 50)
-        activityIndicator.color = UIColor.gray
-        activityIndicator.hidesWhenStopped = true
-        activityIndicator.stopAnimating()
-        return activityIndicator
-    }()
-    
     lazy var itemTitleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.preferredFont(forTextStyle: .title3)
@@ -81,12 +72,10 @@ extension OpenMarketListCollectionViewCell {
     // MARK: - setup UI
     
     private func setUpUI() {
-        self.contentView.addSubview(itemTitleLabel)
-        self.contentView.addSubview(itemPriceLabel)
-        self.contentView.addSubview(itemDiscountedPriceLabel)
-        self.contentView.addSubview(itemStockLabel)
-        self.contentView.addSubview(itemThumbnail)
-        itemThumbnail.addSubview(activityIndicator)
+        
+        [itemTitleLabel, itemPriceLabel, itemDiscountedPriceLabel, itemStockLabel, itemThumbnail, itemStockLabel].forEach {
+            contentView.addSubview($0)
+        }
         
         self.contentView.layer.cornerRadius = 10
         self.contentView.layer.borderWidth = 1
