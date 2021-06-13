@@ -164,7 +164,7 @@ extension OpenMarketViewController: UIScrollViewDelegate {
         let position = scrollView.contentOffset.y
         if (position > (scrollView.contentSize.height - 100 - scrollView.frame.size.height)) {
             
-            guard  networkManager.isReadyToPaginate == false else { return }
+            guard  networkManager.isReadyToPaginate == true else { return }
             
             nextPageToLoad += 1
             fetchAdditionalData()
