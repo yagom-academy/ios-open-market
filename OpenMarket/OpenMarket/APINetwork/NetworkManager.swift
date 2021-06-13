@@ -11,14 +11,6 @@ struct NetworkManager {
     
     private var page = 1
     
-    func handleTaskWithRequest(httpRequest: URLRequest, completionHandler: @escaping (Result<Data, Error>) -> ()) {
-        
-        let task = URLSession.shared.dataTask(with: httpRequest) { result in
-            completionHandler(result)
-        }
-        task.resume()
-    }
-    
     func fetchModel<T: Decodable>(with urlRequest: URLRequest, completionHandler: @escaping (Result<T, APIError>) -> Void) {
         URLSession.shared.dataTask(with: urlRequest) { data, response, error in
             guard let data = data else {
@@ -81,7 +73,7 @@ struct NetworkManager {
     func registerItem(data: POSTRequestItem, completion: @escaping (Result<Item, APIError>) -> ()) throws {
         let postItemURL = OpenMarketAPIPath.itemRegister.path
         let encodedJSONData = try? JSONEncoder().encode(data)
-        if let request = try? makeRequest(apiURL: postItemURL, httpBodyData: encodedJSONData, requestDataType: StringContainer.RequestFormDataType.description, requestHeaderField: StringContainer.RequestContentTypeHeaderField.description) {
+        if let request = try? makeRequest(apiURL: postItemURL, httpBodyData: encodedJSONData, requestDataType: DataTypeFormat.MultipartFormData.description, requestHeaderField: RequestHeaderField.ContentType.description) {
             fetchModel(with: request, completionHandler: completion)
         } else {
             throw APIError.NotFound404Error
@@ -91,7 +83,7 @@ struct NetworkManager {
     func deleteItem(data: DELETERequestItem, completion: @escaping (Result<Item, APIError>) -> ()) throws {
         let deleteItemURL = OpenMarketAPIPath.itemDeletion.path
         let encodedJSONData = try? JSONEncoder().encode(data)
-        if let request = try? makeRequest(apiURL: deleteItemURL, httpBodyData: encodedJSONData, requestDataType: StringContainer.RequestFormDataType.description, requestHeaderField: StringContainer.RequestContentTypeHeaderField.description) {
+        if let request = try? makeRequest(apiURL: deleteItemURL, httpBodyData: encodedJSONData, requestDataType: DataTypeFormat.MultipartFormData.description, requestHeaderField: RequestHeaderField.ContentType.description) {
             fetchModel(with: request, completionHandler: completion)
         } else {
             throw APIError.NotFound404Error
@@ -101,39 +93,10 @@ struct NetworkManager {
     func editItem(data: PATCHRequestItem, completion: @escaping (Result<Item, APIError>) -> ()) throws {
         let editItemURL = OpenMarketAPIPath.itemEdit.path
         let encodedJSONData = try? JSONEncoder().encode(data)
-        if let request = try? makeRequest(apiURL: editItemURL, httpBodyData: encodedJSONData, requestDataType: StringContainer.RequestFormDataType.description, requestHeaderField: StringContainer.RequestContentTypeHeaderField.description){
+        if let request = try? makeRequest(apiURL: editItemURL, httpBodyData: encodedJSONData, requestDataType: DataTypeFormat.MultipartFormData.description, requestHeaderField: RequestHeaderField.ContentType.description) {
             fetchModel(with: request, completionHandler: completion)
         } else {
             throw APIError.NotFound404Error
-        }
-    }
-}
-
-//MARK: - Customize URLSession
-extension URLSession {
-    func dataTask(
-        with url: URL,
-        handler: @escaping (Result<Data, Error>) -> Void
-    ) -> URLSessionDataTask {
-        dataTask(with: url) { data, _, error in
-            if let error = error {
-                handler(.failure(error))
-            } else if let data = data {
-                handler(.success(data))
-            }
-        }
-    }
-    
-    func dataTask(
-        with request: URLRequest,
-        handler: @escaping (Result<Data, Error>) -> Void
-    ) -> URLSessionDataTask {
-        dataTask(with: request) { data, _, error in
-            if let error = error {
-                handler(.failure(error))
-            } else if let data = data {
-                handler(.success(data))
-            }
         }
     }
 }
