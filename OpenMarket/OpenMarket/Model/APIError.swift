@@ -18,13 +18,13 @@ extension APIError {
     var errorDescription: String? {
         switch self {
         case .NotFound404Error:
-            return StringContainer.Error.description + StringContainer.NotFound404Error.description
+            return ErrorMessage.Error.description + ErrorMessage.NotFound404Error.description
         case .JSONParseError:
-            return StringContainer.Error.description + StringContainer.JSONParseError.description
+            return ErrorMessage.Error.description + ErrorMessage.JSONParseError.description
         case .InvalidAddressError:
-            return StringContainer.Error.description + StringContainer.InvalidAddressError.description
+            return ErrorMessage.Error.description + ErrorMessage.InvalidAddressError.description
         case .NetworkFailure:
-            return StringContainer.Error.description + StringContainer.NetworkFailure.description
+            return ErrorMessage.Error.description + ErrorMessage.NetworkFailure.description
         }
     }
 }

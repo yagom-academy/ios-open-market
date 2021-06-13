@@ -7,9 +7,29 @@
 
 import Foundation
 
-enum StringContainer: CustomStringConvertible {
-    case RequestFormDataType
-    case RequestContentTypeHeaderField
+enum DataTypeFormat: CustomStringConvertible {
+    case MultipartFormData
+    
+    var description: String {
+        switch self {
+        case .MultipartFormData:
+            return "multipart/form-data; boundary=Boundary-\(UUID().uuidString)"
+        }
+    }
+}
+
+enum RequestHeaderField: CustomStringConvertible {
+    case ContentType
+    
+    var description: String {
+        switch self {
+        case .ContentType:
+            return "Content-Type"
+        }
+    }
+}
+
+enum ErrorMessage: CustomStringConvertible {
     case Error
     case NotFound404Error
     case JSONParseError
@@ -18,10 +38,6 @@ enum StringContainer: CustomStringConvertible {
     
     var description: String {
         switch self {
-        case .RequestFormDataType:
-            return "multipart/form-data; boundary=Boundary-\(UUID().uuidString)"
-        case .RequestContentTypeHeaderField:
-            return "Content-Type"
         case .Error:
             return "[Error] "
         case .NotFound404Error:
