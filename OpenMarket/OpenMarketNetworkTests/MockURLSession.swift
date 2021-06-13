@@ -10,6 +10,7 @@ import Foundation
 final class MockURLSession: URLSessionProtocol {
     private let pageNumber: Int = 1
     private var buildRequestFail: Bool = false
+
     
     init(buildRequestFail: Bool = false) {
         self.buildRequestFail = buildRequestFail
@@ -37,6 +38,4 @@ final class MockURLSession: URLSessionProtocol {
         self.sessionDataTask = sessionDataTask
         return sessionDataTask
     }
-    
-    
 }

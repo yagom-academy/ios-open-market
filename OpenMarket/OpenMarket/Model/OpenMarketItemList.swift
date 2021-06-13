@@ -1,5 +1,5 @@
 //
-//  DecodingModel.swift
+//  OpenMarketItemList.swift
 //  OpenMarket
 //
 //  Created by James on 2021/05/31.
@@ -9,10 +9,10 @@ import Foundation
 
 struct OpenMarketItemList: Decodable {
     var page: Int
-    var items: [Item]
+    var items: [OpenMarketItem]
 }
 
-struct Item: Decodable {
+struct OpenMarketItem: Decodable {
     var id: Int
     var title: String
     var price: Int
@@ -20,7 +20,7 @@ struct Item: Decodable {
     var stock: Int
     var discountedPrice: Int?
     var thumbnails: [String]
-    var registrationDate: Int
+    var registrationDate: TimeInterval
     
     private enum CodingKeys: String, CodingKey {
         case id, title, price, currency, stock, thumbnails

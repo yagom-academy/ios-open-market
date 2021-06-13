@@ -9,6 +9,9 @@ import Foundation
 
 protocol NetworkManageable {
     var urlSession: URLSessionProtocol { get }
+    var isReadyToPaginate: Bool { get set }
+    
+    func getItemList(page: Int, loadingFinished: Bool, completionHandler: @escaping (_ result: Result <OpenMarketItemList, Error>) -> Void)
 }
 extension NetworkManageable {
     func examineNetworkResponse(page: Int, completionHandler: @escaping (_ result: Result <HTTPURLResponse, Error>) -> Void) {
@@ -37,7 +40,7 @@ extension NetworkManageable {
             }
         }.resume()
     }
-    
+
     func examineNetworkRequest(page: Int, completionHandler: @escaping (_ result: Result <URLRequest, Error>) -> Void) {
         guard let url = URL(string: "\(OpenMarketAPI.urlForItemList)\(page)") else {
             return completionHandler(.failure(NetworkResponseError.badRequest))
