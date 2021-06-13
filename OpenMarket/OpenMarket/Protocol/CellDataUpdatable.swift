@@ -8,12 +8,12 @@
 import Foundation
 import UIKit
 
-protocol CellDataUpdatable {
-    var itemTitleLabel: UILabel { get set }
-    var itemPriceLabel: UILabel { get set }
-    var itemStockLabel: UILabel { get set }
-    var itemThumbnail: UIImageView { get set }
-    var itemDiscountedPriceLabel: UILabel { get set }
+protocol CellDataUpdatable: AnyObject {
+    var itemTitleLabel: UILabel { get }
+    var itemPriceLabel: UILabel { get }
+    var itemStockLabel: UILabel { get }
+    var itemThumbnail: UIImageView { get }
+    var itemDiscountedPriceLabel: UILabel { get }
 }
 extension CellDataUpdatable {
 
@@ -39,14 +39,14 @@ extension CellDataUpdatable {
     
     func configureThumbnail(_ openMarketItems: [OpenMarketItem], indexPath: Int) {
         guard let url = URL(string: openMarketItems[indexPath].thumbnails[0]) else { return }
-        downloadImage(url: url) { image in
+        downloadImage(url: url) { [weak self] image in
             DispatchQueue.main.async {
-                self.itemThumbnail.image = image
+                self?.itemThumbnail.image = image
             }
         }
     }
     
-    func downloadImage(url: URL, completionHandler: @escaping (UIImage) -> Void) {
+    private func downloadImage(url: URL, completionHandler: @escaping (UIImage) -> Void) {
         URLSession.shared.dataTask(with: url) { data, response, error in
             guard let completeData = data,
                   let imageData = UIImage(data: completeData) else { return }
