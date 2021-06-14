@@ -34,10 +34,16 @@ class OpenMarketViewController: UIViewController {
         segmentedControl.selectedSegmentIndex = 0
         return segmentedControl
     }()
+    
+    private lazy var UIRightBarButtonItem: UIBarButtonItem = {
+        let addItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(didTapAddButton))
+        return addItem
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpCollectionView()
+        setUpNavigationItems()
         configureCollectionViewConstraint()
         fetchOpenMarketItems()
         segmentedController.addTarget(self, action: #selector(didTapSegmentedControl(_:)), for: .valueChanged)
@@ -47,8 +53,11 @@ class OpenMarketViewController: UIViewController {
     
     private func setUpCollectionView() {
         self.view.addSubview(openMarketCollectionView)
+    }
+    
+    private func setUpNavigationItems() {
         self.navigationItem.titleView = segmentedController
-        
+        self.navigationItem.rightBarButtonItem = UIRightBarButtonItem
     }
     
     private func configureCollectionViewConstraint() {
@@ -91,9 +100,12 @@ class OpenMarketViewController: UIViewController {
         }
     }
 }
+
+// MARK: - ViewController action
+
 extension OpenMarketViewController {
     
-    // MARK: - Segmented Control
+    // MARK: - Tap Segmented Control
     
     @objc private func didTapSegmentedControl(_ sender: UISegmentedControl) {
         if sender.selectedSegmentIndex == 0 {
@@ -106,7 +118,17 @@ extension OpenMarketViewController {
             self.openMarketCollectionView.reloadData()
         }
     }
+    
+    // MARK: - Tap Rightbar Button
+    
+    @objc private func didTapAddButton(_ sender: UIBarButtonItem) {
+        let openMarketItemViewController = OpenMarketItemViewController()
+        navigationController?.pushViewController(openMarketItemViewController, animated: false)
+    }
 }
+
+// MARK: - UICollectionViewDataSource
+
 extension OpenMarketViewController: UICollectionViewDataSource {
     
     // MARK: - Cell Data
@@ -135,6 +157,9 @@ extension OpenMarketViewController: UICollectionViewDataSource {
         }
     }
 }
+
+// MARK: - UICollectionViewDelegateFlowLayout
+
 extension OpenMarketViewController: UICollectionViewDelegateFlowLayout {
     
     // MARK: - Cell Size
@@ -153,6 +178,9 @@ extension OpenMarketViewController: UICollectionViewDelegateFlowLayout {
         
     }
 }
+
+// MARK: - UIScrollViewDelegate
+
 extension OpenMarketViewController: UIScrollViewDelegate {
     
     // MARK: - Fetch additional Data

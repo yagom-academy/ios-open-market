@@ -28,6 +28,7 @@
 		EAB78592266639780090C7FC /* NetworkManageable.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAB78591266639780090C7FC /* NetworkManageable.swift */; };
 		EAB78597266766130090C7FC /* OpenMarketListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAB78596266766130090C7FC /* OpenMarketListCollectionViewCell.swift */; };
 		EAB785992668D8810090C7FC /* NetworkResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAB785982668D8810090C7FC /* NetworkResponse.swift */; };
+		EAEF60E526774DD900D82B73 /* OpenMarketItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAEF60E426774DD900D82B73 /* OpenMarketItemViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,6 +67,7 @@
 		EAB78591266639780090C7FC /* NetworkManageable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManageable.swift; sourceTree = "<group>"; };
 		EAB78596266766130090C7FC /* OpenMarketListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketListCollectionViewCell.swift; sourceTree = "<group>"; };
 		EAB785982668D8810090C7FC /* NetworkResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkResponse.swift; sourceTree = "<group>"; };
+		EAEF60E426774DD900D82B73 /* OpenMarketItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketItemViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -185,6 +187,7 @@
 				C70FB0FE25BEF61C00C9924E /* OpenMarketViewController.swift */,
 				EAB78596266766130090C7FC /* OpenMarketListCollectionViewCell.swift */,
 				EA8E967B266DE472001280CF /* OpenMarketGridCollectionViewCell.swift */,
+				EAEF60E426774DD900D82B73 /* OpenMarketItemViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -296,6 +299,7 @@
 				EA8E9680266E4085001280CF /* CellDataUpdatable.swift in Sources */,
 				EAB7856E2664D1CE0090C7FC /* OpenMarketAPI.swift in Sources */,
 				EAB78592266639780090C7FC /* NetworkManageable.swift in Sources */,
+				EAEF60E526774DD900D82B73 /* OpenMarketItemViewController.swift in Sources */,
 				EAB785662664C9760090C7FC /* HTTPMethods.swift in Sources */,
 				EAB785992668D8810090C7FC /* NetworkResponse.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* OpenMarketViewController.swift in Sources */,
