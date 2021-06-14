@@ -10,7 +10,8 @@ import UIKit
 class CollectionViewCellForList: UICollectionViewCell {
 
     static let identifier = "listCell"
-
+    var item: Item!
+    
     let mainStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -18,6 +19,7 @@ class CollectionViewCellForList: UICollectionViewCell {
         stackView.distribution = .fill
         stackView.alignment = .center
         stackView.backgroundColor = .white
+        stackView.spacing = 5
 
         return stackView
     }()
@@ -40,6 +42,7 @@ class CollectionViewCellForList: UICollectionViewCell {
         stackView.distribution = .fill
         stackView.alignment = .leading
         stackView.backgroundColor = .white
+        stackView.spacing = 5
 
         return stackView
     }()
@@ -96,14 +99,53 @@ class CollectionViewCellForList: UICollectionViewCell {
         return textLabel
     }()
     
+    let chevronButton: UIButton = {
+        var button = UIButton()
+        button.setBackgroundImage(UIImage(systemName: "chevron.right"), for: .normal)
+        button.tintColor = .systemGray2
+        
+        return button
+    }()
+    
+    func configure() {
+        DispatchQueue.global().async {
+            guard let data = try? Data(contentsOf: URL(string: self.item.thumbnailURLs[0])!) else { return }
+
+            DispatchQueue.main.async {
+                self.imageView.image = UIImage(data: data)
+            }
+        }
+        
+        self.productLabel.text = item.title
+        self.originalPriceLabel.text = "\(item.currency) \(item.price)"
+        
+        if item.discountedPrice != nil {
+            self.discountedPriceLabel.text = "\(item.currency) \(item.discountedPrice!)"
+            originalPriceLabel.textColor = UIColor.systemRed
+            originalPriceLabel.attributedText = originalPriceLabel.text?.strikeThrough()
+        } else {
+            self.discountedPriceLabel.text = nil
+            discountedPriceLabel.isHidden = true
+        }
+
+        if item.stock == 0 {
+            self.stockLabel.text = "품절"
+            self.stockLabel.textColor = .orange
+        } else {
+            self.stockLabel.text = "잔여수량 : \(item.stock)"
+            self.stockLabel.textColor = .systemGray2
+            self.stockLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        }
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
-
         self.addSubview(mainStackView)
 
         mainStackView.addArrangedSubview(imageView)
         mainStackView.addArrangedSubview(contentsStackView)
         mainStackView.addArrangedSubview(stockLabel)
+        mainStackView.addArrangedSubview(chevronButton)
 
         contentsStackView.addArrangedSubview(productLabel)
         contentsStackView.addArrangedSubview(priceStackView)
@@ -120,14 +162,6 @@ class CollectionViewCellForList: UICollectionViewCell {
             imageView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.18),
             imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor)
         ])
-
-        if discountedPriceLabel.text != nil {
-            originalPriceLabel.textColor = UIColor.systemRed
-
-            originalPriceLabel.attributedText = originalPriceLabel.text?.strikeThrough()
-        } else {
-            discountedPriceLabel.isHidden = true
-        }
     }
 
     required init?(coder: NSCoder) {

@@ -179,8 +179,8 @@
 			children = (
 				D0D0ECCC2670ACC6007DC8BB /* SegmentedControl.swift */,
 				D0D0ECCE2670D7B2007DC8BB /* CollectionView.swift */,
-				D0D0ECC82670A4D4007DC8BB /* CollectionViewCellForGrid.swift */,
 				D028B7662673317000656111 /* CollectionViewCellForList.swift */,
+				D0D0ECC82670A4D4007DC8BB /* CollectionViewCellForGrid.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";

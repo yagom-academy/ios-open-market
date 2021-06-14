@@ -75,7 +75,7 @@ class CollectionViewCellForGrid: UICollectionViewCell {
         return textLabel
     }()
 
-    var stockLable: UILabel = {
+    var stockLabel: UILabel = {
         var textLabel = UILabel()
 
         textLabel.textColor = .orange
@@ -107,10 +107,12 @@ class CollectionViewCellForGrid: UICollectionViewCell {
         }
 
         if item.stock == 0 {
-            self.stockLable.text = "품절"
-            self.stockLable.textColor = .orange
+            self.stockLabel.text = "품절"
+            self.stockLabel.textColor = .orange
         } else {
-            self.stockLable.text = "\(item.stock)"
+            self.stockLabel.text = "잔여수량 : \(item.stock)"
+            self.stockLabel.textColor = .systemGray2
+            self.stockLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         }
     }
 
@@ -118,14 +120,14 @@ class CollectionViewCellForGrid: UICollectionViewCell {
         super.init(frame: frame)
 
         self.addSubview(mainStackView)
-        self.layer.borderWidth = 2
+        self.layer.borderWidth = 1
         self.layer.borderColor = UIColor.systemGray2.cgColor
         self.layer.cornerRadius = 5
 
         mainStackView.addArrangedSubview(imageView)
         mainStackView.addArrangedSubview(product)
         mainStackView.addArrangedSubview(priceStackView)
-        mainStackView.addArrangedSubview(stockLable)
+        mainStackView.addArrangedSubview(stockLabel)
 
         priceStackView.addArrangedSubview(originalPriceLabel)
         priceStackView.addArrangedSubview(discountedPriceLabel)
