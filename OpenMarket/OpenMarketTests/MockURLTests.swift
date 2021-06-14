@@ -11,7 +11,7 @@ import XCTest
 
 
 class MockURLTests: XCTestCase {
-    var sut_GETProcess: GETProcess!
+    var sut_GETProcess: DataLoader!
     let url = URL(string: "https://camp-open-market-2.herokuapp.com/item/55")!
     var expectation: XCTestExpectation!
 
@@ -21,7 +21,7 @@ class MockURLTests: XCTestCase {
         let urlSession = URLSession.init(configuration: configuration)
         
         self.expectation = expectation(description: "Expectation")
-        sut_GETProcess = GETProcess(commonURLProcess: CommonURLProcess(), urlSession: urlSession)
+        sut_GETProcess = DataLoader(commonURLProcess: CommonURLProcess(), urlSession: urlSession)
     }
 
     func test_MockURLProcess() {
@@ -42,7 +42,7 @@ class MockURLTests: XCTestCase {
             return (response, data)
         }
             
-            self.sut_GETProcess.dataParsing(index: "55") { (testParam: Result<GetProductList.Item, Error>) in
+            self.sut_GETProcess.startLoad(index: "55") { (testParam: Result<GetProductList.Item, Error>) in
                 switch testParam {
                 case .success(let post):
                     XCTAssertEqual(post.title, "MacBook Pro")

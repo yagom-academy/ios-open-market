@@ -7,10 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		B4790848266A774500EBD060 /* GETProcess.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4790847266A774500EBD060 /* GETProcess.swift */; };
+		B4790848266A774500EBD060 /* DataLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4790847266A774500EBD060 /* DataLoader.swift */; };
 		B479084E266B4DEA00EBD060 /* CommonURLProcess.swift in Sources */ = {isa = PBXBuildFile; fileRef = B479084D266B4DEA00EBD060 /* CommonURLProcess.swift */; };
 		B4790856266B86E800EBD060 /* URLProcessUsable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4790855266B86E800EBD060 /* URLProcessUsable.swift */; };
-		B4790861266BCB7900EBD060 /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4790860266BCB7900EBD060 /* Errors.swift */; };
+		B4790861266BCB7900EBD060 /* HttpCommunicationError.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4790860266BCB7900EBD060 /* HttpCommunicationError.swift */; };
 		B4790881266E385300EBD060 /* MockURLProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4790880266E385300EBD060 /* MockURLProtocol.swift */; };
 		B4790887266E39A800EBD060 /* MockURLTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4790886266E39A800EBD060 /* MockURLTests.swift */; };
 		B47908A3266E81F800EBD060 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C70FB10325BEF61D00C9924E /* Assets.xcassets */; };
@@ -43,10 +43,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		B4790847266A774500EBD060 /* GETProcess.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GETProcess.swift; sourceTree = "<group>"; };
+		B4790847266A774500EBD060 /* DataLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataLoader.swift; sourceTree = "<group>"; };
 		B479084D266B4DEA00EBD060 /* CommonURLProcess.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonURLProcess.swift; sourceTree = "<group>"; };
 		B4790855266B86E800EBD060 /* URLProcessUsable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLProcessUsable.swift; sourceTree = "<group>"; };
-		B4790860266BCB7900EBD060 /* Errors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
+		B4790860266BCB7900EBD060 /* HttpCommunicationError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpCommunicationError.swift; sourceTree = "<group>"; };
 		B4790880266E385300EBD060 /* MockURLProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLProtocol.swift; sourceTree = "<group>"; };
 		B4790886266E39A800EBD060 /* MockURLTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLTests.swift; sourceTree = "<group>"; };
 		B47908AA266F968800EBD060 /* HttpMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpMethod.swift; sourceTree = "<group>"; };
@@ -92,7 +92,7 @@
 		B479085F266BCB6600EBD060 /* Errors */ = {
 			isa = PBXGroup;
 			children = (
-				B4790860266BCB7900EBD060 /* Errors.swift */,
+				B4790860266BCB7900EBD060 /* HttpCommunicationError.swift */,
 			);
 			path = Errors;
 			sourceTree = "<group>";
@@ -117,7 +117,7 @@
 				B47908BE266FBB5300EBD060 /* MultipartFormManagable.swift */,
 				B47908AA266F968800EBD060 /* HttpMethod.swift */,
 				B479084D266B4DEA00EBD060 /* CommonURLProcess.swift */,
-				B4790847266A774500EBD060 /* GETProcess.swift */,
+				B4790847266A774500EBD060 /* DataLoader.swift */,
 				B47908B4266F973300EBD060 /* POSTProcess.swift */,
 				B47908BA266FACC300EBD060 /* MultipartFormManager.swift */,
 			);
@@ -283,7 +283,7 @@
 				B479084E266B4DEA00EBD060 /* CommonURLProcess.swift in Sources */,
 				B4790881266E385300EBD060 /* MockURLProtocol.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
-				B4790861266BCB7900EBD060 /* Errors.swift in Sources */,
+				B4790861266BCB7900EBD060 /* HttpCommunicationError.swift in Sources */,
 				B48D14692664A45E00DBCFAE /* GetProductList.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
@@ -293,7 +293,7 @@
 				B47908D1266FD83500EBD060 /* PatchProductData.swift in Sources */,
 				B47908BF266FBB5300EBD060 /* MultipartFormManagable.swift in Sources */,
 				B47908B5266F973300EBD060 /* POSTProcess.swift in Sources */,
-				B4790848266A774500EBD060 /* GETProcess.swift in Sources */,
+				B4790848266A774500EBD060 /* DataLoader.swift in Sources */,
 				B47908AB266F968800EBD060 /* HttpMethod.swift in Sources */,
 				B4790856266B86E800EBD060 /* URLProcessUsable.swift in Sources */,
 			);
@@ -496,7 +496,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = OpenMarket/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -515,7 +515,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = OpenMarket/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
