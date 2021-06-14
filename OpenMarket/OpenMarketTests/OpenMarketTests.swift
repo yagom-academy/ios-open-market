@@ -27,28 +27,15 @@ class OpenMarketTests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
     
-    // MARK:- JSONParsing Test with Local JSON files
-    func test_JSONParser_for_Item() throws {
-        guard let localJSONData = readLocalFile(forName: "Item") else { throw APIError.JSONParseError }
-        let jsonParser = JSONParser()
-        guard let parsedItemData: GETResponseItem = try? jsonParser.parseJSONDataToValueObject(with: localJSONData) else { throw APIError.JSONParseError }
-        XCTAssertNotNil(parsedItemData)
-    }
-    
-    func test_JSONParser_for_ItemList() throws {
-        guard let localJSONData = readLocalFile(forName: "Items") else { throw APIError.JSONParseError }
-        let jsonParser = JSONParser()
-        guard let parsedItemListData: GETResponseItemList = try? jsonParser.parseJSONDataToValueObject(with: localJSONData) else { throw APIError.JSONParseError }
-        XCTAssertNotNil(parsedItemListData)
-    }
-    
+    // FIXME: - print 안됨
     func test_ItemListFetcher() throws {
-        var itemListFetcher = ItemListFetcher()
-        let expectation = XCTestExpectation(description: "Download apple.com home page")
-        try? itemListFetcher.fetchItemList(completion: { itemList in
+        let networkManager = NetworkManager()
+        let expectation = XCTestExpectation(description: "expectation")
+        networkManager.fetchItemList(completion: { itemList in
+            print(itemList)
             expectation.fulfill()
         })
         wait(for: [expectation], timeout: 10.0)
-//        XCTAssertNotNil(itemListFetcher.fetchedItemList)
+        
     }
 }

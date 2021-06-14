@@ -14,9 +14,9 @@
 		486B8DCC265B72AB00418C97 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486B8DCB265B72AB00418C97 /* Item.swift */; };
 		486B8DD0265B72B500418C97 /* ItemList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486B8DCF265B72B500418C97 /* ItemList.swift */; };
 		488D2B62264C127100BCAAA3 /* StringContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 488D2B61264C127000BCAAA3 /* StringContainer.swift */; };
+		489BBF062676E7A800C19810 /* ItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 489BBF052676E7A800C19810 /* ItemCell.swift */; };
 		48A541E9264CF26800581B2C /* OpenMarketAPIPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48A541E8264CF26800581B2C /* OpenMarketAPIPath.swift */; };
 		48A541F3264D3BA600581B2C /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48A541F2264D3BA600581B2C /* APIError.swift */; };
-		48D18D25266BA27800A87A56 /* ItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48D18D24266BA27800A87A56 /* ItemCell.swift */; };
 		48E19851266DF7C100B556C7 /* PATCHRequestItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48E19850266DF7C100B556C7 /* PATCHRequestItem.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
 		C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */; };
@@ -46,9 +46,9 @@
 		486B8DCB265B72AB00418C97 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		486B8DCF265B72B500418C97 /* ItemList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemList.swift; sourceTree = "<group>"; };
 		488D2B61264C127000BCAAA3 /* StringContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringContainer.swift; sourceTree = "<group>"; };
+		489BBF052676E7A800C19810 /* ItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemCell.swift; sourceTree = "<group>"; };
 		48A541E8264CF26800581B2C /* OpenMarketAPIPath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketAPIPath.swift; sourceTree = "<group>"; };
 		48A541F2264D3BA600581B2C /* APIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
-		48D18D24266BA27800A87A56 /* ItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemCell.swift; sourceTree = "<group>"; };
 		48E19850266DF7C100B556C7 /* PATCHRequestItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PATCHRequestItem.swift; sourceTree = "<group>"; };
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -148,7 +148,7 @@
 			children = (
 				C70FB10025BEF61C00C9924E /* Main.storyboard */,
 				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
-				48D18D24266BA27800A87A56 /* ItemCell.swift */,
+				489BBF052676E7A800C19810 /* ItemCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -293,6 +293,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				489BBF062676E7A800C19810 /* ItemCell.swift in Sources */,
 				48E19851266DF7C100B556C7 /* PATCHRequestItem.swift in Sources */,
 				481E94E3266763320002BD17 /* NetworkManager.swift in Sources */,
 				486B8DCC265B72AB00418C97 /* Item.swift in Sources */,
@@ -301,7 +302,6 @@
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 				486B8DD0265B72B500418C97 /* ItemList.swift in Sources */,
-				48D18D25266BA27800A87A56 /* ItemCell.swift in Sources */,
 				488D2B62264C127100BCAAA3 /* StringContainer.swift in Sources */,
 				486B8DC6265B727F00418C97 /* DELETERequestItem.swift in Sources */,
 				48A541F3264D3BA600581B2C /* APIError.swift in Sources */,

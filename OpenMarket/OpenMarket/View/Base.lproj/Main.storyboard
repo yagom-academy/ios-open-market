@@ -18,7 +18,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="ListCell" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="80" id="BSa-TA-cE2" customClass="ItemCell" customModule="OpenMarket" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="itemCell" rowHeight="80" id="BSa-TA-cE2" customClass="ItemCell" customModule="OpenMarket" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="414" height="80"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="BSa-TA-cE2" id="rKI-Uj-0fM">
@@ -53,10 +53,10 @@
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <outlet property="itemName" destination="enD-ac-EgP" id="Nsv-XP-uvZ"/>
-                                    <outlet property="price" destination="RTI-5u-Aoj" id="PGC-pV-09L"/>
-                                    <outlet property="stockAmount" destination="05G-tw-gVF" id="cyM-AG-86T"/>
-                                    <outlet property="thumbnail" destination="dsD-Ca-HgF" id="xfy-Hu-FKK"/>
+                                    <outlet property="itemName" destination="enD-ac-EgP" id="2MY-sJ-hwq"/>
+                                    <outlet property="price" destination="RTI-5u-Aoj" id="KJU-gZ-h0x"/>
+                                    <outlet property="stockAmount" destination="05G-tw-gVF" id="eJl-Nm-wP8"/>
+                                    <outlet property="thumbnail" destination="dsD-Ca-HgF" id="sKS-Xx-ffR"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -67,7 +67,7 @@
                     </tableView>
                     <navigationItem key="navigationItem" id="mtR-M7-an3">
                         <nil key="title"/>
-                        <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="ZMc-KY-q03">
+                        <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="ZMc-KY-q03">
                             <rect key="frame" x="141.5" y="5.5" width="131" height="33"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <segments>
@@ -77,6 +77,9 @@
                             <color key="selectedSegmentTintColor" name="AccentColor"/>
                         </segmentedControl>
                     </navigationItem>
+                    <connections>
+                        <outlet property="itemListTableView" destination="BFR-BZ-j8U" id="tXN-yH-8ez"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="G2Y-DM-1lT" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
