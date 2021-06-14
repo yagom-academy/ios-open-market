@@ -15,15 +15,22 @@ class CollectionViewController: UIViewController {
         super.viewDidLoad()
         self.navigationItem.titleView = segmentedControl
         self.view.backgroundColor = .white
-
+        
         collectionView.dataSource = self
         collectionView.delegate = self
-
         collectionView.configureCollectionView(viewController: self)
 
         self.segmentedControl.addTarget(self,
                                         action: #selector(changed),
                                         for: .valueChanged)
+        
+        if #available(iOS 14.0, *) {
+            self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(profileButtonTapped))
+        }
+    }
+    
+    @objc func profileButtonTapped() {
+        performSegue(withIdentifier: <#T##String#>, sender: <#T##Any?#>)
     }
     
     @objc func changed() {

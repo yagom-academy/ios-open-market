@@ -34,7 +34,7 @@ class CollectionViewCellForGrid: UICollectionViewCell {
         return imageView
     }()
 
-    var product: UILabel = {
+    var productLabel: UILabel = {
         var textLabel = UILabel()
         textLabel.text = "야곰아카데미"
         textLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -94,7 +94,7 @@ class CollectionViewCellForGrid: UICollectionViewCell {
             }
         }
 
-        self.product.text = item.title
+        self.productLabel.text = item.title
         self.originalPriceLabel.text = "\(item.currency) \(item.price)"
 
         if item.discountedPrice != nil {
@@ -109,10 +109,12 @@ class CollectionViewCellForGrid: UICollectionViewCell {
         if item.stock == 0 {
             self.stockLabel.text = "품절"
             self.stockLabel.textColor = .orange
-        } else {
-            self.stockLabel.text = "잔여수량 : \(item.stock)"
+        } else if item.stock > 99 {
+            self.stockLabel.text = "잔여수량: 99↑"
             self.stockLabel.textColor = .systemGray2
-            self.stockLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        } else {
+            self.stockLabel.text = "잔여수량: \(item.stock)"
+            self.stockLabel.textColor = .systemGray2
         }
     }
 
@@ -125,7 +127,7 @@ class CollectionViewCellForGrid: UICollectionViewCell {
         self.layer.cornerRadius = 5
 
         mainStackView.addArrangedSubview(imageView)
-        mainStackView.addArrangedSubview(product)
+        mainStackView.addArrangedSubview(productLabel)
         mainStackView.addArrangedSubview(priceStackView)
         mainStackView.addArrangedSubview(stockLabel)
 
@@ -147,5 +149,14 @@ class CollectionViewCellForGrid: UICollectionViewCell {
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        self.productLabel.text = "야곰 아카데미"
+        self.imageView.image = UIImage(named: "yagom")
+        self.originalPriceLabel.text = "USD 100"
+        self.discountedPriceLabel.text = nil
+        self.stockLabel.text = "품절"
     }
 }

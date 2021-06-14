@@ -88,7 +88,7 @@ class CollectionViewCellForList: UICollectionViewCell {
 
         return textLabel
     }()
-    
+
     let stockLabel: UILabel = {
         let textLabel = UILabel()
         textLabel.text = "품절"
@@ -106,7 +106,7 @@ class CollectionViewCellForList: UICollectionViewCell {
         
         return button
     }()
-    
+
     func configure() {
         DispatchQueue.global().async {
             guard let data = try? Data(contentsOf: URL(string: self.item.thumbnailURLs[0])!) else { return }
@@ -115,10 +115,10 @@ class CollectionViewCellForList: UICollectionViewCell {
                 self.imageView.image = UIImage(data: data)
             }
         }
-        
+
         self.productLabel.text = item.title
         self.originalPriceLabel.text = "\(item.currency) \(item.price)"
-        
+
         if item.discountedPrice != nil {
             self.discountedPriceLabel.text = "\(item.currency) \(item.discountedPrice!)"
             originalPriceLabel.textColor = UIColor.systemRed
@@ -131,10 +131,12 @@ class CollectionViewCellForList: UICollectionViewCell {
         if item.stock == 0 {
             self.stockLabel.text = "품절"
             self.stockLabel.textColor = .orange
-        } else {
-            self.stockLabel.text = "잔여수량 : \(item.stock)"
+        } else if item.stock > 99 {
+            self.stockLabel.text = "잔여수량: 99↑"
             self.stockLabel.textColor = .systemGray2
-            self.stockLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        } else {
+            self.stockLabel.text = "잔여수량: \(item.stock)"
+            self.stockLabel.textColor = .systemGray2
         }
     }
     
@@ -160,11 +162,22 @@ class CollectionViewCellForList: UICollectionViewCell {
             mainStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -2),
 
             imageView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.18),
-            imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor)
+            imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor),
+            
+            
         ])
     }
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        self.productLabel.text = "야곰 아카데미"
+        self.imageView.image = UIImage(named: "yagom")
+        self.originalPriceLabel.text = "USD 100"
+        self.discountedPriceLabel.text = nil
+        self.stockLabel.text = "품절"
     }
 }

@@ -1,8 +1,8 @@
 //
-//  SegmentedControlViewController.swift
+//  NavigationBar.swift
 //  OpenMarket
 //
-//  Created by 김찬우 on 2021/06/09.
+//  Created by 김찬우 on 2021/06/14.
 //
 
 import UIKit

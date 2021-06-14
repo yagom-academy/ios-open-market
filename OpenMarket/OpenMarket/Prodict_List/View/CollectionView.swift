@@ -16,11 +16,11 @@ class CollectionView: UICollectionView {
         self.register(CollectionViewCellForList.self, forCellWithReuseIdentifier: CollectionViewCellForList.identifier)
         self.register(CollectionViewCellForGrid.self, forCellWithReuseIdentifier: CollectionViewCellForGrid.identifier)
     }
-    
+
     required init(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     func configureCollectionView(viewController: UIViewController){
         viewController.view.addSubview(self)
 
@@ -37,5 +37,3 @@ class CollectionView: UICollectionView {
         self.flowlayout.scrollDirection = .vertical
     }
 }
-
-
