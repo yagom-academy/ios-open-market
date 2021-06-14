@@ -12,7 +12,7 @@ class OpenMarketListCollectionViewCell: UICollectionViewCell, CellDataUpdatable 
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setUpUI()
+        setUpUIConstraints()
     }
     
     required init?(coder: NSCoder) {
@@ -71,7 +71,7 @@ extension OpenMarketListCollectionViewCell {
     
     // MARK: - setup UI
     
-    private func setUpUI() {
+    private func setUpUIConstraints() {
         
         [itemTitleLabel, itemPriceLabel, itemDiscountedPriceLabel, itemStockLabel, itemThumbnail, itemStockLabel].forEach {
             contentView.addSubview($0)
