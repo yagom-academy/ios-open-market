@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		B4790848266A774500EBD060 /* DataLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4790847266A774500EBD060 /* DataLoader.swift */; };
 		B479084E266B4DEA00EBD060 /* CommonURLProcess.swift in Sources */ = {isa = PBXBuildFile; fileRef = B479084D266B4DEA00EBD060 /* CommonURLProcess.swift */; };
-		B4790856266B86E800EBD060 /* URLProcessUsable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4790855266B86E800EBD060 /* URLProcessUsable.swift */; };
 		B4790861266BCB7900EBD060 /* HttpCommunicationError.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4790860266BCB7900EBD060 /* HttpCommunicationError.swift */; };
 		B4790881266E385300EBD060 /* MockURLProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4790880266E385300EBD060 /* MockURLProtocol.swift */; };
 		B4790887266E39A800EBD060 /* MockURLTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4790886266E39A800EBD060 /* MockURLTests.swift */; };
@@ -45,7 +44,6 @@
 /* Begin PBXFileReference section */
 		B4790847266A774500EBD060 /* DataLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataLoader.swift; sourceTree = "<group>"; };
 		B479084D266B4DEA00EBD060 /* CommonURLProcess.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonURLProcess.swift; sourceTree = "<group>"; };
-		B4790855266B86E800EBD060 /* URLProcessUsable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLProcessUsable.swift; sourceTree = "<group>"; };
 		B4790860266BCB7900EBD060 /* HttpCommunicationError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpCommunicationError.swift; sourceTree = "<group>"; };
 		B4790880266E385300EBD060 /* MockURLProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLProtocol.swift; sourceTree = "<group>"; };
 		B4790886266E39A800EBD060 /* MockURLTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLTests.swift; sourceTree = "<group>"; };
@@ -113,7 +111,6 @@
 			isa = PBXGroup;
 			children = (
 				B4790880266E385300EBD060 /* MockURLProtocol.swift */,
-				B4790855266B86E800EBD060 /* URLProcessUsable.swift */,
 				B47908BE266FBB5300EBD060 /* MultipartFormManagable.swift */,
 				B47908AA266F968800EBD060 /* HttpMethod.swift */,
 				B479084D266B4DEA00EBD060 /* CommonURLProcess.swift */,
@@ -295,7 +292,6 @@
 				B47908B5266F973300EBD060 /* POSTProcess.swift in Sources */,
 				B4790848266A774500EBD060 /* DataLoader.swift in Sources */,
 				B47908AB266F968800EBD060 /* HttpMethod.swift in Sources */,
-				B4790856266B86E800EBD060 /* URLProcessUsable.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
