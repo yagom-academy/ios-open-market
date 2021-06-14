@@ -8,11 +8,11 @@
 import Foundation
 
 class POSTProcess {
-    private let commonURLProcess: URLProcessUsable
+    private let commonURLProcess: CommonURLProcess
     private let urlSession: URLSession
     private let multipartFormManager: MultipartFormManagable
     
-    init(commonURLProcess: URLProcessUsable, urlSession: URLSession = .shared, multipartFromManager: MultipartFormManagable) {
+    init(commonURLProcess: CommonURLProcess, urlSession: URLSession = .shared, multipartFromManager: MultipartFormManagable) {
         self.commonURLProcess = commonURLProcess
         self.urlSession = urlSession
         self.multipartFormManager = multipartFromManager

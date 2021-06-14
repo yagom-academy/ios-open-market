@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct CommonURLProcess: URLProcessUsable {
+struct CommonURLProcess {
     private let baseURL = "https://camp-open-market-2.herokuapp.com/"
     
     typealias URLInformation = (url: URL, urlMethod: String)
