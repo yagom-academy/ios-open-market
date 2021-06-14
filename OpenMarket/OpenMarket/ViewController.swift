@@ -18,7 +18,7 @@ class ViewController: UITableViewController {
         self.itemListTableView.delegate = self
     }
     // FIXME: - Error 핸들링 방법
-    override func viewDidAppear(_ animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         let networkManager = NetworkManager()
         networkManager.fetchItemList { result in
             switch result {
