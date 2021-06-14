@@ -13,7 +13,7 @@ class URLSessionManagerTests: XCTestCase {
         let expectation = XCTestExpectation()
         let clientRequest = GETRequest(page: 1, id: 1, descriptionAboutMenu: .목록조회)
         let networkManager = NetworkManager<Items>(clientRequest: clientRequest, session: URLSession.shared)
-        
+
         networkManager.getServerData(url: clientRequest.urlRequest.url!){ result in
             switch result {
             case .failure: XCTFail()
@@ -22,7 +22,7 @@ class URLSessionManagerTests: XCTestCase {
                 expectation.fulfill()
             }
         }
-        
+
         wait(for: [expectation], timeout: 3)
     }
 
@@ -30,7 +30,7 @@ class URLSessionManagerTests: XCTestCase {
         let getRequest = GETRequest(page: 1, id: 1, descriptionAboutMenu: .목록조회)
         XCTAssertEqual(getRequest.urlRequest.url, URL(string: "https://camp-open-market-2.herokuapp.com/items/1"))
     }
-    
+
     func test_네트워크와무관하게_원하는response전달시_원하는결과가도출되는가() {
         let expectation = XCTestExpectation()
         let clientRequest = GETRequest(page: 1, id: 1, descriptionAboutMenu: .상품조회)

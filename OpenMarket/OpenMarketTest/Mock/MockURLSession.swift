@@ -19,21 +19,21 @@ class MockURLSession: URLSessionProtocol {
     var mockURLSessionDataTask = MockURLSessionDataTask()
     let caseOfResponse: CaseOfResponse
     let sampleData = NSDataAsset(name: "Item")!.data
-    
+
     let successResponse = HTTPURLResponse(url: GETRequest(page: 1, id: 1, descriptionAboutMenu: .상품조회).urlRequest.url!,
                                           statusCode: 200,
                                           httpVersion: "2",
                                           headerFields: nil)
-    
+
     let statusErrorResponse = HTTPURLResponse(url: GETRequest(page: 1, id: 1, descriptionAboutMenu: .상품조회).urlRequest.url!,
                                               statusCode: 403,
                                               httpVersion: "2",
                                               headerFields: nil)
-    
+
     init(caseOfResponse: CaseOfResponse){
         self.caseOfResponse = caseOfResponse
     }
-    
+
     func dataTask(with url: URL, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask {
         switch caseOfResponse {
         case .rightCase:

@@ -156,6 +156,9 @@
 		D06E2F2F26749DA4002FCBD3 /* Utility */ = {
 			isa = PBXGroup;
 			children = (
+				D03AA5E8266EEA720013A4B9 /* NetworkError.swift */,
+				D03AA5E6266EE5A60013A4B9 /* URLSessionProtocol.swift */,
+				D0E77D3A2660F41A006DDCB4 /* ClientRequests.swift */,
 				D06E2F2D26749D9F002FCBD3 /* Extensions.swift */,
 			);
 			path = Utility;
@@ -187,9 +190,6 @@
 			children = (
 				D0E77D332660DF9E006DDCB4 /* Items.swift */,
 				D0E77D352660DFAB006DDCB4 /* Item.swift */,
-				D03AA5E8266EEA720013A4B9 /* NetworkError.swift */,
-				D03AA5E6266EE5A60013A4B9 /* URLSessionProtocol.swift */,
-				D0E77D3A2660F41A006DDCB4 /* ClientRequests.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";

@@ -12,7 +12,7 @@ protocol Requestable {
     var urlRequest: URLRequest { get set }
     var baseURLWithString: String { get }
     var httpMethod: HTTPMethod { get }
-    
+
     func makeURL(path: String) -> URL
 }
 
