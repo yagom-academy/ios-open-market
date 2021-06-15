@@ -9,13 +9,10 @@ import UIKit
 
 class ItemCell: UITableViewCell {
     
-    
-    @IBOutlet var itemName: UILabel!
-    @IBOutlet var price: UILabel!
-    @IBOutlet var stockAmount: UILabel!
-    @IBOutlet var thumbnail: UIImageView!
-    
-    
+    @IBOutlet weak var itemName: UILabel!
+    @IBOutlet weak var price: UILabel!
+    @IBOutlet weak var stockAmount: UILabel!
+    @IBOutlet weak var thumbnail: UIImageView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
