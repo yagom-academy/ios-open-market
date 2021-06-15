@@ -8,7 +8,9 @@
 import UIKit
 
 class OpenMarketItemViewController: UIViewController {
-    let currencyList = ["KRW", "USD", "BTC", "JPY", "EUR", "GBP", "CNY"]
+    private let currencyList = ["KRW", "USD", "BTC", "JPY", "EUR", "GBP", "CNY"]
+    private let imagePicker = UIImagePickerController()
+    private var itemThumbnails: [UIImage] = []
     
     // MARK: - Views
     
@@ -81,6 +83,61 @@ class OpenMarketItemViewController: UIViewController {
         return toolbar
     }()
     
+    private lazy var uploadImageButton: UIButton = {
+        let button = UIButton()
+        let uploadImage = UIImage(systemName: "camera")
+        button.setImage(uploadImage, for: .normal)
+        button.addTarget(self, action: #selector(didTapUploadPhoto(_:)), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    private lazy var collectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.register(ImagePickerCollectionViewCell.self, forCellWithReuseIdentifier: OpenMarketGridCollectionViewCell.identifier)
+        collectionView.backgroundColor = .white
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        return collectionView
+    }()
+    private lazy var thumbnailView: UIView = {
+        let view = UIView()
+        for index in 0..<itemThumbnails.count {
+            let imageView = UIImageView()
+            imageView.image = itemThumbnails[index]
+            imageView.translatesAutoresizingMaskIntoConstraints = false
+            NSLayoutConstraint.activate([
+                imageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 15),
+                imageView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -15),
+                imageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 15),
+                imageView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15),
+            ])
+            
+            let button = UIButton()
+            button.setImage(UIImage(systemName: "x.circle.fill"), for: .normal)
+            button.imageView?.tintColor = .gray
+            button.backgroundColor = .clear
+            button.layer.cornerRadius = 10
+            button.translatesAutoresizingMaskIntoConstraints = false
+            NSLayoutConstraint.activate([
+                button.topAnchor.constraint(equalTo: view.topAnchor, constant: 7),
+                button.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 20),
+                button.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+                button.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -7),
+            ])
+            
+            button.addTarget(self, action: #selector(clickToRemoveThumbnail), for: .touchDown)
+            
+            view.addSubview(imageView)
+            view.addSubview(button)
+        }
+        
+        return view
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
@@ -93,7 +150,16 @@ extension OpenMarketItemViewController {
     
     // MARK: - setUp UI Constraints
     
+    private func addSubviews() {
+        
+    }
+    
     private func setUpUIConstraints() {
+        
+    }
+    
+    
+    @objc private func clickToRemoveThumbnail() {
         
     }
 }
@@ -138,5 +204,55 @@ extension OpenMarketItemViewController: UITextViewDelegate {
             textView.text = "상품 정보를 입력 해 주세요."
             textView.textColor = .lightGray
         }
+    }
+}
+
+// MARK: - UIImagePickerControllerDelegate
+
+extension OpenMarketItemViewController: UIImagePickerControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        
+        guard let selectedImage: UIImage = info[.originalImage] as? UIImage else { return }
+        
+        selectedImage.jpegData(compressionQuality: 0.75)
+        itemThumbnails.append(selectedImage)
+    }
+    
+    @objc func didTapUploadPhoto(_ sender: UIButton) {
+        let alertController = UIAlertController(title: "상품등록", message: nil, preferredStyle: .actionSheet)
+        let photoLibrary = UIAlertAction(title: "사진 앨범", style: .default) { action in
+            self.openLibrary()
+        }
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
+        alertController.addAction(photoLibrary)
+        alertController.addAction(cancel)
+        
+        present(alertController, animated: true, completion: nil)
+    }
+    
+    func openLibrary() {
+        imagePicker.sourceType = .photoLibrary
+        
+        present(imagePicker, animated: false, completion: nil)
+    }
+}
+
+// MARK: - UICollectionViewDataSource, UICollectionViewDelegateFlowLayout
+
+extension OpenMarketItemViewController: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        <#code#>
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        <#code#>
+    }
+    
+    
+}
+extension OpenMarketItemViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
     }
 }
