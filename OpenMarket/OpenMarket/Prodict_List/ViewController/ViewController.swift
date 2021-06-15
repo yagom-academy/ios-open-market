@@ -13,35 +13,33 @@ class CollectionViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationItem.titleView = segmentedControl
-        self.view.backgroundColor = .white
+        view.backgroundColor = .white
+        navigationItem.titleView = segmentedControl
+        collectionView.configureCollectionView(viewController: self)
+        segmentedControl.addTarget(self, action: #selector(changed), for: .valueChanged)
         
         collectionView.dataSource = self
         collectionView.delegate = self
-        collectionView.configureCollectionView(viewController: self)
 
-        self.segmentedControl.addTarget(self,
-                                        action: #selector(changed),
-                                        for: .valueChanged)
-        
         if #available(iOS 14.0, *) {
-            self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(profileButtonTapped))
+            self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(tapNavigationRightButton))
         }
-    }
-    
-    @objc func profileButtonTapped() {
-        performSegue(withIdentifier: <#T##String#>, sender: <#T##Any?#>)
     }
     
     @objc func changed() {
-        switch self.segmentedControl.selectedSegmentIndex {
-        case 0:
-            self.isListView = true
-        case 1: self.isListView = false
+        switch segmentedControl.selectedSegmentIndex {
+        case 0: isListView = true
+        case 1: isListView = false
         default: return
         }
+        
+        collectionView.reloadData()
+    }
 
-        self.collectionView.reloadData()
+    @objc func tapNavigationRightButton() {
+        let registerViewController = RegisterViewController()
+        
+        self.present(registerViewController, animated: true, completion: nil)
     }
 }
 
