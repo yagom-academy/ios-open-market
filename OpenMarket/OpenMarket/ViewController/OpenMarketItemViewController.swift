@@ -15,6 +15,7 @@ class OpenMarketItemViewController: UIViewController {
     private lazy var itemTitleTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "상품명:"
+        textField.translatesAutoresizingMaskIntoConstraints = false
         textField.textColor = .black
         return textField
     }()
@@ -23,6 +24,7 @@ class OpenMarketItemViewController: UIViewController {
         let textField = UITextField()
         textField.inputView = currencyPickerView
         textField.inputAccessoryView = pickerViewToolbar
+        textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
     
@@ -30,6 +32,7 @@ class OpenMarketItemViewController: UIViewController {
         let textField = UITextField()
         textField.placeholder = "가격:"
         textField.keyboardType = .numberPad
+        textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
     
@@ -37,6 +40,7 @@ class OpenMarketItemViewController: UIViewController {
         let textField = UITextField()
         textField.placeholder = "(optional) 할인 가격:"
         textField.keyboardType = .numberPad
+        textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
     
@@ -44,18 +48,21 @@ class OpenMarketItemViewController: UIViewController {
         let textField = UITextField()
         textField.placeholder = "수량:"
         textField.keyboardType = .numberPad
+        textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
     
     private lazy var detailedInformationTextView: UITextView = {
         let textView = UITextView()
         textView.textColor = .darkGray
+        textView.translatesAutoresizingMaskIntoConstraints = false
         return textView
     }()
     
     private lazy var currencyPickerView: UIPickerView = {
         let pickerView = UIPickerView(frame: CGRect(x: 0, y: 200, width: view.frame.width, height: 300))
         pickerView.backgroundColor = UIColor.white
+        pickerView.translatesAutoresizingMaskIntoConstraints = false
         return pickerView
     }()
     
@@ -63,6 +70,7 @@ class OpenMarketItemViewController: UIViewController {
         let toolbar = UIToolbar()
         toolbar.barStyle = .default
         toolbar.isTranslucent = true
+        toolbar.translatesAutoresizingMaskIntoConstraints = false
         toolbar.sizeToFit()
         
         let doneButton = UIBarButtonItem(title: "완료", style: .done, target: self, action: #selector(self.donePicker))
@@ -110,7 +118,7 @@ extension OpenMarketItemViewController: UIPickerViewDelegate, UIPickerViewDataSo
         currencyList.count
     }
     
-    @objc func donePicker() {
+    @objc private func donePicker() {
         currencyTextField.resignFirstResponder()
     }
 }
