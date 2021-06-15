@@ -50,22 +50,17 @@ extension CollectionViewController: UICollectionViewDataSource {
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let items: Items? = parseData()
 
         if isListView {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CollectionViewCellForList.identifier, for: indexPath) as! CollectionViewCellForList
             
-            guard let items = items else { return cell }
-            cell.item = items.items[indexPath.row]
-            cell.configure()
+            cell.configure(indexPath: indexPath)
             
             return cell
         } else {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CollectionViewCellForGrid.identifier, for: indexPath) as! CollectionViewCellForGrid
-
-            guard let items = items else { return cell }
-            cell.item = items.items[indexPath.row]
-            cell.configure()
+            
+            cell.configure(indexPath: indexPath)
             
             return cell
         }

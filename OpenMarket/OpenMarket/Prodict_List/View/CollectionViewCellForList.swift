@@ -107,37 +107,48 @@ class CollectionViewCellForList: UICollectionViewCell {
         return button
     }()
 
-    func configure() {
-        DispatchQueue.global().async {
-            guard let data = try? Data(contentsOf: URL(string: self.item.thumbnailURLs[0])!) else { return }
+    func configure(indexPath: IndexPath) {
+        let clientRequest = GETRequest(page: 1, id: 1, descriptionAboutMenu: .목록조회)
+        let networkManager = NetworkManager<Items>(clientRequest: clientRequest, session: URLSession.shared)
 
-            DispatchQueue.main.async {
-                self.imageView.image = UIImage(data: data)
+        networkManager.getServerData(url: clientRequest.urlRequest.url!){ result in
+            switch result {
+            case .failure: return
+            case .success(let data):
+                DispatchQueue.global().async {
+                    guard let image = try? Data(contentsOf: URL(string: data.items[indexPath.row].thumbnailURLs[0])!) else { return }
+
+                    DispatchQueue.main.async { [self] in
+                        self.imageView.image = UIImage(data: image)
+                        
+                        self.productLabel.text = data.items[indexPath.row].title
+                        self.originalPriceLabel.text = "\(data.items[indexPath.row].currency) \(data.items[indexPath.row].price)"
+                        
+                        if data.items[indexPath.row].discountedPrice != nil {
+                            self.discountedPriceLabel.text = "\(data.items[indexPath.row].currency) \(data.items[indexPath.row].discountedPrice!)"
+                            self.originalPriceLabel.textColor = UIColor.systemRed
+                            self.originalPriceLabel.attributedText = self.originalPriceLabel.text?.strikeThrough()
+                        } else {
+                            self.discountedPriceLabel.text = nil
+                            discountedPriceLabel.isHidden = true
+                        }
+
+                        if data.items[indexPath.row].stock == 0 {
+                            self.stockLabel.text = "품절"
+                            self.stockLabel.textColor = .orange
+                        } else if data.items[indexPath.row].stock > 99 {
+                            self.stockLabel.text = "잔여수량: 99↑"
+                            self.stockLabel.textColor = .systemGray2
+                        } else {
+                            self.stockLabel.text = "잔여수량: \(data.items[indexPath.row].stock)"
+                            self.stockLabel.textColor = .systemGray2
+                        }
+                    }
+                }
             }
         }
-
-        self.productLabel.text = item.title
-        self.originalPriceLabel.text = "\(item.currency) \(item.price)"
-
-        if item.discountedPrice != nil {
-            self.discountedPriceLabel.text = "\(item.currency) \(item.discountedPrice!)"
-            originalPriceLabel.textColor = UIColor.systemRed
-            originalPriceLabel.attributedText = originalPriceLabel.text?.strikeThrough()
-        } else {
-            self.discountedPriceLabel.text = nil
-            discountedPriceLabel.isHidden = true
-        }
-
-        if item.stock == 0 {
-            self.stockLabel.text = "품절"
-            self.stockLabel.textColor = .orange
-        } else if item.stock > 99 {
-            self.stockLabel.text = "잔여수량: 99↑"
-            self.stockLabel.textColor = .systemGray2
-        } else {
-            self.stockLabel.text = "잔여수량: \(item.stock)"
-            self.stockLabel.textColor = .systemGray2
-        }
+        
+        
     }
     
     override init(frame: CGRect) {
