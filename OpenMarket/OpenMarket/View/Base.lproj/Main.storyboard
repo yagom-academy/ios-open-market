@@ -28,10 +28,14 @@
                                         <stackView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="GTK-BV-j1F">
                                             <rect key="frame" x="10" y="6" width="361.5" height="68"/>
                                             <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dsD-Ca-HgF">
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="dsD-Ca-HgF">
                                                     <rect key="frame" x="0.0" y="0.0" width="67" height="68"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="68" id="itV-TV-eiP"/>
+                                                        <constraint firstAttribute="width" constant="67" id="qsR-yz-cHb"/>
+                                                    </constraints>
                                                 </imageView>
-                                                <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" alignment="top" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="iss-nh-OWF">
+                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="iss-nh-OWF">
                                                     <rect key="frame" x="68" y="0.0" width="293.5" height="68"/>
                                                     <subviews>
                                                         <stackView opaque="NO" contentMode="scaleToFill" spacing="190" translatesAutoresizingMaskIntoConstraints="NO" id="maV-bN-GJ1">
