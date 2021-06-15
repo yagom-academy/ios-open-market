@@ -7,7 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		665051C7265F8F1A00EA1E74 /* GridVCCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 665051C6265F8F1A00EA1E74 /* GridVCCell.swift */; };
+		66DD053E2676314A00AF47ED /* GridCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66DD053C2676314A00AF47ED /* GridCollectionViewCell.swift */; };
+		66DD053F2676314A00AF47ED /* GridCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 66DD053D2676314A00AF47ED /* GridCollectionViewCell.xib */; };
 		66F2D93B26725588008A035A /* StringStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66F2D93A26725588008A035A /* StringStyle.swift */; };
 		66F2D93D267266E6008A035A /* UIImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66F2D93C267266E6008A035A /* UIImageView.swift */; };
 		66F2D940267323FD008A035A /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66F2D93F267323FD008A035A /* Error.swift */; };
@@ -45,7 +46,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		665051C6265F8F1A00EA1E74 /* GridVCCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridVCCell.swift; sourceTree = "<group>"; };
+		66DD053C2676314A00AF47ED /* GridCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridCollectionViewCell.swift; sourceTree = "<group>"; };
+		66DD053D2676314A00AF47ED /* GridCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GridCollectionViewCell.xib; sourceTree = "<group>"; };
 		66F2D93A26725588008A035A /* StringStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringStyle.swift; sourceTree = "<group>"; };
 		66F2D93C267266E6008A035A /* UIImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageView.swift; sourceTree = "<group>"; };
 		66F2D93F267323FD008A035A /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
@@ -108,10 +110,11 @@
 				C70FB0FE25BEF61C00C9924E /* MainViewController.swift */,
 				707917EC264E8E860046FF0D /* ListVC.swift */,
 				707917EE264E8E910046FF0D /* GridVC.swift */,
-				665051C6265F8F1A00EA1E74 /* GridVCCell.swift */,
 				704BDE852654B70C00D8AC6F /* ListVCCell.swift */,
 				66F2D93A26725588008A035A /* StringStyle.swift */,
 				66F2D93C267266E6008A035A /* UIImageView.swift */,
+				66DD053C2676314A00AF47ED /* GridCollectionViewCell.swift */,
+				66DD053D2676314A00AF47ED /* GridCollectionViewCell.xib */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -280,6 +283,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				66DD053F2676314A00AF47ED /* GridCollectionViewCell.xib in Resources */,
 				C70FB10725BEF61D00C9924E /* LaunchScreen.storyboard in Resources */,
 				C70FB10425BEF61D00C9924E /* Assets.xcassets in Resources */,
 				C70FB10225BEF61C00C9924E /* Main.storyboard in Resources */,
@@ -304,7 +308,6 @@
 			files = (
 				70D53DB2264B945E0044ABB7 /* ItemPatchResponse.swift in Sources */,
 				707917EF264E8E910046FF0D /* GridVC.swift in Sources */,
-				665051C7265F8F1A00EA1E74 /* GridVCCell.swift in Sources */,
 				70D53DB0264B93CB0044ABB7 /* ItemRegistrationResponse.swift in Sources */,
 				707917ED264E8E860046FF0D /* ListVC.swift in Sources */,
 				70D53D9D264B84E10044ABB7 /* ItemDeleteRequest.swift in Sources */,
@@ -320,6 +323,7 @@
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				66F2D93B26725588008A035A /* StringStyle.swift in Sources */,
 				7003B4B2265CBAE100D70245 /* NotificationNames.swift in Sources */,
+				66DD053E2676314A00AF47ED /* GridCollectionViewCell.swift in Sources */,
 				70D53D9B264B847F0044ABB7 /* ItemPatchRequest.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 			);
