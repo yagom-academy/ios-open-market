@@ -59,8 +59,10 @@ class OpenMarketItemViewController: UIViewController {
     
     private lazy var detailedInformationTextView: UITextView = {
         let textView = UITextView()
+        textView.font = UIFont.preferredFont(forTextStyle: .body)
         textView.textColor = .darkGray
         textView.translatesAutoresizingMaskIntoConstraints = false
+        textView.delegate = self
         return textView
     }()
     
@@ -237,8 +239,8 @@ extension OpenMarketItemViewController: UIImagePickerControllerDelegate, UINavig
     
     private func openLibrary() {
         imagePicker.sourceType = .photoLibrary
-        
-        present(imagePicker, animated: false, completion: nil)
+        imagePicker.delegate = self
+        present(imagePicker, animated: true, completion: nil)
     }
 }
 
