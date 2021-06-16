@@ -123,7 +123,7 @@ extension OpenMarketViewController {
     
     @objc private func didTapAddButton(_ sender: UIBarButtonItem) {
         let openMarketItemViewController = OpenMarketItemViewController()
-        navigationController?.pushViewController(openMarketItemViewController, animated: false)
+        navigationController?.pushViewController(openMarketItemViewController, animated: true)
     }
 }
 

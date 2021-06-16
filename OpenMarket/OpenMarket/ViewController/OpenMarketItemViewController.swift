@@ -8,13 +8,16 @@
 import UIKit
 
 class OpenMarketItemViewController: UIViewController {
+    
+    // MARK: - Properties
+    
     private let currencyList = ["KRW", "USD", "BTC", "JPY", "EUR", "GBP", "CNY"]
     private let imagePicker = UIImagePickerController()
-    private var itemThumbnails: [UIImage] = []
+    var itemThumbnails: [UIImage] = []
     
     // MARK: - Views
     
-    private lazy var itemTitleTextField: UITextField = {
+    private lazy var titleTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "상품명:"
         textField.translatesAutoresizingMaskIntoConstraints = false
@@ -92,7 +95,7 @@ class OpenMarketItemViewController: UIViewController {
         return button
     }()
     
-    private lazy var collectionView: UICollectionView = {
+    private lazy var thumbnailCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -209,13 +212,14 @@ extension OpenMarketItemViewController: UITextViewDelegate {
 
 // MARK: - UIImagePickerControllerDelegate
 
-extension OpenMarketItemViewController: UIImagePickerControllerDelegate {
+extension OpenMarketItemViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
         guard let selectedImage: UIImage = info[.originalImage] as? UIImage else { return }
         
         selectedImage.jpegData(compressionQuality: 0.75)
         itemThumbnails.append(selectedImage)
+        thumbnailCollectionView.reloadData()
     }
     
     @objc func didTapUploadPhoto(_ sender: UIButton) {
@@ -231,7 +235,7 @@ extension OpenMarketItemViewController: UIImagePickerControllerDelegate {
         present(alertController, animated: true, completion: nil)
     }
     
-    func openLibrary() {
+    private func openLibrary() {
         imagePicker.sourceType = .photoLibrary
         
         present(imagePicker, animated: false, completion: nil)
@@ -242,17 +246,40 @@ extension OpenMarketItemViewController: UIImagePickerControllerDelegate {
 
 extension OpenMarketItemViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        <#code#>
+        return itemThumbnails.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        <#code#>
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ImagePickerCollectionViewCell.identifier, for: indexPath) as? ImagePickerCollectionViewCell else {
+            return UICollectionViewCell()
+        }
+        cell.indexPath = indexPath
+        cell.configureThumbnail(itemThumbnails)
+        cell.imagePickerDelegate = cell
+        cell.removeCellDelegate = self
+        return cell
     }
-    
-    
 }
 extension OpenMarketItemViewController: UICollectionViewDelegateFlowLayout {
+    
+    // MARK: - Cell Size
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        
+        let cellWidth = collectionView.frame.width / 5
+        let cellHeight = collectionView.frame.height
+        return CGSize(width: cellWidth, height: cellHeight)
+    }
+}
+
+// MARK: - RemoveDelegate
+
+extension OpenMarketItemViewController: RemoveDelegate {
+    func removeCell(_ indexPath : IndexPath) {
+            self.thumbnailCollectionView.performBatchUpdates {
+                self.thumbnailCollectionView.deleteItems(at: [indexPath])
+                self.itemThumbnails.remove(at: indexPath.row)
+            } completion: { (_) in
+                self.thumbnailCollectionView.reloadData()
+            }
     }
 }
