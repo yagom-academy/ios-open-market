@@ -21,19 +21,17 @@ class CollectionView: UICollectionView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func configureCollectionView(viewController: UIViewController){
+    func configure(viewController: UIViewController) {
         viewController.view.addSubview(self)
-
         self.translatesAutoresizingMaskIntoConstraints = false
-
+        self.backgroundColor = .systemBackground
+        self.flowlayout.scrollDirection = .vertical
+        
         NSLayoutConstraint.activate([
             self.topAnchor.constraint(equalTo: viewController.view.safeAreaLayoutGuide.topAnchor),
             self.bottomAnchor.constraint(equalTo: viewController.view.bottomAnchor),
             self.leadingAnchor.constraint(equalTo: viewController.view.safeAreaLayoutGuide.leadingAnchor),
             self.trailingAnchor.constraint(equalTo: viewController.view.safeAreaLayoutGuide.trailingAnchor)
         ])
-
-        self.backgroundColor = .systemBackground
-        self.flowlayout.scrollDirection = .vertical
     }
 }

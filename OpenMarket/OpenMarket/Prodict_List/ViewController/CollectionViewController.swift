@@ -11,6 +11,7 @@ class CollectionViewController: UIViewController {
     let segmentedControl = SegmentedControl()
     let collectionView = CollectionView(frame: .zero, flowlayout: UICollectionViewFlowLayout())
     let loadingImageView = LoadingImageView()
+    let failView = FailView()
     var isListView: Bool = true
 
     override func loadView() {
@@ -19,34 +20,35 @@ class CollectionViewController: UIViewController {
         let networkManager = NetworkManager<Items>(clientRequest: clientRequest, session: URLSession.shared)
         
         loadingImageView.configure(viewController: self)
+        segmentedControl.configure()
         navigationController?.navigationBar.isHidden = true
         
         networkManager.getServerData(url: clientRequest.urlRequest.url!){ result in
             switch result {
-            case .failure: return
+            case .failure:
+                self.failView.configure(viewController: self)
             case .success(let data):
                 DispatchQueue.main.async {
                     CollectionViewController.items = data.items
                     self.navigationController?.navigationBar.isHidden = false
-                    self.collectionView.configureCollectionView(viewController: self)
+                    self.collectionView.configure(viewController: self)
                 }
             }
         }
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         navigationItem.titleView = segmentedControl
-        
         segmentedControl.addTarget(self, action: #selector(changed), for: .valueChanged)
         
-        collectionView.dataSource = self
-        collectionView.delegate = self
-
         if #available(iOS 14.0, *) {
             self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(tapNavigationRightButton))
         }
+        
+        collectionView.dataSource = self
+        collectionView.delegate = self
     }
     
     @objc func changed() {
@@ -61,15 +63,14 @@ class CollectionViewController: UIViewController {
 
     @objc func tapNavigationRightButton() {
         let registerViewController = RegisterViewController()
-        
+
         self.present(registerViewController, animated: true, completion: nil)
     }
 }
 
 extension CollectionViewController: UICollectionViewDataSource {
-
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 20
+        return CollectionViewController.items.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -83,17 +84,10 @@ extension CollectionViewController: UICollectionViewDataSource {
         } else {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CollectionViewCellForGrid.identifier, for: indexPath) as! CollectionViewCellForGrid
             
-            cell.configure(indexPath: indexPath)
+            cell.configure(item: CollectionViewController.items[indexPath.row])
             
             return cell
         }
-    }
-    
-    func parseData() -> Items? {
-        guard let data = NSDataAsset(name: "Items")?.data else { return nil }
-        guard let parsedData = try? JSONDecoder().decode(Items.self, from: data) else { return nil }
-
-        return parsedData
     }
 }
 

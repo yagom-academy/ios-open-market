@@ -10,7 +10,6 @@ import UIKit
 class SegmentedControl: UISegmentedControl {
     override init(items: [Any]? = ["LIST", "GRID"]){
         super.init(items: items)
-        self.configure()
     }
 
     required init?(coder: NSCoder) {
@@ -18,14 +17,13 @@ class SegmentedControl: UISegmentedControl {
     }
 
     func configure() {
-        self.tintColor = UIColor.white
-        self.backgroundColor = UIColor.lightGray
-        self.selectedSegmentIndex = 0
-
         for index in 0...1 {
             self.setWidth(60, forSegmentAt: index)
         }
-
+        
+        self.tintColor = UIColor.white
+        self.backgroundColor = UIColor.lightGray
+        self.selectedSegmentIndex = 0
         self.sizeToFit()
         self.selectedSegmentIndex = 0
         self.sendActions(for: .valueChanged)
