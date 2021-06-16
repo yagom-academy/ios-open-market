@@ -101,7 +101,7 @@ class OpenMarketItemViewController: UIViewController {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.register(ImagePickerCollectionViewCell.self, forCellWithReuseIdentifier: OpenMarketGridCollectionViewCell.identifier)
+        collectionView.register(ImagePickerCollectionViewCell.self, forCellWithReuseIdentifier: ImagePickerCollectionViewCell.identifier)
         collectionView.backgroundColor = .white
         collectionView.delegate = self
         collectionView.dataSource = self
