@@ -7,16 +7,19 @@
 import UIKit
 
 class CollectionViewController: UIViewController {
+    static var items: [Item]!
     let segmentedControl = SegmentedControl()
     let collectionView = CollectionView(frame: .zero, flowlayout: UICollectionViewFlowLayout())
+    let loadingImageView = LoadingImageView()
     var isListView: Bool = true
-    static var items: [Item]!
 
     override func loadView() {
         super.loadView()
-        
         let clientRequest = GETRequest(page: 1, id: 1, descriptionAboutMenu: .목록조회)
         let networkManager = NetworkManager<Items>(clientRequest: clientRequest, session: URLSession.shared)
+        
+        loadingImageView.configure(viewController: self)
+        navigationController?.navigationBar.isHidden = true
         
         networkManager.getServerData(url: clientRequest.urlRequest.url!){ result in
             switch result {
@@ -24,6 +27,7 @@ class CollectionViewController: UIViewController {
             case .success(let data):
                 DispatchQueue.main.async {
                     CollectionViewController.items = data.items
+                    self.navigationController?.navigationBar.isHidden = false
                     self.collectionView.configureCollectionView(viewController: self)
                 }
             }
@@ -34,21 +38,6 @@ class CollectionViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
         navigationItem.titleView = segmentedControl
-        
-        let loadingImageView: UIImageView = {
-            let loadingImageView = UIImageView()
-            loadingImageView.image = UIImage(named: "yagom")
-            
-            return loadingImageView
-        }()
-        
-        view.addSubview(loadingImageView)
-        loadingImageView.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            loadingImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            loadingImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-        ])
         
         segmentedControl.addTarget(self, action: #selector(changed), for: .valueChanged)
         
