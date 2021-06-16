@@ -30,7 +30,7 @@ struct NetworkManager {
         }.resume()
     }
     
-    func makeRequest(apiURL: String, httpBodyData: Data?, requestDataType: String, requestHeaderField: String) throws -> URLRequest {
+    func makeRequest(apiURL: String, httpBodyData: Data?, requestDataType: DataTypeFormat, requestHeaderField: RequestHeaderField) throws -> URLRequest {
         
         guard let apiURL = URL(string: apiURL) else {
             throw APIError.InvalidAddressError
@@ -39,11 +39,11 @@ struct NetworkManager {
         var request = URLRequest(url: apiURL)
         request.httpMethod = HTTPMethod.post.description
         request.httpBody = httpBodyData
-        request.setValue(requestDataType, forHTTPHeaderField: requestHeaderField)
+        request.setValue(requestDataType.description, forHTTPHeaderField: requestHeaderField.description)
         
         return request
     }
-    
+    // parameter page int로 넘기는 것
     func fetchItemList(completion: @escaping (Result<ItemList, APIError>) -> ()) {
         let fetchItemListURL = OpenMarketAPIPath.itemListSearch.path + "\(self.page)"
         
@@ -67,36 +67,35 @@ struct NetworkManager {
         let request = URLRequest(url:apiURL)
         
         fetchModel(with: request, completionHandler: completion)
-        
     }
     
-    func registerItem(data: POSTRequestItem, completion: @escaping (Result<Item, APIError>) -> ()) throws {
+    func registerItem(data: POSTRequestItem, completion: @escaping (Result<Item, APIError>) -> ()) {
         let postItemURL = OpenMarketAPIPath.itemRegister.path
         let encodedJSONData = try? JSONEncoder().encode(data)
-        if let request = try? makeRequest(apiURL: postItemURL, httpBodyData: encodedJSONData, requestDataType: DataTypeFormat.MultipartFormData.description, requestHeaderField: RequestHeaderField.ContentType.description) {
+        if let request = try? makeRequest(apiURL: postItemURL, httpBodyData: encodedJSONData, requestDataType: .MultipartFormData, requestHeaderField: .ContentType) {
             fetchModel(with: request, completionHandler: completion)
         } else {
-            throw APIError.NotFound404Error
+            completion(.failure(APIError.NotFound404Error))
         }
     }
     
-    func deleteItem(data: DELETERequestItem, completion: @escaping (Result<Item, APIError>) -> ()) throws {
+    func deleteItem(data: DELETERequestItem, completion: @escaping (Result<Item, APIError>) -> ()) {
         let deleteItemURL = OpenMarketAPIPath.itemDeletion.path
         let encodedJSONData = try? JSONEncoder().encode(data)
-        if let request = try? makeRequest(apiURL: deleteItemURL, httpBodyData: encodedJSONData, requestDataType: DataTypeFormat.MultipartFormData.description, requestHeaderField: RequestHeaderField.ContentType.description) {
+        if let request = try? makeRequest(apiURL: deleteItemURL, httpBodyData: encodedJSONData, requestDataType: .MultipartFormData, requestHeaderField: .ContentType) {
             fetchModel(with: request, completionHandler: completion)
         } else {
-            throw APIError.NotFound404Error
+            completion(.failure(APIError.NotFound404Error))
         }
     }
     
-    func editItem(data: PATCHRequestItem, completion: @escaping (Result<Item, APIError>) -> ()) throws {
+    func editItem(data: PATCHRequestItem, completion: @escaping (Result<Item, APIError>) -> ()) {
         let editItemURL = OpenMarketAPIPath.itemEdit.path
         let encodedJSONData = try? JSONEncoder().encode(data)
-        if let request = try? makeRequest(apiURL: editItemURL, httpBodyData: encodedJSONData, requestDataType: DataTypeFormat.MultipartFormData.description, requestHeaderField: RequestHeaderField.ContentType.description) {
+        if let request = try? makeRequest(apiURL: editItemURL, httpBodyData: encodedJSONData, requestDataType: .MultipartFormData, requestHeaderField: .ContentType) {
             fetchModel(with: request, completionHandler: completion)
         } else {
-            throw APIError.NotFound404Error
+            completion(.failure(APIError.NotFound404Error))
         }
     }
 }
