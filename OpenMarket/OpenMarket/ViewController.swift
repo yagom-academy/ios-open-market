@@ -22,7 +22,8 @@ class ViewController: UITableViewController {
             switch result {
             case .success(let model):
                 let fetchedItemList = ItemList(page: self.currentPage, itemList: model.itemList)
-                self.list.append(fetchedItemList)
+                let listedItem = fetchedItemList.itemList
+                self.list.append(contentsOf: listedItem)
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
                 }
@@ -44,17 +45,17 @@ extension ViewController {
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if self.list.count != 0 {
-            return self.list[self.page].itemList.count
+            return self.list.count
         }
         return 0
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let itemCell = itemListTableView.dequeueReusableCell(withIdentifier: "itemCell", for: indexPath) as! ItemCell
-        let currentPageList = self.list[self.page].itemList
-        itemCell.itemName?.text = currentPageList[indexPath.row].title
-        itemCell.price?.text = "\(currentPageList[indexPath.row].price)"
-        itemCell.stockAmount?.text = "\(currentPageList[indexPath.row].stock)"
+    
+        itemCell.itemName?.text = self.list[indexPath.row].title
+        itemCell.price?.text = "\(self.list[indexPath.row].price)"
+        itemCell.stockAmount?.text = "\(self.list[indexPath.row].stock)"
         
         DispatchQueue.main.async(execute: {
           itemCell.thumbnail.image = self.getThumbnailImage(indexPath.row)
@@ -64,7 +65,7 @@ extension ViewController {
     }
     
     private func getThumbnailImage(_ index: Int) -> UIImage {
-        let listedItem = self.list[self.page].itemList[index]
+        let listedItem = self.list[index]
         let url: URL! = URL(string: listedItem.thumbnails[0])
         let imageData = try! Data(contentsOf: url)
         return UIImage(data:imageData)!
