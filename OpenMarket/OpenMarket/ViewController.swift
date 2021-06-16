@@ -8,11 +8,8 @@ import UIKit
 
 class ViewController: UITableViewController {
     
-    var page = 0
-    lazy var list: [ItemList] = {
-      var datalist = [ItemList]()
-      return datalist
-    }()
+    private var currentPage: UInt = 1
+    private var list = [ListedItem]()
     @IBOutlet var itemListTableView: UITableView!
     
     override func viewDidLoad() {
@@ -21,10 +18,10 @@ class ViewController: UITableViewController {
         self.itemListTableView.delegate = self
         
         let networkManager = NetworkManager()
-        networkManager.fetchItemList { result in
+        networkManager.fetchItemList(page: self.currentPage) { result in
             switch result {
             case .success(let model):
-                let fetchedItemList = ItemList(page: model.page, itemList: model.itemList)
+                let fetchedItemList = ItemList(page: self.currentPage, itemList: model.itemList)
                 self.list.append(fetchedItemList)
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
@@ -33,6 +30,7 @@ class ViewController: UITableViewController {
             case .failure(let error):
                 // FIXME: - 에러 처리를 단순 프린트함
                 print(error)
+                // UIAlert 사용해보기
             }
         }
     }
@@ -65,7 +63,7 @@ extension ViewController {
         return itemCell
     }
     
-    func getThumbnailImage(_ index: Int) -> UIImage {
+    private func getThumbnailImage(_ index: Int) -> UIImage {
         let listedItem = self.list[self.page].itemList[index]
         let url: URL! = URL(string: listedItem.thumbnails[0])
         let imageData = try! Data(contentsOf: url)
@@ -76,10 +74,6 @@ extension ViewController {
 // MARK: - UITableViewDelegate
 extension ViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-    }
-    
-    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         
     }
 }

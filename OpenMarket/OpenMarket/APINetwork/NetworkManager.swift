@@ -9,8 +9,6 @@ import Foundation
 
 struct NetworkManager {
     
-    private var page = 1
-    
     func fetchModel<T: Decodable>(with urlRequest: URLRequest, completionHandler: @escaping (Result<T, APIError>) -> Void) {
         URLSession.shared.dataTask(with: urlRequest) { data, response, error in
             guard let data = data else {
@@ -43,9 +41,9 @@ struct NetworkManager {
         
         return request
     }
-    // parameter page int로 넘기는 것
-    func fetchItemList(completion: @escaping (Result<ItemList, APIError>) -> ()) {
-        let fetchItemListURL = OpenMarketAPIPath.itemListSearch.path + "\(self.page)"
+    
+    func fetchItemList(page: UInt, completion: @escaping (Result<ItemList, APIError>) -> ()) {
+        let fetchItemListURL = OpenMarketAPIPath.itemListSearch.path + "\(page)"
         
         guard let apiURL = URL(string: fetchItemListURL) else {
             completion(.failure(APIError.InvalidAddressError))
