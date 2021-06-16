@@ -29,9 +29,8 @@ class ViewController: UITableViewController {
                 }
                 return
             case .failure(let error):
-                // FIXME: - 에러 처리를 단순 프린트함
-                print(error)
-                // UIAlert 사용해보기
+                let alert = UIAlertController(title: "Error", message: error.errorDescription, preferredStyle: UIAlertController.Style.alert)
+                self.present(alert, animated: false)
             }
         }
     }
