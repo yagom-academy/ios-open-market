@@ -11,8 +11,9 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBOutlet var mainView: UIView!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var collectionView: UICollectionView!
-    
     @IBOutlet weak var segmentedControl: UISegmentedControl!
+    
+    var items: [ItemInformation] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,6 +37,40 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         segmentedControl.backgroundColor = UIColor.systemBlue
         }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        let urlString = "https://camp-open-market-2.herokuapp.com/items/1"
+        guard let url = URL(string: urlString) else { return }
+        
+        let session: URLSession = URLSession(configuration: .default)
+        let dataTask: URLSessionDataTask = session.dataTask(with: url) { (data: Data?, response: URLResponse?, error: Error?) in
+            
+            guard error == nil else { return }
+            
+            guard let statusCode = (response as? HTTPURLResponse)?.statusCode else { return }
+            let successRange = 200..<300
+            
+            guard successRange.contains(statusCode) else { return }
+            
+            guard let resultData = data else { return }
+            let resultString = String(data: resultData, encoding: .utf8)
+            
+            do {
+                let decoder = JSONDecoder()
+                let apiResponse = try decoder.decode(APIResponse.self, from: resultData)
+                let items = apiResponse.items
+                    DispatchQueue.main.async {
+                        self.tableView.reloadData()
+                    }
+            } catch let error {
+                print(error.localizedDescription)
+            }
+        }
+        
+        dataTask.resume()
+    }
+    
     @IBAction func switchViewsBySegmentedControl(_ sender: UISegmentedControl) {
         switch segmentedControl.selectedSegmentIndex {
         case 0:
@@ -51,19 +86,25 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        return items.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let url = URL(string: "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/thumbnails/1-1.png") else { return UITableViewCell()}
-        let data = try! Data(contentsOf: url)
-        let cell = tableView.dequeueReusableCell(withIdentifier: "TableViewItemCell", for: indexPath) as! TableViewCell
-        cell.itemName.text = "MacBook Pro"
-        cell.itemPrice.text = "1800000"
-        cell.itemThumbnail.image = UIImage(data: data)
+//        guard let url = URL(string: "https://camp-open-market-2.herokuapp.com/items/1") else { return UITableViewCell()}
+//        let data = try! Data(contentsOf: url)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "TableViewItemCell", for: indexPath) as? TableViewCell else { return UITableViewCell() }
+        let item: ItemInformation = self.items[indexPath.row]
+        
+        cell.itemName.text = item.title
+        cell.itemPrice.text = String(item.price)
+        
+        let imageURL: URL! = URL(string: item.thumbnails.first!)
+        guard let imageData: Data = try? Data(contentsOf: imageURL) else { return cell }
+        cell.itemThumbnail.image = UIImage(data: imageData)
         cell.itemThumbnail.adjustsImageSizeForAccessibilityContentSizeCategory = false
         cell.itemThumbnail.sizeToFit()
-        cell.itemQuantity.text = "수량 : 128"
+        cell.itemQuantity.text = String(item.stock)
+        
         return cell
     }
     
@@ -89,7 +130,8 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func setupFlowLayout() {
         let flowLayout = UICollectionViewFlowLayout()
-        flowLayout.sectionInset = UIEdgeInsets.zero
+//        flowLayout.sectionInset = UIEdgeInsets.zero
+        flowLayout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         flowLayout.minimumInteritemSpacing = 10
         flowLayout.minimumLineSpacing = 10
         
