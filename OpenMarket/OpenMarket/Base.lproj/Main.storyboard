@@ -66,8 +66,17 @@
                                 <segment title="First"/>
                                 <segment title="Grid"/>
                             </segments>
+                            <connections>
+                                <action selector="ChangeViewBySegmentedControl:" destination="BYZ-38-t0r" eventType="valueChanged" id="zAZ-Uw-Srf"/>
+                            </connections>
                         </segmentedControl>
                     </navigationItem>
+                    <connections>
+                        <outlet property="SegmentedControl" destination="Kw2-ka-zKs" id="xio-yS-wXC"/>
+                        <outlet property="collectionView" destination="9Xd-9U-S78" id="r0I-Z4-D3I"/>
+                        <outlet property="mainView" destination="8bC-Xf-vdC" id="nbl-bG-P0R"/>
+                        <outlet property="tableView" destination="fxX-yN-qFV" id="Za5-Ym-uJz"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
