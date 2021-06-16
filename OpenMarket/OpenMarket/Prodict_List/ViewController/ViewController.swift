@@ -10,12 +10,46 @@ class CollectionViewController: UIViewController {
     let segmentedControl = SegmentedControl()
     let collectionView = CollectionView(frame: .zero, flowlayout: UICollectionViewFlowLayout())
     var isListView: Bool = true
+    static var items: [Item]!
 
+    override func loadView() {
+        super.loadView()
+        
+        let clientRequest = GETRequest(page: 1, id: 1, descriptionAboutMenu: .목록조회)
+        let networkManager = NetworkManager<Items>(clientRequest: clientRequest, session: URLSession.shared)
+        
+        networkManager.getServerData(url: clientRequest.urlRequest.url!){ result in
+            switch result {
+            case .failure: return
+            case .success(let data):
+                DispatchQueue.main.async {
+                    CollectionViewController.items = data.items
+                    self.collectionView.configureCollectionView(viewController: self)
+                }
+            }
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         navigationItem.titleView = segmentedControl
-        collectionView.configureCollectionView(viewController: self)
+        
+        let loadingImageView: UIImageView = {
+            let loadingImageView = UIImageView()
+            loadingImageView.image = UIImage(named: "yagom")
+            
+            return loadingImageView
+        }()
+        
+        view.addSubview(loadingImageView)
+        loadingImageView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            loadingImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            loadingImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+        ])
+        
         segmentedControl.addTarget(self, action: #selector(changed), for: .valueChanged)
         
         collectionView.dataSource = self
@@ -53,8 +87,8 @@ extension CollectionViewController: UICollectionViewDataSource {
 
         if isListView {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CollectionViewCellForList.identifier, for: indexPath) as! CollectionViewCellForList
-            
-            cell.configure(indexPath: indexPath)
+           
+            cell.configure(item: CollectionViewController.items[indexPath.row])
             
             return cell
         } else {

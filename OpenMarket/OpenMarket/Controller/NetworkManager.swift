@@ -17,22 +17,23 @@ class NetworkManager<T: Decodable> {
 
     func getServerData(url: URL, completionHandler: @escaping (Result<T, NetworkError>) -> Void) {
         session.dataTask(with: url){ data, response, error in
-            if error != nil {
-                return completionHandler(.failure(.receiveError))
+            guard error == nil else {
+                completionHandler(.failure(.receiveError))
+                return
             }
 
             guard let httpResponse = response as? HTTPURLResponse,
                   (200...299).contains(httpResponse.statusCode) else {
-                return completionHandler(.failure(.receiveUnwantedResponse))
+                completionHandler(.failure(.receiveUnwantedResponse))
+                return
             }
 
             if let data = data {
                 guard let convertedData = try? JSONDecoder().decode(T.self, from: data) else {
-                    print(1)
-                    return completionHandler(.failure(.receiveUnwantedResponse))
+                    completionHandler(.failure(.receiveUnwantedResponse))
+                    return
                 }
-                print(2)
-                return completionHandler(.success(convertedData))
+                completionHandler(.success(convertedData))
             }
         }.resume()
     }

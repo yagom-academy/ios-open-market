@@ -8,7 +8,7 @@
 import UIKit
 
 class CollectionViewCellForList: UICollectionViewCell {
-
+    
     static let identifier = "listCell"
     var item: Item!
     
@@ -107,48 +107,39 @@ class CollectionViewCellForList: UICollectionViewCell {
         return button
     }()
 
-    func configure(indexPath: IndexPath) {
-        let clientRequest = GETRequest(page: 1, id: 1, descriptionAboutMenu: .목록조회)
-        let networkManager = NetworkManager<Items>(clientRequest: clientRequest, session: URLSession.shared)
+    func configure(item: Item) {
+            productLabel.text = item.title
+            originalPriceLabel.text = "\(item.currency) \(item.price)"
+            
+            if item.discountedPrice != nil {
+                discountedPriceLabel.text = "\(item.currency) \(item.discountedPrice!)"
+                originalPriceLabel.textColor = UIColor.systemRed
+                originalPriceLabel.attributedText = originalPriceLabel.text?.strikeThrough()
+            } else {
+                discountedPriceLabel.text = nil
+                discountedPriceLabel.isHidden = true
+            }
 
-        networkManager.getServerData(url: clientRequest.urlRequest.url!){ result in
-            switch result {
-            case .failure: return
-            case .success(let data):
-                DispatchQueue.global().async {
-                    guard let image = try? Data(contentsOf: URL(string: data.items[indexPath.row].thumbnailURLs[0])!) else { return }
+            if item.stock == 0 {
+                stockLabel.text = "품절"
+                stockLabel.textColor = .orange
+            } else if item.stock > 99 {
+                stockLabel.text = "잔여수량: 99↑"
+                stockLabel.textColor = .systemGray2
+            } else {
+                stockLabel.text = "잔여수량: \(item.stock)"
+                stockLabel.textColor = .systemGray2
+            }
+        
+        
+        DispatchQueue.global().async {
+            guard let image = try? Data(contentsOf: URL(string: item.thumbnailURLs[0])!) else { return }
 
-                    DispatchQueue.main.async { [self] in
-                        self.imageView.image = UIImage(data: image)
-                        
-                        self.productLabel.text = data.items[indexPath.row].title
-                        self.originalPriceLabel.text = "\(data.items[indexPath.row].currency) \(data.items[indexPath.row].price)"
-                        
-                        if data.items[indexPath.row].discountedPrice != nil {
-                            self.discountedPriceLabel.text = "\(data.items[indexPath.row].currency) \(data.items[indexPath.row].discountedPrice!)"
-                            self.originalPriceLabel.textColor = UIColor.systemRed
-                            self.originalPriceLabel.attributedText = self.originalPriceLabel.text?.strikeThrough()
-                        } else {
-                            self.discountedPriceLabel.text = nil
-                            discountedPriceLabel.isHidden = true
-                        }
+            DispatchQueue.main.async { [self] in
+                imageView.image = UIImage(data: image)
 
-                        if data.items[indexPath.row].stock == 0 {
-                            self.stockLabel.text = "품절"
-                            self.stockLabel.textColor = .orange
-                        } else if data.items[indexPath.row].stock > 99 {
-                            self.stockLabel.text = "잔여수량: 99↑"
-                            self.stockLabel.textColor = .systemGray2
-                        } else {
-                            self.stockLabel.text = "잔여수량: \(data.items[indexPath.row].stock)"
-                            self.stockLabel.textColor = .systemGray2
-                        }
-                    }
-                }
             }
         }
-        
-        
     }
     
     override init(frame: CGRect) {
@@ -174,8 +165,6 @@ class CollectionViewCellForList: UICollectionViewCell {
 
             imageView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.18),
             imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor),
-            
-            
         ])
     }
 
