@@ -28,26 +28,3 @@ enum RequestHeaderField: CustomStringConvertible {
         }
     }
 }
-
-enum ErrorMessage: CustomStringConvertible {
-    case Error
-    case NotFound404Error
-    case JSONParseError
-    case InvalidAddressError
-    case NetworkFailure
-    
-    var description: String {
-        switch self {
-        case .Error:
-            return "[Error] "
-        case .NotFound404Error:
-            return "Cannot find data"
-        case .JSONParseError:
-            return "Cannot parse JSONData"
-        case .InvalidAddressError:
-            return "Invalid URL"
-        case .NetworkFailure:
-            return "Network Failure"
-        }
-    }
-}
