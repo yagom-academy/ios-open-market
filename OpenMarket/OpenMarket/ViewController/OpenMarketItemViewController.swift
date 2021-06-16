@@ -69,6 +69,8 @@ class OpenMarketItemViewController: UIViewController {
     private lazy var currencyPickerView: UIPickerView = {
         let pickerView = UIPickerView(frame: CGRect(x: 0, y: 200, width: view.frame.width, height: 300))
         pickerView.backgroundColor = UIColor.white
+        pickerView.dataSource = self
+        pickerView.delegate = self
         pickerView.translatesAutoresizingMaskIntoConstraints = false
         return pickerView
     }()
