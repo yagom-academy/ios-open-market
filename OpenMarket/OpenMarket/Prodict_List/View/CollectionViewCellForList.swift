@@ -176,8 +176,11 @@ class CollectionViewCellForList: UICollectionViewCell {
         super.prepareForReuse()
         self.productLabel.text = "야곰 아카데미"
         self.imageView.image = UIImage(named: "yagom")
-        self.originalPriceLabel.text = "USD 100"
-        self.discountedPriceLabel.text = nil
+//        self.originalPriceLabel.text = "USD 100"
+        self.discountedPriceLabel.text = ""
         self.stockLabel.text = "품절"
+        discountedPriceLabel.isHidden = false
+        originalPriceLabel.attributedText = nil
+        originalPriceLabel.textColor = UIColor.systemGray2
     }
 }
