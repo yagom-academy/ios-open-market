@@ -30,6 +30,8 @@
 		EAB785992668D8810090C7FC /* NetworkResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAB785982668D8810090C7FC /* NetworkResponse.swift */; };
 		EAEF60E526774DD900D82B73 /* OpenMarketItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAEF60E426774DD900D82B73 /* OpenMarketItemViewController.swift */; };
 		EAEF60E9267892D200D82B73 /* ImagePickerCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAEF60E8267892D200D82B73 /* ImagePickerCollectionViewCell.swift */; };
+		EAEF60EB2678C16000D82B73 /* ImagePickerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAEF60EA2678C16000D82B73 /* ImagePickerDelegate.swift */; };
+		EAEF60ED2678C31900D82B73 /* RemoveDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAEF60EC2678C31900D82B73 /* RemoveDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,6 +72,8 @@
 		EAB785982668D8810090C7FC /* NetworkResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkResponse.swift; sourceTree = "<group>"; };
 		EAEF60E426774DD900D82B73 /* OpenMarketItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketItemViewController.swift; sourceTree = "<group>"; };
 		EAEF60E8267892D200D82B73 /* ImagePickerCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerCollectionViewCell.swift; sourceTree = "<group>"; };
+		EAEF60EA2678C16000D82B73 /* ImagePickerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerDelegate.swift; sourceTree = "<group>"; };
+		EAEF60EC2678C31900D82B73 /* RemoveDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoveDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,6 +116,7 @@
 			isa = PBXGroup;
 			children = (
 				EA8E9681266E4769001280CF /* Utility */,
+				EAEF60EE2678D46800D82B73 /* Cell */,
 				EAB78593266765D70090C7FC /* ViewController */,
 				EAB7857F2665D92C0090C7FC /* Protocol */,
 				EAB7856A2664D0BE0090C7FC /* Manager */,
@@ -179,6 +184,8 @@
 				EAB78585266613910090C7FC /* URLSessionProtocol.swift */,
 				EAB78591266639780090C7FC /* NetworkManageable.swift */,
 				EA8E967F266E4085001280CF /* CellDataUpdatable.swift */,
+				EAEF60EA2678C16000D82B73 /* ImagePickerDelegate.swift */,
+				EAEF60EC2678C31900D82B73 /* RemoveDelegate.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -187,12 +194,19 @@
 			isa = PBXGroup;
 			children = (
 				C70FB0FE25BEF61C00C9924E /* OpenMarketViewController.swift */,
-				EAB78596266766130090C7FC /* OpenMarketListCollectionViewCell.swift */,
-				EA8E967B266DE472001280CF /* OpenMarketGridCollectionViewCell.swift */,
 				EAEF60E426774DD900D82B73 /* OpenMarketItemViewController.swift */,
-				EAEF60E8267892D200D82B73 /* ImagePickerCollectionViewCell.swift */,
 			);
 			path = ViewController;
+			sourceTree = "<group>";
+		};
+		EAEF60EE2678D46800D82B73 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				EAB78596266766130090C7FC /* OpenMarketListCollectionViewCell.swift */,
+				EA8E967B266DE472001280CF /* OpenMarketGridCollectionViewCell.swift */,
+				EAEF60E8267892D200D82B73 /* ImagePickerCollectionViewCell.swift */,
+			);
+			path = Cell;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -300,11 +314,13 @@
 				EAB785702664E6980090C7FC /* DataError.swift in Sources */,
 				EAB785692664CCEF0090C7FC /* OpenMarketItemList.swift in Sources */,
 				EA8E9680266E4085001280CF /* CellDataUpdatable.swift in Sources */,
+				EAEF60EB2678C16000D82B73 /* ImagePickerDelegate.swift in Sources */,
 				EAEF60E9267892D200D82B73 /* ImagePickerCollectionViewCell.swift in Sources */,
 				EAB7856E2664D1CE0090C7FC /* OpenMarketAPI.swift in Sources */,
 				EAB78592266639780090C7FC /* NetworkManageable.swift in Sources */,
 				EAEF60E526774DD900D82B73 /* OpenMarketItemViewController.swift in Sources */,
 				EAB785662664C9760090C7FC /* HTTPMethods.swift in Sources */,
+				EAEF60ED2678C31900D82B73 /* RemoveDelegate.swift in Sources */,
 				EAB785992668D8810090C7FC /* NetworkResponse.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* OpenMarketViewController.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,

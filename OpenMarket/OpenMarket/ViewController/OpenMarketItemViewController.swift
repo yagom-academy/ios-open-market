@@ -19,7 +19,8 @@ class OpenMarketItemViewController: UIViewController {
     
     private lazy var titleTextField: UITextField = {
         let textField = UITextField()
-        textField.placeholder = "상품명:"
+        textField.placeholder = "상품명"
+        textField.font = UIFont.preferredFont(forTextStyle: .body)
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.textColor = .black
         return textField
@@ -28,14 +29,18 @@ class OpenMarketItemViewController: UIViewController {
     private lazy var currencyTextField: UITextField = {
         let textField = UITextField()
         textField.inputView = currencyPickerView
-        textField.inputAccessoryView = pickerViewToolbar
+        textField.layer.borderWidth = 0.5
+        textField.placeholder = "화폐"
+        textField.font = UIFont.preferredFont(forTextStyle: .body)
+        textField.inputAccessoryView = currencyPickerViewToolbar
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
     
     private lazy var priceTextField: UITextField = {
         let textField = UITextField()
-        textField.placeholder = "가격:"
+        textField.placeholder = "가격"
+        textField.font = UIFont.preferredFont(forTextStyle: .body)
         textField.keyboardType = .numberPad
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
@@ -43,7 +48,8 @@ class OpenMarketItemViewController: UIViewController {
     
     private lazy var discountedPriceTextField: UITextField = {
         let textField = UITextField()
-        textField.placeholder = "(optional) 할인 가격:"
+        textField.font = UIFont.preferredFont(forTextStyle: .body)
+        textField.placeholder = "(optional) 할인 가격"
         textField.keyboardType = .numberPad
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
@@ -51,7 +57,8 @@ class OpenMarketItemViewController: UIViewController {
     
     private lazy var stockTextField: UITextField = {
         let textField = UITextField()
-        textField.placeholder = "수량:"
+        textField.font = UIFont.preferredFont(forTextStyle: .body)
+        textField.placeholder = "수량"
         textField.keyboardType = .numberPad
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
@@ -75,8 +82,8 @@ class OpenMarketItemViewController: UIViewController {
         return pickerView
     }()
     
-    private lazy var pickerViewToolbar: UIToolbar = {
-        let toolbar = UIToolbar()
+    private lazy var currencyPickerViewToolbar: UIToolbar = {
+        let toolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: currencyPickerView.frame.width, height: currencyPickerView.frame.height / 5))
         toolbar.barStyle = .default
         toolbar.isTranslucent = true
         toolbar.translatesAutoresizingMaskIntoConstraints = false
@@ -101,7 +108,10 @@ class OpenMarketItemViewController: UIViewController {
     
     private lazy var thumbnailCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .vertical
+        let viewWidth = self.view.frame.width / 2
+        let viewHeight = self.view.frame.height / 5
+        layout.itemSize = CGSize(width: viewWidth, height: viewHeight)
+        layout.scrollDirection = .horizontal
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.register(ImagePickerCollectionViewCell.self, forCellWithReuseIdentifier: ImagePickerCollectionViewCell.identifier)
         collectionView.backgroundColor = .white
@@ -110,47 +120,28 @@ class OpenMarketItemViewController: UIViewController {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()
-    private lazy var thumbnailView: UIView = {
-        let view = UIView()
-        for index in 0..<itemThumbnails.count {
-            let imageView = UIImageView()
-            imageView.image = itemThumbnails[index]
-            imageView.translatesAutoresizingMaskIntoConstraints = false
-            NSLayoutConstraint.activate([
-                imageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 15),
-                imageView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -15),
-                imageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 15),
-                imageView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15),
-            ])
-            
-            let button = UIButton()
-            button.setImage(UIImage(systemName: "x.circle.fill"), for: .normal)
-            button.imageView?.tintColor = .gray
-            button.backgroundColor = .clear
-            button.layer.cornerRadius = 10
-            button.translatesAutoresizingMaskIntoConstraints = false
-            NSLayoutConstraint.activate([
-                button.topAnchor.constraint(equalTo: view.topAnchor, constant: 7),
-                button.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 20),
-                button.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-                button.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -7),
-            ])
-            
-            button.addTarget(self, action: #selector(clickToRemoveThumbnail), for: .touchDown)
-            
-            view.addSubview(imageView)
-            view.addSubview(button)
-        }
-        
-        return view
+    
+    private lazy var uploadImageStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [uploadImageButton, thumbnailCollectionView])
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.distribution = .fillEqually
+        stackView.axis = .horizontal
+        return stackView
+    }()
+    
+    private lazy var pricesStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [priceTextField, discountedPriceTextField])
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .vertical
+        stackView.distribution = .fillEqually
+        return stackView
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
-        currencyPickerView.dataSource = self
-        currencyPickerView.delegate = self
-        detailedInformationTextView.delegate = self
+        addSubviews()
+        setUpUIConstraints()
     }
 }
 extension OpenMarketItemViewController {
@@ -158,16 +149,47 @@ extension OpenMarketItemViewController {
     // MARK: - setUp UI Constraints
     
     private func addSubviews() {
-        
+        [titleTextField, currencyTextField, pricesStackView, stockTextField, detailedInformationTextView, uploadImageButton, thumbnailCollectionView].forEach {
+            self.view.addSubview($0)
+        }
     }
     
     private func setUpUIConstraints() {
         
-    }
-    
-    
-    @objc private func clickToRemoveThumbnail() {
-        
+        NSLayoutConstraint.activate([
+            
+            uploadImageButton.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 20),
+            uploadImageButton.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
+            uploadImageButton.trailingAnchor.constraint(lessThanOrEqualTo: self.view.safeAreaLayoutGuide.trailingAnchor),
+            
+            thumbnailCollectionView.heightAnchor.constraint(lessThanOrEqualToConstant: self.view.frame.height / 10),
+            thumbnailCollectionView.widthAnchor.constraint(equalToConstant: self.view.frame.width - 10),
+            thumbnailCollectionView.topAnchor.constraint(equalTo: uploadImageButton.bottomAnchor, constant: 5),
+            thumbnailCollectionView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 5),
+            thumbnailCollectionView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -5),
+            
+            titleTextField.topAnchor.constraint(equalTo: thumbnailCollectionView.bottomAnchor, constant: 10),
+            titleTextField.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 10),
+            titleTextField.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -10),
+            
+            currencyTextField.topAnchor.constraint(equalTo: titleTextField.bottomAnchor, constant: 10),
+            currencyTextField.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 10),
+            
+            pricesStackView.topAnchor.constraint(equalTo: currencyTextField.topAnchor),
+            pricesStackView.leadingAnchor.constraint(equalTo: currencyTextField.trailingAnchor, constant: 20),
+            pricesStackView.trailingAnchor.constraint(lessThanOrEqualTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -10),
+            pricesStackView.bottomAnchor.constraint(equalTo: currencyTextField.bottomAnchor),
+            
+            stockTextField.topAnchor.constraint(equalTo: currencyTextField.bottomAnchor, constant: 10),
+            stockTextField.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 10),
+            stockTextField.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
+            
+            detailedInformationTextView.topAnchor.constraint(equalTo: stockTextField.bottomAnchor, constant: 10),
+            detailedInformationTextView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 10),
+            detailedInformationTextView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -10),
+            detailedInformationTextView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -10)
+            
+        ])
     }
 }
 
