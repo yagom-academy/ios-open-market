@@ -9,7 +9,7 @@ import Foundation
 
 struct NetworkManager {
     
-    func fetchModel<T: Decodable>(with urlRequest: URLRequest, completionHandler: @escaping (Result<T, APIError>) -> Void) {
+    private func fetchModel<T: Decodable>(with urlRequest: URLRequest, completionHandler: @escaping (Result<T, APIError>) -> Void) {
         URLSession.shared.dataTask(with: urlRequest) { data, response, error in
             guard let data = data else {
                 return completionHandler(.failure(APIError.NotFound404Error))
@@ -28,7 +28,7 @@ struct NetworkManager {
         }.resume()
     }
     
-    func makeRequest(apiURL: String, httpBodyData: Data?, requestDataType: DataTypeFormat, requestHeaderField: RequestHeaderField) throws -> URLRequest {
+    private func makeRequest(apiURL: String, httpBodyData: Data?, requestDataType: DataTypeFormat, requestHeaderField: RequestHeaderField) throws -> URLRequest {
         
         guard let apiURL = URL(string: apiURL) else {
             throw APIError.InvalidAddressError
