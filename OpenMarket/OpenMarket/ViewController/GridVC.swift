@@ -46,7 +46,6 @@ class GridVC: UIViewController {
 
 extension GridVC {
     fileprivate func createCompositionalLayoutForGrid() -> UICollectionViewLayout {
-        print("createCompositionalLayoutForSecond() called")
         // 콤포지셔널 레이아웃 생성
         let layout = UICollectionViewCompositionalLayout{
             // 만들게 되면 튜플 (키: 값, 키: 값) 의 묶음으로 들어옴 반환 하는 것은 NSCollectionLayoutSection 콜렉션 레이아웃 섹션을 반환해야함
@@ -59,7 +58,7 @@ extension GridVC {
             let item = NSCollectionLayoutItem(layoutSize: itemSize)
             
             // 아이템 간의 간격 설정
-            item.contentInsets = NSDirectionalEdgeInsets(top: 2, leading: 2, bottom: 2, trailing: 2)
+            item.contentInsets = NSDirectionalEdgeInsets(top: 1, leading: 1, bottom: 1, trailing: 1)
             
             // 변경할 부분
             let groupHeight =  NSCollectionLayoutDimension.fractionalWidth(1/2)
@@ -67,18 +66,14 @@ extension GridVC {
             // 그룹사이즈
             let grouSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: groupHeight)
             
-            // 그룹사이즈로 그룹 만들기
-//            let group = NSCollectionLayoutGroup.horizontal(layoutSize: grouSize, subitems: [item, item, item])
-            
             // 변경할 부분
             let group = NSCollectionLayoutGroup.horizontal(layoutSize: grouSize, subitem: item, count: 2)
             
             // 그룹으로 섹션 만들기
             let section = NSCollectionLayoutSection(group: group)
-//            section.orthogonalScrollingBehavior = .groupPaging
             
             // 섹션에 대한 간격 설정
-            section.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20)
+            section.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5)
             return section
         }
         return layout
