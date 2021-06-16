@@ -6,9 +6,11 @@
 
 <br/>
 
-- 주어진 주소에서 JSON 데이터를 받아와 처리할 모델 타입을 구현하고 그에 맞는 테스트를 작성해보겠습니다.
+### 🙋 목표
 
-  <br/>
+>- 주어진 주소에서 JSON 데이터를 받아와 처리할 모델 타입을 구현하고 그에 맞는 테스트를 작성해보겠습니다.
+
+<br/>
 
 - 📂 모델 타입 구현하기:
 
@@ -159,7 +161,7 @@
 
      Cons: 반대로 유지 보수의 입장에서는 이 DTO를 통해서 각 메소드별 JSON 데이터의 내용을 알기 어렵고 옵셔널 값이 많아질 수 있는 구조이기 때문에 검사가 확실하지 않다면 오류를 일으킬 가능성이 있습니다.
 
-  3.  사실 이 생각은 위에서 언급했던 블로그를 보며 든 생각인데 메소드마다 JSON이 다르고 복잡하기 때문에 Domain Model로 Item을 만들고 각 메소드 별로 DTO만 따로 만들어 매핑을 하는 방식을 생각해봤습니다. 그런데 이 아이디어는 구체화가 잘 안되서 아이디어로만 생각해 보았습니다.
+  3.  ~~사실 이 생각은 위에서 언급했던 블로그를 보며 든 생각인데 메소드마다 JSON이 다르고 복잡하기 때문에 Domain Model로 Item을 만들고 각 메소드 별로 DTO만 따로 만들어 매핑을 하는 방식을 생각해봤습니다. 그런데 이 아이디어는 구체화가 잘 안되서 아이디어로만 생각해 보았습니다.~~
 
   <br/>
 
@@ -187,7 +189,44 @@
 
   사실 STEP1은 HTTP에서 데이터를 받아오는 것을 구현하지 않은 상태이기 때문에 결국 구현한 JSON 데이터가 올바르게 매칭될 타입을 구현했는지 밖에 확인할 수 없습니다. 그래서 데이터를 파싱한 결과가 에러 없이 정상적으로 받아와졌다면 nil이 아닐 것이므로 XCTAssertNotNil을 활용했습니다.
 
-  
+  <br/>
+
+- 🔨 수정사항
+
+  통신을 고민하며 Step1에서 구현한 DTO 모델에 대한 생각이 바뀐 점이 있었습니다. 그동안 생각을 잘못하고 있었던 점은 DTO는 데이터를 받기 위한 일종의 형식 객체일 뿐 그 자체가 어떤 정보들을 담는 것은 아니라는 것입니다. 데이터의 중복 문제 때문에 하나의 데이터 형식에 옵셔널로 프로퍼티들을 구현하려고 했는데 생각해보니 결국 중첩된다는 개념은 데이터 자체가 아니라 DTO 객체의 프로퍼티 이름 뿐이었습니다. 그래서 HTTP 메소드별로 DTO를 나누는 작업을 진행했습니다.
+
+  <br/>
+
+  🧐 나누어진 파일 네이밍하기:
+
+  파일을 메소드별로 나누며 네이밍에 대한 고민이 생겼습니다. 전치사 사용을 지양하기 위해 GET 메소드를 위한 Item을 예시로 들면 GETItem이라는 네이밍으로 구성을 했습니다.
+
+  <br/>
+
+  🧐 Codable을 채택?:
+
+  추후 변경이 있을 수 있지만 현재 생각해보면 이렇게 역할을 나눔으로해서 encode시 사용될 구조와 decode시 사용될 구조가 분명히 구별되어진다고 생각했습니다. 그래서 더 엄밀한 정의를 위해 Codable을 각각 맞는 Encodable과 Decodable로 변경했습니다.
+
+  <br/>
+
+  🧐 GETItem과 POSTItem은 사실 같은 코드:
+
+  Response로 오는 정보 중 GET 방식(아이템 조회), POST 방식, PATCH 방식, DELETE 방식의 Response는 완전히 같은 구조입니다. 한가지 객체를 통해 두 정보를 받아오는데 활용할 수 있지만 
+
+  >1. 네이밍의 혼선
+  >
+  >2. 추후 데이터 정보가 변경될 여지
+
+  로 인해서 유지보수시에 문제가 생길 수 있으므로 각기 다른 파일에 다른 객체로 정의해주었습니다.
+
+  <br/>
+
+  🧐 POST할 때 File Array를 어떻게 처리할 것인가?:
+
+  미해결
+
+  <br/>
+
 
 ## 🛠 STEP 01 Review
 
@@ -225,3 +264,34 @@
    위의 description을 통해서도 구현이 가능하지만 이미 해당 기능이 LocalizedError라는 형식으로 있었습니다. 다른 점은 description은 String 타입이고 LocalizedError의 errorDescription은 String? 이었습니다. 
 
    관련된 description이 정상 출력되는지 테스트 메소드를 추가 작성하여 확인했습니다.
+
+3. 무의미한 테스트일 수 있다:
+
+   ```swift
+   func test_APIError_description() { 
+           let notFoundErrorMessage = "[Error] Cannot find data"
+           let JSONParseErrorMessge = "[Error] Cannot parse JSONData"
+           guard let testNotFoundErrorMessage = APIError.NotFound404Error.errorDescription else { return }
+           guard let testJSONParseErrorMessage = APIError.JSONParseError.errorDescription else { return }
+           XCTAssertEqual(testNotFoundErrorMessage, notFoundErrorMessage)
+           XCTAssertEqual(testJSONParseErrorMessage, JSONParseErrorMessge)
+       }
+   ```
+
+   print문으로도 충분한 테스트이기 때문에 테스트를 위한 테스트일 수 있습니다. 추후에 API를 통할 때 일부러 에러를 발생시켜 에러메세지를 확인해 볼 수 있습니다.
+
+4. Model DTO의 Item과 ItemList분리:
+
+   받아와야할 JSON파일은 두가지 종류입니다. 아이템 리스트와 아이템 구조인데 두가지 옵션이 있었습니다.
+
+   >1. Item이라는 파일에 Item과 ItemList 구조를 모두 작성
+   >2. 파일을 하나 더 생성해서 ItemList를 분리
+
+   1번 옵션의 경우 코드의 양이 작고 Item에 관련된 DTO라는 공통점을 묶어놨다는 장점이 있지만, 반대로 ItemList에 대한 정보를 찾을 때 어려움이 있을 수 있습니다. 
+
+   2번 옵션의 경우 한 파일에 하나의 타입만 들어있고 파일이 많아질 수 있다는 단점이 있지만, 반대로 직관적인 구조로 찾기 쉬운 구조라고 할 수 있습니다. 
+
+   그래서 2번의 방식으로 진행했습니다.
+
+<br/>
+

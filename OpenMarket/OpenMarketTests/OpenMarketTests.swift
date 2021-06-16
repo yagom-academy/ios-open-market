@@ -27,27 +27,14 @@ class OpenMarketTests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
     
-    // MARK:- JSONParsing Test with Local JSON files
-    func test_JSONParser_for_Item() throws {
-        guard let localJSONData = readLocalFile(forName: "Item") else { throw APIError.JSONParseError }
-        let jsonParser = JSONParser()
-        guard let parsedItemData: Item = try? jsonParser.parseJSONDataToValueObject(with: localJSONData) else { throw APIError.JSONParseError }
-        XCTAssertNotNil(parsedItemData)
-    }
-    
-    func test_JSONParser_for_ItemList() throws {
-        guard let localJSONData = readLocalFile(forName: "Items") else { throw APIError.JSONParseError }
-        let jsonParser = JSONParser()
-        guard let parsedItemListData: ItemList = try? jsonParser.parseJSONDataToValueObject(with: localJSONData) else { throw APIError.JSONParseError }
-        XCTAssertNotNil(parsedItemListData)
-    }
-    
-    func test_APIError_description() {
-        let notFoundErrorMessage = "[Error] Cannot find data"
-        let JSONParseErrorMessge = "[Error] Cannot parse JSONData"
-        guard let testNotFoundErrorMessage = APIError.NotFound404Error.errorDescription else { return }
-        guard let testJSONParseErrorMessage = APIError.JSONParseError.errorDescription else { return }
-        XCTAssertEqual(testNotFoundErrorMessage, notFoundErrorMessage)
-        XCTAssertEqual(testJSONParseErrorMessage, JSONParseErrorMessge)
+    // FIXME: - print 안됨
+    func test_ItemListFetcher() throws {
+        let networkManager = NetworkManager()
+        let expectation = XCTestExpectation(description: "expectation")
+        networkManager.fetchItemList(completion: { itemList in
+            print(itemList)
+            expectation.fulfill()
+        })
+        wait(for: [expectation], timeout: 10.0)
     }
 }

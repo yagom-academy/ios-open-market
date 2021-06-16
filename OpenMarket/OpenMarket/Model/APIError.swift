@@ -10,15 +10,21 @@ import Foundation
 enum APIError: LocalizedError {
     case NotFound404Error
     case JSONParseError
+    case InvalidAddressError
+    case NetworkFailure
 }
 
 extension APIError {
     var errorDescription: String? {
         switch self {
         case .NotFound404Error:
-            return StringContainer.Error.description + StringContainer.NotFound404Error.description
+            return "[Error] Cannot find data"
         case .JSONParseError:
-            return StringContainer.Error.description + StringContainer.JSONParseError.description
+            return "[Error] Cannot parse JSONData"
+        case .InvalidAddressError:
+            return "[Error] Invalid URL"
+        case .NetworkFailure:
+            return "[Error] Network Failure"
         }
     }
 }

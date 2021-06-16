@@ -7,9 +7,24 @@
 
 import Foundation
 
-enum OpenMarketAPI {
+enum OpenMarketAPIPath {
+
     static let baseURL = "https://camp-open-market-2.herokuapp.com/"
-    
+
+    case itemListSearch
+    case itemRegister
+    case itemSearch
+    case itemEdit
+    case itemDeletion
+
+    var path: String {
+        switch self {
+        case .itemListSearch:
+            return OpenMarketAPIPath.baseURL + "items/"
+        default:
+            return OpenMarketAPIPath.baseURL + "item/"
+        }
+    }
 }
 
 enum HTTPMethod {
@@ -24,24 +39,6 @@ enum HTTPMethod {
         case .post : return "POST"
         case .patch : return "PATCH"
         case .delete : return "DELETE"
-        }
-    }
-}
-
-enum OpenMarketAPIPathByDescription: CustomStringConvertible {
-    // customdebugstringconvertible
-    case itemListSearch
-    case itemRegister
-    case itemSearch
-    case itemEdit
-    case itemDeletion
-
-    var description: String {
-        switch self {
-        case .itemListSearch:
-            return "items/"
-        default:
-            return "item/"
         }
     }
 }
