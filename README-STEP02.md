@@ -91,9 +91,56 @@
 
    <br/>
 
+   🛠 피드백 받은 부분
    
+   >"DTO의 Response 구조에 겹치는 부분이 많다. 전부 나눠져 있어 언제 사용되는지는 알기 쉽지만 오히려 프로젝트를 모르는 사람 입장에서는 가독성을 해칠 수 있다. 하나로 합치는 것이 더 좋을 것 같다."
    
+   Response를 받는 DTO를 HTTP 메소드 별로 따로 구현했지만 이것을 하나로 합치는 것이 더 좋다는 피드백을 받았습니다. 최초에 프로젝트를 진행하며 생각했던 부분과 일치하는 지점이 있어 하나로 합치는 수정작업을 진행했습니다.
    
+   <br/>
+   
+   🧑🏻‍💻 Result 사용하기
+   
+   기존에는 아래와 같이 직접 데이터를 처리했습니다.
+   
+   ```swift
+   let task = URLSession.shared.dataTask(with: request) { data, response, error in
+              guard let data = data else { return }
+              ... 
+              }
+   task.resume()
+   ```
+   
+   <br/>
+   
+   이런 구조가 되면 문제가 발생하는데 바로 guard let 구문에서 확인할 수 있습니다. data가 있지 않을 때 동작하는 else는 아무 값도 return 할 수 없습니다. 또한 dataTask는 throws 하지 않기 때문에 error를 throw 할 수도 없습니다. 이러한 구조는 데이터가 존재하지 않을 경우 단순히 동작을 멈추기만 할 뿐 사용자에게 어떠한 알림도 줄 수 없기 때문에 좋지 못한 구조입니다. 이것을 Result를 활용하는 구조로 변경했습니다.
+   
+   ```swift
+   let task = URLSession.shared.dataTask(with: httpRequest) { result in
+               switch result {
+               case .success(let data):
+                   let decodedData = try? JSONDecoder().decode(T.self, from: data)
+                   if let decodedData = decodedData {
+                       completionHandler(.success(decodedData))
+                   } else {
+                       completionHandler(.failure(APIError.JSONParseError))
+                   }
+               case .failure(let error):
+                   completionHandler(.failure(APIError.NetworkFailure(error)))
+               }
+           }
+   ```
+   
+   위의 구조는 이미 dataTask에서 completionHandler를 동작시키기 전에 Result에 대한 체크를 한번하고 completionHandler를 처리하기 때문에 에러 처리가 가능합니다.
+
+<br/>
+
+2021.06.16(수요일)
+
+- NetworkManager의 registerItem, deleteItem, editItem 메소드의 throw를 없애고 completion을 활용하는 구조로 refactoring 했습니다.
+- NetworkManager의 fetchItemList에 page를 UInt로 입력받는 parameter를 생성하고 NetworkManager가 가지고있던 page 프로퍼티를 제거했습니다.
+- NetworkManager의 프로퍼티 list를 [ItemList]에서 [ListedItem]으로 변경하고 그에 맞게 메소드들을 수정했습니다.
+- viewDidLoad의 networkManager completionHandler를 구현할 때 error를 단순히 print하는 것이 아니라 Alert 할 수 있게 UIAlert를 구현했습니다.
 
 <br/>
 
