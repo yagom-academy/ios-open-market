@@ -257,23 +257,33 @@ extension OpenMarketItemViewController: UIImagePickerControllerDelegate, UINavig
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
         guard let selectedImage: UIImage = info[.originalImage] as? UIImage else { return }
-        
-        selectedImage.jpegData(compressionQuality: 0.75)
-        itemThumbnails.append(selectedImage)
-        thumbnailCollectionView.reloadData()
+            selectedImage.jpegData(compressionQuality: 0.75)
+            self.itemThumbnails.append(selectedImage)
+            thumbnailCollectionView.reloadData()
+            picker.dismiss(animated: true, completion: nil)
     }
     
     @objc func didTapUploadPhoto(_ sender: UIButton) {
-        let alertController = UIAlertController(title: "상품등록", message: nil, preferredStyle: .actionSheet)
-        let photoLibrary = UIAlertAction(title: "사진 앨범", style: .default) { action in
-            self.openLibrary()
+        
+        if itemThumbnails.count < 5 {
+            let alertController = UIAlertController(title: "상품등록", message: nil, preferredStyle: .actionSheet)
+            let photoLibrary = UIAlertAction(title: "사진 앨범", style: .default) { action in
+                self.openLibrary()
+            }
+            let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+            
+            alertController.addAction(photoLibrary)
+            alertController.addAction(cancel)
+            
+            present(alertController, animated: true, completion: nil)
+        } else {
+            let alertController = UIAlertController(title: "사진 제한", message: "사진은 총 5장으로 제한 됩니다.", preferredStyle: .alert)
+            let defaultAction = UIAlertAction(title: "OK", style: .destructive, handler: nil)
+            alertController.addAction(defaultAction)
+            
+            present(alertController, animated: true, completion: nil)
         }
-        let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         
-        alertController.addAction(photoLibrary)
-        alertController.addAction(cancel)
-        
-        present(alertController, animated: true, completion: nil)
     }
     
     private func openLibrary() {
