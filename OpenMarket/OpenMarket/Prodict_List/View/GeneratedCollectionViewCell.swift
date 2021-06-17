@@ -86,14 +86,12 @@ class GeneratedCollectionViewCell: UICollectionViewCell {
                 stockLabel.text = "잔여수량: \(item.stock)"
                 stockLabel.textColor = .systemGray2
             }
-        
-        
+
         DispatchQueue.global().async {
             guard let image = try? Data(contentsOf: URL(string: item.thumbnailURLs[0])!) else { return }
 
             DispatchQueue.main.async { [self] in
                 imageView.image = UIImage(data: image)
-
             }
         }
     }

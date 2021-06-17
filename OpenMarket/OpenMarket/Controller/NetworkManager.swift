@@ -7,10 +7,10 @@
 
 import Foundation
 class NetworkManager<T: Decodable> {
-    let clientRequest: GETRequest
+    let clientRequest: URLRequest
     let session: URLSessionProtocol
 
-    init(clientRequest: GETRequest, session: URLSessionProtocol){
+    init(clientRequest: URLRequest, session: URLSessionProtocol){
         self.clientRequest = clientRequest
         self.session = session
     }

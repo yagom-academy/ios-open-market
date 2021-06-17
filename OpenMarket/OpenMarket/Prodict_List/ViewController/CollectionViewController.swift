@@ -16,14 +16,15 @@ class CollectionViewController: UIViewController {
 
     override func loadView() {
         super.loadView()
-        let clientRequest = GETRequest(page: 1, id: 1, descriptionAboutMenu: .목록조회)
+        let apiTarget = APITarget.목록조회(page: 1)
+        let clientRequest = apiTarget.request
         let networkManager = NetworkManager<Items>(clientRequest: clientRequest, session: URLSession.shared)
         
         loadingImageView.configure(viewController: self)
         segmentedControl.configure()
         navigationController?.navigationBar.isHidden = true
         
-        networkManager.getServerData(url: clientRequest.urlRequest.url!){ result in
+        networkManager.getServerData(url: apiTarget.url){ result in
             switch result {
             case .failure:
                 self.failView.configure(viewController: self)
