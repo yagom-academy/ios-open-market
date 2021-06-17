@@ -8,6 +8,7 @@
 import UIKit
 
 class OpenMarketGridCollectionViewCell: UICollectionViewCell, CellDataUpdatable {
+    var imageDataTask: URLSessionDataTask?
     static let identifier: String = "OpenMarketGridCollectionViewCell"
     
     override init(frame: CGRect) {
@@ -131,7 +132,7 @@ extension OpenMarketGridCollectionViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        
+        imageDataTask?.cancel()
         self.itemThumbnail.image = UIImage(named: "loadingPic")
         self.itemTitleLabel.text = nil
         self.itemPriceLabel.text = nil

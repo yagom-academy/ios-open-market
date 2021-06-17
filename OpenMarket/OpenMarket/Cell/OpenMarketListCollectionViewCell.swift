@@ -10,6 +10,8 @@ import UIKit
 class OpenMarketListCollectionViewCell: UICollectionViewCell, CellDataUpdatable {
     static let identifier: String = "OpenMarketListCollectionViewCell"
     
+    var imageDataTask: URLSessionDataTask?
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setUpUIConstraints()
@@ -127,7 +129,7 @@ extension OpenMarketListCollectionViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        
+        imageDataTask?.cancel()
         self.itemThumbnail.image = UIImage(named: "loadingPic")
         self.itemTitleLabel.text = nil
         self.itemPriceLabel.text = nil

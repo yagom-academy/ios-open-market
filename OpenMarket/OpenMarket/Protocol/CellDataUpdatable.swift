@@ -14,6 +14,7 @@ protocol CellDataUpdatable: AnyObject {
     var itemStockLabel: UILabel { get }
     var itemThumbnail: UIImageView { get }
     var itemDiscountedPriceLabel: UILabel { get }
+    var imageDataTask: URLSessionDataTask? { get }
 }
 extension CellDataUpdatable {
 
@@ -37,20 +38,21 @@ extension CellDataUpdatable {
         }
     }
     
-    func configureThumbnail(_ openMarketItems: [OpenMarketItem], indexPath: Int) {
-        guard let url = URL(string: openMarketItems[indexPath].thumbnails[0]) else { return }
-        downloadImage(url: url) { [weak self] image in
+    func requestThumbnail(_ openMarketItems: [OpenMarketItem], indexPath: Int) -> URLSessionDataTask? {
+        guard let url = URL(string: openMarketItems[indexPath].thumbnails[0]) else { return nil
+        }
+        return imageDownloadDataTask(url: url) { [weak self] image in
             DispatchQueue.main.async {
                 self?.itemThumbnail.image = image
             }
         }
     }
     
-    private func downloadImage(url: URL, completionHandler: @escaping (UIImage) -> Void) {
-        URLSession.shared.dataTask(with: url) { data, response, error in
+    private func imageDownloadDataTask(url: URL, completionHandler: @escaping (UIImage) -> Void) -> URLSessionDataTask {
+        return URLSession.shared.dataTask(with: url) { data, response, error in
             guard let completeData = data,
                   let imageData = UIImage(data: completeData) else { return }
             completionHandler(imageData)
-        }.resume()
+        }
     }
 }
