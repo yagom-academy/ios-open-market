@@ -29,9 +29,9 @@ class OpenMarketItemViewController: UIViewController {
     private lazy var currencyTextField: UITextField = {
         let textField = UITextField()
         textField.inputView = currencyPickerView
-        textField.layer.borderWidth = 0.5
         textField.placeholder = "화폐"
-        textField.font = UIFont.preferredFont(forTextStyle: .body)
+        textField.tintColor = .clear
+        textField.font = UIFont.preferredFont(forTextStyle: .title3)
         textField.inputAccessoryView = currencyPickerViewToolbar
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
@@ -57,11 +57,22 @@ class OpenMarketItemViewController: UIViewController {
     
     private lazy var stockTextField: UITextField = {
         let textField = UITextField()
-        textField.font = UIFont.preferredFont(forTextStyle: .body)
         textField.placeholder = "수량"
+        textField.layer.borderWidth = 0.3
+        textField.font = UIFont.preferredFont(forTextStyle: .body)
         textField.keyboardType = .numberPad
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
+    }()
+    
+    private lazy var stockLabel: UILabel = {
+        let label = UILabel()
+        label.text = "개"
+        label.textColor = .lightGray
+        label.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        label.font = UIFont.preferredFont(forTextStyle: .body)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
     }()
     
     private lazy var detailedInformationTextView: UITextView = {
@@ -149,7 +160,7 @@ extension OpenMarketItemViewController {
     // MARK: - setUp UI Constraints
     
     private func addSubviews() {
-        [titleTextField, currencyTextField, pricesStackView, stockTextField, detailedInformationTextView, uploadImageButton, thumbnailCollectionView].forEach {
+        [titleTextField, currencyTextField, pricesStackView, stockTextField, stockLabel, detailedInformationTextView, uploadImageButton, thumbnailCollectionView].forEach {
             self.view.addSubview($0)
         }
     }
@@ -182,7 +193,11 @@ extension OpenMarketItemViewController {
             
             stockTextField.topAnchor.constraint(equalTo: currencyTextField.bottomAnchor, constant: 10),
             stockTextField.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 10),
-            stockTextField.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
+            
+            stockLabel.topAnchor.constraint(equalTo: stockTextField.topAnchor),
+            stockLabel.leadingAnchor.constraint(equalTo: stockTextField.trailingAnchor, constant: 5),
+            stockLabel.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -200),
+            stockLabel.bottomAnchor.constraint(equalTo: stockTextField.bottomAnchor),
             
             detailedInformationTextView.topAnchor.constraint(equalTo: stockTextField.bottomAnchor, constant: 10),
             detailedInformationTextView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 10),
