@@ -108,6 +108,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "TableViewItemCell", for: indexPath) as? TableViewCell else { return UITableViewCell() }
         let item: ItemInformation = self.items[indexPath.row]
+//        let quantity = String(format: "%02d", item.stock)
         let imageURL: URL! = URL(string: item.thumbnails.first!)
         guard let imageData: Data = try? Data(contentsOf: imageURL) else { return cell }
         
@@ -116,7 +117,9 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         cell.itemThumbnail.image = UIImage(data: imageData)
         cell.itemThumbnail.adjustsImageSizeForAccessibilityContentSizeCategory = false
         cell.itemThumbnail.sizeToFit()
-        cell.itemQuantity.text = String(item.stock)
+//        cell.itemQuantity.text = item.stock
+//        cell.itemQuantity.text = "잔여 수량: \(quantity)"
+        cell.itemQuantity.text = "잔여 수량: \(item.stock)"
         
         return cell
     }
@@ -136,7 +139,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         cell.itemThumbnail.image = UIImage(data: imageData)
         cell.itemThumbnail.adjustsImageSizeForAccessibilityContentSizeCategory = false
         cell.itemThumbnail.sizeToFit()
-        cell.itemQuantity.text = String(item.stock)
+        cell.itemQuantity.text = "잔여 수량: \(item.stock)"
     
         cell.layer.borderWidth = 1
         cell.layer.borderColor = UIColor.gray.cgColor
