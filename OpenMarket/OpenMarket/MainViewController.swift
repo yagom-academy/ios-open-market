@@ -54,7 +54,6 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
             guard successRange.contains(statusCode) else { return }
             
             guard let resultData = data else { return }
-            let resultString = String(data: resultData, encoding: .utf8)
             
             do {
                 let decoder = JSONDecoder()
@@ -62,12 +61,12 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
                 self.items = apiResponse.items
                     DispatchQueue.main.async {
                         self.tableView.reloadData()
+                        self.collectionView.reloadData()
                     }
             } catch let error {
                 print(error.localizedDescription)
             }
         }
-        
         dataTask.resume()
     }
     
@@ -92,12 +91,11 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "TableViewItemCell", for: indexPath) as? TableViewCell else { return UITableViewCell() }
         let item: ItemInformation = self.items[indexPath.row]
+        let imageURL: URL! = URL(string: item.thumbnails.first!)
+        guard let imageData: Data = try? Data(contentsOf: imageURL) else { return cell }
         
         cell.itemName.text = item.title
         cell.itemPrice.text = String(item.price)
-        
-        let imageURL: URL! = URL(string: item.thumbnails.first!)
-        guard let imageData: Data = try? Data(contentsOf: imageURL) else { return cell }
         cell.itemThumbnail.image = UIImage(data: imageData)
         cell.itemThumbnail.adjustsImageSizeForAccessibilityContentSizeCategory = false
         cell.itemThumbnail.sizeToFit()
@@ -107,29 +105,33 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 6
+        return items.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let url = URL(string: "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/thumbnails/1-1.png") else { return UICollectionViewCell()}
-        let data = try! Data(contentsOf: url)
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CollectionViewItemCell", for: indexPath) as? CollectionViewCell else { return UICollectionViewCell() }
-        cell.itemName.text = "MacBook Pro"
-        cell.itemPrice.text = "1800000"
-        cell.itemImage.image = UIImage(data: data)
-        cell.itemImage.adjustsImageSizeForAccessibilityContentSizeCategory = false
-        cell.itemImage.sizeToFit()
-        cell.itemQuantity.text = "수량 : 128"
+        let item: ItemInformation = self.items[indexPath.row]
+        let imageURL: URL! = URL(string: item.thumbnails.first!)
+        guard let imageData: Data = try? Data(contentsOf: imageURL) else { return cell }
+        
+        cell.itemName.text = item.title
+        cell.itemPrice.text = String(item.price)
+        cell.itemThumbnail.image = UIImage(data: imageData)
+        cell.itemThumbnail.adjustsImageSizeForAccessibilityContentSizeCategory = false
+        cell.itemThumbnail.sizeToFit()
+        cell.itemQuantity.text = String(item.stock)
+    
         cell.layer.borderWidth = 1
         cell.layer.borderColor = UIColor.gray.cgColor
         cell.layer.cornerRadius = 10
+        
         return cell
     }
     
     func setupFlowLayout() {
         let flowLayout = UICollectionViewFlowLayout()
-//        flowLayout.sectionInset = UIEdgeInsets.zero
-        flowLayout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        flowLayout.sectionInset = UIEdgeInsets.zero
+//        flowLayout.sectionInset = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
         flowLayout.minimumInteritemSpacing = 10
         flowLayout.minimumLineSpacing = 10
         
