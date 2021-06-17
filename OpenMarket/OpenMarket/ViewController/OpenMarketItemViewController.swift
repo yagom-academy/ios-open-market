@@ -58,10 +58,20 @@ class OpenMarketItemViewController: UIViewController {
     private lazy var stockTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "수량"
+        textField.textAlignment = .right
         textField.layer.borderWidth = 0.3
         textField.font = UIFont.preferredFont(forTextStyle: .body)
         textField.keyboardType = .numberPad
         textField.translatesAutoresizingMaskIntoConstraints = false
+        return textField
+    }()
+    
+    private lazy var passwordTextField: UITextField = {
+        let textField = UITextField()
+        textField.placeholder = "비밀번호"
+        textField.font = UIFont.preferredFont(forTextStyle: .body)
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        textField.isSecureTextEntry = true
         return textField
     }()
     
@@ -78,7 +88,8 @@ class OpenMarketItemViewController: UIViewController {
     private lazy var detailedInformationTextView: UITextView = {
         let textView = UITextView()
         textView.font = UIFont.preferredFont(forTextStyle: .body)
-        textView.textColor = .darkGray
+        textView.text = "상품 정보를 입력 해 주세요."
+        textView.textColor = .lightGray
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.delegate = self
         return textView
@@ -180,7 +191,7 @@ extension OpenMarketItemViewController {
     // MARK: - setUp UI Constraints
     
     private func addSubviews() {
-        [titleTextField, currencyTextField, pricesStackView, stockTextField, stockLabel, detailedInformationTextView, uploadImageButton, thumbnailCollectionView].forEach {
+        [titleTextField, passwordTextField, currencyTextField, pricesStackView, stockTextField, stockLabel, detailedInformationTextView, uploadImageButton, thumbnailCollectionView].forEach {
             self.view.addSubview($0)
         }
     }
@@ -199,11 +210,15 @@ extension OpenMarketItemViewController {
             thumbnailCollectionView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 5),
             thumbnailCollectionView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -5),
             
-            titleTextField.topAnchor.constraint(equalTo: thumbnailCollectionView.bottomAnchor, constant: 10),
+            titleTextField.topAnchor.constraint(equalTo: thumbnailCollectionView.bottomAnchor, constant: 20),
             titleTextField.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 10),
             titleTextField.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -10),
             
-            currencyTextField.topAnchor.constraint(equalTo: titleTextField.bottomAnchor, constant: 10),
+            passwordTextField.topAnchor.constraint(equalTo: titleTextField.bottomAnchor, constant: 20),
+            passwordTextField.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 10),
+            passwordTextField.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -10),
+            
+            currencyTextField.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor, constant: 20),
             currencyTextField.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 10),
             
             pricesStackView.topAnchor.constraint(equalTo: currencyTextField.topAnchor),
@@ -211,7 +226,7 @@ extension OpenMarketItemViewController {
             pricesStackView.trailingAnchor.constraint(lessThanOrEqualTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -10),
             pricesStackView.bottomAnchor.constraint(equalTo: currencyTextField.bottomAnchor),
             
-            stockTextField.topAnchor.constraint(equalTo: currencyTextField.bottomAnchor, constant: 10),
+            stockTextField.topAnchor.constraint(equalTo: currencyTextField.bottomAnchor, constant: 20),
             stockTextField.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 10),
             
             stockLabel.topAnchor.constraint(equalTo: stockTextField.topAnchor),
@@ -219,7 +234,7 @@ extension OpenMarketItemViewController {
             stockLabel.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -200),
             stockLabel.bottomAnchor.constraint(equalTo: stockTextField.bottomAnchor),
             
-            detailedInformationTextView.topAnchor.constraint(equalTo: stockTextField.bottomAnchor, constant: 10),
+            detailedInformationTextView.topAnchor.constraint(equalTo: stockTextField.bottomAnchor, constant: 20),
             detailedInformationTextView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 10),
             detailedInformationTextView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -10),
             detailedInformationTextView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -10)
@@ -257,7 +272,7 @@ extension OpenMarketItemViewController: UIPickerViewDelegate, UIPickerViewDataSo
 
 extension OpenMarketItemViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
-        if textView.textColor == .lightGray {
+        if textView.text == "상품 정보를 입력 해 주세요." {
             textView.text = nil
             textView.textColor = .black
         }
