@@ -148,14 +148,34 @@ class OpenMarketItemViewController: UIViewController {
         return stackView
     }()
     
+    private lazy var UIRightBarButtonItem: UIBarButtonItem = {
+        let sendItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(didTapDoneButton))
+        return sendItem
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
+        setUpNavigationItems()
         addSubviews()
         setUpUIConstraints()
     }
 }
 extension OpenMarketItemViewController {
+    
+    // MARK: - Method: Send Information to Server
+    
+    @objc private func didTapDoneButton(_ sender: UIBarButtonItem) {
+        
+    }
+    
+    // MARK: - setUp NavigationItems
+    
+    private func setUpNavigationItems() {
+        self.navigationItem.title = "상품등록"
+        self.navigationItem.rightBarButtonItem = UIRightBarButtonItem
+    }
+    
     
     // MARK: - setUp UI Constraints
     
