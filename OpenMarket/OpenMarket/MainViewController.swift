@@ -15,11 +15,17 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     var items: [ItemInformation] = []
     
+    let activity = UIActivityIndicatorView()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        activity.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
+        activity.center = view.center
+        
         mainView.addSubview(tableView)
         mainView.addSubview(collectionView)
+        mainView.addSubview(activity)
     
         tableView.delegate = self
         tableView.dataSource = self
@@ -32,9 +38,16 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         collectionView.register(CollectionViewNibName, forCellWithReuseIdentifier: "CollectionViewItemCell")
         
         collectionView.isHidden = true
+        tableView.isHidden = true
+        self.navigationController?.isNavigationBarHidden = true
         setupFlowLayout()
         
         segmentedControl.backgroundColor = UIColor.systemBlue
+        
+        view.backgroundColor = .white
+        
+            self.activity.startAnimating()
+        
         }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -59,9 +72,13 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
                 let decoder = JSONDecoder()
                 let apiResponse = try decoder.decode(APIResponse.self, from: resultData)
                 self.items = apiResponse.items
+                
                     DispatchQueue.main.async {
                         self.tableView.reloadData()
                         self.collectionView.reloadData()
+                        self.activity.stopAnimating()
+                        self.tableView.isHidden = false
+                        self.navigationController?.isNavigationBarHidden = false
                     }
             } catch let error {
                 print(error.localizedDescription)
