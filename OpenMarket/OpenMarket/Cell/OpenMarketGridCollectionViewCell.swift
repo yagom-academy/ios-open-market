@@ -119,15 +119,14 @@ extension OpenMarketGridCollectionViewCell {
     // MARK: - configure cell
     
     func configure(_ openMarketItems: [OpenMarketItem], indexPath: Int) {
-        for _ in openMarketItems {
-            itemTitleLabel.text = openMarketItems[indexPath].title
-            itemPriceLabel.text = "\(openMarketItems[indexPath].currency) \(openMarketItems[indexPath].price)"
-            itemStockLabel.text = String(openMarketItems[indexPath].stock)
-            
-            configureDiscountedPriceLabel(openMarketItems, indexPath: indexPath)
-            configureStockLabel(openMarketItems, indexPath: indexPath)
-            configureThumbnail(openMarketItems, indexPath: indexPath)
-        }
+        itemTitleLabel.text = openMarketItems[indexPath].title
+        itemPriceLabel.text = "\(openMarketItems[indexPath].currency) \(openMarketItems[indexPath].price)"
+        itemStockLabel.text = String(openMarketItems[indexPath].stock)
+        
+        configureDiscountedPriceLabel(openMarketItems, indexPath: indexPath)
+        configureStockLabel(openMarketItems, indexPath: indexPath)
+        imageDataTask = requestThumbnail(openMarketItems, indexPath: indexPath)
+        imageDataTask?.resume()
     }
     
     override func prepareForReuse() {
