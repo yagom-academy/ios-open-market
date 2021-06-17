@@ -59,7 +59,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
             do {
                 let decoder = JSONDecoder()
                 let apiResponse = try decoder.decode(APIResponse.self, from: resultData)
-                let items = apiResponse.items
+                self.items = apiResponse.items
                     DispatchQueue.main.async {
                         self.tableView.reloadData()
                     }
@@ -90,8 +90,6 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        guard let url = URL(string: "https://camp-open-market-2.herokuapp.com/items/1") else { return UITableViewCell()}
-//        let data = try! Data(contentsOf: url)
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "TableViewItemCell", for: indexPath) as? TableViewCell else { return UITableViewCell() }
         let item: ItemInformation = self.items[indexPath.row]
         
