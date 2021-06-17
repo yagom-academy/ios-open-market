@@ -25,18 +25,32 @@ class ListVCCell: UITableViewCell {
     }
     
     func setupItem() {
+        let numberFormatter = NumberFormatter()
+                numberFormatter.numberStyle = .decimal
         if let data: Item = self.item {
             thumbnailImageView.downloadImage(from: data.thumbnails[0])
             titleLabel.text = data.title
-            priceLabel.text = data.currency + " \(data.price)"
+            
+            guard let dataPrice = numberFormatter.string(from: NSNumber(value: data.price)) else { return }
+            priceLabel.text = data.currency + " \(dataPrice)"
             priceLabel.textColor = UIColor.lightGray
-            if let salePrice = data.discountedPrice {
-                discountedPriceLabel.text = data.currency + " \(salePrice)"
-                discountedPriceLabel.attributedText = discountedPriceLabel.text?.attributedStrikeThrough()
-                discountedPriceLabel.textColor = UIColor.red
+            
+ 
+            discountedPriceLabel.textColor = UIColor.lightGray
+            if let discountedPrice = data.discountedPrice {
+                discountedPriceLabel.text = data.currency + " \(discountedPrice)"
+                priceLabel.attributedText = priceLabel.text?.attributedStrikeThrough()
+                priceLabel.textColor = UIColor.red
             }
-            stockLabel.text = "\(data.stock)"
-            stockLabel.textColor = UIColor.lightGray
+            
+            if data.stock == 0 {
+                stockLabel.text = "품절"
+                stockLabel.textColor = UIColor.orange
+            } else {
+                guard let datastock = numberFormatter.string(from: NSNumber(value: data.stock)) else { return }
+                stockLabel.text = "잔여수량 : " + "\(datastock)"
+                stockLabel.textColor = UIColor.lightGray
+            }
         } else {
             print("no item")
         }

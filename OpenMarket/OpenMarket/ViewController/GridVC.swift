@@ -20,10 +20,10 @@ class GridVC: UIViewController {
         notificationAddObserver()
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         
-        let myCustomCollectionViewCellNib = UINib(nibName: String(describing: GridCollectionViewCell.self), bundle: nil)
+        let myCustomCollectionViewCellNib = UINib(nibName: String(describing: GridVCCell.self), bundle: nil)
         
        
-        self.collectionView.register(myCustomCollectionViewCellNib, forCellWithReuseIdentifier: String(describing: GridCollectionViewCell.self))
+        self.collectionView.register(myCustomCollectionViewCellNib, forCellWithReuseIdentifier: String(describing: GridVCCell.self))
         
         // 콜렉션뷰의 콜렉션뷰 레이아웃을 설정한다.
         self.collectionView.collectionViewLayout = createCompositionalLayoutForGrid()
@@ -88,7 +88,7 @@ extension GridVC: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: GridCollectionViewCell.self), for: indexPath) as! GridCollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: GridVCCell.self), for: indexPath) as! GridVCCell
         
         cell.setup()
 
