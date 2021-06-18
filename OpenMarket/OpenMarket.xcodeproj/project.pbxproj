@@ -7,10 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		33323DAA267A5096002C62F8 /* CustomCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33323DA8267A5096002C62F8 /* CustomCollectionViewCell.swift */; };
+		33323DAB267A5096002C62F8 /* CustomCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 33323DA9267A5096002C62F8 /* CustomCollectionViewCell.xib */; };
 		338D7DAB2679CC0C00A726DB /* CustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338D7DA92679CC0C00A726DB /* CustomTableViewCell.swift */; };
 		338D7DAC2679CC0C00A726DB /* CustomTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 338D7DAA2679CC0C00A726DB /* CustomTableViewCell.xib */; };
-		338D7DB32679CC3600A726DB /* CustomCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338D7DB12679CC3600A726DB /* CustomCollectionViewCell.swift */; };
-		338D7DB42679CC3600A726DB /* CustomCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 338D7DB22679CC3600A726DB /* CustomCollectionViewCell.xib */; };
 		33D189572671E0C20021ED86 /* MockURLSessionDataTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D189462671DCE30021ED86 /* MockURLSessionDataTask.swift */; };
 		33D189612671E0E40021ED86 /* MockURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D1894A2671DCF80021ED86 /* MockURLSession.swift */; };
 		33D1897F2671EAB10021ED86 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D1897E2671EAB10021ED86 /* Network.swift */; };
@@ -42,10 +42,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		33323DA8267A5096002C62F8 /* CustomCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCollectionViewCell.swift; sourceTree = "<group>"; };
+		33323DA9267A5096002C62F8 /* CustomCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomCollectionViewCell.xib; sourceTree = "<group>"; };
 		338D7DA92679CC0C00A726DB /* CustomTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableViewCell.swift; sourceTree = "<group>"; };
 		338D7DAA2679CC0C00A726DB /* CustomTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomTableViewCell.xib; sourceTree = "<group>"; };
-		338D7DB12679CC3600A726DB /* CustomCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCollectionViewCell.swift; sourceTree = "<group>"; };
-		338D7DB22679CC3600A726DB /* CustomCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomCollectionViewCell.xib; sourceTree = "<group>"; };
 		33D1893E2671DB780021ED86 /* MockURLSessionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSessionProtocol.swift; sourceTree = "<group>"; };
 		33D189462671DCE30021ED86 /* MockURLSessionDataTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSessionDataTask.swift; sourceTree = "<group>"; };
 		33D1894A2671DCF80021ED86 /* MockURLSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSession.swift; sourceTree = "<group>"; };
@@ -101,8 +101,8 @@
 			children = (
 				338D7DA92679CC0C00A726DB /* CustomTableViewCell.swift */,
 				338D7DAA2679CC0C00A726DB /* CustomTableViewCell.xib */,
-				338D7DB12679CC3600A726DB /* CustomCollectionViewCell.swift */,
-				338D7DB22679CC3600A726DB /* CustomCollectionViewCell.xib */,
+				33323DA8267A5096002C62F8 /* CustomCollectionViewCell.swift */,
+				33323DA9267A5096002C62F8 /* CustomCollectionViewCell.xib */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -280,9 +280,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				C70FB10725BEF61D00C9924E /* LaunchScreen.storyboard in Resources */,
+				33323DAB267A5096002C62F8 /* CustomCollectionViewCell.xib in Resources */,
 				C70FB10425BEF61D00C9924E /* Assets.xcassets in Resources */,
 				338D7DAC2679CC0C00A726DB /* CustomTableViewCell.xib in Resources */,
-				338D7DB42679CC3600A726DB /* CustomCollectionViewCell.xib in Resources */,
 				C70FB10225BEF61C00C9924E /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -305,7 +305,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				33D1898F2671F3BE0021ED86 /* NetworkManager.swift in Sources */,
-				338D7DB32679CC3600A726DB /* CustomCollectionViewCell.swift in Sources */,
+				33323DAA267A5096002C62F8 /* CustomCollectionViewCell.swift in Sources */,
 				33DA9C272664AF5700AF8221 /* ItemModification.swift in Sources */,
 				33D189942671FAEE0021ED86 /* MockURLSessionProtocol.swift in Sources */,
 				33D1897F2671EAB10021ED86 /* Network.swift in Sources */,
