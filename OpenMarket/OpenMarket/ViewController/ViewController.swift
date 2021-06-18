@@ -106,6 +106,8 @@ extension ViewController: UITableViewDataSource {
         cell.titleLabel.text = item.title
         
         cell.priceLabel.attributedText = cell.priceLabel.text?.removeStrikeThrough()
+        cell.priceLabel.text = "USD \(item.price)"
+        
         if item.discountedPrice == nil {
             cell.discountedPriceLabel.isHidden = true
         } else {
@@ -114,15 +116,18 @@ extension ViewController: UITableViewDataSource {
             cell.priceLabel.attributedText = cell.priceLabel.text?.strikeThrough()
         }
         
-        cell.priceLabel.text = "USD \(item.price)"
         if item.stock == 0 {
             cell.stockLabel.text = "품절"
-            cell.stockLabel.textColor = .orange
+            cell.stockLabel.textColor = UIColor.orange
         } else {
             cell.stockLabel.text = "잔여수량: \(item.stock)"
-            cell.stockLabel.textColor = .systemGray
+            cell.stockLabel.textColor = UIColor.lightGray
         }
         
+        guard let imageURL = URL(string: item.thumbnailURLs[0]) else { return cell}
+        guard let imageData = try? Data(contentsOf: imageURL) else { return cell }
+        cell.ImageView.image = UIImage(data: imageData)
+    
         return cell
     }
     
@@ -168,6 +173,10 @@ extension ViewController: UICollectionViewDataSource {
             cell.stockLabel.text = "잔여수량: \(item.stock)"
             cell.stockLabel.textColor = .systemGray
         }
+        
+        guard let imageURL = URL(string: item.thumbnailURLs[0]) else { return cell}
+        guard let imageData = try? Data(contentsOf: imageURL) else { return cell }
+        cell.ImageView.image = UIImage(data: imageData)
         
         cell.layer.borderColor = UIColor.darkGray.cgColor
         cell.layer.borderWidth = 0.5
