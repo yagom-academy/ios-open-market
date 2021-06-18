@@ -11,6 +11,6 @@ enum Network {
     case firstPage
     
     static let baseURL = "https://camp-open-market-2.herokuapp.com/"
-    var path: String { "items/:9" } // 무관함을 위해 9페이지
+    var path: String { "items/:1" }
     var url: URL { URL(string: Network.baseURL + path)! }
 }

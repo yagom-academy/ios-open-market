@@ -64,11 +64,11 @@
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <size key="customSize" width="196" height="15"/>
             <connections>
-                <outlet property="ImageView" destination="UXM-JR-1PY" id="J5E-Bc-YVA"/>
-                <outlet property="discontedPriceLabel" destination="IQl-MZ-dwp" id="pW5-kc-5hv"/>
-                <outlet property="priceLabel" destination="RRh-a8-7g6" id="VBG-6v-66I"/>
-                <outlet property="stockLabel" destination="mLN-3p-ZGe" id="Xhs-zJ-iUM"/>
-                <outlet property="titleLabel" destination="dcJ-dS-IuF" id="UR0-bQ-Rh7"/>
+                <outlet property="ImageView" destination="UXM-JR-1PY" id="lnq-dL-VGE"/>
+                <outlet property="discontedPriceLabel" destination="IQl-MZ-dwp" id="vnp-xd-Dyj"/>
+                <outlet property="priceLabel" destination="RRh-a8-7g6" id="Wjs-Hu-f0e"/>
+                <outlet property="stockLabel" destination="mLN-3p-ZGe" id="amJ-p6-GIj"/>
+                <outlet property="titleLabel" destination="dcJ-dS-IuF" id="TbR-MO-wJy"/>
             </connections>
             <point key="canvasLocation" x="-517" y="166"/>
         </collectionViewCell>
