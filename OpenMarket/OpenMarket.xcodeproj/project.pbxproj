@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4D1EB236267C68BB0022CB6A /* CellForReuse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D1EB235267C68BB0022CB6A /* CellForReuse.swift */; };
 		4D4C09AF26772C7A001EFE78 /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D4C09AD26772C7A001EFE78 /* CollectionViewCell.swift */; };
 		4D4C09B026772C7A001EFE78 /* CollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4D4C09AE26772C7A001EFE78 /* CollectionViewCell.xib */; };
 		4D4C09B226778075001EFE78 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D4C09B126778075001EFE78 /* MainViewController.swift */; };
@@ -35,7 +34,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		4D1EB235267C68BB0022CB6A /* CellForReuse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellForReuse.swift; sourceTree = "<group>"; };
 		4D4C09AD26772C7A001EFE78 /* CollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
 		4D4C09AE26772C7A001EFE78 /* CollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CollectionViewCell.xib; sourceTree = "<group>"; };
 		4D4C09B126778075001EFE78 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
@@ -120,7 +118,6 @@
 				4D97F0AE2679BBCA00A46F9A /* Cell */,
 				C70FB10025BEF61C00C9924E /* Main.storyboard */,
 				4D4C09B126778075001EFE78 /* MainViewController.swift */,
-				4D1EB235267C68BB0022CB6A /* CellForReuse.swift */,
 				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
 				C70FB10825BEF61D00C9924E /* Info.plist */,
 			);
@@ -246,7 +243,6 @@
 				4D899539267359B30043E81A /* TableViewCell.swift in Sources */,
 				EA6F35EA2652709D00768AE8 /* APIError.swift in Sources */,
 				EAC68443264A4C46002A9CE3 /* ServerAccessRequest.swift in Sources */,
-				4D1EB236267C68BB0022CB6A /* CellForReuse.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				4DABBF27264E5A9D0044C06D /* RequestBody.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,

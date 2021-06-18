@@ -150,11 +150,19 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         guard let imageData: Data = try? Data(contentsOf: imageURL) else { return cell }
         
         cell.itemName.text = item.title
-        cell.itemPrice.text = "\(item.currency) \(item.price)"
-        
+
         if let discountedPrice = item.discountedPrice {
+            let attributeString =  NSMutableAttributedString(string: "\(item.currency) \(item.price)")
+            attributeString.addAttribute(NSAttributedString.Key.strikethroughStyle,
+                                                 value: NSUnderlineStyle.single.rawValue,
+                                                     range: NSMakeRange(0, attributeString.length))
+            cell.itemPrice.attributedText = attributeString
             cell.itemDiscounted.text = "\(item.currency) \(discountedPrice)"
+            cell.itemPrice.textColor = .red
+            cell.itemDiscounted.textColor = .systemGray
         } else {
+            cell.itemPrice.textColor = .systemGray
+            cell.itemPrice.text = "\(item.currency) \(item.price)"
             cell.itemDiscounted.isHidden = true
         }
         

@@ -19,4 +19,10 @@ class CollectionViewCell: UICollectionViewCell {
         super.awakeFromNib()
         // Initialization code
     }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        self.itemPrice.attributedText = nil
+        self.itemDiscounted.isHidden = false
+    }
 }
