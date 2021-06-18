@@ -85,7 +85,7 @@ class OpenMarketViewController: UIViewController {
     // MARK: - Initial Data fetching
     
     private func fetchOpenMarketItems() {
-        networkManager.getItemList(page: 1, loadingFinished: false) { [weak self] result in
+        networkManager.getItemList(page: nextPageToLoad, loadingFinished: false) { [weak self] result in
             switch result {
             case .success(let itemList):
                 self?.openMarketItems.append(contentsOf: itemList.items)
