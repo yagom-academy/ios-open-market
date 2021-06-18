@@ -13,7 +13,6 @@ class ViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var SegmentedControl: UISegmentedControl!
     
-    let sectionInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
     var items: [ItemShortInformaion] = []
     
     override func viewDidLoad() {
@@ -56,8 +55,11 @@ class ViewController: UIViewController {
                 let decoder = JSONDecoder()
                 let itemPage = try decoder.decode(ItemPage.self, from: resultData)
                 self.items = itemPage.items
-                print("\(self.items)")
-
+                
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                    self.collectionView.reloadData()
+                }
             } catch {
                 print(error.localizedDescription)
             }
@@ -94,13 +96,33 @@ extension ViewController: UITableViewDelegate {
 
 extension ViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 50
+        return items.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
+        let item: ItemShortInformaion = self.items[indexPath.row]
+        
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "CustomTableViewCell") as? CustomTableViewCell else {
             fatalError("cell 생성 실패")
+        }
+        
+        cell.titleLabel.text = item.title
+        
+        if item.discountedPrice == nil {
+            cell.discountedPriceLabel.isHidden = true
+        } else {
+            cell.discountedPriceLabel.text =
+            "\(item.discountedPrice)"
+        }
+        
+        cell.priceLabel.text = "\(item.price)"
+        if item.stock == 0 {
+            cell.stockLabel.text = "품절"
+            cell.stockLabel.textColor = .orange
+        } else {
+            cell.stockLabel.text = "잔여수량: \(item.stock)"
+            cell.stockLabel.textColor = .systemGray
         }
         
         return cell
@@ -120,7 +142,7 @@ extension ViewController: UICollectionViewDelegate {
 extension ViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 60
+        return items.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
