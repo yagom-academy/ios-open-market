@@ -125,8 +125,10 @@ extension OpenMarketGridCollectionViewCell {
         
         configureDiscountedPriceLabel(openMarketItems, indexPath: indexPath)
         configureStockLabel(openMarketItems, indexPath: indexPath)
-        imageDataTask = requestThumbnail(openMarketItems, indexPath: indexPath)
-        imageDataTask?.resume()
+        DispatchQueue.global().async { [weak self] in
+            self?.imageDataTask = self?.requestThumbnail(openMarketItems, indexPath: indexPath)
+            self?.imageDataTask?.resume()
+        }
     }
     
     override func prepareForReuse() {
