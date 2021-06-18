@@ -107,12 +107,23 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         let imageURL: URL! = URL(string: item.thumbnails.first!)
         guard let imageData: Data = try? Data(contentsOf: imageURL) else { return cell }
         
+
+//        cell.itemDiscounted.isHidden = true
+        
         cell.itemName.text = item.title
         cell.itemPrice.text = "\(item.currency) \(item.price)"
+        cell.itemDiscounted.text = "\(item.currency) \(String(describing: item.discountedPrice))"
         cell.itemThumbnail.image = UIImage(data: imageData)
         cell.itemThumbnail.adjustsImageSizeForAccessibilityContentSizeCategory = false
         cell.itemThumbnail.sizeToFit()
-        cell.itemQuantity.text = "잔여 수량: \(item.stock)"
+        
+        if item.stock == 0 {
+            cell.itemQuantity.text = "품절"
+            cell.itemQuantity.textColor = .orange
+        } else {
+            cell.itemQuantity.text = "잔여 수량: \(item.stock)"
+            cell.itemQuantity.textColor = .systemGray
+        }
         
         return cell
     }
@@ -132,7 +143,14 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         cell.itemThumbnail.image = UIImage(data: imageData)
         cell.itemThumbnail.adjustsImageSizeForAccessibilityContentSizeCategory = false
         cell.itemThumbnail.sizeToFit()
-        cell.itemQuantity.text = "잔여 수량: \(item.stock)"
+        
+        if item.stock == 0 {
+            cell.itemQuantity.text = "품절"
+            cell.itemQuantity.textColor = .orange
+        } else {
+            cell.itemQuantity.text = "잔여 수량: \(item.stock)"
+            cell.itemQuantity.textColor = .systemGray
+        }
     
         cell.layer.borderWidth = 1
         cell.layer.borderColor = UIColor.gray.cgColor
