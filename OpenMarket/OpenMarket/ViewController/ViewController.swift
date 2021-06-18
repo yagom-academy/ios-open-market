@@ -117,12 +117,13 @@ extension ViewController: UITableViewDataSource {
         
         cell.titleLabel.text = item.title
         
-        cell.priceLabel.attributedText = cell.priceLabel.text?.removeStrikeThrough()
         cell.priceLabel.text = "USD \(changeNumberFomatter(number: Int(item.price)))"
         
         if item.discountedPrice == nil {
             cell.discountedPriceLabel.isHidden = true
+            cell.priceLabel.attributedText = cell.priceLabel.text?.removeStrikeThrough()
         } else {
+            cell.discountedPriceLabel.isHidden = false
             cell.discountedPriceLabel.text =
                 "USD \(changeNumberFomatter(number: item.discountedPrice!))"
             cell.priceLabel.attributedText = cell.priceLabel.text?.strikeThrough()
@@ -166,12 +167,14 @@ extension ViewController: UICollectionViewDataSource {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CustomCollectionViewCell", for: indexPath) as? CustomCollectionViewCell else {
             fatalError("CollecionViewCell 생성 실패")
         }
-        
+
         cell.titleLabel.text = item.title
         
         if item.discountedPrice == nil {
             cell.discountedPriceLabel.isHidden = true
+            cell.priceLabel.attributedText = cell.priceLabel.text?.removeStrikeThrough()
         } else {
+            cell.discountedPriceLabel.isHidden = false
             cell.discountedPriceLabel.text =
                 "USD \(changeNumberFomatter(number: item.discountedPrice!))"
             cell.priceLabel.attributedText = cell.priceLabel.text?.strikeThrough()
