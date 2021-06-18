@@ -49,7 +49,7 @@ class ViewController: UIViewController {
             guard (200..<300).contains(statusCode) else { return }
             
             guard let resultData = data else { return }
-                        
+            
             do {
                 let decoder = JSONDecoder()
                 let itemPage = try decoder.decode(ItemPage.self, from: resultData)
@@ -86,6 +86,16 @@ class ViewController: UIViewController {
         let nibName = UINib(nibName: fileName, bundle: nil)
         collectionView.register(nibName, forCellWithReuseIdentifier: cellIdentifier)
     }
+    
+    func changeNumberFomatter(number: Int) -> String {
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .decimal
+        
+        let result = numberFormatter.string(from: NSNumber(value:number))!
+        
+        return result
+    }
+
 }
 
 extension ViewController: UITableViewDelegate {
@@ -104,17 +114,17 @@ extension ViewController: UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "CustomTableViewCell") as? CustomTableViewCell else {
             fatalError("cell 생성 실패")
         }
-
+        
         cell.titleLabel.text = item.title
         
         cell.priceLabel.attributedText = cell.priceLabel.text?.removeStrikeThrough()
-        cell.priceLabel.text = "USD \(item.price)"
+        cell.priceLabel.text = "USD \(changeNumberFomatter(number: Int(item.price)))"
         
         if item.discountedPrice == nil {
             cell.discountedPriceLabel.isHidden = true
         } else {
             cell.discountedPriceLabel.text =
-                "USD \(item.discountedPrice!)"
+                "USD \(changeNumberFomatter(number: item.discountedPrice!))"
             cell.priceLabel.attributedText = cell.priceLabel.text?.strikeThrough()
         }
         
@@ -122,14 +132,14 @@ extension ViewController: UITableViewDataSource {
             cell.stockLabel.text = "품절"
             cell.stockLabel.textColor = UIColor.orange
         } else {
-            cell.stockLabel.text = "잔여수량: \(item.stock)"
+            cell.stockLabel.text = "잔여수량: \(changeNumberFomatter(number: item.stock))"
             cell.stockLabel.textColor = UIColor.lightGray
         }
         
         guard let imageURL = URL(string: item.thumbnailURLs[0]) else { return cell}
         guard let imageData = try? Data(contentsOf: imageURL) else { return cell }
         cell.ImageView.image = UIImage(data: imageData)
-    
+        
         return cell
     }
     
@@ -163,16 +173,16 @@ extension ViewController: UICollectionViewDataSource {
             cell.discountedPriceLabel.isHidden = true
         } else {
             cell.discountedPriceLabel.text =
-                "USD \(item.discountedPrice!)"
+                "USD \(changeNumberFomatter(number: item.discountedPrice!))"
             cell.priceLabel.attributedText = cell.priceLabel.text?.strikeThrough()
         }
-        
-        cell.priceLabel.text = "USD \(item.price)"
+    
+        cell.priceLabel.text = "USD \(changeNumberFomatter(number: Int(item.price)))"
         if item.stock == 0 {
             cell.stockLabel.text = "품절"
             cell.stockLabel.textColor = .orange
         } else {
-            cell.stockLabel.text = "잔여수량: \(item.stock)"
+            cell.stockLabel.text = "잔여수량: \(changeNumberFomatter(number: item.stock))"
             cell.stockLabel.textColor = .systemGray
         }
         
@@ -183,7 +193,6 @@ extension ViewController: UICollectionViewDataSource {
         cell.layer.borderColor = UIColor.darkGray.cgColor
         cell.layer.borderWidth = 0.5
         cell.layer.cornerRadius = 20.0
-        
         
         return cell
     }
@@ -204,10 +213,12 @@ extension String {
         attributeString.addAttribute(NSAttributedString.Key.strikethroughStyle, value: NSUnderlineStyle.single.rawValue, range: NSMakeRange(0,attributeString.length))
         return attributeString
     }
-
+    
     func removeStrikeThrough() -> NSAttributedString {
         let attributeString = NSMutableAttributedString(string: self)
         attributeString.removeAttribute(NSAttributedString.Key.strikethroughStyle, range: NSMakeRange(0, attributeString.length))
         return attributeString
     }
 }
+
+
