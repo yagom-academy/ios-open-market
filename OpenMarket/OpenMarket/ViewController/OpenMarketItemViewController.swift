@@ -289,10 +289,14 @@ extension OpenMarketItemViewController: TextFieldConvertible {
     }
     
     func convertOptionalTextFieldToDictionary(_ itemToPost: OpenMarketItemToPost, _ textField: UITextField) {
-        itemInformation.updateValue(textField.text, forKey: itemToPost.key)
+        
+        guard let text = textField.text,
+              let number = Int(text) else { return }
+        itemInformation.updateValue(number, forKey: itemToPost.key)
     }
     
     func convertTextFieldToDictionary(_ itemToPost: OpenMarketItemToPost, _ textField: UITextField) {
+       
         guard let text = textField.text else { return }
         if let number = Int(text) {
             itemInformation.updateValue(number, forKey: itemToPost.key)

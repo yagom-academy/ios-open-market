@@ -31,6 +31,11 @@
 		EAC6ED39267C8004006DDA78 /* OpenMarketItemToPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAC6ED38267C8004006DDA78 /* OpenMarketItemToPost.swift */; };
 		EAC6ED3C267C9E52006DDA78 /* TitleTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAC6ED3B267C9E52006DDA78 /* TitleTextField.swift */; };
 		EAC6ED3E267CA66C006DDA78 /* TextFieldConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAC6ED3D267CA66C006DDA78 /* TextFieldConvertible.swift */; };
+		EAC6ED40267CCC78006DDA78 /* PriceTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAC6ED3F267CCC78006DDA78 /* PriceTextField.swift */; };
+		EAC6ED42267CCDBC006DDA78 /* DiscountedPriceTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAC6ED41267CCDBC006DDA78 /* DiscountedPriceTextField.swift */; };
+		EAC6ED44267CCFDF006DDA78 /* StockTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAC6ED43267CCFDF006DDA78 /* StockTextField.swift */; };
+		EAC6ED46267CD18B006DDA78 /* PasswordTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAC6ED45267CD18B006DDA78 /* PasswordTextField.swift */; };
+		EAC6ED48267CD789006DDA78 /* CurrencyTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAC6ED47267CD789006DDA78 /* CurrencyTextField.swift */; };
 		EAEF60E526774DD900D82B73 /* OpenMarketItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAEF60E426774DD900D82B73 /* OpenMarketItemViewController.swift */; };
 		EAEF60E9267892D200D82B73 /* ImagePickerCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAEF60E8267892D200D82B73 /* ImagePickerCollectionViewCell.swift */; };
 		EAEF60EB2678C16000D82B73 /* ImagePickerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAEF60EA2678C16000D82B73 /* ImagePickerDelegate.swift */; };
@@ -77,6 +82,11 @@
 		EAC6ED38267C8004006DDA78 /* OpenMarketItemToPost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketItemToPost.swift; sourceTree = "<group>"; };
 		EAC6ED3B267C9E52006DDA78 /* TitleTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleTextField.swift; sourceTree = "<group>"; };
 		EAC6ED3D267CA66C006DDA78 /* TextFieldConvertible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldConvertible.swift; sourceTree = "<group>"; };
+		EAC6ED3F267CCC78006DDA78 /* PriceTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceTextField.swift; sourceTree = "<group>"; };
+		EAC6ED41267CCDBC006DDA78 /* DiscountedPriceTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscountedPriceTextField.swift; sourceTree = "<group>"; };
+		EAC6ED43267CCFDF006DDA78 /* StockTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockTextField.swift; sourceTree = "<group>"; };
+		EAC6ED45267CD18B006DDA78 /* PasswordTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordTextField.swift; sourceTree = "<group>"; };
+		EAC6ED47267CD789006DDA78 /* CurrencyTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyTextField.swift; sourceTree = "<group>"; };
 		EAEF60E426774DD900D82B73 /* OpenMarketItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketItemViewController.swift; sourceTree = "<group>"; };
 		EAEF60E8267892D200D82B73 /* ImagePickerCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerCollectionViewCell.swift; sourceTree = "<group>"; };
 		EAEF60EA2678C16000D82B73 /* ImagePickerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerDelegate.swift; sourceTree = "<group>"; };
@@ -123,7 +133,7 @@
 		C70FB0F925BEF61C00C9924E /* OpenMarket */ = {
 			isa = PBXGroup;
 			children = (
-				EAC6ED3A267C9E22006DDA78 /* TextField */,
+				EAC6ED3A267C9E22006DDA78 /* View */,
 				EA8E9681266E4769001280CF /* Utility */,
 				EAEF60EE2678D46800D82B73 /* Cell */,
 				EAB78593266765D70090C7FC /* ViewController */,
@@ -211,12 +221,17 @@
 			path = ViewController;
 			sourceTree = "<group>";
 		};
-		EAC6ED3A267C9E22006DDA78 /* TextField */ = {
+		EAC6ED3A267C9E22006DDA78 /* View */ = {
 			isa = PBXGroup;
 			children = (
 				EAC6ED3B267C9E52006DDA78 /* TitleTextField.swift */,
+				EAC6ED3F267CCC78006DDA78 /* PriceTextField.swift */,
+				EAC6ED41267CCDBC006DDA78 /* DiscountedPriceTextField.swift */,
+				EAC6ED47267CD789006DDA78 /* CurrencyTextField.swift */,
+				EAC6ED43267CCFDF006DDA78 /* StockTextField.swift */,
+				EAC6ED45267CD18B006DDA78 /* PasswordTextField.swift */,
 			);
-			path = TextField;
+			path = View;
 			sourceTree = "<group>";
 		};
 		EAEF60EE2678D46800D82B73 /* Cell */ = {
@@ -330,6 +345,7 @@
 			files = (
 				EAB78586266613910090C7FC /* URLSessionProtocol.swift in Sources */,
 				EA8E9683266E478A001280CF /* String+Extension.swift in Sources */,
+				EAC6ED46267CD18B006DDA78 /* PasswordTextField.swift in Sources */,
 				EAB7856C2664D0CF0090C7FC /* NetworkManager.swift in Sources */,
 				EAB785702664E6980090C7FC /* DataError.swift in Sources */,
 				EAEF60F0267B76D800D82B73 /* NSMutableData + Extension.swift in Sources */,
@@ -347,11 +363,15 @@
 				C70FB0FF25BEF61C00C9924E /* OpenMarketViewController.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
+				EAC6ED42267CCDBC006DDA78 /* DiscountedPriceTextField.swift in Sources */,
 				EA8E967E266DF913001280CF /* CellLayout.swift in Sources */,
+				EAC6ED44267CCFDF006DDA78 /* StockTextField.swift in Sources */,
 				EAC6ED3C267C9E52006DDA78 /* TitleTextField.swift in Sources */,
+				EAC6ED40267CCC78006DDA78 /* PriceTextField.swift in Sources */,
 				EAC6ED3E267CA66C006DDA78 /* TextFieldConvertible.swift in Sources */,
 				EA8E967C266DE472001280CF /* OpenMarketGridCollectionViewCell.swift in Sources */,
 				EAB78597266766130090C7FC /* OpenMarketListCollectionViewCell.swift in Sources */,
+				EAC6ED48267CD789006DDA78 /* CurrencyTextField.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
