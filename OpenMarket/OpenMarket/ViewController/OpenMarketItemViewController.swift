@@ -186,6 +186,13 @@ extension OpenMarketItemViewController {
         
     }
     
+    // MARK: - Method: hide keyboard when tapped around
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        self.view.endEditing(true)
+    }
+    
     // MARK: - setUp NavigationItems
     
     private func setUpNavigationItems() {
