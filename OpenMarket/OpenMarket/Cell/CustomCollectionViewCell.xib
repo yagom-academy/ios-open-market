@@ -71,7 +71,7 @@
             <size key="customSize" width="96" height="365"/>
             <connections>
                 <outlet property="ImageView" destination="UXM-JR-1PY" id="lnq-dL-VGE"/>
-                <outlet property="discontedPriceLabel" destination="IQl-MZ-dwp" id="vnp-xd-Dyj"/>
+                <outlet property="discountedPriceLabel" destination="IQl-MZ-dwp" id="kC7-U1-VBl"/>
                 <outlet property="priceLabel" destination="RRh-a8-7g6" id="Wjs-Hu-f0e"/>
                 <outlet property="stockLabel" destination="mLN-3p-ZGe" id="amJ-p6-GIj"/>
                 <outlet property="titleLabel" destination="dcJ-dS-IuF" id="TbR-MO-wJy"/>

@@ -47,10 +47,7 @@ class ViewController: UIViewController {
             guard (200..<300).contains(statusCode) else { return }
             
             guard let resultData = data else { return }
-            
-            let resultString = String(data: resultData, encoding: .utf8 )
-            
-
+                        
             do {
                 let decoder = JSONDecoder()
                 let itemPage = try decoder.decode(ItemPage.self, from: resultData)
@@ -89,7 +86,6 @@ class ViewController: UIViewController {
     }
 }
 
-
 extension ViewController: UITableViewDelegate {
     
 }
@@ -106,17 +102,19 @@ extension ViewController: UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "CustomTableViewCell") as? CustomTableViewCell else {
             fatalError("cell 생성 실패")
         }
-        
+
         cell.titleLabel.text = item.title
         
+        cell.priceLabel.attributedText = cell.priceLabel.text?.removeStrikeThrough()
         if item.discountedPrice == nil {
             cell.discountedPriceLabel.isHidden = true
         } else {
             cell.discountedPriceLabel.text =
-            "\(item.discountedPrice)"
+                "USD \(item.discountedPrice!)"
+            cell.priceLabel.attributedText = cell.priceLabel.text?.strikeThrough()
         }
         
-        cell.priceLabel.text = "\(item.price)"
+        cell.priceLabel.text = "USD \(item.price)"
         if item.stock == 0 {
             cell.stockLabel.text = "품절"
             cell.stockLabel.textColor = .orange
@@ -134,7 +132,6 @@ extension ViewController: UITableViewDataSource {
     }
 }
 
-
 extension ViewController: UICollectionViewDelegate {
     
 }
@@ -147,12 +144,34 @@ extension ViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
+        let item: ItemShortInformaion = self.items[indexPath.row]
+        
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CustomCollectionViewCell", for: indexPath) as? CustomCollectionViewCell else {
             fatalError("CollecionViewCell 생성 실패")
         }
         
+        cell.titleLabel.text = item.title
+        
+        if item.discountedPrice == nil {
+            cell.discountedPriceLabel.isHidden = true
+        } else {
+            cell.discountedPriceLabel.text =
+                "USD \(item.discountedPrice!)"
+            cell.priceLabel.attributedText = cell.priceLabel.text?.strikeThrough()
+        }
+        
+        cell.priceLabel.text = "USD \(item.price)"
+        if item.stock == 0 {
+            cell.stockLabel.text = "품절"
+            cell.stockLabel.textColor = .orange
+        } else {
+            cell.stockLabel.text = "잔여수량: \(item.stock)"
+            cell.stockLabel.textColor = .systemGray
+        }
+        
         cell.layer.borderColor = UIColor.darkGray.cgColor
         cell.layer.borderWidth = 0.5
+        cell.layer.cornerRadius = 10.0
         
         return cell
     }
@@ -166,4 +185,18 @@ extension ViewController: UICollectionViewDelegateFlowLayout {
         return CGSize(width: collectionView.frame.width/2, height: collectionView.frame.height/3)
     }
 
+}
+
+extension String {
+    func strikeThrough() -> NSAttributedString {
+        let attributeString = NSMutableAttributedString(string: self)
+        attributeString.addAttribute(NSAttributedString.Key.strikethroughStyle, value: NSUnderlineStyle.single.rawValue, range: NSMakeRange(0,attributeString.length))
+        return attributeString
+    }
+
+    func removeStrikeThrough() -> NSAttributedString {
+        let attributeString = NSMutableAttributedString(string: self)
+        attributeString.removeAttribute(NSAttributedString.Key.strikethroughStyle, range: NSMakeRange(0, attributeString.length))
+        return attributeString
+    }
 }

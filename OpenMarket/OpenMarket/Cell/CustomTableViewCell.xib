@@ -74,11 +74,11 @@
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
-                <outlet property="ImageView" destination="0YV-Gx-DUX" id="zvm-bS-X7W"/>
-                <outlet property="discountedPriceLabel" destination="gAK-wE-W36" id="lGc-jI-ZU1"/>
-                <outlet property="priceLabel" destination="rGV-lO-x62" id="ITm-58-Nr9"/>
-                <outlet property="stockLabel" destination="aHa-Ih-7SM" id="01e-t5-Xk1"/>
-                <outlet property="titleLabel" destination="h8V-Fi-ork" id="pv7-30-qd4"/>
+                <outlet property="ImageView" destination="0YV-Gx-DUX" id="dLP-CW-gkk"/>
+                <outlet property="discountedPriceLabel" destination="gAK-wE-W36" id="bnL-CS-QDz"/>
+                <outlet property="priceLabel" destination="rGV-lO-x62" id="eDR-Nf-uby"/>
+                <outlet property="stockLabel" destination="aHa-Ih-7SM" id="U9u-vr-DMS"/>
+                <outlet property="titleLabel" destination="h8V-Fi-ork" id="ECw-KF-fje"/>
             </connections>
             <point key="canvasLocation" x="31.884057971014496" y="88.392857142857139"/>
         </tableViewCell>
