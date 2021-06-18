@@ -23,6 +23,7 @@ class OpenMarketItemViewController: UIViewController {
         textField.font = UIFont.preferredFont(forTextStyle: .body)
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.textColor = .black
+        textField.delegate = self
         return textField
     }()
     
@@ -34,6 +35,7 @@ class OpenMarketItemViewController: UIViewController {
         textField.font = UIFont.preferredFont(forTextStyle: .title3)
         textField.inputAccessoryView = currencyPickerViewToolbar
         textField.translatesAutoresizingMaskIntoConstraints = false
+        textField.delegate = self
         return textField
     }()
     
@@ -43,6 +45,7 @@ class OpenMarketItemViewController: UIViewController {
         textField.font = UIFont.preferredFont(forTextStyle: .body)
         textField.keyboardType = .numberPad
         textField.translatesAutoresizingMaskIntoConstraints = false
+        textField.delegate = self
         return textField
     }()
     
@@ -52,6 +55,7 @@ class OpenMarketItemViewController: UIViewController {
         textField.placeholder = "(optional) 할인 가격"
         textField.keyboardType = .numberPad
         textField.translatesAutoresizingMaskIntoConstraints = false
+        textField.delegate = self
         return textField
     }()
     
@@ -63,6 +67,7 @@ class OpenMarketItemViewController: UIViewController {
         textField.font = UIFont.preferredFont(forTextStyle: .body)
         textField.keyboardType = .numberPad
         textField.translatesAutoresizingMaskIntoConstraints = false
+        textField.delegate = self
         return textField
     }()
     
@@ -72,6 +77,7 @@ class OpenMarketItemViewController: UIViewController {
         textField.font = UIFont.preferredFont(forTextStyle: .body)
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.isSecureTextEntry = true
+        textField.delegate = self
         return textField
     }()
     
@@ -212,9 +218,9 @@ extension OpenMarketItemViewController {
             
             titleTextField.topAnchor.constraint(equalTo: thumbnailCollectionView.bottomAnchor, constant: 20),
             titleTextField.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 10),
-            titleTextField.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -10),
+            titleTextField.trailingAnchor.constraint(lessThanOrEqualTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -10),
             
-            passwordTextField.topAnchor.constraint(equalTo: titleTextField.bottomAnchor, constant: 20),
+            passwordTextField.topAnchor.constraint(lessThanOrEqualTo: titleTextField.bottomAnchor, constant: 20),
             passwordTextField.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 10),
             passwordTextField.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -10),
             
@@ -283,6 +289,15 @@ extension OpenMarketItemViewController: UITextViewDelegate {
             textView.text = "상품 정보를 입력 해 주세요."
             textView.textColor = .lightGray
         }
+    }
+}
+
+// MARK: - UITextFieldDelegate
+
+extension OpenMarketItemViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
 }
 
