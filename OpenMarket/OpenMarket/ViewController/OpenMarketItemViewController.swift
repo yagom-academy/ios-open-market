@@ -10,6 +10,7 @@ import UIKit
 class OpenMarketItemViewController: UIViewController {
     
     // MARK: - Properties
+    
     private let currencyList = ["KRW", "USD", "BTC", "JPY", "EUR", "GBP", "CNY"]
     private let imagePicker = UIImagePickerController()
     private var itemThumbnails: [UIImage] = []
@@ -18,66 +19,11 @@ class OpenMarketItemViewController: UIViewController {
     // MARK: - Views
     
     private var titleTextField = TitleTextField()
-    
-    private lazy var openMarketScrollView: UIScrollView = {
-        let scrollview = UIScrollView()
-        
-        return scrollview
-    }()
-    
-    private lazy var currencyTextField: UITextField = {
-        let textField = UITextField()
-        textField.inputView = currencyPickerView
-        textField.placeholder = OpenMarketItemToPost.currency.placeholder.description
-        textField.tintColor = .clear
-        textField.font = UIFont.preferredFont(forTextStyle: .title3)
-        textField.inputAccessoryView = currencyPickerViewToolbar
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.delegate = self
-        return textField
-    }()
-    
-    private lazy var priceTextField: UITextField = {
-        let textField = UITextField()
-        textField.placeholder = "가격"
-        textField.font = UIFont.preferredFont(forTextStyle: .body)
-        textField.keyboardType = .numberPad
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.delegate = self
-        return textField
-    }()
-    
-    private lazy var discountedPriceTextField: UITextField = {
-        let textField = UITextField()
-        textField.font = UIFont.preferredFont(forTextStyle: .body)
-        textField.placeholder = "(optional) 할인 가격"
-        textField.keyboardType = .numberPad
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.delegate = self
-        return textField
-    }()
-    
-    private lazy var stockTextField: UITextField = {
-        let textField = UITextField()
-        textField.placeholder = "수량"
-        textField.textAlignment = .right
-        textField.layer.borderWidth = 0.3
-        textField.font = UIFont.preferredFont(forTextStyle: .body)
-        textField.keyboardType = .numberPad
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.delegate = self
-        return textField
-    }()
-    
-    private lazy var passwordTextField: UITextField = {
-        let textField = UITextField()
-        textField.placeholder = "비밀번호"
-        textField.font = UIFont.preferredFont(forTextStyle: .body)
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.isSecureTextEntry = true
-        textField.delegate = self
-        return textField
-    }()
+    private var priceTextField = PriceTextField()
+    private var discountedPriceTextField = DiscountedPriceTextField()
+    private var stockTextField = StockTextField()
+    private var passwordTextField = PasswordTextField()
+    private var currencyTextField = CurrencyTextField()
     
     private lazy var stockLabel: UILabel = {
         let label = UILabel()
@@ -177,6 +123,17 @@ class OpenMarketItemViewController: UIViewController {
         addSubviews()
         setUpUIConstraints()
         titleTextField.textFieldDelegate = self
+        priceTextField.textFieldDelegate = self
+        discountedPriceTextField.textFieldDelegate = self
+        stockTextField.textFieldDelegate = self
+        passwordTextField.textFieldDelegate = self
+        applyCurrencyTextField()
+    }
+    
+    private func applyCurrencyTextField() {
+        currencyTextField.textFieldDelegate = self
+        currencyTextField.inputView = currencyPickerView
+        currencyTextField.inputAccessoryView = currencyPickerViewToolbar
     }
 }
 extension OpenMarketItemViewController {
@@ -327,10 +284,10 @@ extension OpenMarketItemViewController: UIImagePickerControllerDelegate, UINavig
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
         guard let selectedImage: UIImage = info[.originalImage] as? UIImage else { return }
-            selectedImage.jpegData(compressionQuality: 0.75)
-            self.itemThumbnails.append(selectedImage)
-            thumbnailCollectionView.reloadData()
-            picker.dismiss(animated: true, completion: nil)
+        selectedImage.jpegData(compressionQuality: 0.75)
+        self.itemThumbnails.append(selectedImage)
+        thumbnailCollectionView.reloadData()
+        picker.dismiss(animated: true, completion: nil)
     }
     
     @objc func didTapUploadPhoto(_ sender: UIButton) {
@@ -396,11 +353,11 @@ extension OpenMarketItemViewController: UICollectionViewDelegateFlowLayout {
 
 extension OpenMarketItemViewController: RemoveDelegate {
     func removeCell(_ indexPath : IndexPath) {
-            self.thumbnailCollectionView.performBatchUpdates {
-                self.thumbnailCollectionView.deleteItems(at: [indexPath])
-                self.itemThumbnails.remove(at: indexPath.row)
-            } completion: { (_) in
-                self.thumbnailCollectionView.reloadData()
-            }
+        self.thumbnailCollectionView.performBatchUpdates {
+            self.thumbnailCollectionView.deleteItems(at: [indexPath])
+            self.itemThumbnails.remove(at: indexPath.row)
+        } completion: { (_) in
+            self.thumbnailCollectionView.reloadData()
+        }
     }
 }
