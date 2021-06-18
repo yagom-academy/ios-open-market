@@ -266,6 +266,8 @@ extension OpenMarketItemViewController: UITextFieldDelegate {
     }
 }
 
+// MARK: - TextFieldConvertible
+
 extension OpenMarketItemViewController: TextFieldConvertible {
     
     func alertInvalidTextField(_ alertController: UIAlertController) {
