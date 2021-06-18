@@ -8,7 +8,7 @@
 import UIKit
 
 class ListVCCell: UITableViewCell {
-
+    
     @IBOutlet weak var thumbnailImageView: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var priceLabel: UILabel!
@@ -26,7 +26,7 @@ class ListVCCell: UITableViewCell {
     
     func setupItem() {
         let numberFormatter = NumberFormatter()
-                numberFormatter.numberStyle = .decimal
+        numberFormatter.numberStyle = .decimal
         if let data: Item = self.item {
             thumbnailImageView.downloadImage(from: data.thumbnails[0])
             titleLabel.text = data.title
@@ -35,7 +35,7 @@ class ListVCCell: UITableViewCell {
             priceLabel.text = data.currency + " \(dataPrice)"
             priceLabel.textColor = UIColor.lightGray
             
- 
+            
             discountedPriceLabel.textColor = UIColor.lightGray
             if let discountedPrice = data.discountedPrice {
                 discountedPriceLabel.text = data.currency + " \(discountedPrice)"

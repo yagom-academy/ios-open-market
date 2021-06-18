@@ -8,7 +8,7 @@
 import UIKit
 
 class GridVCCell: UICollectionViewCell {
-
+    
     @IBOutlet weak var thumbnailImageView: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var priceLabel: UILabel!
@@ -34,16 +34,16 @@ class GridVCCell: UICollectionViewCell {
     
     func setupItem() {
         let numberFormatter = NumberFormatter()
-                numberFormatter.numberStyle = .decimal
+        numberFormatter.numberStyle = .decimal
         if let data: Item = self.item {
             thumbnailImageView.downloadImage(from: data.thumbnails[0])
             titleLabel.text = data.title
-       
+            
             guard let dataPrice = numberFormatter.string(from: NSNumber(value: data.price)) else { return }
             priceLabel.text = data.currency + " \(dataPrice)"
             priceLabel.textColor = UIColor.lightGray
             
- 
+            
             discountedPriceLabel.textColor = UIColor.lightGray
             if let discountedPrice = data.discountedPrice {
                 discountedPriceLabel.text = data.currency + " \(discountedPrice)"

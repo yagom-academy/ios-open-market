@@ -17,12 +17,11 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
         downloadData()
         
         gridContainer.isHidden = true
     }
-
+    
     func downloadData() {
         self.openMarketAPI.getItemList { result in
             self.items = result
@@ -38,7 +37,7 @@ class MainViewController: UIViewController {
         if segment.selectedSegmentIndex == 0 {
             listContainer.isHidden = false
             print("list on")
-        
+            
         } else if segment.selectedSegmentIndex == 1 {
             gridContainer.isHidden = false
             print("grid on")
