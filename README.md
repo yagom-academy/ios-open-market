@@ -112,8 +112,10 @@ URLSession
 
 CollectionView
 - [[유투브] 취준생을 위한 아이폰 앱개발 콜렉션뷰 콤포지셔널 레이아웃 fundamental Tutorial (2020) ios collectionView compositional layout](https://www.youtube.com/watch?v=kJMIx0GWYIw&t=398s)
+  
 NumberFormatter
 - [[블로그] iOS에서 세 자리수 마다 콤마(,) 넣기 - 까칠코더](https://kka7.tistory.com/44)
+  
 strikeThrough
 - ([[블로그] [iOS - swift] String에 strikeThrough 적용 (AttributedString)](https://ios-development.tistory.com/238))
 </div>
