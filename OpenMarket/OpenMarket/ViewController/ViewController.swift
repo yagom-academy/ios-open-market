@@ -45,9 +45,7 @@ class ViewController: UIViewController {
             guard error == nil else { return }
             
             guard let statusCode = (response as? HTTPURLResponse)?.statusCode else { return }
-            let successRange = 200..<300
-            
-            guard successRange.contains(statusCode) else { return }
+            guard (200..<300).contains(statusCode) else { return }
             
             guard let resultData = data else { return }
             
@@ -108,6 +106,7 @@ extension ViewController: UITableViewDataSource {
         return cell
     }
     
+    // tableViewCell 높이
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 70
     }
@@ -130,14 +129,19 @@ extension ViewController: UICollectionViewDataSource {
             fatalError("CollecionViewCell 생성 실패")
         }
         
+        cell.layer.borderColor = UIColor.darkGray.cgColor
+        cell.layer.borderWidth = 0.5
+        
         return cell
     }
     
 }
 
 extension ViewController: UICollectionViewDelegateFlowLayout {
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        return CGSize(width: collectionView.frame.width/2-10, height: collectionView.frame.width/3)
+        return CGSize(width: collectionView.frame.width/2, height: collectionView.frame.height/3)
     }
+
 }
