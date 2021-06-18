@@ -43,11 +43,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         setupFlowLayout()
         
         segmentedControl.backgroundColor = UIColor.systemBlue
-        
-        view.backgroundColor = .white
-        
-            self.activity.startAnimating()
-        
+        self.activity.startAnimating()
         }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -108,17 +104,14 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "TableViewItemCell", for: indexPath) as? TableViewCell else { return UITableViewCell() }
         let item: ItemInformation = self.items[indexPath.row]
-//        let quantity = String(format: "%02d", item.stock)
         let imageURL: URL! = URL(string: item.thumbnails.first!)
         guard let imageData: Data = try? Data(contentsOf: imageURL) else { return cell }
         
         cell.itemName.text = item.title
-        cell.itemPrice.text = String(item.price)
+        cell.itemPrice.text = "\(item.currency) \(item.price)"
         cell.itemThumbnail.image = UIImage(data: imageData)
         cell.itemThumbnail.adjustsImageSizeForAccessibilityContentSizeCategory = false
         cell.itemThumbnail.sizeToFit()
-//        cell.itemQuantity.text = item.stock
-//        cell.itemQuantity.text = "잔여 수량: \(quantity)"
         cell.itemQuantity.text = "잔여 수량: \(item.stock)"
         
         return cell
@@ -135,7 +128,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         guard let imageData: Data = try? Data(contentsOf: imageURL) else { return cell }
         
         cell.itemName.text = item.title
-        cell.itemPrice.text = String(item.price)
+        cell.itemPrice.text = "\(item.currency) \(item.price)"
         cell.itemThumbnail.image = UIImage(data: imageData)
         cell.itemThumbnail.adjustsImageSizeForAccessibilityContentSizeCategory = false
         cell.itemThumbnail.sizeToFit()
