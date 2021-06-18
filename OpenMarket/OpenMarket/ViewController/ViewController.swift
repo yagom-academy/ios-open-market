@@ -66,7 +66,6 @@ class ViewController: UIViewController {
         dataTask.resume()
     }
     
-    
     @IBAction func ChangeViewBySegmentedControl(_ sender: UISegmentedControl) {
         if SegmentedControl.selectedSegmentIndex == 0 {
             collectionView.isHidden = true
