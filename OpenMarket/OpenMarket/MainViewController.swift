@@ -96,15 +96,15 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return items.count
-    }
-    
     func formatNumber(inputNumber: Int) -> String {
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .decimal
         guard let formattedNumber = numberFormatter.string(from: NSNumber(value: inputNumber)) else { return "" }
         return formattedNumber
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return items.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
