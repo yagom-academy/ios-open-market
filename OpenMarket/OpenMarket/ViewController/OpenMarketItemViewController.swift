@@ -10,27 +10,25 @@ import UIKit
 class OpenMarketItemViewController: UIViewController {
     
     // MARK: - Properties
-    
     private let currencyList = ["KRW", "USD", "BTC", "JPY", "EUR", "GBP", "CNY"]
     private let imagePicker = UIImagePickerController()
-    var itemThumbnails: [UIImage] = []
+    private var itemThumbnails: [UIImage] = []
+    private var itemInformation: [String: Any?] = [:]
     
     // MARK: - Views
     
-    private lazy var titleTextField: UITextField = {
-        let textField = UITextField()
-        textField.placeholder = "상품명"
-        textField.font = UIFont.preferredFont(forTextStyle: .body)
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.textColor = .black
-        textField.delegate = self
-        return textField
+    private var titleTextField = TitleTextField()
+    
+    private lazy var openMarketScrollView: UIScrollView = {
+        let scrollview = UIScrollView()
+        
+        return scrollview
     }()
     
     private lazy var currencyTextField: UITextField = {
         let textField = UITextField()
         textField.inputView = currencyPickerView
-        textField.placeholder = "화폐"
+        textField.placeholder = OpenMarketItemToPost.currency.placeholder.description
         textField.tintColor = .clear
         textField.font = UIFont.preferredFont(forTextStyle: .title3)
         textField.inputAccessoryView = currencyPickerViewToolbar
@@ -170,12 +168,15 @@ class OpenMarketItemViewController: UIViewController {
         return sendItem
     }()
     
+    // MARK: - ViewDidLoad()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
         setUpNavigationItems()
         addSubviews()
         setUpUIConstraints()
+        titleTextField.textFieldDelegate = self
     }
 }
 extension OpenMarketItemViewController {
@@ -305,6 +306,18 @@ extension OpenMarketItemViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
+    }
+}
+
+extension OpenMarketItemViewController: TextFieldConvertible {
+    func convertTextFieldToDictionary(_ itemToPost: OpenMarketItemToPost, _ textField: UITextField) {
+        guard let text = textField.text else { return }
+        if let number = Int(text) {
+            itemInformation.updateValue(number, forKey: itemToPost.key)
+            
+        } else {
+            itemInformation.updateValue(text, forKey: itemToPost.key)
+        }
     }
 }
 
