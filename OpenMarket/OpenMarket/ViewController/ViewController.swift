@@ -30,6 +30,8 @@ class ViewController: UIViewController {
         collectionViewRegisterXib(fileName: "CustomCollectionViewCell", cellIdentifier: "CustomCollectionViewCell")
         
         collectionView.isHidden = true
+        
+        collectionView.collectionViewLayout = UICollectionViewFlowLayout()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -180,7 +182,8 @@ extension ViewController: UICollectionViewDataSource {
         
         cell.layer.borderColor = UIColor.darkGray.cgColor
         cell.layer.borderWidth = 0.5
-        cell.layer.cornerRadius = 10.0
+        cell.layer.cornerRadius = 20.0
+        
         
         return cell
     }
@@ -191,9 +194,8 @@ extension ViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        return CGSize(width: collectionView.frame.width/2, height: collectionView.frame.height/3)
+        return CGSize(width: collectionView.frame.width/2-5, height: collectionView.frame.height/3)
     }
-
 }
 
 extension String {
