@@ -26,4 +26,9 @@ class TableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        self.itemPrice.attributedText = nil
+        self.itemDiscounted.isHidden = false
+    }
 }

@@ -96,10 +96,10 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
     
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return items.count
     }
+    
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "TableViewItemCell", for: indexPath) as? TableViewCell else { return UITableViewCell() }
@@ -107,12 +107,23 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         let imageURL: URL! = URL(string: item.thumbnails.first!)
         guard let imageData: Data = try? Data(contentsOf: imageURL) else { return cell }
         
-
-//        cell.itemDiscounted.isHidden = true
-        
         cell.itemName.text = item.title
-        cell.itemPrice.text = "\(item.currency) \(item.price)"
-        cell.itemDiscounted.text = "\(item.currency) \(String(describing: item.discountedPrice))"
+        
+        if let discountedPrice = item.discountedPrice {
+            let attributeString =  NSMutableAttributedString(string: "\(item.currency) \(item.price)")
+            attributeString.addAttribute(NSAttributedString.Key.strikethroughStyle,
+                                                 value: NSUnderlineStyle.single.rawValue,
+                                                     range: NSMakeRange(0, attributeString.length))
+            cell.itemPrice.attributedText = attributeString
+            cell.itemDiscounted.text = "\(item.currency) \(discountedPrice)"
+            cell.itemPrice.textColor = .red
+            cell.itemDiscounted.textColor = .systemGray
+        } else {
+            cell.itemPrice.textColor = .systemGray
+            cell.itemPrice.text = "\(item.currency) \(item.price)"
+            cell.itemDiscounted.isHidden = true
+        }
+        
         cell.itemThumbnail.image = UIImage(data: imageData)
         cell.itemThumbnail.adjustsImageSizeForAccessibilityContentSizeCategory = false
         cell.itemThumbnail.sizeToFit()
@@ -140,6 +151,13 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         cell.itemName.text = item.title
         cell.itemPrice.text = "\(item.currency) \(item.price)"
+        
+        if let discountedPrice = item.discountedPrice {
+            cell.itemDiscounted.text = "\(item.currency) \(discountedPrice)"
+        } else {
+            cell.itemDiscounted.isHidden = true
+        }
+        
         cell.itemThumbnail.image = UIImage(data: imageData)
         cell.itemThumbnail.adjustsImageSizeForAccessibilityContentSizeCategory = false
         cell.itemThumbnail.sizeToFit()
