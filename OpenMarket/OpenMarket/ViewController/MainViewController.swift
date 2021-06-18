@@ -36,11 +36,11 @@ class MainViewController: UIViewController {
         
         if segment.selectedSegmentIndex == 0 {
             listContainer.isHidden = false
-            print("list on")
+            print("List on")
             
         } else if segment.selectedSegmentIndex == 1 {
             gridContainer.isHidden = false
-            print("grid on")
+            print("Grid on")
             
         }
     }

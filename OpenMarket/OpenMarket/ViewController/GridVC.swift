@@ -25,7 +25,6 @@ class GridVC: UIViewController {
         
         self.collectionView.register(myCustomCollectionViewCellNib, forCellWithReuseIdentifier: String(describing: GridVCCell.self))
         
-        // 콜렉션뷰의 콜렉션뷰 레이아웃을 설정한다.
         self.collectionView.collectionViewLayout = createCompositionalLayoutForGrid()
     }
     
