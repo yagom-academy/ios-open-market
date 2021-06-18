@@ -11,8 +11,8 @@
 - 06/02(Wed)
   - Unit Test
 - 06/03(Thur)~04(Fri)
-  - 테이블뷰
-  - 컬렉션뷰
+  - 테이블뷰 예제
+  - 컬렉션뷰 예제
 <br>
 
 - 06/07(Mon)
@@ -25,6 +25,20 @@
 
 <br>
 
+- 06/13(Mon)
+  - 테이블뷰 UI
+  - 컬렉션뷰 UI
+- 06/14(Tues)
+  - 강의) UIView Animation
+  - URLSession dataTask
+- 06/17(Thur)
+  - 강의) Understanding Swift Performance
+- 06/18(Fri)
+  - NumberFormatter 적용
+  - strikeThrough 적용
+
+<br>
+
 ### 학습키워드
 - API 문서 보는 방법
 - Unit Test
@@ -32,6 +46,9 @@
 - JSON Parse
 - TableView + xib
 - CollecionView + xib
+- strikeThrough(취소선)
+- NumberFormatter(세자리마다 콤마)
+- URLSession
 
 <br>
 
@@ -55,6 +72,9 @@
     - @IBOutlet이 제대로 연결되어 있지 않아 발생한 오류
 8. OpenMarket[22849:170090] [] nw_protocol_get_quic_image_block_invoke dlopen libquic failed
     -  앱 실행과는 관계없는 오류?
+9. CollectionViewCell - xib에서 제약을 주어도 오류가 남
+    - 알고보니 내가 contentView를 지워서 그런 것이었다...
+
 <br>
 
 ### 참고 사이트
@@ -92,7 +112,10 @@ URLSession
 
 CollectionView
 - [[유투브] 취준생을 위한 아이폰 앱개발 콜렉션뷰 콤포지셔널 레이아웃 fundamental Tutorial (2020) ios collectionView compositional layout](https://www.youtube.com/watch?v=kJMIx0GWYIw&t=398s)
-  
+NumberFormatter
+- [[블로그] iOS에서 세 자리수 마다 콤마(,) 넣기 - 까칠코더](https://kka7.tistory.com/44)
+strikeThrough
+- ([[블로그] [iOS - swift] String에 strikeThrough 적용 (AttributedString)](https://ios-development.tistory.com/238))
 </div>
 </details>
 
@@ -224,3 +247,14 @@ struct ItemModification {
 
 두번째 시도
 - [iOS Networking and Testing](https://woowabros.github.io/swift/2020/12/20/ios-networking-and-testing.html)를 참고하여 URLSessionProtocol을 만들어봄.
+
+<br>
+
+# Step2
+![화면 기록 2021-06-19 오전 12 29 59](https://user-images.githubusercontent.com/65153742/122584973-ee33aa80-d095-11eb-8eb2-57d08c8fb06b.gif)
+### 구현 기능
+- SegmentedControl을 통한 보기모드 변경
+- discountedPrice 취소선 적용
+- 상품 정보 표시
+- 로드 중임을 표시 ❌
+- 상품 등록 버튼 ❌
