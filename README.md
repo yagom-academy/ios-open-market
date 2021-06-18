@@ -42,6 +42,15 @@
     - 코드에서 json 문자열 안에 `\n`을 넣었을 때 된다면 `\`는 코드에서 문자열이 아닌 다른 내용을 구분하기 위해 사용되는 특별한 문자이기 때문에, 진짜 `\n`을 입력하려면 `\\n` 이라고 써줘야 한다. 참고로, 스위프트에서는 아래와 같이 문자열을 `#`으로 감싸면 `\\` 처리를 안해줘도 된다.
 3. Thread 1:EXC_BAD_INSTRUCTION (code=EXC_I386_INVOP, subcode=0x0)
     - 강제추출하는 경우 나타나는 오류라고 나왔는데, 초록색 혹은 빨간색으로 경고가 나왔다. 나의 경우 테스트 클래스 이름을 `OpenMarketTests`에서 `OpenMarketTest`로 바꾸니 해결되었다. 뭐지?
+4. Thread 1: "-[OpenMarket.ViewController ChangeViewBySegmentedControl:]: unrecognized selector sent to instance 0x7fc180404da0"
+    - `@IBAction` 연결이 끊겨있어 다시 해주니 되었다.
+5. Thread 1: "invalid nib registered for identifier (CustomCollectionViewCell) - nib must contain exactly one top level object which must be a UITableViewCell instance"
+    - cell을 만들 때 collecionViewCell인데 tableView로 설정해서 생긴 오류
+6. Thread 1: "could not dequeue a view of kind: UICollectionElementKindCell with identifier CustomCollectionViewCell - must register a nib or a class for the identifier or connect a prototype cell in a storyboard"
+    - xib file identifier 확인
+    - nib 설정 method가 CollecionViewCell이어도 tableView에 register되어 생긴 오류. 이거 찾는데 한세월
+7. Thread 1: "[<OpenMarket.CustomCollectionViewCell 0x7f9acf311080> setValue:forUndefinedKey:]: this class is not key value coding-compliant for the key Label."
+    - @IBOutlet이 제대로 연결되어 있지 않아 발생한 오류
 <br>
 
 ### 참고 사이트
