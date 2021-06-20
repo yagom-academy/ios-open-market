@@ -64,12 +64,15 @@ class ViewController: UIViewController {
     
     @IBAction func changeViewBySegmentedControl(_ sender: UISegmentedControl) {
 
-        if sender.selectedSegmentIndex == 0 {
+        switch sender.selectedSegmentIndex {
+        case ViewType.List.rawValue:
             collectionView.isHidden = true
             tableView.isHidden = false
-        } else if sender.selectedSegmentIndex == 1 {
+        case ViewType.Grid.rawValue:
             collectionView.isHidden = false
             tableView.isHidden = true
+        default:
+            break
         }
     }
     
@@ -113,7 +116,6 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         
         if item.discountedPrice == nil {
             cell.discountedPriceLabel.isHidden = true
-            cell.priceLabel.attributedText = cell.priceLabel.text?.removeStrikeThrough()
         } else {
             cell.discountedPriceLabel.isHidden = false
             cell.discountedPriceLabel.text =
@@ -160,7 +162,6 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource {
         
         if item.discountedPrice == nil {
             cell.discountedPriceLabel.isHidden = true
-            cell.priceLabel.attributedText = cell.priceLabel.text?.removeStrikeThrough()
         } else {
             cell.discountedPriceLabel.isHidden = false
             cell.discountedPriceLabel.text =
@@ -198,18 +199,6 @@ extension ViewController: UICollectionViewDelegateFlowLayout {
     }
 }
 
-extension String {
-    func strikeThrough() -> NSAttributedString {
-        let attributeString = NSMutableAttributedString(string: self)
-        attributeString.addAttribute(NSAttributedString.Key.strikethroughStyle, value: NSUnderlineStyle.single.rawValue, range: NSMakeRange(0,attributeString.length))
-        return attributeString
-    }
-    
-    func removeStrikeThrough() -> NSAttributedString {
-        let attributeString = NSMutableAttributedString(string: self)
-        attributeString.removeAttribute(NSAttributedString.Key.strikethroughStyle, range: NSMakeRange(0, attributeString.length))
-        return attributeString
-    }
-}
+
 
 
