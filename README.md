@@ -36,7 +36,10 @@
 - 06/18(Fri)
   - NumberFormatter 적용
   - strikeThrough 적용
-
+- 06/21(Mon)
+  - UIActivityIndicatorView 
+  - [매직넘버 뜻](https://namu.wiki/w/%EB%A7%A4%EC%A7%81%EB%84%98%EB%B2%84)
+  
 <br>
 
 ### 학습키워드
@@ -65,7 +68,7 @@
     - `@IBAction` 연결이 끊겨있어 다시 해주니 되었다.
 5. Thread 1: "invalid nib registered for identifier (CustomCollectionViewCell) - nib must contain exactly one top level object which must be a UITableViewCell instance"
     - cell을 만들 때 collecionViewCell인데 tableView로 설정해서 생긴 오류
-6. Thread 1: "could not dequeue a view of kind: UICollectionElementKindCell with identifier CustomCollectionViewCell - must register a nib or a class for the identifier or connect a prototype cell in a storyboard"
+6. Thread 1: "could not dequeue a view of kind: UICollectionElementKindCell  identifier CustomCollectionViewCell - must register a nib or a class for the identifier or connect a prototype cell in a storyboard"
     - xib file identifier 확인
     - nib 설정 method가 CollecionViewCell이어도 tableView에 register되어 생긴 오류. 이거 찾는데 한세월
 7. Thread 1: "[<OpenMarket.CustomCollectionViewCell 0x7f9acf311080> setValue:forUndefinedKey:]: this class is not key value coding-compliant for the key Label."
@@ -74,7 +77,8 @@
     -  앱 실행과는 관계없는 오류?
 9. CollectionViewCell - xib에서 제약을 주어도 오류가 남
     - 알고보니 내가 contentView를 지워서 그런 것이었다...
-
+10. Cannot override 'strong' property with 'weak' property
+    - [UITableViewCell has a member variable named imageView. You can change the name.](https://ddcode.net/2019/04/16/cannot-override-strong-property-with-weak-property/)
 <br>
 
 ### 참고 사이트
@@ -118,8 +122,15 @@ NumberFormatter
   
 strikeThrough
 - ([[블로그] [iOS - swift] String에 strikeThrough 적용 (AttributedString)](https://ios-development.tistory.com/238))
+  
+UIActivityIndicatorView
+- [[developer.apple - UIActivityIndicatorView]](https://developer.apple.com/documentation/uikit/uiactivityindicatorview)
+- [[블로그]Activity Indicator iOS Tutorial](https://www.ioscreator.com/tutorials/activity-indicator-ios-tutorial-)
+- [[블로그] iOS ) NavigationBar - Zedd](https://zeddios.tistory.com/574)
+  
 </div>
 </details>
+
 
 <br>
 
