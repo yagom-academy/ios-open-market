@@ -31,7 +31,7 @@
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="UAW-DO-qn4">
                                 <rect key="frame" x="0.0" y="110" width="101.5" height="112"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MacBook Pro" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e6O-Dl-hWa">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MacBook Pro" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e6O-Dl-hWa">
                                         <rect key="frame" x="0.0" y="0.0" width="101.5" height="20.5"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="textColor"/>
@@ -67,8 +67,8 @@
             </collectionViewCellContentView>
             <size key="customSize" width="288" height="339"/>
             <connections>
-                <outlet property="ImageView" destination="itn-2f-tCM" id="F6S-dQ-B9r"/>
                 <outlet property="discountedPriceLabel" destination="M9V-DV-hLc" id="aq8-rn-D0u"/>
+                <outlet property="itemImage" destination="itn-2f-tCM" id="tTA-mu-BBf"/>
                 <outlet property="priceLabel" destination="fLi-Ag-eQo" id="aoH-Ov-gab"/>
                 <outlet property="stockLabel" destination="7QD-5f-4LA" id="ePL-7p-Aby"/>
                 <outlet property="titleLabel" destination="e6O-Dl-hWa" id="f5e-yT-VxH"/>

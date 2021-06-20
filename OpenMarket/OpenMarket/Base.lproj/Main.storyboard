@@ -54,7 +54,7 @@
                     <navigationItem key="navigationItem" id="pfW-6w-U5o">
                         <nil key="title"/>
                         <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="Kw2-ka-zKs">
-                            <rect key="frame" x="106" y="6" width="203" height="33"/>
+                            <rect key="frame" x="105.5" y="5.5" width="203" height="33"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" systemColor="systemBlueColor"/>
                             <segments>
@@ -67,9 +67,9 @@
                         </segmentedControl>
                     </navigationItem>
                     <connections>
-                        <outlet property="SegmentedControl" destination="Kw2-ka-zKs" id="o59-W0-9Wx"/>
                         <outlet property="collectionView" destination="9Xd-9U-S78" id="r0I-Z4-D3I"/>
                         <outlet property="mainView" destination="8bC-Xf-vdC" id="nbl-bG-P0R"/>
+                        <outlet property="segmentedControl" destination="Kw2-ka-zKs" id="o59-W0-9Wx"/>
                         <outlet property="tableView" destination="fxX-yN-qFV" id="Za5-Ym-uJz"/>
                     </connections>
                 </viewController>

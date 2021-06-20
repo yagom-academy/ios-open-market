@@ -11,7 +11,7 @@ class ViewController: UIViewController {
     @IBOutlet var mainView: UIView!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var collectionView: UICollectionView!
-    @IBOutlet weak var SegmentedControl: UISegmentedControl!
+    @IBOutlet weak var segmentedControl: UISegmentedControl!
     
     var items: [ItemShortInformaion] = []
     
@@ -66,11 +66,11 @@ class ViewController: UIViewController {
         dataTask.resume()
     }
     
-    @IBAction func ChangeViewBySegmentedControl(_ sender: UISegmentedControl) {
-        if SegmentedControl.selectedSegmentIndex == 0 {
+    @IBAction func changeViewBySegmentedControl(_ sender: UISegmentedControl) {
+        if segmentedControl.selectedSegmentIndex == 0 {
             collectionView.isHidden = true
             tableView.isHidden = false
-        } else if SegmentedControl.selectedSegmentIndex == 1 {
+        } else if segmentedControl.selectedSegmentIndex == 1 {
             collectionView.isHidden = false
             tableView.isHidden = true
         }
@@ -138,7 +138,7 @@ extension ViewController: UITableViewDataSource {
         
         guard let imageURL = URL(string: item.thumbnailURLs[0]) else { return cell}
         guard let imageData = try? Data(contentsOf: imageURL) else { return cell }
-        cell.ImageView.image = UIImage(data: imageData)
+        cell.itemImage.image = UIImage(data: imageData)
         
         return cell
     }
@@ -190,7 +190,7 @@ extension ViewController: UICollectionViewDataSource {
         
         guard let imageURL = URL(string: item.thumbnailURLs[0]) else { return cell}
         guard let imageData = try? Data(contentsOf: imageURL) else { return cell }
-        cell.ImageView.image = UIImage(data: imageData)
+        cell.itemImage.image = UIImage(data: imageData)
         
         cell.layer.borderColor = UIColor.darkGray.cgColor
         cell.layer.borderWidth = 0.5
