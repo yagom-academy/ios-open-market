@@ -13,21 +13,12 @@ class ViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
     
     var items: [ItemShortInformaion] = []
+    let activityIndicator = UIActivityIndicatorView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        tableView.delegate = self
-        tableView.dataSource = self
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        
-        registerTableViewCellXib()
-        registerCollectionViewCellXib()
-        
-        collectionView.isHidden = true
-        
-        collectionView.collectionViewLayout = UICollectionViewFlowLayout()
+        setupView()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -54,6 +45,9 @@ class ViewController: UIViewController {
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
                     self.collectionView.reloadData()
+                    self.activityIndicator.stopAnimating()
+                    self.tableView.isHidden = false
+                    self.navigationController?.isNavigationBarHidden = false
                 }
             } catch {
                 print(error.localizedDescription)
@@ -84,6 +78,35 @@ class ViewController: UIViewController {
     private func registerCollectionViewCellXib() {
         let nibName = UINib(nibName: "CustomCollectionViewCell", bundle: nil)
         collectionView.register(nibName, forCellWithReuseIdentifier: "CustomCollectionViewCell")
+    }
+    
+    private func setupView() {
+         
+        setupActivityIndicator()
+        activityIndicator.startAnimating()
+        
+        tableView.delegate = self
+        tableView.dataSource = self
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        
+        registerTableViewCellXib()
+        registerCollectionViewCellXib()
+        
+        collectionView.isHidden = true
+        
+        collectionView.collectionViewLayout = UICollectionViewFlowLayout()
+    }
+    
+    private func setupActivityIndicator() {
+        mainView.addSubview(activityIndicator)
+        
+        activityIndicator.style = .large
+        activityIndicator.center = self.view.center
+        activityIndicator.color = UIColor.blue
+        
+        tableView.isHidden = true
+        navigationController?.isNavigationBarHidden = true
     }
     
     func changeNumberFomatter(number: Int) -> String {
