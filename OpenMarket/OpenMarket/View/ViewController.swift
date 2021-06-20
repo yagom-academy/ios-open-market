@@ -11,7 +11,6 @@ class ViewController: UIViewController {
     @IBOutlet var mainView: UIView!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var collectionView: UICollectionView!
-    @IBOutlet weak var segmentedControl: UISegmentedControl!
     
     var items: [ItemShortInformaion] = []
     
@@ -23,8 +22,8 @@ class ViewController: UIViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
         
-        tableViewRegisterXib(fileName: "CustomTableViewCell", cellIdentifier: "CustomTableViewCell")
-        collectionViewRegisterXib(fileName: "CustomCollectionViewCell", cellIdentifier: "CustomCollectionViewCell")
+        registerTableViewCellXib()
+        registerCollectionViewCellXib()
         
         collectionView.isHidden = true
         
@@ -64,23 +63,24 @@ class ViewController: UIViewController {
     }
     
     @IBAction func changeViewBySegmentedControl(_ sender: UISegmentedControl) {
-        if segmentedControl.selectedSegmentIndex == 0 {
+
+        if sender.selectedSegmentIndex == 0 {
             collectionView.isHidden = true
             tableView.isHidden = false
-        } else if segmentedControl.selectedSegmentIndex == 1 {
+        } else if sender.selectedSegmentIndex == 1 {
             collectionView.isHidden = false
             tableView.isHidden = true
         }
     }
     
-    private func tableViewRegisterXib(fileName: String, cellIdentifier: String) {
-        let nibName = UINib(nibName: fileName, bundle: nil)
-        tableView.register(nibName, forCellReuseIdentifier: cellIdentifier)
+    private func registerTableViewCellXib() {
+        let nibName = UINib(nibName: "CustomTableViewCell", bundle: nil)
+        tableView.register(nibName, forCellReuseIdentifier: "CustomTableViewCell")
     }
     
-    private func collectionViewRegisterXib(fileName: String, cellIdentifier: String) {
-        let nibName = UINib(nibName: fileName, bundle: nil)
-        collectionView.register(nibName, forCellWithReuseIdentifier: cellIdentifier)
+    private func registerCollectionViewCellXib() {
+        let nibName = UINib(nibName: "CustomCollectionViewCell", bundle: nil)
+        collectionView.register(nibName, forCellWithReuseIdentifier: "CustomCollectionViewCell")
     }
     
     func changeNumberFomatter(number: Int) -> String {
