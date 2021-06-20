@@ -62,14 +62,13 @@
                                 <segment title="Grid"/>
                             </segments>
                             <connections>
-                                <action selector="ChangeViewBySegmentedControl:" destination="BYZ-38-t0r" eventType="valueChanged" id="zAZ-Uw-Srf"/>
+                                <action selector="changeViewBySegmentedControl:" destination="BYZ-38-t0r" eventType="valueChanged" id="SCN-s3-tcJ"/>
                             </connections>
                         </segmentedControl>
                     </navigationItem>
                     <connections>
                         <outlet property="collectionView" destination="9Xd-9U-S78" id="r0I-Z4-D3I"/>
                         <outlet property="mainView" destination="8bC-Xf-vdC" id="nbl-bG-P0R"/>
-                        <outlet property="segmentedControl" destination="Kw2-ka-zKs" id="o59-W0-9Wx"/>
                         <outlet property="tableView" destination="fxX-yN-qFV" id="Za5-Ym-uJz"/>
                     </connections>
                 </viewController>
