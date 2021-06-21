@@ -10,10 +10,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Main View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="OpenMarket" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="MainViewController" customModule="OpenMarket" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -62,15 +62,15 @@
                                 <segment title="Grid"/>
                             </segments>
                             <connections>
-                                <action selector="changeViewBySegmentedControl:" destination="BYZ-38-t0r" eventType="valueChanged" id="SCN-s3-tcJ"/>
+                                <action selector="changeViewBySegmentedControl:" destination="BYZ-38-t0r" eventType="valueChanged" id="iDg-wl-yUD"/>
                             </connections>
                         </segmentedControl>
                         <barButtonItem key="rightBarButtonItem" style="plain" systemItem="add" id="heY-qj-Zba"/>
                     </navigationItem>
                     <connections>
-                        <outlet property="collectionView" destination="9Xd-9U-S78" id="r0I-Z4-D3I"/>
-                        <outlet property="mainView" destination="8bC-Xf-vdC" id="nbl-bG-P0R"/>
-                        <outlet property="tableView" destination="fxX-yN-qFV" id="Za5-Ym-uJz"/>
+                        <outlet property="collectionView" destination="9Xd-9U-S78" id="PJg-fX-fDL"/>
+                        <outlet property="mainView" destination="8bC-Xf-vdC" id="vd1-OJ-ewe"/>
+                        <outlet property="tableView" destination="fxX-yN-qFV" id="6t7-VC-fEM"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

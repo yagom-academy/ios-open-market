@@ -6,7 +6,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class MainViewController: UIViewController {
     
     @IBOutlet var mainView: UIView!
     @IBOutlet weak var tableView: UITableView!
@@ -24,7 +24,7 @@ class ViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        let urlString = "https://camp-open-market-2.herokuapp.com/items/1"
+        let urlString = Network.baseURL + "items/1"
         guard let url = URL(string: urlString) else { return }
         
         let session: URLSession = URLSession(configuration: .default)
@@ -45,9 +45,9 @@ class ViewController: UIViewController {
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
                     self.collectionView.reloadData()
-                    self.activityIndicator.stopAnimating()
                     self.navigationController?.isNavigationBarHidden = false
                     self.tableView.isHidden = false
+                    self.activityIndicator.stopAnimating()
                 }
             } catch {
                 print(error.localizedDescription)
@@ -106,7 +106,6 @@ class ViewController: UIViewController {
         activityIndicator.style = .large
         activityIndicator.center = self.view.center
         activityIndicator.color = UIColor.blue
-        
     }
     
     private func changeNumberFomatter(number: Int) -> String {
@@ -117,10 +116,9 @@ class ViewController: UIViewController {
         
         return result
     }
-
 }
 
-extension ViewController: UITableViewDelegate, UITableViewDataSource {
+extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return items.count
     }
@@ -153,7 +151,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             cell.stockLabel.textColor = UIColor.lightGray
         }
         
-        guard let imageURL = URL(string: item.thumbnailURLs[0]) else { return cell}
+        guard let imageURL = URL(string: item.thumbnailURLs[0]) else { return cell }
         guard let imageData = try? Data(contentsOf: imageURL) else { return cell }
         cell.itemImage.image = UIImage(data: imageData)
         
@@ -161,11 +159,14 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 70
+       
+        let cellHeight = 70
+        
+        return CGFloat(cellHeight)
     }
 }
 
-extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return items.count
@@ -211,11 +212,15 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     }
 }
 
-extension ViewController: UICollectionViewDelegateFlowLayout {
+extension MainViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        return CGSize(width: collectionView.frame.width/2-5, height: collectionView.frame.height/3)
+        let twoItem = 2
+        let threeItem = 3
+        let spacingBetweenItems = 5
+        
+        return CGSize(width: Int(collectionView.frame.width)/twoItem-spacingBetweenItems, height: Int(collectionView.frame.height)/threeItem)
     }
 }
 

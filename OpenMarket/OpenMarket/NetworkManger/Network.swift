@@ -7,9 +7,7 @@
 
 import Foundation
 
-enum Network {
-    case firstPage
-    
+enum Network {    
     static let baseURL = "https://camp-open-market-2.herokuapp.com/"
     var path: String { "items/:1" }
     var url: URL { URL(string: Network.baseURL + path)! }
