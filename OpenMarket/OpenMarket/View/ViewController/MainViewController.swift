@@ -159,10 +159,12 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         DispatchQueue.main.async {
             guard let imageURL = URL(string: item.thumbnailURLs[0]) else {
                 print(APIError.image)
+                cell.itemImage.image = nil
                 return
             }
             guard let imageData = try? Data(contentsOf: imageURL) else {
                 print(APIError.image)
+                cell.itemImage.image = nil
                 return
             }
             cell.itemImage.image = UIImage(data: imageData)
