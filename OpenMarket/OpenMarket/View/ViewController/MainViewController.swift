@@ -17,24 +17,26 @@ class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         setupView()
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        let urlString = Network.baseURL + "items/1"
-        guard let url = URL(string: urlString) else { return }
+        getItemPageInfo()
+    }
+    
+    func getItemPageInfo() {
+        let networkManager = NetworkManager()
+        let url:URL = networkManager.url
         
         let session: URLSession = URLSession(configuration: .default)
+        
         let dataTask: URLSessionDataTask = session.dataTask(with: url) { (data: Data?, response: URLResponse?, error: Error?) in
             
             guard error == nil else { return }
             
             guard let statusCode = (response as? HTTPURLResponse)?.statusCode else { return }
             guard (200..<300).contains(statusCode) else { return }
-            
+
             guard let resultData = data else { return }
             
             do {
@@ -57,7 +59,7 @@ class MainViewController: UIViewController {
     }
     
     @IBAction func changeViewBySegmentedControl(_ sender: UISegmentedControl) {
-
+        
         switch sender.selectedSegmentIndex {
         case ViewType.List.rawValue:
             collectionView.isHidden = true
@@ -81,7 +83,7 @@ class MainViewController: UIViewController {
     }
     
     private func setupView() {
-         
+        
         setupActivityIndicator()
         tableView.isHidden = true
         navigationController?.isNavigationBarHidden = true
@@ -108,7 +110,7 @@ class MainViewController: UIViewController {
         activityIndicator.color = UIColor.blue
     }
     
-    private func changeNumberFomatter(number: Int) -> String {
+    func changeNumberFomatter(number: Int) -> String {
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .decimal
         
@@ -125,21 +127,23 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let item: ItemShortInformaion = self.items[indexPath.row]
-        
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "CustomTableViewCell") as? CustomTableViewCell else {
             fatalError("cell 생성 실패")
         }
         
-        cell.titleLabel.text = item.title
+        let item: ItemShortInformaion = self.items[indexPath.row]
         
-        cell.priceLabel.text = "USD \(changeNumberFomatter(number: Int(item.price)))"
+//        let customTableViewCell = CustomTableViewCell()
+//        customTableViewCell.configure(item: item)
+        
+        cell.titleLabel.text = item.title
+        cell.priceLabel.text = "USD " + changeNumberFomatter(number: Int(item.price))
         
         if item.discountedPrice == nil {
             cell.discountedPriceLabel.isHidden = true
         } else {
             cell.discountedPriceLabel.text =
-                "USD \(changeNumberFomatter(number: item.discountedPrice!))"
+                "USD " + changeNumberFomatter(number: item.discountedPrice!)
             cell.priceLabel.attributedText = cell.priceLabel.text?.strikeThrough()
         }
         
@@ -147,19 +151,21 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
             cell.stockLabel.text = "품절"
             cell.stockLabel.textColor = UIColor.orange
         } else {
-            cell.stockLabel.text = "잔여수량: \(changeNumberFomatter(number: item.stock))"
+            cell.stockLabel.text = "잔여수량: " + changeNumberFomatter(number: item.stock)
             cell.stockLabel.textColor = UIColor.lightGray
         }
         
-        guard let imageURL = URL(string: item.thumbnailURLs[0]) else { return cell }
-        guard let imageData = try? Data(contentsOf: imageURL) else { return cell }
-        cell.itemImage.image = UIImage(data: imageData)
+        DispatchQueue.main.async {
+            guard let imageURL = URL(string: item.thumbnailURLs[0]) else { return }
+            guard let imageData = try? Data(contentsOf: imageURL) else { return }
+            cell.itemImage.image = UIImage(data: imageData)
+        }
         
         return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-       
+        
         let cellHeight = 70
         
         return CGFloat(cellHeight)
@@ -174,39 +180,39 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let item: ItemShortInformaion = self.items[indexPath.row]
-        
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CustomCollectionViewCell", for: indexPath) as? CustomCollectionViewCell else {
             fatalError("CollecionViewCell 생성 실패")
         }
-
-        cell.titleLabel.text = item.title
         
-        cell.priceLabel.text = "USD \(changeNumberFomatter(number: Int(item.price)))"
+        let item: ItemShortInformaion = self.items[indexPath.row]
+        
+//        let customCollectionViewCell = CustomCollectionViewCell()
+//        customCollectionViewCell.configure(item: item)
+        
+        cell.titleLabel.text = item.title
+        cell.priceLabel.text = "USD " + changeNumberFomatter(number: Int(item.price))
         
         if item.discountedPrice == nil {
             cell.discountedPriceLabel.isHidden = true
         } else {
             cell.discountedPriceLabel.text =
-                "USD \(changeNumberFomatter(number: item.discountedPrice!))"
+                "USD " + changeNumberFomatter(number: item.discountedPrice!)
             cell.priceLabel.attributedText = cell.priceLabel.text?.strikeThrough()
         }
-    
+        
         if item.stock == 0 {
             cell.stockLabel.text = "품절"
-            cell.stockLabel.textColor = .orange
+            cell.stockLabel.textColor = UIColor.orange
         } else {
-            cell.stockLabel.text = "잔여수량: \(changeNumberFomatter(number: item.stock))"
-            cell.stockLabel.textColor = .systemGray
+            cell.stockLabel.text = "잔여수량: " + changeNumberFomatter(number: item.stock)
+            cell.stockLabel.textColor = UIColor.lightGray
         }
         
-        guard let imageURL = URL(string: item.thumbnailURLs[0]) else { return cell}
-        guard let imageData = try? Data(contentsOf: imageURL) else { return cell }
-        cell.itemImage.image = UIImage(data: imageData)
-        
-        cell.layer.borderColor = UIColor.darkGray.cgColor
-        cell.layer.borderWidth = 0.5
-        cell.layer.cornerRadius = 20.0
+        DispatchQueue.main.async {
+            guard let imageURL = URL(string: item.thumbnailURLs[0]) else { return }
+            guard let imageData = try? Data(contentsOf: imageURL) else { return }
+            cell.itemImage.image = UIImage(data: imageData)
+        }
         
         return cell
     }
