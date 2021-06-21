@@ -161,7 +161,6 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     
-    // tableViewCell 높이
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 70
     }
@@ -211,7 +210,6 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource {
         
         return cell
     }
-    
 }
 
 extension ViewController: UICollectionViewDelegateFlowLayout {
