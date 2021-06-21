@@ -7,6 +7,14 @@
 
 import Foundation
 
-enum APIError: Error {
-    case unknownError
+enum APIError: String, Error, CustomStringConvertible {
+    case unknown = "unkownError"
+    case tableViewCell = "tableViewCellError"
+    case collectionViewCell = "collectionViewCellError"
+    case image = "imageError"
+    case http = "httpError"
+    
+    var description: String {
+        return "\(self.rawValue)"
+    }
 }

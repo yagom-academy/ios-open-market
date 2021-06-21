@@ -9,6 +9,8 @@ import UIKit
 
 class CustomTableViewCell: UITableViewCell {
 
+    static let identifier = "CustomTableViewCell"
+    
     @IBOutlet weak var itemImage: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var discountedPriceLabel: UILabel!
@@ -29,7 +31,6 @@ class CustomTableViewCell: UITableViewCell {
         super.prepareForReuse()
         self.priceLabel.attributedText = nil
         self.discountedPriceLabel.isHidden = false
-        self.titleLabel.text = nil
     }
     
 //    func configure(item: ItemShortInformaion) {

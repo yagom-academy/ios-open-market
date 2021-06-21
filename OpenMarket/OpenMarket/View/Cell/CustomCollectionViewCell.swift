@@ -9,6 +9,8 @@ import UIKit
 
 class CustomCollectionViewCell: UICollectionViewCell {
 
+    static let identifier = "CustomCollectionViewCell"
+    
     @IBOutlet weak var itemImage: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var discountedPriceLabel: UILabel!

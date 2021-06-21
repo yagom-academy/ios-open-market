@@ -43,7 +43,7 @@ class MainViewController: UIViewController {
                 let decoder = JSONDecoder()
                 let itemPage = try decoder.decode(ItemPage.self, from: resultData)
                 self.items = itemPage.items
-                
+
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
                     self.collectionView.reloadData()
@@ -73,13 +73,13 @@ class MainViewController: UIViewController {
     }
     
     private func registerTableViewCellXib() {
-        let nibName = UINib(nibName: "CustomTableViewCell", bundle: nil)
-        tableView.register(nibName, forCellReuseIdentifier: "CustomTableViewCell")
+        let nibName = UINib(nibName: CustomTableViewCell.identifier, bundle: nil)
+        tableView.register(nibName, forCellReuseIdentifier: CustomTableViewCell.identifier)
     }
     
     private func registerCollectionViewCellXib() {
-        let nibName = UINib(nibName: "CustomCollectionViewCell", bundle: nil)
-        collectionView.register(nibName, forCellWithReuseIdentifier: "CustomCollectionViewCell")
+        let nibName = UINib(nibName: CustomCollectionViewCell.identifier, bundle: nil)
+        collectionView.register(nibName, forCellWithReuseIdentifier: CustomCollectionViewCell.identifier)
     }
     
     private func setupView() {
@@ -127,8 +127,9 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "CustomTableViewCell") as? CustomTableViewCell else {
-            fatalError("cell 생성 실패")
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: CustomTableViewCell.identifier) as? CustomTableViewCell else {
+            print(APIError.tableViewCell)
+            return UITableViewCell()
         }
         
         let item: ItemShortInformaion = self.items[indexPath.row]
@@ -156,8 +157,14 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         }
         
         DispatchQueue.main.async {
-            guard let imageURL = URL(string: item.thumbnailURLs[0]) else { return }
-            guard let imageData = try? Data(contentsOf: imageURL) else { return }
+            guard let imageURL = URL(string: item.thumbnailURLs[0]) else {
+                print(APIError.image)
+                return
+            }
+            guard let imageData = try? Data(contentsOf: imageURL) else {
+                print(APIError.image)
+                return
+            }
             cell.itemImage.image = UIImage(data: imageData)
         }
         return cell
@@ -179,8 +186,9 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CustomCollectionViewCell", for: indexPath) as? CustomCollectionViewCell else {
-            fatalError("CollecionViewCell 생성 실패")
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CustomCollectionViewCell.identifier, for: indexPath) as? CustomCollectionViewCell else {
+            print(APIError.collectionViewCell)
+            return UICollectionViewCell()
         }
         
         let item: ItemShortInformaion = self.items[indexPath.row]
@@ -208,11 +216,16 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
         }
         
         DispatchQueue.main.async {
-            guard let imageURL = URL(string: item.thumbnailURLs[0]) else { return }
-            guard let imageData = try? Data(contentsOf: imageURL) else { return }
+            guard let imageURL = URL(string: item.thumbnailURLs[0]) else {
+                print(APIError.image)
+                return
+            }
+            guard let imageData = try? Data(contentsOf: imageURL) else {
+                print(APIError.image)
+                return
+            }
             cell.itemImage.image = UIImage(data: imageData)
         }
-        
         return cell
     }
 }
