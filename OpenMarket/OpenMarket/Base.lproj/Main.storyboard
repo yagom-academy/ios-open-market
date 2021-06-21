@@ -65,6 +65,7 @@
                                 <action selector="changeViewBySegmentedControl:" destination="BYZ-38-t0r" eventType="valueChanged" id="SCN-s3-tcJ"/>
                             </connections>
                         </segmentedControl>
+                        <barButtonItem key="rightBarButtonItem" style="plain" systemItem="add" id="heY-qj-Zba"/>
                     </navigationItem>
                     <connections>
                         <outlet property="collectionView" destination="9Xd-9U-S78" id="r0I-Z4-D3I"/>

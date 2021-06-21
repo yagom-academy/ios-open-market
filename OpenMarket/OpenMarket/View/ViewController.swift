@@ -83,6 +83,8 @@ class ViewController: UIViewController {
     private func setupView() {
          
         setupActivityIndicator()
+        tableView.isHidden = true
+        navigationController?.isNavigationBarHidden = true
         activityIndicator.startAnimating()
         
         tableView.delegate = self
@@ -105,11 +107,9 @@ class ViewController: UIViewController {
         activityIndicator.center = self.view.center
         activityIndicator.color = UIColor.blue
         
-        tableView.isHidden = true
-        navigationController?.isNavigationBarHidden = true
     }
     
-    func changeNumberFomatter(number: Int) -> String {
+    private func changeNumberFomatter(number: Int) -> String {
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .decimal
         
