@@ -46,8 +46,8 @@ class ViewController: UIViewController {
                     self.tableView.reloadData()
                     self.collectionView.reloadData()
                     self.activityIndicator.stopAnimating()
-                    self.tableView.isHidden = false
                     self.navigationController?.isNavigationBarHidden = false
+                    self.tableView.isHidden = false
                 }
             } catch {
                 print(error.localizedDescription)
@@ -140,7 +140,6 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         if item.discountedPrice == nil {
             cell.discountedPriceLabel.isHidden = true
         } else {
-            cell.discountedPriceLabel.isHidden = false
             cell.discountedPriceLabel.text =
                 "USD \(changeNumberFomatter(number: item.discountedPrice!))"
             cell.priceLabel.attributedText = cell.priceLabel.text?.strikeThrough()
@@ -182,16 +181,16 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource {
 
         cell.titleLabel.text = item.title
         
+        cell.priceLabel.text = "USD \(changeNumberFomatter(number: Int(item.price)))"
+        
         if item.discountedPrice == nil {
             cell.discountedPriceLabel.isHidden = true
         } else {
-            cell.discountedPriceLabel.isHidden = false
             cell.discountedPriceLabel.text =
                 "USD \(changeNumberFomatter(number: item.discountedPrice!))"
             cell.priceLabel.attributedText = cell.priceLabel.text?.strikeThrough()
         }
     
-        cell.priceLabel.text = "USD \(changeNumberFomatter(number: Int(item.price)))"
         if item.stock == 0 {
             cell.stockLabel.text = "품절"
             cell.stockLabel.textColor = .orange

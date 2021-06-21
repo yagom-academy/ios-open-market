@@ -19,4 +19,9 @@ class CustomCollectionViewCell: UICollectionViewCell {
         super.awakeFromNib()
     }
 
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        self.priceLabel.attributedText = nil
+        self.discountedPriceLabel.isHidden = false
+    }
 }

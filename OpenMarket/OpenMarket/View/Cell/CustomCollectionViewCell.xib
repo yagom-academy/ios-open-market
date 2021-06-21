@@ -73,7 +73,7 @@
                 <outlet property="stockLabel" destination="7QD-5f-4LA" id="ePL-7p-Aby"/>
                 <outlet property="titleLabel" destination="e6O-Dl-hWa" id="f5e-yT-VxH"/>
             </connections>
-            <point key="canvasLocation" x="-320" y="-76"/>
+            <point key="canvasLocation" x="-357" y="-91"/>
         </collectionViewCell>
     </objects>
     <resources>
