@@ -148,14 +148,22 @@ struct ItemModification {
 ### 4. 로드 중임을 표시
 - ~~구현 ❌~~
   -> UIActivityIndicatorView를 이용하여 구현('21.06.20)
+- 이미지 placeholder 추가
 ### 5. 상품 등록 버튼 ❌
   - 상품 등록 버튼 O
   - 상품 등록 화면 X
 
 <br>
 
+### 화면구현
+
+1차 ('21.06.19)
+
 ![화면 기록 2021-06-19 오전 12 29 59](https://user-images.githubusercontent.com/65153742/122584973-ee33aa80-d095-11eb-8eb2-57d08c8fb06b.gif)
 
+2차 ('21.06.22)
+
+![화면 기록 2021-06-22 오전 12 40 07](https://user-images.githubusercontent.com/65153742/122790195-0a805300-d2f3-11eb-8edb-d9a5db47fa75.gif)
 
 <br>
 <br>
@@ -199,6 +207,7 @@ struct ItemModification {
 - 06/21(Mon)
   - UIActivityIndicatorView 
   - [매직넘버 뜻](https://namu.wiki/w/%EB%A7%A4%EC%A7%81%EB%84%98%EB%B2%84)
+  - PR 코멘트 바탕으로 수정
   
 <br>
 <br>
@@ -286,5 +295,8 @@ UIActivityIndicatorView
 - [[developer.apple - UIActivityIndicatorView]](https://developer.apple.com/documentation/uikit/uiactivityindicatorview)
 - [[블로그]Activity Indicator iOS Tutorial](https://www.ioscreator.com/tutorials/activity-indicator-ios-tutorial-)
 - [[블로그] iOS ) NavigationBar - Zedd](https://zeddios.tistory.com/574)
-  
+
+prepareForReuse
+- UICollectionReusableView > prepareForReuse()
+- [[developer.apple] prepareForReuse()(]https://developer.apple.com/documentation/uikit/uicollectionreusableview/1620141-prepareforreuse)
 
