@@ -160,7 +160,6 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
             guard let imageData = try? Data(contentsOf: imageURL) else { return }
             cell.itemImage.image = UIImage(data: imageData)
         }
-        
         return cell
     }
     

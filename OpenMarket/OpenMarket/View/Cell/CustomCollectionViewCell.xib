@@ -21,7 +21,7 @@
                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="zYY-o6-kTp">
                         <rect key="frame" x="93.5" y="58.5" width="101.5" height="222"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="macbookPro" translatesAutoresizingMaskIntoConstraints="NO" id="itn-2f-tCM">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="loading" translatesAutoresizingMaskIntoConstraints="NO" id="itn-2f-tCM">
                                 <rect key="frame" x="0.5" y="0.0" width="100" height="100"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="100" id="6Wl-9a-dhy"/>
@@ -77,7 +77,7 @@
         </collectionViewCell>
     </objects>
     <resources>
-        <image name="macbookPro" width="363" height="347"/>
+        <image name="loading" width="84" height="84"/>
         <systemColor name="systemRedColor">
             <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
