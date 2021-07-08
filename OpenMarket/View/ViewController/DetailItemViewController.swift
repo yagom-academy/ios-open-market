@@ -39,6 +39,8 @@ class DetailItemViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         print("detailItemData : ",detailItemData)
+        print("이미지 in :",Cache.shared.thumbnailImageDataList[itemIndexPath!])
+        print("indexPath:", itemIndexPath)
         setUpCollectionView()
         initNavigationBar()
     }
@@ -51,16 +53,16 @@ class DetailItemViewController: UIViewController {
         DispatchQueue.main.async {
             self.itemListCollectionView?.reloadData()
         }
-//        if isItemPostdeleted {
-//            guard let itemIndexPath = itemIndexPath else { return }
-//            deleteItemDataInCache(itemIndexPath: itemIndexPath)
-//        }
+        print("이미지 out :",Cache.shared.thumbnailImageDataList[itemIndexPath!])
+        print("indexPath:", itemIndexPath)
+        print("@@@@@@@ 리로드")
         
     }
     
     private func editItemDataInCache(itemIndexPath: Int) {
         guard let detailItemData = detailItemData else { return }
         Cache.shared.itemDataList[itemIndexPath] = Item(id: detailItemData.id, title: detailItemData.title, price: detailItemData.price, currency: detailItemData.currency, stock: detailItemData.stock, discountedPrice: detailItemData.discountedPrice, thumbnails: detailItemData.thumbnails, registrationDate: detailItemData.registrationDate)
+        print("editItemDataInCache imageDataList: ",imageDataList)
         Cache.shared.thumbnailImageDataList[itemIndexPath] = imageDataList[0]
     }
     
@@ -103,16 +105,14 @@ class DetailItemViewController: UIViewController {
     
     private func setUpImageData(detailItemData: InformationOfItemResponse) {
         DispatchQueue.global().async {
+            self.imageDataList = []
             for image in detailItemData.images {
-                var count = 0
                 while true {
                     do {
-                        count += 1
-                        guard count < 50 else { break }
                         guard let imageURL = URL(string: image) else { return }
                         let imageData = try Data(contentsOf: imageURL)
                         self.imageDataList.append(imageData)
-                        print("imageDataList :",self.imageDataList)
+                        print("setUpImageData imageDataList :",self.imageDataList)
                         break
                     } catch {
                         print("setUpImageData Invalid URL \(URL(string: image)!)")

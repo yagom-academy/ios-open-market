@@ -145,20 +145,22 @@ class ItemPostViewController: UIViewController {
         guard let itemEditInformation = requestData else { return }
         guard let detailItemData = detailItemData else { return }
         NetworkManager.shared.patchEditItemData(requestData: itemEditInformation, postID: detailItemData.id) { [weak self] data in
+            guard let reposedData = data, let itemIndexPath = self?.itemIndexPath else { return }
             do {
-                guard let reposedData = data, let itemIndexPath = self?.itemIndexPath else { return }
                 let data = try JSONDecoder().decode(InformationOfItemResponse.self, from: reposedData)
                 guard let detailViewController = self?.detailViewController else { return }
                 detailViewController.detailItemData = data
                 detailViewController.isItemPostEdited = true
-                guard let imageURL = URL(string: data.images[0]) else { return }
-                let imageData = try Data(contentsOf: imageURL)
-                Cache.shared.thumbnailImageDataList[itemIndexPath] = imageData
+                self?.detailViewController?.detailItemData?.images = data.images
+                print("images:",self?.detailViewController?.detailItemData?.images)
             } catch {
                 DispatchQueue.main.async {
-                    self?.showAlert(viewController: self, title: "Notice", message: "비밀번호가 틀렸습니다.", buttonTitle: "확인", handler: nil)
+                    self?.showAlert(viewController: self, title: "Notice", message: "비밀번호를 잘못 입력하셨습니다.", buttonTitle: "확인", handler: nil)
+                    return
                 }
             }
+            
+            
         }
         navigationController?.popViewController(animated: true)
     }
