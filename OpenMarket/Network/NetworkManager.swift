@@ -7,8 +7,9 @@
 
 import Foundation
 import UIKit
+typealias Parameters = [String: String]
 
-class NetworkManager {
+class NetworkManager { // NetworkManager의 함수들은 현재는 재사용되지 않는다. 따라서 싱글톤을 사용할 이유가 없다.
     
     static var shared = NetworkManager()
     var isPaginating = false
@@ -74,21 +75,8 @@ class NetworkManager {
         
         let dataBody = createDataBody(withParameters: classifyKeyValue(model: requestData), itemImages: setUpImage(model: requestData), boundary: boundary)
         request.httpBody = dataBody
-        
-        
         URLSession.shared.dataTask(with: request) { (data, response, error) in
-            if let response = response {
-                print(response)
-            }
-            
-            if let data = data {
-                do {
-                    let json = try JSONSerialization.jsonObject(with: data, options: [])
-                    print(json)
-                } catch {
-                    print(error)
-                }
-            }
+            self.checkValidation(data: data, response: response, error: error)
         }.resume()
     }
     
@@ -135,11 +123,11 @@ class NetworkManager {
         
         return ["title": "\(title)",
                 "descriptions": "\(descriptions)",
-                "price":"\(price)",
-                "currency":"\(currency)",
-                "stock":"\(stock)",
-                "discounted_price":"\(discountedPrice)",
-                "password":"\(password)" ]
+                "price": "\(price)",
+                "currency": "\(currency)",
+                "stock": "\(stock)",
+                "discounted_price": "\(discountedPrice)",
+                "password": "\(password)" ]
     }
     
     private func setUpImage(model: Request) -> [ItemImage] {
@@ -153,8 +141,8 @@ class NetworkManager {
         return images
     }
     
-    func patchEditItemData(requestData: Request, postId: Int, completion: @escaping (Data?)->(Void)) {
-        guard let url = URL(string: Network.baseURL + "/item/\(postId)") else { return }
+    func patchEditItemData(requestData: Request, postID: Int, completion: @escaping (Data?)->(Void)) {
+        guard let url = URL(string: Network.baseURL + "/item/\(postID)") else { return }
         var request = URLRequest(url: url)
         request.httpMethod = HTTPMethod.PATCH.rawValue
         
@@ -167,14 +155,29 @@ class NetworkManager {
         
         URLSession.shared.dataTask(with: request) { (data, response, error) in
             self.checkValidation(data: data, response: response, error: error)
-            if let response = response {
-                print(response)
-            }
             completion(data)
         }.resume()
     }
+    
+    func encodedData(requestData: Request) -> Data? {
+        let endcoder = JSONEncoder()
+        return try? endcoder.encode(requestData)
+    }
+    
+    func deleteItemData(requestData: Request, postID: Int, completion: @escaping (URLResponse?)->(Void)) {
+        guard let url = URL(string: Network.baseURL + "/item/\(postID)") else { return }
+        var request = URLRequest(url: url)
+        
+        request.httpMethod = HTTPMethod.DELETE.rawValue
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpBody = encodedData(requestData: requestData)
+        
+        URLSession.shared.dataTask(with: request) { (data, response, error) in
+            self.checkValidation(data: data, response: response, error: error)
+            completion(response)
+        }.resume()
+    }
 }
-
 
 extension Data {
     mutating func append(_ string: String) {
@@ -183,8 +186,6 @@ extension Data {
         }
     }
 }
-
-typealias Parameters = [String: String]
 
 struct ItemImage {
     let key: String
@@ -200,5 +201,4 @@ struct ItemImage {
         guard let jpgData = image.jpegData(compressionQuality: 0.7) else { return nil }
         self.data = jpgData
     }
-    
 }

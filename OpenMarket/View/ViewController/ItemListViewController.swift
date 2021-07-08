@@ -188,19 +188,20 @@ extension ItemListViewController: UICollectionViewDataSource {
 @available(iOS 14.0, *)
 extension ItemListViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("\nindexPath: \(indexPath.item)\n")
         guard Cache.shared.itemDataList.count > indexPath.item else { return }
         let itemId = Cache.shared.itemDataList[indexPath.item].id
         guard let DetailItemViewController = self.storyboard?.instantiateViewController(identifier: DetailItemViewController.storyboardID) as? DetailItemViewController else { return }
         
         NetworkManager.shared.getDetailItemData(itemId: itemId) { data in
             do {
-                DetailItemViewController.detailItemData = try JSONDecoder().decode(InformationOfItemResponse.self, from: data!)
+                guard let responsedData = data else { return }
+                DetailItemViewController.detailItemData = try JSONDecoder().decode(InformationOfItemResponse.self, from: responsedData)
             } catch {
                 print("Failed to decode")
             }
         }
         DetailItemViewController.itemIndexPath = indexPath.item
+        DetailItemViewController.itemListCollectionView = self.collectionView
         navigationController?.pushViewController(DetailItemViewController, animated: true)
     }
 }

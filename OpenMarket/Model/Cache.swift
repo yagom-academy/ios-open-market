@@ -12,7 +12,6 @@ class Cache {
     var itemDataList: [Item] = []
     var thumbnailImageDataList: [Data] = []
     var recentUpdatedItemDataCountOfItemDataList = 0
-    var detailItemInformationList: [Int : InformationOfItemResponse] = [:]
     var numberOfItems = 0
     var maxPageNumber = 0
     var minPageNumber = 0

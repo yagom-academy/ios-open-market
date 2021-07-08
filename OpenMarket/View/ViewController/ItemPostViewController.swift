@@ -18,6 +18,7 @@ class ItemPostViewController: UIViewController {
     @IBOutlet var descriptions: UITextView!
     @IBOutlet var stock: UITextField!
     static var images: [Int : String] = [:]
+    var itemIndexPath: Int?
     var requestData: Request?
     var screenMode: ScreenMode?
     var detailItemData: InformationOfItemResponse?
@@ -46,6 +47,7 @@ class ItemPostViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        dismissKeyboardWhenTappedAround()
         descriptions.delegate = self
         setUpCollectionView()
         initNavigationBar()
@@ -142,14 +144,20 @@ class ItemPostViewController: UIViewController {
         }
         guard let itemEditInformation = requestData else { return }
         guard let detailItemData = detailItemData else { return }
-        NetworkManager.shared.patchEditItemData(requestData: itemEditInformation, postId: detailItemData.id) { [weak self] data in
+        NetworkManager.shared.patchEditItemData(requestData: itemEditInformation, postID: detailItemData.id) { [weak self] data in
             do {
-                let data = try JSONDecoder().decode(InformationOfItemResponse.self, from: data!)
+                guard let reposedData = data, let itemIndexPath = self?.itemIndexPath else { return }
+                let data = try JSONDecoder().decode(InformationOfItemResponse.self, from: reposedData)
                 guard let detailViewController = self?.detailViewController else { return }
                 detailViewController.detailItemData = data
                 detailViewController.isItemPostEdited = true
+                guard let imageURL = URL(string: data.images[0]) else { return }
+                let imageData = try Data(contentsOf: imageURL)
+                Cache.shared.thumbnailImageDataList[itemIndexPath] = imageData
             } catch {
-                print("Failed to decode")
+                DispatchQueue.main.async {
+                    self?.showAlert(viewController: self, title: "Notice", message: "비밀번호가 틀렸습니다.", buttonTitle: "확인", handler: nil)
+                }
             }
         }
         navigationController?.popViewController(animated: true)
@@ -169,7 +177,6 @@ extension ItemPostViewController: UITextViewDelegate {
         } else if textView.text != "", textView.text != "제품 상세 설명" {
             requestData?.descriptions = textView.text
         }
-        
     }
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
@@ -236,12 +243,9 @@ extension ItemPostViewController: UICollectionViewDataSource {
                     return
                 }
             }
-            
             return cell
         }
-        
     }
-    
 }
 
 extension ItemPostViewController: UICollectionViewDelegate {
@@ -260,5 +264,18 @@ extension ItemPostViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
+    }
+}
+
+extension ItemPostViewController {
+    func dismissKeyboardWhenTappedAround() {
+        let tap: UITapGestureRecognizer =
+            UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        self.view.addGestureRecognizer(tap)
+    }
+    
+    @objc func dismissKeyboard() {
+        self.view.endEditing(false)
     }
 }

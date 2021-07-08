@@ -57,6 +57,4 @@ class ListCollectionViewCell: UICollectionViewListCell {
         let thumbnailImage = Cache.shared.thumbnailImageDataList[itemIndexPath]
         self.itemImage.image = UIImage(data: thumbnailImage)
     }
-    
-    
 }

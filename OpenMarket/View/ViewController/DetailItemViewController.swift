@@ -19,6 +19,8 @@ class DetailItemViewController: UIViewController {
     var imageDataList: [Data] = []
     var itemIndexPath: Int?
     var isItemPostEdited = false
+    var postID: Int?
+    var itemListCollectionView: UICollectionView?
     var detailItemData: InformationOfItemResponse? = nil {
         didSet {
             DispatchQueue.main.async {
@@ -46,7 +48,9 @@ class DetailItemViewController: UIViewController {
             guard let itemIndexPath = itemIndexPath else { return }
             editItemDataInCache(itemIndexPath: itemIndexPath)
         }
-        
+        DispatchQueue.main.async {
+            self.itemListCollectionView?.reloadData()
+        }
 //        if isItemPostdeleted {
 //            guard let itemIndexPath = itemIndexPath else { return }
 //            deleteItemDataInCache(itemIndexPath: itemIndexPath)
@@ -79,6 +83,7 @@ class DetailItemViewController: UIViewController {
     
     private func setUpDataOfViewController() {
         guard let detailItemData = detailItemData else { return }
+        self.postID = detailItemData.id
         self.setUpImageData(detailItemData: detailItemData)
         self.navigationItem.title = detailItemData.title
         postTitle.text = detailItemData.title
@@ -98,7 +103,6 @@ class DetailItemViewController: UIViewController {
     
     private func setUpImageData(detailItemData: InformationOfItemResponse) {
         DispatchQueue.global().async {
-            
             for image in detailItemData.images {
                 var count = 0
                 while true {
@@ -135,19 +139,59 @@ class DetailItemViewController: UIViewController {
     }
     
     @objc private func showActionSheet(_ sender: Any) {
-        let editAction = UIAlertAction(title: "수정", style: .default) { action in
-            guard let itemPostViewController = self.storyboard?.instantiateViewController(identifier: ItemPostViewController.storyboardID) as? ItemPostViewController else {
+        let editAction = UIAlertAction(title: "수정", style: .default) { [weak self] action in
+            guard let itemPostViewController = self?.storyboard?.instantiateViewController(identifier: ItemPostViewController.storyboardID) as? ItemPostViewController else {
                 return
             }
-            guard let detailItemData = self.detailItemData else { return }
-            ItemPostViewController.images = self.convertArrayToDictionary(Array: detailItemData.images)
-            itemPostViewController.detailItemData = self.detailItemData
+            guard let detailItemData = self?.detailItemData else { return }
+            guard let images = self?.convertArrayToDictionary(Array: detailItemData.images) else {
+                return
+            }
+            ItemPostViewController.images = images
+            itemPostViewController.detailItemData = self?.detailItemData
             itemPostViewController.screenMode = ScreenMode.edit
             itemPostViewController.detailViewController = self
-            self.navigationController?.pushViewController(itemPostViewController, animated: true)
+            itemPostViewController.itemIndexPath = self?.itemIndexPath
+            self?.navigationController?.pushViewController(itemPostViewController, animated: true)
         }
-        let deleteAction = UIAlertAction(title: "삭제", style: .default) { action in
+        let deleteAction = UIAlertAction(title: "삭제", style: .default) { [weak self] action in
             
+            let alertController = UIAlertController(title: nil, message: "비밀번호를 입력하시오.", preferredStyle: .alert)
+            let defaultAction = UIAlertAction(title: "확인", style: .default) { _ in
+                guard let passwordTextField = alertController.textFields?[0] as? UITextField else { return }
+                var requestData: Request?
+                do {
+                    requestData = try Request(path: Path.Item.id, httpMethod: HTTPMethod.DELETE, title: nil, descriptions: nil, price: nil, currency: nil, stock: nil, discountedPrice: nil, images: nil, password: passwordTextField.text)
+                } catch {
+                    print("Input Error")
+                }
+                guard let deleteData = requestData, let postID = self?.postID else {
+                    return
+                }
+                NetworkManager.shared.deleteItemData(requestData: deleteData, postID: postID) { [weak self] response in
+                    var message = "비밀번호가 일치하지 않습니다."
+                    guard let httpResponse = response as? HTTPURLResponse, let itemIndexPath = self?.itemIndexPath else {
+                        return
+                    }
+                    if(200...299).contains(httpResponse.statusCode) {
+                        message = "삭제 되었습니다."
+                        Cache.shared.itemDataList.remove(at: itemIndexPath)
+                        Cache.shared.thumbnailImageDataList.remove(at: itemIndexPath)
+                    }
+                    DispatchQueue.main.async {
+                        self?.showAlert(viewController: self, title: "Notice", message: message, buttonTitle: "확인", handler: nil)
+                    }
+                }
+                
+            }
+            let actionCancel = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+            alertController.addTextField { (textField) in
+                textField.placeholder = "Password"
+                textField.isSecureTextEntry = true
+            }
+            alertController.addAction(defaultAction)
+            alertController.addAction(actionCancel)
+            self?.present(alertController, animated: true, completion: nil)
         }
         deleteAction.setValue(UIColor.red, forKey: "titleTextColor")
         presentAlert(isCancelActionIncluded: true, preferredStyle: .actionSheet, with: editAction,deleteAction)
@@ -189,12 +233,8 @@ extension DetailItemViewController: UICollectionViewDataSource {
                 print("collectionView Invalid URL")
             }
         }
-        
-        
         return cell
-        
     }
-    
 }
 
 extension DetailItemViewController: UICollectionViewDelegate {
@@ -213,5 +253,19 @@ extension DetailItemViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
+    }
+}
+
+extension UIViewController {
+    func showAlert(viewController: UIViewController?,
+                           title: String,
+                           message: String,
+                           buttonTitle: String,
+                           handler: ((UIAlertAction) -> Void)?) {
+            
+          let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+          let defaultAction = UIAlertAction(title: buttonTitle, style: .default, handler: handler)
+          alertController.addAction(defaultAction)
+          viewController?.present(alertController, animated: true, completion: nil)
     }
 }
