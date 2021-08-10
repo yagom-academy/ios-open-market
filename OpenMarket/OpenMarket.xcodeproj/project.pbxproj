@@ -120,9 +120,9 @@
 		C70FB0F925BEF61C00C9924E /* OpenMarket */ = {
 			isa = PBXGroup;
 			children = (
-				3F57510F26C24B9000388390 /* Contorller */,
-				3F57510E26C24B8800388390 /* View */,
 				3F57510D26C24B7C00388390 /* Model */,
+				3F57510E26C24B8800388390 /* View */,
+				3F57510F26C24B9000388390 /* Contorller */,
 				C70FB10325BEF61D00C9924E /* Assets.xcassets */,
 				C70FB10825BEF61D00C9924E /* Info.plist */,
 			);
