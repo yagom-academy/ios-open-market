@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2BEAEAB526C26105008C5BA7 /* ProductModify.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BEAEAB426C26105008C5BA7 /* ProductModify.swift */; };
+		2BEAEAB726C2618E008C5BA7 /* ProductDelete.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BEAEAB626C2618E008C5BA7 /* ProductDelete.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
 		C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */; };
 		C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FE25BEF61C00C9924E /* ViewController.swift */; };
@@ -20,6 +22,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2BEAEAB426C26105008C5BA7 /* ProductModify.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductModify.swift; sourceTree = "<group>"; };
+		2BEAEAB626C2618E008C5BA7 /* ProductDelete.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDelete.swift; sourceTree = "<group>"; };
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -83,6 +87,8 @@
 				F9F51C0126C24BE10076DD72 /* ProductListSearch.swift */,
 				F9F51C0326C256A10076DD72 /* ProductRegistration.swift */,
 				F9F51C0526C257E30076DD72 /* ProductSearch.swift */,
+				2BEAEAB426C26105008C5BA7 /* ProductModify.swift */,
+				2BEAEAB626C2618E008C5BA7 /* ProductDelete.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -172,6 +178,8 @@
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 				F9F51C0026C249970076DD72 /* ProductProtocol.swift in Sources */,
 				F9F51C0626C257E30076DD72 /* ProductSearch.swift in Sources */,
+				2BEAEAB726C2618E008C5BA7 /* ProductDelete.swift in Sources */,
+				2BEAEAB526C26105008C5BA7 /* ProductModify.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
