@@ -19,6 +19,7 @@
 		F9F51C0226C24BE10076DD72 /* ProductListSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9F51C0126C24BE10076DD72 /* ProductListSearch.swift */; };
 		F9F51C0426C256A10076DD72 /* ProductRegistration.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9F51C0326C256A10076DD72 /* ProductRegistration.swift */; };
 		F9F51C0626C257E30076DD72 /* ProductSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9F51C0526C257E30076DD72 /* ProductSearch.swift */; };
+		F9F51C0926C2631B0076DD72 /* MockAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9F51C0826C2631B0076DD72 /* MockAPIManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +37,7 @@
 		F9F51C0126C24BE10076DD72 /* ProductListSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductListSearch.swift; sourceTree = "<group>"; };
 		F9F51C0326C256A10076DD72 /* ProductRegistration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductRegistration.swift; sourceTree = "<group>"; };
 		F9F51C0526C257E30076DD72 /* ProductSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductSearch.swift; sourceTree = "<group>"; };
+		F9F51C0826C2631B0076DD72 /* MockAPIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAPIManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,6 +70,7 @@
 		C70FB0F925BEF61C00C9924E /* OpenMarket */ = {
 			isa = PBXGroup;
 			children = (
+				F9F51C0726C262F20076DD72 /* API */,
 				F9F51BFE26C249720076DD72 /* Protocol */,
 				F9F51BFD26C249590076DD72 /* Model */,
 				C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */,
@@ -99,6 +102,14 @@
 				F9F51BFF26C249970076DD72 /* ProductProtocol.swift */,
 			);
 			path = Protocol;
+			sourceTree = "<group>";
+		};
+		F9F51C0726C262F20076DD72 /* API */ = {
+			isa = PBXGroup;
+			children = (
+				F9F51C0826C2631B0076DD72 /* MockAPIManager.swift */,
+			);
+			path = API;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -179,6 +190,7 @@
 				F9F51C0026C249970076DD72 /* ProductProtocol.swift in Sources */,
 				F9F51C0626C257E30076DD72 /* ProductSearch.swift in Sources */,
 				2BEAEAB726C2618E008C5BA7 /* ProductDelete.swift in Sources */,
+				F9F51C0926C2631B0076DD72 /* MockAPIManager.swift in Sources */,
 				2BEAEAB526C26105008C5BA7 /* ProductModify.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

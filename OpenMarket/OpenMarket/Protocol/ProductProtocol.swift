@@ -12,7 +12,7 @@ protocol ProductProtocol {
     var title: String { get set }
     var price: Int { get set }
     var currency: String { get set }
-    var stock: String { get set }
+    var stock: Int { get set }
     var discountedPrice: Int { get set }
     var thumnails: [String] { get set }
     var registrationDate: Double { get set }
