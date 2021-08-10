@@ -7,10 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		273CFCFC26C2440F00B338E0 /* MarketItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 273CFCFB26C2440F00B338E0 /* MarketItem.swift */; };
+		273CFCFC26C2440F00B338E0 /* MarketPageItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 273CFCFB26C2440F00B338E0 /* MarketPageItem.swift */; };
 		273CFD0126C24F0C00B338E0 /* Items.json in Resources */ = {isa = PBXBuildFile; fileRef = 273CFD0026C24F0C00B338E0 /* Items.json */; };
 		273CFD0326C29B2600B338E0 /* Api.swift in Sources */ = {isa = PBXBuildFile; fileRef = 273CFD0226C29B2600B338E0 /* Api.swift */; };
 		273CFD0626C29D6800B338E0 /* MockApiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 273CFD0526C29D6800B338E0 /* MockApiClient.swift */; };
+		273CFD0826C2C74400B338E0 /* Item.json in Resources */ = {isa = PBXBuildFile; fileRef = 273CFD0726C2C74400B338E0 /* Item.json */; };
 		797C878726C249700088062F /* MarketItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = 797C878626C249700088062F /* MarketItems.swift */; };
 		797C878926C258610088062F /* JSONDecodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 797C878826C258610088062F /* JSONDecodable.swift */; };
 		797C879626C2A7D80088062F /* OpenMarketTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 797C879526C2A7D80088062F /* OpenMarketTests.swift */; };
@@ -33,10 +34,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		273CFCFB26C2440F00B338E0 /* MarketItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketItem.swift; sourceTree = "<group>"; };
+		273CFCFB26C2440F00B338E0 /* MarketPageItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketPageItem.swift; sourceTree = "<group>"; };
 		273CFD0026C24F0C00B338E0 /* Items.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Items.json; sourceTree = "<group>"; };
 		273CFD0226C29B2600B338E0 /* Api.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Api.swift; sourceTree = "<group>"; };
 		273CFD0526C29D6800B338E0 /* MockApiClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockApiClient.swift; sourceTree = "<group>"; };
+		273CFD0726C2C74400B338E0 /* Item.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Item.json; sourceTree = "<group>"; };
 		797C878626C249700088062F /* MarketItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketItems.swift; sourceTree = "<group>"; };
 		797C878826C258610088062F /* JSONDecodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONDecodable.swift; sourceTree = "<group>"; };
 		797C879326C2A7D80088062F /* OpenMarketTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenMarketTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -73,7 +75,7 @@
 		273CFCFA26C2439700B338E0 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				273CFCFB26C2440F00B338E0 /* MarketItem.swift */,
+				273CFCFB26C2440F00B338E0 /* MarketPageItem.swift */,
 				797C878626C249700088062F /* MarketItems.swift */,
 			);
 			path = Models;
@@ -83,6 +85,7 @@
 			isa = PBXGroup;
 			children = (
 				273CFD0026C24F0C00B338E0 /* Items.json */,
+				273CFD0726C2C74400B338E0 /* Item.json */,
 			);
 			path = Mocks;
 			sourceTree = "<group>";
@@ -240,6 +243,7 @@
 				C70FB10725BEF61D00C9924E /* LaunchScreen.storyboard in Resources */,
 				C70FB10425BEF61D00C9924E /* Assets.xcassets in Resources */,
 				C70FB10225BEF61C00C9924E /* Main.storyboard in Resources */,
+				273CFD0826C2C74400B338E0 /* Item.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -262,7 +266,7 @@
 				273CFD0626C29D6800B338E0 /* MockApiClient.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
-				273CFCFC26C2440F00B338E0 /* MarketItem.swift in Sources */,
+				273CFCFC26C2440F00B338E0 /* MarketPageItem.swift in Sources */,
 				797C878726C249700088062F /* MarketItems.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 				273CFD0326C29B2600B338E0 /* Api.swift in Sources */,

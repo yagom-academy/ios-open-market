@@ -9,5 +9,5 @@ import Foundation
 
 struct MarketItems: Codable {
     var page: Int
-    var items: [MarketItem]
+    var items: [MarketPageItem]
 }

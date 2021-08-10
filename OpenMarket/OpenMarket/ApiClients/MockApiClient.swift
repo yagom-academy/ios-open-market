@@ -10,9 +10,9 @@ import Foundation
 class MockApiClient: Api, JSONDecodable {
     private static let delay = 1
     
-    func getMarketItems(for page: Int, completion: @escaping (MarketItems?) -> Void) {
+    func getMarketPageItems(for pageNumber: Int, completion: @escaping (MarketItems?) -> Void) {
         DispatchQueue.global().asyncAfter(deadline: .now() + .seconds(MockApiClient.delay)) {
-            switch page {
+            switch pageNumber {
             case 1:
                 let fileName = "Items"
                 do {
@@ -26,6 +26,24 @@ class MockApiClient: Api, JSONDecodable {
                 completion(nil)
             }
             
+        }
+    }
+    
+    func getMarketItem(for id: Int, completion: @escaping (MarketItem?) -> Void) {
+        DispatchQueue.global().asyncAfter(deadline: .now() + .seconds(MockApiClient.delay)) {
+            switch id {
+            case 1:
+                let fileName = "Item"
+                do {
+                    let jsonData = try self.readLocalFile(for: fileName)
+                    let item: MarketItem = try self.decodeJSON(from: jsonData)
+                    completion(item)
+                } catch {
+                    completion(nil)
+                }
+            default:
+                completion(nil)
+            }
         }
     }
 }

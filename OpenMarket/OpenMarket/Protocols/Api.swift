@@ -8,5 +8,7 @@
 import Foundation
 
 protocol Api {
-    func getMarketItems(for page: Int, completion: @escaping (MarketItems?) -> Void)
+    func getMarketPageItems(for pageNumber: Int, completion: @escaping (MarketItems?) -> Void)
+    
+    func getMarketItem(for id: Int, completion: @escaping (MarketItem?) -> Void)
 }
