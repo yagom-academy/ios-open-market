@@ -2,7 +2,7 @@
 //  MarketItem.swift
 //  OpenMarket
 //
-//  Created by 잼킹 on 2021/08/10.
+//  Created by Jost, 잼킹 on 2021/08/10.
 //
 
 import Foundation
