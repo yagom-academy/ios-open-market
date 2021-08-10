@@ -7,14 +7,14 @@
 
 import Foundation
 
-struct Product {
+struct Product: Codable {
     let id: Int
-    let title: String
+    var title: String
     var description: String?
-    let price: Int
-    let currency: String
-    let stock: UInt
-    let discountedPrice: Int?
+    var price: Int
+    var currency: String
+    var stock: UInt
+    var discountedPrice: Int?
     let thumbnails: [String]
     var images: [String]?
     let registraionDate: Double
