@@ -8,5 +8,5 @@
 import Foundation
 
 protocol Api {
-    func fetchMarketItems(completion: @escaping (MarketItems?) -> Void)
+    func getMarketItems(for page: Int, completion: @escaping (MarketItems?) -> Void)
 }
