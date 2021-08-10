@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Item {
+struct Item: Decodable {
     
     let id: Int
     let title: String
