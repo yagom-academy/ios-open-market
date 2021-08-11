@@ -18,6 +18,7 @@
 		C70FB10725BEF61D00C9924E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */; };
 		D412A97426C39A3F00E3E639 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = D412A97326C39A3F00E3E639 /* Item.swift */; };
 		D412A97A26C3A2AC00E3E639 /* PatchItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D412A97926C3A2AC00E3E639 /* PatchItem.swift */; };
+		D412A97F26C3A5F300E3E639 /* URLSessionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D412A97E26C3A5F300E3E639 /* URLSessionProtocol.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +35,7 @@
 		C70FB10825BEF61D00C9924E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D412A97326C39A3F00E3E639 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		D412A97926C3A2AC00E3E639 /* PatchItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatchItem.swift; sourceTree = "<group>"; };
+		D412A97E26C3A5F300E3E639 /* URLSessionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionProtocol.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,6 +80,7 @@
 		C70FB0F925BEF61C00C9924E /* OpenMarket */ = {
 			isa = PBXGroup;
 			children = (
+				D412A97D26C3A5BC00E3E639 /* Protocol */,
 				794CC8C426C39DD2005161F4 /* Model */,
 				C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */,
 				C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */,
@@ -88,6 +91,14 @@
 				C70FB10825BEF61D00C9924E /* Info.plist */,
 			);
 			path = OpenMarket;
+			sourceTree = "<group>";
+		};
+		D412A97D26C3A5BC00E3E639 /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				D412A97E26C3A5F300E3E639 /* URLSessionProtocol.swift */,
+			);
+			path = Protocol;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -160,6 +171,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D412A97F26C3A5F300E3E639 /* URLSessionProtocol.swift in Sources */,
 				794CC8C626C39E1E005161F4 /* PostItem.swift in Sources */,
 				D412A97426C39A3F00E3E639 /* Item.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
