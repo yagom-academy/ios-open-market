@@ -16,8 +16,8 @@ class ItemAPIProvider {
     
     func fetchData<T: Decodable>(url: URL, completion: @escaping (Result<T, Error>) -> Void) {
         let request = URLRequest(url: url)
-        let task: URLSessionDataTask = session
-            .dataTask(with: request) { data, urlResponse, error in
+        let task: URLSessionDataTaskProtocol = session
+            .dataTaskWithRequest(with: request) { data, urlResponse, error in
                 if let error = error {
                     print(error.localizedDescription)
                     return
