@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ItemData: Codable {
+struct ItemData: Codable, Equatable {
     let id: Int
     let title: String
     let price: Int
