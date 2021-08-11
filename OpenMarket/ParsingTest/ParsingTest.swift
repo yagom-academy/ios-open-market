@@ -14,8 +14,14 @@ class ParsingTest: XCTestCase {
         typealias Model = Item
     }
     
-    var cutWithItem = ItemMock()
-    var listManagingMock = ListManagingMock()
+    var cutWithItem: ItemMock!
+    var listManagingMock: ListManagingMock!
+    
+    override func setUp() {
+        super.setUp()
+        cutWithItem = ItemMock()
+        listManagingMock = ListManagingMock()
+    }
     
     func test_ItemMock에_파일이름으로_item을주면_Item이나온다() {
         let fileName = "item"
@@ -25,11 +31,19 @@ class ParsingTest: XCTestCase {
         XCTAssertTrue(item is Item)
     }
     
-    func test_2번째item을_삭제하면_itemList의_3번째item이_2번째가된다() {
+    func test_n번째item을_삭제하면_itemList의_m번째item이_n번째로당겨진다() {
         let itemNumber = 1
         let thirdData = listManagingMock.data?.items[2]
         listManagingMock.delete(itemNumber: itemNumber)
         
         XCTAssertEqual(thirdData, listManagingMock.data?.items[1])
+    }
+    
+    func test_itemList에서_item을지우면_itemList의_count는감소한다() {
+        let initialCount: Int = listManagingMock.data?.items.count ?? 1
+        let randomNumber = Int.random(in: 1...initialCount)
+        listManagingMock.delete(itemNumber: randomNumber)
+        
+        XCTAssertEqual(listManagingMock.data?.items.count, initialCount - 1)
     }
 }
