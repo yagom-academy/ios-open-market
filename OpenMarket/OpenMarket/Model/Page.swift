@@ -11,7 +11,7 @@ struct Page: Decodable {
     let page: Int
     let items: [Page.Item]
     
-    struct Item {
+    struct Item: Decodable {
         let id: Int
         let title: String
         let price: Int
