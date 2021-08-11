@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		794CC8C326C3972D005161F4 /* Page.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794CC8C226C3972D005161F4 /* Page.swift */; };
 		794CC8C626C39E1E005161F4 /* PostItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794CC8C526C39E1E005161F4 /* PostItem.swift */; };
+		794CC8C826C3A32C005161F4 /* DeleteItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794CC8C726C3A32C005161F4 /* DeleteItem.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
 		C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */; };
 		C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FE25BEF61C00C9924E /* ViewController.swift */; };
@@ -22,6 +23,7 @@
 /* Begin PBXFileReference section */
 		794CC8C226C3972D005161F4 /* Page.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Page.swift; sourceTree = "<group>"; };
 		794CC8C526C39E1E005161F4 /* PostItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostItem.swift; sourceTree = "<group>"; };
+		794CC8C726C3A32C005161F4 /* DeleteItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteItem.swift; sourceTree = "<group>"; };
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -52,6 +54,7 @@
 				D412A97326C39A3F00E3E639 /* Item.swift */,
 				794CC8C526C39E1E005161F4 /* PostItem.swift */,
 				D412A97926C3A2AC00E3E639 /* PatchItem.swift */,
+				794CC8C726C3A32C005161F4 /* DeleteItem.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -162,6 +165,7 @@
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				D412A97A26C3A2AC00E3E639 /* PatchItem.swift in Sources */,
+				794CC8C826C3A32C005161F4 /* DeleteItem.swift in Sources */,
 				794CC8C326C3972D005161F4 /* Page.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 			);
