@@ -12,13 +12,11 @@ enum DecodingError: Error {
     case decodingFailed
 }
 
-
 protocol ParsingMock {
     associatedtype Model: Decodable
 }
 
 extension ParsingMock {
-    
     func parse(about fileName: String) throws -> Model {
         guard let convertedAsset = NSDataAsset(name: fileName) else {
             throw DecodingError.unknown
