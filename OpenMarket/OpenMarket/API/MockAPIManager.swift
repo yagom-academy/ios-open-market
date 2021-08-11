@@ -27,7 +27,6 @@ class MockAPIManager {
                 let decoder = JSONDecoder()
                 do {
                     let result = try decoder.decode(ProductSearch.self, from: data)
-                  
                 } catch {
                     print(error.localizedDescription)
                 }

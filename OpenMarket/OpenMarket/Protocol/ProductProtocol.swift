@@ -14,7 +14,7 @@ protocol ProductProtocol {
     var currency: String { get set }
     var stock: Int { get set }
     var discountedPrice: Int { get set }
-    var thumnails: [String] { get set }
+    var thumbnails: [String] { get set }
     var registrationDate: Double { get set }
 }
 

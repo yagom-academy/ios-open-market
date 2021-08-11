@@ -14,23 +14,15 @@ struct ProductSearch: Codable {
     var currency: String
     var stock: Int
    // var discountedPrice: Int
-    var thumnails: [String]
+    var thumbnails: [String]
     var registrationDate: Double
     var descriptions: String
     var images: [String]
     
     enum CodingKeys: String, CodingKey  {
-        case id, title, price, currency, stock, thumnails, descriptions, images
+        case id, title, price, currency, stock, thumbnails, descriptions, images
        // case discountedPrice = "discounted_price"
         case registrationDate = "registration_date"
     }
-}
-
-extension ProductSearch: CustomStringConvertible {
-    var description: String {
-        return "\(title)"
-    }
-    
-    
 }
 

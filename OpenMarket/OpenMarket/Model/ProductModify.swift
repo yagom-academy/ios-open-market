@@ -16,11 +16,11 @@ struct ProductModify: Codable, ContainDescriptionProductProtocol {
     var currency: String
     var stock: Int
     var discountedPrice: Int
-    var thumnails: [String]
+    var thumbnails: [String]
     var registrationDate: Double
     
     enum CodingKeys: String, CodingKey {
-        case description, images, id, title, price, currency, stock, thumnails
+        case description, images, id, title, price, currency, stock, thumbnails
         case discountedPrice = "discounted_price"
         case registrationDate = "registration_date"
     }
