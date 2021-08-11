@@ -17,16 +17,13 @@ class NetworkManager {
         let session = URLSession.shared
         let task = session.dataTask(with: url) { data, response, error in
             if let error = error {
-                print(error)
+                print(error.localizedDescription)
             }
             
             guard let data = data else { return }
-
-            if let item = try? JSONDecoder().decode(ItemsData.self, from: data) {
-                print(item)
-            } else {
-                print("Invalid Response")
-            }
+            
+            guard let item = try? JsonDecoder.decodedJsonFromData(type: ItemsData.self, data: data) else { return }
+            print(item)
         }
         task.resume()
     }

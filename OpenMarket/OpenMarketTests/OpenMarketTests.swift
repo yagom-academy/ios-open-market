@@ -51,7 +51,7 @@ class OpenMarketTests: XCTestCase {
         //given
         let jsonData = try! JSONEncoder().encode(testItems)
         //when
-        let decodedData = try! JsonDecoder.decodedJsonFromURLData(type: [ItemData].self, data: jsonData)
+        let decodedData = try! JsonDecoder.decodedJsonFromData(type: [ItemData].self, data: jsonData)
         //then
         XCTAssertEqual(decodedData, testItems)
     }
@@ -61,7 +61,7 @@ class OpenMarketTests: XCTestCase {
         let jsonData = try! JSONEncoder().encode(testItems)
         //when
         do {
-            _ = try JsonDecoder.decodedJsonFromURLData(type: [ItemData].self, data: jsonData)
+            _ = try JsonDecoder.decodedJsonFromData(type: [ItemData].self, data: jsonData)
         } catch let error as JsonError {
             //then
             XCTAssertEqual(error, JsonError.decodingFailed)
@@ -75,7 +75,7 @@ class OpenMarketTests: XCTestCase {
         //given
         let jsonData = try! JSONEncoder().encode(testItem)
         //when
-        let decodedData = try! JsonDecoder.decodedJsonFromURLData(type: ItemData.self, data: jsonData)
+        let decodedData = try! JsonDecoder.decodedJsonFromData(type: ItemData.self, data: jsonData)
         //then
         XCTAssertEqual(decodedData, testItem)
     }
@@ -86,7 +86,7 @@ class OpenMarketTests: XCTestCase {
         let jsonData = try! JSONEncoder().encode(testItem)
         //when
         do {
-            _ = try JsonDecoder.decodedJsonFromURLData(type: ItemData.self, data: jsonData)
+            _ = try JsonDecoder.decodedJsonFromData(type: ItemData.self, data: jsonData)
         } catch let error as JsonError {
             //then
             XCTAssertEqual(error, JsonError.decodingFailed)
