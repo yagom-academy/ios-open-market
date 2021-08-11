@@ -12,7 +12,9 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
-        NetworkManager.init().getItems()
+//        NetworkManager.init().getItems()
+        guard let value = try? JsonDecoder.decodeJsonFromDataAsset(type: ItemData.self, assetName: "MockItem") else { return }
+        print(value)
     }
 
 

@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		4DB65D3726C2107E000B23A9 /* ItemsData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DB65D3626C2107E000B23A9 /* ItemsData.swift */; };
 		4DB65D3926C21408000B23A9 /* ItemData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DB65D3826C21408000B23A9 /* ItemData.swift */; };
+		4DC0FCF326C3896F00D32D98 /* MockItem.json in Resources */ = {isa = PBXBuildFile; fileRef = 4DC0FCF226C3896F00D32D98 /* MockItem.json */; };
+		4DC0FCF526C389BC00D32D98 /* MockItems.json in Resources */ = {isa = PBXBuildFile; fileRef = 4DC0FCF426C389BC00D32D98 /* MockItems.json */; };
+		4DC0FCF726C38AE800D32D98 /* JsonDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DC0FCF626C38AE800D32D98 /* JsonDecoder.swift */; };
 		89C164C826C26B3C00D7A4DE /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89C164C726C26B3C00D7A4DE /* NetworkManager.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
 		C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */; };
@@ -21,6 +24,9 @@
 /* Begin PBXFileReference section */
 		4DB65D3626C2107E000B23A9 /* ItemsData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsData.swift; sourceTree = "<group>"; };
 		4DB65D3826C21408000B23A9 /* ItemData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemData.swift; sourceTree = "<group>"; };
+		4DC0FCF226C3896F00D32D98 /* MockItem.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = MockItem.json; sourceTree = "<group>"; };
+		4DC0FCF426C389BC00D32D98 /* MockItems.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = MockItems.json; sourceTree = "<group>"; };
+		4DC0FCF626C38AE800D32D98 /* JsonDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonDecoder.swift; sourceTree = "<group>"; };
 		89C164C726C26B3C00D7A4DE /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -50,6 +56,7 @@
 				C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */,
 				C70FB0FE25BEF61C00C9924E /* ViewController.swift */,
 				89C164C726C26B3C00D7A4DE /* NetworkManager.swift */,
+				4DC0FCF626C38AE800D32D98 /* JsonDecoder.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -74,6 +81,15 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		4DC0FCF126C3892900D32D98 /* Mock */ = {
+			isa = PBXGroup;
+			children = (
+				4DC0FCF226C3896F00D32D98 /* MockItem.json */,
+				4DC0FCF426C389BC00D32D98 /* MockItems.json */,
+			);
+			path = Mock;
+			sourceTree = "<group>";
+		};
 		C70FB0EE25BEF61C00C9924E = {
 			isa = PBXGroup;
 			children = (
@@ -93,6 +109,7 @@
 		C70FB0F925BEF61C00C9924E /* OpenMarket */ = {
 			isa = PBXGroup;
 			children = (
+				4DC0FCF126C3892900D32D98 /* Mock */,
 				4DB65D3326C20F95000B23A9 /* Controller */,
 				4DB65D3426C20FBA000B23A9 /* View */,
 				4DB65D3526C20FD1000B23A9 /* Model */,
@@ -158,7 +175,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				C70FB10725BEF61D00C9924E /* LaunchScreen.storyboard in Resources */,
+				4DC0FCF526C389BC00D32D98 /* MockItems.json in Resources */,
 				C70FB10425BEF61D00C9924E /* Assets.xcassets in Resources */,
+				4DC0FCF326C3896F00D32D98 /* MockItem.json in Resources */,
 				C70FB10225BEF61C00C9924E /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -170,6 +189,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4DC0FCF726C38AE800D32D98 /* JsonDecoder.swift in Sources */,
 				89C164C826C26B3C00D7A4DE /* NetworkManager.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,

@@ -16,7 +16,7 @@ struct ItemData: Codable {
     let discountedPrice: Int?
     let thumbnails: [String]
     let registrationDate: TimeInterval
-    let description: String?
+    let descriptions: String?
     let images: [String]?
 
     enum CodingKeys: String, CodingKey {
@@ -28,7 +28,7 @@ struct ItemData: Codable {
         case discountedPrice = "discounted_price"
         case thumbnails
         case registrationDate = "registration_date"
-        case description
+        case descriptions
         case images
     }
 }
