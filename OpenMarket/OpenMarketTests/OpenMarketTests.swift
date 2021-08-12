@@ -22,4 +22,17 @@ class OpenMarketTests: XCTestCase {
         //Then
         XCTAssertEqual(outputValue.title, expectResultValue)
     }
+    
+    func test_Items에셋파일을_Prodcuts타입으로디코딩을하면_내부Items배열의count는20이다() {
+        //Given
+        let expectInputValue = "Items"
+        //When
+        let parsedResult = ParsingManager().decode(from: expectInputValue, to: Products.self)
+        guard case .success(let outputValue) = parsedResult else {
+            return XCTFail()
+        }
+        let expectResultValue = 20
+        //Then
+        XCTAssertEqual(outputValue.items.count, expectResultValue)
+    }
 }
