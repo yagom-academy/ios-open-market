@@ -10,14 +10,20 @@ import UIKit
 struct ParsingManager {
     private let jsonDecoder = JSONDecoder()
     
-    func decode<T: Decodable>(from source: Data, to destinationType: T.Type) throws -> T {
-        return try jsonDecoder.decode(destinationType, from: source)
+    func decode<T: Decodable>(from source: Data, to destinationType: T.Type) -> Result<T, ParsingError> {
+        guard let decodedData = try? jsonDecoder.decode(destinationType, from: source) else {
+            return .failure(.decodingError)
+        }
+        return .success(decodedData)
     }
     
-    func decode<T: Decodable>(from fileName: String, to destinationType: T.Type) throws -> T {
+    func decode<T: Decodable>(from fileName: String, to destinationType: T.Type) -> Result<T, ParsingError> {
         guard let asset = NSDataAsset(name: fileName) else {
-            throw NSError()
+            return .failure(.assetDataError)
         }
-        return try jsonDecoder.decode(destinationType, from: asset.data)
+        guard let decodedData = try? jsonDecoder.decode(destinationType, from: asset.data) else {
+            return .failure(.decodingError)
+        }
+        return .success(decodedData)
     }
 }
