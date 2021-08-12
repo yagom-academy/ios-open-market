@@ -15,7 +15,7 @@ struct MarketPageItem: Codable {
     var currency: String
     var stock: Int
     var thumbnails: [String]
-    var registrationDate: Double
+    var registrationDate: Date
     
     enum CodingKeys: String, CodingKey {
         case registrationDate = "registration_date"

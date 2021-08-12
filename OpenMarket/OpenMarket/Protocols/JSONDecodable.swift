@@ -25,6 +25,7 @@ extension JSONDecodable {
     
     func decodeJSON<T: Decodable>(from jsonData: Data) throws -> T {
         let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .secondsSince1970
         guard let result = try? decoder.decode(T.self, from: jsonData) else {
             throw ParsingError.decodingError
         }

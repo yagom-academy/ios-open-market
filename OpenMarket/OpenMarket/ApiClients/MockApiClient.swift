@@ -7,7 +7,7 @@
 
 import Foundation
 
-class MockApiClient: MockApi, JSONDecodable {
+class MockApiClient: Api, JSONDecodable {
     private static let delay = 1
     
     func getMarketPageItems(for pageNumber: Int, completion: @escaping (MarketItems?) -> Void) {
