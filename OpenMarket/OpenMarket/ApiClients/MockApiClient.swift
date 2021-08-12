@@ -17,7 +17,7 @@ class MockApiClient: Api, JSONDecodable {
                 let fileName = "Items"
                 do {
                     let jsonData = try self.readLocalFile(for: fileName)
-                    let items: MarketItems = try self.decodeJSON(from: jsonData)
+                    let items = try self.decodeJSON(MarketItems.self ,from: jsonData)
                     completion(items)
                 } catch {
                     completion(nil)
@@ -35,7 +35,7 @@ class MockApiClient: Api, JSONDecodable {
                 let fileName = "Item"
                 do {
                     let jsonData = try self.readLocalFile(for: fileName)
-                    let item: MarketItem = try self.decodeJSON(from: jsonData)
+                    let item = try self.decodeJSON(MarketItem.self, from: jsonData)
                     completion(item)
                 } catch {
                     completion(nil)
