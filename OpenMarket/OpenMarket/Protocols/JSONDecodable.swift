@@ -7,9 +7,21 @@
 
 import Foundation
 
-enum ParsingError: Error {
+enum ParsingError: LocalizedError {
     case invalidFileName
     case decodingError
+    case unknown
+    
+    var errorDescription: String? {
+        switch self {
+        case .invalidFileName:
+            return "Invalide File Name"
+        case .decodingError:
+            return "Decoding Error"
+        case .unknown:
+            return "Parsing Unknown Error"
+        }
+    }
 }
 
 protocol JSONDecodable {}
