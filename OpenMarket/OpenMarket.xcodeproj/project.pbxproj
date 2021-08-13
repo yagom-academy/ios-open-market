@@ -92,7 +92,6 @@
 				794CC8C526C39E1E005161F4 /* PostItem.swift */,
 				D412A97926C3A2AC00E3E639 /* PatchItem.swift */,
 				794CC8C726C3A32C005161F4 /* DeleteItem.swift */,
-				D412A98526C3B37C00E3E639 /* NetworkError.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -128,6 +127,7 @@
 		7999574626C649FC00192720 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
 				C70FB10025BEF61C00C9924E /* Main.storyboard */,
 			);
 			path = View;
@@ -154,6 +154,7 @@
 		C70FB0F925BEF61C00C9924E /* OpenMarket */ = {
 			isa = PBXGroup;
 			children = (
+				D4232D3C26C6C3D000B108AA /* Error */,
 				D412A97D26C3A5BC00E3E639 /* Protocol */,
 				794CC8C426C39DD2005161F4 /* Model */,
 				7999574626C649FC00192720 /* View */,
@@ -163,7 +164,6 @@
 				D412A98226C3B01500E3E639 /* NetworkManager.swift */,
 				7999574726C64CCF00192720 /* JSONParser.swift */,
 				C70FB10325BEF61D00C9924E /* Assets.xcassets */,
-				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
 				C70FB10825BEF61D00C9924E /* Info.plist */,
 			);
 			path = OpenMarket;
@@ -176,6 +176,14 @@
 				794CC8DD26C3C68C005161F4 /* URLSessionDataTaskProtocol.swift */,
 			);
 			path = Protocol;
+			sourceTree = "<group>";
+		};
+		D4232D3C26C6C3D000B108AA /* Error */ = {
+			isa = PBXGroup;
+			children = (
+				D412A98526C3B37C00E3E639 /* NetworkError.swift */,
+			);
+			path = Error;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
