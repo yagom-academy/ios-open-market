@@ -6,6 +6,7 @@
 //
 
 import Foundation
+typealias parameters = [String: Any]
 
 class NetworkManager {
     func getItems() {
@@ -15,16 +16,27 @@ class NetworkManager {
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
         let session = URLSession.shared
-        let task = session.dataTask(with: url) { data, response, error in
+        session.dataTask(with: request) { data, response, error in
             if let error = error {
                 print(error.localizedDescription)
             }
-            
+
+            guard let response = response else { return }
+            print(response)
+
             guard let data = data else { return }
-            
+
             guard let item = try? JsonDecoder.decodedJsonFromData(type: ItemsData.self, data: data) else { return }
             print(item)
-        }
-        task.resume()
+        }.resume()
     }
+    
+    func postItem() {
+        
+    }
+    
+    func generateBoundary() -> String {
+        return "Boundary-\(UUID().uuidString)"
+    }
+
 }
