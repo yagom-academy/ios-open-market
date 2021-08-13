@@ -9,7 +9,7 @@ import Foundation
 
 struct NetworkManager {
     let session: URLSessionProtocol
-    let parser: JSONParser
+    private let parser: JSONParser
     
     init(session: URLSessionProtocol, parser: JSONParser) {
         self.session = session
