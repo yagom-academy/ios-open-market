@@ -10,25 +10,36 @@ import XCTest
 @testable import OpenMarket
 
 class OpenMarketTests: XCTestCase {
+    var sutNetworkManager: NetworkManager?
+    var sutParser: JSONParser?
 
     override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+        sutNetworkManager = NetworkManager(session: MockURLSession(), parser: JSONParser())
+        sutParser = JSONParser()
     }
 
     override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+        sutNetworkManager = nil
+        sutParser = nil
     }
+    
+    func test_빈데이터를생성해서_parse하면_failToDecode에러를던진다() throws {
+        // given
+        let testDataType = Page.self
+        let testData = Data()
+        let expectedResult = NetworkError.failToDecode
+        
+        // when
+        let result = sutParser?.parse(type: testDataType, data: testData)
 
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-    }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        measure {
-            // Put the code you want to measure the time of here.
+        // then
+        switch result {
+        case .success:
+            XCTFail()
+        case .failure(let error):
+            XCTAssertEqual(error as! NetworkError, expectedResult)
+        case .none:
+            XCTFail()
         }
     }
-
 }
