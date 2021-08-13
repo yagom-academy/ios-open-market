@@ -1,0 +1,23 @@
+//
+//  ParsingManager.swift
+//  OpenMarket
+//
+//  Created by Kim Do hyung on 2021/08/13.
+//
+
+import Foundation
+
+struct ParsingManager {
+    private let decoder = JSONDecoder()
+    private let encoder = JSONEncoder()
+    
+    func decodingData<T:Decodable>(data: Data, model: T.Type) -> T? {
+        let convertedModel = try? decoder.decode(T.self, from: data)
+        return convertedModel
+    }
+    
+    func encodingModel<T:Encodable>(model: T) -> Data? {
+        let convertedData = try? encoder.encode(model)
+        return convertedData
+    }
+}

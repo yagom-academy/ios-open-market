@@ -10,6 +10,7 @@ import XCTest
 
 class OpenMarketTests: XCTestCase {
     
+    let parsingManger = ParsingManager()
     let decoder = JSONDecoder()
     
     override func setUp() {
@@ -20,7 +21,7 @@ class OpenMarketTests: XCTestCase {
         //given
         guard let assetData = NSDataAsset.init(name: "Item") else { return }
         //when
-        let productData = try? decoder.decode(Product.self, from: assetData.data)
+        let productData = parsingManger.decodingData(data: assetData.data, model: Product.self)
         let result = productData?.title
         let expectedResult = "MacBook Pro"
         //then
@@ -31,7 +32,7 @@ class OpenMarketTests: XCTestCase {
         //given
         guard let assetData = NSDataAsset.init(name: "Items") else { return }
         //when
-        let pageData = try? decoder.decode(Page.self, from: assetData.data)
+        let pageData = parsingManger.decodingData(data: assetData.data, model: Page.self)
         let result = pageData?.products.first?.price
         let expectedResult = 1690
         //then
