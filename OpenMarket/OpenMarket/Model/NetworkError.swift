@@ -11,4 +11,5 @@ enum NetworkError: Error {
     case dataNotFound
     case invalidResponse
     case unknownError
+    case failToDecode
 }

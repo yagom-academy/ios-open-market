@@ -10,7 +10,10 @@ import Foundation
 struct JSONParser {
     let decoder = JSONDecoder()
     
-    func parse<T: Decodable>(type: T.Type, data: Data) throws -> T {
-        return try decoder.decode(type, from: data)
+    func parse<T: Decodable>(type: T.Type, data: Data) -> Result<T, Error> {
+        if let decodedData = try? decoder.decode(type, from: data) {
+            return .success(decodedData)
+        }
+        return .failure(NetworkError.failToDecode)
     }
 }

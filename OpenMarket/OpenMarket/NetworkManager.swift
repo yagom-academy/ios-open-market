@@ -37,13 +37,13 @@ class NetworkManager {
                     return
                 }
                 
-                do {
-                    let decodedData = try self.parser.parse(type: T.self, data: data)
+                let parsedResult = self.parser.parse(type: T.self, data: data)
+                
+                switch parsedResult {
+                case .success(let decodedData):
                     completion(.success(decodedData))
-                } catch let parseError as DecodingError {
-                    completion(.failure(parseError))
-                } catch {
-                    completion(.failure(NetworkError.unknownError))
+                case .failure(let error):
+                    completion(.failure(error))
                 }
             }
         task.resume()
