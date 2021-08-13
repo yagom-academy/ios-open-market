@@ -35,7 +35,7 @@ class OpenMarketTests: XCTestCase {
         // then
         switch result {
         case .failure(let error):
-            XCTAssertEqual(error as! NetworkError, expectedError)
+            XCTAssertEqual(error as? NetworkError, expectedError)
         default:
             XCTFail()
         }
@@ -101,5 +101,29 @@ class OpenMarketTests: XCTestCase {
         
         // then
         XCTAssertEqual(expectedValue, outcome)
+    }
+    
+    func test_잘못된URL을_fetchData에넣으면_에러가발생한다() throws {
+        // given
+        let urlString = "https://apple.com"
+        let url = try XCTUnwrap(URL(string: urlString))
+        let expectedError = NetworkError.invalidResponse
+        var outcome: NetworkError?
+        let expectation = XCTestExpectation(description: "Download completed.")
+        
+        // when
+        sutNetworkManager?.fetchData(url: url) { (result: Result<Page, Error>) in
+            switch result {
+            case .failure(let error):
+                outcome = error as? NetworkError
+            default:
+                XCTFail()
+            }
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 5.0)
+        
+        // then
+        XCTAssertEqual(outcome, expectedError)
     }
 }
