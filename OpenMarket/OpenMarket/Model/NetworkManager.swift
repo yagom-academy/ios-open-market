@@ -9,9 +9,12 @@ import Foundation
 
 enum NetworkError: Error {
     case urlInvalid
+    case requestError
+    case responseError
 }
 
 struct NetworkManager {
+    let session: URLSession
     typealias userInput = [String: Any]
     
     private func generateBoundary() -> String {
@@ -56,5 +59,25 @@ struct NetworkManager {
         request.httpBody = body
         
         return request
+    }
+    
+    func request(httpMethod: HTTPMethod, url: URL, body: Data?, completionHandler: @escaping (Result<Data, NetworkError>) -> ()) {
+        let request = createRequest(httpMethod: httpMethod, url: url, body: body)
+        
+        session.dataTask(with: request) { (data, response, error) in
+            guard error == nil else {
+                completionHandler(.failure(.requestError))
+                return
+            }
+            
+            guard let response = response as? HTTPURLResponse, (200...299).contains(response.statusCode) else {
+                completionHandler(.failure(.responseError))
+                return
+            }
+            
+            if let data = data {
+                completionHandler(.success(data))
+            }
+        }.resume()
     }
 }
