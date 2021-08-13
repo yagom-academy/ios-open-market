@@ -103,6 +103,30 @@ class OpenMarketTests: XCTestCase {
         XCTAssertEqual(expectedValue, outcome)
     }
     
+    func test_item슬래시1URL을_fetchData에넣으면_title이MacBookPro다() throws {
+        // given
+        let urlString = MockURL.mockItem.description
+        let url = try XCTUnwrap(URL(string: urlString))
+        let expectedValue = "MacBook Pro"
+        var outcome: String?
+        let expectation = XCTestExpectation(description: "Download completed.")
+        
+        // when
+        sutNetworkManager?.fetchData(url: url) { (result: Result<Item, Error>) in
+            switch result {
+            case .success(let data):
+                outcome = data.title
+            default:
+                XCTFail()
+            }
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 5.0)
+        
+        // then
+        XCTAssertEqual(expectedValue, outcome)
+    }
+    
     func test_잘못된URL을_fetchData에넣으면_에러가발생한다() throws {
         // given
         let urlString = "https://apple.com"
