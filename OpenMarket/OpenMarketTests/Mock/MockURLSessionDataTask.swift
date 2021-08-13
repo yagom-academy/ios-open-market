@@ -9,11 +9,7 @@ import Foundation
 @testable import OpenMarket
 
 class MockURLSessionDataTask: URLSessionDataTaskProtocol {
-    private let resumeDidCall: () -> Void
-    
-    init(resumeDidCall: @escaping () -> Void) {
-        self.resumeDidCall = resumeDidCall
-    }
+    var resumeDidCall: () -> Void = {}
     
     func resume() {
         resumeDidCall()
