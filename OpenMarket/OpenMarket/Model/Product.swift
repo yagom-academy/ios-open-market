@@ -10,13 +10,13 @@ import Foundation
 struct Product: Codable {
     var id: Int
     var title: String
-    var descriptions: String
+    var descriptions: String = ""
     var price: Int
     var currency: String
     var discountedPrice: Int?
     var stock: Int
     var thumbnails: [String]
-    var images: [String]
+    var images: [String] = []
     var registrationDate: Double
     
     enum CodingKeys: String, CodingKey {

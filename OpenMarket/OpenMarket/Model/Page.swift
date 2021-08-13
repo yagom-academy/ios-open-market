@@ -9,7 +9,7 @@ import Foundation
 
 struct Page: Codable {
   var pageNumber: Int
-  var products: [ThumbnailProduct]
+  var products: [Product]
   
   enum CodingKeys: String, CodingKey {
     case pageNumber = "page"
