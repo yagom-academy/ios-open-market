@@ -8,7 +8,7 @@
 import XCTest
 @testable import OpenMarket
 
-class OpenMarketTests: XCTestCase {
+class ProductSearchModelTests: XCTestCase {
 
     var sut: ProductSearch!
     var decoder: JSONDecoder!
@@ -28,5 +28,11 @@ class OpenMarketTests: XCTestCase {
         XCTAssertTrue((sut as Any) is Codable)
     }
 
+    func test_decoding이성공하면_error를throw하지않는다() throws {
+        let url = Bundle.main.url(forResource: "Item", withExtension: "json")!
+        data = try Data(contentsOf: url)
+        XCTAssertNoThrow(try decoder.decode(ProductSearch.self, from: data))
+    }
+    
    
 }
