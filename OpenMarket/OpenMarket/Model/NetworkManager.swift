@@ -7,6 +7,10 @@
 
 import Foundation
 
+enum NetworkError: Error {
+    case urlInvalid
+}
+
 struct NetworkManager {
     typealias userInput = [String: Any]
     
@@ -35,14 +39,22 @@ struct NetworkManager {
             for image in media {
                 body.append(boundary + lineBreak)
                 body.append("\(makeContentDispositionLine())name=\"\(image.key)\"; filename=\"\(image.fileName)\"\(lineBreak)")
-                //body.append("Content-Type: "\(image.mimeType)"")
-                //            body.append(image.data)
-                //    body.append(lineBreak)
+                body.append("Content-Type: \(image.mimeType)")
+                body.append(image.data)
+                body.append(lineBreak)
             }
         }
-
+        
         body.append("--\(boundary)--\(lineBreak)")
         
         return body
+    }
+
+    private func createRequest(httpMethod: HTTPMethod, url: URL, body: Data?) -> URLRequest {
+        var request = URLRequest(url: url)
+        request.httpMethod = String(describing: httpMethod)
+        request.httpBody = body
+        
+        return request
     }
 }
