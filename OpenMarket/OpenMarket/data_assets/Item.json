@@ -1,0 +1,17 @@
+{
+    "id": 1,
+    "title": "MacBook Pro",
+    "descriptions": "Apple M1 移⑹� 13�� MacBook Pro�� 誘우쓣 �� �놁쓣 留뚰겮�� �띾룄�� �뚯썙瑜� �좎궗�⑸땲��.\n理쒕� 2.8諛� �μ긽�� CPU �깅뒫, 理쒕� 5諛� 鍮⑤씪吏� 洹몃옒�� �띾룄, 理쒕� 11諛� 鍮⑤씪吏� 癒몄떊 �щ떇 �깅뒫�� 援ы쁽�섎뒗 理쒖꺼�� Apple �쒖옉 Neural Engine, �ш린�� 臾대젮 20�쒓컙 吏��띾릺�� Mac �ъ긽 媛��� �ㅻ옒媛��� 諛고꽣由ш퉴吏�.\n�몄옣�� Apple�� 媛��� �щ옉諛쏅뒗 �꾨줈�� �명듃遺� 洹몃�濡�, �섏�留� 洹� �λ젰�� �� 李⑥썝 �� �믪븘議뚯뒿�덈떎.",
+    "price": 1690000,
+    "currency": "KRW",
+    "stock": 1000000000000,
+    "thumbnails": [
+        "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/thumbnails/1-1.png",
+        "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/thumbnails/1-2.png"
+    ],
+    "images": [
+        "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/images/1-1.png",
+        "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/images/1-2.png"
+    ],
+    "registration_date": 1611523563.719116
+}
