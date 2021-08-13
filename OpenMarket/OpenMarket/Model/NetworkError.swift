@@ -7,6 +7,8 @@
 
 import Foundation
 
-enum APIError: Error {
+enum NetworkError: Error {
+    case dataNotFound
+    case invalidResponse
     case unknownError
 }
