@@ -78,7 +78,7 @@ class OpenMarketTests: XCTestCase {
         }
     }
     
-    func test_items슬래시1URL을_fetchData에넣으면_2번인덱스Item의title이MacMini다() throws {
+    func test_items슬래시1URL을_fetchData에넣으면_2번인덱스Item의title이Macmini다() throws {
         // given
         let urlString = MockURL.mockItems.description
         let url = try XCTUnwrap(URL(string: urlString))
@@ -100,7 +100,7 @@ class OpenMarketTests: XCTestCase {
         wait(for: [expectation], timeout: 5.0)
         
         // then
-        XCTAssertEqual(expectedValue, outcome)
+        XCTAssertEqual(outcome, expectedValue)
     }
     
     func test_item슬래시1URL을_fetchData에넣으면_title이MacBookPro다() throws {
@@ -124,7 +124,7 @@ class OpenMarketTests: XCTestCase {
         wait(for: [expectation], timeout: 5.0)
         
         // then
-        XCTAssertEqual(expectedValue, outcome)
+        XCTAssertEqual(outcome, expectedValue)
     }
     
     func test_잘못된URL을_fetchData에넣으면_에러가발생한다() throws {
