@@ -21,7 +21,7 @@ struct ProductSearch: Codable {
     
     enum CodingKeys: String, CodingKey  {
         case id, title, price, currency, stock, thumbnails, descriptions, images
-       // case discountedPrice = "discounted_price"
+        case discountedPrice = "discounted_price"
         case registrationDate = "registration_date"
     }
 }

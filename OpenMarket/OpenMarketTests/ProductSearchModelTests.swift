@@ -2,7 +2,7 @@
 //  OpenMarketTests.swift
 //  OpenMarketTests
 //
-//  Created by 이예원 on 2021/08/11.
+//  Created by Charlotte, Hosinging on 2021/08/11.
 //
 
 import XCTest
@@ -34,5 +34,4 @@ class ProductSearchModelTests: XCTestCase {
         XCTAssertNoThrow(try decoder.decode(ProductSearch.self, from: data))
     }
     
-   
 }

@@ -2,7 +2,7 @@
 //  ProductListSearchModelTests.swift
 //  OpenMarketTests
 //
-//  Created by Theo on 2021/08/13.
+//  Created by Charlotte, Hosinging on 2021/08/13.
 //
 
 import XCTest
