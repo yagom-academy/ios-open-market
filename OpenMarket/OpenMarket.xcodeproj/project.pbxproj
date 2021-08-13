@@ -16,6 +16,7 @@
 		C9D4E37026C2AC8A00FD5E43 /* Products.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D4E36F26C2AC8A00FD5E43 /* Products.swift */; };
 		C9D4E3B926C5229500FD5E43 /* ParsingError.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D4E3B826C5229500FD5E43 /* ParsingError.swift */; };
 		C9D4E3C226C52B3200FD5E43 /* OpenMarketTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D4E3C126C52B3200FD5E43 /* OpenMarketTests.swift */; };
+		C9D4E3CA26C6414000FD5E43 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D4E3C926C6414000FD5E43 /* NetworkManager.swift */; };
 		E698CB9226C2A0CE00404AF0 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = E698CB9126C2A0CE00404AF0 /* Product.swift */; };
 		E698CB9526C2C0E100404AF0 /* ParsingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E698CB9426C2C0E100404AF0 /* ParsingManager.swift */; };
 /* End PBXBuildFile section */
@@ -44,6 +45,7 @@
 		C9D4E3BF26C52B3200FD5E43 /* OpenMarketTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenMarketTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9D4E3C126C52B3200FD5E43 /* OpenMarketTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketTests.swift; sourceTree = "<group>"; };
 		C9D4E3C326C52B3200FD5E43 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C9D4E3C926C6414000FD5E43 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		E698CB9126C2A0CE00404AF0 /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
 		E698CB9426C2C0E100404AF0 /* ParsingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParsingManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -131,6 +133,7 @@
 			isa = PBXGroup;
 			children = (
 				E698CB9426C2C0E100404AF0 /* ParsingManager.swift */,
+				C9D4E3C926C6414000FD5E43 /* NetworkManager.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -239,6 +242,7 @@
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
 				E698CB9226C2A0CE00404AF0 /* Product.swift in Sources */,
 				C9D4E3B926C5229500FD5E43 /* ParsingError.swift in Sources */,
+				C9D4E3CA26C6414000FD5E43 /* NetworkManager.swift in Sources */,
 				C9D4E37026C2AC8A00FD5E43 /* Products.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
