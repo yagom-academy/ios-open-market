@@ -27,7 +27,7 @@ class MockURLSession: URLSessionProtocol {
         let data = MockURL.obtainData(of: url)
         let response = (data == nil) ? failureResponse : successResponse
         sessionDataTask.resumeDidCall = {
-            completionHandler(nil, response, nil)
+            completionHandler(data, response, nil)
         }
         return sessionDataTask
     }

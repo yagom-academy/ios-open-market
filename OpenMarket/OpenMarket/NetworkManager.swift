@@ -16,6 +16,7 @@ class NetworkManager {
         self.parser = parser
     }
     
+    // TODO: - URL의 형식에 따라 타입을 결정해주는 로직
     func fetchData<T: Decodable>(url: URL, completion: @escaping (Result<T, Error>) -> Void) {
         let request = URLRequest(url: url)
         
