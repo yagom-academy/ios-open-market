@@ -5,11 +5,14 @@
 //  Created by Dasoll Park on 2021/08/13.
 //
 
-import Foundation
+import UIKit
 @testable import OpenMarket
 
 class MockURLSession: URLSessionProtocol {
-    func dataTaskWithRequest(with request: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTaskProtocol {
+    func dataTaskWithRequest(with request: URLRequest,
+                             completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void)
+    -> URLSessionDataTaskProtocol
+    {
         let url = request.url ?? URL(string: "")!
         let successResponse = HTTPURLResponse(url: url,
                                               statusCode: 200,
@@ -19,21 +22,13 @@ class MockURLSession: URLSessionProtocol {
                                               statusCode: 404,
                                               httpVersion: "2",
                                               headerFields: nil)
-        let sessionDataTask = MockURLSessionDataTask()
         
-        guard let data = obtainData(of: url) else {
-            sessionDataTask.resumeDidCall = {
-                completionHandler(nil, failureResponse, nil)
-            }
-            return sessionDataTask
-        }
+        let sessionDataTask = MockURLSessionDataTask()
+        let data = MockURL.obtainData(of: url)
+        let response = (data == nil) ? failureResponse : successResponse
         sessionDataTask.resumeDidCall = {
-            completionHandler(data, successResponse, nil)
+            completionHandler(nil, response, nil)
         }
         return sessionDataTask
-    }
-    
-    func obtainData(of url: URL) -> Data? {
-        return Data()
     }
 }

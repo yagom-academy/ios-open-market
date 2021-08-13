@@ -25,6 +25,7 @@
 		D412A97F26C3A5F300E3E639 /* URLSessionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D412A97E26C3A5F300E3E639 /* URLSessionProtocol.swift */; };
 		D412A98326C3B01500E3E639 /* ItemAPIProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = D412A98226C3B01500E3E639 /* ItemAPIProvider.swift */; };
 		D412A98626C3B37C00E3E639 /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D412A98526C3B37C00E3E639 /* APIError.swift */; };
+		D460FFB026C6393E0004BE3F /* MockURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = D460FFAF26C6393E0004BE3F /* MockURL.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,6 +61,7 @@
 		D412A97E26C3A5F300E3E639 /* URLSessionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionProtocol.swift; sourceTree = "<group>"; };
 		D412A98226C3B01500E3E639 /* ItemAPIProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemAPIProvider.swift; sourceTree = "<group>"; };
 		D412A98526C3B37C00E3E639 /* APIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
+		D460FFAF26C6393E0004BE3F /* MockURL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURL.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,6 +111,7 @@
 			children = (
 				794CC8DB26C3BECA005161F4 /* MockURLSessionDataTask.swift */,
 				7999574326C6302600192720 /* MockURLSession.swift */,
+				D460FFAF26C6393E0004BE3F /* MockURL.swift */,
 			);
 			path = Mock;
 			sourceTree = "<group>";
@@ -257,6 +260,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7999574426C6302600192720 /* MockURLSession.swift in Sources */,
+				D460FFB026C6393E0004BE3F /* MockURL.swift in Sources */,
 				794CC8DC26C3BECA005161F4 /* MockURLSessionDataTask.swift in Sources */,
 				794CC8D126C3BC84005161F4 /* OpenMarketTests.swift in Sources */,
 			);
