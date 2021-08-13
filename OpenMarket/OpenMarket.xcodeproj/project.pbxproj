@@ -19,6 +19,7 @@
 		C9D4E3CA26C6414000FD5E43 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D4E3C926C6414000FD5E43 /* NetworkManager.swift */; };
 		E698CB9226C2A0CE00404AF0 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = E698CB9126C2A0CE00404AF0 /* Product.swift */; };
 		E698CB9526C2C0E100404AF0 /* ParsingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E698CB9426C2C0E100404AF0 /* ParsingManager.swift */; };
+		E6B00F5426C66C6400A1B371 /* OpenMarketAPIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6B00F5326C66C6400A1B371 /* OpenMarketAPIConstants.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +49,7 @@
 		C9D4E3C926C6414000FD5E43 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		E698CB9126C2A0CE00404AF0 /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
 		E698CB9426C2C0E100404AF0 /* ParsingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParsingManager.swift; sourceTree = "<group>"; };
+		E6B00F5326C66C6400A1B371 /* OpenMarketAPIConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketAPIConstants.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,6 +109,7 @@
 			isa = PBXGroup;
 			children = (
 				C9D4E3B826C5229500FD5E43 /* ParsingError.swift */,
+				E6B00F5326C66C6400A1B371 /* OpenMarketAPIConstants.swift */,
 			);
 			path = Enumeration;
 			sourceTree = "<group>";
@@ -241,6 +244,7 @@
 				E698CB9526C2C0E100404AF0 /* ParsingManager.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
 				E698CB9226C2A0CE00404AF0 /* Product.swift in Sources */,
+				E6B00F5426C66C6400A1B371 /* OpenMarketAPIConstants.swift in Sources */,
 				C9D4E3B926C5229500FD5E43 /* ParsingError.swift in Sources */,
 				C9D4E3CA26C6414000FD5E43 /* NetworkManager.swift in Sources */,
 				C9D4E37026C2AC8A00FD5E43 /* Products.swift in Sources */,

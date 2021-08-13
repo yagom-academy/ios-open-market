@@ -8,18 +8,18 @@
 import Foundation
 
 struct NetworkManager {
-    private let rangeOfSuccessState = 200...299
-    private let baseURL = "https://camp-open-market-2.herokuapp.com/"
     
     func lookUpList(on pageNum: Int, completionHandler: @escaping (Result<Data, Error>) -> Void) {
-        let searchURL = baseURL + "/items/\(pageNum)"
-        guard let url = URL(string: searchURL) else {
+        let methodForm = OpenMarketAPIConstants.listGet
+        guard let url = URL(string: methodForm.path + "\(pageNum)") else {
             return
         }
         var urlRequest = URLRequest(url: url)
-        urlRequest.httpMethod = "GET"
+        urlRequest.httpMethod = methodForm.method
         URLSession.shared.dataTask(with: urlRequest) { data, response, error in
-            if let response = response as? HTTPURLResponse, rangeOfSuccessState.contains(response.statusCode), let data = data {
+            if let response = response as? HTTPURLResponse,
+               OpenMarketAPIConstants.rangeOfSuccessState.contains(response.statusCode),
+               let data = data {
                 DispatchQueue.main.async {
                     completionHandler(.success(data))
                 }
