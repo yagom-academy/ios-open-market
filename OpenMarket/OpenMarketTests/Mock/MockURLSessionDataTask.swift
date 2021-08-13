@@ -8,7 +8,7 @@
 import Foundation
 @testable import OpenMarket
 
-class MockURLSessionDataTask: URLSessionDataTaskProtocol {
+struct MockURLSessionDataTask: URLSessionDataTaskProtocol {
     var resumeDidCall: () -> Void = {}
     
     func resume() {

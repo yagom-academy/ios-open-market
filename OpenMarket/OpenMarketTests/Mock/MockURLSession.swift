@@ -8,7 +8,7 @@
 import UIKit
 @testable import OpenMarket
 
-class MockURLSession: URLSessionProtocol {
+struct MockURLSession: URLSessionProtocol {
     func dataTaskWithRequest(with request: URLRequest,
                              completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void)
     -> URLSessionDataTaskProtocol
@@ -23,7 +23,7 @@ class MockURLSession: URLSessionProtocol {
                                               httpVersion: "2",
                                               headerFields: nil)
         
-        let sessionDataTask = MockURLSessionDataTask()
+        var sessionDataTask = MockURLSessionDataTask()
         let data = MockURL.obtainData(of: url)
         let response = (data == nil) ? failureResponse : successResponse
         sessionDataTask.resumeDidCall = {

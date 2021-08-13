@@ -7,7 +7,7 @@
 
 import Foundation
 
-class NetworkManager {
+struct NetworkManager {
     let session: URLSessionProtocol
     let parser: JSONParser
     
