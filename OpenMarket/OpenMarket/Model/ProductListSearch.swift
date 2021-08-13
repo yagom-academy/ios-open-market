@@ -18,7 +18,7 @@ struct Product: Codable, ProductProtocol {
     var price: Int
     var currency: String
     var stock: Int
-    var discountedPrice: Int
+    var discountedPrice: Int?
     var thumbnails: [String]
     var registrationDate: Double
     

@@ -15,7 +15,7 @@ struct ProductDelete: Codable, ContainDescriptionProductProtocol {
     var price: Int
     var currency: String
     var stock: Int
-    var discountedPrice: Int
+    var discountedPrice: Int?
     var thumbnails: [String]
     var registrationDate: Double
     
