@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		3F1E3E8C26C6639E005CFE74 /* ParsingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1E3E8B26C6639E005CFE74 /* ParsingManager.swift */; };
+		3F1E3EB126CA6258005CFE74 /* URLSessionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1E3EB026CA6258005CFE74 /* URLSessionTests.swift */; };
+		3F1E3EB526CA62B2005CFE74 /* MockURLProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1E3EB426CA62B2005CFE74 /* MockURLProtocol.swift */; };
 		3F57510A26C2465000388390 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F57510926C2465000388390 /* Product.swift */; };
 		3F57511726C24BF100388390 /* OpenMarketTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F57511626C24BF100388390 /* OpenMarketTests.swift */; };
 		7537D64026C6601E00BE09BC /* PostItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7537D63F26C6601E00BE09BC /* PostItem.swift */; };
@@ -35,6 +37,8 @@
 
 /* Begin PBXFileReference section */
 		3F1E3E8B26C6639E005CFE74 /* ParsingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParsingManager.swift; sourceTree = "<group>"; };
+		3F1E3EB026CA6258005CFE74 /* URLSessionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionTests.swift; sourceTree = "<group>"; };
+		3F1E3EB426CA62B2005CFE74 /* MockURLProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLProtocol.swift; sourceTree = "<group>"; };
 		3F57510926C2465000388390 /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
 		3F57511426C24BF100388390 /* OpenMarketTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenMarketTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F57511626C24BF100388390 /* OpenMarketTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketTests.swift; sourceTree = "<group>"; };
@@ -108,6 +112,8 @@
 			children = (
 				3F57511626C24BF100388390 /* OpenMarketTests.swift */,
 				3F57511826C24BF100388390 /* Info.plist */,
+				3F1E3EB026CA6258005CFE74 /* URLSessionTests.swift */,
+				3F1E3EB426CA62B2005CFE74 /* MockURLProtocol.swift */,
 			);
 			path = OpenMarketTests;
 			sourceTree = "<group>";
@@ -252,6 +258,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3F1E3EB526CA62B2005CFE74 /* MockURLProtocol.swift in Sources */,
+				3F1E3EB126CA6258005CFE74 /* URLSessionTests.swift in Sources */,
 				3F57511726C24BF100388390 /* OpenMarketTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

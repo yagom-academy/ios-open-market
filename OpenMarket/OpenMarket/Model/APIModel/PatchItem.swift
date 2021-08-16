@@ -13,7 +13,7 @@ struct PatchItem: Codable {
   var price: Int?
   var currency: String?
   var stock: Int?
-  var dicountedPrice: Int?
+  var discountedPrice: Int?
   var images: [Data]?
   var password: String
   
@@ -23,7 +23,7 @@ struct PatchItem: Codable {
     case descriptions
     case price
     case currency
-    case dicountedPrice = "discounted_price"
+    case discountedPrice = "discounted_price"
     case stock
     case images
     case password
