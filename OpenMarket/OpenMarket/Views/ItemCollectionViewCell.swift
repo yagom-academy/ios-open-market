@@ -13,4 +13,15 @@ class ItemCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var itemPriceLabel: UILabel!
     @IBOutlet weak var itemDiscountedPriceLabel: UILabel!
     @IBOutlet weak var itemStockLabel: UILabel!
+
+    func configureLabels(on marketItem: MarketPageItem) {
+        itemTitleLabel.text = marketItem.title
+        itemPriceLabel.text = "\(marketItem.price)"
+        if let discountedPrice = marketItem.discountedPrice {
+            itemDiscountedPriceLabel.text = "\(discountedPrice)"
+        } else {
+            itemDiscountedPriceLabel.text = nil
+        }
+        itemStockLabel.text = marketItem.stock == .zero ? "품절" : "잔여수량 : \(marketItem.stock)"
+    }
 }
