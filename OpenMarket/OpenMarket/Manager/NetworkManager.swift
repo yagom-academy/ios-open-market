@@ -34,4 +34,31 @@ struct NetworkManager {
             }
         }.resume()
     }
+    
+    func generateBoundary() -> String {
+        return UUID().uuidString
+    }
+    
+    func createDataBody(with parameters: [String: Any],and medias: [Media]?,separatedInto boundary: String) -> Data {
+        let linebreak = "\r\n"
+        var body = Data()
+        
+        for (key, value) in parameters {
+            body.append("--\(boundary + linebreak)")
+            body.append("Content-Disposition: form-data; name=\"\(key)\"\(linebreak + linebreak)")
+            body.append("\(value)\(linebreak)")
+        }
+        
+        if let medias = medias {
+            for media in medias {
+                body.append("--\(boundary + linebreak)")
+                body.append("Content-Disposition: form-data; name=\"\(media.key)\"; filename=\(media.fileName)\"\(linebreak)")
+                body.append("Content-Type: \(media.mimeType + linebreak + linebreak)")
+                body.append(media.data)
+                body.append(linebreak)
+            }
+        }
+        body.append("--\(boundary)--\(linebreak)")
+        return body
+    }
 }
