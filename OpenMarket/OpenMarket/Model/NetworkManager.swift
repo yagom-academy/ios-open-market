@@ -21,27 +21,38 @@ struct NetworkManager {
         return "--Boundary\(UUID().uuidString)"
     }
     
-    private func makeContentDispositionLine() -> String {
-        return "Content-Disposition: form-data; "
+    private func makeContentDispositionLine(contentType: ContentType) -> String {
+        return "Content-Disposition: \(contentType); "
     }
     
-    private func createHTTPBody(with parameters: userInput?, media: [Media]?) -> Data? {
+    private func createHTTPBody(contentType: ContentType, with parameters: userInput?, media: [Media]?) -> Data? {
         let boundary = generateBoundary()
         let lineBreak = "\r\n"
         var body = Data()
         
-        if let parameters = parameters {
-            for (key, value) in parameters {
-                body.append(boundary + lineBreak)
-                body.append("\(makeContentDispositionLine())name=\"\(key)\"\(lineBreak)")
-                body.append("\(value) + \(lineBreak)")
+        switch contentType {
+        case .multipart:
+            if let parameters = parameters {
+                for (key, value) in parameters {
+                    body.append(boundary + lineBreak)
+                    body.append("\(makeContentDispositionLine(contentType: .multipart))name=\"\(key)\"\(lineBreak)")
+                    body.append("\(value) + \(lineBreak)")
+                }
+            }
+        case .json:
+            if let parameters = parameters {
+                for (key, value) in parameters {
+                    body.append(boundary + lineBreak)
+                    body.append("\(makeContentDispositionLine(contentType: .json))\(lineBreak)")
+                    body.append("\(value) + \(lineBreak)")
+                }
             }
         }
-        
+
         if let media = media {
             for image in media {
                 body.append(boundary + lineBreak)
-                body.append("\(makeContentDispositionLine())name=\"\(image.key)\"; filename=\"\(image.fileName)\"\(lineBreak)")
+                body.append("\(makeContentDispositionLine(contentType: .multipart))name=\"\(image.key)\"; filename=\"\(image.fileName)\"\(lineBreak)")
                 body.append("Content-Type: \(image.mimeType)")
                 body.append(image.data)
                 body.append(lineBreak)
@@ -57,7 +68,6 @@ struct NetworkManager {
         var request = URLRequest(url: url)
         request.httpMethod = String(describing: httpMethod)
         request.httpBody = body
-        
         return request
     }
     

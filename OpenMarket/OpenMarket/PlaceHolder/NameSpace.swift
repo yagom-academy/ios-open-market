@@ -23,11 +23,13 @@ enum MimeType: CustomStringConvertible {
 
 enum ContentType: CustomStringConvertible {
     case multipart
-    
+    case json
     var description: String {
         switch self {
         case .multipart:
             return "multipart/form-data"
+        case .json:
+            return "aplications/json"
         }
     }
 }
