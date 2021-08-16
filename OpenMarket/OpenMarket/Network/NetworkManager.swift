@@ -9,10 +9,11 @@ import Foundation
 typealias parameters = [String: Any]
 
 class NetworkManager {
-    func getItems() {
-        guard let url = URL(string: "https://camp-open-market-2.herokuapp.com/items/1") else { return }
+    
+    func getItems(page: String) {
+        guard let url = URL(string: ApiFormat.getItems.path + page) else { return }
         var request = URLRequest(url: url)
-        request.httpMethod = "GET"
+        request.httpMethod = ApiFormat.getItems.method
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
         let session = URLSession.shared
@@ -34,12 +35,12 @@ class NetworkManager {
     func postItem(item: PostItemData) {
         let parameters = item.parameter()
         guard let mediaImage = Media(withImage: #imageLiteral(resourceName: "핑구1"), forKey: "images[]") else { return }
-        guard let url = URL(string: "https://camp-open-market-2.herokuapp.com/item") else { return }
+        guard let url = URL(string: ApiFormat.post.path) else { return }
         
         let boundary = generateBoundary()
         
         var request = URLRequest(url: url)
-        request.httpMethod = "POST"
+        request.httpMethod = ApiFormat.post.method
         request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
         
         let dataBody = createDataBody(withParameters: parameters, media: [mediaImage], boundary: boundary)
