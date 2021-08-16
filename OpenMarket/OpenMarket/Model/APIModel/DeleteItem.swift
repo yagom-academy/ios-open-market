@@ -7,6 +7,6 @@
 
 import Foundation
 
-struct DeleteItem: Codable {
+struct DeleteItem: APIModelProtocol {
   var password: String
 }

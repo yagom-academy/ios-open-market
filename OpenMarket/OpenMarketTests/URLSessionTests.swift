@@ -38,11 +38,11 @@ class URLSessionTests: XCTestCase {
         dummyPostItem = PostItem(title: title,
                                  descriptions: descriptions,
                                  price: price,
-                                 currency: currency, stock: stock, dicountedPrice: nil,
+                                 currency: currency, stock: stock, discountedPrice: nil,
                                  images: images, password: password)
         
         dummyPatchItem = PatchItem(title: nil, descriptions: nil, price: nil,
-                                   currency: nil, stock: nil, dicountedPrice: nil,
+                                   currency: nil, stock: nil, discountedPrice: nil,
                                    images: nil, password: password)
         
         dummyDeleteItem = DeleteItem(password: password)

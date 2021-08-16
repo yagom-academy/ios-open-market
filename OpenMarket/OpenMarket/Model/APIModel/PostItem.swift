@@ -7,14 +7,26 @@
 
 import Foundation
 
-struct PostItem: Codable {
+struct PostItem: MultiPartFormProtocol {
+  var textField: [String: String?] {
+    let text: [String: String?] =
+      ["title": title,
+       "descriptions": descriptions,
+       "price": price.description,
+       "currency": currency,
+       "stock": stock.description,
+       "discountedPrice": discountedPrice?.description,
+       "password": password]
+    return text
+  }
+  
   var title: String
   var descriptions: String
   var price: Int
   var currency: String
   var stock: Int
   var discountedPrice: Int?
-  var images: [Data]
+  var images: [Data]?
   var password: String
   
   

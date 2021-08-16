@@ -7,7 +7,20 @@
 
 import Foundation
 
-struct PatchItem: Codable {
+struct PatchItem: MultiPartFormProtocol {
+
+  var textField: [String: String?] {
+    let text: [String: String?] =
+      ["title": title,
+       "descriptions": descriptions,
+       "price": price?.description,
+       "currency": currency,
+       "stock": stock?.description,
+       "discountedPrice": discountedPrice?.description,
+       "password": password]
+    return text
+  }
+  
   var title: String?
   var descriptions: String?
   var price: Int?
