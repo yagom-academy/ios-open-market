@@ -10,7 +10,7 @@ typealias parameters = [String: Any]
 
 class NetworkManager {
     func getItems(page: String) {
-        guard let url = URL(string: ApiFormat.getItems.path + page) else { return }
+        guard let url = URL(string: ApiFormat.getItems.url + page) else { return }
         var request = URLRequest(url: url)
         request.httpMethod = ApiFormat.getItems.method
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -31,7 +31,7 @@ class NetworkManager {
     }
     
     func getItem(id: String) {
-        guard let url = URL(string: ApiFormat.getItem.path + id) else { return }
+        guard let url = URL(string: ApiFormat.getItem.url + id) else { return }
         var request = URLRequest(url: url)
         request.httpMethod = ApiFormat.getItem.method
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -54,7 +54,7 @@ class NetworkManager {
     func postItem(item: PostItemData) {
         let parameters = item.parameter()
         guard let mediaImage = Media(withImage: #imageLiteral(resourceName: "1f363"), forKey: "images[]") else { return }
-        guard let url = URL(string: ApiFormat.post.path) else { return }
+        guard let url = URL(string: ApiFormat.post.url) else { return }
         
         let boundary = generateBoundary()
         
@@ -91,7 +91,7 @@ class NetworkManager {
     func patchItem(item: PatchItemData, id: String) {
         let parameters = item.parameter()
         guard let mediaImage = Media(withImage: #imageLiteral(resourceName: "test2"), forKey: "images[]") else { return }
-        guard let url = URL(string: ApiFormat.patch.path + id) else { return }
+        guard let url = URL(string: ApiFormat.patch.url + id) else { return }
         
         let boundary = generateBoundary()
         
@@ -126,7 +126,7 @@ class NetworkManager {
     }
     
     func deleteItem(id: String, password: String) {
-        guard let url = URL(string: ApiFormat.delete.path + id) else { return }
+        guard let url = URL(string: ApiFormat.delete.url + id) else { return }
         var request = URLRequest(url: url)
         request.httpMethod = ApiFormat.delete.method
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")

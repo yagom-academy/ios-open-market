@@ -16,7 +16,7 @@ enum ApiFormat {
     
     static let baseUrl = "https://camp-open-market-2.herokuapp.com/"
 
-    var path: String {
+    var url: String {
         switch self {
         case .getItems:
             return Self.baseUrl + "items/"
