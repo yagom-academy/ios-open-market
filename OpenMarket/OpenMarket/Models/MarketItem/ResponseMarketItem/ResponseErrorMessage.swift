@@ -2,7 +2,7 @@
 //  ResponseErrorMessage.swift
 //  OpenMarket
 //
-//  Created by YongHoon JJo on 2021/08/13.
+//  Created by Jost, 잼킹 on 2021/08/13.
 //
 
 import Foundation
