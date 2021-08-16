@@ -9,11 +9,8 @@ import UIKit
 
 struct Photo: Media {
     var key: String
-    
     var fileName: String
-    
     var contentType: MimeType
-    
     var data: Data
     
     init?(key: String, fileName: String, contentType: MimeType, source: UIImage) {
@@ -23,8 +20,15 @@ struct Photo: Media {
         
         switch contentType {
         case .pngImage:
-            <#code#>
+            guard let data = source.pngData() else {
+                return nil
+            }
+            self.data = data
         case .jpegImage:
+            guard let data = source.jpegData(compressionQuality: 0.7) else {
+                return nil
+            }
+            self.data = data
         default:
             return nil
         }
