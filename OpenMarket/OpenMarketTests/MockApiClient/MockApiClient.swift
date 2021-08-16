@@ -6,6 +6,7 @@
 //
 
 import Foundation
+@testable import OpenMarket
 
 class MockApiClient: Api, JSONDecodable {
     private static let delay = 1
