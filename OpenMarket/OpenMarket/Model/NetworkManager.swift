@@ -41,27 +41,45 @@ class NetworkManager {
         self.session = session
     }
     
-    func requestGet(url: String, completion: @escaping URLSessionResult) {
+    func request(requsetType: RequestType, url: String, model: Data?, completion: @escaping URLSessionResult) {
+        
         guard let url = URL(string: url) else {
-            return completion(.failure(.invalidURL))
+            return completion(.failure(NetworkError.invalidURL))
         }
+        
         var request = URLRequest(url: url)
-        request.httpMethod = RequestType.get.method
+        
+        switch requsetType {
+        case .get:
+            request.httpMethod = requsetType.method
+        case .patch, .post:
+            request.httpMethod = requsetType.method
+            guard let model = model else { return }
+            request.httpBody = model
+        case .delete:
+            request.httpMethod = requsetType.method
+            guard let model = model else { return }
+            request.httpBody = model
+            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        }
+        
         session.dataTask(with: request) { data, response, error in
             guard error == nil else {
-                return completion(.failure(.unownedError))
+                completion(.failure(NetworkError.unownedError))
+                return
             }
             
             guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
-                return completion(.failure(.failResponse))
+                completion(.failure(NetworkError.failResponse))
+                return
             }
             
             guard let data = data else {
-                return completion(.failure(.invalidData))
+                completion(.failure(NetworkError.invalidData))
+                return
             }
-            
             completion(.success(data))
-        }.resume()
+        } .resume()
     }
 }
 

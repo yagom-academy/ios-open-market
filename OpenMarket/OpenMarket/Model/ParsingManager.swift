@@ -8,6 +8,7 @@
 import Foundation
 
 struct ParsingManager {
+    let boundary = "Boundary-\(UUID().uuidString)"
     private let decoder = JSONDecoder()
     private let encoder = JSONEncoder()
     
@@ -22,62 +23,75 @@ struct ParsingManager {
     }
 }
 
-extension NetworkManager {
-  
-  private func generateBoundaryString() -> String {
-    return "Boundary-\(UUID().uuidString)"
-  }
-  
-  private func createDataBody<T: APIModelProtocol>(model: T) -> Data? {
-    var body = Data()
+//post patch delete
+
+extension ParsingManager {
     
-    if let model = model as? MultiPartFormProtocol {
-      for (key, value) in model.textField {
-        body.append(convertTextField(key: key, value: value ?? ""))
-      }
-      guard let modelImages = model.images else { return nil }
-      for image in modelImages {
-        body.append(convertFileField(key: "images[]", source: "image", mimeType: "image/jpeg", value: image))
-      }
-      body.append(generateBoundaryString())
-    } else {
-      let parsingManager = ParsingManager()
-      if let data = parsingManager.encodingModel(model: model) {
-        body = data
-      }
+    private func generateBoundaryString() -> String {
+        return "Boundary-\(UUID().uuidString)"
     }
-    return body
-  }
-  
-  private func convertFileField(key: String, source: String, mimeType: String, value: Data) -> Data {
-    let lineBreak = "\r\n"
-    var dataField = Data()
     
-    dataField.append("--\(generateBoundaryString())\(lineBreak)")
-    dataField.append("Content-Disposition: form-data; name=\"\(key)\"; filename=\"\(source)\"\(lineBreak)")
-    dataField.append("Content-Type: \"\(mimeType)\"\(lineBreak)\(lineBreak)")
-    dataField.append(value)
-    dataField.append("\(lineBreak)")
+    func createDataBody<T: APIModelProtocol>(model: T) -> Data? {
+        var body = Data()
+        let lineBreak = "\r\n"
+        
+        if let model = model as? MultiPartFormProtocol {
+            for (key, value) in model.textField {
+                body.append(convertTextField(key: key, value: value ?? ""))
+            }
+            guard let modelImages = model.images else { return nil }
+            for image in modelImages {
+                body.append(convertFileField(key: "images[]", source: "image", mimeType: "image/jpeg", value: image))
+            }
+            body.append("--\(generateBoundaryString())--\(lineBreak)")
+        } else {
+            if let data = encodingModel(model: model) {
+                body = data
+            }
+        }
+        return body
+    }
     
-    return dataField
-  }
-  
-  private func convertTextField(key: String, value: String) -> String {
-    let lineBreak = "\r\n"
-    var textField: String = "--\(generateBoundaryString())\(lineBreak)"
+    private func convertFileField(key: String, source: String, mimeType: String, value: Data) -> Data {
+        let lineBreak = "\r\n"
+        var dataField = Data()
+        
+        
+        dataField.append("--\(boundary + lineBreak)")
+        dataField.append("Content-Disposition: form-data; name=\"\(key)\"; filename=\"\(source)\"\(lineBreak)")
+        dataField.append("Content-Type: \(mimeType + lineBreak + lineBreak)")
+        dataField.append(value)
+        dataField.append(lineBreak)
+//        dataField.append("--\(generateBoundaryString())\(lineBreak)")
+//        dataField.append("Content-Disposition: form-data; name=\"\(key)\"; filename=\"\(source)\"\(lineBreak)")
+//        dataField.append("Content-Type: \"\(mimeType)\"\(lineBreak)\(lineBreak)")
+//        dataField.append(value)
+//        dataField.append("\(lineBreak)")
+        
+        return dataField
+    }
     
-    textField.append("Content-Disposition: form-data; name=\"\(key)\"\(lineBreak)")
-    textField.append("\(lineBreak)")
-    textField.append("\(value)\(lineBreak)")
-    
-    return textField
-  }
+    private func convertTextField(key: String, value: String) -> Data {
+        let lineBreak = "\r\n"
+        var textField = Data()
+        
+        
+        textField.append("--\(boundary + lineBreak)")
+        textField.append("Content-Disposition: form-data; name=\"\(key)\"\(lineBreak + lineBreak)")
+        textField.append("\(value)\(lineBreak)")
+//        textField.append("--\(generateBoundaryString())\(lineBreak)")
+//        textField.append("Content-Disposition: form-data; name=\"\(key)\"\(lineBreak)")
+//        textField.append("\(lineBreak)")
+//        textField.append("\(value)\(lineBreak)")
+        
+        return textField
+    }
 }
 
 extension Data {
-  mutating func append(_ string: String) {
-    if let data = string.data(using: .utf8) {
-      append(data)
+    mutating func append(_ string: String) {
+        if let data = string.data(using: .utf8) {
+            append(data)
+        }
     }
-  }
 }
