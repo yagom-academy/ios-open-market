@@ -18,6 +18,8 @@
 		C9D4E3B926C5229500FD5E43 /* ParsingError.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D4E3B826C5229500FD5E43 /* ParsingError.swift */; };
 		C9D4E3C226C52B3200FD5E43 /* OpenMarketTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D4E3C126C52B3200FD5E43 /* OpenMarketTests.swift */; };
 		C9D4E3CA26C6414000FD5E43 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D4E3C926C6414000FD5E43 /* NetworkManager.swift */; };
+		E689FBFA26CAC49200697E75 /* Media.swift in Sources */ = {isa = PBXBuildFile; fileRef = E689FBF926CAC49200697E75 /* Media.swift */; };
+		E689FBFC26CAC55200697E75 /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = E689FBFB26CAC55200697E75 /* Photo.swift */; };
 		E698CB9226C2A0CE00404AF0 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = E698CB9126C2A0CE00404AF0 /* Product.swift */; };
 		E698CB9526C2C0E100404AF0 /* ParsingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E698CB9426C2C0E100404AF0 /* ParsingManager.swift */; };
 		E6B00F5426C66C6400A1B371 /* OpenMarketAPIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6B00F5326C66C6400A1B371 /* OpenMarketAPIConstants.swift */; };
@@ -50,6 +52,8 @@
 		C9D4E3C126C52B3200FD5E43 /* OpenMarketTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketTests.swift; sourceTree = "<group>"; };
 		C9D4E3C326C52B3200FD5E43 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C9D4E3C926C6414000FD5E43 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		E689FBF926CAC49200697E75 /* Media.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Media.swift; sourceTree = "<group>"; };
+		E689FBFB26CAC55200697E75 /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
 		E698CB9126C2A0CE00404AF0 /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
 		E698CB9426C2C0E100404AF0 /* ParsingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParsingManager.swift; sourceTree = "<group>"; };
 		E6B00F5326C66C6400A1B371 /* OpenMarketAPIConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketAPIConstants.swift; sourceTree = "<group>"; };
@@ -95,6 +99,7 @@
 		C70FB0F925BEF61C00C9924E /* OpenMarket */ = {
 			isa = PBXGroup;
 			children = (
+				E689FBF826CAC47E00697E75 /* Protocol */,
 				C9D4E3BA26C523AB00FD5E43 /* Enumeration */,
 				E698CB9326C2C08B00404AF0 /* Manager */,
 				E698CB9026C2A09600404AF0 /* DataStructure */,
@@ -128,12 +133,21 @@
 			path = OpenMarketTests;
 			sourceTree = "<group>";
 		};
+		E689FBF826CAC47E00697E75 /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				E689FBF926CAC49200697E75 /* Media.swift */,
+			);
+			path = Protocol;
+			sourceTree = "<group>";
+		};
 		E698CB9026C2A09600404AF0 /* DataStructure */ = {
 			isa = PBXGroup;
 			children = (
 				E698CB9126C2A0CE00404AF0 /* Product.swift */,
 				C9D4E36F26C2AC8A00FD5E43 /* Products.swift */,
 				E6B00F5526C6944700A1B371 /* MarketPost.swift */,
+				E689FBFB26CAC55200697E75 /* Photo.swift */,
 			);
 			path = DataStructure;
 			sourceTree = "<group>";
@@ -249,9 +263,11 @@
 			files = (
 				E698CB9526C2C0E100404AF0 /* ParsingManager.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
+				E689FBFA26CAC49200697E75 /* Media.swift in Sources */,
 				E698CB9226C2A0CE00404AF0 /* Product.swift in Sources */,
 				E6B00F5426C66C6400A1B371 /* OpenMarketAPIConstants.swift in Sources */,
 				C9D4E3B926C5229500FD5E43 /* ParsingError.swift in Sources */,
+				E689FBFC26CAC55200697E75 /* Photo.swift in Sources */,
 				C9D4E3CA26C6414000FD5E43 /* NetworkManager.swift in Sources */,
 				E6B00F5626C6944700A1B371 /* MarketPost.swift in Sources */,
 				C9D4E37026C2AC8A00FD5E43 /* Products.swift in Sources */,
