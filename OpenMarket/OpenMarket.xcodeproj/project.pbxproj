@@ -17,6 +17,8 @@
 		C70FB10425BEF61D00C9924E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C70FB10325BEF61D00C9924E /* Assets.xcassets */; };
 		C70FB10725BEF61D00C9924E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */; };
 		DF9898B926C53EFD00F040DF /* ItemBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF9898B826C53EFD00F040DF /* ItemBundle.swift */; };
+		DFFE49E726CBA6590056A653 /* MockURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFFE49E626CBA6590056A653 /* MockURLSession.swift */; };
+		DFFE49E926CBA7870056A653 /* MockURLSessionDataTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFFE49E826CBA7870056A653 /* MockURLSessionDataTask.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +46,8 @@
 		C70FB10325BEF61D00C9924E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C70FB10625BEF61D00C9924E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DF9898B826C53EFD00F040DF /* ItemBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemBundle.swift; sourceTree = "<group>"; };
+		DFFE49E626CBA6590056A653 /* MockURLSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MockURLSession.swift; path = OpenMarket/MockURLSession.swift; sourceTree = SOURCE_ROOT; };
+		DFFE49E826CBA7870056A653 /* MockURLSessionDataTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MockURLSessionDataTask.swift; path = OpenMarket/MockURLSessionDataTask.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,6 +89,8 @@
 		43E3697E26CBA26A00147FAD /* Mock */ = {
 			isa = PBXGroup;
 			children = (
+				DFFE49E626CBA6590056A653 /* MockURLSession.swift */,
+				DFFE49E826CBA7870056A653 /* MockURLSessionDataTask.swift */,
 			);
 			path = Mock;
 			sourceTree = "<group>";
@@ -248,6 +254,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DFFE49E926CBA7870056A653 /* MockURLSessionDataTask.swift in Sources */,
+				DFFE49E726CBA6590056A653 /* MockURLSession.swift in Sources */,
 				438B1CA726CB9B5D003369FE /* OpenMarketUnitTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
