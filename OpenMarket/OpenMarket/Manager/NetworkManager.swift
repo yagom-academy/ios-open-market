@@ -8,7 +8,7 @@
 import Foundation
 
 struct NetworkManager {
-    let dataTaskRequestable: DataTaskRequestable
+    private let dataTaskRequestable: DataTaskRequestable
     
     init(dataTaskRequestable: DataTaskRequestable = NetworkModule()) {
         self.dataTaskRequestable = dataTaskRequestable
@@ -26,11 +26,28 @@ struct NetworkManager {
         dataTaskRequestable.runDataTask(using: urlRequest, with: completionHandler)
     }
     
-    func generateBoundary() -> String {
+    func registerProduct(with parameters: [String: Any], and medias: [Media], completionHandler: @escaping (Result<Data, Error>) -> Void) {
+        let methodForm = OpenMarketAPIConstants.post
+        let boundary = generateBoundary()
+        guard let url = URL(string: methodForm.path) else {
+            return completionHandler(.failure(NetworkError.invalidURL))
+        }
+        
+        var urlRequest = URLRequest(url: url)
+        urlRequest.httpMethod = methodForm.method
+        urlRequest.setValue(createHeaderValue(mimeType: .multipartedFormData, separator: boundary), forHTTPHeaderField: OpenMarketAPIConstants.keyOfContentType)
+        
+        let dataBody = createDataBody(with: parameters, and: medias, separatedInto: boundary)
+        urlRequest.httpBody = dataBody
+        
+        dataTaskRequestable.runDataTask(using: urlRequest, with: completionHandler)
+    }
+    
+    private func generateBoundary() -> String {
         return UUID().uuidString
     }
     
-    func createDataBody(with parameters: [String: Any],and medias: [Media]?,separatedInto boundary: String) -> Data {
+    private func createDataBody(with parameters: [String: Any], and medias: [Media]?, separatedInto boundary: String) -> Data {
         let linebreak = OpenMarketAPIConstants.lineBreak
         let doubleHypen = OpenMarketAPIConstants.doubleHypen
         var body = Data()
@@ -55,24 +72,7 @@ struct NetworkManager {
         return body
     }
     
-    func registerProduct(with parameters: [String: Any],and medias: [Media], completionHandler: @escaping (Result<Data, Error>) -> Void) {
-        let methodForm = OpenMarketAPIConstants.post
-        let boundary = generateBoundary()
-        guard let url = URL(string: methodForm.path) else {
-            return completionHandler(.failure(NetworkError.invalidURL))
-        }
-        
-        var urlRequest = URLRequest(url: url)
-        urlRequest.httpMethod = methodForm.method
-        urlRequest.setValue(createHeaderValue(mimeType: .multipartedFormData, separator: boundary), forHTTPHeaderField: OpenMarketAPIConstants.keyOfContentType)
-        
-        let dataBody = createDataBody(with: parameters, and: medias, separatedInto: boundary)
-        urlRequest.httpBody = dataBody
-        
-        dataTaskRequestable.runDataTask(using: urlRequest, with: completionHandler)
-    }
-    
-    func createContentDisposition(with key: String, for media: Media? = nil) -> String {
+    private func createContentDisposition(with key: String, for media: Media? = nil) -> String {
         let lineBreak = OpenMarketAPIConstants.lineBreak
         var basicForm = "Content-Disposition: form-data; name=\"\(key)\""
         
@@ -88,11 +88,11 @@ struct NetworkManager {
         return basicForm
     }
         
-    func createHeaderValue(mimeType: MimeType, separator boundary: String) -> String {
+    private func createHeaderValue(mimeType: MimeType, separator boundary: String) -> String {
         return "\(mimeType); boundary=\(boundary)"
     }
 
-    func createBodyContentType(about mimeType: MimeType) -> String {
+    private func createBodyContentType(about mimeType: MimeType) -> String {
         return "\(OpenMarketAPIConstants.keyOfContentType): \(mimeType)"
     }
 }
