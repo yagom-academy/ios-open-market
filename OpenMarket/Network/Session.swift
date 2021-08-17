@@ -9,11 +9,15 @@ import Foundation
 
 struct Session: Http, Decoder {
     
+    private func buildedFormData() -> String {
+        return ""
+    }
+    
     func getItems(
         pageIndex: UInt,
         completionHandler: @escaping (Result<ItemList, HttpError>) -> Void
     ) {
-        let path = HttpConfig.baseURL + HttpMethod.items.description
+        let path = HttpConfig.baseURL + HttpMethod.items.path
         
         guard let url = URL(string: path + pageIndex.description) else {
             return
@@ -33,9 +37,9 @@ struct Session: Http, Decoder {
     
     func getItem(
         id: UInt,
-        completionHandler: @escaping (Result<Item, HttpError>) -> Void
+        completionHandler: @escaping (Result<ItemDetail, HttpError>) -> Void
     ) {
-        let path = HttpConfig.baseURL + HttpMethod.item.description
+        let path = HttpConfig.baseURL + HttpMethod.item.path
         
         guard let url = URL(string: path + id.description) else {
             return
@@ -47,7 +51,7 @@ struct Session: Http, Decoder {
                     return
                 }
                 
-                let parsedData = parse(from: data, to: Item.self)
+                let parsedData = parse(from: data, to: ItemDetail.self)
                 completionHandler(parsedData)
             }
             .resume()
