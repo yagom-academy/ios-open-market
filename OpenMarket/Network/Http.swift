@@ -21,25 +21,7 @@ protocol Http {
 
 
 extension Http {
-    func postItem(_ item: Item){
-        let baseURL = HttpConfig.baseURL + HttpMethod.post.type
-        
-        
-        guard let url = URL(string: baseURL) else {
-            return
-        }
-        
-        let boundary = HttpConfig.bounday
-        var request = URLRequest(url: url)
-        
-        request.httpMethod = HttpMethod.post.type
-    }
-    
-    func patchItem(_ item: Item){
-        
-    }
-    
-    func deleteItem(password: String){
-        
-    }
+    func postItem(_ item: Item){}
+    func patchItem(_ item: Item){}
+    func deleteItem(password: String){}
 }

@@ -9,10 +9,6 @@ import Foundation
 
 struct Session: Http, Decoder {
     
-    private func buildedFormData() -> String {
-        return ""
-    }
-    
     func getItems(
         pageIndex: UInt,
         completionHandler: @escaping (Result<ItemList, HttpError>) -> Void
@@ -20,6 +16,8 @@ struct Session: Http, Decoder {
         let path = HttpConfig.baseURL + HttpMethod.items.path
         
         guard let url = URL(string: path + pageIndex.description) else {
+            let error = HttpError(message: HttpConfig.unknownError)
+            completionHandler(.failure(error))
             return
         }
         
@@ -49,6 +47,8 @@ struct Session: Http, Decoder {
         URLSession.shared
             .dataTask(with: url) { data, response, error in
                 guard let data = guardedDataAbout(data: data, response: response, error: error) else {
+                    let error = HttpError(message: HttpConfig.unknownError)
+                    completionHandler(.failure(error))
                     return
                 }
                 
@@ -56,6 +56,10 @@ struct Session: Http, Decoder {
                 completionHandler(parsedData)
             }
             .resume()
+    }
+
+    private func buildedFormData() -> String {
+        return ""
     }
     
     private func guardedDataAbout(
@@ -67,9 +71,7 @@ struct Session: Http, Decoder {
             return nil
         }
         
-        guard let response = response as? HTTPURLResponse,
-              HttpConfig.successCode ~= response.statusCode,
-            let data = data else {
+        guard let data = data else {
             return nil
         }
         
