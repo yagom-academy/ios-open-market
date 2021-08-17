@@ -23,38 +23,10 @@ class ParsingTest: XCTestCase {
         sessionMock = nil
     }
     
-    func test_비정상인url로_items에_접근하면_invaildPath에러가발생한다() {
-        let givenURL = baseURL + "blah blah"
-        let expectedResult = HttpConfig.invailedPath
-        
-        sessionMock.getItems(from: givenURL) { result in
-            switch result {
-            case .success(let itemList):
-                XCTAssertEqual("check", itemList.items.description)
-            case .failure(let error):
-                XCTAssertEqual(expectedResult, error.message)
-            }
-        }
-    }
-    
-    func test_정상적인url로_items에_비정상인page로_접근하면_invaildPath에러가발생한다() {
-        let givenURL = baseURL + "/itesm/-1"
-        let expectedResult = HttpConfig.invailedPath
-        
-        sessionMock.getItems(from: givenURL) { result in
-            switch result {
-            case .success(let itemList):
-                XCTAssertEqual("check", itemList.items.description)
-            case .failure(let error):
-                XCTAssertEqual(expectedResult, error.message)
-            }
-        }
-    }
-    
     func test_정상적인url로_items에_1번page로_접근하면_아이템목록이있다() {
-        let givenURL = baseURL + "/items/1"
+        let index = UInt(1)
         
-        sessionMock.getItems(from: givenURL) { result in
+        sessionMock.getItems(pageIndex: index) { result in
             switch result {
             case .success(let itemList):
                 XCTAssertTrue(itemList.items.count > 0)
@@ -65,9 +37,9 @@ class ParsingTest: XCTestCase {
     }
     
     func test_정상적인url로_items에_100번page로_접근하면_아이템목록이없다() {
-        let givenURL = baseURL + "/items/100"
+        let index = UInt(100)
         
-        sessionMock.getItems(from: givenURL) { result in
+        sessionMock.getItems(pageIndex: index) { result in
             switch result {
             case .success(let itemList):
                 XCTAssertTrue(itemList.items.count == 0)

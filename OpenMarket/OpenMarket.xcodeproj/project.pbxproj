@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		6307F31926C24AD0000B83E6 /* ItemList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6307F31826C24AD0000B83E6 /* ItemList.swift */; };
 		6359287E26CB5E7300E1A69F /* Http.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6359287D26CB5E7300E1A69F /* Http.swift */; };
+		636A664426CB84C70005D56F /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636A664326CB84C70005D56F /* Session.swift */; };
 		63A3627326CA917D00C1B206 /* ItemDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A3627226CA917D00C1B206 /* ItemDetail.swift */; };
 		63A3627526CA92B000C1B206 /* HttpError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A3627426CA92B000C1B206 /* HttpError.swift */; };
 		63A3627626CA95C500C1B206 /* Decoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D386C71926C262EE00B2C689 /* Decoder.swift */; };
@@ -37,6 +38,7 @@
 /* Begin PBXFileReference section */
 		6307F31826C24AD0000B83E6 /* ItemList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemList.swift; sourceTree = "<group>"; };
 		6359287D26CB5E7300E1A69F /* Http.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Http.swift; sourceTree = "<group>"; };
+		636A664326CB84C70005D56F /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		63A3627226CA917D00C1B206 /* ItemDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemDetail.swift; sourceTree = "<group>"; };
 		63A3627426CA92B000C1B206 /* HttpError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpError.swift; sourceTree = "<group>"; };
 		63A3627826CA99BD00C1B206 /* HttpConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpConfig.swift; sourceTree = "<group>"; };
@@ -78,6 +80,7 @@
 			isa = PBXGroup;
 			children = (
 				6359287D26CB5E7300E1A69F /* Http.swift */,
+				636A664326CB84C70005D56F /* Session.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -254,6 +257,7 @@
 				6307F31926C24AD0000B83E6 /* ItemList.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
+				636A664426CB84C70005D56F /* Session.swift in Sources */,
 				63A3627626CA95C500C1B206 /* Decoder.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 				6359287E26CB5E7300E1A69F /* Http.swift in Sources */,

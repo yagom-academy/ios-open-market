@@ -9,7 +9,7 @@ import Foundation
 
 protocol Http {
     func getItems(
-        from url: String,
+        pageIndex: UInt,
         completionHandler: @escaping (Result<ItemList, HttpError>) -> Void
     )
 }

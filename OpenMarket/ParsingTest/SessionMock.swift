@@ -9,31 +9,19 @@ import UIKit
 @testable import OpenMarket
 
 class SessionMock: Http, Decoder {
-  
     typealias Model = ItemList
 
     private lazy var asset = try? takeAssetData(assetName: "item_list")
     lazy var itemList = try! parse(from: asset!, to: ItemList.self).get()
     
     func getItems(
-        from url: String,
+        pageIndex: UInt,
         completionHandler: @escaping (Result<ItemList, HttpError>) -> Void
     ) {
-        let query = url
-            .replacingOccurrences(of: HttpConfig.baseURL, with: "")
-            .split(separator: "/")
-        
-        guard query.count == 2,
-              let pageNumber = UInt(query[1]),
-              query[0] == "items" else {
-            let error = HttpError(message: HttpConfig.invailedPath)
-            return completionHandler(.failure(error))
-        }
-        
-        if pageNumber == 1 {
+        if pageIndex == 1 {
             return completionHandler(.success(itemList))
         } else {
-            let emptyItemList = ItemList(page: Int(pageNumber), items: [])
+            let emptyItemList = ItemList(page: Int(pageIndex), items: [])
             return completionHandler(.success(emptyItemList))
         }
     }
