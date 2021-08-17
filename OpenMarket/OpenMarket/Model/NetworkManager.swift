@@ -19,7 +19,7 @@ enum RequestType: String {
 }
 
 enum NetworkError: Error {
-    case invalidModel
+    case invalidMethod
     case invalidHandler
     case invalidURL
     case failResponse
@@ -36,6 +36,7 @@ extension URLSession: Networkable {}
 typealias URLSessionResult = ((Result<Data, Error>) -> Void)
 
 class NetworkManager {
+    private let boundary = "Boundary-\(UUID().uuidString)"
     private let parsingManager = ParsingManager()
     private let session: Networkable
     
@@ -43,7 +44,39 @@ class NetworkManager {
         self.session = session
     }
     
-    func request<T: APIModelProtocol>(requsetType: RequestType, url: String, model: T?, completion: @escaping URLSessionResult) {
+    func request(requsetType: RequestType, url: String, completion: @escaping URLSessionResult) {
+        guard let url = URL(string: url) else {
+            completion(.failure(NetworkError.invalidURL))
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        if requsetType == .get {
+            request.httpMethod = requsetType.method
+        } else {
+            completion(.failure(NetworkError.invalidMethod))
+        }
+        
+        session.dataTask(with: request) { data, response, error in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+            
+            guard let response = response as? HTTPURLResponse, (200...299).contains(response.statusCode) else {
+                completion(.failure(NetworkError.failResponse))
+                return
+            }
+            
+            guard let data = data else {
+                completion(.failure(NetworkError.invalidData))
+                return
+            }
+            completion(.success(data))
+        } .resume()
+    }
+    
+    func request<T: APIModelProtocol>(requsetType: RequestType, url: String, model: T, completion: @escaping URLSessionResult) {
         
         guard let url = URL(string: url) else {
             completion(.failure(NetworkError.invalidURL))
@@ -54,22 +87,15 @@ class NetworkManager {
         
         switch requsetType {
         case .get:
-            request.httpMethod = requsetType.method
+            completion(.failure(NetworkError.invalidMethod))
+            return
         case .patch, .post:
             request.httpMethod = requsetType.method
-            guard let model = model else {
-                completion(.failure(NetworkError.invalidModel))
-                return
-            }
             let body = createDataBody(model: model)
             request.httpBody = body
-            request.setValue("multipart/form-data; boundary=\(ParsingManager.boundary)", forHTTPHeaderField: "Content-Type")
+            request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
         case .delete:
             request.httpMethod = requsetType.method
-            guard let model = model else {
-                completion(.failure(NetworkError.invalidModel))
-                return
-            }
             guard let body = parsingManager.encodingModel(model: model) else {
                 completion(.failure(JsonError.encodingError))
                 return
@@ -108,13 +134,13 @@ extension NetworkManager {
                 body.append(convertTextField(key: key, value: value ?? ""))
             }
             guard let modelImages = model.mediaFile else {
-                body.append("--\(ParsingManager.boundary)--\(lineBreak)")
+                body.append("--\(boundary)--\(lineBreak)")
                 return body
             }
             for image in modelImages {
                 body.append(convertFileField(key: image.key, source: image.filename, mimeType: image.mimeType, value: image.data))
             }
-            body.append("--\(ParsingManager.boundary)--\(lineBreak)")
+            body.append("--\(boundary)--\(lineBreak)")
         } else {
             if let data = parsingManager.encodingModel(model: model) {
                 body = data
@@ -128,7 +154,7 @@ extension NetworkManager {
         let lineBreak = "\r\n"
         var dataField = Data()
         
-        dataField.append("--\(ParsingManager.boundary + lineBreak)")
+        dataField.append("--\(boundary + lineBreak)")
         dataField.append("Content-Disposition: form-data; name=\"\(key)\"; filename=\"\(source)\"\(lineBreak)")
         dataField.append("Content-Type: \(mimeType + lineBreak + lineBreak)")
         dataField.append(value)
@@ -141,7 +167,7 @@ extension NetworkManager {
         let lineBreak = "\r\n"
         var textField = Data()
         
-        textField.append("--\(ParsingManager.boundary + lineBreak)")
+        textField.append("--\(boundary + lineBreak)")
         textField.append("Content-Disposition: form-data; name=\"\(key)\"\(lineBreak + lineBreak)")
         textField.append("\(value)\(lineBreak)")
         

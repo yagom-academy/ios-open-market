@@ -13,7 +13,6 @@ enum JsonError: Error {
 }
 
 struct ParsingManager {
-    static let boundary = "Boundary-\(UUID().uuidString)"
     private let decoder = JSONDecoder()
     private let encoder = JSONEncoder()
     
