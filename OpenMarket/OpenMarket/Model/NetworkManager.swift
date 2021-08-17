@@ -163,7 +163,6 @@ extension NetworkManager {
                 body = data
             }
         }
-        print(String(decoding: body, as: UTF8.self))
         return body
     }
     
