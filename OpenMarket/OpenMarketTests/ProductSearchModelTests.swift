@@ -77,4 +77,40 @@ class ProductSearchModelTests: XCTestCase {
         XCTAssertEqual(item.price, testPrice)
     }
     
+    func test_decoding이성공하면_currency가testCurrency이다() throws {
+        let url = Bundle.main.url(forResource: "Item", withExtension: "json")!
+        data = try Data(contentsOf: url)
+        let item = try! decoder.decode(ProductSearch.self, from: data)
+        XCTAssertEqual(item.currency, testCurrency)
+    }
+    
+    func test_decoding이성공하면_stock이testStock이다() throws {
+        let url = Bundle.main.url(forResource: "Item", withExtension: "json")!
+        data = try Data(contentsOf: url)
+        let item = try! decoder.decode(ProductSearch.self, from: data)
+        XCTAssertEqual(item.stock, testStock)
+    }
+
+    func test_decoding이성공하면_thumnails가testThumbnails이다() throws {
+        let url = Bundle.main.url(forResource: "Item", withExtension: "json")!
+        data = try Data(contentsOf: url)
+        let item = try! decoder.decode(ProductSearch.self, from: data)
+        
+        XCTAssertEqual(item.thumbnails, testThumbnails)
+    }
+
+    func test_decoding이성공하면_images가testImgaes이다() throws {
+        let url = Bundle.main.url(forResource: "Item", withExtension: "json")!
+        data = try Data(contentsOf: url)
+        let item = try! decoder.decode(ProductSearch.self, from: data)
+        XCTAssertEqual(item.images, testImages)
+    }
+    
+    func test_decoding이성공하면_registrationData가testRegistrationDate이다() throws {
+        let url = Bundle.main.url(forResource: "Item", withExtension: "json")!
+        data = try Data(contentsOf: url)
+        let item = try! decoder.decode(ProductSearch.self, from: data)
+        XCTAssertEqual(item.registrationDate, testRegistrationDate)
+    }
+    
 }
