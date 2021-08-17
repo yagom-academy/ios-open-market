@@ -14,7 +14,7 @@ struct NetworkManager {
         self.dataTaskRequestable = dataTaskRequestable
     }
     
-    func lookUpList(on pageNum: Int, completionHandler: @escaping (Result<Data, Error>) -> Void) {
+    func lookUpProductList(on pageNum: Int, completionHandler: @escaping (Result<Data, Error>) -> Void) {
         let methodForm = OpenMarketAPIConstants.listGet
         guard let url = URL(string: methodForm.path + "\(pageNum)") else {
             return completionHandler(.failure(NetworkError.invalidURL))
@@ -55,7 +55,7 @@ struct NetworkManager {
         return body
     }
     
-    func registerProduct(with parameters: [String: Any],and medias: [Media]?, completionHandler: @escaping (Result<Data, Error>) -> Void) {
+    func registerProduct(with parameters: [String: Any],and medias: [Media], completionHandler: @escaping (Result<Data, Error>) -> Void) {
         let methodForm = OpenMarketAPIConstants.post
         let boundary = generateBoundary()
         guard let url = URL(string: methodForm.path) else {
@@ -97,5 +97,5 @@ struct NetworkManager {
     }
 }
 
-//TODO: 리팩토링할 수 있는 부분은 리팩토링 -> PR 하고 -> 나머지 PATCH 등 구현 -> Mock Test
+//TODO: -> PR 하고 -> 나머지 PATCH 등 구현 -> Mock Test
 

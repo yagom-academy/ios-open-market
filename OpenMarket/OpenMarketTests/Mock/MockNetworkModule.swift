@@ -21,9 +21,9 @@ struct MockNetworkModule: DataTaskRequestable {
         
         switch request.httpMethod {
         case OpenMarketAPIConstants.listGet.method:
-            data = NSDataAsset(name: "items")?.data
+            data = NSDataAsset(name: "Items")?.data
         default:
-            data = NSDataAsset(name: "item")?.data
+            data = NSDataAsset(name: "Item")?.data
         }
         
         guard isSuccessTest, let data = data else {
