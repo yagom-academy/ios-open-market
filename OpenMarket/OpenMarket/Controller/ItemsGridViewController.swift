@@ -29,3 +29,18 @@ class ItemsGridViewController: UIViewController {
         }
     }
 }
+
+extension ItemsGridViewController: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return items?.count ?? 0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let gridItemCellID = "gridViewCell"
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: gridItemCellID,
+                                                            for: indexPath) as? GridItemCollectionViewCell
+        else { return GridItemCollectionViewCell() }
+        
+        return cell
+    }
+}

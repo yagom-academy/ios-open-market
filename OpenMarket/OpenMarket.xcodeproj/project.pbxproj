@@ -27,6 +27,7 @@
 		D412A98326C3B01500E3E639 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D412A98226C3B01500E3E639 /* NetworkManager.swift */; };
 		D412A98626C3B37C00E3E639 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D412A98526C3B37C00E3E639 /* NetworkError.swift */; };
 		D4FB339126CB80D6003751B9 /* Decodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FB339026CB80D6003751B9 /* Decodable.swift */; };
+		D4FB33A326CBAB7D003751B9 /* GridItemCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FB33A226CBAB7D003751B9 /* GridItemCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,6 +65,7 @@
 		D412A98526C3B37C00E3E639 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 		D460FFAF26C6393E0004BE3F /* MockURL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURL.swift; sourceTree = "<group>"; };
 		D4FB339026CB80D6003751B9 /* Decodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Decodable.swift; sourceTree = "<group>"; };
+		D4FB33A226CBAB7D003751B9 /* GridItemCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridItemCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -119,6 +121,7 @@
 			isa = PBXGroup;
 			children = (
 				C70FB0FE25BEF61C00C9924E /* ItemsGridViewController.swift */,
+				D4FB33A226CBAB7D003751B9 /* GridItemCollectionViewCell.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -302,6 +305,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D4FB33A326CBAB7D003751B9 /* GridItemCollectionViewCell.swift in Sources */,
 				79D2BA2326CBA3E100C29D5C /* MockURLSessionDataTask.swift in Sources */,
 				79D2BA2426CBA3E100C29D5C /* MockURLSession.swift in Sources */,
 				79D2BA2526CBA3E100C29D5C /* MockURL.swift in Sources */,
