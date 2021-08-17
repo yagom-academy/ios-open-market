@@ -21,7 +21,7 @@ protocol Http {
 
 
 extension Http {
-    func postItem(_ item: Item){}
-    func patchItem(_ item: Item){}
-    func deleteItem(password: String){}
+    func postItem(_ item: Item) {}
+    func patchItem(_ item: Item) {}
+    func deleteItem(password: String) {}
 }
