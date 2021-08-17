@@ -90,7 +90,7 @@ extension ItemListViewController: UICollectionViewDataSource {
         cell.configure(with: marketItem)
         
         cell.layer.borderWidth = 1
-        cell.layer.borderColor = UIColor.gray.cgColor
+        cell.layer.borderColor = UIColor.lightGray.cgColor
         cell.layer.cornerRadius = 8
         
         return cell
