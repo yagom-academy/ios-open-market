@@ -25,10 +25,10 @@ struct Session: Http, Decoder {
         
         URLSession.shared
             .dataTask(with: url) { data, response, error in
-                guard error == nil,
-                      let data = data else {
+                guard let data = guardedDataAbout(data: data, response: response, error: error) else {
                     return
                 }
+                
                 
                 let parsedData = parse(from: data, to: ItemList.self)
                 completionHandler(parsedData)
@@ -48,8 +48,7 @@ struct Session: Http, Decoder {
         
         URLSession.shared
             .dataTask(with: url) { data, response, error in
-                guard error == nil,
-                      let data = data else {
+                guard let data = guardedDataAbout(data: data, response: response, error: error) else {
                     return
                 }
                 
@@ -57,5 +56,23 @@ struct Session: Http, Decoder {
                 completionHandler(parsedData)
             }
             .resume()
+    }
+    
+    private func guardedDataAbout(
+        data: Data?,
+        response: URLResponse?,
+        error: Error?
+    ) -> Data? {
+        if let _ = error {
+            return nil
+        }
+        
+        guard let response = response as? HTTPURLResponse,
+              HttpConfig.successCode ~= response.statusCode,
+            let data = data else {
+            return nil
+        }
+        
+        return data
     }
 }
