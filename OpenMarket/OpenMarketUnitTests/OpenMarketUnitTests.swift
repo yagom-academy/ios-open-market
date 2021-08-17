@@ -6,6 +6,7 @@
 //
 
 import XCTest
+@testable import OpenMarket
 
 class OpenMarketUnitTests: XCTestCase {
 
