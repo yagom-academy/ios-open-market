@@ -15,7 +15,7 @@ class ItemListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        designLayout()
         fetchItemList()
     }
     
@@ -40,6 +40,30 @@ class ItemListViewController: UIViewController {
             }
         }
     }
+    
+    private func getItemCardHeight(with width: CGFloat) -> CGFloat {
+        return (width / 3) * 5
+    }
+    
+    private func designLayout() {
+        let minimumInteritemSpacing = CGFloat(10)
+        let minimumLineSpacing = CGFloat(10)
+        let commonSectionInset = CGFloat(10)
+        let numberOfCardPerRow = CGFloat(2)
+        
+        let itemCardWidth = (view.frame.width - (commonSectionInset * 2 + minimumInteritemSpacing)) / numberOfCardPerRow
+        
+        let layout = UICollectionViewFlowLayout()
+        layout.itemSize = CGSize(width: itemCardWidth, height: getItemCardHeight(with: itemCardWidth))
+        layout.minimumInteritemSpacing = minimumInteritemSpacing
+        layout.minimumLineSpacing = minimumLineSpacing
+        layout.sectionInset = UIEdgeInsets(top: commonSectionInset,
+                                           left: commonSectionInset,
+                                           bottom: commonSectionInset,
+                                           right: commonSectionInset)
+        
+        marketItemListCollectionView.collectionViewLayout = layout
+    }
 }
 
 extension ItemListViewController: UICollectionViewDataSource {
@@ -54,7 +78,11 @@ extension ItemListViewController: UICollectionViewDataSource {
         }
         
         let marketItem = itemList[indexPath.item]
-        cell.configureLabels(on: marketItem)
+        cell.configure(with: marketItem)
+        
+        cell.layer.borderWidth = 1
+        cell.layer.borderColor = UIColor.gray.cgColor
+        cell.layer.cornerRadius = 8
         
         return cell
     }
