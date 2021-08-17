@@ -11,6 +11,7 @@ import XCTest
 
 class OpenMarketTests: XCTestCase {
     var sutNetworkManager: NetworkManager?
+    let expectationDescription = "Download complete."
 
     override func setUpWithError() throws {
         sutNetworkManager = NetworkManager(session: MockURLSession())
@@ -40,8 +41,9 @@ class OpenMarketTests: XCTestCase {
     
     func test_Item파일을parse하면_title이MacBookPro다() throws {
         // given
+        let testFileName = MockURL.mockItem.description
         let testDataType = Item.self
-        let testData = try XCTUnwrap(NSDataAsset(name: "Item")?.data)
+        let testData = try XCTUnwrap(NSDataAsset(name: testFileName)?.data)
         let expectedValue = "MacBook Pro"
         
         // when
@@ -58,10 +60,11 @@ class OpenMarketTests: XCTestCase {
     
     func test_Items파일을parse하면_8번인덱스Item의title이AppleWatchSeries6다() throws {
         // given
+        let testFileName = MockURL.mockItems.description
         let testDataType = Page.self
-        let testData = try XCTUnwrap(NSDataAsset(name: "Items")?.data)
-        let expectedValue = "Apple Watch Series 6"
+        let testData = try XCTUnwrap(NSDataAsset(name: testFileName)?.data)
         let index = 8
+        let expectedValue = "Apple Watch Series 6"
         
         // when
         let result = testData.parse(type: testDataType)
@@ -79,10 +82,10 @@ class OpenMarketTests: XCTestCase {
         // given
         let urlString = MockURL.mockItems.description
         let url = try XCTUnwrap(URL(string: urlString))
-        let expectedValue = "Mac mini"
         let index = 2
         var outcome: String?
-        let expectation = XCTestExpectation(description: "Download completed.")
+        let expectation = XCTestExpectation(description: expectationDescription)
+        let expectedValue = "Mac mini"
         
         // when
         sutNetworkManager?.fetchData(url: url) { (result: Result<Page, Error>) in
@@ -96,7 +99,7 @@ class OpenMarketTests: XCTestCase {
         }
         wait(for: [expectation], timeout: 5.0)
         
-        // then
+        // thenss
         XCTAssertEqual(outcome, expectedValue)
     }
     
@@ -104,9 +107,9 @@ class OpenMarketTests: XCTestCase {
         // given
         let urlString = MockURL.mockItem.description
         let url = try XCTUnwrap(URL(string: urlString))
-        let expectedValue = "MacBook Pro"
         var outcome: String?
-        let expectation = XCTestExpectation(description: "Download completed.")
+        let expectation = XCTestExpectation(description: expectationDescription)
+        let expectedValue = "MacBook Pro"
         
         // when
         sutNetworkManager?.fetchData(url: url) { (result: Result<Item, Error>) in
@@ -130,7 +133,7 @@ class OpenMarketTests: XCTestCase {
         let url = try XCTUnwrap(URL(string: urlString))
         let expectedError = NetworkError.invalidResponse
         var outcome: NetworkError?
-        let expectation = XCTestExpectation(description: "Download completed.")
+        let expectation = XCTestExpectation(description: expectationDescription)
         
         // when
         sutNetworkManager?.fetchData(url: url) { (result: Result<Page, Error>) in
