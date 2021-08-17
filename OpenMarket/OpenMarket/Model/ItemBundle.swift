@@ -7,12 +7,12 @@
 
 import Foundation
 
-class ItemListPage: Decodable {
+class ItemBundle: Decodable {
     let page: Int
-    var itemList: [Item]
+    var items: [Item]
     
     enum CodingKeys: String, CodingKey {
         case page
-        case itemList = "items"
+        case items
     }
 }
