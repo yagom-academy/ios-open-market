@@ -48,7 +48,9 @@ class ProductSearchModelTests: XCTestCase {
         data = try Data(contentsOf: url)
         XCTAssertNoThrow(try decoder.decode(ProductSearch.self, from: data))
     }
-    
+    //모델을 검증하는 이유 = 데이터가 정상적으로 들어있는가?
+    //의도적으로 틀린 값을 넣었을 때 실패하는가?
+    //공용데이터 item
     func test_decoding이성공하면_id가testId이다() throws {
         let url = Bundle.main.url(forResource: "Item", withExtension: "json")!
         data = try Data(contentsOf: url)
