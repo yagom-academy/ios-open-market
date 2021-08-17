@@ -14,8 +14,10 @@ struct NetworkManager {
         guard let url = URL(string: methodForm.path + "\(pageNum)") else {
             return completionHandler(.failure(NetworkError.invalidURL))
         }
+        
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = methodForm.method
+        
         URLSession.shared.dataTask(with: urlRequest) { data, response, error in
             if let response = response as? HTTPURLResponse,
                OpenMarketAPIConstants.rangeOfSuccessState.contains(response.statusCode),
@@ -54,11 +56,12 @@ struct NetworkManager {
             for media in medias {
                 body.append("\(doubleHypen + boundary + linebreak)")
                 body.append(createContentDisposition(with: media.key, for: media))
-                body.append("Content-Type: \(media.contentType)\(linebreak + linebreak)")
+                body.append(createBodyContentType(about: media.contentType) + linebreak + linebreak)
                 body.append(media.data)
                 body.append(linebreak)
             }
         }
+        
         body.append("\(doubleHypen + boundary + doubleHypen + linebreak)")
         return body
     }
@@ -69,11 +72,14 @@ struct NetworkManager {
         guard let url = URL(string: methodForm.path) else {
             return completionHandler(.failure(NetworkError.invalidURL))
         }
+        
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = methodForm.method
-        urlRequest.setValue("\(MimeType.multipartedFormData); boundary = \(boundary)", forHTTPHeaderField: "Content-Type")
+        urlRequest.setValue(createHeaderValue(mimeType: .multipartedFormData, separator: boundary), forHTTPHeaderField: OpenMarketAPIConstants.keyOfContentType)
+        
         let dataBody = createDataBody(with: parameters, and: medias, separatedInto: boundary)
         urlRequest.httpBody = dataBody
+        
         URLSession.shared.dataTask(with: urlRequest) { data, response, error in
             if let response = response as? HTTPURLResponse,
                OpenMarketAPIConstants.rangeOfSuccessState.contains(response.statusCode),
@@ -96,6 +102,7 @@ struct NetworkManager {
     func createContentDisposition(with key: String, for media: Media? = nil) -> String {
         let lineBreak = OpenMarketAPIConstants.lineBreak
         var basicForm = "Content-Disposition: form-data; name=\"\(key)\""
+        
         if let media = media {
             if let fileName = media.fileName {
                 basicForm.append("; filename=\"\(fileName)\"")
@@ -104,11 +111,17 @@ struct NetworkManager {
         } else {
             basicForm.append("\(lineBreak + lineBreak)")
         }
+        
         return basicForm
     }
         
+    func createHeaderValue(mimeType: MimeType, separator boundary: String) -> String {
+        return "\(mimeType); boundary=\(boundary)"
+    }
 
-
+    func createBodyContentType(about mimeType: MimeType) -> String {
+        return "\(OpenMarketAPIConstants.keyOfContentType): \(mimeType)"
+    }
 }
 
 //TODO: 리팩토링할 수 있는 부분은 리팩토링 -> PR 하고 -> 나머지 PATCH 등 구현 -> Mock Test

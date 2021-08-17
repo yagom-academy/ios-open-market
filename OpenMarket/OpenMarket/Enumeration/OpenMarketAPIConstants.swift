@@ -18,6 +18,7 @@ enum OpenMarketAPIConstants {
     static let rangeOfSuccessState = 200...299
     static let doubleHypen = "--"
     static let lineBreak = "\n\r"
+    static let keyOfContentType = "Content-Type"
 
     var path: String {
         switch self {
