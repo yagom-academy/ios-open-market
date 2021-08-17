@@ -19,6 +19,7 @@ enum RequestType: String {
 }
 
 enum NetworkError: Error {
+    case missMatchModel
     case invalidMethod
     case invalidHandler
     case invalidURL
@@ -77,7 +78,6 @@ class NetworkManager {
     }
     
     func request<T: APIModelProtocol>(requsetType: RequestType, url: String, model: T, completion: @escaping URLSessionResult) {
-        
         guard let url = URL(string: url) else {
             completion(.failure(NetworkError.invalidURL))
             return
@@ -89,14 +89,31 @@ class NetworkManager {
         case .get:
             completion(.failure(NetworkError.invalidMethod))
             return
-        case .patch, .post:
+        case .patch:
+            guard let patchModel = model as? PatchItem else {
+                completion(.failure(NetworkError.missMatchModel))
+                return
+            }
             request.httpMethod = requsetType.method
-            let body = createDataBody(model: model)
+            let body = createDataBody(model: patchModel)
+            request.httpBody = body
+            request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        case .post:
+            guard let postModel = model as? PostItem else {
+                completion(.failure(NetworkError.missMatchModel))
+                return
+            }
+            request.httpMethod = requsetType.method
+            let body = createDataBody(model: postModel)
             request.httpBody = body
             request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
         case .delete:
+            guard let deleteModel = model as? DeleteItem else {
+                completion(.failure(NetworkError.missMatchModel))
+                return
+            }
             request.httpMethod = requsetType.method
-            guard let body = parsingManager.encodingModel(model: model) else {
+            guard let body = parsingManager.encodingModel(model: deleteModel) else {
                 completion(.failure(JsonError.encodingError))
                 return
             }
