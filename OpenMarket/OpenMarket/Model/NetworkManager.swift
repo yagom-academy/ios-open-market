@@ -23,7 +23,7 @@ struct NetworkManager {
         return "Content-Disposition: \(contentType); "
     }
     
-    private func createHTTPBody(contentType: ContentType, with parameters: userInput?, media: [Media]?) -> Data? {
+     func createHTTPBody(contentType: ContentType, with parameters: userInput?, media: [Media]?) -> Data? {
         let lineBreak = "\r\n"
         var body = Data()
         
@@ -33,7 +33,7 @@ struct NetworkManager {
                 for (key, value) in parameters {
                     body.append(boundary + lineBreak)
                     body.append("\(makeContentDispositionLine(contentType: .multipart))name=\"\(key)\"\(lineBreak)")
-                    body.append("\(value) + \(lineBreak)")
+                    body.append("\(value)\(lineBreak)")
                 }
             }
         case .json:
@@ -41,7 +41,11 @@ struct NetworkManager {
                 for (_, value) in parameters {
                     body.append(boundary + lineBreak)
                     body.append("\(makeContentDispositionLine(contentType: .json))\(lineBreak)")
-                    body.append("\(value) + \(lineBreak)")
+                    guard let jsonData = value as? Data else {
+                        return nil
+                    }
+                    body.append(jsonData)
+                    body.append("\(value)\(lineBreak)")
                 }
             }
         }
@@ -61,16 +65,16 @@ struct NetworkManager {
         return body
     }
 
-    private func createRequest(httpMethod: HTTPMethod, url: URL, body: Data?) -> URLRequest {
+    private func createRequest(httpMethod: HTTPMethod, url: URL, body: Data?, _ contentType: ContentType) -> URLRequest {
         var request = URLRequest(url: url)
+        request.setValue("\(contentType); boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
         request.httpMethod = String(describing: httpMethod)
         request.httpBody = body
         return request
     }
     
     func request(httpMethod: HTTPMethod, url: URL, body: Data?, _ contentType: ContentType, _ completionHandler: @escaping (Result<Data, NetworkError>) -> ()) {
-        var request = createRequest(httpMethod: httpMethod, url: url, body: body)
-        request.setValue("\(contentType); boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        let request = createRequest(httpMethod: httpMethod, url: url, body: body, contentType)
         
         session.dataTask(with: request) { (data, response, error) in
             guard error == nil else {
