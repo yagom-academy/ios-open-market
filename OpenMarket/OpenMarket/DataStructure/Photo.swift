@@ -9,11 +9,11 @@ import UIKit
 
 struct Photo: Media {
     var key: String
-    var fileName: String
+    var fileName: String?
     var contentType: MimeType
     var data: Data
     
-    init?(key: String, fileName: String, contentType: MimeType, source: UIImage) {
+    init?(key: String, fileName: String? = nil, contentType: MimeType, source: UIImage) {
         self.key = key
         self.fileName = fileName
         self.contentType = contentType

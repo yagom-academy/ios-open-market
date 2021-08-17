@@ -9,7 +9,7 @@ import Foundation
 
 protocol Media {
     var key: String { get set }
-    var fileName: String { get set }
+    var fileName: String? { get set }
     var contentType: MimeType { get set }
     var data: Data { get set }
 }
