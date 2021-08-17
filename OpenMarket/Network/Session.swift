@@ -67,11 +67,8 @@ struct Session: Http, Decoder {
         response: URLResponse?,
         error: Error?
     ) -> Data? {
-        if let _ = error {
-            return nil
-        }
-        
-        guard let data = data else {
+        guard let _ = error,
+              let data = data else {
             return nil
         }
         
