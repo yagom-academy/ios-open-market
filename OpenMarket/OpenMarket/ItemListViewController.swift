@@ -10,6 +10,7 @@ class ItemListViewController: UIViewController {
     private let apiClient = ApiClient()
     private var itemList: [MarketPageItem] = []
     private var nextPage = 1
+    private var isFeching = false
     
     @IBOutlet weak var marketItemListCollectionView: UICollectionView!
     
@@ -20,6 +21,11 @@ class ItemListViewController: UIViewController {
     }
     
     func fetchItemList() {
+        guard !isFeching else {
+            return
+        }
+        
+        isFeching = true
         apiClient.getMarketPageItems(for: nextPage) { result in
             switch result {
             case .success(let marketPageItem):
@@ -37,6 +43,9 @@ class ItemListViewController: UIViewController {
                 if let parsingError = error as? ParsingError {
                     print(parsingError)
                 }
+            }
+            DispatchQueue.global().asyncAfter(deadline: .now() + 0.5) {
+                self.isFeching = false
             }
         }
     }
@@ -85,5 +94,18 @@ extension ItemListViewController: UICollectionViewDataSource {
         cell.layer.cornerRadius = 8
         
         return cell
+    }
+}
+
+extension ItemListViewController: UICollectionViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        guard !isFeching else {
+            return
+        }
+        
+        let position = scrollView.contentOffset.y
+        if position > (marketItemListCollectionView.contentSize.height - scrollView.frame.height) {
+            fetchItemList()
+        }
     }
 }
