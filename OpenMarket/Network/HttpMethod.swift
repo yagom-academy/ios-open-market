@@ -7,14 +7,14 @@
 
 import Foundation
 
-enum HttpMethod: CustomStringConvertible {
+enum HttpMethod {
     case items
     case item
     case post
     case patch
     case delete
     
-    var description: String {
+    var path: String {
         switch self {
         case .items:
             return "/items/"
@@ -22,6 +22,19 @@ enum HttpMethod: CustomStringConvertible {
             return "/item/"
         case .post:
             return "/item"
+        }
+    }
+    
+    var type: String {
+        switch self {
+        case .post:
+            return "POST"
+        case .delete:
+            return "DELETE"
+        case .patch:
+            return "PATCH"
+        default:
+            return "GET"
         }
     }
 }
