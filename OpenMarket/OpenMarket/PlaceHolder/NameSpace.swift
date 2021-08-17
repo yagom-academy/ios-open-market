@@ -7,6 +7,22 @@
 
 import Foundation
 
+enum OpenMarketUrl: CustomStringConvertible {
+    static let baseUrl = "https://camp-open-market-2.herokuapp.com/"
+    
+    case listLookUp
+    case itemLookup, itemUpdate, itemDelete
+    
+    var description: String {
+        switch self {
+        case .listLookUp:
+            return Self.baseUrl + "items/"
+        case .itemLookup, .itemUpdate, .itemDelete:
+            return Self.baseUrl + "item/"
+        }
+    }
+}
+
 enum MimeType: CustomStringConvertible {
     case jpeg
     case png
@@ -29,7 +45,7 @@ enum ContentType: CustomStringConvertible {
         case .multipart:
             return "multipart/form-data"
         case .json:
-            return "aplications/json"
+            return "aplication/json"
         }
     }
 }

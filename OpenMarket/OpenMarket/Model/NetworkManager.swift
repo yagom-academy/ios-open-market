@@ -14,19 +14,16 @@ enum NetworkError: Error {
 }
 
 struct NetworkManager {
-    let session: URLSession
     typealias userInput = [String: Any]
-    
-    private func generateBoundary() -> String {
-        return "--Boundary\(UUID().uuidString)"
-    }
+
+    let session: URLSession
+    private let boundary = "Boundary\(UUID().uuidString)"
     
     private func makeContentDispositionLine(contentType: ContentType) -> String {
         return "Content-Disposition: \(contentType); "
     }
     
     private func createHTTPBody(contentType: ContentType, with parameters: userInput?, media: [Media]?) -> Data? {
-        let boundary = generateBoundary()
         let lineBreak = "\r\n"
         var body = Data()
         
@@ -41,7 +38,7 @@ struct NetworkManager {
             }
         case .json:
             if let parameters = parameters {
-                for (key, value) in parameters {
+                for (_, value) in parameters {
                     body.append(boundary + lineBreak)
                     body.append("\(makeContentDispositionLine(contentType: .json))\(lineBreak)")
                     body.append("\(value) + \(lineBreak)")
@@ -71,8 +68,9 @@ struct NetworkManager {
         return request
     }
     
-    func request(httpMethod: HTTPMethod, url: URL, body: Data?, completionHandler: @escaping (Result<Data, NetworkError>) -> ()) {
-        let request = createRequest(httpMethod: httpMethod, url: url, body: body)
+    func request(httpMethod: HTTPMethod, url: URL, body: Data?, _ contentType: ContentType, _ completionHandler: @escaping (Result<Data, NetworkError>) -> ()) {
+        var request = createRequest(httpMethod: httpMethod, url: url, body: body)
+        request.setValue("\(contentType); boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
         
         session.dataTask(with: request) { (data, response, error) in
             guard error == nil else {
