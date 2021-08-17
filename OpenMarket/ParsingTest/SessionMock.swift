@@ -27,6 +27,22 @@ class SessionMock: Http, Decoder {
         }
     }
     
+    func getItem(
+        id: UInt,
+        completionHandler: @escaping (Result<ItemDetail, HttpError>) -> Void
+    ) {
+        let assetData = try! takeAssetData(assetName: "item")
+        let item = try! parse(from: assetData, to: ItemDetail.self).get()
+        
+        if id == 1 {
+            completionHandler(.success(item))
+        } else {
+            completionHandler(.failure(HttpError(message: "there is no item")))
+        }
+    }
+}
+
+extension SessionMock {
     private func takeAssetData(assetName: String) throws -> Data {
         guard let convertedAsset = NSDataAsset(name: assetName) else {
             let debugDescription = "failed to take data from asset"
@@ -40,19 +56,5 @@ class SessionMock: Http, Decoder {
         }
         
         return convertedAsset.data
-    }
-    
-    func getItem(
-        id: UInt,
-        completionHandler: @escaping (Result<ItemDetail, HttpError>) -> Void
-    ) {
-        let assetData = try! takeAssetData(assetName: "item")
-        let item = try! parse(from: assetData, to: ItemDetail.self).get()
-        
-        if id == 1 {
-            completionHandler(.success(item))
-        } else {
-            completionHandler(.failure(HttpError(message: "there is no item")))
-        }
     }
 }
