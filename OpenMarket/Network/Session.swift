@@ -25,7 +25,8 @@ struct Session: Http, Decoder {
         
         URLSession.shared
             .dataTask(with: url) { data, response, error in
-                guard let data = data else {
+                guard error == nil,
+                      let data = data else {
                     return
                 }
                 
@@ -47,7 +48,8 @@ struct Session: Http, Decoder {
         
         URLSession.shared
             .dataTask(with: url) { data, response, error in
-                guard let data = data else {
+                guard error == nil,
+                      let data = data else {
                     return
                 }
                 
