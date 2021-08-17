@@ -30,7 +30,6 @@ struct PostItem: MultiPartFormProtocol {
     var mediaFile: [Media]?
     var password: String
     
-    
     enum CodingKeys: String, CodingKey {
         case title
         case descriptions

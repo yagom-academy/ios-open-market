@@ -79,8 +79,8 @@ class NetworkManager {
         }
         
         session.dataTask(with: request) { data, response, error in
-            guard error == nil else {
-                completion(.failure(NetworkError.unownedError))
+            if let error = error {
+                completion(.failure(error))
                 return
             }
             
@@ -127,7 +127,6 @@ extension NetworkManager {
     private func convertFileField(key: String, source: String, mimeType: String, value: Data) -> Data {
         let lineBreak = "\r\n"
         var dataField = Data()
-        
         
         dataField.append("--\(ParsingManager.boundary + lineBreak)")
         dataField.append("Content-Disposition: form-data; name=\"\(key)\"; filename=\"\(source)\"\(lineBreak)")

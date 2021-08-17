@@ -8,11 +8,11 @@
 import Foundation
 
 struct Page: Codable {
-  var pageNumber: Int
-  var products: [Product]
-  
-  enum CodingKeys: String, CodingKey {
-    case pageNumber = "page"
-    case products = "items"
-  }
+    var pageNumber: Int
+    var products: [Product]
+    
+    enum CodingKeys: String, CodingKey {
+        case pageNumber = "page"
+        case products = "items"
+    }
 }

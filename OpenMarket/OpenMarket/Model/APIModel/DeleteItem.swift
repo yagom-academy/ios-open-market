@@ -8,5 +8,5 @@
 import Foundation
 
 struct DeleteItem: APIModelProtocol {
-  var password: String
+    var password: String
 }

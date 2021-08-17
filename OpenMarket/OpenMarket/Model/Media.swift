@@ -5,7 +5,6 @@
 //  Created by Kim Do hyung on 2021/08/17.
 //
 
-import Foundation
 import UIKit
 
 protocol Media: Codable {
