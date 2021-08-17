@@ -11,12 +11,13 @@
 		794CC8C626C39E1E005161F4 /* PostItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794CC8C526C39E1E005161F4 /* PostItem.swift */; };
 		794CC8C826C3A32C005161F4 /* DeleteItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794CC8C726C3A32C005161F4 /* DeleteItem.swift */; };
 		794CC8D126C3BC84005161F4 /* OpenMarketTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794CC8D026C3BC84005161F4 /* OpenMarketTests.swift */; };
-		794CC8DC26C3BECA005161F4 /* MockURLSessionDataTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794CC8DB26C3BECA005161F4 /* MockURLSessionDataTask.swift */; };
 		794CC8DE26C3C68C005161F4 /* URLSessionDataTaskProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794CC8DD26C3C68C005161F4 /* URLSessionDataTaskProtocol.swift */; };
-		7999574426C6302600192720 /* MockURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7999574326C6302600192720 /* MockURLSession.swift */; };
+		79D2BA2326CBA3E100C29D5C /* MockURLSessionDataTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794CC8DB26C3BECA005161F4 /* MockURLSessionDataTask.swift */; };
+		79D2BA2426CBA3E100C29D5C /* MockURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7999574326C6302600192720 /* MockURLSession.swift */; };
+		79D2BA2526CBA3E100C29D5C /* MockURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = D460FFAF26C6393E0004BE3F /* MockURL.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
 		C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */; };
-		C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FE25BEF61C00C9924E /* ViewController.swift */; };
+		C70FB0FF25BEF61C00C9924E /* ItemsGridViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FE25BEF61C00C9924E /* ItemsGridViewController.swift */; };
 		C70FB10225BEF61C00C9924E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C70FB10025BEF61C00C9924E /* Main.storyboard */; };
 		C70FB10425BEF61D00C9924E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C70FB10325BEF61D00C9924E /* Assets.xcassets */; };
 		C70FB10725BEF61D00C9924E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */; };
@@ -25,7 +26,6 @@
 		D412A97F26C3A5F300E3E639 /* URLSessionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D412A97E26C3A5F300E3E639 /* URLSessionProtocol.swift */; };
 		D412A98326C3B01500E3E639 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D412A98226C3B01500E3E639 /* NetworkManager.swift */; };
 		D412A98626C3B37C00E3E639 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D412A98526C3B37C00E3E639 /* NetworkError.swift */; };
-		D460FFB026C6393E0004BE3F /* MockURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = D460FFAF26C6393E0004BE3F /* MockURL.swift */; };
 		D4FB339126CB80D6003751B9 /* Decodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FB339026CB80D6003751B9 /* Decodable.swift */; };
 /* End PBXBuildFile section */
 
@@ -52,7 +52,7 @@
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		C70FB0FE25BEF61C00C9924E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		C70FB0FE25BEF61C00C9924E /* ItemsGridViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsGridViewController.swift; sourceTree = "<group>"; };
 		C70FB10125BEF61C00C9924E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		C70FB10325BEF61D00C9924E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C70FB10625BEF61D00C9924E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -99,7 +99,6 @@
 		794CC8CF26C3BC84005161F4 /* OpenMarketTests */ = {
 			isa = PBXGroup;
 			children = (
-				794CC8D826C3BC91005161F4 /* Mock */,
 				794CC8D026C3BC84005161F4 /* OpenMarketTests.swift */,
 				794CC8D226C3BC84005161F4 /* Info.plist */,
 			);
@@ -119,7 +118,7 @@
 		7999574526C649CD00192720 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				C70FB0FE25BEF61C00C9924E /* ViewController.swift */,
+				C70FB0FE25BEF61C00C9924E /* ItemsGridViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -160,6 +159,7 @@
 				7999574526C649CD00192720 /* Controller */,
 				D4FB339626CB8E7C003751B9 /* Util */,
 				D4232D3C26C6C3D000B108AA /* Error */,
+				794CC8D826C3BC91005161F4 /* Mock */,
 				C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */,
 				C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */,
 				C70FB10325BEF61D00C9924E /* Assets.xcassets */,
@@ -294,9 +294,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7999574426C6302600192720 /* MockURLSession.swift in Sources */,
-				D460FFB026C6393E0004BE3F /* MockURL.swift in Sources */,
-				794CC8DC26C3BECA005161F4 /* MockURLSessionDataTask.swift in Sources */,
 				794CC8D126C3BC84005161F4 /* OpenMarketTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -305,13 +302,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				79D2BA2326CBA3E100C29D5C /* MockURLSessionDataTask.swift in Sources */,
+				79D2BA2426CBA3E100C29D5C /* MockURLSession.swift in Sources */,
+				79D2BA2526CBA3E100C29D5C /* MockURL.swift in Sources */,
 				D412A98326C3B01500E3E639 /* NetworkManager.swift in Sources */,
 				D412A97F26C3A5F300E3E639 /* URLSessionProtocol.swift in Sources */,
 				794CC8DE26C3C68C005161F4 /* URLSessionDataTaskProtocol.swift in Sources */,
 				D4FB339126CB80D6003751B9 /* Decodable.swift in Sources */,
 				794CC8C626C39E1E005161F4 /* PostItem.swift in Sources */,
 				D412A97426C39A3F00E3E639 /* Item.swift in Sources */,
-				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
+				C70FB0FF25BEF61C00C9924E /* ItemsGridViewController.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				D412A97A26C3A2AC00E3E639 /* PatchItem.swift in Sources */,
 				794CC8C826C3A32C005161F4 /* DeleteItem.swift in Sources */,

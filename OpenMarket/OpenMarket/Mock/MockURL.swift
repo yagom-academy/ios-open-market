@@ -6,7 +6,6 @@
 //
 
 import UIKit
-@testable import OpenMarket
 
 enum MockURL: String, CustomStringConvertible {
     case mockItems = "Items"
