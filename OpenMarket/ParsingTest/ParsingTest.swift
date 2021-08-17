@@ -10,40 +10,71 @@ import XCTest
 
 class ParsingTest: XCTestCase {
     
-    class ItemMock: ParsingMock {
-        typealias Model = Item
-    }
-    
-    var cutWithItem: ItemMock!
-    var listManagingMock: ListManagingMock!
+    let baseURL = HttpConfig.baseURL
+    var sessionMock: Http!
     
     override func setUp() {
         super.setUp()
-        cutWithItem = ItemMock()
-        listManagingMock = ListManagingMock()
+        sessionMock = SessionMock()
     }
     
-    func test_ItemMock에_파일이름으로_item을주면_Item이나온다() {
-        let fileName = "item"
-        
-        let item = try! cutWithItem.parse(about: fileName)
-        
-        XCTAssertTrue(item is Item)
+    override func tearDown() {
+        super.tearDown()
+        sessionMock = nil
     }
     
-    func test_n번째item을_삭제하면_itemList의_m번째item이_n번째로당겨진다() {
-        let itemNumber = 1
-        let thirdData = listManagingMock.data?.items[2]
-        listManagingMock.delete(itemNumber: itemNumber)
+    func test_비정상인url로_items에_접근하면_invaildPath에러가발생한다() {
+        let givenURL = baseURL + "blah blah"
+        let expectedResult = HttpConfig.invailedPath
         
-        XCTAssertEqual(thirdData, listManagingMock.data?.items[1])
+        let result = sessionMock.httpGetItems(url: givenURL)
+        
+        switch result {
+        case .success(let itemList):
+            XCTAssertEqual("check", itemList.items.description)
+        case .failure(let error):
+            XCTAssertEqual(expectedResult, error.message)
+        }
     }
     
-    func test_itemList에서_item을지우면_itemList의_count는감소한다() {
-        let initialCount: Int = listManagingMock.data?.items.count ?? 1
-        let randomNumber = Int.random(in: 1...initialCount)
-        listManagingMock.delete(itemNumber: randomNumber)
+    func test_정상적인url로_items에_비정상인page로_접근하면_invaildPath에러가발생한다() {
+        let givenURL = baseURL + "/itesm/-1"
+        let expectedResult = HttpConfig.invailedPath
         
-        XCTAssertEqual(listManagingMock.data?.items.count, initialCount - 1)
+        let result = sessionMock.httpGetItems(url: givenURL)
+        
+        switch result {
+        case .success(let itemList):
+            XCTAssertEqual("check", itemList.items.description)
+        case .failure(let error):
+            XCTAssertEqual(expectedResult, error.message)
+        }
     }
+    
+    func test_정상적인url로_items에_1번page로_접근하면_아이템목록이있다() {
+        let givenURL = baseURL + "/items/1"
+        
+        let result = sessionMock.httpGetItems(url: givenURL)
+        
+        switch result {
+        case .success(let itemList):
+            XCTAssertTrue(itemList.items.count > 0)
+        case .failure(let error):
+            XCTAssertEqual("check", error.message)
+        }
+    }
+    
+    func test_정상적인url로_items에_100번page로_접근하면_아이템목록이없다() {
+        let givenURL = baseURL + "/items/100"
+        
+        let result = sessionMock.httpGetItems(url: givenURL)
+        
+        switch result {
+        case .success(let itemList):
+            XCTAssertTrue(itemList.items.count == 0)
+        case .failure(let error):
+            XCTAssertEqual("check", error.message)
+        }
+    }
+    
 }
