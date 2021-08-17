@@ -9,6 +9,7 @@ import UIKit
 @testable import OpenMarket
 
 class SessionMock: Http, Decoder {
+    
     typealias Model = ItemList
 
     private lazy var asset = try? takeAssetData(assetName: "item_list")
@@ -39,5 +40,18 @@ class SessionMock: Http, Decoder {
         }
         
         return convertedAsset.data
+    }
+    
+    func getItem(
+        id: UInt,
+        completionHandler: @escaping (Result<Item, HttpError>) -> Void
+    ) {
+        let item = itemList.items.first{ $0.id == id }
+        
+        if let item = item {
+            completionHandler(.success(item))
+        } else {
+            completionHandler(.failure(HttpError(message: "there is no item")))
+        }
     }
 }

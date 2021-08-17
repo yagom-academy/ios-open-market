@@ -9,5 +9,5 @@ import Foundation
 
 enum HttpConfig {
     static let baseURL = "https://camp-open-market-2.herokuapp.com/"
-    static let invailedPath = "current path is invailed"
+    static let invailedPath = "AppError: current path is invailed"
 }
