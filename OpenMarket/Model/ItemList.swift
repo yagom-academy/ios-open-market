@@ -8,7 +8,7 @@
 import Foundation
 
 struct ItemList: Decodable {
-    let page: Int
+    var page: Int
     var items: [Item]
     
     subscript(index: Int) -> Item {
