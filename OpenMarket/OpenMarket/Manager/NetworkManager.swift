@@ -40,25 +40,26 @@ struct NetworkManager {
     }
     
     func createDataBody(with parameters: [String: Any],and medias: [Media]?,separatedInto boundary: String) -> Data {
-        let linebreak = "\r\n"
+        let linebreak = OpenMarketAPIConstants.lineBreak
+        let doubleHypen = OpenMarketAPIConstants.doubleHypen
         var body = Data()
         
         for (key, value) in parameters {
-            body.append("--\(boundary + linebreak)")
-            body.append("Content-Disposition: form-data; name=\"\(key)\"\(linebreak + linebreak)")
+            body.append("\(doubleHypen + boundary + linebreak)")
+            body.append(createContentDisposition(with: key))
             body.append("\(value)\(linebreak)")
         }
         
         if let medias = medias {
             for media in medias {
-                body.append("--\(boundary + linebreak)")
-                body.append("Content-Disposition: form-data; name=\"\(media.key)\"\(linebreak)")
+                body.append("\(doubleHypen + boundary + linebreak)")
+                body.append(createContentDisposition(with: media.key, for: media))
                 body.append("Content-Type: \(media.contentType)\(linebreak + linebreak)")
                 body.append(media.data)
                 body.append(linebreak)
             }
         }
-        body.append("--\(boundary)--\(linebreak)")
+        body.append("\(doubleHypen + boundary + doubleHypen + linebreak)")
         return body
     }
     
@@ -91,8 +92,25 @@ struct NetworkManager {
             }
         }.resume()
     }
+    
+    func createContentDisposition(with key: String, for media: Media? = nil) -> String {
+        let lineBreak = OpenMarketAPIConstants.lineBreak
+        var basicForm = "Content-Disposition: form-data; name=\"\(key)\""
+        if let media = media {
+            if let fileName = media.fileName {
+                basicForm.append("; filename=\"\(fileName)\"")
+            }
+            basicForm.append("\(lineBreak)")
+        } else {
+            basicForm.append("\(lineBreak + lineBreak)")
+        }
+        return basicForm
+    }
+        
+
+
 }
 
-//TODO: POST를 완성, 리팩토링할 수 있는 부분은 리팩토링 -> PR 하고 -> 나머지 PATCH 등 구현 -> Mock Test
+//TODO: 리팩토링할 수 있는 부분은 리팩토링 -> PR 하고 -> 나머지 PATCH 등 구현 -> Mock Test
 //건이 네비게이터
 

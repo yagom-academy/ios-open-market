@@ -16,6 +16,8 @@ enum OpenMarketAPIConstants {
     
     static let baseURL = "https://camp-open-market-2.herokuapp.com/"
     static let rangeOfSuccessState = 200...299
+    static let doubleHypen = "--"
+    static let lineBreak = "\n\r"
 
     var path: String {
         switch self {
