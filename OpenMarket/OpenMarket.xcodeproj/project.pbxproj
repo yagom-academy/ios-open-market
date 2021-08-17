@@ -14,7 +14,6 @@
 		794CC8DC26C3BECA005161F4 /* MockURLSessionDataTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794CC8DB26C3BECA005161F4 /* MockURLSessionDataTask.swift */; };
 		794CC8DE26C3C68C005161F4 /* URLSessionDataTaskProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794CC8DD26C3C68C005161F4 /* URLSessionDataTaskProtocol.swift */; };
 		7999574426C6302600192720 /* MockURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7999574326C6302600192720 /* MockURLSession.swift */; };
-		7999574826C64CCF00192720 /* JSONParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7999574726C64CCF00192720 /* JSONParser.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
 		C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */; };
 		C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FE25BEF61C00C9924E /* ViewController.swift */; };
@@ -27,6 +26,7 @@
 		D412A98326C3B01500E3E639 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D412A98226C3B01500E3E639 /* NetworkManager.swift */; };
 		D412A98626C3B37C00E3E639 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D412A98526C3B37C00E3E639 /* NetworkError.swift */; };
 		D460FFB026C6393E0004BE3F /* MockURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = D460FFAF26C6393E0004BE3F /* MockURL.swift */; };
+		D4FB339126CB80D6003751B9 /* Decodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FB339026CB80D6003751B9 /* Decodable.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,7 +49,6 @@
 		794CC8DB26C3BECA005161F4 /* MockURLSessionDataTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSessionDataTask.swift; sourceTree = "<group>"; };
 		794CC8DD26C3C68C005161F4 /* URLSessionDataTaskProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionDataTaskProtocol.swift; sourceTree = "<group>"; };
 		7999574326C6302600192720 /* MockURLSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSession.swift; sourceTree = "<group>"; };
-		7999574726C64CCF00192720 /* JSONParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONParser.swift; sourceTree = "<group>"; };
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -64,6 +63,7 @@
 		D412A98226C3B01500E3E639 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		D412A98526C3B37C00E3E639 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 		D460FFAF26C6393E0004BE3F /* MockURL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURL.swift; sourceTree = "<group>"; };
+		D4FB339026CB80D6003751B9 /* Decodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Decodable.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -162,7 +162,6 @@
 				C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */,
 				C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */,
 				D412A98226C3B01500E3E639 /* NetworkManager.swift */,
-				7999574726C64CCF00192720 /* JSONParser.swift */,
 				C70FB10325BEF61D00C9924E /* Assets.xcassets */,
 				C70FB10825BEF61D00C9924E /* Info.plist */,
 			);
@@ -174,6 +173,7 @@
 			children = (
 				D412A97E26C3A5F300E3E639 /* URLSessionProtocol.swift */,
 				794CC8DD26C3C68C005161F4 /* URLSessionDataTaskProtocol.swift */,
+				D4FB339026CB80D6003751B9 /* Decodable.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -300,8 +300,8 @@
 				D412A98326C3B01500E3E639 /* NetworkManager.swift in Sources */,
 				D412A97F26C3A5F300E3E639 /* URLSessionProtocol.swift in Sources */,
 				794CC8DE26C3C68C005161F4 /* URLSessionDataTaskProtocol.swift in Sources */,
+				D4FB339126CB80D6003751B9 /* Decodable.swift in Sources */,
 				794CC8C626C39E1E005161F4 /* PostItem.swift in Sources */,
-				7999574826C64CCF00192720 /* JSONParser.swift in Sources */,
 				D412A97426C39A3F00E3E639 /* Item.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,

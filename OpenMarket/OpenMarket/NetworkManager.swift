@@ -9,11 +9,9 @@ import Foundation
 
 struct NetworkManager {
     let session: URLSessionProtocol
-    private let parser: JSONParser
     
-    init(session: URLSessionProtocol, parser: JSONParser) {
+    init(session: URLSessionProtocol) {
         self.session = session
-        self.parser = parser
     }
     
     // TODO: - URL의 형식에 따라 타입을 결정해주는 로직
@@ -38,7 +36,7 @@ struct NetworkManager {
                     return
                 }
                 
-                let parsedResult = self.parser.parse(type: T.self, data: data)
+                let parsedResult = data.parse(type: T.self)
                 
                 switch parsedResult {
                 case .success(let decodedData):

@@ -11,16 +11,13 @@ import XCTest
 
 class OpenMarketTests: XCTestCase {
     var sutNetworkManager: NetworkManager?
-    var sutParser: JSONParser?
 
     override func setUpWithError() throws {
-        sutNetworkManager = NetworkManager(session: MockURLSession(), parser: JSONParser())
-        sutParser = JSONParser()
+        sutNetworkManager = NetworkManager(session: MockURLSession())
     }
 
     override func tearDownWithError() throws {
         sutNetworkManager = nil
-        sutParser = nil
     }
     
     func test_빈데이터를생성해서_parse하면_failToDecode에러를던진다() {
@@ -30,7 +27,7 @@ class OpenMarketTests: XCTestCase {
         let expectedError = NetworkError.failToDecode
         
         // when
-        let result = sutParser?.parse(type: testDataType, data: testData)
+        let result = testData.parse(type: testDataType)
 
         // then
         switch result {
@@ -48,7 +45,7 @@ class OpenMarketTests: XCTestCase {
         let expectedValue = "MacBook Pro"
         
         // when
-        let result = sutParser?.parse(type: testDataType, data: testData)
+        let result = testData.parse(type: testDataType)
         
         // then
         switch result {
@@ -67,7 +64,7 @@ class OpenMarketTests: XCTestCase {
         let index = 8
         
         // when
-        let result = sutParser?.parse(type: testDataType, data: testData)
+        let result = testData.parse(type: testDataType)
         
         // then
         switch result {
