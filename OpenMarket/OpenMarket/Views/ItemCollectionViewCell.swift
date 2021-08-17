@@ -2,17 +2,17 @@
 //  ItemCollectionViewCell.swift
 //  OpenMarket
 //
-//  Created by YongHoon JJo on 2021/08/16.
+//  Created by Jost, 잼킹 on 2021/08/16.
 //
 
 import UIKit
 
 class ItemCollectionViewCell: UICollectionViewCell {
-    @IBOutlet weak var itemThumbnailImageView: UIImageView!
-    @IBOutlet weak var itemTitleLabel: UILabel!
-    @IBOutlet weak var itemPriceLabel: UILabel!
-    @IBOutlet weak var itemDiscountedPriceLabel: UILabel!
-    @IBOutlet weak var itemStockLabel: UILabel!
+    @IBOutlet private weak var itemThumbnailImageView: UIImageView!
+    @IBOutlet private weak var itemTitleLabel: UILabel!
+    @IBOutlet private weak var itemPriceLabel: UILabel!
+    @IBOutlet private weak var itemDiscountedPriceLabel: UILabel!
+    @IBOutlet private weak var itemStockLabel: UILabel!
 
     func configure(with marketItem: MarketPageItem) {
         updateThumbnailImage(to: marketItem)
@@ -87,16 +87,21 @@ class ItemCollectionViewCell: UICollectionViewCell {
     
     private func updateThumbnailImage(to marketItem: MarketPageItem) {
         for thumbnail in marketItem.thumbnails {
-            if let data = ImageManager.shaerd.loadImageData(imageUrl: thumbnail) {
+            if let data = ImageManager.shared.loadImageData(imageUrl: thumbnail) {
                 itemThumbnailImageView.image = UIImage(data: data)
                 return
             }
             if let url = URL(string: thumbnail),
                let data = try? Data(contentsOf: url) {
                 itemThumbnailImageView.image = UIImage(data: data)
-                ImageManager.shaerd.cacheImagData(imageUrl: thumbnail, data: data)
+                ImageManager.shared.cacheImagData(imageUrl: thumbnail, data: data)
                 return
             }
+        }
+        
+        if let data = ImageManager.shared.loadImageData(imageUrl: ImageManager.shared.noImageDataUrl) {
+            itemThumbnailImageView.image = UIImage(data: data)
+            return
         }
     }
 }

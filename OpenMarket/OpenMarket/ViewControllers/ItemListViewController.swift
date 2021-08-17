@@ -1,7 +1,7 @@
 //
 //  OpenMarket - ViewController.swift
 //  Created by yagom. 
-//  Copyright © yagom. All rights reserved.
+//  Copyright © Jost, 잼킹. All rights reserved.
 // 
 
 import UIKit
@@ -13,8 +13,8 @@ class ItemListViewController: UIViewController {
     private var nextPage = 1
     private var isFeching = false
     
-    @IBOutlet weak var loadingIndicator: UIActivityIndicatorView!
-    @IBOutlet weak var marketItemListCollectionView: UICollectionView!
+    @IBOutlet private weak var loadingIndicator: UIActivityIndicatorView!
+    @IBOutlet private weak var marketItemListCollectionView: UICollectionView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,7 +22,7 @@ class ItemListViewController: UIViewController {
         fetchItemList()
     }
     
-    func fetchNextItemList() {
+    private func fetchItemList() {
         guard !isFeching else {
             return
         }
@@ -33,46 +33,7 @@ class ItemListViewController: UIViewController {
             case .success(let marketPageItem):
                 if marketPageItem.items.count > 0 {
                     for item in marketPageItem.items {
-                        for thumbnail in item.thumbnails {
-                            DispatchQueue.global().async {
-                                ImageManager.shaerd.cacheImageData(imageUrl: thumbnail)
-                            }
-                        }
-                    }
-                    
-                    self.nextItemList = marketPageItem.items
-                    self.nextPage = marketPageItem.page + 1
-                }
-            case .failure(let error):
-                if let apiError = error as? ApiError {
-                    print(apiError)
-                }
-                if let parsingError = error as? ParsingError {
-                    print(parsingError)
-                }
-            }
-            DispatchQueue.global().asyncAfter(deadline: .now() + 0.5) {
-                self.isFeching = false
-            }
-        }
-    }
-    
-    func fetchItemList() {
-        guard !isFeching else {
-            return
-        }
-        
-        isFeching = true
-        apiClient.getMarketPageItems(for: nextPage) { result in
-            switch result {
-            case .success(let marketPageItem):
-                if marketPageItem.items.count > 0 {
-                    for item in marketPageItem.items {
-                        for thumbnail in item.thumbnails {
-                            DispatchQueue.global().async {
-                                ImageManager.shaerd.cacheImageData(imageUrl: thumbnail)
-                            }
-                        }
+                        ImageManager.shared.performBatchUpdate(urls: item.thumbnails)
                     }
                     
                     self.itemList += marketPageItem.items
@@ -84,17 +45,49 @@ class ItemListViewController: UIViewController {
                     }
                 }
             case .failure(let error):
-                if let apiError = error as? ApiError {
-                    print(apiError)
-                }
-                if let parsingError = error as? ParsingError {
-                    print(parsingError)
-                }
+                self.handleError(error)
             }
+            
             DispatchQueue.global().asyncAfter(deadline: .now() + 0.5) {
                 self.isFeching = false
                 self.fetchNextItemList()
             }
+        }
+    }
+    
+    private func fetchNextItemList() {
+        guard !isFeching else {
+            return
+        }
+        
+        isFeching = true
+        apiClient.getMarketPageItems(for: nextPage) { result in
+            switch result {
+            case .success(let marketPageItem):
+                if marketPageItem.items.count > 0 {
+                    for item in marketPageItem.items {
+                        ImageManager.shared.performBatchUpdate(urls: item.thumbnails)
+                    }
+                    
+                    self.nextItemList = marketPageItem.items
+                    self.nextPage = marketPageItem.page + 1
+                }
+            case .failure(let error):
+                self.handleError(error)
+            }
+            
+            DispatchQueue.global().asyncAfter(deadline: .now() + 0.5) {
+                self.isFeching = false
+            }
+        }
+    }
+    
+    private func handleError(_ error: Error) {
+        if let apiError = error as? ApiError {
+            print(apiError)
+        }
+        if let parsingError = error as? ParsingError {
+            print(parsingError)
         }
     }
     

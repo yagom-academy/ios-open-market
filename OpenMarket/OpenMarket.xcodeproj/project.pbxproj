@@ -165,9 +165,19 @@
 		7960DF3826CA5874005ACBE9 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
+				C70FB10025BEF61C00C9924E /* Main.storyboard */,
 				7960DF3926CA58A7005ACBE9 /* ItemCollectionViewCell.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		7960DF6226CBE990005ACBE9 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				C70FB0FE25BEF61C00C9924E /* ItemListViewController.swift */,
+			);
+			path = ViewControllers;
 			sourceTree = "<group>";
 		};
 		797C878A26C26BB20088062F /* Protocols */ = {
@@ -211,6 +221,7 @@
 		C70FB0F925BEF61C00C9924E /* OpenMarket */ = {
 			isa = PBXGroup;
 			children = (
+				7960DF6226CBE990005ACBE9 /* ViewControllers */,
 				7960DF3826CA5874005ACBE9 /* Views */,
 				7960DF0826C5290B005ACBE9 /* Config */,
 				273CFD0426C29B9E00B338E0 /* Managers */,
@@ -218,10 +229,7 @@
 				273CFCFA26C2439700B338E0 /* Models */,
 				C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */,
 				C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */,
-				C70FB0FE25BEF61C00C9924E /* ItemListViewController.swift */,
-				C70FB10025BEF61C00C9924E /* Main.storyboard */,
 				C70FB10325BEF61D00C9924E /* Assets.xcassets */,
-				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
 				C70FB10825BEF61D00C9924E /* Info.plist */,
 			);
 			path = OpenMarket;
