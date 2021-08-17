@@ -27,7 +27,7 @@ struct PatchItem: MultiPartFormProtocol {
   var currency: String?
   var stock: Int?
   var discountedPrice: Int?
-  var images: [Data]?
+  var mediaFile: [Media]?
   var password: String
   
   
@@ -38,7 +38,6 @@ struct PatchItem: MultiPartFormProtocol {
     case currency
     case discountedPrice = "discounted_price"
     case stock
-    case images
     case password
   }
 }

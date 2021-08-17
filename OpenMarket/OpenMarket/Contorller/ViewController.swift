@@ -10,20 +10,19 @@ class ViewController: UIViewController {
     let networkManager = NetworkManager()
     let parsingManager = ParsingManager()
     
+    let images: [Photo] = [
+        Photo.init(withImage: UIImage(named: "MackBookImage_0")!)!,
+        Photo.init(withImage: UIImage(named: "MackBookImage_1")!)!
+    ]
+    
 
     override func viewDidLoad() {
         let postItem = generatePostItem()
-        let deleteItem = generateDeleteItem()
-        let deleteData = parsingManager.createDataBody(model: deleteItem)
-        let postData = parsingManager.createDataBody(model: postItem)
-        networkManager.request(requsetType: RequestType.post, url: "https://camp-open-market-2.herokuapp.com/item", model: postData) { (result) in
+        networkManager.request(requsetType: RequestType.post, url: "https://camp-open-market-2.herokuapp.com/item", model: postItem) { (result) in
             print(result)
         }
-        networkManager.request(requsetType: RequestType.post, url: "https://camp-open-market-2.herokuapp.com/item/1", model: deleteData) { (result) in
-            print(result)
-        }
+        
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
     }
     
     func generatePostItem() -> PostItem {
@@ -32,9 +31,9 @@ class ViewController: UIViewController {
         let price = 1690000
         let currency = "KRW"
         let stock = 1000000000000
-        let images: [Data] = [
-            UIImage(named: "MackBookImage_0")!.jpegData(compressionQuality: 1)!,
-            UIImage(named: "MackBookImage_1")!.jpegData(compressionQuality: 1)!
+        let images: [Photo] = [
+            Photo.init(withImage: UIImage(named: "MackBookImage_0")!)!,
+            Photo.init(withImage: UIImage(named: "MackBookImage_1")!)!
         ]
         let password = "asdf"
         
@@ -42,14 +41,8 @@ class ViewController: UIViewController {
                                  descriptions: descriptions,
                                  price: price,
                                  currency: currency, stock: stock, discountedPrice: nil,
-                                 images: images, password: password)
+                                 mediaFile: images, password: password)
         return dummyPostItem
-    }
-    
-    func generateDeleteItem() -> DeleteItem {
-        let password = "asdf"
-        let dummyDeleteItem = DeleteItem(password: password)
-        return dummyDeleteItem
     }
 }
 

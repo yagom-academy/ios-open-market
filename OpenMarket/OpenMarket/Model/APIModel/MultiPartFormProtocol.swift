@@ -8,11 +8,6 @@
 import Foundation
 
 protocol MultiPartFormProtocol: APIModelProtocol {
-  var textField: [String: String?] {
-    get
-  }
-  
-  var images: [Data]? {
-    get
-  }
+    var textField: [String: String?] { get }
+    var mediaFile: [Media]? { get }
 }
