@@ -16,6 +16,7 @@
 		63A3627626CA95C500C1B206 /* Decoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D386C71926C262EE00B2C689 /* Decoder.swift */; };
 		63A3627926CA99BD00C1B206 /* HttpConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A3627826CA99BD00C1B206 /* HttpConfig.swift */; };
 		63B3205226C36C3000CEC296 /* SessionMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B3205126C36C3000CEC296 /* SessionMock.swift */; };
+		63C84B9726CBDBAC00D66F18 /* Loopable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C84B9626CBDBAC00D66F18 /* Loopable.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
 		C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */; };
 		C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FE25BEF61C00C9924E /* ViewController.swift */; };
@@ -45,6 +46,7 @@
 		63A3627426CA92B000C1B206 /* HttpError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpError.swift; sourceTree = "<group>"; };
 		63A3627826CA99BD00C1B206 /* HttpConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpConfig.swift; sourceTree = "<group>"; };
 		63B3205126C36C3000CEC296 /* SessionMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionMock.swift; sourceTree = "<group>"; };
+		63C84B9626CBDBAC00D66F18 /* Loopable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Loopable.swift; sourceTree = "<group>"; };
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -89,9 +91,35 @@
 			path = Network;
 			sourceTree = "<group>";
 		};
+		63C84B9326CBCABA00D66F18 /* view */ = {
+			isa = PBXGroup;
+			children = (
+				C70FB10025BEF61C00C9924E /* Main.storyboard */,
+				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
+			);
+			path = view;
+			sourceTree = "<group>";
+		};
+		63C84B9426CBCACC00D66F18 /* controller */ = {
+			isa = PBXGroup;
+			children = (
+				C70FB0FE25BEF61C00C9924E /* ViewController.swift */,
+			);
+			path = controller;
+			sourceTree = "<group>";
+		};
+		63C84B9526CBDBA000D66F18 /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				63C84B9626CBDBAC00D66F18 /* Loopable.swift */,
+			);
+			path = Protocol;
+			sourceTree = "<group>";
+		};
 		C70FB0EE25BEF61C00C9924E = {
 			isa = PBXGroup;
 			children = (
+				63C84B9526CBDBA000D66F18 /* Protocol */,
 				6359287C26CB5E6400E1A69F /* Network */,
 				D386C70426C244B600B2C689 /* Model */,
 				C70FB0F925BEF61C00C9924E /* OpenMarket */,
@@ -112,12 +140,11 @@
 		C70FB0F925BEF61C00C9924E /* OpenMarket */ = {
 			isa = PBXGroup;
 			children = (
+				63C84B9426CBCACC00D66F18 /* controller */,
+				63C84B9326CBCABA00D66F18 /* view */,
 				C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */,
 				C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */,
-				C70FB0FE25BEF61C00C9924E /* ViewController.swift */,
-				C70FB10025BEF61C00C9924E /* Main.storyboard */,
 				C70FB10325BEF61D00C9924E /* Assets.xcassets */,
-				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
 				C70FB10825BEF61D00C9924E /* Info.plist */,
 			);
 			path = OpenMarket;
@@ -256,6 +283,7 @@
 				636A664426CB84C70005D56F /* Session.swift in Sources */,
 				63A3627626CA95C500C1B206 /* Decoder.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
+				63C84B9726CBDBAC00D66F18 /* Loopable.swift in Sources */,
 				6359287E26CB5E7300E1A69F /* Http.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
