@@ -12,6 +12,8 @@ class ItemListViewController: UIViewController {
     private var nextPage = 1
     private var isFeching = false
     
+    @IBOutlet weak var loadingIndicator: UIActivityIndicatorView!
+    
     @IBOutlet weak var marketItemListCollectionView: UICollectionView!
     
     override func viewDidLoad() {
@@ -30,9 +32,6 @@ class ItemListViewController: UIViewController {
             switch result {
             case .success(let marketPageItem):
                 if marketPageItem.items.count > 0 {
-                    self.itemList += marketPageItem.items
-                    self.nextPage = marketPageItem.page + 1
-                    
                     for item in marketPageItem.items {
                         for thumbnail in item.thumbnails {
                             DispatchQueue.global().async {
@@ -41,7 +40,11 @@ class ItemListViewController: UIViewController {
                         }
                     }
                     
+                    self.itemList += marketPageItem.items
+                    self.nextPage = marketPageItem.page + 1
+                    
                     DispatchQueue.main.async {
+                        self.loadingIndicator.stopAnimating()
                         self.marketItemListCollectionView.reloadData()
                     }
                 }

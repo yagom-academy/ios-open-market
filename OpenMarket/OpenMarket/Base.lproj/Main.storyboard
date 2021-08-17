@@ -27,6 +27,10 @@
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
+                                <activityIndicatorView key="backgroundView" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="medium" id="xEf-VX-wPv">
+                                    <rect key="frame" x="0.0" y="-88" width="414" height="896"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                </activityIndicatorView>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="cardItemCell" id="Cp5-jf-kjd" customClass="ItemCollectionViewCell" customModule="OpenMarket" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="202" height="292"/>
@@ -116,6 +120,7 @@
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="Vu5-d8-42e"/>
                     </navigationItem>
                     <connections>
+                        <outlet property="loadingIndicator" destination="xEf-VX-wPv" id="Y6A-7p-ghJ"/>
                         <outlet property="marketItemListCollectionView" destination="PEE-rh-cEe" id="IBX-5G-t6j"/>
                     </connections>
                 </viewController>
