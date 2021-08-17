@@ -19,32 +19,42 @@ struct NetworkManager {
         let request = URLRequest(url: url)
         
         let task: URLSessionDataTaskProtocol = session
-            .dataTaskWithRequest(with: request) { data, urlResponse, error in
-                if let error = error {
-                    completion(.failure(error))
-                    return
-                }
-                
-                guard let response = urlResponse as? HTTPURLResponse,
-                      (200...299).contains(response.statusCode) else {
-                    completion(.failure(NetworkError.invalidResponse))
-                    return
-                }
-                
-                guard let data = data else {
-                    completion(.failure(NetworkError.dataNotFound))
-                    return
-                }
-                
-                let parsedResult = data.parse(type: T.self)
-                
-                switch parsedResult {
-                case .success(let decodedData):
-                    completion(.success(decodedData))
-                case .failure(let error):
+            .dataTaskWithRequest(with: request) { responseData, urlResponse, responseError in
+                var data = Data()
+                do {
+                    data = try obtainResponseData(data: responseData,
+                                                  response: urlResponse,
+                                                  error: responseError)
+                    
+                    let parsedResult = data.parse(type: T.self)
+                    
+                    switch parsedResult {
+                    case .success(let decodedData):
+                        completion(.success(decodedData))
+                    case .failure(let error):
+                        completion(.failure(error))
+                    }
+                } catch let error {
                     completion(.failure(error))
                 }
             }
         task.resume()
+    }
+    
+    func obtainResponseData(data: Data?, response: URLResponse?, error: Error?) throws -> Data {
+        if let error = error {
+            throw error
+        }
+        
+        guard let response = response as? HTTPURLResponse,
+              (200...299).contains(response.statusCode) else {
+            throw NetworkError.invalidResponse
+        }
+        
+        guard let data = data else {
+            throw NetworkError.dataNotFound
+        }
+        
+        return data
     }
 }
