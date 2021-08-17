@@ -7,41 +7,45 @@
 
 import Foundation
 
-class MockApiClient: MockApi, JSONDecodable {
+class MockApiClient: Api, JSONDecodable {
     private static let delay = 1
     
-    func getMarketPageItems(for pageNumber: Int, completion: @escaping (MarketItems?) -> Void) {
+    func getMarketPageItems(for pageNumber: Int, completion: @escaping (Result<MarketItems, Error>) -> Void) {
         DispatchQueue.global().asyncAfter(deadline: .now() + .seconds(MockApiClient.delay)) {
             switch pageNumber {
             case 1:
                 let fileName = "Items"
                 do {
                     let jsonData = try self.readLocalFile(for: fileName)
-                    let items: MarketItems = try self.decodeJSON(from: jsonData)
-                    completion(items)
+                    let items = try self.decodeJSON(MarketItems.self ,from: jsonData)
+                    completion(.success(items))
+                } catch let parsingError as ParsingError {
+                    completion(.failure(parsingError))
                 } catch {
-                    completion(nil)
+                    completion(.failure(ParsingError.unknown))
                 }
             default:
-                completion(nil)
+                completion(.failure(ParsingError.unknown))
             }
         }
     }
     
-    func getMarketItem(for id: Int, completion: @escaping (MarketItem?) -> Void) {
+    func getMarketItem(for id: Int, completion: @escaping (Result<MarketItem, Error>) -> Void) {
         DispatchQueue.global().asyncAfter(deadline: .now() + .seconds(MockApiClient.delay)) {
             switch id {
             case 1:
                 let fileName = "Item"
                 do {
                     let jsonData = try self.readLocalFile(for: fileName)
-                    let item: MarketItem = try self.decodeJSON(from: jsonData)
-                    completion(item)
+                    let item = try self.decodeJSON(MarketItem.self, from: jsonData)
+                    completion(.success(item))
+                } catch let parsingError as ParsingError {
+                    completion(.failure(parsingError))
                 } catch {
-                    completion(nil)
+                    completion(.failure(ParsingError.unknown))
                 }
             default:
-                completion(nil)
+                completion(.failure(ParsingError.unknown))
             }
         }
     }

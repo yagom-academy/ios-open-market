@@ -12,6 +12,9 @@
 		273CFD0326C29B2600B338E0 /* Api.swift in Sources */ = {isa = PBXBuildFile; fileRef = 273CFD0226C29B2600B338E0 /* Api.swift */; };
 		273CFD0626C29D6800B338E0 /* MockApiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 273CFD0526C29D6800B338E0 /* MockApiClient.swift */; };
 		273CFD0826C2C74400B338E0 /* Item.json in Resources */ = {isa = PBXBuildFile; fileRef = 273CFD0726C2C74400B338E0 /* Item.json */; };
+		7960DF0726C515C9005ACBE9 /* ApiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7960DF0626C515C9005ACBE9 /* ApiClient.swift */; };
+		7960DF0A26C5291F005ACBE9 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7960DF0926C5291F005ACBE9 /* Config.swift */; };
+		7960DF0C26C57AD4005ACBE9 /* ResponseErrorMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7960DF0B26C57AD4005ACBE9 /* ResponseErrorMessage.swift */; };
 		797C878726C249700088062F /* MarketItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = 797C878626C249700088062F /* MarketItems.swift */; };
 		797C878926C258610088062F /* JSONDecodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 797C878826C258610088062F /* JSONDecodable.swift */; };
 		797C879626C2A7D80088062F /* OpenMarketTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 797C879526C2A7D80088062F /* OpenMarketTests.swift */; };
@@ -41,6 +44,9 @@
 		273CFD0226C29B2600B338E0 /* Api.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Api.swift; sourceTree = "<group>"; };
 		273CFD0526C29D6800B338E0 /* MockApiClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockApiClient.swift; sourceTree = "<group>"; };
 		273CFD0726C2C74400B338E0 /* Item.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Item.json; sourceTree = "<group>"; };
+		7960DF0626C515C9005ACBE9 /* ApiClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiClient.swift; sourceTree = "<group>"; };
+		7960DF0926C5291F005ACBE9 /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
+		7960DF0B26C57AD4005ACBE9 /* ResponseErrorMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseErrorMessage.swift; sourceTree = "<group>"; };
 		797C878626C249700088062F /* MarketItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketItems.swift; sourceTree = "<group>"; };
 		797C878826C258610088062F /* JSONDecodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONDecodable.swift; sourceTree = "<group>"; };
 		797C879326C2A7D80088062F /* OpenMarketTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenMarketTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -83,6 +89,7 @@
 				797C878626C249700088062F /* MarketItems.swift */,
 				797C879D26C2D2C30088062F /* MarketItem.swift */,
 				797C87A126C2D41A0088062F /* RequestMarketItem.swift */,
+				7960DF0B26C57AD4005ACBE9 /* ResponseErrorMessage.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -100,8 +107,17 @@
 			isa = PBXGroup;
 			children = (
 				273CFD0526C29D6800B338E0 /* MockApiClient.swift */,
+				7960DF0626C515C9005ACBE9 /* ApiClient.swift */,
 			);
 			path = ApiClients;
+			sourceTree = "<group>";
+		};
+		7960DF0826C5290B005ACBE9 /* Config */ = {
+			isa = PBXGroup;
+			children = (
+				7960DF0926C5291F005ACBE9 /* Config.swift */,
+			);
+			path = Config;
 			sourceTree = "<group>";
 		};
 		797C878A26C26BB20088062F /* Protocols */ = {
@@ -143,6 +159,7 @@
 		C70FB0F925BEF61C00C9924E /* OpenMarket */ = {
 			isa = PBXGroup;
 			children = (
+				7960DF0826C5290B005ACBE9 /* Config */,
 				273CFD0426C29B9E00B338E0 /* ApiClients */,
 				797C878A26C26BB20088062F /* Protocols */,
 				273CFCFD26C24BEE00B338E0 /* Mocks */,
@@ -268,10 +285,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7960DF0726C515C9005ACBE9 /* ApiClient.swift in Sources */,
 				797C878926C258610088062F /* JSONDecodable.swift in Sources */,
 				273CFD0626C29D6800B338E0 /* MockApiClient.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
+				7960DF0A26C5291F005ACBE9 /* Config.swift in Sources */,
+				7960DF0C26C57AD4005ACBE9 /* ResponseErrorMessage.swift in Sources */,
 				797C879E26C2D2C30088062F /* MarketItem.swift in Sources */,
 				273CFCFC26C2440F00B338E0 /* MarketPageItem.swift in Sources */,
 				797C878726C249700088062F /* MarketItems.swift in Sources */,

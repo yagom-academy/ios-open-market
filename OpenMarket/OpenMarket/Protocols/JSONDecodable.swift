@@ -7,9 +7,21 @@
 
 import Foundation
 
-enum ParsingError: Error {
+enum ParsingError: LocalizedError {
     case invalidFileName
     case decodingError
+    case unknown
+    
+    var errorDescription: String? {
+        switch self {
+        case .invalidFileName:
+            return "Invalide File Name"
+        case .decodingError:
+            return "Decoding Error"
+        case .unknown:
+            return "Parsing Unknown Error"
+        }
+    }
 }
 
 protocol JSONDecodable {}
@@ -23,8 +35,9 @@ extension JSONDecodable {
         return data
     }
     
-    func decodeJSON<T: Decodable>(from jsonData: Data) throws -> T {
+    func decodeJSON<T: Decodable>(_ type: T.Type, from jsonData: Data) throws -> T {
         let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .secondsSince1970
         guard let result = try? decoder.decode(T.self, from: jsonData) else {
             throw ParsingError.decodingError
         }
