@@ -91,21 +91,21 @@
 			path = Network;
 			sourceTree = "<group>";
 		};
-		63C84B9326CBCABA00D66F18 /* view */ = {
+		63C84B9326CBCABA00D66F18 /* View */ = {
 			isa = PBXGroup;
 			children = (
 				C70FB10025BEF61C00C9924E /* Main.storyboard */,
 				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
 			);
-			path = view;
+			path = View;
 			sourceTree = "<group>";
 		};
-		63C84B9426CBCACC00D66F18 /* controller */ = {
+		63C84B9426CBCACC00D66F18 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
 				C70FB0FE25BEF61C00C9924E /* ViewController.swift */,
 			);
-			path = controller;
+			path = Controller;
 			sourceTree = "<group>";
 		};
 		63C84B9526CBDBA000D66F18 /* Protocol */ = {
@@ -140,8 +140,8 @@
 		C70FB0F925BEF61C00C9924E /* OpenMarket */ = {
 			isa = PBXGroup;
 			children = (
-				63C84B9426CBCACC00D66F18 /* controller */,
-				63C84B9326CBCABA00D66F18 /* view */,
+				63C84B9426CBCACC00D66F18 /* Controller */,
+				63C84B9326CBCABA00D66F18 /* View */,
 				C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */,
 				C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */,
 				C70FB10325BEF61D00C9924E /* Assets.xcassets */,
