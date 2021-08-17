@@ -13,6 +13,7 @@
 		273CFD0826C2C74400B338E0 /* Item.json in Resources */ = {isa = PBXBuildFile; fileRef = 273CFD0726C2C74400B338E0 /* Item.json */; };
 		278C0CD426CA531200852918 /* PostMarketItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278C0CD326CA531200852918 /* PostMarketItem.swift */; };
 		278C0CD626CA533E00852918 /* PatchMarketItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278C0CD526CA533E00852918 /* PatchMarketItem.swift */; };
+		278C0CDB26CBCA3100852918 /* ImageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278C0CDA26CBCA3100852918 /* ImageManager.swift */; };
 		7960DF0726C515C9005ACBE9 /* ApiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7960DF0626C515C9005ACBE9 /* ApiClient.swift */; };
 		7960DF0A26C5291F005ACBE9 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7960DF0926C5291F005ACBE9 /* Config.swift */; };
 		7960DF0C26C57AD4005ACBE9 /* ResponseErrorMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7960DF0B26C57AD4005ACBE9 /* ResponseErrorMessage.swift */; };
@@ -49,6 +50,7 @@
 		273CFD0726C2C74400B338E0 /* Item.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Item.json; sourceTree = "<group>"; };
 		278C0CD326CA531200852918 /* PostMarketItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostMarketItem.swift; sourceTree = "<group>"; };
 		278C0CD526CA533E00852918 /* PatchMarketItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatchMarketItem.swift; sourceTree = "<group>"; };
+		278C0CDA26CBCA3100852918 /* ImageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageManager.swift; sourceTree = "<group>"; };
 		7960DF0626C515C9005ACBE9 /* ApiClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiClient.swift; sourceTree = "<group>"; };
 		7960DF0926C5291F005ACBE9 /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		7960DF0B26C57AD4005ACBE9 /* ResponseErrorMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseErrorMessage.swift; sourceTree = "<group>"; };
@@ -105,12 +107,13 @@
 			path = Mocks;
 			sourceTree = "<group>";
 		};
-		273CFD0426C29B9E00B338E0 /* ApiClients */ = {
+		273CFD0426C29B9E00B338E0 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
 				7960DF0626C515C9005ACBE9 /* ApiClient.swift */,
+				278C0CDA26CBCA3100852918 /* ImageManager.swift */,
 			);
-			path = ApiClients;
+			path = Managers;
 			sourceTree = "<group>";
 		};
 		278C0CD726CA560000852918 /* MarketItem */ = {
@@ -210,7 +213,7 @@
 			children = (
 				7960DF3826CA5874005ACBE9 /* Views */,
 				7960DF0826C5290B005ACBE9 /* Config */,
-				273CFD0426C29B9E00B338E0 /* ApiClients */,
+				273CFD0426C29B9E00B338E0 /* Managers */,
 				797C878A26C26BB20088062F /* Protocols */,
 				273CFCFA26C2439700B338E0 /* Models */,
 				C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */,
@@ -346,6 +349,7 @@
 				797C879E26C2D2C30088062F /* MarketItem.swift in Sources */,
 				273CFCFC26C2440F00B338E0 /* MarketPageItem.swift in Sources */,
 				797C878726C249700088062F /* MarketItems.swift in Sources */,
+				278C0CDB26CBCA3100852918 /* ImageManager.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 				278C0CD626CA533E00852918 /* PatchMarketItem.swift in Sources */,
 				273CFD0326C29B2600B338E0 /* Api.swift in Sources */,

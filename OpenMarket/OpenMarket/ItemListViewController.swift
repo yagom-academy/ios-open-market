@@ -32,6 +32,15 @@ class ItemListViewController: UIViewController {
                 if marketPageItem.items.count > 0 {
                     self.itemList += marketPageItem.items
                     self.nextPage = marketPageItem.page + 1
+                    
+                    for item in marketPageItem.items {
+                        for thumbnail in item.thumbnails {
+                            DispatchQueue.global().async {
+                                ImageManager.shaerd.cacheImageData(imageUrl: thumbnail)
+                            }
+                        }
+                    }
+                    
                     DispatchQueue.main.async {
                         self.marketItemListCollectionView.reloadData()
                     }

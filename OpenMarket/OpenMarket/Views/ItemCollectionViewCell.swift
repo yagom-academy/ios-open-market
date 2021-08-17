@@ -87,9 +87,14 @@ class ItemCollectionViewCell: UICollectionViewCell {
     
     private func updateThumbnailImage(to marketItem: MarketPageItem) {
         for thumbnail in marketItem.thumbnails {
-            if let url = URL(string: thumbnail),
-                  let data = try? Data(contentsOf: url) {
+            if let data = ImageManager.shaerd.loadImageData(imageUrl: thumbnail) {
                 itemThumbnailImageView.image = UIImage(data: data)
+                return
+            }
+            if let url = URL(string: thumbnail),
+               let data = try? Data(contentsOf: url) {
+                itemThumbnailImageView.image = UIImage(data: data)
+                ImageManager.shaerd.cacheImagData(imageUrl: thumbnail, data: data)
                 return
             }
         }
