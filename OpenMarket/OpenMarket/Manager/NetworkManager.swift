@@ -8,6 +8,11 @@
 import Foundation
 
 struct NetworkManager {
+    let dataTaskRequestable: DataTaskRequestable
+    
+    init(dataTaskRequestable: DataTaskRequestable = NetworkModule()) {
+        self.dataTaskRequestable = dataTaskRequestable
+    }
     
     func lookUpList(on pageNum: Int, completionHandler: @escaping (Result<Data, Error>) -> Void) {
         let methodForm = OpenMarketAPIConstants.listGet
@@ -18,23 +23,7 @@ struct NetworkManager {
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = methodForm.method
         
-        URLSession.shared.dataTask(with: urlRequest) { data, response, error in
-            if let response = response as? HTTPURLResponse,
-               OpenMarketAPIConstants.rangeOfSuccessState.contains(response.statusCode),
-               let data = data {
-                DispatchQueue.main.async {
-                    completionHandler(.success(data))
-                }
-            } else if let error = error {
-                DispatchQueue.main.async {
-                    completionHandler(.failure(error))
-                }
-            } else {
-                DispatchQueue.main.async {
-                    completionHandler(.failure(NetworkError.unknown))
-                }
-            }
-        }.resume()
+        dataTaskRequestable.runDataTask(using: urlRequest, with: completionHandler)
     }
     
     func generateBoundary() -> String {
@@ -80,23 +69,7 @@ struct NetworkManager {
         let dataBody = createDataBody(with: parameters, and: medias, separatedInto: boundary)
         urlRequest.httpBody = dataBody
         
-        URLSession.shared.dataTask(with: urlRequest) { data, response, error in
-            if let response = response as? HTTPURLResponse,
-               OpenMarketAPIConstants.rangeOfSuccessState.contains(response.statusCode),
-               let data = data {
-                DispatchQueue.main.async {
-                    completionHandler(.success(data))
-                }
-            } else if let error = error {
-                DispatchQueue.main.async {
-                    completionHandler(.failure(error))
-                }
-            } else {
-                DispatchQueue.main.async {
-                    completionHandler(.failure(NetworkError.unknown))
-                }
-            }
-        }.resume()
+        dataTaskRequestable.runDataTask(using: urlRequest, with: completionHandler)
     }
     
     func createContentDisposition(with key: String, for media: Media? = nil) -> String {
@@ -125,5 +98,4 @@ struct NetworkManager {
 }
 
 //TODO: 리팩토링할 수 있는 부분은 리팩토링 -> PR 하고 -> 나머지 PATCH 등 구현 -> Mock Test
-//건이 네비게이터
 
