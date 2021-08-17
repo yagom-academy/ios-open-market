@@ -19,7 +19,7 @@
 		C70FB10425BEF61D00C9924E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C70FB10325BEF61D00C9924E /* Assets.xcassets */; };
 		C70FB10725BEF61D00C9924E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */; };
 		D1492DA126C23B1000021873 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1492DA026C23B1000021873 /* Item.swift */; };
-		D19B100926CB7C8E004CA94E /* HttpMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = D19B100826CB7C8E004CA94E /* HttpMethod.swift */; };
+		D19B100926CB7C8E004CA94E /* HttpInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D19B100826CB7C8E004CA94E /* HttpInfo.swift */; };
 		D19B100B26CB7CE2004CA94E /* NetworkHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D19B100A26CB7CE2004CA94E /* NetworkHandler.swift */; };
 		D1B08A9826C3531E002EF937 /* OpenMarketTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1B08A9726C3531E002EF937 /* OpenMarketTests.swift */; };
 /* End PBXBuildFile section */
@@ -49,7 +49,7 @@
 		C70FB10625BEF61D00C9924E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C70FB10825BEF61D00C9924E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D1492DA026C23B1000021873 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
-		D19B100826CB7C8E004CA94E /* HttpMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpMethod.swift; sourceTree = "<group>"; };
+		D19B100826CB7C8E004CA94E /* HttpInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpInfo.swift; sourceTree = "<group>"; };
 		D19B100A26CB7CE2004CA94E /* NetworkHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkHandler.swift; sourceTree = "<group>"; };
 		D1B08A9526C3531E002EF937 /* OpenMarketTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenMarketTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D1B08A9726C3531E002EF937 /* OpenMarketTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketTests.swift; sourceTree = "<group>"; };
@@ -101,7 +101,7 @@
 			children = (
 				D1492DA026C23B1000021873 /* Item.swift */,
 				9BAB0B2026C2420500AD881B /* ItemCollection.swift */,
-				D19B100826CB7C8E004CA94E /* HttpMethod.swift */,
+				D19B100826CB7C8E004CA94E /* HttpInfo.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -268,7 +268,7 @@
 				D1492DA126C23B1000021873 /* Item.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
-				D19B100926CB7C8E004CA94E /* HttpMethod.swift in Sources */,
+				D19B100926CB7C8E004CA94E /* HttpInfo.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 				9B60CB6C26C34DE7006EBB40 /* JsonHandler.swift in Sources */,
 				9BAB0B2126C2420500AD881B /* ItemCollection.swift in Sources */,
