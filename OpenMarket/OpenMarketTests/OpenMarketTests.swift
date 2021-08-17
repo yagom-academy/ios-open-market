@@ -14,7 +14,7 @@ class OpenMarketTests: XCTestCase {
         let assetData = NSDataAsset(name: "Items")!
         
         //when
-        let decodedData = try! ParsingManager.parse(data: assetData.data, type: OpenMarketItems.self)
+        let decodedData = try! ParsingManager.jsonDecode(data: assetData.data, type: OpenMarketItems.self)
         
         //then
         XCTAssertEqual(decodedData.page, 1)
@@ -25,7 +25,7 @@ class OpenMarketTests: XCTestCase {
         let assetData = NSDataAsset(name: "Items")!
         
         //when
-        let decodedData = try! ParsingManager.parse(data: assetData.data, type: OpenMarketItems.self)
+        let decodedData = try! ParsingManager.jsonDecode(data: assetData.data, type: OpenMarketItems.self)
         
         //then
         XCTAssertEqual(decodedData.items.first?.id, 1)
@@ -36,7 +36,7 @@ class OpenMarketTests: XCTestCase {
         let assetData = NSDataAsset(name: "Item")!
         
         //when
-        let decodedData = try! ParsingManager.parse(data: assetData.data, type: OpenMarketItems.Item.self)
+        let decodedData = try! ParsingManager.jsonDecode(data: assetData.data, type: OpenMarketItems.Item.self)
         
         //then
         XCTAssertEqual(decodedData.id, 1)
@@ -48,7 +48,7 @@ class OpenMarketTests: XCTestCase {
         
         //when
         do {
-            _ = try ParsingManager.parse(data: assetData.data, type: OpenMarketItems.self)
+            _ = try ParsingManager.jsonDecode(data: assetData.data, type: OpenMarketItems.self)
         } catch let error as ParsingError {
             //then
             XCTAssertEqual(error, .decodingError)

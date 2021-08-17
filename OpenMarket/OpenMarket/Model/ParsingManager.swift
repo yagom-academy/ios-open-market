@@ -22,7 +22,7 @@ enum ParsingError: LocalizedError {
 }
 
 enum ParsingManager {
-    static func parse<T: Codable>(data: Data, type:T.Type) throws -> T {
+    static func jsonDecode<T: Codable>(data: Data, type:T.Type) throws -> T {
         do {
             let data = try JSONDecoder().decode(type, from: data)
             return data
@@ -31,7 +31,7 @@ enum ParsingManager {
         }
     }
     
-    static func encode<T: Codable>(data: T) throws -> Data {
+    static func jsonEncode<T: Codable>(data: T) throws -> Data {
         do {
             let jsonData = try JSONEncoder().encode(data)
             return jsonData
