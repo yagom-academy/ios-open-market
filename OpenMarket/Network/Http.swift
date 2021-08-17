@@ -8,5 +8,8 @@
 import Foundation
 
 protocol Http {
-    func httpGetItems(url: String) -> Result<ItemList, HttpError>
+    func getItems(
+        from url: String,
+        completionHandler: @escaping (Result<ItemList, HttpError>) -> Void
+    )
 }

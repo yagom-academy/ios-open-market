@@ -37,20 +37,3 @@ extension Decoder {
         }
     }
 }
-
-extension Decoder {
-    func takeAssetData(assetName: String) throws -> Data {
-        guard let convertedAsset = NSDataAsset(name: assetName) else {
-            let debugDescription = "failed to take data from asset"
-            let context = DecodingError.Context(
-                codingPath: [],
-                debugDescription: debugDescription
-            )
-            let error = DecodingError.valueNotFound(NSDataAsset.self, context)
-            
-            throw error
-        }
-        
-        return convertedAsset.data
-    }
-}
