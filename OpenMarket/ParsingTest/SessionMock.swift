@@ -44,11 +44,12 @@ class SessionMock: Http, Decoder {
     
     func getItem(
         id: UInt,
-        completionHandler: @escaping (Result<Item, HttpError>) -> Void
+        completionHandler: @escaping (Result<ItemDetail, HttpError>) -> Void
     ) {
-        let item = itemList.items.first{ $0.id == id }
+        let assetData = try! takeAssetData(assetName: "item")
+        let item = try! parse(from: assetData, to: ItemDetail.self).get()
         
-        if let item = item {
+        if id == 1 {
             completionHandler(.success(item))
         } else {
             completionHandler(.failure(HttpError(message: "there is no item")))
