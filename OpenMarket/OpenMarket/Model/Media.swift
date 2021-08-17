@@ -7,6 +7,22 @@
 
 import UIKit
 
+//MARK:- Media property mimeType's Type
+enum MimeType: CustomStringConvertible {
+    case jpeg
+    case png
+    
+    var description: String {
+        switch self {
+        case .jpeg:
+            return "image/jpeg"
+        case .png:
+            return "imgae/png"
+        }
+    }
+}
+
+//MARK:-NetworkManager method(createHTTPBody)'s parameter Type
 struct Media {
     let key: APIKey
     let fileName: String

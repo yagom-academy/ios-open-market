@@ -7,6 +7,7 @@
 
 import Foundation
 
+//MARK:-Type when decode the data from OpenMarket Server
 struct OpenMarketItems: Codable {
     let page: Int
     let items: [Item]

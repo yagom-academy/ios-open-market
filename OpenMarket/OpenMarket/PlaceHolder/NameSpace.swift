@@ -7,6 +7,7 @@
 
 import Foundation
 
+//MARK:- HTTP reqeust of OpenMarket server API
 enum OpenMarketUrl: CustomStringConvertible {
     static let baseUrl = "https://camp-open-market-2.herokuapp.com/"
     
@@ -23,20 +24,7 @@ enum OpenMarketUrl: CustomStringConvertible {
     }
 }
 
-enum MimeType: CustomStringConvertible {
-    case jpeg
-    case png
-    
-    var description: String {
-        switch self {
-        case .jpeg:
-            return "image/jpeg"
-        case .png:
-            return "imgae/png"
-        }
-    }
-}
-
+//MARK:-HTTP Method Content Type
 enum ContentType: CustomStringConvertible {
     case multipart
     case json
@@ -50,6 +38,7 @@ enum ContentType: CustomStringConvertible {
     }
 }
 
+//MARK:-API key of OpenMarket server
 enum APIKey: CustomStringConvertible {
     case title, descriptions, price, currency, stock, discountedPrice, images, password
     
@@ -75,6 +64,7 @@ enum APIKey: CustomStringConvertible {
     }
 }
 
+//MARK:-HTTP Method of OpenMarket server
 enum HTTPMethod: CustomStringConvertible {
     case get
     case post

@@ -7,23 +7,38 @@
 
 import Foundation
 
+//MARK:-NetworkManager Error
 enum NetworkError: Error {
     case urlInvalid
     case requestError
     case responseError
 }
 
+//MARK:-NetworkManager
 struct NetworkManager {
+    
+    //MARK: HTTPBody Parameter Type
     typealias userInput = [String: Any]
-
+    
+    //MARK: Properties
     let session: URLSession
     private let boundary = "Boundary\(UUID().uuidString)"
     
+    //MARK: Private Method
     private func makeContentDispositionLine(contentType: ContentType) -> String {
         return "Content-Disposition: \(contentType); "
     }
     
-     func createHTTPBody(contentType: ContentType, with parameters: userInput?, media: [Media]?) -> Data? {
+    private func createRequest(httpMethod: HTTPMethod, url: URL, body: Data?, _ contentType: ContentType) -> URLRequest {
+        var request = URLRequest(url: url)
+        request.setValue("\(contentType); boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        request.httpMethod = String(describing: httpMethod)
+        request.httpBody = body
+        return request
+    }
+    
+    //MARK: Method
+    func createHTTPBody(contentType: ContentType, with parameters: userInput?, media: [Media]?) -> Data? {
         let lineBreak = "\r\n"
         var body = Data()
         
@@ -49,7 +64,7 @@ struct NetworkManager {
                 }
             }
         }
-
+        
         if let media = media {
             for image in media {
                 body.append(boundary + lineBreak)
@@ -65,14 +80,6 @@ struct NetworkManager {
         return body
     }
 
-    private func createRequest(httpMethod: HTTPMethod, url: URL, body: Data?, _ contentType: ContentType) -> URLRequest {
-        var request = URLRequest(url: url)
-        request.setValue("\(contentType); boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
-        request.httpMethod = String(describing: httpMethod)
-        request.httpBody = body
-        return request
-    }
-    
     func request(httpMethod: HTTPMethod, url: URL, body: Data?, _ contentType: ContentType, _ completionHandler: @escaping (Result<Data, NetworkError>) -> ()) {
         let request = createRequest(httpMethod: httpMethod, url: url, body: body, contentType)
         

@@ -109,6 +109,23 @@
 			path = PlaceHolder;
 			sourceTree = "<group>";
 		};
+		A84FE1ED26CB8BB5001BB378 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				C70FB10025BEF61C00C9924E /* Main.storyboard */,
+				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		A84FE1EE26CB8BBC001BB378 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				C70FB0FE25BEF61C00C9924E /* ViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
 		C70FB0EE25BEF61C00C9924E = {
 			isa = PBXGroup;
 			children = (
@@ -130,15 +147,14 @@
 		C70FB0F925BEF61C00C9924E /* OpenMarket */ = {
 			isa = PBXGroup;
 			children = (
-				A848422326C6563300DEBDB6 /* PlaceHolder */,
-				74F1B98126C64C0700BE3812 /* Extension */,
 				74E0027A26C2380F0094ED88 /* Model */,
+				A84FE1ED26CB8BB5001BB378 /* View */,
+				A84FE1EE26CB8BBC001BB378 /* Controller */,
+				74F1B98126C64C0700BE3812 /* Extension */,
+				A848422326C6563300DEBDB6 /* PlaceHolder */,
+				C70FB10825BEF61D00C9924E /* Info.plist */,
 				C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */,
 				C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */,
-				C70FB0FE25BEF61C00C9924E /* ViewController.swift */,
-				C70FB10025BEF61C00C9924E /* Main.storyboard */,
-				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
-				C70FB10825BEF61D00C9924E /* Info.plist */,
 				C70FB10325BEF61D00C9924E /* Assets.xcassets */,
 			);
 			path = OpenMarket;
