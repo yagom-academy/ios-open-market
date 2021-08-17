@@ -19,6 +19,7 @@ enum RequestType: String {
 }
 
 enum NetworkError: Error {
+    case invalidModel
     case invalidHandler
     case invalidURL
     case failResponse
@@ -32,7 +33,7 @@ protocol Networkable {
 
 extension URLSession: Networkable {}
 
-typealias URLSessionResult = ((Result<Data, NetworkError>) -> Void)
+typealias URLSessionResult = ((Result<Data, Error>) -> Void)
 
 class NetworkManager {
     private let parsingManager = ParsingManager()
@@ -45,7 +46,8 @@ class NetworkManager {
     func request<T: APIModelProtocol>(requsetType: RequestType, url: String, model: T?, completion: @escaping URLSessionResult) {
         
         guard let url = URL(string: url) else {
-            return completion(.failure(NetworkError.invalidURL))
+            completion(.failure(NetworkError.invalidURL))
+            return
         }
         
         var request = URLRequest(url: url)
@@ -56,7 +58,7 @@ class NetworkManager {
         case .patch, .post:
             request.httpMethod = requsetType.method
             guard let model = model else {
-                //body 안들어오는 에러처리
+                completion(.failure(NetworkError.invalidModel))
                 return
             }
             let body = createDataBody(model: model)
@@ -64,8 +66,14 @@ class NetworkManager {
             request.setValue("multipart/form-data; boundary=\(ParsingManager.boundary)", forHTTPHeaderField: "Content-Type")
         case .delete:
             request.httpMethod = requsetType.method
-            guard let model = model else { return }
-            let body = parsingManager.encodingModel(model: model)
+            guard let model = model else {
+                completion(.failure(NetworkError.invalidModel))
+                return
+            }
+            guard let body = parsingManager.encodingModel(model: model) else {
+                completion(.failure(JsonError.encodingError))
+                return
+            }
             request.httpBody = body
             request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         }
