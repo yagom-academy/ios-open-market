@@ -12,7 +12,7 @@ class MockAPIManager {
   
     
     let session: URLSession
-    init(session: URLSession = .shared) { //Mock객체를 프로토콜이나 다른 타입으로 만들어본다
+    init(session: URLSession = .shared) { 
         self.session = session
     }
     

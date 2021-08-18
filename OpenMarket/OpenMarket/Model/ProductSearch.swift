@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ProductSearch: Codable {
+struct ProductSearch: Codable, Equatable {
     var id: Int
     var title: String
     var price: Int
