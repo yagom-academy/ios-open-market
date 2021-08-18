@@ -13,28 +13,38 @@ protocol Loopable {
 
 extension Loopable {
     var properties: [String: Any?] {
-        var result = [String: Any?]()
+        var dictionary = [String: Any?]()
         
         let mirror = Mirror(reflecting: self)
         
         guard let style = mirror.displayStyle,
               (style == .class || style == .struct) else {
-            return result
+            return dictionary
         }
         
-        for (key, value) in mirror.children {
-            guard let key = key else { continue }
+        for (rawKey, value) in mirror.children {
+            guard let rawKey = rawKey else { continue }
             
-            let subMirror = Mirror(reflecting: value)
+            var key = ""
             
-            if subMirror.displayStyle == .optional,
-               let unwrappedValue = subMirror.children.first {
-                result[key] = unwrappedValue.value
+            for character in rawKey {
+                if character.isUppercase {
+                    key += "_" + character.lowercased()
+                } else {
+                    key += character.description
+                }
+            }
+            
+            let valueMirror = Mirror(reflecting: value)
+            
+            if valueMirror.displayStyle == .optional,
+               let unwrappedValue = valueMirror.children.first {
+                dictionary[key] = unwrappedValue.value
             } else {
-                result[key] = value
+                dictionary[key] = value
             }
         }
         
-        return result
+        return dictionary
     }
 }
