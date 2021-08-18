@@ -26,10 +26,12 @@ extension Http {
         images: [UIImage],
         completionHandler: @escaping (Result<ItemDetail, HttpError>) -> Void
     ) {}
+    
     func patchItem(
         item: ItemRequestable,
         images: [UIImage],
         completionHandler: @escaping (Result<ItemDetail, HttpError>) -> Void
     ) {}
+    
     func deleteItem(password: String) {}
 }

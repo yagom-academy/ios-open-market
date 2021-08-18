@@ -19,7 +19,7 @@ struct Session: Http, Decoder {
             return
         }
         
-        getTask(url: url) { result in
+        urlTask(url: url) { result in
             completionHandler(result)
         }
     }
@@ -34,7 +34,7 @@ struct Session: Http, Decoder {
             return
         }
         
-        getTask(url: url) { result in
+        urlTask(url: url) { result in
             completionHandler(result)
         }
     }
@@ -71,7 +71,7 @@ struct Session: Http, Decoder {
         return data
     }
     
-    private func getTask<Model>(
+    private func urlTask<Model>(
         url: URL,
         completionHandler: @escaping (Result<Model, HttpError>) -> Void
     ) where Model: Decodable {
@@ -82,7 +82,6 @@ struct Session: Http, Decoder {
                     completionHandler(.failure(error))
                     return
                 }
-                
                 
                 let parsedData = parse(from: data, to: Model.self)
                 completionHandler(parsedData)
@@ -145,9 +144,9 @@ struct Session: Http, Decoder {
         }
         
         
-        let stringDatas = buildedFormData(from: item, boundary: boundaryWithPrefix)
+        let itemData = buildedFormData(from: item, boundary: boundaryWithPrefix)
         
-        request.httpBody?.append(stringDatas)
+        request.httpBody?.append(itemData)
         
         return request
     }
