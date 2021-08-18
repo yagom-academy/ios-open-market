@@ -17,8 +17,8 @@ struct PostItemData {
     let password: String
     
     
-    func parameter() -> parameters {
-        var param: parameters = ["title": self.title,
+    func parameter() -> Parameters {
+        var param: Parameters = ["title": self.title,
                                  "descriptions": self.descriptions,
                                  "price": self.price,
                                  "currency": self.currency,

@@ -6,7 +6,7 @@
 //
 
 import Foundation
-typealias parameters = [String: Any]
+typealias Parameters = [String: Any]
 
 class NetworkManager {
     func getItems(page: String) {
@@ -154,7 +154,7 @@ class NetworkManager {
         return "Boundary-\(UUID().uuidString)"
     }
     
-    func createDataBody(withParameters params: parameters?, media: [Media]?, boundary: String) -> Data {
+    func createDataBody(withParameters params: Parameters?, media: [Media]?, boundary: String) -> Data {
         var body = Data()
         
         if let parameters = params {

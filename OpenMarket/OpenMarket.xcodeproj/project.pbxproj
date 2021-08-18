@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		4D29EC5526C648C600B6844C /* PostItemData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D29EC5426C648C600B6844C /* PostItemData.swift */; };
+		4D31CB5726CC95C300CFDFA0 /* NetworkProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D31CB5626CC95C300CFDFA0 /* NetworkProtocol.swift */; };
+		4D31CB5926CC971100CFDFA0 /* MockURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D31CB5826CC971100CFDFA0 /* MockURLSession.swift */; };
+		4D31CB5B26CC972B00CFDFA0 /* MockURLSessionDataTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D31CB5A26CC972B00CFDFA0 /* MockURLSessionDataTask.swift */; };
 		4DA5CC3426C9F80C00A124C4 /* PatchItemData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DA5CC3326C9F80C00A124C4 /* PatchItemData.swift */; };
 		4DA5CC3626CA016200A124C4 /* DeleteItemData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DA5CC3526CA016200A124C4 /* DeleteItemData.swift */; };
 		4DB65D3726C2107E000B23A9 /* ItemsData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DB65D3626C2107E000B23A9 /* ItemsData.swift */; };
@@ -39,6 +42,9 @@
 
 /* Begin PBXFileReference section */
 		4D29EC5426C648C600B6844C /* PostItemData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostItemData.swift; sourceTree = "<group>"; };
+		4D31CB5626CC95C300CFDFA0 /* NetworkProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkProtocol.swift; sourceTree = "<group>"; };
+		4D31CB5826CC971100CFDFA0 /* MockURLSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSession.swift; sourceTree = "<group>"; };
+		4D31CB5A26CC972B00CFDFA0 /* MockURLSessionDataTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSessionDataTask.swift; sourceTree = "<group>"; };
 		4DA5CC3326C9F80C00A124C4 /* PatchItemData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatchItemData.swift; sourceTree = "<group>"; };
 		4DA5CC3526CA016200A124C4 /* DeleteItemData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteItemData.swift; sourceTree = "<group>"; };
 		4DB65D3626C2107E000B23A9 /* ItemsData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsData.swift; sourceTree = "<group>"; };
@@ -80,6 +86,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4D31CB5526CC95AB00CFDFA0 /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				4D31CB5626CC95C300CFDFA0 /* NetworkProtocol.swift */,
+			);
+			path = Protocol;
+			sourceTree = "<group>";
+		};
 		4DB65D3326C20F95000B23A9 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
@@ -116,6 +130,8 @@
 			children = (
 				4DC0FCF226C3896F00D32D98 /* MockItem.json */,
 				4DC0FCF426C389BC00D32D98 /* MockItems.json */,
+				4D31CB5826CC971100CFDFA0 /* MockURLSession.swift */,
+				4D31CB5A26CC972B00CFDFA0 /* MockURLSessionDataTask.swift */,
 			);
 			path = Mock;
 			sourceTree = "<group>";
@@ -163,6 +179,7 @@
 		C70FB0F925BEF61C00C9924E /* OpenMarket */ = {
 			isa = PBXGroup;
 			children = (
+				4D31CB5526CC95AB00CFDFA0 /* Protocol */,
 				8986F7F626C9F2910076B64E /* Network */,
 				4DC0FCF126C3892900D32D98 /* Mock */,
 				4DB65D3326C20F95000B23A9 /* Controller */,
@@ -286,12 +303,15 @@
 				4DA5CC3426C9F80C00A124C4 /* PatchItemData.swift in Sources */,
 				4D29EC5526C648C600B6844C /* PostItemData.swift in Sources */,
 				4DC0FCF726C38AE800D32D98 /* JsonDecoder.swift in Sources */,
+				4D31CB5926CC971100CFDFA0 /* MockURLSession.swift in Sources */,
 				89C164C826C26B3C00D7A4DE /* NetworkManager.swift in Sources */,
+				4D31CB5B26CC972B00CFDFA0 /* MockURLSessionDataTask.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				4DA5CC3626CA016200A124C4 /* DeleteItemData.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 				4DB65D3726C2107E000B23A9 /* ItemsData.swift in Sources */,
+				4D31CB5726CC95C300CFDFA0 /* NetworkProtocol.swift in Sources */,
 				89A37E6026C6406600ED2163 /* Media.swift in Sources */,
 				4DB65D3926C21408000B23A9 /* ItemData.swift in Sources */,
 			);

@@ -16,8 +16,8 @@ struct PatchItemData {
     var discounted_price: Int?
     let password: String
     
-    func parameter() -> parameters {
-        var param: parameters = ["password": self.password]
+    func parameter() -> Parameters {
+        var param: Parameters = ["password": self.password]
         
         if let title = self.title {
             param["title"] = title
