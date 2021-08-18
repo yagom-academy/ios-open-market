@@ -5,7 +5,7 @@
 //  Created by kjs on 2021/08/17.
 //
 
-import Foundation
+import UIKit
 
 protocol Http {
     func getItems(
@@ -21,7 +21,15 @@ protocol Http {
 
 
 extension Http {
-    func postItem(_ item: Item) {}
-    func patchItem(_ item: Item) {}
+    func postItem(
+        item: ItemRequestable,
+        images: [UIImage],
+        completionHandler: @escaping (Result<ItemDetail, HttpError>) -> Void
+    ) {}
+    func patchItem(
+        item: ItemRequestable,
+        images: [UIImage],
+        completionHandler: @escaping (Result<ItemDetail, HttpError>) -> Void
+    ) {}
     func deleteItem(password: String) {}
 }
