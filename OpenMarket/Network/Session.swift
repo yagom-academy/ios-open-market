@@ -124,10 +124,7 @@ struct Session: Http, Decoder {
         var request = URLRequest(url: url)
         
         request.httpMethod = method.type
-        request.setValue(
-            HttpConfig.requestHeader + boundary,
-            forHTTPHeaderField: HttpConfig.contentType
-        )
+        request.setValue(HttpConfig.requestHeader + boundary, forHTTPHeaderField: HttpConfig.contentType)
         
         let boundaryWithPrefix = HttpConfig.boundaryPrefix + boundary
         
