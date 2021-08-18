@@ -19,19 +19,9 @@ struct Session: Http, Decoder {
             return
         }
         
-        URLSession.shared
-            .dataTask(with: url) { data, response, error in
-                guard let data = guardedDataAbout(data: data, response: response, error: error) else {
-                    let error = HttpError(message: HttpConfig.unknownError)
-                    completionHandler(.failure(error))
-                    return
-                }
-                
-                
-                let parsedData = parse(from: data, to: ItemList.self)
-                completionHandler(parsedData)
-            }
-            .resume()
+        getTask(url: url) { result in
+            completionHandler(result)
+        }
     }
     
     func getItem(
@@ -44,22 +34,31 @@ struct Session: Http, Decoder {
             return
         }
         
-        URLSession.shared
-            .dataTask(with: url) { data, response, error in
-                guard let data = guardedDataAbout(data: data, response: response, error: error) else {
-                    let error = HttpError(message: HttpConfig.unknownError)
-                    completionHandler(.failure(error))
-                    return
-                }
-                
-                let parsedData = parse(from: data, to: ItemDetail.self)
-                completionHandler(parsedData)
-            }
-            .resume()
+        getTask(url: url) { result in
+            completionHandler(result)
+        }
     }
+    
 
-    private func buildedFormData() -> String {
-        return ""
+    func buildedFormData<Model>(
+        from model: Model,
+        boundary: String
+    ) -> Data where Model: Loopable {
+        
+        var form = ""
+        
+        for (key, value) in model.properties {
+            guard let value = value else { continue }
+            
+            form += boundary + .newLine
+            form += "Content-Disposition: form-data;"
+            form += "name=\"\(key)" + .newLine + .newLine
+            form += "\(String(describing: value))" + .newLine
+        }
+        
+        form += boundary +  "--"
+        
+        return form.data(using: .utf8)!
     }
     
     private func guardedDataAbout(
@@ -76,5 +75,24 @@ struct Session: Http, Decoder {
         }
         
         return data
+    }
+    
+    private func getTask<Model>(
+        url: URL,
+        completionHandler: @escaping (Result<Model, HttpError>) -> Void
+    ) where Model: Decodable {
+        URLSession.shared
+            .dataTask(with: url) { data, response, error in
+                guard let data = guardedDataAbout(data: data, response: response, error: error) else {
+                    let error = HttpError(message: HttpConfig.unknownError)
+                    completionHandler(.failure(error))
+                    return
+                }
+                
+                
+                let parsedData = parse(from: data, to: Model.self)
+                completionHandler(parsedData)
+            }
+            .resume()
     }
 }
