@@ -9,49 +9,52 @@ import Foundation
 typealias Parameters = [String: Any]
 
 class NetworkManager {
-    func getItems(page: String) {
+    
+    let session: URLSessionProtocol
+    
+    init(session: URLSessionProtocol) {
+        self.session = session
+    }
+    
+    func getItems(page: String, completion: @escaping(Result<ItemsData, Error>) -> Void) {
         guard let url = URL(string: ApiFormat.getItems.url + page) else { return }
         var request = URLRequest(url: url)
         request.httpMethod = ApiFormat.getItems.method
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
-        let session = URLSession.shared
         session.dataTask(with: request) { data, response, error in
-            if let error = error {
-                print(error.localizedDescription)
+            if let error = error { return completion(.failure(error)) }
+            
+            guard let response = response as? HTTPURLResponse,
+                  (200...299).contains(response.statusCode) else { return }
+            
+            guard let data = data, let items = try? JsonDecoder.decodedJsonFromData(type: ItemsData.self, data: data) else { return }
+            DispatchQueue.main.async {
+                completion(.success(items))
             }
-            guard let response = response else { return }
-            print(response)
-            
-            guard let data = data else { return }
-            
-            guard let item = try? JsonDecoder.decodedJsonFromData(type: ItemsData.self, data: data) else { return }
-            print(item)
         }.resume()
     }
     
-    func getItem(id: String) {
+    func getItem(id: String, completion: @escaping(Result<ItemData, Error>) -> Void) {
         guard let url = URL(string: ApiFormat.getItem.url + id) else { return }
         var request = URLRequest(url: url)
         request.httpMethod = ApiFormat.getItem.method
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
-        let session = URLSession.shared
         session.dataTask(with: request) { data, response, error in
-            if let error = error {
-                print(error.localizedDescription)
+            if let error = error { return completion(.failure(error)) }
+            
+            guard let response = response as? HTTPURLResponse,
+                  (200...299).contains(response.statusCode) else { return }
+            
+            guard let data = data, let item = try? JsonDecoder.decodedJsonFromData(type: ItemData.self, data: data) else { return }
+            DispatchQueue.main.async {
+                completion(.success(item))
             }
-            guard let response = response else { return }
-            print(response)
-            
-            guard let data = data else { return }
-            
-            guard let item = try? JsonDecoder.decodedJsonFromData(type: ItemData.self, data: data) else { return }
-            print(item)
         }.resume()
     }
     
-    func postItem(item: PostItemData) {
+    func postItem(item: PostItemData, completion: @escaping(Result<Data, Error>) -> Void) {
         let parameters = item.parameter()
         guard let mediaImage = Media(withImage: #imageLiteral(resourceName: "1f363"), forKey: "images[]") else { return }
         guard let url = URL(string: ApiFormat.post.url) else { return }
@@ -65,30 +68,18 @@ class NetworkManager {
         let dataBody = createDataBody(withParameters: parameters, media: [mediaImage], boundary: boundary)
         request.httpBody = dataBody
         
-        print(String(decoding: dataBody, as: UTF8.self))
-        
-        let session = URLSession.shared
         session.dataTask(with: request) { data, response, error in
-            if let response = response {
-                print(response)
-            }
+            if let error = error { return completion(.failure(error)) }
             
-            if let error = error {
-                print(error.localizedDescription)
-            }
+            guard let response = response as? HTTPURLResponse,
+                  (200...299).contains(response.statusCode) else { return }
             
-            if let data = data {
-                do {
-                    let json = try JSONSerialization.jsonObject(with: data, options: [])
-                    print(json)
-                } catch {
-                    print(error)
-                }
-            }
+            guard let data = data else { return }
+            completion(.success(data))
         }.resume()
     }
     
-    func patchItem(item: PatchItemData, id: String) {
+    func patchItem(item: PatchItemData, id: String, completion: @escaping(Result<Data, Error>) -> Void){
         let parameters = item.parameter()
         guard let mediaImage = Media(withImage: #imageLiteral(resourceName: "test2"), forKey: "images[]") else { return }
         guard let url = URL(string: ApiFormat.patch.url + id) else { return }
@@ -102,51 +93,35 @@ class NetworkManager {
         let dataBody = createDataBody(withParameters: parameters, media: [mediaImage], boundary: boundary)
         request.httpBody = dataBody
         
-        print(String(decoding: dataBody, as: UTF8.self))
-        
-        let session = URLSession.shared
         session.dataTask(with: request) { data, response, error in
-            if let response = response {
-                print(response)
-            }
+            if let error = error { return completion(.failure(error)) }
             
-            if let error = error {
-                print(error.localizedDescription)
-            }
+            guard let response = response as? HTTPURLResponse,
+                  (200...299).contains(response.statusCode) else { return }
             
-            if let data = data {
-                do {
-                    let json = try JSONSerialization.jsonObject(with: data, options: [])
-                    print(json)
-                } catch {
-                    print(error)
-                }
-            }
+            guard let data = data else { return }
+            completion(.success(data))
         }.resume()
     }
     
-    func deleteItem(id: String, password: String) {
+    func deleteItem(id: String, password: String, completion: @escaping(Result<Data, Error>) -> Void) {
         guard let url = URL(string: ApiFormat.delete.url + id) else { return }
         var request = URLRequest(url: url)
         request.httpMethod = ApiFormat.delete.method
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-
+        
         let deleteItemData = DeleteItemData(password: password)
         guard let jsonBody = try? JSONEncoder().encode(deleteItemData) else { return }
         request.httpBody = jsonBody
         
-        let session = URLSession.shared
         session.dataTask(with: request) { data, response, error in
-            if let error = error {
-                print(error.localizedDescription)
-            }
-            guard let response = response else { return }
-            print(response)
+            if let error = error { return completion(.failure(error)) }
+            
+            guard let response = response as? HTTPURLResponse,
+                  (200...299).contains(response.statusCode) else { return }
             
             guard let data = data else { return }
-            
-            guard let item = try? JsonDecoder.decodedJsonFromData(type: ItemData.self, data: data) else { return }
-            print(item)
+            completion(.success(data))
         }.resume()
     }
     

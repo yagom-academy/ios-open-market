@@ -10,10 +10,9 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
         
         //GET Test
-        NetworkManager.init().getItems(page: "13")
+//        NetworkManager.init(session: MockURLSession)
 //        NetworkManager.init().getItem(id: "484")
         
         //POST Test
