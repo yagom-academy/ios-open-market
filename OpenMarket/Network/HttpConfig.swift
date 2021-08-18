@@ -13,6 +13,8 @@ enum HttpConfig {
     static let unknownError = "Error: unknown error occured"
     
     static var bounday: String {
-        return UUID().uuidString
+        return "--" + UUID().uuidString
     }
 }
+
+

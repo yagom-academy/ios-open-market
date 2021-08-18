@@ -17,11 +17,11 @@ enum HttpMethod {
     var path: String {
         switch self {
         case .items:
-            return "/items/"
+            return "items/"
         case .item, .patch, .delete:
-            return "/item/"
+            return "item/"
         case .post:
-            return "/item"
+            return "item"
         }
     }
     
