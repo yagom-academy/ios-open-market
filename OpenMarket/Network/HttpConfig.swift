@@ -16,7 +16,6 @@ enum HttpConfig {
     
     static let requestHeader = "multipart/form-data; boundary="
     static let contentType = "Content-Type"
-    static let POST = "POST"
     static let boundaryPrefix = "--"
     static var boundary: String {
         return UUID().uuidString
