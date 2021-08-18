@@ -10,6 +10,7 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         let dummy = ItemRequestable(
             title:"치킨",
             descriptions: "지금 먹어야 가장 맛있는 치킨",
