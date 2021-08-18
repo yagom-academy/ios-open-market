@@ -187,8 +187,7 @@ struct Session: Http, Decoder {
             form += "Content-Disposition: form-data; name=\"images[]\"".utf8
             form += (.newLine + "Content-Type: image/jpeg").utf8
             form += (.newLine + .newLine).utf8
-            form += data
-            form += String.newLine.utf8
+            form += data + String.newLine.utf8
         }
         
         return form
