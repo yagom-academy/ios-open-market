@@ -30,7 +30,7 @@ extension Decoder {
             if let error = try? decoder.decode(HttpError.self, from: data) {
                 return .failure(error)
             } else {
-                let unrecognizedError = HttpError(message: "?")
+                let unrecognizedError = HttpError(message: HttpConfig.parsingError)
                 
                 return .failure(unrecognizedError)
             }
