@@ -8,12 +8,12 @@
 import Foundation
 
 protocol Loopable {
-    var properties: [String: Any] { get }
+    var properties: [String: Any?] { get }
 }
 
 extension Loopable {
-    var properties: [String: Any] {
-        var result = [String: Any]()
+    var properties: [String: Any?] {
+        var result = [String: Any?]()
         
         let mirror = Mirror(reflecting: self)
         
@@ -25,7 +25,14 @@ extension Loopable {
         for (key, value) in mirror.children {
             guard let key = key else { continue }
             
-            result[key] = value
+            let subMirror = Mirror(reflecting: value)
+            
+            if subMirror.displayStyle == .optional,
+               let unwrappedValue = subMirror.children.first {
+                result[key] = unwrappedValue.value
+            } else {
+                result[key] = value
+            }
         }
         
         return result
