@@ -13,11 +13,7 @@ enum JsonError: Error {
 }
 
 protocol Decoder {
-    func decodeJsonFromData<T: Decodable>(type: T.Type, data: Data) throws -> T
-}
-
-protocol MockDecoder: Decoder {
-    func receiveDataAsset(assetName: String) throws -> NSDataAsset
+    static func decodeJsonFromData<T: Decodable>(type: T.Type, data: Data) throws -> T
 }
 
 struct JsonDecoder<T: Decodable> {
