@@ -8,11 +8,12 @@
 import Foundation
 
 struct ItemRequestable: Loopable {
-    var title: String?
-    var descriptions: String?
-    var price: Int?
-    var currency: String?
-    var stock: Int?
-    var discountedPrice: Int?
-    var password: String
+    private(set) var title: String? = nil
+    private(set) var descriptions: String? = nil
+    private(set) var price: Int? = nil
+    private(set) var currency: String? = nil
+    private(set) var stock: Int? = nil
+    private(set) var discountedPrice: Int? = nil
+    
+    let password: String
 }
