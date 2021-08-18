@@ -38,8 +38,8 @@ extension Loopable {
             let valueMirror = Mirror(reflecting: value)
             
             if valueMirror.displayStyle == .optional,
-               let unwrappedValue = valueMirror.children.first {
-                dictionary[key] = unwrappedValue.value
+               let optional = valueMirror.children.first {
+                dictionary[key] = optional.value
             } else {
                 dictionary[key] = value
             }
