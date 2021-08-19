@@ -12,7 +12,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         let dummy = ItemRequestable(
-            title:"치킨",
+            title:"양념치킨",
             descriptions: "지금 먹어야 가장 맛있는 치킨",
             price: 20000,
             currency: "KRW",
@@ -21,14 +21,25 @@ class ViewController: UIViewController {
             password: "password~~"
         )
         
-        Session().postItem(item: dummy, images: [#imageLiteral(resourceName: "compressed")]) { result in
-            switch result {
-            case .success(let itemDetail):
-                print(itemDetail)
-            case .failure(let error):
-                print(error)
-            }
-        }
+//
+//        Session().postItem(item: dummy, images: [#imageLiteral(resourceName: "compressed")]) { result in
+//            switch result {
+//            case .success(let itemDetail):
+//                print(itemDetail)
+//            case .failure(let error):
+//                print(error)
+//            }
+//        }
+
+//        Session().deleteItem(itemId: 539, item: dummy) { result in
+//            switch result {
+//            case .success(let itemDetail):
+//               print(itemDetail)
+//            case .failure(let error):
+//               print(error)
+//            }
+//        }
+
         
 //        undesirableTest()
     }
@@ -40,7 +51,7 @@ extension ViewController {
         
         let session = Session()
         
-        let pageIndex: UInt = 1
+        let pageIndex: UInt = 17
         let itemIndexWhichIsExist: UInt = 43
         let itemIndexWhichIsNotExist: UInt = 9999
         
