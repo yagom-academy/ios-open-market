@@ -14,9 +14,7 @@ class ImageLoader {
     private init() {}
     
     func loadImage(from urlString: String,
-                   indexPath: IndexPath,
-                   collectionView: UICollectionView,
-                   at cell: GridItemCollectionViewCell) {
+                   completion: @escaping (UIImage) -> Void) {
         
         guard let url = URL(string: urlString) else { return }
         
@@ -26,11 +24,9 @@ class ImageLoader {
                   (200...299).contains(statusCode) else { return }
             guard let data = data else { return }
             
-            let imageData = UIImage(data: data)
+            guard let imageData = UIImage(data: data) else { return }
             DispatchQueue.main.async {
-                if indexPath == collectionView.indexPath(for: cell) {
-                    cell.thumbnailImageView?.image = imageData
-                }
+                completion(imageData)
             }
         }.resume()
     }
