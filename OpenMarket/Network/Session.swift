@@ -83,7 +83,7 @@ struct Session: Http, Decoder {
                     return
                 }
                 
-                let parsedData = parse(from: data, to: Model.self)
+                let parsedData = parse(from: data, to: Model.self, or: HttpError.self)
                 completionHandler(parsedData)
             }
             .resume()
@@ -101,7 +101,7 @@ struct Session: Http, Decoder {
                     return
                 }
                 
-                let parsedData = parse(from: data, to: Model.self)
+                let parsedData = parse(from: data, to: Model.self, or: HttpError.self)
                 completionHandler(parsedData)
             }
             .resume()
