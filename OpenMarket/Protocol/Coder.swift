@@ -7,15 +7,20 @@
 
 import UIKit
 
-protocol Decoder {
+protocol Coder {
     func parse<Model, ErrorModel>(
         from data: Data,
         to model: Model.Type,
         or errorModel: ErrorModel.Type
     ) -> Result<Model, ErrorModel> where Model: Decodable, ErrorModel: ErrorMessage
+    
+    func encode<Model, ErrorModel>(
+        from data: Model,
+        or errorModel: ErrorModel.Type
+    ) -> Result<Data, ErrorModel> where Model: Encodable, ErrorModel: ErrorMessage
 }
 
-extension Decoder {
+extension Coder {
     func parse<Model, ErrorModel>(
         from data: Data,
         to model: Model.Type,
@@ -36,6 +41,24 @@ extension Decoder {
                 
                 return .failure(unrecognizedError)
             }
+        }
+    }
+    
+    func encode<Model, ErrorModel>(
+        from data: Model,
+        or errorModel: ErrorModel.Type
+    ) -> Result<Data, ErrorModel> where Model: Encodable, ErrorModel: ErrorMessage {
+        
+        let decoder = JSONEncoder()
+        
+        do {
+            let result = try decoder.encode(data)
+            
+            return .success(result)
+        } catch {
+            let error = ErrorModel(message: .parsingError) 
+                
+            return .failure(error)
         }
     }
 }
