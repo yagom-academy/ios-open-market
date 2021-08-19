@@ -12,6 +12,7 @@
 		794CC8C826C3A32C005161F4 /* DeleteItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794CC8C726C3A32C005161F4 /* DeleteItem.swift */; };
 		794CC8D126C3BC84005161F4 /* OpenMarketTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794CC8D026C3BC84005161F4 /* OpenMarketTests.swift */; };
 		794CC8DE26C3C68C005161F4 /* URLSessionDataTaskProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794CC8DD26C3C68C005161F4 /* URLSessionDataTaskProtocol.swift */; };
+		79843E1E26CE710600BCEF9E /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79843E1D26CE710600BCEF9E /* ImageLoader.swift */; };
 		79D2BA2326CBA3E100C29D5C /* MockURLSessionDataTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794CC8DB26C3BECA005161F4 /* MockURLSessionDataTask.swift */; };
 		79D2BA2426CBA3E100C29D5C /* MockURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7999574326C6302600192720 /* MockURLSession.swift */; };
 		79D2BA2526CBA3E100C29D5C /* MockURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = D460FFAF26C6393E0004BE3F /* MockURL.swift */; };
@@ -49,6 +50,7 @@
 		794CC8D226C3BC84005161F4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		794CC8DB26C3BECA005161F4 /* MockURLSessionDataTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSessionDataTask.swift; sourceTree = "<group>"; };
 		794CC8DD26C3C68C005161F4 /* URLSessionDataTaskProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionDataTaskProtocol.swift; sourceTree = "<group>"; };
+		79843E1D26CE710600BCEF9E /* ImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
 		7999574326C6302600192720 /* MockURLSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSession.swift; sourceTree = "<group>"; };
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -193,6 +195,7 @@
 			isa = PBXGroup;
 			children = (
 				D412A98226C3B01500E3E639 /* NetworkManager.swift */,
+				79843E1D26CE710600BCEF9E /* ImageLoader.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -319,6 +322,7 @@
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				D412A97A26C3A2AC00E3E639 /* PatchItem.swift in Sources */,
 				794CC8C826C3A32C005161F4 /* DeleteItem.swift in Sources */,
+				79843E1E26CE710600BCEF9E /* ImageLoader.swift in Sources */,
 				794CC8C326C3972D005161F4 /* Page.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 				D412A98626C3B37C00E3E639 /* NetworkError.swift in Sources */,

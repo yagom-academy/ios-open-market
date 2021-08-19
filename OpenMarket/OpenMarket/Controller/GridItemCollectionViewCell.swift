@@ -14,4 +14,20 @@ class GridItemCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var discountedPriceLabel: UILabel!
     @IBOutlet weak var stockLabel: UILabel!
     
+    func updateContents(item: Page.Item, indexPath: IndexPath, collectionView: UICollectionView) {
+        self.titleLabel?.text = item.title
+        self.priceLabel?.text = item.price.description
+        self.stockLabel?.text = item.stock.description
+        
+        handleDiscountedPrice()
+        
+        ImageLoader.shared.loadImage(from: item.thumbnails[0],
+                                     indexPath: indexPath,
+                                     collectionView: collectionView,
+                                     at: self)
+    }
+    
+    func handleDiscountedPrice() {
+        
+    }
 }

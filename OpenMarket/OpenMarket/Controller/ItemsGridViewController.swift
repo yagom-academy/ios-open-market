@@ -37,9 +37,14 @@ extension ItemsGridViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let gridItemCellID = "gridViewCell"
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: gridItemCellID,
+        guard let item = items?[indexPath.item],
+              let cell = collectionView.dequeueReusableCell(withReuseIdentifier: gridItemCellID,
                                                             for: indexPath) as? GridItemCollectionViewCell
-        else { return GridItemCollectionViewCell() }
+        else { return UICollectionViewCell() }
+        
+        cell.updateContents(item: item,
+                            indexPath: indexPath,
+                            collectionView: collectionView)
         
         return cell
     }
