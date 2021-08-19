@@ -39,15 +39,4 @@ enum HttpMethod {
             return "GET"
         }
     }
-    
-    var requestType: String? {
-        switch self {
-        case .delete:
-            return HttpConfig.JSON
-        case .post, .patch:
-            return HttpConfig.multiPartFormData
-        default:
-            return nil
-        }
-    }
 }

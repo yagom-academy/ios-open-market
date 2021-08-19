@@ -13,8 +13,6 @@ enum HttpConfig {
     static let invailedPath = "AppError: current path is invailed"
     static let unknownError = "Error: unknown error occured"
     
-    static let JSON = "JSON"
-    static let multiPartFormData = "MPFD"
     static let requestHeader = "multipart/form-data; boundary="
     static let contentType = "Content-Type"
     static let boundaryPrefix = "--"
