@@ -7,6 +7,6 @@
 
 import Foundation
 
-struct HttpError: Error, Decodable {
+struct HttpError: ErrorMessage {
     let message: String
 }
