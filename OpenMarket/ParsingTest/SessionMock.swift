@@ -8,7 +8,7 @@
 import UIKit
 @testable import OpenMarket
 
-class SessionMock: Http, Decoder {
+class SessionMock: Http, Coder {
     
     typealias Model = ItemList
 

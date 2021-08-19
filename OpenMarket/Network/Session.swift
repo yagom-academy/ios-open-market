@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct Session: Http, Decoder {
+struct Session: Http, Coder {
     
     func getItems(
         pageIndex: UInt,
@@ -19,7 +19,7 @@ struct Session: Http, Decoder {
             return
         }
         
-        urlTask(url: url) { result in
+        doTaskWith(url: url) { result in
             completionHandler(result)
         }
     }
@@ -34,7 +34,7 @@ struct Session: Http, Decoder {
             return
         }
         
-        urlTask(url: url) { result in
+        doTaskWith(url: url) { result in
             completionHandler(result)
         }
     }
@@ -44,17 +44,53 @@ struct Session: Http, Decoder {
         images: [UIImage],
         completionHandler: @escaping (Result<ItemDetail, HttpError>) -> Void
     ) {
-       guard let request = buildedRequestAbout(
+       guard let request = buildedRequestWithFormDataAbout(
                 method: HttpMethod.post,
                 item: item,
                 images: images
        ) else { return }
         
-        requestTask(request: request) { result in
+        doTaskWith(request: request) { result in
             completionHandler(result)
         }
     }
     
+    func patchItem(
+        itemId: Int,
+        item: ItemRequestable? = nil,
+        images: [UIImage]? = nil,
+        completionHandler: @escaping (Result<ItemDetail, HttpError>) -> Void
+    ) {
+       guard let request = buildedRequestWithFormDataAbout(
+                method: HttpMethod.patch(id: itemId.description),
+                item: item,
+                images: images
+       ) else { return }
+        
+        doTaskWith(request: request) { result in
+            completionHandler(result)
+        }
+    }
+
+    func deleteItem(
+        itemId: Int,
+        item: ItemRequestable,
+        completionHandler: @escaping (Result<ItemDetail, HttpError>) -> Void
+    ) {
+        guard let request = buildedRequestWithJSONAbout(
+                method: .delete(id: itemId.description),
+                item: item
+        ) else {
+            return
+        }
+        
+        doTaskWith(request: request) { result in
+            completionHandler(result)
+        }
+    }
+}
+
+extension Session {
     private func guardedDataAbout(
         data: Data?,
         response: URLResponse?,
@@ -71,7 +107,7 @@ struct Session: Http, Decoder {
         return data
     }
     
-    private func urlTask<Model>(
+    private func doTaskWith<Model>(
         url: URL,
         completionHandler: @escaping (Result<Model, HttpError>) -> Void
     ) where Model: Decodable {
@@ -89,7 +125,7 @@ struct Session: Http, Decoder {
             .resume()
     }
     
-    private func requestTask<Model>(
+    private func doTaskWith<Model>(
         request: URLRequest,
         completionHandler: @escaping (Result<Model, HttpError>) -> Void
     ) where Model: Decodable {
@@ -107,9 +143,9 @@ struct Session: Http, Decoder {
             .resume()
     }
     
-    private func buildedRequestAbout<Model>(
+    private func buildedRequestWithFormDataAbout<Model>(
         method: HttpMethod,
-        item: Model,
+        item: Model? = nil,
         images: [UIImage]? = nil
     ) -> URLRequest? where Model: Loopable {
         
@@ -143,11 +179,29 @@ struct Session: Http, Decoder {
             request.httpBody = Data()
         }
         
+        if let item = item {
+            let itemData = buildedFormData(from: item, boundary: boundaryWithPrefix)
+            
+            request.httpBody?.append(itemData)
+        }
         
-        let itemData = buildedFormData(from: item, boundary: boundaryWithPrefix)
+        return request
+    }
+    
+    private func buildedRequestWithJSONAbout<Model>(
+        method: HttpMethod,
+        item: Model
+    ) -> URLRequest? where Model: Encodable {
+        let path = HttpConfig.baseURL + method.path
+        guard let url = URL(string: path),
+              let body = try? encode(from: item, or: HttpError.self).get() else {
+            return nil
+        }
         
-        request.httpBody?.append(itemData)
-        
+        var request = URLRequest(url: url)
+        request.setValue("application/json", forHTTPHeaderField: HttpConfig.contentType)
+        request.httpMethod = method.type
+        request.httpBody = body
         return request
     }
     
