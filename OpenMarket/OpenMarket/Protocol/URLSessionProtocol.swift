@@ -7,10 +7,10 @@
 
 import Foundation
 
-protocol TestProtocol { //채택하고 얘로 의존성 주입을 한다.
+protocol URLSessionProtocol {
     func dataTask(with url: URL, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask
 }
 
-extension URLSession: TestProtocol {
+extension URLSession: URLSessionProtocol {
     
 }

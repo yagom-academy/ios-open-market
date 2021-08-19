@@ -7,8 +7,8 @@
 
 import Foundation
 
-class MockAPIManager {
-    static let shared = MockAPIManager()
+class APIManager {
+    static let shared = APIManager()
   
     
     let session: URLSession
