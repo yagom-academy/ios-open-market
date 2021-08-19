@@ -12,6 +12,8 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         //GET Test
+        NetworkManager.init().commuteWithAPI(API: GetItemAPI() { _ in
+        }
 //        NetworkManager.init(session: MockURLSession)
 //        NetworkManager.init().getItem(id: "484")
         

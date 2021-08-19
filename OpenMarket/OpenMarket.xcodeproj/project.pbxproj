@@ -18,6 +18,9 @@
 		4DC0FCF326C3896F00D32D98 /* MockItem.json in Resources */ = {isa = PBXBuildFile; fileRef = 4DC0FCF226C3896F00D32D98 /* MockItem.json */; };
 		4DC0FCF526C389BC00D32D98 /* MockItems.json in Resources */ = {isa = PBXBuildFile; fileRef = 4DC0FCF426C389BC00D32D98 /* MockItems.json */; };
 		4DC0FCF726C38AE800D32D98 /* JsonDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DC0FCF626C38AE800D32D98 /* JsonDecoder.swift */; };
+		4DD38CEB26CE50A7006C2CCC /* Requestable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DD38CEA26CE50A7006C2CCC /* Requestable.swift */; };
+		4DD38CED26CE576B006C2CCC /* ContentTypeEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DD38CEC26CE576B006C2CCC /* ContentTypeEnum.swift */; };
+		4DD38CEF26CE5B40006C2CCC /* GetItemAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DD38CEE26CE5B40006C2CCC /* GetItemAPI.swift */; };
 		8986F7F826C9F35F0076B64E /* ApiFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8986F7F726C9F35F0076B64E /* ApiFormat.swift */; };
 		89A37E3226C3BB7900ED2163 /* OpenMarketTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89A37E3126C3BB7900ED2163 /* OpenMarketTests.swift */; };
 		89A37E6026C6406600ED2163 /* Media.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89A37E5F26C6406600ED2163 /* Media.swift */; };
@@ -53,6 +56,9 @@
 		4DC0FCF226C3896F00D32D98 /* MockItem.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = MockItem.json; sourceTree = "<group>"; };
 		4DC0FCF426C389BC00D32D98 /* MockItems.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = MockItems.json; sourceTree = "<group>"; };
 		4DC0FCF626C38AE800D32D98 /* JsonDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonDecoder.swift; sourceTree = "<group>"; };
+		4DD38CEA26CE50A7006C2CCC /* Requestable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Requestable.swift; sourceTree = "<group>"; };
+		4DD38CEC26CE576B006C2CCC /* ContentTypeEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentTypeEnum.swift; sourceTree = "<group>"; };
+		4DD38CEE26CE5B40006C2CCC /* GetItemAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetItemAPI.swift; sourceTree = "<group>"; };
 		8986F7F726C9F35F0076B64E /* ApiFormat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiFormat.swift; sourceTree = "<group>"; };
 		89A37E2F26C3BB7900ED2163 /* OpenMarketTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenMarketTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		89A37E3126C3BB7900ED2163 /* OpenMarketTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketTests.swift; sourceTree = "<group>"; };
@@ -92,6 +98,7 @@
 			isa = PBXGroup;
 			children = (
 				4D31CB5626CC95C300CFDFA0 /* NetworkProtocol.swift */,
+				4DD38CEA26CE50A7006C2CCC /* Requestable.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -142,10 +149,12 @@
 			children = (
 				89C164C726C26B3C00D7A4DE /* NetworkManager.swift */,
 				89A37E5F26C6406600ED2163 /* Media.swift */,
+				4DD38CEE26CE5B40006C2CCC /* GetItemAPI.swift */,
 				4D29EC5426C648C600B6844C /* PostItemData.swift */,
 				4DA5CC3326C9F80C00A124C4 /* PatchItemData.swift */,
 				4DA5CC3526CA016200A124C4 /* DeleteItemData.swift */,
 				8986F7F726C9F35F0076B64E /* ApiFormat.swift */,
+				4DD38CEC26CE576B006C2CCC /* ContentTypeEnum.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -302,8 +311,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4DD38CED26CE576B006C2CCC /* ContentTypeEnum.swift in Sources */,
 				8986F7F826C9F35F0076B64E /* ApiFormat.swift in Sources */,
 				4DA5CC3426C9F80C00A124C4 /* PatchItemData.swift in Sources */,
+				4DD38CEF26CE5B40006C2CCC /* GetItemAPI.swift in Sources */,
 				4D29EC5526C648C600B6844C /* PostItemData.swift in Sources */,
 				4DC0FCF726C38AE800D32D98 /* JsonDecoder.swift in Sources */,
 				4D31CB5926CC971100CFDFA0 /* MockURLSession.swift in Sources */,
@@ -317,6 +328,7 @@
 				4DB65D3726C2107E000B23A9 /* ItemsData.swift in Sources */,
 				4D31CB5726CC95C300CFDFA0 /* NetworkProtocol.swift in Sources */,
 				89A37E6026C6406600ED2163 /* Media.swift in Sources */,
+				4DD38CEB26CE50A7006C2CCC /* Requestable.swift in Sources */,
 				4DB65D3926C21408000B23A9 /* ItemData.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

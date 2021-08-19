@@ -8,20 +8,22 @@
 import Foundation
 
 enum ApiFormat {
-    case getItems
-    case getItem
+    case getItems(page: Int)
+    case getItem(id: Int)
     case post
-    case patch
-    case delete
+    case patch(id: Int)
+    case delete(id: Int)
     
-    static let baseUrl = "https://camp-open-market-2.herokuapp.com/"
+    
 
-    var url: String {
+    var path: String {
         switch self {
-        case .getItems:
-            return Self.baseUrl + "items/"
-        case .post, .getItem, .patch, .delete:
-            return Self.baseUrl + "item/"
+        case .getItems(let page):
+            return "items/" + String(page)
+        case .post:
+            return "item"
+        case .getItem(let id), .patch(let id), .delete(let id):
+            return "item/" + String(id)
         }
     }
     
