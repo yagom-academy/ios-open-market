@@ -11,15 +11,17 @@ enum HttpMethod {
     case items
     case item
     case post
-    case patch
-    case delete
+    case patch(id: String)
+    case delete(id: String)
     
     var path: String {
         switch self {
         case .items:
             return "items/"
-        case .item, .patch, .delete:
+        case .item:
             return "item/"
+        case .patch(id: let id), .delete(id: let id):
+            return "item/" + id
         case .post:
             return "item"
         }
@@ -35,6 +37,17 @@ enum HttpMethod {
             return "PATCH"
         default:
             return "GET"
+        }
+    }
+    
+    var requestType: String? {
+        switch self {
+        case .delete:
+            return HttpConfig.JSON
+        case .post, .patch:
+            return HttpConfig.multiPartFormData
+        default:
+            return nil
         }
     }
 }
