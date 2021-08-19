@@ -19,7 +19,7 @@ class GridItemCollectionViewCell: UICollectionViewCell {
         self.priceLabel?.text = item.price.description
         self.stockLabel?.text = item.stock.description
         
-        handleDiscountedPrice()
+        handleDiscountedPrice(item: item, indexPath: indexPath)
         
         ImageLoader.shared.loadImage(from: item.thumbnails[0],
                                      indexPath: indexPath,
@@ -27,7 +27,12 @@ class GridItemCollectionViewCell: UICollectionViewCell {
                                      at: self)
     }
     
-    func handleDiscountedPrice() {
-        
+    func handleDiscountedPrice(item: Page.Item, indexPath: IndexPath) {
+        if let discountedPrice = item.discountedPrice {
+            discountedPriceLabel?.isHidden = false
+            self.discountedPriceLabel?.text = discountedPrice.description
+        } else {
+            discountedPriceLabel?.isHidden = true
+        }
     }
 }
