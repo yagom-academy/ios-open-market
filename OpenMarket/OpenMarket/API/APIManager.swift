@@ -13,6 +13,8 @@ class APIManager {
     static let shared = APIManager()
   
     let session: URLSessionProtocol
+    let baseUrl = "https://camp-open-market-2.herokuapp.com/"
+    let path = "item/"
     init(session: URLSessionProtocol = URLSession.shared) {
         self.session = session
     }
@@ -40,7 +42,7 @@ class APIManager {
         task.resume()
     }
     
-    func fetchProduct(id: Int, url: URL, completion: @escaping DataTaskResult) {
-        session.makedDataTask(with: url, completionHandler: completion).resume()
-    }
+//    func fetchProduct(id: Int, url: URL, completion: @escaping DataTaskResult) {
+//        session.makedDataTask(with: url, completionHandler: completion).resume()
+//    }
 }
