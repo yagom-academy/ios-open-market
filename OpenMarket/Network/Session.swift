@@ -57,7 +57,7 @@ struct Session: Http, Coder {
     
     func patchItem(
         itemId: Int,
-        item: ItemRequestable? = nil,
+        item: ItemRequestable,
         images: [UIImage]? = nil,
         completionHandler: @escaping (Result<ItemDetail, HttpError>) -> Void
     ) {
