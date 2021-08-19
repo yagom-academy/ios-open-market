@@ -33,5 +33,11 @@ extension Http {
         completionHandler: @escaping (Result<ItemDetail, HttpError>) -> Void
     ) {}
     
-    func deleteItem(password: String) {}
+    func deleteItem(
+        itemId: Int,
+        item: ItemRequestable,
+        completionHandler: @escaping (Result<ItemDetail, HttpError>) -> Void
+    ) {
+        
+    }
 }
