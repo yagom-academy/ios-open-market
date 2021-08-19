@@ -22,7 +22,7 @@ class NetworkManager {
         self.session = session
     }
 
-    func commuteWithAPI(API: Requestable, completion: @escaping(Result<ItemsData, Error>) -> Void) {
+    func commuteWithAPI(API: Requestable, completion: @escaping(Result<Data, Error>) -> Void) {
         guard let request = try? createRequest(url: API.url, API: API) else { return }
 
         session.dataTask(with: request) { data, response, error in
@@ -31,10 +31,10 @@ class NetworkManager {
             guard let response = response as? HTTPURLResponse,
                   (200...299).contains(response.statusCode) else { return }
             print(response)
-            guard let data = data, let items = try? JsonDecoder.decodedJsonFromData(type: ItemsData.self, data: data) else { return }
-            print(items)
+            guard let data = data else { return}
+            print(String(decoding: data, as: UTF8.self))
             DispatchQueue.main.async {
-                completion(.success(items))
+                completion(.success(data))
             }
         }.resume()
     }
@@ -56,7 +56,10 @@ extension NetworkManager {
         }
         
         if let api = API as? RequestableWithBody {
-            request.httpBody = createDataBody(withParameters: api.parameter, media: api.items)
+            let body = createDataBody(withParameters: api.parameter, media: api.items)
+             request.httpBody = body
+               
+            print(String(decoding: body, as: UTF8.self))
         }
         return request
     }

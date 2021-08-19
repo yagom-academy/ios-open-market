@@ -28,7 +28,7 @@ struct Media {
     let mimeType: MimeType
 
     init?(image: UIImage, mimeType: MimeType) {
-        self.key = "image[]"
+        self.key = "images[]"
         self.mimeType = mimeType
 
         switch mimeType {
