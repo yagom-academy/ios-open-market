@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ItemRequestable: Loopable {
+struct ItemRequestable: Loopable, Codable {
     private(set) var title: String? = nil
     private(set) var descriptions: String? = nil
     private(set) var price: Int? = nil
