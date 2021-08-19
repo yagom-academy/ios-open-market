@@ -8,17 +8,19 @@
 import UIKit
 
 protocol Decoder {
-    func parse<Model>(
+    func parse<Model, ErrorModel>(
         from data: Data,
-        to model: Model.Type
-    ) -> Result<Model, HttpError> where Model: Decodable
+        to model: Model.Type,
+        or errorModel: ErrorModel.Type
+    ) -> Result<Model, ErrorModel> where Model: Decodable, ErrorModel: ErrorMessage
 }
 
 extension Decoder {
-    func parse<Model>(
+    func parse<Model, ErrorModel>(
         from data: Data,
-        to: Model.Type
-    ) -> Result<Model, HttpError> where Model: Decodable {
+        to model: Model.Type,
+        or errorModel: ErrorModel.Type
+    ) -> Result<Model, ErrorModel> where Model: Decodable, ErrorModel: ErrorMessage {
         
         let decoder = JSONDecoder()
         
@@ -27,10 +29,10 @@ extension Decoder {
             
             return .success(result)
         } catch {
-            if let error = try? decoder.decode(HttpError.self, from: data) {
+            if let error = try? decoder.decode(ErrorModel.self, from: data) {
                 return .failure(error)
             } else {
-                let unrecognizedError = HttpError(message: HttpConfig.parsingError)
+                let unrecognizedError = ErrorModel(message: .parsingError)
                 
                 return .failure(unrecognizedError)
             }
