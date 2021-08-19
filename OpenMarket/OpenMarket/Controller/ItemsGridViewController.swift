@@ -49,3 +49,29 @@ extension ItemsGridViewController: UICollectionViewDataSource {
         return cell
     }
 }
+
+extension ItemsGridViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
+        let defaultInset: CGFloat = 8
+        let numberOfRow: CGFloat = 2
+        let sizeRatio: CGFloat = 1.7
+        
+        guard let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout else {
+            return CGSize.zero
+        }
+        
+        layout.sectionInset = UIEdgeInsets(top: defaultInset,
+                                           left: defaultInset,
+                                           bottom: .zero,
+                                           right: defaultInset)
+        
+        let numberOfItemPerRow: CGFloat = numberOfRow
+        let contentWidth = collectionView.bounds.width - (layout.sectionInset.left + layout.sectionInset.right)
+        
+        let cellWidth = (contentWidth - layout.minimumInteritemSpacing) / numberOfItemPerRow
+        let cellHeight = cellWidth * sizeRatio
+        
+        return CGSize(width: cellWidth, height: cellHeight)
+    }
+}
