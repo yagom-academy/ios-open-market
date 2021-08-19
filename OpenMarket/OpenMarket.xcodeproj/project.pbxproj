@@ -12,6 +12,7 @@
 		635EB06126CCC12600AAB0E5 /* ItemRequestable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 635EB06026CCC12600AAB0E5 /* ItemRequestable.swift */; };
 		636A664426CB84C70005D56F /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636A664326CB84C70005D56F /* Session.swift */; };
 		636A664626CB87D80005D56F /* HttpMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636A664526CB87D80005D56F /* HttpMethod.swift */; };
+		637E519326CE0A40006C8402 /* ErrorMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637E519226CE0A40006C8402 /* ErrorMessage.swift */; };
 		63862C6826CC215E00F35966 /* String+Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63862C6726CC215E00F35966 /* String+Constants.swift */; };
 		63A3627326CA917D00C1B206 /* ItemDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A3627226CA917D00C1B206 /* ItemDetail.swift */; };
 		63A3627526CA92B000C1B206 /* HttpError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A3627426CA92B000C1B206 /* HttpError.swift */; };
@@ -45,6 +46,7 @@
 		635EB06026CCC12600AAB0E5 /* ItemRequestable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemRequestable.swift; sourceTree = "<group>"; };
 		636A664326CB84C70005D56F /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		636A664526CB87D80005D56F /* HttpMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpMethod.swift; sourceTree = "<group>"; };
+		637E519226CE0A40006C8402 /* ErrorMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorMessage.swift; sourceTree = "<group>"; };
 		63862C6726CC215E00F35966 /* String+Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Constants.swift"; sourceTree = "<group>"; };
 		63A3627226CA917D00C1B206 /* ItemDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemDetail.swift; sourceTree = "<group>"; };
 		63A3627426CA92B000C1B206 /* HttpError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpError.swift; sourceTree = "<group>"; };
@@ -124,6 +126,7 @@
 			isa = PBXGroup;
 			children = (
 				63C84B9626CBDBAC00D66F18 /* Loopable.swift */,
+				637E519226CE0A40006C8402 /* ErrorMessage.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -298,6 +301,7 @@
 				636A664426CB84C70005D56F /* Session.swift in Sources */,
 				63A3627626CA95C500C1B206 /* Decoder.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
+				637E519326CE0A40006C8402 /* ErrorMessage.swift in Sources */,
 				63862C6826CC215E00F35966 /* String+Constants.swift in Sources */,
 				63C84B9726CBDBAC00D66F18 /* Loopable.swift in Sources */,
 				6359287E26CB5E7300E1A69F /* Http.swift in Sources */,

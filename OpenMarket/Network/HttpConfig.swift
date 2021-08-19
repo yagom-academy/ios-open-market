@@ -11,7 +11,7 @@ enum HttpConfig {
     static let baseURL = "https://camp-open-market-2.herokuapp.com/"
     
     static let invailedPath = "AppError: current path is invailed"
-    static let parsingError = "AppError: result data is not json"
+    
     static let unknownError = "Error: unknown error occured"
     
     static let requestHeader = "multipart/form-data; boundary="
