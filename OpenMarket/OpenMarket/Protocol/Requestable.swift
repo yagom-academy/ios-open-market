@@ -8,9 +8,14 @@
 import UIKit
 
 protocol Requestable {
-    var format: ApiFormat { get }
+    var url: String { get }
+    var method: APIMethod { get }
     var contentType: ContentType { get }
-    var parameter: [String: Any]? { get }
-    var items: [UIImage]? { get }
 }
 
+protocol RequestableWithoutBody: Requestable{}
+
+protocol RequestableWithBody: Requestable {
+    var parameter: [String: Any]? { get }
+    var items: [Media]? { get }
+}

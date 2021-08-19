@@ -8,21 +8,15 @@
 import Foundation
 
 enum ContentType: CustomStringConvertible{
-    case jpeg
-    case png
     case json
-    case multipart(boundary: String)
+    case multipart
     
     var description: String {
         switch self {
-        case .jpeg:
-            return "image/jpeg"
-        case .png:
-            return "image/png"
         case .json:
             return "application/json"
-        case .multipart(let boundary):
-            return "multipart/form-data; boundary=\(boundary)"
+        case .multipart:
+            return "multipart/form-data; boundary="
         }
     }
 }
