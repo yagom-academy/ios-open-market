@@ -194,7 +194,7 @@ extension Session {
     ) -> URLRequest? where Model: Encodable {
         let path = HttpConfig.baseURL + method.path
         guard let url = URL(string: path),
-              let body = try? encode(to: item, or: HttpError.self).get() else {
+              let body = try? encode(from: item, or: HttpError.self).get() else {
             return nil
         }
         

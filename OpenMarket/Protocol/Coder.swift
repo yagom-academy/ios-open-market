@@ -15,7 +15,7 @@ protocol Coder {
     ) -> Result<Model, ErrorModel> where Model: Decodable, ErrorModel: ErrorMessage
     
     func encode<Model, ErrorModel>(
-        to data: Model,
+        from data: Model,
         or errorModel: ErrorModel.Type
     ) -> Result<Data, ErrorModel> where Model: Encodable, ErrorModel: ErrorMessage
 }
@@ -45,7 +45,7 @@ extension Coder {
     }
     
     func encode<Model, ErrorModel>(
-        to data: Model,
+        from data: Model,
         or errorModel: ErrorModel.Type
     ) -> Result<Data, ErrorModel> where Model: Encodable, ErrorModel: ErrorMessage {
         
