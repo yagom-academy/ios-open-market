@@ -15,6 +15,10 @@
 		3F57511726C24BF100388390 /* OpenMarketTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F57511626C24BF100388390 /* OpenMarketTests.swift */; };
 		7537D64626C66E5E00BE09BC /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7537D64526C66E5E00BE09BC /* NetworkManager.swift */; };
 		757EA9A526CF770200AA9086 /* APIable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 757EA9A426CF770200AA9086 /* APIable.swift */; };
+		757EA9A726CF786300AA9086 /* DeleteAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 757EA9A626CF786300AA9086 /* DeleteAPI.swift */; };
+		757EA9A926CF79F700AA9086 /* PostAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 757EA9A826CF79F700AA9086 /* PostAPI.swift */; };
+		757EA9AB26CF7A9700AA9086 /* GetAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 757EA9AA26CF7A9700AA9086 /* GetAPI.swift */; };
+		757EA9AD26CF7B1700AA9086 /* PatchAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 757EA9AC26CF7B1700AA9086 /* PatchAPI.swift */; };
 		7582992C26C2489A00FF19CE /* Page.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7582992B26C2489A00FF19CE /* Page.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
 		C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */; };
@@ -45,6 +49,10 @@
 		3F57511826C24BF100388390 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7537D64526C66E5E00BE09BC /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		757EA9A426CF770200AA9086 /* APIable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIable.swift; sourceTree = "<group>"; };
+		757EA9A626CF786300AA9086 /* DeleteAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteAPI.swift; sourceTree = "<group>"; };
+		757EA9A826CF79F700AA9086 /* PostAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostAPI.swift; sourceTree = "<group>"; };
+		757EA9AA26CF7A9700AA9086 /* GetAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetAPI.swift; sourceTree = "<group>"; };
+		757EA9AC26CF7B1700AA9086 /* PatchAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatchAPI.swift; sourceTree = "<group>"; };
 		7582992B26C2489A00FF19CE /* Page.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Page.swift; sourceTree = "<group>"; };
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -121,6 +129,10 @@
 			isa = PBXGroup;
 			children = (
 				757EA9A426CF770200AA9086 /* APIable.swift */,
+				757EA9A626CF786300AA9086 /* DeleteAPI.swift */,
+				757EA9A826CF79F700AA9086 /* PostAPI.swift */,
+				757EA9AA26CF7A9700AA9086 /* GetAPI.swift */,
+				757EA9AC26CF7B1700AA9086 /* PatchAPI.swift */,
 			);
 			path = APIModel;
 			sourceTree = "<group>";
@@ -266,10 +278,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
+				757EA9AB26CF7A9700AA9086 /* GetAPI.swift in Sources */,
+				757EA9AD26CF7B1700AA9086 /* PatchAPI.swift in Sources */,
 				7537D64626C66E5E00BE09BC /* NetworkManager.swift in Sources */,
 				3F57510A26C2465000388390 /* Product.swift in Sources */,
 				3F1E3E8C26C6639E005CFE74 /* ParsingManager.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
+				757EA9A926CF79F700AA9086 /* PostAPI.swift in Sources */,
+				757EA9A726CF786300AA9086 /* DeleteAPI.swift in Sources */,
 				757EA9A526CF770200AA9086 /* APIable.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 				7582992C26C2489A00FF19CE /* Page.swift in Sources */,

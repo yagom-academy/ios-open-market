@@ -37,6 +37,7 @@ extension URLSession: Networkable {}
 typealias URLSessionResult = ((Result<Data, Error>) -> Void)
 
 class NetworkManager {
+    static let baseUrl = "https://camp-open-market-2.herokuapp.com/"
     private let boundary = "Boundary-\(UUID().uuidString)"
     private let parsingManager = ParsingManager()
     private let session: Networkable
@@ -76,95 +77,9 @@ class NetworkManager {
             completion(.success(data))
         } .resume()
     }
-    
-    func request<T: APIModelProtocol>(requsetType: RequestType, url: String, model: T, completion: @escaping URLSessionResult) {
-        guard let url = URL(string: url) else {
-            completion(.failure(NetworkError.invalidURL))
-            return
-        }
-        
-        var request = URLRequest(url: url)
-        
-        switch requsetType {
-        case .get:
-            completion(.failure(NetworkError.invalidMethod))
-            return
-        case .patch:
-            guard let patchModel = model as? PatchItem else {
-                completion(.failure(NetworkError.missMatchModel))
-                return
-            }
-            request.httpMethod = requsetType.method
-            let body = createDataBody(model: patchModel)
-            request.httpBody = body
-            request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
-        case .post:
-            guard let postModel = model as? PostItem else {
-                completion(.failure(NetworkError.missMatchModel))
-                return
-            }
-            request.httpMethod = requsetType.method
-            let body = createDataBody(model: postModel)
-            request.httpBody = body
-            request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
-        case .delete:
-            guard let deleteModel = model as? DeleteItem else {
-                completion(.failure(NetworkError.missMatchModel))
-                return
-            }
-            request.httpMethod = requsetType.method
-            guard let body = parsingManager.encodingModel(model: deleteModel) else {
-                completion(.failure(JsonError.encodingError))
-                return
-            }
-            request.httpBody = body
-            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        }
-        
-        session.dataTask(with: request) { data, response, error in
-            if let error = error {
-                completion(.failure(error))
-                return
-            }
-            
-            guard let response = response as? HTTPURLResponse, (200...299).contains(response.statusCode) else {
-                completion(.failure(NetworkError.failResponse))
-                return
-            }
-            
-            guard let data = data else {
-                completion(.failure(NetworkError.invalidData))
-                return
-            }
-            completion(.success(data))
-        } .resume()
-    }
 }
 
 extension NetworkManager {
-    private func createDataBody<T: APIModelProtocol>(model: T) -> Data? {
-        var body = Data()
-        let lineBreak = "\r\n"
-        
-        if let model = model as? MultiPartFormProtocol {
-            for (key, value) in model.textField {
-                body.append(convertTextField(key: key, value: value ?? ""))
-            }
-            guard let modelImages = model.mediaFile else {
-                body.append("--\(boundary)--\(lineBreak)")
-                return body
-            }
-            for image in modelImages {
-                body.append(convertFileField(key: image.key, source: image.filename, mimeType: image.mimeType, value: image.data))
-            }
-            body.append("--\(boundary)--\(lineBreak)")
-        } else {
-            if let data = parsingManager.encodingModel(model: model) {
-                body = data
-            }
-        }
-        return body
-    }
     
     private func convertFileField(key: String, source: String, mimeType: String, value: Data) -> Data {
         let lineBreak = "\r\n"
