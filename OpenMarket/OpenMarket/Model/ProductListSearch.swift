@@ -8,6 +8,7 @@
 import Foundation
 
 struct ProductListSearch: Codable , Equatable {
+    
     static func == (lhs: ProductListSearch, rhs: ProductListSearch) -> Bool {
         return true
     }

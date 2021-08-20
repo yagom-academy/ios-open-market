@@ -9,12 +9,17 @@ import Foundation
 
 typealias DataTaskResult = (Data?, URLResponse?, Error?) -> Void
 
+enum URI: String {
+    case baseUrl = "https://camp-open-market-2.herokuapp.com/"
+    
+    static let fetchListpath = "\(Self.baseUrl.rawValue)items/"
+}
+
 class APIManager {
     static let shared = APIManager()
   
     let session: URLSessionProtocol
-    let baseUrl = "https://camp-open-market-2.herokuapp.com/"
-    let path = "item/"
+    
     init(session: URLSessionProtocol = URLSession.shared) {
         self.session = session
     }
@@ -45,4 +50,30 @@ class APIManager {
 //    func fetchProduct(id: Int, url: URL, completion: @escaping DataTaskResult) {
 //        session.makedDataTask(with: url, completionHandler: completion).resume()
 //    }
+    
+    //https://camp-open-market-2.herokuapp.com/items/\(page)
+    func fetchProductList(page: Int, completion: @escaping (Result<ProductListSearch, APIError>) ->()) {
+        guard let url = URL(string: "\(URI.fetchListpath)\(page)") else { return }
+        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+            if let error = error {
+                print(error.localizedDescription)
+                return
+            }
+            guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+                return
+            }
+            if let data = data {
+                
+                let decoder = JSONDecoder()
+                do {
+                    let result = try decoder.decode(ProductListSearch.self, from: data)
+                    completion(.success(result))
+                } catch {
+                    print(error.localizedDescription)
+                    completion(.failure(APIError.invalidURL))
+                }
+            }
+        }
+        task.resume()
+    }
 }
