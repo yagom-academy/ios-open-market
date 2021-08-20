@@ -104,8 +104,8 @@
 			children = (
 				43B337E126C5347F00343736 /* Item.swift */,
 				DF9898B826C53EFD00F040DF /* ItemBundle.swift */,
-				430914CA26CB943500A928CA /* Dependency */,
 				4331928C26CF8257008CE714 /* RequestAPI.swift */,
+				430914CA26CB943500A928CA /* Dependency */,
 			);
 			path = Model;
 			sourceTree = "<group>";

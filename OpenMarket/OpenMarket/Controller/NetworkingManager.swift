@@ -18,6 +18,17 @@ struct NetworkingManager {
         self.baseURL = baseURL
     }
     
+    func configureRequest(from api: RequestAPI) -> URLRequest {
+        guard let url = URL(string: baseURL + api.path) else {
+            fatalError("URL 생성실패")
+        }
+        var request = URLRequest(url: url)
+        request.httpMethod = api.method.description
+        request.httpBody = api.body
+        
+        return request
+    }
+    
     func request(bundle request: URLRequest, completion: @escaping (Result<ResultArgument, Error>) -> ()) {
         let dataTask = session.dataTask(with: request) { data, response, error in
             guard error == nil else {
