@@ -7,7 +7,7 @@
 
 import Foundation
 
-class Item: Decodable {
+class Item: Decodable, ResultArgument {
     let id: Int
     let title: String
     var descriptions: String?

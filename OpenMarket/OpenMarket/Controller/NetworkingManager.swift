@@ -18,7 +18,7 @@ struct NetworkingManager {
         self.baseURL = baseURL
     }
     
-    func request<T: Decodable>(bundle request: URLRequest, completion: @escaping (Result<T, Error>) -> ()) {
+    func request(bundle request: URLRequest, completion: @escaping (Result<ResultArgument, Error>) -> ()) {
         let dataTask = session.dataTask(with: request) { data, response, error in
             guard error == nil else {
                 completion(.failure(error!))
@@ -30,10 +30,10 @@ struct NetworkingManager {
                 completion(.failure(error!))
                 return
             }
-            let parsedData = parsingManager.parse(data, to: T.self)
+            let parsedData = parsingManager.parse(data, to: ItemBundle.self)
             switch parsedData {
             case .success(let data):
-                completion(.success(data))
+                completion(.success(data as ResultArgument))
             case .failure(let error):
                 completion(.failure(error))
             }
