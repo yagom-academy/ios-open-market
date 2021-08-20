@@ -11,7 +11,7 @@ struct OpenMarketLoadData {
     
     let networkManager: NetworkManager
     
-    func requestOpenMarketMainPageData(page: String, completionHandler: @escaping (OpenMarketItems) -> () ) {
+    func requestOpenMarketMainPageData(page: String, completionHandler: @escaping (OpenMarketItems) -> ()) {
         guard let url = URL(string: String(describing: OpenMarketUrl.listLookUp) + page) else {
             return
         }
