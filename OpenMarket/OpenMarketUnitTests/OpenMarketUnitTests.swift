@@ -9,12 +9,10 @@ import XCTest
 @testable import OpenMarket
 
 class OpenMarketUnitTests: XCTestCase {
-    var sut = [ItemBundle]()
-    let decoder = ParsingManager()
-    
-    override func setUp() {
-        sut = []
-    }
+    var sut: [ItemBundle] = []
+    var decoder: ParsingManager = ParsingManager()
+    var mockSesssion: URLSessionProtocol = MockURLSession()
+    var manager: NetworkingManager = NetworkingManager(session: MockURLSession(), parsingManager: ParsingManager(), baseURL: "https://camp-open-market-2.herokuapp.com")
     
     func test_success_JSON파일의정보와_디코딩된인스턴스정보가같다() {
         //given
@@ -63,5 +61,35 @@ class OpenMarketUnitTests: XCTestCase {
         case .failure(_):
             XCTAssert(true)
         }
+    }
+    
+    func test_success_API를담은URLRequest를매개변수로주면_request메서드성공한다() {
+        //given
+        let request = URLRequest(url: URL(string: manager.baseURL + "/items/1")!)
+        var isSuccess = false
+        //when
+        manager.request(bundle: request) { result in
+            guard case .success(_) = result else {
+                return
+            }
+            isSuccess = true
+        }
+        //then
+        XCTAssert(isSuccess)
+    }
+    
+    func test_success_잘못된URLRequest를매개변수로주면_request메서드실패한다() {
+        //given
+        let request = URLRequest(url: URL(string: manager.baseURL + "/item/1")!)
+        var isSuccess = false
+        //when
+        manager.request(bundle: request) { result in
+            guard case .failure(_) = result else {
+                return
+            }
+            isSuccess = true
+        }
+        //then
+        XCTAssert(isSuccess)
     }
 }

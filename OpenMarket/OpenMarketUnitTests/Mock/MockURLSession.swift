@@ -32,9 +32,9 @@ class MockURLSession: URLSessionProtocol {
             var fileName: String {
                 switch self {
                 case .item:
-                    return "item"
+                    return "Item"
                 case .items:
-                    return "items"
+                    return "Items"
                 }
             }
         }
@@ -43,7 +43,7 @@ class MockURLSession: URLSessionProtocol {
             fatalError("URL 이상함")
         }
         
-        let path = Bundle.main.path(forResource: fileName, ofType: "json")
+        let path = Bundle(for: type(of: self)).path(forResource: fileName, ofType: "json")
         let jsonData = try? String(contentsOfFile: path!).data(using: .utf8)
         
         guard let data = jsonData else {
