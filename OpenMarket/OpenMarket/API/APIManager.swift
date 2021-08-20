@@ -5,55 +5,27 @@
 //  Created by Charlotte, Hosinging on 2021/08/10.
 //
 
-import Foundation
+import UIKit
 
 typealias DataTaskResult = (Data?, URLResponse?, Error?) -> Void
 
 enum URI: String {
     case baseUrl = "https://camp-open-market-2.herokuapp.com/"
-    
-    static let fetchListpath = "\(Self.baseUrl.rawValue)items/"
+    static let registerPath = "\(Self.baseUrl.rawValue)item/"
+    static let fetchListPath = "\(Self.baseUrl.rawValue)items/"
 }
 
 class APIManager {
     static let shared = APIManager()
-  
+    
     let session: URLSessionProtocol
     
     init(session: URLSessionProtocol = URLSession.shared) {
         self.session = session
     }
     
-    func fetchMockProduct() {
-        guard let url = URL(string: "https://s3.us-west-2.amazonaws.com/secure.notion-static.com/3af41dec-56f1-47af-97c1-798c606386d0/Item.json?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAT73L2G45O3KS52Y5%2F20210810%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20210810T073851Z&X-Amz-Expires=86400&X-Amz-Signature=2e39b44e89edd3376615727e06532db5b423546aed5755017208f27754e25217&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22Item.json%22") else { return }
-        
-        let task = URLSession.shared.dataTask(with: url) { data, response, error in
-            if let error = error {
-                print(error.localizedDescription)
-                return
-            }
-            guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
-                return
-            }
-            if let data = data {
-                let decoder = JSONDecoder()
-                do {
-                    let result = try decoder.decode(ProductSearch.self, from: data)
-                } catch {
-                    print(error.localizedDescription)
-                }
-            }
-        }
-        task.resume()
-    }
-    
-//    func fetchProduct(id: Int, url: URL, completion: @escaping DataTaskResult) {
-//        session.makedDataTask(with: url, completionHandler: completion).resume()
-//    }
-    
-    //https://camp-open-market-2.herokuapp.com/items/\(page)
     func fetchProductList(page: Int, completion: @escaping (Result<ProductListSearch, APIError>) ->()) {
-        guard let url = URL(string: "\(URI.fetchListpath)\(page)") else { return }
+        guard let url = URL(string: "\(URI.fetchListPath)\(page)") else { return }
         let task = URLSession.shared.dataTask(with: url) { data, response, error in
             if let error = error {
                 print(error.localizedDescription)
@@ -72,6 +44,31 @@ class APIManager {
                 } catch {
                     print(error.localizedDescription)
                     completion(.failure(APIError.invalidURL))
+                }
+            }
+        }
+        task.resume()
+    }
+    
+    func registProduct(parameters: [String : Any], media: [Media], completion: @escaping (Result<Data, APIError>) -> ()) {
+        guard let url = URL(string: URI.registerPath) else { return }
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        let boundary = MultiPartForm.boundary
+        let contentDispostion = MultiPartForm.contentDisposition
+        request.setValue(MultiPartForm.httpHeader.description, forHTTPHeaderField: MultiPartForm.httpHeaderField.description)
+        let httpBody = MultiPartForm.creatHTTPBody(parameters: parameters, media: media, boundary: boundary, contentDisposition: contentDispostion)
+        request.httpBody = httpBody
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                print(error.localizedDescription)
+            }
+            if let data = data {
+                do {
+                    let product = try JSONEncoder().encode(data)
+                    completion(.success(product))
+                } catch {
+                    print(error.localizedDescription)
                 }
             }
         }
