@@ -102,7 +102,7 @@ class OpenMarketTests: XCTestCase {
     func test_get의_Request가_제대로_구성되지않으면_실패한다(){
         //given
         let id = 13
-        let sut = NetworkManager(session: MockURLSession(isRequestSucess: true), valuableMethod: [.get])
+        let sut = NetworkManager(session: MockURLSession(isRequestSucess: true), valuableMethod: [.post])
         
         //when
         sut.commuteWithAPI(API: GetItemAPI(id: id)){ result in
