@@ -68,6 +68,7 @@ class APIManager {
                 do {
                     let result = try decoder.decode(ProductListSearch.self, from: data)
                     completion(.success(result))
+                    
                 } catch {
                     print(error.localizedDescription)
                     completion(.failure(APIError.invalidURL))
