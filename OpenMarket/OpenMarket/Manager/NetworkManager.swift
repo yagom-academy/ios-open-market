@@ -8,13 +8,13 @@
 import Foundation
 
 struct NetworkManager {
-    private let dataTaskRequestable: DataTaskRequestable
+    private var dataTaskRequestable: DataTaskRequestable
     
     init(dataTaskRequestable: DataTaskRequestable = NetworkModule()) {
         self.dataTaskRequestable = dataTaskRequestable
     }
     
-    func lookUpProductList(on pageNum: Int, completionHandler: @escaping (Result<Data, Error>) -> Void) {
+    mutating func lookUpProductList(on pageNum: Int, completionHandler: @escaping (Result<Data, Error>) -> Void) {
         let methodForm = OpenMarketAPIConstants.listGet
         guard var url = methodForm.url else {
             return completionHandler(.failure(NetworkError.invalidURL))
@@ -27,7 +27,7 @@ struct NetworkManager {
         dataTaskRequestable.runDataTask(using: urlRequest, with: completionHandler)
     }
     
-    func registerProduct(with parameters: [String: Any], and medias: [Media], completionHandler: @escaping (Result<Data, Error>) -> Void) {
+    mutating func registerProduct(with parameters: [String: Any], and medias: [Media], completionHandler: @escaping (Result<Data, Error>) -> Void) {
         let methodForm = OpenMarketAPIConstants.post
         let boundary = generateBoundary()
         guard let url = methodForm.url else {

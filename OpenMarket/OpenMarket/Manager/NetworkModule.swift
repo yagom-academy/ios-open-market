@@ -8,8 +8,13 @@
 import Foundation
 
 struct NetworkModule: DataTaskRequestable {
-    func runDataTask(using request: URLRequest, with completionHandler: @escaping (Result<Data, Error>) -> Void) {
-        URLSession.shared.dataTask(with: request) { data, response, error in
+    private var dataTask: URLSessionDataTask?
+    
+    mutating func runDataTask(using request: URLRequest, with completionHandler: @escaping (Result<Data, Error>) -> Void) {
+        dataTask?.cancel()
+        dataTask = nil
+        
+        dataTask = URLSession.shared.dataTask(with: request) { data, response, error in
             if let response = response as? HTTPURLResponse,
                OpenMarketAPIConstants.rangeOfSuccessState.contains(response.statusCode),
                let data = data {
@@ -25,6 +30,7 @@ struct NetworkModule: DataTaskRequestable {
                     completionHandler(.failure(NetworkError.unknown))
                 }
             }
-        }.resume()
+        }
+        dataTask?.resume()
     }
 }
