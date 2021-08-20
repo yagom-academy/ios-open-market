@@ -13,7 +13,7 @@ class SessionMock: Http, Coder {
     typealias Model = ItemList
 
     private lazy var asset = try? takeAssetData(assetName: "item_list")
-    lazy var itemList = try! parse(
+    lazy var itemList = try! decode(
         from: asset!,
         to: ItemList.self,
         or: HttpError.self
@@ -36,7 +36,7 @@ class SessionMock: Http, Coder {
         completionHandler: @escaping (Result<ItemDetail, HttpError>) -> Void
     ) {
         let assetData = try! takeAssetData(assetName: "item")
-        let item = try! parse(
+        let item = try! decode(
             from: assetData,
             to: ItemDetail.self,
             or: HttpError.self

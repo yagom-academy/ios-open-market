@@ -8,20 +8,20 @@
 import UIKit
 
 protocol Coder {
-    func parse<Model, ErrorModel>(
+    func decode<Model, ErrorModel>(
         from data: Data,
         to model: Model.Type,
         or errorModel: ErrorModel.Type
     ) -> Result<Model, ErrorModel> where Model: Decodable, ErrorModel: ErrorMessage
     
     func encode<Model, ErrorModel>(
-        from data: Model,
+        to data: Model,
         or errorModel: ErrorModel.Type
     ) -> Result<Data, ErrorModel> where Model: Encodable, ErrorModel: ErrorMessage
 }
 
 extension Coder {
-    func parse<Model, ErrorModel>(
+    func decode<Model, ErrorModel>(
         from data: Data,
         to model: Model.Type,
         or errorModel: ErrorModel.Type
@@ -45,7 +45,7 @@ extension Coder {
     }
     
     func encode<Model, ErrorModel>(
-        from data: Model,
+        to data: Model,
         or errorModel: ErrorModel.Type
     ) -> Result<Data, ErrorModel> where Model: Encodable, ErrorModel: ErrorMessage {
         
