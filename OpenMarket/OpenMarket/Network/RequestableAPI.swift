@@ -47,23 +47,21 @@ struct PatchAPI: RequestableWithBody {
     var parameter: [String : Any]?
     var items: [Media]?
 
-    init(id: Int, parameter: [String : Any], items: [Media]) {
+    init(id: Int, parameter: [String : Any]?, items: [Media]?) {
         self.url = APIURL.patch.description + "\(id)"
         self.parameter = parameter
         self.items = items
     }
 }
 
-struct DeleteAPI: RequestableWithBody {
+struct DeleteAPI: Requestable {
     var url: String
     var method: APIMethod = .delete
     var contentType: ContentType = .json
-    var parameter: [String : Any]?
-    var items: [Media]?
+    var deleteItemData: DeleteItemData
     
-    init(id: Int, parameter: [String : Any], items: [Media]) {
+    init(id: Int, password: String) {
         self.url = APIURL.delete.description + "\(id)"
-        self.parameter = parameter
-        self.items = items
+        self.deleteItemData = DeleteItemData(password: password)
     }
 }

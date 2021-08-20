@@ -77,7 +77,7 @@ class OpenMarketTests: XCTestCase {
     func test_getItems를_네트워크_무관_테스트에_성공한다() {
         //given
         let page = "1"
-        let sut = NetworkManager(session: MockURLSession(isRequestSucess: true))
+        let sut = NetworkManager(session: MockURLSession(isRequestSucess: true),valuableMethod: [.get]
         let expectInputValue = "MockItems"
         guard let jsonData = try? MockJsonDecoder.receiveDataAsset(assetName: expectInputValue) else {
             return
@@ -87,7 +87,9 @@ class OpenMarketTests: XCTestCase {
         sut.getItems(page: page) { result in
             switch result {
         //then
-            case .success(let item):
+            case .success():
+                let item = JsonDecoder.decodedJsonFromData(type: ItemsData.self, data: result)
+                item.
                 XCTAssertEqual(item.items[0].title, decodedData.items[0].title)
             case .failure:
                 XCTFail()

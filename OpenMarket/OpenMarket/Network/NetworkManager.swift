@@ -10,6 +10,7 @@ typealias Parameters = [String: Any]
 
 enum NetworkError: Error {
     case invalidURL
+    case invalidResult
 }
 
 class NetworkManager {
@@ -18,12 +19,20 @@ class NetworkManager {
     let baseUrl = "https://camp-open-market-2.herokuapp.com/"
     lazy var boundary = generateBoundary()
 
-    init(session: URLSessionProtocol = URLSession.shared) {
+    var valuableMethod: [APIMethod] = []
+    
+    
+    init(session: URLSessionProtocol = URLSession.shared, valuableMethod: [APIMethod] = APIMethod.allCases) {
         self.session = session
+        self.valuableMethod = valuableMethod
     }
 
     func commuteWithAPI(API: Requestable, completion: @escaping(Result<Data, Error>) -> Void) {
         guard let request = try? createRequest(url: API.url, API: API) else { return }
+        //메소드검사
+        guard valuableMethod.contains(API.method) else {
+            return completion(.failure(NetworkError.invalidResult))
+        }
 
         session.dataTask(with: request) { data, response, error in
             if let error = error { return completion(.failure(error)) }
@@ -55,12 +64,20 @@ extension NetworkManager {
             request.setValue(API.contentType.description, forHTTPHeaderField: "Content-Type")
         }
         
+        if let api = API as? DeleteAPI {
+            
+            guard let body = try? JSONEncoder().encode(api.deleteItemData) else { throw NetworkError.invalidResult}
+            request.httpBody = body
+        }
+        
         if let api = API as? RequestableWithBody {
             let body = createDataBody(withParameters: api.parameter, media: api.items)
              request.httpBody = body
                
             print(String(decoding: body, as: UTF8.self))
         }
+        
+        
         return request
     }
 

@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum APIMethod {
+enum APIMethod: CaseIterable {
     case get
     case post
     case patch
