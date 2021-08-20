@@ -11,6 +11,8 @@ typealias Parameters = [String: Any]
 enum NetworkError: Error {
     case invalidURL
     case invalidResult
+    case unownedResponse
+    case unownedData
 }
 
 class NetworkManager {
@@ -29,7 +31,7 @@ class NetworkManager {
 
     func commuteWithAPI(API: Requestable, completion: @escaping(Result<Data, Error>) -> Void) {
         guard let request = try? createRequest(url: API.url, API: API) else { return }
-        //메소드검사
+        
         guard valuableMethod.contains(API.method) else {
             return completion(.failure(NetworkError.invalidResult))
         }
@@ -38,10 +40,15 @@ class NetworkManager {
             if let error = error { return completion(.failure(error)) }
 
             guard let response = response as? HTTPURLResponse,
-                  (200...299).contains(response.statusCode) else { return }
-            print(response)
-            guard let data = data else { return}
-            print(String(decoding: data, as: UTF8.self))
+                  (200...299).contains(response.statusCode) else {
+                return completion(.failure(NetworkError.unownedResponse))
+            }
+            debugPrint(response)
+            
+            guard let data = data else {
+                return completion(.failure(NetworkError.unownedData))
+            }
+            debugPrint(String(decoding: data, as: UTF8.self))
             DispatchQueue.main.async {
                 completion(.success(data))
             }
@@ -65,16 +72,13 @@ extension NetworkManager {
         }
         
         if let api = API as? DeleteAPI {
-            
             guard let body = try? JSONEncoder().encode(api.deleteItemData) else { throw NetworkError.invalidResult}
             request.httpBody = body
-        }
-        
-        if let api = API as? RequestableWithBody {
+        } else if let api = API as? RequestableWithBody {
             let body = createDataBody(withParameters: api.parameter, media: api.items)
              request.httpBody = body
                
-            print(String(decoding: body, as: UTF8.self))
+            debugPrint(String(decoding: body, as: UTF8.self))
         }
         
         

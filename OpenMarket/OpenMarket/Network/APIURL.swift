@@ -14,7 +14,7 @@ enum APIURL: CustomStringConvertible {
     case patch
     case delete
 
-    static let baseUrl = "https://camp-open-market-2.herokuapp.com/"
+    private static let baseUrl = "https://camp-open-market-2.herokuapp.com/"
 
     var description: String {
         switch self {
