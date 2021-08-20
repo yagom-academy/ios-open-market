@@ -17,8 +17,7 @@ enum NetworkError: Error {
 
 class NetworkManager {
 
-    let session: URLSessionProtocol
-    let baseUrl = "https://camp-open-market-2.herokuapp.com/"
+    private let session: URLSessionProtocol
     lazy var boundary = generateBoundary()
 
     var valuableMethod: [APIMethod] = []
@@ -35,7 +34,6 @@ class NetworkManager {
         guard valuableMethod.contains(API.method) else {
             return completion(.failure(NetworkError.invalidResult))
         }
-
         session.dataTask(with: request) { data, response, error in
             if let error = error { return completion(.failure(error)) }
 
@@ -72,7 +70,7 @@ extension NetworkManager {
         }
         
         if let api = API as? DeleteAPI {
-            guard let body = try? JSONEncoder().encode(api.deleteItemData) else { throw NetworkError.invalidResult}
+            guard let body = try? JSONEncoder().encode(api.deleteItemData) else { throw NetworkError.unownedData}
             request.httpBody = body
         } else if let api = API as? RequestableWithBody {
             let body = createDataBody(withParameters: api.parameter, media: api.items)
@@ -91,25 +89,27 @@ extension NetworkManager {
 
     private func createDataBody(withParameters params: Parameters?, media: [Media]?) -> Data {
         var body = Data()
+        
+        let lineBreakPoint = "\r\n"
 
         if let parameters = params {
             for (key, value) in parameters {
-                body.append("--\(boundary)\r\n")
-                body.append("Content-Disposition: form-data; name=\"\(key)\"\r\n\r\n")
-                body.append("\(value)\r\n")
+                body.append("--\(boundary)\(lineBreakPoint)")
+                body.append("Content-Disposition: form-data; name=\"\(key)\"\(lineBreakPoint + lineBreakPoint)")
+                body.append("\(value)\(lineBreakPoint)")
             }
         }
 
         if let media = media {
             for photo in media {
-                body.append("--\(boundary)\r\n")
-                body.append("Content-Disposition: form-data; name=\"\(photo.key)\"; filename=\"\(photo.filename)\"\r\n")
-                body.append("Content-Type: \(photo.mimeType)\r\n\r\n")
+                body.append("--\(boundary)\(lineBreakPoint)")
+                body.append("Content-Disposition: form-data; name=\"\(photo.key)\"; filename=\"\(photo.filename)\"\(lineBreakPoint)")
+                body.append("Content-Type: \(photo.mimeType)\(lineBreakPoint + lineBreakPoint)")
                 body.append(photo.data)
-                body.append("\r\n")
+                body.append(lineBreakPoint)
             }
         }
-        body.append("--\(boundary)--\r\n")
+        body.append("--\(boundary)--\(lineBreakPoint)")
 
         return body
     }
