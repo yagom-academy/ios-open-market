@@ -15,7 +15,7 @@ struct ParsingManager {
     let decoder = JSONDecoder()
     
     init() {
-//        decoder.keyDecodingStrategy = .convertFromSnakeCase
+        decoder.keyDecodingStrategy = .convertFromSnakeCase
     }
 
     func parse<T: Decodable>(_ data: Data, to type: T.Type) -> Result<T, Error> {
