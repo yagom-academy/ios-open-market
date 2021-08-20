@@ -28,9 +28,9 @@ struct Session: Http, Coder {
         id: UInt,
         completionHandler: @escaping (Result<ItemDetail, HttpError>) -> Void
     ) {
-        let path = HttpConfig.baseURL + HttpMethod.item.path
+        let path = HttpConfig.baseURL + HttpMethod.item(id: id.description).path
         
-        guard let url = URL(string: path + id.description) else {
+        guard let url = URL(string: path) else {
             return
         }
         
