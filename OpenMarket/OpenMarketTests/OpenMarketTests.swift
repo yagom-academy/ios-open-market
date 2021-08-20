@@ -9,12 +9,17 @@ import XCTest
 @testable import OpenMarket
 
 class OpenMarketTests: XCTestCase {
+    var parsingManager: ParsingManager!
+    
+    override func setUp() {
+        parsingManager = ParsingManager()
+    }
     
     func test_Item에셋파일을_Product타입으로디코딩을하면_타이틀은맥북프로이다() {
         //Given
         let expectInputValue = "Item"
         //When
-        let parsedResult = ParsingManager().decode(from: expectInputValue, to: Product.self)
+        let parsedResult = parsingManager.decode(from: expectInputValue, to: Product.self)
         guard case .success(let outputValue) = parsedResult else {
             return XCTFail()
         }
@@ -27,7 +32,7 @@ class OpenMarketTests: XCTestCase {
         //Given
         let expectInputValue = "Items"
         //When
-        let parsedResult = ParsingManager().decode(from: expectInputValue, to: Products.self)
+        let parsedResult = parsingManager.decode(from: expectInputValue, to: Products.self)
         guard case .success(let outputValue) = parsedResult else {
             return XCTFail()
         }
@@ -44,7 +49,7 @@ class OpenMarketTests: XCTestCase {
         var outputValue = 0
         networkManager.lookUpProductList(on: pageNum) { result in
             guard case .success(let resultData) = result,
-                  case .success(let products) = ParsingManager().decode(from: resultData, to: Products.self)
+                  case .success(let products) = self.parsingManager.decode(from: resultData, to: Products.self)
             else {
                 return XCTFail()
             }
@@ -73,7 +78,7 @@ class OpenMarketTests: XCTestCase {
         var outputValue = ""
         networkManager.registerProduct(with: itemData, and: [itemPhoto]) { result in
             guard case .success(let resultData) = result,
-                  case .success(let product) = ParsingManager().decode(from: resultData, to: Product.self)
+                  case .success(let product) = self.parsingManager.decode(from: resultData, to: Product.self)
             else {
                 return XCTFail()
             }
