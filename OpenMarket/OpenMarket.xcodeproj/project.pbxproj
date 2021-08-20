@@ -13,6 +13,8 @@
 		74F1B98026C643BE00BE3812 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F1B97F26C643BE00BE3812 /* NetworkManager.swift */; };
 		74F1B98326C64C2400BE3812 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F1B98226C64C2400BE3812 /* Data.swift */; };
 		74F6611826CF810000801075 /* OpenMarketDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F6611726CF810000801075 /* OpenMarketDataSource.swift */; };
+		A83032ED26CF82C400EA30DC /* OpenMarketLoadData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A83032EC26CF82C400EA30DC /* OpenMarketLoadData.swift */; };
+		A83032EF26CF848900EA30DC /* NotificationName.swift in Sources */ = {isa = PBXBuildFile; fileRef = A83032EE26CF848900EA30DC /* NotificationName.swift */; };
 		A848422226C651DE00DEBDB6 /* Media.swift in Sources */ = {isa = PBXBuildFile; fileRef = A848422126C651DE00DEBDB6 /* Media.swift */; };
 		A848422526C6564300DEBDB6 /* NameSpace.swift in Sources */ = {isa = PBXBuildFile; fileRef = A848422426C6564300DEBDB6 /* NameSpace.swift */; };
 		A8CD08C526C23B8E00E14FDD /* ParsingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8CD08C426C23B8E00E14FDD /* ParsingManager.swift */; };
@@ -43,6 +45,8 @@
 		74F1B97F26C643BE00BE3812 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		74F1B98226C64C2400BE3812 /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
 		74F6611726CF810000801075 /* OpenMarketDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketDataSource.swift; sourceTree = "<group>"; };
+		A83032EC26CF82C400EA30DC /* OpenMarketLoadData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketLoadData.swift; sourceTree = "<group>"; };
+		A83032EE26CF848900EA30DC /* NotificationName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationName.swift; sourceTree = "<group>"; };
 		A848422126C651DE00DEBDB6 /* Media.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Media.swift; sourceTree = "<group>"; };
 		A848422426C6564300DEBDB6 /* NameSpace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameSpace.swift; sourceTree = "<group>"; };
 		A8CD08C426C23B8E00E14FDD /* ParsingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParsingManager.swift; sourceTree = "<group>"; };
@@ -99,6 +103,7 @@
 			isa = PBXGroup;
 			children = (
 				74F1B98226C64C2400BE3812 /* Data.swift */,
+				A83032EE26CF848900EA30DC /* NotificationName.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -107,6 +112,7 @@
 			isa = PBXGroup;
 			children = (
 				74F6611726CF810000801075 /* OpenMarketDataSource.swift */,
+				A83032EC26CF82C400EA30DC /* OpenMarketLoadData.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -282,11 +288,13 @@
 				74F1B98326C64C2400BE3812 /* Data.swift in Sources */,
 				74F1B98026C643BE00BE3812 /* NetworkManager.swift in Sources */,
 				74E0027C26C238550094ED88 /* OpenMarketItems.swift in Sources */,
+				A83032ED26CF82C400EA30DC /* OpenMarketLoadData.swift in Sources */,
 				A848422526C6564300DEBDB6 /* NameSpace.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
 				A8CD08C526C23B8E00E14FDD /* ParsingManager.swift in Sources */,
 				74F6611826CF810000801075 /* OpenMarketDataSource.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
+				A83032EF26CF848900EA30DC /* NotificationName.swift in Sources */,
 				A848422226C651DE00DEBDB6 /* Media.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 				74579EF326CB79C0000788D4 /* ItemDeleteEncodeType.swift in Sources */,
