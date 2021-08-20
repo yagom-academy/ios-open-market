@@ -21,7 +21,7 @@ struct ParsingManager {
         return convertedModel
     }
     
-    func encodingModel<T:Encodable>(model: T) -> Data? {
+    func encodingModel(model: [String: String?]?) -> Data? {
         let convertedData = try? encoder.encode(model)
         return convertedData
     }

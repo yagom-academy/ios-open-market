@@ -7,25 +7,11 @@
 
 import Foundation
 
-enum RequestType: String {
-    case get = "GET"
-    case post = "POST"
-    case delete = "DELETE"
-    case patch = "PATCH"
-    
-    var method: String {
-        return self.rawValue
-    }
-}
-
 enum NetworkError: Error {
-    case missMatchModel
-    case invalidMethod
     case invalidHandler
     case invalidURL
     case failResponse
     case invalidData
-    case unownedError
 }
 
 protocol Networkable {
@@ -46,17 +32,23 @@ class NetworkManager {
         self.session = session
     }
     
-    func request(requsetType: RequestType, url: String, completion: @escaping URLSessionResult) {
-        guard let url = URL(string: url) else {
+    func request(apiModel: APIable, completion: @escaping URLSessionResult) {
+        guard let url = URL(string: apiModel.url) else {
             completion(.failure(NetworkError.invalidURL))
             return
         }
-        
+    
         var request = URLRequest(url: url)
-        if requsetType == .get {
-            request.httpMethod = requsetType.method
-        } else {
-            completion(.failure(NetworkError.invalidMethod))
+        request.httpMethod = apiModel.requestType.method
+        request.httpBody = createDataBody(parameter: apiModel.param, contentType: apiModel.contentType, imageFile: apiModel.mediaFile)
+        
+        switch apiModel.contentType {
+        case .multiPartForm:
+            request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        case .jsonData:
+            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        case .noBody:
+            break
         }
         
         session.dataTask(with: request) { data, response, error in
@@ -80,6 +72,34 @@ class NetworkManager {
 }
 
 extension NetworkManager {
+    
+    private func createDataBody(parameter: [String: String?]?, contentType: ContentType, imageFile: [Media]?) -> Data? {
+        var body = Data()
+        let lineBreak = "\r\n"
+
+        if let modelParameter = parameter {
+            if contentType == .multiPartForm {
+                for (key, value) in modelParameter {
+                    body.append(convertTextField(key: key, value: "\(value ?? "")"))
+                }
+                guard let modelImages = imageFile else {
+                    body.append("--\(boundary)--\(lineBreak)")
+                    return body
+                }
+                for image in modelImages {
+                    body.append(convertFileField(key: image.key, source: image.filename, mimeType: image.mimeType, value: image.data))
+                }
+                body.append("--\(boundary)--\(lineBreak)")
+            } else {
+                if let data = parsingManager.encodingModel(model: parameter){
+                    body = data
+                }
+            }
+        } else {
+            return nil
+        }
+        return body
+    }
     
     private func convertFileField(key: String, source: String, mimeType: String, value: Data) -> Data {
         let lineBreak = "\r\n"
@@ -113,4 +133,5 @@ extension Data {
         }
     }
 }
+
 

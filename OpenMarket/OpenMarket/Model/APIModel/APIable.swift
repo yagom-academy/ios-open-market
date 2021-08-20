@@ -15,6 +15,17 @@ protocol APIable {
     var mediaFile: [Media]? { get }
 }
 
+enum RequestType: String {
+    case get = "GET"
+    case post = "POST"
+    case delete = "DELETE"
+    case patch = "PATCH"
+    
+    var method: String {
+        return self.rawValue
+    }
+}
+
 enum ContentType {
     case multiPartForm
     case jsonData

@@ -35,7 +35,7 @@ enum PostAPI: APIable {
     var url: String {
         switch self {
         case .registrateProduct:
-            return "(NetworkManager.baseUrl)/item"
+            return "\(NetworkManager.baseUrl)/item"
         }
     }
     
