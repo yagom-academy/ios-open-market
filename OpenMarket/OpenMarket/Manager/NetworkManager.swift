@@ -11,6 +11,9 @@ struct NetworkManager {
     private var dataTaskRequestable: DataTaskRequestable
     private let doubleHypen = "--"
     private let lineBreak = "\n\r"
+    private var generateBoundary: String {
+        return UUID().uuidString
+    }
     
     init(dataTaskRequestable: DataTaskRequestable = NetworkModule()) {
         self.dataTaskRequestable = dataTaskRequestable
@@ -31,7 +34,7 @@ struct NetworkManager {
     
     mutating func registerProduct(with parameters: [String: Any], and medias: [Media], completionHandler: @escaping (Result<Data, Error>) -> Void) {
         let methodForm = OpenMarketAPIConstants.post
-        let boundary = generateBoundary()
+        let boundary = generateBoundary
         guard let url = methodForm.url else {
             return completionHandler(.failure(NetworkError.invalidURL))
         }
@@ -44,10 +47,6 @@ struct NetworkManager {
         urlRequest.httpBody = dataBody
         
         dataTaskRequestable.runDataTask(using: urlRequest, with: completionHandler)
-    }
-    
-    private func generateBoundary() -> String {
-        return UUID().uuidString
     }
     
     private func createDataBody(with parameters: [String: Any], and medias: [Media]?, separatedInto boundary: String) -> Data {
