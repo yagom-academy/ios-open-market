@@ -16,7 +16,7 @@ class OpenMarketUnitTests: XCTestCase {
         sut = []
     }
     
-    func test_success_() {
+    func test_success_JSON파일의정보와_디코딩된인스턴스정보가같다() {
         //given
         let path = Bundle(for: type(of: self)).path(forResource: "Item", ofType: "json")
         let jsonFile = try? String(contentsOfFile: path!).data(using: .utf8)
@@ -47,6 +47,21 @@ class OpenMarketUnitTests: XCTestCase {
             XCTAssert(true)
         } else {
             XCTAssert(false)
+        }
+    }
+    
+    func test_failure_JSON파일과모델타입이일치하지않으면_parse메서드실패한다() {
+        //given
+        let path = Bundle(for: type(of: self)).path(forResource: "Items", ofType: "json")
+        let jsonFile = try? String(contentsOfFile: path!).data(using: .utf8)
+        //when
+        let result = decoder.parse(jsonFile!, to: Item.self)
+        //then
+        switch result {
+        case .success(_):
+            XCTAssert(false)
+        case .failure(_):
+            XCTAssert(true)
         }
     }
 }
