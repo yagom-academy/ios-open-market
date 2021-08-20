@@ -37,7 +37,7 @@ class NetworkManager {
             completion(.failure(NetworkError.invalidURL))
             return
         }
-    
+        
         var request = URLRequest(url: url)
         request.httpMethod = apiModel.requestType.method
         request.httpBody = createDataBody(parameter: apiModel.param, contentType: apiModel.contentType, imageFile: apiModel.mediaFile)
@@ -76,7 +76,7 @@ extension NetworkManager {
     private func createDataBody(parameter: [String: String?]?, contentType: ContentType, imageFile: [Media]?) -> Data? {
         var body = Data()
         let lineBreak = "\r\n"
-
+        
         if let modelParameter = parameter {
             if contentType == .multiPartForm {
                 for (key, value) in modelParameter {
