@@ -8,5 +8,5 @@
 import Foundation
 
 protocol DataTaskRequestable {
-    mutating func runDataTask(using request: URLRequest, with completionHandler: @escaping (Result<Data, Error>) -> Void)
+    mutating func runDataTask(with request: URLRequest, completionHandler: @escaping (Result<Data, Error>) -> Void)
 }

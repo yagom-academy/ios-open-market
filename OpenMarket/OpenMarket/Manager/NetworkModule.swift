@@ -11,7 +11,7 @@ struct NetworkModule: DataTaskRequestable {
     private var dataTask: URLSessionDataTask?
     private let rangeOfSuccessState = 200...299
 
-    mutating func runDataTask(using request: URLRequest, with completionHandler: @escaping (Result<Data, Error>) -> Void) {
+    mutating func runDataTask(with request: URLRequest, completionHandler: @escaping (Result<Data, Error>) -> Void) {
         dataTask?.cancel()
         dataTask = nil
         

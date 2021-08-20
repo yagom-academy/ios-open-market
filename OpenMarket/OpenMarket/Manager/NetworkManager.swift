@@ -29,7 +29,7 @@ struct NetworkManager {
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = methodForm.method
         
-        dataTaskRequestable.runDataTask(using: urlRequest, with: completionHandler)
+        dataTaskRequestable.runDataTask(with: urlRequest, completionHandler: completionHandler)
     }
     
     mutating func registerProduct(with parameters: [String: Any], and medias: [Media], completionHandler: @escaping (Result<Data, Error>) -> Void) {
@@ -43,13 +43,13 @@ struct NetworkManager {
         urlRequest.httpMethod = methodForm.method
         urlRequest.setValue(createHeaderValue(mimeType: .multipartedFormData, separator: boundary), forHTTPHeaderField: OpenMarketAPIConstants.keyOfContentType)
         
-        let dataBody = createDataBody(with: parameters, and: medias, separatedInto: boundary)
+        let dataBody = createDataBody(from: parameters, with: medias, separatedInto: boundary)
         urlRequest.httpBody = dataBody
         
-        dataTaskRequestable.runDataTask(using: urlRequest, with: completionHandler)
+        dataTaskRequestable.runDataTask(with: urlRequest, completionHandler: completionHandler)
     }
     
-    private func createDataBody(with parameters: [String: Any], and medias: [Media]?, separatedInto boundary: String) -> Data {
+    private func createDataBody(from parameters: [String: Any], with medias: [Media]?, separatedInto boundary: String) -> Data {
         var body = Data()
         
         for (key, value) in parameters {
