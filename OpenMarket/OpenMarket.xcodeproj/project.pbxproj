@@ -13,6 +13,8 @@
 		74F1B98026C643BE00BE3812 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F1B97F26C643BE00BE3812 /* NetworkManager.swift */; };
 		74F1B98326C64C2400BE3812 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F1B98226C64C2400BE3812 /* Data.swift */; };
 		74F6611826CF810000801075 /* OpenMarketDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F6611726CF810000801075 /* OpenMarketDataSource.swift */; };
+		74F6611A26CF91EC00801075 /* OpenMarketItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F6611926CF91EC00801075 /* OpenMarketItemCell.swift */; };
+		74F6611D26CF9B5A00801075 /* StrockLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F6611C26CF9B5A00801075 /* StrockLabel.swift */; };
 		A83032ED26CF82C400EA30DC /* OpenMarketLoadData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A83032EC26CF82C400EA30DC /* OpenMarketLoadData.swift */; };
 		A83032EF26CF848900EA30DC /* NotificationName.swift in Sources */ = {isa = PBXBuildFile; fileRef = A83032EE26CF848900EA30DC /* NotificationName.swift */; };
 		A848422226C651DE00DEBDB6 /* Media.swift in Sources */ = {isa = PBXBuildFile; fileRef = A848422126C651DE00DEBDB6 /* Media.swift */; };
@@ -45,6 +47,8 @@
 		74F1B97F26C643BE00BE3812 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		74F1B98226C64C2400BE3812 /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
 		74F6611726CF810000801075 /* OpenMarketDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketDataSource.swift; sourceTree = "<group>"; };
+		74F6611926CF91EC00801075 /* OpenMarketItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketItemCell.swift; sourceTree = "<group>"; };
+		74F6611C26CF9B5A00801075 /* StrockLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StrockLabel.swift; sourceTree = "<group>"; };
 		A83032EC26CF82C400EA30DC /* OpenMarketLoadData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketLoadData.swift; sourceTree = "<group>"; };
 		A83032EE26CF848900EA30DC /* NotificationName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationName.swift; sourceTree = "<group>"; };
 		A848422126C651DE00DEBDB6 /* Media.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Media.swift; sourceTree = "<group>"; };
@@ -117,6 +121,14 @@
 			path = Data;
 			sourceTree = "<group>";
 		};
+		74F6611B26CF9B3600801075 /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				74F6611C26CF9B5A00801075 /* StrockLabel.swift */,
+			);
+			path = Protocol;
+			sourceTree = "<group>";
+		};
 		A848422326C6563300DEBDB6 /* PlaceHolder */ = {
 			isa = PBXGroup;
 			children = (
@@ -130,6 +142,7 @@
 			children = (
 				C70FB10025BEF61C00C9924E /* Main.storyboard */,
 				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
+				74F6611926CF91EC00801075 /* OpenMarketItemCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -163,6 +176,7 @@
 		C70FB0F925BEF61C00C9924E /* OpenMarket */ = {
 			isa = PBXGroup;
 			children = (
+				74F6611B26CF9B3600801075 /* Protocol */,
 				74F6611626CF80D700801075 /* Data */,
 				74E0027A26C2380F0094ED88 /* Model */,
 				A84FE1ED26CB8BB5001BB378 /* View */,
@@ -287,9 +301,11 @@
 			files = (
 				74F1B98326C64C2400BE3812 /* Data.swift in Sources */,
 				74F1B98026C643BE00BE3812 /* NetworkManager.swift in Sources */,
+				74F6611A26CF91EC00801075 /* OpenMarketItemCell.swift in Sources */,
 				74E0027C26C238550094ED88 /* OpenMarketItems.swift in Sources */,
 				A83032ED26CF82C400EA30DC /* OpenMarketLoadData.swift in Sources */,
 				A848422526C6564300DEBDB6 /* NameSpace.swift in Sources */,
+				74F6611D26CF9B5A00801075 /* StrockLabel.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
 				A8CD08C526C23B8E00E14FDD /* ParsingManager.swift in Sources */,
 				74F6611826CF810000801075 /* OpenMarketDataSource.swift in Sources */,
