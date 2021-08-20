@@ -9,7 +9,7 @@ import Foundation
 
 enum GetAPI: APIable {
     case lookUpProductList(page: Int, contentType: ContentType)
-    case lookUpProduct(id: Int, contentType: ContentType)
+    case lookUpProduct(id: String, contentType: ContentType)
     
     var contentType: ContentType {
         switch self {
