@@ -143,8 +143,8 @@
 			children = (
 				9B95B15526CEB563002B05AA /* DataForm.swift */,
 				9B95B15126CEB52F002B05AA /* MultiPartForm.swift */,
-				9B95B15726CEC187002B05AA /* Image.swift */,
 				9B95B15326CEB547002B05AA /* JsonObject.swift */,
+				9B95B15726CEC187002B05AA /* Image.swift */,
 				9BC1863D26CF54E700A97B4B /* Data+Extensions.swift */,
 			);
 			path = DataForm;

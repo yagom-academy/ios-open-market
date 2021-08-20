@@ -7,28 +7,36 @@
 
 import Foundation
 
+protocol Sessionable {
+    func dataTask(with request: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask
+}
+
+extension URLSession: Sessionable { }
+
 struct NetworkHandler {
-    func request(api: OpenMarketAPI, form: DataForm? = nil) {
-        guard let url = URL(string: api.request.url) else { return }
+    private let session: Sessionable
+    private let valuableMethod: [HttpMethod]
+    
+    init(session: Sessionable = URLSession.shared, valuableMethod: [HttpMethod] = HttpMethod.allCases) {
+        self.session = session
+        self.valuableMethod = valuableMethod
+    }
+    
+    func request(api: OpenMarketAPI, form: DataForm? = nil, completionHandler: @escaping (Result<Data, Error>) -> Void) {
+        guard valuableMethod.contains(api.request.method),
+            let url = URL(string: api.request.url)
+        else { return }
+        
         var request = URLRequest(url: url)
-        request.httpMethod = api.request.method.description
+        request.httpMethod = String(describing: api.request.method)
         request.httpBody = try? form?.createBody()
         request.setValue(form?.contentType, forHTTPHeaderField: "Content-Type")
         
-        let session = URLSession.shared
         session.dataTask(with: request) { data, response, error in
-            
-            if let response = response {
-                print(response)
-            }
-            
+            guard let response = response as? HTTPURLResponse,
+                  (200...299).contains(response.statusCode) else { return }
             if let data = data {
-                do {
-                    let json = try JSONSerialization.jsonObject(with: data, options: [])
-                    print(json)
-                } catch {
-                    print(error)
-                }
+                completionHandler(.success(data))
             }
         }.resume()
     }

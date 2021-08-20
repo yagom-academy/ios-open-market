@@ -18,10 +18,10 @@ enum OpenMarketAPI {
     
     var request: (url: String, method: HttpMethod) {
         switch self {
-        case .getItem(let id):
-            return (url: OpenMarketAPI.baseURL + "item/\(id)", method: HttpMethod.get)
         case .getItemCollection(let page):
             return (url: OpenMarketAPI.baseURL + "items/\(page)", method: HttpMethod.get)
+        case .getItem(let id):
+            return (url: OpenMarketAPI.baseURL + "item/\(id)", method: HttpMethod.get)
         case .deleteItem(let id):
             return (url: OpenMarketAPI.baseURL + "item/\(id)", method: HttpMethod.delete)
         case .patchItem(let id):

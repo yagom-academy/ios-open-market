@@ -7,13 +7,18 @@
 
 import Foundation
 
-enum HttpMethod: String, CustomStringConvertible {
+enum HttpMethod: String, CustomStringConvertible, CaseIterable {
     case get    = "GET"
     case post   = "POST"
     case patch  = "PATCH"
     case delete = "DELETE"
     
     var description: String {
-        return self.rawValue
+        switch self {
+        case .get : return "GET"
+        case .post : return "POST"
+        case .patch : return "PATCH"
+        case .delete : return "DELETE"
+        }
     }
 }
