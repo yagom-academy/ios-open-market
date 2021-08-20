@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct Media {
+struct Image {
     let key: String
     let fileName: String
     let data: Data

@@ -7,8 +7,13 @@
 
 import Foundation
 
+enum DataFormError: Error {
+    case notFoundBoundary
+}
+
 protocol DataForm {
     var contentType: String { get }
+    
     func createBody() throws -> Data?
 }
 

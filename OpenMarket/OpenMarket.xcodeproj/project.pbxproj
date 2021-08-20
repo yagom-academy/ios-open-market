@@ -15,7 +15,7 @@
 		9B95B15226CEB52F002B05AA /* MultiPartForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B95B15126CEB52F002B05AA /* MultiPartForm.swift */; };
 		9B95B15426CEB547002B05AA /* JsonObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B95B15326CEB547002B05AA /* JsonObject.swift */; };
 		9B95B15626CEB563002B05AA /* DataForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B95B15526CEB563002B05AA /* DataForm.swift */; };
-		9B95B15826CEC187002B05AA /* Media.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B95B15726CEC187002B05AA /* Media.swift */; };
+		9B95B15826CEC187002B05AA /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B95B15726CEC187002B05AA /* Image.swift */; };
 		9BAB0B2126C2420500AD881B /* ItemCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BAB0B2026C2420500AD881B /* ItemCollection.swift */; };
 		9BBA269926C9F9870025DA57 /* JsonUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BBA269826C9F9870025DA57 /* JsonUtil.swift */; };
 		9BC1863E26CF54E700A97B4B /* Data+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BC1863D26CF54E700A97B4B /* Data+Extensions.swift */; };
@@ -50,7 +50,7 @@
 		9B95B15126CEB52F002B05AA /* MultiPartForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiPartForm.swift; sourceTree = "<group>"; };
 		9B95B15326CEB547002B05AA /* JsonObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonObject.swift; sourceTree = "<group>"; };
 		9B95B15526CEB563002B05AA /* DataForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataForm.swift; sourceTree = "<group>"; };
-		9B95B15726CEC187002B05AA /* Media.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Media.swift; sourceTree = "<group>"; };
+		9B95B15726CEC187002B05AA /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
 		9BAB0B2026C2420500AD881B /* ItemCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemCollection.swift; sourceTree = "<group>"; };
 		9BBA269826C9F9870025DA57 /* JsonUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonUtil.swift; sourceTree = "<group>"; };
 		9BC1863D26CF54E700A97B4B /* Data+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Extensions.swift"; sourceTree = "<group>"; };
@@ -88,27 +88,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		9B60CB6626C33F97006EBB40 /* JSONMockData */ = {
+		9B60CB6626C33F97006EBB40 /* MockData */ = {
 			isa = PBXGroup;
 			children = (
 				9B2B855026CF6250001DB1C6 /* mockImage.png */,
 				9B60CB6D26C35089006EBB40 /* Item.json */,
 				9B60CB6E26C35089006EBB40 /* Items.json */,
 			);
-			path = JSONMockData;
+			path = MockData;
 			sourceTree = "<group>";
 		};
 		9B75F07E26C2376A00F81579 /* SupportingFiles */ = {
 			isa = PBXGroup;
 			children = (
-				9B95B15726CEC187002B05AA /* Media.swift */,
-				C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */,
-				C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */,
+				D1DC05FA26CF888400D761E8 /* AppLifeCycle */,
+				9BC1863C26CF54AE00A97B4B /* DataForm */,
 				9B60CB6B26C34DE7006EBB40 /* JsonHandler.swift */,
 				D19B100A26CB7CE2004CA94E /* NetworkHandler.swift */,
-				9BC1863C26CF54AE00A97B4B /* DataForm */,
 				C70FB10325BEF61D00C9924E /* Assets.xcassets */,
-				9B60CB6626C33F97006EBB40 /* JSONMockData */,
 			);
 			path = SupportingFiles;
 			sourceTree = "<group>";
@@ -146,6 +143,7 @@
 			children = (
 				9B95B15526CEB563002B05AA /* DataForm.swift */,
 				9B95B15126CEB52F002B05AA /* MultiPartForm.swift */,
+				9B95B15726CEC187002B05AA /* Image.swift */,
 				9B95B15326CEB547002B05AA /* JsonObject.swift */,
 				9BC1863D26CF54E700A97B4B /* Data+Extensions.swift */,
 			);
@@ -185,11 +183,21 @@
 		D1B08A9626C3531E002EF937 /* OpenMarketTests */ = {
 			isa = PBXGroup;
 			children = (
+				9B60CB6626C33F97006EBB40 /* MockData */,
 				9BBA269726C9F9450025DA57 /* TestUtils */,
 				D1B08A9726C3531E002EF937 /* OpenMarketTests.swift */,
 				D1B08A9926C3531E002EF937 /* Info.plist */,
 			);
 			path = OpenMarketTests;
+			sourceTree = "<group>";
+		};
+		D1DC05FA26CF888400D761E8 /* AppLifeCycle */ = {
+			isa = PBXGroup;
+			children = (
+				C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */,
+				C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */,
+			);
+			path = AppLifeCycle;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -306,7 +314,7 @@
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 				9B60CB6C26C34DE7006EBB40 /* JsonHandler.swift in Sources */,
 				9BAB0B2126C2420500AD881B /* ItemCollection.swift in Sources */,
-				9B95B15826CEC187002B05AA /* Media.swift in Sources */,
+				9B95B15826CEC187002B05AA /* Image.swift in Sources */,
 				D19B100B26CB7CE2004CA94E /* NetworkHandler.swift in Sources */,
 				9B95B15626CEB563002B05AA /* DataForm.swift in Sources */,
 			);

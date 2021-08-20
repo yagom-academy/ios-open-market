@@ -7,11 +7,6 @@
 
 import Foundation
 
-enum DataFormError: Error {
-    case convertError
-    case notFoundBoundary
-}
-
 struct JsonObject: DataForm {
     private let data: [String: Any]
     var contentType: String = "application/json"
@@ -21,7 +16,6 @@ struct JsonObject: DataForm {
     }
     
     func createBody() throws -> Data? {
-        guard let json = try? JSONSerialization.data(withJSONObject: self.data, options: []) else { throw DataFormError.convertError }
-        return json
+        return try? JSONSerialization.data(withJSONObject: self.data, options: [])
     }
 }

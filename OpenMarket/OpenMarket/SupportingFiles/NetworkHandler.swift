@@ -8,7 +8,6 @@
 import Foundation
 
 struct NetworkHandler {
-    
     func request(api: OpenMarketAPI, form: DataForm? = nil) {
         guard let url = URL(string: api.request.url) else { return }
         var request = URLRequest(url: url)
