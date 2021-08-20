@@ -27,6 +27,8 @@
 		E689FBFF26CAE1A900697E75 /* Data+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E689FBFE26CAE1A900697E75 /* Data+Extension.swift */; };
 		E698CB9226C2A0CE00404AF0 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = E698CB9126C2A0CE00404AF0 /* Product.swift */; };
 		E698CB9526C2C0E100404AF0 /* ParsingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E698CB9426C2C0E100404AF0 /* ParsingManager.swift */; };
+		E6AAC7AA26CFCBC0004C2AF1 /* OpenMarketItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6AAC7A826CFCBC0004C2AF1 /* OpenMarketItemCell.swift */; };
+		E6AAC7AB26CFCBC0004C2AF1 /* OpenMarketItemCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E6AAC7A926CFCBC0004C2AF1 /* OpenMarketItemCell.xib */; };
 		E6B00F5426C66C6400A1B371 /* OpenMarketAPIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6B00F5326C66C6400A1B371 /* OpenMarketAPIConstants.swift */; };
 /* End PBXBuildFile section */
 
@@ -65,6 +67,8 @@
 		E689FBFE26CAE1A900697E75 /* Data+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Extension.swift"; sourceTree = "<group>"; };
 		E698CB9126C2A0CE00404AF0 /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
 		E698CB9426C2C0E100404AF0 /* ParsingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParsingManager.swift; sourceTree = "<group>"; };
+		E6AAC7A826CFCBC0004C2AF1 /* OpenMarketItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketItemCell.swift; sourceTree = "<group>"; };
+		E6AAC7A926CFCBC0004C2AF1 /* OpenMarketItemCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OpenMarketItemCell.xib; sourceTree = "<group>"; };
 		E6B00F5326C66C6400A1B371 /* OpenMarketAPIConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketAPIConstants.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -107,6 +111,8 @@
 		C70FB0F925BEF61C00C9924E /* OpenMarket */ = {
 			isa = PBXGroup;
 			children = (
+				E6AAC7A626CFCB55004C2AF1 /* Controller */,
+				E6AAC7A526CFCB48004C2AF1 /* View */,
 				E689FBFD26CAE13100697E75 /* Extension */,
 				E689FBF826CAC47E00697E75 /* Protocol */,
 				C9D4E3BA26C523AB00FD5E43 /* Enumeration */,
@@ -114,10 +120,7 @@
 				E698CB9026C2A09600404AF0 /* DataStructure */,
 				C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */,
 				C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */,
-				C70FB0FE25BEF61C00C9924E /* ViewController.swift */,
-				C70FB10025BEF61C00C9924E /* Main.storyboard */,
 				C70FB10325BEF61D00C9924E /* Assets.xcassets */,
-				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
 				C70FB10825BEF61D00C9924E /* Info.plist */,
 			);
 			path = OpenMarket;
@@ -187,6 +190,33 @@
 				E67E970226CBF03600B8F316 /* NetworkModule.swift */,
 			);
 			path = Manager;
+			sourceTree = "<group>";
+		};
+		E6AAC7A526CFCB48004C2AF1 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				E6AAC7A726CFCB8E004C2AF1 /* CustomView */,
+				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
+				C70FB10025BEF61C00C9924E /* Main.storyboard */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		E6AAC7A626CFCB55004C2AF1 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				C70FB0FE25BEF61C00C9924E /* ViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		E6AAC7A726CFCB8E004C2AF1 /* CustomView */ = {
+			isa = PBXGroup;
+			children = (
+				E6AAC7A826CFCBC0004C2AF1 /* OpenMarketItemCell.swift */,
+				E6AAC7A926CFCBC0004C2AF1 /* OpenMarketItemCell.xib */,
+			);
+			path = CustomView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -269,6 +299,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E6AAC7AB26CFCBC0004C2AF1 /* OpenMarketItemCell.xib in Resources */,
 				C70FB10725BEF61D00C9924E /* LaunchScreen.storyboard in Resources */,
 				C70FB10425BEF61D00C9924E /* Assets.xcassets in Resources */,
 				C70FB10225BEF61C00C9924E /* Main.storyboard in Resources */,
@@ -294,6 +325,7 @@
 				E67E970326CBF03600B8F316 /* NetworkModule.swift in Sources */,
 				E689FBFF26CAE1A900697E75 /* Data+Extension.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
+				E6AAC7AA26CFCBC0004C2AF1 /* OpenMarketItemCell.swift in Sources */,
 				E689FBFA26CAC49200697E75 /* Media.swift in Sources */,
 				E698CB9226C2A0CE00404AF0 /* Product.swift in Sources */,
 				E6B00F5426C66C6400A1B371 /* OpenMarketAPIConstants.swift in Sources */,
