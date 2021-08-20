@@ -14,10 +14,7 @@ enum OpenMarketAPIConstants {
     case patch
     case delete
     
-    static let baseURL = "https://camp-open-market-2.herokuapp.com/"
-    static let rangeOfSuccessState = 200...299
-    static let doubleHypen = "--"
-    static let lineBreak = "\n\r"
+    private static let baseURL = "https://camp-open-market-2.herokuapp.com/"
     static let keyOfContentType = "Content-Type"
 
     var path: String {

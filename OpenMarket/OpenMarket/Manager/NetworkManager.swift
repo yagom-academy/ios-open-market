@@ -9,6 +9,8 @@ import Foundation
 
 struct NetworkManager {
     private var dataTaskRequestable: DataTaskRequestable
+    private let doubleHypen = "--"
+    private let lineBreak = "\n\r"
     
     init(dataTaskRequestable: DataTaskRequestable = NetworkModule()) {
         self.dataTaskRequestable = dataTaskRequestable
@@ -49,32 +51,29 @@ struct NetworkManager {
     }
     
     private func createDataBody(with parameters: [String: Any], and medias: [Media]?, separatedInto boundary: String) -> Data {
-        let linebreak = OpenMarketAPIConstants.lineBreak
-        let doubleHypen = OpenMarketAPIConstants.doubleHypen
         var body = Data()
         
         for (key, value) in parameters {
-            body.append("\(doubleHypen + boundary + linebreak)")
+            body.append("\(doubleHypen + boundary + lineBreak)")
             body.append(createContentDisposition(with: key))
-            body.append("\(value)\(linebreak)")
+            body.append("\(value)\(lineBreak)")
         }
         
         if let medias = medias {
             for media in medias {
-                body.append("\(doubleHypen + boundary + linebreak)")
+                body.append("\(doubleHypen + boundary + lineBreak)")
                 body.append(createContentDisposition(with: media.key, for: media))
-                body.append(createBodyContentType(about: media.contentType) + linebreak + linebreak)
+                body.append(createBodyContentType(about: media.contentType) + lineBreak + lineBreak)
                 body.append(media.data)
-                body.append(linebreak)
+                body.append(lineBreak)
             }
         }
         
-        body.append("\(doubleHypen + boundary + doubleHypen + linebreak)")
+        body.append("\(doubleHypen + boundary + doubleHypen + lineBreak)")
         return body
     }
     
     private func createContentDisposition(with key: String, for media: Media? = nil) -> String {
-        let lineBreak = OpenMarketAPIConstants.lineBreak
         var basicForm = "Content-Disposition: form-data; name=\"\(key)\""
         
         if let media = media {
@@ -88,11 +87,11 @@ struct NetworkManager {
         
         return basicForm
     }
-        
+    
     private func createHeaderValue(mimeType: MimeType, separator boundary: String) -> String {
         return "\(mimeType); boundary=\(boundary)"
     }
-
+    
     private func createBodyContentType(about mimeType: MimeType) -> String {
         return "\(OpenMarketAPIConstants.keyOfContentType): \(mimeType)"
     }

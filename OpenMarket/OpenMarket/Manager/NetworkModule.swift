@@ -9,14 +9,15 @@ import Foundation
 
 struct NetworkModule: DataTaskRequestable {
     private var dataTask: URLSessionDataTask?
-    
+    private let rangeOfSuccessState = 200...299
+
     mutating func runDataTask(using request: URLRequest, with completionHandler: @escaping (Result<Data, Error>) -> Void) {
         dataTask?.cancel()
         dataTask = nil
         
-        dataTask = URLSession.shared.dataTask(with: request) { data, response, error in
+        dataTask = URLSession.shared.dataTask(with: request) { [self] data, response, error in
             if let response = response as? HTTPURLResponse,
-               OpenMarketAPIConstants.rangeOfSuccessState.contains(response.statusCode),
+               rangeOfSuccessState.contains(response.statusCode),
                let data = data {
                 DispatchQueue.main.async {
                     completionHandler(.success(data))
