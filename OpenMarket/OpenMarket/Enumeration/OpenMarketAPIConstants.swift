@@ -31,6 +31,10 @@ enum OpenMarketAPIConstants {
         }
     }
     
+    var url: URL? {
+        return URL(string: self.path)
+    }
+    
     var method: String {
         switch self {
         case .listGet, .itemGet:

@@ -16,9 +16,10 @@ struct NetworkManager {
     
     func lookUpProductList(on pageNum: Int, completionHandler: @escaping (Result<Data, Error>) -> Void) {
         let methodForm = OpenMarketAPIConstants.listGet
-        guard let url = URL(string: methodForm.path + "\(pageNum)") else {
+        guard var url = methodForm.url else {
             return completionHandler(.failure(NetworkError.invalidURL))
         }
+        url.appendPathComponent("\(pageNum)")
         
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = methodForm.method
@@ -29,7 +30,7 @@ struct NetworkManager {
     func registerProduct(with parameters: [String: Any], and medias: [Media], completionHandler: @escaping (Result<Data, Error>) -> Void) {
         let methodForm = OpenMarketAPIConstants.post
         let boundary = generateBoundary()
-        guard let url = URL(string: methodForm.path) else {
+        guard let url = methodForm.url else {
             return completionHandler(.failure(NetworkError.invalidURL))
         }
         
