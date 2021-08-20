@@ -10,7 +10,7 @@ import Foundation
 struct NetworkManager {
     private var dataTaskRequestable: DataTaskRequestable
     private let doubleHypen = "--"
-    private let lineBreak = "\n\r"
+    private let lineBreak = "\r\n"
     private var generateBoundary: String {
         return UUID().uuidString
     }
@@ -53,22 +53,22 @@ struct NetworkManager {
         var body = Data()
         
         for (key, value) in parameters {
-            body.append("\(doubleHypen + boundary + lineBreak)")
-            body.append(createContentDisposition(with: key))
-            body.append("\(value)\(lineBreak)")
+            body = body.appending("\(doubleHypen + boundary + lineBreak)")
+            body = body.appending(createContentDisposition(with: key))
+            body = body.appending("\(value)\(lineBreak)")
         }
         
         if let medias = medias {
             for media in medias {
-                body.append("\(doubleHypen + boundary + lineBreak)")
-                body.append(createContentDisposition(with: media.key, for: media))
-                body.append(createBodyContentType(about: media.contentType) + lineBreak + lineBreak)
+                body = body.appending("\(doubleHypen + boundary + lineBreak)")
+                body = body.appending(createContentDisposition(with: media.key, for: media))
+                body = body.appending(createBodyContentType(about: media.contentType) + lineBreak + lineBreak)
                 body.append(media.data)
-                body.append(lineBreak)
+                body = body.appending(lineBreak)
             }
         }
         
-        body.append("\(doubleHypen + boundary + doubleHypen + lineBreak)")
+        body = body.appending("\(doubleHypen + boundary + doubleHypen + lineBreak)")
         return body
     }
     

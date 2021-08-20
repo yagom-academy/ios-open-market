@@ -44,7 +44,7 @@ class OpenMarketTests: XCTestCase {
     func test_1번페이지에대해_리스트를조회했을때_내부아이템의개수는20개이다() {
         //Given
         let pageNum = 1
-        let networkManager = NetworkManager(dataTaskRequestable: MockNetworkModule(isSuccessTest: true))
+        var networkManager = NetworkManager(dataTaskRequestable: MockNetworkModule(isSuccessTest: true))
         //When
         var outputValue = 0
         networkManager.lookUpProductList(on: pageNum) { result in
@@ -73,7 +73,7 @@ class OpenMarketTests: XCTestCase {
         guard let itemPhoto = Photo(key: "images[]", contentType: .jpegImage, source: #imageLiteral(resourceName: "Retriever")) else {
             return XCTFail("Photo생성 실패")
         }
-        let networkManager = NetworkManager(dataTaskRequestable: MockNetworkModule(isSuccessTest: true))
+        var networkManager = NetworkManager(dataTaskRequestable: MockNetworkModule(isSuccessTest: true))
         //When
         var outputValue = ""
         networkManager.registerProduct(with: itemData, and: [itemPhoto]) { result in

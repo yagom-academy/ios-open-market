@@ -8,7 +8,9 @@
 import Foundation
 
 extension Data {
-    mutating func append(_ newElement: String) {
-        newElement.data(using: .utf8).flatMap { append($0) }
+    func appending(_ newElement: String) -> Data {
+        var copyData = self
+        newElement.data(using: .utf8).flatMap { copyData.append($0) }
+        return copyData
     }
 }
