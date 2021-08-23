@@ -8,7 +8,7 @@
 import XCTest
 @testable import OpenMarket
 
-class RequestTest: XCTestCase {
+class NetworkTest: XCTestCase {
     let commonPassword = "test"
     
     var session: ClientAPI!
