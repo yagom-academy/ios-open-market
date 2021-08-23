@@ -23,6 +23,7 @@ class APIManager {
     init(session: URLSessionProtocol = URLSession.shared) {
         self.session = session
     }
+    let boundary = "Boundary-\(UUID().uuidString)"
     
     func fetchProductList(page: Int, completion: @escaping (Result<ProductListSearch, APIError>) ->()) {
         guard let url = URL(string: "\(URI.fetchListPath)\(page)") else { return }
@@ -49,30 +50,58 @@ class APIManager {
         }
         task.resume()
     }
+    func createHTTPBody(parameters: HTTPBodyParameter?, media: [Media]?) -> Data {
+    
+        let lineBreak = "\r\n"
+        let lastBoundary = "--\(boundary)--\(lineBreak)"
+        let contentDisposition = "Content-Disposition: form-data; name="
+        let contentType = "Content-Type: "
+        
+        var body = Data()
+        
+        if let parameters = parameters {
+            for (key,value) in parameters {
+                body.append("--\(boundary)\(lineBreak)")
+                body.append("\(contentDisposition)\"\(key)\"\(lineBreak)\(lineBreak)")
+                body.append("\(value)\(lineBreak)")
+            }
+        }
+        
+        if let media = media {
+            for image in media {
+                body.append("--\(boundary)\(lineBreak)")
+                body.append("\(contentDisposition)\"\(image.key)\"; filename=\"\(image.fileName)\"\(lineBreak)")
+                body.append("\(contentType) \(image.mimeType)\(lineBreak)\(lineBreak)")
+                body.append(image.imageData)
+                body.append(lineBreak)
+            }
+        }
+        body.append(lastBoundary)
+        return body
+    }
     
     func registProduct(parameters: [String : Any], media: [Media], completion: @escaping (Result<Data, APIError>) -> ()) {
         guard let url = URL(string: "https://camp-open-market-2.herokuapp.com/item") else { return }
         var request = URLRequest(url: url)
-        request.httpMethod = "POST"
         
-        let boundary = "Boundary-\(UUID().uuidString)"
         let httpHeader = "multipart/form-data; boundary=\(boundary)"
         let httpHeaderField = "Content-Type"
         
         //1
+        request.httpMethod = "post"
         request.setValue(httpHeader, forHTTPHeaderField: httpHeaderField)
+        request.httpBody = createHTTPBody(parameters: parameters, media: media)
         
-        request.httpBody = MultiPartForm.createHTTPBody(parameters: parameters, media: media)
         dump(request.allHTTPHeaderFields)
         print(String(decoding: request.httpBody!, as: UTF8.self))
         
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+            guard let response = response as? HTTPURLResponse, (200...299).contains(response.statusCode) else {
                 completion(.failure(APIError.invalidURL))
                 print((response as? HTTPURLResponse)?.statusCode)
                 return
             }
-         
+            
             if let error = error {
                 completion(.failure(APIError.emptyData))
             }
@@ -82,4 +111,5 @@ class APIManager {
         }
         task.resume()
     }
+    
 }
