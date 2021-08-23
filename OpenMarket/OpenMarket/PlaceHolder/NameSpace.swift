@@ -39,7 +39,7 @@ enum ContentType: CustomStringConvertible {
 }
 
 //MARK:-API key of OpenMarket server
-enum APIKey: CustomStringConvertible {
+enum RequestAPIKey: CustomStringConvertible {
     case title, descriptions, price, currency, stock, discountedPrice, images, password
     
     var description: String {

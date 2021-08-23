@@ -24,12 +24,12 @@ enum MimeType: CustomStringConvertible {
 
 //MARK:-NetworkManager method(createHTTPBody)'s parameter Type
 struct Media {
-    let key: APIKey
+    let key: RequestAPIKey
     let fileName: String
     let data: Data
     let mimeType: MimeType
     
-    init?(image: UIImage, key: APIKey, mimeType: MimeType, fileName: String, jpegCompressionQuality: CGFloat = 0.3) {
+    init?(image: UIImage, key: RequestAPIKey, mimeType: MimeType, fileName: String, jpegCompressionQuality: CGFloat = 0.3) {
         self.key = key
         self.mimeType = mimeType
         

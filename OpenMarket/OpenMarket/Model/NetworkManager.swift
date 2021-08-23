@@ -18,7 +18,7 @@ enum NetworkError: Error {
 struct NetworkManager {
     
     //MARK: HTTPBody Parameter Type
-    typealias userInput = [String: Any]
+    typealias requestBodyType = [String: Any]
     
     //MARK: Properties
     let session: URLSession
@@ -38,28 +38,23 @@ struct NetworkManager {
     }
     
     //MARK: Method
-    func createHTTPBody(contentType: ContentType, with parameters: userInput?, media: [Media]?) -> Data? {
+    func createHTTPBody(contentType: ContentType, with parameters: requestBodyType?, media: [Media]?) -> Data? {
         let lineBreak = "\r\n"
         var body = Data()
         
-        switch contentType {
-        case .multipart:
-            if let parameters = parameters {
-                for (key, value) in parameters {
-                    body.append(boundary + lineBreak)
-                    body.append("\(makeContentDispositionLine(contentType: .multipart))name=\"\(key)\"\(lineBreak)")
-                    body.append("\(value)\(lineBreak)")
-                }
-            }
-        case .json:
-            if let parameters = parameters {
-                for (_, value) in parameters {
-                    body.append(boundary + lineBreak)
+        if let parameters = parameters {
+            for (key, value) in parameters {
+                body.append(boundary + lineBreak)
+                
+                switch contentType {
+                case .json:
                     body.append("\(makeContentDispositionLine(contentType: .json))\(lineBreak)")
                     guard let jsonData = value as? Data else {
                         return nil
                     }
                     body.append(jsonData)
+                case .multipart:
+                    body.append("\(makeContentDispositionLine(contentType: .multipart))name=\"\(key)\"\(lineBreak)")
                     body.append("\(value)\(lineBreak)")
                 }
             }
@@ -79,7 +74,7 @@ struct NetworkManager {
         
         return body
     }
-
+    
     func request(httpMethod: HTTPMethod, url: URL, body: Data?, _ contentType: ContentType, _ completionHandler: @escaping (Result<Data, NetworkError>) -> ()) {
         let request = createRequest(httpMethod: httpMethod, url: url, body: body, contentType)
         
