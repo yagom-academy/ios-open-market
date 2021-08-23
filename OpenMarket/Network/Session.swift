@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct Session: Http, Coder {
+struct Session: Http, Parser {
     
     func getItems(
         pageIndex: UInt,

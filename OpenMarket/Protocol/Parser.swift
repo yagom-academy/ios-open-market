@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol Coder {
+protocol Parser {
     func decode<Model, ErrorModel>(
         from data: Data,
         to model: Model.Type,
@@ -20,7 +20,7 @@ protocol Coder {
     ) -> Result<Data, ErrorModel> where Model: Encodable, ErrorModel: ErrorMessage
 }
 
-extension Coder {
+extension Parser {
     func decode<Model, ErrorModel>(
         from data: Data,
         to model: Model.Type,

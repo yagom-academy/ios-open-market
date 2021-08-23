@@ -8,7 +8,7 @@
 import UIKit
 @testable import OpenMarket
 
-class SessionMock: Http, Coder {
+class SessionMock: Http, Parser {
     
     typealias Model = GoodsList
 
