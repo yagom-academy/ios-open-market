@@ -14,8 +14,6 @@ extension Loopable {
         var form = ""
         
         for (key, value) in self.properties {
-            guard let value = value else { continue }
-            
             form += boundary + newLine
             form += "Content-Disposition: form-data; "
             form += "name=\"\(key)\"" + newLine + newLine
