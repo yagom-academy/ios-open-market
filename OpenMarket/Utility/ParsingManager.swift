@@ -8,6 +8,8 @@
 import UIKit
 
 struct Parser {
+    static private let parsingError = "AppError: result data is not parsable"
+    
     static func decode<Model, ErrorModel>(
         from data: Data,
         to model: Model.Type,
@@ -24,7 +26,7 @@ struct Parser {
             if let error = try? decoder.decode(ErrorModel.self, from: data) {
                 return .failure(error)
             } else {
-                let unrecognizedError = ErrorModel(message: .parsingError)
+                let unrecognizedError = ErrorModel(message: parsingError)
                 
                 return .failure(unrecognizedError)
             }
@@ -43,7 +45,7 @@ struct Parser {
             
             return .success(result)
         } catch {
-            let error = ErrorModel(message: .parsingError) 
+            let error = ErrorModel(message: parsingError) 
                 
             return .failure(error)
         }
