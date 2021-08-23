@@ -28,8 +28,9 @@ extension ClientAPI {
     ) {}
     
     func patchItem(
+        itemId: Int,
         item: ItemRequestable,
-        images: [UIImage],
+        images: [UIImage]? = nil,
         completionHandler: @escaping (Result<ItemDetail, HttpError>) -> Void
     ) {}
     
