@@ -51,25 +51,30 @@ class APIManager {
     }
     
     func registProduct(parameters: [String : Any], media: [Media], completion: @escaping (Result<Data, APIError>) -> ()) {
-        guard let url = URL(string: URI.registerPath) else { return }
+        guard let url = URL(string: "https://camp-open-market-2.herokuapp.com/item") else { return }
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         
-        let boundary = MultiPartForm.boundary.description
-        let httpHeader = MultiPartForm.httpHeader.description
-        let httpHeaderField = MultiPartForm.httpHeaderField.description
+        let boundary = "Boundary-\(UUID().uuidString)"
+        let httpHeader = "multipart/form-data; boundary=\(boundary)"
+        let httpHeaderField = "Content-Type"
         
         //1
         request.setValue(httpHeader, forHTTPHeaderField: httpHeaderField)
-     
+        
         request.httpBody = MultiPartForm.createHTTPBody(parameters: parameters, media: media)
-        //        print(String(decoding: request.httpBody!, as: UTF8.self))
+        dump(request.allHTTPHeaderFields)
+        print(String(decoding: request.httpBody!, as: UTF8.self))
         
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            guard let response = response as? HTTPURLResponse, (200...299).contains(response.statusCode) else { return }
-            
+            guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+                completion(.failure(APIError.invalidURL))
+                print((response as? HTTPURLResponse)?.statusCode)
+                return
+            }
+         
             if let error = error {
-                completion(.failure(APIError.unknown))
+                completion(.failure(APIError.emptyData))
             }
             if let data = data {
                 completion(.success(data))

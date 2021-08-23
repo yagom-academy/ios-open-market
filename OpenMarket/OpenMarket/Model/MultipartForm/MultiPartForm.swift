@@ -31,12 +31,17 @@ enum MultiPartForm: CustomStringConvertible {
         }
     }
     static func createHTTPBody(parameters: HTTPBodyParameter?, media: [Media]?) -> Data {
+        let boundary = "Boundary-\(UUID().uuidString)"
         let lineBreak = "\r\n"
+        let lastBoundary = "--\(boundary)--\(lineBreak)"
+        let contentDisposition = "Content-Disposition: form-data; name="
+        let contentType = "Content-Type: "
+        
         var body = Data()
         
         if let parameters = parameters {
             for (key,value) in parameters {
-                body.append("--\(boundary.description)\(lineBreak)")
+                body.append("--\(boundary)\(lineBreak)")
                 body.append("\(contentDisposition.description)\"\(key)\"\(lineBreak)\(lineBreak)")
                 body.append("\(value)\(lineBreak)")
             }
@@ -45,13 +50,13 @@ enum MultiPartForm: CustomStringConvertible {
         if let media = media {
             for image in media {
                 body.append("--\(boundary.description)\(lineBreak)")
-                body.append("\(contentDisposition.description)\"\(image.key)\"; filename=\"\(image.fileName)\"\(lineBreak)")
-                body.append("\(MultiPartForm.httpHeaderField.description) \(image.mimeType)\(lineBreak)\(lineBreak)")
+                body.append("\(contentDisposition)\"\(image.key)\"; filename=\"\(image.fileName)\"\(lineBreak)")
+                body.append("\(contentType)\(image.mimeType)\(lineBreak)\(lineBreak)")
                 body.append(image.imageData)
                 body.append(lineBreak)
             }
         }
-        body.append(lastBoundary.description)
+        body.append(lastBoundary)
         return body
     }
 }
