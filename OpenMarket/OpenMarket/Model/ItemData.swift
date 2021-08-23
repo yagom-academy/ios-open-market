@@ -6,7 +6,13 @@
 //
 
 import UIKit
-
+enum StockAmount: Int, CustomStringConvertible {
+    case Maximum = 9999
+    
+    var description: String {
+        return "\(self.rawValue)"
+    }
+}
 struct ItemData: Codable, Equatable {
     let id: Int
     let title: String

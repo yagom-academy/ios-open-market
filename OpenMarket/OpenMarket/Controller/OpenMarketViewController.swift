@@ -23,10 +23,13 @@ class OpenMarketViewController: UIViewController {
             case .failure:
                 print("jsonData is unDecodable")
             }
-            self.collectionView.reloadData()
+            DispatchQueue.main.async {
+                self.collectionView.reloadData()
+            }
         }
     }
 }
+
 extension OpenMarketViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return products.count
@@ -37,9 +40,23 @@ extension OpenMarketViewController: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         let productForRow = products[indexPath.item]
-        
+        cell.configure(item: productForRow)
         return cell
     }
-    
-    
+}
+
+extension OpenMarketViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+            guard let layout = collectionViewLayout as? UICollectionViewFlowLayout else { return CGSize.zero }
+
+            var bounds = collectionView.bounds
+
+            var width = bounds.width - (layout.sectionInset.left + layout.sectionInset.right)
+            var height = bounds.height - (layout.sectionInset.top + layout.sectionInset.bottom)
+
+            width = (width - (layout.minimumInteritemSpacing * 1)) / 2
+            height = (height - (layout.minimumLineSpacing * 2)) / 3
+
+            return CGSize(width: width.rounded(.down), height: height.rounded(.down))
+        }
 }

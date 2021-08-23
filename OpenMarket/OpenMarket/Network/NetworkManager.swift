@@ -129,7 +129,7 @@ extension NetworkManager {
             guard let data = data, let image = UIImage(data: data) else {
                 return
             }
-            block(image)
+                block(image)
         }.resume()
     }
 }
