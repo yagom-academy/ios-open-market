@@ -9,8 +9,6 @@ import UIKit
 @testable import OpenMarket
 
 class SessionMock: ClientAPI {
-    
-    typealias Model = GoodsList
 
     private lazy var asset = try? takeAssetData(assetName: "item_list")
     lazy var itemList = try! Parser.decode(
@@ -66,5 +64,17 @@ extension SessionMock {
         }
         
         return convertedAsset.data
+    }
+    
+    func postItem(item: ItemRequestable, images: [UIImage], completionHandler: @escaping (Result<ItemDetail, HttpError>) -> Void) {
+        
+    }
+    
+    func patchItem(itemId: Int, item: ItemRequestable, images: [UIImage]?, completionHandler: @escaping (Result<ItemDetail, HttpError>) -> Void) {
+        
+    }
+    
+    func deleteItem(itemId: Int, item: ItemRequestable, completionHandler: @escaping (Result<ItemDetail, HttpError>) -> Void) {
+    
     }
 }

@@ -17,28 +17,23 @@ protocol ClientAPI {
         id: UInt,
         completionHandler: @escaping (Result<ItemDetail, HttpError>) -> Void
     )
-}
-
-
-extension ClientAPI {
+    
     func postItem(
         item: ItemRequestable,
         images: [UIImage],
         completionHandler: @escaping (Result<ItemDetail, HttpError>) -> Void
-    ) {}
+    )
     
     func patchItem(
         itemId: Int,
         item: ItemRequestable,
-        images: [UIImage]? = nil,
+        images: [UIImage]?,
         completionHandler: @escaping (Result<ItemDetail, HttpError>) -> Void
-    ) {}
+    )
     
     func deleteItem(
         itemId: Int,
         item: ItemRequestable,
         completionHandler: @escaping (Result<ItemDetail, HttpError>) -> Void
-    ) {
-        
-    }
+    )
 }
