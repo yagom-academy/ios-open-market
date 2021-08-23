@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ItemRequestable: Loopable, Decodable {
+struct ItemRequestable: Loopable, Encodable {
     let title: String?
     let descriptions: String?
     let price: Int?
