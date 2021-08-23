@@ -8,12 +8,12 @@
 import UIKit
 @testable import OpenMarket
 
-class SessionMock: Http, Parser {
+class SessionMock: Http {
     
     typealias Model = GoodsList
 
     private lazy var asset = try? takeAssetData(assetName: "item_list")
-    lazy var itemList = try! decode(
+    lazy var itemList = try! ParsingManager.decode(
         from: asset!,
         to: GoodsList.self,
         or: HttpError.self
@@ -36,7 +36,7 @@ class SessionMock: Http, Parser {
         completionHandler: @escaping (Result<ItemDetail, HttpError>) -> Void
     ) {
         let assetData = try! takeAssetData(assetName: "item")
-        let item = try! decode(
+        let item = try! ParsingManager.decode(
             from: assetData,
             to: ItemDetail.self,
             or: HttpError.self

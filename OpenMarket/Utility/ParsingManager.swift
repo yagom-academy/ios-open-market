@@ -7,21 +7,8 @@
 
 import UIKit
 
-protocol Parser {
-    func decode<Model, ErrorModel>(
-        from data: Data,
-        to model: Model.Type,
-        or errorModel: ErrorModel.Type
-    ) -> Result<Model, ErrorModel> where Model: Decodable, ErrorModel: ErrorMessage
-    
-    func encode<Model, ErrorModel>(
-        from data: Model,
-        or errorModel: ErrorModel.Type
-    ) -> Result<Data, ErrorModel> where Model: Encodable, ErrorModel: ErrorMessage
-}
-
-extension Parser {
-    func decode<Model, ErrorModel>(
+struct Parser {
+    static func decode<Model, ErrorModel>(
         from data: Data,
         to model: Model.Type,
         or errorModel: ErrorModel.Type
@@ -44,7 +31,7 @@ extension Parser {
         }
     }
     
-    func encode<Model, ErrorModel>(
+    static func encode<Model, ErrorModel>(
         from data: Model,
         or errorModel: ErrorModel.Type
     ) -> Result<Data, ErrorModel> where Model: Encodable, ErrorModel: ErrorMessage {

@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct Session: Http, Parser {
+struct Session: Http {
     let newLine = "\r\n"
     
     func getItems(
@@ -120,7 +120,7 @@ extension Session {
                     return
                 }
                 
-                let parsedData = decode(from: data, to: Model.self, or: HttpError.self)
+                let parsedData = ParsingManager.decode(from: data, to: Model.self, or: HttpError.self)
                 completionHandler(parsedData)
             }
             .resume()
@@ -138,7 +138,7 @@ extension Session {
                     return
                 }
                 
-                let parsedData = decode(from: data, to: Model.self, or: HttpError.self)
+                let parsedData = ParsingManager.decode(from: data, to: Model.self, or: HttpError.self)
                 completionHandler(parsedData)
             }
             .resume()
@@ -195,7 +195,7 @@ extension Session {
     ) -> URLRequest? where Model: Encodable {
         let path = HttpConfig.baseURL + method.path
         guard let url = URL(string: path),
-              let body = try? encode(from: item, or: HttpError.self).get() else {
+              let body = try? ParsingManager.encode(from: item, or: HttpError.self).get() else {
             return nil
         }
         
