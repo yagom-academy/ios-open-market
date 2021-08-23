@@ -10,9 +10,4 @@ import Foundation
 class ItemBundle: Decodable {
     let page: Int
     let items: [Item]
-    
-    enum CodingKeys: String, CodingKey {
-        case page
-        case items
-    }
 }
