@@ -51,7 +51,7 @@ class OpenMarketTests: XCTestCase {
         let jsonData = JsonUtil.loadJsonData("Item")!
         let expectResult = itemDummyData
         // when
-        guard let result = try? jsonHandler.decodeJSONData(json: jsonData, model: Item.self) else { return }
+        guard let result = try? jsonHandler.decodeJSONData(json: jsonData, model: Item.self) else { return XCTFail() }
         // then
         XCTAssertEqual(result, expectResult)
     }
@@ -61,7 +61,7 @@ class OpenMarketTests: XCTestCase {
         let jsonData = JsonUtil.loadJsonData("Items")!
         let expectResult = itemCollectionDummyData
         // when
-        guard let result = try? jsonHandler.decodeJSONData(json: jsonData, model: ItemCollection.self) else { return }
+        guard let result = try? jsonHandler.decodeJSONData(json: jsonData, model: ItemCollection.self) else { return XCTFail() }
         // then
         XCTAssertEqual(result.page, expectResult.page)
         XCTAssertEqual(result.items[0], expectResult.items[0])
