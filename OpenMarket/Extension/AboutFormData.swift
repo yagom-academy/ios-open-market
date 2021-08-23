@@ -20,7 +20,7 @@ extension Loopable {
             form += "\(String(describing: value))" + newLine
         }
         
-        form += boundary +  "--"
+        form += boundary + "--"
         
         return form.data(using: .utf8) ?? Data()
     }

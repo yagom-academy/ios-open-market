@@ -33,9 +33,12 @@ extension Loopable {
             
             let valueMirror = Mirror(reflecting: value)
             
-            if valueMirror.displayStyle == .optional,
-               let optional = valueMirror.children.first {
-                dictionary[key] = optional.value
+            if valueMirror.displayStyle == .optional {
+                if let optional = valueMirror.children.first {
+                    dictionary[key] = optional.value
+                }
+            } else {
+                dictionary[key] = value
             }
         }
         
