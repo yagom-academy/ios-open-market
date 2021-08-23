@@ -34,7 +34,7 @@ struct MultiPartForm: DataForm {
         if let images = self.images {
             for image in images {
                 body.append("--\(boundary + lineBreak)")
-                body.append("Content-Disposition: form-data; name=\"\(image.key)\"; filename=\"\(image.fileName)\"\(lineBreak)")
+                body.append("Content-Disposition: form-data; name=\"\(image.key)\(lineBreak)")
                 body.append("Content-Type: \(image.mimeType + lineBreak + lineBreak)")
                 body.append(image.data)
                 body.append(lineBreak)
