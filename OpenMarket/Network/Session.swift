@@ -165,17 +165,7 @@ extension Session {
         let boundaryWithPrefix = HttpConfig.boundaryPrefix + boundary
         
         if let images = images {
-            var imageDatas = [Data]()
-            
-            for image in images {
-                guard let jpegData = image.jpegData(compressionQuality: 1) else {
-                    continue
-                }
-                
-                imageDatas.append(jpegData)
-            }
-            
-            request.httpBody = imageDatas.buildedFormData(boundary: boundaryWithPrefix)
+            request.httpBody = images.buildedFormData(boundary: boundaryWithPrefix)
         } else {
             request.httpBody = Data()
         }
