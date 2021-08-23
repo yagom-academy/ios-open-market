@@ -11,6 +11,7 @@ class ItemListViewController: UIViewController {
     private let imageDownloadManager = ImageDownloadManager()
     private var itemList: [MarketPageItem] = []
     private var nextPage = 1
+    private let preloadCount = 8
     
     @IBOutlet private weak var loadingIndicator: UIActivityIndicatorView!
     @IBOutlet private weak var marketItemListCollectionView: UICollectionView!
@@ -44,6 +45,10 @@ class ItemListViewController: UIViewController {
         DispatchQueue.main.async {
             if self.marketItemListCollectionView.indexPathsForVisibleItems.contains(indexPath) == .some(true) {
                 self.marketItemListCollectionView.reloadItems(at: [indexPath])
+            }
+            
+            if self.itemList.count - indexPath.item == self.preloadCount {
+                self.fetchItemList()
             }
         }
     }
@@ -80,6 +85,18 @@ class ItemListViewController: UIViewController {
         
         marketItemListCollectionView.collectionViewLayout = layout
     }
+    
+    private func updateImageLabel(on cell: ItemCollectionViewCell, for indexPath: IndexPath) {
+        let marketItem = itemList[indexPath.item]
+        
+        if let image = ImageCacheManager.shared.loadCachedData(for: marketItem.thumbnails[0]) {
+            cell.updateThumbnail(to: image)
+        }
+        else {
+            cell.updateThumbnail(to: nil)
+            imageDownloadManager.downloadImage(at: indexPath.item, with: marketItem.thumbnails[0], completion: reloadCollectionView(with:))
+        }
+    }
 }
 
 extension ItemListViewController: UICollectionViewDataSource {
@@ -89,21 +106,35 @@ extension ItemListViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cellIdentifier = "cardItemCell"
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath) as? ItemCollectionViewCell else {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier,
+                                                            for: indexPath) as? ItemCollectionViewCell
+        else {
             return UICollectionViewCell()
         }
         
-        let marketItem = itemList[indexPath.item]
-        cell.configure(with: marketItem)
-        
-        if let image = ImageCacheManager.shared.loadCachedData(for: marketItem.thumbnails[0]) {
-            cell.updateThumbnail(to: image)
-        }
-        else {
-            cell.updateThumbnail(to: nil)
-            imageDownloadManager.downloadImage(at: indexPath.item, with: marketItem.thumbnails[0], completion: reloadCollectionView(with:))
-        }
+        cell.configure(with: itemList[indexPath.item])
+        updateImageLabel(on: cell, for: indexPath)
         
         return cell
+    }
+}
+
+extension ItemListViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell,
+                        forItemAt indexPath: IndexPath) {
+        if let cell = cell as? ItemCollectionViewCell {
+            updateImageLabel(on: cell, for: indexPath)
+        }
+    }
+}
+
+extension ItemListViewController: UICollectionViewDataSourcePrefetching {
+    func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
+        for indexPath in indexPaths {
+            let marketItem = itemList[indexPath.item]
+            imageDownloadManager.downloadImage(at: indexPath.item,
+                                               with: marketItem.thumbnails[0],
+                                               completion: reloadCollectionView(with:))
+        }
     }
 }
