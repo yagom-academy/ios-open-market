@@ -20,15 +20,18 @@ class ItemCollectionViewCell: UICollectionViewCell {
         initCellDesign()
     }
     
+    func configure(with marketItem: MarketPageItem) {
+        updateLabels(to: marketItem)
+    }
+    
+    func updateThumbnail(to image: UIImage?) {
+        itemThumbnailImageView.image = image
+    }
+    
     private func initCellDesign() {
         self.layer.borderWidth = 1
         self.layer.borderColor = UIColor.lightGray.cgColor
         self.layer.cornerRadius = 8
-    }
-
-    func configure(with marketItem: MarketPageItem) {
-        updateThumbnailImage(to: marketItem)
-        updateLabels(to: marketItem)
     }
     
     private func updateLabels(to marketItem: MarketPageItem) {
@@ -94,26 +97,6 @@ class ItemCollectionViewCell: UICollectionViewCell {
             let leftover = marketItem.stock > enoughCount ? "충분함" : stock
             itemStockLabel.text = "잔여수량 : \(leftover)"
             itemStockLabel.textColor = .lightGray
-        }
-    }
-    
-    private func updateThumbnailImage(to marketItem: MarketPageItem) {
-        for thumbnail in marketItem.thumbnails {
-            if let data = ImageManager.shared.loadImageData(imageUrl: thumbnail) {
-                itemThumbnailImageView.image = UIImage(data: data)
-                return
-            }
-            if let url = URL(string: thumbnail),
-               let data = try? Data(contentsOf: url) {
-                itemThumbnailImageView.image = UIImage(data: data)
-                ImageManager.shared.cacheImagData(imageUrl: thumbnail, data: data)
-                return
-            }
-        }
-        
-        if let data = ImageManager.shared.loadImageData(imageUrl: ImageManager.shared.noImageDataUrl) {
-            itemThumbnailImageView.image = UIImage(data: data)
-            return
         }
     }
 }
