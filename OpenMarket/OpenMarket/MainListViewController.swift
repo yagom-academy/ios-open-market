@@ -22,7 +22,9 @@ class MainListViewController: UICollectionViewController {
             }
         }
         
-        APIManager.shared.registProduct(parameters: <#T##[String : Any]#>, media: <#T##[Media]#>, completion: <#T##(Result<Data, APIError>) -> ()#>)
+        APIManager.shared.registProduct(parameters: <#T##[String : Any]#>, media: ) { Result<Data, APIError> in
+            <#code#>
+        }
         
     }
     
