@@ -10,14 +10,31 @@ import Foundation
 class Item: Decodable, ResultArgument {
     let id: Int
     let title: String
-    var descriptions: String?
+    private var descriptions: String?
     let price: Int
-    var discountedPrice: Int?
+    private var discountedPrice: Int?
     let currency: String
     let stock: Int
     let thumbnails: [String]
-    var images: [String]?
+    private var images: [String]?
     let registrationDate: Date
+    
+    var accessDescriptions: String? {
+        return self.descriptions
+    }
+    
+    var accessDiscountedPrice: Int? {
+        return self.discountedPrice
+    }
+    
+    var accessImages: [String]? {
+        return self.images
+    }
+    
+    func updateAdditionalContents(descriptions: String?, images: [String]?) {
+        self.descriptions = descriptions
+        self.images = images
+    }
     
     private enum CodingKeys: String, CodingKey {
         case id, title, descriptions, price, currency, stock, thumbnails, images, discountedPrice, registrationDate

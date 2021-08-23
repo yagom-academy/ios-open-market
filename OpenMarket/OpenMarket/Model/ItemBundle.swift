@@ -9,7 +9,7 @@ import Foundation
 
 class ItemBundle: Decodable, ResultArgument {
     let page: Int
-    var items: [Item]
+    let items: [Item]
     
     enum CodingKeys: String, CodingKey {
         case page

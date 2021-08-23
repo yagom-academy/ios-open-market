@@ -10,7 +10,7 @@ import Foundation
 @testable import OpenMarket
 
 class MockURLSession: URLSessionProtocol {
-    let mockURLSessionDataTask = MockURLSessionDataTask()
+    private let mockURLSessionDataTask = MockURLSessionDataTask()
     var isSuccess: Bool = true
     
     func dataTask(with request: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask {

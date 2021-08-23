@@ -8,16 +8,16 @@
 import Foundation
 
 struct NetworkingManager {
-    enum NetworkingManagerError: Error {
+    private enum NetworkingManagerError: Error {
         case failMakingURL
         case failRequestByError
         case failRequestByResponse
         case failRequestByData
     }
     
-    let session: URLSessionProtocol
-    let parsingManager: ParsingManager
-    let baseURL: String
+    private let session: URLSessionProtocol
+    private let parsingManager: ParsingManager
+    private let baseURL: String
     
     init(session: URLSessionProtocol, parsingManager: ParsingManager, baseURL: String) {
         self.session = session

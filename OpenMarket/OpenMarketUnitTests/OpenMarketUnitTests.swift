@@ -34,10 +34,10 @@ class OpenMarketUnitTests: XCTestCase {
         //then
         if instance.id == id,
            instance.title == title,
-           instance.descriptions == descriptions,
+           instance.accessDescriptions == descriptions,
            instance.price == price,
            instance.currency == currency,
-           instance.images == images,
+           instance.accessImages == images,
            instance.registrationDate == registrationDate,
            instance.stock == stock,
            instance.thumbnails == thumbnails

@@ -7,12 +7,12 @@
 
 import Foundation
 
-enum ParsingError: Error {
-    case failDecoding
-}
-
 struct ParsingManager {
-    let decoder = JSONDecoder()
+    private enum ParsingError: Error {
+        case failDecoding
+    }
+    
+    private let decoder = JSONDecoder()
     
     init() {
         decoder.keyDecodingStrategy = .convertFromSnakeCase
