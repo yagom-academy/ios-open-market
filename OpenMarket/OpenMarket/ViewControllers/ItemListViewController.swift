@@ -9,9 +9,7 @@ import UIKit
 class ItemListViewController: UIViewController {
     private let apiClient = ApiClient()
     private var itemList: [MarketPageItem] = []
-    private var nextItemList: [MarketPageItem] = []
     private var nextPage = 1
-    private var isFeching = false
     
     @IBOutlet private weak var loadingIndicator: UIActivityIndicatorView!
     @IBOutlet private weak var marketItemListCollectionView: UICollectionView!
@@ -23,19 +21,10 @@ class ItemListViewController: UIViewController {
     }
     
     private func fetchItemList() {
-        guard !isFeching else {
-            return
-        }
-        
-        isFeching = true
         apiClient.getMarketPageItems(for: nextPage) { result in
             switch result {
             case .success(let marketPageItem):
                 if marketPageItem.items.count > 0 {
-                    for item in marketPageItem.items {
-                        ImageManager.shared.performBatchUpdate(urls: item.thumbnails)
-                    }
-                    
                     self.itemList += marketPageItem.items
                     self.nextPage = marketPageItem.page + 1
                     
@@ -46,38 +35,6 @@ class ItemListViewController: UIViewController {
                 }
             case .failure(let error):
                 self.handleError(error)
-            }
-            
-            DispatchQueue.global().asyncAfter(deadline: .now() + 0.5) {
-                self.isFeching = false
-                self.fetchNextItemList()
-            }
-        }
-    }
-    
-    private func fetchNextItemList() {
-        guard !isFeching else {
-            return
-        }
-        
-        isFeching = true
-        apiClient.getMarketPageItems(for: nextPage) { result in
-            switch result {
-            case .success(let marketPageItem):
-                if marketPageItem.items.count > 0 {
-                    for item in marketPageItem.items {
-                        ImageManager.shared.performBatchUpdate(urls: item.thumbnails)
-                    }
-                    
-                    self.nextItemList = marketPageItem.items
-                    self.nextPage = marketPageItem.page + 1
-                }
-            case .failure(let error):
-                self.handleError(error)
-            }
-            
-            DispatchQueue.global().asyncAfter(deadline: .now() + 0.5) {
-                self.isFeching = false
             }
         }
     }
@@ -130,26 +87,6 @@ extension ItemListViewController: UICollectionViewDataSource {
         let marketItem = itemList[indexPath.item]
         cell.configure(with: marketItem)
         
-        cell.layer.borderWidth = 1
-        cell.layer.borderColor = UIColor.lightGray.cgColor
-        cell.layer.cornerRadius = 8
-        
         return cell
-    }
-}
-
-extension ItemListViewController: UICollectionViewDelegate {
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        guard !isFeching else {
-            return
-        }
-        
-        let position = scrollView.contentOffset.y
-        if position > (marketItemListCollectionView.contentSize.height - scrollView.frame.height) {
-            itemList += nextItemList
-            nextItemList = []
-            marketItemListCollectionView.reloadData()
-            fetchNextItemList()
-        }
     }
 }

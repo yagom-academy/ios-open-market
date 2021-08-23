@@ -13,6 +13,18 @@ class ItemCollectionViewCell: UICollectionViewCell {
     @IBOutlet private weak var itemPriceLabel: UILabel!
     @IBOutlet private weak var itemDiscountedPriceLabel: UILabel!
     @IBOutlet private weak var itemStockLabel: UILabel!
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        initCellDesign()
+    }
+    
+    private func initCellDesign() {
+        self.layer.borderWidth = 1
+        self.layer.borderColor = UIColor.lightGray.cgColor
+        self.layer.cornerRadius = 8
+    }
 
     func configure(with marketItem: MarketPageItem) {
         updateThumbnailImage(to: marketItem)
