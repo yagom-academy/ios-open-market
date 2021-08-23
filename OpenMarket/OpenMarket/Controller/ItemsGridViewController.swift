@@ -43,8 +43,7 @@ extension ItemsGridViewController: UICollectionViewDataSource {
         else { return UICollectionViewCell() }
         
         cell.updateContents(item: item,
-                            indexPath: indexPath,
-                            collectionView: collectionView)
+                            indexPath: indexPath)
         
         return cell
     }
