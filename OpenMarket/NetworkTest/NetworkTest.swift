@@ -25,22 +25,37 @@ class NetworkTest: XCTestCase {
         session = nil
     }
     
-    func test_POST() {
+    func test_post메소드의가격에_랜덤한숫자를집어넣으면_결과도_그랜덤한숫자다() {
+        //given
+        let randomPrice = Int.random(in: 1000...10000)
+        let imageLiteral = #imageLiteral(resourceName: "compressed")
         let dummy = ItemRequestable(
             title:"테스트 인스턴스",
             descriptions: "비밀번호는 test",
-            price: 1000,
+            price: randomPrice,
             currency: "KRW",
             stock: 999_9999_9999,
             discountedPrice: 900,
-            password: commonPassword)
-        Session().postItem(item: dummy, images: [#imageLiteral(resourceName: "compressed")]) { result in
-            switch result {
-            case .success(let itemDetail):
-                print(itemDetail)
-            case .failure(let error):
-                print(error)
-            }
+            password: commonPassword
+        )
+        var beResult: Result<ItemDetail, HttpError>?
+        
+        //when
+        let exception = XCTestExpectation(description: "response")
+        Session().postItem(item: dummy, images: [imageLiteral]) { result in
+            beResult = result
+            exception.fulfill()
+        }
+        wait(for: [exception], timeout: 5)
+        
+        //then
+        switch beResult {
+        case .none:
+            XCTFail()
+        case .success(let itemDetail):
+            XCTAssertEqual(itemDetail.price, randomPrice)
+        case .failure:
+            XCTFail()
         }
     }
 }

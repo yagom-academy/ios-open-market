@@ -11,26 +11,6 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let dummy = ItemRequestable(
-            title:"양념치킨",
-            descriptions: "지금 먹어야 가장 맛있는 치킨",
-            price: 20000,
-            currency: "KRW",
-            stock: 1,
-            discountedPrice: 22000,
-            password: "password~~"
-        )
-        
-//
-//        Session().postItem(item: dummy, images: [#imageLiteral(resourceName: "compressed")]) { result in
-//            switch result {
-//            case .success(let itemDetail):
-//                print(itemDetail)
-//            case .failure(let error):
-//                print(error)
-//            }
-//        }
-
 //        Session().deleteItem(itemId: 539, item: dummy) { result in
 //            switch result {
 //            case .success(let itemDetail):
