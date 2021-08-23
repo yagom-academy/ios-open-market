@@ -25,10 +25,6 @@ class APIManagerTests: XCTestCase {
 //
 //    }
     
-    func test_MockURLSession이정상적으로설정되면_APIManager의session과MockURLSession이같다() throws {
-        XCTAssertEqual((sut.session) as! MockURLSession, session)
-    }
-    
     override func tearDownWithError() throws {
         sut = nil
     }
