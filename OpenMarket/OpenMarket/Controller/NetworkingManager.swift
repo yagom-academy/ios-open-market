@@ -8,6 +8,13 @@
 import Foundation
 
 struct NetworkingManager {
+    enum NetworkingManagerError: Error {
+        case failMakingURL
+        case failRequestByError
+        case failRequestByResponse
+        case failRequestByData
+    }
+    
     let session: URLSessionProtocol
     let parsingManager: ParsingManager
     let baseURL: String
@@ -18,9 +25,9 @@ struct NetworkingManager {
         self.baseURL = baseURL
     }
     
-    func configureRequest(from api: RequestAPI) -> URLRequest {
+    func configureRequest(from api: RequestAPI) throws -> URLRequest {
         guard let url = URL(string: baseURL + api.path) else {
-            fatalError("URL 생성실패")
+            throw NetworkingManagerError.failMakingURL
         }
         var request = URLRequest(url: url)
         request.httpMethod = api.method.description
@@ -32,13 +39,16 @@ struct NetworkingManager {
     func request(bundle request: URLRequest, completion: @escaping (Result<ResultArgument, Error>) -> ()) {
         let dataTask = session.dataTask(with: request) { data, response, error in
             guard error == nil else {
-                completion(.failure(error!))
+                completion(.failure(NetworkingManagerError.failRequestByError))
                 return
             }
-            guard let data = data,
-                  let response = response as? HTTPURLResponse,
-                  (200..<300).contains(response.statusCode) else {
-                completion(.failure(error!))
+            guard let response = response as? HTTPURLResponse,
+            (200..<300).contains(response.statusCode) else {
+                completion(.failure(NetworkingManagerError.failRequestByResponse))
+                return
+            }
+            guard let data = data else {
+                completion(.failure(NetworkingManagerError.failRequestByData))
                 return
             }
             let parsedData = parsingManager.parse(data, to: ItemBundle.self)
