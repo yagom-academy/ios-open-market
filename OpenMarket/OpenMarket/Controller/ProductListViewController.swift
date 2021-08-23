@@ -10,6 +10,7 @@ class ProductListViewController: UIViewController {
     @IBOutlet private weak var openMarketCollectionView: UICollectionView!
     @IBOutlet private weak var loadingIndicatorView: UIActivityIndicatorView!
     private var networkManger = NetworkManager()
+    private let parsingManager = ParsingManager()
     private var nextPageNumToBring = 1
     private var productList: [Product] = []
     
@@ -29,16 +30,22 @@ extension ProductListViewController {
         networkManger.lookUpProductList(on: pageNum) { result in
             switch result {
             case .success(let fetchedData):
-                let list = self.handleFetchedList(data: fetchedData).items
-                self.productList.append(contentsOf: list)
-                self.nextPageNumToBring += 1
+                self.handleFetchedList(data: fetchedData)
             case .failure(let error):
                 break
             }
         }
     }
     
-    func handleFetchedList(data: Data) -> Products {
+    func handleFetchedList(data: Data) {
+        let parsedResult = parsingManager.decode(from: data, to: Products.self)
+        switch parsedResult {
+        case .success(let products):            
+            self.productList.append(contentsOf: products.items)
+            self.nextPageNumToBring += 1
+        case .failure(let error):
+            break
+        }
     }
 
 }
