@@ -54,22 +54,25 @@ class APIManager {
         guard let url = URL(string: URI.registerPath) else { return }
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
-        let boundary = MultiPartForm.boundary
-        let contentDispostion = MultiPartForm.contentDisposition
-        request.setValue(MultiPartForm.httpHeader.description, forHTTPHeaderField: MultiPartForm.httpHeaderField.description)
-        let httpBody = MultiPartForm.creatHTTPBody(parameters: parameters, media: media, boundary: boundary, contentDisposition: contentDispostion)
-        request.httpBody = httpBody
+        
+        let boundary = MultiPartForm.boundary.description
+        let httpHeader = MultiPartForm.httpHeader.description
+        let httpHeaderField = MultiPartForm.httpHeaderField.description
+        
+        //1
+        request.setValue(httpHeader, forHTTPHeaderField: httpHeaderField)
+     
+        request.httpBody = MultiPartForm.createHTTPBody(parameters: parameters, media: media)
+        //        print(String(decoding: request.httpBody!, as: UTF8.self))
+        
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            guard let response = response as? HTTPURLResponse, (200...299).contains(response.statusCode) else { return }
+            
             if let error = error {
-                print(error.localizedDescription)
+                completion(.failure(APIError.unknown))
             }
             if let data = data {
-                do {
-                    let product = try JSONEncoder().encode(data)
-                    completion(.success(product))
-                } catch {
-                    print(error.localizedDescription)
-                }
+                completion(.success(data))
             }
         }
         task.resume()

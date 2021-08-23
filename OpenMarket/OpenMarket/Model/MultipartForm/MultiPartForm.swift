@@ -30,7 +30,7 @@ enum MultiPartForm: CustomStringConvertible {
             return "--\(Self.boundary.description)--\r\n"
         }
     }
-    static func createHTTPBody(parameters: HTTPBodyParameter?, media: [Media]?) -> Data? {
+    static func createHTTPBody(parameters: HTTPBodyParameter?, media: [Media]?) -> Data {
         let lineBreak = "\r\n"
         var body = Data()
         
@@ -46,7 +46,7 @@ enum MultiPartForm: CustomStringConvertible {
             for image in media {
                 body.append("--\(boundary.description)\(lineBreak)")
                 body.append("\(contentDisposition.description)\"\(image.key)\"; name=\"\(image.key)\"; filename=\"\(image.fileName)\"\(lineBreak)")
-                body.append("\(MultiPartForm.httpHeaderField.description) \(image.mimeType.rawValue)\(lineBreak)\(lineBreak)")
+                body.append("\(MultiPartForm.httpHeaderField.description) \(image.mimeType)\(lineBreak)\(lineBreak)")
                 body.append(image.imageData)
                 body.append(lineBreak)
             }

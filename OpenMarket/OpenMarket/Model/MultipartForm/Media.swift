@@ -13,7 +13,7 @@ struct Media {
     let imageData: Data
     var mimeType: String
     
-    init?(image: UIImage, key: String) {
+    init?(image: UIImage, key: String = "images[]") {
         self.key = key
         self.mimeType = "image/jpeg"
         self.fileName = "\(arc4random()).jpeg"
