@@ -18,7 +18,7 @@ class ItemListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        designLayout()
+        marketItemListCollectionView.prefetchDataSource = self
         fetchItemList()
     }
     
@@ -62,30 +62,6 @@ class ItemListViewController: UIViewController {
         }
     }
     
-    private func getItemCardHeight(with width: CGFloat) -> CGFloat {
-        return (width / 3) * 5
-    }
-    
-    private func designLayout() {
-        let minimumInteritemSpacing = CGFloat(10)
-        let minimumLineSpacing = CGFloat(10)
-        let commonSectionInset = CGFloat(10)
-        let numberOfCardPerRow = CGFloat(2)
-        
-        let itemCardWidth = (view.frame.width - (commonSectionInset * 2 + minimumInteritemSpacing)) / numberOfCardPerRow
-        
-        let layout = UICollectionViewFlowLayout()
-        layout.itemSize = CGSize(width: itemCardWidth, height: getItemCardHeight(with: itemCardWidth))
-        layout.minimumInteritemSpacing = minimumInteritemSpacing
-        layout.minimumLineSpacing = minimumLineSpacing
-        layout.sectionInset = UIEdgeInsets(top: commonSectionInset,
-                                           left: commonSectionInset,
-                                           bottom: commonSectionInset,
-                                           right: commonSectionInset)
-        
-        marketItemListCollectionView.collectionViewLayout = layout
-    }
-    
     private func updateImageLabel(on cell: ItemCollectionViewCell, for indexPath: IndexPath) {
         let marketItem = itemList[indexPath.item]
         
@@ -99,6 +75,43 @@ class ItemListViewController: UIViewController {
     }
 }
 
+// MARK:- UICollectionViewDelegateFlowLayout
+extension ItemListViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        let minimumLineSpacing = CGFloat(10)
+        return minimumLineSpacing
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        let minimumInterItemSpacing = CGFloat(10)
+        return minimumInterItemSpacing
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        let commonSectionInset = CGFloat(10)
+        let edgeInsets = UIEdgeInsets(top: commonSectionInset,
+                                      left: commonSectionInset,
+                                      bottom: commonSectionInset,
+                                      right: commonSectionInset)
+        return edgeInsets
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let minimumInteritemSpacing = CGFloat(10)
+        let commonSectionInset = CGFloat(10)
+        let numberOfCardPerRow = CGFloat(2)
+        let itemCardWidth = (view.frame.width - (commonSectionInset * 2 + minimumInteritemSpacing)) / numberOfCardPerRow
+        
+        let itemSize = CGSize(width: itemCardWidth, height: getItemCardHeight(with: itemCardWidth))
+        return itemSize
+    }
+    
+    private func getItemCardHeight(with width: CGFloat) -> CGFloat {
+        return (width / 3) * 5
+    }
+}
+
+// MARK:- UICollectionViewDataSource
 extension ItemListViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return itemList.count
@@ -119,6 +132,7 @@ extension ItemListViewController: UICollectionViewDataSource {
     }
 }
 
+// MARK:- UICollectionViewDelegate
 extension ItemListViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell,
                         forItemAt indexPath: IndexPath) {
@@ -128,6 +142,7 @@ extension ItemListViewController: UICollectionViewDelegate {
     }
 }
 
+// MARK:- UICollectionViewDataSourcePrefetching
 extension ItemListViewController: UICollectionViewDataSourcePrefetching {
     func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
         for indexPath in indexPaths {
@@ -138,3 +153,4 @@ extension ItemListViewController: UICollectionViewDataSourcePrefetching {
         }
     }
 }
+
