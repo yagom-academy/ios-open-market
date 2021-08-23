@@ -5,7 +5,7 @@
 //  Created by 박태현 on 2021/08/10.
 //
 
-import Foundation
+import UIKit
 typealias Parameters = [String: Any]
 
 enum NetworkError: Error {
@@ -47,9 +47,7 @@ class NetworkManager {
                 return completion(.failure(NetworkError.unownedData))
             }
             debugPrint(String(decoding: data, as: UTF8.self))
-            DispatchQueue.main.async {
                 completion(.success(data))
-            }
         }.resume()
     }
 }
@@ -120,5 +118,18 @@ extension Data {
         if let data = string.data(using: .utf8) {
             append(data)
         }
+    }
+}
+
+//MARK: Image를 받아오는 logic
+extension NetworkManager {
+    func downloadImage(from link: String, success block: @escaping (UIImage) -> Void) {
+        guard let url = URL(string: link) else { return }
+        URLSession.shared.dataTask(with: url) { data, _, _ in
+            guard let data = data, let image = UIImage(data: data) else {
+                return
+            }
+            block(image)
+        }.resume()
     }
 }

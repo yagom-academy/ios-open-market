@@ -5,7 +5,7 @@
 //  Created by tae hoon park on 2021/08/10.
 //
 
-import Foundation
+import UIKit
 
 struct ItemData: Codable, Equatable {
     let id: Int
@@ -30,5 +30,11 @@ struct ItemData: Codable, Equatable {
         case registrationDate = "registration_date"
         case descriptions
         case images
+    }
+    
+    func image(completion: @escaping (UIImage) -> Void) {
+        NetworkManager().downloadImage(from: thumbnails[0]) { image in
+            completion(image)
+        }
     }
 }
