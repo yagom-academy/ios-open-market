@@ -45,7 +45,7 @@ enum MultiPartForm: CustomStringConvertible {
         if let media = media {
             for image in media {
                 body.append("--\(boundary.description)\(lineBreak)")
-                body.append("\(contentDisposition.description)\"\(image.key)\"; name=\"\(image.key)\"; filename=\"\(image.fileName)\"\(lineBreak)")
+                body.append("\(contentDisposition.description)\"\(image.key)\"; filename=\"\(image.fileName)\"\(lineBreak)")
                 body.append("\(MultiPartForm.httpHeaderField.description) \(image.mimeType)\(lineBreak)\(lineBreak)")
                 body.append(image.imageData)
                 body.append(lineBreak)
