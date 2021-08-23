@@ -8,6 +8,7 @@
 import UIKit
 
 struct Session: Http, Parser {
+    let newLine = "\r\n"
     
     func getItems(
         pageIndex: UInt,
@@ -215,10 +216,10 @@ extension Session {
         for (key, value) in model.properties {
             guard let value = value else { continue }
             
-            form += boundary + .newLine
+            form += boundary + newLine
             form += "Content-Disposition: form-data; "
-            form += "name=\"\(key)\"" + .newLine + .newLine
-            form += "\(String(describing: value))" + .newLine
+            form += "name=\"\(key)\"" + newLine + newLine
+            form += "\(String(describing: value))" + newLine
         }
         
         form += boundary +  "--"
@@ -233,11 +234,11 @@ extension Session {
         var form = Data()
         
         for data in datas {
-            form += (boundary + .newLine).utf8
+            form += (boundary + newLine).utf8
             form += "Content-Disposition: form-data; name=\"images[]\"".utf8
-            form += (.newLine + "Content-Type: image/jpeg").utf8
-            form += (.newLine + .newLine).utf8
-            form += data + String.newLine.utf8
+            form += (newLine + "Content-Type: image/jpeg").utf8
+            form += (newLine + newLine).utf8
+            form += data + newLine.utf8
         }
         
         return form

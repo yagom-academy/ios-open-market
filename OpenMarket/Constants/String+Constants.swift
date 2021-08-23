@@ -8,6 +8,5 @@
 import Foundation
 
 extension String {
-    static let newLine = "\r\n"
     static let parsingError = "AppError: result data is not parsable"
 }
