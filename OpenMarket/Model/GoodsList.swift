@@ -7,11 +7,11 @@
 
 import Foundation
 
-struct ItemList: Decodable {
+struct GoodsList: Decodable {
     var page: Int
-    var items: [Item]
+    var items: [GoodsOnSale]
     
-    subscript(index: Int) -> Item {
+    subscript(index: Int) -> GoodsOnSale {
         return items[index]
     }
 }

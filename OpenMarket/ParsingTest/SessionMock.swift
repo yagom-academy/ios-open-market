@@ -10,23 +10,23 @@ import UIKit
 
 class SessionMock: Http, Coder {
     
-    typealias Model = ItemList
+    typealias Model = GoodsList
 
     private lazy var asset = try? takeAssetData(assetName: "item_list")
     lazy var itemList = try! decode(
         from: asset!,
-        to: ItemList.self,
+        to: GoodsList.self,
         or: HttpError.self
     ).get()
     
     func getItems(
         pageIndex: UInt,
-        completionHandler: @escaping (Result<ItemList, HttpError>) -> Void
+        completionHandler: @escaping (Result<GoodsList, HttpError>) -> Void
     ) {
         if pageIndex == 1 {
             return completionHandler(.success(itemList))
         } else {
-            let emptyItemList = ItemList(page: Int(pageIndex), items: [])
+            let emptyItemList = GoodsList(page: Int(pageIndex), items: [])
             return completionHandler(.success(emptyItemList))
         }
     }

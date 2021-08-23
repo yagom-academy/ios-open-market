@@ -11,7 +11,7 @@ struct Session: Http, Coder {
     
     func getItems(
         pageIndex: UInt,
-        completionHandler: @escaping (Result<ItemList, HttpError>) -> Void
+        completionHandler: @escaping (Result<GoodsList, HttpError>) -> Void
     ) {
         let path = HttpConfig.baseURL + HttpMethod.items.path
         

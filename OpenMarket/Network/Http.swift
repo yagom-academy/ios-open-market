@@ -10,7 +10,7 @@ import UIKit
 protocol Http {
     func getItems(
         pageIndex: UInt,
-        completionHandler: @escaping (Result<ItemList, HttpError>) -> Void
+        completionHandler: @escaping (Result<GoodsList, HttpError>) -> Void
     )
     
     func getItem(
