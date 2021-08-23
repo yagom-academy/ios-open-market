@@ -51,7 +51,7 @@
 /* Begin PBXFileReference section */
 		6307F31826C24AD0000B83E6 /* GoodsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoodsList.swift; sourceTree = "<group>"; };
 		6357A3AC26D39D0C00B0A416 /* AboutFormData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutFormData.swift; sourceTree = "<group>"; };
-		6357A3B226D3A36300B0A416 /* RequestTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RequestTest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		6357A3B226D3A36300B0A416 /* NetworkTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NetworkTest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6357A3B426D3A36300B0A416 /* NetworkTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkTest.swift; sourceTree = "<group>"; };
 		6357A3B626D3A36300B0A416 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6359287D26CB5E7300E1A69F /* ClientAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientAPI.swift; sourceTree = "<group>"; };
@@ -186,7 +186,7 @@
 			children = (
 				C70FB0F725BEF61C00C9924E /* OpenMarket.app */,
 				D386C70D26C25C4600B2C689 /* ParsingTest.xctest */,
-				6357A3B226D3A36300B0A416 /* RequestTest.xctest */,
+				6357A3B226D3A36300B0A416 /* NetworkTest.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -229,9 +229,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		6357A3B126D3A36300B0A416 /* RequestTest */ = {
+		6357A3B126D3A36300B0A416 /* NetworkTest */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6357A3B926D3A36300B0A416 /* Build configuration list for PBXNativeTarget "RequestTest" */;
+			buildConfigurationList = 6357A3B926D3A36300B0A416 /* Build configuration list for PBXNativeTarget "NetworkTest" */;
 			buildPhases = (
 				6357A3AE26D3A36300B0A416 /* Sources */,
 				6357A3AF26D3A36300B0A416 /* Frameworks */,
@@ -242,9 +242,9 @@
 			dependencies = (
 				6357A3B826D3A36300B0A416 /* PBXTargetDependency */,
 			);
-			name = RequestTest;
+			name = NetworkTest;
 			productName = RequestTest;
-			productReference = 6357A3B226D3A36300B0A416 /* RequestTest.xctest */;
+			productReference = 6357A3B226D3A36300B0A416 /* NetworkTest.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		C70FB0F625BEF61C00C9924E /* OpenMarket */ = {
@@ -319,7 +319,7 @@
 			targets = (
 				C70FB0F625BEF61C00C9924E /* OpenMarket */,
 				D386C70C26C25C4600B2C689 /* ParsingTest */,
-				6357A3B126D3A36300B0A416 /* RequestTest */,
+				6357A3B126D3A36300B0A416 /* NetworkTest */,
 			);
 		};
 /* End PBXProject section */
@@ -432,14 +432,14 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = RequestTest/Info.plist;
+				INFOPLIST_FILE = NetworkTest/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.ios-study.RequestTest";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.ios-study.NetworkTest";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -452,14 +452,14 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = RequestTest/Info.plist;
+				INFOPLIST_FILE = NetworkTest/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.ios-study.RequestTest";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.ios-study.NetworkTest";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -666,7 +666,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		6357A3B926D3A36300B0A416 /* Build configuration list for PBXNativeTarget "RequestTest" */ = {
+		6357A3B926D3A36300B0A416 /* Build configuration list for PBXNativeTarget "NetworkTest" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6357A3BA26D3A36300B0A416 /* Debug */,

@@ -57,8 +57,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "6357A3B126D3A36300B0A416"
-               BuildableName = "RequestTest.xctest"
-               BlueprintName = "RequestTest"
+               BuildableName = "NetworkTest.xctest"
+               BlueprintName = "NetworkTest"
                ReferencedContainer = "container:OpenMarket.xcodeproj">
             </BuildableReference>
          </TestableReference>

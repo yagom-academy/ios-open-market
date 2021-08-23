@@ -1,6 +1,6 @@
 //
-//  RequestTest.swift
-//  RequestTest
+//  NetworkTest.swift
+//  NetworkTest
 //
 //  Created by kjs on 2021/08/23.
 //
