@@ -8,6 +8,7 @@ import UIKit
 
 class ItemListViewController: UIViewController {
     private let apiClient = ApiClient()
+    private let imageDownloadManager = ImageDownloadManager()
     private var itemList: [MarketPageItem] = []
     private var nextPage = 1
     
@@ -35,6 +36,14 @@ class ItemListViewController: UIViewController {
                 }
             case .failure(let error):
                 self.handleError(error)
+            }
+        }
+    }
+    
+    private func reloadCollectionView(with indexPath: IndexPath) {
+        DispatchQueue.main.async {
+            if self.marketItemListCollectionView.indexPathsForVisibleItems.contains(indexPath) == .some(true) {
+                self.marketItemListCollectionView.reloadItems(at: [indexPath])
             }
         }
     }
@@ -86,6 +95,14 @@ extension ItemListViewController: UICollectionViewDataSource {
         
         let marketItem = itemList[indexPath.item]
         cell.configure(with: marketItem)
+        
+        if let image = ImageCacheManager.shared.loadCachedData(for: marketItem.thumbnails[0]) {
+            cell.updateThumbnail(to: image)
+        }
+        else {
+            cell.updateThumbnail(to: nil)
+            imageDownloadManager.downloadImage(at: indexPath.item, with: marketItem.thumbnails[0], completion: reloadCollectionView(with:))
+        }
         
         return cell
     }
