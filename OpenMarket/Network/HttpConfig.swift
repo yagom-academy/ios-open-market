@@ -12,7 +12,8 @@ enum HttpConfig {
     
     static let unknownError = "Error: unknown error occured"
     
-    static let requestHeader = "multipart/form-data; boundary="
+    static let multipartFormData = "multipart/form-data; boundary="
+    static let applicationJson = "application/json"
     static let contentType = "Content-Type"
     static let boundaryPrefix = "--"
     static var boundary: String {

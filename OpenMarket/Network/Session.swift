@@ -159,7 +159,7 @@ extension Session {
         var request = URLRequest(url: url)
         
         request.httpMethod = method.type
-        request.setValue(HttpConfig.requestHeader + boundary, forHTTPHeaderField: HttpConfig.contentType)
+        request.setValue(HttpConfig.multipartFormData + boundary, forHTTPHeaderField: HttpConfig.contentType)
         
         let boundaryWithPrefix = HttpConfig.boundaryPrefix + boundary
         
@@ -199,7 +199,7 @@ extension Session {
         }
         
         var request = URLRequest(url: url)
-        request.setValue("application/json", forHTTPHeaderField: HttpConfig.contentType)
+        request.setValue(HttpConfig.applicationJson, forHTTPHeaderField: HttpConfig.contentType)
         request.httpMethod = method.type
         request.httpBody = body
         return request
