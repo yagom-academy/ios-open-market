@@ -8,12 +8,12 @@
 import Foundation
 
 protocol Loopable {
-    var properties: [String: Any?] { get }
+    var properties: [String: Any] { get }
 }
 
 extension Loopable {
-    var properties: [String: Any?] {
-        var dictionary = [String: Any?]()
+    var properties: [String: Any] {
+        var dictionary = [String: Any]()
         
         let mirror = Mirror(reflecting: self)
         
@@ -28,11 +28,7 @@ extension Loopable {
             var key = ""
             
             for character in rawKey {
-                if character.isUppercase {
-                    key += "_" + character.lowercased()
-                } else {
-                    key += character.description
-                }
+                key += snakedStringIfCamel(character)
             }
             
             let valueMirror = Mirror(reflecting: value)
@@ -40,11 +36,17 @@ extension Loopable {
             if valueMirror.displayStyle == .optional,
                let optional = valueMirror.children.first {
                 dictionary[key] = optional.value
-            } else {
-                dictionary[key] = value
             }
         }
         
         return dictionary
+    }
+    
+    private func snakedStringIfCamel(_ character: Character) -> String {
+        if character.isUppercase {
+            return "_" + character.lowercased()
+        } else {
+            return character.description
+        }
     }
 }
