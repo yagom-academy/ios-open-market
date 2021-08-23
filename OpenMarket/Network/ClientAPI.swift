@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol Http {
+protocol ClientAPI {
     func getItems(
         pageIndex: UInt,
         completionHandler: @escaping (Result<GoodsList, HttpError>) -> Void
@@ -20,7 +20,7 @@ protocol Http {
 }
 
 
-extension Http {
+extension ClientAPI {
     func postItem(
         item: ItemRequestable,
         images: [UIImage],

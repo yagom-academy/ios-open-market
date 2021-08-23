@@ -7,8 +7,8 @@
 
 import UIKit
 
-struct Session: Http {
-    let newLine = "\r\n"
+struct Session: ClientAPI {
+    
     
     func getItems(
         pageIndex: UInt,
@@ -175,13 +175,13 @@ extension Session {
                 imageDatas.append(jpegData)
             }
             
-            request.httpBody = buildedFormData(from: imageDatas, boundary: boundaryWithPrefix)
+            request.httpBody = imageDatas.buildedFormData(boundary: boundaryWithPrefix)
         } else {
             request.httpBody = Data()
         }
         
         if let item = item {
-            let itemData = buildedFormData(from: item, boundary: boundaryWithPrefix)
+            let itemData = item.buildedFormData(boundary: boundaryWithPrefix)
             
             request.httpBody?.append(itemData)
         }
@@ -204,43 +204,5 @@ extension Session {
         request.httpMethod = method.type
         request.httpBody = body
         return request
-    }
-    
-    private func buildedFormData<Model>(
-        from model: Model,
-        boundary: String
-    ) -> Data where Model: Loopable {
-        
-        var form = ""
-        
-        for (key, value) in model.properties {
-            guard let value = value else { continue }
-            
-            form += boundary + newLine
-            form += "Content-Disposition: form-data; "
-            form += "name=\"\(key)\"" + newLine + newLine
-            form += "\(String(describing: value))" + newLine
-        }
-        
-        form += boundary +  "--"
-        
-        return form.data(using: .utf8) ?? Data()
-    }
-    
-    private func buildedFormData(
-        from datas: [Data],
-        boundary: String
-    ) -> Data {
-        var form = Data()
-        
-        for data in datas {
-            form += (boundary + newLine).utf8
-            form += "Content-Disposition: form-data; name=\"images[]\"".utf8
-            form += (newLine + "Content-Type: image/jpeg").utf8
-            form += (newLine + newLine).utf8
-            form += data + newLine.utf8
-        }
-        
-        return form
     }
 }
