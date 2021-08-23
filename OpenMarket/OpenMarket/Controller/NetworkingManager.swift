@@ -36,7 +36,7 @@ struct NetworkingManager {
         return request
     }
     
-    func request(bundle request: URLRequest, completion: @escaping (Result<ResultArgument, Error>) -> ()) {
+    func request(bundle request: URLRequest, completion: @escaping (Result<Data, Error>) -> ()) {
         let dataTask = session.dataTask(with: request) { data, response, error in
             guard error == nil else {
                 completion(.failure(NetworkingManagerError.failRequestByError))
@@ -51,13 +51,7 @@ struct NetworkingManager {
                 completion(.failure(NetworkingManagerError.failRequestByData))
                 return
             }
-            let parsedData = parsingManager.parse(data, to: ItemBundle.self)
-            switch parsedData {
-            case .success(let data):
-                completion(.success(data as ResultArgument))
-            case .failure(let error):
-                completion(.failure(error))
-            }
+            completion(.success(data))
         }
         dataTask.resume()
     }

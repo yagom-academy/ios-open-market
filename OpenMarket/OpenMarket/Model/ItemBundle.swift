@@ -7,7 +7,7 @@
 
 import Foundation
 
-class ItemBundle: Decodable, ResultArgument {
+class ItemBundle: Decodable {
     let page: Int
     let items: [Item]
     
