@@ -35,12 +35,14 @@ class SessionMock: ClientAPI {
         id: UInt,
         completionHandler: @escaping (Result<ItemDetail, HttpError>) -> Void
     ) {
-        let assetData = try! takeAssetData(assetName: "item")
-        let item = try! Parser.decode(
-            from: assetData,
-            to: ItemDetail.self,
-            or: HttpError.self
-        ).get()
+        guard let assetData = try? takeAssetData(assetName: "item"),
+              let item = try? Parser.decode(
+                  from: assetData,
+                  to: ItemDetail.self,
+                  or: HttpError.self
+              ).get() else {
+            return
+        }
         
         if id == 1 {
             completionHandler(.success(item))
