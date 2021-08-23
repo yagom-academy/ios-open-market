@@ -7,13 +7,30 @@
 
 import Foundation
 
-struct ItemRequestable: Loopable, Codable {
-    private(set) var title: String? = nil
-    private(set) var descriptions: String? = nil
-    private(set) var price: Int? = nil
-    private(set) var currency: String? = nil
-    private(set) var stock: Int? = nil
-    private(set) var discountedPrice: Int? = nil
-    
+struct ItemRequestable: Loopable, Decodable {
+    let title: String?
+    let descriptions: String?
+    let price: Int?
+    let currency: String?
+    let stock: Int?
+    let discountedPrice: Int?
     let password: String
+    
+    init(
+        title: String? = nil,
+        descriptions: String? = nil,
+        price: Int? = nil,
+        currency: String? = nil,
+        stock: Int? = nil,
+        discountedPrice: Int? = nil,
+        password: String
+    ) {
+        self.title = title
+        self.descriptions = descriptions
+        self.price = price
+        self.currency = currency
+        self.stock = stock
+        self.discountedPrice = discountedPrice
+        self.password = password
+    }
 }
