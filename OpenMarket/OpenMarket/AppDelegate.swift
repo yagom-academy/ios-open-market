@@ -8,10 +8,15 @@ import UIKit
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
-
-
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        URLCache.shared = {
+            let cacheDirectory = (NSSearchPathForDirectoriesInDomains(.cachesDirectory, .userDomainMask, true)[0] as String).appendingFormat("/\(Bundle.main.bundleIdentifier ?? "cache")/" )
+            
+            return URLCache(memoryCapacity: 500*1024*1024,
+                            diskCapacity: 500*1024*1024,
+                            diskPath: cacheDirectory)
+        }()
         // Override point for customization after application launch.
         return true
     }

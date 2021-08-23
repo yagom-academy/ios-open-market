@@ -20,6 +20,7 @@ class ItemsGridViewController: UIViewController {
     
     private func initializeItems() {
         let serverURL = "https://camp-open-market-2.herokuapp.com/items/1"
+        let mockURL = MockURL.mockItems.description
         
         guard let url = URL(string: serverURL) else { return }
         
