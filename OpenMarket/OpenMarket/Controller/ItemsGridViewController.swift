@@ -7,7 +7,9 @@
 import UIKit
 
 class ItemsGridViewController: UIViewController {
-    private let manager = NetworkManager(session: MockURLSession())
+    @IBOutlet weak var collectionView: UICollectionView!
+    
+    private let manager = NetworkManager(session: URLSession.shared)
     private var items: [Page.Item]?
     
     override func viewDidLoad() {
@@ -17,12 +19,17 @@ class ItemsGridViewController: UIViewController {
     }
     
     private func initializeItems() {
-        guard let url = URL(string: MockURL.mockItems.description) else { return }
+        let serverURL = "https://camp-open-market-2.herokuapp.com/items/1"
+        
+        guard let url = URL(string: serverURL) else { return }
         
         manager.fetchData(url: url) { (result: Result<Page, Error>) in
             switch result {
             case .success(let decodedData):
                 self.items = decodedData.items
+                DispatchQueue.main.async {
+                    self.collectionView.reloadData()
+                }
             case .failure(let error):
                 print(error)
             }

@@ -41,4 +41,10 @@ class GridItemCollectionViewCell: UICollectionViewCell {
             discountedPriceLabel?.isHidden = true
         }
     }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        self.thumbnailImageView.image = nil
+    }
 }
