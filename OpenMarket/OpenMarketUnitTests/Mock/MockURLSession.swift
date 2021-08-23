@@ -40,17 +40,23 @@ class MockURLSession: URLSessionProtocol {
         }
         
         guard let fileName = DummyURL(rawValue: request.url!.absoluteString)?.fileName else {
-            fatalError("URL 이상함")
+            mockURLSessionDataTask.resumeDidCall = { completionHandler(nil, failure, nil) }
+            return mockURLSessionDataTask
         }
         
         let path = Bundle(for: type(of: self)).path(forResource: fileName, ofType: "json")
         let jsonData = try? String(contentsOfFile: path!).data(using: .utf8)
         
         guard let data = jsonData else {
-            fatalError()
+            mockURLSessionDataTask.resumeDidCall = { completionHandler(nil, failure, nil) }
+            return mockURLSessionDataTask
         }
         
-        mockURLSessionDataTask.resumeDidCall = { completionHandler(data, self.isSuccess ? success : failure, nil)}
+        if self.isSuccess {
+            mockURLSessionDataTask.resumeDidCall = { completionHandler(data, success, nil) }
+        } else {
+            mockURLSessionDataTask.resumeDidCall = { completionHandler(nil, failure, nil) }
+        }
         
         return mockURLSessionDataTask
     }
