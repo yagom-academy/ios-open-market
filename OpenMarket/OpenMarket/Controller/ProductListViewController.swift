@@ -21,7 +21,7 @@ class ProductListViewController: UIViewController {
         loadingIndicatorView.startAnimating()
         loadNextProductList(on: nextPageNumToBring)
     }
-
+    
 }
 
 //MARK:- Fetch Product List
@@ -40,14 +40,23 @@ extension ProductListViewController {
     func handleFetchedList(data: Data) {
         let parsedResult = parsingManager.decode(from: data, to: Products.self)
         switch parsedResult {
-        case .success(let products):            
-            self.productList.append(contentsOf: products.items)
-            self.nextPageNumToBring += 1
+        case .success(let products):
+            let indexOffset = -1
+            let startPoint = productList.count
+            let endPoint = productList.count + products.items.count + indexOffset
+    
+            productList.append(contentsOf: products.items)
+            reloadCollectionView(from: startPoint, to: endPoint)
+            nextPageNumToBring += 1
         case .failure(let error):
             break
         }
     }
-
+    
+    func reloadCollectionView(from startPoint: Int, to endPoint: Int) {
+        openMarketCollectionView.insertItems(at: [IndexPath(indexes: startPoint...endPoint)])
+    }
+    
 }
 
 extension ProductListViewController: UICollectionViewDataSource {
