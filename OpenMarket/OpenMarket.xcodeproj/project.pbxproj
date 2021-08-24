@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		6307F31926C24AD0000B83E6 /* GoodsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6307F31826C24AD0000B83E6 /* GoodsList.swift */; };
+		63317A9726D508840061EBAE /* URLGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63317A9626D508840061EBAE /* URLGenerator.swift */; };
 		6357A3AD26D39D0C00B0A416 /* AboutFormData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6357A3AC26D39D0C00B0A416 /* AboutFormData.swift */; };
 		6357A3B526D3A36300B0A416 /* NetworkTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6357A3B426D3A36300B0A416 /* NetworkTest.swift */; };
 		6359287E26CB5E7300E1A69F /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6359287D26CB5E7300E1A69F /* API.swift */; };
@@ -50,6 +51,7 @@
 
 /* Begin PBXFileReference section */
 		6307F31826C24AD0000B83E6 /* GoodsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoodsList.swift; sourceTree = "<group>"; };
+		63317A9626D508840061EBAE /* URLGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLGenerator.swift; sourceTree = "<group>"; };
 		6357A3AC26D39D0C00B0A416 /* AboutFormData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutFormData.swift; sourceTree = "<group>"; };
 		6357A3B226D3A36300B0A416 /* NetworkTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NetworkTest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6357A3B426D3A36300B0A416 /* NetworkTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkTest.swift; sourceTree = "<group>"; };
@@ -136,6 +138,7 @@
 				636A664526CB87D80005D56F /* HttpMethod.swift */,
 				63A3627826CA99BD00C1B206 /* HttpConfig.swift */,
 				636A664326CB84C70005D56F /* NetworkManager.swift */,
+				63317A9626D508840061EBAE /* URLGenerator.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -369,6 +372,7 @@
 				63A3627326CA917D00C1B206 /* ItemDetail.swift in Sources */,
 				635EB06126CCC12600AAB0E5 /* ItemRequestable.swift in Sources */,
 				63A3627526CA92B000C1B206 /* HttpError.swift in Sources */,
+				63317A9726D508840061EBAE /* URLGenerator.swift in Sources */,
 				636A664626CB87D80005D56F /* HttpMethod.swift in Sources */,
 				6307F31926C24AD0000B83E6 /* GoodsList.swift in Sources */,
 				6357A3AD26D39D0C00B0A416 /* AboutFormData.swift in Sources */,

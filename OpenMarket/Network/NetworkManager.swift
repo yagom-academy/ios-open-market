@@ -90,9 +90,7 @@ struct NetworkManager: API {
 
 extension NetworkManager {
     private func buildedBasicRequest(method: HttpMethod) -> URLRequest? {
-        let path = HttpConfig.baseURL + method.path
-        
-        guard let url = URL(string: path) else {
+        guard let url = URLGenerator.generate(from: method) else {
             return nil
         }
         

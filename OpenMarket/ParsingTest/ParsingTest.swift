@@ -10,7 +10,7 @@ import XCTest
 
 class ParsingTest: XCTestCase {
     
-    let baseURL = HttpConfig.baseURL
+    let baseURL = "https://camp-open-market-2.herokuapp.com/"
     
     var cut: API!
     

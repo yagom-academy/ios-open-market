@@ -8,8 +8,6 @@
 import Foundation
 
 enum HttpConfig {
-    static let baseURL = "https://camp-open-market-2.herokuapp.com/"
-    
     static let multipartFormData = "multipart/form-data; boundary="
     static let applicationJson = "application/json"
     static let contentType = "Content-Type"
