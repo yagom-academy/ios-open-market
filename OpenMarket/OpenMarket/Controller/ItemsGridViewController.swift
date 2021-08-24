@@ -8,6 +8,7 @@ import UIKit
 
 class ItemsGridViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var indicator: UIActivityIndicatorView!
     
     private let manager = NetworkManager(session: URLSession.shared)
     private var items: [Page.Item]?
@@ -20,7 +21,7 @@ class ItemsGridViewController: UIViewController {
     }
     
     private func initializeItems() {
-        let serverURL = "https://camp-open-market-2.herokuapp.com/items/6"
+        let serverURL = "https://camp-open-market-2.herokuapp.com/items/1"
         let mockURL = MockURL.mockItems.description
         
         guard let url = URL(string: serverURL) else { return }
@@ -31,6 +32,7 @@ class ItemsGridViewController: UIViewController {
                 self.items = decodedData.items
                 DispatchQueue.main.async {
                     self.collectionView.reloadData()
+                    self.indicator.stopAnimating()
                 }
             case .failure(let error):
                 print(error)
