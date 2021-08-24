@@ -29,7 +29,7 @@ class ViewController: UIViewController {
 extension ViewController {
     func undesirableTest(){
         
-        let session = Session()
+        let session = NetworkManager()
         
         let pageIndex: UInt = 17
         let itemIndexWhichIsExist: UInt = 43

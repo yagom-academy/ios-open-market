@@ -16,7 +16,7 @@ class NetworkTest: XCTestCase {
     override func setUp() {
         super.setUp()
         
-        session = Session()
+        session = NetworkManager()
     }
     
     override func tearDown() {
@@ -42,7 +42,7 @@ class NetworkTest: XCTestCase {
         
         //when
         let exception = XCTestExpectation(description: "response")
-        Session().postItem(item: dummy, images: [imageLiteral]) { result in
+        NetworkManager().postItem(item: dummy, images: [imageLiteral]) { result in
             beResult = result
             exception.fulfill()
         }

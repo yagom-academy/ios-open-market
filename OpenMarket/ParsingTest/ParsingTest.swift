@@ -16,7 +16,7 @@ class ParsingTest: XCTestCase {
     
     override func setUp() {
         super.setUp()
-        cut = SessionMock()
+        cut = NetworkManagerMock()
     }
     
     override func tearDown() {

@@ -8,7 +8,7 @@
 import UIKit
 @testable import OpenMarket
 
-class SessionMock: ClientAPI {
+class NetworkManagerMock: ClientAPI {
 
     private lazy var asset = try? takeAssetData(assetName: "item_list")
     lazy var itemList = try! Parser.decode(
@@ -50,7 +50,7 @@ class SessionMock: ClientAPI {
     }
 }
 
-extension SessionMock {
+extension NetworkManagerMock {
     private func takeAssetData(assetName: String) throws -> Data {
         guard let convertedAsset = NSDataAsset(name: assetName) else {
             let debugDescription = "failed to take data from asset"

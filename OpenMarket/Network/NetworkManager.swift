@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct Session: ClientAPI {
+struct NetworkManager: ClientAPI {
     
     
     func getItems(
@@ -91,7 +91,7 @@ struct Session: ClientAPI {
     }
 }
 
-extension Session {
+extension NetworkManager {
     private func guardedDataAbout(
         data: Data?,
         response: URLResponse?,

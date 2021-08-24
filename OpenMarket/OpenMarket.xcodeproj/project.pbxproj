@@ -12,14 +12,14 @@
 		6357A3B526D3A36300B0A416 /* NetworkTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6357A3B426D3A36300B0A416 /* NetworkTest.swift */; };
 		6359287E26CB5E7300E1A69F /* ClientAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6359287D26CB5E7300E1A69F /* ClientAPI.swift */; };
 		635EB06126CCC12600AAB0E5 /* ItemRequestable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 635EB06026CCC12600AAB0E5 /* ItemRequestable.swift */; };
-		636A664426CB84C70005D56F /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636A664326CB84C70005D56F /* Session.swift */; };
+		636A664426CB84C70005D56F /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636A664326CB84C70005D56F /* NetworkManager.swift */; };
 		636A664626CB87D80005D56F /* HttpMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636A664526CB87D80005D56F /* HttpMethod.swift */; };
 		637E519326CE0A40006C8402 /* ErrorMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637E519226CE0A40006C8402 /* ErrorMessage.swift */; };
 		63A3627326CA917D00C1B206 /* ItemDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A3627226CA917D00C1B206 /* ItemDetail.swift */; };
 		63A3627526CA92B000C1B206 /* HttpError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A3627426CA92B000C1B206 /* HttpError.swift */; };
 		63A3627626CA95C500C1B206 /* ParsingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D386C71926C262EE00B2C689 /* ParsingManager.swift */; };
 		63A3627926CA99BD00C1B206 /* HttpConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A3627826CA99BD00C1B206 /* HttpConfig.swift */; };
-		63B3205226C36C3000CEC296 /* SessionMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B3205126C36C3000CEC296 /* SessionMock.swift */; };
+		63B3205226C36C3000CEC296 /* NetworkManagerMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B3205126C36C3000CEC296 /* NetworkManagerMock.swift */; };
 		63C84B9726CBDBAC00D66F18 /* Loopable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C84B9626CBDBAC00D66F18 /* Loopable.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
 		C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */; };
@@ -56,13 +56,13 @@
 		6357A3B626D3A36300B0A416 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6359287D26CB5E7300E1A69F /* ClientAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientAPI.swift; sourceTree = "<group>"; };
 		635EB06026CCC12600AAB0E5 /* ItemRequestable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemRequestable.swift; sourceTree = "<group>"; };
-		636A664326CB84C70005D56F /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
+		636A664326CB84C70005D56F /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		636A664526CB87D80005D56F /* HttpMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpMethod.swift; sourceTree = "<group>"; };
 		637E519226CE0A40006C8402 /* ErrorMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorMessage.swift; sourceTree = "<group>"; };
 		63A3627226CA917D00C1B206 /* ItemDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemDetail.swift; sourceTree = "<group>"; };
 		63A3627426CA92B000C1B206 /* HttpError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpError.swift; sourceTree = "<group>"; };
 		63A3627826CA99BD00C1B206 /* HttpConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpConfig.swift; sourceTree = "<group>"; };
-		63B3205126C36C3000CEC296 /* SessionMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionMock.swift; sourceTree = "<group>"; };
+		63B3205126C36C3000CEC296 /* NetworkManagerMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManagerMock.swift; sourceTree = "<group>"; };
 		63C84B9626CBDBAC00D66F18 /* Loopable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Loopable.swift; sourceTree = "<group>"; };
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -135,7 +135,7 @@
 				6359287D26CB5E7300E1A69F /* ClientAPI.swift */,
 				636A664526CB87D80005D56F /* HttpMethod.swift */,
 				63A3627826CA99BD00C1B206 /* HttpConfig.swift */,
-				636A664326CB84C70005D56F /* Session.swift */,
+				636A664326CB84C70005D56F /* NetworkManager.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -221,7 +221,7 @@
 			children = (
 				D386C70F26C25C4600B2C689 /* ParsingTest.swift */,
 				D386C71126C25C4600B2C689 /* Info.plist */,
-				63B3205126C36C3000CEC296 /* SessionMock.swift */,
+				63B3205126C36C3000CEC296 /* NetworkManagerMock.swift */,
 			);
 			path = ParsingTest;
 			sourceTree = "<group>";
@@ -374,7 +374,7 @@
 				6357A3AD26D39D0C00B0A416 /* AboutFormData.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
-				636A664426CB84C70005D56F /* Session.swift in Sources */,
+				636A664426CB84C70005D56F /* NetworkManager.swift in Sources */,
 				63A3627626CA95C500C1B206 /* ParsingManager.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 				637E519326CE0A40006C8402 /* ErrorMessage.swift in Sources */,
@@ -387,7 +387,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				63B3205226C36C3000CEC296 /* SessionMock.swift in Sources */,
+				63B3205226C36C3000CEC296 /* NetworkManagerMock.swift in Sources */,
 				D386C71026C25C4600B2C689 /* ParsingTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
