@@ -9,7 +9,10 @@ import UIKit
 @testable import OpenMarket
 
 class NetworkManagerMock: ClientAPI {
-
+    enum ErrorCases {
+        static let noItem = "there is no item"
+    }
+    
     private lazy var asset = try? takeAssetData(assetName: "item_list")
     lazy var itemList = try! Parser.decode(
         from: asset!,
@@ -45,7 +48,7 @@ class NetworkManagerMock: ClientAPI {
         if id == 1 {
             completionHandler(.success(item))
         } else {
-            completionHandler(.failure(HttpError(message: "there is no item")))
+            completionHandler(.failure(HttpError(message: ErrorCases.noItem)))
         }
     }
 }

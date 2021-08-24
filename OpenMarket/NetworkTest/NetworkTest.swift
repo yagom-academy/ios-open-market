@@ -89,7 +89,7 @@ class NetworkTest: XCTestCase {
         case .success:
             XCTFail()
         case .failure(let error):
-            XCTAssertEqual(error.message, Parser.ErrorCases.decodable)
+            XCTAssertEqual(error.errorDescription, Parser.ErrorCases.decodable)
         }
     }
 }

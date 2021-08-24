@@ -72,7 +72,7 @@ class ParsingTest: XCTestCase {
             case .success:
                 XCTFail()
             case .failure(let error):
-                XCTAssertEqual(error.errorDescription, "there is no item")
+                XCTAssertEqual(error.errorDescription, NetworkManagerMock.ErrorCases.noItem)
             }
         }
     }
