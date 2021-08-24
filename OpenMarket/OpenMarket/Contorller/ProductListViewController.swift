@@ -6,9 +6,11 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ProductListViewController: UIViewController {
     
-
+    @IBOutlet weak var productListCollectionView: UICollectionView!
+    @IBOutlet weak var loadListIndicator: UIActivityIndicatorView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
