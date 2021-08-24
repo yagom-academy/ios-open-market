@@ -15,18 +15,42 @@ struct NetworkingManager {
         case failRequestByData
     }
     
+    enum OpenMarketInfo {
+        case getList
+        case getItem
+        case postItem
+        case patchItem
+        case deleteItem
+        
+        static let baseURL = "https://camp-open-market-2.herokuapp.com"
+        var prefix: String {
+            switch self {
+            case .getList:
+                return "items"
+            default:
+                return "item"
+            }
+        }
+        
+        func makePath(suffix: Int? = nil) -> String {
+            if let unwrappedSuffix = suffix {
+                return "/\(self.prefix)/\(unwrappedSuffix)"
+            } else {
+                return "/\(self.prefix)"
+            }
+        }
+    }
+    
     private let session: URLSessionProtocol
     private let parsingManager: ParsingManager
-    private let baseURL: String
-    
-    init(session: URLSessionProtocol, parsingManager: ParsingManager, baseURL: String) {
+
+    init(session: URLSessionProtocol, parsingManager: ParsingManager) {
         self.session = session
         self.parsingManager = parsingManager
-        self.baseURL = baseURL
     }
     
     func configureRequest(from api: RequestAPI) throws -> URLRequest {
-        guard let url = URL(string: baseURL + api.path) else {
+        guard let url = URL(string: OpenMarketInfo.baseURL + api.path) else {
             throw NetworkingManagerError.failMakingURL
         }
         var request = URLRequest(url: url)

@@ -13,21 +13,26 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view.
         
         // MARK: --- TEST 코드 입니다
-//        let manager = NetworkingManager(session: URLSession.shared, parsingManager: ParsingManager(), baseURL: "https://camp-open-market-2.herokuapp.com")
-//        let api = RequestAPI(method: .get, path: "/items/1")
-//        let request = manager.configureRequest(from: api)
-//        manager.request(bundle: request) { result in
-//            switch result {
-//            case .success(let items):
-//                let lists = items as! ItemBundle
-//                print("성공요")
-//                print(lists.items.first!.title)
-//            case .failure(_):
-//                print("실패요")
+//        let manager = NetworkingManager(session: URLSession.shared, parsingManager: ParsingManager())
+//        let api = RequestAPI(method: .get, path: NetworkingManager.OpenMarketInfo.getList.makePath(suffix: 1))
+//        do {
+//            let request = try manager.configureRequest(from: api)
+//            manager.request(bundle: request) { result in
+//                switch result {
+//                case .success(let data):
+//                    do {
+//                        let decodeResult = ParsingManager().parse(data, to: ItemBundle.self)
+//                        print(decodeResult)
+//                    } catch {
+//                        print("실패요")
+//                    }
+//                case .failure(_):
+//                    print("실패요")
+//                }
 //            }
+//        } catch {
+//
 //        }
     }
-
-
 }
 

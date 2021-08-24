@@ -55,7 +55,6 @@ class MockURLSession: URLSessionProtocol {
             mockURLSessionDataTask.resumeDidCall = { completionHandler(nil, failure, nil) }
             return mockURLSessionDataTask
         }
-        print("😵😵😵😵😵 \(isSuccess)")
         if self.isSuccess {
             mockURLSessionDataTask.resumeDidCall = { completionHandler(data, success, nil) }
         } else {
