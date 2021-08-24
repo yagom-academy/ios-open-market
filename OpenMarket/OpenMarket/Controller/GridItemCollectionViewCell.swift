@@ -16,7 +16,18 @@ class GridItemCollectionViewCell: UICollectionViewCell {
     
     private var urlString: String?
     
-    func updateContents(item: Page.Item,
+    func initialize(item: Page.Item, indexPath: IndexPath) {
+        configureStyle()
+        updateContents(item: item, indexPath: indexPath)
+    }
+    
+    private func configureStyle() {
+        self.layer.borderWidth = 1.0
+        self.layer.borderColor = UIColor.gray.cgColor
+        self.layer.cornerRadius = 10
+    }
+    
+    private func updateContents(item: Page.Item,
                         indexPath: IndexPath) {
         self.titleLabel?.text = item.title
         self.priceLabel?.text = item.price.description
