@@ -10,11 +10,11 @@ class ProductListViewController: UIViewController {
     
     @IBOutlet weak var productListCollectionView: UICollectionView!
     @IBOutlet weak var loadListIndicator: UIActivityIndicatorView!
-    
-    var productList = [Product]()
+
     let networkManager = NetworkManager()
     let parsingManager = ParsingManager()
     var currentPage = 1
+    var productList = [Product]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
