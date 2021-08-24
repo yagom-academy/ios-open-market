@@ -49,6 +49,30 @@ class NetworkTest: XCTestCase {
         }
     }
     
+    func test_getItems를통해_100번페이지를가져오면_상품이아직존재하지않는다() {
+        //given
+        let pageIndex: UInt = 100
+        
+        //when
+        var beResult: Result<GoodsList, HttpError>?
+        let exception = XCTestExpectation(description: "response")
+        session.getItems(pageIndex: pageIndex) { result in
+            beResult = result
+            exception.fulfill()
+        }
+        wait(for: [exception], timeout: 5)
+        
+        //then
+        switch beResult {
+        case .none:
+            XCTFail()
+        case .failure:
+            XCTFail()
+        case .success(let goodsList):
+            XCTAssertTrue(goodsList.items.count == 0)
+        }
+    }
+    
     func test_post메소드의가격에_랜덤한숫자를집어넣으면_결과도_그랜덤한숫자다() {
         //given
         let randomPrice = Int.random(in: 1000...10000)
