@@ -125,7 +125,7 @@ extension NetworkManager {
         URLSession.shared
             .dataTask(with: request) { data, response, error in
                 guard let data = guardedDataAbout(data: data, response: response, error: error) else {
-                    let error = HttpError(message: HttpConfig.unknownError)
+                    let error = HttpError(message: HttpError.unknownError)
                     completionHandler(.failure(error))
                     return
                 }

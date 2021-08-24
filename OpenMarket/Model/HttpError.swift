@@ -8,6 +8,8 @@
 import Foundation
 
 struct HttpError: ErrorMessage {
+    static let unknownError = "Error: unknown error occured"
+    
     var errorDescription: String?
     
     init(message: String) {
