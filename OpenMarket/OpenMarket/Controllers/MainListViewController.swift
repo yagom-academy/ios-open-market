@@ -19,15 +19,15 @@ class MainListViewController: UICollectionViewController {
         let registProduct = RegistProductModel(title: "MacBook Air", descriptions: "좋아요", price: 100_000, currency: "KRW", stock: 5, discountedPrice: 80_000, password: "1234")
         let bodyParameter = registProduct.createProduct()
         
-        APIManager.shared.registProduct(parameters: bodyParameter, media: imageList) { result in
-            switch result {
-            case .success(let data):
-                print("성공스")
-                
-            case .failure(let error):
-                print(error.localizedDescription)
-            }
-        }
+//        APIManager.shared.registProduct(parameters: bodyParameter, media: imageList) { result in
+//            switch result {
+//            case .success(let data):
+//                print("성공스")
+//                
+//            case .failure(let error):
+//                print(error.localizedDescription)
+//            }
+//        }
         
 //        APIManager.shared.fetchProductList(page: 1) { result in
 //            switch result {

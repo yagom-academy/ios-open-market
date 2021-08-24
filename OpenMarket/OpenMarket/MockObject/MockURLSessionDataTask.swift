@@ -7,11 +7,11 @@
 
 import Foundation
 
-class MockURLSessionDataTask: URLSessionDataTaskProtocol {
+class MockURLSessionDataTask: URLSessionDataTask {
 
     var resumeDidcall: () -> () = {}
     private var resumeCalled = false
-    func resume() {
+    override func resume() {
         resumeCalled = true
         resumeDidcall()
     }

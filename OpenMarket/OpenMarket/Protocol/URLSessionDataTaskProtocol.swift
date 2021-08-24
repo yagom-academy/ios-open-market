@@ -7,10 +7,10 @@
 
 import Foundation
 
-protocol URLSessionDataTaskProtocol {
-    func resume()
-}
-
-extension URLSessionDataTask: URLSessionDataTaskProtocol {
-    
-}
+//protocol URLSessionDataTaskProtocol {
+//    func resume()
+//}
+//
+//extension URLSessionDataTask: URLSessionDataTaskProtocol {
+//    
+//}

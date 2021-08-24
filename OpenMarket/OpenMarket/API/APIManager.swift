@@ -27,7 +27,7 @@ class APIManager {
     
     func fetchProductList(page: Int, completion: @escaping (Result<ProductListSearch, APIError>) ->()) {
         guard let url = URL(string: "\(URI.fetchListPath)\(page)") else { return }
-        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+        let task = session.dataTask(with: url) { data, response, error in
             if let error = error {
                 print(error.localizedDescription)
                 return
@@ -92,13 +92,9 @@ class APIManager {
         request.setValue(httpHeader, forHTTPHeaderField: httpHeaderField)
         request.httpBody = createHTTPBody(parameters: parameters, media: media)
         
-        dump(request.allHTTPHeaderFields)
-        print(String(decoding: request.httpBody!, as: UTF8.self))
-        
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             guard let response = response as? HTTPURLResponse, (200...299).contains(response.statusCode) else {
                 completion(.failure(APIError.invalidURL))
-                print((response as? HTTPURLResponse)?.statusCode)
                 return
             }
             
@@ -106,7 +102,6 @@ class APIManager {
                 completion(.failure(APIError.emptyData))
             }
             if let data = data {
-                print(String(decoding: data, as: UTF8.self))
                 completion(.success(data))
             }
         }
