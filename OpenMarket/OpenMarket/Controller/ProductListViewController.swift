@@ -10,6 +10,7 @@ class ProductListViewController: UIViewController {
     @IBOutlet private weak var openMarketCollectionView: UICollectionView!
     @IBOutlet private weak var loadingIndicatorView: UIActivityIndicatorView!
     private var networkManger = NetworkManager()
+    private let imageManager = ImageManager()
     private let parsingManager = ParsingManager()
     private var nextPageNumToBring = 1
     private var productList: [Product] = []
@@ -18,7 +19,6 @@ class ProductListViewController: UIViewController {
         super.viewDidLoad()
         self.openMarketCollectionView.dataSource = self
         openMarketCollectionView.register(UINib(nibName: "OpenMarketItemCell", bundle: nil), forCellWithReuseIdentifier: "OpenMarketItemCell")
-        loadingIndicatorView.startAnimating()
         loadNextProductList(on: nextPageNumToBring)
     }
     
@@ -27,6 +27,8 @@ class ProductListViewController: UIViewController {
 //MARK:- Fetch Product List
 extension ProductListViewController {
     func loadNextProductList(on pageNum: Int) {
+        loadingIndicatorView.startAnimating()
+        
         networkManger.lookUpProductList(on: pageNum) { result in
             self.loadingIndicatorView.stopAnimating()
             switch result {
@@ -70,6 +72,22 @@ extension ProductListViewController: UICollectionViewDataSource {
         guard let customCell = cell as? OpenMarketItemCell else {
             return cell
         }
+        
+        let product = productList[indexPath.item]
+        var imageDataTask: URLSessionDataTask? = nil
+        
+        if let validThumbnail = product.thumbnails.first {
+            imageDataTask = imageManager.fetchImage(from: validThumbnail) { result in
+                switch result {
+                case .success(let image):
+                    customCell.configure(image: image)
+                case .failure:
+                    customCell.configure(image: #imageLiteral(resourceName: "ErrorImage"))
+                }
+            }
+        }
+        
+        customCell.configure(from: product, with: imageDataTask)
         return customCell
     }
 }

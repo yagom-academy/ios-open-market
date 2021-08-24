@@ -8,16 +8,15 @@
 import UIKit
 
 class OpenMarketItemCell: UICollectionViewCell {
-    @IBOutlet weak var imageView: UIImageView!
-    @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var discountedPriceLabel: UILabel!
-    @IBOutlet weak var priceLabel: UILabel!
-    @IBOutlet weak var stockLabel: UILabel!
+    @IBOutlet private weak var imageView: UIImageView!
+    @IBOutlet private weak var titleLabel: UILabel!
+    @IBOutlet private weak var discountedPriceLabel: UILabel!
+    @IBOutlet private weak var priceLabel: UILabel!
+    @IBOutlet private weak var stockLabel: UILabel!
     private var imageDataTask: URLSessionDataTask?
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
     }
     
     override func prepareForReuse() {
@@ -38,7 +37,12 @@ class OpenMarketItemCell: UICollectionViewCell {
         }
     }
     
+    func configure(image: UIImage?) {
+        imageView.image = image
+    }
+    
     private func resetContents() {
+        imageView.image = #imageLiteral(resourceName: "WaitingImage")
         titleLabel.text = nil
         priceLabel.text = nil
         stockLabel.text = nil
