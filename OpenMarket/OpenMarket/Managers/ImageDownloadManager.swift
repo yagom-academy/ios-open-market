@@ -11,11 +11,15 @@ class ImageDownloadManager {
     private var imageDownloadTasks: [URLSessionTask] = []
     
     func downloadImage(at index: Int, with url: String, completion: @escaping (IndexPath) -> Void) {
-        guard ImageCacheManager.shared.loadCachedData(for: url) == nil,
-              let imageUrl = URL(string: url),
-              !imageDownloadTasks.contains(where: { task in
-                return task.originalRequest?.url == imageUrl
-              }) else {
+        guard ImageCacheManager.shared.loadCachedData(for: url) == nil else {
+            return
+        }
+        
+        guard let imageUrl = URL(string: url) else {
+            return
+        }
+
+        guard !imageDownloadTasks.contains(where: { $0.originalRequest?.url == imageUrl }) else {
             return
         }
         
