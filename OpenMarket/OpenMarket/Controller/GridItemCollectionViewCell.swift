@@ -17,21 +17,14 @@ class GridItemCollectionViewCell: UICollectionViewCell {
     private var urlString: String?
     
     func initialize(item: Page.Item, indexPath: IndexPath) {
-        configureStyle()
         updateContents(item: item, indexPath: indexPath)
+        configureStyle(item: item)
     }
     
-    private func configureStyle() {
-        self.layer.borderWidth = 1.0
-        self.layer.borderColor = UIColor.gray.cgColor
-        self.layer.cornerRadius = 10
-    }
-    
-    private func updateContents(item: Page.Item,
-                        indexPath: IndexPath) {
-        self.titleLabel?.text = item.title
-        self.priceLabel?.text = item.price.description
-        self.stockLabel?.text = item.stock.description
+    private func updateContents(item: Page.Item, indexPath: IndexPath) {
+        self.titleLabel.text = item.title
+        self.priceLabel.text = item.price.description
+        self.stockLabel.text = item.stock.description
         
         handleDiscountedPrice(item: item, indexPath: indexPath)
         let currentURLString = item.thumbnails[0]
@@ -44,12 +37,35 @@ class GridItemCollectionViewCell: UICollectionViewCell {
         }
     }
     
+    private func configureStyle(item: Page.Item) {
+        self.layer.borderWidth = 1.0
+        self.layer.borderColor = UIColor.gray.cgColor
+        self.layer.cornerRadius = 10
+        
+        let outOfStock = "품절"
+        
+        if item.stock == .zero {
+            self.stockLabel.text = outOfStock
+            self.stockLabel.textColor = .orange
+        }
+        
+        let discountAttributes: [NSAttributedString.Key: Any] = [
+            .foregroundColor: UIColor.red,
+            .strikethroughStyle: true
+        ]
+        
+        if item.discountedPrice != nil {
+            self.priceLabel.attributedText = NSAttributedString(string: item.price.description,
+                                                                attributes: discountAttributes)
+        }
+    }
+    
     private func handleDiscountedPrice(item: Page.Item, indexPath: IndexPath) {
         if let discountedPrice = item.discountedPrice {
-            discountedPriceLabel?.isHidden = false
-            self.discountedPriceLabel?.text = discountedPrice.description
+            discountedPriceLabel.isHidden = false
+            self.discountedPriceLabel.text = discountedPrice.description
         } else {
-            discountedPriceLabel?.isHidden = true
+            discountedPriceLabel.isHidden = true
         }
     }
     
@@ -57,5 +73,7 @@ class GridItemCollectionViewCell: UICollectionViewCell {
         super.prepareForReuse()
         
         self.thumbnailImageView.image = nil
+        self.priceLabel.attributedText = nil
+        self.stockLabel.textColor = .lightGray
     }
 }
