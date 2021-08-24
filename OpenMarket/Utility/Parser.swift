@@ -8,9 +8,18 @@
 import UIKit
 
 struct Parser {
-    enum ErrorCases {
-        static let decodable = "AppError: result data is not decodable"
-        static let encodable = "AppError: result data is not encodable"
+    enum ErrorCases: LocalizedError {
+        case decodable
+        case encodable
+        
+        var errorDescription: String {
+            switch self {
+            case .decodable:
+                return "AppError: result data is not decodable"
+            case .encodable:
+                return "AppError: result data is not encodable"
+            }
+        }
     }
     
     static func decode<Model, ErrorModel>(
@@ -29,7 +38,7 @@ struct Parser {
             if let error = try? decoder.decode(ErrorModel.self, from: data) {
                 return .failure(error)
             } else {
-                let unrecognizedError = ErrorModel(message: ErrorCases.decodable)
+                let unrecognizedError = ErrorModel(message: ErrorCases.decodable.errorDescription)
                 
                 return .failure(unrecognizedError)
             }
@@ -48,7 +57,7 @@ struct Parser {
             
             return .success(result)
         } catch {
-            let error = ErrorModel(message: ErrorCases.encodable)
+            let error = ErrorModel(message: ErrorCases.encodable.errorDescription)
                 
             return .failure(error)
         }
