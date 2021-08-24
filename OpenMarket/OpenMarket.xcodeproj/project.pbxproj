@@ -12,7 +12,7 @@
 		74E0028426C2447C0094ED88 /* OpenMarketTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74E0028326C2447C0094ED88 /* OpenMarketTests.swift */; };
 		74F1B98026C643BE00BE3812 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F1B97F26C643BE00BE3812 /* NetworkManager.swift */; };
 		74F1B98326C64C2400BE3812 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F1B98226C64C2400BE3812 /* Data.swift */; };
-		A830330726D4AD0A00EA30DC /* HTTPBodyMaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = A830330626D4AD0A00EA30DC /* HTTPBodyMaker.swift */; };
+		A830330926D4B49C00EA30DC /* HTTPBodyMaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = A830330826D4B49C00EA30DC /* HTTPBodyMaker.swift */; };
 		A848422226C651DE00DEBDB6 /* Media.swift in Sources */ = {isa = PBXBuildFile; fileRef = A848422126C651DE00DEBDB6 /* Media.swift */; };
 		A848422526C6564300DEBDB6 /* NameSpace.swift in Sources */ = {isa = PBXBuildFile; fileRef = A848422426C6564300DEBDB6 /* NameSpace.swift */; };
 		A8CD08C526C23B8E00E14FDD /* ParsingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8CD08C426C23B8E00E14FDD /* ParsingManager.swift */; };
@@ -42,7 +42,7 @@
 		74E0028526C2447C0094ED88 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		74F1B97F26C643BE00BE3812 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		74F1B98226C64C2400BE3812 /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
-		A830330626D4AD0A00EA30DC /* HTTPBodyMaker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPBodyMaker.swift; sourceTree = "<group>"; };
+		A830330826D4B49C00EA30DC /* HTTPBodyMaker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPBodyMaker.swift; sourceTree = "<group>"; };
 		A848422126C651DE00DEBDB6 /* Media.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Media.swift; sourceTree = "<group>"; };
 		A848422426C6564300DEBDB6 /* NameSpace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameSpace.swift; sourceTree = "<group>"; };
 		A8CD08C426C23B8E00E14FDD /* ParsingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParsingManager.swift; sourceTree = "<group>"; };
@@ -80,7 +80,7 @@
 				74E0027B26C238550094ED88 /* OpenMarketItems.swift */,
 				A8CD08C426C23B8E00E14FDD /* ParsingManager.swift */,
 				74F1B97F26C643BE00BE3812 /* NetworkManager.swift */,
-				A830330626D4AD0A00EA30DC /* HTTPBodyMaker.swift */,
+				A830330826D4B49C00EA30DC /* HTTPBodyMaker.swift */,
 				A848422126C651DE00DEBDB6 /* Media.swift */,
 				74579EF226CB79C0000788D4 /* ItemDeleteEncodeType.swift */,
 			);
@@ -281,7 +281,7 @@
 				A848422226C651DE00DEBDB6 /* Media.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 				74579EF326CB79C0000788D4 /* ItemDeleteEncodeType.swift in Sources */,
-				A830330726D4AD0A00EA30DC /* HTTPBodyMaker.swift in Sources */,
+				A830330926D4B49C00EA30DC /* HTTPBodyMaker.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
