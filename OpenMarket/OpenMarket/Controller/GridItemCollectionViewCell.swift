@@ -41,6 +41,8 @@ class GridItemCollectionViewCell: UICollectionViewCell {
     }
     
     private func handlePriceLabel(item: Page.Item) {
+        let priceWithCurrency = combine(price: item.price, currency: item.currency)
+        
         if let discountedPrice = item.discountedPrice {
             let discountAttributes: [NSAttributedString.Key: Any] = [
                 .foregroundColor: UIColor.red,
@@ -48,12 +50,12 @@ class GridItemCollectionViewCell: UICollectionViewCell {
             ]
             
             discountedPriceLabel.isHidden = false
-            self.discountedPriceLabel.text = discountedPrice.description
-            self.priceLabel.attributedText = NSAttributedString(string: item.price.description,
+            self.discountedPriceLabel.text = combine(price: discountedPrice, currency: item.currency)
+            self.priceLabel.attributedText = NSAttributedString(string: priceWithCurrency,
                                                                 attributes: discountAttributes)
         } else {
             discountedPriceLabel.isHidden = true
-            self.priceLabel.text = item.price.description
+            self.priceLabel.text = priceWithCurrency
         }
     }
     
@@ -66,6 +68,10 @@ class GridItemCollectionViewCell: UICollectionViewCell {
         } else {
             self.stockLabel.text = item.stock.description
         }
+    }
+    
+    private func combine(price: Int, currency: String) -> String {
+        return currency + " " + price.description
     }
     
     private func configureCellBorder() {
