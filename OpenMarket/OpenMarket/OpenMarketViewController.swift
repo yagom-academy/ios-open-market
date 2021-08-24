@@ -7,10 +7,20 @@
 import UIKit
 
 class OpenMarketViewController: UIViewController {
-    @IBOutlet private var openMarketCollectionView: UICollectionView!
+    
+    private enum OpenMarketConstraint {
+        static let deviceWidth = UIScreen.main.bounds.width
+        static let deviceHeight = UIScreen.main.bounds.height
+        static let minimumLineSpacing: CGFloat = 10
+        static let minimumInteritemSpacing: CGFloat = 10
+        static let inset: UIEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+    }
+    
     private var item: [Item] = []
     private var page: Int = 1
     private let networkHandler = NetworkHandler(session: URLSession.shared)
+    
+    @IBOutlet private var openMarketCollectionView: UICollectionView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,14 +48,26 @@ class OpenMarketViewController: UIViewController {
     
     private func configureFlowLayout() -> UICollectionViewFlowLayout {
         let flowLayout = UICollectionViewFlowLayout()
-        let halfScreenWidth: CGFloat = UIScreen.main.bounds.width / 2.0
-        let oneThirdScreenHeight: CGFloat = UIScreen.main.bounds.height / 3.0
-        flowLayout.sectionInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
-        flowLayout.minimumInteritemSpacing = 10
-        flowLayout.minimumLineSpacing = 10
-        flowLayout.itemSize.width = halfScreenWidth - 15
-        flowLayout.itemSize.height = oneThirdScreenHeight + 10
+        flowLayout.sectionInset = OpenMarketConstraint.inset
+        flowLayout.minimumInteritemSpacing = OpenMarketConstraint.minimumInteritemSpacing
+        flowLayout.minimumLineSpacing = OpenMarketConstraint.minimumLineSpacing
+        flowLayout.itemSize.width = (OpenMarketConstraint.deviceWidth - (OpenMarketConstraint.minimumInteritemSpacing * 1 + OpenMarketConstraint.inset.left + OpenMarketConstraint.inset.right)) / 2
+        flowLayout.itemSize.height = (OpenMarketConstraint.deviceHeight - OpenMarketConstraint.minimumLineSpacing * 2) / 3
+        
         return flowLayout
+    }
+}
+
+extension OpenMarketViewController: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return item.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell: OpenMarketGridCell = collectionView.dequeueReusableCell(withReuseIdentifier: OpenMarketGridCell.cellIdentifier, for: indexPath) as? OpenMarketGridCell else { return UICollectionViewCell() }
+        cell.setUpLabels(item: item, indexPath: indexPath)
+        cell.setUpImages(url: item[indexPath.item].thumbnails[0])
+        return cell
     }
 }
 
@@ -60,16 +82,3 @@ extension OpenMarketViewController: UICollectionViewDataSourcePrefetching {
     }
 }
 
-extension OpenMarketViewController: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return item.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell: OpenMarketGridCell = collectionView.dequeueReusableCell(withReuseIdentifier: OpenMarketGridCell.cellIdentifier, for: indexPath) as? OpenMarketGridCell else { fatalError() }
-        cell.setUpLabels(item: item, indexPath: indexPath)
-        cell.setUpImages(url: item[indexPath.item].thumbnails[0])
-        cell.configureCellStyle()
-        return cell
-    }
-}
