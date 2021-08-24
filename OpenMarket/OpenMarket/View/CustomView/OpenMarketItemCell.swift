@@ -17,6 +17,31 @@ class OpenMarketItemCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        setUpLablesConfiguration()
+    }
+    
+    private func setUpLablesConfiguration() {
+        
+        titleLabel.adjustsFontSizeToFitWidth = true
+        discountedPriceLabel.adjustsFontSizeToFitWidth = true
+        priceLabel.adjustsFontSizeToFitWidth = true
+        stockLabel.adjustsFontSizeToFitWidth = true
+        
+        titleLabel.minimumScaleFactor = 0.1
+        discountedPriceLabel.minimumScaleFactor = 0.1
+        priceLabel.minimumScaleFactor = 0.1
+        stockLabel.minimumScaleFactor = 0.1
+        
+        titleLabel.numberOfLines = 2
+        discountedPriceLabel.numberOfLines = 1
+        priceLabel.numberOfLines = 1
+        stockLabel.numberOfLines = 1
+        
+        titleLabel.lineBreakMode = .byClipping
+        discountedPriceLabel.lineBreakMode = .byClipping
+        priceLabel.lineBreakMode = .byClipping
+        stockLabel.lineBreakMode = .byClipping
+        
     }
     
     override func prepareForReuse() {
@@ -48,5 +73,4 @@ class OpenMarketItemCell: UICollectionViewCell {
         stockLabel.text = nil
         discountedPriceLabel.text = nil
     }
-
 }

@@ -18,6 +18,7 @@ class ProductListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.openMarketCollectionView.dataSource = self
+        self.openMarketCollectionView.delegate = self
         openMarketCollectionView.register(UINib(nibName: "OpenMarketItemCell", bundle: nil), forCellWithReuseIdentifier: "OpenMarketItemCell")
         loadNextProductList(on: nextPageNumToBring)
     }
@@ -92,3 +93,15 @@ extension ProductListViewController: UICollectionViewDataSource {
     }
 }
 
+extension ProductListViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        print("호출됨")
+        guard let collectionViewFlowLayout = collectionViewLayout as? UICollectionViewFlowLayout else {
+            return CGSize.zero
+        }
+        let collectionViewBounds = collectionView.bounds
+        let cellWidth = (collectionViewBounds.width - collectionViewFlowLayout.sectionInset.left - collectionViewFlowLayout.sectionInset.right - collectionViewFlowLayout.minimumInteritemSpacing) / 2
+        let cellHeight = cellWidth * 1.5
+        return CGSize(width: cellWidth, height: cellHeight)
+    }
+}
