@@ -9,9 +9,11 @@ import Foundation
 
 class MockURLSessionDataTask: URLSessionDataTaskProtocol {
 
+    var resumeDidcall: () -> () = {}
     private var resumeCalled = false
     func resume() {
         resumeCalled = true
+        resumeDidcall()
     }
 
 }

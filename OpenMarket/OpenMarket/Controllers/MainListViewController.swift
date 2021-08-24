@@ -13,7 +13,7 @@ class MainListViewController: UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        guard let mediaImage = Media(image: #imageLiteral(resourceName: "맥북프로")), let mediaImage2 = Media(image: #imageLiteral(resourceName: "맥북프로")) else { return }
+        guard let mediaImage = Media(image: #imageLiteral(resourceName: "Macbook1")), let mediaImage2 = Media(image: #imageLiteral(resourceName: "Macbook1")) else { return }
         var imageList: [Media] = [mediaImage, mediaImage2]
         
         let registProduct = RegistProductModel(title: "MacBook Air", descriptions: "좋아요", price: 100_000, currency: "KRW", stock: 5, discountedPrice: 80_000, password: "1234")

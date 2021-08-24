@@ -106,6 +106,7 @@ class APIManager {
                 completion(.failure(APIError.emptyData))
             }
             if let data = data {
+                print(String(decoding: data, as: UTF8.self))
                 completion(.success(data))
             }
         }
