@@ -18,6 +18,7 @@
 		74F6611D26CF9B5A00801075 /* StrockLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F6611C26CF9B5A00801075 /* StrockLabel.swift */; };
 		A83032ED26CF82C400EA30DC /* OpenMarketLoadData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A83032EC26CF82C400EA30DC /* OpenMarketLoadData.swift */; };
 		A83032EF26CF848900EA30DC /* NotificationName.swift in Sources */ = {isa = PBXBuildFile; fileRef = A83032EE26CF848900EA30DC /* NotificationName.swift */; };
+		A830330C26D4BD8800EA30DC /* LayoutGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A830330B26D4BD8800EA30DC /* LayoutGenerator.swift */; };
 		A848422226C651DE00DEBDB6 /* Media.swift in Sources */ = {isa = PBXBuildFile; fileRef = A848422126C651DE00DEBDB6 /* Media.swift */; };
 		A848422526C6564300DEBDB6 /* NameSpace.swift in Sources */ = {isa = PBXBuildFile; fileRef = A848422426C6564300DEBDB6 /* NameSpace.swift */; };
 		A8CD08C526C23B8E00E14FDD /* ParsingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8CD08C426C23B8E00E14FDD /* ParsingManager.swift */; };
@@ -53,6 +54,7 @@
 		74F6611C26CF9B5A00801075 /* StrockLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StrockLabel.swift; sourceTree = "<group>"; };
 		A83032EC26CF82C400EA30DC /* OpenMarketLoadData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketLoadData.swift; sourceTree = "<group>"; };
 		A83032EE26CF848900EA30DC /* NotificationName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationName.swift; sourceTree = "<group>"; };
+		A830330B26D4BD8800EA30DC /* LayoutGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutGenerator.swift; sourceTree = "<group>"; };
 		A848422126C651DE00DEBDB6 /* Media.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Media.swift; sourceTree = "<group>"; };
 		A848422426C6564300DEBDB6 /* NameSpace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameSpace.swift; sourceTree = "<group>"; };
 		A8CD08C426C23B8E00E14FDD /* ParsingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParsingManager.swift; sourceTree = "<group>"; };
@@ -132,6 +134,14 @@
 			path = Protocol;
 			sourceTree = "<group>";
 		};
+		A830330A26D4BCF900EA30DC /* Layout */ = {
+			isa = PBXGroup;
+			children = (
+				A830330B26D4BD8800EA30DC /* LayoutGenerator.swift */,
+			);
+			path = Layout;
+			sourceTree = "<group>";
+		};
 		A848422326C6563300DEBDB6 /* PlaceHolder */ = {
 			isa = PBXGroup;
 			children = (
@@ -179,6 +189,7 @@
 		C70FB0F925BEF61C00C9924E /* OpenMarket */ = {
 			isa = PBXGroup;
 			children = (
+				A830330A26D4BCF900EA30DC /* Layout */,
 				74F6611B26CF9B3600801075 /* Protocol */,
 				74F6611626CF80D700801075 /* Data */,
 				74E0027A26C2380F0094ED88 /* Model */,
@@ -311,6 +322,7 @@
 				74F6611D26CF9B5A00801075 /* StrockLabel.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
 				A8CD08C526C23B8E00E14FDD /* ParsingManager.swift in Sources */,
+				A830330C26D4BD8800EA30DC /* LayoutGenerator.swift in Sources */,
 				74F6611826CF810000801075 /* OpenMarketDataSource.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				A83032EF26CF848900EA30DC /* NotificationName.swift in Sources */,
