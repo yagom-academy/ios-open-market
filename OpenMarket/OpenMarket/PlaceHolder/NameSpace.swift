@@ -84,3 +84,8 @@ enum HTTPMethod: CustomStringConvertible {
         }
     }
 }
+
+//MARK:-Boundary used in HTTP Body and Header
+enum Boundary {
+    static let literal = "Boundary\(UUID().uuidString)"
+}

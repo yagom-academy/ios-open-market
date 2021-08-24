@@ -10,7 +10,7 @@ import UIKit
 class OpenMarketDataSource: NSObject, UICollectionViewDataSource {
     override init() {
         super.init()
-        let loadData = OpenMarketLoadData(networkManager: NetworkManager(session: .shared))
+        let loadData = OpenMarketLoadData()
         loadData.requestOpenMarketMainPageData(page: "1") { testData in
             self.openMarketItemList = [testData]
         }
