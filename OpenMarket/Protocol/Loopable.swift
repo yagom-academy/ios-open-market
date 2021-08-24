@@ -45,6 +45,21 @@ extension Loopable {
         return dictionary
     }
     
+    func buildedFormData(boundary: String) -> Data {
+        var form = ""
+        
+        for (key, value) in self.properties {
+            form += boundary + .newLine
+            form += "Content-Disposition: form-data; "
+            form += "name=\"\(key)\"" + .newLine + .newLine
+            form += "\(String(describing: value))" + .newLine
+        }
+        
+        form += boundary + "--"
+        
+        return form.data(using: .utf8) ?? Data()
+    }
+    
     private func snakedStringIfCamel(_ character: Character) -> String {
         if character.isUppercase {
             return "_" + character.lowercased()
