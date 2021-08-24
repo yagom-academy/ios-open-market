@@ -27,53 +27,69 @@ class ParsingTest: XCTestCase {
     func test_sessionMock에_items에_1번page로_접근하면_아이템목록이있다() {
         let index = UInt(1)
         
-        cut.getItems(pageIndex: index) { result in
-            switch result {
-            case .success(let itemList):
-                XCTAssertTrue(itemList.items.count > 0)
-            case .failure:
-                XCTFail()
+        do {
+            try cut.getItems(pageIndex: index) { result in
+                switch result {
+                case .success(let itemList):
+                    XCTAssertTrue(itemList.items.count > 0)
+                case .failure:
+                    XCTFail()
+                }
             }
+        } catch {
+            XCTFail()
         }
+        
     }
     
     func test_sessionMock에_items에_1번이아닌page로_접근하면_아이템목록이있다() {
         let randomNumber = Int.random(in: 2...Int.max)
         let index = UInt(randomNumber)
-        
-        cut.getItems(pageIndex: index) { result in
-            switch result {
-            case .success(let itemList):
-                XCTAssertTrue(itemList.items.count == 0)
-            case .failure:
-                XCTFail()
+        do {
+            try cut.getItems(pageIndex: index) { result in
+                switch result {
+                case .success(let itemList):
+                    XCTAssertTrue(itemList.items.count == 0)
+                case .failure:
+                    XCTFail()
+                }
             }
+        } catch {
+            XCTFail()
         }
     }
     
     func test_sessionMock에_1번id를갖는item은_존재한다() {
         let id = UInt(1)
         
-        cut.getItem(id: id) { result in
-            switch result {
-            case .success(let item):
-                XCTAssertEqual(item.id, 1)
-            case .failure:
-                XCTFail()
+        do {
+            try cut.getItem(id: id) { result in
+                switch result {
+                case .success(let item):
+                    XCTAssertEqual(item.id, 1)
+                case .failure:
+                    XCTFail()
+                }
             }
+        } catch {
+            XCTFail()
         }
     }
     
     func test_sessionMock에_1234번id를갖는item은_존재하지않는다() {
         let id = UInt(1234)
         
-        cut.getItem(id: id) { result in
-            switch result {
-            case .success:
-                XCTFail()
-            case .failure(let error):
-                XCTAssertEqual(error.errorDescription, NetworkManagerMock.ErrorCases.noItem)
+        do {
+            try cut.getItem(id: id) { result in
+                switch result {
+                case .success:
+                    XCTFail()
+                case .failure(let error):
+                    XCTAssertEqual(error.errorDescription, NetworkManagerMock.ErrorCases.noItem)
+                }
             }
+        } catch {
+            XCTFail()
         }
     }
 }

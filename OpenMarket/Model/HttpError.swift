@@ -8,7 +8,22 @@
 import Foundation
 
 struct HttpError: ErrorMessage {
-    static let unknownError = "Error: unknown error occured"
+    
+    enum Case: LocalizedError {
+        case unknownError
+        case requestBuildingFailed
+        
+        var errorDescription: String {
+            switch self {
+            case .requestBuildingFailed:
+                return "Error: building request is failed"
+            default:
+                return "Error: unknown error occured"
+            }
+        }
+        
+    }
+    
     
     var errorDescription: String?
     

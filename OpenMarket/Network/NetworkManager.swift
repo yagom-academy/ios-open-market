@@ -12,10 +12,10 @@ struct NetworkManager: API {
     func getItems(
         pageIndex: UInt,
         completionHandler: @escaping (Result<GoodsList, HttpError>) -> Void
-    ) {
+    ) throws {
         let currentMethod = HttpMethod.items(pageIndex: pageIndex)
         guard let request = buildedBasicRequest(method: currentMethod) else {
-            return
+            throw HttpError.Case.requestBuildingFailed
         }
         
         doTaskWith(request: request) { result in
@@ -26,10 +26,10 @@ struct NetworkManager: API {
     func getItem(
         id: UInt,
         completionHandler: @escaping (Result<ItemDetail, HttpError>) -> Void
-    ) {
+    ) throws {
         let currentMethod = HttpMethod.item(id: id.description)
         guard let request = buildedBasicRequest(method: currentMethod) else {
-            return
+            throw HttpError.Case.requestBuildingFailed
         }
         
         doTaskWith(request: request) { result in
@@ -41,12 +41,14 @@ struct NetworkManager: API {
         item: ItemRequestable,
         images: [UIImage],
         completionHandler: @escaping (Result<ItemDetail, HttpError>) -> Void
-    ) {
+    ) throws {
        guard let request = buildedRequestWithFormData(
                 method: HttpMethod.post,
                 item: item,
                 images: images
-       ) else { return }
+       ) else {
+            throw HttpError.Case.requestBuildingFailed
+       }
         
         doTaskWith(request: request) { result in
             completionHandler(result)
@@ -58,12 +60,14 @@ struct NetworkManager: API {
         item: ItemRequestable,
         images: [UIImage]? = nil,
         completionHandler: @escaping (Result<ItemDetail, HttpError>) -> Void
-    ) {
+    ) throws {
        guard let request = buildedRequestWithFormData(
                 method: HttpMethod.patch(id: itemId.description),
                 item: item,
                 images: images
-       ) else { return }
+       ) else {
+            throw HttpError.Case.requestBuildingFailed
+       }
         
         doTaskWith(request: request) { result in
             completionHandler(result)
@@ -74,12 +78,12 @@ struct NetworkManager: API {
         itemId: Int,
         item: ItemRequestable,
         completionHandler: @escaping (Result<ItemDetail, HttpError>) -> Void
-    ) {
+    ) throws {
         guard let request = buildedRequestWithJSON(
                 method: .delete(id: itemId.description),
                 item: item
         ) else {
-            return
+            throw HttpError.Case.requestBuildingFailed
         }
         
         doTaskWith(request: request) { result in
@@ -123,7 +127,7 @@ extension NetworkManager {
         URLSession.shared
             .dataTask(with: request) { data, response, error in
                 guard let data = guardedDataAbout(data: data, response: response, error: error) else {
-                    let error = HttpError(message: HttpError.unknownError)
+                    let error = HttpError(message: HttpError.Case.unknownError.errorDescription)
                     completionHandler(.failure(error))
                     return
                 }
