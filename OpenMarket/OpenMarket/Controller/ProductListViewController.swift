@@ -28,6 +28,7 @@ class ProductListViewController: UIViewController {
 extension ProductListViewController {
     func loadNextProductList(on pageNum: Int) {
         networkManger.lookUpProductList(on: pageNum) { result in
+            self.loadingIndicatorView.stopAnimating()
             switch result {
             case .success(let fetchedData):
                 self.handleFetchedList(data: fetchedData)
@@ -61,7 +62,7 @@ extension ProductListViewController {
 
 extension ProductListViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 20
+        return productList.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
