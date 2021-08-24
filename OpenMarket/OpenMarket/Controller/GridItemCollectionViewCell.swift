@@ -61,12 +61,13 @@ class GridItemCollectionViewCell: UICollectionViewCell {
     
     private func handleStockLabel(item: Page.Item) {
         let outOfStock = "품절"
+        let residualQuantity = "잔여수량 : "
         
         if item.stock == .zero {
             self.stockLabel.text = outOfStock
             self.stockLabel.textColor = .orange
         } else {
-            self.stockLabel.text = item.stock.description
+            self.stockLabel.text = residualQuantity + item.stock.description
         }
     }
     
