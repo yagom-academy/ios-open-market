@@ -2,6 +2,7 @@
 
 ### 오픈마켓 프로젝트 저장소
 
-- 이 저장소를 자신의 저장소로 fork하여 프로젝트를 진행합니다
+![오픈마켓UML-Step1-2](https://user-images.githubusercontent.com/34529917/129679650-387446f0-a239-41aa-9166-f51001c5ab50.png)
+
 
 
