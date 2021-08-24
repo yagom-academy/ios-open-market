@@ -8,7 +8,7 @@
 import Foundation
 
 enum HttpMethod {
-    case items
+    case items(pageIndex: UInt)
     case item(id: String)
     case post
     case patch(id: String)
@@ -16,11 +16,11 @@ enum HttpMethod {
     
     var path: String {
         switch self {
-        case .items:
-            return "items/"
-        case .item(id: let id),
-             .patch(id: let id),
-             .delete(id: let id):
+        case .items(let pageIndex):
+            return "items/\(pageIndex.description)"
+        case .item(let id),
+             .patch(let id),
+             .delete(let id):
             return "item/" + id
         case .post:
             return "item"

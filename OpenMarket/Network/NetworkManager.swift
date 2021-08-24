@@ -9,18 +9,16 @@ import UIKit
 
 struct NetworkManager: ClientAPI {
     
-    
     func getItems(
         pageIndex: UInt,
         completionHandler: @escaping (Result<GoodsList, HttpError>) -> Void
     ) {
-        let path = HttpConfig.baseURL + HttpMethod.items.path
-        
-        guard let url = URL(string: path + pageIndex.description) else {
+        let currentMethod = HttpMethod.items(pageIndex: pageIndex)
+        guard let request = generatedFundmantalRequest(method: currentMethod) else {
             return
         }
         
-        doTaskWith(url: url) { result in
+        doTaskWith(request: request) { result in
             completionHandler(result)
         }
     }
@@ -29,13 +27,12 @@ struct NetworkManager: ClientAPI {
         id: UInt,
         completionHandler: @escaping (Result<ItemDetail, HttpError>) -> Void
     ) {
-        let path = HttpConfig.baseURL + HttpMethod.item(id: id.description).path
-        
-        guard let url = URL(string: path) else {
+        let currentMethod = HttpMethod.item(id: id.description)
+        guard let request = generatedFundmantalRequest(method: currentMethod) else {
             return
         }
         
-        doTaskWith(url: url) { result in
+        doTaskWith(request: request) { result in
             completionHandler(result)
         }
     }
@@ -92,6 +89,19 @@ struct NetworkManager: ClientAPI {
 }
 
 extension NetworkManager {
+    private func generatedFundmantalRequest(method: HttpMethod) -> URLRequest? {
+        let path = HttpConfig.baseURL + method.path
+        
+        guard let url = URL(string: path) else {
+            return nil
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = method.type
+        
+        return request
+    }
+    
     private func guardedDataAbout(
         data: Data?,
         response: URLResponse?,
@@ -106,24 +116,6 @@ extension NetworkManager {
         }
         
         return data
-    }
-    
-    private func doTaskWith<Model>(
-        url: URL,
-        completionHandler: @escaping (Result<Model, HttpError>) -> Void
-    ) where Model: Decodable {
-        URLSession.shared
-            .dataTask(with: url) { data, response, error in
-                guard let data = guardedDataAbout(data: data, response: response, error: error) else {
-                    let error = HttpError(message: HttpConfig.unknownError)
-                    completionHandler(.failure(error))
-                    return
-                }
-                
-                let parsedData = Parser.decode(from: data, to: Model.self, or: HttpError.self)
-                completionHandler(parsedData)
-            }
-            .resume()
     }
     
     private func doTaskWith<Model>(
@@ -149,17 +141,12 @@ extension NetworkManager {
         item: Model? = nil,
         images: [UIImage]? = nil
     ) -> URLRequest? where Model: Loopable {
-        
-        let path = HttpConfig.baseURL + method.path
-        
-        guard let url = URL(string: path) else {
+        guard var request = generatedFundmantalRequest(method: method) else {
             return nil
         }
         
         let boundary = HttpConfig.boundary
-        var request = URLRequest(url: url)
         
-        request.httpMethod = method.type
         request.setValue(HttpConfig.multipartFormData + boundary, forHTTPHeaderField: HttpConfig.contentType)
         
         let boundaryWithPrefix = HttpConfig.boundaryPrefix + boundary
@@ -183,13 +170,11 @@ extension NetworkManager {
         method: HttpMethod,
         item: Model
     ) -> URLRequest? where Model: Encodable {
-        let path = HttpConfig.baseURL + method.path
-        guard let url = URL(string: path),
+        guard var request = generatedFundmantalRequest(method: method),
               let body = try? Parser.encode(from: item, or: HttpError.self).get() else {
             return nil
         }
         
-        var request = URLRequest(url: url)
         request.setValue(HttpConfig.applicationJson, forHTTPHeaderField: HttpConfig.contentType)
         request.httpMethod = method.type
         request.httpBody = body
