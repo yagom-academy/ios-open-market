@@ -21,11 +21,9 @@ class ItemCollectionViewCell: UICollectionViewCell {
     }
     
     override func prepareForReuse() {
+        super.prepareForReuse()
+        
         itemThumbnailImageView.image = nil
-        itemTitleLabel.text = nil
-        itemPriceLabel.text = nil
-        itemDiscountedPriceLabel.text = nil
-        itemStockLabel.text = nil
     }
     
     func configure(with marketItem: MarketPageItem) {
@@ -33,7 +31,7 @@ class ItemCollectionViewCell: UICollectionViewCell {
         updateThumbnail(to: marketItem)
     }
     
-    func updateThumbnail(to marketItem: MarketPageItem) {
+    private func updateThumbnail(to marketItem: MarketPageItem) {
         let thumbnailUrl = marketItem.thumbnails[0]
         if let image = ImageCacheManager.shared.loadCachedData(for: thumbnailUrl) {
             itemThumbnailImageView.image = image
