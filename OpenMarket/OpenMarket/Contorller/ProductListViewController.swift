@@ -78,15 +78,16 @@ extension ProductListViewController: UICollectionViewDelegate {
 
 extension ProductListViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 8
+        return productList.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProductListCustomCollectionViewCell.identifier, for: indexPath)
-        
-        guard let customCell = cell as? ProductListCustomCollectionViewCell else {
-            return cell
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProductListCustomCollectionViewCell.identifier, for: indexPath) as? ProductListCustomCollectionViewCell else {
+            return UICollectionViewCell()
         }
+        
+        cell.configure(productList[indexPath.row])
+        
         return cell
     }
 }
