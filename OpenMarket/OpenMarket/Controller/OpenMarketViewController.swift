@@ -11,6 +11,8 @@ class OpenMarketViewController: UIViewController {
     private var products: [ItemData] = []
     private let networkManager = NetworkManager()
     private let cellIdentifier = "customCollectionViewCell"
+    private let addVCIdentifier = "addItemViewController"
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.networkManager.commuteWithAPI(API: GetItemsAPI(page: 1)) { result in
@@ -28,6 +30,11 @@ class OpenMarketViewController: UIViewController {
             }
         }
     }
+    @IBAction func AddItemButton(_ sender: UIBarButtonItem) {
+        guard let addVC = self.storyboard?.instantiateViewController(identifier: self.addVCIdentifier) else { return }
+        self.navigationController?.pushViewController(addVC, animated: true)
+    }
+    
 }
 
 extension OpenMarketViewController: UICollectionViewDataSource {

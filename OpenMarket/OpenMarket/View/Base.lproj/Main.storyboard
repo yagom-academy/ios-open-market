@@ -104,7 +104,13 @@
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="2ru-TA-jH6" secondAttribute="trailing" id="qZU-RQ-dtW"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="야아 마켓" id="fOV-vj-eNI"/>
+                    <navigationItem key="navigationItem" title="야아 마켓" id="fOV-vj-eNI">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="qCc-Dp-tdg">
+                            <connections>
+                                <action selector="AddItemButton:" destination="BYZ-38-t0r" id="nWD-lm-X7r"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="collectionView" destination="2ru-TA-jH6" id="kYp-vP-LmG"/>
                     </connections>
@@ -112,6 +118,21 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="944.92753623188412" y="39.508928571428569"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="Rrz-el-aO7">
+            <objects>
+                <viewController storyboardIdentifier="addItemViewController" id="CG1-oK-eJn" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Qvj-Xk-hVf">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="41a-Hp-ePe"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="JUd-U8-tTj" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1765" y="40"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="rXE-29-9nu">
