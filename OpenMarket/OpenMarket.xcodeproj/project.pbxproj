@@ -21,6 +21,7 @@
 		9BC1863E26CF54E700A97B4B /* Data+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BC1863D26CF54E700A97B4B /* Data+Extensions.swift */; };
 		9BF5E28026D5306B00B6E8A2 /* PriceFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BF5E27F26D5306B00B6E8A2 /* PriceFormatter.swift */; };
 		9BF5E28226D5444E00B6E8A2 /* OpenMarketGridCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BF5E28126D5444E00B6E8A2 /* OpenMarketGridCell.swift */; };
+
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
 		C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */; };
 		C70FB0FF25BEF61C00C9924E /* OpenMarketViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FE25BEF61C00C9924E /* OpenMarketViewController.swift */; };
@@ -58,6 +59,7 @@
 		9BC1863D26CF54E700A97B4B /* Data+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Extensions.swift"; sourceTree = "<group>"; };
 		9BF5E27F26D5306B00B6E8A2 /* PriceFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceFormatter.swift; sourceTree = "<group>"; };
 		9BF5E28126D5444E00B6E8A2 /* OpenMarketGridCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketGridCell.swift; sourceTree = "<group>"; };
+
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -130,7 +132,9 @@
 			children = (
 				C70FB10025BEF61C00C9924E /* Main.storyboard */,
 				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
+
 				9BF5E28126D5444E00B6E8A2 /* OpenMarketGridCell.swift */,
+
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -148,7 +152,9 @@
 			children = (
 				9B95B15526CEB563002B05AA /* DataForm.swift */,
 				9B95B15126CEB52F002B05AA /* MultiPartForm.swift */,
+
 				9BF5E27F26D5306B00B6E8A2 /* PriceFormatter.swift */,
+
 				9B95B15326CEB547002B05AA /* JsonObject.swift */,
 				9B95B15726CEC187002B05AA /* Image.swift */,
 				9BC1863D26CF54E700A97B4B /* Data+Extensions.swift */,
@@ -313,6 +319,7 @@
 				9BF5E28026D5306B00B6E8A2 /* PriceFormatter.swift in Sources */,
 				9BC1863E26CF54E700A97B4B /* Data+Extensions.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* OpenMarketViewController.swift in Sources */,
+
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				D19B100926CB7C8E004CA94E /* OpenMarketAPI.swift in Sources */,
 				9B95B15426CEB547002B05AA /* JsonObject.swift in Sources */,

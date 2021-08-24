@@ -20,6 +20,7 @@ struct Image {
     }
 }
 
+
 struct ImageLoader {
     private let imageUrl: String
     init(imageUrl: String) {
@@ -35,5 +36,4 @@ struct ImageLoader {
         }.resume()
     }
 }
-
 
