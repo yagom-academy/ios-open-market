@@ -7,8 +7,6 @@
 
 import Foundation
 
-protocol Messagable {
+protocol ErrorMessage: LocalizedError, Codable {
     init(message: String)
 }
-
-typealias ErrorMessage = Error & Messagable & Codable

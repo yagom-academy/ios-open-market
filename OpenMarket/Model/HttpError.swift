@@ -8,5 +8,9 @@
 import Foundation
 
 struct HttpError: ErrorMessage {
-    let message: String
+    var errorDescription: String?
+    
+    init(message: String) {
+        self.errorDescription = message
+    }
 }
