@@ -17,13 +17,18 @@ class OpenmarketViewController: UIViewController {
         super.viewDidLoad()
         openmarketCollectionView.delegate = self
         openmarketCollectionView.dataSource = self
+        openmarketCollectionView.prefetchDataSource = self
         self.openmarketCollectionView.collectionViewLayout = configureFlowLayout()
-        
+        requestNextPage()
+    }
+    
+    func requestNextPage() {
         networkHandler.request(api: .getItemCollection(page: page)) { result in
             switch result {
             case .success(let data):
                 guard let model = try? JsonHandler().decodeJSONData(json: data, model: ItemCollection.self) else { return }
                 self.item.append(contentsOf: model.items)
+                self.page += 1
                 DispatchQueue.main.async {
                     self.openmarketCollectionView.reloadData()
                 }
@@ -48,6 +53,17 @@ extension OpenmarketViewController: UICollectionViewDelegate {
     }
 }
 
+extension OpenmarketViewController: UICollectionViewDataSourcePrefetching {
+    func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
+        let remainItem = item.count - 1
+        for indexPath in indexPaths {
+            if remainItem == indexPath.item {
+                requestNextPage()
+            }
+        }
+    }
+}
+
 extension OpenmarketViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return item.count
@@ -58,7 +74,6 @@ extension OpenmarketViewController: UICollectionViewDataSource {
         cell.setUpLabels(item: item, indexPath: indexPath)
         cell.setUpImages(url: item[indexPath.item].thumbnails[0])
         cell.configureCellStyle()
-
         return cell
     }
 }
