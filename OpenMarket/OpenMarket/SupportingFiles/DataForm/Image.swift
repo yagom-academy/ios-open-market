@@ -19,3 +19,25 @@ struct Image {
         self.data = data
     }
 }
+
+struct ImageLoader {
+//    private let session: Sessionable
+    private let imageUrl: String
+    // 세션을 써야한다
+    init(imageUrl: String) {
+//        self.session = session
+        self.imageUrl = imageUrl
+    }
+    func loadImage(completionHandler: @escaping (UIImage) -> Void) {
+        guard let url = URL(string: imageUrl) else { return }
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            if let data = data {
+                guard let image = UIImage(data: data) else { fatalError() }
+                completionHandler(image)
+            }
+            
+        }.resume()
+    }
+}
+
+
