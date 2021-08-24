@@ -58,4 +58,38 @@ class NetworkTest: XCTestCase {
             XCTFail()
         }
     }
+    
+    
+    func test_post메소드에_타이틀을누락하고요청하면_에러가발생한다() {
+        //given
+        let randomPrice = Int.random(in: 1000...10000)
+        let imageLiteral = #imageLiteral(resourceName: "compressed")
+        let dummy = ItemRequestable(
+            descriptions: "비밀번호는 test",
+            price: randomPrice,
+            currency: "KRW",
+            stock: 999_9999_9999,
+            discountedPrice: 900,
+            password: commonPassword
+        )
+        var beResult: Result<ItemDetail, HttpError>?
+        
+        //when
+        let exception = XCTestExpectation(description: "response")
+        NetworkManager().postItem(item: dummy, images: [imageLiteral]) { result in
+            beResult = result
+            exception.fulfill()
+        }
+        wait(for: [exception], timeout: 5)
+        
+        //then
+        switch beResult {
+        case .none:
+            XCTFail()
+        case .success:
+            XCTFail()
+        case .failure(let error):
+            XCTAssertEqual(error.message, Parser.ErrorCases.decodable)
+        }
+    }
 }

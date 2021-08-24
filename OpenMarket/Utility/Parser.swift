@@ -8,7 +8,7 @@
 import UIKit
 
 struct Parser {
-    private enum ErrorCases {
+    enum ErrorCases {
         static let decodable = "AppError: result data is not decodable"
         static let encodable = "AppError: result data is not encodable"
     }
