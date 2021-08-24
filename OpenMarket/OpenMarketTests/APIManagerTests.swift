@@ -11,7 +11,7 @@ import XCTest
 class APIManagerTests: XCTestCase {
 
     var sut: APIManager!
-    let session = MockURLSession()
+    let session = MockURLSession(isRequestSuccess: true)
     
     override func setUpWithError() throws {
         sut = APIManager(session: session)

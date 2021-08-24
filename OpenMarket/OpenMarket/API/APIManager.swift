@@ -27,7 +27,8 @@ class APIManager {
     
     func fetchProductList(page: Int, completion: @escaping (Result<ProductListSearch, APIError>) ->()) {
         guard let url = URL(string: "\(URI.fetchListPath)\(page)") else { return }
-        let task = session.dataTask(with: url) { data, response, error in
+        let request = URLRequest(url: url)
+        let task = session.dataTask(with: request) { data, response, error in
             if let error = error {
                 print(error.localizedDescription)
                 return
