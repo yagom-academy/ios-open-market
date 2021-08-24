@@ -43,7 +43,7 @@ struct NetworkManager: API {
         completionHandler: @escaping (Result<ItemDetail, HttpError>) -> Void
     ) throws {
        guard let request = buildedRequestWithFormData(
-                method: HttpMethod.post,
+                about: HttpMethod.post,
                 item: item,
                 images: images
        ) else {
@@ -62,7 +62,7 @@ struct NetworkManager: API {
         completionHandler: @escaping (Result<ItemDetail, HttpError>) -> Void
     ) throws {
        guard let request = buildedRequestWithFormData(
-                method: HttpMethod.patch(id: itemId.description),
+                about: HttpMethod.patch(id: itemId.description),
                 item: item,
                 images: images
        ) else {
@@ -80,7 +80,7 @@ struct NetworkManager: API {
         completionHandler: @escaping (Result<ItemDetail, HttpError>) -> Void
     ) throws {
         guard let request = buildedRequestWithJSON(
-                method: .delete(id: itemId.description),
+                about: .delete(id: itemId.description),
                 item: item
         ) else {
             throw HttpError.Case.requestBuildingFailed
@@ -135,7 +135,7 @@ extension NetworkManager {
     }
     
     private func buildedRequestWithFormData<Model>(
-        method: HttpMethod,
+        about method: HttpMethod,
         item: Model? = nil,
         images: [UIImage]? = nil
     ) -> URLRequest? where Model: Loopable {
@@ -165,7 +165,7 @@ extension NetworkManager {
     }
     
     private func buildedRequestWithJSON<Model>(
-        method: HttpMethod,
+        about method: HttpMethod,
         item: Model
     ) -> URLRequest? where Model: Encodable {
         guard var request = buildedBasicRequest(method: method),
