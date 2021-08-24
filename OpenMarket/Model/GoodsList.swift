@@ -9,9 +9,9 @@ import Foundation
 
 struct GoodsList: Decodable {
     var page: Int
-    var items: [GoodsOnSale]
+    var items: [Goods]
     
-    subscript(index: Int) -> GoodsOnSale {
+    subscript(index: Int) -> Goods {
         return items[index]
     }
 }
