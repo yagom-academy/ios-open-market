@@ -14,7 +14,7 @@ struct NetworkManager: ClientAPI {
         completionHandler: @escaping (Result<GoodsList, HttpError>) -> Void
     ) {
         let currentMethod = HttpMethod.items(pageIndex: pageIndex)
-        guard let request = generatedFundmantalRequest(method: currentMethod) else {
+        guard let request = buildedBasicRequest(method: currentMethod) else {
             return
         }
         
@@ -28,7 +28,7 @@ struct NetworkManager: ClientAPI {
         completionHandler: @escaping (Result<ItemDetail, HttpError>) -> Void
     ) {
         let currentMethod = HttpMethod.item(id: id.description)
-        guard let request = generatedFundmantalRequest(method: currentMethod) else {
+        guard let request = buildedBasicRequest(method: currentMethod) else {
             return
         }
         
@@ -89,7 +89,7 @@ struct NetworkManager: ClientAPI {
 }
 
 extension NetworkManager {
-    private func generatedFundmantalRequest(method: HttpMethod) -> URLRequest? {
+    private func buildedBasicRequest(method: HttpMethod) -> URLRequest? {
         let path = HttpConfig.baseURL + method.path
         
         guard let url = URL(string: path) else {
@@ -141,7 +141,7 @@ extension NetworkManager {
         item: Model? = nil,
         images: [UIImage]? = nil
     ) -> URLRequest? where Model: Loopable {
-        guard var request = generatedFundmantalRequest(method: method) else {
+        guard var request = buildedBasicRequest(method: method) else {
             return nil
         }
         
@@ -170,7 +170,7 @@ extension NetworkManager {
         method: HttpMethod,
         item: Model
     ) -> URLRequest? where Model: Encodable {
-        guard var request = generatedFundmantalRequest(method: method),
+        guard var request = buildedBasicRequest(method: method),
               let body = try? Parser.encode(from: item, or: HttpError.self).get() else {
             return nil
         }
