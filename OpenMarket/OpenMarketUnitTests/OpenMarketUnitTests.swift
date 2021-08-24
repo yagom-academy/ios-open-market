@@ -13,7 +13,7 @@ class OpenMarketUnitTests: XCTestCase {
     var decoder: ParsingManager = ParsingManager()
     var mockSesssion: URLSessionProtocol = MockURLSession()
     var manager: NetworkingManager = NetworkingManager(session: MockURLSession(), parsingManager: ParsingManager(), baseURL: "https://camp-open-market-2.herokuapp.com")
-    
+    let baseURL = "https://camp-open-market-2.herokuapp.com"
     func test_success_JSON파일의정보와_디코딩된인스턴스정보가같다() {
         //given
         let path = Bundle(for: type(of: self)).path(forResource: "Item", ofType: "json")
@@ -24,7 +24,7 @@ class OpenMarketUnitTests: XCTestCase {
         ], images = [
             "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/images/1-1.png",
             "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/images/1-2.png"
-        ], registrationDate = Date(timeIntervalSince1970: 1611523563.719116)
+        ]
         //when
         let result = decoder.parse(jsonFile!, to: Item.self)
         guard case .success(let instance) = result else {
@@ -34,11 +34,10 @@ class OpenMarketUnitTests: XCTestCase {
         //then
         if instance.id == id,
            instance.title == title,
-           instance.accessDescriptions == descriptions,
+           instance.descriptions == descriptions,
            instance.price == price,
            instance.currency == currency,
-           instance.accessImages == images,
-           instance.registrationDate == registrationDate,
+           instance.images == images,
            instance.stock == stock,
            instance.thumbnails == thumbnails
         {
@@ -65,7 +64,7 @@ class OpenMarketUnitTests: XCTestCase {
     
     func test_success_API를담은URLRequest를매개변수로주면_request메서드성공한다() {
         //given
-        let request = URLRequest(url: URL(string: manager.baseURL + "/items/1")!)
+        let request = URLRequest(url: URL(string: baseURL + "/items/1")!)
         var isSuccess = false
         //when
         manager.request(bundle: request) { result in
@@ -80,7 +79,7 @@ class OpenMarketUnitTests: XCTestCase {
     
     func test_success_잘못된URLRequest를매개변수로주면_request메서드실패한다() {
         //given
-        let request = URLRequest(url: URL(string: manager.baseURL + "/item/1")!)
+        let request = URLRequest(url: URL(string: baseURL + "/item/2")!)
         var isSuccess = false
         //when
         manager.request(bundle: request) { result in

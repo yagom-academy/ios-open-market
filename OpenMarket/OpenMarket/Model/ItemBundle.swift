@@ -7,7 +7,7 @@
 
 import Foundation
 
-class ItemBundle: Decodable {
+struct ItemBundle: Decodable {
     let page: Int
     let items: [Item]
 }
