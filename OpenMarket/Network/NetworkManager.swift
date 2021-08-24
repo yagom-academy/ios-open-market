@@ -42,7 +42,7 @@ struct NetworkManager: API {
         images: [UIImage],
         completionHandler: @escaping (Result<ItemDetail, HttpError>) -> Void
     ) {
-       guard let request = buildedRequestWithFormDataAbout(
+       guard let request = buildedRequestWithFormData(
                 method: HttpMethod.post,
                 item: item,
                 images: images
@@ -59,7 +59,7 @@ struct NetworkManager: API {
         images: [UIImage]? = nil,
         completionHandler: @escaping (Result<ItemDetail, HttpError>) -> Void
     ) {
-       guard let request = buildedRequestWithFormDataAbout(
+       guard let request = buildedRequestWithFormData(
                 method: HttpMethod.patch(id: itemId.description),
                 item: item,
                 images: images
@@ -75,7 +75,7 @@ struct NetworkManager: API {
         item: ItemRequestable,
         completionHandler: @escaping (Result<ItemDetail, HttpError>) -> Void
     ) {
-        guard let request = buildedRequestWithJSONAbout(
+        guard let request = buildedRequestWithJSON(
                 method: .delete(id: itemId.description),
                 item: item
         ) else {
@@ -136,7 +136,7 @@ extension NetworkManager {
             .resume()
     }
     
-    private func buildedRequestWithFormDataAbout<Model>(
+    private func buildedRequestWithFormData<Model>(
         method: HttpMethod,
         item: Model? = nil,
         images: [UIImage]? = nil
@@ -166,7 +166,7 @@ extension NetworkManager {
         return request
     }
     
-    private func buildedRequestWithJSONAbout<Model>(
+    private func buildedRequestWithJSON<Model>(
         method: HttpMethod,
         item: Model
     ) -> URLRequest? where Model: Encodable {
