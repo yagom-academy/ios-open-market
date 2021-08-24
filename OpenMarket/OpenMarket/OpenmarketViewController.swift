@@ -11,12 +11,13 @@ class OpenmarketViewController: UIViewController {
     var item: [Item] = []
     var page: Int = 1
     let networkHandler = NetworkHandler(session: URLSession.shared)
-    let cellIdentifier = "cell"
+    let cellIdentifier = "openmarketCell"
     
     override func viewDidLoad() {
         super.viewDidLoad()
         openmarketCollectionView.delegate = self
         openmarketCollectionView.dataSource = self
+        self.openmarketCollectionView.collectionViewLayout = configureFlowLayout()
         
         networkHandler.request(api: .getItemCollection(page: page)) { result in
             switch result {
@@ -34,6 +35,17 @@ class OpenmarketViewController: UIViewController {
 }
 
 extension OpenmarketViewController: UICollectionViewDelegate {
+    func configureFlowLayout() -> UICollectionViewFlowLayout {
+        let flowLayout = UICollectionViewFlowLayout()
+        let halfScreenWidth: CGFloat = UIScreen.main.bounds.width / 2.0
+        let oneThirdScreenHeight: CGFloat = UIScreen.main.bounds.height / 3.0
+        flowLayout.sectionInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
+        flowLayout.minimumInteritemSpacing = 10
+        flowLayout.minimumLineSpacing = 10
+        flowLayout.itemSize.width = halfScreenWidth - 15
+        flowLayout.itemSize.height = oneThirdScreenHeight + 10
+        return flowLayout
+    }
 }
 
 extension OpenmarketViewController: UICollectionViewDataSource {
@@ -42,9 +54,11 @@ extension OpenmarketViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell: OpenmarketItemCell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as? OpenmarketItemCell else { fatalError() }
+        guard let cell: OpenmarketItemCell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath) as? OpenmarketItemCell else { fatalError() }
         cell.setUpLabels(item: item, indexPath: indexPath)
         cell.setUpImages(url: item[indexPath.item].thumbnails[0])
+        cell.configureCellStyle()
+
         return cell
     }
 }
@@ -67,8 +81,6 @@ class OpenmarketItemCell: UICollectionViewCell {
     }
     
     func setUpLabels(item: [Item], indexPath: IndexPath) {
-        
-        
         titleLabel.textColor = .black
         priceLabel.textColor = .gray
         discountedPriceLabel.textColor = .gray
@@ -104,5 +116,11 @@ class OpenmarketItemCell: UICollectionViewCell {
                 self.itemImage.image = image
             }
         }
+    }
+    
+    func configureCellStyle() {
+        layer.cornerRadius = 10.0
+        layer.borderWidth = 1.5
+        layer.borderColor = UIColor.systemGray5.cgColor
     }
 }
