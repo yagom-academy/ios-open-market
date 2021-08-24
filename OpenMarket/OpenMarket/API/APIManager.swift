@@ -88,7 +88,6 @@ class APIManager {
         let httpHeader = "multipart/form-data; boundary=\(boundary)"
         let httpHeaderField = "Content-Type"
         
-        //1
         request.httpMethod = "post"
         request.setValue(httpHeader, forHTTPHeaderField: httpHeaderField)
         request.httpBody = createHTTPBody(parameters: parameters, media: media)
@@ -108,5 +107,4 @@ class APIManager {
         }
         task.resume()
     }
-    
 }

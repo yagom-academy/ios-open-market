@@ -2,7 +2,7 @@
 //  RegistProductModel.swift
 //  OpenMarket
 //
-//  Created by 이예원 on 2021/08/23.
+//  Created by Charlotte, Hosinging on 2021/08/23.
 //
 
 import Foundation

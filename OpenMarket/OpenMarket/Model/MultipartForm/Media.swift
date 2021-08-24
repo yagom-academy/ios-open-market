@@ -2,7 +2,7 @@
 //  Media.swift
 //  OpenMarket
 //
-//  Created by 이예원 on 2021/08/20.
+//  Created by Charlotte, Hosinging on 2021/08/20.
 //
 
 import UIKit

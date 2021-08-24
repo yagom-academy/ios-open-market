@@ -20,7 +20,6 @@
 		C70FB10225BEF61C00C9924E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C70FB10025BEF61C00C9924E /* Main.storyboard */; };
 		C70FB10425BEF61D00C9924E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C70FB10325BEF61D00C9924E /* Assets.xcassets */; };
 		C70FB10725BEF61D00C9924E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */; };
-		F90FCC0926CE8091004C51CF /* URLSessionDataTaskProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = F90FCC0826CE8091004C51CF /* URLSessionDataTaskProtocol.swift */; };
 		F90FCC0B26CE9B28004C51CF /* APIManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F90FCC0A26CE9B28004C51CF /* APIManagerTests.swift */; };
 		F921415A26D3C1F300B550FC /* RegistProductModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F921415926D3C1F300B550FC /* RegistProductModel.swift */; };
 		F98F406726CF9A5800B159F4 /* Media.swift in Sources */ = {isa = PBXBuildFile; fileRef = F98F406626CF9A5800B159F4 /* Media.swift */; };
@@ -63,7 +62,6 @@
 		C70FB10325BEF61D00C9924E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C70FB10625BEF61D00C9924E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C70FB10825BEF61D00C9924E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		F90FCC0826CE8091004C51CF /* URLSessionDataTaskProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionDataTaskProtocol.swift; sourceTree = "<group>"; };
 		F90FCC0A26CE9B28004C51CF /* APIManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManagerTests.swift; sourceTree = "<group>"; };
 		F921415926D3C1F300B550FC /* RegistProductModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistProductModel.swift; sourceTree = "<group>"; };
 		F98F406626CF9A5800B159F4 /* Media.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Media.swift; sourceTree = "<group>"; };
@@ -215,7 +213,6 @@
 			children = (
 				F9F51BFF26C249970076DD72 /* ProductProtocol.swift */,
 				2BFB97C926CBE2EA00825CB6 /* URLSessionProtocol.swift */,
-				F90FCC0826CE8091004C51CF /* URLSessionDataTaskProtocol.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -365,7 +362,6 @@
 				F9F51C0026C249970076DD72 /* ProductProtocol.swift in Sources */,
 				2BFB97CA26CBE2EA00825CB6 /* URLSessionProtocol.swift in Sources */,
 				F9F51C0626C257E30076DD72 /* ProductSearch.swift in Sources */,
-				F90FCC0926CE8091004C51CF /* URLSessionDataTaskProtocol.swift in Sources */,
 				2BEAEAB726C2618E008C5BA7 /* ProductDelete.swift in Sources */,
 				F9F51C0926C2631B0076DD72 /* APIManager.swift in Sources */,
 				2BEAEAB526C26105008C5BA7 /* ProductModify.swift in Sources */,

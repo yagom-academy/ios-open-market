@@ -2,7 +2,7 @@
 //  APIManagerTests.swift
 //  OpenMarketTests
 //
-//  Created by 이예원 on 2021/08/19.
+//  Created by Charlotte, Hosinging on 2021/08/19.
 //
 
 import XCTest
@@ -17,17 +17,16 @@ class APIManagerTests: XCTestCase {
         sut = APIManager(session: session)
     }
     
-    func test_mockURLSession을사용할경우_() throws {
+    func test_mockURLSession을사용할경우_상품의title이MacBookPro이다() throws {
         sut.fetchProductList(page: 1) { result in
             switch result {
             case .success(let data):
-                XCTAssertEqual(data.items.first?.title, "MacBook Pr")
+                XCTAssertEqual(data.items.first?.title, "MacBook Pro")
             case .failure(let error):
                 print(error.localizedDescription)
             }
         }
     }
-    
     
     override func tearDownWithError() throws {
         sut = nil

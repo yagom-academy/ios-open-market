@@ -2,7 +2,7 @@
 //  MockURLSession.swift
 //  OpenMarket
 //
-//  Created by Theo on 2021/08/19.
+//  Created by Charlotte, Hosinging on 2021/08/19.
 //
 
 import Foundation
@@ -13,7 +13,10 @@ class MockURLSession: URLSessionProtocol, Equatable {
         return true
     }
     
-    var isRequestSuccess = false
+    var isRequestSuccess: Bool
+    init(isRequestSuccess: Bool) {
+        self.isRequestSuccess = isRequestSuccess
+    }
     var makedDataTask = MockURLSessionDataTask()
     
     func createSampleData() -> Data? {
@@ -21,7 +24,7 @@ class MockURLSession: URLSessionProtocol, Equatable {
         let sampleData = sampleJsonData?.data(using: .utf8)
         return sampleData
     }
-   
+    
     func dataTask(with request: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask {
         guard let url = URL(string: "https://camp-open-market-2.herokuapp.com/items/1") else { fatalError()}
         let request = URLRequest(url: url)
