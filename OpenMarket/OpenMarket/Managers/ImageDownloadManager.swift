@@ -8,18 +8,9 @@
 import UIKit
 
 class ImageDownloadManager {
-    private var imageDownloadTasks: [URLSessionTask] = []
-    
-    func downloadImage(at index: Int, with url: String, completion: @escaping (IndexPath) -> Void) {
-        guard ImageCacheManager.shared.loadCachedData(for: url) == nil else {
-            return
-        }
-        
-        guard let imageUrl = URL(string: url) else {
-            return
-        }
 
-        guard !imageDownloadTasks.contains(where: { $0.originalRequest?.url == imageUrl }) else {
+    static func downloadImage(with url: String, completion: @escaping (UIImage) -> Void = { _ in }) {
+        guard let imageUrl = URL(string: url) else {
             return
         }
         
@@ -31,18 +22,11 @@ class ImageDownloadManager {
             if let imageData = data,
                let image = UIImage(data: imageData) {
                 ImageCacheManager.shared.setData(of: image, for: url)
-                let reloadItemIndexPath = IndexPath(row: index, section: 0)
-                completion(reloadItemIndexPath)
-                self.completeTask()
+                DispatchQueue.main.async {
+                    completion(image)
+                }
             }
         }
         task.resume()
-        imageDownloadTasks.append(task)
-    }
-    
-    private func completeTask() {
-        imageDownloadTasks = imageDownloadTasks.filter {
-            $0.state != .completed
-        }
     }
 }

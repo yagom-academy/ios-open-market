@@ -20,12 +20,29 @@ class ItemCollectionViewCell: UICollectionViewCell {
         initCellDesign()
     }
     
-    func configure(with marketItem: MarketPageItem) {
-        updateLabels(to: marketItem)
+    override func prepareForReuse() {
+        itemThumbnailImageView.image = nil
+        itemTitleLabel.text = nil
+        itemPriceLabel.text = nil
+        itemDiscountedPriceLabel.text = nil
+        itemStockLabel.text = nil
     }
     
-    func updateThumbnail(to image: UIImage?) {
-        itemThumbnailImageView.image = image
+    func configure(with marketItem: MarketPageItem) {
+        updateLabels(to: marketItem)
+        updateThumbnail(to: marketItem)
+    }
+    
+    func updateThumbnail(to marketItem: MarketPageItem) {
+        let thumbnailUrl = marketItem.thumbnails[0]
+        if let image = ImageCacheManager.shared.loadCachedData(for: thumbnailUrl) {
+            itemThumbnailImageView.image = image
+        }
+        else {
+            ImageDownloadManager.downloadImage(with: thumbnailUrl) { image in
+                self.itemThumbnailImageView.image = image
+            }
+        }
     }
     
     private func initCellDesign() {

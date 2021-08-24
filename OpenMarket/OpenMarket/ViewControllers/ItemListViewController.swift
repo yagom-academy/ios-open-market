@@ -8,10 +8,8 @@ import UIKit
 
 class ItemListViewController: UIViewController {
     private let apiClient = ApiClient()
-    private let imageDownloadManager = ImageDownloadManager()
     private var itemList: [MarketPageItem] = []
     private var nextPage = 1
-    private let preloadCount = 8
     
     @IBOutlet private weak var loadingIndicator: UIActivityIndicatorView!
     @IBOutlet private weak var marketItemListCollectionView: UICollectionView!
@@ -26,7 +24,7 @@ class ItemListViewController: UIViewController {
         apiClient.getMarketPageItems(for: nextPage) { result in
             switch result {
             case .success(let marketPageItem):
-                if marketPageItem.items.count > 0 {
+                if marketPageItem.items.count > 0 && self.nextPage == marketPageItem.page {
                     self.itemList += marketPageItem.items
                     self.nextPage = marketPageItem.page + 1
                     
@@ -41,36 +39,12 @@ class ItemListViewController: UIViewController {
         }
     }
     
-    private func reloadCollectionView(with indexPath: IndexPath) {
-        DispatchQueue.main.async {
-            if self.marketItemListCollectionView.indexPathsForVisibleItems.contains(indexPath) == .some(true) {
-                self.marketItemListCollectionView.reloadItems(at: [indexPath])
-            }
-            
-            if self.itemList.count - indexPath.item == self.preloadCount {
-                self.fetchItemList()
-            }
-        }
-    }
-    
     private func handleError(_ error: Error) {
         if let apiError = error as? ApiError {
             print(apiError)
         }
         if let parsingError = error as? ParsingError {
             print(parsingError)
-        }
-    }
-    
-    private func updateImageLabel(on cell: ItemCollectionViewCell, for indexPath: IndexPath) {
-        let marketItem = itemList[indexPath.item]
-        
-        if let image = ImageCacheManager.shared.loadCachedData(for: marketItem.thumbnails[0]) {
-            cell.updateThumbnail(to: image)
-        }
-        else {
-            cell.updateThumbnail(to: nil)
-            imageDownloadManager.downloadImage(at: indexPath.item, with: marketItem.thumbnails[0], completion: reloadCollectionView(with:))
         }
     }
 }
@@ -125,20 +99,10 @@ extension ItemListViewController: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         
-        cell.configure(with: itemList[indexPath.item])
-        updateImageLabel(on: cell, for: indexPath)
-        
-        return cell
-    }
-}
+        let marketItem = itemList[indexPath.item]
+        cell.configure(with: marketItem)
 
-// MARK:- UICollectionViewDelegate
-extension ItemListViewController: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell,
-                        forItemAt indexPath: IndexPath) {
-        if let cell = cell as? ItemCollectionViewCell {
-            updateImageLabel(on: cell, for: indexPath)
-        }
+        return cell
     }
 }
 
@@ -147,9 +111,16 @@ extension ItemListViewController: UICollectionViewDataSourcePrefetching {
     func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
         for indexPath in indexPaths {
             let marketItem = itemList[indexPath.item]
-            imageDownloadManager.downloadImage(at: indexPath.item,
-                                               with: marketItem.thumbnails[0],
-                                               completion: reloadCollectionView(with:))
+            let thumbnailUrl = marketItem.thumbnails[0]
+            let lastitem = itemList.count - 1
+            
+            if ImageCacheManager.shared.loadCachedData(for: thumbnailUrl) == nil {
+                ImageDownloadManager.downloadImage(with: thumbnailUrl)
+            }
+            
+            if indexPath.item == lastitem {
+                fetchItemList()
+            }
         }
     }
 }
