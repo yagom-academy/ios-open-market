@@ -109,10 +109,6 @@ extension NetworkManager {
         response: URLResponse?,
         error: Error?
     ) -> Data? {
-        if let _ = error {
-            return nil
-        }
-        
         guard let data = data else {
             return nil
         }
