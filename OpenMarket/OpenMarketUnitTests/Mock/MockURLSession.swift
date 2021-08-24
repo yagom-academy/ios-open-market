@@ -11,7 +11,11 @@ import Foundation
 
 class MockURLSession: URLSessionProtocol {
     private let mockURLSessionDataTask = MockURLSessionDataTask()
-    var isSuccess: Bool = true
+    var isSuccess: Bool
+    
+    init(isSuccess: Bool) {
+        self.isSuccess = isSuccess
+    }
     
     func dataTask(with request: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask {
 
@@ -51,7 +55,7 @@ class MockURLSession: URLSessionProtocol {
             mockURLSessionDataTask.resumeDidCall = { completionHandler(nil, failure, nil) }
             return mockURLSessionDataTask
         }
-        
+        print("😵😵😵😵😵 \(isSuccess)")
         if self.isSuccess {
             mockURLSessionDataTask.resumeDidCall = { completionHandler(data, success, nil) }
         } else {
