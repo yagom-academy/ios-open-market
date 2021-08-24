@@ -18,6 +18,7 @@ struct HTTPBodyMaker {
     
     //MARK: Static Method
     static func createHTTPBody(contentType: ContentType, with parameters: requestBodyType?, media: [Media]?) -> Data? {
+
         let lineBreak = "\r\n"
         var body = Data()
         
