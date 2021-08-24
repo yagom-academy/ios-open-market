@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		79373D1D26D5048400D1B091 /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79373D1C26D5048400D1B091 /* PostViewController.swift */; };
 		794CC8C326C3972D005161F4 /* Page.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794CC8C226C3972D005161F4 /* Page.swift */; };
 		794CC8C626C39E1E005161F4 /* PostItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794CC8C526C39E1E005161F4 /* PostItem.swift */; };
 		794CC8C826C3A32C005161F4 /* DeleteItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794CC8C726C3A32C005161F4 /* DeleteItem.swift */; };
@@ -42,6 +43,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		79373D1C26D5048400D1B091 /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
 		794CC8C226C3972D005161F4 /* Page.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Page.swift; sourceTree = "<group>"; };
 		794CC8C526C39E1E005161F4 /* PostItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostItem.swift; sourceTree = "<group>"; };
 		794CC8C726C3A32C005161F4 /* DeleteItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteItem.swift; sourceTree = "<group>"; };
@@ -124,6 +126,7 @@
 			children = (
 				C70FB0FE25BEF61C00C9924E /* ItemsGridViewController.swift */,
 				D4FB33A226CBAB7D003751B9 /* GridItemCollectionViewCell.swift */,
+				79373D1C26D5048400D1B091 /* PostViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -320,6 +323,7 @@
 				D412A97426C39A3F00E3E639 /* Item.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ItemsGridViewController.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
+				79373D1D26D5048400D1B091 /* PostViewController.swift in Sources */,
 				D412A97A26C3A2AC00E3E639 /* PatchItem.swift in Sources */,
 				794CC8C826C3A32C005161F4 /* DeleteItem.swift in Sources */,
 				79843E1E26CE710600BCEF9E /* ImageLoader.swift in Sources */,
