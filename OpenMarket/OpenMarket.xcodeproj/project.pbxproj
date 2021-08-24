@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		7442F9F026D4B69500357F3B /* HTTPBodyMaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7442F9EF26D4B69500357F3B /* HTTPBodyMaker.swift */; };
+		7442F9F226D4DE6000357F3B /* DigitStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7442F9F126D4DE6000357F3B /* DigitStyle.swift */; };
 		74579EF326CB79C0000788D4 /* ItemDeleteEncodeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74579EF226CB79C0000788D4 /* ItemDeleteEncodeType.swift */; };
 		74E0027C26C238550094ED88 /* OpenMarketItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74E0027B26C238550094ED88 /* OpenMarketItems.swift */; };
 		74E0028426C2447C0094ED88 /* OpenMarketTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74E0028326C2447C0094ED88 /* OpenMarketTests.swift */; };
@@ -42,6 +43,7 @@
 
 /* Begin PBXFileReference section */
 		7442F9EF26D4B69500357F3B /* HTTPBodyMaker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPBodyMaker.swift; sourceTree = "<group>"; };
+		7442F9F126D4DE6000357F3B /* DigitStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DigitStyle.swift; sourceTree = "<group>"; };
 		74579EF226CB79C0000788D4 /* ItemDeleteEncodeType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemDeleteEncodeType.swift; sourceTree = "<group>"; };
 		74E0027B26C238550094ED88 /* OpenMarketItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketItems.swift; sourceTree = "<group>"; };
 		74E0028126C2447C0094ED88 /* OpenMarketTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenMarketTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -130,6 +132,7 @@
 			isa = PBXGroup;
 			children = (
 				74F6611C26CF9B5A00801075 /* StrockLabel.swift */,
+				7442F9F126D4DE6000357F3B /* DigitStyle.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -320,6 +323,7 @@
 				A83032ED26CF82C400EA30DC /* OpenMarketLoadData.swift in Sources */,
 				A848422526C6564300DEBDB6 /* NameSpace.swift in Sources */,
 				74F6611D26CF9B5A00801075 /* StrockLabel.swift in Sources */,
+				7442F9F226D4DE6000357F3B /* DigitStyle.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
 				A8CD08C526C23B8E00E14FDD /* ParsingManager.swift in Sources */,
 				A830330C26D4BD8800EA30DC /* LayoutGenerator.swift in Sources */,

@@ -8,12 +8,12 @@
 import UIKit
 
 protocol StrockText {
-    func strockLabel(item: String) -> NSMutableAttributedString
+    func strock(text: String) -> NSMutableAttributedString
 }
 
 extension StrockText {
-    func strockLabel(item: String) -> NSMutableAttributedString {
-        let attributeString = NSMutableAttributedString(string: item)
+    func strock(text: String) -> NSMutableAttributedString {
+        let attributeString = NSMutableAttributedString(string: text)
         attributeString.addAttribute(.strikethroughStyle, value: 2, range: NSMakeRange(0, attributeString.length))
 
         return attributeString

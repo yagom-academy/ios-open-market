@@ -7,7 +7,7 @@
 
 import UIKit
 
-class OpenMarketItemCell: UICollectionViewCell, StrockText {
+class OpenMarketItemCell: UICollectionViewCell, StrockText, DigitStyle {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var priceLabel: UILabel!
     @IBOutlet weak var discountedPriceLabel: UILabel!
@@ -25,19 +25,22 @@ extension OpenMarketItemCell {
             statusLabel.text = "품절"
             statusLabel.textColor = .systemYellow
         } else {
-            statusLabel.text = "잔여수량: \(item.stock)"
+            let stock = apply(to: item.stock)
+            statusLabel.textColor = .systemGray
+            statusLabel.text = "잔여수량: \(stock)"
         }
         
         if let discountedPrice = item.discountedPrice {
+            
             discountedPriceLabel.textColor = .systemGray
-            discountedPriceLabel.text = "\(item.currency) \(discountedPrice)"
-            let strockLabel = strockLabel(item: String(item.price))
-            priceLabel.attributedText = strockLabel
-//            priceLabel = strockLabel
+            discountedPriceLabel.text = "\(item.currency) \(apply(to: discountedPrice))"
+            let strockText = strock(text: "\(item.currency)" + apply(to: item.price))
+            priceLabel.attributedText = strockText
+            priceLabel.textColor = .systemRed
         } else {
             discountedPriceLabel.isHidden = true
             priceLabel.textColor = .systemGray
-            priceLabel.text = "\(item.currency) \(item.price)"
+            priceLabel.text = "\(item.currency) \(apply(to: item.price))"
         }
     }
    
