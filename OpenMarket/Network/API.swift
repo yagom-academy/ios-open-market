@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol ClientAPI {
+protocol API {
     func getItems(
         pageIndex: UInt,
         completionHandler: @escaping (Result<GoodsList, HttpError>) -> Void

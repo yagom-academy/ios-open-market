@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct NetworkManager: ClientAPI {
+struct NetworkManager: API {
     
     func getItems(
         pageIndex: UInt,

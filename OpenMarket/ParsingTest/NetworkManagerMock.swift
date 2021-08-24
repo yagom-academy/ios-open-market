@@ -8,7 +8,7 @@
 import UIKit
 @testable import OpenMarket
 
-class NetworkManagerMock: ClientAPI {
+class NetworkManagerMock: API {
     enum ErrorCases {
         static let noItem = "there is no item"
     }

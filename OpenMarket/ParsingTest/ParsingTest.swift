@@ -12,7 +12,7 @@ class ParsingTest: XCTestCase {
     
     let baseURL = HttpConfig.baseURL
     
-    var cut: ClientAPI!
+    var cut: API!
     
     override func setUp() {
         super.setUp()

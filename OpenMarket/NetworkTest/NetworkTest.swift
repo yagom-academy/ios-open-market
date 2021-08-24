@@ -11,7 +11,7 @@ import XCTest
 class NetworkTest: XCTestCase {
     let commonPassword = "test"
     
-    var session: ClientAPI!
+    var session: API!
     
     override func setUp() {
         super.setUp()
