@@ -41,22 +41,34 @@ extension OpenMarketViewController: UICollectionViewDataSource {
         }
         let productForRow = products[indexPath.item]
         cell.configure(item: productForRow)
+        
         return cell
     }
 }
 
 extension OpenMarketViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-            guard let layout = collectionViewLayout as? UICollectionViewFlowLayout else { return CGSize.zero }
-
-            var bounds = collectionView.bounds
-
-            var width = bounds.width - (layout.sectionInset.left + layout.sectionInset.right)
-            var height = bounds.height - (layout.sectionInset.top + layout.sectionInset.bottom)
-
-            width = (width - (layout.minimumInteritemSpacing * 1)) / 2
-            height = (height - (layout.minimumLineSpacing * 2)) / 3
-
-            return CGSize(width: width.rounded(.down), height: height.rounded(.down))
+        guard let layout = collectionViewLayout as? UICollectionViewFlowLayout else { return CGSize.zero }
+        
+        let bounds = collectionView.bounds
+        
+        var width = bounds.width - (layout.sectionInset.left + layout.sectionInset.right)
+        var height = bounds.height - (layout.sectionInset.top + layout.sectionInset.bottom)
+        
+        if UIDevice.current.orientation.isLandscape {
+            width = (width - (layout.minimumInteritemSpacing * 3)) / 4
+            height = width * 1.5
+        } else {
+            width = (width - (layout.minimumInteritemSpacing * 1.5)) / 2
+            height = width * 1.5
         }
+        
+        return CGSize(width: width.rounded(.down), height: height.rounded(.down))
+    }
+    
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        collectionView.collectionViewLayout.invalidateLayout()
+    }
+    
 }
