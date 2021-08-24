@@ -13,7 +13,7 @@ struct GetItemAPI: RequestableWithoutBody {
     var contentType: ContentType = .json
     
     init(id: Int) {
-            self.url = APIURL.getItem.description + "\(id)"
+        self.url = APIURL.getItem.description + "\(id)"
     }
 }
 
@@ -23,7 +23,7 @@ struct GetItemsAPI: RequestableWithoutBody {
     var contentType: ContentType = .json
     
     init(page: Int) {
-            self.url = APIURL.getItems.description + "\(page)"
+        self.url = APIURL.getItems.description + "\(page)"
     }
 }
 
@@ -33,7 +33,7 @@ struct PostAPI: RequestableWithBody {
     var contentType: ContentType = .multipart
     var parameter: [String : Any]?
     var items: [Media]?
-
+    
     init(parameter: [String : Any], items: [Media]) {
         self.parameter = parameter
         self.items = items
@@ -46,7 +46,7 @@ struct PatchAPI: RequestableWithBody {
     var contentType: ContentType = .multipart
     var parameter: [String : Any]?
     var items: [Media]?
-
+    
     init(id: Int, parameter: [String : Any]?, items: [Media]?) {
         self.url = APIURL.patch.description + "\(id)"
         self.parameter = parameter

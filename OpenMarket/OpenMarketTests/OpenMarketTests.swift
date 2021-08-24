@@ -38,11 +38,11 @@ class OpenMarketTests: XCTestCase {
         do {
             _ = try MockJsonDecoder.decodeJsonFromData(type: ItemsData.self, data: jsonData.data)
         } catch let error as JsonError {
+            
             //then
             XCTAssertEqual(error, JsonError.decodingFailed)
         } catch { }
     }
-    
     
     func test_ItemData_타입으로_디코딩을_성공한다() {
         //given
@@ -62,7 +62,6 @@ class OpenMarketTests: XCTestCase {
         XCTAssertEqual(result, expectResult)
     }
     
-    
     func test_ItemData_타입으로_디코딩을_실패한다() {
         //given
         let expectInputValue = "MockItem"
@@ -74,6 +73,7 @@ class OpenMarketTests: XCTestCase {
         do {
             _ = try MockJsonDecoder.decodeJsonFromData(type: ItemData.self, data: jsonData.data)
         } catch let error as JsonError {
+            
             //then
             XCTAssertEqual(error, JsonError.decodingFailed)
         } catch { }
@@ -87,17 +87,17 @@ class OpenMarketTests: XCTestCase {
         guard let jsonData = try? MockJsonDecoder.receiveDataAsset(assetName: expectInputValue) else {
             return XCTFail()
         }
+        
         //when
         guard let decodedData = try? MockJsonDecoder.decodeJsonFromData(type: ItemData.self, data: jsonData.data) else {
             return XCTFail()
         }
         sut.commuteWithAPI(API: GetItemAPI(id: 13)) { result in
             switch result {
+            
             //then
             case .success(let item):
-                guard let expectedData = try? JsonDecoder.decodedJsonFromData(type: ItemData.self, data: item) else {
-                    return
-                }
+                guard let expectedData = try? JsonDecoder.decodedJsonFromData(type: ItemData.self, data: item) else { return }
                 XCTAssertEqual(expectedData.title, decodedData.title)
             case .failure:
                 XCTFail()
@@ -112,13 +112,12 @@ class OpenMarketTests: XCTestCase {
         //when
         sut.commuteWithAPI(API: GetItemAPI(id: 13)){ result in
             if case .failure(let error) = result {
+                
                 //then
                 XCTAssertEqual(error as? NetworkError, NetworkError.invalidResult)
             }
         }
-        
     }
-    
     
     func test_get을_호출시_리스폰스의_상태코드가_402이면_테스트에_실패한다() {
         //given

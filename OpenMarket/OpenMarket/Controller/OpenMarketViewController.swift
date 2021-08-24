@@ -9,11 +9,11 @@ import UIKit
 class OpenMarketViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var lodingIndicator: UIActivityIndicatorView!
+    
     private var products: [ItemData] = []
     private let networkManager = NetworkManager()
     private let cellIdentifier = "customCollectionViewCell"
     private let addVCIdentifier = "addItemViewController"
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,7 +29,6 @@ class OpenMarketViewController: UIViewController {
                     self.collectionView.reloadData()
                     self.lodingIndicator.stopAnimating()
                     self.lodingIndicator.isHidden = true
-                    
                 }
             }
         }
@@ -39,7 +38,6 @@ class OpenMarketViewController: UIViewController {
         guard let addVC = self.storyboard?.instantiateViewController(identifier: self.addVCIdentifier) else { return }
         self.navigationController?.pushViewController(addVC, animated: true)
     }
-    
 }
 
 extension OpenMarketViewController: UICollectionViewDataSource {
@@ -63,7 +61,6 @@ extension OpenMarketViewController: UICollectionViewDelegateFlowLayout {
         guard let layout = collectionViewLayout as? UICollectionViewFlowLayout else { return CGSize.zero }
         
         let bounds = collectionView.bounds
-        
         var width = bounds.width - (layout.sectionInset.left + layout.sectionInset.right)
         var height = bounds.height - (layout.sectionInset.top + layout.sectionInset.bottom)
         
@@ -74,7 +71,6 @@ extension OpenMarketViewController: UICollectionViewDelegateFlowLayout {
             width = (width - (layout.minimumInteritemSpacing * 1.5)) / 2
             height = width * 1.5
         }
-        
         return CGSize(width: width.rounded(.down), height: height.rounded(.down))
     }
     
@@ -82,5 +78,4 @@ extension OpenMarketViewController: UICollectionViewDelegateFlowLayout {
         super.viewWillLayoutSubviews()
         collectionView.collectionViewLayout.invalidateLayout()
     }
-    
 }

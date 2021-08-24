@@ -9,6 +9,7 @@ import UIKit
 enum StockAmount: Int {
     case Maximum = 9999
 }
+
 struct ItemData: Codable, Equatable {
     let id: Int
     let title: String

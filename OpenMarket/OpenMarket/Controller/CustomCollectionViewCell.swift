@@ -32,6 +32,7 @@ class CustomCollectionViewCell: UICollectionViewCell {
             }
         }
         titleLabel.text = item.title
+        
         if let discountedPrice = item.discountedPrice {
             let priceLabelString = "\(item.currency) \(item.price.withDigit)"
             priceLabel.attributedText = priceLabelString.strikeThrough()

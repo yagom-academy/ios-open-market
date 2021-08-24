@@ -10,7 +10,7 @@ import UIKit
 enum MimeType: CustomStringConvertible {
     case jpeg
     case png
-
+    
     var description: String {
         switch self {
         case .jpeg:
@@ -26,17 +26,15 @@ struct Media {
     let filename: String
     let data: Data
     let mimeType: MimeType
-
+    
     init?(image: UIImage, mimeType: MimeType) {
         self.key = "images[]"
         self.mimeType = mimeType
-
+        
         switch mimeType {
         case .jpeg:
             self.filename = "\(arc4random()).jpeg"
-            guard let data = image.jpegData(compressionQuality: 0.7) else {
-                return nil
-            }
+            guard let data = image.jpegData(compressionQuality: 0.7) else { return nil }
             self.data = data
         case .png:
             self.filename = "\(arc4random()).png"
