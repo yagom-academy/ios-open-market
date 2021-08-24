@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4D1DE51D26D4C6C000A85A7E /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D1DE51C26D4C6C000A85A7E /* ImageCache.swift */; };
 		4D29EC5526C648C600B6844C /* PostItemData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D29EC5426C648C600B6844C /* PostItemData.swift */; };
 		4D31CB5726CC95C300CFDFA0 /* NetworkProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D31CB5626CC95C300CFDFA0 /* NetworkProtocol.swift */; };
 		4D31CB5926CC971100CFDFA0 /* MockURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D31CB5826CC971100CFDFA0 /* MockURLSession.swift */; };
@@ -47,6 +48,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4D1DE51C26D4C6C000A85A7E /* ImageCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
 		4D29EC5426C648C600B6844C /* PostItemData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostItemData.swift; sourceTree = "<group>"; };
 		4D31CB5626CC95C300CFDFA0 /* NetworkProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkProtocol.swift; sourceTree = "<group>"; };
 		4D31CB5826CC971100CFDFA0 /* MockURLSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSession.swift; sourceTree = "<group>"; };
@@ -133,6 +135,7 @@
 			children = (
 				4DB65D3626C2107E000B23A9 /* ItemsData.swift */,
 				4DB65D3826C21408000B23A9 /* ItemData.swift */,
+				4D1DE51C26D4C6C000A85A7E /* ImageCache.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -318,6 +321,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4DD38CED26CE576B006C2CCC /* ContentTypeEnum.swift in Sources */,
+				4D1DE51D26D4C6C000A85A7E /* ImageCache.swift in Sources */,
 				4DBF2B2826D38C96007533BC /* CustomCollectionViewCell.swift in Sources */,
 				8986F7F826C9F35F0076B64E /* APIMethod.swift in Sources */,
 				4DA5CC3426C9F80C00A124C4 /* PatchItemData.swift in Sources */,

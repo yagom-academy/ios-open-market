@@ -8,28 +8,33 @@ import UIKit
 
 class OpenMarketViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var lodingIndicator: UIActivityIndicatorView!
     private var products: [ItemData] = []
     private let networkManager = NetworkManager()
     private let cellIdentifier = "customCollectionViewCell"
     private let addVCIdentifier = "addItemViewController"
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        lodingIndicator.startAnimating()
         self.networkManager.commuteWithAPI(API: GetItemsAPI(page: 1)) { result in
-            switch result {
-            case .success(let data):
+            if case .success(let data) = result {
                 guard let product = try? JsonDecoder.decodedJsonFromData(type: ItemsData.self, data: data) else {
                     return
                 }
                 self.products = product.items
-            case .failure:
-                print("jsonData is unDecodable")
-            }
-            DispatchQueue.main.async {
-                self.collectionView.reloadData()
+                
+                DispatchQueue.main.async {
+                    self.collectionView.reloadData()
+                    self.lodingIndicator.stopAnimating()
+                    self.lodingIndicator.isHidden = true
+                    
+                }
             }
         }
     }
+    
     @IBAction func AddItemButton(_ sender: UIBarButtonItem) {
         guard let addVC = self.storyboard?.instantiateViewController(identifier: self.addVCIdentifier) else { return }
         self.navigationController?.pushViewController(addVC, animated: true)

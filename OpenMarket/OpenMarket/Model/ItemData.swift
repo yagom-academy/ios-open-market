@@ -6,12 +6,8 @@
 //
 
 import UIKit
-enum StockAmount: Int, CustomStringConvertible {
+enum StockAmount: Int {
     case Maximum = 9999
-    
-    var description: String {
-        return "\(self.rawValue)"
-    }
 }
 struct ItemData: Codable, Equatable {
     let id: Int
@@ -24,7 +20,7 @@ struct ItemData: Codable, Equatable {
     let registrationDate: TimeInterval
     let descriptions: String?
     let images: [String]?
-
+    
     enum CodingKeys: String, CodingKey {
         case id
         case title
@@ -39,8 +35,14 @@ struct ItemData: Codable, Equatable {
     }
     
     func image(completion: @escaping (UIImage) -> Void) {
-        NetworkManager().downloadImage(from: thumbnails[0]) { image in
-            completion(image)
+        let cacheKey = NSString(string: id.description)
+        if let cachedImage = ImageCache.shared.object(forKey: cacheKey) {
+            completion(cachedImage)
+        } else {
+            NetworkManager().downloadImage(from: thumbnails[0]) { image in
+                ImageCache.shared.setObject(image, forKey: cacheKey)
+                completion(image)
+            }
         }
     }
 }
