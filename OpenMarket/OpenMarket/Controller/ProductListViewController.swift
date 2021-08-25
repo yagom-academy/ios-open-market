@@ -17,8 +17,9 @@ class ProductListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.openMarketCollectionView.dataSource = self
-        self.openMarketCollectionView.delegate = self
+        openMarketCollectionView.dataSource = self
+        openMarketCollectionView.delegate = self
+        openMarketCollectionView.prefetchDataSource = self
         openMarketCollectionView.register(UINib(nibName: "OpenMarketItemCell", bundle: nil), forCellWithReuseIdentifier: "OpenMarketItemCell")
         loadNextProductList(on: nextPageNumToBring)
     }
@@ -58,7 +59,8 @@ extension ProductListViewController {
     }
     
     func reloadCollectionView(from startPoint: Int, to endPoint: Int) {
-        openMarketCollectionView.insertItems(at: [IndexPath(indexes: startPoint...endPoint)])
+        let indexPaths = (startPoint...endPoint).map { IndexPath(item: $0, section: 0) }
+        openMarketCollectionView.insertItems(at: indexPaths)
     }
     
 }
@@ -106,5 +108,15 @@ extension ProductListViewController: UICollectionViewDelegateFlowLayout {
         let cellWidth = (collectionViewBounds.width - collectionViewFlowLayout.sectionInset.left - collectionViewFlowLayout.sectionInset.right - collectionViewFlowLayout.minimumInteritemSpacing) / numberOfColumn
         let cellHeight = cellWidth * heightRatioToWidth
         return CGSize(width: cellWidth, height: cellHeight)
+    }
+}
+
+extension ProductListViewController: UICollectionViewDataSourcePrefetching {
+    func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
+        for indexPath in indexPaths {
+            if indexPath.item  == productList.count - 1{
+                loadNextProductList(on: nextPageNumToBring)
+            }
+        }
     }
 }
