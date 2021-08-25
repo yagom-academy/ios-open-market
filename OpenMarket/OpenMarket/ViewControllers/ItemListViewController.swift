@@ -98,7 +98,6 @@ extension ItemListViewController: UICollectionViewDataSource {
         else {
             return UICollectionViewCell()
         }
-        
         let marketItem = itemList[indexPath.item]
         cell.configure(with: marketItem)
 
@@ -112,14 +111,14 @@ extension ItemListViewController: UICollectionViewDataSourcePrefetching {
         for indexPath in indexPaths {
             let marketItem = itemList[indexPath.item]
             let thumbnailUrl = marketItem.thumbnails[0]
-            let lastitem = itemList.count - 1
             
             if ImageCacheManager.shared.loadCachedData(for: thumbnailUrl) == nil {
+                let lastitem = itemList.count - 1
+                
                 ImageDownloadManager.downloadImage(with: thumbnailUrl)
-            }
-            
-            if indexPath.item == lastitem {
-                fetchItemList()
+                if indexPath.item == lastitem {
+                    fetchItemList()
+                }
             }
         }
     }
