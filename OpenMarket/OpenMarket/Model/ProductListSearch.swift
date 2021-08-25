@@ -7,12 +7,17 @@
 
 import Foundation
 
-struct ProductListSearch: Codable {
+struct ProductListSearch: Codable , Equatable {
+    
+    static func == (lhs: ProductListSearch, rhs: ProductListSearch) -> Bool {
+        return true
+    }
+    
     let page: Int
     let items: [Product]
 }
 
-struct Product: Codable, ProductProtocol {
+struct Product: Codable, Equatable, ProductProtocol {
     var id: Int
     var title: String
     var price: Int
