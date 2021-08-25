@@ -14,6 +14,8 @@ class ItemCollectionViewCell: UICollectionViewCell {
     @IBOutlet private weak var itemDiscountedPriceLabel: UILabel!
     @IBOutlet private weak var itemStockLabel: UILabel!
     
+    private var urlString: String = ""
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         
@@ -35,17 +37,20 @@ class ItemCollectionViewCell: UICollectionViewCell {
         guard let thumbnailUrl = marketItem.thumbnails.first else {
             return
         }
-        
+
+        self.urlString = thumbnailUrl
         if let image = ImageCacheManager.shared.loadCachedData(for: thumbnailUrl) {
             itemThumbnailImageView.image = image
         }
         else {
-            ImageDownloadManager.downloadImage(with: thumbnailUrl) { image in
-                self.itemThumbnailImageView.image = image
+            ImageDownloadManager.downloadImage(with: thumbnailUrl) { [weak self] image in
+                if self?.urlString == thumbnailUrl {
+                    self?.itemThumbnailImageView.image = image
+                }
             }
         }
     }
-    
+
     private func initCellDesign() {
         self.layer.borderWidth = 1
         self.layer.borderColor = UIColor.lightGray.cgColor
