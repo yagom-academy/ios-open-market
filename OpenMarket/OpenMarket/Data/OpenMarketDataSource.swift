@@ -53,22 +53,22 @@ extension OpenMarketDataSource: UICollectionViewDataSource, UICollectionViewData
     }
     
     //MARK: UICollectionViewDataSourcePrefetching Method
-    func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
-        let almostEndPoint = 1
-        let item = (openMarketItemList.first?.items.count ?? .zero) - almostEndPoint
-        
-        indexPaths.forEach { indexPath in
-            if item == indexPath.item {
-                OpenMarketLoadData.requestOpenMarketMainPageData(page: "\(rquestPage)") { items in
-                    self.openMarketItemList.append(items)
-                    DispatchQueue.main.async {
-                        collectionView.reloadData()
-                        self.rquestPage += self.nextPage
-                    }
-                }
-            }
-        }
-    }
+//    func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
+//        let almostEndPoint = 1
+//        let item = (openMarketItemList.first?.items.count ?? .zero) - almostEndPoint
+//
+//        indexPaths.forEach { indexPath in
+//            if item == indexPath.item {
+//                OpenMarketLoadData.requestOpenMarketMainPageData(page: "\(rquestPage)") { items in
+//                    self.openMarketItemList.append(items)
+//                    DispatchQueue.main.async {
+//                        collectionView.reloadData()
+//                        self.rquestPage += self.nextPage
+//                    }
+//                }
+//            }
+//        }
+//    }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let offsetY = scrollView.contentOffset.y
