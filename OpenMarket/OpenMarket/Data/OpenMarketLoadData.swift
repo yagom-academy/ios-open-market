@@ -16,7 +16,9 @@ struct OpenMarketLoadData {
         NetworkManager.request(httpMethod: .get, url: url, body: nil, .json) { result in
             switch result {
             case .success(let data):
-                guard let jsonItem = try? ParsingManager.jsonDecode(data: data, type: OpenMarketItems.self) else { return }
+                guard let jsonItem = try? ParsingManager.jsonDecode(data: data, type: OpenMarketItems.self) else {
+                    return
+                }
                 completionHandler(jsonItem)
                 
             case .failure(let error):

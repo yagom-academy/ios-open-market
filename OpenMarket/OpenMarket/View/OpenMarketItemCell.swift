@@ -13,13 +13,14 @@ class OpenMarketItemCell: UICollectionViewCell, StrockText, DigitStyle {
     @IBOutlet weak var discountedPriceLabel: UILabel!
     @IBOutlet weak var statusLabel: UILabel!
     @IBOutlet weak var itemImage: UIImageView!
+    
+    var indexPathString = ""
 }
 
 extension OpenMarketItemCell {
-    // 여기서 메소드를 하나 만들어서 configure에서 메소드를 호출 -> 그 이미지를 반영
-    func configure(item: OpenMarketItems.Item) {
+    func configure(item: OpenMarketItems.Item, _ indexPath: IndexPath) {
         titleLabel.text = item.title
-        downloadImage(reqeustURL: item.thumbnails.first ?? "")
+        downloadImage(reqeustURL: item.thumbnails.first ?? "", indexPath)
         
         if item.stock == 0 {
             statusLabel.text = "품절"
@@ -44,12 +45,8 @@ extension OpenMarketItemCell {
         }
     }
    
-    func downloadImage(reqeustURL: String) {
-        URLSession.shared.dataTask(with: URL(string: reqeustURL)!) { data, error, _ in
-            
-            if let error = error {
-                dump(error)
-            }
+    func downloadImage(reqeustURL: String, _ indexPath: IndexPath) {
+        URLSession.shared.dataTask(with: URL(string: reqeustURL)!) { data, _, _ in
             guard let data = data else { return }
             
             guard let downloadImage = UIImage(data: data) else { return }
