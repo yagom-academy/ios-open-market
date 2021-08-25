@@ -100,7 +100,7 @@ extension ItemListViewController: UICollectionViewDataSource {
         }
         let marketItem = itemList[indexPath.item]
         cell.configure(with: marketItem)
-
+        
         return cell
     }
 }
@@ -110,11 +110,16 @@ extension ItemListViewController: UICollectionViewDataSourcePrefetching {
     func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
         for indexPath in indexPaths {
             let marketItem = itemList[indexPath.item]
-            let thumbnailUrl = marketItem.thumbnails[0]
+            let lastitem = itemList.count - 1
+            
+            guard let thumbnailUrl = marketItem.thumbnails.first else {
+                if indexPath.item == lastitem {
+                    fetchItemList()
+                }
+                continue
+            }
             
             if ImageCacheManager.shared.loadCachedData(for: thumbnailUrl) == nil {
-                let lastitem = itemList.count - 1
-                
                 ImageDownloadManager.downloadImage(with: thumbnailUrl)
                 if indexPath.item == lastitem {
                     fetchItemList()
@@ -123,4 +128,3 @@ extension ItemListViewController: UICollectionViewDataSourcePrefetching {
         }
     }
 }
-

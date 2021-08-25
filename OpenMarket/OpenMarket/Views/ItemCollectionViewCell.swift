@@ -32,7 +32,10 @@ class ItemCollectionViewCell: UICollectionViewCell {
     }
     
     private func updateThumbnail(to marketItem: MarketPageItem) {
-        let thumbnailUrl = marketItem.thumbnails[0]
+        guard let thumbnailUrl = marketItem.thumbnails.first else {
+            return
+        }
+        
         if let image = ImageCacheManager.shared.loadCachedData(for: thumbnailUrl) {
             itemThumbnailImageView.image = image
         }
