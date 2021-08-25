@@ -82,10 +82,10 @@
             </constraints>
             <size key="customSize" width="405" height="620"/>
             <connections>
-                <outlet property="discountedPriceLabel" destination="wzz-5C-Mh3" id="0F8-mT-goC"/>
                 <outlet property="imageView" destination="iab-yj-Q9I" id="2cT-nO-Tz7"/>
-                <outlet property="priceLabel" destination="RCy-JK-Op7" id="1h8-0g-ERU"/>
+                <outlet property="normalGrayLabel" destination="wzz-5C-Mh3" id="0F8-mT-goC"/>
                 <outlet property="stockLabel" destination="qTn-XH-Wir" id="7Fh-TW-jn9"/>
+                <outlet property="strikethroughRedLabel" destination="RCy-JK-Op7" id="1h8-0g-ERU"/>
                 <outlet property="titleLabel" destination="0aN-1O-PD4" id="9bM-Df-BlY"/>
             </connections>
             <point key="canvasLocation" x="193.47826086956522" y="217.63392857142856"/>

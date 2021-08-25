@@ -95,7 +95,6 @@ extension ProductListViewController: UICollectionViewDataSource {
 
 extension ProductListViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        print("호출됨")
         guard let collectionViewFlowLayout = collectionViewLayout as? UICollectionViewFlowLayout else {
             return CGSize.zero
         }
