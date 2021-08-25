@@ -18,10 +18,11 @@ class OpenMarketItemCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         setUpLabelsConfiguration()
+        configureLayerBorder()
     }
 }
 
-//MARK:- SetUp Label's Attributes
+//MARK:- SetUp View's Attributes
 extension OpenMarketItemCell {
     private func setUpLabelsConfiguration() {
         
@@ -44,6 +45,12 @@ extension OpenMarketItemCell {
         normalGrayLabel.lineBreakMode = .byClipping
         strikethroughRedLabel.lineBreakMode = .byClipping
         stockLabel.lineBreakMode = .byClipping
+    }
+    
+    private func configureLayerBorder() {
+        layer.borderColor = UIColor.systemGray.cgColor
+        layer.borderWidth = 2
+        layer.cornerRadius = 20
     }
 }
 

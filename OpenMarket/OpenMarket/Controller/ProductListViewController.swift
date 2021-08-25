@@ -98,9 +98,13 @@ extension ProductListViewController: UICollectionViewDelegateFlowLayout {
         guard let collectionViewFlowLayout = collectionViewLayout as? UICollectionViewFlowLayout else {
             return CGSize.zero
         }
+        let edgeSpace: CGFloat = 4
+        let numberOfColumn: CGFloat = 2
+        let heightRatioToWidth: CGFloat = 1.5
+        collectionViewFlowLayout.sectionInset = UIEdgeInsets(top: edgeSpace, left: edgeSpace, bottom: edgeSpace, right: edgeSpace)
         let collectionViewBounds = collectionView.bounds
-        let cellWidth = (collectionViewBounds.width - collectionViewFlowLayout.sectionInset.left - collectionViewFlowLayout.sectionInset.right - collectionViewFlowLayout.minimumInteritemSpacing) / 2
-        let cellHeight = cellWidth * 1.5
+        let cellWidth = (collectionViewBounds.width - collectionViewFlowLayout.sectionInset.left - collectionViewFlowLayout.sectionInset.right - collectionViewFlowLayout.minimumInteritemSpacing) / numberOfColumn
+        let cellHeight = cellWidth * heightRatioToWidth
         return CGSize(width: cellWidth, height: cellHeight)
     }
 }
