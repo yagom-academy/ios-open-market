@@ -24,7 +24,6 @@ struct HttpError: ErrorMessage {
         
     }
     
-    
     var errorDescription: String?
     
     init(message: String) {

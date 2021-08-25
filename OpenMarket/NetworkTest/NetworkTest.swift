@@ -77,7 +77,7 @@ class NetworkTest: XCTestCase {
         //given
         let randomPrice = Int.random(in: 1000...10000)
         let imageLiteral = #imageLiteral(resourceName: "compressed")
-        let dummy = ItemRequestable(
+        let dummy = GoodsRequestable(
             title:"테스트 인스턴스",
             descriptions: "비밀번호는 test",
             price: randomPrice,
@@ -86,7 +86,7 @@ class NetworkTest: XCTestCase {
             discountedPrice: 900,
             password: commonPassword
         )
-        var beResult: Result<ItemDetail, HttpError>?
+        var beResult: Result<GoodsDetail, HttpError>?
         
         //when
         let exception = XCTestExpectation(description: "response")
@@ -112,7 +112,7 @@ class NetworkTest: XCTestCase {
         //given
         let randomPrice = Int.random(in: 1000...10000)
         let imageLiteral = #imageLiteral(resourceName: "compressed")
-        let dummy = ItemRequestable(
+        let dummy = GoodsRequestable(
             descriptions: "비밀번호는 test",
             price: randomPrice,
             currency: "KRW",
@@ -120,7 +120,7 @@ class NetworkTest: XCTestCase {
             discountedPrice: 900,
             password: commonPassword
         )
-        var beResult: Result<ItemDetail, HttpError>?
+        var beResult: Result<GoodsDetail, HttpError>?
         
         //when
         let exception = XCTestExpectation(description: "response")

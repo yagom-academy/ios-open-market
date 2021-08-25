@@ -25,7 +25,7 @@ struct NetworkManager: API {
     
     func getGoods(
         id: UInt,
-        completionHandler: @escaping (Result<ItemDetail, HttpError>) -> Void
+        completionHandler: @escaping (Result<GoodsDetail, HttpError>) -> Void
     ) throws {
         let currentMethod = HttpMethod.item(id: id.description)
         guard let request = buildedBasicRequest(method: currentMethod) else {
@@ -38,9 +38,9 @@ struct NetworkManager: API {
     }
     
     func postGoods(
-        item: ItemRequestable,
+        item: GoodsRequestable,
         images: [UIImage],
-        completionHandler: @escaping (Result<ItemDetail, HttpError>) -> Void
+        completionHandler: @escaping (Result<GoodsDetail, HttpError>) -> Void
     ) throws {
        guard let request = buildedRequestWithFormData(
                 about: HttpMethod.post,
@@ -57,9 +57,9 @@ struct NetworkManager: API {
     
     func patchGoods(
         id: Int,
-        item: ItemRequestable,
+        item: GoodsRequestable,
         images: [UIImage]? = nil,
-        completionHandler: @escaping (Result<ItemDetail, HttpError>) -> Void
+        completionHandler: @escaping (Result<GoodsDetail, HttpError>) -> Void
     ) throws {
        guard let request = buildedRequestWithFormData(
                 about: HttpMethod.patch(id: id.description),
@@ -76,8 +76,8 @@ struct NetworkManager: API {
 
     func deleteGoods(
         id: Int,
-        item: ItemRequestable,
-        completionHandler: @escaping (Result<ItemDetail, HttpError>) -> Void
+        item: GoodsRequestable,
+        completionHandler: @escaping (Result<GoodsDetail, HttpError>) -> Void
     ) throws {
         guard let request = buildedRequestWithJSON(
                 about: .delete(id: id.description),

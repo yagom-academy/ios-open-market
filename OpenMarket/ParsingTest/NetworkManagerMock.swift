@@ -32,14 +32,14 @@ class NetworkManagerMock: API {
         }
     }
     
-    func getItem(
+    func getGoods(
         id: UInt,
-        completionHandler: @escaping (Result<ItemDetail, HttpError>) -> Void
+        completionHandler: @escaping (Result<GoodsDetail, HttpError>) -> Void
     ) {
         guard let assetData = try? takeAssetData(assetName: "item"),
               let item = try? Parser.decode(
                   from: assetData,
-                  to: ItemDetail.self,
+                  to: GoodsDetail.self,
                   or: HttpError.self
               ).get() else {
             return
@@ -69,15 +69,12 @@ extension NetworkManagerMock {
         return convertedAsset.data
     }
     
-    func postItem(item: ItemRequestable, images: [UIImage], completionHandler: @escaping (Result<ItemDetail, HttpError>) -> Void) {
-        
+    func postGoods(item: GoodsRequestable, images: [UIImage], completionHandler: @escaping (Result<GoodsDetail, HttpError>) -> Void) {
     }
     
-    func patchItem(itemId: Int, item: ItemRequestable, images: [UIImage]?, completionHandler: @escaping (Result<ItemDetail, HttpError>) -> Void) {
-        
+    func patchGoods(id: Int, item: GoodsRequestable, images: [UIImage]?, completionHandler: @escaping (Result<GoodsDetail, HttpError>) -> Void) {
     }
     
-    func deleteItem(itemId: Int, item: ItemRequestable, completionHandler: @escaping (Result<ItemDetail, HttpError>) -> Void) {
-    
+    func deleteGoods(id: Int, item: GoodsRequestable, completionHandler: @escaping (Result<GoodsDetail, HttpError>) -> Void) {
     }
 }
