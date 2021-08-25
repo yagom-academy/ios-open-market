@@ -14,7 +14,7 @@ class OpenMarketItemCell: UICollectionViewCell, StrockText, DigitStyle {
     @IBOutlet weak var statusLabel: UILabel!
     @IBOutlet weak var itemImage: UIImageView!
     
-    var indexPathString = ""
+    var isImageDownload = false
 }
 
 extension OpenMarketItemCell {
@@ -53,6 +53,10 @@ extension OpenMarketItemCell {
             
             DispatchQueue.main.async {
                 self.itemImage.image = downloadImage
+                if self.isImageDownload == false {
+                    NotificationCenter.default.post(name: .imageDidDownload, object: nil)
+                    self.isImageDownload = true
+                }
             }
         }.resume()
     }

@@ -20,7 +20,6 @@ struct OpenMarketLoadData {
                     return
                 }
                 completionHandler(jsonItem)
-                
             case .failure(let error):
                 NotificationCenter.default.post(name: .networkError, object: nil, userInfo: ["error":error])
             }

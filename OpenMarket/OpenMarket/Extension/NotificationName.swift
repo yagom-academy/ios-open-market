@@ -9,4 +9,5 @@ import Foundation
 
 extension Notification.Name {
     static let networkError = Notification.Name("networkError")
+    static let imageDidDownload = Notification.Name("imageDidDownload")
 }

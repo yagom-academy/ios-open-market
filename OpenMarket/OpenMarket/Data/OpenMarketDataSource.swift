@@ -20,7 +20,7 @@ class OpenMarketDataSource: NSObject, UICollectionViewDataSource, UICollectionVi
             continue
         }
     }
- 
+
     var openMarketItemList = [OpenMarketItems]()
     private var page: Int = 1
     
@@ -38,7 +38,7 @@ class OpenMarketDataSource: NSObject, UICollectionViewDataSource, UICollectionVi
         }
         
         cell.configure(item: self.openMarketItemList[indexPath.section].items[indexPath.item], indexPath)
-
+        
         return cell
     }
     
