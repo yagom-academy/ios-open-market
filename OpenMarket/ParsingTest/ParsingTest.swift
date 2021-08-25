@@ -28,7 +28,7 @@ class ParsingTest: XCTestCase {
         let index = UInt(1)
         
         do {
-            try cut.getItems(pageIndex: index) { result in
+            try cut.getGoodsList(pageIndex: index) { result in
                 switch result {
                 case .success(let itemList):
                     XCTAssertTrue(itemList.items.count > 0)
@@ -46,7 +46,7 @@ class ParsingTest: XCTestCase {
         let randomNumber = Int.random(in: 2...Int.max)
         let index = UInt(randomNumber)
         do {
-            try cut.getItems(pageIndex: index) { result in
+            try cut.getGoodsList(pageIndex: index) { result in
                 switch result {
                 case .success(let itemList):
                     XCTAssertTrue(itemList.items.count == 0)
@@ -63,7 +63,7 @@ class ParsingTest: XCTestCase {
         let id = UInt(1)
         
         do {
-            try cut.getItem(id: id) { result in
+            try cut.getGoods(id: id) { result in
                 switch result {
                 case .success(let item):
                     XCTAssertEqual(item.id, 1)
@@ -80,7 +80,7 @@ class ParsingTest: XCTestCase {
         let id = UInt(1234)
         
         do {
-            try cut.getItem(id: id) { result in
+            try cut.getGoods(id: id) { result in
                 switch result {
                 case .success:
                     XCTFail()

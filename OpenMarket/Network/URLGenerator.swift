@@ -11,7 +11,7 @@ struct URLGenerator {
     private static let baseURL = "https://camp-open-market-2.herokuapp.com/"
     
     static func generate(from method: HttpMethod) -> URL? {
-        let path = Self.pathAbout(method: method)
+        let path = targetPath(about: method)
         
         guard let url = URL(string: path) else {
             return nil
@@ -20,7 +20,7 @@ struct URLGenerator {
         return url
     }
     
-    private static func pathAbout(method: HttpMethod) -> String {
+    private static func targetPath(about method: HttpMethod) -> String {
         var path = baseURL
         
         switch method {

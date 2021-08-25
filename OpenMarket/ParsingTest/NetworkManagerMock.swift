@@ -20,7 +20,7 @@ class NetworkManagerMock: API {
         or: HttpError.self
     ).get()
     
-    func getItems(
+    func getGoodsList(
         pageIndex: UInt,
         completionHandler: @escaping (Result<GoodsList, HttpError>) -> Void
     ) {

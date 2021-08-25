@@ -145,6 +145,7 @@
 			isa = PBXGroup;
 			children = (
 				6359287D26CB5E7300E1A69F /* API.swift */,
+				63A3627426CA92B000C1B206 /* HttpError.swift */,
 				636A664526CB87D80005D56F /* HttpMethod.swift */,
 				63A3627826CA99BD00C1B206 /* HttpConfig.swift */,
 				636A664326CB84C70005D56F /* NetworkManager.swift */,
@@ -222,7 +223,6 @@
 			isa = PBXGroup;
 			children = (
 				D386C70526C244E000B2C689 /* Goods.swift */,
-				63A3627426CA92B000C1B206 /* HttpError.swift */,
 				6307F31826C24AD0000B83E6 /* GoodsList.swift */,
 				63A3627226CA917D00C1B206 /* ItemDetail.swift */,
 				635EB06026CCC12600AAB0E5 /* ItemRequestable.swift */,

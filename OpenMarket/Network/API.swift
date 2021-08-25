@@ -8,31 +8,31 @@
 import UIKit
 
 protocol API {
-    func getItems(
+    func getGoodsList(
         pageIndex: UInt,
         completionHandler: @escaping (Result<GoodsList, HttpError>) -> Void
     ) throws
     
-    func getItem(
+    func getGoods(
         id: UInt,
         completionHandler: @escaping (Result<ItemDetail, HttpError>) -> Void
     ) throws
     
-    func postItem(
+    func postGoods(
         item: ItemRequestable,
         images: [UIImage],
         completionHandler: @escaping (Result<ItemDetail, HttpError>) -> Void
     ) throws
     
-    func patchItem(
-        itemId: Int,
+    func patchGoods(
+        id: Int,
         item: ItemRequestable,
         images: [UIImage]?,
         completionHandler: @escaping (Result<ItemDetail, HttpError>) -> Void
     ) throws
     
-    func deleteItem(
-        itemId: Int,
+    func deleteGoods(
+        id: Int,
         item: ItemRequestable,
         completionHandler: @escaping (Result<ItemDetail, HttpError>) -> Void
     ) throws

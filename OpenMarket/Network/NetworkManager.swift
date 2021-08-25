@@ -9,7 +9,7 @@ import UIKit
 
 struct NetworkManager: API {
     
-    func getItems(
+    func getGoodsList(
         pageIndex: UInt,
         completionHandler: @escaping (Result<GoodsList, HttpError>) -> Void
     ) throws {
@@ -23,7 +23,7 @@ struct NetworkManager: API {
         }
     }
     
-    func getItem(
+    func getGoods(
         id: UInt,
         completionHandler: @escaping (Result<ItemDetail, HttpError>) -> Void
     ) throws {
@@ -37,7 +37,7 @@ struct NetworkManager: API {
         }
     }
     
-    func postItem(
+    func postGoods(
         item: ItemRequestable,
         images: [UIImage],
         completionHandler: @escaping (Result<ItemDetail, HttpError>) -> Void
@@ -55,14 +55,14 @@ struct NetworkManager: API {
         }
     }
     
-    func patchItem(
-        itemId: Int,
+    func patchGoods(
+        id: Int,
         item: ItemRequestable,
         images: [UIImage]? = nil,
         completionHandler: @escaping (Result<ItemDetail, HttpError>) -> Void
     ) throws {
        guard let request = buildedRequestWithFormData(
-                about: HttpMethod.patch(id: itemId.description),
+                about: HttpMethod.patch(id: id.description),
                 item: item,
                 images: images
        ) else {
@@ -74,13 +74,13 @@ struct NetworkManager: API {
         }
     }
 
-    func deleteItem(
-        itemId: Int,
+    func deleteGoods(
+        id: Int,
         item: ItemRequestable,
         completionHandler: @escaping (Result<ItemDetail, HttpError>) -> Void
     ) throws {
         guard let request = buildedRequestWithJSON(
-                about: .delete(id: itemId.description),
+                about: .delete(id: id.description),
                 item: item
         ) else {
             throw HttpError.Case.requestBuildingFailed
