@@ -12,6 +12,8 @@ class OpenMarketDataSource: NSObject {
     //MARK: Property
     private var rquestPage: Int = 1
     private let nextPage = 1
+    private var isLoading = false
+
     var openMarketItemList = [OpenMarketItems]()
     
     override init() {
@@ -29,7 +31,7 @@ class OpenMarketDataSource: NSObject {
     }
 }
 
-extension OpenMarketDataSource: UICollectionViewDataSource, UICollectionViewDataSourcePrefetching {
+extension OpenMarketDataSource: UICollectionViewDataSource, UICollectionViewDataSourcePrefetching, UICollectionViewDelegate {
     
     //MARK: UICollectionViewDataSource Method
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -68,4 +70,27 @@ extension OpenMarketDataSource: UICollectionViewDataSource, UICollectionViewData
         }
     }
     
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let offsetY = scrollView.contentOffset.y
+        let contentHeight = scrollView.contentSize.height
+        
+        if (offsetY > contentHeight - scrollView.frame.height * 2) && !isLoading {
+            loadMoreData("\(self.rquestPage)", scrollView as? UICollectionView)
+            rquestPage += 1
+        }
+    }
+    
+    func loadMoreData(_ page: String, _ collectionView: UICollectionView?) {
+        if !self.isLoading {
+            self.isLoading = true
+            OpenMarketLoadData.requestOpenMarketMainPageData(page: page) { items in
+                self.openMarketItemList.append(items)
+            }
+            
+            DispatchQueue.main.async {
+                collectionView?.reloadData()
+                self.isLoading = false
+            }
+        }
+    }
 }
