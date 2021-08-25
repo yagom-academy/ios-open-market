@@ -98,8 +98,8 @@ extension ItemListViewController: UICollectionViewDataSource {
         else {
             return UICollectionViewCell()
         }
-        let marketItem = itemList[indexPath.item]
-        cell.configure(with: marketItem)
+        
+        cell.configure(with: itemList[indexPath.item])
         
         return cell
     }
@@ -109,10 +109,8 @@ extension ItemListViewController: UICollectionViewDataSource {
 extension ItemListViewController: UICollectionViewDataSourcePrefetching {
     func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
         for indexPath in indexPaths {
-            let marketItem = itemList[indexPath.item]
             let lastitem = itemList.count - 1
-            
-            guard let thumbnailUrl = marketItem.thumbnails.first else {
+            guard let thumbnailUrl = itemList[indexPath.item].thumbnails.first else {
                 if indexPath.item == lastitem {
                     fetchItemList()
                 }
