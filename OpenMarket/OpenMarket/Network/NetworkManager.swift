@@ -5,7 +5,7 @@
 //  Created by 박태현 on 2021/08/10.
 //
 
-import Foundation
+import UIKit
 typealias Parameters = [String: Any]
 
 enum NetworkError: Error {
@@ -16,27 +16,24 @@ enum NetworkError: Error {
 }
 
 class NetworkManager {
-
     private let session: URLSessionProtocol
     lazy var boundary = generateBoundary()
-
-    var valuableMethod: [APIMethod] = []
     
+    var valuableMethod: [APIMethod] = []
     
     init(session: URLSessionProtocol = URLSession.shared, valuableMethod: [APIMethod] = APIMethod.allCases) {
         self.session = session
         self.valuableMethod = valuableMethod
     }
-
+    
     func commuteWithAPI(API: Requestable, completion: @escaping(Result<Data, Error>) -> Void) {
         guard let request = try? createRequest(url: API.url, API: API) else { return }
-        
         guard valuableMethod.contains(API.method) else {
             return completion(.failure(NetworkError.invalidResult))
         }
         session.dataTask(with: request) { data, response, error in
             if let error = error { return completion(.failure(error)) }
-
+            
             guard let response = response as? HTTPURLResponse,
                   (200...299).contains(response.statusCode) else {
                 return completion(.failure(NetworkError.unownedResponse))
@@ -47,16 +44,13 @@ class NetworkManager {
                 return completion(.failure(NetworkError.unownedData))
             }
             debugPrint(String(decoding: data, as: UTF8.self))
-            DispatchQueue.main.async {
-                completion(.success(data))
-            }
+            completion(.success(data))
         }.resume()
     }
 }
 
 //MARK: URL, URLRequest, RequestDataBody 구성 파트
 extension NetworkManager {
-
     private func createRequest(url: String, API: Requestable) throws -> URLRequest {
         guard let url = URL(string: url) else { throw NetworkError.invalidURL }
         
@@ -74,24 +68,22 @@ extension NetworkManager {
             request.httpBody = body
         } else if let api = API as? RequestableWithBody {
             let body = createDataBody(withParameters: api.parameter, media: api.items)
-             request.httpBody = body
-               
+            request.httpBody = body
+            
             debugPrint(String(decoding: body, as: UTF8.self))
         }
-        
-        
         return request
     }
-
+    
     private func generateBoundary() -> String {
         return "Boundary-\(UUID().uuidString)"
     }
-
+    
     private func createDataBody(withParameters params: Parameters?, media: [Media]?) -> Data {
         var body = Data()
         
         let lineBreakPoint = "\r\n"
-
+        
         if let parameters = params {
             for (key, value) in parameters {
                 body.append("--\(boundary)\(lineBreakPoint)")
@@ -99,7 +91,7 @@ extension NetworkManager {
                 body.append("\(value)\(lineBreakPoint)")
             }
         }
-
+        
         if let media = media {
             for photo in media {
                 body.append("--\(boundary)\(lineBreakPoint)")
@@ -109,8 +101,9 @@ extension NetworkManager {
                 body.append(lineBreakPoint)
             }
         }
+        
         body.append("--\(boundary)--\(lineBreakPoint)")
-
+        
         return body
     }
 }
@@ -120,5 +113,16 @@ extension Data {
         if let data = string.data(using: .utf8) {
             append(data)
         }
+    }
+}
+
+//MARK: Image를 받아오는 logic
+extension NetworkManager {
+    func downloadImage(from link: String, success block: @escaping (UIImage) -> Void) {
+        guard let url = URL(string: link) else { return }
+        URLSession.shared.dataTask(with: url) { data, _, _ in
+            guard let data = data, let image = UIImage(data: data) else { return }
+            block(image)
+        }.resume()
     }
 }
