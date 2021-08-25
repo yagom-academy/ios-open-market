@@ -7,23 +7,31 @@
 
 import UIKit
 
-class OpenMarketDataSource: NSObject, UICollectionViewDataSource, UICollectionViewDataSourcePrefetching {
+class OpenMarketDataSource: NSObject {
+    
+    //MARK: Property
+    private var rquestPage: Int = 1
+    private let nextPage = 1
+    var openMarketItemList = [OpenMarketItems]()
+    
     override init() {
         super.init()
-        let loadData = OpenMarketLoadData()
-        loadData.requestOpenMarketMainPageData(page: "\(page)") { testData in
-            self.openMarketItemList = [testData]
-            self.page += 1
+        
+        OpenMarketLoadData.requestOpenMarketMainPageData(page: "\(rquestPage)") { openMarketItems in
+            self.openMarketItemList = [openMarketItems]
+            self.rquestPage += self.nextPage
         }
         
+        //MARK: Stop initializing OpenMarketDataSource instance until get openMarketItemList
         while self.openMarketItemList.count == 0 {
             continue
         }
     }
+}
 
-    var openMarketItemList = [OpenMarketItems]()
-    private var page: Int = 1
+extension OpenMarketDataSource: UICollectionViewDataSource, UICollectionViewDataSourcePrefetching {
     
+    //MARK: UICollectionViewDataSource Method
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         openMarketItemList.count
     }
@@ -42,21 +50,22 @@ class OpenMarketDataSource: NSObject, UICollectionViewDataSource, UICollectionVi
         return cell
     }
     
-    //MARK:
+    //MARK: UICollectionViewDataSourcePrefetching Method
     func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
-        let item = (openMarketItemList.first?.items.count ?? .zero) - 3
+        let almostEndPoint = 1
+        let item = (openMarketItemList.first?.items.count ?? .zero) - almostEndPoint
+        
         indexPaths.forEach { indexPath in
             if item == indexPath.item {
-                OpenMarketLoadData().requestOpenMarketMainPageData(page: "\(page)") { items in
+                OpenMarketLoadData.requestOpenMarketMainPageData(page: "\(rquestPage)") { items in
                     self.openMarketItemList.append(items)
                     DispatchQueue.main.async {
                         collectionView.reloadData()
+                        self.rquestPage += self.nextPage
                     }
                 }
             }
         }
-        
-        
     }
     
 }

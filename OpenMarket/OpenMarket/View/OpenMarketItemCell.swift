@@ -14,10 +14,13 @@ class OpenMarketItemCell: UICollectionViewCell, StrockText, DigitStyle {
     @IBOutlet weak var statusLabel: UILabel!
     @IBOutlet weak var itemImage: UIImageView!
     
-    var isImageDownload = false
+    //MARK: Property
+    private var isImageDownload = false
 }
 
 extension OpenMarketItemCell {
+    
+    //MARK: Method
     func configure(item: OpenMarketItems.Item, _ indexPath: IndexPath) {
         titleLabel.text = item.title
         downloadImage(reqeustURL: item.thumbnails.first ?? "", indexPath)
@@ -43,8 +46,12 @@ extension OpenMarketItemCell {
             priceLabel.textColor = .systemGray
             priceLabel.text = "\(item.currency) \(apply(to: item.price))"
         }
+        
+        self.layer.borderWidth = 1
+        self.layer.borderColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
+        self.layer.cornerRadius = 15
     }
-   
+    
     func downloadImage(reqeustURL: String, _ indexPath: IndexPath) {
         URLSession.shared.dataTask(with: URL(string: reqeustURL)!) { data, _, _ in
             guard let data = data else { return }
@@ -60,19 +67,19 @@ extension OpenMarketItemCell {
             }
         }.resume()
     }
-
+    
     override func prepareForReuse() {
         priceLabel.attributedText = nil
+        priceLabel.text = nil
+        priceLabel.textColor = .black
+
         discountedPriceLabel.textColor = .black
         discountedPriceLabel.text = nil
         discountedPriceLabel.isHidden = false
         
-        titleLabel.text = nil
-        priceLabel.text = nil
         statusLabel.textColor = .black
         statusLabel.text = nil
-
-        priceLabel.textColor = .black
-
+        
+        titleLabel.text = nil
     }
 }

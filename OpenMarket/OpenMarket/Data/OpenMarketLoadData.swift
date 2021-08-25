@@ -8,7 +8,8 @@
 import Foundation
 
 struct OpenMarketLoadData {
-    func requestOpenMarketMainPageData(page: String, completionHandler: @escaping (OpenMarketItems) -> ()) {
+    //MARK: Request Method
+    static func requestOpenMarketMainPageData(page: String, completionHandler: @escaping (OpenMarketItems) -> ()) {
         guard let url = URL(string: String(describing: OpenMarketUrl.listLookUp) + page) else {
             return
         }

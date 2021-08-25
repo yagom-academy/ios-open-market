@@ -10,24 +10,30 @@ class ViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
-   private let openMarketDataSource = OpenMarketDataSource()
+    //MARK: Property
+    private let openMarketDataSource = OpenMarketDataSource()
+    private lazy var layout = Layout.generate(self.view)
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //MARK: Set Loading Indicater Style And Start
         setIndicatorStyle()
         activityIndicator.startAnimating()
-
+        
+        //MARK: Assign Datasource and Layout
         collectionView.dataSource = openMarketDataSource
         collectionView.prefetchDataSource = openMarketDataSource
-        let layout = Layout.generate(self.view)
         collectionView.collectionViewLayout = layout
         
+        //MARK: Add NotificationObserver
         NotificationCenter.default.addObserver(self, selector: #selector(self.notifyNetworkError(_:)), name: NSNotification.Name.networkError, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.nofityImageDownload), name: .imageDidDownload, object: nil)
     }
 }
 
 extension ViewController {
+    //MARK: Indicator Style Method
     func setIndicatorStyle() {
         activityIndicator.style = .large
         activityIndicator.color = .systemGray
