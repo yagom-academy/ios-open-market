@@ -10,7 +10,6 @@ import XCTest
 
 class OpenMarketUnitTests: XCTestCase {
     var sut: [ItemBundle] = []
-    let baseURL = "https://camp-open-market-2.herokuapp.com"
     
     func test_success_JSON파일의정보와_디코딩된인스턴스정보가같다_Item타입() {
         //given
@@ -83,8 +82,8 @@ class OpenMarketUnitTests: XCTestCase {
     
     func test_success_통신이성공했을때유효한URL이면_JSON데이터반환한다() {
         //given
-        let request = URLRequest(url: URL(string: baseURL + "/items/1")!)
-        let manager = NetworkingManager(session: MockURLSession(isSuccess: true), parsingManager: ParsingManager(), baseURL: "https://camp-open-market-2.herokuapp.com")
+        let request = URLRequest(url: URL(string: NetworkingManager.OpenMarketInfo.baseURL +  NetworkingManager.OpenMarketInfo.getList.makePath(suffix: 1))!)
+        let manager = NetworkingManager(session: MockURLSession(isSuccess: true), parsingManager: ParsingManager())
         var check = false
         //when
         manager.request(bundle: request) { result in
@@ -99,8 +98,8 @@ class OpenMarketUnitTests: XCTestCase {
     
     func test_failure_통신이성공했을때유효하지않은URL이면_JSON데이터반환하지않는다() {
         //given
-        let request = URLRequest(url: URL(string: baseURL + "/items/2")!)
-        let manager = NetworkingManager(session: MockURLSession(isSuccess: true), parsingManager: ParsingManager(), baseURL: "https://camp-open-market-2.herokuapp.com")
+        let request = URLRequest(url: URL(string: NetworkingManager.OpenMarketInfo.baseURL + NetworkingManager.OpenMarketInfo.getList.makePath(suffix: 2))!)
+        let manager = NetworkingManager(session: MockURLSession(isSuccess: true), parsingManager: ParsingManager())
         var check = false
         //when
         manager.request(bundle: request) { result in
@@ -115,8 +114,8 @@ class OpenMarketUnitTests: XCTestCase {
     
     func test_failure_통신이실패했을때_JSON데이터반환하지않는다() {
         //given
-        let request = URLRequest(url: URL(string: baseURL + "/items/1")!)
-        let manager = NetworkingManager(session: MockURLSession(isSuccess: false), parsingManager: ParsingManager(), baseURL: "https://camp-open-market-2.herokuapp.com")
+        let request = URLRequest(url: URL(string: NetworkingManager.OpenMarketInfo.baseURL + NetworkingManager.OpenMarketInfo.getList.makePath(suffix: 1))!)
+        let manager = NetworkingManager(session: MockURLSession(isSuccess: false), parsingManager: ParsingManager())
         var check = false
         //when
         manager.request(bundle: request) { result in
