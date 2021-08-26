@@ -45,7 +45,8 @@ extension ProductListViewController {
             case .success(let fetchedData):
                 self.handleFetchedList(data: fetchedData)
             case .failure(let error):
-                break
+                let okAction = UIAlertAction(title: "확인", style: .default, handler: nil)
+                UIAlertController.showAlert(title: "오류가 발생하였습니다.", message: error.localizedDescription, preferredStyle: .alert, actions: [okAction], animated: true, viewController: self)
             }
         }
     }
@@ -54,6 +55,11 @@ extension ProductListViewController {
         let parsedResult = parsingManager.decode(from: data, to: Products.self)
         switch parsedResult {
         case .success(let products):
+            if products.items.count == .zero {
+                let okAction = UIAlertAction(title: "확인", style: .default, handler: nil)
+                UIAlertController.showAlert(title: "무야호~ 마지막까지 다 보셨습니다.", message: "더이상 불러올 데이터가 존재하지 않습니다.", preferredStyle: .alert, actions: [okAction], animated: true, viewController: self)
+                break
+            }
             let indexOffset = -1
             let startPoint = productList.count
             let endPoint = productList.count + products.items.count + indexOffset
@@ -62,7 +68,8 @@ extension ProductListViewController {
             reloadCollectionView(from: startPoint, to: endPoint)
             nextPageNumToBring += 1
         case .failure(let error):
-            break
+            let okAction = UIAlertAction(title: "확인", style: .default, handler: nil)
+            UIAlertController.showAlert(title: "오류가 발생하였습니다.", message: error.localizedDescription, preferredStyle: .alert, actions: [okAction], animated: true, viewController: self)
         }
     }
     

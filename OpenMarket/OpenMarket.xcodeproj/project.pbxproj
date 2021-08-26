@@ -11,6 +11,7 @@
 		C468C7C226D4D1D400D43EAC /* ImageRequestable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C468C7C126D4D1D400D43EAC /* ImageRequestable.swift */; };
 		C468C7C426D4D31E00D43EAC /* ImageModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = C468C7C326D4D31E00D43EAC /* ImageModule.swift */; };
 		C468C7C626D4F5AB00D43EAC /* ImageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C468C7C526D4F5AB00D43EAC /* ImageManager.swift */; };
+		C468C7C826D7A87100D43EAC /* UIAlertController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C468C7C726D7A87100D43EAC /* UIAlertController+Extension.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
 		C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */; };
 		C70FB0FF25BEF61C00C9924E /* ProductListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FE25BEF61C00C9924E /* ProductListViewController.swift */; };
@@ -50,6 +51,7 @@
 		C468C7C126D4D1D400D43EAC /* ImageRequestable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageRequestable.swift; sourceTree = "<group>"; };
 		C468C7C326D4D31E00D43EAC /* ImageModule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageModule.swift; sourceTree = "<group>"; };
 		C468C7C526D4F5AB00D43EAC /* ImageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageManager.swift; sourceTree = "<group>"; };
+		C468C7C726D7A87100D43EAC /* UIAlertController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIAlertController+Extension.swift"; sourceTree = "<group>"; };
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -175,6 +177,7 @@
 			isa = PBXGroup;
 			children = (
 				E689FBFE26CAE1A900697E75 /* Data+Extension.swift */,
+				C468C7C726D7A87100D43EAC /* UIAlertController+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -344,6 +347,7 @@
 				C468C7C226D4D1D400D43EAC /* ImageRequestable.swift in Sources */,
 				C9D4E3CA26C6414000FD5E43 /* NetworkManager.swift in Sources */,
 				C9D4E37026C2AC8A00FD5E43 /* Products.swift in Sources */,
+				C468C7C826D7A87100D43EAC /* UIAlertController+Extension.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 				E67E970526CBF05300B8F316 /* DataTaskRequestable.swift in Sources */,
