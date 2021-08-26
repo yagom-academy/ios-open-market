@@ -8,19 +8,20 @@
 import Foundation
 
 enum HttpMethod {
-    case items(pageIndex: UInt)
-    case item(id: String)
-    case post
-    case patch(id: String)
-    case delete(id: String)
+    case getGoodsList(pageIndex: UInt)
+    case getGoods(id: String)
+    case getImage(path: String)
+    case postGoods
+    case patchGoods(id: String)
+    case deleteGoods(id: String)
     
     var type: String {
         switch self {
-        case .post:
+        case .postGoods:
             return "POST"
-        case .delete:
+        case .deleteGoods:
             return "DELETE"
-        case .patch:
+        case .patchGoods:
             return "PATCH"
         default:
             return "GET"

@@ -24,13 +24,15 @@ struct URLGenerator {
         var path = baseURL
         
         switch method {
-        case .items(let pageIndex):
+        case .getImage(let url):
+            path = url
+        case .getGoodsList(let pageIndex):
             path += "items/\(pageIndex.description)"
-        case .item(let id),
-             .patch(let id),
-             .delete(let id):
+        case .getGoods(let id),
+             .patchGoods(let id),
+             .deleteGoods(let id):
             path += "item/" + id
-        case .post:
+        case .postGoods:
             path += "item"
         }
         
