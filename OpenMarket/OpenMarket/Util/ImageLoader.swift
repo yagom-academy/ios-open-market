@@ -8,9 +8,8 @@
 import UIKit
 
 class ImageLoader {
-    
     static let shared = ImageLoader()
-    let cache = URLCache.shared
+    private let cache = URLCache.shared
     
     private init() {}
     

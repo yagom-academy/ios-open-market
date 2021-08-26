@@ -8,11 +8,11 @@
 import UIKit
 
 class GridItemCollectionViewCell: UICollectionViewCell {
-    @IBOutlet weak var thumbnailImageView: UIImageView!
-    @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var priceLabel: UILabel!
-    @IBOutlet weak var discountedPriceLabel: UILabel!
-    @IBOutlet weak var stockLabel: UILabel!
+    @IBOutlet private weak var thumbnailImageView: UIImageView!
+    @IBOutlet private weak var titleLabel: UILabel!
+    @IBOutlet private weak var priceLabel: UILabel!
+    @IBOutlet private weak var discountedPriceLabel: UILabel!
+    @IBOutlet private weak var stockLabel: UILabel!
     
     private var urlString: String?
     

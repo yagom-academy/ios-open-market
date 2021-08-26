@@ -7,8 +7,8 @@
 import UIKit
 
 class ItemsGridViewController: UIViewController {
-    @IBOutlet weak var collectionView: UICollectionView!
-    @IBOutlet weak var indicator: UIActivityIndicatorView!
+    @IBOutlet private weak var collectionView: UICollectionView!
+    @IBOutlet private weak var indicator: UIActivityIndicatorView!
     
     private let manager = NetworkManager(session: URLSession.shared)
     private var items: [Page.Item]?
@@ -42,7 +42,7 @@ class ItemsGridViewController: UIViewController {
         }
     }
     
-    func configureItemSize() -> UICollectionViewFlowLayout {
+    private func configureItemSize() -> UICollectionViewFlowLayout {
         collectionView.layoutIfNeeded()
         
         let layout = UICollectionViewFlowLayout()
@@ -93,7 +93,7 @@ extension ItemsGridViewController: UICollectionViewDelegate {
         }
     }
     
-    func loadMoreData(indexPath: IndexPath) {
+    private func loadMoreData(indexPath: IndexPath) {
         if self.isNotLoading {
             self.isNotLoading = false
             self.lastPage += 1

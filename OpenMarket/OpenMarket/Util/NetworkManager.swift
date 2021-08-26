@@ -40,7 +40,7 @@ struct NetworkManager {
         task.resume()
     }
     
-    func obtainResponseData(data: Data?, response: URLResponse?, error: Error?) throws -> Data {
+    private func obtainResponseData(data: Data?, response: URLResponse?, error: Error?) throws -> Data {
         if let error = error {
             throw error
         }
