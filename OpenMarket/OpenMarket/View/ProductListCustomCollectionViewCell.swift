@@ -16,10 +16,6 @@ class ProductListCustomCollectionViewCell: UICollectionViewCell {
     
     static let identifier = "ProductListCustomCollectionViewCell"
     
-    static func nib() -> UINib {
-        return UINib(nibName: identifier, bundle: nil)
-    }
-    
     override func layoutSubviews() {
         self.layer.borderWidth = 2.0
         self.layer.cornerRadius = 5.0
@@ -27,6 +23,7 @@ class ProductListCustomCollectionViewCell: UICollectionViewCell {
     }
     
     override func prepareForReuse() {
+        super.prepareForReuse()
         thumbnailImage.image = nil
         titleLabel.text = nil
         priceLabel.text = nil
@@ -96,5 +93,11 @@ class ProductListCustomCollectionViewCell: UICollectionViewCell {
             stockLabel.text = "잔여수량 : \(leftover)"
             stockLabel.textColor = .lightGray
         }
+    }
+}
+
+extension UICollectionViewCell {
+    static func nib() -> UINib {
+        return UINib(nibName: ProductListCustomCollectionViewCell.identifier, bundle: nil)
     }
 }

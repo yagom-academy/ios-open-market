@@ -34,13 +34,11 @@ class ProductListViewController: UIViewController {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         
-        guard let collectionView = productListCollectionView else { return }
-        collectionView.register(ProductListCustomCollectionViewCell.nib(), forCellWithReuseIdentifier: ProductListCustomCollectionViewCell.identifier)
+        productListCollectionView.register(UICollectionViewCell.nib(), forCellWithReuseIdentifier: ProductListCustomCollectionViewCell.identifier)
         
-        collectionView.collectionViewLayout = layout
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        view.addSubview(collectionView)
+        productListCollectionView.collectionViewLayout = layout
+        productListCollectionView.delegate = self
+        productListCollectionView.dataSource = self
     }
     
     private func loadProductList(page: Int) {
@@ -95,7 +93,7 @@ extension ProductListViewController: UICollectionViewDataSource {
 extension ProductListViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.frame.width/2-10, height: collectionView.frame.height/3)
+        return CGSize(width: collectionView.frame.width / 2 - 10, height: collectionView.frame.height / 3)
     }
     
     func collectionView(_ collectionView: UICollectionView,
