@@ -14,6 +14,8 @@ class OpenMarketItemCell: UICollectionViewCell {
     @IBOutlet private weak var normalGrayLabel: UILabel!
     @IBOutlet private weak var stockLabel: UILabel!
     private var imageDataTask: URLSessionDataTask?
+    static let identifier = "OpenMarketItemCell"
+    static let fileName = "OpenMarketItemCell"
     
     override func awakeFromNib() {
         super.awakeFromNib()

@@ -20,7 +20,7 @@ class ProductListViewController: UIViewController {
         openMarketCollectionView.dataSource = self
         openMarketCollectionView.delegate = self
         openMarketCollectionView.prefetchDataSource = self
-        openMarketCollectionView.register(UINib(nibName: "OpenMarketItemCell", bundle: nil), forCellWithReuseIdentifier: "OpenMarketItemCell")
+        openMarketCollectionView.register(UINib(nibName: OpenMarketItemCell.fileName, bundle: nil), forCellWithReuseIdentifier: OpenMarketItemCell.identifier)
         loadNextProductList(on: nextPageNumToBring)
         setIndicatorToCenter()
     }
@@ -28,7 +28,7 @@ class ProductListViewController: UIViewController {
 }
 
 extension ProductListViewController {
-    func setIndicatorToCenter() {
+    private func setIndicatorToCenter() {
         loadingIndicatorView.center.x = self.view.center.x
         loadingIndicatorView.center.y = self.view.center.y
     }
@@ -36,7 +36,7 @@ extension ProductListViewController {
 
 //MARK:- Fetch Product List
 extension ProductListViewController {
-    func loadNextProductList(on pageNum: Int) {
+    private func loadNextProductList(on pageNum: Int) {
         loadingIndicatorView.startAnimating()
         
         networkManger.lookUpProductList(on: pageNum) { result in
@@ -51,7 +51,7 @@ extension ProductListViewController {
         }
     }
     
-    func handleFetchedList(data: Data) {
+    private func handleFetchedList(data: Data) {
         let parsedResult = parsingManager.decode(from: data, to: Products.self)
         switch parsedResult {
         case .success(let products):
@@ -73,7 +73,7 @@ extension ProductListViewController {
         }
     }
     
-    func reloadCollectionView(from startPoint: Int, to endPoint: Int) {
+    private func reloadCollectionView(from startPoint: Int, to endPoint: Int) {
         let indexPaths = (startPoint...endPoint).map { IndexPath(item: $0, section: 0) }
         openMarketCollectionView.insertItems(at: indexPaths)
     }
@@ -86,7 +86,7 @@ extension ProductListViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "OpenMarketItemCell", for: indexPath)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: OpenMarketItemCell.identifier, for: indexPath)
         guard let customCell = cell as? OpenMarketItemCell else {
             return cell
         }
