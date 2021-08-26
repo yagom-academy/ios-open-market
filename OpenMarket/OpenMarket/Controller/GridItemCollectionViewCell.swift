@@ -16,16 +16,20 @@ class GridItemCollectionViewCell: UICollectionViewCell {
     
     private var urlString: String?
     
-    func initialize(item: Page.Item, indexPath: IndexPath) {
-        updateImage(item: item, indexPath: indexPath)
+    func initialize(item: Page.Item) {
+        updateImage(item: item)
         configureLabels(item: item)
         configureCellBorder()
     }
     
-    private func updateImage(item: Page.Item, indexPath: IndexPath) {
-        let currentURLString = item.thumbnails[0]
-        urlString = currentURLString
+    private func updateImage(item: Page.Item) {
         thumbnailImageView.image = UIImage(systemName: "photo")
+        
+        guard let currentURLString = item.thumbnails.first else {
+            print(NetworkError.thumbnailNotFound.localizedDescription)
+            return
+        }
+        urlString = currentURLString
         
         ImageLoader.shared.loadImage(from: currentURLString) { imageData in
             if self.urlString == currentURLString {
@@ -42,7 +46,7 @@ class GridItemCollectionViewCell: UICollectionViewCell {
     }
     
     private func handlePriceLabel(item: Page.Item) {
-        let priceWithCurrency = combine(price: format(item.price), currency: item.currency)
+        let priceWithCurrency = turn(format(item.price), to: item.currency)
         
         if let discountedPrice = item.discountedPrice {
             let discountAttributes: [NSAttributedString.Key: Any] = [
@@ -51,8 +55,7 @@ class GridItemCollectionViewCell: UICollectionViewCell {
             ]
             
             discountedPriceLabel.isHidden = false
-            discountedPriceLabel.text = combine(price: format(discountedPrice),
-                                                     currency: item.currency)
+            discountedPriceLabel.text = turn(format(discountedPrice), to: item.currency)
             priceLabel.attributedText = NSAttributedString(string: priceWithCurrency,
                                                                 attributes: discountAttributes)
         } else {
@@ -73,7 +76,7 @@ class GridItemCollectionViewCell: UICollectionViewCell {
         }
     }
     
-    private func combine(price: String, currency: String) -> String {
+    private func turn(_ price: String, to currency: String) -> String {
         return currency + " " + price
     }
     

@@ -78,7 +78,7 @@ extension ItemsGridViewController: UICollectionViewDataSource {
                                                             for: indexPath) as? GridItemCollectionViewCell
         else { return UICollectionViewCell() }
         
-        cell.initialize(item: item, indexPath: indexPath)
+        cell.initialize(item: item)
         
         return cell
     }

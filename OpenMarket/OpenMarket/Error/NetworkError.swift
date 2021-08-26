@@ -13,6 +13,7 @@ enum NetworkError: String, Error {
     case unknownError
     case failToDecode
     case failToInitializeImage
+    case thumbnailNotFound
 }
 
 extension NetworkError: LocalizedError {
