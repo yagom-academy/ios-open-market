@@ -14,7 +14,7 @@ class ProductListViewController: UIViewController {
     private let parsingManager = ParsingManager()
     private var nextPageNumToBring = 1
     private var productList: [Product] = []
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         openMarketCollectionView.dataSource = self
@@ -22,6 +22,9 @@ class ProductListViewController: UIViewController {
         openMarketCollectionView.prefetchDataSource = self
         openMarketCollectionView.register(UINib(nibName: "OpenMarketItemCell", bundle: nil), forCellWithReuseIdentifier: "OpenMarketItemCell")
         loadNextProductList(on: nextPageNumToBring)
+        loadingIndicatorView.center = CGPoint(x:self.view.bounds.size.width / 2,y: self.view.bounds.size.height / 2)
+        
+        
     }
     
 }

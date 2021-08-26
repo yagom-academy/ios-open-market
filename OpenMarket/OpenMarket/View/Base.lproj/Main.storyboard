@@ -9,7 +9,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Product List View Controller-->
+        <!--야아 마켓-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="ProductListViewController" customModule="OpenMarket" customModuleProvider="target" sceneMemberID="viewController">
@@ -42,7 +42,14 @@
                             <constraint firstItem="4fk-r0-ZSB" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="oNL-zk-jEL"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="Xpu-HC-Ncw"/>
+                    <navigationItem key="navigationItem" title="야아 마켓" id="Xpu-HC-Ncw">
+                        <barButtonItem key="backBarButtonItem" title="리스트로" id="LV9-5c-GjP"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="n1e-wG-m5c">
+                            <connections>
+                                <segue destination="hxj-zi-WoF" kind="show" id="Z7f-kN-0e6"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="loadingIndicatorView" destination="B4G-RB-bre" id="g3E-t0-5EE"/>
                         <outlet property="openMarketCollectionView" destination="4fk-r0-ZSB" id="rKT-ri-xVs"/>
@@ -51,6 +58,22 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1042.0289855072465" y="81.696428571428569"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="8bp-di-hQs">
+            <objects>
+                <viewController id="hxj-zi-WoF" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="24b-Fh-PWq">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="i8C-Hc-mrz"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="Btp-nd-Abt"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="aXX-0m-qvd" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1957" y="82"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="StN-SB-Cvq">
