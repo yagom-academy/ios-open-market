@@ -25,6 +25,7 @@ class GridItemCollectionViewCell: UICollectionViewCell {
     private func updateImage(item: Page.Item, indexPath: IndexPath) {
         let currentURLString = item.thumbnails[0]
         self.urlString = currentURLString
+        thumbnailImageView.image = UIImage(systemName: "photo")
         
         ImageLoader.shared.loadImage(from: currentURLString) { imageData in
             if self.urlString == currentURLString {

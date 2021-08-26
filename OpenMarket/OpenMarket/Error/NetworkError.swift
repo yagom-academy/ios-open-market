@@ -7,9 +7,16 @@
 
 import Foundation
 
-enum NetworkError: Error {
+enum NetworkError: String, Error {
     case dataNotFound
     case invalidResponse
     case unknownError
     case failToDecode
+    case failToInitializeImage
+}
+
+extension NetworkError: LocalizedError {
+    var errorDescription: String? {
+        return self.rawValue
+    }
 }
