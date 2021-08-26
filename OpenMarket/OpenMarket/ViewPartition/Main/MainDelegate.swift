@@ -7,12 +7,14 @@
 
 import UIKit
 
-class MainDelegate: NSObject, UICollectionViewDelegate {
-    
+class MainDelegate: NSObject, UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let totalWidth = collectionView.bounds.width
+        let marginX: CGFloat = 10
+        let cellCountInARow: CGFloat = 2
+        let cellWidth = (totalWidth - marginX) / cellCountInARow
+        let cellHeight = cellWidth * 1.5
+        
+        return CGSize(width: cellWidth, height: cellHeight)
+    }
 }
-//
-//extension MainDelegate: UICollectionViewDelegateFlowLayout {
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//        return CGSize(width: 155, height: 100)
-//    }
-//}

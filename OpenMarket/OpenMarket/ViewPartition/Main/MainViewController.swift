@@ -31,7 +31,7 @@ class MainViewController: UIViewController {
     }
     
     private func requestNewItemList() {
-        loading.startAnimating()
+//        loading.startAnimating()
         do {
             try networker.getGoodsList(pageIndex: pageIndex) { [weak self] result in
                 guard let its = self else { return }
@@ -48,7 +48,7 @@ class MainViewController: UIViewController {
                 DispatchQueue.main.async {
                     guard let itemList = itemList else { return }
                     its.dataSource.collectionView(its.container, reloadWith: itemList)
-                    its.loading.stopAnimating()
+//                    its.loading.stopAnimating()
                 }
             }
         } catch {
