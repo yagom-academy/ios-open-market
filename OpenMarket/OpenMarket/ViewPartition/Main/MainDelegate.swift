@@ -10,9 +10,9 @@ import UIKit
 class MainDelegate: NSObject, UICollectionViewDelegate {
     
 }
-
-extension MainDelegate: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 155, height: 100)
-    }
-}
+//
+//extension MainDelegate: UICollectionViewDelegateFlowLayout {
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+//        return CGSize(width: 155, height: 100)
+//    }
+//}
