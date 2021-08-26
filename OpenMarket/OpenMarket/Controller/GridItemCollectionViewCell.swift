@@ -24,7 +24,7 @@ class GridItemCollectionViewCell: UICollectionViewCell {
     
     private func updateImage(item: Page.Item, indexPath: IndexPath) {
         let currentURLString = item.thumbnails[0]
-        self.urlString = currentURLString
+        urlString = currentURLString
         thumbnailImageView.image = UIImage(systemName: "photo")
         
         ImageLoader.shared.loadImage(from: currentURLString) { imageData in
@@ -35,7 +35,7 @@ class GridItemCollectionViewCell: UICollectionViewCell {
     }
     
     private func configureLabels(item: Page.Item) {
-        self.titleLabel.text = item.title
+        titleLabel.text = item.title
         
         handlePriceLabel(item: item)
         handleStockLabel(item: item)
@@ -51,13 +51,13 @@ class GridItemCollectionViewCell: UICollectionViewCell {
             ]
             
             discountedPriceLabel.isHidden = false
-            self.discountedPriceLabel.text = combine(price: format(discountedPrice),
+            discountedPriceLabel.text = combine(price: format(discountedPrice),
                                                      currency: item.currency)
-            self.priceLabel.attributedText = NSAttributedString(string: priceWithCurrency,
+            priceLabel.attributedText = NSAttributedString(string: priceWithCurrency,
                                                                 attributes: discountAttributes)
         } else {
             discountedPriceLabel.isHidden = true
-            self.priceLabel.text = priceWithCurrency
+            priceLabel.text = priceWithCurrency
         }
     }
     
@@ -66,10 +66,10 @@ class GridItemCollectionViewCell: UICollectionViewCell {
         let residualQuantity = "잔여수량 : "
         
         if item.stock == .zero {
-            self.stockLabel.text = outOfStock
-            self.stockLabel.textColor = .orange
+            stockLabel.text = outOfStock
+            stockLabel.textColor = .orange
         } else {
-            self.stockLabel.text = residualQuantity + item.stock.description
+            stockLabel.text = residualQuantity + item.stock.description
         }
     }
     
@@ -88,16 +88,16 @@ class GridItemCollectionViewCell: UICollectionViewCell {
     }
     
     private func configureCellBorder() {
-        self.layer.borderWidth = 1.0
-        self.layer.borderColor = UIColor.gray.cgColor
-        self.layer.cornerRadius = 10
+        layer.borderWidth = 1.0
+        layer.borderColor = UIColor.gray.cgColor
+        layer.cornerRadius = 10
     }
     
     override func prepareForReuse() {
         super.prepareForReuse()
         
-        self.thumbnailImageView.image = nil
-        self.priceLabel.attributedText = nil
-        self.stockLabel.textColor = .lightGray
+        thumbnailImageView.image = nil
+        priceLabel.attributedText = nil
+        stockLabel.textColor = .lightGray
     }
 }

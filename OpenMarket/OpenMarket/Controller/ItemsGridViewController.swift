@@ -88,15 +88,15 @@ extension ItemsGridViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         guard let itemsCount = items?.count else { return }
         
-        if indexPath.row == itemsCount - 4 && self.isNotLoading {
+        if indexPath.row == itemsCount - 4 && isNotLoading {
             loadMoreData(indexPath: indexPath)
         }
     }
     
     private func loadMoreData(indexPath: IndexPath) {
-        if self.isNotLoading {
-            self.isNotLoading = false
-            self.lastPage += 1
+        if isNotLoading {
+            isNotLoading = false
+            lastPage += 1
             let serverURL = "https://camp-open-market-2.herokuapp.com/items/\(lastPage)"
             
             guard let url = URL(string: serverURL) else { return }

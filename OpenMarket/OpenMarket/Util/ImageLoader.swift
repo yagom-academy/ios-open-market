@@ -18,7 +18,7 @@ class ImageLoader {
         guard let url = URL(string: urlString) else { return }
         let request = URLRequest(url: url, cachePolicy: .returnCacheDataElseLoad)
         
-        if let response = self.cache.cachedResponse(for: request),
+        if let response = cache.cachedResponse(for: request),
            let imageData = UIImage(data: response.data) {
             DispatchQueue.main.async {
                 completion(imageData)
