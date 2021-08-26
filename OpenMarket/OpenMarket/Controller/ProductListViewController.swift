@@ -22,11 +22,16 @@ class ProductListViewController: UIViewController {
         openMarketCollectionView.prefetchDataSource = self
         openMarketCollectionView.register(UINib(nibName: "OpenMarketItemCell", bundle: nil), forCellWithReuseIdentifier: "OpenMarketItemCell")
         loadNextProductList(on: nextPageNumToBring)
-        loadingIndicatorView.center = CGPoint(x:self.view.bounds.size.width / 2,y: self.view.bounds.size.height / 2)
-        
-        
+        setIndicatorToCenter()
     }
     
+}
+
+extension ProductListViewController {
+    func setIndicatorToCenter() {
+        loadingIndicatorView.center.x = self.view.center.x
+        loadingIndicatorView.center.y = self.view.center.y
+    }
 }
 
 //MARK:- Fetch Product List
