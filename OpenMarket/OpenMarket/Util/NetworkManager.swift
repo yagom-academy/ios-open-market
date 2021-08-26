@@ -20,9 +20,8 @@ struct NetworkManager {
         
         let task: URLSessionDataTaskProtocol = session
             .dataTaskWithRequest(with: request) { responseData, urlResponse, responseError in
-                var data = Data()
                 do {
-                    data = try obtainResponseData(data: responseData,
+                    let data = try obtainResponseData(data: responseData,
                                                   response: urlResponse,
                                                   error: responseError)
                     
