@@ -8,15 +8,18 @@
 import UIKit
 
 class OpenMarketItemCell: UICollectionViewCell {
+    //MARK: IBOutlet Properties
     @IBOutlet private weak var imageView: UIImageView!
     @IBOutlet private weak var titleLabel: UILabel!
     @IBOutlet private weak var strikethroughRedLabel: UILabel!
     @IBOutlet private weak var normalGrayLabel: UILabel!
     @IBOutlet private weak var stockLabel: UILabel!
+    //MARK: Properties
     private var imageDataTask: URLSessionDataTask?
     static let identifier = "OpenMarketItemCell"
     static let fileName = "OpenMarketItemCell"
     
+    //MARK: Lifecycle
     override func awakeFromNib() {
         super.awakeFromNib()
         setUpLabelsConfiguration()

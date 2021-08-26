@@ -7,14 +7,17 @@
 import UIKit
 
 class ProductListViewController: UIViewController {
+    //MARK: IBOutlet Properties
     @IBOutlet private weak var openMarketCollectionView: UICollectionView!
     @IBOutlet private weak var loadingIndicatorView: UIActivityIndicatorView!
+    //MARK: Properties
     private var networkManger = NetworkManager()
     private let imageManager = ImageManager()
     private let parsingManager = ParsingManager()
     private var nextPageNumToBring = 1
     private var productList: [Product] = []
 
+    //MARK: Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         openMarketCollectionView.dataSource = self
@@ -27,6 +30,7 @@ class ProductListViewController: UIViewController {
     
 }
 
+//MARK:- Locate Indicator to Center
 extension ProductListViewController {
     private func setIndicatorToCenter() {
         loadingIndicatorView.center.x = self.view.center.x
@@ -80,6 +84,7 @@ extension ProductListViewController {
     
 }
 
+//MARK:- Adopt and Conform to DataSource
 extension ProductListViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return productList.count
@@ -110,6 +115,7 @@ extension ProductListViewController: UICollectionViewDataSource {
     }
 }
 
+//MARK:- Adopt and Conform to DelegateFlowLayout
 extension ProductListViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         guard let collectionViewFlowLayout = collectionViewLayout as? UICollectionViewFlowLayout else {
@@ -126,6 +132,7 @@ extension ProductListViewController: UICollectionViewDelegateFlowLayout {
     }
 }
 
+//MARK:- Adopt and Conform to DataSourcePrefetching
 extension ProductListViewController: UICollectionViewDataSourcePrefetching {
     func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
         for indexPath in indexPaths {

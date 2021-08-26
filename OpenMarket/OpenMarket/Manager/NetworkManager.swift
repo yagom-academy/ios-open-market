@@ -8,6 +8,7 @@
 import Foundation
 
 struct NetworkManager {
+    //MARK: Properties
     private var dataTaskRequestable: DataTaskRequestable
     private let doubleHypen = "--"
     private let lineBreak = "\r\n"
@@ -15,10 +16,14 @@ struct NetworkManager {
         return UUID().uuidString
     }
     
+    //MARK: Initializer
     init(dataTaskRequestable: DataTaskRequestable = NetworkModule()) {
         self.dataTaskRequestable = dataTaskRequestable
     }
-    
+}
+
+//MARK:- Method For LookUp Product List
+extension NetworkManager {
     mutating func lookUpProductList(on pageNum: Int, completionHandler: @escaping (Result<Data, Error>) -> Void) {
         let methodForm = OpenMarketAPIConstants.listGet
         guard var url = methodForm.url else {
@@ -31,7 +36,10 @@ struct NetworkManager {
         
         dataTaskRequestable.runDataTask(with: urlRequest, completionHandler: completionHandler)
     }
+}
     
+//MARK:- Method For Regist Product
+extension NetworkManager {
     mutating func registerProduct(with parameters: [String: Any], and medias: [Media], completionHandler: @escaping (Result<Data, Error>) -> Void) {
         let methodForm = OpenMarketAPIConstants.post
         let boundary = generateBoundary
@@ -48,7 +56,10 @@ struct NetworkManager {
         
         dataTaskRequestable.runDataTask(with: urlRequest, completionHandler: completionHandler)
     }
-    
+}
+
+//MARK:- Methods For Create HTTP Body And Header
+extension NetworkManager {
     private func createDataBody(from parameters: [String: Any], with medias: [Media]?, separatedInto boundary: String) -> Data {
         var body = Data()
         
@@ -96,5 +107,4 @@ struct NetworkManager {
     }
 }
 
-//TODO: -> PR 하고 -> 나머지 PATCH 등 구현 -> Mock Test
 
