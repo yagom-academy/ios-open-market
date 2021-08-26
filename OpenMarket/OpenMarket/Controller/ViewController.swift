@@ -13,17 +13,17 @@ class ViewController: UIViewController {
     //MARK: Property
     private let openMarketDataSource = OpenMarketDataSource()
     private lazy var layout = Layout.generate(self.view)
-
+    private let delegate = OpenMarketCollectionViewDelegate()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         //MARK: Set Loading Indicater Style And Start
         setIndicatorStyle()
         activityIndicator.startAnimating()
         
         //MARK: Assign Datasource and Layout
         collectionView.dataSource = openMarketDataSource
-        collectionView.prefetchDataSource = openMarketDataSource
+        collectionView.delegate = delegate
         collectionView.collectionViewLayout = layout
         
         //MARK: Add NotificationObserver

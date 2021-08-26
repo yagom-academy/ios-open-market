@@ -10,36 +10,32 @@ import UIKit
 class OpenMarketDataSource: NSObject {
     
     //MARK: Property
-    private var rquestPage: Int = 1
-    private let nextPage = 1
-    private var isLoading = false
-
-    var openMarketItemList = [OpenMarketItems]()
+    static var openMarketItemList = [OpenMarketItems]()
+    private var isImageDownload = false
     
     override init() {
         super.init()
         
-        OpenMarketLoadData.requestOpenMarketMainPageData(page: "\(rquestPage)") { openMarketItems in
-            self.openMarketItemList = [openMarketItems]
-            self.rquestPage += self.nextPage
+        OpenMarketLoadData.requestOpenMarketMainPageData(page: "1") { openMarketItems in
+            OpenMarketDataSource.openMarketItemList = [openMarketItems]
         }
-        
+
         //MARK: Stop initializing OpenMarketDataSource instance until get openMarketItemList
-        while self.openMarketItemList.count == 0 {
+        while OpenMarketDataSource.openMarketItemList.count == 0 {
             continue
         }
     }
 }
 
-extension OpenMarketDataSource: UICollectionViewDataSource, UICollectionViewDataSourcePrefetching, UICollectionViewDelegate {
-    
+extension OpenMarketDataSource: UICollectionViewDataSource {
+
     //MARK: UICollectionViewDataSource Method
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        openMarketItemList.count
+        OpenMarketDataSource.openMarketItemList.count
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        openMarketItemList[section].items.count
+        OpenMarketDataSource.openMarketItemList[section].items.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -47,50 +43,43 @@ extension OpenMarketDataSource: UICollectionViewDataSource, UICollectionViewData
             return UICollectionViewCell()
         }
         
-        cell.configure(item: self.openMarketItemList[indexPath.section].items[indexPath.item], indexPath)
+        let currentItem = Self.openMarketItemList[indexPath.section].items[indexPath.item]
         
+        let urlString = currentItem.thumbnails.first
+        let idNumber = currentItem.id
+        
+//        if let cachedImage = ImageCacher.shared.pullImage(forkey: idNumber) {
+//            cell.configure(item: currentItem, thumnail: cachedImage)
+//        } else {
+            downloadImage(reqeustURL: urlString, imageCachingKey: idNumber) { image in
+                DispatchQueue.main.async {
+                    cell.configure(item: currentItem, thumnail: image)
+                    if self.isImageDownload == false {
+                        NotificationCenter.default.post(name: .imageDidDownload, object: nil)
+                        self.isImageDownload = true
+                    }
+                }
+            }
+       //}
         return cell
     }
     
-    //MARK: UICollectionViewDataSourcePrefetching Method
-//    func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
-//        let almostEndPoint = 1
-//        let item = (openMarketItemList.first?.items.count ?? .zero) - almostEndPoint
-//
-//        indexPaths.forEach { indexPath in
-//            if item == indexPath.item {
-//                OpenMarketLoadData.requestOpenMarketMainPageData(page: "\(rquestPage)") { items in
-//                    self.openMarketItemList.append(items)
-//                    DispatchQueue.main.async {
-//                        collectionView.reloadData()
-//                        self.rquestPage += self.nextPage
-//                    }
-//                }
-//            }
-//        }
-//    }
-    
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let offsetY = scrollView.contentOffset.y
-        let contentHeight = scrollView.contentSize.height
+    func downloadImage(reqeustURL: String?, imageCachingKey: Int, _ completionHandler: @escaping (UIImage) -> ()) {
+        guard let urlString = reqeustURL, let url = URL(string: urlString) else {
+            return
+        }
         
-        if (offsetY > contentHeight - scrollView.frame.height * 2) && !isLoading {
-            loadMoreData("\(self.rquestPage)", scrollView as? UICollectionView)
-            rquestPage += 1
+        let task = URLSession.shared.dataTask(with: url) { data, _, _ in
+            guard let data = data else { return }
+            
+            guard let downloadImage = UIImage(data: data) else { return }
+            
+            //ImageCacher.shared.save(downloadImage, forkey: imageCachingKey)
+            
+            completionHandler(downloadImage)
         }
+        
+        task.resume()
     }
     
-    func loadMoreData(_ page: String, _ collectionView: UICollectionView?) {
-        if !self.isLoading {
-            self.isLoading = true
-            OpenMarketLoadData.requestOpenMarketMainPageData(page: page) { items in
-                self.openMarketItemList.append(items)
-            }
-            
-            DispatchQueue.main.async {
-                collectionView?.reloadData()
-                self.isLoading = false
-            }
-        }
-    }
 }

@@ -14,16 +14,16 @@ class OpenMarketItemCell: UICollectionViewCell, StrockText, DigitStyle {
     @IBOutlet weak var statusLabel: UILabel!
     @IBOutlet weak var itemImage: UIImageView!
     
-    //MARK: Property
-    private var isImageDownload = false
+
 }
 
 extension OpenMarketItemCell {
     
     //MARK: Method
-    func configure(item: OpenMarketItems.Item, _ indexPath: IndexPath) {
+    func configure(item: OpenMarketItems.Item, thumnail: UIImage) {
+        
         titleLabel.text = item.title
-        downloadImage(reqeustURL: item.thumbnails.first ?? "")
+        itemImage.image = thumnail
         
         if item.stock == 0 {
             statusLabel.text = "품절"
@@ -52,33 +52,15 @@ extension OpenMarketItemCell {
         self.layer.cornerRadius = 15
     }
     
-    func downloadImage(reqeustURL: String) {
-        URLSession.shared.dataTask(with: URL(string: reqeustURL)!) { data, _, _ in
-            // 캐시에 해당 데이터가 있는지??? -> 있다면 그 데이터를 uiimage바꿔서 적용
-            //없다면 아래 함수 적용
-            guard let data = data else { return }
-            
-            guard let downloadImage = UIImage(data: data) else { return }
-
-            DispatchQueue.main.async {
-                self.itemImage.image = downloadImage
-                if self.isImageDownload == false {
-                    NotificationCenter.default.post(name: .imageDidDownload, object: nil)
-                    self.isImageDownload = true
-                }
-            }
-        }.resume()
-    }
-    
     override func prepareForReuse() {
         itemImage.image = nil
         
         titleLabel.text = nil
-
+        
         priceLabel.attributedText = nil
         priceLabel.text = nil
         priceLabel.textColor = .black
-
+        
         discountedPriceLabel.textColor = .black
         discountedPriceLabel.text = nil
         discountedPriceLabel.isHidden = false
