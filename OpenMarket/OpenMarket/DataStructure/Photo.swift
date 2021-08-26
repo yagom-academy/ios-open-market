@@ -12,7 +12,8 @@ struct Photo: Media {
     var fileName: String?
     var contentType: MimeType
     var data: Data
-    
+    private let compressionRatio: CGFloat = 0.7
+        
     init?(key: String, fileName: String? = nil, contentType: MimeType, source: UIImage) {
         self.key = key
         self.fileName = fileName
@@ -25,7 +26,7 @@ struct Photo: Media {
             }
             self.data = data
         case .jpegImage:
-            guard let data = source.jpegData(compressionQuality: 0.7) else {
+            guard let data = source.jpegData(compressionQuality: compressionRatio) else {
                 return nil
             }
             self.data = data

@@ -7,12 +7,12 @@
 
 import Foundation
 
-enum MimeType: CustomStringConvertible {
+enum MimeType {
     case pngImage
     case jpegImage
     case multipartedFormData
     
-    var description: String {
+    var format: String {
         switch self {
         case .pngImage:
             return "image/png"
