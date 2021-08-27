@@ -98,14 +98,6 @@
                                             <outlet property="titleLabel" destination="NqW-ds-mQO" id="gFv-WW-dtb"/>
                                         </connections>
                                     </collectionViewCell>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="qw2-Y5-NOL">
-                                        <rect key="frame" x="265" y="0.0" width="149" height="228"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="uak-uz-OLc">
-                                            <rect key="frame" x="0.0" y="0.0" width="149" height="228"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </collectionViewCellContentView>
-                                    </collectionViewCell>
                                 </cells>
                             </collectionView>
                         </subviews>
