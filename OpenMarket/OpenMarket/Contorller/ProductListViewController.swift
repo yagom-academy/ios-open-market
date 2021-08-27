@@ -62,6 +62,51 @@ class ProductListViewController: UIViewController {
             }
         }
     }
+    
+    private func generateCostomCellTitleLabel(product: Product, titleLabel: UILabel) -> UILabel {
+        titleLabel.text = product.title
+        titleLabel.font = UIFont.boldSystemFont(ofSize: 17)
+        return titleLabel
+    }
+    
+    private func generateCustomCellPriceLabel(product: Product, priceLabel: UILabel) -> UILabel {
+        let text = "\(product.currency)\(product.price)"
+        let attributedString = NSMutableAttributedString(string: text)
+        let range = (text as NSString).range(of: text)
+        if product.discountedPrice != nil {
+            attributedString.addAttribute(NSAttributedString.Key.strikethroughStyle, value: 1, range: range)
+            priceLabel.attributedText = attributedString
+            priceLabel.textColor = .red
+        } else {
+            attributedString.addAttribute(NSAttributedString.Key.strikethroughStyle, value: 0, range: range)
+            priceLabel.attributedText = attributedString
+            priceLabel.textColor = .lightGray
+        }
+        return priceLabel
+    }
+
+    private func generateCustomCellDiscountedLabel(product: Product, discountedPriceLabel: UILabel) -> UILabel {
+        if let discountedPrice = product.discountedPrice {
+            discountedPriceLabel.text = "\(product.currency)\(discountedPrice)"
+            discountedPriceLabel.textColor = .lightGray
+        } else {
+            discountedPriceLabel.text = ""
+        }
+        return discountedPriceLabel
+    }
+    
+    private func generateCustomCellStockLabel(product: Product, stockLabel: UILabel) -> UILabel {
+        if product.stock == .zero {
+            stockLabel.text = "품절"
+            stockLabel.textColor = .orange
+        } else {
+            let enoughCount = 9999
+            let leftover = product.stock > enoughCount ? "재고 많음" : "\(product.stock)"
+            stockLabel.text = "잔여수량 : \(leftover)"
+            stockLabel.textColor = .lightGray
+        }
+        return stockLabel
+    }
 }
 
 extension ProductListViewController: UICollectionViewDelegate {
@@ -84,7 +129,17 @@ extension ProductListViewController: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         
-        cell.configure(productList[indexPath.row])
+        let cellProduct = productList[indexPath.row]
+        
+        let stockLabel = generateCustomCellStockLabel(product: cellProduct, stockLabel: cell.stockLabel)
+        let priceLabel = generateCustomCellPriceLabel(product: cellProduct, priceLabel: cell.priceLabel)
+        let discountedPriceLabel = generateCustomCellDiscountedLabel(product: cellProduct, discountedPriceLabel: cell.discountedPriceLabel)
+        let titleLabel = generateCostomCellTitleLabel(product: cellProduct, titleLabel: cell.titleLabel)
+        
+        cell.updateLabels(title: titleLabel, price: priceLabel, discountdPrice: discountedPriceLabel, stock: stockLabel)
+        cell.loadThumbnails(product: cellProduct) { (image) in
+            cell.thumbnailImage.image = image
+        }
         
         return cell
     }

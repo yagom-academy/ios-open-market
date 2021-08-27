@@ -31,68 +31,38 @@ class ProductListCustomCollectionViewCell: UICollectionViewCell {
         stockLabel.text = nil
     }
     
-    private func loadThumbnails(product: Product) {
+    func loadThumbnails(product: Product, completion: @escaping (UIImage?) -> Void ) {
         if let thumbnail = product.thumbnails.first,
-           let thumbnailURL = URL(string: thumbnail),
-           let data = try? Data(contentsOf: thumbnailURL) {
-            DispatchQueue.main.async { [self] in
-                thumbnailImage.image = UIImage(data: data)
-            }
+           let thumbnailURL = URL(string: thumbnail) {
+            URLSession.shared.dataTask(with: thumbnailURL) { (data, response, error) in
+                if let _ = error {
+                    completion( nil )
+                    return
+                }
+                
+                guard let response = response as? HTTPURLResponse, (200...299).contains(response.statusCode) else {
+                    completion(nil)
+                    return
+                }
+                
+                guard let data = data else {
+                    completion(nil)
+                    return
+                }
+                
+                let image = UIImage(data: data)
+                DispatchQueue.main.async {
+                    completion(image)
+                }
+            }.resume()
         }
     }
     
-    func configure(_ product: Product) {
-        loadThumbnails(product: product)
-        updateLabels(product: product)
-    }
-    
-    private func updateLabels(product: Product) {
-        updateTitle(product: product)
-        updateOriginPrice(product: product)
-        updateDiscountedPrice(product: product)
-        updataeStock(product: product)
-    }
-    
-    private func updateTitle(product: Product) {
-        titleLabel.text = product.title
-        titleLabel.font = UIFont.boldSystemFont(ofSize: 17)
-    }
-    
-    private func updateOriginPrice(product: Product) {
-        priceLabel.text = "\(product.currency)\(product.price)"
-        guard let text = priceLabel.text else { return }
-        let attributedString = NSMutableAttributedString(string: text)
-        let range = (text as NSString).range(of: text)
-        if product.discountedPrice != nil {
-            attributedString.addAttribute(NSAttributedString.Key.strikethroughStyle, value: 1, range: range)
-            priceLabel.attributedText = attributedString
-            priceLabel.textColor = .red
-        } else {
-            attributedString.addAttribute(NSAttributedString.Key.strikethroughStyle, value: 0, range: range)
-            priceLabel.attributedText = attributedString
-            priceLabel.textColor = .lightGray
-        }
-    }
-    
-    private func updateDiscountedPrice(product: Product) {
-        if let discountedPrice = product.discountedPrice {
-            discountedPriceLabel.text = "\(product.currency)\(discountedPrice)"
-            discountedPriceLabel.textColor = .lightGray
-        } else {
-            discountedPriceLabel.text = ""
-        }
-    }
-    
-    private func updataeStock(product: Product) {
-        if product.stock == .zero {
-            stockLabel.text = "품절"
-            stockLabel.textColor = .orange
-        } else {
-            let enoughCount = 9999
-            let leftover = product.stock > enoughCount ? "재고 많음" : "\(product.stock)"
-            stockLabel.text = "잔여수량 : \(leftover)"
-            stockLabel.textColor = .lightGray
-        }
+    func updateLabels(title: UILabel, price: UILabel, discountdPrice: UILabel, stock: UILabel) {
+        titleLabel = title
+        priceLabel = price
+        discountedPriceLabel = discountdPrice
+        stockLabel = stock
     }
 }
 
