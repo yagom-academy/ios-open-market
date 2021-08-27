@@ -121,10 +121,10 @@ extension NetworkManager {
     
     private func guardedDataAbout(
         data: Data?,
-        response: URLResponse?,
         error: Error?
     ) -> Data? {
-        guard let data = data else {
+        guard error != nil,
+              let data = data else {
             return nil
         }
         
@@ -137,7 +137,7 @@ extension NetworkManager {
     ) {
         URLSession.shared
             .dataTask(with: request) { data, response, error in
-                guard let data = guardedDataAbout(data: data, response: response, error: error) else {
+                guard let data = guardedDataAbout(data: data, error: error) else {
                     let error = HttpError(message: HttpError.Case.unknownError.errorDescription)
                     completionHandler(.failure(error))
                     return
@@ -154,7 +154,7 @@ extension NetworkManager {
     ) where Model: Decodable {
         URLSession.shared
             .dataTask(with: request) { data, response, error in
-                guard let data = guardedDataAbout(data: data, response: response, error: error) else {
+                guard let data = guardedDataAbout(data: data, error: error) else {
                     let error = HttpError(message: HttpError.Case.unknownError.errorDescription)
                     completionHandler(.failure(error))
                     return
