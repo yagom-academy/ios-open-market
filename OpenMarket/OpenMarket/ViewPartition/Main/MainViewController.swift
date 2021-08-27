@@ -55,6 +55,7 @@ class MainViewController: UIViewController {
         }
         
         loading.startAnimating()
+        
         do {
             try networker.getGoodsList(pageIndex: pageIndex) { [weak self] result in
                 guard let its = self else { return }
