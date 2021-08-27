@@ -41,16 +41,7 @@ class MainViewController: UIViewController {
     
     private func requestNewItemList() {
         guard requestable == true else {
-            let alert = UIAlertController(
-                title: "😅",
-                message: "더이상 요청이 불가능합니다",
-                preferredStyle: .alert
-            )
-            
-            let action = UIAlertAction(title: "닫기", style: .default)
-            alert.addAction(action)
-            
-            self.present(alert, animated: true, completion: nil)
+            whenStateIsNotRequestable()
             return
         }
         
@@ -85,6 +76,8 @@ class MainViewController: UIViewController {
                 }
             }
         } catch {
+            loading.stopAnimating()
+            
             switch error {
             case HttpError.Case.requestBuildingFailed:
                 print("?")
@@ -92,6 +85,19 @@ class MainViewController: UIViewController {
                 print("default")
             }
         }
+    }
+    
+    private func whenStateIsNotRequestable() {
+        let alert = UIAlertController(
+            title: "😅",
+            message: "더이상 요청이 불가능합니다",
+            preferredStyle: .alert
+        )
+        
+        let action = UIAlertAction(title: "닫기", style: .default)
+        alert.addAction(action)
+        
+        self.present(alert, animated: true, completion: nil)
     }
 
 }
