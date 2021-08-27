@@ -8,10 +8,14 @@
 import UIKit
 
 class OpenMarketCollectionViewDelegate: NSObject, UICollectionViewDelegate {
+    //MARK: Private Property
     private var isLoading = false
     private var rquestPage: Int = 2
     private let nextPage = 1
-    
+}
+
+extension OpenMarketCollectionViewDelegate {
+    //MARK: Method
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let offsetY = scrollView.contentOffset.y
         let contentHeight = scrollView.contentSize.height

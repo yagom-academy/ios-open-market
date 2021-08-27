@@ -28,7 +28,6 @@ class OpenMarketDataSource: NSObject {
 }
 
 extension OpenMarketDataSource: UICollectionViewDataSource {
-    
     //MARK: UICollectionViewDataSource Method
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         OpenMarketDataSource.openMarketItemList.count
@@ -43,14 +42,13 @@ extension OpenMarketDataSource: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         
+        //MARK: Cell's Item ID and Thubmnail Url
         let currentItem = Self.openMarketItemList[indexPath.section].items[indexPath.item]
-        
         let urlString = currentItem.thumbnails.first
         let idNumber = currentItem.id
         
-        
+        //MARK: ImageLoader requests image
         let imageLoader = ImageLoader()
-        
         let taskIdentifier = imageLoader.downloadImage(reqeustURL: urlString, imageCachingKey: idNumber) { downloadImage in
             DispatchQueue.main.async {
                 if self.isImageDownload == false {
@@ -59,13 +57,19 @@ extension OpenMarketDataSource: UICollectionViewDataSource {
                 }
                 
                 cell.configure(item: currentItem, thumnail: downloadImage)
+                cell.isHidden = false
             }
         }
+        
+        //MARK: Cancel ImageLoader Request
         cell.onReuse = {
             if let taskIdentifier = taskIdentifier {
                 imageLoader.cancelRequest(taskIdentifier)
             }
         }
+        
+        cell.isHidden = true
+        
         return cell
     }
 }

@@ -8,8 +8,11 @@
 import UIKit
 
 class ImageLoader {
-   private var runningRequests = [UUID : URLSessionDataTask]()
-    
+    private var runningRequests = [UUID : URLSessionDataTask]()
+}
+
+extension ImageLoader {
+    //MARK: Method
     func downloadImage(reqeustURL: String?, imageCachingKey: Int, _ completionHandler: @escaping (UIImage) -> ()) -> UUID? {
         
         if let image = ImageCacher.shared.pullImage(forkey: imageCachingKey) {
@@ -21,6 +24,7 @@ class ImageLoader {
             return nil
         }
         
+        let taskIdentifier = UUID()
         let task = URLSession.shared.dataTask(with: url) { data, _, _ in
             guard let data = data else { return }
             
@@ -29,9 +33,10 @@ class ImageLoader {
             ImageCacher.shared.save(downloadImage, forkey: imageCachingKey)
             completionHandler(downloadImage)
         }
-        let taskIdentifier = UUID()
-        runningRequests[taskIdentifier] = task
+        
         task.resume()
+        runningRequests[taskIdentifier] = task
+        
         return taskIdentifier
     }
     
@@ -39,5 +44,4 @@ class ImageLoader {
         runningRequests[taskIdentifier]?.cancel()
         runningRequests.removeValue(forKey: taskIdentifier)
     }
-    
 }

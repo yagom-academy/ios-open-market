@@ -12,6 +12,7 @@ class ImageCacher: NSCache<NSNumber, UIImage> {
     
     private override init() {
         super.init()
+        self.countLimit = 100
     }
     
     func save(_ image: UIImage, forkey: Int) {
