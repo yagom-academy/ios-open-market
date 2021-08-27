@@ -36,9 +36,11 @@ class MainCell: UICollectionViewCell {
     }
     
     func show(at collectionView: UICollectionView, withIdentifer indexPath: IndexPath) {
-        guard let item = currentItem else { return }
-        drawImage(collectionView, with: item.thumbnailURLs.first, identifer: indexPath)
+        guard let item = currentItem else {
+            return
+        }
         
+        drawImage(collectionView, with: item.thumbnailURLs.first, identifer: indexPath)
         titleLabel.text = item.title
         configureOriginalPirceLabel(with: item)
         configureDiscountedPirceLabel(with: item)
@@ -79,21 +81,21 @@ class MainCell: UICollectionViewCell {
            let priceDescription = priceDescription {
             originalPriceLabel.isAccessibilityElement = false
             
-            let string = NSMutableAttributedString(string: priceDescription)
+            let styledText = NSMutableAttributedString(string: priceDescription)
             let range = NSRange(location: 0, length: priceDescription.count)
             
-            string.addAttribute(
+            styledText.addAttribute(
                 .strikethroughStyle,
                 value: 1,
                 range: range
             )
-            string.addAttribute(
+            styledText.addAttribute(
                 .foregroundColor,
                 value: UIColor.red,
                 range: range
             )
             
-            originalPriceLabel.attributedText = string
+            originalPriceLabel.attributedText = styledText
             
         } else {
             originalPriceLabel.isAccessibilityElement = true
@@ -156,8 +158,8 @@ class MainCell: UICollectionViewCell {
     }
     
     private func layerStyling() {
-        self.layer.cornerRadius = 12
-        self.layer.borderColor = UIColor.gray.cgColor
-        self.layer.borderWidth = 1
+        layer.cornerRadius = 12
+        layer.borderColor = UIColor.gray.cgColor
+        layer.borderWidth = 1
     }
 }
