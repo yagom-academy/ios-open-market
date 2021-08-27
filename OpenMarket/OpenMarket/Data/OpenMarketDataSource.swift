@@ -19,7 +19,7 @@ class OpenMarketDataSource: NSObject {
         OpenMarketLoadData.requestOpenMarketMainPageData(page: "1") { openMarketItems in
             OpenMarketDataSource.openMarketItemList = [openMarketItems]
         }
-
+        
         //MARK: Stop initializing OpenMarketDataSource instance until get openMarketItemList
         while OpenMarketDataSource.openMarketItemList.count == 0 {
             continue
@@ -28,7 +28,7 @@ class OpenMarketDataSource: NSObject {
 }
 
 extension OpenMarketDataSource: UICollectionViewDataSource {
-
+    
     //MARK: UICollectionViewDataSource Method
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         OpenMarketDataSource.openMarketItemList.count
@@ -48,38 +48,24 @@ extension OpenMarketDataSource: UICollectionViewDataSource {
         let urlString = currentItem.thumbnails.first
         let idNumber = currentItem.id
         
-//        if let cachedImage = ImageCacher.shared.pullImage(forkey: idNumber) {
-//            cell.configure(item: currentItem, thumnail: cachedImage)
-//        } else {
-            downloadImage(reqeustURL: urlString, imageCachingKey: idNumber) { image in
-                DispatchQueue.main.async {
-                    cell.configure(item: currentItem, thumnail: image)
-                    if self.isImageDownload == false {
-                        NotificationCenter.default.post(name: .imageDidDownload, object: nil)
-                        self.isImageDownload = true
-                    }
+        
+        let imageLoader = ImageLoader()
+        
+        let taskIdentifier = imageLoader.downloadImage(reqeustURL: urlString, imageCachingKey: idNumber) { downloadImage in
+            DispatchQueue.main.async {
+                if self.isImageDownload == false {
+                    NotificationCenter.default.post(name: .imageDidDownload, object: nil)
+                    self.isImageDownload = true
                 }
+                
+                cell.configure(item: currentItem, thumnail: downloadImage)
             }
-       //}
+        }
+        cell.onReuse = {
+            if let taskIdentifier = taskIdentifier {
+                imageLoader.cancelRequest(taskIdentifier)
+            }
+        }
         return cell
     }
-    
-    func downloadImage(reqeustURL: String?, imageCachingKey: Int, _ completionHandler: @escaping (UIImage) -> ()) {
-        guard let urlString = reqeustURL, let url = URL(string: urlString) else {
-            return
-        }
-        
-        let task = URLSession.shared.dataTask(with: url) { data, _, _ in
-            guard let data = data else { return }
-            
-            guard let downloadImage = UIImage(data: data) else { return }
-            
-            //ImageCacher.shared.save(downloadImage, forkey: imageCachingKey)
-            
-            completionHandler(downloadImage)
-        }
-        
-        task.resume()
-    }
-    
 }

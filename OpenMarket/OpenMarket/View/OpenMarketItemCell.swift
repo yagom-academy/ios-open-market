@@ -14,7 +14,7 @@ class OpenMarketItemCell: UICollectionViewCell, StrockText, DigitStyle {
     @IBOutlet weak var statusLabel: UILabel!
     @IBOutlet weak var itemImage: UIImageView!
     
-
+    var onReuse: () -> () = { }
 }
 
 extension OpenMarketItemCell {
@@ -67,5 +67,7 @@ extension OpenMarketItemCell {
         
         statusLabel.textColor = .black
         statusLabel.text = nil
+        
+        onReuse()
     }
 }
