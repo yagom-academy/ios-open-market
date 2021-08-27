@@ -8,10 +8,10 @@
 import UIKit
 
 class MainDelegate: NSObject, UICollectionViewDelegateFlowLayout {
-    weak var superView: MainViewController?
+    weak var owner: MainViewController?
     
-    init(self superView: MainViewController) {
-        self.superView = superView
+    init(owner: MainViewController) {
+        self.owner = owner
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
@@ -20,7 +20,7 @@ class MainDelegate: NSObject, UICollectionViewDelegateFlowLayout {
         let distanceFromBottom = scrollView.contentSize.height - verticalPosition
         
         if frameHeight >= distanceFromBottom {
-            superView?.message(requestNewItemList: true)
+            owner?.message(requestNewItemList: true)
         }
     }
     

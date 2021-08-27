@@ -21,7 +21,7 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        delegate = MainDelegate(self: self)
+        delegate = MainDelegate(owner: self)
         
         container.dataSource = dataSource
         container.delegate = delegate
