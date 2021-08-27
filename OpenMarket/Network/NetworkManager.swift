@@ -123,7 +123,7 @@ extension NetworkManager {
         data: Data?,
         error: Error?
     ) -> Data? {
-        guard error != nil,
+        guard error == nil,
               let data = data else {
             return nil
         }
