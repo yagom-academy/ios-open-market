@@ -18,7 +18,7 @@ class MainCell: UICollectionViewCell {
     private let stockPrefix = "잔여수량 : "
     private let space = " "
     private let errorImageName = "clear"
-    private let accessibilityPrefixOfDiscountedLabel = "할인 중 : "
+    private let accessibilityPrefixOfDiscountedPrice = "할인 중 : "
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -39,14 +39,18 @@ class MainCell: UICollectionViewCell {
     }
     
     private func configureStockLabel(with item: Goods) {
+        remainedStockLabel.attributedText = nil
+        
         if item.stock == 0 {
             let text = "품절"
-            remainedStockLabel.text = text
-            
             let styledText = NSMutableAttributedString(string: text)
             let range = NSRange(location: 0, length: text.count)
-            styledText.addAttribute(.foregroundColor, value: UIColor.orange, range: range)
-            
+            styledText.addAttribute(
+                .foregroundColor,
+                value: UIColor.orange,
+                range: range
+            )
+            remainedStockLabel.text = text
             remainedStockLabel.attributedText = styledText
         } else {
             remainedStockLabel.text = stockPrefix + item.stock.description
@@ -65,7 +69,7 @@ class MainCell: UICollectionViewCell {
         
         if item.discountedPrice != nil {
             discountedPriceLabel.isAccessibilityElement = true
-            discountedPriceLabel.accessibilityLabel = accessibilityPrefixOfDiscountedLabel
+            discountedPriceLabel.accessibilityLabel = accessibilityPrefixOfDiscountedPrice
         } else {
             discountedPriceLabel.isAccessibilityElement = false
             discountedPriceLabel.accessibilityLabel = nil
@@ -73,14 +77,14 @@ class MainCell: UICollectionViewCell {
     }
     
     private func configureOriginalPirceLabel(with item: Goods) {
+        originalPriceLabel.attributedText = nil
+        originalPriceLabel.text = nil
+        
         let pricePrefix = item.currency + space
         let priceDescription = NumberFormatter.toDecimal(
             from: item.price,
             withPrefix: pricePrefix
         )
-        
-        originalPriceLabel.text = priceDescription
-        originalPriceLabel.accessibilityLabel = priceDescription
         
         if item.discountedPrice != nil,
            let priceDescription = priceDescription {
@@ -88,17 +92,31 @@ class MainCell: UICollectionViewCell {
             
             let string = NSMutableAttributedString(string: priceDescription)
             let range = NSRange(location: 0, length: priceDescription.count)
-            string.addAttribute(.strikethroughStyle, value: 1, range: range)
-            string.addAttribute(.foregroundColor, value: UIColor.gray, range: range)
+            
+            string.addAttribute(
+                .strikethroughStyle,
+                value: 1,
+                range: range
+            )
+            string.addAttribute(
+                .foregroundColor,
+                value: UIColor.red,
+                range: range
+            )
             
             originalPriceLabel.attributedText = string
             
         } else {
             originalPriceLabel.isAccessibilityElement = true
         }
+        
+        originalPriceLabel.text = priceDescription
+        originalPriceLabel.accessibilityLabel = priceDescription
     }
     
     private func drawImage(with path: String?) {
+        imageView.image = nil
+        
         guard let path = path else {
             return
         }
