@@ -17,62 +17,84 @@ class MainCell: UICollectionViewCell {
     
     private let stockPrefix = "잔여수량 : "
     private let space = " "
+    private let errorImageName = "clear"
+    private let accessibilityPrefixOfDiscountedLabel = "할인 중 : "
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         layerStyling()
-        initializeDefaultAccessibility()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         layerStyling()
-        initializeDefaultAccessibility()
     }
     
     func configure(with item: Goods) {
-        configureData(with: item)
-        configureAccessibility(with: item)
-    }
-    
-    private func configureData(with item: Goods) {
-        let pricePrefix = item.currency + space
         drawImage(with: item.thumbnailURLs.first)
         titleLabel.text = item.title
-        originalPriceLabel.text = NumberFormatter.toDecimal(
-            from: item.price,
-            withPrefix: pricePrefix
-        )
-        discountedPriceLabel.text = NumberFormatter.toDecimal(
+        configureStockLabel(with: item)
+        configureOriginalPirceLabel(with: item)
+        configureDiscountedPirceLabel(with: item)
+    }
+    
+    private func configureStockLabel(with item: Goods) {
+        if item.stock == 0 {
+            let text = "품절"
+            remainedStockLabel.text = text
+            
+            let styledText = NSMutableAttributedString(string: text)
+            let range = NSRange(location: 0, length: text.count)
+            styledText.addAttribute(.foregroundColor, value: UIColor.orange, range: range)
+            
+            remainedStockLabel.attributedText = styledText
+        } else {
+            remainedStockLabel.text = stockPrefix + item.stock.description
+        }
+    }
+    
+    private func configureDiscountedPirceLabel(with item: Goods) {
+        let pricePrefix = item.currency + space
+        let priceDescription = NumberFormatter.toDecimal(
             from: item.discountedPrice,
             withPrefix: pricePrefix
         )
-        remainedStockLabel.text = stockPrefix + item.stock.description
-    }
-    
-    private func initializeDefaultAccessibility() {
-        discountedPriceLabel.accessibilityLabel = "할인가 : "
-    }
-    
-    private func configureAccessibility(with item: Goods) {
-        if discountedPriceLabel.text != nil,
-           let text = originalPriceLabel.text{
-            originalPriceLabel.isAccessibilityElement = false
+        
+        discountedPriceLabel.text = priceDescription
+        discountedPriceLabel.accessibilityValue = priceDescription
+        
+        if item.discountedPrice != nil {
             discountedPriceLabel.isAccessibilityElement = true
+            discountedPriceLabel.accessibilityLabel = accessibilityPrefixOfDiscountedLabel
+        } else {
+            discountedPriceLabel.isAccessibilityElement = false
+            discountedPriceLabel.accessibilityLabel = nil
+        }
+    }
+    
+    private func configureOriginalPirceLabel(with item: Goods) {
+        let pricePrefix = item.currency + space
+        let priceDescription = NumberFormatter.toDecimal(
+            from: item.price,
+            withPrefix: pricePrefix
+        )
+        
+        originalPriceLabel.text = priceDescription
+        originalPriceLabel.accessibilityLabel = priceDescription
+        
+        if item.discountedPrice != nil,
+           let priceDescription = priceDescription {
+            originalPriceLabel.isAccessibilityElement = false
             
-            let string = NSMutableAttributedString(string: text)
-            let range = NSRange(location: 0, length: string.length)
+            let string = NSMutableAttributedString(string: priceDescription)
+            let range = NSRange(location: 0, length: priceDescription.count)
             string.addAttribute(.strikethroughStyle, value: 1, range: range)
             string.addAttribute(.foregroundColor, value: UIColor.gray, range: range)
             
-            
             originalPriceLabel.attributedText = string
+            
         } else {
             originalPriceLabel.isAccessibilityElement = true
-            discountedPriceLabel.isAccessibilityElement = false
-            
-            discountedPriceLabel.accessibilityLabel = nil
-            originalPriceLabel.accessibilityValue = originalPriceLabel.text
         }
     }
     
@@ -89,12 +111,19 @@ class MainCell: UICollectionViewCell {
                     DispatchQueue.main.async {
                         self?.imageView.image = imageData
                     }
-                case .failure(let error):
-                    print(error)
+                case .failure:
+                    self?.drawErrorImage()
                 }
             }
         } catch {
-            print(error)
+            drawErrorImage()
+        }
+    }
+    
+    private func drawErrorImage() {
+        let imageData = UIImage(systemName: self.errorImageName)
+        DispatchQueue.main.async {
+            self.imageView.image = imageData
         }
     }
     
