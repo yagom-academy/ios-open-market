@@ -19,6 +19,7 @@ class MainCell: UICollectionViewCell {
     private let space = " "
     private let errorImageName = "clear"
     private let accessibilityPrefixOfDiscountedPrice = "할인 중 : "
+    private var currentItem: Goods? = nil
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -31,30 +32,17 @@ class MainCell: UICollectionViewCell {
     }
     
     func configure(with item: Goods) {
-        drawImage(with: item.thumbnailURLs.first)
-        titleLabel.text = item.title
-        configureStockLabel(with: item)
-        configureOriginalPirceLabel(with: item)
-        configureDiscountedPirceLabel(with: item)
+        currentItem = item
     }
     
-    private func configureStockLabel(with item: Goods) {
-        remainedStockLabel.attributedText = nil
+    func show(at collectionView: UICollectionView, withIdentifer indexPath: IndexPath) {
+        guard let item = currentItem else { return }
+        drawImage(collectionView, with: item.thumbnailURLs.first, identifer: indexPath)
         
-        if item.stock == 0 {
-            let text = "품절"
-            let styledText = NSMutableAttributedString(string: text)
-            let range = NSRange(location: 0, length: text.count)
-            styledText.addAttribute(
-                .foregroundColor,
-                value: UIColor.orange,
-                range: range
-            )
-            remainedStockLabel.text = text
-            remainedStockLabel.attributedText = styledText
-        } else {
-            remainedStockLabel.text = stockPrefix + item.stock.description
-        }
+        titleLabel.text = item.title
+        configureOriginalPirceLabel(with: item)
+        configureDiscountedPirceLabel(with: item)
+        configureStockLabel(with: item)
     }
     
     private func configureDiscountedPirceLabel(with item: Goods) {
@@ -72,19 +60,20 @@ class MainCell: UICollectionViewCell {
             discountedPriceLabel.accessibilityLabel = accessibilityPrefixOfDiscountedPrice
         } else {
             discountedPriceLabel.isAccessibilityElement = false
-            discountedPriceLabel.accessibilityLabel = nil
         }
     }
     
     private func configureOriginalPirceLabel(with item: Goods) {
         originalPriceLabel.attributedText = nil
-        originalPriceLabel.text = nil
         
         let pricePrefix = item.currency + space
         let priceDescription = NumberFormatter.toDecimal(
             from: item.price,
             withPrefix: pricePrefix
         )
+        
+        originalPriceLabel.text = priceDescription
+        originalPriceLabel.accessibilityLabel = priceDescription
         
         if item.discountedPrice != nil,
            let priceDescription = priceDescription {
@@ -109,12 +98,28 @@ class MainCell: UICollectionViewCell {
         } else {
             originalPriceLabel.isAccessibilityElement = true
         }
-        
-        originalPriceLabel.text = priceDescription
-        originalPriceLabel.accessibilityLabel = priceDescription
     }
     
-    private func drawImage(with path: String?) {
+    private func configureStockLabel(with item: Goods) {
+        remainedStockLabel.attributedText = nil
+        
+        if item.stock == 0 {
+            let text = "품절"
+            let styledText = NSMutableAttributedString(string: text)
+            let range = NSRange(location: 0, length: text.count)
+            styledText.addAttribute(
+                .foregroundColor,
+                value: UIColor.orange,
+                range: range
+            )
+            remainedStockLabel.text = text
+            remainedStockLabel.attributedText = styledText
+        } else {
+            remainedStockLabel.text = stockPrefix + item.stock.description
+        }
+    }
+    
+    private func drawImage(_ collectinView: UICollectionView, with path: String?, identifer index: IndexPath) {
         imageView.image = nil
         
         guard let path = path else {
@@ -127,6 +132,11 @@ class MainCell: UICollectionViewCell {
                 case .success(let data):
                     let imageData = UIImage(data: data)
                     DispatchQueue.main.async {
+                        guard let it = self,
+                              index == collectinView.indexPath(for: it) else {
+                            return
+                        }
+                        
                         self?.imageView.image = imageData
                     }
                 case .failure:

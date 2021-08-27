@@ -28,7 +28,11 @@ class MainDataSource: NSObject, UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         
-        cell.configure(with: itemList[indexPath.section][indexPath.item])
+        let itemAmountPerList = 20
+        let pageIndex = indexPath.item / itemAmountPerList
+        let itemIndex = indexPath.item - (pageIndex * itemAmountPerList)
+        
+        cell.configure(with: itemList[pageIndex][itemIndex])
         
         return cell
     }
