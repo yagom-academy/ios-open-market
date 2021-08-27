@@ -9,9 +9,9 @@ import UIKit
 
 class ImageDownloadManager {
 
-    static func downloadImage(with url: String, completion: @escaping (UIImage) -> Void = { _ in }) {
+    static func downloadImage(with url: String, completion: @escaping (UIImage) -> Void = { _ in }) -> URLSessionDataTask? {
         guard let imageUrl = URL(string: url) else {
-            return
+            return nil
         }
         
         let task = URLSession.shared.dataTask(with: imageUrl) { (data, resopnce, error) in
@@ -28,5 +28,6 @@ class ImageDownloadManager {
             }
         }
         task.resume()
+        return task
     }
 }

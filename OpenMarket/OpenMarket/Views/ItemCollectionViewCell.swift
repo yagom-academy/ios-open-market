@@ -15,6 +15,7 @@ class ItemCollectionViewCell: UICollectionViewCell {
     @IBOutlet private weak var itemStockLabel: UILabel!
     
     private var urlString: String = ""
+    private var dataTask: URLSessionDataTask? = nil
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -25,6 +26,7 @@ class ItemCollectionViewCell: UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         
+        dataTask?.cancel()
         itemThumbnailImageView.image = nil
     }
     
@@ -43,7 +45,7 @@ class ItemCollectionViewCell: UICollectionViewCell {
             itemThumbnailImageView.image = image
         }
         else {
-            ImageDownloadManager.downloadImage(with: thumbnailUrl) { [weak self] image in
+            self.dataTask = ImageDownloadManager.downloadImage(with: thumbnailUrl) { [weak self] image in
                 if self?.urlString == thumbnailUrl {
                     self?.itemThumbnailImageView.image = image
                 }
