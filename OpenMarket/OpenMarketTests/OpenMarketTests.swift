@@ -43,7 +43,7 @@ class OpenMarketTests: XCTestCase {
     
     func test_MockApiClient의_getMarketPageItems_메서드를_통해_page_에_2_전달시_MarketPageItems에_대한_데이터를_가져올_수_없다() {
         // given
-        let page = 1
+        let page = 2
         let exp = XCTestExpectation(description: "getMarketPageItems()")
 
         // when
