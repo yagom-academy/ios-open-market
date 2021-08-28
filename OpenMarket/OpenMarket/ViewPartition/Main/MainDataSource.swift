@@ -8,9 +8,11 @@
 import UIKit
 
 class MainDataSource: NSObject, UICollectionViewDataSource {
+    private let numberFormatter = NumberFormatter()
     private let cellIdentifier = "cell"
     private var itemList = [GoodsList]()
     private var itemCount = 0
+    
     
     
     func collectionView(_ collectionView: UICollectionView, reloadWith data: GoodsList){
@@ -32,7 +34,7 @@ class MainDataSource: NSObject, UICollectionViewDataSource {
         let pageIndex = indexPath.item / itemAmountPerList
         let itemIndex = indexPath.item - (pageIndex * itemAmountPerList)
         
-        cell.configure(with: itemList[pageIndex][itemIndex])
+        cell.configure(withItem: itemList[pageIndex][itemIndex], formatter: numberFormatter)
         
         return cell
     }

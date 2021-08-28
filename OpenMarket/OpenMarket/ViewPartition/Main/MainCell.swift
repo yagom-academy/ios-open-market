@@ -21,6 +21,8 @@ class MainCell: UICollectionViewCell {
     private let accessibilityPrefixOfDiscountedPrice = "할인 중 : "
     private var currentItem: Goods? = nil
     
+    private weak var formatter: NumberFormatter?
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         layerStyling()
@@ -31,8 +33,10 @@ class MainCell: UICollectionViewCell {
         layerStyling()
     }
     
-    func configure(with item: Goods) {
+    func configure(withItem item: Goods, formatter: NumberFormatter) {
         currentItem = item
+        
+        self.formatter = formatter
     }
     
     func show(at collectionView: UICollectionView, withIdentifer indexPath: IndexPath) {
@@ -49,7 +53,7 @@ class MainCell: UICollectionViewCell {
     
     private func configureDiscountedPirceLabel(with item: Goods) {
         let pricePrefix = item.currency + space
-        let priceDescription = NumberFormatter.toDecimal(
+        let priceDescription = formatter?.toDecimal(
             from: item.discountedPrice,
             withPrefix: pricePrefix
         )
@@ -69,7 +73,7 @@ class MainCell: UICollectionViewCell {
         originalPriceLabel.attributedText = nil
         
         let pricePrefix = item.currency + space
-        let priceDescription = NumberFormatter.toDecimal(
+        let priceDescription = formatter?.toDecimal(
             from: item.price,
             withPrefix: pricePrefix
         )
