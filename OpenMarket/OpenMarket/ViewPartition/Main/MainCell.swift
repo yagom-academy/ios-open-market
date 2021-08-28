@@ -53,10 +53,7 @@ class MainCell: UICollectionViewCell {
     
     private func configureDiscountedPirceLabel(with item: Goods) {
         let pricePrefix = item.currency + space
-        let priceDescription = formatter?.toDecimal(
-            from: item.discountedPrice,
-            withPrefix: pricePrefix
-        )
+        let priceDescription = formatted(price: item.discountedPrice, WithCurrency: pricePrefix)
         
         discountedPriceLabel.text = priceDescription
         discountedPriceLabel.accessibilityValue = priceDescription
@@ -73,10 +70,7 @@ class MainCell: UICollectionViewCell {
         originalPriceLabel.attributedText = nil
         
         let pricePrefix = item.currency + space
-        let priceDescription = formatter?.toDecimal(
-            from: item.price,
-            withPrefix: pricePrefix
-        )
+        let priceDescription = formatted(price: item.price, WithCurrency: pricePrefix)
         
         originalPriceLabel.text = priceDescription
         originalPriceLabel.accessibilityLabel = priceDescription
@@ -103,6 +97,21 @@ class MainCell: UICollectionViewCell {
             
         } else {
             originalPriceLabel.isAccessibilityElement = true
+        }
+    }
+    
+    private func formatted(price: Int?, WithCurrency prefix: String?) -> String? {
+        guard let formatter = formatter,
+              let price = price else {
+            return nil
+        }
+        
+        let description = formatter.toDecimalString(from: price)
+        
+        if let prefix = prefix {
+            return prefix + description
+        } else {
+            return description
         }
     }
     
