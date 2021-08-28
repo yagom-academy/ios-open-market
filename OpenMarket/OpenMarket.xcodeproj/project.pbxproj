@@ -10,7 +10,7 @@
 		6307F31926C24AD0000B83E6 /* GoodsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6307F31826C24AD0000B83E6 /* GoodsList.swift */; };
 		630B2D3226D80BD1009E9684 /* NumberFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 630B2D3126D80BD1009E9684 /* NumberFormatter.swift */; };
 		63317A9726D508840061EBAE /* URLGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63317A9626D508840061EBAE /* URLGenerator.swift */; };
-		63317A9A26D511B00061EBAE /* String+Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63317A9926D511B00061EBAE /* String+Constants.swift */; };
+		63317A9A26D511B00061EBAE /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63317A9926D511B00061EBAE /* StringExtension.swift */; };
 		6357A3AD26D39D0C00B0A416 /* ArrayExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6357A3AC26D39D0C00B0A416 /* ArrayExtension.swift */; };
 		6357A3B526D3A36300B0A416 /* NetworkTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6357A3B426D3A36300B0A416 /* NetworkTest.swift */; };
 		6359287E26CB5E7300E1A69F /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6359287D26CB5E7300E1A69F /* API.swift */; };
@@ -58,7 +58,7 @@
 		6307F31826C24AD0000B83E6 /* GoodsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoodsList.swift; sourceTree = "<group>"; };
 		630B2D3126D80BD1009E9684 /* NumberFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberFormatter.swift; sourceTree = "<group>"; };
 		63317A9626D508840061EBAE /* URLGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLGenerator.swift; sourceTree = "<group>"; };
-		63317A9926D511B00061EBAE /* String+Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Constants.swift"; sourceTree = "<group>"; };
+		63317A9926D511B00061EBAE /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
 		6357A3AC26D39D0C00B0A416 /* ArrayExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayExtension.swift; sourceTree = "<group>"; };
 		6357A3B226D3A36300B0A416 /* NetworkTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NetworkTest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6357A3B426D3A36300B0A416 /* NetworkTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkTest.swift; sourceTree = "<group>"; };
@@ -116,14 +116,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		63317A9826D511A40061EBAE /* Constants */ = {
-			isa = PBXGroup;
-			children = (
-				63317A9926D511B00061EBAE /* String+Constants.swift */,
-			);
-			path = Constants;
-			sourceTree = "<group>";
-		};
 		6357A3AA26D3996300B0A416 /* Utility */ = {
 			isa = PBXGroup;
 			children = (
@@ -135,6 +127,7 @@
 		6357A3AB26D39CF900B0A416 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
+				63317A9926D511B00061EBAE /* StringExtension.swift */,
 				6357A3AC26D39D0C00B0A416 /* ArrayExtension.swift */,
 				630B2D3126D80BD1009E9684 /* NumberFormatter.swift */,
 			);
@@ -203,7 +196,6 @@
 		C70FB0EE25BEF61C00C9924E = {
 			isa = PBXGroup;
 			children = (
-				63317A9826D511A40061EBAE /* Constants */,
 				6357A3AB26D39CF900B0A416 /* Extension */,
 				6357A3AA26D3996300B0A416 /* Utility */,
 				63C84B9526CBDBA000D66F18 /* Protocol */,
@@ -407,7 +399,7 @@
 				63A3627526CA92B000C1B206 /* HttpError.swift in Sources */,
 				63317A9726D508840061EBAE /* URLGenerator.swift in Sources */,
 				636A664626CB87D80005D56F /* HttpMethod.swift in Sources */,
-				63317A9A26D511B00061EBAE /* String+Constants.swift in Sources */,
+				63317A9A26D511B00061EBAE /* StringExtension.swift in Sources */,
 				6307F31926C24AD0000B83E6 /* GoodsList.swift in Sources */,
 				63733D5226D7B121007D4D17 /* MainDataSource.swift in Sources */,
 				6357A3AD26D39D0C00B0A416 /* ArrayExtension.swift in Sources */,
