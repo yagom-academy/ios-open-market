@@ -19,3 +19,21 @@ struct Image {
         self.data = data
     }
 }
+
+
+struct ImageLoader {
+    private let imageUrl: String
+    init(imageUrl: String) {
+        self.imageUrl = imageUrl
+    }
+    func loadImage(completionHandler: @escaping (UIImage) -> Void) {
+        guard let url = URL(string: imageUrl) else { return }
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            if let data = data {
+                guard let image = UIImage(data: data) else { return }
+                completionHandler(image)
+            }
+        }.resume()
+    }
+}
+
