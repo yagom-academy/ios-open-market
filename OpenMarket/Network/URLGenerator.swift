@@ -7,9 +7,7 @@
 
 import Foundation
 
-struct URLGenerator {
-    private static let baseURL = "https://camp-open-market-2.herokuapp.com/"
-    
+enum URLGenerator {
     static func generate(from method: HttpMethod) -> URL? {
         let path = targetPath(about: method)
         
@@ -21,7 +19,7 @@ struct URLGenerator {
     }
     
     private static func targetPath(about method: HttpMethod) -> String {
-        var path = baseURL
+        var path = HttpConfig.baseURL
         
         switch method {
         case .getImage(let url):
