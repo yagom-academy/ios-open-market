@@ -6,7 +6,6 @@
 //
 
 import Foundation
-@testable import OpenMarket
 
 struct MockURLSessionDataTask: URLSessionDataTaskProtocol {
     var resumeDidCall: () -> Void = {}

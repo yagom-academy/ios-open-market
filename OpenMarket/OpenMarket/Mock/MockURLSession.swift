@@ -6,7 +6,6 @@
 //
 
 import UIKit
-@testable import OpenMarket
 
 struct MockURLSession: URLSessionProtocol {
     func dataTaskWithRequest(with request: URLRequest,
