@@ -7,6 +7,10 @@
 
 import Foundation
 
-struct DELETEItem {
+struct DELETEItem: Codable {
     private let password: String
+    
+    init(password: String) {
+        self.password = password
+    }
 }

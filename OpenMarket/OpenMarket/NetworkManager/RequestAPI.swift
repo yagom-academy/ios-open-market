@@ -70,15 +70,14 @@ struct PatchItemAPI: RequestableWithBody {
     }
 }
 
-struct DeleteItemAPI: RequestableWithBody {
+struct DeleteItemAPI: RequestAPI{
     var url: APIURL
     var method: APIMethod = .delete
     var contentType: ContentType = .json
-    var parameters: Parameters?
-    var images: [Media]? = nil
+    var deleteItem: DELETEItem
     
-    init(id: Int, parameters: Parameters?) {
+    init(id: Int, password: String) {
         self.url = APIURL.delete(id: id)
-        self.parameters = parameters
+        self.deleteItem = DELETEItem(password: password)
     }
 }

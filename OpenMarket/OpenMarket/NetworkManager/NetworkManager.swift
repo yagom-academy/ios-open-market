@@ -9,66 +9,90 @@ import Foundation
 
 typealias Parameters = [String: Any]
 
-struct NetworkManager {
+class NetworkManager {
     private let session: URLSession
-    let boundary = "Boundary-\(UUID().uuidString)"
+    lazy var boundary = generateBoundary()
     
-    init(session: URLSession) {
+    init(session: URLSession = .shared) {
         self.session = session
     }
     
-    func commuteWithAPI(with API: RequestAPI) {
-        guard let url = URL(string: API.url.description) else {
-            print("Invalid URL")
-            return
+    func commuteWithAPI(with API: RequestAPI, completion: @escaping(Result<Data, Error>) -> Void) {
+        guard let request = try? createRequest(API: API) else {
+            return completion(.failure(NetworkError.invalidRequest))
         }
 
+        session.dataTask(with: request) { data, response, error in
+            if let error = error {
+                return completion(.failure(error))
+            }
+            guard let response = response as? HTTPURLResponse, (200...299).contains(response.statusCode) else {
+                return completion(.failure(NetworkError.invalidResponse))
+            }
+            guard let data = data else {
+                return completion(.failure(NetworkError.invalidData))
+            }
+            debugPrint(String(decoding: data, as: UTF8.self))
+            completion(.success(data))
+        }.resume()
+    }
+}
+
+extension NetworkManager {
+    private func createURL(from API: RequestAPI) -> URL? {
+        let url = URL(string: API.url.description)
+        return url
+    }
+    
+    private func createRequest(API: RequestAPI) throws -> URLRequest {
+        guard let url = createURL(from: API) else {
+            throw NetworkError.invaildURL
+        }
         var request = URLRequest(url: url)
         request.httpMethod = API.method.description
-        
+
         if API.contentType == .multipart {
             request.setValue(API.contentType.description + boundary, forHTTPHeaderField: "Content-Type")
         } else {
             request.setValue(API.contentType.description, forHTTPHeaderField: "Content-Type")
         }
 
-        if let api = API as? RequestableWithBody {
-            var body = Data()
-            let lineBreakPoint = "\r\n"
-
-            if let parameters = api.parameters {
-                for (key, value) in parameters {
-                    body.append("--\(boundary)\(lineBreakPoint)")
-                    body.append("Content-Disposition: form-data; name=\"\(key)\"\(lineBreakPoint + lineBreakPoint)")
-                    body.append("\(value)\(lineBreakPoint)")
-                }
+        
+        if let api = API as? DeleteItemAPI {
+            guard let body = try? JSONEncoder().encode(api.deleteItem) else {
+                throw NetworkError.invalidData
             }
-            
-            if let medias = api.images {
-                for media in medias {
-                    body.append("--\(boundary)\(lineBreakPoint)")
-                    body.append("Content-Disposition: form-data; name=\"\(media.fieldName)\"; filename=\"\(media.fileName)\"\(lineBreakPoint)")
-                    body.append("Content-Type: \(media.mimeType)\(lineBreakPoint + lineBreakPoint)")
-                    body.append(media.fileData)
-                    body.append(lineBreakPoint)
-                }
+            request.httpBody = body
+        } else if let api = API as? RequestableWithBody {
+            request.httpBody = createRequestBody(API: api)
+        }
+        return request
+    }
+    
+    private func createRequestBody(API: RequestableWithBody) -> Data {
+        var body = Data()
+        let lineBreakPoint = "\r\n"
+
+        if let parameters = API.parameters {
+            for (key, value) in parameters {
+                body.append("--\(boundary)\(lineBreakPoint)")
+                body.append("Content-Disposition: form-data; name=\"\(key)\"\(lineBreakPoint + lineBreakPoint)")
+                body.append("\(value)\(lineBreakPoint)")
             }
         }
         
-        session.dataTask(with: request) { data, response, error in
-            if let error = error {
-                print("error")
-                return
+        if let medias = API.images {
+            for media in medias {
+                body.append("--\(boundary)\(lineBreakPoint)")
+                body.append("Content-Disposition: form-data; name=\"\(media.fieldName)\"; filename=\"\(media.fileName)\"\(lineBreakPoint)")
+                body.append("Content-Type: \(media.mimeType)\(lineBreakPoint + lineBreakPoint)")
+                body.append(media.fileData)
+                body.append(lineBreakPoint)
             }
-            guard let response = response as? HTTPURLResponse, (200...299).contains(response.statusCode) else {
-                print("invalid response")
-                return
-            }
-            if let data = data, let response = try? JSONDecoder().decode(Items.self, from: data) {
-                return
-            }
-        }.resume()
+        }
+        return body
     }
+    
 }
 
 extension Data {
@@ -76,5 +100,11 @@ extension Data {
         if let data = string.data(using: .utf8){
             append(data)
         }
+    }
+}
+
+extension NetworkManager {
+    func generateBoundary() -> String {
+        return "Boundary-\(UUID().uuidString)"
     }
 }
