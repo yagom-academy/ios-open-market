@@ -32,7 +32,7 @@ struct ParsingManager {
     }
     
     func decodedJsonData<T: Decodable>(type: T.Type, data: Data) throws -> T {
-        guard let decodedData = try? JSONDecoder().decode(type, from: data) else {
+        guard let decodedData = try? jsonDecoder.decode(type, from: data) else {
             throw ParsingError.decodingFailed
         }
         return decodedData

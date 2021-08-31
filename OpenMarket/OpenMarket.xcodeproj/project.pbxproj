@@ -10,6 +10,8 @@
 		4D014F4926DDC2BA002CDE67 /* OpenMarketTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D014F4826DDC2BA002CDE67 /* OpenMarketTests.swift */; };
 		4D014F5426DDC462002CDE67 /* Item.json in Resources */ = {isa = PBXBuildFile; fileRef = 4D014F5326DDC462002CDE67 /* Item.json */; };
 		4D014F5626DDC49E002CDE67 /* Items.json in Resources */ = {isa = PBXBuildFile; fileRef = 4D014F5526DDC49E002CDE67 /* Items.json */; };
+		4D014F5A26DE0FFA002CDE67 /* MockURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D014F5926DE0FFA002CDE67 /* MockURLSession.swift */; };
+		4D014F5F26DE1268002CDE67 /* RequestEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D014F5E26DE1268002CDE67 /* RequestEnum.swift */; };
 		4D6EFC2226DD207700F7B6FE /* ItemData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D6EFC2126DD207700F7B6FE /* ItemData.swift */; };
 		4D6EFC2426DD208000F7B6FE /* ItemsData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D6EFC2326DD208000F7B6FE /* ItemsData.swift */; };
 		4D7FACC626DDBA5D00E275F4 /* ParsingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D7FACC526DDBA5D00E275F4 /* ParsingManager.swift */; };
@@ -37,6 +39,8 @@
 		4D014F4A26DDC2BA002CDE67 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4D014F5326DDC462002CDE67 /* Item.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Item.json; sourceTree = "<group>"; };
 		4D014F5526DDC49E002CDE67 /* Items.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Items.json; sourceTree = "<group>"; };
+		4D014F5926DE0FFA002CDE67 /* MockURLSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSession.swift; sourceTree = "<group>"; };
+		4D014F5E26DE1268002CDE67 /* RequestEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestEnum.swift; sourceTree = "<group>"; };
 		4D6EFC2126DD207700F7B6FE /* ItemData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemData.swift; sourceTree = "<group>"; };
 		4D6EFC2326DD208000F7B6FE /* ItemsData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsData.swift; sourceTree = "<group>"; };
 		4D7FACC526DDBA5D00E275F4 /* ParsingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParsingManager.swift; sourceTree = "<group>"; };
@@ -83,8 +87,17 @@
 			children = (
 				4D014F5326DDC462002CDE67 /* Item.json */,
 				4D014F5526DDC49E002CDE67 /* Items.json */,
+				4D014F5926DE0FFA002CDE67 /* MockURLSession.swift */,
 			);
 			path = Mock;
+			sourceTree = "<group>";
+		};
+		4D014F5D26DE1200002CDE67 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				4D014F5E26DE1268002CDE67 /* RequestEnum.swift */,
+			);
+			path = Network;
 			sourceTree = "<group>";
 		};
 		4D6EFC1E26DD1FEA00F7B6FE /* Controller */ = {
@@ -145,6 +158,7 @@
 				4D6EFC2026DD1FFF00F7B6FE /* Model */,
 				4D6EFC1F26DD1FF500F7B6FE /* View */,
 				4D6EFC1E26DD1FEA00F7B6FE /* Controller */,
+				4D014F5D26DE1200002CDE67 /* Network */,
 				4D7FACC426DDBA0500E275F4 /* Manager */,
 				C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */,
 				C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */,
@@ -256,6 +270,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4D014F5A26DE0FFA002CDE67 /* MockURLSession.swift in Sources */,
 				4D014F4926DDC2BA002CDE67 /* OpenMarketTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -267,6 +282,7 @@
 				4D6EFC2426DD208000F7B6FE /* ItemsData.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
+				4D014F5F26DE1268002CDE67 /* RequestEnum.swift in Sources */,
 				4D7FACC626DDBA5D00E275F4 /* ParsingManager.swift in Sources */,
 				4D6EFC2226DD207700F7B6FE /* ItemData.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
