@@ -22,6 +22,8 @@ enum ParsingError: Error, LocalizedError {
 }
 
 struct ParsingManager {
+    private let jsonDecoder = JSONDecoder()
+    
     func receivedDataAsset(assetName: String) throws -> NSDataAsset {
         guard let dataAsset = NSDataAsset(name: assetName) else {
             throw ParsingError.assetFailed
