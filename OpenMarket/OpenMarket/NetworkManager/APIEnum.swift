@@ -22,7 +22,7 @@ enum APIURL {
     case delete(id: Int)
     case post
     
-    private static let baseURL = "https://camp-open-market-2.herokuapp.com/"
+    static let baseURL = "https://camp-open-market-2.herokuapp.com/"
 }
 
 enum ContentType {
@@ -58,6 +58,8 @@ extension APIURL: CustomStringConvertible {
         case .delete(let id):
             return Self.baseURL + "/item/\(id)"
         case .post:
+            return Self.baseURL + "/item"
+        default:
             return Self.baseURL + "/item"
         }
     }
