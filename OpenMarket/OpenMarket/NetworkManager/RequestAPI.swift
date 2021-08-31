@@ -18,7 +18,7 @@ protocol RequestableWithoutBody: RequestAPI {
 }
 
 protocol RequestableWithBody: RequestAPI {
-    var parameters: Parameters? { get }
+    var parameters: Parameters { get }
     var images: [Media]? { get }
 }
 
@@ -47,10 +47,10 @@ struct PostItemAPI: RequestableWithBody {
     var url: APIURL = .post
     var method: APIMethod = .post
     var contentType: ContentType = .multipart
-    var parameters: Parameters?
+    var parameters: Parameters
     var images: [Media]?
     
-    init(parameters: Parameters?, images: [Media]?) {
+    init(parameters: Parameters, images: [Media]) {
         self.parameters = parameters
         self.images = images
     }
@@ -60,10 +60,10 @@ struct PatchItemAPI: RequestableWithBody {
     var url: APIURL
     var method: APIMethod = .patch
     var contentType: ContentType = .multipart
-    var parameters: Parameters?
+    var parameters: Parameters
     var images: [Media]?
     
-    init(id: Int, parameters: Parameters?, images: [Media]?) {
+    init(id: Int, parameters: Parameters, images: [Media]?) {
         self.url = APIURL.patch(id: id)
         self.parameters = parameters
         self.images = images

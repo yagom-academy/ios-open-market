@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct DELETEItem: Codable {
+struct DELETEItem: Encodable {
     private let password: String
     
     init(password: String) {

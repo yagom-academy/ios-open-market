@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Items: Codable {
+struct GETItems: Decodable {
     let page: Int
-    let items: [ItemData]
+    let items: [GETItem]
 }

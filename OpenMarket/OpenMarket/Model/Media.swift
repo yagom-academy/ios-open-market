@@ -7,18 +7,9 @@
 
 import UIKit
 
-enum MimeType: CustomStringConvertible {
+enum MimeType {
     case png
     case jpeg
-    
-    var description: String {
-        switch self {
-        case .png:
-            return "image/png"
-        case .jpeg:
-            return "image/jpeg"
-        }
-    }
 }
 
 struct Media {
@@ -44,6 +35,17 @@ struct Media {
                 return nil
             }
             self.fileData = data
+        }
+    }
+}
+
+extension MimeType: CustomStringConvertible {
+    var description: String {
+        switch self {
+        case .png:
+            return "image/png"
+        case .jpeg:
+            return "image/jpeg"
         }
     }
 }

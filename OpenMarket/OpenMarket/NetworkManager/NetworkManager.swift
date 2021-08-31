@@ -21,7 +21,8 @@ class NetworkManager {
         guard let request = try? createRequest(API: API) else {
             return completion(.failure(NetworkError.invalidRequest))
         }
-
+        debugPrint(request)
+        
         session.dataTask(with: request) { data, response, error in
             if let error = error {
                 return completion(.failure(error))
@@ -73,14 +74,11 @@ extension NetworkManager {
         var body = Data()
         let lineBreakPoint = "\r\n"
 
-        if let parameters = API.parameters {
-            for (key, value) in parameters {
-                body.append("--\(boundary)\(lineBreakPoint)")
-                body.append("Content-Disposition: form-data; name=\"\(key)\"\(lineBreakPoint + lineBreakPoint)")
-                body.append("\(value)\(lineBreakPoint)")
-            }
+        for (key, value) in API.parameters {
+            body.append("--\(boundary)\(lineBreakPoint)")
+            body.append("Content-Disposition: form-data; name=\"\(key)\"\(lineBreakPoint + lineBreakPoint)")
+            body.append("\(value)\(lineBreakPoint)")
         }
-        
         if let medias = API.images {
             for media in medias {
                 body.append("--\(boundary)\(lineBreakPoint)")

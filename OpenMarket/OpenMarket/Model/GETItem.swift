@@ -5,9 +5,9 @@
 //  Created by 박태현 on 2021/08/31.
 //
 
-import UIKit
+import Foundation
 
-struct ItemData: Codable {
+struct GETItem: Decodable {
     let id: Int
     let title: String
     let descriptions: String?
