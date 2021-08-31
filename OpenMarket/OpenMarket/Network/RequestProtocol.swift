@@ -11,5 +11,10 @@ protocol Requestable {
     var url: String { get }
     var method: APIMethod { get }
     var contentType: ContentType { get }
+    
+}
+
+protocol RequestableWithHttpBody {
     var parameter: [String: Any]? { get }
+    var images: [imageData]? { get }
 }
