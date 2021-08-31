@@ -24,7 +24,7 @@ struct Request {
         
         if let parameters = params {
             for (key, value) in parameters {
-                body.append("==\(boundary)\(lineBreak)")
+                body.append("--\(boundary)\(lineBreak)")
                 body.append("Content-Disposition: form-data; name=\"\(key)\"\(lineBreak + lineBreak)")
                 body.append("\(value)\(lineBreak)")
             }
@@ -32,7 +32,7 @@ struct Request {
         
         if let image = image {
             for photo in image {
-                body.append("==\(boundary)\(lineBreak)")
+                body.append("--\(boundary)\(lineBreak)")
                 body.append("Content-Disposition: form-data; name=\"\(photo.key)\"; filename=\"\(photo.filename)\"\(lineBreak)")
                 body.append("Content-Type: \(photo.mimeType)\(lineBreak + lineBreak)")
                 body.append(photo.data)
