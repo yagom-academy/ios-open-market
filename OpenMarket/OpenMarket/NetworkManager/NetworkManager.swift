@@ -90,6 +90,8 @@ extension NetworkManager {
                 body.append(lineBreakPoint)
             }
         }
+        body.append("--\(boundary)--\(lineBreakPoint)")
+
         return body
     }
     
