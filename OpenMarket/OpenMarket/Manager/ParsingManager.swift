@@ -22,14 +22,14 @@ enum ParsingError: Error, LocalizedError {
 }
 
 struct ParsingManager {
-    static func receivedDataAsset(assetName: String) throws -> NSDataAsset {
+    func receivedDataAsset(assetName: String) throws -> NSDataAsset {
         guard let dataAsset = NSDataAsset(name: assetName) else {
             throw ParsingError.assetFailed
         }
         return dataAsset
     }
     
-    static func decodedJsonData<T: Decodable>(type: T.Type, data: Data) throws -> T {
+    func decodedJsonData<T: Decodable>(type: T.Type, data: Data) throws -> T {
         guard let decodedData = try? JSONDecoder().decode(type, from: data) else {
             throw ParsingError.decodingFailed
         }
