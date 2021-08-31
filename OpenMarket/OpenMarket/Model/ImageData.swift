@@ -38,5 +38,7 @@ struct imageData {
             self.data = data
             self.filename = "\(arc4random()).png"
         }
+        
+        self.mimeType = mimeType
     }
 }
