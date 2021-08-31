@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		891A983626DD5C3E006A0E2B /* Items.swift in Sources */ = {isa = PBXBuildFile; fileRef = 891A983526DD5C3E006A0E2B /* Items.swift */; };
 		891A983826DD5C83006A0E2B /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 891A983726DD5C83006A0E2B /* Item.swift */; };
+		891A983A26DDD497006A0E2B /* Media.swift in Sources */ = {isa = PBXBuildFile; fileRef = 891A983926DDD497006A0E2B /* Media.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
 		C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */; };
 		C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FE25BEF61C00C9924E /* ViewController.swift */; };
@@ -20,6 +21,7 @@
 /* Begin PBXFileReference section */
 		891A983526DD5C3E006A0E2B /* Items.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Items.swift; sourceTree = "<group>"; };
 		891A983726DD5C83006A0E2B /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
+		891A983926DDD497006A0E2B /* Media.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Media.swift; sourceTree = "<group>"; };
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -63,6 +65,7 @@
 			children = (
 				891A983526DD5C3E006A0E2B /* Items.swift */,
 				891A983726DD5C83006A0E2B /* Item.swift */,
+				891A983926DDD497006A0E2B /* Media.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -169,6 +172,7 @@
 			files = (
 				891A983826DD5C83006A0E2B /* Item.swift in Sources */,
 				891A983626DD5C3E006A0E2B /* Items.swift in Sources */,
+				891A983A26DDD497006A0E2B /* Media.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
