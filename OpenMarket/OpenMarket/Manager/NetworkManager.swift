@@ -22,17 +22,17 @@ enum NetworkError: Error, LocalizedError {
 }
 
 class NetworkManager {
-    let request = Request()
-    private let rangeOfSuccessState = 200...299
+    private let request = Request()
+    private static let rangeOfSuccessState = 200...299
     
     func commuteWithAPI(API: Requestable, completion: @escaping(Result<Data, Error>) -> Void) {
         guard let request = try? request.createRequest(url: API.url, API: API) else { return }
-    
+        
         URLSession.shared.dataTask(with: request) { data, response, error in
             if let error = error { return completion(.failure(error)) }
             
             guard let response = response as? HTTPURLResponse,
-                  (self.rangeOfSuccessState).contains(response.statusCode) else {
+                  (Self.rangeOfSuccessState).contains(response.statusCode) else {
                 return completion(.failure(NetworkError.responseFailed))
             }
             debugPrint(response)

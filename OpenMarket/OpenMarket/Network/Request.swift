@@ -10,7 +10,7 @@ import Foundation
 struct Request {
     private let boundary: String = "Boundary-\(UUID().uuidString)"
     
-    public func createRequest(url: String, API: Requestable) throws -> URLRequest {
+    func createRequest(url: String, API: Requestable) throws -> URLRequest {
         guard let url = URL(string: url) else { throw NetworkError.invalidURL }
         
         var request = URLRequest(url: url)
