@@ -10,37 +10,69 @@ import Foundation
 enum NetworkError: Error, LocalizedError {
     case invalidURL
     case responseFailed
+    case invalidHttpMethod
+    case requestFailed
+    case dataTaskError
+    case dataNotfound
     
     var errorDescription: String {
         switch self {
         case .invalidURL:
             return "잘못된 URL입니다."
         case .responseFailed:
-            return "200에서 299 상태코드를 받지 못했습니다."
+            return "200에서 299 상태코드를 받는데 실패했습니다."
+        case .invalidHttpMethod:
+            return "잘못된 HTTPMethod입니다."
+        case .requestFailed:
+            return "리퀘스트를 받는데 실패했습니다."
+        case .dataTaskError:
+            return "dataTask 전달 중 에러가 발생했습니다."
+        case .dataNotfound:
+            return "data를 전달 받지 못했습니다."
         }
     }
 }
 
 class NetworkManager {
     private let request = Request()
+    private let session: URLSessionProtocol
+    private var valuableMethod: [APIMethod] = []
     private static let rangeOfSuccessState = 200...299
     
-    func commuteWithAPI(API: Requestable, completion: @escaping(Result<Data, Error>) -> Void) {
-        guard let request = try? request.createRequest(url: API.url, API: API) else { return }
-        
-        URLSession.shared.dataTask(with: request) { data, response, error in
-            if let error = error { return completion(.failure(error)) }
-            
+    init(session: URLSessionProtocol = URLSession.shared,
+         valuableMethod: [APIMethod] = APIMethod.allCases) {
+        self.session = session
+        self.valuableMethod = valuableMethod
+    }
+    
+    func commuteWithAPI(API: Requestable, completionHandler: @escaping(Result<Data, Error>) -> Void) {
+        guard let request = try? request.createRequest(url: API.url, API: API) else {
+            completionHandler(.failure(NetworkError.requestFailed))
+            return
+        }
+        guard valuableMethod.contains(API.method) else {
+            completionHandler(.failure(NetworkError.invalidHttpMethod))
+            return
+        }
+        session.dataTask(with: request) { data, response, error in
+            guard error == nil else {
+                completionHandler(.failure(NetworkError.dataTaskError))
+                return
+            }
             guard let response = response as? HTTPURLResponse,
                   (Self.rangeOfSuccessState).contains(response.statusCode) else {
-                return completion(.failure(NetworkError.responseFailed))
+                completionHandler(.failure(NetworkError.responseFailed))
+                return
             }
             debugPrint(response)
             
-            if let data = data {
-                debugPrint(String(decoding: data, as: UTF8.self))
-                completion(.success(data))
+            guard let data = data else {
+                completionHandler(.failure(NetworkError.dataNotfound))
+                return
             }
+            debugPrint(String(decoding: data, as: UTF8.self))
+            completionHandler(.success(data))
         }.resume()
     }
+    
 }

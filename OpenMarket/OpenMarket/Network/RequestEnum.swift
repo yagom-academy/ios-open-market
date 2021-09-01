@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum APIMethod: CustomStringConvertible {
+enum APIMethod: CustomStringConvertible, CaseIterable {
     case get
     case post
     case patch
