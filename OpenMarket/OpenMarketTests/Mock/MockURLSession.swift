@@ -6,6 +6,7 @@
 //
 
 import Foundation
+@testable import OpenMarket
 
 class MockURLSession: URLSessionProtocol {
     let parsingManager = ParsingManager()

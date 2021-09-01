@@ -23,8 +23,6 @@
 		4D79E83426DF34E3006AEDCE /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D79E83326DF34E3006AEDCE /* NetworkManager.swift */; };
 		4D79E83626DF45A7006AEDCE /* MockURLSessionDataTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D79E83526DF45A7006AEDCE /* MockURLSessionDataTask.swift */; };
 		4D79E83A26DF4765006AEDCE /* NetworkProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D79E83926DF4765006AEDCE /* NetworkProtocol.swift */; };
-		4D79E83D26DF4AB7006AEDCE /* MockURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D014F5926DE0FFA002CDE67 /* MockURLSession.swift */; };
-		4D79E83E26DF4AC2006AEDCE /* MockURLSessionDataTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D79E83526DF45A7006AEDCE /* MockURLSessionDataTask.swift */; };
 		4D7FACC626DDBA5D00E275F4 /* ParsingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D7FACC526DDBA5D00E275F4 /* ParsingManager.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
 		C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */; };
@@ -320,8 +318,6 @@
 				4D014F6826DE5D64002CDE67 /* BaseTypeExtension.swift in Sources */,
 				4D6EFC2426DD208000F7B6FE /* ItemsData.swift in Sources */,
 				4D79E83A26DF4765006AEDCE /* NetworkProtocol.swift in Sources */,
-				4D79E83E26DF4AC2006AEDCE /* MockURLSessionDataTask.swift in Sources */,
-				4D79E83D26DF4AB7006AEDCE /* MockURLSession.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
 				4D014F6A26DE60C4002CDE67 /* ImageData.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
