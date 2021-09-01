@@ -37,9 +37,7 @@ class ViewController: UIViewController {
     
     //Delete
 //        networkManager.commuteWithAPI(API: DeleteAPI(id: 643, password: "12345")) { _ in
-//
 //        }
     }
-    
 }
 

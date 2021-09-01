@@ -74,5 +74,4 @@ class NetworkManager {
             completionHandler(.success(data))
         }.resume()
     }
-    
 }

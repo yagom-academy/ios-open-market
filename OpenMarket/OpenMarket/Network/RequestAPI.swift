@@ -9,8 +9,8 @@ import UIKit
 
 struct GetItemAPI: Requestable {
     var url: String
-    var method: APIMethod = .get
-    var contentType: ContentType = .json
+    let method: APIMethod = .get
+    let contentType: ContentType = .json
     
     init(id: Int) {
         self.url = APIURL.getItem.description + "\(id)"
@@ -19,8 +19,8 @@ struct GetItemAPI: Requestable {
 
 struct GetItemsAPI: Requestable {
     var url: String
-    var method: APIMethod = .get
-    var contentType: ContentType = .json
+    let method: APIMethod = .get
+    let contentType: ContentType = .json
     
     init(page: Int) {
         self.url = APIURL.getItems.description + "\(page)"
@@ -28,10 +28,10 @@ struct GetItemsAPI: Requestable {
 }
 
 struct PostAPI: RequestableWithMultipartForm {
-    var url: String = APIURL.post.description
-    var method: APIMethod = .post
-    var contentType: ContentType = .multipart
-    var parameter: [String : Any]
+    let url: String = APIURL.post.description
+    let method: APIMethod = .post
+    let contentType: ContentType = .multipart
+    let parameter: [String : Any]
     var image: [imageData]?
     
     init(parameter: [String: Any], image: [imageData]) {
@@ -42,9 +42,9 @@ struct PostAPI: RequestableWithMultipartForm {
 
 struct PatchAPI: RequestableWithMultipartForm {
     var url: String
-    var method: APIMethod = .patch
-    var contentType: ContentType = .multipart
-    var parameter: [String: Any]
+    let method: APIMethod = .patch
+    let contentType: ContentType = .multipart
+    let parameter: [String: Any]
     var image: [imageData]?
     
     init(id: Int, parameter: [String: Any], image: [imageData]?) {
@@ -56,8 +56,8 @@ struct PatchAPI: RequestableWithMultipartForm {
 
 struct DeleteAPI: Requestable {
     var url: String
-    var method: APIMethod = .delete
-    var contentType: ContentType = .json
+    let method: APIMethod = .delete
+    let contentType: ContentType = .json
     var password: DeleteParameterData
     
     init(id: Int, password: String) {

@@ -22,14 +22,13 @@ class MockURLSession: URLSessionProtocol {
     func dataTask(with request: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask {
         let successResponse = HTTPURLResponse(url: url, statusCode: 200, httpVersion: "2", headerFields: nil)
         let failureResponse = HTTPURLResponse(url: url, statusCode: 402, httpVersion: "2", headerFields: nil)
-
+        
         if isRequestSucess {
             let sampleData = try? parsingManager.receivedDataAsset(assetName: "Item").data
             sessionDataTask.resumeDidCall = { completionHandler(sampleData, successResponse, nil) }
         } else {
             sessionDataTask.resumeDidCall = { completionHandler(nil, failureResponse, nil) }
         }
-
         return sessionDataTask
     }
 }
