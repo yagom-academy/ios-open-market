@@ -7,23 +7,11 @@
 
 import Foundation
 
-enum RequestError: Error, LocalizedError {
-    case invalidURL
-    
-    var errorDescription: String {
-        switch self {
-        case .invalidURL:
-            return "잘못된 URL입니다."
-        }
-    }
-}
-
 struct Request {
-    typealias ParamType = [String: Any]
     private let boundary: String = "Boundary-\(UUID().uuidString)"
     
     public func createRequest(url: String, API: Requestable) throws -> URLRequest {
-        guard let url = URL(string: url) else { throw RequestError.invalidURL }
+        guard let url = URL(string: url) else { throw NetworkError.invalidURL }
         
         var request = URLRequest(url: url)
         request.httpMethod = API.method.description
@@ -47,7 +35,7 @@ struct Request {
         return request
     }
     
-    private func createBody(params: ParamType?, image: [imageData]?) -> Data {
+    private func createBody(params: [String: Any]?, image: [imageData]?) -> Data {
         var body = Data()
         
         let lineBreak = "\r\n"
