@@ -21,7 +21,7 @@ enum MimeType: CustomStringConvertible {
     }
 }
 
-struct imageData {
+struct Media {
     let key: String = "images[]"
     let filename: String
     let data: Data

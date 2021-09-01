@@ -31,10 +31,10 @@ struct PostAPI: RequestableWithMultipartForm {
     let url: String = APIURL.post.description
     let method: APIMethod = .post
     let contentType: ContentType = .multipart
-    let parameter: [String : Any]
-    var image: [imageData]?
+    let parameter: [String: Any]
+    var image: [Media]?
     
-    init(parameter: [String: Any], image: [imageData]) {
+    init(parameter: [String: Any], image: [Media]) {
         self.parameter = parameter
         self.image = image
     }
@@ -45,9 +45,9 @@ struct PatchAPI: RequestableWithMultipartForm {
     let method: APIMethod = .patch
     let contentType: ContentType = .multipart
     let parameter: [String: Any]
-    var image: [imageData]?
+    var image: [Media]?
     
-    init(id: Int, parameter: [String: Any], image: [imageData]?) {
+    init(id: Int, parameter: [String: Any], image: [Media]?) {
         self.url = APIURL.patch.description + "\(id)"
         self.parameter = parameter
         self.image = image
@@ -65,4 +65,3 @@ struct DeleteAPI: Requestable {
         self.password = DeleteParameterData(password: password)
     }
 }
-

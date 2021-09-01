@@ -15,5 +15,5 @@ protocol Requestable {
 
 protocol RequestableWithMultipartForm: Requestable {
     var parameter: [String: Any] { get }
-    var image: [imageData]? { get }
+    var image: [Media]? { get }
 }

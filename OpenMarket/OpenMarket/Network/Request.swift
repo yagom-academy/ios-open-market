@@ -35,7 +35,7 @@ struct Request {
         return request
     }
     
-    private func createBody(params: [String: Any]?, image: [imageData]?) -> Data {
+    private func createBody(params: [String: Any]?, image: [Media]?) -> Data {
         var body = Data()
         
         let lineBreak = "\r\n"
@@ -63,4 +63,3 @@ struct Request {
         return body
     }
 }
-
