@@ -58,11 +58,11 @@ struct DeleteAPI: Requestable {
     var url: String
     var method: APIMethod = .delete
     var contentType: ContentType = .json
-    var password: String
+    var password: DeleteParameterData
     
     init(id: Int, password: String) {
         self.url = APIURL.delete.description + "\(id)"
-        self.password = password
+        self.password = DeleteParameterData(password: password)
     }
 }
 
