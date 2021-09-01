@@ -50,6 +50,8 @@ enum ContentType: CustomStringConvertible {
     case json
     case multipart
     
+    static let httpHeaderField = "Content-Type"
+    
     var description: String {
         switch self {
         case .json:

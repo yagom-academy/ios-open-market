@@ -13,9 +13,7 @@ protocol Requestable {
     var contentType: ContentType { get }
 }
 
-protocol RequestableWithHttpBody: Requestable {}
-
-protocol RequestableWithMultipartForm: RequestableWithHttpBody {
+protocol RequestableWithMultipartForm: Requestable {
     var parameter: [String: Any] { get }
     var image: [imageData]? { get }
 }

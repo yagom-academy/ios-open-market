@@ -54,7 +54,7 @@ struct PatchAPI: RequestableWithMultipartForm {
     }
 }
 
-struct DeleteAPI: RequestableWithHttpBody {
+struct DeleteAPI: Requestable {
     var url: String
     var method: APIMethod = .delete
     var contentType: ContentType = .json

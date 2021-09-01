@@ -7,19 +7,49 @@
 
 import Foundation
 
+enum RequestError: Error, LocalizedError {
+    case invalidURL
+    
+    var errorDescription: String {
+        switch self {
+        case .invalidURL:
+            return "잘못된 URL입니다."
+        }
+    }
+}
+
 struct Request {
     typealias ParamType = [String: Any]
     private let boundary: String = "Boundary-\(UUID().uuidString)"
     
-    func createRequest() {
+    public func createRequest(url: String, API: Requestable) throws -> URLRequest {
+        guard let url = URL(string: url) else { throw RequestError.invalidURL }
         
+        var request = URLRequest(url: url)
+        request.httpMethod = API.method.description
+        
+        if API.contentType == ContentType.multipart {
+            request.setValue(API.contentType.description + boundary, forHTTPHeaderField: ContentType.httpHeaderField)
+        } else {
+            request.setValue(API.contentType.description, forHTTPHeaderField: ContentType.httpHeaderField)
+        }
+        
+        if let api = API as? DeleteAPI {
+            guard let body = try? JSONEncoder().encode(api.password) else {
+                throw ParsingError.encodingFailed
+            }
+            request.httpBody = body
+        } else if let api = API as? RequestableWithMultipartForm {
+            let body = createBody(params: api.parameter, image: api.image)
+            request.httpBody = body
+            debugPrint(String(decoding: body, as: UTF8.self))
+        }
+        return request
     }
-    
-    
     
     private func createBody(params: ParamType?, image: [imageData]?) -> Data {
         var body = Data()
-
+        
         let lineBreak = "\r\n"
         
         if let parameters = params {
@@ -45,3 +75,4 @@ struct Request {
         return body
     }
 }
+
