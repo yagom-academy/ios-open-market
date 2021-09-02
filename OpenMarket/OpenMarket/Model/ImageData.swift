@@ -23,7 +23,7 @@ enum MimeType: CustomStringConvertible {
 
 struct Media {
     let key: String = "images[]"
-    let filename: String
+    let fileName: String
     let data: Data
     let mimeType: MimeType
     
@@ -32,11 +32,11 @@ struct Media {
         case .jpeg:
             guard let data = image.jpegData(compressionQuality: 0.7) else { return nil }
             self.data = data
-            self.filename = "\(arc4random()).jpeg"
+            self.fileName = "\(arc4random()).jpeg"
         case .png:
             guard let data = image.pngData() else { return nil }
             self.data = data
-            self.filename = "\(arc4random()).png"
+            self.fileName = "\(arc4random()).png"
         }
         
         self.mimeType = mimeType

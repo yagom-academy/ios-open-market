@@ -52,7 +52,7 @@ struct Request {
         if let image = image {
             for photo in image {
                 body.append("--\(boundary)\(lineBreak)")
-                body.append("Content-Disposition: form-data; name=\"\(photo.key)\"; filename=\"\(photo.filename)\"\(lineBreak)")
+                body.append("Content-Disposition: form-data; name=\"\(photo.key)\"; filename=\"\(photo.fileName)\"\(lineBreak)")
                 body.append("Content-Type: \(photo.mimeType)\(doubleLineBreak)")
                 body.append(photo.data)
                 body.append(lineBreak)
