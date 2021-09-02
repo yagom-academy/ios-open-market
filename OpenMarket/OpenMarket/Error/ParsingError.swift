@@ -8,13 +8,13 @@
 import Foundation
 
 enum ParsingError: Error, LocalizedError {
-    case assetLoadFailed
+    case LoadAssetFailed
     case decodingFailed
     case encodingFailed
     
     var errorDescription: String {
         switch self {
-        case .assetLoadFailed:
+        case .LoadAssetFailed:
             return "에셋 데이터를 불러오는데 실패했습니다."
         case .decodingFailed:
             return "디코딩에 실패했습니다."

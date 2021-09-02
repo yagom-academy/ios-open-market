@@ -12,7 +12,7 @@ struct ParsingManager {
     
     func LoadedDataAsset(assetName: String) throws -> NSDataAsset {
         guard let dataAsset = NSDataAsset(name: assetName) else {
-            throw ParsingError.assetLoadFailed
+            throw ParsingError.LoadAssetFailed
         }
         return dataAsset
     }
