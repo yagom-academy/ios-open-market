@@ -47,7 +47,7 @@ class OpenMarketTests: XCTestCase {
     func test_get을_호출시_디코드가_성공하고_리퀘스트_전달에_성공하고_리스폰스를_200번으로_받으면_테스트에_성공한다() {
         // given
         let expectBool = true
-        let expectInputValue = "Items"
+        let expectInputValue = "Item"
         let expectHttpMethod: APIMethod = .get
         let sut = NetworkManager(session: MockURLSession(isRequestSucess: expectBool),
                                  valuableMethod: [expectHttpMethod])
@@ -80,7 +80,7 @@ class OpenMarketTests: XCTestCase {
         sut.commuteWithAPI(API: GetItemAPI(id: 1)) { result in
             if case .failure(let error) = result {
                 // then
-                XCTAssertEqual(error as? NetworkError, NetworkError.invalidHttpMethod)
+                XCTAssertEqual(error, NetworkError.invalidHttpMethod)
             }
         }
     }
@@ -95,7 +95,7 @@ class OpenMarketTests: XCTestCase {
                 return XCTFail()
             }
             // then
-            XCTAssertEqual(error as? NetworkError, NetworkError.responseFailed)
+            XCTAssertEqual(error, NetworkError.responseFailed)
         }
     }
 }
