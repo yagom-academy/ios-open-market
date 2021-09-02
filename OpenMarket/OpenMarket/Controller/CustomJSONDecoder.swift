@@ -19,13 +19,6 @@ class CustomJSONDecoder: JSONDecoder {
         }
         return assetData
     }
-
-//    static func decode<T>(_ type: T.Type, from data: Data) throws -> T where T : Decodable {
-//        guard let decodedData = try? JSONDecoder().decode(type, from: data) else {
-//            throw JSONError.decodingFailed
-//        }
-//        return decodedData
-//
 }
 
 extension JSONError: CustomStringConvertible {
