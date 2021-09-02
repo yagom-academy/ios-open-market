@@ -21,7 +21,7 @@ class OpenMarketTests: XCTestCase {
         let expectInputValue = "Items"
         // when
         guard let jsonData = try? parsingManager?.receivedDataAsset(assetName: expectInputValue),
-              let decodedData = try? parsingManager?.decodedJsonData(type: ItemsData.self, data: jsonData.data) else {
+              let decodedData = try? parsingManager?.decodedJSONData(type: ItemsData.self, data: jsonData.data) else {
             return XCTFail()
         }
         let expectResult = "MacBook Pro"
@@ -35,7 +35,7 @@ class OpenMarketTests: XCTestCase {
         let expectInputValue = "Item"
         // when
         guard let jsonData = try? parsingManager?.receivedDataAsset(assetName: expectInputValue),
-              let decodedData = try? parsingManager?.decodedJsonData(type: ItemData.self, data: jsonData.data) else {
+              let decodedData = try? parsingManager?.decodedJSONData(type: ItemData.self, data: jsonData.data) else {
             return XCTFail()
         }
         let expectResult = 1690000
@@ -53,15 +53,15 @@ class OpenMarketTests: XCTestCase {
                                  valuableMethod: [expectHttpMethod])
         // when
         guard let jsonData = try? parsingManager?.receivedDataAsset(assetName: expectInputValue),
-              let decodedData = try? parsingManager?.decodedJsonData(type: ItemData.self, data: jsonData.data) else {
+              let decodedData = try? parsingManager?.decodedJSONData(type: ItemData.self, data: jsonData.data) else {
             return XCTFail()
         }
-        sut.commuteWithAPI(API: GetItemAPI(id: 1)) { result in
+        sut.commuteWithAPI(api: GetItemAPI(id: 1)) { result in
             switch result {
             // then
             case .success(let item):
                 guard let expectedData =
-                        try? self.parsingManager?.decodedJsonData(type: ItemData.self, data: item) else {
+                        try? self.parsingManager?.decodedJSONData(type: ItemData.self, data: item) else {
                     return XCTFail()
                 }
                 XCTAssertEqual(expectedData.title, decodedData.title)
@@ -77,7 +77,7 @@ class OpenMarketTests: XCTestCase {
         let sut = NetworkManager(session: MockURLSession(isRequestSucess: false),
                                  valuableMethod: [expectHttpMethod])
         // when
-        sut.commuteWithAPI(API: GetItemAPI(id: 1)) { result in
+        sut.commuteWithAPI(api: GetItemAPI(id: 1)) { result in
             if case .failure(let error) = result {
                 // then
                 XCTAssertEqual(error, NetworkError.invalidHttpMethod)
@@ -90,7 +90,7 @@ class OpenMarketTests: XCTestCase {
         let expectBool = false
         let sut = NetworkManager(session: MockURLSession(isRequestSucess: expectBool), valuableMethod: [.get])
         // when
-        sut.commuteWithAPI(API: GetItemAPI(id: 1)) { result in
+        sut.commuteWithAPI(api: GetItemAPI(id: 1)) { result in
             guard case .failure(let error) = result else {
                 return XCTFail()
             }

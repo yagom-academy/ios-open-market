@@ -45,12 +45,12 @@ class NetworkManager {
         self.valuableMethod = valuableMethod
     }
     
-    func commuteWithAPI(API: Requestable, completionHandler: @escaping(Result<Data, NetworkError>) -> Void) {
-        guard let request = try? request.createRequest(url: API.url, API: API) else {
+    func commuteWithAPI(api: Requestable, completionHandler: @escaping(Result<Data, NetworkError>) -> Void) {
+        guard let request = try? request.createRequest(url: api.url, api: api) else {
             completionHandler(.failure(.requestFailed))
             return
         }
-        guard valuableMethod.contains(API.method) else {
+        guard valuableMethod.contains(api.method) else {
             completionHandler(.failure(.invalidHttpMethod))
             return
         }

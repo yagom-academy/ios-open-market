@@ -10,24 +10,24 @@ import Foundation
 struct Request {
     private let boundary: String = "Boundary-\(UUID().uuidString)"
     
-    func createRequest(url: String, API: Requestable) throws -> URLRequest {
+    func createRequest(url: String, api: Requestable) throws -> URLRequest {
         guard let url = URL(string: url) else { throw NetworkError.invalidURL }
         
         var request = URLRequest(url: url)
-        request.httpMethod = API.method.description
+        request.httpMethod = api.method.description
         
-        if API.contentType == ContentType.multipart {
-            request.setValue(API.contentType.description + boundary, forHTTPHeaderField: ContentType.httpHeaderField)
+        if api.contentType == ContentType.multipart {
+            request.setValue(api.contentType.description + boundary, forHTTPHeaderField: ContentType.httpHeaderField)
         } else {
-            request.setValue(API.contentType.description, forHTTPHeaderField: ContentType.httpHeaderField)
+            request.setValue(api.contentType.description, forHTTPHeaderField: ContentType.httpHeaderField)
         }
         
-        if let api = API as? DeleteAPI {
+        if let api = api as? DeleteAPI {
             guard let body = try? JSONEncoder().encode(api.password) else {
                 throw ParsingError.encodingFailed
             }
             request.httpBody = body
-        } else if let api = API as? RequestableWithMultipartForm {
+        } else if let api = api as? RequestableWithMultipartForm {
             let body = createBody(params: api.parameter, image: api.image)
             request.httpBody = body
             debugPrint(String(decoding: body, as: UTF8.self))
