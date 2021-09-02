@@ -8,13 +8,13 @@
 import UIKit
 
 enum ParsingError: Error, LocalizedError {
-    case assetFailed
+    case assetLoadFailed
     case decodingFailed
     case encodingFailed
     
     var errorDescription: String {
         switch self {
-        case .assetFailed:
+        case .assetLoadFailed:
             return "에셋 데이터를 불러오는데 실패했습니다."
         case .decodingFailed:
             return "디코딩에 실패했습니다."
@@ -29,7 +29,7 @@ struct ParsingManager {
     
     func receivedDataAsset(assetName: String) throws -> NSDataAsset {
         guard let dataAsset = NSDataAsset(name: assetName) else {
-            throw ParsingError.assetFailed
+            throw ParsingError.assetLoadFailed
         }
         return dataAsset
     }
