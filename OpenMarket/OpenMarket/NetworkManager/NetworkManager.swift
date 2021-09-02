@@ -17,8 +17,8 @@ class NetworkManager {
         self.session = session
     }
 
-    func commuteWithAPI(with API: Requestable, completion: @escaping(Result<Data, Error>) -> Void) {
-        guard let request = try? createRequest(API: API) else {
+    func commuteWithAPI(with api: Requestable, completion: @escaping(Result<Data, Error>) -> Void) {
+        guard let request = try? createRequest(api: api) else {
             return completion(.failure(NetworkError.invalidRequest))
         }
         debugPrint(request)
@@ -40,45 +40,45 @@ class NetworkManager {
 }
 
 extension NetworkManager {
-    private func createURL(from API: Requestable) -> URL? {
-        let url = URL(string: API.url.description)
+    private func createURL(from api: Requestable) -> URL? {
+        let url = URL(string: api.url.description)
         return url
     }
 
-    private func createRequest(API: Requestable) throws -> URLRequest {
-        guard let url = createURL(from: API) else {
+    private func createRequest(api: Requestable) throws -> URLRequest {
+        guard let url = createURL(from: api) else {
             throw NetworkError.invaildURL
         }
         var request = URLRequest(url: url)
-        request.httpMethod = API.method.description
+        request.httpMethod = api.method.description
 
-        if API.contentType == .multipart {
-            request.setValue(API.contentType.description + boundary, forHTTPHeaderField: "Content-Type")
+        if api.contentType == .multipart {
+            request.setValue(api.contentType.description + boundary, forHTTPHeaderField: "Content-Type")
         } else {
-            request.setValue(API.contentType.description, forHTTPHeaderField: "Content-Type")
+            request.setValue(api.contentType.description, forHTTPHeaderField: "Content-Type")
         }
 
-        if let api = API as? DeleteItemAPI {
+        if let api = api as? DeleteItemAPI {
             guard let body = try? JSONEncoder().encode(api.deleteItem) else {
                 throw NetworkError.invalidData
             }
             request.httpBody = body
-        } else if let api = API as? RequestableWithBody {
-            request.httpBody = createRequestBody(API: api)
+        } else if let api = api as? RequestableWithBody {
+            request.httpBody = createRequestBody(api: api)
         }
         return request
     }
 
-    private func createRequestBody(API: RequestableWithBody) -> Data {
+    private func createRequestBody(api: RequestableWithBody) -> Data {
         var body = Data()
         let lineBreakPoint = "\r\n"
 
-        for (key, value) in API.parameters {
+        for (key, value) in api.parameters {
             body.append("--\(boundary)\(lineBreakPoint)")
             body.append("Content-Disposition: form-data; name=\"\(key)\"\(lineBreakPoint + lineBreakPoint)")
             body.append("\(value)\(lineBreakPoint)")
         }
-        if let medias = API.images {
+        if let medias = api.images {
             for media in medias {
                 body.append("--\(boundary)\(lineBreakPoint)")
                 body.append("Content-Disposition: form-data; name=\"\(media.fieldName)\"; filename=\"\(media.fileName)\"\(lineBreakPoint)")
