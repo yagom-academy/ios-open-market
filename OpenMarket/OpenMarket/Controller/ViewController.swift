@@ -10,8 +10,8 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        /* GET 요청
+        let networkManager = NetworkManager(session: URLSession.shared)
+        /* GET items 요청
         let api = GetItemsAPI(page: 3)
         networkManager.commuteWithAPI(with: api) { result in
             if case .success(let data) = result {
@@ -20,6 +20,12 @@ class ViewController: UIViewController {
                 }
                 print(product)
             }
+        }
+        */
+
+        /* GET item 요청
+        let api = GetItemAPI(id: 641)
+        networkManager.commuteWithAPI(with: api) { _ in
         }
         */
 
@@ -36,6 +42,12 @@ class ViewController: UIViewController {
         let param = PATCHItem(title: "시마아지스시(수정)", descriptions: "하나 주세요", price: 10000, currency: "WON", stock: 4, discounted_price: 7000, password: "12345").parameter()
         let api = PatchItemAPI(id: 641, parameters: param, images: nil)
         
+        networkManager.commuteWithAPI(with: api) { _ in
+        }
+        */
+
+        /* DELETE  요청
+        let api = DeleteItemAPI(id: 641, password: "12345")
         networkManager.commuteWithAPI(with: api) { _ in
         }
         */
