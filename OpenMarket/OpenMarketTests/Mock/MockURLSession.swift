@@ -24,7 +24,7 @@ class MockURLSession: URLSessionProtocol {
         let failureResponse = HTTPURLResponse(url: url, statusCode: 402, httpVersion: "2", headerFields: nil)
         
         if isRequestSucess {
-            let sampleData = try? parsingManager.LoadedDataAsset(assetName: "Item").data
+            let sampleData = try? parsingManager.loadedDataAsset(assetName: "Item").data
             sessionDataTask.resumeDidCall = { completionHandler(sampleData, successResponse, nil) }
         } else {
             sessionDataTask.resumeDidCall = { completionHandler(nil, failureResponse, nil) }

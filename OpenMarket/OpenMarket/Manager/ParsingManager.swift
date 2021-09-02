@@ -10,7 +10,7 @@ import UIKit
 struct ParsingManager {
     private let jsonDecoder = JSONDecoder()
     
-    func LoadedDataAsset(assetName: String) throws -> NSDataAsset {
+    func loadedDataAsset(assetName: String) throws -> NSDataAsset {
         guard let dataAsset = NSDataAsset(name: assetName) else {
             throw ParsingError.loadAssetFailed
         }
