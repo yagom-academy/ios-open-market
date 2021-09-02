@@ -33,6 +33,34 @@ struct NetworkDispatcher {
         self.session = session
     }
     
+    func send(request: Request, _ suffix: String, completion: @escaping (Result<Data, Error>) -> ()) -> Data? {
+        let preparedResult = prepareForRequest(of: request, suffix)
+        switch preparedResult {
+        case .success(let userRequest):
+            let task = session.dataTask(with: userRequest) { data, response, error in
+                guard error == nil else {
+                    completion(.failure(NetworkError.serverError))
+                    return
+                }
+                guard let response = response as? HTTPURLResponse,
+                (200..<300).contains(response.statusCode) else {
+                    completion(.failure(NetworkError.clientError))
+                    return
+                }
+                guard let data = data else {
+                    completion(.failure(NetworkError.dataNotFound))
+                    return
+                }
+                completion(.success(data))
+            }
+            task.resume()
+        case .failure(let error):
+            completion(.failure(error))
+            return nil
+        }
+        return nil
+    }
+    
     func prepareForRequest(of request: Request, _ suffix: String) -> Result<URLRequest, Error> {
         guard let url = URL(string: Request.baseURL + request.path + suffix) else {
             return .failure(NetworkError.invalidURL)
