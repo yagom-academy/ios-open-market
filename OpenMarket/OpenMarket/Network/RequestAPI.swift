@@ -9,7 +9,7 @@ import UIKit
 
 struct GetItemAPI: Requestable {
     var url: String
-    let method: APIMethod = .get
+    let httpMethod: APIHTTPMethod = .get
     let contentType: ContentType = .json
     
     init(id: Int) {
@@ -19,7 +19,7 @@ struct GetItemAPI: Requestable {
 
 struct GetItemsAPI: Requestable {
     var url: String
-    let method: APIMethod = .get
+    let httpMethod: APIHTTPMethod = .get
     let contentType: ContentType = .json
     
     init(page: Int) {
@@ -29,7 +29,7 @@ struct GetItemsAPI: Requestable {
 
 struct PostAPI: RequestableWithMultipartForm {
     let url: String = APIURL.post.description
-    let method: APIMethod = .post
+    let httpMethod: APIHTTPMethod = .post
     let contentType: ContentType = .multipart
     let parameter: [String: Any]
     var image: [Media]?
@@ -42,7 +42,7 @@ struct PostAPI: RequestableWithMultipartForm {
 
 struct PatchAPI: RequestableWithMultipartForm {
     var url: String
-    let method: APIMethod = .patch
+    let httpMethod: APIHTTPMethod = .patch
     let contentType: ContentType = .multipart
     let parameter: [String: Any]
     var image: [Media]?
@@ -56,7 +56,7 @@ struct PatchAPI: RequestableWithMultipartForm {
 
 struct DeleteAPI: Requestable {
     var url: String
-    let method: APIMethod = .delete
+    let httpMethod: APIHTTPMethod = .delete
     let contentType: ContentType = .json
     var password: DeleteParameterData
     

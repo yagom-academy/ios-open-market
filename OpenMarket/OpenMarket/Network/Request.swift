@@ -14,12 +14,12 @@ struct Request {
         guard let url = URL(string: url) else { throw NetworkError.invalidURL }
         
         var request = URLRequest(url: url)
-        request.httpMethod = api.method.description
+        request.httpMethod = api.httpMethod.value
         
         if api.contentType == ContentType.multipart {
-            request.setValue(api.contentType.description + boundary, forHTTPHeaderField: ContentType.httpHeaderField)
+            request.setValue(api.contentType.format + boundary, forHTTPHeaderField: ContentType.httpHeaderField)
         } else {
-            request.setValue(api.contentType.description, forHTTPHeaderField: ContentType.httpHeaderField)
+            request.setValue(api.contentType.format, forHTTPHeaderField: ContentType.httpHeaderField)
         }
         
         if let api = api as? DeleteAPI {

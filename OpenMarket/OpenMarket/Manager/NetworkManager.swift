@@ -36,11 +36,11 @@ enum NetworkError: Error, LocalizedError {
 class NetworkManager {
     private let request = Request()
     private let session: URLSessionProtocol
-    private var valuableHTTPMethod: [APIMethod]
+    private var valuableHTTPMethod: [APIHTTPMethod]
     private static let rangeOfSuccessState = 200...299
     
     init(session: URLSessionProtocol = URLSession.shared,
-         valuableHTTPMethod: [APIMethod] = APIMethod.allCases) {
+         valuableHTTPMethod: [APIHTTPMethod] = APIHTTPMethod.allCases) {
         self.session = session
         self.valuableHTTPMethod = valuableHTTPMethod
     }
@@ -50,7 +50,7 @@ class NetworkManager {
             completionHandler(.failure(.requestFailed))
             return
         }
-        guard valuableHTTPMethod.contains(api.method) else {
+        guard valuableHTTPMethod.contains(api.httpMethod) else {
             completionHandler(.failure(.invalidHttpMethod))
             return
         }

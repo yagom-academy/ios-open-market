@@ -7,13 +7,13 @@
 
 import Foundation
 
-enum APIMethod: CustomStringConvertible, CaseIterable {
+enum APIHTTPMethod: CaseIterable {
     case get
     case post
     case patch
     case delete
     
-    var description: String {
+    var value: String {
         switch self {
         case .get:
             return "GET"
@@ -46,13 +46,13 @@ enum APIURL: CustomStringConvertible {
     }
 }
 
-enum ContentType: CustomStringConvertible {
+enum ContentType {
     case json
     case multipart
     
     static let httpHeaderField = "Content-Type"
     
-    var description: String {
+    var format: String {
         switch self {
         case .json:
             return "application/json"

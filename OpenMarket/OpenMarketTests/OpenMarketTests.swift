@@ -48,7 +48,7 @@ class OpenMarketTests: XCTestCase {
         // given
         let expectBool = true
         let expectInputValue = "Item"
-        let expectHttpMethod: APIMethod = .get
+        let expectHttpMethod: APIHTTPMethod = .get
         let sut = NetworkManager(session: MockURLSession(isRequestSucess: expectBool),
                                  valuableHTTPMethod: [expectHttpMethod])
         // when
@@ -73,7 +73,7 @@ class OpenMarketTests: XCTestCase {
     
     func test_get의_HTTP메서드가_제대로_전달되지_않으면_테스트에_실패한다() {
         // given
-        let expectHttpMethod: APIMethod = .post
+        let expectHttpMethod: APIHTTPMethod = .post
         let sut = NetworkManager(session: MockURLSession(isRequestSucess: false),
                                  valuableHTTPMethod: [expectHttpMethod])
         // when
