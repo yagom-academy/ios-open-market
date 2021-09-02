@@ -30,6 +30,7 @@ struct Request {
         } else if let api = api as? RequestableWithMultipartForm {
             let body = createBody(params: api.parameter, image: api.image)
             request.httpBody = body
+            print(String(decoding: body, as: UTF8.self))
         }
         return request
     }

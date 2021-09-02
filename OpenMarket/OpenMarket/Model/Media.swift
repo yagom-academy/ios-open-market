@@ -32,11 +32,11 @@ struct Media {
         case .jpeg:
             guard let data = image.jpegData(compressionQuality: 0.7) else { return nil }
             self.data = data
-            self.fileName = "\(arc4random()).jpeg"
+            self.fileName = "\(Date()).jpeg"
         case .png:
             guard let data = image.pngData() else { return nil }
             self.data = data
-            self.fileName = "\(arc4random()).png"
+            self.fileName = "\(Date()).png"
         }
         
         self.mimeType = mimeType
