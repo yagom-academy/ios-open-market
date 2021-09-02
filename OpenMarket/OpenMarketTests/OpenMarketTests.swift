@@ -87,4 +87,38 @@ class OpenMarketTests: XCTestCase {
             XCTAssertEqual(error as? NetworkError, NetworkError.invalidResponse)
         }
     }
+
+    func testNetworkManager_commuteFromNetwork_GETItems_Success() {
+        // give
+        let page = 1
+        let sut = NetworkManager()
+        // when
+        sut.commuteWithAPI(with: GetItemsAPI(page: page)) { result in
+            // then
+            guard case .success(let items) = result else {
+                return XCTFail("네트워크 통신에 실패했습니다")
+            }
+            guard let decodedData = try? CustomJSONDecoder().decode(Items.self, from: items) else {
+                return XCTFail("받아온 데이터의 디코딩에 실패했습니다.")
+            }
+            XCTAssertEqual(decodedData.page, page)
+        }
+    }
+
+    func testNetworkManager_commuteFromNetwork_GETItem_Success() {
+        // give
+        let id = 53
+        let sut = NetworkManager()
+        // when
+        sut.commuteWithAPI(with: GetItemAPI(id: id)) { result in
+            // then
+            guard case .success(let item) = result else {
+                return XCTFail("네트워크 통신에 실패했습니다")
+            }
+            guard let decodedData = try? CustomJSONDecoder().decode(Item.self, from: item) else {
+                return XCTFail("받아온 데이터의 디코딩에 실패했습니다.")
+            }
+            XCTAssertEqual(decodedData.id, id)
+        }
+    }
 }
