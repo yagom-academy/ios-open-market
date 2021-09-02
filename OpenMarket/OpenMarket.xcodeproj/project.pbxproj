@@ -16,6 +16,7 @@
 		DF36FBBC26E0DCED00DDD2DC /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF36FBBB26E0DCED00DDD2DC /* Item.swift */; };
 		DF36FBBE26E0DEF700DDD2DC /* ItemList.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF36FBBD26E0DEF700DDD2DC /* ItemList.swift */; };
 		DF36FBC026E0E08400DDD2DC /* RequestAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF36FBBF26E0E08400DDD2DC /* RequestAPI.swift */; };
+		DF36FBC426E1154900DDD2DC /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF36FBC326E1154900DDD2DC /* Request.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,7 @@
 		DF36FBBB26E0DCED00DDD2DC /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		DF36FBBD26E0DEF700DDD2DC /* ItemList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemList.swift; sourceTree = "<group>"; };
 		DF36FBBF26E0E08400DDD2DC /* RequestAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestAPI.swift; sourceTree = "<group>"; };
+		DF36FBC326E1154900DDD2DC /* Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,6 +97,7 @@
 				DF36FBBD26E0DEF700DDD2DC /* ItemList.swift */,
 				DF36FBBB26E0DCED00DDD2DC /* Item.swift */,
 				DF36FBBF26E0E08400DDD2DC /* RequestAPI.swift */,
+				DF36FBC326E1154900DDD2DC /* Request.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -182,6 +185,7 @@
 				DF36FBC026E0E08400DDD2DC /* RequestAPI.swift in Sources */,
 				DF36FBBE26E0DEF700DDD2DC /* ItemList.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
+				DF36FBC426E1154900DDD2DC /* Request.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 			);
