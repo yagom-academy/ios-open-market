@@ -153,7 +153,7 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
-		891A984126DDE9C3006A0E2B /* NetworkManager */ = {
+		891A984126DDE9C3006A0E2B /* Network */ = {
 			isa = PBXGroup;
 			children = (
 				891A984226DDECBA006A0E2B /* NetworkManager.swift */,
@@ -162,7 +162,7 @@
 				891A984626DE0432006A0E2B /* APIEnum.swift */,
 				8930691326DF28EE00DA9A8F /* Protocol */,
 			);
-			path = NetworkManager;
+			path = Network;
 			sourceTree = "<group>";
 		};
 		891A984A26DE6F95006A0E2B /* Mock */ = {
@@ -218,7 +218,7 @@
 		C70FB0F925BEF61C00C9924E /* OpenMarket */ = {
 			isa = PBXGroup;
 			children = (
-				891A984126DDE9C3006A0E2B /* NetworkManager */,
+				891A984126DDE9C3006A0E2B /* Network */,
 				891A983426DD5C15006A0E2B /* Model */,
 				891A983226DD5C05006A0E2B /* View */,
 				891A983326DD5C0C006A0E2B /* Controller */,
