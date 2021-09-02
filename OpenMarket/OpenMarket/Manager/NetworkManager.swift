@@ -29,7 +29,7 @@ class NetworkManager {
             return
         }
         session.dataTask(with: request) { data, response, error in
-            guard error == nil else {
+            if let _ = error {
                 completionHandler(.failure(.dataTaskError))
                 return
             }
