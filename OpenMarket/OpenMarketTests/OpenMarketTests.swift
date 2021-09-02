@@ -20,7 +20,7 @@ class OpenMarketTests: XCTestCase {
         // given
         let expectInputValue = "Items"
         // when
-        guard let jsonData = try? parsingManager?.receivedDataAsset(assetName: expectInputValue),
+        guard let jsonData = try? parsingManager?.LoadedDataAsset(assetName: expectInputValue),
               let decodedData = try? parsingManager?.decodedJSONData(type: ProductCollection.self, data: jsonData.data) else {
             return XCTFail()
         }
@@ -34,7 +34,7 @@ class OpenMarketTests: XCTestCase {
         // given
         let expectInputValue = "Item"
         // when
-        guard let jsonData = try? parsingManager?.receivedDataAsset(assetName: expectInputValue),
+        guard let jsonData = try? parsingManager?.LoadedDataAsset(assetName: expectInputValue),
               let decodedData = try? parsingManager?.decodedJSONData(type: Product.self, data: jsonData.data) else {
             return XCTFail()
         }
@@ -52,7 +52,7 @@ class OpenMarketTests: XCTestCase {
         let sut = NetworkManager(session: MockURLSession(isRequestSucess: expectBool),
                                  valuableHTTPMethod: [expectHttpMethod])
         // when
-        guard let jsonData = try? parsingManager?.receivedDataAsset(assetName: expectInputValue),
+        guard let jsonData = try? parsingManager?.LoadedDataAsset(assetName: expectInputValue),
               let decodedData = try? parsingManager?.decodedJSONData(type: Product.self, data: jsonData.data) else {
             return XCTFail()
         }
