@@ -8,10 +8,9 @@ import UIKit
 
 class ViewController: UIViewController {
 
-    let networkManager = NetworkManager(session: URLSession.shared)
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         /* GET 요청
         let api = GetItemsAPI(page: 3)
         networkManager.commuteWithAPI(with: api) { result in

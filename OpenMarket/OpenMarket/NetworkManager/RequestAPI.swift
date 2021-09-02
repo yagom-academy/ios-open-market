@@ -7,22 +7,6 @@
 
 import Foundation
 
-//MARK: HTTP Requeset API 프로토콜 구현부
-protocol RequestAPI {
-    var url: APIURL { get }
-    var method: APIMethod { get }
-    var contentType: ContentType { get }
-}
-
-protocol RequestableWithoutBody: RequestAPI {
-}
-
-protocol RequestableWithBody: RequestAPI {
-    var parameters: Parameters { get }
-    var images: [Media]? { get }
-}
-
-//MARK: HTTP Request API 타입 구현부
 struct GetItemsAPI: RequestableWithoutBody {
     var url: APIURL
     var method: APIMethod = .get
@@ -70,7 +54,7 @@ struct PatchItemAPI: RequestableWithBody {
     }
 }
 
-struct DeleteItemAPI: RequestAPI{
+struct DeleteItemAPI: Requestable {
     var url: APIURL
     var method: APIMethod = .delete
     var contentType: ContentType = .json

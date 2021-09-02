@@ -59,8 +59,6 @@ extension APIURL: CustomStringConvertible {
             return Self.baseURL + "/item/\(id)"
         case .post:
             return Self.baseURL + "/item"
-        default:
-            return Self.baseURL + "/item"
         }
     }
 }

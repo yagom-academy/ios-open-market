@@ -10,14 +10,14 @@ import Foundation
 typealias Parameters = [String: Any]
 
 class NetworkManager {
-    private let session: URLSession
+    private let session: URLSessionProtocol
     lazy var boundary = generateBoundary()
     
-    init(session: URLSession = .shared) {
+    init(session: URLSessionProtocol = URLSession.shared) {
         self.session = session
     }
     
-    func commuteWithAPI(with API: RequestAPI, completion: @escaping(Result<Data, Error>) -> Void) {
+    func commuteWithAPI(with API: Requestable, completion: @escaping(Result<Data, Error>) -> Void) {
         guard let request = try? createRequest(API: API) else {
             return completion(.failure(NetworkError.invalidRequest))
         }
@@ -40,12 +40,12 @@ class NetworkManager {
 }
 
 extension NetworkManager {
-    private func createURL(from API: RequestAPI) -> URL? {
+    private func createURL(from API: Requestable) -> URL? {
         let url = URL(string: API.url.description)
         return url
     }
     
-    private func createRequest(API: RequestAPI) throws -> URLRequest {
+    private func createRequest(API: Requestable) throws -> URLRequest {
         guard let url = createURL(from: API) else {
             throw NetworkError.invaildURL
         }
