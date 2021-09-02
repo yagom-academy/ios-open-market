@@ -39,11 +39,12 @@ struct Request {
         var body = Data()
         
         let lineBreak = "\r\n"
+        let doubleLineBreak = "\r\n\r\n"
         
         if let parameters = params {
             for (key, value) in parameters {
                 body.append("--\(boundary)\(lineBreak)")
-                body.append("Content-Disposition: form-data; name=\"\(key)\"\(lineBreak + lineBreak)")
+                body.append("Content-Disposition: form-data; name=\"\(key)\"\(doubleLineBreak)")
                 body.append("\(value)\(lineBreak)")
             }
         }
@@ -52,7 +53,7 @@ struct Request {
             for photo in image {
                 body.append("--\(boundary)\(lineBreak)")
                 body.append("Content-Disposition: form-data; name=\"\(photo.key)\"; filename=\"\(photo.filename)\"\(lineBreak)")
-                body.append("Content-Type: \(photo.mimeType)\(lineBreak + lineBreak)")
+                body.append("Content-Type: \(photo.mimeType)\(doubleLineBreak)")
                 body.append(photo.data)
                 body.append(lineBreak)
             }
