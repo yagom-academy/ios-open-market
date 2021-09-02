@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ItemsData: Codable {
+struct ProductCollection: Codable {
     let page: Int
-    let items: [ItemData]
+    let items: [Product]
 }
