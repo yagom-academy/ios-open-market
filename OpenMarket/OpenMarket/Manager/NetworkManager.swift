@@ -14,9 +14,9 @@ class NetworkManager {
     private static let rangeOfSuccessState = 200...299
     
     init(session: URLSessionProtocol = URLSession.shared,
-         valuableHTTPMethod: [APIHTTPMethod] = APIHTTPMethod.allCases) {
+         applicableHTTPMethod: [APIHTTPMethod] = APIHTTPMethod.allCases) {
         self.session = session
-        self.valuableHTTPMethod = valuableHTTPMethod
+        self.valuableHTTPMethod = applicableHTTPMethod
     }
     
     func commuteWithAPI(api: Requestable, completionHandler: @escaping(Result<Data, NetworkError>) -> Void) {

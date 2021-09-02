@@ -50,7 +50,7 @@ class OpenMarketTests: XCTestCase {
         let expectInputValue = "Item"
         let expectHttpMethod: APIHTTPMethod = .get
         let sut = NetworkManager(session: MockURLSession(isRequestSucess: expectBool),
-                                 valuableHTTPMethod: [expectHttpMethod])
+                                 applicableHTTPMethod: [expectHttpMethod])
         // when
         guard let jsonData = try? parsingManager?.loadedDataAsset(assetName: expectInputValue),
               let decodedData = try? parsingManager?.decodedJSONData(type: Product.self, data: jsonData.data) else {
@@ -75,7 +75,7 @@ class OpenMarketTests: XCTestCase {
         // given
         let expectHttpMethod: APIHTTPMethod = .post
         let sut = NetworkManager(session: MockURLSession(isRequestSucess: false),
-                                 valuableHTTPMethod: [expectHttpMethod])
+                                 applicableHTTPMethod: [expectHttpMethod])
         // when
         sut.commuteWithAPI(api: GetItemAPI(id: 1)) { result in
             if case .failure(let error) = result {
@@ -88,7 +88,7 @@ class OpenMarketTests: XCTestCase {
     func test_get을_호출시_리스폰스의_상태코드가_402이면_테스트에_실패한다() {
         // given
         let expectBool = false
-        let sut = NetworkManager(session: MockURLSession(isRequestSucess: expectBool), valuableHTTPMethod: [.get])
+        let sut = NetworkManager(session: MockURLSession(isRequestSucess: expectBool), applicableHTTPMethod: [.get])
         // when
         sut.commuteWithAPI(api: GetItemAPI(id: 1)) { result in
             guard case .failure(let error) = result else {
