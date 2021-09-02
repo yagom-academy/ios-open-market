@@ -64,13 +64,11 @@ class NetworkManager {
                 completionHandler(.failure(.responseFailed))
                 return
             }
-            debugPrint(response)
             
             guard let data = data else {
                 completionHandler(.failure(.dataNotfound))
                 return
             }
-            debugPrint(String(decoding: data, as: UTF8.self))
             completionHandler(.success(data))
         }.resume()
     }
