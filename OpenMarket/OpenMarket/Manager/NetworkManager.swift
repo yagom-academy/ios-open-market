@@ -36,13 +36,13 @@ enum NetworkError: Error, LocalizedError {
 class NetworkManager {
     private let request = Request()
     private let session: URLSessionProtocol
-    private var valuableMethod: [APIMethod] = []
+    private var valuableHTTPMethod: [APIMethod]
     private static let rangeOfSuccessState = 200...299
     
     init(session: URLSessionProtocol = URLSession.shared,
-         valuableMethod: [APIMethod] = APIMethod.allCases) {
+         valuableHTTPMethod: [APIMethod] = APIMethod.allCases) {
         self.session = session
-        self.valuableMethod = valuableMethod
+        self.valuableHTTPMethod = valuableHTTPMethod
     }
     
     func commuteWithAPI(api: Requestable, completionHandler: @escaping(Result<Data, NetworkError>) -> Void) {
@@ -50,7 +50,7 @@ class NetworkManager {
             completionHandler(.failure(.requestFailed))
             return
         }
-        guard valuableMethod.contains(api.method) else {
+        guard valuableHTTPMethod.contains(api.method) else {
             completionHandler(.failure(.invalidHttpMethod))
             return
         }
