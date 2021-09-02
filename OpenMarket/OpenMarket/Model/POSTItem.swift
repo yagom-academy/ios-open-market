@@ -15,7 +15,7 @@ struct POSTItem {
     private let stock: Int
     private let discounted_price: Int?
     private let password: String
-    
+
     init(title: String, descriptions: String, price: Int, currency: String, stock: Int, discounted_price: Int?, password: String) {
         self.title = title
         self.descriptions = descriptions
@@ -25,7 +25,7 @@ struct POSTItem {
         self.discounted_price = discounted_price
         self.password = password
     }
-    
+
     func parameter() -> Parameters {
         var parameter: Parameters = ["title": self.title,
                                      "descriptions": self.descriptions,
@@ -33,7 +33,7 @@ struct POSTItem {
                                      "currency": self.currency,
                                      "stock": self.stock,
                                      "password": self.password]
-        
+
         if let discounted_price = self.discounted_price {
             parameter["discounted_price"] = discounted_price
         }

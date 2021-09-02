@@ -7,7 +7,7 @@
 
 import Foundation
 
-//MARK: API에 사용되는 Enum
+// MARK: API에 사용되는 Enum
 enum APIMethod {
     case get
     case post
@@ -21,7 +21,7 @@ enum APIURL {
     case patch(id: Int)
     case delete(id: Int)
     case post
-    
+
     static let baseURL = "https://camp-open-market-2.herokuapp.com/"
 }
 
@@ -30,7 +30,7 @@ enum ContentType {
     case multipart
 }
 
-//MARK: Enum의 추가 구현부
+// MARK: Enum의 추가 구현부
 extension APIMethod: CustomStringConvertible {
     var description: String {
         switch self {

@@ -17,11 +17,11 @@ struct Media {
     let fileName: String
     let mimeType: MimeType
     let fileData: Data
-    
+
     init?(imageName: String, mimeType: MimeType, image: UIImage) {
         self.fieldName = "images[]"
         self.mimeType = mimeType
-        
+
         switch mimeType {
         case .png:
             self.fileName = "\(imageName).png"

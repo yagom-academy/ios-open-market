@@ -12,17 +12,17 @@ typealias Parameters = [String: Any]
 class NetworkManager {
     private let session: URLSessionProtocol
     lazy var boundary = generateBoundary()
-    
+
     init(session: URLSessionProtocol = URLSession.shared) {
         self.session = session
     }
-    
+
     func commuteWithAPI(with API: Requestable, completion: @escaping(Result<Data, Error>) -> Void) {
         guard let request = try? createRequest(API: API) else {
             return completion(.failure(NetworkError.invalidRequest))
         }
         debugPrint(request)
-        
+
         session.dataTask(with: request) { data, response, error in
             if let error = error {
                 return completion(.failure(error))
@@ -44,7 +44,7 @@ extension NetworkManager {
         let url = URL(string: API.url.description)
         return url
     }
-    
+
     private func createRequest(API: Requestable) throws -> URLRequest {
         guard let url = createURL(from: API) else {
             throw NetworkError.invaildURL
@@ -58,7 +58,6 @@ extension NetworkManager {
             request.setValue(API.contentType.description, forHTTPHeaderField: "Content-Type")
         }
 
-        
         if let api = API as? DeleteItemAPI {
             guard let body = try? JSONEncoder().encode(api.deleteItem) else {
                 throw NetworkError.invalidData
@@ -69,7 +68,7 @@ extension NetworkManager {
         }
         return request
     }
-    
+
     private func createRequestBody(API: RequestableWithBody) -> Data {
         var body = Data()
         let lineBreakPoint = "\r\n"
@@ -92,12 +91,12 @@ extension NetworkManager {
 
         return body
     }
-    
+
 }
 
 extension Data {
     mutating func append(_ string: String) {
-        if let data = string.data(using: .utf8){
+        if let data = string.data(using: .utf8) {
             append(data)
         }
     }

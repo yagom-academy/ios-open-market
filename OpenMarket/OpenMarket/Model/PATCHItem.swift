@@ -15,7 +15,7 @@ struct PATCHItem {
     private let stock: Int?
     private let discounted_price: Int?
     private let password: String
-    
+
     init(title: String?, descriptions: String?, price: Int?, currency: String?, stock: Int?, discounted_price: Int?, password: String) {
         self.title = title
         self.descriptions = descriptions
@@ -25,7 +25,7 @@ struct PATCHItem {
         self.discounted_price = discounted_price
         self.password = password
     }
-    
+
     func parameter() -> Parameters {
         var parameter: Parameters = ["password": self.password]
             if let title = self.title {
