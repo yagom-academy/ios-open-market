@@ -26,4 +26,22 @@ class OpenMarketTests: XCTestCase {
         //then
         XCTAssertEqual(outputValue, expectedResultValue)
     }
+    
+    func test_success_JSON파일인Items를_ItemList타입에디코딩하면_items배열의count는20이다() {
+        //given
+        let path = Bundle(for: type(of: self)).path(forResource: "Items", ofType: "json")
+        let jsonFile = try? String(contentsOfFile: path!).data(using: .utf8)
+        var outputValue: Int?
+        //when
+        let data = ParsingManager().parse(jsonFile!, to: ItemList.self)
+        switch data {
+        case .success(let itemList):
+            outputValue = itemList.items.count
+        case .failure(let error):
+            XCTFail()
+        }
+        let expectedResultValue = 20
+        //then
+        XCTAssertEqual(outputValue, expectedResultValue)
+    }
 }
