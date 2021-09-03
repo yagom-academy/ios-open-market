@@ -19,6 +19,7 @@
 		DF36FBC426E1154900DDD2DC /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF36FBC326E1154900DDD2DC /* Request.swift */; };
 		DF36FBC726E122AB00DDD2DC /* URLSessionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF36FBC626E122AB00DDD2DC /* URLSessionProtocol.swift */; };
 		DF36FBDA26E1261C00DDD2DC /* NetworkDispatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF36FBD926E1261C00DDD2DC /* NetworkDispatcher.swift */; };
+		DFAD8BB826E1AFC2009B9B5E /* ListLookUpTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFAD8BB726E1AFC2009B9B5E /* ListLookUpTask.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +37,7 @@
 		DF36FBC326E1154900DDD2DC /* Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
 		DF36FBC626E122AB00DDD2DC /* URLSessionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionProtocol.swift; sourceTree = "<group>"; };
 		DF36FBD926E1261C00DDD2DC /* NetworkDispatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkDispatcher.swift; sourceTree = "<group>"; };
+		DFAD8BB726E1AFC2009B9B5E /* ListLookUpTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListLookUpTask.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +85,7 @@
 			isa = PBXGroup;
 			children = (
 				DF36FBD926E1261C00DDD2DC /* NetworkDispatcher.swift */,
+				DFAD8BB726E1AFC2009B9B5E /* ListLookUpTask.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -199,6 +202,7 @@
 				DF36FBC026E0E08400DDD2DC /* RequestAPI.swift in Sources */,
 				DF36FBBE26E0DEF700DDD2DC /* ItemList.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
+				DFAD8BB826E1AFC2009B9B5E /* ListLookUpTask.swift in Sources */,
 				DF36FBC726E122AB00DDD2DC /* URLSessionProtocol.swift in Sources */,
 				DF36FBC426E1154900DDD2DC /* Request.swift in Sources */,
 				DF36FBDA26E1261C00DDD2DC /* NetworkDispatcher.swift in Sources */,

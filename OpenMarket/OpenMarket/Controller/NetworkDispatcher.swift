@@ -33,7 +33,7 @@ struct NetworkDispatcher {
         self.session = session
     }
     
-    func send(request: Request, _ suffix: Int, completion: @escaping (Result<Data, Error>) -> ()) -> Data? {
+    func send(request: Request, _ suffix: Int, completion: @escaping (Result<Data, Error>) -> ()) {
         let preparedResult = prepareForRequest(of: request, suffix)
         switch preparedResult {
         case .success(let userRequest):
@@ -56,9 +56,9 @@ struct NetworkDispatcher {
             task.resume()
         case .failure(let error):
             completion(.failure(error))
-            return nil
+            return
         }
-        return nil
+        return
     }
     
     func prepareForRequest(of request: Request, _ suffix: Int) -> Result<URLRequest, Error> {
