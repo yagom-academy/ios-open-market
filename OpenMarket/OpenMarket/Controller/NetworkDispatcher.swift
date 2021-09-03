@@ -33,7 +33,7 @@ struct NetworkDispatcher {
         self.session = session
     }
     
-    func send(request: Request, _ suffix: String, completion: @escaping (Result<Data, Error>) -> ()) -> Data? {
+    func send(request: Request, _ suffix: Int, completion: @escaping (Result<Data, Error>) -> ()) -> Data? {
         let preparedResult = prepareForRequest(of: request, suffix)
         switch preparedResult {
         case .success(let userRequest):
@@ -61,8 +61,8 @@ struct NetworkDispatcher {
         return nil
     }
     
-    func prepareForRequest(of request: Request, _ suffix: String) -> Result<URLRequest, Error> {
-        guard let url = URL(string: Request.baseURL + request.path + suffix) else {
+    func prepareForRequest(of request: Request, _ suffix: Int) -> Result<URLRequest, Error> {
+        guard let url = URL(string: Request.baseURL + request.path + " \(suffix)") else {
             return .failure(NetworkError.invalidURL)
         }
         let userRequest = URLRequest(url: url)
