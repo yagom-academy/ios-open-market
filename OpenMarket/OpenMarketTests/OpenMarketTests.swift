@@ -44,4 +44,19 @@ class OpenMarketTests: XCTestCase {
         //then
         XCTAssertEqual(outputValue, expectedResultValue)
     }
+    
+    func test_fail_JSON파일인Item을_ItemList타입에디코딩하면_디코딩에실패한다() {
+        //given
+        let path = Bundle(for: type(of: self)).path(forResource: "Item", ofType: "json")
+        let jsonFile = try? String(contentsOfFile: path!).data(using: .utf8)
+        //when
+        let data = ParsingManager().parse(jsonFile!, to: ItemList.self)
+        //then
+        switch data {
+        case .success(let item):
+            XCTFail()
+        case .failure(let error):
+            XCTAssert(true)
+        }
+    }
 }
