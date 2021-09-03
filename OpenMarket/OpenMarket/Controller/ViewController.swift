@@ -7,10 +7,10 @@
 import UIKit
 
 class ViewController: UIViewController {
-    let networkManager = NetworkManager()
-
+    private let networkManager = NetworkManager()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
     }
 }

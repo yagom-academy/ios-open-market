@@ -27,20 +27,22 @@ enum APIHTTPMethod: CaseIterable {
     }
 }
 
-enum APIURL: CustomStringConvertible {
-    case getItems
-    case getItem
+enum APIURL {
+    case getItems(page: Int)
+    case getItem(id: Int)
     case post
-    case patch
-    case delete
+    case patch(id: Int)
+    case delete(id: Int)
     
     private static let baseURL = "https://camp-open-market-2.herokuapp.com/"
     
-    var description: String {
+    var path: String {
         switch self {
-        case .getItems:
-            return Self.baseURL + "items/"
-        default:
+        case .getItems(let page):
+            return Self.baseURL + "items/\(page)"
+        case .getItem(let id), .patch(let id), .delete(let id):
+            return Self.baseURL + "items/\(id)"
+        case .post:
             return Self.baseURL + "item/"
         }
     }

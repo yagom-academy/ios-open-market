@@ -8,27 +8,27 @@
 import UIKit
 
 struct GetItemAPI: Requestable {
-    var url: String
+    var url: APIURL
     let httpMethod: APIHTTPMethod = .get
     let contentType: ContentType = .json
     
     init(id: Int) {
-        self.url = APIURL.getItem.description + "\(id)"
+        self.url = .getItem(id: id)
     }
 }
 
 struct GetItemsAPI: Requestable {
-    var url: String
+    var url: APIURL
     let httpMethod: APIHTTPMethod = .get
     let contentType: ContentType = .json
     
     init(page: Int) {
-        self.url = APIURL.getItems.description + "\(page)"
+        self.url = .getItems(page: page)
     }
 }
 
 struct PostAPI: RequestableWithMultipartForm {
-    let url: String = APIURL.post.description
+    let url: APIURL = .post
     let httpMethod: APIHTTPMethod = .post
     let contentType: ContentType = .multipart
     let parameter: [String: Any]
@@ -41,27 +41,27 @@ struct PostAPI: RequestableWithMultipartForm {
 }
 
 struct PatchAPI: RequestableWithMultipartForm {
-    var url: String
+    var url: APIURL
     let httpMethod: APIHTTPMethod = .patch
     let contentType: ContentType = .multipart
     let parameter: [String: Any]
     var image: [Media]?
     
     init(id: Int, parameter: [String: Any], image: [Media]?) {
-        self.url = APIURL.patch.description + "\(id)"
+        self.url = .patch(id: id)
         self.parameter = parameter
         self.image = image
     }
 }
 
 struct DeleteAPI: Requestable {
-    var url: String
+    var url: APIURL
     let httpMethod: APIHTTPMethod = .delete
     let contentType: ContentType = .json
     var password: DeleteParameterData
     
     init(id: Int, password: String) {
-        self.url = APIURL.delete.description + "\(id)"
+        self.url = .delete(id: id)
         self.password = DeleteParameterData(password: password)
     }
 }

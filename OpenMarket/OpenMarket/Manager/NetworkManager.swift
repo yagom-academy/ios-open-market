@@ -20,7 +20,7 @@ class NetworkManager {
     }
     
     func commuteWithAPI(api: Requestable, completionHandler: @escaping(Result<Data, NetworkError>) -> Void) {
-        guard let request = try? request.createRequest(url: api.url, api: api) else {
+        guard let request = try? request.createRequest(api: api) else {
             completionHandler(.failure(.requestFailed))
             return
         }
