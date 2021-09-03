@@ -20,8 +20,8 @@
 		DF36FBC726E122AB00DDD2DC /* URLSessionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF36FBC626E122AB00DDD2DC /* URLSessionProtocol.swift */; };
 		DF36FBDA26E1261C00DDD2DC /* NetworkDispatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF36FBD926E1261C00DDD2DC /* NetworkDispatcher.swift */; };
 		DF51B55626E1FF7200B91E51 /* OpenMarketTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF51B55526E1FF7200B91E51 /* OpenMarketTests.swift */; };
-		DF51B56126E2011F00B91E51 /* item.json in Resources */ = {isa = PBXBuildFile; fileRef = DF51B56026E2011F00B91E51 /* item.json */; };
-		DF51B56326E2015100B91E51 /* items.json in Resources */ = {isa = PBXBuildFile; fileRef = DF51B56226E2015100B91E51 /* items.json */; };
+		DF51B56126E2011F00B91E51 /* Item.json in Resources */ = {isa = PBXBuildFile; fileRef = DF51B56026E2011F00B91E51 /* Item.json */; };
+		DF51B56326E2015100B91E51 /* Items.json in Resources */ = {isa = PBXBuildFile; fileRef = DF51B56226E2015100B91E51 /* Items.json */; };
 		DF51B56526E20D4B00B91E51 /* ParsingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF51B56426E20D4B00B91E51 /* ParsingManager.swift */; };
 		DFAD8BB826E1AFC2009B9B5E /* ListLookUpTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFAD8BB726E1AFC2009B9B5E /* ListLookUpTask.swift */; };
 /* End PBXBuildFile section */
@@ -54,8 +54,8 @@
 		DF51B55326E1FF7200B91E51 /* OpenMarketTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenMarketTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DF51B55526E1FF7200B91E51 /* OpenMarketTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketTests.swift; sourceTree = "<group>"; };
 		DF51B55726E1FF7200B91E51 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		DF51B56026E2011F00B91E51 /* item.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = item.json; sourceTree = "<group>"; };
-		DF51B56226E2015100B91E51 /* items.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = items.json; sourceTree = "<group>"; };
+		DF51B56026E2011F00B91E51 /* Item.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Item.json; sourceTree = "<group>"; };
+		DF51B56226E2015100B91E51 /* Items.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Items.json; sourceTree = "<group>"; };
 		DF51B56426E20D4B00B91E51 /* ParsingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParsingManager.swift; sourceTree = "<group>"; };
 		DFAD8BB726E1AFC2009B9B5E /* ListLookUpTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListLookUpTask.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -171,8 +171,8 @@
 		DF51B55D26E1FF8400B91E51 /* Mock */ = {
 			isa = PBXGroup;
 			children = (
-				DF51B56026E2011F00B91E51 /* item.json */,
-				DF51B56226E2015100B91E51 /* items.json */,
+				DF51B56026E2011F00B91E51 /* Item.json */,
+				DF51B56226E2015100B91E51 /* Items.json */,
 			);
 			path = Mock;
 			sourceTree = "<group>";
@@ -267,8 +267,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DF51B56326E2015100B91E51 /* items.json in Resources */,
-				DF51B56126E2011F00B91E51 /* item.json in Resources */,
+				DF51B56326E2015100B91E51 /* Items.json in Resources */,
+				DF51B56126E2011F00B91E51 /* Item.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -453,7 +453,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = OpenMarket/Info.plist;
+				INFOPLIST_FILE = OpenMarket/SupportingFiles/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -472,7 +472,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = OpenMarket/Info.plist;
+				INFOPLIST_FILE = OpenMarket/SupportingFiles/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

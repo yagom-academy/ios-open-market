@@ -13,7 +13,7 @@ struct ParsingManager {
     }
     
     private let decoder = JSONDecoder()
-    init(decoder: JSONDecoder) {
+    init() {
         decoder.keyDecodingStrategy = .convertFromSnakeCase
     }
     

@@ -6,27 +6,24 @@
 //
 
 import XCTest
+@testable import OpenMarket
 
 class OpenMarketTests: XCTestCase {
-
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-    }
-
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
-
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-    }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        measure {
-            // Put the code you want to measure the time of here.
+    func test_success_JSON파일인Item을_Item타입에디코딩하면_title은MacBookPro다() {
+        //given
+        let path = Bundle(for: type(of: self)).path(forResource: "Item", ofType: "json")
+        let jsonFile = try? String(contentsOfFile: path!).data(using: .utf8)
+        var outputValue: String?
+        //when
+        let data = ParsingManager().parse(jsonFile!, to: Item.self)
+        switch data {
+        case .success(let item):
+            outputValue = item.title
+        case .failure(let error):
+            XCTFail()
         }
+        let expectedResultValue = "MacBook Pro"
+        //then
+        XCTAssertEqual(outputValue, expectedResultValue)
     }
-
 }

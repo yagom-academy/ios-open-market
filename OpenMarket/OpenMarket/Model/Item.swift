@@ -12,10 +12,10 @@ struct Item: Decodable {
     let title: String
     let descriptions: String?
     let price: Int
+    let discountedPrice: Int?
     let currency: String
     let stock: Int
-    let discountedPrice: Int?
     let thumbnails: [String]
     let images: [String]?
-    let registrationDate: Int
+    let registrationDate: Double
 }
