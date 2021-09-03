@@ -10,13 +10,13 @@ import Foundation
 class NetworkManager {
     private let request = Request()
     private let session: URLSessionProtocol
-    private var valuableHTTPMethod: [APIHTTPMethod]
+    private var applicableHTTPMethod: [APIHTTPMethod]
     private static let rangeOfSuccessState = 200...299
     
     init(session: URLSessionProtocol = URLSession.shared,
          applicableHTTPMethod: [APIHTTPMethod] = APIHTTPMethod.allCases) {
         self.session = session
-        self.valuableHTTPMethod = applicableHTTPMethod
+        self.applicableHTTPMethod = applicableHTTPMethod
     }
     
     func commuteWithAPI(api: Requestable, completionHandler: @escaping(Result<Data, NetworkError>) -> Void) {
@@ -24,7 +24,7 @@ class NetworkManager {
             completionHandler(.failure(.requestFailed))
             return
         }
-        guard valuableHTTPMethod.contains(api.httpMethod) else {
+        guard applicableHTTPMethod.contains(api.httpMethod) else {
             completionHandler(.failure(.invalidHttpMethod))
             return
         }
