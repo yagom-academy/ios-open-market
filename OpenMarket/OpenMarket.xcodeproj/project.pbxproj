@@ -22,6 +22,7 @@
 		DF51B55626E1FF7200B91E51 /* OpenMarketTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF51B55526E1FF7200B91E51 /* OpenMarketTests.swift */; };
 		DF51B56126E2011F00B91E51 /* item.json in Resources */ = {isa = PBXBuildFile; fileRef = DF51B56026E2011F00B91E51 /* item.json */; };
 		DF51B56326E2015100B91E51 /* items.json in Resources */ = {isa = PBXBuildFile; fileRef = DF51B56226E2015100B91E51 /* items.json */; };
+		DF51B56526E20D4B00B91E51 /* ParsingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF51B56426E20D4B00B91E51 /* ParsingManager.swift */; };
 		DFAD8BB826E1AFC2009B9B5E /* ListLookUpTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFAD8BB726E1AFC2009B9B5E /* ListLookUpTask.swift */; };
 /* End PBXBuildFile section */
 
@@ -55,6 +56,7 @@
 		DF51B55726E1FF7200B91E51 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DF51B56026E2011F00B91E51 /* item.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = item.json; sourceTree = "<group>"; };
 		DF51B56226E2015100B91E51 /* items.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = items.json; sourceTree = "<group>"; };
+		DF51B56426E20D4B00B91E51 /* ParsingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParsingManager.swift; sourceTree = "<group>"; };
 		DFAD8BB726E1AFC2009B9B5E /* ListLookUpTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListLookUpTask.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -113,6 +115,7 @@
 			children = (
 				DF36FBD926E1261C00DDD2DC /* NetworkDispatcher.swift */,
 				DFAD8BB726E1AFC2009B9B5E /* ListLookUpTask.swift */,
+				DF51B56426E20D4B00B91E51 /* ParsingManager.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -277,6 +280,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DF36FBBC26E0DCED00DDD2DC /* Item.swift in Sources */,
+				DF51B56526E20D4B00B91E51 /* ParsingManager.swift in Sources */,
 				DF36FBC026E0E08400DDD2DC /* RequestAPI.swift in Sources */,
 				DF36FBBE26E0DEF700DDD2DC /* ItemList.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
