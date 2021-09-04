@@ -8,7 +8,7 @@
 import Foundation
 
 enum NetworkError: Error {
-    case invaildURL
+    case invalidURL
     case invalidRequest
     case invalidResponse
     case invalidData

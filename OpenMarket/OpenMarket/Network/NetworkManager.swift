@@ -11,7 +11,9 @@ typealias Parameters = [String: Any]
 
 class NetworkManager {
     private let session: URLSessionProtocol
-    lazy var boundary = generateBoundary()
+    private var boundary: String {
+        return "Boundary-\(UUID().uuidString)"
+    }
 
     init(session: URLSessionProtocol = URLSession.shared) {
         self.session = session
@@ -27,9 +29,11 @@ class NetworkManager {
             if let error = error {
                 return completion(.failure(error))
             }
-            guard let response = response as? HTTPURLResponse, (200...299).contains(response.statusCode) else {
+
+            if let response = response as? HTTPURLResponse, (200...299).contains(response.statusCode) == false {
                 return completion(.failure(NetworkError.invalidResponse))
             }
+
             guard let data = data else {
                 return completion(.failure(NetworkError.invalidData))
             }
@@ -46,9 +50,10 @@ extension NetworkManager {
     }
 
     private func createRequest(api: Requestable) throws -> URLRequest {
-        guard let url = createURL(from: api) else {
-            throw NetworkError.invaildURL
+        guard let url = URL(string: api.url.description) else {
+            throw NetworkError.invalidURL
         }
+
         var request = URLRequest(url: url)
         request.httpMethod = api.method.description
 
@@ -99,11 +104,5 @@ extension Data {
         if let data = string.data(using: .utf8) {
             append(data)
         }
-    }
-}
-
-extension NetworkManager {
-    func generateBoundary() -> String {
-        return "Boundary-\(UUID().uuidString)"
     }
 }

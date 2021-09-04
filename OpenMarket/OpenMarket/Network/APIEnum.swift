@@ -51,11 +51,7 @@ extension APIURL: CustomStringConvertible {
         switch self {
         case .getItems(let page):
             return Self.baseURL + "/items/\(page)"
-        case .getItem(let id):
-            return Self.baseURL + "/item/\(id)"
-        case .patch(let id):
-            return Self.baseURL + "/item/\(id)"
-        case .delete(let id):
+        case .getItem(let id), .patch(let id), .delete(let id):
             return Self.baseURL + "/item/\(id)"
         case .post:
             return Self.baseURL + "/item"

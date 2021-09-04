@@ -13,16 +13,16 @@ struct PATCHItem {
     private let price: Int?
     private let currency: String?
     private let stock: Int?
-    private let discounted_price: Int?
+    private let discountedPrice: Int?
     private let password: String
 
-    init(title: String?, descriptions: String?, price: Int?, currency: String?, stock: Int?, discounted_price: Int?, password: String) {
+    init(title: String?, descriptions: String?, price: Int?, currency: String?, stock: Int?, discountedPrice: Int?, password: String) {
         self.title = title
         self.descriptions = descriptions
         self.price = price
         self.currency = currency
         self.stock = stock
-        self.discounted_price = discounted_price
+        self.discountedPrice = discountedPrice
         self.password = password
     }
 
@@ -43,8 +43,8 @@ struct PATCHItem {
             if let stock = self.stock {
                 parameter["stock"] = stock
             }
-            if let discounted_price = discounted_price {
-                parameter["discounted_price"] = discounted_price
+            if let discountedPrice = self.discountedPrice {
+                parameter["discounted_price"] = discountedPrice
             }
             return parameter
     }

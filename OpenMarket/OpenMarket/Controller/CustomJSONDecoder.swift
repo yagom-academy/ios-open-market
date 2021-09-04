@@ -13,7 +13,7 @@ enum JSONError: Error {
 }
 
 class CustomJSONDecoder: JSONDecoder {
-    static func receiveDataAsset(assetName: String) throws -> NSDataAsset {
+    static func fetchFromAssets(assetName: String) throws -> NSDataAsset {
         guard let assetData = NSDataAsset(name: assetName) else {
             throw JSONError.invalidData
         }
