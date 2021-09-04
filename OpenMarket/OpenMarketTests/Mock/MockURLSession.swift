@@ -10,7 +10,7 @@ import Foundation
 
 class MockURLSession: URLSessionProtocol {
     let parsingManager = ParsingManager()
-    var url = URL(string: APIURL.getItem.description)!
+    var url = URL(string: APIURL.getItem(id: 1).path)!
     
     let sessionDataTask = MockURLSessionDataTask()
     var isRequestSucess: Bool

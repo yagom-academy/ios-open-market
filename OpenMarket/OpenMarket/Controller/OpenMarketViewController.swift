@@ -6,7 +6,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class OpenMarketViewController: UIViewController {
     private let networkManager = NetworkManager()
     
     override func viewDidLoad() {
