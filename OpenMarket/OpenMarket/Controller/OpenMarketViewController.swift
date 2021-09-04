@@ -11,6 +11,8 @@ class OpenMarketViewController: UIViewController {
     
     private var productList: [Product] = []
     private let networkManager = NetworkManager()
+    private let parsingManager = ParsingManager()
+    private let page = 15
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,5 +44,18 @@ extension OpenMarketViewController: UICollectionViewDelegate {
 }
 
 extension OpenMarketViewController {
-    
+    func requestProductList() {
+        self.networkManager.commuteWithAPI(api: GetItemsAPI(page: page)) { result in
+            if case .success(let data) = result {
+                guard let product = try? self.parsingManager.decodedJSONData(type: ProductCollection.self, data: data) else {
+                    return
+                }
+                self.productList.append(contentsOf: product.items)
+                
+                DispatchQueue.main.async {
+                    self.collectionView.reloadData()
+                }
+            }
+        }
+    }
 }

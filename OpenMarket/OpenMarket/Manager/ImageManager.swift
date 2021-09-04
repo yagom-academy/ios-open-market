@@ -25,6 +25,7 @@ struct ImageManager {
             switch result {
             case .failure(let error):
                 compleHandler(.failure(error))
+                return
             case .success(let data):
                 guard let imageData = UIImage(data: data) else {
                     compleHandler(.failure(.convertImageFailed))
