@@ -59,4 +59,33 @@ class OpenMarketTests: XCTestCase {
             XCTAssert(true)
         }
     }
+    
+    func test_success_통신이성공하면_() {
+        //given
+        let expectation = XCTestExpectation(description: "waitForNetworking")
+        let session = MockURLSession(isSuccess: true)
+        let networkDispatcher = NetworkDispatcher(session: session)
+        var outputValue: Item?
+        //when
+        networkDispatcher.send(request: Request.getItem, 1) { result in
+            switch result {
+            case .success(let data):
+                let parsedData = ParsingManager().parse(data, to: Item.self)
+                switch parsedData {
+                case .success(let item):
+                    outputValue = item
+                case .failure(let error):
+                    XCTFail()
+                }
+            case .failure(_):
+                XCTFail()
+            }
+            expectation.fulfill()
+        }
+        sleep(5)
+        wait(for: [expectation], timeout: 5.0)
+        let expectedResultValue = "MacBook Pro"
+        //then
+        XCTAssertEqual(outputValue?.title, expectedResultValue)
+    }
 }
