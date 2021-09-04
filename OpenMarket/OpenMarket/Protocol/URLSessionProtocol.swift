@@ -15,12 +15,13 @@ protocol URLSessionProtocol {
 extension URLSession: URLSessionProtocol {}
 
 extension URLSessionProtocol {
-    func obtainResponseData(data: Data?, response: URLResponse?, error: Error?, statusCode: ClosedRange<Int>) -> Result<Data, NetworkError> {
+    func obtainResponseData(data: Data?, response: URLResponse?, error: Error?) -> Result<Data, NetworkError> {
+        let rangeOfSuccessState = 200...299
         if let _ = error {
             return .failure(.dataTaskError)
         }
         guard let response = response as? HTTPURLResponse,
-              (statusCode).contains(response.statusCode) else {
+              (rangeOfSuccessState).contains(response.statusCode) else {
             return .failure(.requestFailed)
         }
         guard let data = data else {

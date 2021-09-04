@@ -15,6 +15,23 @@ struct ImageManager {
     }
     
     func loadedImage(url: String, compleHandler: @escaping (Result<UIImage, NetworkError>) -> Void) {
-        
+        guard let url = URL(string: url) else {
+            compleHandler(.failure(.invalidURL))
+            return
+        }
+        let request = URLRequest(url: url)
+        session.dataTask(with: request) { Data, response, error in
+            let result = session.obtainResponseData(data: Data, response: response, error: error)
+            switch result {
+            case .failure(let error):
+                compleHandler(.failure(error))
+            case .success(let data):
+                guard let imageData = UIImage(data: data) else {
+                    compleHandler(.failure(.convertImageFailed))
+                    return
+                }
+                compleHandler(.success(imageData))
+            }
+        }.resume()
     }
 }

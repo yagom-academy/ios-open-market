@@ -11,7 +11,6 @@ struct NetworkManager {
     private let request = Request()
     private let session: URLSessionProtocol
     private var applicableHTTPMethod: [APIHTTPMethod]
-    private static let rangeOfSuccessState = 200...299
     
     init(session: URLSessionProtocol = URLSession.shared,
          applicableHTTPMethod: [APIHTTPMethod] = APIHTTPMethod.allCases) {
@@ -29,7 +28,7 @@ struct NetworkManager {
             return
         }
         session.dataTask(with: request) { data, response, error in
-            let result = session.obtainResponseData(data: data, response: response, error: error, statusCode: Self.rangeOfSuccessState)
+            let result = session.obtainResponseData(data: data, response: response, error: error)
             switch result {
             case .failure(let error):
                 completionHandler(.failure(error))
