@@ -13,4 +13,7 @@ class ProductCell: UICollectionViewCell {
     @IBOutlet weak var priceLabel: UILabel!
     @IBOutlet weak var discontedPriceLabel: UILabel!
     @IBOutlet weak var stcokLabel: UILabel!
+    
+    static let identifier = String(describing: self)
+    static let listNibName = "ProductListCell"
 }
