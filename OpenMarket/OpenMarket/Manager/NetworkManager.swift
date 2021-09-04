@@ -7,7 +7,7 @@
 
 import Foundation
 
-class NetworkManager {
+struct NetworkManager {
     private let request = Request()
     private let session: URLSessionProtocol
     private var applicableHTTPMethod: [APIHTTPMethod]
@@ -29,21 +29,13 @@ class NetworkManager {
             return
         }
         session.dataTask(with: request) { data, response, error in
-            if let _ = error {
-                completionHandler(.failure(.dataTaskError))
-                return
+            let result = session.obtainResponseData(data: data, response: response, error: error, statusCode: Self.rangeOfSuccessState)
+            switch result {
+            case .failure(let error):
+                completionHandler(.failure(error))
+            case . success(let data):
+                completionHandler(.success(data))
             }
-            guard let response = response as? HTTPURLResponse,
-                  (Self.rangeOfSuccessState).contains(response.statusCode) else {
-                completionHandler(.failure(.responseFailed))
-                return
-            }
-            
-            guard let data = data else {
-                completionHandler(.failure(.dataNotfound))
-                return
-            }
-            completionHandler(.success(data))
         }.resume()
     }
 }
