@@ -11,7 +11,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="lJ3-nr-9rC">
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="lJ3-nr-9rC" customClass="ProductCell" customModule="OpenMarket" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="312" height="84"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="J2p-gb-rzX">
@@ -65,6 +65,13 @@
                 </constraints>
             </collectionViewCellContentView>
             <size key="customSize" width="312" height="84"/>
+            <connections>
+                <outlet property="discontedPriceLabel" destination="DqJ-Ng-MjT" id="u8l-tJ-6zg"/>
+                <outlet property="imageView" destination="QCL-ak-EX5" id="ldO-HK-r6k"/>
+                <outlet property="priceLabel" destination="Fmp-B5-48p" id="wJn-Zw-2EI"/>
+                <outlet property="stcokLabel" destination="k87-On-aky" id="spE-UH-Jc3"/>
+                <outlet property="titleLabel" destination="cL5-W8-wtt" id="EMk-Lp-wR0"/>
+            </connections>
             <point key="canvasLocation" x="-263.768115942029" y="99.776785714285708"/>
         </collectionViewCell>
     </objects>
