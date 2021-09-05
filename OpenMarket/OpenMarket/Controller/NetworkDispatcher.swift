@@ -12,7 +12,7 @@ enum NetworkError: Error, LocalizedError {
     case clientError
     case dataNotFound
     case invalidURL
-    
+
     var errorDescription: String {
         switch self {
         case .serverError:
@@ -32,10 +32,10 @@ struct NetworkDispatcher {
     init(session: URLSessionProtocol) {
         self.session = session
     }
-    
-    func send(request: Request, _ suffix: Int, completion: @escaping (Result<Data, Error>) -> ()) {
-        let preparedResult = prepareForRequest(of: request, suffix)
-        switch preparedResult {
+
+    func send(request: Request, _ suffix: Int, completion: @escaping (Result<Data, Error>) -> Void) {
+        let userRequest = request.configureRequest(of: Request.getList, path: suffix)
+        switch userRequest {
         case .success(let userRequest):
             let task = session.dataTask(with: userRequest) { data, response, error in
                 guard error == nil else {
@@ -59,13 +59,5 @@ struct NetworkDispatcher {
             return
         }
         return
-    }
-    
-    func prepareForRequest(of request: Request, _ suffix: Int) -> Result<URLRequest, Error> {
-        guard let url = URL(string: Request.baseURL + request.path + " \(suffix)") else {
-            return .failure(NetworkError.invalidURL)
-        }
-        let userRequest = URLRequest(url: url)
-        return .success(userRequest)
     }
 }
