@@ -64,7 +64,7 @@ class OpenMarketTests: XCTestCase {
         // given
         let expectation = XCTestExpectation(description: "waitForNetworking")
         let session = MockURLSession(isSuccess: true)
-        let networkDispatcher = NetworkDispatcher(session: session)
+        let networkDispatcher = NetworkManager(session: session)
         var outputValue: Item?
         // when
         networkDispatcher.send(request: Request.getItem, 1) { result in
@@ -93,7 +93,7 @@ class OpenMarketTests: XCTestCase {
         // given
         let expectation = XCTestExpectation(description: "waitForNetworking")
         let session = MockURLSession(isSuccess: false)
-        let networkDispatcher = NetworkDispatcher(session: session)
+        let networkDispatcher = NetworkManager(session: session)
         var isTestSuccess = false
         // when
         networkDispatcher.send(request: Request.getItem, 1) { result in

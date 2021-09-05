@@ -11,12 +11,12 @@ struct ParsingManager {
     enum ParsingError: Error {
         case decodingFailed
     }
-    
+
     private let decoder = JSONDecoder()
     init() {
         decoder.keyDecodingStrategy = .convertFromSnakeCase
     }
-    
+
     func parse<T: Decodable>(_ data: Data, to model: T.Type) -> Result<T, ParsingError> {
         let parsedData = try? decoder.decode(model, from: data)
         guard let jsonData = parsedData else {

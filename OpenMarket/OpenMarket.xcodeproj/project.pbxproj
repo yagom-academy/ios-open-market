@@ -22,7 +22,7 @@
 		DF36FBC026E0E08400DDD2DC /* RequestAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF36FBBF26E0E08400DDD2DC /* RequestAPI.swift */; };
 		DF36FBC426E1154900DDD2DC /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF36FBC326E1154900DDD2DC /* Request.swift */; };
 		DF36FBC726E122AB00DDD2DC /* URLSessionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF36FBC626E122AB00DDD2DC /* URLSessionProtocol.swift */; };
-		DF36FBDA26E1261C00DDD2DC /* NetworkDispatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF36FBD926E1261C00DDD2DC /* NetworkDispatcher.swift */; };
+		DF36FBDA26E1261C00DDD2DC /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF36FBD926E1261C00DDD2DC /* NetworkManager.swift */; };
 		DF51B55626E1FF7200B91E51 /* OpenMarketTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF51B55526E1FF7200B91E51 /* OpenMarketTests.swift */; };
 		DF51B56126E2011F00B91E51 /* Item.json in Resources */ = {isa = PBXBuildFile; fileRef = DF51B56026E2011F00B91E51 /* Item.json */; };
 		DF51B56326E2015100B91E51 /* Items.json in Resources */ = {isa = PBXBuildFile; fileRef = DF51B56226E2015100B91E51 /* Items.json */; };
@@ -60,7 +60,7 @@
 		DF36FBBF26E0E08400DDD2DC /* RequestAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestAPI.swift; sourceTree = "<group>"; };
 		DF36FBC326E1154900DDD2DC /* Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
 		DF36FBC626E122AB00DDD2DC /* URLSessionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionProtocol.swift; sourceTree = "<group>"; };
-		DF36FBD926E1261C00DDD2DC /* NetworkDispatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkDispatcher.swift; sourceTree = "<group>"; };
+		DF36FBD926E1261C00DDD2DC /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		DF51B55326E1FF7200B91E51 /* OpenMarketTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenMarketTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DF51B55526E1FF7200B91E51 /* OpenMarketTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketTests.swift; sourceTree = "<group>"; };
 		DF51B55726E1FF7200B91E51 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -147,7 +147,7 @@
 		DF36FBB726E0DC7500DDD2DC /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				DF36FBD926E1261C00DDD2DC /* NetworkDispatcher.swift */,
+				DF36FBD926E1261C00DDD2DC /* NetworkManager.swift */,
 				DF51B56426E20D4B00B91E51 /* ParsingManager.swift */,
 			);
 			path = Controller;
@@ -388,7 +388,7 @@
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
 				DF36FBC726E122AB00DDD2DC /* URLSessionProtocol.swift in Sources */,
 				DF36FBC426E1154900DDD2DC /* Request.swift in Sources */,
-				DF36FBDA26E1261C00DDD2DC /* NetworkDispatcher.swift in Sources */,
+				DF36FBDA26E1261C00DDD2DC /* NetworkManager.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 			);

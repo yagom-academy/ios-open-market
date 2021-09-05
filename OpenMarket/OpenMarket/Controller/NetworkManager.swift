@@ -27,14 +27,14 @@ enum NetworkError: Error, LocalizedError {
     }
 }
 
-struct NetworkDispatcher {
+struct NetworkManager {
     private let session: URLSessionProtocol
     init(session: URLSessionProtocol) {
         self.session = session
     }
 
     func send(request: Request, _ suffix: Int, completion: @escaping (Result<Data, Error>) -> Void) {
-        let userRequest = request.configureRequest(of: Request.getList, path: suffix)
+        let userRequest = request.configure(request: Request.getList, path: suffix)
         switch userRequest {
         case .success(let userRequest):
             let task = session.dataTask(with: userRequest) { data, response, error in
