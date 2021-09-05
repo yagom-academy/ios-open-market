@@ -13,9 +13,13 @@ protocol RequestAPI {
     var body: Data? { get }
 }
 
-enum HTTPMethod {
-    case get
-    case post
-    case patch
-    case delete
+enum HTTPMethod: String {
+    case get = "GET"
+    case post = "POST"
+    case patch = "PATCH"
+    case delete = "DELETE"
+    
+    var method: String {
+        return self.rawValue
+    }
 }
