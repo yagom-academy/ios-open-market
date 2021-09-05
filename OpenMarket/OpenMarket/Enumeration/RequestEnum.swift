@@ -59,7 +59,7 @@ enum ContentType {
         case .json:
             return "application/json"
         case .multipart:
-            return "multipart/form-data; boundary="
+            return "multipart/form-data; boundary=\(Boundary.uuid)"
         }
     }
 }
@@ -76,4 +76,8 @@ enum MimeType: CustomStringConvertible {
             return "image/png"
         }
     }
+}
+
+enum Boundary {
+    static let uuid = "Boundary-\(UUID().uuidString)"
 }

@@ -17,10 +17,15 @@ class OpenMarketViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        guard let dd = Media(image: #imageLiteral(resourceName: "LoadedImageFailed"), mimeType: .png) else { return }
+        let ss = MultipartFormData(title: "하하", descriptions: "호호호", price: 2000, currency: "KRW", stock: 1, discountedPrice: 200, password: "12345")
+        networkManager.commuteWithAPI(api: PostAPI(parameter: ss.parameter, image: [dd])) { _ in
+        }
+        
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.register(UINib(nibName: ProductCell.listNibName, bundle: nil), forCellWithReuseIdentifier: ProductCell.identifier)
-        requestProductList()
+//        requestProductList()
     }
 }
 
