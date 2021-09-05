@@ -59,7 +59,7 @@ enum Request: RequestAPI {
 
 extension Request {
     func configureRequest(of request: Request, path: Int) -> Result<URLRequest, NetworkError> {
-        guard let url = URL(string: Request.baseURL + request.path + "\(path)") else {
+        guard let url = URL(string: Request.baseURL + request.path + "/\(path)") else {
             return .failure(.invalidURL)
         }
         var userRequest = URLRequest(url: url)
