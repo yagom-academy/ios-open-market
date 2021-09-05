@@ -20,6 +20,7 @@ class OpenMarketViewController: UIViewController {
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.register(UINib(nibName: ProductCell.listNibName, bundle: nil), forCellWithReuseIdentifier: ProductCell.identifier)
+        requestProductList()
     }
 }
 
@@ -33,6 +34,8 @@ extension OpenMarketViewController: UICollectionViewDataSource {
             return  UICollectionViewCell()
         }
         let productForItem = productList[indexPath.item]
+        cell.imageConfigure(product: productForItem)
+        cell.textConfigure(product: productForItem)
         
         return cell
     }
