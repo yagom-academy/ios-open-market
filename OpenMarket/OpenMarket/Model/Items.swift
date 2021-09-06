@@ -8,6 +8,6 @@
 import Foundation
 
 struct Items: Codable {
-    let page: Int
-    let items: [Item]
+    var page: Int
+    var items: [Item]
 }

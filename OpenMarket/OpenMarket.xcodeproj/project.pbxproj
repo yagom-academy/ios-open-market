@@ -14,6 +14,8 @@
 		C70FB10225BEF61C00C9924E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C70FB10025BEF61C00C9924E /* Main.storyboard */; };
 		C70FB10425BEF61D00C9924E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C70FB10325BEF61D00C9924E /* Assets.xcassets */; };
 		C70FB10725BEF61D00C9924E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */; };
+		F92B2E8626E5C7AB0035AC7E /* RegistProductModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F92B2E8526E5C7AB0035AC7E /* RegistProductModel.swift */; };
+		F92B2E8926E5D6C00035AC7E /* Extension+Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = F92B2E8826E5D6C00035AC7E /* Extension+Data.swift */; };
 		F9F285C526E3AF940076B8F3 /* Items.json in Resources */ = {isa = PBXBuildFile; fileRef = F9F285C426E3AF940076B8F3 /* Items.json */; };
 		F9F285C726E3AFCA0076B8F3 /* Item.json in Resources */ = {isa = PBXBuildFile; fileRef = F9F285C626E3AFCA0076B8F3 /* Item.json */; };
 		F9F285CB26E3B0940076B8F3 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9F285CA26E3B0940076B8F3 /* Item.swift */; };
@@ -21,6 +23,8 @@
 		F9F285D226E3B1350076B8F3 /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9F285D126E3B1350076B8F3 /* Error.swift */; };
 		F9F285D626E3BA1E0076B8F3 /* URLSessionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9F285D526E3BA1E0076B8F3 /* URLSessionProtocol.swift */; };
 		F9F285D926E3BA4D0076B8F3 /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9F285D826E3BA4D0076B8F3 /* APIManager.swift */; };
+		F9F285DC26E5B86A0076B8F3 /* Media.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9F285DB26E5B86A0076B8F3 /* Media.swift */; };
+		F9F285DE26E5B8930076B8F3 /* MultiPartForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9F285DD26E5B8930076B8F3 /* MultiPartForm.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,6 +39,8 @@
 		C70FB10325BEF61D00C9924E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C70FB10625BEF61D00C9924E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C70FB10825BEF61D00C9924E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F92B2E8526E5C7AB0035AC7E /* RegistProductModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistProductModel.swift; sourceTree = "<group>"; };
+		F92B2E8826E5D6C00035AC7E /* Extension+Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+Data.swift"; sourceTree = "<group>"; };
 		F9F285C426E3AF940076B8F3 /* Items.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Items.json; sourceTree = "<group>"; };
 		F9F285C626E3AFCA0076B8F3 /* Item.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Item.json; sourceTree = "<group>"; };
 		F9F285CA26E3B0940076B8F3 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
@@ -42,6 +48,8 @@
 		F9F285D126E3B1350076B8F3 /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
 		F9F285D526E3BA1E0076B8F3 /* URLSessionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionProtocol.swift; sourceTree = "<group>"; };
 		F9F285D826E3BA4D0076B8F3 /* APIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
+		F9F285DB26E5B86A0076B8F3 /* Media.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Media.swift; sourceTree = "<group>"; };
+		F9F285DD26E5B8930076B8F3 /* MultiPartForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiPartForm.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,6 +102,7 @@
 		C70FB0F925BEF61C00C9924E /* OpenMarket */ = {
 			isa = PBXGroup;
 			children = (
+				F92B2E8726E5D6A90035AC7E /* Extention+Data */,
 				F9F285D726E3BA400076B8F3 /* API */,
 				F9F285D426E3B47E0076B8F3 /* Protocol */,
 				F9F285D026E3B12B0076B8F3 /* Error */,
@@ -105,6 +114,14 @@
 				C70FB10825BEF61D00C9924E /* Info.plist */,
 			);
 			path = OpenMarket;
+			sourceTree = "<group>";
+		};
+		F92B2E8726E5D6A90035AC7E /* Extention+Data */ = {
+			isa = PBXGroup;
+			children = (
+				F92B2E8826E5D6C00035AC7E /* Extension+Data.swift */,
+			);
+			path = "Extention+Data";
 			sourceTree = "<group>";
 		};
 		F9F285C326E3AF4D0076B8F3 /* MockData */ = {
@@ -128,8 +145,10 @@
 		F9F285C926E3B0830076B8F3 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				F9F285DA26E5B8510076B8F3 /* MultipartForm */,
 				F9F285CA26E3B0940076B8F3 /* Item.swift */,
 				F9F285CC26E3B0B40076B8F3 /* Items.swift */,
+				F92B2E8526E5C7AB0035AC7E /* RegistProductModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -174,6 +193,15 @@
 				F9F285D826E3BA4D0076B8F3 /* APIManager.swift */,
 			);
 			path = API;
+			sourceTree = "<group>";
+		};
+		F9F285DA26E5B8510076B8F3 /* MultipartForm */ = {
+			isa = PBXGroup;
+			children = (
+				F9F285DB26E5B86A0076B8F3 /* Media.swift */,
+				F9F285DD26E5B8930076B8F3 /* MultiPartForm.swift */,
+			);
+			path = MultipartForm;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -283,7 +311,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\n${PODS_ROOT}/SwiftLint/swiftlint\n\n";
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\n\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -293,10 +321,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				F9F285D926E3BA4D0076B8F3 /* APIManager.swift in Sources */,
+				F92B2E8926E5D6C00035AC7E /* Extension+Data.swift in Sources */,
 				F9F285D626E3BA1E0076B8F3 /* URLSessionProtocol.swift in Sources */,
 				F9F285CB26E3B0940076B8F3 /* Item.swift in Sources */,
 				F9F285CD26E3B0B40076B8F3 /* Items.swift in Sources */,
+				F9F285DE26E5B8930076B8F3 /* MultiPartForm.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
+				F9F285DC26E5B86A0076B8F3 /* Media.swift in Sources */,
+				F92B2E8626E5C7AB0035AC7E /* RegistProductModel.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				F9F285D226E3B1350076B8F3 /* Error.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,

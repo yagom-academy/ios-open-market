@@ -8,16 +8,16 @@
 import Foundation
 
 struct Item: Codable {
-    let id: Int
-    let title: String
-    let descriptions: String?
-    let price: Int
-    let currency: String
-    let stock: Int
-    let thumbnails: [String]
-    let images: [String]?
-    let registrationDate: Double
-    let discountedPrice: Int?
+    var id: Int
+    var title: String
+    var descriptions: String?
+    var price: Int
+    var currency: String
+    var stock: Int
+    var thumbnails: [String]
+    var images: [String]?
+    var registrationDate: Double?
+    var discountedPrice: Int?
     
     enum Codingkeys: String, CodingKey {
         case id, title, descriptions, price, currency, stock, thumbnails, images
