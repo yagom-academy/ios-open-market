@@ -23,7 +23,7 @@ class APIManager {
     
     let boundary = "Boundary-\(UUID().uuidString)"
 
-    func fetchProductList(page: Int, completion: @escaping (Result<Items, APIError>) -> ()) {
+    func fetchProductList(page: Int, completion: @escaping (Result<ProductListSearchModel, APIError>) -> ()) {
         guard let url = URL(string: "\(URI.fetchListPath)\(page)") else { return }
         let request = URLRequest(url: url)
         let task = session.dataTask(with: request) { data, response, error in
@@ -38,7 +38,7 @@ class APIManager {
             if let data = data {
                 let decoder = JSONDecoder()
                 do {
-                    let result = try decoder.decode(Items.self, from: data)
+                    let result = try decoder.decode(ProductListSearchModel.self, from: data)
                     completion(.success(result))
                 } catch {
                     print(error)

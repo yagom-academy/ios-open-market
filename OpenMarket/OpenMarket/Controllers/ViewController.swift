@@ -8,7 +8,7 @@ import UIKit
 
 class ViewController: UIViewController {
 
-    var productList = [Items]()
+    var productList = [ProductListSearchModel]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,7 +22,7 @@ class ViewController: UIViewController {
 //            }
 //        }
         
-        guard let mediaImage = Media(image: #imageLiteral(resourceName: "iPad8")), let mediaImage2 = Media(image: #imageLiteral(resourceName: "iPad8")) else { return }
+        guard let mediaImage = Media(image: #imageLiteral(resourceName: "iPad8")), let mediaImage2 = Media(image: #imageLiteral(resourceName: "iPad_Air4")) else { return }
         var imageList: [Media] = [mediaImage, mediaImage2]
 
         let registProduct = RegistProductModel(title: "iPad", descriptions: "좋아요", price: 100_000, currency: "KRW", stock: 5, discountedPrice: 80_000, password: "1234")
@@ -31,7 +31,7 @@ class ViewController: UIViewController {
         APIManager.shared.registProduct(parameters: bodyParameter, media: imageList) { result in
             switch result {
             case .success(let data):
-                print(data)
+                print("성공")
             case .failure(let error):
                 print(error)
             }

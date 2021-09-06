@@ -20,6 +20,7 @@ struct RegistProductModel {
         case discountedPrice = "discounted_price"
         case title, descriptions, price, currency, stock, password
     }
+    
     func createProduct() -> [String: Any] {
         var parameters: [String: Any] = [
             "title": self.title,
