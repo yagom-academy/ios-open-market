@@ -16,9 +16,10 @@ class ProductCell: UICollectionViewCell {
     
     private let imageManager = ImageManager()
     private static let maximumStockAmount = 999
-    static let identifier = String(describing: self)
+    static let listIdentifier = "ProductListCell"
+    static let gridItentifier = "ProductGridCell"
     static let listNibName = "ProductListCell"
-    static let GridNibName = "ProductGridCell"
+    static let gridNibName = "ProductGridCell"
     
     override func awakeFromNib() {
         super.awakeFromNib()
