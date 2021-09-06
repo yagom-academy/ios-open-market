@@ -27,7 +27,7 @@ struct GetItemAPI: RequestableWithoutBody {
     }
 }
 
-struct PostItemAPI: RequestableWithBody {
+struct PostItemAPI: RequestableWithMultipartBody {
     var url: APIURL = .post
     var method: APIMethod = .post
     var contentType: ContentType = .multipart
@@ -40,7 +40,7 @@ struct PostItemAPI: RequestableWithBody {
     }
 }
 
-struct PatchItemAPI: RequestableWithBody {
+struct PatchItemAPI: RequestableWithMultipartBody {
     var url: APIURL
     var method: APIMethod = .patch
     var contentType: ContentType = .multipart
@@ -54,14 +54,14 @@ struct PatchItemAPI: RequestableWithBody {
     }
 }
 
-struct DeleteItemAPI: Requestable {
+struct DeleteItemAPI: RequestableWithJSONBody {
     var url: APIURL
     var method: APIMethod = .delete
     var contentType: ContentType = .json
-    var deleteItem: DELETEItem
+    var json: DELETEItem
 
     init(id: Int, password: String) {
         self.url = APIURL.delete(id: id)
-        self.deleteItem = DELETEItem(password: password)
+        self.json = DELETEItem(password: password)
     }
 }

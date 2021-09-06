@@ -17,6 +17,12 @@ protocol RequestableWithoutBody: Requestable {
 }
 
 protocol RequestableWithBody: Requestable {
+}
+
+protocol RequestableWithJSONBody: RequestableWithBody {
+    var json: DELETEItem { get }
+}
+protocol RequestableWithMultipartBody: RequestableWithBody {
     var parameters: Parameters { get }
     var images: [Media]? { get }
 }

@@ -15,7 +15,7 @@ class OpenMarketTests: XCTestCase {
         // give
         let testTarget = "MockItem"
 
-        guard let json = try? CustomJSONDecoder.receiveDataAsset(assetName: testTarget) else {
+        guard let json = try? CustomJSONDecoder.fetchFromAssets(assetName: testTarget) else {
             return XCTFail("json 파일을 찾을 수 없습니다.")
         }
         // when
@@ -32,7 +32,7 @@ class OpenMarketTests: XCTestCase {
         // give
         let testTarget = "MockItems"
 
-        guard let json = try? CustomJSONDecoder.receiveDataAsset(assetName: testTarget) else {
+        guard let json = try? CustomJSONDecoder.fetchFromAssets(assetName: testTarget) else {
             return XCTFail("json 파일을 찾을 수 없습니다.")
         }
         // when
@@ -50,7 +50,7 @@ class OpenMarketTests: XCTestCase {
         let id = 1
         let mockData = "MockItem"
 
-        guard let json = try? CustomJSONDecoder.receiveDataAsset(assetName: mockData) else {
+        guard let json = try? CustomJSONDecoder.fetchFromAssets(assetName: mockData) else {
             return XCTFail("json 파일을 찾을 수 없습니다.")
         }
         guard let expectData = try? CustomJSONDecoder().decode(Item.self, from: json.data) else {

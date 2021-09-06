@@ -11,9 +11,7 @@ typealias Parameters = [String: Any]
 
 class NetworkManager {
     private let session: URLSessionProtocol
-    private var boundary: String {
-        return "Boundary-\(UUID().uuidString)"
-    }
+    lazy var boundary = makeBoundary()
 
     init(session: URLSessionProtocol = URLSession.shared) {
         self.session = session
@@ -23,7 +21,6 @@ class NetworkManager {
         guard let request = try? createRequest(api: api) else {
             return completion(.failure(NetworkError.invalidRequest))
         }
-        debugPrint(request)
 
         session.dataTask(with: request) { data, response, error in
             if let error = error {
@@ -31,24 +28,21 @@ class NetworkManager {
             }
 
             if let response = response as? HTTPURLResponse, (200...299).contains(response.statusCode) == false {
+                debugPrint(response)
                 return completion(.failure(NetworkError.invalidResponse))
             }
 
             guard let data = data else {
                 return completion(.failure(NetworkError.invalidData))
             }
-            debugPrint(String(decoding: data, as: UTF8.self))
+
             completion(.success(data))
         }.resume()
     }
 }
 
+// MARK: Request 생성 메소드
 extension NetworkManager {
-    private func createURL(from api: Requestable) -> URL? {
-        let url = URL(string: api.url.description)
-        return url
-    }
-
     private func createRequest(api: Requestable) throws -> URLRequest {
         guard let url = URL(string: api.url.description) else {
             throw NetworkError.invalidURL
@@ -56,25 +50,40 @@ extension NetworkManager {
 
         var request = URLRequest(url: url)
         request.httpMethod = api.method.description
-
-        if api.contentType == .multipart {
+        switch api.contentType {
+        case .multipart:
             request.setValue(api.contentType.description + boundary, forHTTPHeaderField: "Content-Type")
-        } else {
+        case .json:
             request.setValue(api.contentType.description, forHTTPHeaderField: "Content-Type")
         }
 
-        if let api = api as? DeleteItemAPI {
-            guard let body = try? JSONEncoder().encode(api.deleteItem) else {
-                throw NetworkError.invalidData
-            }
-            request.httpBody = body
-        } else if let api = api as? RequestableWithBody {
-            request.httpBody = createRequestBody(api: api)
+        guard let api = api as? RequestableWithBody else {
+            return request
         }
+        guard let body = try? createRequestBody(api: api) else {
+            throw NetworkError.invalidRequest
+        }
+        request.httpBody = body
         return request
     }
 
-    private func createRequestBody(api: RequestableWithBody) -> Data {
+    private func createRequestBody(api: RequestableWithBody) throws -> Data {
+        if let api = api as? RequestableWithJSONBody, let data = try? createRequestBodyWithJSON(api: api) {
+            return data
+        } else if let api = api as? RequestableWithMultipartBody {
+            return createRequestBodyWithMultipart(api: api)
+        }
+        throw NetworkError.invalidRequest
+    }t 
+
+    private func createRequestBodyWithJSON(api: RequestableWithJSONBody) throws -> Data {
+        guard let body = try? JSONEncoder().encode(api.json) else {
+            throw NetworkError.invalidData
+        }
+        return body
+    }
+
+    private func createRequestBodyWithMultipart(api: RequestableWithMultipartBody) -> Data {
         var body = Data()
         let lineBreakPoint = "\r\n"
 
@@ -93,10 +102,8 @@ extension NetworkManager {
             }
         }
         body.append("--\(boundary)--\(lineBreakPoint)")
-
         return body
     }
-
 }
 
 extension Data {
@@ -104,5 +111,11 @@ extension Data {
         if let data = string.data(using: .utf8) {
             append(data)
         }
+    }
+}
+
+extension NetworkManager {
+    func makeBoundary() -> String {
+        return "Boundary-\(UUID().uuidString)"
     }
 }
