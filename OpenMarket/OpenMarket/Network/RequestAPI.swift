@@ -67,6 +67,4 @@ struct API {
             self.json = DELETEItem(password: password)
         }
     }
-
 }
-

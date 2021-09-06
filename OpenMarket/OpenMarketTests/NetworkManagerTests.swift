@@ -15,6 +15,10 @@ class NetworkManagerTests: XCTestCase {
         sut = NetworkManager()
     }
 
+    override func tearDownWithError() throws {
+        sut = nil
+    }
+
     func test_commuteFromMockNetwork_successs() {
         // give
         let id = 1
