@@ -20,13 +20,12 @@ class MockURLSession: URLSessionProtocol {
     }
 
     func dataTask(with request: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask {
-        let successResponse = HTTPURLResponse(url: url, statusCode: 200, httpVersion: "2", headerFields: nil)
-        let failureResponse = HTTPURLResponse(url: url, statusCode: 402, httpVersion: "2", headerFields: nil)
-
         if isRequestSuccess, let sampleDataAsset = NSDataAsset(name: mockData) {
+            let successResponse = HTTPURLResponse(url: url, statusCode: 200, httpVersion: "2", headerFields: nil)
             let sampleData = sampleDataAsset.data
             sessionDataTask.resumeDidCall = { completionHandler(sampleData, successResponse, nil) }
         } else {
+            let failureResponse = HTTPURLResponse(url: url, statusCode: 402, httpVersion: "2", headerFields: nil)
             sessionDataTask.resumeDidCall = { completionHandler(nil, failureResponse, nil) }
         }
         return sessionDataTask

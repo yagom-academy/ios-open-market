@@ -74,7 +74,7 @@ extension NetworkManager {
             return createRequestBodyWithMultipart(api: api)
         }
         throw NetworkError.invalidRequest
-    }t 
+    }
 
     private func createRequestBodyWithJSON(api: RequestableWithJSONBody) throws -> Data {
         guard let body = try? JSONEncoder().encode(api.json) else {
