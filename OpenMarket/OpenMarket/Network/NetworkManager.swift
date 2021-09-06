@@ -17,7 +17,7 @@ class NetworkManager {
         self.session = session
     }
 
-    func commuteWithAPI(with api: Requestable, completion: @escaping(Result<Data, Error>) -> Void) {
+    func commuteWithAPI( _ api: Requestable, completion: @escaping(Result<Data, Error>) -> Void) {
         guard let request = try? createRequest(api: api) else {
             return completion(.failure(NetworkError.invalidRequest))
         }
