@@ -23,9 +23,10 @@
 		891A985726DE7C9F006A0E2B /* MockItems.json in Resources */ = {isa = PBXBuildFile; fileRef = 891A985626DE7C9F006A0E2B /* MockItems.json */; };
 		891A985B26DE7CF7006A0E2B /* MockItem.json in Resources */ = {isa = PBXBuildFile; fileRef = 891A985A26DE7CF7006A0E2B /* MockItem.json */; };
 		8930691526DF292000DA9A8F /* Requestable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8930691426DF292000DA9A8F /* Requestable.swift */; };
-		8930691D26DF2A4F00DA9A8F /* OpenMarketTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8930691C26DF2A4F00DA9A8F /* OpenMarketTests.swift */; };
+		8930691D26DF2A4F00DA9A8F /* NetworkManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8930691C26DF2A4F00DA9A8F /* NetworkManagerTests.swift */; };
 		8930692526DF830B00DA9A8F /* MockURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 891A984B26DE6FA8006A0E2B /* MockURLSession.swift */; };
 		8930692726DF8ADC00DA9A8F /* CustomJSONDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8930692626DF8ADC00DA9A8F /* CustomJSONDecoder.swift */; };
+		8969DECE26E629720076FF43 /* JSONDecoderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8969DECD26E629710076FF43 /* JSONDecoderTests.swift */; };
 		9F489BEE295A2DA0AFB27C7E /* Pods_OpenMarketTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 084601D81DD8CAA785CA61B5 /* Pods_OpenMarketTests.framework */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
 		C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */; };
@@ -67,9 +68,10 @@
 		891A985A26DE7CF7006A0E2B /* MockItem.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = MockItem.json; sourceTree = "<group>"; };
 		8930691426DF292000DA9A8F /* Requestable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Requestable.swift; sourceTree = "<group>"; };
 		8930691A26DF2A4F00DA9A8F /* OpenMarketTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenMarketTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		8930691C26DF2A4F00DA9A8F /* OpenMarketTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketTests.swift; sourceTree = "<group>"; };
+		8930691C26DF2A4F00DA9A8F /* NetworkManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManagerTests.swift; sourceTree = "<group>"; };
 		8930691E26DF2A4F00DA9A8F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8930692626DF8ADC00DA9A8F /* CustomJSONDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomJSONDecoder.swift; sourceTree = "<group>"; };
+		8969DECD26E629710076FF43 /* JSONDecoderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONDecoderTests.swift; sourceTree = "<group>"; };
 		AFEFBA843445F73C25EA76E9 /* Pods-OpenMarket.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenMarket.release.xcconfig"; path = "Target Support Files/Pods-OpenMarket/Pods-OpenMarket.release.xcconfig"; sourceTree = "<group>"; };
 		BE09F9612BEE73F4122472DD /* Pods_OpenMarket.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OpenMarket.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -189,7 +191,8 @@
 			isa = PBXGroup;
 			children = (
 				891A984A26DE6F95006A0E2B /* Mock */,
-				8930691C26DF2A4F00DA9A8F /* OpenMarketTests.swift */,
+				8930691C26DF2A4F00DA9A8F /* NetworkManagerTests.swift */,
+				8969DECD26E629710076FF43 /* JSONDecoderTests.swift */,
 				8930691E26DF2A4F00DA9A8F /* Info.plist */,
 			);
 			path = OpenMarketTests;
@@ -400,7 +403,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8930691D26DF2A4F00DA9A8F /* OpenMarketTests.swift in Sources */,
+				8969DECE26E629720076FF43 /* JSONDecoderTests.swift in Sources */,
+				8930691D26DF2A4F00DA9A8F /* NetworkManagerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
