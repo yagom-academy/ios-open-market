@@ -1,5 +1,5 @@
 //
-//  JSONDecoderTest.swift
+//  ParsingDataTests.swift
 //  OpenMarketTests
 //
 //  Created by 박태현 on 2021/09/06.
@@ -8,7 +8,7 @@
 import XCTest
 @testable import OpenMarket
 
-class JSONDecoderTest: XCTestCase {
+class ParsingDataTests: XCTestCase {
     var sut: CustomJSONDecoder!
 
     override func setUpWithError() throws {

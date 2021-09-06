@@ -1,6 +1,6 @@
 //
 //  NetworkManagerTests.swift
-//  NetworkManagerTests
+//  OpenMarketTests
 //
 //  Created by 박태현 on 2021/09/01.
 //
