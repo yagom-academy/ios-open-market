@@ -26,11 +26,6 @@ class ProductCell: UICollectionViewCell {
         priceLabel.adjustsFontSizeToFitWidth = true
         discountedPriceLabel.adjustsFontSizeToFitWidth = true
         stockLabel.adjustsFontSizeToFitWidth = true
-    
-        self.layer.addBorder(edge: .bottom, color: .gray, thickness: 1)
-//        self.layer.addBorder(edge: .top, color: .gray, thickness: 1)
-//        self.layer.borderColor = UIColor.gray.cgColor
-//        self.layer.backgroundColor = UIColor.gray.cgColor
     }
     
     func imageConfigure(product: Product) {

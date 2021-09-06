@@ -12,6 +12,7 @@ class OpenMarketViewController: UIViewController {
     private var productList: [Product] = []
     private let networkManager = NetworkManager()
     private let parsingManager = ParsingManager()
+    private let compositionalLayout = CompositionalLayout()
     private let page = 1
     
     override func viewDidLoad() {
@@ -20,7 +21,7 @@ class OpenMarketViewController: UIViewController {
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.register(UINib(nibName: ProductCell.listNibName, bundle: nil), forCellWithReuseIdentifier: ProductCell.identifier)
-        collectionView.collectionViewLayout = createCompositinalLayout()
+        collectionView.collectionViewLayout = compositionalLayout.creat(horizontalNumber: 1, verticalSize: 100, scrollDirection: .vertical)
         requestProductList()
         
     }
@@ -65,23 +66,3 @@ extension OpenMarketViewController {
     }
 }
 
-extension OpenMarketViewController {
-    func createCompositinalLayout() -> UICollectionViewLayout {
-        let layout = UICollectionViewCompositionalLayout { (_, _ ) -> NSCollectionLayoutSection? in
-            let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1))
-            let item = NSCollectionLayoutItem(layoutSize: itemSize)
-//            item.contentInsets = NSDirectionalEdgeInsets(top: 2, leading: 2, bottom: 2, trailing: 2)
-            let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(100))
-            let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 1)
-            let section = NSCollectionLayoutSection(group: group)
-//            section.orthogonalScrollingBehavior = .continuous
-            section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
-            return section
-        }
-        return layout
-    }
-}
-
-extension OpenMarketViewController {
-    
-}
