@@ -7,21 +7,12 @@
 
 import UIKit
 
-struct MarketLayout {
-    var type: Mode = .grid
-    
-    enum Mode {
-        case grid
-        case list
-    }
-}
-
 class OpenMarketDataSource: NSObject {
     private var productList: [Product] = []
     private let networkManager = NetworkManager()
     private let parsingManager = ParsingManager()
     private let pageNumber = 1
-    var viewMode: MarketLayout = MarketLayout.init(type: .list)
+    private var changeIdentifier = ProductCell.listIdentifier
 }
 
 extension OpenMarketDataSource: UICollectionViewDataSource {
@@ -30,24 +21,13 @@ extension OpenMarketDataSource: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if viewMode.type == .list {
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProductCell.listIdentifier, for: indexPath) as? ProductCell else {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: changeIdentifier, for: indexPath) as? ProductCell else {
                 return  UICollectionViewCell()
             }
             let productForItem = productList[indexPath.item]
             cell.imageConfigure(product: productForItem)
             cell.textConfigure(product: productForItem)
             return cell
-        } else {
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProductCell.gridItentifier, for: indexPath) as? ProductCell else {
-                return  UICollectionViewCell()
-            }
-            let productForItem = productList[indexPath.item]
-            cell.imageConfigure(product: productForItem)
-            cell.textConfigure(product: productForItem)
-            return cell
-        }
-        
     }
     
     func requestProductList(collectionView: UICollectionView) {
@@ -62,6 +42,19 @@ extension OpenMarketDataSource: UICollectionViewDataSource {
                     collectionView.reloadData()
                 }
             }
+        }
+    }
+    
+    func selectedView(_ sender: UISegmentedControl, _ collectionView: UICollectionView, _ compositionalLayout: CompositionalLayout) {
+        switch sender.selectedSegmentIndex {
+        case 0:
+            changeIdentifier = ProductCell.listIdentifier
+            collectionView.collectionViewLayout = compositionalLayout.creat(horizontalNumber: 1, verticalSize: 100, scrollDirection: .vertical)
+            collectionView.reloadData()
+        default:
+            changeIdentifier = ProductCell.gridItentifier
+            collectionView.collectionViewLayout = compositionalLayout.creat(horizontalNumber: 2, verticalSize: 300, scrollDirection: .vertical)
+            collectionView.reloadData()
         }
     }
 }

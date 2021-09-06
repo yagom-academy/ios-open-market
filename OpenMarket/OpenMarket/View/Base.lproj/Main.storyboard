@@ -58,7 +58,6 @@
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="collectionView" destination="B4m-pB-kau" id="AeX-B7-Rxh"/>
-                        <outlet property="segmentCotrol" destination="BAd-jA-m7m" id="1ZF-Uz-tDF"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
