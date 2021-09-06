@@ -12,20 +12,17 @@ class OpenMarketViewController: UIViewController {
     private var productList: [Product] = []
     private let networkManager = NetworkManager()
     private let parsingManager = ParsingManager()
-    private let page = 15
+    private let page = 1
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        guard let dd = Media(image: #imageLiteral(resourceName: "LoadedImageFailed"), mimeType: .png) else { return }
-        let ss = MultipartFormData(title: "하하", descriptions: "호호호", price: 2000, currency: "KRW", stock: 1, discountedPrice: 200, password: "12345")
-        networkManager.commuteWithAPI(api: PostAPI(parameter: ss.parameter, image: [dd])) { _ in
-        }
-        
+     
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.register(UINib(nibName: ProductCell.listNibName, bundle: nil), forCellWithReuseIdentifier: ProductCell.identifier)
-//        requestProductList()
+        collectionView.collectionViewLayout = createCompositinalLayout()
+        requestProductList()
+        
     }
 }
 
@@ -66,4 +63,25 @@ extension OpenMarketViewController {
             }
         }
     }
+}
+
+extension OpenMarketViewController {
+    func createCompositinalLayout() -> UICollectionViewLayout {
+        let layout = UICollectionViewCompositionalLayout { (_, _ ) -> NSCollectionLayoutSection? in
+            let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1))
+            let item = NSCollectionLayoutItem(layoutSize: itemSize)
+//            item.contentInsets = NSDirectionalEdgeInsets(top: 2, leading: 2, bottom: 2, trailing: 2)
+            let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(100))
+            let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 1)
+            let section = NSCollectionLayoutSection(group: group)
+//            section.orthogonalScrollingBehavior = .continuous
+            section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
+            return section
+        }
+        return layout
+    }
+}
+
+extension OpenMarketViewController {
+    
 }

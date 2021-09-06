@@ -15,9 +15,23 @@ class ProductCell: UICollectionViewCell {
     @IBOutlet weak var stockLabel: UILabel!
     
     private let imageManager = ImageManager()
-    private static let maximumStockAmount = 9999
+    private static let maximumStockAmount = 999
     static let identifier = String(describing: self)
     static let listNibName = "ProductListCell"
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        titleLabel.adjustsFontSizeToFitWidth = true
+        priceLabel.adjustsFontSizeToFitWidth = true
+        discountedPriceLabel.adjustsFontSizeToFitWidth = true
+        stockLabel.adjustsFontSizeToFitWidth = true
+    
+        self.layer.addBorder(edge: .bottom, color: .gray, thickness: 1)
+//        self.layer.addBorder(edge: .top, color: .gray, thickness: 1)
+//        self.layer.borderColor = UIColor.gray.cgColor
+//        self.layer.backgroundColor = UIColor.gray.cgColor
+    }
     
     func imageConfigure(product: Product) {
         if let successImage = product.thumbnails.first {
