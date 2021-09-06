@@ -32,7 +32,7 @@ class NetworkManagerTests: XCTestCase {
         }
         let sut = NetworkManager(session: MockURLSession(isRequestSuccess: true, mockData: mockData))
         // when
-        sut.commuteWithAPI(with: API.GetItem(id: id)) { result in
+        sut.commuteWithAPI(API.GetItem(id: id)) { result in
             // then
             switch result {
             case .success(let item):
@@ -53,7 +53,7 @@ class NetworkManagerTests: XCTestCase {
 
         let sut = NetworkManager(session: MockURLSession(isRequestSuccess: false, mockData: mockData))
         // when
-        sut.commuteWithAPI(with: API.GetItem(id: id)) { result in
+        sut.commuteWithAPI(API.GetItem(id: id)) { result in
             // then
             guard case .failure(let error) = result else {
                 return XCTFail("false response이므로 성공하면 안됩니다.")
@@ -66,7 +66,7 @@ class NetworkManagerTests: XCTestCase {
         // give
         let page = 1
         // when
-        sut.commuteWithAPI(with: API.GetItems(page: page)) { result in
+        sut.commuteWithAPI(API.GetItems(page: page)) { result in
             // then
             guard case .success(let items) = result else {
                 return XCTFail("네트워크 통신에 실패했습니다")
@@ -83,7 +83,7 @@ class NetworkManagerTests: XCTestCase {
         // give
         let id = 53
         // when
-        sut.commuteWithAPI(with: API.GetItem(id: id)) { result in
+        sut.commuteWithAPI(API.GetItem(id: id)) { result in
             // then
             guard case .success(let item) = result else {
                 return XCTFail("네트워크 통신에 실패했습니다")
@@ -100,7 +100,7 @@ class NetworkManagerTests: XCTestCase {
         let parameters = POSTItem(title: "Macbook Pro", descriptions: "맥북 프로", price: 1000, currency: "WON", stock: 10, discountedPrice: 800, password: "12345").parameter()
         guard let image = Media(imageName: "image1", mimeType: .png, image: #imageLiteral(resourceName: "1f363")) else { return XCTFail("fail") }
         // when
-        sut.commuteWithAPI(with: API.PostItem(parameters: parameters, images: [image])) { result in
+        sut.commuteWithAPI(API.PostItem(parameters: parameters, images: [image])) { result in
             // then
             guard case .success(let item) = result else {
                 return XCTFail("네트워크 통신에 실패했습니다")
@@ -117,7 +117,7 @@ class NetworkManagerTests: XCTestCase {
         let parameters = PATCHItem(title: "Macbook Pro 21", descriptions: "맥북 프로 신형", price: 10000, currency: "WON", stock: 11, discountedPrice: 8000, password: "12345").parameter()
         guard let image = Media(imageName: "image2", mimeType: .png, image: #imageLiteral(resourceName: "1f363")) else { return }
         // when
-        sut.commuteWithAPI(with: API.PatchItem(id: 53, parameters: parameters, images: [image])) { result in
+        sut.commuteWithAPI(API.PatchItem(id: 53, parameters: parameters, images: [image])) { result in
             // then
             guard case .success(let item) = result else {
                 return XCTFail("네트워크 통신에 실패했습니다")
@@ -133,7 +133,7 @@ class NetworkManagerTests: XCTestCase {
         // give
         let password = "12345"
         // when
-        sut.commuteWithAPI(with: API.DeleteItem(id: 53, password: password)) { result in
+        sut.commuteWithAPI(API.DeleteItem(id: 53, password: password)) { result in
             // then
             guard case .success(let item) = result else {
                 return XCTFail("네트워크 통신에 실패했습니다")
