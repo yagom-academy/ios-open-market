@@ -74,8 +74,23 @@ class NetworkManagerTests: XCTestCase {
             guard let decodedData = try? CustomJSONDecoder().decode(Items.self, from: items) else {
                 return XCTFail("받아온 데이터의 디코딩에 실패했습니다.")
             }
-            print(decodedData.page)
             XCTAssertEqual(decodedData.page, page)
+        }
+    }
+
+    func test_commuteFromNetwork_GETItems_correctNumberOfItems_Success() {
+        // give
+        let page = 2
+        // when
+        sut.commuteWithAPI(API.GetItems(page: page)) { result in
+            // then
+            guard case .success(let items) = result else {
+                return XCTFail("네트워크 통신에 실패했습니다")
+            }
+            guard let decodedData = try? CustomJSONDecoder().decode(Items.self, from: items) else {
+                return XCTFail("받아온 데이터의 디코딩에 실패했습니다.")
+            }
+            XCTAssertEqual(decodedData.items.count, 20)
         }
     }
 
