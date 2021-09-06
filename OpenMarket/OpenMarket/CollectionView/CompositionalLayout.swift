@@ -25,7 +25,7 @@ struct CompositionalLayout {
             if scrollDirection == .horizontal {
                 section.orthogonalScrollingBehavior = .continuous
             }
-//            section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
+            section.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 8)
             return section
         }
         return layout
