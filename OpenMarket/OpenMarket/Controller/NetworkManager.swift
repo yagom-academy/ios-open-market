@@ -34,7 +34,7 @@ struct NetworkManager {
     }
 
     func send(request: Request, _ suffix: Int, completion: @escaping (Result<Data, Error>) -> Void) {
-        let userRequest = request.configure(request: Request.getList, path: suffix)
+        let userRequest = request.configure(request: request, path: suffix)
         switch userRequest {
         case .success(let userRequest):
             let task = session.dataTask(with: userRequest) { data, response, error in
