@@ -14,13 +14,13 @@ struct CompositionalLayout {
         case vertical
     }
 
-    func creat(horizontalNumber: CGFloat, verticalSize: CGFloat, scrollDirection: ScrollDirection) -> UICollectionViewLayout {
+    func creat(horizontalNumber: Int, verticalSize: CGFloat, scrollDirection: ScrollDirection) -> UICollectionViewLayout {
         let layout = UICollectionViewCompositionalLayout { (_, _ ) -> NSCollectionLayoutSection? in
-            let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1/horizontalNumber), heightDimension: .fractionalHeight(1.0))
+            let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
             let item = NSCollectionLayoutItem(layoutSize: itemSize)
             //            item.contentInsets = NSDirectionalEdgeInsets(top: 2, leading: 2, bottom: 2, trailing: 2)
             let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(verticalSize))
-            let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 1)
+            let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: horizontalNumber)
             let section = NSCollectionLayoutSection(group: group)
             if scrollDirection == .horizontal {
                 section.orthogonalScrollingBehavior = .continuous

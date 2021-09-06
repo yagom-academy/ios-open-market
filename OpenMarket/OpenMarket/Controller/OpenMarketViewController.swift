@@ -21,9 +21,9 @@ class OpenMarketViewController: UIViewController {
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.register(UINib(nibName: ProductCell.listNibName, bundle: nil), forCellWithReuseIdentifier: ProductCell.identifier)
+        collectionView.register(UINib(nibName: ProductCell.GridNibName, bundle: nil), forCellWithReuseIdentifier: ProductCell.identifier)
         collectionView.collectionViewLayout = compositionalLayout.creat(horizontalNumber: 1, verticalSize: 100, scrollDirection: .vertical)
         requestProductList()
-        
     }
 }
 
@@ -42,7 +42,6 @@ extension OpenMarketViewController: UICollectionViewDataSource {
         
         return cell
     }
-    
 }
 
 extension OpenMarketViewController: UICollectionViewDelegate {
@@ -65,4 +64,3 @@ extension OpenMarketViewController {
         }
     }
 }
-
