@@ -4,6 +4,7 @@ disabled_rules:
 - identifier_name
 - xctfail_message
 - unused_optional_binding
+- for_where
 included:
 excluded:
 - Pods

@@ -56,7 +56,6 @@ class ProductCell: UICollectionViewCell {
         } else {
             priceLabel.text = "\(product.currency) \(product.price.withComma)"
             priceLabel.textColor = .gray
-            discountedPriceLabel.text = nil
         }
         
         if product.stock == .zero {
@@ -80,9 +79,9 @@ class ProductCell: UICollectionViewCell {
     }
 
     override func prepareForReuse() {
+        priceLabel.attributedText = nil
         imageView.image = nil
         titleLabel.text = nil
-        priceLabel.attributedText = nil
         priceLabel.text = nil
         priceLabel.textColor = nil
         discountedPriceLabel.text = nil

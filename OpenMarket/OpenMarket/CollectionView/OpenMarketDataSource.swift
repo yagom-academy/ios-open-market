@@ -11,20 +11,20 @@ class OpenMarketDataSource: NSObject {
     private var productList: [Product] = []
     private let networkManager = NetworkManager()
     private let parsingManager = ParsingManager()
-    private let pageNumber = 1
+    private var nextPage = 1
     private var changeIdentifier = ProductCell.listIdentifier
 }
 
 extension OpenMarketDataSource: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        productList.count
+        return productList.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: changeIdentifier, for: indexPath) as? ProductCell else {
             return  UICollectionViewCell()
         }
-        let productForItem = productList[indexPath.item]
+        let productForItem = productList[indexPath.row]
         cell.imageConfigure(product: productForItem)
         cell.textConfigure(product: productForItem)
         cell.styleConfigure(identifier: changeIdentifier)
@@ -33,13 +33,13 @@ extension OpenMarketDataSource: UICollectionViewDataSource {
     }
     
     func requestProductList(collectionView: UICollectionView) {
-        self.networkManager.commuteWithAPI(api: GetItemsAPI(page: pageNumber)) { result in
+        self.networkManager.commuteWithAPI(api: GetItemsAPI(page: nextPage)) { result in
             if case .success(let data) = result {
                 guard let product = try? self.parsingManager.decodedJSONData(type: ProductCollection.self, data: data) else {
                     return
                 }
                 self.productList.append(contentsOf: product.items)
-                
+                self.nextPage += 1
                 DispatchQueue.main.async {
                     collectionView.reloadData()
                 }
@@ -51,12 +51,22 @@ extension OpenMarketDataSource: UICollectionViewDataSource {
         switch sender.selectedSegmentIndex {
         case 0:
             changeIdentifier = ProductCell.listIdentifier
-            collectionView.collectionViewLayout = compositionalLayout.creat(portraitHorizontalNumber: 1, landscapeHorizontalNumber: 1, verticalSize: 100, scrollDirection: .vertical)
+            collectionView.collectionViewLayout = compositionalLayout.create(portraitHorizontalNumber: 1, landscapeHorizontalNumber: 1, verticalSize: 100, scrollDirection: .vertical)
             collectionView.reloadData()
         default:
             changeIdentifier = ProductCell.gridItentifier
-            collectionView.collectionViewLayout = compositionalLayout.creat(portraitHorizontalNumber: 2, landscapeHorizontalNumber: 4, verticalSize: 250, scrollDirection: .vertical)
+            collectionView.collectionViewLayout = compositionalLayout.create(portraitHorizontalNumber: 2, landscapeHorizontalNumber: 4, verticalSize: 250, scrollDirection: .vertical)
             collectionView.reloadData()
+        }
+    }
+}
+
+extension OpenMarketDataSource: UICollectionViewDataSourcePrefetching {
+    func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
+        for indexPath in indexPaths {
+            if indexPath.item == productList.count - 1 {
+                requestProductList(collectionView: collectionView)
+            }
         }
     }
 }

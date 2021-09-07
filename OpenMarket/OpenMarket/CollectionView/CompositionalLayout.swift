@@ -14,13 +14,13 @@ struct CompositionalLayout {
         case vertical
     }
     
-    func creat(portraitHorizontalNumber: Int, landscapeHorizontalNumber: Int, verticalSize: CGFloat, scrollDirection: ScrollDirection) -> UICollectionViewLayout {
-        var horizontalNumber = 1
-        let layout = UICollectionViewCompositionalLayout { (_, _ ) -> NSCollectionLayoutSection? in
+    func create(portraitHorizontalNumber: Int, landscapeHorizontalNumber: Int, verticalSize: CGFloat, scrollDirection: ScrollDirection) -> UICollectionViewLayout {
+        var horizontalNumber = portraitHorizontalNumber
+        let layout = UICollectionViewCompositionalLayout { (_, _) -> NSCollectionLayoutSection? in
             let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
             let item = NSCollectionLayoutItem(layoutSize: itemSize)
             item.contentInsets = NSDirectionalEdgeInsets(top: 4, leading: 6, bottom: 4, trailing: 6)
-            let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(verticalSize))
+            let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(verticalSize))
             
             if UIDevice.current.orientation.isPortrait {
                 horizontalNumber = portraitHorizontalNumber

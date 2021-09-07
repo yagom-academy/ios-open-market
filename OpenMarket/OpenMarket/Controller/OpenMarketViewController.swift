@@ -16,10 +16,11 @@ class OpenMarketViewController: UIViewController {
         super.viewDidLoad()
         
         collectionView.dataSource = openMarketDataSource
-        //        collectionView.delegate = self
+        collectionView.isPrefetchingEnabled = true
+        collectionView.prefetchDataSource = openMarketDataSource
         collectionView.register(UINib(nibName: ProductCell.listNibName, bundle: nil), forCellWithReuseIdentifier: ProductCell.listIdentifier)
         collectionView.register(UINib(nibName: ProductCell.gridNibName, bundle: nil), forCellWithReuseIdentifier: ProductCell.gridItentifier)
-        collectionView.collectionViewLayout = compositionalLayout.creat(portraitHorizontalNumber: 1, landscapeHorizontalNumber: 1, verticalSize: 100, scrollDirection: .vertical)
+        collectionView.collectionViewLayout = compositionalLayout.create(portraitHorizontalNumber: 1, landscapeHorizontalNumber: 1, verticalSize: 100, scrollDirection: .vertical)
         openMarketDataSource.requestProductList(collectionView: collectionView)
     }
     
