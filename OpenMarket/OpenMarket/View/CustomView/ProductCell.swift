@@ -29,6 +29,8 @@ class ProductCell: UICollectionViewCell {
     }
     
     override func prepareForReuse() {
+        super.prepareForReuse()
+        
         imageDataTask?.cancel()
         imageDataTask = nil
     }
