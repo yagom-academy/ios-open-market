@@ -68,4 +68,11 @@ class ProductCell: UICollectionViewCell {
             stockLabel.text = "잔여수량 : \(product.stock)"
         }
     }
+    
+    override func prepareForReuse() {
+        priceLabel.attributedText = nil
+        priceLabel.textColor = nil
+        stockLabel.textColor = nil
+        imageView.image = nil
+    }
 }
