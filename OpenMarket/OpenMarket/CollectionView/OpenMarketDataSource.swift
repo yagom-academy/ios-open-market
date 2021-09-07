@@ -21,13 +21,15 @@ extension OpenMarketDataSource: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: changeIdentifier, for: indexPath) as? ProductCell else {
-                return  UICollectionViewCell()
-            }
-            let productForItem = productList[indexPath.item]
-            cell.imageConfigure(product: productForItem)
-            cell.textConfigure(product: productForItem)
-            return cell
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: changeIdentifier, for: indexPath) as? ProductCell else {
+            return  UICollectionViewCell()
+        }
+        let productForItem = productList[indexPath.item]
+        cell.imageConfigure(product: productForItem)
+        cell.textConfigure(product: productForItem)
+        cell.styleConfigure(identifier: changeIdentifier)
+        
+        return cell
     }
     
     func requestProductList(collectionView: UICollectionView) {
@@ -49,11 +51,11 @@ extension OpenMarketDataSource: UICollectionViewDataSource {
         switch sender.selectedSegmentIndex {
         case 0:
             changeIdentifier = ProductCell.listIdentifier
-            collectionView.collectionViewLayout = compositionalLayout.creat(horizontalNumber: 1, verticalSize: 100, scrollDirection: .vertical)
+            collectionView.collectionViewLayout = compositionalLayout.creat(portraitHorizontalNumber: 1, landscapeHorizontalNumber: 1, verticalSize: 100, scrollDirection: .vertical)
             collectionView.reloadData()
         default:
             changeIdentifier = ProductCell.gridItentifier
-            collectionView.collectionViewLayout = compositionalLayout.creat(horizontalNumber: 2, verticalSize: 300, scrollDirection: .vertical)
+            collectionView.collectionViewLayout = compositionalLayout.creat(portraitHorizontalNumber: 2, landscapeHorizontalNumber: 4, verticalSize: 250, scrollDirection: .vertical)
             collectionView.reloadData()
         }
     }

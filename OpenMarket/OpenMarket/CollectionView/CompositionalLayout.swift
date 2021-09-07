@@ -8,23 +8,32 @@
 import UIKit
 
 struct CompositionalLayout {
-
+    
     enum ScrollDirection {
         case horizontal
         case vertical
     }
-
-    func creat(horizontalNumber: Int, verticalSize: CGFloat, scrollDirection: ScrollDirection) -> UICollectionViewLayout {
+    
+    func creat(portraitHorizontalNumber: Int, landscapeHorizontalNumber: Int, verticalSize: CGFloat, scrollDirection: ScrollDirection) -> UICollectionViewLayout {
+        var horizontalNumber = 1
         let layout = UICollectionViewCompositionalLayout { (_, _ ) -> NSCollectionLayoutSection? in
             let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
             let item = NSCollectionLayoutItem(layoutSize: itemSize)
+            item.contentInsets = NSDirectionalEdgeInsets(top: 4, leading: 6, bottom: 4, trailing: 6)
             let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(verticalSize))
+            
+            if UIDevice.current.orientation.isPortrait {
+                horizontalNumber = portraitHorizontalNumber
+            } else {
+                horizontalNumber = landscapeHorizontalNumber
+            }
+            
             let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: horizontalNumber)
             let section = NSCollectionLayoutSection(group: group)
             if scrollDirection == .horizontal {
                 section.orthogonalScrollingBehavior = .continuous
             }
-            section.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 8)
+            section.contentInsets = NSDirectionalEdgeInsets(top: 4, leading: 0, bottom: 0, trailing: 0)
             return section
         }
         return layout
