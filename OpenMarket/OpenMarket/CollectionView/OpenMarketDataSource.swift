@@ -7,12 +7,18 @@
 
 import UIKit
 
+protocol LoadingIndicatable: AnyObject {
+    func startAnimating()
+    func stopAnimating()
+}
+
 class OpenMarketDataSource: NSObject {
     private var productList: [Product] = []
     private let networkManager = NetworkManager()
     private let parsingManager = ParsingManager()
     private var nextPage = 1
     private var changeIdentifier = ProductCell.listIdentifier
+    weak var loadingIndicator: LoadingIndicatable?
 }
 
 extension OpenMarketDataSource: UICollectionViewDataSource {
@@ -33,6 +39,7 @@ extension OpenMarketDataSource: UICollectionViewDataSource {
     }
     
     func requestProductList(collectionView: UICollectionView) {
+        loadingIndicator?.startAnimating()
         self.networkManager.commuteWithAPI(api: GetItemsAPI(page: nextPage)) { result in
             if case .success(let data) = result {
                 guard let product = try? self.parsingManager.decodedJSONData(type: ProductCollection.self, data: data) else {
@@ -42,6 +49,7 @@ extension OpenMarketDataSource: UICollectionViewDataSource {
                 self.nextPage += 1
                 DispatchQueue.main.async {
                     collectionView.reloadData()
+                    self.loadingIndicator?.stopAnimating()
                 }
             }
         }

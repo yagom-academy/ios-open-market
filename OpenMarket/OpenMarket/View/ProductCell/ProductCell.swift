@@ -30,7 +30,7 @@ class ProductCell: UICollectionViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        
+        imageView.image = nil
         imageDataTask?.cancel()
         imageDataTask = nil
     }
@@ -43,7 +43,6 @@ class ProductCell: UICollectionViewCell {
     }
     
     private func resetContents() {
-        imageView.image = nil
         titleLabel.text = nil
         priceLabel.attributedText = nil
         priceLabel.text = nil

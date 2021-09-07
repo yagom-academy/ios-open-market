@@ -188,7 +188,7 @@
 			children = (
 				C70FB10025BEF61C00C9924E /* Main.storyboard */,
 				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
-				4DD98C9D26E39C150076CEA5 /* CustomView */,
+				4DD98C9D26E39C150076CEA5 /* ProductCell */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -250,14 +250,14 @@
 			path = Error;
 			sourceTree = "<group>";
 		};
-		4DD98C9D26E39C150076CEA5 /* CustomView */ = {
+		4DD98C9D26E39C150076CEA5 /* ProductCell */ = {
 			isa = PBXGroup;
 			children = (
 				4DD98C9E26E39C4D0076CEA5 /* ProductCell.swift */,
 				4DD98C9B26E3727B0076CEA5 /* ProductListCell.xib */,
 				4D710FFA26E62F5D007AF8F0 /* ProductGridCell.xib */,
 			);
-			path = CustomView;
+			path = ProductCell;
 			sourceTree = "<group>";
 		};
 		C70FB0EE25BEF61C00C9924E = {

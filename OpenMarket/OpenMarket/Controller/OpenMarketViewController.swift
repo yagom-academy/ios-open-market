@@ -8,6 +8,7 @@ import UIKit
 
 class OpenMarketViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var loadingIndicator: UIActivityIndicatorView!
     
     private let openMarketDataSource = OpenMarketDataSource()
     private let compositionalLayout = CompositionalLayout()
@@ -22,6 +23,7 @@ class OpenMarketViewController: UIViewController {
         collectionView.register(UINib(nibName: ProductCell.gridNibName, bundle: nil), forCellWithReuseIdentifier: ProductCell.gridItentifier)
         collectionView.collectionViewLayout = compositionalLayout.create(portraitHorizontalNumber: 1, landscapeHorizontalNumber: 1, verticalSize: 100, scrollDirection: .vertical)
         openMarketDataSource.requestProductList(collectionView: collectionView)
+        openMarketDataSource.loadingIndicator = self
     }
     
     override func viewWillLayoutSubviews() {
@@ -31,5 +33,17 @@ class OpenMarketViewController: UIViewController {
     
     @IBAction func onCollectionViewTypeChanged(_ sender: UISegmentedControl) {
         openMarketDataSource.selectedView(sender, collectionView, compositionalLayout)
+    }
+}
+
+extension OpenMarketViewController: LoadingIndicatable {
+    func startAnimating() {
+        loadingIndicator.startAnimating()
+        loadingIndicator.isHidden = false
+    }
+    
+    func stopAnimating() {
+        loadingIndicator.stopAnimating()
+        loadingIndicator.isHidden = true
     }
 }
