@@ -31,6 +31,7 @@
 		4D79E84426DF824C006AEDCE /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 4D79E84326DF824C006AEDCE /* .swiftlint.yml */; };
 		4D7FACC626DDBA5D00E275F4 /* ParsingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D7FACC526DDBA5D00E275F4 /* ParsingManager.swift */; };
 		4DD2129F26E6E92300002143 /* String+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DD2129E26E6E92300002143 /* String+extension.swift */; };
+		4DD212A126E6EB7500002143 /* Int+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DD212A026E6EB7500002143 /* Int+extension.swift */; };
 		4DD32BA126E0D6A700B32A88 /* ParsingError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DD32BA026E0D6A700B32A88 /* ParsingError.swift */; };
 		4DD32BA326E0D6E000B32A88 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DD32BA226E0D6E000B32A88 /* NetworkError.swift */; };
 		4DD98C9C26E3727B0076CEA5 /* ProductListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4DD98C9B26E3727B0076CEA5 /* ProductListCell.xib */; };
@@ -84,6 +85,7 @@
 		4D79E84326DF824C006AEDCE /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		4D7FACC526DDBA5D00E275F4 /* ParsingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParsingManager.swift; sourceTree = "<group>"; };
 		4DD2129E26E6E92300002143 /* String+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+extension.swift"; sourceTree = "<group>"; };
+		4DD212A026E6EB7500002143 /* Int+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+extension.swift"; sourceTree = "<group>"; };
 		4DD32BA026E0D6A700B32A88 /* ParsingError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParsingError.swift; sourceTree = "<group>"; };
 		4DD32BA226E0D6E000B32A88 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 		4DD98C9B26E3727B0076CEA5 /* ProductListCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProductListCell.xib; sourceTree = "<group>"; };
@@ -168,6 +170,7 @@
 			children = (
 				4D014F6726DE5D64002CDE67 /* Data+extension.swift */,
 				4DD2129E26E6E92300002143 /* String+extension.swift */,
+				4DD212A026E6EB7500002143 /* Int+extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -507,6 +510,7 @@
 				4D014F6526DE307B002CDE67 /* Request.swift in Sources */,
 				4DD32BA126E0D6A700B32A88 /* ParsingError.swift in Sources */,
 				4D79E83426DF34E3006AEDCE /* NetworkManager.swift in Sources */,
+				4DD212A126E6EB7500002143 /* Int+extension.swift in Sources */,
 				4D710FF926E62B67007AF8F0 /* CompositionalLayout.swift in Sources */,
 				4D71100126E6666B007AF8F0 /* OpenMarketDataSource.swift in Sources */,
 				4D79E83226DF21FA006AEDCE /* Parameter.swift in Sources */,
