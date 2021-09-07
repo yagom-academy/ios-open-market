@@ -15,6 +15,7 @@ class ProductCell: UICollectionViewCell {
     @IBOutlet weak var stockLabel: UILabel!
     
     private let imageManager = ImageManager()
+    private var imageDataTask: URLSessionTask?
     private static let maximumStockAmount = 999
     static let listIdentifier = "ProductListCell"
     static let gridItentifier = "ProductGridCell"
@@ -24,49 +25,52 @@ class ProductCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
+        setUpTextWidth()
+    }
+    
+    override func prepareForReuse() {
+        imageDataTask?.cancel()
+        imageDataTask = nil
+    }
+    
+    private func setUpTextWidth() {
         titleLabel.adjustsFontSizeToFitWidth = true
         priceLabel.adjustsFontSizeToFitWidth = true
         discountedPriceLabel.adjustsFontSizeToFitWidth = true
         stockLabel.adjustsFontSizeToFitWidth = true
     }
     
-    func imageConfigure(product: Product) {
-        if let successImage = product.thumbnails.first {
-            imageManager.loadedImage(url: successImage) { image in
-                DispatchQueue.main.async {
-                    switch image {
-                    case .success(let image):
-                        self.imageView.image = image
-                    case .failure:
-                        self.imageView.image = #imageLiteral(resourceName: "LoadedImageFailed")
-                    }
-                }
-            }
-        }
+    private func resetContents() {
+        imageView.image = nil
+        titleLabel.text = nil
+        priceLabel.attributedText = nil
+        priceLabel.text = nil
+        priceLabel.textColor = nil
+        discountedPriceLabel.text = nil
+        stockLabel.text = nil
+        stockLabel.textColor = nil
     }
     
     func textConfigure(product: Product) {
+        resetContents()
         self.titleLabel.text = product.title
         
         if let discountedPrice = product.discountedPrice {
             priceLabel.attributedText = "\(product.currency) \(product.price.withComma)".strikeThrough
-            priceLabel.textColor = .red
+            priceLabel.textColor = .systemRed
             discountedPriceLabel.text = "\(product.currency) \(discountedPrice.withComma)"
-            discountedPriceLabel.textColor = .gray
         } else {
             priceLabel.text = "\(product.currency) \(product.price.withComma)"
-            priceLabel.textColor = .gray
+            priceLabel.textColor = .systemGray
         }
         
         if product.stock == .zero {
             stockLabel.text = "품절"
-            stockLabel.textColor = .orange
+            stockLabel.textColor = .systemOrange
         } else if product.stock > Self.maximumStockAmount {
             stockLabel.text = "잔여수량 : \(Self.maximumStockAmount) +"
-            stockLabel.textColor = .gray
         } else {
             stockLabel.text = "잔여수량 : \(product.stock)"
-            stockLabel.textColor = .gray
         }
     }
     
@@ -77,15 +81,19 @@ class ProductCell: UICollectionViewCell {
             self.layer.borderColor = UIColor.gray.cgColor
         }
     }
-
-    override func prepareForReuse() {
-        priceLabel.attributedText = nil
-        imageView.image = nil
-        titleLabel.text = nil
-        priceLabel.text = nil
-        priceLabel.textColor = nil
-        discountedPriceLabel.text = nil
-        stockLabel.textColor = nil
-        stockLabel.text = nil
+    
+    func imageConfigure(product: Product) {
+        if let successImage = product.thumbnails.first {
+            imageDataTask = imageManager.loadedImage(url: successImage) { image in
+                DispatchQueue.main.async {
+                    switch image {
+                    case .success(let image):
+                        self.imageView.image = image
+                    case .failure:
+                        self.imageView.image = #imageLiteral(resourceName: "LoadedImageFailed")
+                    }
+                }
+            }
+        }
     }
 }

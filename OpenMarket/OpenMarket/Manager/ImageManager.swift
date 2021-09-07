@@ -14,13 +14,13 @@ struct ImageManager {
         self.session = session
     }
     
-    func loadedImage(url: String, compleHandler: @escaping (Result<UIImage, NetworkError>) -> Void) {
+    func loadedImage(url: String, compleHandler: @escaping (Result<UIImage, NetworkError>) -> Void) -> URLSessionTask? {
         guard let url = URL(string: url) else {
             compleHandler(.failure(.invalidURL))
-            return
+            return nil
         }
         let request = URLRequest(url: url)
-        session.dataTask(with: request) { Data, response, error in
+        let dataTask = session.dataTask(with: request) { Data, response, error in
             let result = session.obtainResponseData(data: Data, response: response, error: error)
             switch result {
             case .failure(let error):
@@ -33,6 +33,8 @@ struct ImageManager {
                 }
                 compleHandler(.success(imageData))
             }
-        }.resume()
+        }
+        dataTask.resume()
+        return dataTask
     }
 }
