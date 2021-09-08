@@ -32,7 +32,6 @@ class ProductCell: UICollectionViewCell {
         super.prepareForReuse()
         imageView.image = nil
         imageDataTask?.cancel()
-        imageDataTask = nil
     }
     
     private func setUpTextWidth() {

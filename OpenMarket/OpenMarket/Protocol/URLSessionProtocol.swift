@@ -28,6 +28,7 @@ extension URLSessionProtocol {
         guard let data = data else {
             return .failure(.dataNotfound)
         }
+        
         return .success(data)
     }
 }
