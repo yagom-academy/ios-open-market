@@ -18,16 +18,16 @@ class CollectionViewCell: UICollectionViewCell {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setUpCell()
-        setConstraints()
-        setConfigure()
+        setUpCellComponent()
+        setUpConstraints()
+        setUpStyle()
     }
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    private func setUpCell() {
+    private func setUpCellComponent() {
         imageView = UIImageView()
         stackView = UIStackView()
         titleLabel = UILabel()
@@ -44,12 +44,11 @@ class CollectionViewCell: UICollectionViewCell {
         stackView.addArrangedSubview(discountedPriceLabel)
         stackView.addArrangedSubview(stockLabel)
 
-        self.imageView.image = #imageLiteral(resourceName: "1f363")
         self.contentView.addSubview(imageView)
         self.contentView.addSubview(stackView)
     }
 
-    private func setConstraints() {
+    private func setUpConstraints() {
         self.imageView.translatesAutoresizingMaskIntoConstraints = false
         self.stackView.translatesAutoresizingMaskIntoConstraints = false
         self.titleLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -60,7 +59,7 @@ class CollectionViewCell: UICollectionViewCell {
         imageView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 10).isActive = true
         imageView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 10).isActive = true
         imageView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -10).isActive = true
-        imageView.heightAnchor.constraint(equalTo: self.contentView.heightAnchor, multiplier: 0.55).isActive = true
+        imageView.heightAnchor.constraint(equalTo: self.contentView.heightAnchor, multiplier: 0.6).isActive = true
 
         stackView.topAnchor.constraint(equalTo: self.imageView.bottomAnchor).isActive = true
         stackView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 10).isActive = true
@@ -68,7 +67,7 @@ class CollectionViewCell: UICollectionViewCell {
         stackView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -6).isActive = true
     }
 
-    private func setConfigure() {
+    private func setUpStyle() {
         self.layer.borderColor = UIColor.gray.cgColor
         self.layer.borderWidth = 2.0
         self.layer.cornerRadius = 10.0
@@ -80,13 +79,19 @@ class CollectionViewCell: UICollectionViewCell {
     }
 
     func configureCell(item: Item) {
+        item.image { image in
+            DispatchQueue.main.async {
+                self.imageView.image = image
+            }
+        }
         titleLabel.text = item.title
         priceLabel.text = item.price.description
         if let discountedPrice = item.discountedPrice {
             discountedPriceLabel.text = discountedPrice.description
+            priceLabel.textColor = .gray
+            
         }
         stockLabel.text = item.stock.description
-
     }
 
     override func prepareForReuse() {

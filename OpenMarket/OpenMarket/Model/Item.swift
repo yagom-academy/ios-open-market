@@ -5,7 +5,7 @@
 //  Created by 박태현 on 2021/08/31.
 //
 
-import Foundation
+import UIKit
 
 struct Item: Decodable {
     let id: Int
@@ -23,5 +23,17 @@ struct Item: Decodable {
         case id, title, descriptions, price, currency, stock, thumbnails, images
         case discountedPrice = "discounted_price"
         case registrationDate = "registration_date"
+    }
+
+    func image(completion: @escaping (UIImage) -> Void) {
+        let cacheKey = NSString(string: id.description)
+        if let cachedImage = ImageCacheManager.shared.object(forKey: cacheKey) {
+            completion(cachedImage)
+        } else {
+            NetworkManager().downloadImage(from: thumbnails[0]) { image in
+                ImageCacheManager.shared.setObject(image, forKey: cacheKey)
+                completion(image)
+            }
+        }
     }
 }

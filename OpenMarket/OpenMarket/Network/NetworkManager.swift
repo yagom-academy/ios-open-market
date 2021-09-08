@@ -5,7 +5,7 @@
 //  Created by 박태현 on 2021/08/31.
 //
 
-import Foundation
+import UIKit
 
 typealias Parameters = [String: Any]
 
@@ -117,5 +117,15 @@ extension Data {
 extension NetworkManager {
     func makeBoundary() -> String {
         return "Boundary-\(UUID().uuidString)"
+    }
+}
+
+extension NetworkManager {
+    func downloadImage(from link: String, success block: @escaping (UIImage) -> Void) {
+        guard let url = URL(string: link) else { return }
+        URLSession.shared.dataTask(with: url) { data, _, _ in
+            guard let data = data, let image = UIImage(data: data) else { return }
+            block(image)
+        }.resume()
     }
 }
