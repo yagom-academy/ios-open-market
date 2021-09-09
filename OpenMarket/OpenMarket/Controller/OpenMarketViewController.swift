@@ -10,20 +10,18 @@ class OpenMarketViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var loadingIndicator: UIActivityIndicatorView!
     
-    private let openMarketDataSource = OpenMarketCollectionViewDataSource()
+    private let openMarketCollecionViewDataSource = OpenMarketCollectionViewDataSource()
+    private let openMarketCollectionViewDelegate = OpenMarketCollectionViewDelegate()
     private let compositionalLayout = CompositionalLayout()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        collectionView.dataSource = openMarketDataSource
-        collectionView.isPrefetchingEnabled = true
-        collectionView.prefetchDataSource = openMarketDataSource
-        collectionView.register(UINib(nibName: ProductCell.listNibName, bundle: nil), forCellWithReuseIdentifier: ProductCell.listIdentifier)
-        collectionView.register(UINib(nibName: ProductCell.gridNibName, bundle: nil), forCellWithReuseIdentifier: ProductCell.gridItentifier)
-        collectionView.collectionViewLayout = compositionalLayout.create(portraitHorizontalNumber: 1, landscapeHorizontalNumber: 1, cellVerticalSize: .absolute(100), scrollDirection: .vertical, cellMargin: nil, viewMargin: nil)
-        openMarketDataSource.requestProductList(collectionView: collectionView)
-        openMarketDataSource.loadingIndicator = self
+        processCollectionView()
+        registeredIdetifier()
+        decidedLayout()
+        openMarketCollecionViewDataSource.requestProductList(collectionView: collectionView)
+        openMarketCollecionViewDataSource.loadingIndicator = self
     }
     
     override func viewWillLayoutSubviews() {
@@ -31,8 +29,24 @@ class OpenMarketViewController: UIViewController {
         collectionView.collectionViewLayout.invalidateLayout()
     }
     
+    private func processCollectionView() {
+        collectionView.dataSource = openMarketCollecionViewDataSource
+        collectionView.delegate = openMarketCollectionViewDelegate
+        collectionView.prefetchDataSource = openMarketCollecionViewDataSource
+        
+    }
+    
+    private func registeredIdetifier() {
+        collectionView.register(UINib(nibName: ProductCell.listNibName, bundle: nil), forCellWithReuseIdentifier: ProductCell.listIdentifier)
+        collectionView.register(UINib(nibName: ProductCell.gridNibName, bundle: nil), forCellWithReuseIdentifier: ProductCell.gridItentifier)
+    }
+    
+    private func decidedLayout() {
+        collectionView.collectionViewLayout = compositionalLayout.create(portraitHorizontalNumber: 1, landscapeHorizontalNumber: 1, cellVerticalSize: .absolute(100), scrollDirection: .vertical, cellMargin: nil, viewMargin: nil)
+    }
+    
     @IBAction func onCollectionViewTypeChanged(_ sender: UISegmentedControl) {
-        openMarketDataSource.selectedView(sender, collectionView, compositionalLayout)
+        openMarketCollecionViewDataSource.selectedView(sender, collectionView, compositionalLayout)
     }
 }
 
