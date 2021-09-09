@@ -51,7 +51,13 @@ class ProductCell: UICollectionViewCell {
         stockLabel.textColor = nil
     }
     
-    func textConfigure(product: Product) {
+    func productConfigure(product: Product, identifier: String) {
+        textConfigure(product: product)
+        imageConfigure(product: product)
+        styleConfigure(identifier: identifier)
+    }
+    
+    private func textConfigure(product: Product) {
         resetContents()
         self.titleLabel.text = product.title
         
@@ -70,12 +76,14 @@ class ProductCell: UICollectionViewCell {
             stockLabel.textColor = .systemOrange
         } else if product.stock > Self.maximumStockAmount {
             stockLabel.text = "잔여수량 : \(Self.maximumStockAmount) +"
+            stockLabel.textColor = .systemGray
         } else {
             stockLabel.text = "잔여수량 : \(product.stock)"
+            stockLabel.textColor = .systemGray
         }
     }
     
-    func styleConfigure(identifier: String) {
+    private func styleConfigure(identifier: String) {
         if identifier == Self.gridItentifier {
             self.layer.cornerRadius = 10
             self.layer.borderWidth = 1
@@ -83,7 +91,7 @@ class ProductCell: UICollectionViewCell {
         }
     }
     
-    func imageConfigure(product: Product) {
+    private func imageConfigure(product: Product) {
         if let successImage = product.thumbnails.first {
             imageDataTask = imageManager.fetchImage(url: successImage) { image in
                 DispatchQueue.main.async {

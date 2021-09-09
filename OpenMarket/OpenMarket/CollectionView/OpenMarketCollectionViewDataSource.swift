@@ -32,9 +32,7 @@ extension OpenMarketCollectionViewDataSource: UICollectionViewDataSource {
             return  UICollectionViewCell()
         }
         let productForItem = productList[indexPath.row]
-        cell.imageConfigure(product: productForItem)
-        cell.textConfigure(product: productForItem)
-        cell.styleConfigure(identifier: changeIdentifier)
+        cell.productConfigure(product: productForItem, identifier: changeIdentifier)
         
         return cell
     }
