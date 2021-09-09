@@ -6,6 +6,7 @@ disabled_rules:
 - unused_optional_binding
 - for_where
 - weak_delegate
+- function_parameter_count
 included:
 excluded:
 - Pods

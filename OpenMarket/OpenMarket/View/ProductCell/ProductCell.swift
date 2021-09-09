@@ -56,7 +56,8 @@ class ProductCell: UICollectionViewCell {
         self.titleLabel.text = product.title
         
         if let discountedPrice = product.discountedPrice {
-            priceLabel.attributedText = "\(product.currency) \(product.price.withComma)".strikeThrough
+            priceLabel.attributedText =
+                "\(product.currency) \(product.price.withComma)".strikeThrough
             priceLabel.textColor = .systemRed
             discountedPriceLabel.text = "\(product.currency) \(discountedPrice.withComma)"
         } else {

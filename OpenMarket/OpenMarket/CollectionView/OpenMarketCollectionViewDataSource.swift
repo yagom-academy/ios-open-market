@@ -17,12 +17,18 @@ class OpenMarketCollectionViewDataSource: NSObject {
 }
 
 extension OpenMarketCollectionViewDataSource: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        numberOfItemsInSection section: Int) -> Int {
         return productList.count
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: changeIdentifier, for: indexPath) as? ProductCell else {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: changeIdentifier,
+                for: indexPath) as? ProductCell else {
             return  UICollectionViewCell()
         }
         let productForItem = productList[indexPath.row]
@@ -35,7 +41,8 @@ extension OpenMarketCollectionViewDataSource: UICollectionViewDataSource {
     
     func requestProductList(collectionView: UICollectionView) {
         loadingIndicator?.startAnimating()
-        self.networkManager.commuteWithAPI(api: GetItemsAPI(page: nextPage)) { result in
+        self.networkManager.commuteWithAPI(
+            api: GetItemsAPI(page: nextPage)) { result in
             if case .success(let data) = result {
                 guard let product = try? self.parsingManager.decodedJSONData(type: ProductCollection.self, data: data) else {
                     return
@@ -50,24 +57,42 @@ extension OpenMarketCollectionViewDataSource: UICollectionViewDataSource {
         }
     }
     
-    func selectedView(_ sender: UISegmentedControl, _ collectionView: UICollectionView, _ compositionalLayout: CompositionalLayout) {
+    func selectedView(_ sender: UISegmentedControl,
+                      _ collectionView: UICollectionView,
+                      _ compositionalLayout: CompositionalLayout) {
         switch sender.selectedSegmentIndex {
         case 0:
             changeIdentifier = ProductCell.listIdentifier
-            collectionView.collectionViewLayout = compositionalLayout.create(portraitHorizontalNumber: 1, landscapeHorizontalNumber: 1, cellVerticalSize: .absolute(100), scrollDirection: .vertical, cellMargin: nil, viewMargin: nil)
+            collectionView.collectionViewLayout =
+                compositionalLayout.create(
+                    portraitHorizontalNumber: 1,
+                    landscapeHorizontalNumber: 1,
+                    cellVerticalSize: .absolute(100),
+                    scrollDirection: .vertical,
+                    cellMargin: nil, viewMargin: nil)
             collectionView.reloadData()
         default:
             changeIdentifier = ProductCell.gridItentifier
-            let gridCellMargin = compositionalLayout.margin(top: 4, leading: 6, bottom: 4, trailing: 6)
-            let gridViewMargin = compositionalLayout.margin(top: 4, leading: 0, bottom: 0, trailing: 0)
-            collectionView.collectionViewLayout = compositionalLayout.create(portraitHorizontalNumber: 2, landscapeHorizontalNumber: 4, cellVerticalSize: .absolute(250), scrollDirection: .vertical, cellMargin: gridCellMargin, viewMargin: gridViewMargin)
+            let gridCellMargin = compositionalLayout.margin(
+                top: 4, leading: 6, bottom: 4, trailing: 6)
+            let gridViewMargin = compositionalLayout.margin(
+                top: 4, leading: 0, bottom: 0, trailing: 0)
+            collectionView.collectionViewLayout =
+                compositionalLayout.create(
+                    portraitHorizontalNumber: 2,
+                    landscapeHorizontalNumber: 4,
+                    cellVerticalSize: .absolute(250),
+                    scrollDirection: .vertical,
+                    cellMargin: gridCellMargin, viewMargin: gridViewMargin)
             collectionView.reloadData()
         }
     }
 }
 
 extension OpenMarketCollectionViewDataSource: UICollectionViewDataSourcePrefetching {
-    func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        prefetchItemsAt indexPaths: [IndexPath]) {
         for indexPath in indexPaths {
             if indexPath.item == productList.count - 1 {
                 requestProductList(collectionView: collectionView)

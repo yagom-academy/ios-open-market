@@ -18,7 +18,8 @@ struct NetworkManager {
         self.applicableHTTPMethod = applicableHTTPMethod
     }
     
-    func commuteWithAPI(api: Requestable, completionHandler: @escaping(Result<Data, NetworkError>) -> Void) {
+    func commuteWithAPI(api: Requestable,
+                        completionHandler: @escaping(Result<Data, NetworkError>) -> Void) {
         guard let request = try? request.createRequest(api: api) else {
             completionHandler(.failure(.requestFailed))
             return
@@ -28,7 +29,8 @@ struct NetworkManager {
             return
         }
         session.dataTask(with: request) { data, response, error in
-            let result = session.obtainResponseData(data: data, response: response, error: error)
+            let result = session.obtainResponseData(
+                data: data, response: response, error: error)
             switch result {
             case .failure(let error):
                 completionHandler(.failure(error))

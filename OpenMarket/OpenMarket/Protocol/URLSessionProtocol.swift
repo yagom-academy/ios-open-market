@@ -8,14 +8,19 @@
 import Foundation
 
 protocol URLSessionProtocol {
-    func dataTask(with request: URLRequest,
-                  completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask
+    func dataTask(
+        with request: URLRequest,
+        completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void
+    ) -> URLSessionDataTask
 }
 
 extension URLSession: URLSessionProtocol {}
 
 extension URLSessionProtocol {
-    func obtainResponseData(data: Data?, response: URLResponse?, error: Error?) -> Result<Data, NetworkError> {
+    func obtainResponseData(
+        data: Data?,
+        response: URLResponse?,
+        error: Error?) -> Result<Data, NetworkError> {
         let rangeOfSuccessState = 200...299
         if let _ = error {
             return .failure(.dataTaskError)

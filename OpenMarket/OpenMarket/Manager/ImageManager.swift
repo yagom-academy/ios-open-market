@@ -14,8 +14,10 @@ struct ImageManager {
     init(session: URLSessionProtocol = URLSession.shared) {
         self.session = session
     }
-
-    func fetchImage(url: String, compleHandler: @escaping (Result<UIImage, NetworkError>) -> Void) -> URLSessionTask? {
+    
+    func fetchImage(
+        url: String,
+        compleHandler: @escaping (Result<UIImage, NetworkError>) -> Void) -> URLSessionTask? {
         guard let url = URL(string: url) else {
             compleHandler(.failure(.invalidURL))
             return nil
@@ -29,9 +31,12 @@ struct ImageManager {
         } else {
             let dataTask = session.dataTask(with: request) { data, response, error in
                 if let convertResponse = response, let convertData = data {
-                    self.cache.storeCachedResponse(CachedURLResponse(response: convertResponse, data: convertData), for: request)
+                    self.cache.storeCachedResponse(
+                        CachedURLResponse(
+                            response: convertResponse, data: convertData), for: request)
                 }
-                let result = session.obtainResponseData(data: data, response: response, error: error)
+                let result = session.obtainResponseData(
+                    data: data, response: response, error: error)
                 switch result {
                 case .failure(let error):
                     compleHandler(.failure(error))

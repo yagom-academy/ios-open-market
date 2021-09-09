@@ -42,7 +42,12 @@ class OpenMarketViewController: UIViewController {
     }
     
     private func decidedLayout() {
-        collectionView.collectionViewLayout = compositionalLayout.create(portraitHorizontalNumber: 1, landscapeHorizontalNumber: 1, cellVerticalSize: .absolute(100), scrollDirection: .vertical, cellMargin: nil, viewMargin: nil)
+        collectionView.collectionViewLayout =
+            compositionalLayout.create(portraitHorizontalNumber: 1,
+                                       landscapeHorizontalNumber: 1,
+                                       cellVerticalSize: .absolute(100),
+                                       scrollDirection: .vertical,
+                                       cellMargin: nil, viewMargin: nil)
     }
     
     @IBAction func onCollectionViewTypeChanged(_ sender: UISegmentedControl) {

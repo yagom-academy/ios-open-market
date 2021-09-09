@@ -34,7 +34,8 @@ enum APIURL {
     case patch(id: Int)
     case delete(id: Int)
     
-    private static let baseURL = "https://camp-open-market-2.herokuapp.com/"
+    private static let baseURL =
+        "https://camp-open-market-2.herokuapp.com/"
     
     var path: String {
         switch self {
