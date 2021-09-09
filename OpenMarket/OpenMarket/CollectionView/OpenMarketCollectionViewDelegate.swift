@@ -7,6 +7,6 @@
 
 import UIKit
 
-class OpenMarketDelegate: NSObject, UICollectionViewDelegate {
+class OpenMarketCollectionViewDelegate: NSObject, UICollectionViewDelegate {
     
 }

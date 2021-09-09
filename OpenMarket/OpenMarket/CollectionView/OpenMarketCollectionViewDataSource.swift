@@ -7,7 +7,7 @@
 
 import UIKit
 
-class OpenMarketDataSource: NSObject {
+class OpenMarketCollectionViewDataSource: NSObject {
     private var productList: [Product] = []
     private let networkManager = NetworkManager()
     private let parsingManager = ParsingManager()
@@ -16,7 +16,7 @@ class OpenMarketDataSource: NSObject {
     weak var loadingIndicator: LoadingIndicatable?
 }
 
-extension OpenMarketDataSource: UICollectionViewDataSource {
+extension OpenMarketCollectionViewDataSource: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return productList.count
     }
@@ -66,7 +66,7 @@ extension OpenMarketDataSource: UICollectionViewDataSource {
     }
 }
 
-extension OpenMarketDataSource: UICollectionViewDataSourcePrefetching {
+extension OpenMarketCollectionViewDataSource: UICollectionViewDataSourcePrefetching {
     func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
         for indexPath in indexPaths {
             if indexPath.item == productList.count - 1 {

@@ -10,7 +10,7 @@ class OpenMarketViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var loadingIndicator: UIActivityIndicatorView!
     
-    private let openMarketDataSource = OpenMarketDataSource()
+    private let openMarketDataSource = OpenMarketCollectionViewDataSource()
     private let compositionalLayout = CompositionalLayout()
     
     override func viewDidLoad() {
