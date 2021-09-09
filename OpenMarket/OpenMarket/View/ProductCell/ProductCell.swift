@@ -21,12 +21,14 @@ class ProductCell: UICollectionViewCell {
     static let gridItentifier = "ProductGridCell"
     static let listNibName = "ProductListCell"
     static let gridNibName = "ProductGridCell"
+    var labelArray: [UILabel] = []
     
     override func awakeFromNib() {
         super.awakeFromNib()
         
+        labelArray = [titleLabel, priceLabel, discountedPriceLabel, stockLabel]
         setUpTextWidth()
-        let rotation = CATransform3DMakeRotation(CGFloat(30.0 * M_PI / 180.0), 20, 20, 0)
+        
     }
     
     override func prepareForReuse() {
@@ -36,20 +38,17 @@ class ProductCell: UICollectionViewCell {
     }
     
     private func setUpTextWidth() {
-        titleLabel.adjustsFontSizeToFitWidth = true
-        priceLabel.adjustsFontSizeToFitWidth = true
-        discountedPriceLabel.adjustsFontSizeToFitWidth = true
-        stockLabel.adjustsFontSizeToFitWidth = true
+        labelArray.forEach {
+            $0.adjustsFontSizeToFitWidth = true
+        }
     }
     
     private func resetContents() {
-        titleLabel.text = nil
-        priceLabel.attributedText = nil
-        priceLabel.text = nil
-        priceLabel.textColor = nil
-        discountedPriceLabel.text = nil
-        stockLabel.text = nil
-        stockLabel.textColor = nil
+        labelArray.forEach {
+            $0.attributedText = nil
+            $0.textColor = nil
+            $0.text = nil
+        }
     }
     
     func productConfigure(product: Product, identifier: String) {
@@ -67,9 +66,11 @@ class ProductCell: UICollectionViewCell {
                 "\(product.currency) \(product.price.withComma)".strikeThrough
             priceLabel.textColor = .systemRed
             discountedPriceLabel.text = "\(product.currency) \(discountedPrice.withComma)"
+            priceLabel.textColor = .systemGray
         } else {
             priceLabel.text = "\(product.currency) \(product.price.withComma)"
             priceLabel.textColor = .systemGray
+            
         }
         
         if product.stock == .zero {
