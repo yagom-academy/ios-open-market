@@ -39,6 +39,7 @@ extension OpenMarketCollectionViewDataSource: UICollectionViewDataSource {
     
     func requestProductList(collectionView: UICollectionView) {
         loadingIndicator?.startAnimating()
+        loadingIndicator?.hidden(false)
         self.networkManager.commuteWithAPI(
             api: GetItemsAPI(page: nextPage)) { result in
             if case .success(let data) = result {
@@ -50,6 +51,7 @@ extension OpenMarketCollectionViewDataSource: UICollectionViewDataSource {
                 DispatchQueue.main.async {
                     collectionView.reloadData()
                     self.loadingIndicator?.stopAnimating()
+                    self.loadingIndicator?.hidden(true)
                 }
             }
         }

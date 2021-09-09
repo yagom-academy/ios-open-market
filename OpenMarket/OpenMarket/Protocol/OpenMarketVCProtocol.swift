@@ -10,4 +10,5 @@ import Foundation
 protocol LoadingIndicatable: AnyObject {
     func startAnimating()
     func stopAnimating()
+    func hidden(_ isHidden: Bool)
 }
