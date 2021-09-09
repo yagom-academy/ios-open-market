@@ -8,7 +8,7 @@
 import UIKit
 
 class ProductCell: UICollectionViewCell {
-    @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var thumbnailImage: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var priceLabel: UILabel!
     @IBOutlet weak var discountedPriceLabel: UILabel!
@@ -30,7 +30,7 @@ class ProductCell: UICollectionViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        imageView.image = nil
+        thumbnailImage.image = nil
         imageDataTask?.cancel()
     }
     
@@ -89,9 +89,9 @@ class ProductCell: UICollectionViewCell {
                 DispatchQueue.main.async {
                     switch image {
                     case .success(let image):
-                        self.imageView.image = image
+                        self.thumbnailImage.image = image
                     case .failure:
-                        self.imageView.image = #imageLiteral(resourceName: "LoadedImageFailed")
+                        self.thumbnailImage.image = #imageLiteral(resourceName: "LoadedImageFailed")
                     }
                 }
             }

@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
@@ -65,9 +63,9 @@
             <size key="customSize" width="217" height="227"/>
             <connections>
                 <outlet property="discountedPriceLabel" destination="HBX-7s-yem" id="G2k-f9-rfH"/>
-                <outlet property="imageView" destination="3tC-3Z-M2i" id="F2g-a3-EKU"/>
                 <outlet property="priceLabel" destination="jHr-05-jze" id="Edx-D8-GSs"/>
                 <outlet property="stockLabel" destination="qcS-nj-m2q" id="wBj-QQ-fYJ"/>
+                <outlet property="thumbnailImage" destination="3tC-3Z-M2i" id="F2g-a3-EKU"/>
                 <outlet property="titleLabel" destination="t65-r2-vWs" id="CzM-WX-41p"/>
             </connections>
             <point key="canvasLocation" x="-738" y="4"/>
