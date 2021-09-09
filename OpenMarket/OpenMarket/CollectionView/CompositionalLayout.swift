@@ -8,12 +8,6 @@
 import UIKit
 
 struct CompositionalLayout {
-    
-    enum ScrollDirection {
-        case horizontal
-        case vertical
-    }
-    
     func create(portraitHorizontalNumber: Int, landscapeHorizontalNumber: Int, verticalSize: CGFloat, scrollDirection: ScrollDirection) -> UICollectionViewLayout {
         var horizontalNumber = portraitHorizontalNumber
         let layout = UICollectionViewCompositionalLayout { (_, _) -> NSCollectionLayoutSection? in
