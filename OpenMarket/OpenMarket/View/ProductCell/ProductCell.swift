@@ -26,6 +26,7 @@ class ProductCell: UICollectionViewCell {
         super.awakeFromNib()
         
         setUpTextWidth()
+        let rotation = CATransform3DMakeRotation(CGFloat(30.0 * M_PI / 180.0), 20, 20, 0)
     }
     
     override func prepareForReuse() {
@@ -88,6 +89,8 @@ class ProductCell: UICollectionViewCell {
             self.layer.cornerRadius = 10
             self.layer.borderWidth = 1
             self.layer.borderColor = UIColor.gray.cgColor
+        } else {
+            self.layer.addBorder(edge: .bottom, color: .gray, thickness: 1)
         }
     }
     

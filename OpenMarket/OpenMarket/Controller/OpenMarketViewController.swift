@@ -42,12 +42,14 @@ class OpenMarketViewController: UIViewController {
     }
     
     private func decidedLayout() {
+        let listViewMargin =
+            compositionalLayout.margin(top: 0, leading: 5, bottom: 0, trailing: 0)
         collectionView.collectionViewLayout =
             compositionalLayout.create(portraitHorizontalNumber: 1,
                                        landscapeHorizontalNumber: 1,
                                        cellVerticalSize: .absolute(100),
                                        scrollDirection: .vertical,
-                                       cellMargin: nil, viewMargin: nil)
+                                       cellMargin: nil, viewMargin: listViewMargin)
     }
     
     @IBAction func onCollectionViewTypeChanged(_ sender: UISegmentedControl) {
