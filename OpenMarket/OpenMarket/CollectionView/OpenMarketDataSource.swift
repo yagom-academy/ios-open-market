@@ -7,11 +7,6 @@
 
 import UIKit
 
-protocol LoadingIndicatable: AnyObject {
-    func startAnimating()
-    func stopAnimating()
-}
-
 class OpenMarketDataSource: NSObject {
     private var productList: [Product] = []
     private let networkManager = NetworkManager()
