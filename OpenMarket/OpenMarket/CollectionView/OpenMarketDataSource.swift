@@ -54,11 +54,13 @@ extension OpenMarketDataSource: UICollectionViewDataSource {
         switch sender.selectedSegmentIndex {
         case 0:
             changeIdentifier = ProductCell.listIdentifier
-            collectionView.collectionViewLayout = compositionalLayout.create(portraitHorizontalNumber: 1, landscapeHorizontalNumber: 1, verticalSize: 100, scrollDirection: .vertical)
+            collectionView.collectionViewLayout = compositionalLayout.create(portraitHorizontalNumber: 1, landscapeHorizontalNumber: 1, cellVerticalSize: .absolute(100), scrollDirection: .vertical, cellMargin: nil, viewMargin: nil)
             collectionView.reloadData()
         default:
             changeIdentifier = ProductCell.gridItentifier
-            collectionView.collectionViewLayout = compositionalLayout.create(portraitHorizontalNumber: 2, landscapeHorizontalNumber: 4, verticalSize: 250, scrollDirection: .vertical)
+            let gridCellMargin = compositionalLayout.margin(top: 4, leading: 6, bottom: 4, trailing: 6)
+            let gridViewMargin = compositionalLayout.margin(top: 4, leading: 0, bottom: 0, trailing: 0)
+            collectionView.collectionViewLayout = compositionalLayout.create(portraitHorizontalNumber: 2, landscapeHorizontalNumber: 4, cellVerticalSize: .absolute(250), scrollDirection: .vertical, cellMargin: gridCellMargin, viewMargin: gridViewMargin)
             collectionView.reloadData()
         }
     }
