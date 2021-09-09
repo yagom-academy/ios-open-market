@@ -15,7 +15,7 @@ struct ImageManager {
         self.session = session
     }
 
-    func loadedImage(url: String, compleHandler: @escaping (Result<UIImage, NetworkError>) -> Void) -> URLSessionTask? {
+    func fetchImage(url: String, compleHandler: @escaping (Result<UIImage, NetworkError>) -> Void) -> URLSessionTask? {
         guard let url = URL(string: url) else {
             compleHandler(.failure(.invalidURL))
             return nil

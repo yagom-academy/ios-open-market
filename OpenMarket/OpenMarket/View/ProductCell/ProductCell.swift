@@ -84,7 +84,7 @@ class ProductCell: UICollectionViewCell {
     
     func imageConfigure(product: Product) {
         if let successImage = product.thumbnails.first {
-            imageDataTask = imageManager.loadedImage(url: successImage) { image in
+            imageDataTask = imageManager.fetchImage(url: successImage) { image in
                 DispatchQueue.main.async {
                     switch image {
                     case .success(let image):
