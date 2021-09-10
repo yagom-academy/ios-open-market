@@ -16,6 +16,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             return URLCache(memoryCapacity: 500*1024*1024,
                             diskCapacity: 500*1024*1024)
         }()
+        
         // Override point for customization after application launch.
         return true
     }

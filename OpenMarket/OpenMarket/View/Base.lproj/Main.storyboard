@@ -67,11 +67,33 @@
                     <connections>
                         <outlet property="collectionView" destination="B4m-pB-kau" id="AeX-B7-Rxh"/>
                         <outlet property="loadingIndicator" destination="ItG-bt-HVu" id="TGg-Xq-vr7"/>
+                        <segue destination="wPx-el-zEx" kind="show" identifier="presentToSecond" id="PAC-qf-YGQ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="928.98550724637687" y="35.491071428571423"/>
+        </scene>
+        <!--Enroll Modify View Controller-->
+        <scene sceneID="cbP-3L-Hj0">
+            <objects>
+                <viewController id="wPx-el-zEx" customClass="EnrollModifyViewController" customModule="OpenMarket" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="68C-Wq-Ube">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="pbr-cB-8eb"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="vCe-Sa-OsE">
+                        <barButtonItem key="rightBarButtonItem" title="Item" id="nbr-DO-aAm"/>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="postPatchButton" destination="nbr-DO-aAm" id="fqE-T8-qcW"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ZYk-uq-VeH" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1823" y="35"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Doc-82-1r8">

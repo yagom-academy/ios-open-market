@@ -74,16 +74,23 @@ extension OpenMarketViewController: LoadingIndicatable {
 extension OpenMarketViewController {
     @IBAction func enrollModifyButton(_ sender: Any) {
         let alert = UIAlertController()
-        let enroll = UIAlertAction(title: "등록", style: .default) { action in
-            
+        let enroll = UIAlertAction(title: "등록", style: .default) { _ in
+            self.performSegue(withIdentifier: "presentToSecond", sender: "등록")
         }
-        let modify = UIAlertAction(title: "수정", style: .default) { action in
-            
+        let modify = UIAlertAction(title: "수정", style: .default) { _ in
+            self.performSegue(withIdentifier: "presentToSecond", sender: "수정")
         }
         let cancel = UIAlertAction(title: "취소", style: .cancel, handler: nil)
         alert.addAction(enroll)
         alert.addAction(modify)
         alert.addAction(cancel)
         present(alert, animated: true, completion: nil)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard let enrollModifyViewController =
+                segue.destination as? EnrollModifyViewController,
+              let labelString = sender as? String else { return }
+        enrollModifyViewController.productTitle = labelString
     }
 }
