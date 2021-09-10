@@ -58,7 +58,7 @@ class OpenMarketViewController: UIViewController {
 }
 
 extension OpenMarketViewController: LoadingIndicatable {
-    func hidden(_ isHidden: Bool) {
+    func isHidden(_ isHidden: Bool) {
         loadingIndicator.isHidden = isHidden
     }
     

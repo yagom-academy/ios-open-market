@@ -39,7 +39,7 @@ extension OpenMarketCollectionViewDataSource: UICollectionViewDataSource {
     
     func requestProductList(collectionView: UICollectionView) {
         loadingIndicator?.startAnimating()
-        loadingIndicator?.hidden(false)
+        loadingIndicator?.isHidden(false)
         self.networkManager.commuteWithAPI(
             api: GetItemsAPI(page: nextPage)) { result in
             if case .success(let data) = result {
@@ -51,7 +51,7 @@ extension OpenMarketCollectionViewDataSource: UICollectionViewDataSource {
                 DispatchQueue.main.async {
                     collectionView.reloadData()
                     self.loadingIndicator?.stopAnimating()
-                    self.loadingIndicator?.hidden(true)
+                    self.loadingIndicator?.isHidden(true)
                 }
             }
         }
@@ -63,8 +63,8 @@ extension OpenMarketCollectionViewDataSource: UICollectionViewDataSource {
         switch sender.selectedSegmentIndex {
         case 0:
             changeIdentifier = ProductCell.listIdentifier
-            let listViewMargin =
-                compositionalLayout.margin(top: 0, leading: 5, bottom: 0, trailing: 0)
+            let listViewMargin = compositionalLayout.margin(
+                top: 0, leading: 5, bottom: 0, trailing: 0)
             collectionView.collectionViewLayout =
                 compositionalLayout.create(
                     portraitHorizontalNumber: 1,
