@@ -13,6 +13,8 @@ class OpenMarketViewController: UIViewController {
     private let openMarketCollecionViewDataSource = OpenMarketCollectionViewDataSource()
     private let openMarketCollectionViewDelegate = OpenMarketCollectionViewDelegate()
     private let compositionalLayout = CompositionalLayout()
+    private let alertSelect = (enroll: "등록", modify: "수정", cancel: "취소")
+    static let segueIdentifier = "presentToEnrollModify"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -74,13 +76,13 @@ extension OpenMarketViewController: LoadingIndicatable {
 extension OpenMarketViewController {
     @IBAction func enrollModifyButton(_ sender: Any) {
         let alert = UIAlertController()
-        let enroll = UIAlertAction(title: "등록", style: .default) { _ in
-            self.performSegue(withIdentifier: "presentToSecond", sender: "등록")
+        let enroll = UIAlertAction(title: alertSelect.enroll, style: .default) { _ in
+            self.performSegue(withIdentifier: "presentToSecond", sender: self.alertSelect.enroll)
         }
-        let modify = UIAlertAction(title: "수정", style: .default) { _ in
-            self.performSegue(withIdentifier: "presentToSecond", sender: "수정")
+        let modify = UIAlertAction(title: alertSelect.modify, style: .default) { _ in
+            self.performSegue(withIdentifier: "presentToSecond", sender: self.alertSelect.modify)
         }
-        let cancel = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+        let cancel = UIAlertAction(title: alertSelect.cancel, style: .cancel, handler: nil)
         alert.addAction(enroll)
         alert.addAction(modify)
         alert.addAction(cancel)
@@ -91,6 +93,6 @@ extension OpenMarketViewController {
         guard let enrollModifyViewController =
                 segue.destination as? EnrollModifyViewController,
               let labelString = sender as? String else { return }
-        enrollModifyViewController.productTitle = labelString
+        enrollModifyViewController.topItemTitle = labelString
     }
 }

@@ -44,6 +44,7 @@
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="야아마켓" id="8Dy-oq-cze">
+                        <barButtonItem key="backBarButtonItem" title="취소" id="W2k-KD-Vg2"/>
                         <barButtonItem key="leftBarButtonItem" style="done" id="Vzk-fF-z6x">
                             <segmentedControl key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="BAd-jA-m7m">
                                 <rect key="frame" x="16" y="6" width="92" height="32"/>
@@ -67,7 +68,7 @@
                     <connections>
                         <outlet property="collectionView" destination="B4m-pB-kau" id="AeX-B7-Rxh"/>
                         <outlet property="loadingIndicator" destination="ItG-bt-HVu" id="TGg-Xq-vr7"/>
-                        <segue destination="wPx-el-zEx" kind="show" identifier="presentToSecond" id="PAC-qf-YGQ"/>
+                        <segue destination="wPx-el-zEx" kind="show" identifier="presentToEnrollModify" id="PAC-qf-YGQ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
