@@ -21,7 +21,7 @@ class EnrollModifyPhotoCell: UICollectionViewCell {
     }
     
     private func setup() {
-        self.backgroundColor = .white
+        self.backgroundColor = .green
         addSubview(photoAlbumImage)
         
         photoAlbumImage.frame = CGRect(x: 0, y: 0,
