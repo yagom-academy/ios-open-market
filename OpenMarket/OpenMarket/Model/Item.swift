@@ -27,10 +27,12 @@ struct Item: Decodable {
 
     func image(completion: @escaping (UIImage) -> Void) {
         let cacheKey = NSString(string: id.description)
+        let titleThumbnail = thumbnails[0]
+        
         if let cachedImage = ImageCacheManager.shared.object(forKey: cacheKey) {
             completion(cachedImage)
         } else {
-            NetworkManager().downloadImage(from: thumbnails[0]) { image in
+            NetworkManager().downloadImage(from: titleThumbnail) { image in
                 ImageCacheManager.shared.setObject(image, forKey: cacheKey)
                 completion(image)
             }

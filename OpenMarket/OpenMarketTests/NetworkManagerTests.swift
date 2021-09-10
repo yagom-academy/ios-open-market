@@ -19,7 +19,7 @@ class NetworkManagerTests: XCTestCase {
         sut = nil
     }
 
-    func test_commuteFromMockNetwork_successs() {
+    func test_commuteFromMockNetwork_success() {
         // give
         let id = 1
         let mockData = "MockItem"

@@ -1,12 +1,12 @@
 //
-//  OpenMarket - ViewController.swift
+//  OpenMarket - MainViewController.swift
 //  Created by yagom. 
 //  Copyright © yagom. All rights reserved.
 // 
 
 import UIKit
 
-class ViewController: UIViewController {
+class MainViewController: UIViewController {
 
     let collectionView: UICollectionView = {
         let flowlayout = UICollectionViewFlowLayout()
@@ -83,7 +83,7 @@ class ViewController: UIViewController {
     }
 }
 
-extension ViewController: UICollectionViewDataSource {
+extension MainViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return items.count
     }
@@ -97,11 +97,11 @@ extension ViewController: UICollectionViewDataSource {
     }
 }
 
-extension ViewController: UICollectionViewDelegate {
+extension MainViewController: UICollectionViewDelegate {
 }
 
 // MARK: Extension for UICollectionViewDelegateFlowLayout
-extension ViewController: UICollectionViewDelegateFlowLayout {
+extension MainViewController: UICollectionViewDelegateFlowLayout {
     var insetForSection: CGFloat {
         return 10
     }
@@ -133,7 +133,7 @@ extension ViewController: UICollectionViewDelegateFlowLayout {
 }
 
 // MARK: Extension for Prefetch DataSource
-extension ViewController: UICollectionViewDataSourcePrefetching {
+extension MainViewController: UICollectionViewDataSourcePrefetching {
     func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
         let lastItem = items.count - 1
         for indexPath in indexPaths {
@@ -160,14 +160,14 @@ extension CGFloat {
 // MARK: Extension for using Canvas
 import SwiftUI
 struct ViewControllerRepresentable: UIViewControllerRepresentable {
-    func makeUIViewController(context: Context) -> ViewController {
-        return ViewController()
+    func makeUIViewController(context: Context) -> MainViewController {
+        return MainViewController()
     }
 
-    func updateUIViewController(_ uiViewController: ViewController, context: Context) {
+    func updateUIViewController(_ uiViewController: MainViewController, context: Context) {
     }
 
-    typealias UIViewControllerType = ViewController
+    typealias UIViewControllerType = MainViewController
 }
 @available(iOS 13.0.0, *)
 struct ViewPreview: PreviewProvider {
