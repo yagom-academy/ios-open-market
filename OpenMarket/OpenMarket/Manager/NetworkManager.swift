@@ -7,43 +7,37 @@
 
 import Foundation
 
-class NetworkManager {
+struct NetworkManager {
     private let request = Request()
     private let session: URLSessionProtocol
-    private var valuableHTTPMethod: [APIHTTPMethod]
-    private static let rangeOfSuccessState = 200...299
+    private var applicableHTTPMethod: [APIHTTPMethod]
     
     init(session: URLSessionProtocol = URLSession.shared,
          applicableHTTPMethod: [APIHTTPMethod] = APIHTTPMethod.allCases) {
         self.session = session
-        self.valuableHTTPMethod = applicableHTTPMethod
+        self.applicableHTTPMethod = applicableHTTPMethod
     }
     
-    func commuteWithAPI(api: Requestable, completionHandler: @escaping(Result<Data, NetworkError>) -> Void) {
-        guard let request = try? request.createRequest(url: api.url, api: api) else {
+    func commuteWithAPI(api: Requestable,
+                        completionHandler: @escaping(Result<Data, NetworkError>) -> Void) {
+        guard let request = try? request.createRequest(api: api) else {
             completionHandler(.failure(.requestFailed))
             return
         }
-        guard valuableHTTPMethod.contains(api.httpMethod) else {
+        if !applicableHTTPMethod.contains(api.httpMethod) {
             completionHandler(.failure(.invalidHttpMethod))
             return
         }
         session.dataTask(with: request) { data, response, error in
-            if let _ = error {
-                completionHandler(.failure(.dataTaskError))
+            let result = session.obtainResponseData(
+                data: data, response: response, error: error)
+            switch result {
+            case .failure(let error):
+                completionHandler(.failure(error))
                 return
+            case . success(let data):
+                completionHandler(.success(data))
             }
-            guard let response = response as? HTTPURLResponse,
-                  (Self.rangeOfSuccessState).contains(response.statusCode) else {
-                completionHandler(.failure(.responseFailed))
-                return
-            }
-            
-            guard let data = data else {
-                completionHandler(.failure(.dataNotfound))
-                return
-            }
-            completionHandler(.success(data))
         }.resume()
     }
 }

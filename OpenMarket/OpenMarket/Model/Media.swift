@@ -7,20 +7,6 @@
 
 import UIKit
 
-enum MimeType: CustomStringConvertible {
-    case jpeg
-    case png
-    
-    var description: String {
-        switch self {
-        case .jpeg:
-            return "image/jpeg"
-        case .png:
-            return "image/png"
-        }
-    }
-}
-
 struct Media {
     let key: String = "images[]"
     let fileName: String

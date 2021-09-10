@@ -14,6 +14,7 @@ enum NetworkError: Error, LocalizedError {
     case requestFailed
     case dataTaskError
     case dataNotfound
+    case convertImageFailed
     
     var errorDescription: String {
         switch self {
@@ -29,6 +30,8 @@ enum NetworkError: Error, LocalizedError {
             return "dataTask 전달 중 에러가 발생했습니다."
         case .dataNotfound:
             return "data를 전달 받지 못했습니다."
+        case .convertImageFailed:
+            return "이미지 변환에 실패했습니다."
         }
     }
 }

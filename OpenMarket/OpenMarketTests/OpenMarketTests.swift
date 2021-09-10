@@ -16,7 +16,7 @@ class OpenMarketTests: XCTestCase {
         parsingManager = ParsingManager()
     }
     
-    func test_Items_에셋파일을_ItemsData_타입으로_디코딩에_성공하면_title은_MacBookPro다() {
+    func test_Items_에셋파일을_ProductCollection_타입으로_디코딩에_성공하면_title은_MacBookPro다() {
         // given
         let expectInputValue = "Items"
         // when
@@ -30,7 +30,7 @@ class OpenMarketTests: XCTestCase {
         XCTAssertEqual(expectResult, result)
     }
     
-    func test_Item_에셋파일을_ItemData_타입으로_디코딩에_성공하면_price는_1690000이다() {
+    func test_Item_에셋파일을_Product_타입으로_디코딩에_성공하면_price는_1690000이다() {
         // given
         let expectInputValue = "Item"
         // when

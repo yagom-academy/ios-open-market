@@ -3,6 +3,10 @@ disabled_rules:
 - trailing_whitespace
 - identifier_name
 - xctfail_message
+- unused_optional_binding
+- for_where
+- weak_delegate
+- function_parameter_count
 included:
 excluded:
 - Pods
