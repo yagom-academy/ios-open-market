@@ -82,13 +82,33 @@
                     <view key="view" contentMode="scaleToFill" id="68C-Wq-Ube">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="w8S-qU-THC">
+                                <rect key="frame" x="0.0" y="88" width="375" height="641"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="aQ3-kA-6kq">
+                                    <size key="itemSize" width="128" height="128"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells/>
+                            </collectionView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="pbr-cB-8eb"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="pbr-cB-8eb" firstAttribute="bottom" secondItem="w8S-qU-THC" secondAttribute="bottom" id="LDu-Ki-n1B"/>
+                            <constraint firstItem="w8S-qU-THC" firstAttribute="leading" secondItem="pbr-cB-8eb" secondAttribute="leading" id="ZfB-XB-txE"/>
+                            <constraint firstItem="w8S-qU-THC" firstAttribute="top" secondItem="pbr-cB-8eb" secondAttribute="top" id="c5e-GX-3ET"/>
+                            <constraint firstItem="pbr-cB-8eb" firstAttribute="trailing" secondItem="w8S-qU-THC" secondAttribute="trailing" id="qpo-2Q-L3W"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="vCe-Sa-OsE">
-                        <barButtonItem key="rightBarButtonItem" title="Item" id="nbr-DO-aAm"/>
+                        <barButtonItem key="rightBarButtonItem" title="등록/수정" id="nbr-DO-aAm"/>
                     </navigationItem>
                     <connections>
+                        <outlet property="collectionView" destination="w8S-qU-THC" id="jWD-PM-fgb"/>
                         <outlet property="postPatchButton" destination="nbr-DO-aAm" id="fqE-T8-qcW"/>
                     </connections>
                 </viewController>

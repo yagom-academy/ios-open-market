@@ -77,10 +77,10 @@ extension OpenMarketViewController {
     @IBAction func enrollModifyButton(_ sender: Any) {
         let alert = UIAlertController()
         let enroll = UIAlertAction(title: alertSelect.enroll, style: .default) { _ in
-            self.performSegue(withIdentifier: "presentToSecond", sender: self.alertSelect.enroll)
+            self.performSegue(withIdentifier: Self.segueIdentifier, sender: self.alertSelect.enroll)
         }
         let modify = UIAlertAction(title: alertSelect.modify, style: .default) { _ in
-            self.performSegue(withIdentifier: "presentToSecond", sender: self.alertSelect.modify)
+            self.performSegue(withIdentifier: Self.segueIdentifier, sender: self.alertSelect.modify)
         }
         let cancel = UIAlertAction(title: alertSelect.cancel, style: .cancel, handler: nil)
         alert.addAction(enroll)

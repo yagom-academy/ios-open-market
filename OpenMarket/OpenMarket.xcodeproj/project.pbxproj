@@ -31,6 +31,9 @@
 		4D79E84426DF824C006AEDCE /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 4D79E84326DF824C006AEDCE /* .swiftlint.yml */; };
 		4D7FACC626DDBA5D00E275F4 /* ParsingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D7FACC526DDBA5D00E275F4 /* ParsingManager.swift */; };
 		4DAF17A926EAFACF0099F7FB /* EnrollModifyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DAF17A826EAFACF0099F7FB /* EnrollModifyViewController.swift */; };
+		4DAF17AE26EB2FF70099F7FB /* EnrollModifyCollectionViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DAF17AD26EB2FF70099F7FB /* EnrollModifyCollectionViewDataSource.swift */; };
+		4DAF17B026EB30430099F7FB /* EnrollModifyCollectionViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DAF17AF26EB30430099F7FB /* EnrollModifyCollectionViewDelegate.swift */; };
+		4DAF17B226EB8C020099F7FB /* EnrollModifyPhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DAF17B126EB8C020099F7FB /* EnrollModifyPhotoCell.swift */; };
 		4DD2129F26E6E92300002143 /* String+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DD2129E26E6E92300002143 /* String+extension.swift */; };
 		4DD212A126E6EB7500002143 /* Int+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DD212A026E6EB7500002143 /* Int+extension.swift */; };
 		4DD32BA126E0D6A700B32A88 /* ParsingError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DD32BA026E0D6A700B32A88 /* ParsingError.swift */; };
@@ -89,6 +92,9 @@
 		4D79E84326DF824C006AEDCE /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		4D7FACC526DDBA5D00E275F4 /* ParsingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParsingManager.swift; sourceTree = "<group>"; };
 		4DAF17A826EAFACF0099F7FB /* EnrollModifyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnrollModifyViewController.swift; sourceTree = "<group>"; };
+		4DAF17AD26EB2FF70099F7FB /* EnrollModifyCollectionViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnrollModifyCollectionViewDataSource.swift; sourceTree = "<group>"; };
+		4DAF17AF26EB30430099F7FB /* EnrollModifyCollectionViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnrollModifyCollectionViewDelegate.swift; sourceTree = "<group>"; };
+		4DAF17B126EB8C020099F7FB /* EnrollModifyPhotoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnrollModifyPhotoCell.swift; sourceTree = "<group>"; };
 		4DD2129E26E6E92300002143 /* String+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+extension.swift"; sourceTree = "<group>"; };
 		4DD212A026E6EB7500002143 /* Int+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+extension.swift"; sourceTree = "<group>"; };
 		4DD32BA026E0D6A700B32A88 /* ParsingError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParsingError.swift; sourceTree = "<group>"; };
@@ -199,6 +205,7 @@
 				C70FB10025BEF61C00C9924E /* Main.storyboard */,
 				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
 				4DD98C9D26E39C150076CEA5 /* ProductCell */,
+				4DAF17B326EB91150099F7FB /* EnrollModifyCell */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -217,9 +224,8 @@
 		4D710FFF26E66640007AF8F0 /* CollectionView */ = {
 			isa = PBXGroup;
 			children = (
-				4D71100026E6666B007AF8F0 /* OpenMarketCollectionViewDataSource.swift */,
-				4D71100226E66A15007AF8F0 /* OpenMarketCollectionViewDelegate.swift */,
-				4D710FF826E62B67007AF8F0 /* CompositionalLayout.swift */,
+				4DAF17AA26EB2CB40099F7FB /* OpenMarket */,
+				4DAF17AB26EB2CD00099F7FB /* EnrollModify */,
 			);
 			path = CollectionView;
 			sourceTree = "<group>";
@@ -232,6 +238,40 @@
 				4DD98CA026E3E3810076CEA5 /* ImageManager.swift */,
 			);
 			path = Manager;
+			sourceTree = "<group>";
+		};
+		4DAF17AA26EB2CB40099F7FB /* OpenMarket */ = {
+			isa = PBXGroup;
+			children = (
+				4D71100026E6666B007AF8F0 /* OpenMarketCollectionViewDataSource.swift */,
+				4D71100226E66A15007AF8F0 /* OpenMarketCollectionViewDelegate.swift */,
+			);
+			path = OpenMarket;
+			sourceTree = "<group>";
+		};
+		4DAF17AB26EB2CD00099F7FB /* EnrollModify */ = {
+			isa = PBXGroup;
+			children = (
+				4DAF17AD26EB2FF70099F7FB /* EnrollModifyCollectionViewDataSource.swift */,
+				4DAF17AF26EB30430099F7FB /* EnrollModifyCollectionViewDelegate.swift */,
+			);
+			path = EnrollModify;
+			sourceTree = "<group>";
+		};
+		4DAF17AC26EB2CFA0099F7FB /* Layout */ = {
+			isa = PBXGroup;
+			children = (
+				4D710FF826E62B67007AF8F0 /* CompositionalLayout.swift */,
+			);
+			path = Layout;
+			sourceTree = "<group>";
+		};
+		4DAF17B326EB91150099F7FB /* EnrollModifyCell */ = {
+			isa = PBXGroup;
+			children = (
+				4DAF17B126EB8C020099F7FB /* EnrollModifyPhotoCell.swift */,
+			);
+			path = EnrollModifyCell;
 			sourceTree = "<group>";
 		};
 		4DD32B9E26E0D5C600B32A88 /* Enumeration */ = {
@@ -301,6 +341,7 @@
 				4D6EFC1E26DD1FEA00F7B6FE /* Controller */,
 				4D7FACC426DDBA0500E275F4 /* Manager */,
 				4D710FFF26E66640007AF8F0 /* CollectionView */,
+				4DAF17AC26EB2CFA0099F7FB /* Layout */,
 				4D014F5D26DE1200002CDE67 /* Network */,
 				4DD32B9F26E0D61200B32A88 /* Protocol */,
 				4DD32B9E26E0D5C600B32A88 /* Enumeration */,
@@ -506,6 +547,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4DD32BA326E0D6E000B32A88 /* NetworkError.swift in Sources */,
+				4DAF17B026EB30430099F7FB /* EnrollModifyCollectionViewDelegate.swift in Sources */,
 				4D014F6826DE5D64002CDE67 /* Data+extension.swift in Sources */,
 				4DD98CA126E3E3810076CEA5 /* ImageManager.swift in Sources */,
 				4D6EFC2426DD208000F7B6FE /* ProductCollection.swift in Sources */,
@@ -528,10 +570,12 @@
 				4DD212A126E6EB7500002143 /* Int+extension.swift in Sources */,
 				4D710FF926E62B67007AF8F0 /* CompositionalLayout.swift in Sources */,
 				4D71100126E6666B007AF8F0 /* OpenMarketCollectionViewDataSource.swift in Sources */,
+				4DAF17B226EB8C020099F7FB /* EnrollModifyPhotoCell.swift in Sources */,
 				4D79E83226DF21FA006AEDCE /* Parameter.swift in Sources */,
 				4DDBF7D726E9FE48006CB2DF /* CompositionalLayoutEnum.swift in Sources */,
 				4DD98C9F26E39C4D0076CEA5 /* ProductCell.swift in Sources */,
 				4D014F6326DE3040002CDE67 /* RequestAPI.swift in Sources */,
+				4DAF17AE26EB2FF70099F7FB /* EnrollModifyCollectionViewDataSource.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
