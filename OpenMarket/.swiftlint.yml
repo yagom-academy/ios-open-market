@@ -1,0 +1,6 @@
+disabled_rules:
+- line_length
+- identifier_name
+- unused_optional_binding
+included:
+excluded:
