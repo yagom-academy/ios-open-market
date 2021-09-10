@@ -66,10 +66,10 @@ class ProductCell: UICollectionViewCell {
                 "\(product.currency) \(product.price.withComma)".strikeThrough
             priceLabel.textColor = .systemRed
             discountedPriceLabel.text = "\(product.currency) \(discountedPrice.withComma)"
-            priceLabel.textColor = .systemGray
+            discountedPriceLabel.textColor = .systemGray
         } else {
             priceLabel.text = "\(product.currency) \(product.price.withComma)"
-            priceLabel.textColor = .systemGray
+            priceLabel.textColor = .gray
             
         }
         
@@ -83,6 +83,7 @@ class ProductCell: UICollectionViewCell {
             stockLabel.text = "잔여수량 : \(product.stock)"
             stockLabel.textColor = .systemGray
         }
+        
     }
     
     private func styleConfigure(identifier: String) {

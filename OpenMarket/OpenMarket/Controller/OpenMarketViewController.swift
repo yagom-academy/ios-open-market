@@ -70,3 +70,20 @@ extension OpenMarketViewController: LoadingIndicatable {
         loadingIndicator.stopAnimating()
     }
 }
+
+extension OpenMarketViewController {
+    @IBAction func enrollModifyButton(_ sender: Any) {
+        let alert = UIAlertController()
+        let enroll = UIAlertAction(title: "등록", style: .default) { action in
+            
+        }
+        let modify = UIAlertAction(title: "수정", style: .default) { action in
+            
+        }
+        let cancel = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+        alert.addAction(enroll)
+        alert.addAction(modify)
+        alert.addAction(cancel)
+        present(alert, animated: true, completion: nil)
+    }
+}

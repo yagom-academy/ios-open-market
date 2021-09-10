@@ -57,7 +57,11 @@
                                 </connections>
                             </segmentedControl>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="grg-Xr-lqB"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="grg-Xr-lqB">
+                            <connections>
+                                <action selector="enrollModifyButton:" destination="BYZ-38-t0r" id="kqA-ur-3iv"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
