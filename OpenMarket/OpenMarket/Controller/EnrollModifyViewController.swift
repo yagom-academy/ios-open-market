@@ -21,20 +21,7 @@ class EnrollModifyViewController: UIViewController {
         self.title = "상품" + topItemTitle
         postPatchButton.title = topItemTitle
         collectionView.register(EnrollModifyPhotoCell.self, forCellWithReuseIdentifier: EnrollModifyPhotoCell.Identifier)
-        decidedPhotoCellLayout()
+        collectionView.register(EnrollModifyListCell.self, forCellWithReuseIdentifier: EnrollModifyListCell.Identifier)
+        collectionView.collectionViewLayout = enrollModifyCollectionViewDataSource.createCompositionalLayout()
     }
-    
-    private func decidedPhotoCellLayout() {
-        let cellMargin =
-            compositionalLayout.margin(top: 5, leading: 0, bottom: 5, trailing: 5)
-        let viewMargin =
-            compositionalLayout.margin(top: 0, leading: 5, bottom: 0, trailing: 0)
-        collectionView.collectionViewLayout =
-            compositionalLayout.create(portraitHorizontalNumber: 3,
-                                       landscapeHorizontalNumber: 5,
-                                       cellVerticalSize: .fractionalHeight(1/5),
-                                       scrollDirection: .horizontal,
-                                       cellMargin: cellMargin, viewMargin: viewMargin)
-    }
-    
 }

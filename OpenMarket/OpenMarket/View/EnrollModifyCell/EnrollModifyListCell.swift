@@ -1,5 +1,5 @@
 //
-//  PhotoCell.swift
+//  EnrollModifyListCell.swift
 //  OpenMarket
 //
 //  Created by tae hoon park on 2021/09/10.
@@ -7,8 +7,8 @@
 
 import UIKit
 
-class EnrollModifyPhotoCell: UICollectionViewCell {
-    static let Identifier = "photo"
+class EnrollModifyListCell: UICollectionViewCell {
+    static let Identifier = "list"
     private let photoAlbumImage: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
@@ -21,7 +21,7 @@ class EnrollModifyPhotoCell: UICollectionViewCell {
     }
     
     private func setup() {
-        self.backgroundColor = .yellow
+        self.backgroundColor = .red
         addSubview(photoAlbumImage)
         
         photoAlbumImage.frame = CGRect(x: 0, y: 0,
