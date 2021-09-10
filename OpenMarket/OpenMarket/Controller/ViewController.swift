@@ -34,7 +34,7 @@ class ViewController: UIViewController {
     func configureViewController() {
         self.title = "야아마켓"
         self.view.backgroundColor = .white
-
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(submit(_:)))
         let safeArea = view.safeAreaLayoutGuide
         view.addSubview(collectionView)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
@@ -46,6 +46,11 @@ class ViewController: UIViewController {
 
         collectionView.backgroundColor = .white
         collectionView.register(CollectionViewCell.self, forCellWithReuseIdentifier: CollectionViewCell.cellID)
+    }
+
+    @objc func submit(_ sender: Any) {
+        let detailVC = DetailViewController()
+        self.navigationController?.pushViewController(detailVC, animated: true)
     }
 
     func requestNextPage() {
@@ -134,6 +139,7 @@ extension ViewController: UICollectionViewDataSourcePrefetching {
         for indexPath in indexPaths {
             debugPrint(indexPath)
             if lastItem == indexPath.item {
+                debugPrint("requestNextPage")
                 requestNextPage()
             }
         }

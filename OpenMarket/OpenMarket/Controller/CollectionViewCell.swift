@@ -18,6 +18,7 @@ class CollectionViewCell: UICollectionViewCell {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
+        debugPrint("init Cell")
         setUpCellComponent()
         setUpConstraints()
         setUpStyle()
@@ -37,7 +38,7 @@ class CollectionViewCell: UICollectionViewCell {
 
         stackView.alignment = .center
         stackView.axis = .vertical
-        stackView.distribution = .fill
+        stackView.distribution = .fillProportionally
 
         stackView.addArrangedSubview(titleLabel)
         stackView.addArrangedSubview(priceLabel)
@@ -99,9 +100,9 @@ class CollectionViewCell: UICollectionViewCell {
         let priceWithCurrency = item.currency + " " + item.price.withDigit
 
         if let discountedPrice = item.discountedPrice {
-            discountedPriceLabel.text = item.currency + " " + discountedPrice.withDigit
             priceLabel.attributedText = priceWithCurrency.strikeThrough()
             priceLabel.textColor = .red
+            discountedPriceLabel.text = item.currency + " " + discountedPrice.withDigit
         } else {
             priceLabel.text = priceWithCurrency
         }
@@ -118,7 +119,7 @@ class CollectionViewCell: UICollectionViewCell {
         super.prepareForReuse()
         imageView.image = .none
         priceLabel.textColor = .gray
-        priceLabel.attributedText = .none
+        priceLabel.attributedText = nil
         discountedPriceLabel.text = .none
         stockLabel.textColor = .gray
     }

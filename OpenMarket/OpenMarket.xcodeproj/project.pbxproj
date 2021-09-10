@@ -26,6 +26,7 @@
 		8930692726DF8ADC00DA9A8F /* CustomJSONDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8930692626DF8ADC00DA9A8F /* CustomJSONDecoder.swift */; };
 		8969DEAC26E220DE0076FF43 /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8969DEAB26E220DE0076FF43 /* CollectionViewCell.swift */; };
 		8969DED026E7D79F0076FF43 /* ImageCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8969DECF26E7D79C0076FF43 /* ImageCacheManager.swift */; };
+		898E4D1726EB4EEA009DB810 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 898E4D1626EB4EEA009DB810 /* DetailViewController.swift */; };
 		9F489BEE295A2DA0AFB27C7E /* Pods_OpenMarketTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 084601D81DD8CAA785CA61B5 /* Pods_OpenMarketTests.framework */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
 		C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */; };
@@ -70,6 +71,7 @@
 		8930692626DF8ADC00DA9A8F /* CustomJSONDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomJSONDecoder.swift; sourceTree = "<group>"; };
 		8969DEAB26E220DE0076FF43 /* CollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
 		8969DECF26E7D79C0076FF43 /* ImageCacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCacheManager.swift; sourceTree = "<group>"; };
+		898E4D1626EB4EEA009DB810 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		AFEFBA843445F73C25EA76E9 /* Pods-OpenMarket.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenMarket.release.xcconfig"; path = "Target Support Files/Pods-OpenMarket/Pods-OpenMarket.release.xcconfig"; sourceTree = "<group>"; };
 		BE09F9612BEE73F4122472DD /* Pods_OpenMarket.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OpenMarket.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -134,8 +136,9 @@
 		891A983326DD5C0C006A0E2B /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				8969DEAB26E220DE0076FF43 /* CollectionViewCell.swift */,
 				C70FB0FE25BEF61C00C9924E /* ViewController.swift */,
+				898E4D1626EB4EEA009DB810 /* DetailViewController.swift */,
+				8969DEAB26E220DE0076FF43 /* CollectionViewCell.swift */,
 				8930692626DF8ADC00DA9A8F /* CustomJSONDecoder.swift */,
 			);
 			path = Controller;
@@ -412,6 +415,7 @@
 				891A984526DDF766006A0E2B /* RequestAPI.swift in Sources */,
 				8969DED026E7D79F0076FF43 /* ImageCacheManager.swift in Sources */,
 				8930692526DF830B00DA9A8F /* MockURLSession.swift in Sources */,
+				898E4D1726EB4EEA009DB810 /* DetailViewController.swift in Sources */,
 				8930692726DF8ADC00DA9A8F /* CustomJSONDecoder.swift in Sources */,
 				891A984326DDECBA006A0E2B /* NetworkManager.swift in Sources */,
 				891A985326DE71E3006A0E2B /* MockURLSessionDataTask.swift in Sources */,
