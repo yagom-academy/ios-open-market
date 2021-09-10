@@ -37,7 +37,7 @@ class CollectionViewCell: UICollectionViewCell {
 
         stackView.alignment = .center
         stackView.axis = .vertical
-        stackView.distribution = .fillProportionally
+        stackView.distribution = .fill
 
         stackView.addArrangedSubview(titleLabel)
         stackView.addArrangedSubview(priceLabel)
@@ -72,32 +72,71 @@ class CollectionViewCell: UICollectionViewCell {
         self.layer.borderWidth = 2.0
         self.layer.cornerRadius = 10.0
 
+        titleLabel.numberOfLines = 2
+        titleLabel.textAlignment = .center
+
         titleLabel.adjustsFontSizeToFitWidth = true
         priceLabel.adjustsFontSizeToFitWidth = true
         discountedPriceLabel.adjustsFontSizeToFitWidth = true
         stockLabel.adjustsFontSizeToFitWidth = true
+
+        priceLabel.textColor = .gray
+        discountedPriceLabel.textColor = .gray
+        stockLabel.textColor = .gray
     }
 
     func configureCell(item: Item) {
+        priceLabel.backgroundColor = .blue
+        discountedPriceLabel.backgroundColor = .green
+
         item.image { image in
             DispatchQueue.main.async {
                 self.imageView.image = image
             }
         }
+
         titleLabel.text = item.title
-        priceLabel.text = item.price.description
+        let priceWithCurrency = item.currency + " " + item.price.withDigit
+
         if let discountedPrice = item.discountedPrice {
-            discountedPriceLabel.text = discountedPrice.description
-            priceLabel.textColor = .gray
-            
+            discountedPriceLabel.text = item.currency + " " + discountedPrice.withDigit
+            priceLabel.attributedText = priceWithCurrency.strikeThrough()
+            priceLabel.textColor = .red
+        } else {
+            priceLabel.text = priceWithCurrency
         }
-        stockLabel.text = item.stock.description
+
+        if item.stock == 0 {
+            stockLabel.text = "품절"
+            stockLabel.textColor = .orange
+        } else {
+            stockLabel.text = "잔여수량 : \(item.stock.withDigit)"
+        }
     }
 
     override func prepareForReuse() {
         super.prepareForReuse()
-        self.imageView.image = nil
-        self.priceLabel.text = nil
-        self.stockLabel.text = nil
+        imageView.image = .none
+        priceLabel.textColor = .gray
+        priceLabel.attributedText = .none
+        discountedPriceLabel.text = .none
+        stockLabel.textColor = .gray
+    }
+}
+
+extension String {
+    func strikeThrough() -> NSAttributedString {
+            let attributeString: NSMutableAttributedString = NSMutableAttributedString(string: self)
+            attributeString.addAttribute(NSAttributedString.Key.strikethroughStyle, value: NSUnderlineStyle.single.rawValue, range: NSMakeRange(0, attributeString.length))
+            return attributeString
+        }
+}
+
+extension Int {
+    var withDigit: String {
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .decimal
+        let result = numberFormatter.string(for: self) ?? ""
+        return result
     }
 }

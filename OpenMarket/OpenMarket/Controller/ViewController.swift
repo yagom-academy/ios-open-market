@@ -63,6 +63,19 @@ class ViewController: UIViewController {
             }
         }
     }
+
+    func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
+        guard let cell = collectionView.cellForItem(at: indexPath) as? CollectionViewCell else {
+            return true
+        }
+        if cell.isSelected {
+            collectionView.deselectItem(at: indexPath, animated: true)
+            return false
+        } else {
+            print("\(items[indexPath.row].price) \(items[indexPath.row].discountedPrice)")
+            return true
+        }
+    }
 }
 
 extension ViewController: UICollectionViewDataSource {
@@ -132,7 +145,7 @@ extension CGFloat {
     static func / (lhs: CGFloat, rhs: Int) -> CGFloat {
         return lhs / CGFloat(rhs)
     }
-    
+
     static func * (lhs: CGFloat, rhs: Int) -> CGFloat {
         return lhs * CGFloat(rhs)
     }
