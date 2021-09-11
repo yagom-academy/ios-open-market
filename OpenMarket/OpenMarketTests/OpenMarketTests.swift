@@ -67,7 +67,7 @@ class OpenMarketTests: XCTestCase {
         let networkDispatcher = NetworkManager(session: session)
         var outputValue: Item?
         // when
-        networkDispatcher.send(request: Request.getItem, 1) { result in
+        networkDispatcher.send(request: Request.getItem, of: 1) { result in
             switch result {
             case .success(let data):
                 let parsedData = ParsingManager().parse(data, to: Item.self)
@@ -96,7 +96,7 @@ class OpenMarketTests: XCTestCase {
         let networkDispatcher = NetworkManager(session: session)
         var isTestSuccess = false
         // when
-        networkDispatcher.send(request: Request.getItem, 1) { result in
+        networkDispatcher.send(request: Request.getItem, of: 1) { result in
             switch result {
             case .success(let data):
                 let parsedData = ParsingManager().parse(data, to: Item.self)
