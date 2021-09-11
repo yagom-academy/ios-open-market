@@ -33,7 +33,7 @@ struct NetworkManager {
         self.session = session
     }
 
-    func send(request: Request, of path: Int, completion: @escaping (Result<Data, Error>) -> Void) {
+    func send(request: Request, of path: Int, completion: @escaping (Result<Data, NetworkError>) -> Void) {
         let userRequest = request.configure(request: request, path: path)
         switch userRequest {
         case .success(let userRequest):
@@ -47,11 +47,9 @@ struct NetworkManager {
                     completion(.failure(NetworkError.clientError))
                     return
                 }
-                guard let data = data else {
-                    completion(.failure(NetworkError.dataNotFound))
-                    return
+                if let data = data {
+                    completion(.success(data))
                 }
-                completion(.success(data))
             }
             task.resume()
         case .failure(let error):
