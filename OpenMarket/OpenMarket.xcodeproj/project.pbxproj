@@ -18,7 +18,6 @@
 		DF024F0626E21F85001686CE /* MockURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF024F0526E21F85001686CE /* MockURLSession.swift */; };
 		DF36FBBC26E0DCED00DDD2DC /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF36FBBB26E0DCED00DDD2DC /* Item.swift */; };
 		DF36FBBE26E0DEF700DDD2DC /* ItemList.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF36FBBD26E0DEF700DDD2DC /* ItemList.swift */; };
-		DF36FBC026E0E08400DDD2DC /* RequestAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF36FBBF26E0E08400DDD2DC /* RequestAPI.swift */; };
 		DF36FBC426E1154900DDD2DC /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF36FBC326E1154900DDD2DC /* Request.swift */; };
 		DF36FBC726E122AB00DDD2DC /* URLSessionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF36FBC626E122AB00DDD2DC /* URLSessionProtocol.swift */; };
 		DF36FBDA26E1261C00DDD2DC /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF36FBD926E1261C00DDD2DC /* NetworkManager.swift */; };
@@ -55,7 +54,6 @@
 		DF024F0526E21F85001686CE /* MockURLSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSession.swift; sourceTree = "<group>"; };
 		DF36FBBB26E0DCED00DDD2DC /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		DF36FBBD26E0DEF700DDD2DC /* ItemList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemList.swift; sourceTree = "<group>"; };
-		DF36FBBF26E0E08400DDD2DC /* RequestAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestAPI.swift; sourceTree = "<group>"; };
 		DF36FBC326E1154900DDD2DC /* Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
 		DF36FBC626E122AB00DDD2DC /* URLSessionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionProtocol.swift; sourceTree = "<group>"; };
 		DF36FBD926E1261C00DDD2DC /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
@@ -162,7 +160,6 @@
 			children = (
 				DF36FBBD26E0DEF700DDD2DC /* ItemList.swift */,
 				DF36FBBB26E0DCED00DDD2DC /* Item.swift */,
-				DF36FBBF26E0E08400DDD2DC /* RequestAPI.swift */,
 				DF36FBC326E1154900DDD2DC /* Request.swift */,
 				DF36FBC526E1229700DDD2DC /* Dependency */,
 			);
@@ -379,7 +376,6 @@
 			files = (
 				DF36FBBC26E0DCED00DDD2DC /* Item.swift in Sources */,
 				DF51B56526E20D4B00B91E51 /* ParsingManager.swift in Sources */,
-				DF36FBC026E0E08400DDD2DC /* RequestAPI.swift in Sources */,
 				DF36FBBE26E0DEF700DDD2DC /* ItemList.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
 				DF36FBC726E122AB00DDD2DC /* URLSessionProtocol.swift in Sources */,

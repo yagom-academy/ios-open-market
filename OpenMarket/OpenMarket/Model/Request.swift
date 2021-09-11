@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum Request: RequestAPI {
+enum Request {
     case getList
     case getItem
     case postItem
@@ -68,5 +68,16 @@ extension Request {
         userRequest.setValue(request.contentType, forHTTPHeaderField: "Content-Type")
 
         return .success(userRequest)
+    }
+}
+
+enum HTTPMethod: String {
+    case get = "GET"
+    case post = "POST"
+    case patch = "PATCH"
+    case delete = "DELETE"
+
+    var name: String {
+        return self.rawValue
     }
 }
