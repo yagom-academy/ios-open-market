@@ -74,4 +74,3 @@ struct CompositionalLayout {
             top: top, leading: leading, bottom: bottom, trailing: trailing)
     }
 }
-

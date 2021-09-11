@@ -28,10 +28,8 @@ extension EnrollModifyCollectionViewDataSource: UICollectionViewDataSource {
             guard let photoCell = collectionView.dequeueReusableCell(withReuseIdentifier: EnrollModifyPhotoCell.Identifier, for: indexPath) as? EnrollModifyPhotoCell else {
                 return UICollectionViewCell()
             }
-            
             return photoCell
         } else {
-            
             guard let listCell = collectionView.dequeueReusableCell(withReuseIdentifier: EnrollModifyListCell.Identifier, for: indexPath) as? EnrollModifyListCell else {
                 return UICollectionViewCell()
             }
@@ -43,17 +41,29 @@ extension EnrollModifyCollectionViewDataSource: UICollectionViewDataSource {
         return UICollectionViewCompositionalLayout { (sectionNumber, _) -> NSCollectionLayoutSection? in
             switch sectionNumber {
             case 0:
-                let cellMargin = self.compositionalLayout.margin(
-                    top: 5, leading: 0, bottom: 5, trailing: 5)
-                let viewMargin = self.compositionalLayout.margin(
-                    top: 0, leading: 5, bottom: 0, trailing: 0)
-                return self.compositionalLayout.enrollLayout(portraitHorizontalNumber: 3, landscapeHorizontalNumber: 5, cellVerticalSize: .fractionalHeight(1/5), scrollDirection: .horizontal, cellMargin: cellMargin, viewMargin: viewMargin)
-            default:
-                let photoCellMargin = self.compositionalLayout.margin(
+                let phothCellMargin = self.compositionalLayout.margin(
                     top: 5, leading: 0, bottom: 5, trailing: 5)
                 let photoViewMargin = self.compositionalLayout.margin(
                     top: 0, leading: 5, bottom: 0, trailing: 0)
-                return self.compositionalLayout.enrollLayout(portraitHorizontalNumber: 1, landscapeHorizontalNumber: 1, cellVerticalSize: .fractionalHeight((1 - (1/5))/10), scrollDirection: .vertical, cellMargin: photoCellMargin, viewMargin: photoViewMargin)
+                return self.compositionalLayout.enrollLayout(
+                    portraitHorizontalNumber: 3,
+                    landscapeHorizontalNumber: 5,
+                    cellVerticalSize: .fractionalHeight(1/5),
+                    scrollDirection: .horizontal,
+                    cellMargin: phothCellMargin,
+                    viewMargin: photoViewMargin)
+            default:
+                let listCellMargin = self.compositionalLayout.margin(
+                    top: 5, leading: 0, bottom: 5, trailing: 5)
+                let listViewMargin = self.compositionalLayout.margin(
+                    top: 0, leading: 5, bottom: 0, trailing: 0)
+                return self.compositionalLayout.enrollLayout(
+                    portraitHorizontalNumber: 1,
+                    landscapeHorizontalNumber: 1,
+                    cellVerticalSize: .fractionalHeight((1 - (1/5))/10),
+                    scrollDirection: .vertical,
+                    cellMargin: listCellMargin,
+                    viewMargin: listViewMargin)
             }
         }
     }

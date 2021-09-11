@@ -13,6 +13,7 @@ class OpenMarketCollectionViewDataSource: NSObject {
     private let parsingManager = ParsingManager()
     private var nextPage = 1
     private var changeIdentifier = ProductCell.listIdentifier
+    private let compositionalLayout = CompositionalLayout()
     weak var loadingIndicator: LoadingIndicatable?
 }
 
@@ -37,7 +38,7 @@ extension OpenMarketCollectionViewDataSource: UICollectionViewDataSource {
         return cell
     }
     
-    func requestProductList(collectionView: UICollectionView) {
+    func requestProductList(_ collectionView: UICollectionView) {
         loadingIndicator?.startAnimating()
         loadingIndicator?.isHidden(false)
         self.networkManager.commuteWithAPI(
@@ -57,21 +58,23 @@ extension OpenMarketCollectionViewDataSource: UICollectionViewDataSource {
         }
     }
     
+    func decidedListLayout(_ collectionView: UICollectionView) {
+        let listViewMargin =
+            compositionalLayout.margin(top: 0, leading: 5, bottom: 0, trailing: 0)
+        collectionView.collectionViewLayout =
+            compositionalLayout.create(portraitHorizontalNumber: 1,
+                                       landscapeHorizontalNumber: 1,
+                                       cellVerticalSize: .absolute(100),
+                                       scrollDirection: .vertical,
+                                       cellMargin: nil, viewMargin: listViewMargin)
+    }
+    
     func selectedView(_ sender: UISegmentedControl,
-                      _ collectionView: UICollectionView,
-                      _ compositionalLayout: CompositionalLayout) {
+                      _ collectionView: UICollectionView) {
         switch sender.selectedSegmentIndex {
         case 0:
             changeIdentifier = ProductCell.listIdentifier
-            let listViewMargin = compositionalLayout.margin(
-                top: 0, leading: 5, bottom: 0, trailing: 0)
-            collectionView.collectionViewLayout =
-                compositionalLayout.create(
-                    portraitHorizontalNumber: 1,
-                    landscapeHorizontalNumber: 1,
-                    cellVerticalSize: .absolute(100),
-                    scrollDirection: .vertical,
-                    cellMargin: nil, viewMargin: listViewMargin)
+            decidedListLayout(collectionView)
             collectionView.reloadData()
         default:
             changeIdentifier = ProductCell.gridItentifier
@@ -97,7 +100,7 @@ extension OpenMarketCollectionViewDataSource: UICollectionViewDataSourcePrefetch
         prefetchItemsAt indexPaths: [IndexPath]) {
         for indexPath in indexPaths {
             if indexPath.item == productList.count - 1 {
-                requestProductList(collectionView: collectionView)
+                requestProductList(collectionView)
             }
         }
     }

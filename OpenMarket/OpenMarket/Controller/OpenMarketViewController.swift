@@ -12,7 +12,6 @@ class OpenMarketViewController: UIViewController {
     
     private let openMarketCollecionViewDataSource = OpenMarketCollectionViewDataSource()
     private let openMarketCollectionViewDelegate = OpenMarketCollectionViewDelegate()
-    private let compositionalLayout = CompositionalLayout()
     private let alertSelect = (enroll: "등록", modify: "수정", cancel: "취소")
     static let segueIdentifier = "presentToEnrollModify"
     
@@ -21,8 +20,8 @@ class OpenMarketViewController: UIViewController {
         
         processCollectionView()
         registeredIdetifier()
-        decidedLayout()
-        openMarketCollecionViewDataSource.requestProductList(collectionView: collectionView)
+        openMarketCollecionViewDataSource.decidedListLayout(collectionView)
+        openMarketCollecionViewDataSource.requestProductList(collectionView)
         openMarketCollecionViewDataSource.loadingIndicator = self
     }
     
@@ -43,19 +42,8 @@ class OpenMarketViewController: UIViewController {
         collectionView.register(UINib(nibName: ProductCell.gridNibName, bundle: nil), forCellWithReuseIdentifier: ProductCell.gridItentifier)
     }
     
-    private func decidedLayout() {
-        let listViewMargin =
-            compositionalLayout.margin(top: 0, leading: 5, bottom: 0, trailing: 0)
-        collectionView.collectionViewLayout =
-            compositionalLayout.create(portraitHorizontalNumber: 1,
-                                       landscapeHorizontalNumber: 1,
-                                       cellVerticalSize: .absolute(100),
-                                       scrollDirection: .vertical,
-                                       cellMargin: nil, viewMargin: listViewMargin)
-    }
-    
     @IBAction func onCollectionViewTypeChanged(_ sender: UISegmentedControl) {
-        openMarketCollecionViewDataSource.selectedView(sender, collectionView, compositionalLayout)
+        openMarketCollecionViewDataSource.selectedView(sender, collectionView)
     }
 }
 
