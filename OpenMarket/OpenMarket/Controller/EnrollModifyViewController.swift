@@ -12,6 +12,7 @@ class EnrollModifyViewController: UIViewController {
     @IBOutlet weak var postPatchButton: UIBarButtonItem!
     
     private let enrollModifyCollectionViewDataSource = EnrollModifyCollectionViewDataSource()
+    private let enrollModifyCollectionViewDelegate = EnrollModifyCollectionViewDelegate()
     private let compositionalLayout = CompositionalLayout()
     var topItemTitle: String = ""
     
@@ -20,8 +21,8 @@ class EnrollModifyViewController: UIViewController {
         collectionView.dataSource = enrollModifyCollectionViewDataSource
         self.title = "상품" + topItemTitle
         postPatchButton.title = topItemTitle
-        collectionView.register(EnrollModifyPhotoCell.self, forCellWithReuseIdentifier: EnrollModifyPhotoCell.Identifier)
-        collectionView.register(EnrollModifyListCell.self, forCellWithReuseIdentifier: EnrollModifyListCell.Identifier)
+        collectionView.register(EnrollModifyPhotoCell.self, forCellWithReuseIdentifier: EnrollModifyPhotoCell.identifier)
+        collectionView.register(EnrollModifyListCell.self, forCellWithReuseIdentifier: EnrollModifyListCell.identifier)
         collectionView.collectionViewLayout = enrollModifyCollectionViewDataSource.createCompositionalLayout()
     }
 }

@@ -9,6 +9,8 @@ import UIKit
 
 class EnrollModifyCollectionViewDataSource: NSObject {
     private let compositionalLayout = CompositionalLayout()
+    private let PlaceholderList: [String] =
+        ["상품명", "화폐단위", "가격", "할인가격", "재고수량", "상세설명", "비밀번호"]
 }
 
 extension EnrollModifyCollectionViewDataSource: UICollectionViewDataSource {
@@ -20,19 +22,23 @@ extension EnrollModifyCollectionViewDataSource: UICollectionViewDataSource {
         if section == 0 {
             return 5
         }
-        return 10
+        return PlaceholderList.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if indexPath.section == 0 {
-            guard let photoCell = collectionView.dequeueReusableCell(withReuseIdentifier: EnrollModifyPhotoCell.Identifier, for: indexPath) as? EnrollModifyPhotoCell else {
+            guard let photoCell = collectionView.dequeueReusableCell(withReuseIdentifier: EnrollModifyPhotoCell.identifier, for: indexPath) as? EnrollModifyPhotoCell else {
                 return UICollectionViewCell()
             }
             return photoCell
         } else {
-            guard let listCell = collectionView.dequeueReusableCell(withReuseIdentifier: EnrollModifyListCell.Identifier, for: indexPath) as? EnrollModifyListCell else {
+            guard let listCell = collectionView.dequeueReusableCell(withReuseIdentifier: EnrollModifyListCell.identifier, for: indexPath) as? EnrollModifyListCell else {
                 return UICollectionViewCell()
             }
+            let placeholderForItem = PlaceholderList[indexPath.item]
+            listCell.configure(placeholderList: placeholderForItem)
+//            listcell.enrollModifyList.text
+            
             return listCell
         }
     }
@@ -54,13 +60,13 @@ extension EnrollModifyCollectionViewDataSource: UICollectionViewDataSource {
                     viewMargin: photoViewMargin)
             default:
                 let listCellMargin = self.compositionalLayout.margin(
-                    top: 5, leading: 0, bottom: 5, trailing: 5)
+                    top: 0, leading: 0, bottom: 0, trailing: 5)
                 let listViewMargin = self.compositionalLayout.margin(
                     top: 0, leading: 5, bottom: 0, trailing: 0)
                 return self.compositionalLayout.enrollLayout(
                     portraitHorizontalNumber: 1,
                     landscapeHorizontalNumber: 1,
-                    cellVerticalSize: .fractionalHeight((1 - (1/5))/10),
+                    cellVerticalSize: .fractionalHeight((1 - (1/5))/CGFloat(self.PlaceholderList.count)),
                     scrollDirection: .vertical,
                     cellMargin: listCellMargin,
                     viewMargin: listViewMargin)

@@ -8,8 +8,8 @@
 import UIKit
 
 class EnrollModifyPhotoCell: UICollectionViewCell {
-    static let Identifier = "photo"
-    private let photoAlbumImage: UIImageView = {
+    static let identifier = "photo"
+    private let photoAlbumImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         return imageView
@@ -22,9 +22,8 @@ class EnrollModifyPhotoCell: UICollectionViewCell {
     
     private func setup() {
         self.backgroundColor = .yellow
-        addSubview(photoAlbumImage)
-        
-        photoAlbumImage.frame = CGRect(x: 0, y: 0,
+        contentView.addSubview(photoAlbumImageView)
+        photoAlbumImageView.frame = CGRect(x: 0, y: 0,
                                  width: contentView.frame.width,
                                  height: contentView.frame.height)
     }
