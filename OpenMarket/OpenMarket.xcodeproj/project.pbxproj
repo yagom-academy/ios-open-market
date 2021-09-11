@@ -30,6 +30,7 @@
 		4D79E83A26DF4765006AEDCE /* URLSessionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D79E83926DF4765006AEDCE /* URLSessionProtocol.swift */; };
 		4D79E84426DF824C006AEDCE /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 4D79E84326DF824C006AEDCE /* .swiftlint.yml */; };
 		4D7FACC626DDBA5D00E275F4 /* ParsingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D7FACC526DDBA5D00E275F4 /* ParsingManager.swift */; };
+		4DA9DC2A26ECCE1700A9360F /* EnrollModifyPhotoSelectCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DA9DC2926ECCE1700A9360F /* EnrollModifyPhotoSelectCell.swift */; };
 		4DAF17A926EAFACF0099F7FB /* EnrollModifyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DAF17A826EAFACF0099F7FB /* EnrollModifyViewController.swift */; };
 		4DAF17AE26EB2FF70099F7FB /* EnrollModifyCollectionViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DAF17AD26EB2FF70099F7FB /* EnrollModifyCollectionViewDataSource.swift */; };
 		4DAF17B026EB30430099F7FB /* EnrollModifyCollectionViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DAF17AF26EB30430099F7FB /* EnrollModifyCollectionViewDelegate.swift */; };
@@ -92,6 +93,7 @@
 		4D79E83926DF4765006AEDCE /* URLSessionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionProtocol.swift; sourceTree = "<group>"; };
 		4D79E84326DF824C006AEDCE /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		4D7FACC526DDBA5D00E275F4 /* ParsingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParsingManager.swift; sourceTree = "<group>"; };
+		4DA9DC2926ECCE1700A9360F /* EnrollModifyPhotoSelectCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnrollModifyPhotoSelectCell.swift; sourceTree = "<group>"; };
 		4DAF17A826EAFACF0099F7FB /* EnrollModifyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnrollModifyViewController.swift; sourceTree = "<group>"; };
 		4DAF17AD26EB2FF70099F7FB /* EnrollModifyCollectionViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnrollModifyCollectionViewDataSource.swift; sourceTree = "<group>"; };
 		4DAF17AF26EB30430099F7FB /* EnrollModifyCollectionViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnrollModifyCollectionViewDelegate.swift; sourceTree = "<group>"; };
@@ -271,6 +273,7 @@
 		4DAF17B326EB91150099F7FB /* EnrollModifyCell */ = {
 			isa = PBXGroup;
 			children = (
+				4DA9DC2926ECCE1700A9360F /* EnrollModifyPhotoSelectCell.swift */,
 				4DAF17B126EB8C020099F7FB /* EnrollModifyPhotoCell.swift */,
 				4DAF17B426EBAA020099F7FB /* EnrollModifyListCell.swift */,
 			);
@@ -555,6 +558,7 @@
 				4DD98CA126E3E3810076CEA5 /* ImageManager.swift in Sources */,
 				4D6EFC2426DD208000F7B6FE /* ProductCollection.swift in Sources */,
 				4DAF17B526EBAA030099F7FB /* EnrollModifyListCell.swift in Sources */,
+				4DA9DC2A26ECCE1700A9360F /* EnrollModifyPhotoSelectCell.swift in Sources */,
 				4DAF17A926EAFACF0099F7FB /* EnrollModifyViewController.swift in Sources */,
 				4D79E83A26DF4765006AEDCE /* URLSessionProtocol.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* OpenMarketViewController.swift in Sources */,

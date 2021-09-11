@@ -16,7 +16,7 @@ struct CompositionalLayout {
         cellMargin: NSDirectionalEdgeInsets?,
         viewMargin: NSDirectionalEdgeInsets?) -> UICollectionViewLayout {
         var horizontalNumber: Int {
-            UIDevice.current.orientation.isPortrait ? portraitHorizontalNumber : landscapeHorizontalNumber
+            UIDevice.current.orientation.isLandscape ? landscapeHorizontalNumber : portraitHorizontalNumber
         }
         
         let layout =
@@ -48,7 +48,7 @@ struct CompositionalLayout {
                       cellMargin: NSDirectionalEdgeInsets?,
                       viewMargin: NSDirectionalEdgeInsets?) -> NSCollectionLayoutSection {
         var horizontalNumber: Int {
-            UIDevice.current.orientation.isPortrait ? portraitHorizontalNumber : landscapeHorizontalNumber
+            UIDevice.current.orientation.isLandscape ? landscapeHorizontalNumber : portraitHorizontalNumber
         }
         let itemSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),

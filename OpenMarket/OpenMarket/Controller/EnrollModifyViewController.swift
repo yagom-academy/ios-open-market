@@ -13,7 +13,6 @@ class EnrollModifyViewController: UIViewController {
     
     private let enrollModifyCollectionViewDataSource = EnrollModifyCollectionViewDataSource()
     private let enrollModifyCollectionViewDelegate = EnrollModifyCollectionViewDelegate()
-    private let compositionalLayout = CompositionalLayout()
     var topItemTitle: String = ""
     
     override func viewDidLoad() {
@@ -21,8 +20,15 @@ class EnrollModifyViewController: UIViewController {
         collectionView.dataSource = enrollModifyCollectionViewDataSource
         self.title = "상품" + topItemTitle
         postPatchButton.title = topItemTitle
+        collectionView.register(EnrollModifyPhotoSeclectCell.self, forCellWithReuseIdentifier: EnrollModifyPhotoSeclectCell.identifier)
         collectionView.register(EnrollModifyPhotoCell.self, forCellWithReuseIdentifier: EnrollModifyPhotoCell.identifier)
         collectionView.register(EnrollModifyListCell.self, forCellWithReuseIdentifier: EnrollModifyListCell.identifier)
         collectionView.collectionViewLayout = enrollModifyCollectionViewDataSource.createCompositionalLayout()
+        
+    }
+    
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        collectionView.collectionViewLayout.invalidateLayout()
     }
 }

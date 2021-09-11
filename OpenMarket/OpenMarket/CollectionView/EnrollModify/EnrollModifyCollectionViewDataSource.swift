@@ -20,13 +20,19 @@ extension EnrollModifyCollectionViewDataSource: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if section == 0 {
-            return 5
+            return 6
         }
         return PlaceholderList.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if indexPath.section == 0 {
+        if indexPath.item == 0 && indexPath.section == 0 {
+            guard let photoSelectCell = collectionView.dequeueReusableCell(withReuseIdentifier: EnrollModifyPhotoSeclectCell.identifier, for: indexPath) as? EnrollModifyPhotoSeclectCell else {
+                return UICollectionViewCell()
+            }
+            return photoSelectCell
+        }
+        if indexPath.item != 0 && indexPath.section == 0 {
             guard let photoCell = collectionView.dequeueReusableCell(withReuseIdentifier: EnrollModifyPhotoCell.identifier, for: indexPath) as? EnrollModifyPhotoCell else {
                 return UICollectionViewCell()
             }
@@ -37,7 +43,6 @@ extension EnrollModifyCollectionViewDataSource: UICollectionViewDataSource {
             }
             let placeholderForItem = PlaceholderList[indexPath.item]
             listCell.configure(placeholderList: placeholderForItem)
-//            listcell.enrollModifyList.text
             
             return listCell
         }
@@ -52,9 +57,9 @@ extension EnrollModifyCollectionViewDataSource: UICollectionViewDataSource {
                 let photoViewMargin = self.compositionalLayout.margin(
                     top: 0, leading: 5, bottom: 0, trailing: 0)
                 return self.compositionalLayout.enrollLayout(
-                    portraitHorizontalNumber: 3,
-                    landscapeHorizontalNumber: 5,
-                    cellVerticalSize: .fractionalHeight(1/5),
+                    portraitHorizontalNumber: Int(4),
+                    landscapeHorizontalNumber: Int(4),
+                    cellVerticalSize: .fractionalHeight(1/6),
                     scrollDirection: .horizontal,
                     cellMargin: phothCellMargin,
                     viewMargin: photoViewMargin)
@@ -66,7 +71,7 @@ extension EnrollModifyCollectionViewDataSource: UICollectionViewDataSource {
                 return self.compositionalLayout.enrollLayout(
                     portraitHorizontalNumber: 1,
                     landscapeHorizontalNumber: 1,
-                    cellVerticalSize: .fractionalHeight((1 - (1/5))/CGFloat(self.PlaceholderList.count)),
+                    cellVerticalSize: .fractionalHeight((1 - (1/6))/CGFloat(self.PlaceholderList.count)),
                     scrollDirection: .vertical,
                     cellMargin: listCellMargin,
                     viewMargin: listViewMargin)

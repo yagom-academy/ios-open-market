@@ -22,10 +22,14 @@ class EnrollModifyPhotoCell: UICollectionViewCell {
     
     private func setup() {
         self.backgroundColor = .yellow
-        contentView.addSubview(photoAlbumImageView)
+        addSubview(photoAlbumImageView)
         photoAlbumImageView.frame = CGRect(x: 0, y: 0,
                                  width: contentView.frame.width,
                                  height: contentView.frame.height)
+        
+        self.layer.cornerRadius = 10
+        self.layer.borderWidth = 1
+        self.layer.borderColor = UIColor.black.cgColor
     }
     
     required init?(coder: NSCoder) {
