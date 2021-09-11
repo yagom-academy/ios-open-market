@@ -5,17 +5,34 @@
 // 
 
 import UIKit
+import Photos
+
+var allphotos: PHFetchResult<PHAsset>? = nil
+var photocount = Int()
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
-
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         URLCache.shared = {
             return URLCache(memoryCapacity: 500*1024*1024,
                             diskCapacity: 500*1024*1024)
         }()
+        
+        PHPhotoLibrary.requestAuthorization { (status) in
+            switch status {
+            case .authorized:
+                print("Good to proceed")
+                let fetchOptions = PHFetchOptions()
+                allphotos = PHAsset.fetchAssets(with: .image, options: fetchOptions)
+                photocount = allphotos?.count ?? 0
+            case .denied, .restricted:
+                print("Not allwed")
+            case .notDetermined:
+                print("Not determined yet")
+            default:
+                print("error")
+            }
+        }
         
         // Override point for customization after application launch.
         return true
