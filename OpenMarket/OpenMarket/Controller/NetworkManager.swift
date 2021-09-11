@@ -39,12 +39,12 @@ struct NetworkManager {
         case .success(let userRequest):
             let task = session.dataTask(with: userRequest) { data, response, error in
                 guard error == nil else {
-                    completion(.failure(NetworkError.serverError))
+                    completion(.failure(.serverError))
                     return
                 }
                 guard let response = response as? HTTPURLResponse,
                 (200..<300).contains(response.statusCode) else {
-                    completion(.failure(NetworkError.clientError))
+                    completion(.failure(.clientError))
                     return
                 }
                 if let data = data {
