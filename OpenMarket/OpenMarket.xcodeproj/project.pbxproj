@@ -27,7 +27,6 @@
 		F9F285D626E3BA1E0076B8F3 /* URLSessionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9F285D526E3BA1E0076B8F3 /* URLSessionProtocol.swift */; };
 		F9F285D926E3BA4D0076B8F3 /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9F285D826E3BA4D0076B8F3 /* APIManager.swift */; };
 		F9F285DC26E5B86A0076B8F3 /* Media.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9F285DB26E5B86A0076B8F3 /* Media.swift */; };
-		F9F285DE26E5B8930076B8F3 /* HTTPMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9F285DD26E5B8930076B8F3 /* HTTPMethods.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,7 +66,6 @@
 		F9F285D526E3BA1E0076B8F3 /* URLSessionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionProtocol.swift; sourceTree = "<group>"; };
 		F9F285D826E3BA4D0076B8F3 /* APIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
 		F9F285DB26E5B86A0076B8F3 /* Media.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Media.swift; sourceTree = "<group>"; };
-		F9F285DD26E5B8930076B8F3 /* HTTPMethods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethods.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -245,7 +243,6 @@
 			isa = PBXGroup;
 			children = (
 				F9F285DB26E5B86A0076B8F3 /* Media.swift */,
-				F9F285DD26E5B8930076B8F3 /* HTTPMethods.swift */,
 			);
 			path = MultipartForm;
 			sourceTree = "<group>";
@@ -402,7 +399,6 @@
 				F92B2E8926E5D6C00035AC7E /* Extension+Data.swift in Sources */,
 				F92B2E9126E609580035AC7E /* MockURLSessionDataTask.swift in Sources */,
 				F9F285D626E3BA1E0076B8F3 /* URLSessionProtocol.swift in Sources */,
-				F9F285DE26E5B8930076B8F3 /* HTTPMethods.swift in Sources */,
 				F991AFAD26EDDA9900A13C97 /* Items.swift in Sources */,
 				F991AFAF26EDDB7900A13C97 /* Item.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
