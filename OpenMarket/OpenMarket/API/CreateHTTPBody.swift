@@ -20,7 +20,7 @@ struct CreateHTTPBody {
         var body = Data()
         
         if let parameters = parameters {
-            for (key,value) in parameters {
+            for (key, value) in parameters {
                 body.append("--\(boundary)\(lineBreak)")
                 body.append("\(contentDisposition)\"\(key)\"\(lineBreak)\(lineBreak)")
                 body.append("\(value)\(lineBreak)")

@@ -7,10 +7,10 @@
 
 import UIKit
 
-enum URI: String {
-    case baseUrl = "https://camp-open-market-2.herokuapp.com/"
-    static let fetchListPath = "\(Self.baseUrl.rawValue)items/"
-    static let registerPath = "\(Self.baseUrl.rawValue)item/"
+enum URI {    
+    static let baseUrl = "https://camp-open-market-2.herokuapp.com/"
+    static let fetchListPath = "\(baseUrl)items/"
+    static let registerPath = "\(baseUrl)item/"
 }
 
 class APIManager {
@@ -22,35 +22,30 @@ class APIManager {
     }
     
     let boundary = "Boundary-\(UUID().uuidString)"
-
-    func fetchProductList(page: Int, completion: @escaping (Result<ProductListSearchModel, APIError>) -> ()) {
+    
+    func fetchProductList(page: Int, completion: @escaping (Result<Items, APIError>) -> Void) {
         guard let url = URL(string: "\(URI.fetchListPath)\(page)") else { return }
         let request = URLRequest(url: url)
         let task = session.dataTask(with: request) { data, response, error in
             guard error == nil else {
-                completion(.failure(APIError.requestFailed))
+                completion(.failure(.requestFailed))
                 return
             }
             guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
-                completion(.failure(APIError.unknown))
+                completion(.failure(.unknown))
                 return
             }
             if let data = data {
                 let decoder = JSONDecoder()
                 do {
-                    let result = try decoder.decode(ProductListSearchModel.self, from: data)
+                    let result = try decoder.decode(Items.self, from: data)
                     completion(.success(result))
                 } catch {
-                    print(error)
-                    completion(.failure(APIError.emptyData))
+                    completion(.failure(.emptyData))
                 }
             }
         }
         task.resume()
-    }
-    
-    func generateBoundary() -> String {
-        return "Boundary-\(UUID().uuidString)"
     }
     
     func createHTTPBody(parameters: HTTPBodyParameter?, media: [Media]?) -> Data {
@@ -58,17 +53,17 @@ class APIManager {
         let lastBoundary = "--\(boundary)--\(lineBreak)"
         let contentDisposition = "Content-Disposition: form-data; name="
         let contentType = "Content-Type: "
-
+        
         var body = Data()
-
+        
         if let parameters = parameters {
-            for (key,value) in parameters {
+            for (key, value) in parameters {
                 body.append("--\(boundary)\(lineBreak)")
                 body.append("\(contentDisposition)\"\(key)\"\(lineBreak)\(lineBreak)")
                 body.append("\(value)\(lineBreak)")
             }
         }
-
+    
         if let media = media {
             for image in media {
                 body.append("--\(boundary)\(lineBreak)")
@@ -82,7 +77,7 @@ class APIManager {
         return body
     }
     
-    func registProduct(parameters: [String : Any], media: [Media], completion: @escaping (Result<Data, APIError>) -> ()) {
+    func registProduct(parameters: [String: Any], media: [Media], completion: @escaping (Result<Data, APIError>) -> Void) {
         guard let url = URL(string: URI.registerPath) else { return }
         var request = URLRequest(url: url)
         
@@ -93,15 +88,15 @@ class APIManager {
         request.setValue(httpHeader, forHTTPHeaderField: httpHeaderField)
         request.httpBody = createHTTPBody(parameters: parameters, media: media)
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            if let error = error {
-                print(error.localizedDescription)
-                completion(.failure(APIError.invalidURL))
-            }
-            guard let response = response as? HTTPURLResponse, (200...299).contains(response.statusCode) else {
-                completion(.failure(APIError.unknown))
+            guard error == nil else {
+                completion(.failure(.invalidURL))
                 return
             }
-
+            guard let response = response as? HTTPURLResponse, (200...299).contains(response.statusCode) else {
+                completion(.failure(.unknown))
+                return
+            }
+            
             if let data = data {
                 completion(.success(data))
             }

@@ -7,9 +7,9 @@
 
 import Foundation
 
-typealias HTTPBodyParameter = [String : Any]
+typealias HTTPBodyParameter = [String: Any]
 
-enum MultiPartForm: CustomStringConvertible {
+enum HTTPMethods: CustomStringConvertible {
     case boundary
     case httpHeader
     case httpHeaderField

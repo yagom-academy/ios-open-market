@@ -11,8 +11,8 @@ class MockURLSession: URLSessionProtocol {
     var isRequestSuccess: Bool
     let sessionDataTask = MockURLSessionDataTask()
     
-    init(isRequestSuccess: Bool){
-        self.isRequestSuccess = isRequestSuccess
+    init(isRequestSuccess: Bool) {
+        self.isRequestSuccess = true
     }
     
     var makedDataTask = MockURLSessionDataTask()
@@ -25,7 +25,7 @@ class MockURLSession: URLSessionProtocol {
     
     func dataTask(with request: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask {
         guard let url = URL(string: "https://camp-open-market-2.herokuapp.com/items/1") else { fatalError()}
-        let request = URLRequest(url: url)
+        _ = URLRequest(url: url)
         let successResponse = HTTPURLResponse(url: url, statusCode: 200, httpVersion: "2", headerFields: nil)
         let failureResponse = HTTPURLResponse(url: url, statusCode: 503, httpVersion: "2", headerFields: nil)
         let sampleData = createSampleData()
