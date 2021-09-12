@@ -242,9 +242,9 @@
 		4D710FFF26E66640007AF8F0 /* CollectionView */ = {
 			isa = PBXGroup;
 			children = (
-				4DF1C5D226EDFA74004FB065 /* PhotoAlbum */,
 				4DAF17AA26EB2CB40099F7FB /* OpenMarket */,
 				4DAF17AB26EB2CD00099F7FB /* EnrollModify */,
+				4DF1C5D226EDFA74004FB065 /* PhotoAlbum */,
 			);
 			path = CollectionView;
 			sourceTree = "<group>";
