@@ -47,6 +47,10 @@
 		4DDBF7D726E9FE48006CB2DF /* CompositionalLayoutEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DDBF7D626E9FE48006CB2DF /* CompositionalLayoutEnum.swift */; };
 		4DDBF7D926EA0064006CB2DF /* OpenMarketVCProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DDBF7D826EA0064006CB2DF /* OpenMarketVCProtocol.swift */; };
 		4DDBF7DB26EA25D1006CB2DF /* CALayer+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DDBF7DA26EA25D1006CB2DF /* CALayer+extension.swift */; };
+		4DF1C5CA26EDD692004FB065 /* UIApplication+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DF1C5C926EDD692004FB065 /* UIApplication+extension.swift */; };
+		4DF1C5CC26EDD74B004FB065 /* UIImageView+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DF1C5CB26EDD74B004FB065 /* UIImageView+extension.swift */; };
+		4DF1C5CF26EDDBB2004FB065 /* PhotoAlbumCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DF1C5CE26EDDBB2004FB065 /* PhotoAlbumCell.swift */; };
+		4DF1C5D426EDFA95004FB065 /* PhotoAlbumCollecionViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DF1C5D326EDFA95004FB065 /* PhotoAlbumCollecionViewDataSource.swift */; };
 		809B56F6C300669E6766CA42 /* Pods_OpenMarket.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8751E2FEB3739440A9C93D54 /* Pods_OpenMarket.framework */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
 		C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */; };
@@ -111,6 +115,10 @@
 		4DDBF7D626E9FE48006CB2DF /* CompositionalLayoutEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompositionalLayoutEnum.swift; sourceTree = "<group>"; };
 		4DDBF7D826EA0064006CB2DF /* OpenMarketVCProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketVCProtocol.swift; sourceTree = "<group>"; };
 		4DDBF7DA26EA25D1006CB2DF /* CALayer+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CALayer+extension.swift"; sourceTree = "<group>"; };
+		4DF1C5C926EDD692004FB065 /* UIApplication+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+extension.swift"; sourceTree = "<group>"; };
+		4DF1C5CB26EDD74B004FB065 /* UIImageView+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+extension.swift"; sourceTree = "<group>"; };
+		4DF1C5CE26EDDBB2004FB065 /* PhotoAlbumCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoAlbumCell.swift; sourceTree = "<group>"; };
+		4DF1C5D326EDFA95004FB065 /* PhotoAlbumCollecionViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoAlbumCollecionViewDataSource.swift; sourceTree = "<group>"; };
 		8751E2FEB3739440A9C93D54 /* Pods_OpenMarket.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OpenMarket.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		90820EC338ADED3AE1C5FB21 /* Pods-OpenMarket.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenMarket.release.xcconfig"; path = "Target Support Files/Pods-OpenMarket/Pods-OpenMarket.release.xcconfig"; sourceTree = "<group>"; };
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -192,6 +200,8 @@
 				4DD2129E26E6E92300002143 /* String+extension.swift */,
 				4DD212A026E6EB7500002143 /* Int+extension.swift */,
 				4DDBF7DA26EA25D1006CB2DF /* CALayer+extension.swift */,
+				4DF1C5C926EDD692004FB065 /* UIApplication+extension.swift */,
+				4DF1C5CB26EDD74B004FB065 /* UIImageView+extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -213,6 +223,7 @@
 				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
 				4DD98C9D26E39C150076CEA5 /* ProductCell */,
 				4DAF17B326EB91150099F7FB /* EnrollModifyCell */,
+				4DF1C5CD26EDDB64004FB065 /* PhotoAlbumCell */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -231,6 +242,7 @@
 		4D710FFF26E66640007AF8F0 /* CollectionView */ = {
 			isa = PBXGroup;
 			children = (
+				4DF1C5D226EDFA74004FB065 /* PhotoAlbum */,
 				4DAF17AA26EB2CB40099F7FB /* OpenMarket */,
 				4DAF17AB26EB2CD00099F7FB /* EnrollModify */,
 			);
@@ -319,6 +331,22 @@
 				4D710FFA26E62F5D007AF8F0 /* ProductGridCell.xib */,
 			);
 			path = ProductCell;
+			sourceTree = "<group>";
+		};
+		4DF1C5CD26EDDB64004FB065 /* PhotoAlbumCell */ = {
+			isa = PBXGroup;
+			children = (
+				4DF1C5CE26EDDBB2004FB065 /* PhotoAlbumCell.swift */,
+			);
+			path = PhotoAlbumCell;
+			sourceTree = "<group>";
+		};
+		4DF1C5D226EDFA74004FB065 /* PhotoAlbum */ = {
+			isa = PBXGroup;
+			children = (
+				4DF1C5D326EDFA95004FB065 /* PhotoAlbumCollecionViewDataSource.swift */,
+			);
+			path = PhotoAlbum;
 			sourceTree = "<group>";
 		};
 		C70FB0EE25BEF61C00C9924E = {
@@ -580,11 +608,15 @@
 				4DD32BA126E0D6A700B32A88 /* ParsingError.swift in Sources */,
 				4D79E83426DF34E3006AEDCE /* NetworkManager.swift in Sources */,
 				4DD212A126E6EB7500002143 /* Int+extension.swift in Sources */,
+				4DF1C5D426EDFA95004FB065 /* PhotoAlbumCollecionViewDataSource.swift in Sources */,
 				4D710FF926E62B67007AF8F0 /* CompositionalLayout.swift in Sources */,
+				4DF1C5CF26EDDBB2004FB065 /* PhotoAlbumCell.swift in Sources */,
 				4D71100126E6666B007AF8F0 /* OpenMarketCollectionViewDataSource.swift in Sources */,
 				4DAF17B226EB8C020099F7FB /* EnrollModifyPhotoCell.swift in Sources */,
+				4DF1C5CC26EDD74B004FB065 /* UIImageView+extension.swift in Sources */,
 				4D79E83226DF21FA006AEDCE /* Parameter.swift in Sources */,
 				4DDBF7D726E9FE48006CB2DF /* CompositionalLayoutEnum.swift in Sources */,
+				4DF1C5CA26EDD692004FB065 /* UIApplication+extension.swift in Sources */,
 				4DD98C9F26E39C4D0076CEA5 /* ProductCell.swift in Sources */,
 				4D014F6326DE3040002CDE67 /* RequestAPI.swift in Sources */,
 				4DAF17AE26EB2FF70099F7FB /* EnrollModifyCollectionViewDataSource.swift in Sources */,

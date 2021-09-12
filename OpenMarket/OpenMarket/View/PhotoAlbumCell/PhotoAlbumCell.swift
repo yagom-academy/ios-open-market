@@ -1,14 +1,15 @@
 //
-//  PhotoCell.swift
+//  PhotoAlbumCell.swift
 //  OpenMarket
 //
-//  Created by tae hoon park on 2021/09/10.
+//  Created by tae hoon park on 2021/09/12.
 //
 
 import UIKit
+import Photos.PHAsset
 
-class EnrollModifyPhotoCell: UICollectionViewCell {
-    static let identifier = "photo"
+class PhotoAlbumCell: UICollectionViewCell {
+    static let identifier = "photoAlbum"
     private let photoAlbumImage: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
@@ -21,15 +22,14 @@ class EnrollModifyPhotoCell: UICollectionViewCell {
     }
     
     private func setup() {
-        self.backgroundColor = .yellow
         contentView.addSubview(photoAlbumImage)
         photoAlbumImage.frame = CGRect(x: 0, y: 0,
-                                 width: contentView.frame.width,
-                                 height: contentView.frame.height)
-        
-        self.layer.cornerRadius = 10
-        self.layer.borderWidth = 1
-        self.layer.borderColor = UIColor.black.cgColor
+                                       width: contentView.frame.width,
+                                       height: contentView.frame.height)
+    }
+    
+    func configure(asset: PHAsset) {
+        photoAlbumImage.fetchImage(asset: asset, targetSize: photoAlbumImage.frame.size)
     }
     
     required init?(coder: NSCoder) {

@@ -14,12 +14,10 @@ class EnrollModifyViewController: UIViewController {
     
     private let enrollModifyCollectionViewDataSource = EnrollModifyCollectionViewDataSource()
     private let enrollModifyCollectionViewDelegate = EnrollModifyCollectionViewDelegate()
-    //    private let photoSelectCell = EnrollModifyPhotoSeclectCell()
     var topItemTitle: String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        collectionView.delegate = self
         collectionView.dataSource = enrollModifyCollectionViewDataSource
         self.title = "상품" + topItemTitle
         postPatchButton.title = topItemTitle
@@ -32,18 +30,5 @@ class EnrollModifyViewController: UIViewController {
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         collectionView.collectionViewLayout.invalidateLayout()
-    }
-    
-    func dd() {
-        
-    }
-}
-
-extension EnrollModifyViewController: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        print("안돼?")
-//        let topController = UIApplication.shared.topViewController()
-//        guard let VC = topController?.storyboard?.instantiateViewController(identifier: "SecondVC") else { return }
-//        present(VC, animated: true, completion: nil)
     }
 }

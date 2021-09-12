@@ -6,7 +6,9 @@
 //
 
 import UIKit
+import Photos.PHAsset
 
 class PhotoAlbumViewController: UIViewController {
+    @IBOutlet weak var collectionView: UICollectionView!
     static let identifier = "photoAlbumVC"
 }

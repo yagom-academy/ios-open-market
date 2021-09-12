@@ -123,10 +123,32 @@
                     <view key="view" contentMode="scaleToFill" id="xGS-jS-T65">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="gy5-KR-By3">
+                                <rect key="frame" x="0.0" y="44" width="375" height="734"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="zfZ-gI-1rj">
+                                    <size key="itemSize" width="128" height="128"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells/>
+                            </collectionView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="ixm-V3-xPj"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="gy5-KR-By3" firstAttribute="top" secondItem="ixm-V3-xPj" secondAttribute="top" id="LBA-a8-ESk"/>
+                            <constraint firstItem="gy5-KR-By3" firstAttribute="leading" secondItem="ixm-V3-xPj" secondAttribute="leading" id="Q51-eM-FaB"/>
+                            <constraint firstItem="ixm-V3-xPj" firstAttribute="bottom" secondItem="gy5-KR-By3" secondAttribute="bottom" id="eAp-rc-jIz"/>
+                            <constraint firstItem="ixm-V3-xPj" firstAttribute="trailing" secondItem="gy5-KR-By3" secondAttribute="trailing" id="lMK-Fa-k5t"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="x8B-ko-eRU"/>
+                    <connections>
+                        <outlet property="collectionView" destination="gy5-KR-By3" id="COs-Cc-KFC"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QgI-T5-wg3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
