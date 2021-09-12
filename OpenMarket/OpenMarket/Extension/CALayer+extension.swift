@@ -16,8 +16,8 @@ extension CALayer {
             border.frame =
                 CGRect(x: 0, y: 0, width: frame.width, height: thickness)
         case .bottom:
-                border.frame =
-                    CGRect(x: 0, y: frame.height - thickness, width: frame.width * 3, height: thickness)
+            border.frame =
+                CGRect(x: 0, y: frame.height - thickness, width: frame.width * 3, height: thickness)
         case .left:
             border.frame =
                 CGRect(x: 0, y: 0, width: thickness, height: frame.height)
@@ -29,5 +29,23 @@ extension CALayer {
         }
         border.backgroundColor = color.cgColor
         addSublayer(border)
+    }
+}
+
+extension UIApplication {
+    
+    func topViewController(controller: UIViewController? = UIApplication.shared.keyWindow?.rootViewController) -> UIViewController? {
+        if let navigationController = controller as? UINavigationController {
+            return topViewController(controller: navigationController.visibleViewController)
+        }
+        if let tabController = controller as? UITabBarController {
+            if let selected = tabController.selectedViewController {
+                return topViewController(controller: selected)
+            }
+        }
+        if let presented = controller?.presentedViewController {
+            return topViewController(controller: presented)
+        }
+        return controller
     }
 }

@@ -23,6 +23,7 @@ class EnrollModifyListCell: UICollectionViewCell, UITextFieldDelegate {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
         setup()
     }
     private func setup() {

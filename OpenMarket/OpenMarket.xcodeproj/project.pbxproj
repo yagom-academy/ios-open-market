@@ -31,6 +31,7 @@
 		4D79E84426DF824C006AEDCE /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 4D79E84326DF824C006AEDCE /* .swiftlint.yml */; };
 		4D7FACC626DDBA5D00E275F4 /* ParsingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D7FACC526DDBA5D00E275F4 /* ParsingManager.swift */; };
 		4DA9DC2A26ECCE1700A9360F /* EnrollModifyPhotoSelectCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DA9DC2926ECCE1700A9360F /* EnrollModifyPhotoSelectCell.swift */; };
+		4DA9DC2C26ED26FD00A9360F /* PhotoAlbumViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DA9DC2B26ED26FD00A9360F /* PhotoAlbumViewController.swift */; };
 		4DAF17A926EAFACF0099F7FB /* EnrollModifyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DAF17A826EAFACF0099F7FB /* EnrollModifyViewController.swift */; };
 		4DAF17AE26EB2FF70099F7FB /* EnrollModifyCollectionViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DAF17AD26EB2FF70099F7FB /* EnrollModifyCollectionViewDataSource.swift */; };
 		4DAF17B026EB30430099F7FB /* EnrollModifyCollectionViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DAF17AF26EB30430099F7FB /* EnrollModifyCollectionViewDelegate.swift */; };
@@ -94,6 +95,7 @@
 		4D79E84326DF824C006AEDCE /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		4D7FACC526DDBA5D00E275F4 /* ParsingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParsingManager.swift; sourceTree = "<group>"; };
 		4DA9DC2926ECCE1700A9360F /* EnrollModifyPhotoSelectCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnrollModifyPhotoSelectCell.swift; sourceTree = "<group>"; };
+		4DA9DC2B26ED26FD00A9360F /* PhotoAlbumViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoAlbumViewController.swift; sourceTree = "<group>"; };
 		4DAF17A826EAFACF0099F7FB /* EnrollModifyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnrollModifyViewController.swift; sourceTree = "<group>"; };
 		4DAF17AD26EB2FF70099F7FB /* EnrollModifyCollectionViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnrollModifyCollectionViewDataSource.swift; sourceTree = "<group>"; };
 		4DAF17AF26EB30430099F7FB /* EnrollModifyCollectionViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnrollModifyCollectionViewDelegate.swift; sourceTree = "<group>"; };
@@ -199,6 +201,7 @@
 			children = (
 				C70FB0FE25BEF61C00C9924E /* OpenMarketViewController.swift */,
 				4DAF17A826EAFACF0099F7FB /* EnrollModifyViewController.swift */,
+				4DA9DC2B26ED26FD00A9360F /* PhotoAlbumViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -553,6 +556,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4DD32BA326E0D6E000B32A88 /* NetworkError.swift in Sources */,
+				4DA9DC2C26ED26FD00A9360F /* PhotoAlbumViewController.swift in Sources */,
 				4DAF17B026EB30430099F7FB /* EnrollModifyCollectionViewDelegate.swift in Sources */,
 				4D014F6826DE5D64002CDE67 /* Data+extension.swift in Sources */,
 				4DD98CA126E3E3810076CEA5 /* ImageManager.swift in Sources */,

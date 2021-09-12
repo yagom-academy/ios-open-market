@@ -18,21 +18,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                             diskCapacity: 500*1024*1024)
         }()
         
-        PHPhotoLibrary.requestAuthorization { (status) in
-            switch status {
-            case .authorized:
-                print("Good to proceed")
-                let fetchOptions = PHFetchOptions()
-                allphotos = PHAsset.fetchAssets(with: .image, options: fetchOptions)
-                photocount = allphotos?.count ?? 0
-            case .denied, .restricted:
-                print("Not allwed")
-            case .notDetermined:
-                print("Not determined yet")
-            default:
-                print("error")
-            }
-        }
+//        PHPhotoLibrary.requestAuthorization { (status) in
+//            switch status {
+//            case .authorized:
+//                print("Good to proceed")
+//                let fetchOptions = PHFetchOptions()
+//                allphotos = PHAsset.fetchAssets(with: .image, options: fetchOptions)
+//                photocount = allphotos?.count ?? 0
+//            case .denied, .restricted:
+//                print("Not allwed")
+//            case .notDetermined:
+//                print("Not determined yet")
+//            @unknown default:
+//                print("error")
+//            }
+//        }
         
         // Override point for customization after application launch.
         return true

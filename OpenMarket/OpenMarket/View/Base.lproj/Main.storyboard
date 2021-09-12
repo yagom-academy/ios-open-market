@@ -116,6 +116,22 @@
             </objects>
             <point key="canvasLocation" x="1821.5999999999999" y="34.729064039408868"/>
         </scene>
+        <!--Photo Album View Controller-->
+        <scene sceneID="yKm-nh-oSb">
+            <objects>
+                <viewController storyboardIdentifier="photoAlbumVC" id="qV7-sz-8NO" customClass="PhotoAlbumViewController" customModule="OpenMarket" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="xGS-jS-T65">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="ixm-V3-xPj"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="x8B-ko-eRU"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="QgI-T5-wg3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2753" y="35"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="Doc-82-1r8">
             <objects>
