@@ -48,7 +48,7 @@ class APIManager {
         task.resume()
     }
     
-    func createHTTPBody(parameters: HTTPBodyParameter?, media: [Media]?) -> Data {
+    func createHTTPBody(parameters: [String: Any]?, media: [Media]?) -> Data {
         let lineBreak = "\r\n"
         let lastBoundary = "--\(boundary)--\(lineBreak)"
         let contentDisposition = "Content-Disposition: form-data; name="
