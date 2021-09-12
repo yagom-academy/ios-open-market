@@ -9,30 +9,29 @@ import UIKit
 import Photos.PHAsset
 
 class PhotoAlbumCell: UICollectionViewCell {
-    static let identifier = "photoAlbum"
-    private let photoAlbumImage: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
-        return imageView
-    }()
+    static let identifier = "PhotoAlbumCell"
+    static let nibName = "PhotoAlbumCell"
+    @IBOutlet weak var photoAlbumImage: UIImageView!
+    @IBOutlet weak var highlightIndicator: UIView!
+    @IBOutlet weak var selectIndicator: UIImageView!
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        setup()
-    }
-    
-    private func setup() {
-        contentView.addSubview(photoAlbumImage)
-        photoAlbumImage.frame = CGRect(x: 0, y: 0,
-                                       width: contentView.frame.width,
-                                       height: contentView.frame.height)
-    }
+//    override var isHighlighted: Bool {
+//        didSet {
+//            highlightIndicator.isHidden = !isHighlighted
+//        }
+//    }
+//    override var isSelected: Bool {
+//        didSet {
+//            highlightIndicator.isHidden = !isSelected
+//            selectIndicator.isHidden = !isSelected
+//        }
+//    }
     
     func configure(asset: PHAsset) {
         photoAlbumImage.fetchImage(asset: asset, targetSize: photoAlbumImage.frame.size)
     }
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    override func awakeFromNib() {
+        super.awakeFromNib()
     }
 }

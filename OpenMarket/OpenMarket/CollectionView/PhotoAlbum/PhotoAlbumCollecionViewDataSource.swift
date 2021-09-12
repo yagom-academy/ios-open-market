@@ -20,9 +20,9 @@ extension PhotoAlbumCollecionViewDataSource: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotoAlbumCell.identifier, for: indexPath) as? PhotoAlbumCell else { return UICollectionViewCell() }
         
-        guard let asset = allPhotos?.object(at: indexPath.item) else { return UICollectionViewCell() }
+        guard let asset = allPhotos?[indexPath.item] else { return UICollectionViewCell() }
         cell.configure(asset: asset)
-
+        
         return cell
     }
     
@@ -39,3 +39,5 @@ extension PhotoAlbumCollecionViewDataSource: UICollectionViewDataSource {
                                        cellMargin: cellMargin, viewMargin: viewMargin)
     }
 }
+
+

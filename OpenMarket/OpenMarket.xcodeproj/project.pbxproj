@@ -51,6 +51,8 @@
 		4DF1C5CC26EDD74B004FB065 /* UIImageView+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DF1C5CB26EDD74B004FB065 /* UIImageView+extension.swift */; };
 		4DF1C5CF26EDDBB2004FB065 /* PhotoAlbumCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DF1C5CE26EDDBB2004FB065 /* PhotoAlbumCell.swift */; };
 		4DF1C5D426EDFA95004FB065 /* PhotoAlbumCollecionViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DF1C5D326EDFA95004FB065 /* PhotoAlbumCollecionViewDataSource.swift */; };
+		4DF1C5D626EE27FD004FB065 /* PhotoAlbumCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4DF1C5D526EE27FD004FB065 /* PhotoAlbumCell.xib */; };
+		4DF1C5D826EE5A0C004FB065 /* PhotoAlbumCollectionViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DF1C5D726EE5A0C004FB065 /* PhotoAlbumCollectionViewDelegate.swift */; };
 		809B56F6C300669E6766CA42 /* Pods_OpenMarket.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8751E2FEB3739440A9C93D54 /* Pods_OpenMarket.framework */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
 		C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */; };
@@ -119,6 +121,8 @@
 		4DF1C5CB26EDD74B004FB065 /* UIImageView+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+extension.swift"; sourceTree = "<group>"; };
 		4DF1C5CE26EDDBB2004FB065 /* PhotoAlbumCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoAlbumCell.swift; sourceTree = "<group>"; };
 		4DF1C5D326EDFA95004FB065 /* PhotoAlbumCollecionViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoAlbumCollecionViewDataSource.swift; sourceTree = "<group>"; };
+		4DF1C5D526EE27FD004FB065 /* PhotoAlbumCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PhotoAlbumCell.xib; sourceTree = "<group>"; };
+		4DF1C5D726EE5A0C004FB065 /* PhotoAlbumCollectionViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoAlbumCollectionViewDelegate.swift; sourceTree = "<group>"; };
 		8751E2FEB3739440A9C93D54 /* Pods_OpenMarket.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OpenMarket.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		90820EC338ADED3AE1C5FB21 /* Pods-OpenMarket.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenMarket.release.xcconfig"; path = "Target Support Files/Pods-OpenMarket/Pods-OpenMarket.release.xcconfig"; sourceTree = "<group>"; };
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -337,6 +341,7 @@
 			isa = PBXGroup;
 			children = (
 				4DF1C5CE26EDDBB2004FB065 /* PhotoAlbumCell.swift */,
+				4DF1C5D526EE27FD004FB065 /* PhotoAlbumCell.xib */,
 			);
 			path = PhotoAlbumCell;
 			sourceTree = "<group>";
@@ -345,6 +350,7 @@
 			isa = PBXGroup;
 			children = (
 				4DF1C5D326EDFA95004FB065 /* PhotoAlbumCollecionViewDataSource.swift */,
+				4DF1C5D726EE5A0C004FB065 /* PhotoAlbumCollectionViewDelegate.swift */,
 			);
 			path = PhotoAlbum;
 			sourceTree = "<group>";
@@ -494,6 +500,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4D79E84426DF824C006AEDCE /* .swiftlint.yml in Resources */,
+				4DF1C5D626EE27FD004FB065 /* PhotoAlbumCell.xib in Resources */,
 				4DD98C9C26E3727B0076CEA5 /* ProductListCell.xib in Resources */,
 				C70FB10725BEF61D00C9924E /* LaunchScreen.storyboard in Resources */,
 				C70FB10425BEF61D00C9924E /* Assets.xcassets in Resources */,
@@ -597,6 +604,7 @@
 				4D014F6A26DE60C4002CDE67 /* Media.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				4D014F6126DE2195002CDE67 /* RequestProtocol.swift in Sources */,
+				4DF1C5D826EE5A0C004FB065 /* PhotoAlbumCollectionViewDelegate.swift in Sources */,
 				4D014F5F26DE1268002CDE67 /* RequestEnum.swift in Sources */,
 				4DD2129F26E6E92300002143 /* String+extension.swift in Sources */,
 				4DDBF7DB26EA25D1006CB2DF /* CALayer+extension.swift in Sources */,

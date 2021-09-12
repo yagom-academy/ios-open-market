@@ -46,9 +46,6 @@ class EnrollModifyPhotoSeclectCell: UICollectionViewCell {
     
     @objc func photoselectButtonPressed(_ sender: UIButton) {
         let topController = UIApplication.shared.topViewController()
-        guard let photoAlbounViewController = topController?.storyboard?.instantiateViewController(
-                identifier: PhotoAlbumViewController.identifier) else { return }
-        topController?.navigationController?.pushViewController(
-            photoAlbounViewController, animated: true)
+        topController?.performSegue(withIdentifier: "presentToPhotoAlbum", sender: self)
     }
 }

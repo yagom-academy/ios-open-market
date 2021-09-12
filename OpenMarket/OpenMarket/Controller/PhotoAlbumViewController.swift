@@ -10,15 +10,16 @@ import Photos.PHAsset
 
 class PhotoAlbumViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
-    
     private let photoAlbumCollecionViewDataSource = PhotoAlbumCollecionViewDataSource()
-    static let identifier = "photoAlbumVC"
+    private let photoAlbumCollectionViewDelegate = PhotoAlbumCollectionViewDelegate()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print(PhotoAlbumCell.nibName)
         
         photoAlbumCollecionViewDataSource.decidedListLayout(collectionView)
+        collectionView.delegate = photoAlbumCollectionViewDelegate
         collectionView.dataSource = photoAlbumCollecionViewDataSource
-        collectionView.register(PhotoAlbumCell.self, forCellWithReuseIdentifier: PhotoAlbumCell.identifier)
+        collectionView.register(UINib(nibName: PhotoAlbumCell.nibName, bundle: nil), forCellWithReuseIdentifier: PhotoAlbumCell.identifier)
     }
 }
