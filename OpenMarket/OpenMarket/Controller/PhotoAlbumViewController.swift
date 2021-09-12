@@ -17,6 +17,7 @@ class PhotoAlbumViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        photoAlbumCollecionViewDataSource.decidedListLayout(collectionView)
         collectionView.dataSource = photoAlbumCollecionViewDataSource
         collectionView.register(PhotoAlbumCell.self, forCellWithReuseIdentifier: PhotoAlbumCell.identifier)
     }

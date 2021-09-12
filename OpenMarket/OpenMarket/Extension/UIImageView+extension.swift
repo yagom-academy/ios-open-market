@@ -8,12 +8,13 @@
 import UIKit
 import Photos.PHAsset
 
-extension UIImageView{
+extension UIImageView {
  func fetchImage(asset: PHAsset, targetSize: CGSize) {
     let options = PHImageRequestOptions()
     options.version = .original
-    PHImageManager.default().requestImage(for: asset, targetSize: targetSize, contentMode: .aspectFit, options: options) { image, _ in
+    PHImageManager.default().requestImage(for: asset, targetSize: targetSize, contentMode: .aspectFill, options: options) { image, _ in
         guard let image = image else { return }
+        self.contentMode = .scaleToFill
         self.image = image
     }
    }

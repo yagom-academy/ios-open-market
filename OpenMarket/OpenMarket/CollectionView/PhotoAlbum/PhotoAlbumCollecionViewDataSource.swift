@@ -6,27 +6,10 @@
 //
 
 import UIKit
-import Photos
 
 class PhotoAlbumCollecionViewDataSource: NSObject {
-    private var allPhotos: PHFetchResult<PHAsset>?
+    private let compositionalLayout = CompositionalLayout()
     
-    func requestPhotoAlbum() {
-        PHPhotoLibrary.requestAuthorization { (status) in
-            switch status {
-            case .authorized:
-                print("Good to proceed")
-                let fetchOptions = PHFetchOptions()
-                self.allPhotos = PHAsset.fetchAssets(with: .image, options: fetchOptions)
-            case .denied, .restricted:
-                print("Not allowed")
-            case .notDetermined:
-                print("Not determined yet")
-            default:
-                print("error")
-            }
-        }
-    }
 }
 
 extension PhotoAlbumCollecionViewDataSource: UICollectionViewDataSource {
@@ -39,7 +22,20 @@ extension PhotoAlbumCollecionViewDataSource: UICollectionViewDataSource {
         
         guard let asset = allPhotos?.object(at: indexPath.item) else { return UICollectionViewCell() }
         cell.configure(asset: asset)
-        
+
         return cell
+    }
+    
+    func decidedListLayout(_ collectionView: UICollectionView) {
+        let viewMargin =
+            compositionalLayout.margin(top: 2, leading: 2, bottom: 2, trailing: 2)
+        let cellMargin =
+            compositionalLayout.margin(top: 1, leading: 1, bottom: 1, trailing: 1)
+        collectionView.collectionViewLayout =
+            compositionalLayout.create(portraitHorizontalNumber: 3,
+                                       landscapeHorizontalNumber: 5,
+                                       cellVerticalSize: .absolute(100),
+                                       scrollDirection: .vertical,
+                                       cellMargin: cellMargin, viewMargin: viewMargin)
     }
 }
