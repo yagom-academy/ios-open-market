@@ -80,10 +80,6 @@ class CollectionViewCell: UICollectionViewCell {
         priceLabel.adjustsFontSizeToFitWidth = true
         discountedPriceLabel.adjustsFontSizeToFitWidth = true
         stockLabel.adjustsFontSizeToFitWidth = true
-
-        priceLabel.textColor = .gray
-        discountedPriceLabel.textColor = .gray
-        stockLabel.textColor = .gray
     }
 
     func configureCell(item: Item) {
@@ -103,8 +99,10 @@ class CollectionViewCell: UICollectionViewCell {
             priceLabel.attributedText = priceWithCurrency.strikeThrough()
             priceLabel.textColor = .red
             discountedPriceLabel.text = item.currency + " " + discountedPrice.withDigit
+            discountedPriceLabel.textColor = .gray
         } else {
             priceLabel.text = priceWithCurrency
+            priceLabel.textColor = .gray
         }
 
         if item.stock == 0 {
@@ -112,16 +110,15 @@ class CollectionViewCell: UICollectionViewCell {
             stockLabel.textColor = .orange
         } else {
             stockLabel.text = "잔여수량 : \(item.stock.withDigit)"
+            stockLabel.textColor = .gray
         }
     }
 
     override func prepareForReuse() {
         super.prepareForReuse()
         imageView.image = .none
-        priceLabel.textColor = .gray
         priceLabel.attributedText = nil
         discountedPriceLabel.text = .none
-        stockLabel.textColor = .gray
     }
 }
 
