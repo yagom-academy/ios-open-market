@@ -9,7 +9,7 @@ import UIKit
 
 class EnrollModifyPhotoCell: UICollectionViewCell {
     static let identifier = "photo"
-    private let photoAlbumImage: UIImageView = {
+    let photoAlbumImage: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         return imageView

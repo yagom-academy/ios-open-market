@@ -6,22 +6,24 @@
 //
 
 import UIKit
+import Photos.PHAsset
 
 class PhotoAlbumCollecionViewDataSource: NSObject {
     private let compositionalLayout = CompositionalLayout()
-    
+    private let photoAlbumManager = PhotoAlbumManager()
+    private var photoAlbumImages: [UIImage] = []
 }
 
 extension PhotoAlbumCollecionViewDataSource: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        allPhotos?.count ?? 0
+        photoAlbumImages.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotoAlbumCell.identifier, for: indexPath) as? PhotoAlbumCell else { return UICollectionViewCell() }
         
-        guard let asset = allPhotos?[indexPath.item] else { return UICollectionViewCell() }
-        cell.configure(asset: asset)
+        let photoAlbumImageForItem = photoAlbumImages[indexPath.item]
+        cell.configure(cell: photoAlbumImageForItem)
         
         return cell
     }
@@ -38,6 +40,15 @@ extension PhotoAlbumCollecionViewDataSource: UICollectionViewDataSource {
                                        scrollDirection: .vertical,
                                        cellMargin: cellMargin, viewMargin: viewMargin)
     }
+    
+    func requestImage(collectionView: UICollectionView) {
+        PHPhotoLibrary.requestAuthorization { (status) in
+            if status == .authorized {
+                DispatchQueue.main.async {
+                    self.photoAlbumImages = self.photoAlbumManager.convertPhotoAlbumImage()
+                    collectionView.reloadData()
+                }
+            }
+        }
+    }
 }
-
-

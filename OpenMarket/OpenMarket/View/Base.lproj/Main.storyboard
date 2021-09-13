@@ -147,7 +147,11 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="x8B-ko-eRU">
-                        <barButtonItem key="rightBarButtonItem" title="확인" id="XFG-GU-b3n"/>
+                        <barButtonItem key="rightBarButtonItem" title="확인" id="XFG-GU-b3n">
+                            <connections>
+                                <action selector="resultPhotoButton:" destination="qV7-sz-8NO" id="eNH-YY-hZW"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="collectionView" destination="gy5-KR-By3" id="COs-Cc-KFC"/>

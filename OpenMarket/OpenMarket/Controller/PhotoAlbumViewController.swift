@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import Photos.PHAsset
 
 class PhotoAlbumViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
@@ -15,11 +14,18 @@ class PhotoAlbumViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(PhotoAlbumCell.nibName)
         
         photoAlbumCollecionViewDataSource.decidedListLayout(collectionView)
+        photoAlbumCollecionViewDataSource.requestImage(collectionView: collectionView)
         collectionView.delegate = photoAlbumCollectionViewDelegate
         collectionView.dataSource = photoAlbumCollecionViewDataSource
         collectionView.register(UINib(nibName: PhotoAlbumCell.nibName, bundle: nil), forCellWithReuseIdentifier: PhotoAlbumCell.identifier)
+        
+    }
+    
+    @IBAction func resultPhotoButton(_ sender: Any) {
+        let send = photoAlbumCollectionViewDelegate.selectPhotoIndext()
+//        delegate?.sendData(data: send)
+        navigationController?.popViewController(animated: true)
     }
 }

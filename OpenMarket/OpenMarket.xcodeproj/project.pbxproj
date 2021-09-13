@@ -47,6 +47,7 @@
 		4DDBF7D726E9FE48006CB2DF /* CompositionalLayoutEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DDBF7D626E9FE48006CB2DF /* CompositionalLayoutEnum.swift */; };
 		4DDBF7D926EA0064006CB2DF /* OpenMarketVCProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DDBF7D826EA0064006CB2DF /* OpenMarketVCProtocol.swift */; };
 		4DDBF7DB26EA25D1006CB2DF /* CALayer+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DDBF7DA26EA25D1006CB2DF /* CALayer+extension.swift */; };
+		4DDC49FF26EF694A006CF500 /* PhotoAlbumManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DDC49FE26EF694A006CF500 /* PhotoAlbumManager.swift */; };
 		4DF1C5CA26EDD692004FB065 /* UIApplication+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DF1C5C926EDD692004FB065 /* UIApplication+extension.swift */; };
 		4DF1C5CC26EDD74B004FB065 /* UIImageView+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DF1C5CB26EDD74B004FB065 /* UIImageView+extension.swift */; };
 		4DF1C5CF26EDDBB2004FB065 /* PhotoAlbumCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DF1C5CE26EDDBB2004FB065 /* PhotoAlbumCell.swift */; };
@@ -117,6 +118,7 @@
 		4DDBF7D626E9FE48006CB2DF /* CompositionalLayoutEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompositionalLayoutEnum.swift; sourceTree = "<group>"; };
 		4DDBF7D826EA0064006CB2DF /* OpenMarketVCProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketVCProtocol.swift; sourceTree = "<group>"; };
 		4DDBF7DA26EA25D1006CB2DF /* CALayer+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CALayer+extension.swift"; sourceTree = "<group>"; };
+		4DDC49FE26EF694A006CF500 /* PhotoAlbumManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoAlbumManager.swift; sourceTree = "<group>"; };
 		4DF1C5C926EDD692004FB065 /* UIApplication+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+extension.swift"; sourceTree = "<group>"; };
 		4DF1C5CB26EDD74B004FB065 /* UIImageView+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+extension.swift"; sourceTree = "<group>"; };
 		4DF1C5CE26EDDBB2004FB065 /* PhotoAlbumCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoAlbumCell.swift; sourceTree = "<group>"; };
@@ -259,6 +261,7 @@
 				4D7FACC526DDBA5D00E275F4 /* ParsingManager.swift */,
 				4D79E83326DF34E3006AEDCE /* NetworkManager.swift */,
 				4DD98CA026E3E3810076CEA5 /* ImageManager.swift */,
+				4DDC49FE26EF694A006CF500 /* PhotoAlbumManager.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -598,6 +601,7 @@
 				4D6EFC2426DD208000F7B6FE /* ProductCollection.swift in Sources */,
 				4DAF17B526EBAA030099F7FB /* EnrollModifyListCell.swift in Sources */,
 				4DA9DC2A26ECCE1700A9360F /* EnrollModifyPhotoSelectCell.swift in Sources */,
+				4DDC49FF26EF694A006CF500 /* PhotoAlbumManager.swift in Sources */,
 				4DAF17A926EAFACF0099F7FB /* EnrollModifyViewController.swift in Sources */,
 				4D79E83A26DF4765006AEDCE /* URLSessionProtocol.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* OpenMarketViewController.swift in Sources */,

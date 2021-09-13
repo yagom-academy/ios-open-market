@@ -6,8 +6,17 @@
 //
 
 import UIKit
+import Photos
 
 class EnrollModifyCollectionViewDataSource: NSObject {
+//    func sendData(data: [IndexPath])-> PHAsset {
+//        for i in data {
+//         guard let dd = allPhotos?.object(at: i.item)
+//            return dd
+//        }
+//
+//    }
+
     private let compositionalLayout = CompositionalLayout()
     private let PlaceholderList: [String] =
         ["상품명", "화폐단위", "가격", "할인가격", "재고수량", "상세설명", "비밀번호"]
@@ -36,6 +45,7 @@ extension EnrollModifyCollectionViewDataSource: UICollectionViewDataSource {
             guard let photoCell = collectionView.dequeueReusableCell(withReuseIdentifier: EnrollModifyPhotoCell.identifier, for: indexPath) as? EnrollModifyPhotoCell else {
                 return UICollectionViewCell()
             }
+            
             return photoCell
         } else {
             guard let listCell = collectionView.dequeueReusableCell(withReuseIdentifier: EnrollModifyListCell.identifier, for: indexPath) as? EnrollModifyListCell else {

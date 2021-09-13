@@ -14,21 +14,13 @@ class PhotoAlbumCell: UICollectionViewCell {
     @IBOutlet weak var photoAlbumImage: UIImageView!
     @IBOutlet weak var highlightIndicator: UIView!
     @IBOutlet weak var selectIndicator: UIImageView!
-    
-//    override var isHighlighted: Bool {
-//        didSet {
-//            highlightIndicator.isHidden = !isHighlighted
-//        }
+
+//    func configure(asset: PHAsset) {
+//        photoAlbumImage.fetchImage(asset: asset, targetSize: photoAlbumImage.frame.size)
 //    }
-//    override var isSelected: Bool {
-//        didSet {
-//            highlightIndicator.isHidden = !isSelected
-//            selectIndicator.isHidden = !isSelected
-//        }
-//    }
-    
-    func configure(asset: PHAsset) {
-        photoAlbumImage.fetchImage(asset: asset, targetSize: photoAlbumImage.frame.size)
+    func configure(cell: UIImage) {
+        self.photoAlbumImage.image = cell
+        photoAlbumImage.contentMode = .scaleAspectFill
     }
     
     override func awakeFromNib() {

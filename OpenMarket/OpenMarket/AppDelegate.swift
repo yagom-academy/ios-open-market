@@ -7,7 +7,7 @@
 import UIKit
 import Photos
 
-var allPhotos: PHFetchResult<PHAsset>?
+//var allPhotos: PHFetchResult<PHAsset>?
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -16,21 +16,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             return URLCache(memoryCapacity: 500*1024*1024,
                             diskCapacity: 500*1024*1024)
         }()
-        
-        PHPhotoLibrary.requestAuthorization { (status) in
-            switch status {
-            case .authorized:
-                print("Good to proceed")
-                let fetchOptions = PHFetchOptions()
-                allPhotos = PHAsset.fetchAssets(with: .image, options: fetchOptions)
-            case .denied, .restricted:
-                print("Not allowed")
-            case .notDetermined:
-                print("Not determined yet")
-            default:
-                print("error")
-            }
-        }
+//        
+//        PHPhotoLibrary.requestAuthorization { (status) in
+//            switch status {
+//            case .authorized:
+//                print("Good to proceed")
+//                let fetchOptions = PHFetchOptions()
+//                allPhotos = PHAsset.fetchAssets(with: .image, options: fetchOptions)
+//            case .denied, .restricted:
+//                print("Not allowed")
+//            case .notDetermined:
+//                print("Not determined yet")
+//            default:
+//                print("error")
+//            }
+//        }
         
         // Override point for customization after application launch.
         return true
