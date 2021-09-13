@@ -14,6 +14,9 @@
 		C70FB10225BEF61C00C9924E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C70FB10025BEF61C00C9924E /* Main.storyboard */; };
 		C70FB10425BEF61D00C9924E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C70FB10325BEF61D00C9924E /* Assets.xcassets */; };
 		C70FB10725BEF61D00C9924E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */; };
+		F924115126EE253E00682EAB /* HTTPMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = F924115026EE253E00682EAB /* HTTPMethods.swift */; };
+		F924115326EE2E8300682EAB /* Extention+URLRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F924115226EE2E8300682EAB /* Extention+URLRequest.swift */; };
+		F924115626EE666B00682EAB /* ParsingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F924115526EE666B00682EAB /* ParsingManager.swift */; };
 		F92B2E8926E5D6C00035AC7E /* Extension+Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = F92B2E8826E5D6C00035AC7E /* Extension+Data.swift */; };
 		F92B2E8F26E609020035AC7E /* MockURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = F92B2E8E26E609020035AC7E /* MockURLSession.swift */; };
 		F92B2E9126E609580035AC7E /* MockURLSessionDataTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = F92B2E9026E609580035AC7E /* MockURLSessionDataTask.swift */; };
@@ -51,6 +54,9 @@
 		C70FB10325BEF61D00C9924E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C70FB10625BEF61D00C9924E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C70FB10825BEF61D00C9924E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F924115026EE253E00682EAB /* HTTPMethods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethods.swift; sourceTree = "<group>"; };
+		F924115226EE2E8300682EAB /* Extention+URLRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extention+URLRequest.swift"; sourceTree = "<group>"; };
+		F924115526EE666B00682EAB /* ParsingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParsingManager.swift; sourceTree = "<group>"; };
 		F92B2E8826E5D6C00035AC7E /* Extension+Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+Data.swift"; sourceTree = "<group>"; };
 		F92B2E8E26E609020035AC7E /* MockURLSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSession.swift; sourceTree = "<group>"; };
 		F92B2E9026E609580035AC7E /* MockURLSessionDataTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSessionDataTask.swift; sourceTree = "<group>"; };
@@ -193,6 +199,7 @@
 				F9F285DA26E5B8510076B8F3 /* MultipartForm */,
 				F991AFAC26EDDA9900A13C97 /* Items.swift */,
 				F991AFAE26EDDB7900A13C97 /* Item.swift */,
+				F924115026EE253E00682EAB /* HTTPMethods.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -235,6 +242,8 @@
 			isa = PBXGroup;
 			children = (
 				F9F285D826E3BA4D0076B8F3 /* APIManager.swift */,
+				F924115226EE2E8300682EAB /* Extention+URLRequest.swift */,
+				F924115526EE666B00682EAB /* ParsingManager.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -394,16 +403,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F924115326EE2E8300682EAB /* Extention+URLRequest.swift in Sources */,
 				F92B2E8F26E609020035AC7E /* MockURLSession.swift in Sources */,
 				F9F285D926E3BA4D0076B8F3 /* APIManager.swift in Sources */,
 				F92B2E8926E5D6C00035AC7E /* Extension+Data.swift in Sources */,
 				F92B2E9126E609580035AC7E /* MockURLSessionDataTask.swift in Sources */,
 				F9F285D626E3BA1E0076B8F3 /* URLSessionProtocol.swift in Sources */,
 				F991AFAD26EDDA9900A13C97 /* Items.swift in Sources */,
+				F924115126EE253E00682EAB /* HTTPMethods.swift in Sources */,
 				F991AFAF26EDDB7900A13C97 /* Item.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
 				F9F285DC26E5B86A0076B8F3 /* Media.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
+				F924115626EE666B00682EAB /* ParsingManager.swift in Sources */,
 				F9F285D226E3B1350076B8F3 /* Error.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 			);

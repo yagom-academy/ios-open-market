@@ -7,32 +7,22 @@
 import UIKit
 
 class ViewController: UIViewController {
+    var productList = [Items]()
+    var parsingManager = ParsingManager()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        //        APIManager.shared.fetchProductList(page: 1) { result in
-        //            switch result {
-        //            case .success(let data):
-        //                self.productList.append(data)
-        //                print(self.productList.first?.items.first)
-        //            case .failure(let error):
-        //                print(error.localizedDescription)
-        //            }
-        //        }
-        //
-        guard let mediaImage = Media(image: #imageLiteral(resourceName: "iPad8")), let mediaImage2 = Media(image: #imageLiteral(resourceName: "iPad_Air4")) else { return }
-        let imageList: [Media] = [mediaImage, mediaImage2]
-        
-        let registProduct = Item(title: "iPad", descriptions: "좋아요", price: 100_000, currency: "KRW", stock: 5, discountedPrice: 80_000, password: "1234")
-        let bodyParameter = registProduct.createRegistProduct()
-        
-        APIManager.shared.registProduct(parameters: bodyParameter, media: imageList) { result in
+        APIManager.shared.fetchProductList(page: 1) { result in
             switch result {
             case .success(let data):
-                print("성공")
+                let resultData = try? self.parsingManager.decode(data, to: Items.self)
+                self.productList.append(resultData!)
+                print(self.productList.first?.page)
+                
             case .failure(let error):
-                print(error)
+                
+                print(error.localizedDescription)
             }
-        }
-        
     }
+}
 }

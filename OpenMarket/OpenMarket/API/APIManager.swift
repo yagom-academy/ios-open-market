@@ -23,31 +23,6 @@ class APIManager {
     
     let boundary = "Boundary-\(UUID().uuidString)"
     
-    func fetchProductList(page: Int, completion: @escaping (Result<Items, APIError>) -> Void) {
-        guard let url = URL(string: "\(URI.fetchListPath)\(page)") else { return }
-        let request = URLRequest(url: url)
-        let task = session.dataTask(with: request) { data, response, error in
-            guard error == nil else {
-                completion(.failure(.requestFailed))
-                return
-            }
-            guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
-                completion(.failure(.unknown))
-                return
-            }
-            if let data = data {
-                let decoder = JSONDecoder()
-                do {
-                    let result = try decoder.decode(Items.self, from: data)
-                    completion(.success(result))
-                } catch {
-                    completion(.failure(.emptyData))
-                }
-            }
-        }
-        task.resume()
-    }
-    
     func createHTTPBody(parameters: [String: Any]?, media: [Media]?) -> Data {
         let lineBreak = "\r\n"
         let lastBoundary = "--\(boundary)--\(lineBreak)"
@@ -63,7 +38,7 @@ class APIManager {
                 body.append("\(value)\(lineBreak)")
             }
         }
-    
+        
         if let media = media {
             for image in media {
                 body.append("--\(boundary)\(lineBreak)")
@@ -77,30 +52,44 @@ class APIManager {
         return body
     }
     
-    func registProduct(parameters: [String: Any], media: [Media], completion: @escaping (Result<Data, APIError>) -> Void) {
-        guard let url = URL(string: URI.registerPath) else { return }
-        var request = URLRequest(url: url)
-        
-        let httpHeader = "multipart/form-data; boundary=\(boundary)"
-        let httpHeaderField = "Content-Type"
-        
-        request.httpMethod = "post"
-        request.setValue(httpHeader, forHTTPHeaderField: httpHeaderField)
-        request.httpBody = createHTTPBody(parameters: parameters, media: media)
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+    func networking(request: URLRequest, completion: @escaping (Result<Data, APIError>) -> Void) {
+        let task = session.dataTask(with: request) { data, response, error in
             guard error == nil else {
-                completion(.failure(.invalidURL))
+                completion(.failure(.requestFailed))
                 return
             }
-            guard let response = response as? HTTPURLResponse, (200...299).contains(response.statusCode) else {
+            guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
                 completion(.failure(.unknown))
                 return
             }
-            
             if let data = data {
                 completion(.success(data))
             }
         }
         task.resume()
+    }
+    
+    func fetchProductList(page: Int, completion: @escaping (Result<Data, APIError>) -> Void) {
+        guard let url = URL(string: "\(URI.fetchListPath)\(page)") else {
+            return completion(.failure(.invalidURL))
+        }
+        let urlRequest = URLRequest(url: url)
+        networking(request: urlRequest, completion: completion)
+    }
+    
+    func registProduct(parameters: [String: Any], media: [Media], completion: @escaping (Result<Data, APIError>) -> Void) {
+        guard let url = URL(string: URI.registerPath) else {
+            return completion(.failure(.invalidURL))
+        }
+        var urlRequest = URLRequest(url: url)
+        
+        let httpHeader = "multipart/form-data; boundary=\(boundary)"
+        let httpHeaderField = "Content-Type"
+        
+        urlRequest.httpMethod = "post"
+        urlRequest.setValue(httpHeader, forHTTPHeaderField: httpHeaderField)
+        urlRequest.httpBody = createHTTPBody(parameters: parameters, media: media)
+        
+        networking(request: urlRequest, completion: completion)
     }
 }
