@@ -11,7 +11,7 @@ import Photos.PHAsset
 class PhotoAlbumCollecionViewDataSource: NSObject {
     private let compositionalLayout = CompositionalLayout()
     private let photoAlbumManager = PhotoAlbumManager()
-    private var photoAlbumImages: [UIImage] = []
+    var photoAlbumImages: [UIImage] = []
 }
 
 extension PhotoAlbumCollecionViewDataSource: UICollectionViewDataSource {

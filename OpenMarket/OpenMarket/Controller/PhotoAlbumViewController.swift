@@ -20,11 +20,18 @@ class PhotoAlbumViewController: UIViewController {
         collectionView.delegate = photoAlbumCollectionViewDelegate
         collectionView.dataSource = photoAlbumCollecionViewDataSource
         collectionView.register(UINib(nibName: PhotoAlbumCell.nibName, bundle: nil), forCellWithReuseIdentifier: PhotoAlbumCell.identifier)
+    }
+    
+    func selectPhotoAlbumImage() -> [UIImage] {
+        let indexes = photoAlbumCollectionViewDelegate.selectPhotoIndex()
+        let photoAlbumImages = photoAlbumCollecionViewDataSource.photoAlbumImages
+        let selectPhotos = indexes.map { photoAlbumImages[$0]}
+        return selectPhotos
         
     }
     
     @IBAction func resultPhotoButton(_ sender: Any) {
-        let send = photoAlbumCollectionViewDelegate.selectPhotoIndext()
+        
 //        delegate?.sendData(data: send)
         navigationController?.popViewController(animated: true)
     }

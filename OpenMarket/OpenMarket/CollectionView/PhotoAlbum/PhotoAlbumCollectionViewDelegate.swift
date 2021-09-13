@@ -10,14 +10,15 @@ import UIKit
 class PhotoAlbumCollectionViewDelegate: NSObject {
     private var selectIndexPathDictionary: [IndexPath: Bool] = [:]
     
-    func selectPhotoIndext() -> [IndexPath] {
-        var needIndexPaths: [IndexPath] = []
+    func selectPhotoIndex() -> [Int] {
+        var needIndexPath: [Int] = []
         for (key, value) in selectIndexPathDictionary {
             if value {
-                needIndexPaths.append(key)
+                needIndexPath.append(key.item)
             }
+            print(needIndexPath)
         }
-        return needIndexPaths
+        return needIndexPath
     }
 }
 
