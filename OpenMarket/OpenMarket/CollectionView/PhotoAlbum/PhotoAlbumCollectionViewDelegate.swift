@@ -25,11 +25,10 @@ class PhotoAlbumCollectionViewDelegate: NSObject {
 extension PhotoAlbumCollectionViewDelegate: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath) as? PhotoAlbumCell
-        if cell?.highlightIndicator.isHidden == true {
+        if cell?.highlightIndicator.isHidden == true && selectPhotoIndex().count < 5 {
             cell?.highlightIndicator.isHidden = false
             cell?.selectIndicator.isHidden = false
             selectIndexPathDictionary[indexPath] = true
-            
         } else {
             cell?.highlightIndicator.isHidden = true
             cell?.selectIndicator.isHidden = true

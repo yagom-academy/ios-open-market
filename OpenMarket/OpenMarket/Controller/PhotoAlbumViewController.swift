@@ -11,6 +11,8 @@ class PhotoAlbumViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
     private let photoAlbumCollecionViewDataSource = PhotoAlbumCollecionViewDataSource()
     private let photoAlbumCollectionViewDelegate = PhotoAlbumCollectionViewDelegate()
+    static let identifier = "PhotoAlbumVC"
+    var selected: (([UIImage]) -> Void)?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,8 +33,7 @@ class PhotoAlbumViewController: UIViewController {
     }
     
     @IBAction func resultPhotoButton(_ sender: Any) {
-        
-//        delegate?.sendData(data: send)
+        selected?(selectPhotoAlbumImage())
         navigationController?.popViewController(animated: true)
     }
 }

@@ -20,7 +20,6 @@ class EnrollModifyPhotoSeclectCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        photoSelectButton.addTarget(self, action: #selector(photoselectButtonPressed(_:)), for: .touchUpInside)
         setup()
     }
     
@@ -30,7 +29,7 @@ class EnrollModifyPhotoSeclectCell: UICollectionViewCell {
                 photoSelectButton.tintColor = .black
         photoSelectButton.setImage(cameraImage, for: .normal)
         contentView.addSubview(photoSelectButton)
-        photoSelectButton.isUserInteractionEnabled = true
+        photoSelectButton.isUserInteractionEnabled = false
         photoSelectButton.frame = CGRect(x: 0, y: 0,
                                          width: contentView.frame.width,
                                          height: contentView.frame.height)
@@ -42,10 +41,5 @@ class EnrollModifyPhotoSeclectCell: UICollectionViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    @objc func photoselectButtonPressed(_ sender: UIButton) {
-        let topController = UIApplication.shared.topViewController()
-        topController?.performSegue(withIdentifier: "presentToPhotoAlbum", sender: self)
     }
 }

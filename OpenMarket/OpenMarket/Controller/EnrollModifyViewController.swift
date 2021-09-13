@@ -8,17 +8,16 @@
 import UIKit
 
 class EnrollModifyViewController: UIViewController {
-    
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var postPatchButton: UIBarButtonItem!
     
     private let enrollModifyCollectionViewDataSource = EnrollModifyCollectionViewDataSource()
-    private let enrollModifyCollectionViewDelegate = EnrollModifyCollectionViewDelegate()
     var topItemTitle: String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
         collectionView.dataSource = enrollModifyCollectionViewDataSource
+        collectionView.delegate = self
         self.title = "상품" + topItemTitle
         postPatchButton.title = topItemTitle
         collectionView.register(EnrollModifyPhotoSeclectCell.self, forCellWithReuseIdentifier: EnrollModifyPhotoSeclectCell.identifier)
@@ -30,5 +29,14 @@ class EnrollModifyViewController: UIViewController {
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         collectionView.collectionViewLayout.invalidateLayout()
+    }
+}
+
+extension EnrollModifyViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let convertPhotoAlbumViewController = storyboard?.instantiateViewController(identifier: PhotoAlbumViewController.identifier) as? PhotoAlbumViewController else {
+            return
+        }
+        navigationController?.pushViewController(convertPhotoAlbumViewController, animated: true)
     }
 }

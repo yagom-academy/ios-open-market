@@ -120,7 +120,7 @@
         <!--Photo Album View Controller-->
         <scene sceneID="yKm-nh-oSb">
             <objects>
-                <viewController storyboardIdentifier="photoAlbumVC" id="qV7-sz-8NO" customClass="PhotoAlbumViewController" customModule="OpenMarket" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="PhotoAlbumVC" id="qV7-sz-8NO" customClass="PhotoAlbumViewController" customModule="OpenMarket" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="xGS-jS-T65">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
