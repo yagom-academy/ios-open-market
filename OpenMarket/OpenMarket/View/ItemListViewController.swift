@@ -18,8 +18,30 @@ class ItemListViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        setUpCollectionView()
+        setUpLayouts()
     }
 
+}
+
+extension ItemListViewController {
+    private func setUpCollectionView() {
+        view.addSubview(collectionView)
+
+        collectionView.dataSource = self
+        collectionView.register(ItemGridCell.self, forCellWithReuseIdentifier: ItemGridCell.identifier)
+    }
+
+    private func setUpLayouts() {
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+
+        NSLayoutConstraint.activate([
+            collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            collectionView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
+            collectionView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor)
+        ])
+    }
 }
 
 extension ItemListViewController: UICollectionViewDataSource {
