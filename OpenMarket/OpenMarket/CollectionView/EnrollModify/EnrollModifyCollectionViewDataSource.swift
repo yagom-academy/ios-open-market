@@ -13,6 +13,7 @@ class EnrollModifyCollectionViewDataSource: NSObject {
     private let PlaceholderList: [String] =
         ["상품명", "화폐단위", "가격", "할인가격", "재고수량", "상세설명", "비밀번호"]
     var photoAlbumImages = [UIImage]()
+    var butteeen: [UIButton] = []
 }
 
 extension EnrollModifyCollectionViewDataSource: UICollectionViewDataSource {
@@ -32,6 +33,9 @@ extension EnrollModifyCollectionViewDataSource: UICollectionViewDataSource {
             guard let photoSelectCell = collectionView.dequeueReusableCell(withReuseIdentifier: EnrollModifyPhotoSeclectCell.identifier, for: indexPath) as? EnrollModifyPhotoSeclectCell else {
                 return UICollectionViewCell()
             }
+            let btn = butteeen[indexPath.item]
+            photoSelectCell.configure(photoSelectButton: btn)
+            
             return photoSelectCell
         }
         if indexPath.item != .zero && indexPath.section == .zero {

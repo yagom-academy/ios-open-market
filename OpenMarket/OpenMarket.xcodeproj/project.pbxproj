@@ -53,6 +53,7 @@
 		4DF1C5D426EDFA95004FB065 /* PhotoAlbumCollecionViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DF1C5D326EDFA95004FB065 /* PhotoAlbumCollecionViewDataSource.swift */; };
 		4DF1C5D626EE27FD004FB065 /* PhotoAlbumCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4DF1C5D526EE27FD004FB065 /* PhotoAlbumCell.xib */; };
 		4DF1C5D826EE5A0C004FB065 /* PhotoAlbumCollectionViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DF1C5D726EE5A0C004FB065 /* PhotoAlbumCollectionViewDelegate.swift */; };
+		4DF1CFB226F0A494000AB2CA /* EnrollModifyCollectionViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DF1CFB126F0A494000AB2CA /* EnrollModifyCollectionViewDelegate.swift */; };
 		809B56F6C300669E6766CA42 /* Pods_OpenMarket.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8751E2FEB3739440A9C93D54 /* Pods_OpenMarket.framework */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
 		C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */; };
@@ -123,6 +124,7 @@
 		4DF1C5D326EDFA95004FB065 /* PhotoAlbumCollecionViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoAlbumCollecionViewDataSource.swift; sourceTree = "<group>"; };
 		4DF1C5D526EE27FD004FB065 /* PhotoAlbumCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PhotoAlbumCell.xib; sourceTree = "<group>"; };
 		4DF1C5D726EE5A0C004FB065 /* PhotoAlbumCollectionViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoAlbumCollectionViewDelegate.swift; sourceTree = "<group>"; };
+		4DF1CFB126F0A494000AB2CA /* EnrollModifyCollectionViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnrollModifyCollectionViewDelegate.swift; sourceTree = "<group>"; };
 		8751E2FEB3739440A9C93D54 /* Pods_OpenMarket.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OpenMarket.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		90820EC338ADED3AE1C5FB21 /* Pods-OpenMarket.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenMarket.release.xcconfig"; path = "Target Support Files/Pods-OpenMarket/Pods-OpenMarket.release.xcconfig"; sourceTree = "<group>"; };
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -277,6 +279,7 @@
 			isa = PBXGroup;
 			children = (
 				4DAF17AD26EB2FF70099F7FB /* EnrollModifyCollectionViewDataSource.swift */,
+				4DF1CFB126F0A494000AB2CA /* EnrollModifyCollectionViewDelegate.swift */,
 			);
 			path = EnrollModify;
 			sourceTree = "<group>";
@@ -591,6 +594,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4DD32BA326E0D6E000B32A88 /* NetworkError.swift in Sources */,
+				4DF1CFB226F0A494000AB2CA /* EnrollModifyCollectionViewDelegate.swift in Sources */,
 				4DA9DC2C26ED26FD00A9360F /* PhotoAlbumViewController.swift in Sources */,
 				4D014F6826DE5D64002CDE67 /* Data+extension.swift in Sources */,
 				4DD98CA126E3E3810076CEA5 /* ImageManager.swift in Sources */,
