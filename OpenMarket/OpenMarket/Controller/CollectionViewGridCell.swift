@@ -8,7 +8,7 @@
 import UIKit
 
 class CollectionViewGridCell: UICollectionViewCell {
-    static let cellID = "cellID"
+    static let cellID = "GridCell"
     var imageView: UIImageView!
     var stackView: UIStackView!
     var titleLabel: UILabel!
@@ -83,9 +83,6 @@ class CollectionViewGridCell: UICollectionViewCell {
     }
 
     func configureCell(item: Item) {
-        priceLabel.backgroundColor = .blue
-        discountedPriceLabel.backgroundColor = .green
-
         item.image { image in
             DispatchQueue.main.async {
                 self.imageView.image = image
@@ -113,7 +110,6 @@ class CollectionViewGridCell: UICollectionViewCell {
             stockLabel.text = "잔여수량 : \(item.stock.withDigit)"
             stockLabel.textColor = .gray
         }
-        self.stackView.layoutIfNeeded()
     }
 
     override func prepareForReuse() {

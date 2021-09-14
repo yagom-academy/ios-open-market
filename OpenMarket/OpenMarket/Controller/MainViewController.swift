@@ -5,7 +5,7 @@
 // 
 
 import UIKit
-
+@available(iOS 14.0, *)
 class MainViewController: UIViewController {
 
     let collectionView: UICollectionView = {
@@ -16,7 +16,7 @@ class MainViewController: UIViewController {
     }()
 
     let dataSource = CollectionViewDataSource()
-    var isListView: Bool = true
+    let aaa = CollectionViewProperty.shared
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,6 +50,7 @@ class MainViewController: UIViewController {
 
         collectionView.backgroundColor = .white
         collectionView.register(CollectionViewGridCell.self, forCellWithReuseIdentifier: CollectionViewGridCell.cellID)
+        collectionView.register(CollectionViewListCell.self, forCellWithReuseIdentifier: CollectionViewListCell.cellID)
     }
 
     override func viewWillLayoutSubviews() {
@@ -66,10 +67,10 @@ class MainViewController: UIViewController {
         switch sender.selectedSegmentIndex {
         case 0:
             print("list")
-            isListView = true
+            aaa.isListView = true
         case 1:
             print("grid")
-            isListView = false
+            aaa.isListView = false
         default:
             return
         }
@@ -89,6 +90,7 @@ extension CGFloat {
 }
 
 // MARK: Extension for UICollectionViewDelegate
+@available(iOS 14.0, *)
 extension MainViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
         guard let cell = collectionView.cellForItem(at: indexPath) as? CollectionViewGridCell else {
@@ -105,6 +107,7 @@ extension MainViewController: UICollectionViewDelegate {
 }
 
 // MARK: Extension for UICollectionViewDelegateFlowLayout
+@available(iOS 14.0, *)
 extension MainViewController: UICollectionViewDelegateFlowLayout {
     var insetForSection: CGFloat {
         return 10
@@ -117,9 +120,9 @@ extension MainViewController: UICollectionViewDelegateFlowLayout {
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        if self.isListView {
+        if aaa.isListView {
             let width = collectionView.frame.width
-            let height = width / 5
+            let height = width / 7
             return CGSize(width: width, height: height)
         } else {
             let width = (collectionView.frame.width - (insetForSection * 2 + insetForCellSpacing * (cellForEachRow - 1))) / cellForEachRow
@@ -134,24 +137,5 @@ extension MainViewController: UICollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: insetForSection, left: insetForSection, bottom: insetForSection, right: insetForSection)
-    }
-}
-
-// MARK: Extension for using Canvas
-import SwiftUI
-struct ViewControllerRepresentable: UIViewControllerRepresentable {
-    func makeUIViewController(context: Context) -> MainViewController {
-        return MainViewController()
-    }
-
-    func updateUIViewController(_ uiViewController: MainViewController, context: Context) {
-    }
-
-    typealias UIViewControllerType = MainViewController
-}
-@available(iOS 13.0.0, *)
-struct ViewPreview: PreviewProvider {
-    static var previews: some View {
-        ViewControllerRepresentable()
     }
 }

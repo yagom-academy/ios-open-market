@@ -7,6 +7,7 @@
 
 import UIKit
 
+@available(iOS 14.0, *)
 class CollectionViewDataSource: NSObject, UICollectionViewDataSource {
     var items: [Item] = []
     let networkManager = NetworkManager()
@@ -17,11 +18,19 @@ class CollectionViewDataSource: NSObject, UICollectionViewDataSource {
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CollectionViewGridCell.cellID, for: indexPath) as? CollectionViewGridCell else {
-            return UICollectionViewCell()
+        if CollectionViewProperty.shared.isListView {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CollectionViewListCell.cellID, for: indexPath) as? CollectionViewListCell else {
+                return UICollectionViewCell()
+            }
+            cell.configureCell(item: items[indexPath.item])
+            return cell
+        } else {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CollectionViewGridCell.cellID, for: indexPath) as? CollectionViewGridCell else {
+                return UICollectionViewCell()
+            }
+            cell.configureCell(item: items[indexPath.item])
+            return cell
         }
-        cell.configureCell(item: items[indexPath.item])
-        return cell
     }
 
     func requestNextPage(collectionView: UICollectionView) {
@@ -40,7 +49,7 @@ class CollectionViewDataSource: NSObject, UICollectionViewDataSource {
         }
     }
 }
-
+@available(iOS 14.0, *)
 extension CollectionViewDataSource: UICollectionViewDataSourcePrefetching {
     func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
         if indexPaths.last?.row == items.count - 1 {
