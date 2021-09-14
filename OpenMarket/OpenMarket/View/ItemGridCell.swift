@@ -8,6 +8,8 @@
 import UIKit
 
 class ItemGridCell: UICollectionViewCell {
+    static let identifier = "ItemCell"
+
     override init(frame: CGRect) {
         super.init(frame: frame)
     }
