@@ -17,7 +17,7 @@ class CollectionViewDataSource: NSObject, UICollectionViewDataSource {
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CollectionViewCell.cellID, for: indexPath) as? CollectionViewCell else {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CollectionViewGridCell.cellID, for: indexPath) as? CollectionViewGridCell else {
             return UICollectionViewCell()
         }
         cell.configureCell(item: items[indexPath.item])
@@ -43,15 +43,13 @@ class CollectionViewDataSource: NSObject, UICollectionViewDataSource {
 
 extension CollectionViewDataSource: UICollectionViewDataSourcePrefetching {
     func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
-        for indexPath in indexPaths {
-            debugPrint(indexPath)
-            if indexPath.row == items.count - 1 {
-                debugPrint("requestNextPage")
-                guard let cell = collectionView.dataSource as? CollectionViewDataSource else {
-                    return
-                }
-                cell.requestNextPage(collectionView: collectionView)
+        if indexPaths.last?.row == items.count - 1 {
+            debugPrint(indexPaths.last?.row)
+            debugPrint("requestNextPage")
+            guard let cell = collectionView.dataSource as? CollectionViewDataSource else {
+                return
             }
+            cell.requestNextPage(collectionView: collectionView)
         }
     }
 }

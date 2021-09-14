@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CollectionViewCell: UICollectionViewCell {
+class CollectionViewGridCell: UICollectionViewCell {
     static let cellID = "cellID"
     var imageView: UIImageView!
     var stackView: UIStackView!
@@ -38,7 +38,7 @@ class CollectionViewCell: UICollectionViewCell {
 
         stackView.alignment = .center
         stackView.axis = .vertical
-        stackView.distribution = .fillProportionally
+        stackView.distribution = .fillEqually
 
         stackView.addArrangedSubview(titleLabel)
         stackView.addArrangedSubview(priceLabel)
@@ -100,6 +100,7 @@ class CollectionViewCell: UICollectionViewCell {
             priceLabel.textColor = .red
             discountedPriceLabel.text = item.currency + " " + discountedPrice.withDigit
             discountedPriceLabel.textColor = .gray
+            discountedPriceLabel.isHidden = false
         } else {
             priceLabel.text = priceWithCurrency
             priceLabel.textColor = .gray
@@ -112,6 +113,7 @@ class CollectionViewCell: UICollectionViewCell {
             stockLabel.text = "잔여수량 : \(item.stock.withDigit)"
             stockLabel.textColor = .gray
         }
+        self.stackView.layoutIfNeeded()
     }
 
     override func prepareForReuse() {
@@ -119,6 +121,7 @@ class CollectionViewCell: UICollectionViewCell {
         imageView.image = .none
         priceLabel.attributedText = nil
         discountedPriceLabel.text = .none
+        discountedPriceLabel.isHidden = true
     }
 }
 
