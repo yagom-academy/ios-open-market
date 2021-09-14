@@ -10,11 +10,11 @@ import UIKit
 @available(iOS 14.0, *)
 class CollectionViewListCell: UICollectionViewListCell {
     static let cellID = "ListCell"
-    var imageView: UIImageView!
-    var titleLabel: UILabel!
-    var priceLabel: UILabel!
-    var discountedPriceLabel: UILabel!
-    var stockLabel: UILabel!
+    private var imageView: UIImageView!
+    private var titleLabel: UILabel!
+    private var priceLabel: UILabel!
+    private var discountedPriceLabel: UILabel!
+    private var stockLabel: UILabel!
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -55,7 +55,6 @@ class CollectionViewListCell: UICollectionViewListCell {
         imageView.trailingAnchor.constraint(equalTo: titleLabel.leadingAnchor, constant: -5).isActive = true
         imageView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -5).isActive = true
         imageView.widthAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.17).isActive = true
-        imageView.heightAnchor.constraint(equalTo: self.contentView.heightAnchor).isActive = true
 
         titleLabel.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 5).isActive = true
         titleLabel.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: 5).isActive = true
@@ -68,13 +67,13 @@ class CollectionViewListCell: UICollectionViewListCell {
         discountedPriceLabel.topAnchor.constraint(equalTo: priceLabel.topAnchor).isActive = true
         discountedPriceLabel.leadingAnchor.constraint(equalTo: priceLabel.trailingAnchor, constant: 5).isActive = true
         discountedPriceLabel.bottomAnchor.constraint(equalTo: priceLabel.bottomAnchor).isActive = true
+        let discountedPriceAnchor = discountedPriceLabel.trailingAnchor.constraint(equalTo: stockLabel.leadingAnchor)
+        discountedPriceAnchor.priority = .defaultHigh
+        discountedPriceAnchor.isActive = true
 
         stockLabel.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor).isActive = true
         stockLabel.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -10).isActive = true
-
-        let stockLabelWidthAnchor = stockLabel.widthAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.25)
-        stockLabelWidthAnchor.isActive = true
-        stockLabelWidthAnchor.priority = .init(999)
+        stockLabel.widthAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.28).isActive = true
     }
 
     private func setUpStyle() {
@@ -83,7 +82,7 @@ class CollectionViewListCell: UICollectionViewListCell {
         titleLabel.font = UIFont.boldSystemFont(ofSize: UIFont.labelFontSize)
         priceLabel.font = UIFont.systemFont(ofSize: UIFont.labelFontSize)
         discountedPriceLabel.font = UIFont.systemFont(ofSize: UIFont.labelFontSize)
-        stockLabel.font = UIFont.systemFont(ofSize: 14)
+        stockLabel.font = UIFont.systemFont(ofSize: 15)
     }
 
     func configureCell(item: Item) {
@@ -110,9 +109,11 @@ class CollectionViewListCell: UICollectionViewListCell {
         if item.stock == 0 {
             stockLabel.text = "품절"
             stockLabel.textColor = .orange
+            stockLabel.textAlignment = .right
         } else {
             stockLabel.text = "잔여수량 : \(item.stock.withDigit)"
             stockLabel.textColor = .gray
+            stockLabel.textAlignment = .left
         }
     }
 

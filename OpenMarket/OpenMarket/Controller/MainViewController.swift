@@ -89,23 +89,6 @@ extension CGFloat {
     }
 }
 
-// MARK: Extension for UICollectionViewDelegate
-@available(iOS 14.0, *)
-extension MainViewController: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-        guard let cell = collectionView.cellForItem(at: indexPath) as? CollectionViewGridCell else {
-            return true
-        }
-        if cell.isSelected {
-            collectionView.deselectItem(at: indexPath, animated: true)
-            return false
-        } else {
-            print("\(indexPath) : \(cell.priceLabel.text) -> \(cell.discountedPriceLabel.text)")
-            return true
-        }
-    }
-}
-
 // MARK: Extension for UICollectionViewDelegateFlowLayout
 @available(iOS 14.0, *)
 extension MainViewController: UICollectionViewDelegateFlowLayout {
@@ -122,7 +105,7 @@ extension MainViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if aaa.isListView {
             let width = collectionView.frame.width
-            let height = width / 7
+            let height = collectionView.frame.height / 12
             return CGSize(width: width, height: height)
         } else {
             let width = (collectionView.frame.width - (insetForSection * 2 + insetForCellSpacing * (cellForEachRow - 1))) / cellForEachRow
