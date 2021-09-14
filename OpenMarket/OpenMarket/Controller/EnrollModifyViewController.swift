@@ -13,6 +13,8 @@ class EnrollModifyViewController: UIViewController {
     
     private let enrollModifyCollectionViewDataSource = EnrollModifyCollectionViewDataSource()
     private let delegate = UIApplication.shared.delegate as? AppDelegate
+    private var selectIndexPathDictionary: [IndexPath: Bool] = [:]
+    private let mainTitle = "상품"
     var topItemTitle: String = ""
     
     override func viewDidLoad() {
@@ -20,7 +22,7 @@ class EnrollModifyViewController: UIViewController {
         
         collectionView.dataSource = enrollModifyCollectionViewDataSource
         collectionView.delegate = self
-        self.title = "상품" + topItemTitle
+        self.title = mainTitle + topItemTitle
         postPatchButton.title = topItemTitle
         collectionView.register(EnrollModifyPhotoSeclectCell.self, forCellWithReuseIdentifier: EnrollModifyPhotoSeclectCell.identifier)
         collectionView.register(EnrollModifyPhotoCell.self, forCellWithReuseIdentifier: EnrollModifyPhotoCell.identifier)
@@ -43,6 +45,7 @@ class EnrollModifyViewController: UIViewController {
 
 extension EnrollModifyViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+//        guard let photoCell = collectionView.cellForItem(at: indexPath) as? EnrollModifyPhotoCell else { return }
         if indexPath.item == .zero && indexPath.section == .zero {
             guard let convertPhotoAlbumViewController = storyboard?.instantiateViewController(identifier: PhotoAlbumViewController.identifier) as? PhotoAlbumViewController else {
                 return
@@ -52,6 +55,12 @@ extension EnrollModifyViewController: UICollectionViewDelegate {
                 collectionView.reloadData()
             }
             navigationController?.pushViewController(convertPhotoAlbumViewController, animated: true)
+        } else {
+            guard let photoIndexPaths = collectionView.indexPathsForSelectedItems else { return }
+            for indexPath in photoIndexPaths {
+                enrollModifyCollectionViewDataSource.photoAlbumImages.remove(at: indexPath.item - 1)
+            }
+            collectionView.deleteItems(at: photoIndexPaths)
         }
     }
 }

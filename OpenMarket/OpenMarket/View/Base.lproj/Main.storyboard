@@ -75,7 +75,7 @@
             </objects>
             <point key="canvasLocation" x="928.98550724637687" y="35.491071428571423"/>
         </scene>
-        <!--Enroll Modify View Controller-->
+        <!--상품-->
         <scene sceneID="cbP-3L-Hj0">
             <objects>
                 <viewController id="wPx-el-zEx" customClass="EnrollModifyViewController" customModule="OpenMarket" customModuleProvider="target" sceneMemberID="viewController">
@@ -104,7 +104,7 @@
                             <constraint firstItem="pbr-cB-8eb" firstAttribute="trailing" secondItem="w8S-qU-THC" secondAttribute="trailing" id="qpo-2Q-L3W"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="vCe-Sa-OsE">
+                    <navigationItem key="navigationItem" title="상품" id="vCe-Sa-OsE">
                         <barButtonItem key="rightBarButtonItem" title="등록/수정" id="nbr-DO-aAm"/>
                     </navigationItem>
                     <connections>
