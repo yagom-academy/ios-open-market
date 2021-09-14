@@ -12,10 +12,12 @@ class EnrollModifyViewController: UIViewController {
     @IBOutlet weak var postPatchButton: UIBarButtonItem!
     
     private let enrollModifyCollectionViewDataSource = EnrollModifyCollectionViewDataSource()
+    private let delegate = UIApplication.shared.delegate as? AppDelegate
     var topItemTitle: String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         collectionView.dataSource = enrollModifyCollectionViewDataSource
         collectionView.delegate = self
         self.title = "상품" + topItemTitle
@@ -26,17 +28,30 @@ class EnrollModifyViewController: UIViewController {
         collectionView.collectionViewLayout = enrollModifyCollectionViewDataSource.createCompositionalLayout()
     }
     
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
-        collectionView.collectionViewLayout.invalidateLayout()
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        delegate?.changeOrientation = false
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        delegate?.changeOrientation = true
     }
 }
 
 extension EnrollModifyViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let convertPhotoAlbumViewController = storyboard?.instantiateViewController(identifier: PhotoAlbumViewController.identifier) as? PhotoAlbumViewController else {
-            return
+        if indexPath.item == .zero && indexPath.section == .zero {
+            guard let convertPhotoAlbumViewController = storyboard?.instantiateViewController(identifier: PhotoAlbumViewController.identifier) as? PhotoAlbumViewController else {
+                return
+            }
+            convertPhotoAlbumViewController.selected = { (image: [UIImage]) in
+                self.enrollModifyCollectionViewDataSource.photoAlbumImages += image
+                collectionView.reloadData()
+            }
+            navigationController?.pushViewController(convertPhotoAlbumViewController, animated: true)
         }
-        navigationController?.pushViewController(convertPhotoAlbumViewController, animated: true)
     }
 }

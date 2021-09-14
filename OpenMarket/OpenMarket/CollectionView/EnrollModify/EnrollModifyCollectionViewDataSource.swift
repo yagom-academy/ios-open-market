@@ -12,7 +12,7 @@ class EnrollModifyCollectionViewDataSource: NSObject {
     private let compositionalLayout = CompositionalLayout()
     private let PlaceholderList: [String] =
         ["상품명", "화폐단위", "가격", "할인가격", "재고수량", "상세설명", "비밀번호"]
-    private let photoImageArray = [UIImage]()
+    var photoAlbumImages = [UIImage]()
 }
 
 extension EnrollModifyCollectionViewDataSource: UICollectionViewDataSource {
@@ -22,7 +22,7 @@ extension EnrollModifyCollectionViewDataSource: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if section == .zero {
-            return 6
+           return photoAlbumImages.count + 1
         }
         return PlaceholderList.count
     }
@@ -38,6 +38,10 @@ extension EnrollModifyCollectionViewDataSource: UICollectionViewDataSource {
             guard let photoCell = collectionView.dequeueReusableCell(withReuseIdentifier: EnrollModifyPhotoCell.identifier, for: indexPath) as? EnrollModifyPhotoCell else {
                 return UICollectionViewCell()
             }
+            print(indexPath.item)
+            let photoAlbumImageForItem = photoAlbumImages[indexPath.item - 1]
+            photoCell.configure(image: photoAlbumImageForItem)
+            
             return photoCell
         } else {
             guard let listCell = collectionView.dequeueReusableCell(withReuseIdentifier: EnrollModifyListCell.identifier, for: indexPath) as? EnrollModifyListCell else {

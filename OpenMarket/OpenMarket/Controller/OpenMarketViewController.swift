@@ -23,7 +23,6 @@ class OpenMarketViewController: UIViewController {
         openMarketCollecionViewDataSource.decidedListLayout(collectionView)
         openMarketCollecionViewDataSource.requestProductList(collectionView)
         openMarketCollecionViewDataSource.loadingIndicator = self
-        
     }
     
     override func viewWillLayoutSubviews() {

@@ -7,19 +7,12 @@
 
 import UIKit
 
-class EnrollModifyListCell: UICollectionViewCell, UITextFieldDelegate {
-    static let identifier = "list"
+class EnrollModifyListCell: UICollectionViewCell {
+    static let identifier = String(describing: EnrollModifyListCell.self)
     private let listTextField: UITextField = {
         let textField = UITextField()
         return textField
     }()
-    
-    override func awakeFromNib() {
-        listTextField.delegate = self
-        listTextField.autocorrectionType = UITextAutocorrectionType.no
-        listTextField.autocapitalizationType = UITextAutocapitalizationType.none
-        listTextField.adjustsFontSizeToFitWidth = true
-    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -28,10 +21,10 @@ class EnrollModifyListCell: UICollectionViewCell, UITextFieldDelegate {
     }
     private func setup() {
         contentView.addSubview(listTextField)
-        layer.addBorder(edge: .bottom, color: .gray, thickness: 1)
+        self.layer.addBorder(edge: .bottom, color: .gray, thickness: 1)
         listTextField.frame = CGRect(x: 0, y: 0,
-                                 width: contentView.frame.width,
-                                 height: contentView.frame.height)
+                                     width: contentView.frame.width,
+                                     height: contentView.frame.height)
     }
     
     required init?(coder: NSCoder) {

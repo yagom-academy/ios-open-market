@@ -8,28 +8,56 @@
 import UIKit
 
 class EnrollModifyPhotoCell: UICollectionViewCell {
-    static let identifier = "photo"
+    static let identifier = String(describing: EnrollModifyPhotoCell.self)
     let photoAlbumImage: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
+        imageView.contentMode = .scaleToFill
+        return imageView
+    }()
+    let deleteImage: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleToFill
         return imageView
     }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setup()
+        
+        photoAlbumImageSetup()
+        deleteImageSetup()
     }
     
-    private func setup() {
-        self.backgroundColor = .yellow
+    private func photoAlbumImageSetup() {
         contentView.addSubview(photoAlbumImage)
+        photoAlbumImage.layer.cornerRadius = 10
+        photoAlbumImage.layer.borderWidth = 1
+        photoAlbumImage.layer.borderColor = UIColor.black.cgColor
+        photoAlbumImage.layer.masksToBounds = true
         photoAlbumImage.frame = CGRect(x: 0, y: 0,
-                                 width: contentView.frame.width,
-                                 height: contentView.frame.height)
+                                       width: contentView.frame.width,
+                                       height: contentView.frame.height)
+    }
+    
+    private func deleteImageSetup() {
+        contentView.addSubview(deleteImage)
+        deleteImage.translatesAutoresizingMaskIntoConstraints = false
+        deleteImage.image = UIImage(systemName: "multiply.circle.fill")
+        deleteImage.tintColor = .black
+        deleteImage.backgroundColor = .white
+        deleteImage.layer.cornerRadius = 22
+        NSLayoutConstraint.activate([
+            deleteImage.trailingAnchor.constraint(
+                equalTo: contentView.trailingAnchor, constant: 3),
+            deleteImage.topAnchor.constraint(
+                equalTo: contentView.topAnchor, constant: -3),
+            deleteImage.widthAnchor.constraint(equalToConstant: 22),
+            deleteImage.heightAnchor.constraint(equalToConstant: 22)
+        ])
+    }
+
+    func configure(image: UIImage) {
+        self.photoAlbumImage.image = image
         
-        self.layer.cornerRadius = 10
-        self.layer.borderWidth = 1
-        self.layer.borderColor = UIColor.black.cgColor
     }
     
     required init?(coder: NSCoder) {

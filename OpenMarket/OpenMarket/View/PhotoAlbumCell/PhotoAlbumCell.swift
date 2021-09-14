@@ -14,16 +14,14 @@ class PhotoAlbumCell: UICollectionViewCell {
     @IBOutlet weak var photoAlbumImage: UIImageView!
     @IBOutlet weak var highlightIndicator: UIView!
     @IBOutlet weak var selectIndicator: UIImageView!
-
-//    func configure(asset: PHAsset) {
-//        photoAlbumImage.fetchImage(asset: asset, targetSize: photoAlbumImage.frame.size)
-//    }
-    func configure(cell: UIImage) {
-        self.photoAlbumImage.image = cell
-        photoAlbumImage.contentMode = .scaleAspectFill
-    }
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        
+        photoAlbumImage.contentMode = .scaleAspectFill
+    }
+    
+    func configure(image: UIImage) {
+        self.photoAlbumImage.image = image
     }
 }

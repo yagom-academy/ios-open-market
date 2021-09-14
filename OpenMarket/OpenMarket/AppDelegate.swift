@@ -5,33 +5,16 @@
 // 
 
 import UIKit
-import Photos
-
-//var allPhotos: PHFetchResult<PHAsset>?
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
+    var changeOrientation: Bool = true
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         URLCache.shared = {
             return URLCache(memoryCapacity: 500*1024*1024,
                             diskCapacity: 500*1024*1024)
         }()
-//        
-//        PHPhotoLibrary.requestAuthorization { (status) in
-//            switch status {
-//            case .authorized:
-//                print("Good to proceed")
-//                let fetchOptions = PHFetchOptions()
-//                allPhotos = PHAsset.fetchAssets(with: .image, options: fetchOptions)
-//            case .denied, .restricted:
-//                print("Not allowed")
-//            case .notDetermined:
-//                print("Not determined yet")
-//            default:
-//                print("error")
-//            }
-//        }
-        
         // Override point for customization after application launch.
         return true
     }
@@ -50,6 +33,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
     }
     
-    
+    func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
+        
+        if !changeOrientation {
+            return [.portrait]
+        } else {
+            return [.all]
+        }
+    }
 }
 

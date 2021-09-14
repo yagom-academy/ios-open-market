@@ -24,6 +24,12 @@ class PhotoAlbumViewController: UIViewController {
         collectionView.register(UINib(nibName: PhotoAlbumCell.nibName, bundle: nil), forCellWithReuseIdentifier: PhotoAlbumCell.identifier)
     }
     
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        collectionView.collectionViewLayout.invalidateLayout()
+        collectionView.reloadData()
+    }
+    
     func selectPhotoAlbumImage() -> [UIImage] {
         let indexes = photoAlbumCollectionViewDelegate.selectPhotoIndex()
         let photoAlbumImages = photoAlbumCollecionViewDataSource.photoAlbumImages

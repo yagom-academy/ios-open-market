@@ -23,7 +23,7 @@ extension PhotoAlbumCollecionViewDataSource: UICollectionViewDataSource {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotoAlbumCell.identifier, for: indexPath) as? PhotoAlbumCell else { return UICollectionViewCell() }
         
         let photoAlbumImageForItem = photoAlbumImages[indexPath.item]
-        cell.configure(cell: photoAlbumImageForItem)
+        cell.configure(image: photoAlbumImageForItem)
         
         return cell
     }
