@@ -81,7 +81,9 @@ class ItemGridCell: UICollectionViewCell {
 }
 
 extension ItemGridCell {
-    func setup(with item: Item) {
+    func setUp(with item: Item) {
+        resetContents()
+        
         if let url = URL(string: item.thumbnailURLs[0]) {
             thumbnailImageView.loadImage(from: url)
         }
@@ -104,7 +106,14 @@ extension ItemGridCell {
             stockLabel.text = "품절"
             stockLabel.textColor = .orange
         }
-
+    }
+    
+    func resetContents() {
+        thumbnailImageView.image = #imageLiteral(resourceName: "yagomMarket")
+        titleLabel.text = nil
+        discountedPriceLabel.text = nil
+        priceLabel.text = nil
+        stockLabel.text = nil
     }
 
     func addSubViews() {
