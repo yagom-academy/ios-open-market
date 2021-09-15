@@ -26,6 +26,7 @@
 		DF51B56326E2015100B91E51 /* Items.json in Resources */ = {isa = PBXBuildFile; fileRef = DF51B56226E2015100B91E51 /* Items.json */; };
 		DF51B56526E20D4B00B91E51 /* ParsingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF51B56426E20D4B00B91E51 /* ParsingManager.swift */; };
 		DF5746DA26ECBE63008DF743 /* ItemGridCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF5746D926ECBE63008DF743 /* ItemGridCell.swift */; };
+		DF5746DE26F17125008DF743 /* CustomImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF5746DD26F17125008DF743 /* CustomImageView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,6 +66,7 @@
 		DF51B56226E2015100B91E51 /* Items.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Items.json; sourceTree = "<group>"; };
 		DF51B56426E20D4B00B91E51 /* ParsingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParsingManager.swift; sourceTree = "<group>"; };
 		DF5746D926ECBE63008DF743 /* ItemGridCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemGridCell.swift; sourceTree = "<group>"; };
+		DF5746DD26F17125008DF743 /* CustomImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomImageView.swift; sourceTree = "<group>"; };
 		FAD8638F3A8EBEBABD9723BB /* Pods-OpenMarket.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenMarket.debug.xcconfig"; path = "Target Support Files/Pods-OpenMarket/Pods-OpenMarket.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -154,6 +156,7 @@
 			children = (
 				C70FB0FE25BEF61C00C9924E /* ItemListViewController.swift */,
 				DF5746D926ECBE63008DF743 /* ItemGridCell.swift */,
+				DF5746DD26F17125008DF743 /* CustomImageView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -384,6 +387,7 @@
 				DF36FBC726E122AB00DDD2DC /* URLSessionProtocol.swift in Sources */,
 				DF36FBC426E1154900DDD2DC /* Request.swift in Sources */,
 				DF36FBDA26E1261C00DDD2DC /* NetworkManager.swift in Sources */,
+				DF5746DE26F17125008DF743 /* CustomImageView.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				DF5746DA26ECBE63008DF743 /* ItemGridCell.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
