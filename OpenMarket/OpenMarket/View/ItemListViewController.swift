@@ -7,7 +7,11 @@
 import UIKit
 
 class ItemListViewController: UIViewController {
-
+    private var items: [Item] = []
+    private var page: Int = 1
+    private let networkManager = NetworkManager(session: URLSession.shared)
+    private let parsingManager = ParsingManager()
+    
     private let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -20,11 +24,33 @@ class ItemListViewController: UIViewController {
         super.viewDidLoad()
         setUpCollectionView()
         setUpLayouts()
+        loadItemList()
     }
 
 }
 
 extension ItemListViewController {
+    private func loadItemList() {
+        networkManager.send(request: .getList, of: page) { result in
+            switch result {
+            case .success(let data):
+                let parsedData = self.parsingManager.parse(data, to: ItemList.self)
+                switch parsedData {
+                case .success(let item):
+                    self.items.append(contentsOf: item.items)
+                    DispatchQueue.main.async {
+                        self.collectionView.reloadData()
+                    }
+                    self.page += 1
+                case .failure(let error):
+                    print(error)
+                }
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+    
     private func setUpCollectionView() {
         view.addSubview(collectionView)
 
