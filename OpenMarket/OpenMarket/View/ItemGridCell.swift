@@ -36,7 +36,7 @@ class ItemGridCell: UICollectionViewCell {
         return label
     }()
 
-    let discountedPriceLabel: UILabel = {
+    let originalPriceLabel: UILabel = {
         let label = UILabel(frame: .zero)
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -89,13 +89,15 @@ extension ItemGridCell {
         }
         titleLabel.text = item.title
         titleLabel.font = UIFont.boldSystemFont(ofSize: 16.0)
-        if let discountedPrice = item.discountedPrice {
-            discountedPriceLabel.textColor = .red
-            discountedPriceLabel.text = "\(item.currency) \(format(price: discountedPrice))"
-            discountedPriceLabel.attributedText = discountedPriceLabel.text?.strikeThrough()
-        }
-        priceLabel.text = "\(item.currency) \(format(price: item.price))"
         priceLabel.textColor = .gray
+        if let discountedPrice = item.discountedPrice {
+            originalPriceLabel.textColor = .red
+            originalPriceLabel.text = "\(item.currency) \(format(price: item.price))"
+            originalPriceLabel.attributedText = originalPriceLabel.text?.strikeThrough()
+            priceLabel.text = "\(item.currency) \(format(price: discountedPrice))"
+        } else {
+            priceLabel.text = "\(item.currency) \(format(price: item.price))"
+        }
         if item.stock > 100000000 {
             stockLabel.text = "잔여수량: 99999999↑"
             stockLabel.textColor = .gray
@@ -111,7 +113,7 @@ extension ItemGridCell {
     func resetContents() {
         thumbnailImageView.image = #imageLiteral(resourceName: "yagomMarket")
         titleLabel.text = nil
-        discountedPriceLabel.text = nil
+        originalPriceLabel.text = nil
         priceLabel.text = nil
         stockLabel.text = nil
     }
@@ -119,7 +121,7 @@ extension ItemGridCell {
     func addSubViews() {
         contentView.addSubview(thumbnailImageView)
         contentView.addSubview(titleLabel)
-        contentView.addSubview(discountedPriceLabel)
+        contentView.addSubview(originalPriceLabel)
         contentView.addSubview(priceLabel)
         contentView.addSubview(stockLabel)
         contentView.addSubview(contentStackView)
@@ -132,7 +134,7 @@ extension ItemGridCell {
         contentStackView.addArrangedSubview(priceStackView)
         contentStackView.addArrangedSubview(stockLabel)
         
-        priceStackView.addArrangedSubview(discountedPriceLabel)
+        priceStackView.addArrangedSubview(originalPriceLabel)
         priceStackView.addArrangedSubview(priceLabel)
         
         NSLayoutConstraint.activate([
