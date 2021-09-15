@@ -24,6 +24,7 @@ class ItemListViewController: UIViewController {
         super.viewDidLoad()
         setUpCollectionView()
         setUpLayouts()
+        collectionView.collectionViewLayout = configureLayout()
         loadItemList()
     }
 
@@ -52,6 +53,7 @@ extension ItemListViewController {
     }
     
     private func setUpCollectionView() {
+        view.backgroundColor = .white
         view.addSubview(collectionView)
 
         collectionView.dataSource = self
@@ -67,6 +69,23 @@ extension ItemListViewController {
             collectionView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
             collectionView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor)
         ])
+    }
+
+    private func configureLayout() -> UICollectionViewFlowLayout {
+        let deviceWidth = UIScreen.main.bounds.width
+        let deviceHeight = UIScreen.main.bounds.height
+        let minimumLineSpacing: CGFloat = 10
+        let minimumInteritemSpacing: CGFloat = 10
+        let inset: UIEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+
+        let flowLayout = UICollectionViewFlowLayout()
+        flowLayout.itemSize.width = deviceWidth / 2.2
+        flowLayout.itemSize.height = deviceHeight / 3.3
+        flowLayout.minimumLineSpacing = minimumLineSpacing
+        flowLayout.minimumInteritemSpacing = minimumInteritemSpacing
+        flowLayout.sectionInset = inset
+
+        return flowLayout
     }
 }
 
