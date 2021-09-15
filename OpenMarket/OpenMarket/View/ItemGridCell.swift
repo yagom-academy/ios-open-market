@@ -20,8 +20,10 @@ class ItemGridCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    private let itemImageView: UIImageView = {
-        let imageView = UIImageView(frame: .zero)
+    private let thumbnailImageView: CustomImageView = {
+        guard let imageView = UIImageView(frame: .zero) as? CustomImageView else {
+            return CustomImageView()
+        }
         imageView.contentMode = .scaleAspectFill
         return imageView
     }()
@@ -64,8 +66,19 @@ class ItemGridCell: UICollectionViewCell {
 }
 
 extension ItemGridCell {
+    func setup(with item: Item) {
+        if let url = URL(string: item.thumbnailURLs[0]) {
+            thumbnailImageView.loadImage(from: url)
+        }
+        contentView.addSubview(stockLabel)
+        titleLabel.text = item.title
+        discountedPriceLabel.text = "\(item.currency) \(String(describing: item.discountedPrice))"
+        priceLabel.text = "\(item.currency) \(item.price)"
+        stockLabel.text = "잔여수량: \(item.stock)"
+    }
+
     func addSubViews() {
-        contentView.addSubview(itemImageView)
+        contentView.addSubview(thumbnailImageView)
         contentView.addSubview(titleLabel)
         contentView.addSubview(discountedPriceLabel)
         contentView.addSubview(priceLabel)
@@ -74,7 +87,7 @@ extension ItemGridCell {
     }
 
     func setUpStackView() {
-        stackView.addArrangedSubview(itemImageView)
+        stackView.addArrangedSubview(thumbnailImageView)
         stackView.addArrangedSubview(titleLabel)
         stackView.addArrangedSubview(discountedPriceLabel)
         stackView.addArrangedSubview(priceLabel)
@@ -85,9 +98,8 @@ extension ItemGridCell {
             stackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -2),
             stackView.topAnchor.constraint(equalTo: self.topAnchor, constant: 2),
             stackView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -2),
-
-            itemImageView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.7),
-            itemImageView.heightAnchor.constraint(equalTo: itemImageView.widthAnchor)
+            thumbnailImageView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.7),
+            thumbnailImageView.heightAnchor.constraint(equalTo: thumbnailImageView.widthAnchor)
         ])
     }
 }

@@ -72,13 +72,16 @@ extension ItemListViewController {
 
 extension ItemListViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 20
+        return items.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ItemGridCell.identifier, for: indexPath) as? ItemGridCell else {
             return UICollectionViewCell()
         }
+        
+        let item = items[indexPath.item]
+        cell.setup(with: item)
 
         return cell
     }
