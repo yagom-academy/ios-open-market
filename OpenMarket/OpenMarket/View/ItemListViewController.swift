@@ -22,6 +22,7 @@ class ItemListViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        setUpNavigationBar()
         setUpCollectionView()
         setUpLayouts()
         collectionView.collectionViewLayout = configureLayout()
@@ -50,6 +51,17 @@ extension ItemListViewController {
                 print(error)
             }
         }
+    }
+    
+    private func setUpNavigationBar() {
+        title = "야아마켓"
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(barButtonTapped))
+    }
+    
+    @objc private func barButtonTapped() {
+        let nextViewController = UIViewController()
+        nextViewController.view.backgroundColor = .white
+        navigationController?.pushViewController(nextViewController, animated: true)
     }
     
     private func setUpCollectionView() {
