@@ -67,7 +67,7 @@ class ItemGridCell: UICollectionViewCell {
 
         return stackView
     }()
-    
+
     let priceStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
@@ -86,9 +86,25 @@ extension ItemGridCell {
             thumbnailImageView.loadImage(from: url)
         }
         titleLabel.text = item.title
-        discountedPriceLabel.text = "\(item.currency) \(String(describing: item.discountedPrice))"
-        priceLabel.text = "\(item.currency) \(item.price)"
-        stockLabel.text = "잔여수량: \(item.stock)"
+        titleLabel.font = UIFont.boldSystemFont(ofSize: 16.0)
+        if let discountedPrice = item.discountedPrice {
+            discountedPriceLabel.textColor = .red
+            discountedPriceLabel.text = "\(item.currency) \(format(price: discountedPrice))"
+            discountedPriceLabel.attributedText = discountedPriceLabel.text?.strikeThrough()
+        }
+        priceLabel.text = "\(item.currency) \(format(price: item.price))"
+        priceLabel.textColor = .gray
+        if item.stock > 100000000 {
+            stockLabel.text = "잔여수량: 99999999↑"
+            stockLabel.textColor = .gray
+        } else if item.stock > 0 {
+            stockLabel.text = "잔여수량: \(item.stock)"
+            stockLabel.textColor = .gray
+        } else {
+            stockLabel.text = "품절"
+            stockLabel.textColor = .orange
+        }
+
     }
 
     func addSubViews() {
@@ -100,7 +116,7 @@ extension ItemGridCell {
         contentView.addSubview(contentStackView)
         contentView.addSubview(priceStackView)
     }
-
+    
     func setUpStackView() {
         contentStackView.addArrangedSubview(thumbnailImageView)
         contentStackView.addArrangedSubview(titleLabel)
@@ -109,7 +125,7 @@ extension ItemGridCell {
         
         priceStackView.addArrangedSubview(discountedPriceLabel)
         priceStackView.addArrangedSubview(priceLabel)
-
+        
         NSLayoutConstraint.activate([
             contentStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 2),
             contentStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -2),
@@ -124,5 +140,23 @@ extension ItemGridCell {
         cell.layer.borderColor = UIColor.gray.cgColor
         cell.layer.borderWidth = 1
         cell.layer.cornerRadius = 5
+    }
+    
+    func format(price: Int) -> String {
+        let priceFormatter = NumberFormatter()
+        priceFormatter.numberStyle = .decimal
+        
+        guard let formattedPrice = priceFormatter.string(from: NSNumber(value: price)) else {
+            return price.description
+        }
+        return formattedPrice
+    }
+}
+
+extension String {
+    func strikeThrough() -> NSAttributedString {
+        let attributeString: NSMutableAttributedString = NSMutableAttributedString(string: self)
+        attributeString.addAttribute(NSAttributedString.Key.strikethroughStyle, value: NSUnderlineStyle.single.rawValue, range: NSMakeRange(0, attributeString.length))
+        return attributeString
     }
 }
