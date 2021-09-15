@@ -12,7 +12,9 @@ let imageCache = NSCache<AnyObject, AnyObject>()
 class CustomImageView: UIImageView {
     private var task: URLSessionDataTask!
     private var loadingIndicatorView = UIActivityIndicatorView()
-    
+}
+
+extension CustomImageView {
     func loadImage(from url: URL) {
         image = nil
         
