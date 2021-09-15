@@ -11,7 +11,7 @@ class ItemListViewController: UIViewController {
     private var page: Int = 1
     private let networkManager = NetworkManager(session: URLSession.shared)
     private let parsingManager = ParsingManager()
-    
+
     private let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -52,18 +52,18 @@ extension ItemListViewController {
             }
         }
     }
-    
+
     private func setUpNavigationBar() {
         title = "야아마켓"
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(barButtonTapped))
     }
-    
+
     @objc private func barButtonTapped() {
         let nextViewController = UIViewController()
         nextViewController.view.backgroundColor = .white
         navigationController?.pushViewController(nextViewController, animated: true)
     }
-    
+
     private func setUpCollectionView() {
         view.backgroundColor = .white
         view.addSubview(collectionView)
@@ -111,7 +111,7 @@ extension ItemListViewController: UICollectionViewDataSource {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ItemGridCell.identifier, for: indexPath) as? ItemGridCell else {
             return UICollectionViewCell()
         }
-        
+
         let item = items[indexPath.item]
         cell.setUp(with: item)
         cell.setUpCellBorder(cell: cell)

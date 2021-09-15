@@ -83,7 +83,7 @@ class ItemGridCell: UICollectionViewCell {
 extension ItemGridCell {
     func setUp(with item: Item) {
         resetContents()
-        
+
         if let url = URL(string: item.thumbnailURLs[0]) {
             thumbnailImageView.loadImage(from: url)
         }
@@ -109,7 +109,7 @@ extension ItemGridCell {
             stockLabel.textColor = .orange
         }
     }
-    
+
     private func resetContents() {
         thumbnailImageView.image = #imageLiteral(resourceName: "yagomMarket")
         titleLabel.text = nil
@@ -127,16 +127,16 @@ extension ItemGridCell {
         contentView.addSubview(contentStackView)
         contentView.addSubview(priceStackView)
     }
-    
+
     private func setUpStackView() {
         contentStackView.addArrangedSubview(thumbnailImageView)
         contentStackView.addArrangedSubview(titleLabel)
         contentStackView.addArrangedSubview(priceStackView)
         contentStackView.addArrangedSubview(stockLabel)
-        
+
         priceStackView.addArrangedSubview(originalPriceLabel)
         priceStackView.addArrangedSubview(priceLabel)
-        
+
         NSLayoutConstraint.activate([
             contentStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 2),
             contentStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -2),
@@ -146,17 +146,17 @@ extension ItemGridCell {
             thumbnailImageView.heightAnchor.constraint(equalTo: thumbnailImageView.widthAnchor)
         ])
     }
-    
+
     func setUpCellBorder(cell: ItemGridCell) {
         cell.layer.borderColor = UIColor.gray.cgColor
         cell.layer.borderWidth = 1
         cell.layer.cornerRadius = 5
     }
-    
+
     private func format(price: Int) -> String {
         let priceFormatter = NumberFormatter()
         priceFormatter.numberStyle = .decimal
-        
+
         guard let formattedPrice = priceFormatter.string(from: NSNumber(value: price)) else {
             return price.description
         }
