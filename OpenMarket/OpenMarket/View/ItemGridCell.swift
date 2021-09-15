@@ -57,7 +57,18 @@ class ItemGridCell: UICollectionViewCell {
         return label
     }()
 
-    let stackView: UIStackView = {
+    let contentStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.distribution = .equalSpacing
+        stackView.alignment = .center
+        stackView.backgroundColor = .white
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+
+        return stackView
+    }()
+    
+    let priceStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.distribution = .equalSpacing
@@ -86,21 +97,24 @@ extension ItemGridCell {
         contentView.addSubview(discountedPriceLabel)
         contentView.addSubview(priceLabel)
         contentView.addSubview(stockLabel)
-        contentView.addSubview(stackView)
+        contentView.addSubview(contentStackView)
+        contentView.addSubview(priceStackView)
     }
 
     func setUpStackView() {
-        stackView.addArrangedSubview(thumbnailImageView)
-        stackView.addArrangedSubview(titleLabel)
-        stackView.addArrangedSubview(discountedPriceLabel)
-        stackView.addArrangedSubview(priceLabel)
-        stackView.addArrangedSubview(stockLabel)
+        contentStackView.addArrangedSubview(thumbnailImageView)
+        contentStackView.addArrangedSubview(titleLabel)
+        contentStackView.addArrangedSubview(priceStackView)
+        contentStackView.addArrangedSubview(stockLabel)
+        
+        priceStackView.addArrangedSubview(discountedPriceLabel)
+        priceStackView.addArrangedSubview(priceLabel)
 
         NSLayoutConstraint.activate([
-            stackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 2),
-            stackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -2),
-            stackView.topAnchor.constraint(equalTo: self.topAnchor, constant: 4),
-            stackView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -2),
+            contentStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 2),
+            contentStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -2),
+            contentStackView.topAnchor.constraint(equalTo: self.topAnchor, constant: 8),
+            contentStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -6),
             thumbnailImageView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.8),
             thumbnailImageView.heightAnchor.constraint(equalTo: thumbnailImageView.widthAnchor)
         ])
