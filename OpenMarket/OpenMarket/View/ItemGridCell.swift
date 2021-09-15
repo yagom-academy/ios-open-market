@@ -25,36 +25,40 @@ class ItemGridCell: UICollectionViewCell {
             return CustomImageView()
         }
         imageView.contentMode = .scaleAspectFill
+        imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
 
     let titleLabel: UILabel = {
         let label = UILabel(frame: .zero)
         label.textAlignment = .center
+        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
 
     let discountedPriceLabel: UILabel = {
         let label = UILabel(frame: .zero)
         label.textAlignment = .center
+        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
 
     let priceLabel: UILabel = {
         let label = UILabel(frame: .zero)
         label.textAlignment = .center
+        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
 
     let stockLabel: UILabel = {
         let label = UILabel(frame: .zero)
         label.textAlignment = .center
+        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
 
     let stackView: UIStackView = {
         let stackView = UIStackView()
-
         stackView.axis = .vertical
         stackView.distribution = .equalSpacing
         stackView.alignment = .center
@@ -70,7 +74,6 @@ extension ItemGridCell {
         if let url = URL(string: item.thumbnailURLs[0]) {
             thumbnailImageView.loadImage(from: url)
         }
-        contentView.addSubview(stockLabel)
         titleLabel.text = item.title
         discountedPriceLabel.text = "\(item.currency) \(String(describing: item.discountedPrice))"
         priceLabel.text = "\(item.currency) \(item.price)"
@@ -96,10 +99,16 @@ extension ItemGridCell {
         NSLayoutConstraint.activate([
             stackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 2),
             stackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -2),
-            stackView.topAnchor.constraint(equalTo: self.topAnchor, constant: 2),
+            stackView.topAnchor.constraint(equalTo: self.topAnchor, constant: 4),
             stackView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -2),
-            thumbnailImageView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.7),
+            thumbnailImageView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.8),
             thumbnailImageView.heightAnchor.constraint(equalTo: thumbnailImageView.widthAnchor)
         ])
+    }
+    
+    func setUpCellBorder(cell: ItemGridCell) {
+        cell.layer.borderColor = UIColor.gray.cgColor
+        cell.layer.borderWidth = 1
+        cell.layer.cornerRadius = 5
     }
 }

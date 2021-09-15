@@ -101,6 +101,7 @@ extension ItemListViewController: UICollectionViewDataSource {
         
         let item = items[indexPath.item]
         cell.setup(with: item)
+        cell.setUpCellBorder(cell: cell)
 
         return cell
     }
