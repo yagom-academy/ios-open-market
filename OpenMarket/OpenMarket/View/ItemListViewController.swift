@@ -57,6 +57,7 @@ extension ItemListViewController {
         view.addSubview(collectionView)
 
         collectionView.dataSource = self
+        collectionView.prefetchDataSource = self
         collectionView.register(ItemGridCell.self, forCellWithReuseIdentifier: ItemGridCell.identifier)
     }
 
@@ -104,5 +105,16 @@ extension ItemListViewController: UICollectionViewDataSource {
         cell.setUpCellBorder(cell: cell)
 
         return cell
+    }
+}
+
+extension ItemListViewController: UICollectionViewDataSourcePrefetching {
+    func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
+        let lastItem = items.count
+        for indexPath in indexPaths {
+            if lastItem - 1 == indexPath.item {
+                loadItemList()
+            }
+        }
     }
 }
