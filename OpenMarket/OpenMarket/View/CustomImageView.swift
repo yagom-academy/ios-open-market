@@ -10,8 +10,8 @@ import UIKit
 let imageCache = NSCache<AnyObject, AnyObject>()
 
 class CustomImageView: UIImageView {
-    var task: URLSessionDataTask!
-    var loadingIndicatorView = UIActivityIndicatorView()
+    private var task: URLSessionDataTask!
+    private var loadingIndicatorView = UIActivityIndicatorView()
     
     func loadImage(from url: URL) {
         image = nil
@@ -44,7 +44,7 @@ class CustomImageView: UIImageView {
         task.resume()
     }
     
-    func addLoadingIndicatorView() {
+    private func addLoadingIndicatorView() {
         addSubview(loadingIndicatorView)
         
         loadingIndicatorView.translatesAutoresizingMaskIntoConstraints = false
@@ -54,7 +54,7 @@ class CustomImageView: UIImageView {
         loadingIndicatorView.startAnimating()
     }
     
-    func removeLoadingIndicatorView() {
+    private func removeLoadingIndicatorView() {
         loadingIndicatorView.removeFromSuperview()
     }
 }

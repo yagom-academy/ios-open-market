@@ -29,35 +29,35 @@ class ItemGridCell: UICollectionViewCell {
         return imageView
     }()
 
-    let titleLabel: UILabel = {
+    private let titleLabel: UILabel = {
         let label = UILabel(frame: .zero)
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
 
-    let originalPriceLabel: UILabel = {
+    private let originalPriceLabel: UILabel = {
         let label = UILabel(frame: .zero)
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
 
-    let priceLabel: UILabel = {
+    private let priceLabel: UILabel = {
         let label = UILabel(frame: .zero)
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
 
-    let stockLabel: UILabel = {
+    private let stockLabel: UILabel = {
         let label = UILabel(frame: .zero)
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
 
-    let contentStackView: UIStackView = {
+    private let contentStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.distribution = .equalSpacing
@@ -68,7 +68,7 @@ class ItemGridCell: UICollectionViewCell {
         return stackView
     }()
 
-    let priceStackView: UIStackView = {
+    private let priceStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.distribution = .equalSpacing
@@ -110,7 +110,7 @@ extension ItemGridCell {
         }
     }
     
-    func resetContents() {
+    private func resetContents() {
         thumbnailImageView.image = #imageLiteral(resourceName: "yagomMarket")
         titleLabel.text = nil
         originalPriceLabel.text = nil
@@ -118,7 +118,7 @@ extension ItemGridCell {
         stockLabel.text = nil
     }
 
-    func addSubViews() {
+    private func addSubViews() {
         contentView.addSubview(thumbnailImageView)
         contentView.addSubview(titleLabel)
         contentView.addSubview(originalPriceLabel)
@@ -128,7 +128,7 @@ extension ItemGridCell {
         contentView.addSubview(priceStackView)
     }
     
-    func setUpStackView() {
+    private func setUpStackView() {
         contentStackView.addArrangedSubview(thumbnailImageView)
         contentStackView.addArrangedSubview(titleLabel)
         contentStackView.addArrangedSubview(priceStackView)
@@ -153,7 +153,7 @@ extension ItemGridCell {
         cell.layer.cornerRadius = 5
     }
     
-    func format(price: Int) -> String {
+    private func format(price: Int) -> String {
         let priceFormatter = NumberFormatter()
         priceFormatter.numberStyle = .decimal
         
