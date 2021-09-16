@@ -10,101 +10,64 @@ import UIKit
 @available(iOS 14.0, *)
 class CollectionViewListCell: UICollectionViewListCell {
     static let cellID = "ListCell"
-    private var imageView: UIImageView!
-    private var titleLabel: UILabel!
-    private var priceLabel: UILabel!
-    private var discountedPriceLabel: UILabel!
-    private var stockLabel: UILabel!
-
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        debugPrint("init Cell")
-        setUpCellComponent()
-        setUpConstraints()
-        setUpStyle()
+    private func defaultListContentConfiguration() -> UIListContentConfiguration {
+        return .subtitleCell()
     }
+    private lazy var listContentView = UIListContentView(configuration: defaultListContentConfiguration())
+    private let stockLabel = UILabel()
+    private var customViewConstraints: (stockLabelLeading: NSLayoutConstraint,
+                                        stockLabelTrailing: NSLayoutConstraint)?
 
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+    private func setupViewsIfNeeded() {
+        guard customViewConstraints == nil else { return }
 
-    private func setUpCellComponent() {
-        imageView = UIImageView()
-        titleLabel = UILabel()
-        priceLabel = UILabel()
-        discountedPriceLabel = UILabel()
-        stockLabel = UILabel()
+        contentView.addSubview(listContentView)
+        contentView.addSubview(stockLabel)
 
-        self.contentView.addSubview(imageView)
-        self.contentView.addSubview(titleLabel)
-        self.contentView.addSubview(priceLabel)
-        self.contentView.addSubview(discountedPriceLabel)
-        self.contentView.addSubview(stockLabel)
+        listContentView.translatesAutoresizingMaskIntoConstraints = false
+        let defaultHorizontalCompressionResistance = listContentView.contentCompressionResistancePriority(for: .horizontal)
+        listContentView.setContentCompressionResistancePriority(defaultHorizontalCompressionResistance - 1, for: .horizontal)
+        stockLabel.translatesAutoresizingMaskIntoConstraints = false
+        stockLabel.font = UIFont.systemFont(ofSize: UIFont.systemFontSize)
+
+        let constraints = (stockLabelLeading: stockLabel.leadingAnchor.constraint(equalTo: listContentView.trailingAnchor),
+                           stockLabelTrailing: contentView.trailingAnchor.constraint(equalTo: stockLabel.trailingAnchor),
+                           stockLabelWidthAnchor: stockLabel.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.3)
+        )
+
+        NSLayoutConstraint.activate([
+            listContentView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            listContentView.bottomAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.bottomAnchor),
+            listContentView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            listContentView.heightAnchor.constraint(equalTo: contentView.heightAnchor),
+            stockLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            constraints.stockLabelLeading,
+            constraints.stockLabelTrailing,
+            constraints.stockLabelWidthAnchor
+        ])
         self.accessories = [.disclosureIndicator()]
     }
 
-    private func setUpConstraints() {
-        self.imageView.translatesAutoresizingMaskIntoConstraints = false
-        self.titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        self.priceLabel.translatesAutoresizingMaskIntoConstraints = false
-        self.discountedPriceLabel.translatesAutoresizingMaskIntoConstraints = false
-        self.stockLabel.translatesAutoresizingMaskIntoConstraints = false
-
-        imageView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 5).isActive = true
-        imageView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 10).isActive = true
-        imageView.trailingAnchor.constraint(equalTo: titleLabel.leadingAnchor, constant: -5).isActive = true
-        imageView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -5).isActive = true
-        imageView.widthAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.17).isActive = true
-
-        titleLabel.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 5).isActive = true
-        titleLabel.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: 5).isActive = true
-        titleLabel.trailingAnchor.constraint(equalTo: stockLabel.leadingAnchor).isActive = true
-
-        priceLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 5).isActive = true
-        priceLabel.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: 5).isActive = true
-        priceLabel.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -5).isActive = true
-
-        discountedPriceLabel.topAnchor.constraint(equalTo: priceLabel.topAnchor).isActive = true
-        discountedPriceLabel.leadingAnchor.constraint(equalTo: priceLabel.trailingAnchor, constant: 5).isActive = true
-        discountedPriceLabel.bottomAnchor.constraint(equalTo: priceLabel.bottomAnchor).isActive = true
-        let discountedPriceAnchor = discountedPriceLabel.trailingAnchor.constraint(equalTo: stockLabel.leadingAnchor)
-        discountedPriceAnchor.priority = .defaultHigh
-        discountedPriceAnchor.isActive = true
-
-        stockLabel.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor).isActive = true
-        stockLabel.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -10).isActive = true
-        stockLabel.widthAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.28).isActive = true
-    }
-
-    private func setUpStyle() {
-        titleLabel.numberOfLines = 1
-        titleLabel.textAlignment = .left
-        titleLabel.font = UIFont.boldSystemFont(ofSize: UIFont.labelFontSize)
-        priceLabel.font = UIFont.systemFont(ofSize: UIFont.labelFontSize)
-        discountedPriceLabel.font = UIFont.systemFont(ofSize: UIFont.labelFontSize)
-        stockLabel.font = UIFont.systemFont(ofSize: 15)
-    }
-
     func configureCell(item: Item) {
+        setupViewsIfNeeded()
+        var content = defaultListContentConfiguration()
         item.image { image in
             DispatchQueue.main.async {
-                self.imageView.image = image
+                content.image = image
+                content.imageProperties.maximumSize = CGSize(width: 40, height: 37)
+                self.listContentView.configuration = content
             }
         }
-
-        titleLabel.text = item.title
+        content.text = item.title
+        content.textProperties.numberOfLines = 1
         let priceWithCurrency = item.currency + " " + item.price.withDigit
-
         if let discountedPrice = item.discountedPrice {
-            priceLabel.attributedText = priceWithCurrency.strikeThrough()
-            priceLabel.textColor = .red
-            discountedPriceLabel.text = item.currency + " " + discountedPrice.withDigit
-            discountedPriceLabel.textColor = .gray
-            discountedPriceLabel.isHidden = false
+            let discountedPriceWithCurrency = item.currency + " " + discountedPrice.withDigit
+            content.secondaryAttributedText = priceWithCurrency.redStrikeThrough() + " " + discountedPriceWithCurrency
         } else {
-            priceLabel.text = priceWithCurrency
-            priceLabel.textColor = .gray
+            content.secondaryText = priceWithCurrency
         }
+        content.secondaryTextProperties.color = .gray
 
         if item.stock == 0 {
             stockLabel.text = "품절"
@@ -115,13 +78,21 @@ class CollectionViewListCell: UICollectionViewListCell {
             stockLabel.textColor = .gray
             stockLabel.textAlignment = .left
         }
+
+        listContentView.configuration = content
     }
 
     override func prepareForReuse() {
         super.prepareForReuse()
-        imageView.image = .none
-        priceLabel.attributedText = nil
-        discountedPriceLabel.text = .none
-        discountedPriceLabel.isHidden = true
+    }
+}
+
+extension NSAttributedString {
+    static func + (lhs: NSAttributedString, rhs: String) -> NSAttributedString {
+        let rhs = NSAttributedString(string: rhs)
+        let resultString = NSMutableAttributedString()
+        resultString.append(lhs)
+        resultString.append(rhs)
+        return resultString
     }
 }

@@ -93,7 +93,7 @@ class CollectionViewGridCell: UICollectionViewCell {
         let priceWithCurrency = item.currency + " " + item.price.withDigit
 
         if let discountedPrice = item.discountedPrice {
-            priceLabel.attributedText = priceWithCurrency.strikeThrough()
+            priceLabel.attributedText = priceWithCurrency.redStrikeThrough()
             priceLabel.textColor = .red
             discountedPriceLabel.text = item.currency + " " + discountedPrice.withDigit
             discountedPriceLabel.textColor = .gray
@@ -122,11 +122,12 @@ class CollectionViewGridCell: UICollectionViewCell {
 }
 
 extension String {
-    func strikeThrough() -> NSAttributedString {
-            let attributeString: NSMutableAttributedString = NSMutableAttributedString(string: self)
-            attributeString.addAttribute(NSAttributedString.Key.strikethroughStyle, value: NSUnderlineStyle.single.rawValue, range: NSMakeRange(0, attributeString.length))
-            return attributeString
-        }
+    func redStrikeThrough() -> NSAttributedString {
+        let attributeString: NSMutableAttributedString = NSMutableAttributedString(string: self)
+        attributeString.addAttribute(NSAttributedString.Key.strikethroughStyle, value: NSUnderlineStyle.single.rawValue, range: NSMakeRange(0, attributeString.length))
+        attributeString.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.red, range: NSMakeRange(0, attributeString.length))
+        return attributeString
+    }
 }
 
 extension Int {

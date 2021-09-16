@@ -7,24 +7,13 @@
 import UIKit
 @available(iOS 14.0, *)
 class MainViewController: UIViewController {
-
-    let collectionView: UICollectionView = {
-        let flowlayout = UICollectionViewFlowLayout()
-        flowlayout.estimatedItemSize = .zero
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowlayout)
-        return collectionView
-    }()
-
     let dataSource = CollectionViewDataSource()
+    var collectionView: UICollectionView!
     let aaa = CollectionViewProperty.shared
-
+    var layout: UICollectionViewLayout!
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-
-        collectionView.dataSource = dataSource
-        collectionView.delegate = self
-        collectionView.prefetchDataSource = dataSource
         configureViewController()
         dataSource.requestNextPage(collectionView: collectionView)
     }
@@ -39,18 +28,18 @@ class MainViewController: UIViewController {
         layoutSegmentControl.addTarget(self, action: #selector(segconChanged(_:)), for: .valueChanged)
 
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: layoutSegmentControl)
-        let safeArea = view.safeAreaLayoutGuide
-        view.addSubview(collectionView)
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
 
-        collectionView.topAnchor.constraint(equalTo: safeArea.topAnchor).isActive = true
-        collectionView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor).isActive = true
-        collectionView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor).isActive = true
-        collectionView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor).isActive = true
+        collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createListLayout())
+        collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        self.view.addSubview(collectionView)
 
         collectionView.backgroundColor = .white
         collectionView.register(CollectionViewGridCell.self, forCellWithReuseIdentifier: CollectionViewGridCell.cellID)
         collectionView.register(CollectionViewListCell.self, forCellWithReuseIdentifier: CollectionViewListCell.cellID)
+
+        collectionView.dataSource = dataSource
+        collectionView.delegate = self
+        collectionView.prefetchDataSource = dataSource
     }
 
     override func viewWillLayoutSubviews() {
@@ -68,13 +57,16 @@ class MainViewController: UIViewController {
         case 0:
             print("list")
             aaa.isListView = true
+            collectionView.collectionViewLayout = createListLayout()
+            collectionView.reloadData()
         case 1:
             print("grid")
             aaa.isListView = false
+            collectionView.collectionViewLayout = createGridLayout()
+            collectionView.reloadData()
         default:
             return
         }
-        collectionView.reloadData()
     }
 }
 
@@ -89,36 +81,34 @@ extension CGFloat {
     }
 }
 
+@available(iOS 14.0, *)
+extension MainViewController {
+    private func createListLayout() -> UICollectionViewLayout {
+        let config = UICollectionLayoutListConfiguration(appearance: .plain)
+        return UICollectionViewCompositionalLayout.list(using: config)
+    }
+    private func createGridLayout() -> UICollectionViewLayout {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(0.3))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 2)
+        let spacing = CGFloat(10)
+        group.interItemSpacing = .fixed(spacing)
+
+        let section = NSCollectionLayoutSection(group: group)
+        section.interGroupSpacing = spacing
+        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10)
+        let layout = UICollectionViewCompositionalLayout(section: section)
+        return layout
+    }
+}
+
+
 // MARK: Extension for UICollectionViewDelegateFlowLayout
 @available(iOS 14.0, *)
-extension MainViewController: UICollectionViewDelegateFlowLayout {
-    var insetForSection: CGFloat {
-        return 10
-    }
-    var insetForCellSpacing: CGFloat {
-        return 10
-    }
-    var cellForEachRow: Int {
-        return 2
-    }
-
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        if aaa.isListView {
-            let width = collectionView.frame.width
-            let height = collectionView.frame.height / 12
-            return CGSize(width: width, height: height)
-        } else {
-            let width = (collectionView.frame.width - (insetForSection * 2 + insetForCellSpacing * (cellForEachRow - 1))) / cellForEachRow
-            let height = width * 1.4
-            return CGSize(width: width, height: height)
-        }
-    }
-
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return insetForCellSpacing
-    }
-
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: insetForSection, left: insetForSection, bottom: insetForSection, right: insetForSection)
+extension MainViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        debugPrint(indexPath.row)
     }
 }

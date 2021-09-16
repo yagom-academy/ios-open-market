@@ -28,7 +28,6 @@
 		8969DED026E7D79F0076FF43 /* ImageCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8969DECF26E7D79C0076FF43 /* ImageCacheManager.swift */; };
 		898E4D1726EB4EEA009DB810 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 898E4D1626EB4EEA009DB810 /* DetailViewController.swift */; };
 		898E4D1D26EDC63D009DB810 /* CollectionViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 898E4D1C26EDC63D009DB810 /* CollectionViewDataSource.swift */; };
-		898E4D2326EF840A009DB810 /* CollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 898E4D2226EF840A009DB810 /* CollectionViewFlowLayout.swift */; };
 		898E4D2526EFAF62009DB810 /* CollectionViewListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 898E4D2426EFAF62009DB810 /* CollectionViewListCell.swift */; };
 		898E4D2726F07A9C009DB810 /* CollectionViewSingleton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 898E4D2626F07A9C009DB810 /* CollectionViewSingleton.swift */; };
 		9F489BEE295A2DA0AFB27C7E /* Pods_OpenMarketTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 084601D81DD8CAA785CA61B5 /* Pods_OpenMarketTests.framework */; };
@@ -77,7 +76,6 @@
 		8969DECF26E7D79C0076FF43 /* ImageCacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCacheManager.swift; sourceTree = "<group>"; };
 		898E4D1626EB4EEA009DB810 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		898E4D1C26EDC63D009DB810 /* CollectionViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewDataSource.swift; sourceTree = "<group>"; };
-		898E4D2226EF840A009DB810 /* CollectionViewFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewFlowLayout.swift; sourceTree = "<group>"; };
 		898E4D2426EFAF62009DB810 /* CollectionViewListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewListCell.swift; sourceTree = "<group>"; };
 		898E4D2626F07A9C009DB810 /* CollectionViewSingleton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewSingleton.swift; sourceTree = "<group>"; };
 		AFEFBA843445F73C25EA76E9 /* Pods-OpenMarket.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenMarket.release.xcconfig"; path = "Target Support Files/Pods-OpenMarket/Pods-OpenMarket.release.xcconfig"; sourceTree = "<group>"; };
@@ -149,7 +147,6 @@
 				8969DEAB26E220DE0076FF43 /* CollectionViewGridCell.swift */,
 				898E4D2426EFAF62009DB810 /* CollectionViewListCell.swift */,
 				898E4D1C26EDC63D009DB810 /* CollectionViewDataSource.swift */,
-				898E4D2226EF840A009DB810 /* CollectionViewFlowLayout.swift */,
 				8930692626DF8ADC00DA9A8F /* CustomJSONDecoder.swift */,
 				898E4D2626F07A9C009DB810 /* CollectionViewSingleton.swift */,
 			);
@@ -427,7 +424,6 @@
 				891A984526DDF766006A0E2B /* RequestAPI.swift in Sources */,
 				8969DED026E7D79F0076FF43 /* ImageCacheManager.swift in Sources */,
 				8930692526DF830B00DA9A8F /* MockURLSession.swift in Sources */,
-				898E4D2326EF840A009DB810 /* CollectionViewFlowLayout.swift in Sources */,
 				898E4D1726EB4EEA009DB810 /* DetailViewController.swift in Sources */,
 				8930692726DF8ADC00DA9A8F /* CustomJSONDecoder.swift in Sources */,
 				891A984326DDECBA006A0E2B /* NetworkManager.swift in Sources */,
