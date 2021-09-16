@@ -7,10 +7,12 @@
 import UIKit
 @available(iOS 14.0, *)
 class MainViewController: UIViewController {
-    let dataSource = CollectionViewDataSource()
-    var collectionView: UICollectionView!
-    let aaa = CollectionViewProperty.shared
     var layout: UICollectionViewLayout!
+    private let dataSource = CollectionViewDataSource()
+    private let delegate = CollectionViewDelegate()
+    private var collectionView: UICollectionView!
+    private let layoutType = CollectionViewProperty.shared
+
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -18,7 +20,7 @@ class MainViewController: UIViewController {
         dataSource.requestNextPage(collectionView: collectionView)
     }
 
-    func configureViewController() {
+    private func configureViewController() {
         self.title = "야아마켓"
         self.view.backgroundColor = .white
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(submit(_:)))
@@ -38,13 +40,8 @@ class MainViewController: UIViewController {
         collectionView.register(CollectionViewListCell.self, forCellWithReuseIdentifier: CollectionViewListCell.cellID)
 
         collectionView.dataSource = dataSource
-        collectionView.delegate = self
+        collectionView.delegate = delegate
         collectionView.prefetchDataSource = dataSource
-    }
-
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
-        collectionView.collectionViewLayout.invalidateLayout()
     }
 
     @objc func submit(_ sender: Any) {
@@ -56,28 +53,17 @@ class MainViewController: UIViewController {
         switch sender.selectedSegmentIndex {
         case 0:
             print("list")
-            aaa.isListView = true
+            layoutType.isListView = true
             collectionView.collectionViewLayout = createListLayout()
             collectionView.reloadData()
         case 1:
             print("grid")
-            aaa.isListView = false
+            layoutType.isListView = false
             collectionView.collectionViewLayout = createGridLayout()
             collectionView.reloadData()
         default:
             return
         }
-    }
-}
-
-// MARK: Extension for configure CGFloat operand
-extension CGFloat {
-    static func / (lhs: CGFloat, rhs: Int) -> CGFloat {
-        return lhs / CGFloat(rhs)
-    }
-
-    static func * (lhs: CGFloat, rhs: Int) -> CGFloat {
-        return lhs * CGFloat(rhs)
     }
 }
 
@@ -101,14 +87,5 @@ extension MainViewController {
         section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10)
         let layout = UICollectionViewCompositionalLayout(section: section)
         return layout
-    }
-}
-
-
-// MARK: Extension for UICollectionViewDelegateFlowLayout
-@available(iOS 14.0, *)
-extension MainViewController: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        debugPrint(indexPath.row)
     }
 }

@@ -10,13 +10,46 @@ import UIKit
 @available(iOS 14.0, *)
 class CollectionViewListCell: UICollectionViewListCell {
     static let cellID = "ListCell"
-    private func defaultListContentConfiguration() -> UIListContentConfiguration {
-        return .subtitleCell()
-    }
     private lazy var listContentView = UIListContentView(configuration: defaultListContentConfiguration())
     private let stockLabel = UILabel()
     private var customViewConstraints: (stockLabelLeading: NSLayoutConstraint,
                                         stockLabelTrailing: NSLayoutConstraint)?
+
+    func configureCell(item: Item) {
+        setupViewsIfNeeded()
+        var content = defaultListContentConfiguration()
+        item.image { image in
+            DispatchQueue.main.async {
+                content.image = image
+                content.imageProperties.maximumSize = CGSize(width: 40, height: 37)
+                self.listContentView.configuration = content
+            }
+        }
+
+        content.text = item.title
+        content.textProperties.numberOfLines = 1
+
+        let priceWithCurrency = item.currency + " " + item.price.withDigit
+        if let discountedPrice = item.discountedPrice {
+            let discountedPriceWithCurrency = item.currency + " " + discountedPrice.withDigit
+            content.secondaryAttributedText = priceWithCurrency.redStrikeThrough() + " " + discountedPriceWithCurrency
+        } else {
+            content.secondaryText = priceWithCurrency
+        }
+        content.secondaryTextProperties.color = .gray
+
+        if item.stock == 0 {
+            stockLabel.text = "품절"
+            stockLabel.textColor = .orange
+            stockLabel.textAlignment = .right
+        } else {
+            stockLabel.text = "잔여수량 : \(item.stock.withDigit)"
+            stockLabel.textColor = .gray
+            stockLabel.textAlignment = .left
+        }
+
+        listContentView.configuration = content
+    }
 
     private func setupViewsIfNeeded() {
         guard customViewConstraints == nil else { return }
@@ -48,51 +81,7 @@ class CollectionViewListCell: UICollectionViewListCell {
         self.accessories = [.disclosureIndicator()]
     }
 
-    func configureCell(item: Item) {
-        setupViewsIfNeeded()
-        var content = defaultListContentConfiguration()
-        item.image { image in
-            DispatchQueue.main.async {
-                content.image = image
-                content.imageProperties.maximumSize = CGSize(width: 40, height: 37)
-                self.listContentView.configuration = content
-            }
-        }
-        content.text = item.title
-        content.textProperties.numberOfLines = 1
-        let priceWithCurrency = item.currency + " " + item.price.withDigit
-        if let discountedPrice = item.discountedPrice {
-            let discountedPriceWithCurrency = item.currency + " " + discountedPrice.withDigit
-            content.secondaryAttributedText = priceWithCurrency.redStrikeThrough() + " " + discountedPriceWithCurrency
-        } else {
-            content.secondaryText = priceWithCurrency
-        }
-        content.secondaryTextProperties.color = .gray
-
-        if item.stock == 0 {
-            stockLabel.text = "품절"
-            stockLabel.textColor = .orange
-            stockLabel.textAlignment = .right
-        } else {
-            stockLabel.text = "잔여수량 : \(item.stock.withDigit)"
-            stockLabel.textColor = .gray
-            stockLabel.textAlignment = .left
-        }
-
-        listContentView.configuration = content
-    }
-
-    override func prepareForReuse() {
-        super.prepareForReuse()
-    }
-}
-
-extension NSAttributedString {
-    static func + (lhs: NSAttributedString, rhs: String) -> NSAttributedString {
-        let rhs = NSAttributedString(string: rhs)
-        let resultString = NSMutableAttributedString()
-        resultString.append(lhs)
-        resultString.append(rhs)
-        return resultString
+    private func defaultListContentConfiguration() -> UIListContentConfiguration {
+        return .subtitleCell()
     }
 }

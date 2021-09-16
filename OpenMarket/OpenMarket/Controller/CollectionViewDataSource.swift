@@ -9,9 +9,9 @@ import UIKit
 
 @available(iOS 14.0, *)
 class CollectionViewDataSource: NSObject, UICollectionViewDataSource {
-    var items: [Item] = []
-    let networkManager = NetworkManager()
-    var page: Int = 1
+    private var items: [Item] = []
+    private let networkManager = NetworkManager()
+    private var page: Int = 1
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return items.count
@@ -49,6 +49,7 @@ class CollectionViewDataSource: NSObject, UICollectionViewDataSource {
         }
     }
 }
+
 @available(iOS 14.0, *)
 extension CollectionViewDataSource: UICollectionViewDataSourcePrefetching {
     func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {

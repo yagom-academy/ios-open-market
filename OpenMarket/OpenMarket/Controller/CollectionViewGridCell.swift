@@ -9,16 +9,15 @@ import UIKit
 
 class CollectionViewGridCell: UICollectionViewCell {
     static let cellID = "GridCell"
-    var imageView: UIImageView!
-    var stackView: UIStackView!
-    var titleLabel: UILabel!
-    var priceLabel: UILabel!
-    var discountedPriceLabel: UILabel!
-    var stockLabel: UILabel!
+    private var imageView = UIImageView()
+    private var stackView = UIStackView()
+    private var titleLabel = UILabel()
+    private var priceLabel = UILabel()
+    private var discountedPriceLabel = UILabel()
+    private var stockLabel = UILabel()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        debugPrint("init Cell")
         setUpCellComponent()
         setUpConstraints()
         setUpStyle()
@@ -28,14 +27,45 @@ class CollectionViewGridCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    private func setUpCellComponent() {
-        imageView = UIImageView()
-        stackView = UIStackView()
-        titleLabel = UILabel()
-        priceLabel = UILabel()
-        discountedPriceLabel = UILabel()
-        stockLabel = UILabel()
+    func configureCell(item: Item) {
+        item.image { image in
+            DispatchQueue.main.async {
+                self.imageView.image = image
+            }
+        }
 
+        titleLabel.text = item.title
+        let priceWithCurrency = item.currency + " " + item.price.withDigit
+
+        if let discountedPrice = item.discountedPrice {
+            priceLabel.attributedText = priceWithCurrency.redStrikeThrough()
+            priceLabel.textColor = .red
+            discountedPriceLabel.text = item.currency + " " + discountedPrice.withDigit
+            discountedPriceLabel.textColor = .gray
+            discountedPriceLabel.isHidden = false
+        } else {
+            priceLabel.text = priceWithCurrency
+            priceLabel.textColor = .gray
+        }
+
+        if item.stock == 0 {
+            stockLabel.text = "품절"
+            stockLabel.textColor = .orange
+        } else {
+            stockLabel.text = "잔여수량 : \(item.stock.withDigit)"
+            stockLabel.textColor = .gray
+        }
+    }
+
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        imageView.image = .none
+        priceLabel.attributedText = nil
+        discountedPriceLabel.text = .none
+        discountedPriceLabel.isHidden = true
+    }
+
+    private func setUpCellComponent() {
         stackView.alignment = .center
         stackView.axis = .vertical
         stackView.distribution = .fillEqually
@@ -80,61 +110,5 @@ class CollectionViewGridCell: UICollectionViewCell {
         priceLabel.adjustsFontSizeToFitWidth = true
         discountedPriceLabel.adjustsFontSizeToFitWidth = true
         stockLabel.adjustsFontSizeToFitWidth = true
-    }
-
-    func configureCell(item: Item) {
-        item.image { image in
-            DispatchQueue.main.async {
-                self.imageView.image = image
-            }
-        }
-
-        titleLabel.text = item.title
-        let priceWithCurrency = item.currency + " " + item.price.withDigit
-
-        if let discountedPrice = item.discountedPrice {
-            priceLabel.attributedText = priceWithCurrency.redStrikeThrough()
-            priceLabel.textColor = .red
-            discountedPriceLabel.text = item.currency + " " + discountedPrice.withDigit
-            discountedPriceLabel.textColor = .gray
-            discountedPriceLabel.isHidden = false
-        } else {
-            priceLabel.text = priceWithCurrency
-            priceLabel.textColor = .gray
-        }
-
-        if item.stock == 0 {
-            stockLabel.text = "품절"
-            stockLabel.textColor = .orange
-        } else {
-            stockLabel.text = "잔여수량 : \(item.stock.withDigit)"
-            stockLabel.textColor = .gray
-        }
-    }
-
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        imageView.image = .none
-        priceLabel.attributedText = nil
-        discountedPriceLabel.text = .none
-        discountedPriceLabel.isHidden = true
-    }
-}
-
-extension String {
-    func redStrikeThrough() -> NSAttributedString {
-        let attributeString: NSMutableAttributedString = NSMutableAttributedString(string: self)
-        attributeString.addAttribute(NSAttributedString.Key.strikethroughStyle, value: NSUnderlineStyle.single.rawValue, range: NSMakeRange(0, attributeString.length))
-        attributeString.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.red, range: NSMakeRange(0, attributeString.length))
-        return attributeString
-    }
-}
-
-extension Int {
-    var withDigit: String {
-        let numberFormatter = NumberFormatter()
-        numberFormatter.numberStyle = .decimal
-        let result = numberFormatter.string(for: self) ?? ""
-        return result
     }
 }
