@@ -45,6 +45,11 @@ struct MultipartFormData {
         return param
     }
     
+    var idParameter: Int {
+        guard let id = id else { return 0}
+        return id
+    }
+    
     func judgeNil(essentialParameter: EssentialPublicElement, completionHandler: @escaping(Any?) -> Void) {
         var judgeArray: [Any?] = []
         if essentialParameter == .post {

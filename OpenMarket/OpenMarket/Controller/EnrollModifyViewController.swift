@@ -66,7 +66,7 @@ class EnrollModifyViewController: UIViewController {
                     image: enrollModifyCollectionViewDataSource.medias)
         } else {
             self.postAndPatchImpormation =
-                PatchImpormation(id: passAPI.id ?? 0, parameter: passAPI.parameter,
+                PatchImpormation(id: passAPI.idParameter, parameter: passAPI.parameter,
                                  image: enrollModifyCollectionViewDataSource.medias)
         }
     }
