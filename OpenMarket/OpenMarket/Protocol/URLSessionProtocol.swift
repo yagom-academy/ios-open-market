@@ -28,12 +28,10 @@ extension URLSessionProtocol {
         guard let response = response as? HTTPURLResponse,
               (rangeOfSuccessState).contains(response.statusCode) else {
             return .failure(.requestFailed)
-            
         }
         guard let data = data else {
             return .failure(.dataNotfound)
         }
-        
         return .success(data)
     }
 }

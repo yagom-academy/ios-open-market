@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 struct MultipartFormData {
     var title: String?
@@ -14,10 +15,10 @@ struct MultipartFormData {
     var currency: String?
     var stock: Int?
     var discountedPrice: Int?
-    let password: String
+    var password: String?
     
     var parameter: [String: Any] {
-        var param: [String: Any] = ["password": self.password]
+        var param: [String: Any] = [:]
         
         if let title = self.title {
             param["title"] = title
@@ -37,7 +38,22 @@ struct MultipartFormData {
         if let discountedPrice = self.discountedPrice {
             param["discounted_price"] = discountedPrice
         }
+        if let password = self.password {
+            param["password"] = password
+        }
         return param
+    }
+    
+    func judgeNil(essentialParameter: EssentialPublicElement, completionHandler: @escaping(Any?) -> Void) {
+        var judgeArray: [Any?] = []
+        if essentialParameter == .post {
+            judgeArray = [self.title, self.descriptions, self.price, self.currency, self.stock, self.password]
+        } else if essentialParameter == .patch {
+            judgeArray = [self.password]
+        }
+        judgeArray.forEach { value in
+            completionHandler(value)
+        }
     }
 }
 

@@ -9,7 +9,7 @@ import UIKit
 
 class EnrollModifyListCell: UICollectionViewCell {
     static let identifier = String(describing: EnrollModifyListCell.self)
-    private let listTextField: UITextField = {
+    let listTextField: UITextField = {
         let textField = UITextField()
         return textField
     }()
@@ -31,7 +31,8 @@ class EnrollModifyListCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(placeholderList: String) {
-        listTextField.placeholder = placeholderList
+    func configure(placeholderList: String, dataSource: EnrollModifyCollectionViewDataSource) {
+        listTextField.placeholder = placeholderList.description
+//        listTextField.delegate = dataSource
     }
 }

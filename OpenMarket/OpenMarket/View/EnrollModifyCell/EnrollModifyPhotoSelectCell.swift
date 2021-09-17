@@ -9,6 +9,9 @@ import UIKit
 
 class EnrollModifyPhotoSeclectCell: UICollectionViewCell {
     static let identifier = String(describing: EnrollModifyPhotoSeclectCell.self)
+    private let cameraImage = UIImage(systemName: "camera")
+    private let photoTotalNumber = 5
+    private var photoSelectNumber = 0
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -20,10 +23,12 @@ class EnrollModifyPhotoSeclectCell: UICollectionViewCell {
         self.layer.cornerRadius = 10
         self.layer.borderWidth = 1
         self.layer.borderColor = UIColor.black.cgColor
-        
     }
     
     func configure(photoSelectButton: UIButton) {
+        photoSelectButton.setTitle(
+            "\(photoSelectNumber)/\(photoTotalNumber)", for: .normal)
+        photoSelectButton.setImage(cameraImage, for: .normal)
         photoSelectButton.setTitleColor(.black, for: .normal)
         photoSelectButton.tintColor = .black
         contentView.addSubview(photoSelectButton)

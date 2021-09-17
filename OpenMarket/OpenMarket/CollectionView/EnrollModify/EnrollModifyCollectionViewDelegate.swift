@@ -20,6 +20,7 @@ extension EnrollModifyCollectionViewDelegate: UICollectionViewDelegate {
             guard let photoIndexPaths = collectionView.indexPathsForSelectedItems else { return }
             for indexPath in photoIndexPaths {
                 enrollModifyCollectionViewDataSource?.photoAlbumImages.remove(at: indexPath.item - 1)
+                enrollModifyCollectionViewDataSource?.medias.remove(at: indexPath.item - 1)
             }
             collectionView.deleteItems(at: photoIndexPaths)
     }

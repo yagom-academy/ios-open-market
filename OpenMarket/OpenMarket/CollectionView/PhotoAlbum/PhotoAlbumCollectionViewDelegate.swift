@@ -11,19 +11,13 @@ class PhotoAlbumCollectionViewDelegate: NSObject {
     private var selectIndexPathDictionary: [IndexPath: Bool] = [:]
     
     func selectPhotoIndex() -> [Int] {
-        var needIndexPath: [Int] = [] {
-            willSet {
-                
-            }
-        }
+        var needIndexPath: [Int] = []
         for (key, value) in selectIndexPathDictionary {
             if value {
                 needIndexPath.append(key.item)
             }
         }
-        print(needIndexPath)
         return needIndexPath
-        
     }
 }
 

@@ -105,11 +105,15 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="상품" id="vCe-Sa-OsE">
-                        <barButtonItem key="rightBarButtonItem" title="등록/수정" id="nbr-DO-aAm"/>
+                        <barButtonItem key="rightBarButtonItem" title="등록/수정" id="nbr-DO-aAm">
+                            <connections>
+                                <action selector="enrollModifyButton:" destination="wPx-el-zEx" id="ImT-V8-bvY"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="collectionView" destination="w8S-qU-THC" id="jWD-PM-fgb"/>
-                        <outlet property="postPatchButton" destination="nbr-DO-aAm" id="fqE-T8-qcW"/>
+                        <outlet property="collectionView" destination="w8S-qU-THC" id="5K7-tD-SzD"/>
+                        <outlet property="postPatchButton" destination="nbr-DO-aAm" id="adB-e3-J01"/>
                         <segue destination="qV7-sz-8NO" kind="show" identifier="presentToPhotoAlbum" id="jXp-GX-rOG"/>
                     </connections>
                 </viewController>

@@ -12,7 +12,6 @@ struct Request {
         guard let url = URL(string: api.url.path) else {
             throw NetworkError.invalidURL
         }
-        
         var request = URLRequest(url: url)
         request.httpMethod = api.httpMethod.value
         request.setValue(api.contentType.format,
@@ -26,6 +25,7 @@ struct Request {
         } else if let api = api as? RequestableWithMultipartForm {
             let body = createBody(params: api.parameter, image: api.image)
             request.httpBody = body
+            print(String(decoding: body, as: UTF8.self))
         }
         return request
     }
