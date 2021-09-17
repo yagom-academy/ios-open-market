@@ -15,12 +15,16 @@ class PhotoAlbumCollecionViewDataSource: NSObject {
 }
 
 extension PhotoAlbumCollecionViewDataSource: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView,
+                        numberOfItemsInSection section: Int) -> Int {
         photoAlbumImages.count
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotoAlbumCell.identifier, for: indexPath) as? PhotoAlbumCell else { return UICollectionViewCell() }
+    func collectionView(_ collectionView: UICollectionView,
+                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell =
+                collectionView.dequeueReusableCell(withReuseIdentifier: PhotoAlbumCell.identifier, for: indexPath) as?
+                PhotoAlbumCell else { return UICollectionViewCell() }
         
         let photoAlbumImageForItem = photoAlbumImages[indexPath.item]
         cell.configure(image: photoAlbumImageForItem)
@@ -45,7 +49,8 @@ extension PhotoAlbumCollecionViewDataSource: UICollectionViewDataSource {
         PHPhotoLibrary.requestAuthorization { (status) in
             if status == .authorized {
                 DispatchQueue.main.async {
-                    self.photoAlbumImages = self.photoAlbumManager.convertPhotoAlbumImage()
+                    self.photoAlbumImages =
+                        self.photoAlbumManager.convertPhotoAlbumImage()
                     collectionView.reloadData()
                 }
             }

@@ -22,16 +22,19 @@ extension EnrollModifyCollectionViewDataSource: UICollectionViewDataSource {
         2
     }
     
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView,
+                        numberOfItemsInSection section: Int) -> Int {
         if section == .zero {
             return photoAlbumImages.count + photoSelectButton.count
         }
         return placeholderList.count
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView,
+                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if indexPath.item == .zero && indexPath.section == .zero {
-            guard let photoSelectCell = collectionView.dequeueReusableCell(withReuseIdentifier: EnrollModifyPhotoSeclectCell.identifier, for: indexPath) as? EnrollModifyPhotoSeclectCell else {
+            guard let photoSelectCell =
+                    collectionView.dequeueReusableCell(withReuseIdentifier: EnrollModifyPhotoSeclectCell.identifier, for: indexPath) as? EnrollModifyPhotoSeclectCell else {
                 return UICollectionViewCell()
             }
             let btn = photoSelectButton[indexPath.item]
@@ -40,7 +43,8 @@ extension EnrollModifyCollectionViewDataSource: UICollectionViewDataSource {
             return photoSelectCell
         }
         if indexPath.item != .zero && indexPath.section == .zero {
-            guard let photoCell = collectionView.dequeueReusableCell(withReuseIdentifier: EnrollModifyPhotoCell.identifier, for: indexPath) as? EnrollModifyPhotoCell else {
+            guard let photoCell =
+                    collectionView.dequeueReusableCell(withReuseIdentifier: EnrollModifyPhotoCell.identifier, for: indexPath) as? EnrollModifyPhotoCell else {
                 return UICollectionViewCell()
             }
             let photoAlbumImageForItem = photoAlbumImages[indexPath.item - 1]
@@ -48,11 +52,13 @@ extension EnrollModifyCollectionViewDataSource: UICollectionViewDataSource {
             
             return photoCell
         } else {
-            guard let listCell = collectionView.dequeueReusableCell(withReuseIdentifier: EnrollModifyListCell.identifier, for: indexPath) as? EnrollModifyListCell else {
+            guard let listCell =
+                    collectionView.dequeueReusableCell(withReuseIdentifier: EnrollModifyListCell.identifier, for: indexPath) as? EnrollModifyListCell else {
                 return UICollectionViewCell()
             }
             let placeholderForItem = placeholderList[indexPath.item]
-            listCell.configure(placeholderList: placeholderForItem.description, dataSource: self)
+            listCell.configure(
+                placeholderList: placeholderForItem.description, dataSource: self)
             
             return listCell
         }
@@ -89,21 +95,26 @@ extension EnrollModifyCollectionViewDataSource: UICollectionViewDataSource {
         }
     }
     
-    func PassListCellData(collectionView: UICollectionView) -> [String: String?] {
+    func PassListCellData(
+        collectionView: UICollectionView) -> [String: String?] {
         var textFieldDataPass: [String: String?] = [:]
         for row in 0 ..< collectionView.numberOfItems(inSection: 1) {
             let indexPath = NSIndexPath(row: row, section: 1)
-            guard let cell = collectionView.cellForItem(at: indexPath as IndexPath) as? EnrollModifyListCell else {return ["": ""]}
-            textFieldDataPass[placeholderList[indexPath.item]] = cell.listTextField.text
+            guard let cell =
+                    collectionView.cellForItem(at: indexPath as IndexPath) as? EnrollModifyListCell else {return ["": ""]}
+            textFieldDataPass[placeholderList[indexPath.item]] =
+                cell.listTextField.text
         }
         return textFieldDataPass
     }
     
-    func CheckCellData(collectionView: UICollectionView) -> [String: Bool] {
+    func CheckCellData(
+        collectionView: UICollectionView) -> [String: Bool] {
         var textFieldDataCheck: [String: Bool] = [:]
         for row in 0 ..< collectionView.numberOfItems(inSection: 1) {
             let indexPath = NSIndexPath(row: row, section: 1)
-            guard let cell = collectionView.cellForItem(at: indexPath as IndexPath) as? EnrollModifyListCell else { return ["": true]}
+            guard let cell =
+                    collectionView.cellForItem(at: indexPath as IndexPath) as? EnrollModifyListCell else { return ["": true]}
             textFieldDataCheck[placeholderList[indexPath.item]] = cell.listTextField.text?.isEmpty
         }
         return textFieldDataCheck
@@ -111,7 +122,8 @@ extension EnrollModifyCollectionViewDataSource: UICollectionViewDataSource {
     
     func passPhotoImage(images: [UIImage]) {
         for image in images {
-            guard let media = Media(image: image, mimeType: .png) else { return }
+            guard let media =
+                    Media(image: image, mimeType: .png) else { return }
             medias.append(media)
         }
     }

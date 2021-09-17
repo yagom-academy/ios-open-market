@@ -20,9 +20,7 @@ class OpenMarketViewController: UIViewController {
         
         processCollectionView()
         registeredIdetifier()
-        openMarketCollecionViewDataSource.decidedListLayout(collectionView)
-        openMarketCollecionViewDataSource.requestProductList(collectionView)
-        openMarketCollecionViewDataSource.loadingIndicator = self
+        setUpDataSourceContent()
     }
     
     override func viewWillLayoutSubviews() {
@@ -40,6 +38,12 @@ class OpenMarketViewController: UIViewController {
     private func registeredIdetifier() {
         collectionView.register(UINib(nibName: ProductCell.listNibName, bundle: nil), forCellWithReuseIdentifier: ProductCell.listIdentifier)
         collectionView.register(UINib(nibName: ProductCell.gridNibName, bundle: nil), forCellWithReuseIdentifier: ProductCell.gridItentifier)
+    }
+    
+    private func setUpDataSourceContent() {
+        openMarketCollecionViewDataSource.decidedListLayout(collectionView)
+        openMarketCollecionViewDataSource.requestProductList(collectionView)
+        openMarketCollecionViewDataSource.loadingIndicator = self
     }
     
     @IBAction func onCollectionViewTypeChanged(_ sender: UISegmentedControl) {
@@ -64,20 +68,30 @@ extension OpenMarketViewController: LoadingIndicatable {
 extension OpenMarketViewController {
     @IBAction func enrollModifyButton(_ sender: Any) {
         let alert = UIAlertController()
-        let enroll = UIAlertAction(title: Self.alertSelect.enroll, style: .default) { _ in
-            self.performSegue(withIdentifier: Self.segueIdentifier, sender: Self.alertSelect.enroll)
+        let enroll = UIAlertAction(
+            title: Self.alertSelect.enroll, style: .default) { _ in
+            self.performSegue(
+                withIdentifier: Self.segueIdentifier,
+                sender: Self.alertSelect.enroll)
         }
-        let modify = UIAlertAction(title: Self.alertSelect.modify, style: .default) { _ in
-            self.performSegue(withIdentifier: Self.segueIdentifier, sender: Self.alertSelect.modify)
+        let modify = UIAlertAction(
+            title: Self.alertSelect.modify, style: .default) { _ in
+            self.performSegue(
+                withIdentifier: Self.segueIdentifier,
+                sender: Self.alertSelect.modify)
         }
-        let cancel = UIAlertAction(title: Self.alertSelect.cancel, style: .cancel, handler: nil)
+        let cancel = UIAlertAction(
+            title: Self.alertSelect.cancel,
+            style: .cancel, handler: nil)
         alert.addAction(enroll)
         alert.addAction(modify)
         alert.addAction(cancel)
         present(alert, animated: true, completion: nil)
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    override func prepare(
+        for segue: UIStoryboardSegue,
+        sender: Any?) {
         guard let enrollModifyViewController =
                 segue.destination as? EnrollModifyViewController else { return }
         guard let labelString = sender as? String else { return }

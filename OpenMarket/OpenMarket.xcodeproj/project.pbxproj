@@ -49,8 +49,6 @@
 		4DDBF7D926EA0064006CB2DF /* OpenMarketViewControllerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DDBF7D826EA0064006CB2DF /* OpenMarketViewControllerProtocol.swift */; };
 		4DDBF7DB26EA25D1006CB2DF /* CALayer+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DDBF7DA26EA25D1006CB2DF /* CALayer+extension.swift */; };
 		4DDC49FF26EF694A006CF500 /* PhotoAlbumManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DDC49FE26EF694A006CF500 /* PhotoAlbumManager.swift */; };
-		4DF1C5CA26EDD692004FB065 /* UIApplication+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DF1C5C926EDD692004FB065 /* UIApplication+extension.swift */; };
-		4DF1C5CC26EDD74B004FB065 /* UIImageView+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DF1C5CB26EDD74B004FB065 /* UIImageView+extension.swift */; };
 		4DF1C5CF26EDDBB2004FB065 /* PhotoAlbumCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DF1C5CE26EDDBB2004FB065 /* PhotoAlbumCell.swift */; };
 		4DF1C5D426EDFA95004FB065 /* PhotoAlbumCollecionViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DF1C5D326EDFA95004FB065 /* PhotoAlbumCollecionViewDataSource.swift */; };
 		4DF1C5D626EE27FD004FB065 /* PhotoAlbumCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4DF1C5D526EE27FD004FB065 /* PhotoAlbumCell.xib */; };
@@ -123,8 +121,6 @@
 		4DDBF7D826EA0064006CB2DF /* OpenMarketViewControllerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketViewControllerProtocol.swift; sourceTree = "<group>"; };
 		4DDBF7DA26EA25D1006CB2DF /* CALayer+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CALayer+extension.swift"; sourceTree = "<group>"; };
 		4DDC49FE26EF694A006CF500 /* PhotoAlbumManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoAlbumManager.swift; sourceTree = "<group>"; };
-		4DF1C5C926EDD692004FB065 /* UIApplication+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+extension.swift"; sourceTree = "<group>"; };
-		4DF1C5CB26EDD74B004FB065 /* UIImageView+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+extension.swift"; sourceTree = "<group>"; };
 		4DF1C5CE26EDDBB2004FB065 /* PhotoAlbumCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoAlbumCell.swift; sourceTree = "<group>"; };
 		4DF1C5D326EDFA95004FB065 /* PhotoAlbumCollecionViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoAlbumCollecionViewDataSource.swift; sourceTree = "<group>"; };
 		4DF1C5D526EE27FD004FB065 /* PhotoAlbumCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PhotoAlbumCell.xib; sourceTree = "<group>"; };
@@ -213,8 +209,6 @@
 				4DD2129E26E6E92300002143 /* String+extension.swift */,
 				4DD212A026E6EB7500002143 /* Int+extension.swift */,
 				4DDBF7DA26EA25D1006CB2DF /* CALayer+extension.swift */,
-				4DF1C5C926EDD692004FB065 /* UIApplication+extension.swift */,
-				4DF1C5CB26EDD74B004FB065 /* UIImageView+extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -637,10 +631,8 @@
 				4D71100126E6666B007AF8F0 /* OpenMarketCollectionViewDataSource.swift in Sources */,
 				4DF1CFB426F11E3A000AB2CA /* EnrollModifyEnum.swift in Sources */,
 				4DAF17B226EB8C020099F7FB /* EnrollModifyPhotoCell.swift in Sources */,
-				4DF1C5CC26EDD74B004FB065 /* UIImageView+extension.swift in Sources */,
 				4D79E83226DF21FA006AEDCE /* Parameter.swift in Sources */,
 				4DDBF7D726E9FE48006CB2DF /* CompositionalLayoutEnum.swift in Sources */,
-				4DF1C5CA26EDD692004FB065 /* UIApplication+extension.swift in Sources */,
 				4DD98C9F26E39C4D0076CEA5 /* ProductCell.swift in Sources */,
 				4D014F6326DE3040002CDE67 /* RequestAPI.swift in Sources */,
 				4DAF17AE26EB2FF70099F7FB /* EnrollModifyCollectionViewDataSource.swift in Sources */,

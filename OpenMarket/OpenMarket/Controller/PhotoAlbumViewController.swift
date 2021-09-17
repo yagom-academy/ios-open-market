@@ -9,19 +9,20 @@ import UIKit
 
 class PhotoAlbumViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
-    private let photoAlbumCollecionViewDataSource = PhotoAlbumCollecionViewDataSource()
-    private let photoAlbumCollectionViewDelegate = PhotoAlbumCollectionViewDelegate()
+    private let photoAlbumCollecionViewDataSource =
+        PhotoAlbumCollecionViewDataSource()
+    private let photoAlbumCollectionViewDelegate =
+        PhotoAlbumCollectionViewDelegate()
     static let identifier = "PhotoAlbumVC"
     var selected: (([UIImage]) -> Void)?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        photoAlbumCollecionViewDataSource.decidedListLayout(collectionView)
-        photoAlbumCollecionViewDataSource.requestImage(collectionView: collectionView)
-        collectionView.delegate = photoAlbumCollectionViewDelegate
-        collectionView.dataSource = photoAlbumCollecionViewDataSource
-        collectionView.register(UINib(nibName: PhotoAlbumCell.nibName, bundle: nil), forCellWithReuseIdentifier: PhotoAlbumCell.identifier)
+    
+        processCollectionView()
+        setUpDataSourceContent()
+        decidedCollectionViewLayout()
+        registeredIdetifier()
     }
     
     override func viewWillLayoutSubviews() {
@@ -30,7 +31,27 @@ class PhotoAlbumViewController: UIViewController {
         collectionView.reloadData()
     }
     
-    func selectPhotoAlbumImage() -> [UIImage] {
+    private func processCollectionView() {
+        collectionView.delegate = photoAlbumCollectionViewDelegate
+        collectionView.dataSource = photoAlbumCollecionViewDataSource
+    }
+    
+    private func setUpDataSourceContent() {
+        photoAlbumCollecionViewDataSource.requestImage(
+            collectionView: collectionView)
+    }
+    
+   private func decidedCollectionViewLayout() {
+        photoAlbumCollecionViewDataSource.decidedListLayout(collectionView)
+    }
+    
+    private func registeredIdetifier() {
+        collectionView.register(
+            UINib(nibName: PhotoAlbumCell.nibName, bundle: nil),
+            forCellWithReuseIdentifier: PhotoAlbumCell.identifier)
+    }
+    
+    private func selectPhotoAlbumImage() -> [UIImage] {
         let indexes = photoAlbumCollectionViewDelegate.selectPhotoIndex()
         let photoAlbumImages = photoAlbumCollecionViewDataSource.photoAlbumImages
         let selectPhotos = indexes.map { photoAlbumImages[$0]}

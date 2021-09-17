@@ -22,18 +22,20 @@ class PhotoAlbumCollectionViewDelegate: NSObject {
 }
 
 extension PhotoAlbumCollectionViewDelegate: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    func collectionView(_ collectionView: UICollectionView,
+                        didSelectItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath) as? PhotoAlbumCell
-        if cell?.highlightIndicator.isHidden == true && selectPhotoIndex().count < 5 {
+        if cell?.highlightIndicator.isHidden == true &&
+            selectPhotoIndex().count < 5 {
             selectIndexPathDictionary[indexPath] = true
             cell?.highlightIndicator.isHidden = false
             cell?.selectIndicator.isHidden = false
-           
+            
         } else {
             selectIndexPathDictionary[indexPath] = false
             cell?.highlightIndicator.isHidden = true
             cell?.selectIndicator.isHidden = true
-           
+            
         }
     }
 }

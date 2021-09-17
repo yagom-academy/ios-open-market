@@ -14,7 +14,6 @@ struct PostImpormation: Networkable {
         return array
     }
     var essentialPublicElement: EssentialPublicElement = .post
-//    var essentialIndividualElement: Any?
     var requestAPI: Requestable
     init(parameter: [String: Any], image: [Media]) {
         requestAPI = PostAPI(parameter: parameter, image: image)
@@ -25,7 +24,6 @@ struct PatchImpormation: Networkable {
     let placeholderList: [String] = PostAndPatchParameter.values
     var essentialPublicElement: EssentialPublicElement = .patch
     var requestAPI: Requestable
-//    var essentialIndividualElement: Any?
     init(id: Int, parameter: [String: Any], image: [Media]) {
         requestAPI = PatchAPI(id: id, parameter: parameter, image: image)
     }
