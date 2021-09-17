@@ -21,7 +21,6 @@ class EnrollModifyViewController: UIViewController {
     private var passAPI = MultipartFormData()
     var postAndPatchImpormation: Networkable?
     var topItemTitle: String = ""
-    var id: Int?
     private let photoSelectButton: UIButton = {
         let button = UIButton()
         button.contentMode = .scaleAspectFit
@@ -67,7 +66,7 @@ class EnrollModifyViewController: UIViewController {
                     image: enrollModifyCollectionViewDataSource.medias)
         } else {
             self.postAndPatchImpormation =
-                PatchImpormation(id: self.id ?? 0, parameter: passAPI.parameter,
+                PatchImpormation(id: passAPI.id ?? 0, parameter: passAPI.parameter,
                                  image: enrollModifyCollectionViewDataSource.medias)
         }
     }
@@ -130,7 +129,7 @@ class EnrollModifyViewController: UIViewController {
             guard let number = PostAndPatchParameter(rawValue: key) else { return }
             switch number {
             case .id:
-                self.id = Int(value ?? "")
+                passAPI.id = Int(value ?? "")
             case .title:
                 passAPI.title = value
             case .currency:

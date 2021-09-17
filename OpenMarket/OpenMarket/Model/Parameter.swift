@@ -16,6 +16,7 @@ struct MultipartFormData {
     var stock: Int?
     var discountedPrice: Int?
     var password: String?
+    var id: Int?
     
     var parameter: [String: Any] {
         var param: [String: Any] = [:]
@@ -49,7 +50,7 @@ struct MultipartFormData {
         if essentialParameter == .post {
             judgeArray = [self.title, self.descriptions, self.price, self.currency, self.stock, self.password]
         } else if essentialParameter == .patch {
-            judgeArray = [self.password]
+            judgeArray = [self.password, self.id]
         }
         judgeArray.forEach { value in
             completionHandler(value)
