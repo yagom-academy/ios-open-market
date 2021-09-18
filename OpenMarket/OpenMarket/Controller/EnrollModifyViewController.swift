@@ -160,7 +160,8 @@ class EnrollModifyViewController: UIViewController {
             collectionView: collectionView)
         passAPI.judgeNil(
             essentialParameter: essentialPublicElement) { result in
-            if result == nil {
+            let stringResult = result as? String
+            if result == nil || stringResult == "" {
                 var keyArray: [String] = []
                 textFieldDictionary.forEach { (key, value) in
                     if value == false {
@@ -180,7 +181,7 @@ class EnrollModifyViewController: UIViewController {
         networkManager.commuteWithAPI(api: requestAPI) { _ in }
         let dialog = UIAlertController(title: "알림", message: "등록되었습니다", preferredStyle: .alert)
         
-        let action = UIAlertAction(title: "확인", style: UIAlertAction.Style.default) { anction in self.navigationController?.popViewController(animated: true)
+        let action = UIAlertAction(title: "확인", style: UIAlertAction.Style.default) { _ in self.navigationController?.popViewController(animated: true)
         }
         dialog.addAction(action)
         
