@@ -23,6 +23,7 @@ class PhotoAlbumViewController: UIViewController {
         setUpDataSourceContent()
         decidedCollectionViewLayout()
         registeredIdetifier()
+        
     }
     
     override func viewWillLayoutSubviews() {
@@ -37,8 +38,7 @@ class PhotoAlbumViewController: UIViewController {
     }
     
     private func setUpDataSourceContent() {
-        photoAlbumCollecionViewDataSource.requestImage(
-            collectionView: collectionView)
+        photoAlbumCollecionViewDataSource.photoAlbumManager.initializeAllphotos(collectionView: collectionView)
     }
     
    private func decidedCollectionViewLayout() {
@@ -51,16 +51,8 @@ class PhotoAlbumViewController: UIViewController {
             forCellWithReuseIdentifier: PhotoAlbumCell.identifier)
     }
     
-    private func selectPhotoAlbumImage() -> [UIImage] {
-        let indexes = photoAlbumCollectionViewDelegate.selectPhotoIndex()
-        let photoAlbumImages = photoAlbumCollecionViewDataSource.photoAlbumImages
-        let selectPhotos = indexes.map { photoAlbumImages[$0]}
-        return selectPhotos
-        
-    }
-    
     @IBAction func resultPhotoButton(_ sender: Any) {
-        selected?(selectPhotoAlbumImage())
+        selected?(photoAlbumCollectionViewDelegate.selectPhotoImage())
         navigationController?.popViewController(animated: true)
     }
 }

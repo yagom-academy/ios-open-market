@@ -28,7 +28,6 @@ class ProductCell: UICollectionViewCell {
         
         labelArray = [titleLabel, priceLabel, discountedPriceLabel, stockLabel]
         setUpTextWidth()
-        
     }
     
     override func prepareForReuse() {

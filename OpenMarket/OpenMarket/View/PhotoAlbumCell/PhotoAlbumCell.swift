@@ -9,12 +9,14 @@ import UIKit
 import Photos.PHAsset
 
 class PhotoAlbumCell: UICollectionViewCell {
-    static let identifier = "PhotoAlbumCell"
-    static let nibName = "PhotoAlbumCell"
-    @IBOutlet weak var photoAlbumImage: UIImageView!
+    @IBOutlet private weak var photoAlbumImage: UIImageView!
     @IBOutlet weak var highlightIndicator: UIView!
     @IBOutlet weak var selectIndicator: UIImageView!
     
+    static let identifier = "PhotoAlbumCell"
+    static let nibName = "PhotoAlbumCell"
+    private var currentImage: UIImage?
+   
     override func awakeFromNib() {
         super.awakeFromNib()
         
@@ -23,5 +25,10 @@ class PhotoAlbumCell: UICollectionViewCell {
     
     func configure(image: UIImage) {
         self.photoAlbumImage.image = image
+        currentImage = image
+    }
+    
+    func getCurrentImage() -> UIImage? {
+        return currentImage
     }
 }

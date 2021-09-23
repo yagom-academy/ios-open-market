@@ -9,26 +9,31 @@ import UIKit
 import Photos.PHAsset
 
 struct PhotoAlbumManager {
-    func convertPhotoAlbumImage() -> [UIImage] {
-        let fetchOptions = PHFetchOptions()
-        var images: [UIImage] = []
-        let allPhotos: PHFetchResult<PHAsset> = PHAsset.fetchAssets(with: .image, options: fetchOptions)
-        for index in 0...allPhotos.count - 1 {
-            let convertImage = assetToImage(asset: allPhotos.object(at: index))
-            images.append(convertImage)
-        }
-        return images
+    private let allPhotos: PHFetchResult<PHAsset> = PHAsset.fetchAssets(with: PHFetchOptions())
+    
+    @discardableResult
+    func getAllphotos() -> PHFetchResult<PHAsset> {
+        return allPhotos
     }
     
-    private func assetToImage(asset: PHAsset) -> UIImage {
-        var resultImage = UIImage()
+    func initializeAllphotos(collectionView: UICollectionView) {
+        PHPhotoLibrary.requestAuthorization { (status) in
+            if status == .authorized {
+               getAllphotos()
+                DispatchQueue.main.async {
+                    collectionView.reloadData()
+                }
+            }
+        }
+    }
+    
+    func requestImage(asset: PHAsset, cell: PhotoAlbumCell) {
         let options = PHImageRequestOptions()
         options.deliveryMode = .opportunistic
-        
-        PHImageManager.default().requestImage(for: asset, targetSize: CGSize(width: 300, height: 300), contentMode: .aspectFill, options: options) { image, _ in
-            guard let image = image else { return }
-            resultImage = image
+        PHImageManager().requestImage(for: asset, targetSize: CGSize(width: 300, height: 300), contentMode: .aspectFill, options: options) { (image, _) in
+            if let image = image {
+                cell.configure(image: image)
+            }
         }
-        return resultImage
     }
 }

@@ -8,13 +8,13 @@
 import UIKit
 
 class PhotoAlbumCollectionViewDelegate: NSObject {
-    private var selectIndexPathDictionary: [IndexPath: Bool] = [:]
+    private var selectImageDictionary: [UIImage?: Bool] = [:]
     
-    func selectPhotoIndex() -> [Int] {
-        var needIndexPath: [Int] = []
-        for (key, value) in selectIndexPathDictionary {
-            if value {
-                needIndexPath.append(key.item)
+    func selectPhotoImage() -> [UIImage] {
+        var needIndexPath: [UIImage] = []
+        for (key, value) in selectImageDictionary {
+            if let key = key, value {
+                needIndexPath.append(key)
             }
         }
         return needIndexPath
@@ -26,13 +26,13 @@ extension PhotoAlbumCollectionViewDelegate: UICollectionViewDelegate {
                         didSelectItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath) as? PhotoAlbumCell
         if cell?.highlightIndicator.isHidden == true &&
-            selectPhotoIndex().count < 5 {
-            selectIndexPathDictionary[indexPath] = true
+            selectPhotoImage().count < 5 {
+            selectImageDictionary[cell?.getCurrentImage()] = true
             cell?.highlightIndicator.isHidden = false
             cell?.selectIndicator.isHidden = false
             
         } else {
-            selectIndexPathDictionary[indexPath] = false
+            selectImageDictionary[cell?.getCurrentImage()] = false
             cell?.highlightIndicator.isHidden = true
             cell?.selectIndicator.isHidden = true
             

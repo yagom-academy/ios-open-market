@@ -10,14 +10,13 @@ import Photos.PHAsset
 
 class PhotoAlbumCollecionViewDataSource: NSObject {
     private let compositionalLayout = CompositionalLayout()
-    private let photoAlbumManager = PhotoAlbumManager()
-    var photoAlbumImages: [UIImage] = []
+    var photoAlbumManager = PhotoAlbumManager()
 }
 
 extension PhotoAlbumCollecionViewDataSource: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView,
                         numberOfItemsInSection section: Int) -> Int {
-        photoAlbumImages.count
+        photoAlbumManager.getAllphotos().count
     }
     
     func collectionView(_ collectionView: UICollectionView,
@@ -26,34 +25,22 @@ extension PhotoAlbumCollecionViewDataSource: UICollectionViewDataSource {
                 collectionView.dequeueReusableCell(withReuseIdentifier: PhotoAlbumCell.identifier, for: indexPath) as?
                 PhotoAlbumCell else { return UICollectionViewCell() }
         
-        let photoAlbumImageForItem = photoAlbumImages[indexPath.item]
-        cell.configure(image: photoAlbumImageForItem)
+        let asset = photoAlbumManager.getAllphotos()[indexPath.item]
+        photoAlbumManager.requestImage(asset: asset, cell: cell)
         
         return cell
     }
     
     func decidedListLayout(_ collectionView: UICollectionView) {
         let viewMargin =
-            compositionalLayout.margin(top: 2, leading: 2, bottom: 2, trailing: 2)
+        compositionalLayout.margin(top: 2, leading: 2, bottom: 2, trailing: 2)
         let cellMargin =
-            compositionalLayout.margin(top: 1, leading: 1, bottom: 1, trailing: 1)
+        compositionalLayout.margin(top: 1, leading: 1, bottom: 1, trailing: 1)
         collectionView.collectionViewLayout =
-            compositionalLayout.create(portraitHorizontalNumber: 3,
-                                       landscapeHorizontalNumber: 5,
-                                       cellVerticalSize: .absolute(100),
-                                       scrollDirection: .vertical,
-                                       cellMargin: cellMargin, viewMargin: viewMargin)
-    }
-    
-    func requestImage(collectionView: UICollectionView) {
-        PHPhotoLibrary.requestAuthorization { (status) in
-            if status == .authorized {
-                DispatchQueue.main.async {
-                    self.photoAlbumImages =
-                        self.photoAlbumManager.convertPhotoAlbumImage()
-                    collectionView.reloadData()
-                }
-            }
-        }
+        compositionalLayout.create(portraitHorizontalNumber: 3,
+                                   landscapeHorizontalNumber: 5,
+                                   cellVerticalSize: .absolute(100),
+                                   scrollDirection: .vertical,
+                                   cellMargin: cellMargin, viewMargin: viewMargin)
     }
 }
