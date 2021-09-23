@@ -16,7 +16,7 @@ class PhotoAlbumCollecionViewDataSource: NSObject {
 extension PhotoAlbumCollecionViewDataSource: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView,
                         numberOfItemsInSection section: Int) -> Int {
-        photoAlbumManager.getAllphotos().count
+        photoAlbumManager.getAllPhotos().count
     }
     
     func collectionView(_ collectionView: UICollectionView,
@@ -25,7 +25,7 @@ extension PhotoAlbumCollecionViewDataSource: UICollectionViewDataSource {
                 collectionView.dequeueReusableCell(withReuseIdentifier: PhotoAlbumCell.identifier, for: indexPath) as?
                 PhotoAlbumCell else { return UICollectionViewCell() }
         
-        let asset = photoAlbumManager.getAllphotos()[indexPath.item]
+        let asset = photoAlbumManager.getAllPhotos()[indexPath.item]
         photoAlbumManager.requestImage(asset: asset, cell: cell)
         
         return cell

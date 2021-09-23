@@ -12,14 +12,14 @@ struct PhotoAlbumManager {
     private let allPhotos: PHFetchResult<PHAsset> = PHAsset.fetchAssets(with: PHFetchOptions())
     
     @discardableResult
-    func getAllphotos() -> PHFetchResult<PHAsset> {
+    func getAllPhotos() -> PHFetchResult<PHAsset> {
         return allPhotos
     }
     
     func initializeAllphotos(collectionView: UICollectionView) {
         PHPhotoLibrary.requestAuthorization { (status) in
             if status == .authorized {
-               getAllphotos()
+               getAllPhotos()
                 DispatchQueue.main.async {
                     collectionView.reloadData()
                 }

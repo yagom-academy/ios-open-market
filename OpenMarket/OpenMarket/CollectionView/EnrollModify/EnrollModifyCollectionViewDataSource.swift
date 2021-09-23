@@ -108,18 +108,6 @@ extension EnrollModifyCollectionViewDataSource: UICollectionViewDataSource {
         return textFieldDataPass
     }
     
-    func CheckCellData(
-        collectionView: UICollectionView) -> [String: Bool] {
-        var textFieldDataCheck: [String: Bool] = [:]
-        for row in 0 ..< collectionView.numberOfItems(inSection: 1) {
-            let indexPath = NSIndexPath(row: row, section: 1)
-            guard let cell =
-                    collectionView.cellForItem(at: indexPath as IndexPath) as? EnrollModifyListCell else { return ["": true]}
-            textFieldDataCheck[placeholderList[indexPath.item]] = cell.listTextField.text?.isEmpty
-        }
-        return textFieldDataCheck
-    }
-    
     func passPhotoImage(images: [UIImage]) {
         for image in images {
             guard let media =

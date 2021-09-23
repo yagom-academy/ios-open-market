@@ -156,15 +156,14 @@ class EnrollModifyViewController: UIViewController {
             return
         }
         let textFieldDictionary =
-            enrollModifyCollectionViewDataSource.CheckCellData(
-            collectionView: collectionView)
+        enrollModifyCollectionViewDataSource.PassListCellData(collectionView: collectionView)
         passAPI.judgeNil(
             essentialParameter: essentialPublicElement) { result in
             let stringResult = result as? String
             if result == nil || stringResult == "" {
                 var keyArray: [String] = []
                 textFieldDictionary.forEach { (key, value) in
-                    if value == false {
+                    if value != "" {
                         keyArray.append(key)
                     }
                 }
