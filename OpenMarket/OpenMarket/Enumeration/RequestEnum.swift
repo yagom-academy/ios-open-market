@@ -42,7 +42,7 @@ enum APIURL {
         case .getItems(let page):
             return Self.baseURL + "items/\(page)"
         case .getItem(let id), .patch(let id), .delete(let id):
-            return Self.baseURL + "items/\(id)"
+            return Self.baseURL + "item/\(id)"
         case .post:
             return Self.baseURL + "item/"
         }

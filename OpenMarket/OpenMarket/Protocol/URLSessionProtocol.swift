@@ -10,7 +10,8 @@ import Foundation
 protocol URLSessionProtocol {
     func dataTask(
         with request: URLRequest,
-        completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void
+        completionHandler: @escaping (
+            Data?, URLResponse?, Error?) -> Void
     ) -> URLSessionDataTask
 }
 
@@ -28,12 +29,10 @@ extension URLSessionProtocol {
         guard let response = response as? HTTPURLResponse,
               (rangeOfSuccessState).contains(response.statusCode) else {
             return .failure(.requestFailed)
-            
         }
         guard let data = data else {
             return .failure(.dataNotfound)
         }
-        
         return .success(data)
     }
 }

@@ -44,6 +44,7 @@
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="야아마켓" id="8Dy-oq-cze">
+                        <barButtonItem key="backBarButtonItem" title="취소" id="W2k-KD-Vg2"/>
                         <barButtonItem key="leftBarButtonItem" style="done" id="Vzk-fF-z6x">
                             <segmentedControl key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="BAd-jA-m7m">
                                 <rect key="frame" x="16" y="6" width="92" height="32"/>
@@ -57,17 +58,112 @@
                                 </connections>
                             </segmentedControl>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="grg-Xr-lqB"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="grg-Xr-lqB">
+                            <connections>
+                                <action selector="enrollModifyButton:" destination="BYZ-38-t0r" id="kqA-ur-3iv"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="collectionView" destination="B4m-pB-kau" id="AeX-B7-Rxh"/>
                         <outlet property="loadingIndicator" destination="ItG-bt-HVu" id="TGg-Xq-vr7"/>
+                        <segue destination="wPx-el-zEx" kind="show" identifier="presentToEnrollModify" id="PAC-qf-YGQ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="928.98550724637687" y="35.491071428571423"/>
+        </scene>
+        <!--상품-->
+        <scene sceneID="cbP-3L-Hj0">
+            <objects>
+                <viewController id="wPx-el-zEx" customClass="EnrollModifyViewController" customModule="OpenMarket" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="68C-Wq-Ube">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="w8S-qU-THC">
+                                <rect key="frame" x="0.0" y="88" width="375" height="641"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="aQ3-kA-6kq">
+                                    <size key="itemSize" width="128" height="128"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells/>
+                            </collectionView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="pbr-cB-8eb"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="pbr-cB-8eb" firstAttribute="bottom" secondItem="w8S-qU-THC" secondAttribute="bottom" id="LDu-Ki-n1B"/>
+                            <constraint firstItem="w8S-qU-THC" firstAttribute="leading" secondItem="pbr-cB-8eb" secondAttribute="leading" id="ZfB-XB-txE"/>
+                            <constraint firstItem="w8S-qU-THC" firstAttribute="top" secondItem="pbr-cB-8eb" secondAttribute="top" id="c5e-GX-3ET"/>
+                            <constraint firstItem="pbr-cB-8eb" firstAttribute="trailing" secondItem="w8S-qU-THC" secondAttribute="trailing" id="qpo-2Q-L3W"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="상품" id="vCe-Sa-OsE">
+                        <barButtonItem key="rightBarButtonItem" title="등록/수정" id="nbr-DO-aAm">
+                            <connections>
+                                <action selector="enrollModifyButton:" destination="wPx-el-zEx" id="ImT-V8-bvY"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="collectionView" destination="w8S-qU-THC" id="5K7-tD-SzD"/>
+                        <outlet property="postPatchButton" destination="nbr-DO-aAm" id="adB-e3-J01"/>
+                        <segue destination="qV7-sz-8NO" kind="show" identifier="presentToPhotoAlbum" id="jXp-GX-rOG"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ZYk-uq-VeH" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1821.5999999999999" y="34.729064039408868"/>
+        </scene>
+        <!--Photo Album View Controller-->
+        <scene sceneID="yKm-nh-oSb">
+            <objects>
+                <viewController storyboardIdentifier="PhotoAlbumVC" id="qV7-sz-8NO" customClass="PhotoAlbumViewController" customModule="OpenMarket" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="xGS-jS-T65">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="gy5-KR-By3">
+                                <rect key="frame" x="0.0" y="88" width="375" height="641"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="zfZ-gI-1rj">
+                                    <size key="itemSize" width="128" height="128"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells/>
+                            </collectionView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="ixm-V3-xPj"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="gy5-KR-By3" firstAttribute="top" secondItem="ixm-V3-xPj" secondAttribute="top" id="LBA-a8-ESk"/>
+                            <constraint firstItem="gy5-KR-By3" firstAttribute="leading" secondItem="ixm-V3-xPj" secondAttribute="leading" id="Q51-eM-FaB"/>
+                            <constraint firstItem="ixm-V3-xPj" firstAttribute="bottom" secondItem="gy5-KR-By3" secondAttribute="bottom" id="eAp-rc-jIz"/>
+                            <constraint firstItem="ixm-V3-xPj" firstAttribute="trailing" secondItem="gy5-KR-By3" secondAttribute="trailing" id="lMK-Fa-k5t"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="x8B-ko-eRU">
+                        <barButtonItem key="rightBarButtonItem" title="확인" id="XFG-GU-b3n">
+                            <connections>
+                                <action selector="resultPhotoButton:" destination="qV7-sz-8NO" id="eNH-YY-hZW"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="collectionView" destination="gy5-KR-By3" id="COs-Cc-KFC"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="QgI-T5-wg3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2753" y="35"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Doc-82-1r8">

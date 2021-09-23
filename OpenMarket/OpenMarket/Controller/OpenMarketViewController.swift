@@ -12,16 +12,15 @@ class OpenMarketViewController: UIViewController {
     
     private let openMarketCollecionViewDataSource = OpenMarketCollectionViewDataSource()
     private let openMarketCollectionViewDelegate = OpenMarketCollectionViewDelegate()
-    private let compositionalLayout = CompositionalLayout()
+    static let alertSelect = (enroll: "등록", modify: "수정", cancel: "취소")
+    static let segueIdentifier = "presentToEnrollModify"
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         processCollectionView()
         registeredIdetifier()
-        decidedLayout()
-        openMarketCollecionViewDataSource.requestProductList(collectionView: collectionView)
-        openMarketCollecionViewDataSource.loadingIndicator = self
+        setUpDataSourceContent()
     }
     
     override func viewWillLayoutSubviews() {
@@ -41,19 +40,14 @@ class OpenMarketViewController: UIViewController {
         collectionView.register(UINib(nibName: ProductCell.gridNibName, bundle: nil), forCellWithReuseIdentifier: ProductCell.gridItentifier)
     }
     
-    private func decidedLayout() {
-        let listViewMargin =
-            compositionalLayout.margin(top: 0, leading: 5, bottom: 0, trailing: 0)
-        collectionView.collectionViewLayout =
-            compositionalLayout.create(portraitHorizontalNumber: 1,
-                                       landscapeHorizontalNumber: 1,
-                                       cellVerticalSize: .absolute(100),
-                                       scrollDirection: .vertical,
-                                       cellMargin: nil, viewMargin: listViewMargin)
+    private func setUpDataSourceContent() {
+        openMarketCollecionViewDataSource.decidedListLayout(collectionView)
+        openMarketCollecionViewDataSource.requestProductList(collectionView)
+        openMarketCollecionViewDataSource.loadingIndicator = self
     }
     
     @IBAction func onCollectionViewTypeChanged(_ sender: UISegmentedControl) {
-        openMarketCollecionViewDataSource.selectedView(sender, collectionView, compositionalLayout)
+        openMarketCollecionViewDataSource.selectedView(sender, collectionView)
     }
 }
 
@@ -68,5 +62,40 @@ extension OpenMarketViewController: LoadingIndicatable {
     
     func stopAnimating() {
         loadingIndicator.stopAnimating()
+    }
+}
+
+extension OpenMarketViewController {
+    @IBAction func enrollModifyButton(_ sender: Any) {
+        let alert = UIAlertController()
+        let enroll = UIAlertAction(
+            title: Self.alertSelect.enroll, style: .default) { _ in
+            self.performSegue(
+                withIdentifier: Self.segueIdentifier,
+                sender: Self.alertSelect.enroll)
+        }
+        let modify = UIAlertAction(
+            title: Self.alertSelect.modify, style: .default) { _ in
+            self.performSegue(
+                withIdentifier: Self.segueIdentifier,
+                sender: Self.alertSelect.modify)
+        }
+        let cancel = UIAlertAction(
+            title: Self.alertSelect.cancel,
+            style: .cancel, handler: nil)
+        alert.addAction(enroll)
+        alert.addAction(modify)
+        alert.addAction(cancel)
+        present(alert, animated: true, completion: nil)
+    }
+    
+    override func prepare(
+        for segue: UIStoryboardSegue,
+        sender: Any?) {
+        guard let enrollModifyViewController =
+                segue.destination as? EnrollModifyViewController else { return }
+        guard let labelString = sender as? String else { return }
+        enrollModifyViewController.topItemTitle = labelString
+        
     }
 }
