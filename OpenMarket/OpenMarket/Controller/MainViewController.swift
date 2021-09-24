@@ -7,7 +7,7 @@
 import UIKit
 @available(iOS 14.0, *)
 class MainViewController: UIViewController {
-    var layout: UICollectionViewLayout!
+    private var layout: UICollectionViewLayout!
     private let dataSource = CollectionViewDataSource()
     private let delegate = CollectionViewDelegate()
     private var collectionView: UICollectionView!
@@ -73,6 +73,7 @@ extension MainViewController {
         let config = UICollectionLayoutListConfiguration(appearance: .plain)
         return UICollectionViewCompositionalLayout.list(using: config)
     }
+
     private func createGridLayout() -> UICollectionViewLayout {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)

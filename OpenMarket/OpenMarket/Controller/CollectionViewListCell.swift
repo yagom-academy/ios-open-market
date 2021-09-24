@@ -21,7 +21,6 @@ class CollectionViewListCell: UICollectionViewListCell {
         item.image { image in
             DispatchQueue.main.async {
                 content.image = image
-                content.imageProperties.maximumSize = CGSize(width: 40, height: 37)
                 self.listContentView.configuration = content
             }
         }
