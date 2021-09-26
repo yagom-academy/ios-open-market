@@ -28,7 +28,7 @@ class CollectionViewGridCell: UICollectionViewCell {
     }
 
     func configureCell(item: Item) {
-        item.image { image in
+        item.image { [unowned self] image in
             DispatchQueue.main.async {
                 self.imageView.image = image
             }
@@ -75,33 +75,33 @@ class CollectionViewGridCell: UICollectionViewCell {
         stackView.addArrangedSubview(discountedPriceLabel)
         stackView.addArrangedSubview(stockLabel)
 
-        self.contentView.addSubview(imageView)
-        self.contentView.addSubview(stackView)
+        contentView.addSubview(imageView)
+        contentView.addSubview(stackView)
     }
 
     private func setUpConstraints() {
-        self.imageView.translatesAutoresizingMaskIntoConstraints = false
-        self.stackView.translatesAutoresizingMaskIntoConstraints = false
-        self.titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        self.priceLabel.translatesAutoresizingMaskIntoConstraints = false
-        self.discountedPriceLabel.translatesAutoresizingMaskIntoConstraints = false
-        self.stockLabel.translatesAutoresizingMaskIntoConstraints = false
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        priceLabel.translatesAutoresizingMaskIntoConstraints = false
+        discountedPriceLabel.translatesAutoresizingMaskIntoConstraints = false
+        stockLabel.translatesAutoresizingMaskIntoConstraints = false
 
-        imageView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 10).isActive = true
-        imageView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 10).isActive = true
-        imageView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -10).isActive = true
-        imageView.heightAnchor.constraint(equalTo: self.contentView.heightAnchor, multiplier: 0.6).isActive = true
+        imageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10).isActive = true
+        imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10).isActive = true
+        imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10).isActive = true
+        imageView.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.6).isActive = true
 
-        stackView.topAnchor.constraint(equalTo: self.imageView.bottomAnchor).isActive = true
-        stackView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 10).isActive = true
-        stackView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -10).isActive = true
-        stackView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -6).isActive = true
+        stackView.topAnchor.constraint(equalTo: imageView.bottomAnchor).isActive = true
+        stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10).isActive = true
+        stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10).isActive = true
+        stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -6).isActive = true
     }
 
     private func setUpStyle() {
-        self.layer.borderColor = UIColor.gray.cgColor
-        self.layer.borderWidth = 2.0
-        self.layer.cornerRadius = 10.0
+        layer.borderColor = UIColor.gray.cgColor
+        layer.borderWidth = 2.0
+        layer.cornerRadius = 10.0
 
         titleLabel.numberOfLines = 2
         titleLabel.textAlignment = .center

@@ -9,7 +9,7 @@ import UIKit
 class MainViewController: UIViewController {
     private var layout: UICollectionViewLayout!
     private let dataSource = CollectionViewDataSource()
-    private let delegate = CollectionViewDelegate()
+    private weak var delegate = CollectionViewDelegate()
     private var collectionView: UICollectionView!
     private let layoutType = CollectionViewProperty.shared
 

@@ -18,10 +18,10 @@ class CollectionViewListCell: UICollectionViewListCell {
     func configureCell(item: Item) {
         setupViewsIfNeeded()
         var content = defaultListContentConfiguration()
-        item.image { image in
+        item.image { [weak self] image in
             DispatchQueue.main.async {
                 content.image = image
-                self.listContentView.configuration = content
+                self?.listContentView.configuration = content
             }
         }
 
@@ -77,7 +77,7 @@ class CollectionViewListCell: UICollectionViewListCell {
             constraints.stockLabelTrailing,
             constraints.stockLabelWidthAnchor
         ])
-        self.accessories = [.disclosureIndicator()]
+        accessories = [.disclosureIndicator()]
     }
 
     private func defaultListContentConfiguration() -> UIListContentConfiguration {

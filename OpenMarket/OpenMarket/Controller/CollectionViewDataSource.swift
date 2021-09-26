@@ -34,13 +34,13 @@ class CollectionViewDataSource: NSObject, UICollectionViewDataSource {
     }
 
     func requestNextPage(collectionView: UICollectionView) {
-        networkManager.commuteWithAPI(API.GetItems(page: page)) { result in
+        networkManager.commuteWithAPI(API.GetItems(page: page)) { [weak self] result in
             if case .success(let data) = result {
                 guard let data = try? JSONDecoder().decode(Items.self, from: data) else {
                     return
                 }
-                self.items.append(contentsOf: data.items)
-                self.page += 1
+                self?.items.append(contentsOf: data.items)
+                self?.page += 1
 
                 DispatchQueue.main.async {
                     collectionView.reloadData()
