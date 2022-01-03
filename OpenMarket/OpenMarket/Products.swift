@@ -13,7 +13,7 @@ struct Products: Codable {
     var totalCount: Int
     let offset: Int
     let limit: Int
-    var pages: [String]
+    var pages: [Product]
     var lastPage: Int
     var hasNext: Bool
     var hasPrev: Bool
