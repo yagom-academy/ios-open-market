@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		470F81742782E8AC006B4734 /* OpenMarket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 470F81732782E8AC006B4734 /* OpenMarket.swift */; };
+		470F81762782F51A006B4734 /* JSONParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 470F81752782F51A006B4734 /* JSONParser.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
 		C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */; };
 		C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FE25BEF61C00C9924E /* ViewController.swift */; };
@@ -18,6 +19,7 @@
 
 /* Begin PBXFileReference section */
 		470F81732782E8AC006B4734 /* OpenMarket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarket.swift; sourceTree = "<group>"; };
+		470F81752782F51A006B4734 /* JSONParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONParser.swift; sourceTree = "<group>"; };
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -43,6 +45,7 @@
 			isa = PBXGroup;
 			children = (
 				470F81732782E8AC006B4734 /* OpenMarket.swift */,
+				470F81752782F51A006B4734 /* JSONParser.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -149,6 +152,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
+				470F81762782F51A006B4734 /* JSONParser.swift in Sources */,
 				470F81742782E8AC006B4734 /* OpenMarket.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
