@@ -1,0 +1,13 @@
+disabled_rules:
+- line_length
+
+
+included:
+ - OpenMarket
+ - force_unwrapping
+ - empty_count
+
+excluded:
+- Pods
+- OpenMarket/AppDelegate.swift
+- OpenMarket/SceneDelegate.swift
