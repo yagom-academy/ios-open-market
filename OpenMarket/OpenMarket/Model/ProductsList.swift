@@ -1,17 +1,17 @@
 import Foundation
 
 struct ProductsList: Codable {
-    let pageNumber: Int
-    let itemsPerPage: Int
-    let totalCount: Int
-    let offset: Int
-    let limit: Int
-    let lastPage: Int
-    let hasNext: Bool
-    let hasPrev: Bool
-    let pages: [Product]
+    var pageNumber: Int
+    var itemsPerPage: Int
+    var totalCount: Int
+    var offset: Int
+    var limit: Int
+    var lastPage: Int
+    var hasNext: Bool
+    var hasPrev: Bool
+    var pages: [Product]
     
-    enum CodingKeys: String, CodingKey {
+    private enum CodingKeys: String, CodingKey {
         case pageNumber = "page_no"
         case itemsPerPage, totalCount, offset, limit, lastPage, hasNext, hasPrev, pages
     }
