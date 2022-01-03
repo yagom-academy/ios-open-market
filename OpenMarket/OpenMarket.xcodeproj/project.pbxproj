@@ -18,8 +18,12 @@
 		C70FB10225BEF61C00C9924E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C70FB10025BEF61C00C9924E /* Main.storyboard */; };
 		C70FB10425BEF61D00C9924E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C70FB10325BEF61D00C9924E /* Assets.xcassets */; };
 		C70FB10725BEF61D00C9924E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */; };
+		E93FA8952782F9A2003DC3E7 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = E93FA8942782F9A2003DC3E7 /* .swiftlint.yml */; };
+		E93FA8962782F9A2003DC3E7 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = E93FA8942782F9A2003DC3E7 /* .swiftlint.yml */; };
 		E99FDE782782D4C00083D4D6 /* Page.swift in Sources */ = {isa = PBXBuildFile; fileRef = E99FDE772782D4C00083D4D6 /* Page.swift */; };
 		E99FDE7F2782E9490083D4D6 /* StubURLSessionDataTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = E99FDE7E2782E9490083D4D6 /* StubURLSessionDataTask.swift */; };
+		E99FDE842782F3970083D4D6 /* Page.swift in Sources */ = {isa = PBXBuildFile; fileRef = E99FDE772782D4C00083D4D6 /* Page.swift */; };
+		E99FDE872782F39A0083D4D6 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1F964E22782D67A006F6853 /* Product.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +53,7 @@
 		C70FB10625BEF61D00C9924E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C70FB10825BEF61D00C9924E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D50541713180C77E69EBED66 /* Pods_OpenMarket.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OpenMarket.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E93FA8942782F9A2003DC3E7 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		E99FDE772782D4C00083D4D6 /* Page.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Page.swift; sourceTree = "<group>"; };
 		E99FDE7E2782E9490083D4D6 /* StubURLSessionDataTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubURLSessionDataTask.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -103,6 +108,7 @@
 		C70FB0EE25BEF61C00C9924E = {
 			isa = PBXGroup;
 			children = (
+				E93FA8942782F9A2003DC3E7 /* .swiftlint.yml */,
 				C70FB0F925BEF61C00C9924E /* OpenMarket */,
 				C1F964E92782E6D7006F6853 /* OpenMarketTests */,
 				C70FB0F825BEF61C00C9924E /* Products */,
@@ -242,6 +248,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E93FA8962782F9A2003DC3E7 /* .swiftlint.yml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -249,6 +256,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E93FA8952782F9A2003DC3E7 /* .swiftlint.yml in Resources */,
 				C70FB10725BEF61D00C9924E /* LaunchScreen.storyboard in Resources */,
 				C70FB10425BEF61D00C9924E /* Assets.xcassets in Resources */,
 				C70FB10225BEF61C00C9924E /* Main.storyboard in Resources */,
@@ -308,6 +316,8 @@
 				C1F964F22782E777006F6853 /* DummyData.swift in Sources */,
 				C1F964EB2782E6D7006F6853 /* OpenMarketTests.swift in Sources */,
 				E99FDE7F2782E9490083D4D6 /* StubURLSessionDataTask.swift in Sources */,
+				E99FDE842782F3970083D4D6 /* Page.swift in Sources */,
+				E99FDE872782F39A0083D4D6 /* Product.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -362,7 +372,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = MLY2NY4CXP;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.tistory.singularis7.OpenMarketTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -382,7 +392,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = MLY2NY4CXP;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.tistory.singularis7.OpenMarketTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
