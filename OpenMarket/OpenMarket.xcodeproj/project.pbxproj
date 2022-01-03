@@ -11,6 +11,7 @@
 		C1F964E32782D67A006F6853 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1F964E22782D67A006F6853 /* Product.swift */; };
 		C1F964EB2782E6D7006F6853 /* OpenMarketTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1F964EA2782E6D7006F6853 /* OpenMarketTests.swift */; };
 		C1F964F22782E777006F6853 /* DummyData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1F964F12782E777006F6853 /* DummyData.swift */; };
+		C1F964F42782EA88006F6853 /* StubURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1F964F32782EA88006F6853 /* StubURLSession.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
 		C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */; };
 		C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FE25BEF61C00C9924E /* ViewController.swift */; };
@@ -38,6 +39,7 @@
 		C1F964E82782E6D7006F6853 /* OpenMarketTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenMarketTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C1F964EA2782E6D7006F6853 /* OpenMarketTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketTests.swift; sourceTree = "<group>"; };
 		C1F964F12782E777006F6853 /* DummyData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyData.swift; sourceTree = "<group>"; };
+		C1F964F32782EA88006F6853 /* StubURLSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubURLSession.swift; sourceTree = "<group>"; };
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -93,6 +95,7 @@
 				C1F964EA2782E6D7006F6853 /* OpenMarketTests.swift */,
 				C1F964F12782E777006F6853 /* DummyData.swift */,
 				E99FDE7E2782E9490083D4D6 /* StubURLSessionDataTask.swift */,
+				C1F964F32782EA88006F6853 /* StubURLSession.swift */,
 			);
 			path = OpenMarketTests;
 			sourceTree = "<group>";
@@ -301,6 +304,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C1F964F42782EA88006F6853 /* StubURLSession.swift in Sources */,
 				C1F964F22782E777006F6853 /* DummyData.swift in Sources */,
 				C1F964EB2782E6D7006F6853 /* OpenMarketTests.swift in Sources */,
 				E99FDE7F2782E9490083D4D6 /* StubURLSessionDataTask.swift in Sources */,
