@@ -1,6 +1,6 @@
 import Foundation
 
-struct ProductDetail {
+struct ProductDetail: Codable {
     let id: Int
     let vendorId: Int
     let name: String
@@ -10,10 +10,10 @@ struct ProductDetail {
     let bargainPrice: Int
     let discountedPrice: Int
     let stock: Int
-    let createAt: Date
+    let createdAt: Date
     let issuedAt: Date
     
-    enum Currency: String {
+    enum Currency: String, Codable {
         case krw = "KRW"
         case usd = "USD"
     }
@@ -22,10 +22,8 @@ struct ProductDetail {
         case vendorId = "vendor_id"
         case bargainPrice = "bargain_price"
         case discountedPrice = "discounted_price"
-        case createAt = "create_at"
+        case createdAt = "created_at"
         case issuedAt = "issued_at"
         case id, name, thumbnail, currency, price, stock
     }
 }
-
-
