@@ -14,6 +14,7 @@
 		C70FB10225BEF61C00C9924E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C70FB10025BEF61C00C9924E /* Main.storyboard */; };
 		C70FB10425BEF61D00C9924E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C70FB10325BEF61D00C9924E /* Assets.xcassets */; };
 		C70FB10725BEF61D00C9924E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */; };
+		E99FDE782782D4C00083D4D6 /* Page.swift in Sources */ = {isa = PBXBuildFile; fileRef = E99FDE772782D4C00083D4D6 /* Page.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		C70FB10625BEF61D00C9924E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C70FB10825BEF61D00C9924E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D50541713180C77E69EBED66 /* Pods_OpenMarket.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OpenMarket.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E99FDE772782D4C00083D4D6 /* Page.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Page.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,7 +58,6 @@
 				01B773038AA12727A1AE8189 /* Pods-OpenMarket.debug.xcconfig */,
 				40A8AED9FA2D0026389DF4B1 /* Pods-OpenMarket.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -81,15 +82,40 @@
 		C70FB0F925BEF61C00C9924E /* OpenMarket */ = {
 			isa = PBXGroup;
 			children = (
-				C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */,
-				C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */,
-				C70FB0FE25BEF61C00C9924E /* ViewController.swift */,
-				C70FB10025BEF61C00C9924E /* Main.storyboard */,
+				E99FDE762782D3EC0083D4D6 /* Controller */,
+				E99FDE742782D3980083D4D6 /* Model */,
+				E99FDE752782D3B40083D4D6 /* View */,
 				C70FB10325BEF61D00C9924E /* Assets.xcassets */,
-				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
 				C70FB10825BEF61D00C9924E /* Info.plist */,
 			);
 			path = OpenMarket;
+			sourceTree = "<group>";
+		};
+		E99FDE742782D3980083D4D6 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				E99FDE772782D4C00083D4D6 /* Page.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		E99FDE752782D3B40083D4D6 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				C70FB10025BEF61C00C9924E /* Main.storyboard */,
+				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		E99FDE762782D3EC0083D4D6 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */,
+				C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */,
+				C70FB0FE25BEF61C00C9924E /* ViewController.swift */,
+			);
+			path = Controller;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -103,6 +129,7 @@
 				C70FB0F325BEF61C00C9924E /* Sources */,
 				C70FB0F425BEF61C00C9924E /* Frameworks */,
 				C70FB0F525BEF61C00C9924E /* Resources */,
+				E99FDE722782CC010083D4D6 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -181,6 +208,23 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		E99FDE722782CC010083D4D6 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n${PODS_ROOT}/SwiftLint/swiftlint\n";
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -190,6 +234,7 @@
 			files = (
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
+				E99FDE782782D4C00083D4D6 /* Page.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
