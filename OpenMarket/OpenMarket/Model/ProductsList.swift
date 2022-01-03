@@ -12,7 +12,7 @@ struct ProductsList: Codable {
     var pages: [Product]
     
     private enum CodingKeys: String, CodingKey {
-        case pageNumber = "page_no"
+        case pageNumber = "pageNo"
         case itemsPerPage, totalCount, offset, limit, lastPage, hasNext, hasPrev, pages
     }
 }

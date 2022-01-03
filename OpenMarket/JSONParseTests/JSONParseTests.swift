@@ -5,7 +5,22 @@ class JSONParseTests: XCTestCase {
     func test_decode가_잘_되는지() {
         do {
             let decoded: ProductsList? = try JSONParser.decode(from: "products")
-            XCTAssertEqual(decoded?.pageNumber, 1)
+            XCTAssertEqual(decoded?.pages[0].currency, Currency.krw)
+        } catch {
+            print(error)
+            XCTFail()
+        }
+    }
+    
+    func test_날짜_decode가_잘_되는지() {
+        do {
+            let decoded: ProductsList? = try JSONParser.decode(from: "products")
+            let date = decoded?.pages[0].issuedAt
+            
+            let formatter = DateFormatter()
+            formatter.dateFormat = "yyyy-MM-dd HH:mm:ss.SSS"
+            let test = formatter.string(from: date ?? Date())
+            XCTAssertEqual(test, "2021-12-29 00:00:00.000")
         } catch {
             print(error)
             XCTFail()
