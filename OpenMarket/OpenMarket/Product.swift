@@ -18,8 +18,8 @@ struct Image: Codable {
   let thumbnailURL: String
   let succeed: Bool
   let issuedAt: String
-  
-  enum Codingkeys: String, CodingKey {
+
+  enum CodingKeys: String, CodingKey {
     case id, url, succeed
     case thumbnailURL = "thumbnail_url"
     case issuedAt = "issued_at"
@@ -27,8 +27,17 @@ struct Image: Codable {
 }
 
 struct Vendor: Codable {
-  let id: String
-  let secret: String
+  let id: Int
+  let name: String
+  let secret: String?
+  let createdAt: String
+  let issuedAt: String
+
+  enum CodingKeys: String, CodingKey {
+    case id, name, secret
+    case createdAt = "created_at"
+    case issuedAt = "issued_at"
+  }
 }
 
 struct Product: Codable {
