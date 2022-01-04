@@ -3,7 +3,7 @@ import Foundation
 class APIManager {
     
     let apiHost: String = "https://market-training.yagom-academy.kr/"
-    var apiStatus: String?
+    var apiHealth: String?
     var product: OpenMarketPage?
     let semaphore = DispatchSemaphore(value: 0)
     
@@ -18,7 +18,7 @@ class APIManager {
                 self.semaphore.signal()
                 return
             }
-            self.apiStatus = String(data: data, encoding: .utf8)!
+            self.apiHealth = String(data: data, encoding: .utf8)!
             self.semaphore.signal()
         }
         task.resume()
