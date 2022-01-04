@@ -32,7 +32,7 @@ struct NetworkManager {
                 case .success(let jsonDecode):
                     completion(.success(jsonDecode))
                 case .failure:
-                    completion(.failure(ParserError.decodingError))
+                    completion(.failure(ParserError.decoding))
                 }
             case .failure(let error):
                 completion(.failure(error))
@@ -54,5 +54,30 @@ struct NetworkManager {
             return nil
         }
         return URLRequest(url: url)
+    }
+    
+    // POST - 상품 삭제 Secret 상세 조회
+    func request<T: Encodable>(data: T, id: UInt, secret: String) -> Result<URLRequest?, Error> {
+        guard let url = NetworkConstant.secret(id: id, secret: secret).url else {
+            return .failure(NetworkError.notFoundURL)
+        }
+        let encodingResult = parser.encode(object: data)
+        let encodeData: Data
+        
+        switch encodingResult {
+        case .success(let data):
+            encodeData = data
+        case .failure:
+            return .failure(ParserError.encoding)
+        }
+        
+        var request = URLRequest(url: url)
+        
+        request.httpMethod = NetworkConstant.HTTPMethod.post.rawValue
+        request.httpBody = encodeData
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue("80c47530-58bb-11ec-bf7f-d188f1cd5f22", forHTTPHeaderField: "identifier")
+        
+        return .success(request)
     }
 }

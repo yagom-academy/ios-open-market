@@ -10,4 +10,5 @@ import Foundation
 enum NetworkError: Error {
     case responseCasting
     case statusCode
+    case notFoundURL
 }
