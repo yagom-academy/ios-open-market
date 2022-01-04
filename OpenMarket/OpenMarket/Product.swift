@@ -7,12 +7,12 @@
 
 import Foundation
 
-enum Currency: String, Decodable {
+enum Currency: String, Codable {
   case KRW
   case USD
 }
 
-struct Image: Decodable {
+struct Image: Codable {
   let id: Int
   let url: String
   let thumbnailURL: String
@@ -26,12 +26,12 @@ struct Image: Decodable {
   }
 }
 
-struct Vendor: Decodable {
+struct Vendor: Codable {
   let id: String
   let secret: String
 }
 
-struct Product: Decodable {
+struct Product: Codable {
   let id: Int
   let venderId: Int
   let name: String
@@ -41,12 +41,12 @@ struct Product: Decodable {
   let bargainPrice: Int
   let discountedPrice: Int
   let stock: Int
-  let images: [Image]
-  let vendors: Vendor
-  let createdAt: Date
-  let issuedAt: Date
+  let images: [Image]?
+  let vendors: Vendor?
+  let createdAt: String
+  let issuedAt: String
   
-  enum Codingkeys: String, CodingKey {
+  enum CodingKeys: String, CodingKey {
     case id, name, thumbnail, currency, price, stock, images, vendors
     case venderId = "vendor_id"
     case bargainPrice = "bargain_price"
@@ -67,10 +67,10 @@ struct ProductList: Decodable {
   let hasNext: Bool
   let hasPrevious: Bool
   
-  enum Codinkeys: String, CodingKey {
+  enum CodingKeys: String, CodingKey {
     case offset, limit, pages
     case pageNumber = "page_no"
-    case itemsPerPage = "item_per_page"
+    case itemsPerPage = "items_per_page"
     case totalCount = "total_count"
     case lastPage = "last_page"
     case hasNext = "has_next"
