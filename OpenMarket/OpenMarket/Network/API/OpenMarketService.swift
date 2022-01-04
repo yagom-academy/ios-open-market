@@ -9,7 +9,7 @@ import Foundation
 
 enum OpenMarketService {
     case checkHealth
-    case createProduct(id: String, params: CreateProductRequestParams, images: Data)
+    case createProduct(id: String, params: String, images: [Data])
     case updateProduct
     case showProductSecret
     case deleteProduct
@@ -18,7 +18,72 @@ enum OpenMarketService {
 }
 
 extension OpenMarketService {
-    var urlRequest: URLRequest {
-        URLRequest(url: URL(string: "")!)
+    var baseURL: String {
+        return "https://market-training.yagom-academy.kr"
+    }
+    
+    var urlRequest: URLRequest? {
+        switch self {
+        case .checkHealth:
+            return URLRequest(url: URL(string: "")!)
+        case .createProduct(let id, let params, let images):
+            guard let url = URL(string: self.baseURL + self.path) else {
+                return nil
+            }
+            var urlRequest = URLRequest(url: url)
+            urlRequest.httpMethod = self.method
+            urlRequest.addValue(id, forHTTPHeaderField: "identifier")
+            urlRequest.addValue("multipart/form-data", forHTTPHeaderField: "Content-Type")
+            
+            return urlRequest
+        case .updateProduct:
+            return URLRequest(url: URL(string: "")!)
+        case .showProductSecret:
+            return URLRequest(url: URL(string: "")!)
+        case .deleteProduct:
+            return URLRequest(url: URL(string: "")!)
+        case .showProductDetail:
+            return URLRequest(url: URL(string: "")!)
+        case .showPage:
+            return URLRequest(url: URL(string: "")!)
+        }
+    }
+    
+    var path: String {
+        switch self {
+        case .checkHealth:
+            return "/healthChecker"
+        case .createProduct:
+            return "/api/products"
+        case .updateProduct:
+            return ""
+        case .showProductSecret:
+            return ""
+        case .deleteProduct:
+            return ""
+        case .showProductDetail:
+            return ""
+        case .showPage:
+            return ""
+        }
+    }
+    
+    var method: String {
+        switch self {
+        case .checkHealth:
+            return "GET"
+        case .createProduct:
+            return "POST"
+        case .updateProduct:
+            return "PATCH"
+        case .showProductSecret:
+            return "POST"
+        case .deleteProduct:
+            return "DELETE"
+        case .showProductDetail:
+            return "GET"
+        case .showPage:
+            return "GET"
+        }
     }
 }

@@ -19,11 +19,9 @@ protocol URLSessionProtocol {
 
 class URLSessionProvider {
     let session: URLSessionProtocol
-    var baseURL: String = "https://market-training.yagom-academy.kr/"
     
     init(session: URLSessionProtocol, baseURL: String) {
         self.session = session
-        self.baseURL = baseURL
     }
     
     func request(_ service: OpenMarketService, completionHandler: @escaping (Result<Data, URLSessionProviderError>) -> Void) {
