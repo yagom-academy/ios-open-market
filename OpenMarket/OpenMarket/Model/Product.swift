@@ -19,10 +19,7 @@ struct Product: Codable {
     let stock: Int
     let createdAt: Date
     let issuedAt: Date
-    enum Currency: String, Codable {
-        case KRW
-        case USD
-    }
+
     enum CodingKeys: String, CodingKey {
         case id
         case venderId = "vendor_id"
