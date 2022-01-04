@@ -1,12 +1,8 @@
 import UIKit
 
-enum Parser {
-    static func decode(from jsonName: String) throws -> ProductList? {
-        guard let data = NSDataAsset(name: jsonName) else {
-            return nil
-        }
-        
-        let products = try JSONDecoder().decode(ProductList.self, from: data.data)
+enum Parser<Element: Decodable> {
+    static func decode(from data: Data) throws -> Element? {
+        let products = try JSONDecoder().decode(Element.self, from: data)
         
         return products
     }
