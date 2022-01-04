@@ -1,7 +1,7 @@
 import Foundation
 
 struct ProductList {
-    var pageNu: Int
+    var pageNumber: Int
     var itemsPerPage: Int
     var totalCount: Int
     var offset: Int
@@ -12,7 +12,7 @@ struct ProductList {
     var pages: [Product]
 
     enum CodingKeys: String, CodingKey {
-        case pageNu = "page_no"
+        case pageNumber = "page_no"
         case itemsPerPage = "items_per_page"
         case totalCount = "total_count"
         case offset
