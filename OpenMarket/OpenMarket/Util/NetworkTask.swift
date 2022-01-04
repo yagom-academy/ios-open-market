@@ -1,4 +1,5 @@
 import Foundation
+import UIKit
 
 enum NetworkTask {
     static let apiHost = "https://market-training.yagom-academy.kr"
@@ -63,5 +64,41 @@ enum NetworkTask {
             completionHandler(data)
         }
         task.resume()
+    }
+    
+    private func buildBody(with salesInformation: SalesInformation, images: [Data]) -> Data? {
+        let boundary = "XXXXX"
+        guard let endBoundary = "\r\n--\(boundary)--".data(using: .utf8) else {
+            return nil
+        }
+        guard let newLine = "\r\n".data(using: .utf8) else {
+            return nil
+        }
+        guard let salesInformation = try? JSONParser.encode(from: salesInformation) else {
+            return nil
+        }
+        var data = Data()
+        var body = ""
+        body.append("--\(boundary)\r\n")
+        body.append("Content-Disposition:form-data; name=\"params\"\r\n")
+        guard let paramsBody = body.data(using: .utf8) else {
+            return nil
+        }
+        data.append(paramsBody)
+        data.append(salesInformation)
+        data.append(endBoundary)
+        body = ""
+        body.append("\r\n--\(boundary)\r\n")
+        body.append("Content-Disposition:form-data; name=\"images\"\r\n")
+        guard let imagesBody = body.data(using: .utf8) else {
+            return nil
+        }
+        data.append(imagesBody)
+        for image in images {
+            data.append(newLine)
+            data.append(image)
+        }
+        data.append(endBoundary)
+        return data
     }
 }
