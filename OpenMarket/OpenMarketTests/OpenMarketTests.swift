@@ -37,7 +37,7 @@ class OpenMarketTests: XCTestCase {
     private func decode(data: Data) throws -> Page {
         let decoder = JSONDecoder()
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss.SSS"
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SS"
         dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
         decoder.dateDecodingStrategy = .formatted(dateFormatter)
         return try decoder.decode(Page.self, from: data)
@@ -62,7 +62,7 @@ class OpenMarketTests: XCTestCase {
                 } catch {
                     XCTFail("error")
                 }
-            case .failure(let error):
+            case .failure(_):
                 XCTFail("error")
             }
         }
