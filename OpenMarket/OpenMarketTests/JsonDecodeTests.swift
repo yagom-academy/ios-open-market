@@ -15,16 +15,16 @@ class JsonDecodeTests: XCTestCase {
         let jsonData = try! String(contentsOfFile: data!).data(using: .utf8)
         
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss.SSS"
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SS"
 
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .formatted(dateFormatter)
         
         let result = try! decoder.decode(ProductList.self, from: jsonData!)
-        
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss.SS"
         let convertedDate = dateFormatter.string(from: result.pages.first!.createdAt)
     
-        XCTAssertEqual(convertedDate, "2021-12-29 00:00:00.000")
+        XCTAssertEqual(convertedDate, "2022-01-03 00:00:00.00")
         XCTAssertEqual(result.pages.first?.currency, .krw)
         XCTAssertEqual(result.pageNo, 1)
     }
