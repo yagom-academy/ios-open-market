@@ -9,7 +9,7 @@ import Foundation
 
 enum NetworkError: LocalizedError {
     case responseCasting
-    case statusCode(String)
+    case statusCode(Int)
     case notFoundURL
     
     var errorDescription: String {

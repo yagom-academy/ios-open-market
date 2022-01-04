@@ -16,6 +16,7 @@
 		9A1CFDCA27841CD0003BEC69 /* ProductSecret.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1CFDC927841CD0003BEC69 /* ProductSecret.swift */; };
 		9A1CFDCC27842755003BEC69 /* ProductModification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1CFDCB27842755003BEC69 /* ProductModification.swift */; };
 		9A1CFDCE27842E2E003BEC69 /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1CFDCD27842E2E003BEC69 /* Currency.swift */; };
+		9A1CFDD1278469D5003BEC69 /* MultipartForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1CFDD0278469D5003BEC69 /* MultipartForm.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
 		C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */; };
 		C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FE25BEF61C00C9924E /* ViewController.swift */; };
@@ -52,6 +53,7 @@
 		9A1CFDC927841CD0003BEC69 /* ProductSecret.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductSecret.swift; sourceTree = "<group>"; };
 		9A1CFDCB27842755003BEC69 /* ProductModification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductModification.swift; sourceTree = "<group>"; };
 		9A1CFDCD27842E2E003BEC69 /* Currency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
+		9A1CFDD0278469D5003BEC69 /* MultipartForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipartForm.swift; sourceTree = "<group>"; };
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -89,6 +91,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9A1CFDCF278469A6003BEC69 /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				9A1CFDD0278469D5003BEC69 /* MultipartForm.swift */,
+			);
+			path = Protocol;
+			sourceTree = "<group>";
+		};
 		C70FB0EE25BEF61C00C9924E = {
 			isa = PBXGroup;
 			children = (
@@ -110,6 +120,7 @@
 		C70FB0F925BEF61C00C9924E /* OpenMarket */ = {
 			isa = PBXGroup;
 			children = (
+				9A1CFDCF278469A6003BEC69 /* Protocol */,
 				C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */,
 				C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */,
 				F35B1A69278433490031A755 /* Extension */,
@@ -343,6 +354,7 @@
 				F39BD72A2782DFA000D4B32D /* Products.swift in Sources */,
 				F35B1A73278442F40031A755 /* ImageFile.swift in Sources */,
 				9A1CFDC82783EE09003BEC69 /* NetworkConstant.swift in Sources */,
+				9A1CFDD1278469D5003BEC69 /* MultipartForm.swift in Sources */,
 				9A1CFD7A2782E683003BEC69 /* Parser.swift in Sources */,
 				9A1CFDC62783DD63003BEC69 /* Vendors.swift in Sources */,
 				9A1CFD7C2782EB88003BEC69 /* ParserError.swift in Sources */,

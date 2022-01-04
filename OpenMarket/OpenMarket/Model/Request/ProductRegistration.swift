@@ -7,10 +7,6 @@
 
 import Foundation
 
-protocol MultipartForm {
-    var dictionary: [String: Any?] { get }
-}
-
 struct ProductRegistration: Codable, MultipartForm {
     let name: String
     let description: String
