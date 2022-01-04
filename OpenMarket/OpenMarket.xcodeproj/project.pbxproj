@@ -23,6 +23,10 @@
 		C997D3242782DD0900FF3398 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = C997D3232782DD0800FF3398 /* .swiftlint.yml */; };
 		C9B5FAD02783DB00001B6FDE /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B5FACF2783DB00001B6FDE /* APIService.swift */; };
 		C9B5FAD32783F240001B6FDE /* URLRequest+httpmethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B5FAD22783F240001B6FDE /* URLRequest+httpmethod.swift */; };
+		C9B5FADC2784361F001B6FDE /* ProductImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B5FADB2784361F001B6FDE /* ProductImage.swift */; };
+		C9B5FADE2784362E001B6FDE /* Vendor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B5FADD2784362E001B6FDE /* Vendor.swift */; };
+		C9B5FADF2784364A001B6FDE /* ProductImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B5FADB2784361F001B6FDE /* ProductImage.swift */; };
+		C9B5FAE02784364D001B6FDE /* Vendor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B5FADD2784362E001B6FDE /* Vendor.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +58,8 @@
 		C997D3232782DD0800FF3398 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		C9B5FACF2783DB00001B6FDE /* APIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
 		C9B5FAD22783F240001B6FDE /* URLRequest+httpmethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLRequest+httpmethod.swift"; sourceTree = "<group>"; };
+		C9B5FADB2784361F001B6FDE /* ProductImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductImage.swift; sourceTree = "<group>"; };
+		C9B5FADD2784362E001B6FDE /* Vendor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vendor.swift; sourceTree = "<group>"; };
 		CC884582C3711126F04E92C9 /* Pods_OpenMarket.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OpenMarket.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -81,6 +87,8 @@
 			children = (
 				A6A824332782EA2C006CE6DA /* ProductList.swift */,
 				A6A824352782EA41006CE6DA /* ProductDetail.swift */,
+				C9B5FADB2784361F001B6FDE /* ProductImage.swift */,
+				C9B5FADD2784362E001B6FDE /* Vendor.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -312,6 +320,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				A6A824422782F65E006CE6DA /* JsonDecodeTests.swift in Sources */,
+				C9B5FADF2784364A001B6FDE /* ProductImage.swift in Sources */,
+				C9B5FAE02784364D001B6FDE /* Vendor.swift in Sources */,
 				A6A8244A2782F895006CE6DA /* ProductList.swift in Sources */,
 				A6A8244B2782F899006CE6DA /* ProductDetail.swift in Sources */,
 			);
@@ -321,7 +331,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C9B5FADE2784362E001B6FDE /* Vendor.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
+				C9B5FADC2784361F001B6FDE /* ProductImage.swift in Sources */,
 				A6A824362782EA42006CE6DA /* ProductDetail.swift in Sources */,
 				A6A824342782EA2C006CE6DA /* ProductList.swift in Sources */,
 				C9B5FAD32783F240001B6FDE /* URLRequest+httpmethod.swift in Sources */,
