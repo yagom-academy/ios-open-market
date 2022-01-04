@@ -4,6 +4,7 @@ class APIManager {
     let apiHost = "https://market-training.yagom-academy.kr/"
     var healthChecker: String?
     var product: ProductInformation?
+    var productList: ProductList?
     var semaphore = DispatchSemaphore (value: 0)
     
     func requestHealthChecker() {
@@ -42,6 +43,31 @@ class APIManager {
             
             do {
                 self.product = try Parser.decode(from: data)
+            } catch {
+                print(error)
+            }
+            
+            self.semaphore.signal()
+        }
+        
+        task.resume()
+        self.semaphore.wait()
+    }
+    
+    func requestProductList() {
+        let url = apiHost + "/api/products?page-no=1&items-per-page=10"
+        var request = URLRequest(url: URL(string: url)!,timeoutInterval: Double.infinity)
+        request.httpMethod = "GET"
+        
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            guard let data = data else {
+                print(String(describing: error))
+                self.semaphore.signal()
+                return
+            }
+            
+            do {
+                self.productList = try Parser.decode(from: data)
             } catch {
                 print(error)
             }
