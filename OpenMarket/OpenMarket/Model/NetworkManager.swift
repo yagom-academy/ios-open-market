@@ -39,4 +39,12 @@ struct NetworkManager {
             }
         }
     }
+    
+    // GET - 상품 리스트 조회
+    func request(page: UInt, itemsPerPage: UInt) -> URLRequest? {
+        guard let url = NetworkConstant.products(page: page, itemsPerPage: itemsPerPage).url else {
+            return nil
+        }
+        return URLRequest(url: url)
+    }
 }
