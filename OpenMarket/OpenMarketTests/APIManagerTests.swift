@@ -19,5 +19,11 @@ class APIManagerTests: XCTestCase {
         let result = sutAPIManager.product?.name
         XCTAssertEqual(result, "팥빙수")
     }
+    
+    func test_상품목록의_상품갯수가_5개인지_확인() {
+        sutAPIManager.checkProductList()
+        let result = sutAPIManager.productList?.pages.count
+        XCTAssertEqual(result, 6)
+    }
 
 }
