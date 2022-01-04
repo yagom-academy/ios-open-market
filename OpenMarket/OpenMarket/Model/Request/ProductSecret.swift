@@ -7,6 +7,6 @@
 
 import Foundation
 
-struct Secret: Codable {
+struct ProductSecret: Codable {
     let secret: String
 }

@@ -21,7 +21,7 @@ final class Network {
                 return
             }
             guard (200...299).contains(response.statusCode) else {
-                completion(.failure(NetworkError.statusCode))
+                completion(.failure(NetworkError.statusCode(response.statusCode)))
                 return
             }
             completion(.success(data))

@@ -7,8 +7,19 @@
 
 import Foundation
 
-enum NetworkError: Error {
+enum NetworkError: LocalizedError {
     case responseCasting
-    case statusCode
+    case statusCode(String)
     case notFoundURL
+    
+    var errorDescription: String {
+        switch self {
+        case .responseCasting:
+            return "캐스팅에 실패하였습니다."
+        case .statusCode(let code):
+            return "상태 코드 에러 : \(code)"
+        case .notFoundURL:
+            return "URL을 찾을 수 없습니다."
+        }
+    }
 }
