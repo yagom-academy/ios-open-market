@@ -18,9 +18,9 @@ class JSONParseTests: XCTestCase {
             let date = decoded?.pages[0].issuedAt
             
             let formatter = DateFormatter()
-            formatter.dateFormat = "yyyy-MM-dd HH:mm:ss.SSS"
-            let test = formatter.string(from: date ?? Date())
-            XCTAssertEqual(test, "2021-12-29 00:00:00.000")
+            formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SS"
+            let test = formatter.string(from: date!)
+            XCTAssertEqual(test, "2022-01-03T00:00:00.00")
         } catch {
             print(error)
             XCTFail()
@@ -34,6 +34,9 @@ enum JSONParser<Element: Decodable> {
             return nil
         }
         let decoder = JSONDecoder()
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SS"
+        decoder.dateDecodingStrategy = .formatted(formatter)
         decoder.keyDecodingStrategy = .convertFromSnakeCase
         let data = try decoder.decode(Element.self, from: asset.data)
         return data
