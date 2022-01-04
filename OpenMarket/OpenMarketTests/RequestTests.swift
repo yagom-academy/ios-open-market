@@ -23,14 +23,17 @@ class RequestTests: XCTestCase {
       }
     }
     sleep(3)
-    dump(b)
+    XCTAssertNotNil(b)
   }
   
   func test_상품상세조회() {
     let request = RequestOpenMarket()
     
-    let result = request.responseDetailProduct()
-    sleep(3)
+    guard let result = request.responseDetailProduct() else {
+      return
+    }
+    
+    XCTAssertEqual(result.id, 16)
   }
 
 }
