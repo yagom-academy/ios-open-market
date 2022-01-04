@@ -20,6 +20,18 @@ class ParserTests: XCTestCase {
         
         XCTAssertEqual(5, result?.totalCount)
         XCTAssertEqual(5, result?.pages.count)
-        XCTAssertEqual("Test Product", result?.pages[2].name)
+    }
+    
+    func test_Product_parsing() {
+        let title = "product"
+        
+        let parsing = parser.decode(fileName: title, decodingType: Product.self)
+        let result = try? parsing.get()
+        
+        XCTAssertEqual("팥빙수", result?.name)
+        XCTAssertEqual(2000, result?.price)
+        XCTAssertEqual(16, result?.id)
+        XCTAssertEqual("KRW", result?.currency)
+        XCTAssertTrue(result!.images!.first!.url.contains("yagom-academy"))
     }
 }

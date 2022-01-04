@@ -9,28 +9,25 @@ import Foundation
 
 struct Product: Codable {
     let id: Int
-    let vendorId: Int
+    let vendorID: Int
     let name: String
     var thumbnail: String
-    let currency: String
+    var currency: String
     var price: Int
     var bargainPrice: Int
     var discountedPrice: Int
     var stock: Int
-    var ceratedAt: String
+    var createdAt: String
     var issuedAt: String
+    var images: [Image]?
+    var vendors: Vendors?
     
     enum CodingKeys: String, CodingKey {
-        case id
-        case vendorId = "vendor_id"
-        case name
-        case thumbnail
-        case currency
-        case price
+        case id, stock, name, thumbnail, currency, price, images, vendors
+        case vendorID = "vendor_id"
         case bargainPrice = "bargain_price"
         case discountedPrice = "discounted_price"
-        case stock
-        case ceratedAt = "created_at"
+        case createdAt = "created_at"
         case issuedAt = "issued_at"
     }
 }
