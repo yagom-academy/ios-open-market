@@ -80,4 +80,17 @@ struct NetworkManager {
         
         return .success(request)
     }
+    
+    // DELET - 상품 삭제
+    func request(id: UInt, secret: String) -> URLRequest? {
+        guard let url = NetworkConstant.delete(id: id, secret: secret).url else {
+            return nil
+        }
+        var request = URLRequest(url: url)
+        
+        request.httpMethod = NetworkConstant.HTTPMethod.delete.rawValue
+        request.addValue("80c47530-58bb-11ec-bf7f-d188f1cd5f22", forHTTPHeaderField: "identifier")
+        
+        return request
+    }
 }
