@@ -1,6 +1,7 @@
 import Foundation
+@testable import OpenMarket
 
-class StubURLSession {
+class StubURLSession: URLSessionProtocol {
     let alwaysSuccess: Bool
     var dummyData: Data?
     
@@ -8,7 +9,7 @@ class StubURLSession {
         self.alwaysSuccess = alwaysSuccess
     }
     
-    func dataTask(with urlRequest: URLRequest, completion: @escaping (Data?, URLResponse?, Error?) -> ()) -> URLSessionDataTask{
+    func dataTask(with urlRequest: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> ()) -> URLSessionDataTask{
         
         guard let url = urlRequest.url else {
             return StubURLSessionDataTask()
@@ -20,11 +21,11 @@ class StubURLSession {
         
         if alwaysSuccess {
             sessionDataTask.resumeDidCall = {
-                completion(self.dummyData, sucessResponse, nil)
+                completionHandler(self.dummyData, sucessResponse, nil)
             }
         } else {
             sessionDataTask.resumeDidCall = {
-                completion(nil, failureResponse, nil)
+                completionHandler(nil, failureResponse, nil)
             }
         }
         

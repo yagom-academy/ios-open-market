@@ -1,12 +1,18 @@
 import Foundation
 
-extension URLSession {
+
+protocol URLSessionProtocol {
+    func dataTask(with request: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask
+}
+
+extension URLSessionProtocol {
     func request<T: Codable>(urlRequest: URLRequest, expecting: T.Type, completion: @escaping (Result<T, Error>) -> Void) {
         let task = dataTask(with: urlRequest) { (data, response, error) in
             guard let data = data else {
                 if let error = error {
                     completion(.failure(error))
                 }
+               
                 return
             }
             
@@ -35,3 +41,4 @@ extension URLSession {
         task.resume()
     }
 }
+
