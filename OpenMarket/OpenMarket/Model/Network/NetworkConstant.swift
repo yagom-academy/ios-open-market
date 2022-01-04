@@ -11,7 +11,7 @@ enum NetworkConstant {
     static let baseURL = "https://market-training.yagom-academy.kr/api/products"
     case products(page: UInt, itemsPerPage: UInt)
     case product(id: UInt)
-    case registrate
+    case register
     case secret(id: UInt, secret: String)
     case delete(id: UInt, secret: String)
     
@@ -21,7 +21,7 @@ enum NetworkConstant {
             return URL(string: NetworkConstant.baseURL + "?page-no=\(page)" + "&items-per-page=\(itemsPerPage)")
         case .product(let id):
             return URL(string: NetworkConstant.baseURL + "/\(id)")
-        case .registrate:
+        case .register:
             return URL(string: NetworkConstant.baseURL)
         case .secret(let id, let secret):
             return URL(string: NetworkConstant.baseURL + "/\(id)" + "/\(secret)")
