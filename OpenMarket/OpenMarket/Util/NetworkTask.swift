@@ -11,9 +11,7 @@ enum NetworkTask {
         let itemsPerPage = URLQueryItem(name: "items_per_page", value: String(itemsPerPage))
         urlComponents?.queryItems?.append(pageNumber)
         urlComponents?.queryItems?.append(itemsPerPage)
-        guard let url = urlComponents?.url else {
-            return
-        }
+        guard let url = urlComponents?.url else { return }
         
         let task = URLSession.shared.dataTask(with: url) { data, response, error in
             if let error = error {
