@@ -6,7 +6,10 @@
 //
 
 import Foundation
-import Metal
+
+enum URLSessionProviderError: Error {
+    case statusError
+}
 
 class URLSessionProvider {
     let session: URLSession
@@ -17,4 +20,17 @@ class URLSessionProvider {
         self.baseURL = baseURL
     }
     
+    func request(_ request: URLRequest, completionHandler: @escaping (Result<Data, URLSessionProviderError>) -> Void) {
+        let task = session.dataTask(with: request) { data, response, error in
+            guard let httpRespose = response as? HTTPURLResponse,
+                  (200...299).contains(httpRespose.statusCode) else {
+                return completionHandler(.failure(.statusError))
+            }
+            guard let data = data else {
+                return completionHandler(.failure(.statusError))
+            }
+            return completionHandler(.success(data))
+        }
+        task.resume()
+    }
 }
