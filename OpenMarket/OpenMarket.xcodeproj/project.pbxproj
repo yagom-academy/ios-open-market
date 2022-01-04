@@ -10,6 +10,7 @@
 		5C32796F486C950826FB7B63 /* Pods_OpenMarket.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D50541713180C77E69EBED66 /* Pods_OpenMarket.framework */; };
 		C171F88027841135001D0B76 /* URLSessionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C171F87F27841135001D0B76 /* URLSessionProvider.swift */; };
 		C171F8812784236B001D0B76 /* URLSessionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C171F87F27841135001D0B76 /* URLSessionProvider.swift */; };
+		C17E063627846CF400D7F83D /* CreateProductResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17E063527846CF400D7F83D /* CreateProductResponse.swift */; };
 		C1F964E32782D67A006F6853 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1F964E22782D67A006F6853 /* Product.swift */; };
 		C1F964EB2782E6D7006F6853 /* OpenMarketTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1F964EA2782E6D7006F6853 /* OpenMarketTests.swift */; };
 		C1F964F22782E777006F6853 /* DummyData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1F964F12782E777006F6853 /* DummyData.swift */; };
@@ -45,6 +46,7 @@
 		01B773038AA12727A1AE8189 /* Pods-OpenMarket.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenMarket.debug.xcconfig"; path = "Target Support Files/Pods-OpenMarket/Pods-OpenMarket.debug.xcconfig"; sourceTree = "<group>"; };
 		40A8AED9FA2D0026389DF4B1 /* Pods-OpenMarket.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenMarket.release.xcconfig"; path = "Target Support Files/Pods-OpenMarket/Pods-OpenMarket.release.xcconfig"; sourceTree = "<group>"; };
 		C171F87F27841135001D0B76 /* URLSessionProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionProvider.swift; sourceTree = "<group>"; };
+		C17E063527846CF400D7F83D /* CreateProductResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateProductResponse.swift; sourceTree = "<group>"; };
 		C1F964E22782D67A006F6853 /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
 		C1F964E82782E6D7006F6853 /* OpenMarketTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenMarketTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C1F964EA2782E6D7006F6853 /* OpenMarketTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketTests.swift; sourceTree = "<group>"; };
@@ -103,6 +105,23 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		C17E063727846D1200D7F83D /* CreateProduct */ = {
+			isa = PBXGroup;
+			children = (
+				C17E063527846CF400D7F83D /* CreateProductResponse.swift */,
+				E9FDEA1F2784677100B12770 /* CreateProductRequestParams.swift */,
+			);
+			path = CreateProduct;
+			sourceTree = "<group>";
+		};
+		C17E063827846D3400D7F83D /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				E9FDEA18278466F700B12770 /* API */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
 		C1F964E92782E6D7006F6853 /* OpenMarketTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -138,6 +157,7 @@
 		C70FB0F925BEF61C00C9924E /* OpenMarket */ = {
 			isa = PBXGroup;
 			children = (
+				C17E063827846D3400D7F83D /* Network */,
 				E99FDE762782D3EC0083D4D6 /* Controller */,
 				E99FDE742782D3980083D4D6 /* Model */,
 				E99FDE752782D3B40083D4D6 /* View */,
@@ -153,7 +173,6 @@
 				E99FDE772782D4C00083D4D6 /* Page.swift */,
 				E9FDEA14278463FE00B12770 /* Currency.swift */,
 				C171F87F27841135001D0B76 /* URLSessionProvider.swift */,
-				E9FDEA18278466F700B12770 /* API */,
 				C1F964E22782D67A006F6853 /* Product.swift */,
 			);
 			path = Model;
@@ -182,7 +201,7 @@
 			isa = PBXGroup;
 			children = (
 				E9FDEA192784670B00B12770 /* OpenMarketService.swift */,
-				E9FDEA1F2784677100B12770 /* CreateProductRequestParams.swift */,
+				C17E063727846D1200D7F83D /* CreateProduct */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -352,6 +371,7 @@
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				C1F964E32782D67A006F6853 /* Product.swift in Sources */,
 				C171F88027841135001D0B76 /* URLSessionProvider.swift in Sources */,
+				C17E063627846CF400D7F83D /* CreateProductResponse.swift in Sources */,
 				E99FDE782782D4C00083D4D6 /* Page.swift in Sources */,
 				E9FDEA15278463FE00B12770 /* Currency.swift in Sources */,
 				E9FDEA202784677100B12770 /* CreateProductRequestParams.swift in Sources */,

@@ -15,6 +15,7 @@ struct CreateProductRequestParams: Encodable {
     let discountedPrice: Decimal?
     let stock: Int?
     let secret: String
+    
     enum CodingKeys: String, CodingKey {
         case name
         case descriptions
