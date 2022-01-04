@@ -31,7 +31,7 @@ class ParserTests: XCTestCase {
         XCTAssertEqual("팥빙수", result?.name)
         XCTAssertEqual(2000, result?.price)
         XCTAssertEqual(16, result?.id)
-        XCTAssertEqual("KRW", result?.currency)
+        XCTAssertEqual(.krw, result?.currency)
         XCTAssertTrue(result!.images!.first!.url.contains("yagom-academy"))
     }
 }

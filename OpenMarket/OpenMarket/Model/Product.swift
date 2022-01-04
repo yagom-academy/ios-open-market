@@ -12,7 +12,7 @@ struct Product: Codable {
     let vendorID: Int
     let name: String
     var thumbnail: String
-    var currency: String
+    var currency: Currency
     var price: Int
     var bargainPrice: Int
     var discountedPrice: Int
