@@ -1,15 +1,23 @@
 import Foundation
 // 2-5 상품 list조회 , 
 struct ProductPageHTTPResponse {
-    let page_no: Int
-    let items_per_page: Int
-    let total_count: Int
+    let pageNo: Int
+    let itemsPerPage: Int
+    let totalCount: Int
     let offset: Int
     let limit: Int
     let last_page: Int
-    let has_next: Bool
-    let has_prev: Bool
+    let hasNext: Bool
+    let hasPrev: Bool
     let pages: [ProductHTTPResponse]
     
-    
+    enum CodingKeys: String, CodingKey {
+        case offset, limit, pages
+        case pageNo = "page_no"
+        case itemsPerPage = "items_per_page"
+        case totalCount = "total_count"
+        case lastPage = "last_page"
+        case hasNext = "has_next"
+        case hasPrev = "has_prev"
+    }
 }
