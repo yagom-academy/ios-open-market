@@ -19,12 +19,10 @@ struct Products: Codable {
     var hasPrev: Bool
     
     enum CodingKeys: String, CodingKey {
+        case offset, limit, pages
         case pageNumber = "page_no"
         case itemsPerPage = "items_per_page"
         case totalCount = "total_count"
-        case offset
-        case limit
-        case pages
         case lastPage = "last_page"
         case hasNext = "has_next"
         case hasPrev = "has_prev"
