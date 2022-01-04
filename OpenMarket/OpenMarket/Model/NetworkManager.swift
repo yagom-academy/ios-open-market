@@ -47,4 +47,12 @@ struct NetworkManager {
         }
         return URLRequest(url: url)
     }
+    
+    // GET - 상품 상세 조회
+    func request(id: UInt) -> URLRequest? {
+        guard let url = NetworkConstant.product(id: id).url else {
+            return nil
+        }
+        return URLRequest(url: url)
+    }
 }
