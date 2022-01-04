@@ -10,6 +10,13 @@ struct Product: Codable {
     var bargainPrice: Int
     var discountedPrice: Int
     var stock: Int
+    var images: [Image]?
+    var vendor: Vendor?
     var createdAt: Date
     var issuedAt: Date
+    
+    private enum CodingKeys: String, CodingKey {
+        case vendor = "vendors"
+        case id, vendorId, name, thumbnail, currency, price, bargainPrice, discountedPrice, stock, images, createdAt, issuedAt
+    }
 }

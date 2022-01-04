@@ -1,0 +1,28 @@
+{
+  "id": 16,
+  "vendor_id": 2,
+  "name": "팥빙수",
+  "thumbnail": "https://s3.ap-northeast-2.amazonaws.com/media.yagom-academy.kr/training-resources/2/thumb/8279f1c16c6111ecbf33d51698ab7ead.png",
+  "currency": "KRW",
+  "price": 2000,
+  "bargain_price": 2000,
+  "discounted_price": 0,
+  "stock": 0,
+  "created_at": "2022-01-03T00:00:00.00",
+  "issued_at": "2022-01-03T00:00:00.00",
+  "images": [
+    {
+      "id": 7,
+      "url": "https://s3.ap-northeast-2.amazonaws.com/media.yagom-academy.kr/training-resources/2/origin/8279f1c16c6111ecbf33d51698ab7ead.png",
+      "thumbnail_url": "https://s3.ap-northeast-2.amazonaws.com/media.yagom-academy.kr/training-resources/2/thumb/8279f1c16c6111ecbf33d51698ab7ead.png",
+      "succeed": true,
+      "issued_at": "2022-01-03T00:00:00.00"
+    }
+  ],
+  "vendors": {
+    "name": "dacodaco",
+    "id": 2,
+    "created_at": "2021-12-26T00:00:00.00",
+    "issued_at": "2021-12-26T00:00:00.00"
+  }
+}
