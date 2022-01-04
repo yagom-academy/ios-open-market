@@ -1,12 +1,12 @@
 import Foundation
 // 2-5 상품 list조회 , 
-struct ProductPageHTTPResponse {
+struct ProductPageHTTPResponse: Codable {
     let pageNo: Int
     let itemsPerPage: Int
     let totalCount: Int
     let offset: Int
     let limit: Int
-    let last_page: Int
+    let lastPage: Int
     let hasNext: Bool
     let hasPrev: Bool
     let pages: [ProductHTTPResponse]

@@ -1,7 +1,7 @@
 import Foundation
 
 struct ProductEntryHTTPRequest {
-    struct Params {
+    struct Params: Codable {
         let name: String
         let descriptions: String
         let price: Int
@@ -11,7 +11,7 @@ struct ProductEntryHTTPRequest {
         let secret: String
         
         enum CodingKeys: String, CodingKey {
-            case name, description, price, currency, stock, secret
+            case name, descriptions, price, currency, stock, secret
             case discountedPrice = "discounted_price"
         }
     }
