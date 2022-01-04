@@ -6,9 +6,9 @@ struct Product: Codable {
     var name: String
     var thumbnail: String
     var currency: Currency
-    var price: Int
-    var bargainPrice: Int
-    var discountedPrice: Int
+    var price: Double
+    var bargainPrice: Double
+    var discountedPrice: Double
     var stock: Int
     var images: [Image]?
     var vendor: Vendor?
