@@ -15,7 +15,7 @@ struct NetworkManager {
         return "Boundary-\(UUID().uuidString)"
     }
     
-    init(network: Network, parser: Parser) {
+    init(network: Network = Network(), parser: Parser = Parser()) {
         self.network = network
         self.parser = parser
     }
@@ -74,7 +74,6 @@ struct NetworkManager {
         case .failure:
             return .failure(ParserError.encoding)
         }
-        
         var request = URLRequest(url: url)
         
         request.httpMethod = NetworkConstant.HTTPMethod.post.rawValue
@@ -112,7 +111,6 @@ struct NetworkManager {
         case .failure:
             return .failure(ParserError.encoding)
         }
-        
         var request = URLRequest(url: url)
         
         request.httpMethod = NetworkConstant.HTTPMethod.patch.rawValue
@@ -128,10 +126,14 @@ struct NetworkManager {
         guard let url = NetworkConstant.register.url else {
             return .failure(NetworkError.notFoundURL)
         }
-        return .success(multipartFormRequest(url: url, params: params, images: images))
+        let request = multipartFormRequest(url: url, params: params, images: images)
+        return .success(request)
     }
     
-    func multipartFormRequest<T: MultipartForm>(url: URL, params: T, images: [ImageFile]) -> URLRequest {
+}
+
+extension NetworkManager {
+    private func multipartFormRequest<T: MultipartForm>(url: URL, params: T, images: [ImageFile]) -> URLRequest {
         let encodeBody = createBody(parameters: params.dictionary, images: images, boundary: self.baseBoundary)
         var request = URLRequest(url: url)
         
@@ -143,23 +145,22 @@ struct NetworkManager {
         return request
     }
     
-    func createBody(parameters: [String: Any?], images: [ImageFile], boundary: String) -> Data {
+    private func createBody(parameters: [String: Any?], images: [ImageFile], boundary: String) -> Data {
         var body = Data()
-        
         for (key, value) in parameters {
             if let value = value {
-                body.append(multiPartForm(name: key, value: value, boundary: boundary))
+                body.append(convertedMultiPartForm(name: key, value: value, boundary: boundary))
             } else {
                 continue
             }
         }
         for image in images {
-            body.append(multiPartForm(image: image, boundary: boundary))
+            body.append(convertedMultiPartForm(image: image, boundary: boundary))
         }
         return body
     }
     
-    func multiPartForm(name: String, value: Any, boundary: String) -> Data {
+    private func convertedMultiPartForm(name: String, value: Any, boundary: String) -> Data {
         var data = Data()
         data.append("--\(boundary)\r\n")
         data.append("Content-Disposition: form-data; name=\"\(name)\"\r\n\r\n")
@@ -167,7 +168,7 @@ struct NetworkManager {
         return data
     }
     
-    func multiPartForm(image: ImageFile, boundary: String) -> Data {
+    private func convertedMultiPartForm(image: ImageFile, boundary: String) -> Data {
         var data = Data()
         data.append("--\(boundary)\r\n")
         data.append("Content-Disposition: form-data; name=\"images[]\"; filename=\"\(image.name)\"\r\n")
