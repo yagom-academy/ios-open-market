@@ -1,9 +1,9 @@
 import Foundation
 
-struct OpenMarket: Codable {
+struct ProductList: Codable {
     let pageNo, itemsPerPage, totalCount, offset: Int
     let limit: Int
-    let pages: [OpenMarketPage]
+    let pages: [ProductSummary]
     let lastPage: Int
     let hasNext, hasPrev: Bool
 
@@ -17,8 +17,27 @@ struct OpenMarket: Codable {
         case hasPrev = "has_prev"
     }
 }
+struct ProductSummary: Codable {
+    let id, vendorID: Int
+    let name: String
+    let thumbnail: String
+    let currency: String
+    let price, bargainPrice, discountedPrice, stock: Int
+    let createdAt, issuedAt: String
+    
+    enum CodingKeys: String, CodingKey {
+        case id
+        case vendorID = "vendor_id"
+        case name, thumbnail, currency, price
+        case bargainPrice = "bargain_price"
+        case discountedPrice = "discounted_price"
+        case stock
+        case createdAt = "created_at"
+        case issuedAt = "issued_at"
+    }
+}
 
-struct OpenMarketPage: Codable {
+struct ProductDetail: Codable {
     let id, vendorID: Int
     let name: String
     let thumbnail: String

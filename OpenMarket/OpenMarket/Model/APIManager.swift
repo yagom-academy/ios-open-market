@@ -3,8 +3,8 @@ import Foundation
 class APIManager {
     
     var apiHealth: String?
-    var product: OpenMarketPage?
-    var productList: OpenMarket?
+    var product: ProductDetail?
+    var productList: ProductList?
     let semaphore = DispatchSemaphore(value: 0)
     
     func checkAPIHealth() {
@@ -30,7 +30,7 @@ class APIManager {
                 self.semaphore.signal()
                 return
             }
-            self.product = JSONParser.decodeData(of: data, how: OpenMarketPage.self)
+            self.product = JSONParser.decodeData(of: data, how: ProductDetail.self)
             self.semaphore.signal()
         }
         task.resume()
@@ -45,7 +45,7 @@ class APIManager {
                 self.semaphore.signal()
                 return
             }
-            self.productList = JSONParser.decodeData(of: data, how: OpenMarket.self)
+            self.productList = JSONParser.decodeData(of: data, how: ProductList.self)
             self.semaphore.signal()
         }
         task.resume()
