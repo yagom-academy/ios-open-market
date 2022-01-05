@@ -8,9 +8,7 @@ class APIManager {
     let semaphore = DispatchSemaphore(value: 0)
     
     func checkAPIHealth() {
-        var request = URLRequest(url: URLManager.healthChecker.url, timeoutInterval: Double.infinity)
-        request.httpMethod = "GET"
-        
+        let request = URLRequest(work: .healthChecker, method: .get)
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             guard let data = data else {
                 print(String(describing: error))
@@ -25,9 +23,7 @@ class APIManager {
     }
     
     func checkProductDetail(from id: Int) {
-        var request = URLRequest(url: URLManager.checkProductDetail(id: id).url, timeoutInterval: Double.infinity)
-        request.httpMethod = "GET"
-        
+        let request = URLRequest(work: .checkProductDetail(id: id), method: .get)
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             guard let data = data else {
                 print(String(describing: error))
@@ -42,9 +38,7 @@ class APIManager {
     }
     
     func checkProductList() {
-        var request = URLRequest(url: URLManager.checkProductList.url, timeoutInterval: Double.infinity)
-        request.httpMethod = "GET"
-        
+        let request = URLRequest(work: .checkProductList, method: .get)
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             guard let data = data else {
                 print(String(describing: error))

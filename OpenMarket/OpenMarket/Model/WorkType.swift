@@ -1,13 +1,6 @@
-//
-//  OpenMarketURL.swift
-//  OpenMarket
-//
-//  Created by Seul Mac on 2022/01/05.
-//
-
 import Foundation
 
-enum URLManager {
+enum WorkType {
     static let apiHost: String = "https://market-training.yagom-academy.kr/"
     case healthChecker
     case checkProductDetail(id: Int)
@@ -16,11 +9,11 @@ enum URLManager {
     var url: URL {
         switch self {
         case .healthChecker:
-            return URL(string: URLManager.apiHost + "healthChecker")!
+            return URL(string: WorkType.apiHost + "healthChecker")!
         case .checkProductDetail(let id):
-            return URL(string: URLManager.apiHost + "api/products/" + "\(id)")!
+            return URL(string: WorkType.apiHost + "api/products/" + "\(id)")!
         case .checkProductList:
-            return URL(string: URLManager.apiHost + "api/products?page-no=1&items-per-page=10")!
+            return URL(string: WorkType.apiHost + "api/products?page-no=1&items-per-page=10")!
         }
     }
     
