@@ -120,7 +120,7 @@ struct NetworkManager {
         return .success(request)
     }
     
-    // PATCH - 상품 등록
+    // POST - 상품 등록
     func request<T: MultipartForm>(params: T, images: [ImageFile]) -> Result<URLRequest?, Error> {
         guard let url = NetworkConstant.register.url else {
             return .failure(NetworkError.notFoundURL)
@@ -136,7 +136,7 @@ extension NetworkManager {
         let encodeBody = createBody(parameters: params.dictionary, images: images, boundary: self.baseBoundary)
         var request = URLRequest(url: url)
         
-        request.httpMethod = NetworkConstant.HTTPMethod.patch.rawValue
+        request.httpMethod = NetworkConstant.HTTPMethod.post.rawValue
         request.httpBody = encodeBody
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("80c47530-58bb-11ec-bf7f-d188f1cd5f22", forHTTPHeaderField: "identifier")

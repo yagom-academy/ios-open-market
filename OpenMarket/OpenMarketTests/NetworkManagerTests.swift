@@ -180,4 +180,24 @@ class NetworkManagerTests: XCTestCase {
         }
     }
     
+    func test_request_상품등록() {
+        //given
+        let url = NetworkConstant.register.url
+        let params = ProductRegistration(name: "", description: "", price: 1, currency: .krw, discountedPrice: nil, stock: nil, secret: "")
+        
+        //when
+        let result = sutNetworkManager?.request(params: params, images: [])
+        
+        switch result {
+        case .success(let request):
+            //then
+            XCTAssertNotNil(request)
+            XCTAssertEqual(request?.url, url)
+            XCTAssertEqual(request?.httpMethod, NetworkConstant.HTTPMethod.post.rawValue)
+        case .failure:
+            XCTFail()
+        case .none:
+            XCTFail()
+        }
+    }
 }
