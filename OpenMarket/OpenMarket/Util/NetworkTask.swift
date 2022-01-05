@@ -58,10 +58,10 @@ enum NetworkTask {
     }
     
     private static func dataTask(with request: URLRequest,
-                                 completionHandler: @escaping (Result<Data, Error>) -> Void) -> URLSessionDataTask {
+                                 completionHandler: @escaping (Result<(Data), Error>) -> Void) -> URLSessionDataTask {
         let dataTask = URLSession.shared.dataTask(with: request) { data, response, error in
             if let error = error {
-                completionHandler(.failure(NetworkError.requestFailed))
+                completionHandler(.failure(error))
                 return
             }
             guard let httpResponse = response as? HTTPURLResponse,
