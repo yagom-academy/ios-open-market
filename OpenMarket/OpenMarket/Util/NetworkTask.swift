@@ -101,7 +101,7 @@ enum NetworkTask {
     
     private static func dataTask(
         with request: URLRequest,
-        completionHandler: @escaping (Result<(Data), Error>) -> Void
+        completionHandler: @escaping (Result<Data, Error>) -> Void
     ) -> URLSessionDataTask {
         let dataTask = URLSession.shared.dataTask(with: request) { data, response, error in
             if let error = error {
