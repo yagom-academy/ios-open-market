@@ -171,9 +171,8 @@ extension NetworkManager {
         var data = Data()
         data.append("--\(boundary)\r\n")
         data.append("Content-Disposition: form-data; name=\"images[]\"; filename=\"\(image.name)\"\r\n")
-        data.append("Content-Type: image/\(image.type.description)\r\n\r\n")
-        data.append(image.data)
-        data.append("\r\n")
+        data.append("Content-Type: \(image.type.description)\r\n\r\n")
+        data.append("\(image.data)\r\n")
         return data
     }
     
