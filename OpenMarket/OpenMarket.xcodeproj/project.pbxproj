@@ -16,7 +16,7 @@
 		A6A8244E27841E01006CE6DA /* products.json in Resources */ = {isa = PBXBuildFile; fileRef = A6A8244D27841E01006CE6DA /* products.json */; };
 		A6A824522785779C006CE6DA /* MockURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6A824512785779C006CE6DA /* MockURLSession.swift */; };
 		A6A82453278577D1006CE6DA /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B5FACF2783DB00001B6FDE /* APIService.swift */; };
-		A6A824552785BDE1006CE6DA /* URLManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6A824542785BDE1006CE6DA /* URLManager.swift */; };
+		A6A824552785BDE1006CE6DA /* URLCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6A824542785BDE1006CE6DA /* URLCreator.swift */; };
 		A6A824572785DDD8006CE6DA /* ProductRegisterInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6A824562785DDD8006CE6DA /* ProductRegisterInformation.swift */; };
 		A6A824592785DE3F006CE6DA /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6A824582785DE3F006CE6DA /* Currency.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
@@ -54,7 +54,7 @@
 		A6A824412782F65E006CE6DA /* APIServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIServiceTests.swift; sourceTree = "<group>"; };
 		A6A8244D27841E01006CE6DA /* products.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = products.json; sourceTree = "<group>"; };
 		A6A824512785779C006CE6DA /* MockURLSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSession.swift; sourceTree = "<group>"; };
-		A6A824542785BDE1006CE6DA /* URLManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLManager.swift; sourceTree = "<group>"; };
+		A6A824542785BDE1006CE6DA /* URLCreator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLCreator.swift; sourceTree = "<group>"; };
 		A6A824562785DDD8006CE6DA /* ProductRegisterInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductRegisterInformation.swift; sourceTree = "<group>"; };
 		A6A824582785DE3F006CE6DA /* Currency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -166,7 +166,7 @@
 			isa = PBXGroup;
 			children = (
 				C9B5FACF2783DB00001B6FDE /* APIService.swift */,
-				A6A824542785BDE1006CE6DA /* URLManager.swift */,
+				A6A824542785BDE1006CE6DA /* URLCreator.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -362,7 +362,7 @@
 				C9B5FADE2784362E001B6FDE /* Vendor.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
 				C9B5FADC2784361F001B6FDE /* ProductImage.swift in Sources */,
-				A6A824552785BDE1006CE6DA /* URLManager.swift in Sources */,
+				A6A824552785BDE1006CE6DA /* URLCreator.swift in Sources */,
 				A6A824572785DDD8006CE6DA /* ProductRegisterInformation.swift in Sources */,
 				A6A824362782EA42006CE6DA /* ProductDetail.swift in Sources */,
 				A6A824342782EA2C006CE6DA /* ProductList.swift in Sources */,
