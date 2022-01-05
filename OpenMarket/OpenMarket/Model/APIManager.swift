@@ -37,12 +37,7 @@ class APIManager {
                 self.semaphore.signal()
                 return
             }
-            do {
-                let convertedData = try JSONParser.decodeData(of: data, how: OpenMarketPage.self)
-                self.product = convertedData
-            } catch {
-                print(error.localizedDescription)
-            }
+            self.product = JSONParser.decodeData(of: data, how: OpenMarketPage.self)
             self.semaphore.signal()
         }
         task.resume()
@@ -60,12 +55,7 @@ class APIManager {
                 self.semaphore.signal()
                 return
             }
-            do {
-                let convertedData = try JSONParser.decodeData(of: data, how: OpenMarket.self)
-                self.productList = convertedData
-            } catch {
-                print(error.localizedDescription)
-            }
+            self.productList = JSONParser.decodeData(of: data, how: OpenMarket.self)
             self.semaphore.signal()
         }
         task.resume()
