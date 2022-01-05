@@ -101,22 +101,23 @@ enum NetworkTask {
     
     private static func dataTask(
         with request: URLRequest,
-        completionHandler: @escaping (Result<(Data), Error>) -> Void) -> URLSessionDataTask {
-            let dataTask = URLSession.shared.dataTask(with: request) { data, response, error in
-                if let error = error {
-                    completionHandler(.failure(error))
-                    return
-                }
-                guard let httpResponse = response as? HTTPURLResponse,
-                      (200...299).contains(httpResponse.statusCode) else {
-                          completionHandler(.failure(NetworkError.httpError))
-                          return
-                      }
-                guard let data = data else { return }
-                completionHandler(.success(data))
+        completionHandler: @escaping (Result<(Data), Error>) -> Void
+    ) -> URLSessionDataTask {
+        let dataTask = URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                completionHandler(.failure(error))
+                return
             }
-            return dataTask
+            guard let httpResponse = response as? HTTPURLResponse,
+                  (200...299).contains(httpResponse.statusCode) else {
+                      completionHandler(.failure(NetworkError.httpError))
+                      return
+                  }
+            guard let data = data else { return }
+            completionHandler(.success(data))
         }
+        return dataTask
+    }
     
     private static func buildBody(
         with salesInformation: SalesInformation,
