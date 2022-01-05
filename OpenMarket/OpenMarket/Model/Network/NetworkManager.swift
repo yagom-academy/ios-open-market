@@ -8,13 +8,13 @@
 import UIKit
 
 struct NetworkManager {
-    let network: Network
-    let parser: Parser
+    let network: Networkable
+    let parser: Parserable
     var baseBoundary: String {
         return "Boundary-\(UUID().uuidString)"
     }
     
-    init(network: Network = Network(), parser: Parser = Parser()) {
+    init(network: Networkable = Network(), parser: Parserable = Parser()) {
         self.network = network
         self.parser = parser
     }

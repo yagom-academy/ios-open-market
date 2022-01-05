@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class Network {
+final class Network: Networkable {
     let session: Sessionable
     
     init(session: Sessionable = URLSession.shared) {

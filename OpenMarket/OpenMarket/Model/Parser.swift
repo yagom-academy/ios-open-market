@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct Parser {
+struct Parser: Parserable {
     private let jsonDecoder = JSONDecoder()
     private let jsonEncoder = JSONEncoder()
     
