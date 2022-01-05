@@ -13,7 +13,8 @@ enum NetworkTask {
     static func requestProductRegistration(identifier: String,
                                            salesInformation: SalesInformation,
                                            images: [String: Data],
-                                           completionHandler: @escaping (Result<Data, Error>) -> Void) {
+                                           completionHandler: @escaping (Result<Data, Error>)
+                                           -> Void) {
         guard let url = NetworkAddress.productRegistration.url else { return }
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
@@ -29,7 +30,8 @@ enum NetworkTask {
     static func requestProductModification(identifier: String,
                                            productId: Int,
                                            information: ModificationInformation,
-                                           completionHandler: @escaping (Result<Data, Error>) -> Void) {
+                                           completionHandler: @escaping (Result<Data, Error>)
+                                           -> Void) {
         guard let url = NetworkAddress.productModification(productId: productId).url else {
             return
         }
@@ -42,9 +44,9 @@ enum NetworkTask {
     }
     
     static func requestSecret(productId: Int,
-                              identifier: String,
-                              secret: String,
-                              completionHandler: @escaping (Result<Data, Error>) -> Void) {
+                                     identifier: String,
+                                     secret: String,
+                                     completionHandler: @escaping (Result<Data, Error>) -> Void) {
         guard let url = NetworkAddress.secret(productId: productId).url else { return }
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
@@ -68,7 +70,8 @@ enum NetworkTask {
         task.resume()
     }
     
-    static func requestProductDetail(productId: Int, completionHandler: @escaping (Result<Data, Error>) -> Void) {
+    static func requestProductDetail(productId: Int,
+                                     completionHandler: @escaping (Result<Data, Error>) -> Void) {
         guard let url = NetworkAddress.productDetail(productId: productId).url else { return }
         let request = URLRequest(url: url)
         let task = dataTask(with: request, completionHandler: completionHandler)
@@ -78,7 +81,8 @@ enum NetworkTask {
     static func requestProductList(pageNumber: Int,
                                    itemsPerPage: Int,
                                    completionHandler: @escaping (Result<Data, Error>) -> Void) {
-        guard let url = NetworkAddress.productList(pageNumber: pageNumber, itemsPerPage: itemsPerPage).url else { return }
+        guard let url = NetworkAddress.productList(pageNumber: pageNumber,
+                                                   itemsPerPage: itemsPerPage).url else { return }
         let request = URLRequest(url: url)
         let task = dataTask(with: request, completionHandler: completionHandler)
         task.resume()
@@ -157,20 +161,20 @@ extension NetworkTask {
                 return URL(string: Self.apiHost + "/healthChecker")
             case .productRegistration:
                 return URL(string: Self.apiHost + "/api/products")
-            case .productModification(let productId):
+            case let .productModification(productId):
                 return URL(string: Self.apiHost + "/api/products/\(productId)")
-            case .productDetail(let productId):
+            case let .productDetail(productId):
                 return URL(string: Self.apiHost + "/api/products/" + String(productId))
-            case .productList(let pageNumber, let itemsPerPage):
+            case let .productList(pageNumber, itemsPerPage):
                 var urlComponents = URLComponents(string: Self.apiHost + "/api/products?")
                 let pageNumber = URLQueryItem(name: "page_no", value: String(pageNumber))
                 let itemsPerPage = URLQueryItem(name: "items_per_page", value: String(itemsPerPage))
                 urlComponents?.queryItems?.append(pageNumber)
                 urlComponents?.queryItems?.append(itemsPerPage)
                 return urlComponents?.url
-            case .secret(let productId):
+            case let .secret(productId):
                 return URL(string: Self.apiHost + "/api/products/\(productId)/secret")
-            case .removeProduct(let productId, let productSecret):
+            case let .removeProduct(productId, productSecret):
                 return URL(string: Self.apiHost + "/api/products/\(productId)/\(productSecret)")
             }
         }
