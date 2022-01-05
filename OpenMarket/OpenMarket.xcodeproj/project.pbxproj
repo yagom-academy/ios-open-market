@@ -12,6 +12,8 @@
 		3B971C92278573B600088872 /* MarketAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B971C91278573B600088872 /* MarketAPIService.swift */; };
 		3B971C95278575FE00088872 /* Page.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED0157E42782E5C400BEE737 /* Page.swift */; };
 		3B971C962785760100088872 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B971C592782E26400088872 /* Product.swift */; };
+		3BF5220827858EBC00CD76A5 /* JSONError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF5220727858EBC00CD76A5 /* JSONError.swift */; };
+		3BF52209278593C100CD76A5 /* JSONError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF5220727858EBC00CD76A5 /* JSONError.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
 		C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */; };
 		C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FE25BEF61C00C9924E /* ViewController.swift */; };
@@ -42,6 +44,7 @@
 		3B971C592782E26400088872 /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
 		3B971C772783EFCB00088872 /* URLSessionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionProtocol.swift; sourceTree = "<group>"; };
 		3B971C91278573B600088872 /* MarketAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketAPIService.swift; sourceTree = "<group>"; };
+		3BF5220727858EBC00CD76A5 /* JSONError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONError.swift; sourceTree = "<group>"; };
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -139,6 +142,7 @@
 				3B971C772783EFCB00088872 /* URLSessionProtocol.swift */,
 				ED85D52E278410A3007A23CF /* APIServicable.swift */,
 				EDC4FD272785729500E0A775 /* Parsable.swift */,
+				3BF5220727858EBC00CD76A5 /* JSONError.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -252,6 +256,7 @@
 				EDC4FD282785729500E0A775 /* Parsable.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				ED85D53527842A51007A23CF /* PatchProduct.swift in Sources */,
+				3BF5220827858EBC00CD76A5 /* JSONError.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 				ED0157E52782E5C400BEE737 /* Page.swift in Sources */,
 			);
@@ -261,6 +266,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3BF52209278593C100CD76A5 /* JSONError.swift in Sources */,
 				EDC4FD2B27858BF700E0A775 /* MarketAPIService.swift in Sources */,
 				EDC4FD1F278570B500E0A775 /* OpenMarketTests.swift in Sources */,
 				3B971C962785760100088872 /* Product.swift in Sources */,

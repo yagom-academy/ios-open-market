@@ -6,6 +6,7 @@
 //
 
 import XCTest
+@testable import OpenMarket
 
 class OpenMarketTests: XCTestCase {
     var sut: MarketAPIService!
@@ -18,7 +19,15 @@ class OpenMarketTests: XCTestCase {
         sut = nil
     }
     
-    func testParsePage_productsJSONFile_expectCorrectPageProperties() {
+    func testParser_givenProductsFile_expectThrowError() {
+        guard let data = NSDataAsset(name: "products")?.data else {
+            return
+        }
+        
+        XCTAssertNoThrow(try sut.parse(with: data, type: Page.self))
+    }
+    
+    func testPageModel_givenParsedJSONData_expectCorrectPageProperties() {
         guard let page = parsePage() else {
             return
         }
@@ -36,7 +45,7 @@ class OpenMarketTests: XCTestCase {
         XCTAssertEqual(limit, 20)
     }
     
-    func testProductModel_firstProductOfArray_expectCorrectProduct() {
+    func testProductModel_givenFirstProductOfArray_expectCorrectProduct() {
         guard let page = parsePage() else {
             return
         }
@@ -59,17 +68,43 @@ class OpenMarketTests: XCTestCase {
         XCTAssertEqual(product, testProduct)
     }
     
+    func testProductModel_givenLastProductOfArray_expectCorrectProduct() {
+        guard let page = parsePage() else {
+            return
+        }
+        guard let product = page.products.last else {
+            return
+        }
+        
+        let testProduct = Product(id: 2,
+                                  vendorID: 2,
+                                  name: "팥빙수",
+                                  thumbnailURL: "https://s3.ap-northeast-2.amazonaws.com/media.yagom-academy.kr/training-resources/2/thumb/a3257844661911ec8eff5b6e36134cb4.png",
+                                  currency: "KRW",
+                                  price: 2000,
+                                  bargainPrice: 2000,
+                                  discountedPrice: 0,
+                                  stock: 0,
+                                  createdAt: "2021-12-26T00:00:00.00",
+                                  issuedAt: "2021-12-26T00:00:00.00")
+        
+        XCTAssertEqual(product, testProduct)
+    }
+    
     private func parsePage() -> Page? {
         guard let data = NSDataAsset(name: "products")?.data else {
             return nil
         }
-        guard let page: Page = sut.parse(with: data) else {
-            return nil
+        do {
+            let page = try sut.parse(with: data, type: Page.self)
+            return page
+        } catch JSONError.parsingError {
+            print(JSONError.parsingError.description)
+        } catch let error {
+            print(error.localizedDescription)
         }
-        
-        return page
+        return nil
     }
-    
 }
 
 extension Product: Equatable {
