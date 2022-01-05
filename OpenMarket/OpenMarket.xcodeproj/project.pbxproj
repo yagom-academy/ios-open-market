@@ -21,6 +21,7 @@
 		DE8317192782D1EF00FF2120 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE8317182782D1EF00FF2120 /* Product.swift */; };
 		DE83171B2782D51A00FF2120 /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE83171A2782D51A00FF2120 /* Currency.swift */; };
 		DE8317232782DFAC00FF2120 /* JSONParseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE8317222782DFAC00FF2120 /* JSONParseTests.swift */; };
+		DEAE69642785A61F00F21D21 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEAE69632785A61F00F21D21 /* NetworkError.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +52,7 @@
 		DE83171A2782D51A00FF2120 /* Currency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
 		DE8317202782DFAC00FF2120 /* JSONParseTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = JSONParseTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DE8317222782DFAC00FF2120 /* JSONParseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONParseTests.swift; sourceTree = "<group>"; };
+		DEAE69632785A61F00F21D21 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +94,7 @@
 		C70FB0F925BEF61C00C9924E /* OpenMarket */ = {
 			isa = PBXGroup;
 			children = (
+				DEAE69622785A5C900F21D21 /* Error */,
 				DE65CFF727840F4700E1B619 /* Util */,
 				DE8317172782D1DD00FF2120 /* Model */,
 				C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */,
@@ -132,6 +135,14 @@
 				DE8317222782DFAC00FF2120 /* JSONParseTests.swift */,
 			);
 			path = JSONParseTests;
+			sourceTree = "<group>";
+		};
+		DEAE69622785A5C900F21D21 /* Error */ = {
+			isa = PBXGroup;
+			children = (
+				DEAE69632785A61F00F21D21 /* NetworkError.swift */,
+			);
+			path = Error;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -243,6 +254,7 @@
 				DE65CFFB27840F6F00E1B619 /* JSONParser.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
+				DEAE69642785A61F00F21D21 /* NetworkError.swift in Sources */,
 				3AABC1D52782D701005DDCE8 /* ProductsList.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
