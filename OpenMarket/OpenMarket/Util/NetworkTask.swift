@@ -1,8 +1,8 @@
-import Foundation
 import UIKit
 
 enum NetworkTask {
     static let apiHost = "https://market-training.yagom-academy.kr"
+    static let boundary = "XXXXX"
     
     static func requestHealthChekcer(completionHandler: @escaping (Data) -> Void) {
         guard let url = URL(string: apiHost + "/healthChecker") else { return }
@@ -17,6 +17,33 @@ enum NetworkTask {
                       return
                   }
             guard let data = data, httpResponse.mimeType == "text/plain" else { return }
+            completionHandler(data)
+        }
+        task.resume()
+    }
+    
+    static func requestProductRegistration(identifier: String,
+                                           salesInformation: SalesInformation,
+                                           images: [Data],
+                                           completionHandler: @escaping (Data) -> Void) {
+        guard let url = URL(string: apiHost + "/api/products") else { return }
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.addValue(identifier, forHTTPHeaderField: "identifier")
+        request.addValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        let body = buildBody(with: salesInformation, images: images)
+        request.httpBody = body
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                print(error)
+                return
+            }
+            guard let httpResponse = response as? HTTPURLResponse,
+                  (200...299).contains(httpResponse.statusCode) else {
+                      print(response)
+                      return
+                  }
+            guard let data = data, httpResponse.mimeType == "application/json" else { return }
             completionHandler(data)
         }
         task.resume()
@@ -66,8 +93,7 @@ enum NetworkTask {
         task.resume()
     }
     
-    private func buildBody(with salesInformation: SalesInformation, images: [Data]) -> Data? {
-        let boundary = "XXXXX"
+    private static func buildBody(with salesInformation: SalesInformation, images: [Data]) -> Data? {
         guard let endBoundary = "\r\n--\(boundary)--".data(using: .utf8) else {
             return nil
         }
