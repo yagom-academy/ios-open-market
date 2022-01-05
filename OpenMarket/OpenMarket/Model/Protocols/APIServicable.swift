@@ -12,8 +12,7 @@ protocol APIServicable {
     func patch(productID: Int, product: PatchProduct)
     func post(productID: Int, secret: String)
     func delete(productID: Int, productSecret: String)
-    func get(productID: Int)
+    func get(productID: Int, completionHandler: @escaping (Result<Product, APIError>) -> Void)
     func get(pageNumber: Int, itemsPerPage: Int)
-    func parse<T: Decodable>(with data: Data) -> T?
 }
 

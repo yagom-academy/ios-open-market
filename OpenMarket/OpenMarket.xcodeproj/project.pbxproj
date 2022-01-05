@@ -28,6 +28,7 @@
 		EDC4FD282785729500E0A775 /* Parsable.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDC4FD272785729500E0A775 /* Parsable.swift */; };
 		EDC4FD2A27858BE000E0A775 /* Parsable.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDC4FD272785729500E0A775 /* Parsable.swift */; };
 		EDC4FD2B27858BF700E0A775 /* MarketAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B971C91278573B600088872 /* MarketAPIService.swift */; };
+		EDC4FD2E2785CD4C00E0A775 /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDC4FD2D2785CD4C00E0A775 /* APIError.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,6 +62,7 @@
 		EDC4FD1E278570B500E0A775 /* OpenMarketTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketTests.swift; sourceTree = "<group>"; };
 		EDC4FD20278570B500E0A775 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EDC4FD272785729500E0A775 /* Parsable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parsable.swift; sourceTree = "<group>"; };
+		EDC4FD2D2785CD4C00E0A775 /* APIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,6 +119,7 @@
 		ED0157E62782EBE900BEE737 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				EDC4FD2C2785CD4000E0A775 /* Errors */,
 				EDC4FD29278572F700E0A775 /* Protocols */,
 				ED0157E42782E5C400BEE737 /* Page.swift */,
 				3B971C91278573B600088872 /* MarketAPIService.swift */,
@@ -142,9 +145,17 @@
 				3B971C772783EFCB00088872 /* URLSessionProtocol.swift */,
 				ED85D52E278410A3007A23CF /* APIServicable.swift */,
 				EDC4FD272785729500E0A775 /* Parsable.swift */,
-				3BF5220727858EBC00CD76A5 /* JSONError.swift */,
 			);
 			path = Protocols;
+			sourceTree = "<group>";
+		};
+		EDC4FD2C2785CD4000E0A775 /* Errors */ = {
+			isa = PBXGroup;
+			children = (
+				3BF5220727858EBC00CD76A5 /* JSONError.swift */,
+				EDC4FD2D2785CD4C00E0A775 /* APIError.swift */,
+			);
+			path = Errors;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -259,6 +270,7 @@
 				3BF5220827858EBC00CD76A5 /* JSONError.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 				ED0157E52782E5C400BEE737 /* Page.swift in Sources */,
+				EDC4FD2E2785CD4C00E0A775 /* APIError.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
