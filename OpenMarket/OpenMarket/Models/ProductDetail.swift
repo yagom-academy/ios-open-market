@@ -15,11 +15,6 @@ struct ProductDetail: Codable {
     let images: [ProductImage]?
     let vendors: Vendor?
     
-    enum Currency: String, Codable {
-        case krw = "KRW"
-        case usd = "USD"
-    }
-    
     enum CodingKeys: String, CodingKey {
         case vendorId = "vendor_id"
         case bargainPrice = "bargain_price"
