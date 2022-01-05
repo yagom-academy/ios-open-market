@@ -3,9 +3,9 @@ import Foundation
 struct SalesInformation: Codable {
     var name: String
     var descriptions: String
-    var price: Double?
+    var price: Double
     var currency: Currency
     var discountedPrice: Double?
-    var amount: Int
+    var stock: Int?
     var secret: String
 }
