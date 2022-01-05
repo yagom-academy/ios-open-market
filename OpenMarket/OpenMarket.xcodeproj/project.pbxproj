@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		470F81742782E8AC006B4734 /* OpenMarket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 470F81732782E8AC006B4734 /* OpenMarket.swift */; };
 		470F81762782F51A006B4734 /* JSONParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 470F81752782F51A006B4734 /* JSONParser.swift */; };
+		4713AACC27857F4700396E26 /* OpenMarketURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4713AACB27857F4700396E26 /* OpenMarketURL.swift */; };
 		473CF1372783E07700B8DA1F /* OpenMarketTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 473CF1362783E07700B8DA1F /* OpenMarketTests.swift */; };
 		473CF13D2783E08B00B8DA1F /* OpenMarket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 470F81732782E8AC006B4734 /* OpenMarket.swift */; };
 		473CF13E2783E08D00B8DA1F /* JSONParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 470F81752782F51A006B4734 /* JSONParser.swift */; };
@@ -38,6 +39,7 @@
 		40B3467047507D5D11B17F26 /* Pods-OpenMarket.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenMarket.release.xcconfig"; path = "Target Support Files/Pods-OpenMarket/Pods-OpenMarket.release.xcconfig"; sourceTree = "<group>"; };
 		470F81732782E8AC006B4734 /* OpenMarket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarket.swift; sourceTree = "<group>"; };
 		470F81752782F51A006B4734 /* JSONParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONParser.swift; sourceTree = "<group>"; };
+		4713AACB27857F4700396E26 /* OpenMarketURL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketURL.swift; sourceTree = "<group>"; };
 		473CF1342783E07700B8DA1F /* OpenMarketTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenMarketTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		473CF1362783E07700B8DA1F /* OpenMarketTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketTests.swift; sourceTree = "<group>"; };
 		5F45A60083455343705EB7DD /* Pods_OpenMarket.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OpenMarket.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -88,6 +90,7 @@
 				470F81732782E8AC006B4734 /* OpenMarket.swift */,
 				470F81752782F51A006B4734 /* JSONParser.swift */,
 				EAB8FBD12783E4780036A4E3 /* APIManager.swift */,
+				4713AACB27857F4700396E26 /* OpenMarketURL.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -303,6 +306,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EAB8FBD22783E4780036A4E3 /* APIManager.swift in Sources */,
+				4713AACC27857F4700396E26 /* OpenMarketURL.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
 				470F81762782F51A006B4734 /* JSONParser.swift in Sources */,
 				470F81742782E8AC006B4734 /* OpenMarket.swift in Sources */,
