@@ -1,6 +1,13 @@
 import Foundation
 
+protocol URLSessionProtocol {
+    func dataTask(with request: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask
+}
+
+extension URLSession: URLSessionProtocol {}
+
 class APIService {
+    let session: URLSessionProtocol
     private let decoder: JSONDecoder = {
         let decoder = JSONDecoder()
         let dateFormatter = DateFormatter()
@@ -9,8 +16,12 @@ class APIService {
         return decoder
     }()
     
+    init(session: URLSessionProtocol = URLSession.shared) {
+        self.session = session
+    }
+    
     func retrieveProductData<T: Decodable>(request: URLRequest, completion: @escaping (Result<T, Error>) -> ()) {
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+        let task = session.dataTask(with: request) { data, response, error in
             guard error == nil else {
                 print(error?.localizedDescription)
                 return
