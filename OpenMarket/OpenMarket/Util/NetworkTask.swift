@@ -24,13 +24,14 @@ enum NetworkTask {
     
     static func requestProductRegistration(identifier: String,
                                            salesInformation: SalesInformation,
-                                           images: [Data],
+                                           images: [String: Data],
                                            completionHandler: @escaping (Data) -> Void) {
         guard let url = URL(string: apiHost + "/api/products") else { return }
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.addValue(identifier, forHTTPHeaderField: "identifier")
-        request.addValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        request.addValue("multipart/form-data; boundary=\(boundary)",
+                         forHTTPHeaderField: "Content-Type")
         let body = buildBody(with: salesInformation, images: images)
         request.httpBody = body
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
@@ -93,7 +94,8 @@ enum NetworkTask {
         task.resume()
     }
     
-    private static func buildBody(with salesInformation: SalesInformation, images: [Data]) -> Data? {
+    private static func buildBody(with salesInformation: SalesInformation,
+                                  images: [String: Data]) -> Data? {
         guard let endBoundary = "\r\n--\(boundary)--".data(using: .utf8) else {
             return nil
         }
@@ -104,23 +106,22 @@ enum NetworkTask {
             return nil
         }
         var data = Data()
-        var body = ""
-        body.append("--\(boundary)\r\n")
-        body.append("Content-Disposition:form-data; name=\"params\"\r\n")
-        guard let paramsBody = body.data(using: .utf8) else {
+        var paramsBody = ""
+        paramsBody.append("--\(boundary)\r\n")
+        paramsBody.append("Content-Disposition: form-data; name=\"params\"\r\n\r\n")
+        guard let paramsBody = paramsBody.data(using: .utf8) else {
             return nil
         }
         data.append(paramsBody)
         data.append(salesInformation)
-        data.append(endBoundary)
-        body = ""
-        body.append("\r\n--\(boundary)\r\n")
-        body.append("Content-Disposition:form-data; name=\"images\"\r\n")
-        guard let imagesBody = body.data(using: .utf8) else {
-            return nil
-        }
-        data.append(imagesBody)
-        for image in images {
+        for (fileName, image) in images {
+            var imagesBody = ""
+            imagesBody.append("\r\n--\(boundary)\r\n")
+            imagesBody.append("Content-Disposition: form-data; name=\"images\"; filename=\(fileName)\r\n")
+            guard let imagesBody = imagesBody.data(using: .utf8) else {
+                return nil
+            }
+            data.append(imagesBody)
             data.append(newLine)
             data.append(image)
         }
