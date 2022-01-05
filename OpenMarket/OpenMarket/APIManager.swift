@@ -9,6 +9,7 @@ import Foundation
 
 struct APIManager {
   let apiHost = "https://market-training.yagom-academy.kr"
+  let semaphore = DispatchSemaphore(value: 0)
   
   func productList(pageNumber: Int, itemsPerPage: Int) -> ProductList? {
     var productList: ProductList?
@@ -26,7 +27,9 @@ struct APIManager {
       case .failure(_):
         productList = nil
       }
+      semaphore.signal()
     }
+    semaphore.wait()
     return productList
   }
   
@@ -46,7 +49,9 @@ struct APIManager {
       case .failure(_):
         product = nil
       }
+      semaphore.signal()
     }
+    semaphore.wait()
     return product
   }
   
