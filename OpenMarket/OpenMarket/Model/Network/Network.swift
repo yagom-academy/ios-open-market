@@ -8,9 +8,9 @@
 import Foundation
 
 final class Network: Networkable {
-    let session: Sessionable
+    let session: URLSession
     
-    init(session: Sessionable = URLSession.shared) {
+    init(session: URLSession = .shared) {
         self.session = session
     }
     

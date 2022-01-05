@@ -12,11 +12,12 @@ class NetworkTests: XCTestCase {
     
     func test_Success() {
         // given
-        let data = "test".data(using: .utf8)!
         let url = URL(string: "testURL")!
-        let responce = HTTPURLResponse(url: url, statusCode: 200, httpVersion: nil, headerFields: nil)
-        let dummyData = DummyData(data: data, response: responce, error: nil)
-        let session = MockSession(dummyData: dummyData)
+        let data = Data()
+        let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: nil, headerFields: nil)
+        MockURLProtocol.mockURLs = [url: (nil, data, response)]
+        let session = MockSession.session
+
         let network = Network(session: session)
         let request = URLRequest(url: url)
         let expectation = XCTestExpectation(description: "네트워크 실행")
@@ -40,11 +41,12 @@ class NetworkTests: XCTestCase {
     
     func test_Failure() {
         // given
-        let data = "test".data(using: .utf8)!
         let url = URL(string: "testURL")!
-        let responce = HTTPURLResponse(url: url, statusCode: 404, httpVersion: nil, headerFields: nil)
-        let dummyData = DummyData(data: data, response: responce, error: nil)
-        let session = MockSession(dummyData: dummyData)
+        let data = Data()
+        let response = HTTPURLResponse(url: url, statusCode: 404, httpVersion: nil, headerFields: nil)
+        MockURLProtocol.mockURLs = [url: (nil, data, response)]
+        let session = MockSession.session
+        
         let network = Network(session: session)
         let request = URLRequest(url: url)
         let expectation = XCTestExpectation(description: "네트워크 실행")
