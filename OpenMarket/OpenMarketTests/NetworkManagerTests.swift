@@ -126,4 +126,24 @@ class NetworkManagerTests: XCTestCase {
         XCTAssertEqual(result?.url, url)
         XCTAssertEqual(result?.httpMethod, NetworkConstant.HTTPMethod.get.rawValue)
     }
+    
+    func test_request_상품삭제Secret조회() {
+        //given
+        let url = NetworkConstant.secret(id: 1, secret: "123").url
+        
+        //when
+        let result = sutNetworkManager?.request(data: Data(), id: 1, secret: "123")
+        
+        switch result {
+        case .success(let request):
+            //then
+            XCTAssertNotNil(request)
+            XCTAssertEqual(request?.url, url)
+            XCTAssertEqual(request?.httpMethod, NetworkConstant.HTTPMethod.post.rawValue)
+        case .failure:
+            XCTFail()
+        case .none:
+            XCTFail()
+        }
+    }
 }
