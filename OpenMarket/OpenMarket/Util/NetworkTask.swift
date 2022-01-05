@@ -43,7 +43,7 @@ enum NetworkTask {
         task.resume()
     }
     
-    static func requestSecret(productId: Int,
+    static func requestProductSecret(productId: Int,
                                      identifier: String,
                                      secret: String,
                                      completionHandler: @escaping (Result<Data, Error>) -> Void) {
