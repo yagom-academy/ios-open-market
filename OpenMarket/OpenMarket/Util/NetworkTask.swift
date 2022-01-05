@@ -6,19 +6,8 @@ enum NetworkTask {
     
     static func requestHealthChekcer(completionHandler: @escaping (Data) -> Void) {
         guard let url = URL(string: apiHost + "/healthChecker") else { return }
-        let task = URLSession.shared.dataTask(with: url) { data, response, error in
-            if let error = error {
-                print(error)
-                return
-            }
-            guard let httpResponse = response as? HTTPURLResponse,
-                  200 == httpResponse.statusCode else {
-                      print(response)
-                      return
-                  }
-            guard let data = data, httpResponse.mimeType == "text/plain" else { return }
-            completionHandler(data)
-        }
+        let request = URLRequest(url: url)
+        let task = dataTask(with: request, completionHandler: completionHandler)
         task.resume()
     }
     
@@ -34,37 +23,14 @@ enum NetworkTask {
                          forHTTPHeaderField: "Content-Type")
         let body = buildBody(with: salesInformation, images: images)
         request.httpBody = body
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            if let error = error {
-                print(error)
-                return
-            }
-            guard let httpResponse = response as? HTTPURLResponse,
-                  (200...299).contains(httpResponse.statusCode) else {
-                      print(response)
-                      return
-                  }
-            guard let data = data, httpResponse.mimeType == "application/json" else { return }
-            completionHandler(data)
-        }
+        let task = dataTask(with: request, completionHandler: completionHandler)
         task.resume()
     }
     
     static func requestProductDetail(productId: Int, completionHandler: @escaping (Data) -> Void) {
         guard let url = URL(string: apiHost + "/api/products/" + String(productId)) else { return }
-        let task = URLSession.shared.dataTask(with: url) {  data, response, error in
-            if let error = error {
-                print(error)
-                return
-            }
-            guard let httpResponse = response as? HTTPURLResponse,
-                  (200...299).contains(httpResponse.statusCode) else {
-                      print(response)
-                      return
-                  }
-            guard let data = data, httpResponse.mimeType == "application/json" else { return }
-            completionHandler(data)
-        }
+        let request = URLRequest(url: url)
+        let task = dataTask(with: request, completionHandler: completionHandler)
         task.resume()
     }
     
@@ -77,8 +43,14 @@ enum NetworkTask {
         urlComponents?.queryItems?.append(pageNumber)
         urlComponents?.queryItems?.append(itemsPerPage)
         guard let url = urlComponents?.url else { return }
-        
-        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+        let request = URLRequest(url: url)
+        let task = dataTask(with: request, completionHandler: completionHandler)
+        task.resume()
+    }
+    
+    private static func dataTask(with request: URLRequest,
+                                 completionHandler: @escaping (Data) -> Void) -> URLSessionDataTask {
+        let dataTask = URLSession.shared.dataTask(with: request) { data, response, error in
             if let error = error {
                 print(error)
                 return
@@ -88,12 +60,12 @@ enum NetworkTask {
                       print(response)
                       return
                   }
-            guard let data = data, httpResponse.mimeType == "application/json" else { return }
+            guard let data = data else { return }
             completionHandler(data)
         }
-        task.resume()
+        return dataTask
     }
-    
+
     private static func buildBody(with salesInformation: SalesInformation,
                                   images: [String: Data]) -> Data? {
         guard let endBoundary = "\r\n--\(boundary)--".data(using: .utf8) else {
@@ -127,5 +99,30 @@ enum NetworkTask {
         }
         data.append(endBoundary)
         return data
+    }
+}
+
+extension NetworkTask {
+    struct SalesInformation: Codable {
+        var name: String
+        var descriptions: String
+        var price: Double
+        var currency: Currency
+        var discountedPrice: Double?
+        var stock: Int?
+        var secret: String
+    }
+    
+    struct ModificationInformation: Codable {
+        var identifier: String
+        var productId: Int
+        var name: String?
+        var descriptions: String?
+        var thumbnail_id: Int?
+        var price: Int?
+        var currency: Currency?
+        var discountedPrice: Double?
+        var stock: Int?
+        var secret: String
     }
 }
