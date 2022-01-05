@@ -54,6 +54,20 @@ enum NetworkTask {
         task.resume()
     }
     
+    static func requestRemoveProduct(identifier: String,
+                                     productId: Int,
+                                     productSecret: String,
+                                     completionHandler: @escaping (Result<Data, Error>) -> Void) {
+        guard let url = NetworkAddress.removeProduct(productId: productId,
+                                                     productSecret: productSecret).url else { return }
+        var request = URLRequest(url: url)
+        request.httpMethod = "DELETE"
+        request.addValue(identifier, forHTTPHeaderField: "identifier")
+        request.httpBody = try? JSONParser.encode(from: productSecret)
+        let task = dataTask(with: request, completionHandler: completionHandler)
+        task.resume()
+    }
+    
     static func requestProductDetail(productId: Int, completionHandler: @escaping (Result<Data, Error>) -> Void) {
         guard let url = NetworkAddress.productDetail(productId: productId).url else { return }
         let request = URLRequest(url: url)
@@ -135,6 +149,7 @@ extension NetworkTask {
         case productDetail(productId: Int)
         case productList(pageNumber: Int, itemsPerPage: Int)
         case secret(productId: Int)
+        case removeProduct(productId: Int, productSecret: String)
         
         var url: URL? {
             switch self {
@@ -155,6 +170,8 @@ extension NetworkTask {
                 return urlComponents?.url
             case .secret(let productId):
                 return URL(string: Self.apiHost + "/api/products/\(productId)/secret")
+            case .removeProduct(let productId, let productSecret):
+                return URL(string: Self.apiHost + "/api/products/\(productId)/\(productSecret)")
             }
         }
     }
