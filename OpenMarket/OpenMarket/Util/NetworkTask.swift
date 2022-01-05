@@ -27,6 +27,19 @@ enum NetworkTask {
         task.resume()
     }
     
+    static func requestProductModification(information: ModificationInformation,
+                                           completionHandler: @escaping (Data) -> Void) {
+        guard let url = URL(string: apiHost + "/api/products/\(information.productId)") else {
+            return
+        }
+        var request = URLRequest(url: url)
+        request.httpMethod = "PATCH"
+        request.addValue(information.identifier, forHTTPHeaderField: "identifier")
+        request.httpBody = try? JSONParser.encode(from: information)
+        let task = dataTask(with: request, completionHandler: completionHandler)
+        task.resume()
+    }
+    
     static func requestProductDetail(productId: Int, completionHandler: @escaping (Data) -> Void) {
         guard let url = URL(string: apiHost + "/api/products/" + String(productId)) else { return }
         let request = URLRequest(url: url)
