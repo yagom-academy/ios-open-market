@@ -8,7 +8,11 @@
 import Foundation
 
 final class Network {
-    let session = URLSession.shared
+    let session: Sessionable
+    
+    init(session: Sessionable = URLSession.shared) {
+        self.session = session
+    }
     
     func execute(request: URLRequest, completion: @escaping (Result<Data?, Error>) -> Void) {
         session.dataTask(with: request) { data, response, error in
