@@ -146,4 +146,18 @@ class NetworkManagerTests: XCTestCase {
             XCTFail()
         }
     }
+    
+    func test_request_상품삭제() {
+        //given
+        let url = NetworkConstant.delete(id: 1, secret: "123").url
+        
+        //when
+        let result = sutNetworkManager?.request(id: 1, secret: "123")
+        
+        //then
+        XCTAssertNotNil(result)
+        XCTAssertEqual(result?.url, url)
+        XCTAssertEqual(result?.httpMethod, NetworkConstant.HTTPMethod.delete.rawValue)
+    }
+    
 }
