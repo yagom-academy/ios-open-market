@@ -6,6 +6,7 @@ class APIManager {
     var product: ProductInformation?
     var productList: ProductList?
     var semaphore = DispatchSemaphore (value: 0)
+    let successRange = 200..<300
     
     func requestHealthChecker() {
         let url = apiHost + "healthChecker"
@@ -13,6 +14,18 @@ class APIManager {
         request.httpMethod = HTTPMethod.get.description
         
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            guard error == nil else {
+                return
+            }
+            
+            guard let statusCode = (response as? HTTPURLResponse)?.statusCode else {
+                return
+            }
+            
+            guard self.successRange.contains(statusCode) else {
+                return
+            }
+            
             guard let data = data else {
                 print(String(describing: error))
                 self.semaphore.signal()
