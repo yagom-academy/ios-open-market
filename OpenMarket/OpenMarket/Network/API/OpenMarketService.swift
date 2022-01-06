@@ -46,6 +46,7 @@ extension OpenMarketService {
             var request = URLRequest(url: url)
             request.httpMethod = self.method
             request.addValue(sellerID, forHTTPHeaderField: "identifier")
+            request.addValue("application/json", forHTTPHeaderField: "Content-Type")
             request.httpBody = "{\"secret\": \"\(sellerPW)\"}".data(using: .utf8)
             return request
         case .deleteProduct:
