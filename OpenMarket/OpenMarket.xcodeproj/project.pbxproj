@@ -21,6 +21,7 @@
 		FB2CEABF2783E6F200DB75DF /* ProductInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB2CEABE2783E6F200DB75DF /* ProductInformation.swift */; };
 		FB2CEADE27840FB800DB75DF /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB2CEADD27840FB800DB75DF /* Parser.swift */; };
 		FB2CEAE02784364400DB75DF /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB2CEADF2784364400DB75DF /* APIManager.swift */; };
+		FB2CEAE22786D62800DB75DF /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB2CEAE12786D62700DB75DF /* HTTPMethod.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +50,7 @@
 		FB2CEABE2783E6F200DB75DF /* ProductInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductInformation.swift; sourceTree = "<group>"; };
 		FB2CEADD27840FB800DB75DF /* Parser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
 		FB2CEADF2784364400DB75DF /* APIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
+		FB2CEAE12786D62700DB75DF /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,6 +120,7 @@
 				FB2CEABE2783E6F200DB75DF /* ProductInformation.swift */,
 				FB2CEADD27840FB800DB75DF /* Parser.swift */,
 				FB2CEADF2784364400DB75DF /* APIManager.swift */,
+				FB2CEAE12786D62700DB75DF /* HTTPMethod.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -237,6 +240,7 @@
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
 				FB2CEADE27840FB800DB75DF /* Parser.swift in Sources */,
 				FB2CEABC2783E54800DB75DF /* ProductList.swift in Sources */,
+				FB2CEAE22786D62800DB75DF /* HTTPMethod.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 				FB2CEAE02784364400DB75DF /* APIManager.swift in Sources */,

@@ -1,4 +1,4 @@
-struct ProductInformation: Decodable {
+struct ProductInformation: Codable {
     let id: Int
     let vendorId: Int
     let name: String
