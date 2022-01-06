@@ -1,6 +1,6 @@
 import Foundation
 
-struct ProductList {
+struct ProductList: Decodable {
     var pageNumber: Int
     var itemsPerPage: Int
     var totalCount: Int
