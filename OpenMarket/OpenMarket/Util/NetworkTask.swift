@@ -206,7 +206,8 @@ extension NetworkTask {
                 return url
             case let .removeProduct(productId, productSecret):
                 let url = URL(
-                    string: Self.marketTrainingApiHost + "/api/products/\(productId)/\(productSecret)"
+                    string: Self.marketTrainingApiHost +
+                    "/api/products/\(productId)/\(productSecret)"
                 )
                 return url
             }
