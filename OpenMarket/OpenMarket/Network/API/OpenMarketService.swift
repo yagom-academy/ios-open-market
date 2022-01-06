@@ -42,6 +42,7 @@ extension OpenMarketService {
             urlRequest.httpBody = body as Data
             return urlRequest
         case .updateProduct(let sellerID, _, let body):
+            print(self.path)
             guard let url = URL(string: baseURL + self.path) else { return nil }
             var request = URLRequest(url: url)
             request.httpMethod = self.method

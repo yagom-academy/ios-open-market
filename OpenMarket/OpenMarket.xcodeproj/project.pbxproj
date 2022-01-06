@@ -15,6 +15,7 @@
 		C13469E72786E3350044DFDB /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13469E52786E32F0044DFDB /* Image.swift */; };
 		C13469E92786E35C0044DFDB /* Vendor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13469E82786E35C0044DFDB /* Vendor.swift */; };
 		C13469EB2786E3B00044DFDB /* UpdateProductRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13469EA2786E3B00044DFDB /* UpdateProductRequest.swift */; };
+		C13469EC2786E9530044DFDB /* UpdateProductRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13469EA2786E3B00044DFDB /* UpdateProductRequest.swift */; };
 		C171F88027841135001D0B76 /* URLSessionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C171F87F27841135001D0B76 /* URLSessionProvider.swift */; };
 		C171F8812784236B001D0B76 /* URLSessionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C171F87F27841135001D0B76 /* URLSessionProvider.swift */; };
 		C17E063627846CF400D7F83D /* ProductResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17E063527846CF400D7F83D /* ProductResponse.swift */; };
@@ -373,6 +374,7 @@
 				E99FDE7F2782E9490083D4D6 /* StubURLSessionDataTask.swift in Sources */,
 				E99FDE842782F3970083D4D6 /* Page.swift in Sources */,
 				C171F8812784236B001D0B76 /* URLSessionProvider.swift in Sources */,
+				C13469EC2786E9530044DFDB /* UpdateProductRequest.swift in Sources */,
 				C13469E42786BFBB0044DFDB /* OpenMarketService.swift in Sources */,
 				C13469E32786BF3F0044DFDB /* URLSessionProviderTests.swift in Sources */,
 				C13469E12786BF1E0044DFDB /* Currency.swift in Sources */,
