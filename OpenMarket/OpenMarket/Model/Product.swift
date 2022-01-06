@@ -17,6 +17,7 @@ struct Product: Decodable {
     
     private enum CodingKeys: String, CodingKey {
         case vendor = "vendors"
-        case id, vendorId, name, thumbnail, currency, price, bargainPrice, discountedPrice, stock, images, createdAt, issuedAt
+        case id, vendorId, name, thumbnail, currency, price, bargainPrice, discountedPrice, stock,
+             images, createdAt, issuedAt
     }
 }
