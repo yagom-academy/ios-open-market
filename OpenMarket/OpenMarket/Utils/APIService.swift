@@ -20,30 +20,51 @@ class APIService {
         self.session = session
     }
     
-    func retrieveProductData<T: Decodable>(request: URLRequest, completion: @escaping (Result<T, Error>) -> ()) {
+    func retrieveProductDetail(id: Int, completion: @escaping (Result<ProductDetail, APIError>) -> Void) {
+        guard let url = URLCreator.productDetail(id: id).url else {
+            completion(.failure(.invalidURL))
+            return
+        }
+        
+        let request = URLRequest(url: url, api: .productDetail)
+        
+        let task = dataTask(request: request) { result in
+            switch result {
+            case .success(let data):
+                guard let productDetail = try? self.decoder.decode(ProductDetail.self, from: data) else {
+                    return
+                }
+                completion(.success(productDetail))
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+        
+        task.resume()
+    }
+    
+    func dataTask(request: URLRequest, completion: @escaping (Result<Data,APIError>) -> ()) -> URLSessionDataTask {
         let task = session.dataTask(with: request) { data, response, error in
             guard error == nil else {
-                print(error?.localizedDescription)
+                completion(.failure(.invalidRequest))
                 return
             }
             
             guard let httpResponse = response as? HTTPURLResponse,
                   (200..<300).contains(httpResponse.statusCode) else {
-                      print(error?.localizedDescription)
+                      completion(.failure(.invalidResponse))
                       return
                   }
-            
-            if let data = data {
-                do {
-                    let parsedData = try self.decoder.decode(T.self, from: data)
-                    completion(.success(parsedData))
-                } catch {
-                    completion(.failure(error))
-                }
+
+            guard let data = data else {
+                completion(.failure(.invalidData))
+                return
             }
+            
+            completion(.success(data))
         }
         
-        task.resume()
+        return task
     }
 }
 
