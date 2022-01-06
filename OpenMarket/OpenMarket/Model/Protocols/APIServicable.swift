@@ -7,8 +7,8 @@
 
 import Foundation
 
-protocol APIServicable {
-    func post(product: PostProduct, images: [Data])
+protocol APIServicable: Parsable {
+    func post(product: PostProduct, images: [Data], completionHandler: @escaping (Result<Data, APIError>) -> Void)
     func patch(productID: Int, product: PatchProduct)
     func post(productID: Int, secret: String)
     func delete(productID: Int, productSecret: String)
