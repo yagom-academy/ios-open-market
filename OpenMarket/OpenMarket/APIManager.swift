@@ -14,7 +14,7 @@ struct APIManager {
     var productList: ProductList?
     do{
       let url = try URLGenerator.productList(pageNumber: "1", itemsPerPage: "10")
-      var request = URLRequest(url: url, timeoutInterval: Double.infinity)
+      var request = URLRequest(url: url)
       request.httpMethod = "GET"
       
       URLSession.shared.dataTask(request) { response in
@@ -38,7 +38,7 @@ struct APIManager {
     var product: Product?
     do {
       let url = try URLGenerator.DetailProduct(productId: productId)
-      var request = URLRequest(url: url, timeoutInterval: Double.infinity)
+      var request = URLRequest(url: url)
       request.httpMethod = "GET"
       URLSession.shared.dataTask(request) { response in
         switch response {
