@@ -21,8 +21,10 @@ struct NetworkTask {
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.addValue(identifier, forHTTPHeaderField: "identifier")
-        request.addValue("multipart/form-data; boundary=\(boundary)",
-                         forHTTPHeaderField: "Content-Type")
+        request.addValue(
+            "multipart/form-data; boundary=\(boundary)",
+            forHTTPHeaderField: "Content-Type"
+        )
         let body = buildBody(with: salesInformation, images: images)
         request.httpBody = body
         let task = dataTask(with: request, completionHandler: completionHandler)
@@ -145,7 +147,9 @@ struct NetworkTask {
         for (fileName, image) in images {
             var imagesBody = ""
             imagesBody.append("\r\n--\(boundary)\r\n")
-            imagesBody.append("Content-Disposition: form-data; name=\"images\"; filename=\(fileName)\r\n")
+            imagesBody.append(
+                "Content-Disposition: form-data; name=\"images\"; filename=\(fileName)\r\n"
+            )
             guard let imagesBody = imagesBody.data(using: .utf8) else {
                 return nil
             }
