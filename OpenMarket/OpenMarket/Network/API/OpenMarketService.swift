@@ -11,7 +11,7 @@ enum OpenMarketService {
     case checkHealth
     case createProduct(id: String, params: String, images: [Data])
     case updateProduct
-    case showProductSecret
+    case showProductSecret(sellerID: String, sellerPW: String, productID: Int)
     case deleteProduct
     case showProductDetail(productID: Int)
     case showPage(pageNumber: Int, itemsPerPage: Int)
@@ -41,8 +41,13 @@ extension OpenMarketService {
             return urlRequest
         case .updateProduct:
             return URLRequest(url: URL(string: "")!)
-        case .showProductSecret:
-            return URLRequest(url: URL(string: "")!)
+        case .showProductSecret(let sellerID, let sellerPW, _):
+            guard let url = URL(string: baseURL + self.path) else { return nil }
+            var request = URLRequest(url: url)
+            request.httpMethod = self.method
+            request.addValue(sellerID, forHTTPHeaderField: "identifier")
+            request.httpBody = "{\"secret\": \"\(sellerPW)\"}".data(using: .utf8)
+            return request
         case .deleteProduct:
             return URLRequest(url: URL(string: "")!)
         }
@@ -56,8 +61,8 @@ extension OpenMarketService {
             return "/api/products"
         case .updateProduct:
             return ""
-        case .showProductSecret:
-            return ""
+        case .showProductSecret(_, _, let productID):
+            return "/api/products/\(productID)/secret"
         case .deleteProduct:
             return ""
         case .showProductDetail(let productID):
