@@ -8,50 +8,53 @@
 import Foundation
 
 struct APIManager {
-  let apiHost = "https://market-training.yagom-academy.kr"
   let semaphore = DispatchSemaphore(value: 0)
   
   func productList(pageNumber: Int, itemsPerPage: Int) -> ProductList? {
     var productList: ProductList?
-    guard let url = URL(string: apiHost +
-                        "/api/products?page-no=\(pageNumber)&items-per-page=\(itemsPerPage)") else {
-      return nil
-    }
-    var request = URLRequest(url: url, timeoutInterval: Double.infinity)
-    request.httpMethod = "GET"
-
-    URLSession.shared.dataTask(request) { response in
-      switch response {
-      case .success(let data):
-        productList = JSONParser<ProductList>.decode(data: data)
-      case .failure(_):
-        productList = nil
+    do{
+      let url = try URLGenerator.productList(pageNumber: "1", itemsPerPage: "10")
+      var request = URLRequest(url: url, timeoutInterval: Double.infinity)
+      request.httpMethod = "GET"
+      
+      URLSession.shared.dataTask(request) { response in
+        switch response {
+        case .success(let data):
+          productList = JSONParser<ProductList>.decode(data: data)
+        case .failure(_):
+          productList = nil
+        }
+        semaphore.signal()
       }
-      semaphore.signal()
+      semaphore.wait()
+    } catch let error {
+      print(error)
     }
-    semaphore.wait()
+    
     return productList
   }
   
   func DetailProduct(productId: Int) -> Product? {
     var product: Product?
-    guard let url = URL(string: apiHost +
-                        "/api/products/\(productId)") else {
-      return nil
-    }
-    var request = URLRequest(url: url, timeoutInterval: Double.infinity)
-    request.httpMethod = "GET"
-    URLSession.shared.dataTask(request) { response in
-      switch response {
-      case .success(let data):
-        product = JSONParser<Product>.decode(data: data)
-        dump(product)
-      case .failure(_):
-        product = nil
+    do {
+      let url = try URLGenerator.DetailProduct(productId: productId)
+      var request = URLRequest(url: url, timeoutInterval: Double.infinity)
+      request.httpMethod = "GET"
+      URLSession.shared.dataTask(request) { response in
+        switch response {
+        case .success(let data):
+          product = JSONParser<Product>.decode(data: data)
+          dump(product)
+        case .failure(_):
+          product = nil
+        }
+        semaphore.signal()
       }
-      semaphore.signal()
+      semaphore.wait()
+    } catch let error {
+      print(error)
     }
-    semaphore.wait()
+    
     return product
   }
   
