@@ -68,10 +68,36 @@ extension MarketAPIService: APIServicable {
         dataTask.resume()
     }
     
-    func get(pageNumber: Int, itemsPerPage: Int) {
+    func get(pageNumber: Int, itemsPerPage: Int, completionHandler: @escaping (Result<Page, APIError>) -> Void) {
+        let url = URL(string: "https://market-training.yagom-academy.kr/api/products?page_no=\(pageNumber)&items_per_page=\(itemsPerPage)")
+        let request = URLRequest(url: url!)
         
+        let dataTask = session.dataTask(with: request) { [unowned self]data, response, error in
+            guard error == nil else {
+                completionHandler(.failure(APIError.invalidHTTPMethod))
+                return
+            }
+            guard let statusCode = (response as? HTTPURLResponse)?.statusCode,
+                  self.successRange.contains(statusCode) else {
+                completionHandler(.failure(APIError.invalidRequest))
+                return
+            }
+            guard let data = data else {
+                completionHandler(.failure(APIError.noData))
+                return
+            }
+            do {
+                let page = try parse(with: data, type: Page.self)
+                completionHandler(.success(page))
+            } catch JSONError.parsingError {
+                print(JSONError.parsingError.description)
+                completionHandler(.failure(APIError.invalidRequest))
+            } catch let error{
+                print(error)
+            }
+        }
+        dataTask.resume()
     }
-    
 }
 
 extension MarketAPIService: Parsable {

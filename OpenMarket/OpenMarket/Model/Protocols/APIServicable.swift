@@ -13,6 +13,6 @@ protocol APIServicable {
     func post(productID: Int, secret: String)
     func delete(productID: Int, productSecret: String)
     func get(productID: Int, completionHandler: @escaping (Result<Product, APIError>) -> Void)
-    func get(pageNumber: Int, itemsPerPage: Int)
+    func get(pageNumber: Int, itemsPerPage: Int, completionHandler: @escaping (Result<Page, APIError>) -> Void) 
 }
 
