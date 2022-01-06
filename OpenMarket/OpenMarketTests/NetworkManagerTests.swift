@@ -104,7 +104,7 @@ class NetworkManagerTests: XCTestCase {
         let url = Address.products(page: 1, itemsPerPage: 10).url
         
         //when
-        let result = sutNetworkManager?.request(page: 1, itemsPerPage: 10)
+        let result = sutNetworkManager?.requestListSearch(page: 1, itemsPerPage: 10)
         
         //then
         XCTAssertNotNil(result)
@@ -117,7 +117,7 @@ class NetworkManagerTests: XCTestCase {
         let url = Address.product(id: 1).url
         
         //when
-        let result = sutNetworkManager?.request(id: 1)
+        let result = sutNetworkManager?.requestDetailSearch(id: 1)
         
         //then
         XCTAssertNotNil(result)
@@ -130,7 +130,7 @@ class NetworkManagerTests: XCTestCase {
         let url = Address.secret(id: 1, secret: "123").url
         
         //when
-        let result = sutNetworkManager?.request(data: Data(), id: 1, secret: "123")
+        let result = sutNetworkManager?.requestSecretSearch(data: Data(), id: 1, secret: "123")
         
         switch result {
         case .success(let request):
@@ -150,7 +150,7 @@ class NetworkManagerTests: XCTestCase {
         let url = Address.delete(id: 1, secret: "123").url
         
         //when
-        let result = sutNetworkManager?.request(id: 1, secret: "123")
+        let result = sutNetworkManager?.requestDelete(id: 1, secret: "123")
         
         //then
         XCTAssertNotNil(result)
@@ -163,7 +163,7 @@ class NetworkManagerTests: XCTestCase {
         let url = Address.product(id: 1).url
         
         //when
-        let result = sutNetworkManager?.request(data: Data(), id: 1)
+        let result = sutNetworkManager?.requestModify(data: Data(), id: 1)
         
         switch result {
         case .success(let request):
@@ -184,7 +184,7 @@ class NetworkManagerTests: XCTestCase {
         let params = ProductRegistration(name: "", description: "", price: 1, currency: .krw, discountedPrice: nil, stock: nil, secret: "")
         
         //when
-        let result = sutNetworkManager?.request(params: params, images: [])
+        let result = sutNetworkManager?.requestRegister(params: params, images: [])
         
         switch result {
         case .success(let request):

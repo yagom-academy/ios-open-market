@@ -7,6 +7,6 @@
 
 import Foundation
 
-protocol MultipartForm {
+protocol MultipartFormProtocol {
     var dictionary: [String: Any?] { get }
 }

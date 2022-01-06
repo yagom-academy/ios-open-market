@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ProductRegistration: Codable, MultipartForm {
+struct ProductRegistration: Codable, MultipartFormProtocol {
     let name: String
     let description: String
     let price: Int
