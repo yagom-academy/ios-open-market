@@ -9,26 +9,39 @@ import XCTest
 @testable import OpenMarket
 
 class NetworkTests: XCTestCase {
+    var sutURL: URL!
+    var sutData: Data!
+    var sutRequest: URLRequest!
+    var sutSession: URLSession!
+    var sutNetwork: Network!
+        
+    override func setUpWithError() throws {
+        sutURL = URL(string: "testURL")!
+        sutData = Data()
+        sutRequest = URLRequest(url: sutURL)
+        sutSession = MockSession.session
+        sutNetwork = Network(session: sutSession!)
+    }
     
+    override func tearDownWithError() throws {
+        sutRequest = nil
+        sutSession = nil
+        sutNetwork = nil
+    }
+
     func test_Success() {
         // given
-        let url = URL(string: "testURL")!
-        let data = Data()
-        let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: nil, headerFields: nil)
-        MockURLProtocol.mockURLs = [url: (nil, data, response)]
-        let session = MockSession.session
-
-        let network = Network(session: session)
-        let request = URLRequest(url: url)
+        let response = HTTPURLResponse(url: sutURL, statusCode: 200, httpVersion: nil, headerFields: nil)
+        MockURLProtocol.mockURLs = [sutURL: (nil, sutData, response)]
         let expectation = XCTestExpectation(description: "네트워크 실행")
         
         // when
-        network.execute(request: request) { result in
+        sutNetwork!.execute(request: sutRequest!) { result in
             
             // then
             switch result {
             case .success(let sampleData):
-                XCTAssertEqual(sampleData, data)
+                XCTAssertEqual(sampleData, self.sutData)
             case .failure:
                 XCTFail()
             }
@@ -41,18 +54,12 @@ class NetworkTests: XCTestCase {
     
     func test_Failure() {
         // given
-        let url = URL(string: "testURL")!
-        let data = Data()
-        let response = HTTPURLResponse(url: url, statusCode: 404, httpVersion: nil, headerFields: nil)
-        MockURLProtocol.mockURLs = [url: (nil, data, response)]
-        let session = MockSession.session
-        
-        let network = Network(session: session)
-        let request = URLRequest(url: url)
+        let response = HTTPURLResponse(url: sutURL, statusCode: 404, httpVersion: nil, headerFields: nil)
+        MockURLProtocol.mockURLs = [sutURL: (nil, sutData, response)]
         let expectation = XCTestExpectation(description: "네트워크 실행")
         
         // when
-        network.execute(request: request) { result in
+        sutNetwork!.execute(request: sutRequest!) { result in
             
             // then
             switch result {
