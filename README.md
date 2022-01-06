@@ -20,7 +20,7 @@
 # 목차
 
 - [키워드](#키워드)
-- [STEP 1 : 모델/네트워킹 타입 구현](#STEP-1--네트워킹-타입-구현)
+- [STEP 1 : 네트워킹 타입 구현](#STEP-1--네트워킹-타입-구현)
     + [고민했던 것](#1-1-고민했던-것)
     + [의문점](#1-2-의문점)
     + [Trouble Shooting](#1-3-Trouble-Shooting)
@@ -143,7 +143,6 @@ class StubURLSessionDataTask: URLSessionDataTask {
 
 > 'init()' was deprecated in iOS 13.0: Please use -[NSURLSession dataTaskWithRequest:] or other NSURLSession methods to create instances
 > 
-- 을 만들어 DummyData를 URLSessionDataTask에 전달하는 방식으로 Test를 진행하는 과정에서 경고가 나타났습니다.
 - `이유` URLSessionDataTask `init()`이 IOS13 이후에 deprecatede되었기 때문이다. 해당 경고를 없애고 싶어서 구글링을 하다가 `URLProtocol`을 발견하게 되었다.
 - `해결` URLProtocol을 상속받은 MockURLProtocol을 만들어서 URLSession configuration을 구성하는 방법으로 문제를 해결하고 기존에 만들었던 StubURLSessionDataTask, DummyData, MockSession 타입은 더이상 사용하지 않게되어 모두 삭제해주었다.
     - `URLProtocol`이란?
