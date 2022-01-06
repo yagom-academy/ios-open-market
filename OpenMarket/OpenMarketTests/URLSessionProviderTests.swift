@@ -100,4 +100,24 @@ class URLSessionProviderTests: XCTestCase {
         sutDispatchSemaphore.wait()
     }
 
+    func test_deleteProduct가_200번때_상태코드를_반환해야한다() {
+        let sellerID = "cd706a3e-66db-11ec-9626-796401f2341a"
+        let productPassword = "7e90b940-6ec1-11ec-abfa-c95e9e5e9ca8"
+        sutURLSesssionProvider.request(.deleteProduct(sellerID: sellerID, productID: 48, productSecret: productPassword)) { result in
+            switch result {
+            case .success(let data):
+                guard let stringData = String(data: data, encoding: .utf8) else {
+                    XCTFail()
+                    return
+                }
+                print(stringData)
+                XCTAssertTrue(true)
+                self.sutDispatchSemaphore.signal()
+            case .failure(let error):
+                XCTFail("\(error)")
+                self.sutDispatchSemaphore.signal()
+            }
+        }
+        sutDispatchSemaphore.wait()
+    }
 }
