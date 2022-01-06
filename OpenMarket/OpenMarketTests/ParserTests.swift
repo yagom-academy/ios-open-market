@@ -14,7 +14,6 @@ class ParserTests: XCTestCase {
     
     func test_Products_parsing() {
         let title = "products"
-        
         let parsing = parser.decode(fileName: title, decodingType: Products.self)
         let result = try? parsing.get()
         
@@ -24,7 +23,6 @@ class ParserTests: XCTestCase {
     
     func test_Product_parsing() {
         let title = "product"
-        
         let parsing = parser.decode(fileName: title, decodingType: Product.self)
         let result = try? parsing.get()
         

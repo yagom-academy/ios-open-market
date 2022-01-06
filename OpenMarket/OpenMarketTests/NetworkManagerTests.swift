@@ -40,6 +40,7 @@ class NetworkManagerTests: XCTestCase {
         let decodingtype = Products.self
         let expectation = XCTestExpectation(description: "네트워크 실행")
         
+        //when
         sutNetworkManager?.fetch(request: sutRequest, decodingType: decodingtype) { result in
            
             // then
