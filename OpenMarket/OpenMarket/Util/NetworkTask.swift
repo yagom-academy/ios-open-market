@@ -1,16 +1,17 @@
 import UIKit
 
-enum NetworkTask {
+struct NetworkTask {
     static let boundary = UUID().uuidString
+    let jsonParser: JSONParsable
     
-    static func requestHealthChekcer(completionHandler: @escaping (Result<Data, Error>) -> Void) {
+    func requestHealthChekcer(completionHandler: @escaping (Result<Data, Error>) -> Void) {
         guard let url = NetworkAddress.healthChecker.url else { return }
         let request = URLRequest(url: url)
         let task = dataTask(with: request, completionHandler: completionHandler)
         task.resume()
     }
     
-    static func requestProductRegistration(
+    func requestProductRegistration(
         identifier: String,
         salesInformation: SalesInformation,
         images: [String: Data],
@@ -20,7 +21,7 @@ enum NetworkTask {
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.addValue(identifier, forHTTPHeaderField: "identifier")
-        request.addValue("multipart/form-data; boundary=\(boundary)",
+        request.addValue("multipart/form-data; boundary=\(Self.boundary)",
                          forHTTPHeaderField: "Content-Type")
         let body = buildBody(with: salesInformation, images: images)
         request.httpBody = body
@@ -28,7 +29,7 @@ enum NetworkTask {
         task.resume()
     }
     
-    static func requestProductModification(
+    func requestProductModification(
         identifier: String,
         productId: Int,
         information: ModificationInformation,
@@ -40,12 +41,12 @@ enum NetworkTask {
         var request = URLRequest(url: url)
         request.httpMethod = "PATCH"
         request.addValue(identifier, forHTTPHeaderField: "identifier")
-        request.httpBody = try? JSONParser.encode(from: information)
+        request.httpBody = try? jsonParser.encode(from: information)
         let task = dataTask(with: request, completionHandler: completionHandler)
         task.resume()
     }
     
-    static func requestProductSecret(
+    func requestProductSecret(
         productId: Int,
         identifier: String,
         secret: String,
@@ -55,12 +56,12 @@ enum NetworkTask {
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.addValue(identifier, forHTTPHeaderField: "identifier")
-        request.httpBody = try? JSONParser.encode(from: secret)
+        request.httpBody = try? jsonParser.encode(from: secret)
         let task = dataTask(with: request, completionHandler: completionHandler)
         task.resume()
     }
     
-    static func requestRemoveProduct(
+    func requestRemoveProduct(
         identifier: String,
         productId: Int,
         productSecret: String,
@@ -72,12 +73,12 @@ enum NetworkTask {
         var request = URLRequest(url: url)
         request.httpMethod = "DELETE"
         request.addValue(identifier, forHTTPHeaderField: "identifier")
-        request.httpBody = try? JSONParser.encode(from: productSecret)
+        request.httpBody = try? jsonParser.encode(from: productSecret)
         let task = dataTask(with: request, completionHandler: completionHandler)
         task.resume()
     }
     
-    static func requestProductDetail(
+    func requestProductDetail(
         productId: Int,
         completionHandler: @escaping (Result<Data, Error>) -> Void) {
             guard let url = NetworkAddress.productDetail(productId: productId).url else { return }
@@ -86,7 +87,7 @@ enum NetworkTask {
             task.resume()
         }
     
-    static func requestProductList(
+    func requestProductList(
         pageNumber: Int,
         itemsPerPage: Int,
         completionHandler: @escaping (Result<Data, Error>) -> Void
@@ -99,7 +100,7 @@ enum NetworkTask {
         task.resume()
     }
     
-    private static func dataTask(
+    private func dataTask(
         with request: URLRequest,
         completionHandler: @escaping (Result<Data, Error>) -> Void
     ) -> URLSessionDataTask {
@@ -119,22 +120,22 @@ enum NetworkTask {
         return dataTask
     }
     
-    private static func buildBody(
+    private func buildBody(
         with salesInformation: SalesInformation,
         images: [String: Data]
     ) -> Data? {
-        guard let endBoundary = "\r\n--\(boundary)--".data(using: .utf8) else {
+        guard let endBoundary = "\r\n--\(Self.boundary)--".data(using: .utf8) else {
             return nil
         }
         guard let newLine = "\r\n".data(using: .utf8) else {
             return nil
         }
-        guard let salesInformation = try? JSONParser.encode(from: salesInformation) else {
+        guard let salesInformation = try? jsonParser.encode(from: salesInformation) else {
             return nil
         }
         var data = Data()
         var paramsBody = ""
-        paramsBody.append("--\(boundary)\r\n")
+        paramsBody.append("--\(Self.boundary)\r\n")
         paramsBody.append("Content-Disposition: form-data; name=\"params\"\r\n\r\n")
         guard let paramsBody = paramsBody.data(using: .utf8) else {
             return nil
@@ -143,7 +144,7 @@ enum NetworkTask {
         data.append(salesInformation)
         for (fileName, image) in images {
             var imagesBody = ""
-            imagesBody.append("\r\n--\(boundary)\r\n")
+            imagesBody.append("\r\n--\(Self.boundary)\r\n")
             imagesBody.append("Content-Disposition: form-data; name=\"images\"; filename=\(fileName)\r\n")
             guard let imagesBody = imagesBody.data(using: .utf8) else {
                 return nil
