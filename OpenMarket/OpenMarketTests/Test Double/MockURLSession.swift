@@ -20,7 +20,7 @@ class MockURLSession: URLSessionProtocol {
             if self.isSuccess {
                 completionHandler(productData, successResponse, nil)
             } else {
-                completionHandler(nil, failResponse, nil)
+                completionHandler(nil, failResponse, APIError.invalidRequest)
             }
         })
         

@@ -31,6 +31,14 @@
 		C997D3242782DD0900FF3398 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = C997D3232782DD0800FF3398 /* .swiftlint.yml */; };
 		C9AC3E5B2786C5BE00177751 /* ImageData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AC3E5A2786C5BD00177751 /* ImageData.swift */; };
 		C9AC3E5E2786DAAD00177751 /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AC3E5D2786DAAD00177751 /* APIError.swift */; };
+		C9AC3E6027871A2400177751 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6A824802786D271006CE6DA /* API.swift */; };
+		C9AC3E6127871A2800177751 /* URLCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6A824542785BDE1006CE6DA /* URLCreator.swift */; };
+		C9AC3E6227871A2B00177751 /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AC3E5D2786DAAD00177751 /* APIError.swift */; };
+		C9AC3E6327871A2F00177751 /* Data+append.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6A8247E2786BD2F006CE6DA /* Data+append.swift */; };
+		C9AC3E6427871A3100177751 /* URLRequest+httpmethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B5FAD22783F240001B6FDE /* URLRequest+httpmethod.swift */; };
+		C9AC3E6527871A3400177751 /* ImageData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AC3E5A2786C5BD00177751 /* ImageData.swift */; };
+		C9AC3E6627871A3600177751 /* ProductRegisterInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6A824562785DDD8006CE6DA /* ProductRegisterInformation.swift */; };
+		C9AC3E6727871A4100177751 /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6A824582785DE3F006CE6DA /* Currency.swift */; };
 		C9B5FAD02783DB00001B6FDE /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B5FACF2783DB00001B6FDE /* APIService.swift */; };
 		C9B5FADC2784361F001B6FDE /* ProductImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B5FADB2784361F001B6FDE /* ProductImage.swift */; };
 		C9B5FADE2784362E001B6FDE /* Vendor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B5FADD2784362E001B6FDE /* Vendor.swift */; };
@@ -375,10 +383,18 @@
 				C9B5FADF2784364A001B6FDE /* ProductImage.swift in Sources */,
 				C9B5FAE02784364D001B6FDE /* Vendor.swift in Sources */,
 				C9B5FAFA27857643001B6FDE /* MockURLSessionDataTask.swift in Sources */,
+				C9AC3E6727871A4100177751 /* Currency.swift in Sources */,
+				C9AC3E6627871A3600177751 /* ProductRegisterInformation.swift in Sources */,
 				A6A824522785779C006CE6DA /* MockURLSession.swift in Sources */,
 				A6A8244A2782F895006CE6DA /* ProductList.swift in Sources */,
+				C9AC3E6127871A2800177751 /* URLCreator.swift in Sources */,
 				A6A82453278577D1006CE6DA /* APIService.swift in Sources */,
+				C9AC3E6027871A2400177751 /* API.swift in Sources */,
+				C9AC3E6327871A2F00177751 /* Data+append.swift in Sources */,
 				A6A8244B2782F899006CE6DA /* ProductDetail.swift in Sources */,
+				C9AC3E6427871A3100177751 /* URLRequest+httpmethod.swift in Sources */,
+				C9AC3E6227871A2B00177751 /* APIError.swift in Sources */,
+				C9AC3E6527871A3400177751 /* ImageData.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
