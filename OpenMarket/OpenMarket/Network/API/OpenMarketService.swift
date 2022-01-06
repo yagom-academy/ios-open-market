@@ -10,7 +10,7 @@ import Foundation
 enum OpenMarketService {
     case checkHealth
     case createProduct(sellerID: String, params: Data, images: [Data])
-    case updateProduct
+    case updateProduct(sellerID: String, productID: Int, body: Data)
     case showProductSecret(sellerID: String, sellerPW: String, productID: Int)
     case deleteProduct(sellerID: String, productID: Int, productSecret: String)
     case showProductDetail(productID: Int)
@@ -41,8 +41,14 @@ extension OpenMarketService {
             body.append("------WebKitFormBoundary7MA4YWxkTrZu0gW--\r\n")
             urlRequest.httpBody = body as Data
             return urlRequest
-        case .updateProduct:
-            return URLRequest(url: URL(string: "")!)
+        case .updateProduct(let sellerID, _, let body):
+            guard let url = URL(string: baseURL + self.path) else { return nil }
+            var request = URLRequest(url: url)
+            request.httpMethod = self.method
+            request.addValue(sellerID, forHTTPHeaderField: "identifier")
+            request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+            request.httpBody = body
+            return request
         case .showProductSecret(let sellerID, let sellerPW, _):
             guard let url = URL(string: baseURL + self.path) else { return nil }
             var request = URLRequest(url: url)
@@ -66,8 +72,8 @@ extension OpenMarketService {
             return "/healthChecker"
         case .createProduct:
             return "/api/products"
-        case .updateProduct:
-            return ""
+        case .updateProduct(_, let productID, _):
+            return "/api/products/\(productID)"
         case .showProductSecret(_, _, let productID):
             return "/api/products/\(productID)/secret"
         case .deleteProduct(_, let productID, let productSecret):
