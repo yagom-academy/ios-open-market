@@ -226,7 +226,7 @@ extension NetworkTask {
     struct ModificationInformation: Encodable {
         var name: String?
         var descriptions: String?
-        var thumbnail_id: Int?
+        var thumbnailId: Int?
         var price: Int?
         var currency: Currency?
         var discountedPrice: Double?
