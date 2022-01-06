@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum NetworkConstant {
+enum Address {
     static let baseURL = "https://market-training.yagom-academy.kr/api/products"
     case products(page: UInt, itemsPerPage: UInt)
     case product(id: UInt)
@@ -18,22 +18,15 @@ enum NetworkConstant {
     var url: URL? {
         switch self {
         case .products(let page, let itemsPerPage):
-            return URL(string: NetworkConstant.baseURL + "?page-no=\(page)" + "&items-per-page=\(itemsPerPage)")
+            return URL(string: Address.baseURL + "?page-no=\(page)" + "&items-per-page=\(itemsPerPage)")
         case .product(let id):
-            return URL(string: NetworkConstant.baseURL + "/\(id)")
+            return URL(string: Address.baseURL + "/\(id)")
         case .register:
-            return URL(string: NetworkConstant.baseURL)
+            return URL(string: Address.baseURL)
         case .secret(let id, let secret):
-            return URL(string: NetworkConstant.baseURL + "/\(id)" + "/\(secret)")
+            return URL(string: Address.baseURL + "/\(id)" + "/\(secret)")
         case .delete(let id, let secret):
-            return URL(string: NetworkConstant.baseURL + "/\(id)" + "/\(secret)")
+            return URL(string: Address.baseURL + "/\(id)" + "/\(secret)")
         }
-    }
-    
-    enum HTTPMethod: String {
-        case get = "GET"
-        case post = "POST"
-        case patch = "PATCH"
-        case delete = "DELETE"
     }
 }

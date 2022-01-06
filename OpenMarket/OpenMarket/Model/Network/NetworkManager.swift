@@ -45,7 +45,7 @@ struct NetworkManager {
     
     // GET - 상품 리스트 조회
     func request(page: UInt, itemsPerPage: UInt) -> URLRequest? {
-        guard let url = NetworkConstant.products(page: page, itemsPerPage: itemsPerPage).url else {
+        guard let url = Address.products(page: page, itemsPerPage: itemsPerPage).url else {
             return nil
         }
         return URLRequest(url: url)
@@ -53,7 +53,7 @@ struct NetworkManager {
     
     // GET - 상품 상세 조회
     func request(id: UInt) -> URLRequest? {
-        guard let url = NetworkConstant.product(id: id).url else {
+        guard let url = Address.product(id: id).url else {
             return nil
         }
         return URLRequest(url: url)
@@ -61,7 +61,7 @@ struct NetworkManager {
     
     // POST - 상품 삭제 Secret 상세 조회
     func request<T: Encodable>(data: T, id: UInt, secret: String) -> Result<URLRequest?, Error> {
-        guard let url = NetworkConstant.secret(id: id, secret: secret).url else {
+        guard let url = Address.secret(id: id, secret: secret).url else {
             return .failure(NetworkError.notFoundURL)
         }
         let encodingResult = parser.encode(object: data)
@@ -75,7 +75,7 @@ struct NetworkManager {
         }
         var request = URLRequest(url: url)
         
-        request.httpMethod = NetworkConstant.HTTPMethod.post.rawValue
+        request.httpMethod = HTTPMethod.post.rawValue
         request.httpBody = encodeData
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("80c47530-58bb-11ec-bf7f-d188f1cd5f22", forHTTPHeaderField: "identifier")
@@ -85,12 +85,12 @@ struct NetworkManager {
     
     // DELET - 상품 삭제
     func request(id: UInt, secret: String) -> URLRequest? {
-        guard let url = NetworkConstant.delete(id: id, secret: secret).url else {
+        guard let url = Address.delete(id: id, secret: secret).url else {
             return nil
         }
         var request = URLRequest(url: url)
         
-        request.httpMethod = NetworkConstant.HTTPMethod.delete.rawValue
+        request.httpMethod = HTTPMethod.delete.rawValue
         request.addValue("80c47530-58bb-11ec-bf7f-d188f1cd5f22", forHTTPHeaderField: "identifier")
         
         return request
@@ -98,7 +98,7 @@ struct NetworkManager {
     
     // PATCH - 상품 수정
     func request<T: Encodable>(data: T, id: UInt) -> Result<URLRequest?, Error> {
-        guard let url = NetworkConstant.product(id: id).url else {
+        guard let url = Address.product(id: id).url else {
             return .failure(NetworkError.notFoundURL)
         }
         let encodingResult = parser.encode(object: data)
@@ -112,7 +112,7 @@ struct NetworkManager {
         }
         var request = URLRequest(url: url)
         
-        request.httpMethod = NetworkConstant.HTTPMethod.patch.rawValue
+        request.httpMethod = HTTPMethod.patch.rawValue
         request.httpBody = encodeData
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("80c47530-58bb-11ec-bf7f-d188f1cd5f22", forHTTPHeaderField: "identifier")
@@ -122,7 +122,7 @@ struct NetworkManager {
     
     // POST - 상품 등록
     func request<T: MultipartForm>(params: T, images: [ImageFile]) -> Result<URLRequest?, Error> {
-        guard let url = NetworkConstant.register.url else {
+        guard let url = Address.register.url else {
             return .failure(NetworkError.notFoundURL)
         }
         let request = multipartFormRequest(url: url, params: params, images: images)
@@ -137,7 +137,7 @@ extension NetworkManager {
         let encodeBody = createBody(parameters: params.dictionary, images: images, boundary: boundary)
         var request = URLRequest(url: url)
         
-        request.httpMethod = NetworkConstant.HTTPMethod.post.rawValue
+        request.httpMethod = HTTPMethod.post.rawValue
         request.setValue("multipart/form-data; boundary=\"\(boundary)\"", forHTTPHeaderField: "Content-Type")
         request.addValue("80c47530-58bb-11ec-bf7f-d188f1cd5f22", forHTTPHeaderField: "identifier")
         request.httpBody = encodeBody
