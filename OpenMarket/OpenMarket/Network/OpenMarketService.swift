@@ -14,7 +14,7 @@ enum OpenMarketService {
     case showProductSecret(sellerID: String, sellerPW: String, productID: Int)
     case deleteProduct(sellerID: String, productID: Int, productSecret: String)
     case showProductDetail(productID: Int)
-    case showPage(pageNumber: Int, itemsPerPage: Int)
+    case showProductPage(pageNumber: Int, itemsPerPage: Int)
 }
 
 extension OpenMarketService {
@@ -22,22 +22,16 @@ extension OpenMarketService {
         guard let url = URL(string: finalURL) else { return nil }
         
         switch self {
-        case .checkHealth, .showPage, .showProductDetail:
+        case .checkHealth, .showProductPage, .showProductDetail:
             return makeURLRequest(url: url, header: [:])
-            
         case .createProduct(let sellerID, let params, let images):
             let boundary = UUID().uuidString
             var request = makeURLRequest(url: url, header: [
                 "identifier": sellerID,
                 "Content-Type": "multipart/form-data; boundary=\(boundary)"
             ])
-            let body = NSMutableData()
-            makeBody(target: body, name: "params", data: params, boundary: boundary)
-            makeBodyImage(target: body, name: "images", images: images, boundary: boundary)
-            body.append("--\(boundary)--\r\n")
-            request?.httpBody = body as Data
+            request?.httpBody = makeMultiPartBody(params: params, images: images, boundary: boundary)
             return request
-            
         case .updateProduct(let sellerID, _, let body):
             var request = makeURLRequest(url: url, header: [
                 "identifier": sellerID,
@@ -45,20 +39,15 @@ extension OpenMarketService {
             ])
             request?.httpBody = body
             return request
-            
         case .showProductSecret(let sellerID, let sellerPW, _):
             var request = makeURLRequest(url: url, header: [
                 "identifier": sellerID,
                 "Content-Type": "application/json"
             ])
-            request?.httpBody = "{\"secret\": \"\(sellerPW)\"}".data(using: .utf8)
+            request?.httpBody = try? JSONEncoder().encode(["secret": sellerPW])
             return request
-            
         case .deleteProduct(let sellerID, _, _):
-            let request = makeURLRequest(url: url, header: [
-                "identifier": sellerID
-            ])
-            return request
+            return makeURLRequest(url: url, header: ["identifier": sellerID])
         }
     }
 }
@@ -86,14 +75,14 @@ extension OpenMarketService {
             return "/api/products/\(productID)/\(productSecret)"
         case .showProductDetail(let productID):
             return "/api/products/\(productID)"
-        case .showPage(let pageNumber, let itemsPerPage):
+        case .showProductPage(let pageNumber, let itemsPerPage):
             return "/api/products?page_no=\(pageNumber)&items_per_page=\(itemsPerPage)"
         }
     }
     
     var method: String {
         switch self {
-        case .checkHealth, .showProductDetail, .showPage:
+        case .checkHealth, .showProductDetail, .showProductPage:
             return "GET"
         case .createProduct, .showProductSecret:
             return "POST"
@@ -114,7 +103,7 @@ extension OpenMarketService {
         return request
     }
     
-    private func makeBody(target: NSMutableData, name: String, data: Data, boundary: String) {
+    private func configureBody(target: NSMutableData, name: String, data: Data, boundary: String) {
         target.append("--\(boundary)\r\n")
         target.append("Content-Disposition: form-data; name=\"\(name)\"\r\n")
         target.append("Content-Type: application/json\r\n")
@@ -123,7 +112,7 @@ extension OpenMarketService {
         target.append("\r\n")
     }
 
-    private func makeBodyImage(target: NSMutableData, name:String, images: [Data], boundary: String) {
+    private func configureBodyImage(target: NSMutableData, name:String, images: [Data], boundary: String) {
         for image in images {
             target.append("--\(boundary)\r\n")
             target.append("Content-Disposition: form-data; name=\"\(name)\"; filename=\"\(UUID().uuidString).png\"\r\n")
@@ -134,4 +123,13 @@ extension OpenMarketService {
         }
         
     }
+    
+    private func makeMultiPartBody(params: Data, images: [Data], boundary: String) -> Data {
+        let body = NSMutableData()
+        configureBody(target: body, name: "params", data: params, boundary: boundary)
+        configureBodyImage(target: body, name: "images", images: images, boundary: boundary)
+        body.append("--\(boundary)--\r\n")
+        return body as Data
+    }
+    
 }

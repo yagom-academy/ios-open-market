@@ -1,13 +1,13 @@
 //
-//  Product.swift
+//  File.swift
 //  OpenMarket
 //
-//  Created by JeongTaek Han on 2022/01/03.
+//  Created by JeongTaek Han on 2022/01/04.
 //
 
 import Foundation
 
-struct Product: Codable {
+struct Product: Decodable {
     let id: Int
     let venderId: Int
     let name: String
@@ -17,6 +17,8 @@ struct Product: Codable {
     let bargainPrice: Decimal
     let discountedPrice: Decimal
     let stock: Int
+    let images: [Image]?
+    let vendors: Vendor?
     let createdAt: Date
     let issuedAt: Date
 
@@ -30,6 +32,8 @@ struct Product: Codable {
         case bargainPrice = "bargain_price"
         case discountedPrice = "discounted_price"
         case stock
+        case images
+        case vendors
         case createdAt = "created_at"
         case issuedAt = "issued_at"
     }
