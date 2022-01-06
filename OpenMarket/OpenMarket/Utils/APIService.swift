@@ -46,3 +46,38 @@ class APIService {
         task.resume()
     }
 }
+
+extension APIService {
+    func generateBoundary() -> String {
+        return "Boundary-\(UUID().uuidString)"
+    }
+    
+    func createBody(productRegisterInformation: ProductRegisterInformation) -> Data? {
+        var body: Data = Data()
+        let boundary = generateBoundary()
+        
+        guard let jsonData = try? JSONEncoder().encode(productRegisterInformation) else {
+            return nil
+        }
+        
+        let parameters: [String: Any] = ["params": jsonData]
+        
+        parameters.forEach { (key, value) in
+            body.append(convertDataToMultiPartForm(name: key, value: value, boundary: boundary))
+        }
+        
+        return body
+    }
+
+    func convertDataToMultiPartForm(name: String, value: Any, boundary: String) -> Data {
+        var data: Data = Data()
+        let mimeType = "application/json"
+        
+        data.appendString("--\(boundary)\r\n")
+        data.appendString("Content-Disposition: form-data; name=\"\(name)\"\r\n")
+        data.appendString("Content-Type: \(mimeType)\r\n\r\n")
+        data.appendString("\(value)\r\n")
+        
+        return data
+    }
+}
