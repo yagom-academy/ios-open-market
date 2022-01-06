@@ -7,7 +7,7 @@
 
 import Foundation
 
-class MarketAPIService {
+final class MarketAPIService {
     private let session: URLSessionProtocol
     private let successRange = 200..<300
     
@@ -37,13 +37,13 @@ extension MarketAPIService {
             case .patchProduct(let id):
                 return URL(string: MarketAPI.baseURL + MarketAPI.path + id.stringFormat)
             case .postSecret(let id):
-                return URL(string: MarketAPI.baseURL + MarketAPI.path + id.stringFormat + "secret")
+                return URL(string: MarketAPI.baseURL + MarketAPI.path + id.stringFormat + "/secret")
             case .delete(let id, let secret):
-                return URL(string: MarketAPI.baseURL + MarketAPI.path + id.stringFormat + secret)
+                return URL(string: MarketAPI.baseURL + MarketAPI.path + id.stringFormat + "/" + secret)
             case .getProduct:
                 return URL(string: MarketAPI.baseURL + MarketAPI.path)
             case .getPage(let id, let itemsPerPage):
-                guard var urlComponents = URLComponents(string: MarketAPI.baseURL) else {
+                guard var urlComponents = URLComponents(string: MarketAPI.baseURL + "?") else {
                     return nil
                 }
                 let pageNumberQuery = URLQueryItem(name: "page-no", value: id.stringFormat)
@@ -83,7 +83,7 @@ extension MarketAPIService: APIServicable {
         }
         let request = URLRequest(url: url)
         
-        let dataTask = createDataTask(request: request, type: Product.self, completionHandler: completionHandler)
+        let dataTask = createDataTask(request: request, completionHandler: completionHandler)
         
         dataTask.resume()
     }
@@ -94,7 +94,7 @@ extension MarketAPIService: APIServicable {
         }
         let request = URLRequest(url: url)
         
-        let dataTask = createDataTask(request: request, type: Page.self, completionHandler: completionHandler)
+        let dataTask = createDataTask(request: request, completionHandler: completionHandler)
         
         dataTask.resume()
     }
@@ -104,10 +104,9 @@ extension MarketAPIService: APIServicable {
 
 extension MarketAPIService {
     private func createDataTask<T: Decodable>(request: URLRequest,
-                                              type: T.Type,
                                               completionHandler: @escaping (Result<T, APIError>) -> Void)
     -> URLSessionDataTask {
-        let dataTask = session.dataTask(with: request) { [unowned self]data, response, error in
+        let dataTask = session.dataTask(with: request) { [unowned self] data, response, error in
             guard error == nil else {
                 completionHandler(.failure(APIError.invalidHTTPMethod))
                 return
@@ -121,16 +120,8 @@ extension MarketAPIService {
                 completionHandler(.failure(APIError.noData))
                 return
             }
-            
-            do {
-                let page = try parse(with: data, type: type)
-                completionHandler(.success(page))
-            } catch JSONError.parsingError {
-                print(JSONError.parsingError.description)
-                completionHandler(.failure(APIError.invalidRequest))
-            } catch let error{
-                print(error)
-            }
+            let parsedData = parse(with: data, type: T.self)
+            completionHandler(.success(parsedData))
         }
         
         return dataTask
