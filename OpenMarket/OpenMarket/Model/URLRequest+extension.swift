@@ -1,8 +1,8 @@
 import Foundation
 
 extension URLRequest {
-    init(work: WorkType, method: HttpMethod) {
-        self.init(url: work.url)
+    init(url: URL, method: HttpMethod) {
+        self.init(url: url)
         self.timeoutInterval = TimeInterval(10)
 
         switch method {

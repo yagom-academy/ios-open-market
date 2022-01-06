@@ -6,14 +6,14 @@ enum WorkType {
     case checkProductDetail(id: Int)
     case checkProductList
     
-    var url: URL {
+    var url: URL? {
         switch self {
         case .healthChecker:
-            return URL(string: WorkType.apiHost + "healthChecker")!
+            return URL(string: WorkType.apiHost + "healthChecker")
         case .checkProductDetail(let id):
-            return URL(string: WorkType.apiHost + "api/products/" + "\(id)")!
+            return URL(string: WorkType.apiHost + "api/products/" + "\(id)")
         case .checkProductList:
-            return URL(string: WorkType.apiHost + "api/products?page-no=1&items-per-page=10")!
+            return URL(string: WorkType.apiHost + "api/products?page-no=1&items-per-page=10")
         }
     }
     
