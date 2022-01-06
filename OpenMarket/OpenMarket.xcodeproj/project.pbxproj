@@ -63,9 +63,9 @@
 		9A1CFDCD27842E2E003BEC69 /* Currency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
 		9A1CFDD0278469D5003BEC69 /* MultipartForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipartForm.swift; sourceTree = "<group>"; };
 		9A1CFDD2278526B8003BEC69 /* NetworkTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkTests.swift; sourceTree = "<group>"; };
-		9A1CFDD427852721003BEC69 /* MockSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockSession.swift; sourceTree = "<group>"; };
-		9AAA3EAD2785726A00D6E407 /* StubProducts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubProducts.swift; sourceTree = "<group>"; };
-		9AAA3EAF2785812A00D6E407 /* MockURLProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLProtocol.swift; sourceTree = "<group>"; };
+		9A1CFDD427852721003BEC69 /* MockSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MockSession.swift; path = "Test Doubles/MockSession.swift"; sourceTree = "<group>"; };
+		9AAA3EAD2785726A00D6E407 /* StubProducts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = StubProducts.swift; path = "Test Doubles/StubProducts.swift"; sourceTree = "<group>"; };
+		9AAA3EAF2785812A00D6E407 /* MockURLProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MockURLProtocol.swift; path = "Test Doubles/MockURLProtocol.swift"; sourceTree = "<group>"; };
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -84,7 +84,7 @@
 		F35B1A72278442F40031A755 /* ImageFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageFile.swift; sourceTree = "<group>"; };
 		F35B1A86278537BD0031A755 /* Networkable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Networkable.swift; sourceTree = "<group>"; };
 		F35B1A882785380D0031A755 /* Parserable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parserable.swift; sourceTree = "<group>"; };
-		F35B1A8A2785386B0031A755 /* StubParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubParser.swift; sourceTree = "<group>"; };
+		F35B1A8A2785386B0031A755 /* StubParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = StubParser.swift; path = "Test Doubles/StubParser.swift"; sourceTree = "<group>"; };
 		F35B1A8E27853DE60031A755 /* NetworkManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManagerTests.swift; sourceTree = "<group>"; };
 		F39BD7292782DFA000D4B32D /* Products.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Products.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */

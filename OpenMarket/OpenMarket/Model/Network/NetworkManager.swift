@@ -133,13 +133,14 @@ struct NetworkManager {
 
 extension NetworkManager {
     private func multipartFormRequest<T: MultipartForm>(url: URL, params: T, images: [ImageFile]) -> URLRequest {
-        let encodeBody = createBody(parameters: params.dictionary, images: images, boundary: self.baseBoundary)
+        let boundary = baseBoundary
+        let encodeBody = createBody(parameters: params.dictionary, images: images, boundary: boundary)
         var request = URLRequest(url: url)
         
         request.httpMethod = NetworkConstant.HTTPMethod.post.rawValue
-        request.httpBody = encodeBody
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue("multipart/form-data; boundary=\"\(boundary)\"", forHTTPHeaderField: "Content-Type")
         request.addValue("80c47530-58bb-11ec-bf7f-d188f1cd5f22", forHTTPHeaderField: "identifier")
+        request.httpBody = encodeBody
         
         return request
     }
