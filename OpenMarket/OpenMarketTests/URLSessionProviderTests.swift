@@ -120,4 +120,33 @@ class URLSessionProviderTests: XCTestCase {
         }
         sutDispatchSemaphore.wait()
     }
+    
+    func test_createProduct가_200번때_상태코드를_반환해야한다() {
+        let sellerID = "cd706a3e-66db-11ec-9626-796401f2341a"
+        let param = CreateProductRequestParams(name: "신나무", descriptions: "야곰아카데미캠퍼", price: 9999999999, currency: .USD, discountedPrice: nil, stock: 1, secret: "password")
+        guard let paramData = try? JSONEncoder().encode(param) else {
+            XCTFail()
+            return
+        }
+        guard let imageData = UIImage(named: "Image")?.pngData() else {
+            XCTFail()
+            return
+        }
+        sutURLSesssionProvider.request(.createProduct(sellerID: sellerID, params: paramData, images: [imageData])) { result in
+            switch result {
+            case .success(let data):
+                guard let stringData = String(data: data, encoding: .utf8) else {
+                    XCTFail()
+                    return
+                }
+                print(stringData)
+                XCTAssertTrue(true)
+                self.sutDispatchSemaphore.signal()
+            case .failure(let error):
+                XCTFail("\(error)")
+                self.sutDispatchSemaphore.signal()
+            }
+        }
+        sutDispatchSemaphore.wait()
+    }
 }

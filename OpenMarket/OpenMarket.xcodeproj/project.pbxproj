@@ -32,6 +32,7 @@
 		E9FDEA15278463FE00B12770 /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FDEA14278463FE00B12770 /* Currency.swift */; };
 		E9FDEA1A2784670B00B12770 /* OpenMarketService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FDEA192784670B00B12770 /* OpenMarketService.swift */; };
 		E9FDEA202784677100B12770 /* CreateProductRequestParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FDEA1F2784677100B12770 /* CreateProductRequestParams.swift */; };
+		E9FDEA5E2786DCCB00B12770 /* CreateProductRequestParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FDEA1F2784677100B12770 /* CreateProductRequestParams.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -358,6 +359,7 @@
 			files = (
 				C1F964F42782EA88006F6853 /* StubURLSession.swift in Sources */,
 				C1F964F22782E777006F6853 /* DummyData.swift in Sources */,
+				E9FDEA5E2786DCCB00B12770 /* CreateProductRequestParams.swift in Sources */,
 				E99FDE7F2782E9490083D4D6 /* StubURLSessionDataTask.swift in Sources */,
 				E99FDE842782F3970083D4D6 /* Page.swift in Sources */,
 				C171F8812784236B001D0B76 /* URLSessionProvider.swift in Sources */,
