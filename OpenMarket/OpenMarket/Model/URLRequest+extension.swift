@@ -3,7 +3,6 @@ import Foundation
 extension URLRequest {
     init(url: URL, method: HttpMethod) {
         self.init(url: url)
-        self.timeoutInterval = TimeInterval(10)
 
         switch method {
         case .get:
