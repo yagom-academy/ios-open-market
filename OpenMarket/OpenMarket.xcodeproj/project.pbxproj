@@ -165,7 +165,7 @@
 			children = (
 				C9B5FAD42783F246001B6FDE /* Extensions */,
 				C9AC3E5F2786DB9A00177751 /* Error */,
-				C9B5FAD12783DB07001B6FDE /* Utils */,
+				C9B5FAD12783DB07001B6FDE /* Network */,
 				A6A824372782EA4E006CE6DA /* Models */,
 				C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */,
 				C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */,
@@ -196,14 +196,14 @@
 			path = Error;
 			sourceTree = "<group>";
 		};
-		C9B5FAD12783DB07001B6FDE /* Utils */ = {
+		C9B5FAD12783DB07001B6FDE /* Network */ = {
 			isa = PBXGroup;
 			children = (
 				A6A824802786D271006CE6DA /* API.swift */,
 				C9B5FACF2783DB00001B6FDE /* APIService.swift */,
 				A6A824542785BDE1006CE6DA /* URLCreator.swift */,
 			);
-			path = Utils;
+			path = Network;
 			sourceTree = "<group>";
 		};
 		C9B5FAD42783F246001B6FDE /* Extensions */ = {
