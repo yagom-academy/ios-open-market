@@ -91,6 +91,29 @@ class APIService {
         task.resume()
     }
     
+    func updateProduct(id: Int, modifiedProduct: ProductRegisterInformation) {
+        guard let url = URLCreator.productUpdate(id: id).url else {
+            return
+        }
+        
+        guard let body = try? JSONEncoder().encode(modifiedProduct) else {
+            return
+        }
+        
+        let request = URLRequest(url: url, api: .productUpdate(body: body, id: identifier))
+        
+        let task = dataTask(request: request) { result in
+            switch result {
+            case .success:
+                return
+            case .failure(let error):
+                print(error)
+            }
+        }
+        
+        task.resume()
+    }
+    
     func dataTask(request: URLRequest, completion: @escaping (Result<Data, APIError>) -> Void) -> URLSessionDataTask {
         let task = session.dataTask(with: request) { data, response, error in
             guard error == nil else {

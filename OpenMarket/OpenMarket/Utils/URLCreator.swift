@@ -4,6 +4,7 @@ enum URLCreator {
     static let baseURL = "https://market-training.yagom-academy.kr/api/products"
     
     case productDetail(id: Int)
+    case productUpdate(id: Int)
     case productList(pageNo: Int, itemsPerPage: Int)
     case productRegister
     case deleteProduct(id: Int, secret: String)
@@ -11,7 +12,7 @@ enum URLCreator {
     
     var url: URL? {
         switch self {
-        case .productDetail(let id):
+        case .productDetail(let id), .productUpdate(let id):
             return URL(string: URLCreator.baseURL + "/\(id)")
         case .productList(let pageNo, let itemsPerPage):
             var components = URLComponents(string: URLCreator.baseURL)
