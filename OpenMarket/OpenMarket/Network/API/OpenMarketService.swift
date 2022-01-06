@@ -13,8 +13,8 @@ enum OpenMarketService {
     case updateProduct
     case showProductSecret
     case deleteProduct
-    case showProductDetail
-    case showPage
+    case showProductDetail(productID: Int)
+    case showPage(pageNumber: Int, itemsPerPage: Int)
 }
 
 extension OpenMarketService {
@@ -25,7 +25,10 @@ extension OpenMarketService {
     var urlRequest: URLRequest? {
         switch self {
         case .checkHealth, .showPage, .showProductDetail:
-            return URLRequest(url: URL(string: "")!)
+            guard let url = URL(string: baseURL + self.path) else { return nil }
+            var request = URLRequest(url: url)
+            request.httpMethod = self.method
+            return request
         case .createProduct(let id, let params, let images):
             guard let url = URL(string: self.baseURL + self.path) else {
                 return nil
@@ -57,10 +60,10 @@ extension OpenMarketService {
             return ""
         case .deleteProduct:
             return ""
-        case .showProductDetail:
-            return ""
-        case .showPage:
-            return ""
+        case .showProductDetail(let productID):
+            return "/api/products/\(productID)"
+        case .showPage(let pageNumber, let itemsPerPage):
+            return "/api/products?page_no=\(pageNumber)&items_per_page=\(itemsPerPage)"
         }
     }
     
