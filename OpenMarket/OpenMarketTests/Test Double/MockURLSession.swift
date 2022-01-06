@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 class MockURLSession: URLSessionProtocol {
     var makeRequestFail = false
@@ -35,8 +36,8 @@ class MockURLSession: URLSessionProtocol {
             if self.makeRequestFail {
                 completionHandler(nil, failureResponse, nil)
             } else {
-                let location = Bundle.main.url(forResource: "products", withExtension: "json")!
-                completionHandler(try? Data(contentsOf: location), successResponse, nil)
+                let data = NSDataAsset(name: "products", bundle: .main)?.data
+                completionHandler(data, successResponse, nil)
             }
         }
         return sessionDataTask

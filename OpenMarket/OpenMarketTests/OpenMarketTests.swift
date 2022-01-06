@@ -6,27 +6,35 @@
 //
 
 import XCTest
+@testable import OpenMarket
 
 class OpenMarketTests: XCTestCase {
+    var sut: ProductService<ProductList>!
 
     override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+        sut = ProductService<ProductList>()
     }
 
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
+    func test_retrieveProductList_FromSampleData_WithMockURLSession() {
+        let expectaion = XCTestExpectation(description: "파싱안됨")
 
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-    }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        measure {
-            // Put the code you want to measure the time of here.
+        guard let data = NSDataAsset(name: "products")?.data else {
+            return
         }
-    }
 
+        guard let result = try? JSONDecoder().decode(ProductList.self, from: data) else {
+            return
+        }
+
+        sut.retrieveProductList(session: MockURLSession()) { productList in
+            XCTAssertEqual(productList.itemsPerPage, result.itemsPerPage)
+            XCTAssertEqual(productList.pages.first?.identification,
+                           result.pages.first?.identification)
+            XCTAssertEqual(productList.pages.first?.currency, result.pages.first?.currency)
+            XCTAssertEqual(productList.pages.first?.createdAt, result.pages.first?.createdAt)
+
+            expectaion.fulfill()
+        }
+        wait(for: [expectaion], timeout: 2.0)
+    }
 }
