@@ -52,7 +52,7 @@ extension APIService {
         return "Boundary-\(UUID().uuidString)"
     }
     
-    func createBody(productRegisterInformation: ProductRegisterInformation) -> Data? {
+    func createBody(productRegisterInformation: ProductRegisterInformation, images: [ImageData]) -> Data? {
         var body: Data = Data()
         let boundary = generateBoundary()
         
@@ -66,6 +66,10 @@ extension APIService {
             body.append(convertDataToMultiPartForm(name: key, value: value, boundary: boundary))
         }
         
+        images.forEach { image in
+            body.append(convertFileToMultiPartForm(imageData: image, boundary: boundary))
+        }
+        
         return body
     }
 
@@ -77,6 +81,17 @@ extension APIService {
         data.appendString("Content-Disposition: form-data; name=\"\(name)\"\r\n")
         data.appendString("Content-Type: \(mimeType)\r\n\r\n")
         data.appendString("\(value)\r\n")
+        
+        return data
+    }
+    
+    func convertFileToMultiPartForm(imageData: ImageData, boundary: String) -> Data {
+        var data: Data = Data()
+        
+        data.appendString("--\(boundary)\r\n")
+        data.appendString("Content-Disposition: form-data; name=\"images\"; filename=\(imageData.fileName)\r\n")
+        data.appendString("Content-Type: image/\(imageData.type.description)\r\n\r\n")
+        data.appendString("\(imageData.data)\r\n")
         
         return data
     }
