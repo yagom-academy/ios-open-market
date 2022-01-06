@@ -7,13 +7,13 @@
 
 import UIKit
 
-struct Parser: Parserable {
+struct JSONParser: JSONParserable {
     private let jsonDecoder = JSONDecoder()
     private let jsonEncoder = JSONEncoder()
     
     func decode<T: Decodable>(fileName: String, decodingType: T.Type) -> Result<T, ParserError> {
         guard let asset = NSDataAsset(name: fileName) else {
-            return .failure(.assestNotfound)
+            return .failure(.assetNotfound)
         }
         guard let decodeData = try? jsonDecoder.decode(decodingType, from: asset.data) else {
             return .failure(.decodingFail)

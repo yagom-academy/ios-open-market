@@ -9,12 +9,12 @@ import UIKit
 
 struct NetworkManager {
     let network: Networkable
-    let parser: Parserable
+    let parser: JSONParserable
     var baseBoundary: String {
         return "Boundary-\(UUID().uuidString)"
     }
     
-    init(network: Networkable = Network(), parser: Parserable = Parser()) {
+    init(network: Networkable = Network(), parser: JSONParserable = JSONParser()) {
         self.network = network
         self.parser = parser
     }

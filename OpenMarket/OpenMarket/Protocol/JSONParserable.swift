@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol Parserable {
+protocol JSONParserable {
     func decode<T: Decodable>(source: Data, decodingType: T.Type) -> Result<T, ParserError>
     func encode<T: Encodable>(object: T) -> Result<Data, ParserError>
 }

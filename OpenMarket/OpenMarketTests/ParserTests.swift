@@ -10,7 +10,7 @@ import XCTest
 
 class ParserTests: XCTestCase {
 
-    let parser: Parser = Parser()
+    let parser: JSONParser = JSONParser()
     
     func test_Products_parsing() {
         let title = "products"

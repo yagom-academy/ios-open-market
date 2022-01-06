@@ -8,7 +8,7 @@
 import Foundation
 @testable import OpenMarket
 
-struct StubParser: Parserable {
+struct StubParser: JSONParserable {
     func decode<T>(source: Data, decodingType: T.Type) -> Result<T, ParserError> where T : Decodable {
         if decodingType == Products.self {
             let products = Products(pageNumber: 1, itemsPerPage: 1, totalCount: 1, offset: 1, limit: 1, pages: [], lastPage: 1, hasNext: true, hasPrev: true)
