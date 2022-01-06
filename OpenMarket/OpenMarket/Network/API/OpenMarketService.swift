@@ -24,7 +24,7 @@ extension OpenMarketService {
     
     var urlRequest: URLRequest? {
         switch self {
-        case .checkHealth:
+        case .checkHealth, .showPage, .showProductDetail:
             return URLRequest(url: URL(string: "")!)
         case .createProduct(let id, let params, let images):
             guard let url = URL(string: self.baseURL + self.path) else {
@@ -41,10 +41,6 @@ extension OpenMarketService {
         case .showProductSecret:
             return URLRequest(url: URL(string: "")!)
         case .deleteProduct:
-            return URLRequest(url: URL(string: "")!)
-        case .showProductDetail:
-            return URLRequest(url: URL(string: "")!)
-        case .showPage:
             return URLRequest(url: URL(string: "")!)
         }
     }
@@ -70,7 +66,7 @@ extension OpenMarketService {
     
     var method: String {
         switch self {
-        case .checkHealth:
+        case .checkHealth, .showProductDetail, .showPage:
             return "GET"
         case .createProduct:
             return "POST"
@@ -80,10 +76,6 @@ extension OpenMarketService {
             return "POST"
         case .deleteProduct:
             return "DELETE"
-        case .showProductDetail:
-            return "GET"
-        case .showPage:
-            return "GET"
         }
     }
 }

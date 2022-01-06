@@ -24,8 +24,9 @@ class URLSessionProvider {
         self.session = session
     }
     
+    /// TODO: URLRequest Optional Binding Implement!
     func request(_ service: OpenMarketService, completionHandler: @escaping (Result<Data, URLSessionProviderError>) -> Void) {
-        let task = session.dataTask(with: service.urlRequest) { data, response, _ in
+        let task = session.dataTask(with: service.urlRequest!) { data, response, _ in
             guard let httpRespose = response as? HTTPURLResponse,
                   (200...299).contains(httpRespose.statusCode) else {
                 return completionHandler(.failure(.statusError))
