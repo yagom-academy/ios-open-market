@@ -39,11 +39,34 @@ class APIService {
                 completion(.failure(error))
             }
         }
-        
+            
         task.resume()
     }
     
-    func dataTask(request: URLRequest, completion: @escaping (Result<Data,APIError>) -> ()) -> URLSessionDataTask {
+    func retrieveProductList(pageNo: Int, itemsPerPage: Int, completion: @escaping (Result<ProductList, APIError>) -> Void) {
+        guard let url = URLCreator.productList(pageNo: pageNo, itemsPerPage: itemsPerPage).url else {
+            completion(.failure(.invalidURL))
+            return
+        }
+        
+        let request = URLRequest(url: url, api: .productList)
+        
+        let task = dataTask(request: request) { result in
+            switch result {
+            case .success(let data):
+                guard let productList = try? self.decoder.decode(ProductList.self, from: data) else {
+                    return
+                }
+                completion(.success(productList))
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+            
+        task.resume()
+    }
+    
+    func dataTask(request: URLRequest, completion: @escaping (Result<Data, APIError>) -> Void) -> URLSessionDataTask {
         let task = session.dataTask(with: request) { data, response, error in
             guard error == nil else {
                 completion(.failure(.invalidRequest))
