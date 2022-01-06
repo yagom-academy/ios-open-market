@@ -1,7 +1,7 @@
 import Foundation
 
 struct NetworkTask {
-    private static let boundary = UUID().uuidString
+    private let boundary = UUID().uuidString
     let jsonParser: JSONParsable
     
     func requestHealthChekcer(completionHandler: @escaping (Result<Data, Error>) -> Void) {
@@ -21,7 +21,7 @@ struct NetworkTask {
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.addValue(identifier, forHTTPHeaderField: "identifier")
-        request.addValue("multipart/form-data; boundary=\(Self.boundary)",
+        request.addValue("multipart/form-data; boundary=\(boundary)",
                          forHTTPHeaderField: "Content-Type")
         let body = buildBody(with: salesInformation, images: images)
         request.httpBody = body
@@ -124,7 +124,7 @@ struct NetworkTask {
         with salesInformation: SalesInformation,
         images: [String: Data]
     ) -> Data? {
-        guard let endBoundary = "\r\n--\(Self.boundary)--".data(using: .utf8) else {
+        guard let endBoundary = "\r\n--\(boundary)--".data(using: .utf8) else {
             return nil
         }
         guard let newLine = "\r\n".data(using: .utf8) else {
@@ -135,7 +135,7 @@ struct NetworkTask {
         }
         var data = Data()
         var paramsBody = ""
-        paramsBody.append("--\(Self.boundary)\r\n")
+        paramsBody.append("--\(boundary)\r\n")
         paramsBody.append("Content-Disposition: form-data; name=\"params\"\r\n\r\n")
         guard let paramsBody = paramsBody.data(using: .utf8) else {
             return nil
@@ -144,7 +144,7 @@ struct NetworkTask {
         data.append(salesInformation)
         for (fileName, image) in images {
             var imagesBody = ""
-            imagesBody.append("\r\n--\(Self.boundary)\r\n")
+            imagesBody.append("\r\n--\(boundary)\r\n")
             imagesBody.append("Content-Disposition: form-data; name=\"images\"; filename=\(fileName)\r\n")
             guard let imagesBody = imagesBody.data(using: .utf8) else {
                 return nil
