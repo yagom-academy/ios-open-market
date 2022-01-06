@@ -11,9 +11,13 @@
 		C13469E12786BF1E0044DFDB /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FDEA14278463FE00B12770 /* Currency.swift */; };
 		C13469E32786BF3F0044DFDB /* URLSessionProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13469E22786BF3F0044DFDB /* URLSessionProviderTests.swift */; };
 		C13469E42786BFBB0044DFDB /* OpenMarketService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FDEA192784670B00B12770 /* OpenMarketService.swift */; };
+		C13469E62786E32F0044DFDB /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13469E52786E32F0044DFDB /* Image.swift */; };
+		C13469E72786E3350044DFDB /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13469E52786E32F0044DFDB /* Image.swift */; };
+		C13469E92786E35C0044DFDB /* Vendor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13469E82786E35C0044DFDB /* Vendor.swift */; };
+		C13469EB2786E3B00044DFDB /* UpdateProductRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13469EA2786E3B00044DFDB /* UpdateProductRequest.swift */; };
 		C171F88027841135001D0B76 /* URLSessionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C171F87F27841135001D0B76 /* URLSessionProvider.swift */; };
 		C171F8812784236B001D0B76 /* URLSessionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C171F87F27841135001D0B76 /* URLSessionProvider.swift */; };
-		C17E063627846CF400D7F83D /* CreateProductResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17E063527846CF400D7F83D /* CreateProductResponse.swift */; };
+		C17E063627846CF400D7F83D /* ProductResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17E063527846CF400D7F83D /* ProductResponse.swift */; };
 		C1F964E32782D67A006F6853 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1F964E22782D67A006F6853 /* Product.swift */; };
 		C1F964F22782E777006F6853 /* DummyData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1F964F12782E777006F6853 /* DummyData.swift */; };
 		C1F964F42782EA88006F6853 /* StubURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1F964F32782EA88006F6853 /* StubURLSession.swift */; };
@@ -49,8 +53,11 @@
 		01B773038AA12727A1AE8189 /* Pods-OpenMarket.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenMarket.debug.xcconfig"; path = "Target Support Files/Pods-OpenMarket/Pods-OpenMarket.debug.xcconfig"; sourceTree = "<group>"; };
 		40A8AED9FA2D0026389DF4B1 /* Pods-OpenMarket.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenMarket.release.xcconfig"; path = "Target Support Files/Pods-OpenMarket/Pods-OpenMarket.release.xcconfig"; sourceTree = "<group>"; };
 		C13469E22786BF3F0044DFDB /* URLSessionProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionProviderTests.swift; sourceTree = "<group>"; };
+		C13469E52786E32F0044DFDB /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
+		C13469E82786E35C0044DFDB /* Vendor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vendor.swift; sourceTree = "<group>"; };
+		C13469EA2786E3B00044DFDB /* UpdateProductRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateProductRequest.swift; sourceTree = "<group>"; };
 		C171F87F27841135001D0B76 /* URLSessionProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionProvider.swift; sourceTree = "<group>"; };
-		C17E063527846CF400D7F83D /* CreateProductResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateProductResponse.swift; sourceTree = "<group>"; };
+		C17E063527846CF400D7F83D /* ProductResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductResponse.swift; sourceTree = "<group>"; };
 		C1F964E22782D67A006F6853 /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
 		C1F964E82782E6D7006F6853 /* OpenMarketTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenMarketTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C1F964EA2782E6D7006F6853 /* OpenMarketTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketTests.swift; sourceTree = "<group>"; };
@@ -112,7 +119,6 @@
 		C17E063727846D1200D7F83D /* CreateProduct */ = {
 			isa = PBXGroup;
 			children = (
-				C17E063527846CF400D7F83D /* CreateProductResponse.swift */,
 				E9FDEA1F2784677100B12770 /* CreateProductRequestParams.swift */,
 			);
 			path = CreateProduct;
@@ -206,6 +212,10 @@
 			isa = PBXGroup;
 			children = (
 				E9FDEA192784670B00B12770 /* OpenMarketService.swift */,
+				C13469EA2786E3B00044DFDB /* UpdateProductRequest.swift */,
+				C17E063527846CF400D7F83D /* ProductResponse.swift */,
+				C13469E52786E32F0044DFDB /* Image.swift */,
+				C13469E82786E35C0044DFDB /* Vendor.swift */,
 				C17E063727846D1200D7F83D /* CreateProduct */,
 			);
 			path = API;
@@ -366,6 +376,7 @@
 				C13469E42786BFBB0044DFDB /* OpenMarketService.swift in Sources */,
 				C13469E32786BF3F0044DFDB /* URLSessionProviderTests.swift in Sources */,
 				C13469E12786BF1E0044DFDB /* Currency.swift in Sources */,
+				C13469E72786E3350044DFDB /* Image.swift in Sources */,
 				E99FDE872782F39A0083D4D6 /* Product.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -379,10 +390,13 @@
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				C1F964E32782D67A006F6853 /* Product.swift in Sources */,
 				C171F88027841135001D0B76 /* URLSessionProvider.swift in Sources */,
-				C17E063627846CF400D7F83D /* CreateProductResponse.swift in Sources */,
+				C17E063627846CF400D7F83D /* ProductResponse.swift in Sources */,
 				E99FDE782782D4C00083D4D6 /* Page.swift in Sources */,
 				E9FDEA15278463FE00B12770 /* Currency.swift in Sources */,
+				C13469EB2786E3B00044DFDB /* UpdateProductRequest.swift in Sources */,
 				E9FDEA202784677100B12770 /* CreateProductRequestParams.swift in Sources */,
+				C13469E92786E35C0044DFDB /* Vendor.swift in Sources */,
+				C13469E62786E32F0044DFDB /* Image.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

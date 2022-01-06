@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct CreateProductResponse: Decodable {
+struct ProductResponse: Decodable {
     let id: Int
     let venderId: Int
     let name: String
@@ -34,36 +34,6 @@ struct CreateProductResponse: Decodable {
         case stock
         case images
         case vendors
-        case createdAt = "created_at"
-        case issuedAt = "issued_at"
-    }
-}
-
-struct Image: Decodable {
-    let id: Int
-    let url: String
-    let thumbnailURL: String
-    let succeed: Bool
-    let issuedAt: String
-
-    enum CodingKeys: String, CodingKey {
-        case id
-        case url
-        case thumbnailURL = "thumbnail_url"
-        case succeed
-        case issuedAt = "issued_at"
-    }
-}
-
-struct Vendor: Decodable {
-    let name: String
-    let id: Int
-    let createdAt: String
-    let issuedAt: String
-
-    enum CodingKeys: String, CodingKey {
-        case name
-        case id
         case createdAt = "created_at"
         case issuedAt = "issued_at"
     }
