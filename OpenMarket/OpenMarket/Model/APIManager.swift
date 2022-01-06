@@ -47,6 +47,18 @@ class APIManager {
         request.httpMethod = HTTPMethod.get.description
         
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            guard error == nil else {
+                return
+            }
+            
+            guard let statusCode = (response as? HTTPURLResponse)?.statusCode else {
+                return
+            }
+            
+            guard self.successRange.contains(statusCode) else {
+                return
+            }
+            
             guard let data = data else {
                 print(String(describing: error))
                 self.semaphore.signal()
@@ -73,6 +85,18 @@ class APIManager {
         request.httpMethod = HTTPMethod.get.description
         
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            guard error == nil else {
+                return
+            }
+            
+            guard let statusCode = (response as? HTTPURLResponse)?.statusCode else {
+                return
+            }
+            
+            guard self.successRange.contains(statusCode) else {
+                return
+            }
+            
             guard let data = data else {
                 print(String(describing: error))
                 self.semaphore.signal()
