@@ -144,15 +144,13 @@ struct NetworkTask {
         }
         data.append(paramsBody)
         data.append(salesInformation)
-        for (fileName, image) in images {
+        images.forEach { (fileName, image) in
             var imagesBody = ""
             imagesBody.append("\r\n--\(boundary)\r\n")
             imagesBody.append(
                 "Content-Disposition: form-data; name=\"images\"; filename=\(fileName)\r\n"
             )
-            guard let imagesBody = imagesBody.data(using: .utf8) else {
-                return nil
-            }
+            guard let imagesBody = imagesBody.data(using: .utf8) else { return }
             data.append(imagesBody)
             data.append(newLine)
             data.append(image)
