@@ -1,0 +1,45 @@
+//
+//  MockURLSession.swift
+//  OpenMarketTests
+//
+//  Created by yeha on 2022/01/06.
+//
+
+import Foundation
+
+class MockURLSession: URLSessionProtocol {
+    var makeRequestFail = false
+
+    init(makeRequestFail: Bool = false) {
+        self.makeRequestFail = makeRequestFail
+    }
+
+    var sessionDataTask: MockURLSessionDataTask?
+
+    func dataTask(
+        with request: URLRequest,
+        completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void
+    ) -> URLSessionDataTask {
+        let url = URL(string: HTTPUtility.baseURL)!
+        let successResponse = HTTPURLResponse(url: url,
+                                              statusCode: 200,
+                                              httpVersion: nil,
+                                              headerFields: nil)
+        let failureResponse = HTTPURLResponse(url: url,
+                                              statusCode: 410,
+                                              httpVersion: nil,
+                                              headerFields: nil)
+        let sessionDataTask = MockURLSessionDataTask()
+
+        sessionDataTask.resumeDidCall = {
+            if self.makeRequestFail {
+                completionHandler(nil, failureResponse, nil)
+            } else {
+                let location = Bundle.main.url(forResource: "products", withExtension: "json")!
+                completionHandler(try? Data(contentsOf: location), successResponse, nil)
+            }
+        }
+        return sessionDataTask
+    }
+
+}
