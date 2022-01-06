@@ -22,8 +22,8 @@ class APIService {
         self.session = session
     }
     
-    func retrieveProductDetail(id: Int, completion: @escaping (Result<ProductDetail, APIError>) -> Void) {
-        guard let url = URLCreator.productDetail(id: id).url else {
+    func retrieveProductDetail(productId: Int, completion: @escaping (Result<ProductDetail, APIError>) -> Void) {
+        guard let url = URLCreator.productDetail(id: productId).url else {
             completion(.failure(.invalidURL))
             return
         }
@@ -91,8 +91,8 @@ class APIService {
         task.resume()
     }
     
-    func updateProduct(id: Int, modifiedProduct: ProductRegisterInformation) {
-        guard let url = URLCreator.productUpdate(id: id).url else {
+    func updateProduct(productId: Int, modifiedProduct: ProductRegisterInformation) {
+        guard let url = URLCreator.productUpdate(id: productId).url else {
             return
         }
         
@@ -101,6 +101,25 @@ class APIService {
         }
         
         let request = URLRequest(url: url, api: .productUpdate(body: body, id: identifier))
+        
+        let task = dataTask(request: request) { result in
+            switch result {
+            case .success:
+                return
+            case .failure(let error):
+                print(error)
+            }
+        }
+        
+        task.resume()
+    }
+    
+    func deleteProduct(productId: Int, secret: String) {
+        guard let url = URLCreator.deleteProduct(id: productId, secret: secret).url else {
+            return
+        }
+        
+        let request = URLRequest(url: url, api: .deleteProduct(id: identifier))
         
         let task = dataTask(request: request) { result in
             switch result {
