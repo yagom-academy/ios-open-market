@@ -7,6 +7,13 @@
 
 import Foundation
 
+enum HttpMethod {
+  static let get = "GET"
+  static let post = "POST"
+  static let patch = "PATCH"
+  static let delete = "DELETE"
+}
+
 struct APIManager {
   let semaphore = DispatchSemaphore(value: 0)
   
@@ -15,7 +22,7 @@ struct APIManager {
     do{
       let url = try URLGenerator.productList(pageNumber: "1", itemsPerPage: "10")
       var request = URLRequest(url: url)
-      request.httpMethod = "GET"
+      request.httpMethod = HttpMethod.get
       
       URLSession.shared.dataTask(request) { response in
         switch response {
@@ -39,7 +46,7 @@ struct APIManager {
     do {
       let url = try URLGenerator.DetailProduct(productId: productId)
       var request = URLRequest(url: url)
-      request.httpMethod = "GET"
+      request.httpMethod = HttpMethod.get
       URLSession.shared.dataTask(request) { response in
         switch response {
         case .success(let data):
