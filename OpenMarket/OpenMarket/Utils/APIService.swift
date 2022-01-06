@@ -8,6 +8,8 @@ extension URLSession: URLSessionProtocol {}
 
 class APIService {
     let session: URLSessionProtocol
+    let identifier = "cd706a3e-66db-11ec-9626-796401f2341a"
+    
     private let decoder: JSONDecoder = {
         let decoder = JSONDecoder()
         let dateFormatter = DateFormatter()
@@ -63,6 +65,29 @@ class APIService {
             }
         }
             
+        task.resume()
+    }
+    
+    func registerProduct(newProduct: ProductRegisterInformation, images: [ImageData]) {
+        guard let url = URLCreator.productRegister.url else {
+            return
+        }
+                
+        guard let body = createBody(productRegisterInformation: newProduct, images: images) else {
+            return
+        }
+        
+        let request = URLRequest(url: url, api: .productRegister(body: body, id: identifier))
+        
+        let task = dataTask(request: request) { result in
+            switch result {
+            case .success:
+                return
+            case .failure(let error):
+                print(error)
+            }
+        }
+        
         task.resume()
     }
     
