@@ -11,7 +11,7 @@ class APIManager {
     func requestHealthChecker() {
         let url = apiHost + "healthChecker"
         var request = URLRequest(url: URL(string: url)!,timeoutInterval: Double.infinity)
-        request.httpMethod = HTTPMethod.get.description
+        request.httpMethod = HTTPMethod.get
         
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             guard error == nil else {
@@ -44,7 +44,7 @@ class APIManager {
     func requestProductInformation(productID: Int) {
         let url = apiHost + "/api/products/" + "\(productID)"
         var request = URLRequest(url: URL(string: url)!,timeoutInterval: Double.infinity)
-        request.httpMethod = HTTPMethod.get.description
+        request.httpMethod = HTTPMethod.get
         
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             guard error == nil else {
@@ -82,7 +82,7 @@ class APIManager {
     func requestProductList() {
         let url = apiHost + "/api/products?page-no=1&items-per-page=10"
         var request = URLRequest(url: URL(string: url)!,timeoutInterval: Double.infinity)
-        request.httpMethod = HTTPMethod.get.description
+        request.httpMethod = HTTPMethod.get
         
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             guard error == nil else {
