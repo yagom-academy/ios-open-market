@@ -82,7 +82,6 @@ extension MarketAPIService: APIServicable {
             return
         }
         let request = URLRequest(url: url)
-        
         let dataTask = createDataTask(request: request, completionHandler: completionHandler)
         
         dataTask.resume()
@@ -93,7 +92,6 @@ extension MarketAPIService: APIServicable {
             return
         }
         let request = URLRequest(url: url)
-        
         let dataTask = createDataTask(request: request, completionHandler: completionHandler)
         
         dataTask.resume()
@@ -121,6 +119,7 @@ extension MarketAPIService {
                 return
             }
             let parsedData = parse(with: data, type: T.self)
+            
             completionHandler(.success(parsedData))
         }
         
