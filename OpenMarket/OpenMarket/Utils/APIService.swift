@@ -133,6 +133,31 @@ class APIService {
         task.resume()
     }
     
+    func retrieveProductSecret(productId: Int, secret: String, completion: @escaping (Result<String, APIError>) -> ()) {
+        guard let url = URLCreator.productSecret(id: productId).url else {
+            return
+        }
+        
+        guard let body = try? JSONEncoder().encode(secret) else {
+            return
+        }
+        
+        let request = URLRequest(url: url, api: .productSecret(body: body, id: identifier))
+        
+        let task = dataTask(request: request) { result in
+            switch result {
+            case .success(let data):
+                if let convertedData = String(data: data, encoding: .utf8) {
+                    completion(.success(convertedData))
+                }
+            case .failure(let error):
+                print(error)
+            }
+        }
+        
+        task.resume()
+    }
+    
     func dataTask(request: URLRequest, completion: @escaping (Result<Data, APIError>) -> Void) -> URLSessionDataTask {
         let task = session.dataTask(with: request) { data, response, error in
             guard error == nil else {

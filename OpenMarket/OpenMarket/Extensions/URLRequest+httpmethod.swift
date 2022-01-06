@@ -9,10 +9,10 @@ extension URLRequest {
         switch api {
         case .productDetail, .productList:
             return
-        case .productRegister(let body, let id), .productUpdate(let body, let id):
+        case .productRegister(let body, let id), .productUpdate(let body, let id), .productSecret(let body, let id):
             self.addValue(id, forHTTPHeaderField: "identifier")
             self.httpBody = body
-        case .deleteProduct(let id), .productSecret(let id):
+        case .deleteProduct(let id):
             self.addValue(id, forHTTPHeaderField: "identifier")
         }
     }

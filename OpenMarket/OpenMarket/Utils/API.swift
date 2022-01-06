@@ -6,7 +6,7 @@ enum API {
     case productRegister(body: Data, id: String)
     case productUpdate(body: Data, id: String)
     case deleteProduct(id: String)
-    case productSecret(id: String)
+    case productSecret(body: Data, id: String)
     
     var httpMethod: String {
         switch self {
