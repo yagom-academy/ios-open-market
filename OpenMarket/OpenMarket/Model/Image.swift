@@ -1,6 +1,6 @@
 import Foundation
 
-struct Image: Codable {
+struct Image: Decodable {
     var id: Int
     var url: String
     var thumbnailUrl: String

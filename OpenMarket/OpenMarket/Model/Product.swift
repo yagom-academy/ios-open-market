@@ -1,6 +1,6 @@
 import Foundation
 
-struct Product: Codable {
+struct Product: Decodable {
     var id: Int
     var vendorId: Int
     var name: String

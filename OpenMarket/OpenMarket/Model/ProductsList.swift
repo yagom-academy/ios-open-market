@@ -1,6 +1,6 @@
 import Foundation
 
-struct ProductsList: Codable {
+struct ProductsList: Decodable {
     var pageNumber: Int
     var itemsPerPage: Int
     var totalCount: Int

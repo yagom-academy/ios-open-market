@@ -1,7 +1,7 @@
 import Foundation
 
-enum JSONParser<Element: Codable> {
-    static func decode(from data: Data) throws -> Element {
+enum JSONParser {
+    static func decode<Element: Decodable>(from data: Data) throws -> Element {
         let decoder = JSONDecoder()
         let formatter = DateFormatter()
         
@@ -13,7 +13,7 @@ enum JSONParser<Element: Codable> {
         return data
     }
     
-    static func encode(from element: Element) throws -> Data {
+    static func encode<Element: Encodable>(from element: Element) throws -> Data {
         let encoder = JSONEncoder()
         encoder.keyEncodingStrategy = .convertToSnakeCase
         let data = try encoder.encode(element)

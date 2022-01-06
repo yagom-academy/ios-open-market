@@ -197,7 +197,7 @@ extension NetworkTask {
         }
     }
     
-    struct SalesInformation: Codable {
+    struct SalesInformation: Encodable {
         var name: String
         var descriptions: String
         var price: Double
@@ -207,7 +207,7 @@ extension NetworkTask {
         var secret: String
     }
     
-    struct ModificationInformation: Codable {
+    struct ModificationInformation: Encodable {
         var name: String?
         var descriptions: String?
         var thumbnail_id: Int?
