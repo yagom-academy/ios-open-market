@@ -1,7 +1,7 @@
 import Foundation
 
-struct ProductService<Element: Decodable> {
-    private func doDataTask(
+struct ProductService {
+    private func doDataTask<Element: Decodable>(
         with request: URLRequest,
         session: URLSessionProtocol,
         completionHandler: @escaping (Element) -> Void
@@ -28,10 +28,16 @@ struct ProductService<Element: Decodable> {
     }
 
     func retrieveProductList(
+        pageNumber: Int? = nil,
+        itemsPerPage: Int? = nil,
         session: URLSessionProtocol,
-        completionHandler: @escaping ((Element) -> Void)
+        completionHandler: @escaping ((ProductList) -> Void)
     ) {
-        let urlString = HTTPUtility.baseURL + "/api/products"
+        var urlString = "\(HTTPUtility.baseURL)/api/products"
+        if let pageNumber = pageNumber,
+           let itemsPerPage = itemsPerPage {
+            urlString += "?page-no=\(pageNumber)&items-per-page=\(itemsPerPage)"
+        }
         guard let url = URL(string: urlString) else {
             return
         }

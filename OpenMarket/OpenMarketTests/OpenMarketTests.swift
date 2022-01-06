@@ -9,10 +9,10 @@ import XCTest
 @testable import OpenMarket
 
 class OpenMarketTests: XCTestCase {
-    var sut: ProductService<ProductList>!
+    var sut: ProductService!
 
     override func setUpWithError() throws {
-        sut = ProductService<ProductList>()
+        sut = ProductService()
     }
 
     func test_retrieveProductList_FromSampleData_WithMockURLSession() {
