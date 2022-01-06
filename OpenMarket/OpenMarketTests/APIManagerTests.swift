@@ -21,7 +21,7 @@ class APIManagerTests: XCTestCase {
     }
     
     func test_상품목록의_상품갯수가_20개인지_확인() {
-        sutAPIManager.checkProductList()
+        sutAPIManager.checkProductList(pageNumber: 1, itemsPerPage: 20)
         let result = sutAPIManager.productList?.pages.count
         XCTAssertEqual(result, 20)
     }

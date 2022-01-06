@@ -39,8 +39,8 @@ class APIManager {
         semaphore.wait()
     }
     
-    func checkProductList() {
-        guard let url = WorkType.checkProductList.url else { return }
+    func checkProductList(pageNumber: Int, itemsPerPage: Int) {
+        guard let url = WorkType.checkProductList(pageNumber: pageNumber, itemsPerPage: itemsPerPage).url else { return }
         let request = URLRequest(url: url, method: .get)
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             guard let data = data else {
