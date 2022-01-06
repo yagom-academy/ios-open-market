@@ -18,53 +18,58 @@ enum OpenMarketService {
 }
 
 extension OpenMarketService {
-    var baseURL: String {
-        return "https://market-training.yagom-academy.kr"
-    }
-    
     var urlRequest: URLRequest? {
+        guard let url = URL(string: finalURL) else { return nil }
+        
         switch self {
         case .checkHealth, .showPage, .showProductDetail:
-            guard let url = URL(string: baseURL + self.path) else { return nil }
-            var request = URLRequest(url: url)
-            request.httpMethod = self.method
-            return request
+            return makeURLRequest(url: url, header: [:])
+            
         case .createProduct(let sellerID, let params, let images):
-            guard let url = URL(string: baseURL + self.path) else { return nil }
-            var urlRequest = URLRequest(url: url)
-            urlRequest.httpMethod = self.method
-            urlRequest.addValue(sellerID, forHTTPHeaderField: "identifier")
-            urlRequest.addValue("multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW", forHTTPHeaderField: "Content-Type")
+            let boundary = UUID().uuidString
+            var request = makeURLRequest(url: url, header: [
+                "identifier": sellerID,
+                "Content-Type": "multipart/form-data; boundary=\(boundary)"
+            ])
             let body = NSMutableData()
-            makeBody(target: body, name: "params", data: params)
-            makeBodyImage(target: body, name: "images", images: images)
-            body.append("------WebKitFormBoundary7MA4YWxkTrZu0gW--\r\n")
-            urlRequest.httpBody = body as Data
-            return urlRequest
+            makeBody(target: body, name: "params", data: params, boundary: boundary)
+            makeBodyImage(target: body, name: "images", images: images, boundary: boundary)
+            body.append("--\(boundary)--\r\n")
+            request?.httpBody = body as Data
+            return request
+            
         case .updateProduct(let sellerID, _, let body):
-            print(self.path)
-            guard let url = URL(string: baseURL + self.path) else { return nil }
-            var request = URLRequest(url: url)
-            request.httpMethod = self.method
-            request.addValue(sellerID, forHTTPHeaderField: "identifier")
-            request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-            request.httpBody = body
+            var request = makeURLRequest(url: url, header: [
+                "identifier": sellerID,
+                "Content-Type": "application/json"
+            ])
+            request?.httpBody = body
             return request
+            
         case .showProductSecret(let sellerID, let sellerPW, _):
-            guard let url = URL(string: baseURL + self.path) else { return nil }
-            var request = URLRequest(url: url)
-            request.httpMethod = self.method
-            request.addValue(sellerID, forHTTPHeaderField: "identifier")
-            request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-            request.httpBody = "{\"secret\": \"\(sellerPW)\"}".data(using: .utf8)
+            var request = makeURLRequest(url: url, header: [
+                "identifier": sellerID,
+                "Content-Type": "application/json"
+            ])
+            request?.httpBody = "{\"secret\": \"\(sellerPW)\"}".data(using: .utf8)
             return request
+            
         case .deleteProduct(let sellerID, _, _):
-            guard let url = URL(string: baseURL + self.path) else { return nil }
-            var request = URLRequest(url: url)
-            request.httpMethod = self.method
-            request.addValue(sellerID, forHTTPHeaderField: "identifier")
+            let request = makeURLRequest(url: url, header: [
+                "identifier": sellerID
+            ])
             return request
         }
+    }
+}
+
+extension OpenMarketService {
+    var finalURL: String {
+        baseURL + path
+    }
+    
+    var baseURL: String {
+        return "https://market-training.yagom-academy.kr"
     }
     
     var path: String {
@@ -102,8 +107,15 @@ extension OpenMarketService {
 
 extension OpenMarketService {
     
-    func makeBody(target: NSMutableData, name:String, data: Data) {
-        target.append("------WebKitFormBoundary7MA4YWxkTrZu0gW\r\n")
+    private func makeURLRequest(url: URL, header: [String: String]) -> URLRequest? {
+        var request = URLRequest(url: url)
+        request.httpMethod = self.method
+        header.forEach { request.addValue($1, forHTTPHeaderField: $0) }
+        return request
+    }
+    
+    private func makeBody(target: NSMutableData, name: String, data: Data, boundary: String) {
+        target.append("--\(boundary)\r\n")
         target.append("Content-Disposition: form-data; name=\"\(name)\"\r\n")
         target.append("Content-Type: application/json\r\n")
         target.append("\r\n")
@@ -111,25 +123,15 @@ extension OpenMarketService {
         target.append("\r\n")
     }
 
-    func makeBodyImage(target: NSMutableData, name:String, images: [Data]) {
+    private func makeBodyImage(target: NSMutableData, name:String, images: [Data], boundary: String) {
         for image in images {
-            target.append("------WebKitFormBoundary7MA4YWxkTrZu0gW\r\n")
+            target.append("--\(boundary)\r\n")
             target.append("Content-Disposition: form-data; name=\"\(name)\"; filename=\"\(UUID().uuidString).png\"\r\n")
             target.append("Content-Type: image/png\r\n")
             target.append("\r\n")
             target.append(image)
             target.append("\r\n")
         }
+        
     }
-    
-}
-
-extension NSMutableData {
-    
-    func append(_ string: String) {
-        if let data = string.data(using: .utf8) {
-            self.append(data)
-        }
-    }
-    
 }

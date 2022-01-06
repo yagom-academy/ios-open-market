@@ -38,6 +38,8 @@
 		E9FDEA1A2784670B00B12770 /* OpenMarketService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FDEA192784670B00B12770 /* OpenMarketService.swift */; };
 		E9FDEA202784677100B12770 /* CreateProductRequestParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FDEA1F2784677100B12770 /* CreateProductRequestParams.swift */; };
 		E9FDEA5E2786DCCB00B12770 /* CreateProductRequestParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FDEA1F2784677100B12770 /* CreateProductRequestParams.swift */; };
+		E9FDEA67278705AD00B12770 /* Extension+NSMutableData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FDEA66278705AD00B12770 /* Extension+NSMutableData.swift */; };
+		E9FDEA7127870C6800B12770 /* Extension+NSMutableData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FDEA66278705AD00B12770 /* Extension+NSMutableData.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -79,6 +81,7 @@
 		E9FDEA14278463FE00B12770 /* Currency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
 		E9FDEA192784670B00B12770 /* OpenMarketService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketService.swift; sourceTree = "<group>"; };
 		E9FDEA1F2784677100B12770 /* CreateProductRequestParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateProductRequestParams.swift; sourceTree = "<group>"; };
+		E9FDEA66278705AD00B12770 /* Extension+NSMutableData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+NSMutableData.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -169,6 +172,7 @@
 		C70FB0F925BEF61C00C9924E /* OpenMarket */ = {
 			isa = PBXGroup;
 			children = (
+				E9FDEA652787058300B12770 /* Utility */,
 				C17E063827846D3400D7F83D /* Network */,
 				E99FDE762782D3EC0083D4D6 /* Controller */,
 				E99FDE742782D3980083D4D6 /* Model */,
@@ -220,6 +224,14 @@
 				C17E063727846D1200D7F83D /* CreateProduct */,
 			);
 			path = API;
+			sourceTree = "<group>";
+		};
+		E9FDEA652787058300B12770 /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				E9FDEA66278705AD00B12770 /* Extension+NSMutableData.swift */,
+			);
+			path = Utility;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -371,6 +383,7 @@
 				C1F964F42782EA88006F6853 /* StubURLSession.swift in Sources */,
 				C1F964F22782E777006F6853 /* DummyData.swift in Sources */,
 				E9FDEA5E2786DCCB00B12770 /* CreateProductRequestParams.swift in Sources */,
+				E9FDEA7127870C6800B12770 /* Extension+NSMutableData.swift in Sources */,
 				E99FDE7F2782E9490083D4D6 /* StubURLSessionDataTask.swift in Sources */,
 				E99FDE842782F3970083D4D6 /* Page.swift in Sources */,
 				C171F8812784236B001D0B76 /* URLSessionProvider.swift in Sources */,
@@ -394,6 +407,7 @@
 				C171F88027841135001D0B76 /* URLSessionProvider.swift in Sources */,
 				C17E063627846CF400D7F83D /* ProductResponse.swift in Sources */,
 				E99FDE782782D4C00083D4D6 /* Page.swift in Sources */,
+				E9FDEA67278705AD00B12770 /* Extension+NSMutableData.swift in Sources */,
 				E9FDEA15278463FE00B12770 /* Currency.swift in Sources */,
 				C13469EB2786E3B00044DFDB /* UpdateProductRequest.swift in Sources */,
 				E9FDEA202784677100B12770 /* CreateProductRequestParams.swift in Sources */,
