@@ -14,7 +14,10 @@ class JSONParseTests: XCTestCase {
     }()
     
     func test_상품_리스트_조회_decode가_되는지() {
-        guard let asset = NSDataAsset(name: "products")?.data else { return }
+        guard let asset = NSDataAsset(name: "products")?.data else {
+            XCTFail()
+            return
+        }
         do {
             let decoded: ProductsList? = try jsonParser.decode(from: asset)
             XCTAssertEqual(decoded?.pages[0].currency, Currency.krw)
@@ -25,7 +28,10 @@ class JSONParseTests: XCTestCase {
     }
     
     func test_상품_리스트_조회_날짜_decode가_되는지() {
-        guard let asset = NSDataAsset(name: "products")?.data else { return }
+        guard let asset = NSDataAsset(name: "products")?.data else {
+            XCTFail()
+            return
+        }
         do {
             let decoded: ProductsList? = try jsonParser.decode(from: asset)
             let date = decoded?.pages[0].issuedAt
@@ -41,7 +47,10 @@ class JSONParseTests: XCTestCase {
     }
     
     func test_상품_상세_조회_id_decode가_되는지() {
-        guard let asset = NSDataAsset(name: "product_16")?.data else { return }
+        guard let asset = NSDataAsset(name: "product_16")?.data else {
+            XCTFail()
+            return
+        }
         do {
             let decoded: Product? = try jsonParser.decode(from: asset)
             XCTAssertEqual(decoded?.id, 16)
@@ -52,7 +61,10 @@ class JSONParseTests: XCTestCase {
     }
     
     func test_상품_상세_조회_images_decode가_되는지() {
-        guard let asset = NSDataAsset(name: "product_16")?.data else { return }
+        guard let asset = NSDataAsset(name: "product_16")?.data else {
+            XCTFail()
+            return
+        }
         do {
             let decoded: Product? = try jsonParser.decode(from: asset)
             XCTAssertEqual(decoded?.images?[0].id, 7)
@@ -63,7 +75,10 @@ class JSONParseTests: XCTestCase {
     }
     
     func test_상품_상세_조회_vendor_decode가_되는지() {
-        guard let asset = NSDataAsset(name: "product_16")?.data else { return }
+        guard let asset = NSDataAsset(name: "product_16")?.data else {
+            XCTFail()
+            return
+        }
         do {
             let decoded: Product? = try jsonParser.decode(from: asset)
             XCTAssertEqual(decoded?.vendor?.id, 2)
