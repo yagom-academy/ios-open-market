@@ -46,7 +46,7 @@ struct NetworkManager {
     
     // GET - 상품 리스트 조회
     func requestListSearch(page: UInt, itemsPerPage: UInt) -> URLRequest? {
-        guard let url = Address.products(page: page, itemsPerPage: itemsPerPage).url else {
+        guard let url = APIAddress.products(page: page, itemsPerPage: itemsPerPage).url else {
             return nil
         }
         return URLRequest(url: url)
@@ -54,7 +54,7 @@ struct NetworkManager {
     
     // GET - 상품 상세 조회
     func requestDetailSearch(id: UInt) -> URLRequest? {
-        guard let url = Address.product(id: id).url else {
+        guard let url = APIAddress.product(id: id).url else {
             return nil
         }
         return URLRequest(url: url)
@@ -62,7 +62,7 @@ struct NetworkManager {
     
     // POST - 상품 삭제 Secret 상세 조회
     func requestSecretSearch<T: Encodable>(data: T, id: UInt, secret: String) -> Result<URLRequest?, Error> {
-        guard let url = Address.secret(id: id, secret: secret).url else {
+        guard let url = APIAddress.secret(id: id, secret: secret).url else {
             return .failure(NetworkError.notFoundURL)
         }
         let encodingResult = parser.encode(object: data)
@@ -86,7 +86,7 @@ struct NetworkManager {
     
     // DELET - 상품 삭제
     func requestDelete(id: UInt, secret: String) -> URLRequest? {
-        guard let url = Address.delete(id: id, secret: secret).url else {
+        guard let url = APIAddress.delete(id: id, secret: secret).url else {
             return nil
         }
         var request = URLRequest(url: url)
@@ -99,7 +99,7 @@ struct NetworkManager {
     
     // PATCH - 상품 수정
     func requestModify<T: Encodable>(data: T, id: UInt) -> Result<URLRequest?, Error> {
-        guard let url = Address.product(id: id).url else {
+        guard let url = APIAddress.product(id: id).url else {
             return .failure(NetworkError.notFoundURL)
         }
         let encodingResult = parser.encode(object: data)
@@ -123,7 +123,7 @@ struct NetworkManager {
     
     // POST - 상품 등록
     func requestRegister<T: MultipartFormProtocol>(params: T, images: [ImageFile]) -> Result<URLRequest?, Error> {
-        guard let url = Address.register.url else {
+        guard let url = APIAddress.register.url else {
             return .failure(NetworkError.notFoundURL)
         }
         let request = requestMultipartForm(url: url, params: params, images: images)

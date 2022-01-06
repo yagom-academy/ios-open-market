@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum Address {
+enum APIAddress {
     static let baseURL = "https://market-training.yagom-academy.kr/api/products"
     case products(page: UInt, itemsPerPage: UInt)
     case product(id: UInt)
@@ -18,15 +18,15 @@ enum Address {
     var url: URL? {
         switch self {
         case .products(let page, let itemsPerPage):
-            return URL(string: Address.baseURL + "?page-no=\(page)" + "&items-per-page=\(itemsPerPage)")
+            return URL(string: APIAddress.baseURL + "?page-no=\(page)" + "&items-per-page=\(itemsPerPage)")
         case .product(let id):
-            return URL(string: Address.baseURL + "/\(id)")
+            return URL(string: APIAddress.baseURL + "/\(id)")
         case .register:
-            return URL(string: Address.baseURL)
+            return URL(string: APIAddress.baseURL)
         case .secret(let id, let secret):
-            return URL(string: Address.baseURL + "/\(id)" + "/\(secret)")
+            return URL(string: APIAddress.baseURL + "/\(id)" + "/\(secret)")
         case .delete(let id, let secret):
-            return URL(string: Address.baseURL + "/\(id)" + "/\(secret)")
+            return URL(string: APIAddress.baseURL + "/\(id)" + "/\(secret)")
         }
     }
 }
