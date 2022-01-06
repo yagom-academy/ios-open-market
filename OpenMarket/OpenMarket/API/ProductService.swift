@@ -1,8 +1,12 @@
 import Foundation
 
 struct ProductService<Element: Decodable> {
-    private func doDataTask(url: URL, session: URLSession, completionHandler: @escaping (Element) -> Void) {
-        let task = session.dataTask(with: url) { data, response, error in
+    private func doDataTask(
+        with request: URLRequest,
+        session: URLSessionProtocol,
+        completionHandler: @escaping (Element) -> Void
+    ) {
+        let task = session.dataTask(with: request) { data, response, error in
             guard error == nil else {
                 return
             }
@@ -23,16 +27,16 @@ struct ProductService<Element: Decodable> {
         task.resume()
     }
 
-    func retreiveProductList(completionHandler: @escaping ((Element) -> Void)) {
+    func retrieveProductList(
+        session: URLSessionProtocol,
+        completionHandler: @escaping ((Element) -> Void)
+    ) {
         let urlString = HTTPUtility.baseURL + "/api/products"
-
         guard let url = URL(string: urlString) else {
             return
         }
-
-        let session = HTTPUtility.defaultSession
-
-        doDataTask(url: url, session: session) { data in
+        let request = URLRequest(url: url)
+        doDataTask(with: request, session: session) { data in
             completionHandler(data)
         }
     }
