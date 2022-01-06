@@ -17,7 +17,7 @@ struct StubParser: Parserable {
             let product = Product(id: 1, vendorID: 1, name: "", thumbnail: "", currency: .krw, price: 1, bargainPrice: 1, discountedPrice: 1, stock: 1, createdAt: "", issuedAt: "", images: nil, vendors: nil)
             return .success(product as! T)
         } else {
-            return .failure(ParserError.decoding)
+            return .failure(ParserError.decodingFail)
         }
     }
     

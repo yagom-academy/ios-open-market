@@ -16,21 +16,21 @@ struct Parser: Parserable {
             return .failure(.assestNotfound)
         }
         guard let decodeData = try? jsonDecoder.decode(decodingType, from: asset.data) else {
-            return .failure(.decoding)
+            return .failure(.decodingFail)
         }
         return .success(decodeData)
     }
     
     func decode<T: Decodable>(source: Data, decodingType: T.Type) -> Result<T, ParserError> {
         guard let data = try? jsonDecoder.decode(decodingType, from: source) else {
-            return .failure(.decoding)
+            return .failure(.decodingFail)
         }
         return .success(data)
     }
     
     func encode<T: Encodable>(object: T) -> Result<Data, ParserError> {
         guard let data = try? jsonEncoder.encode(object) else {
-            return .failure(.encoding)
+            return .failure(.encodingFail)
         }
         return .success(data)
     }

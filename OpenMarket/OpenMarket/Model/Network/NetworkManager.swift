@@ -36,7 +36,7 @@ struct NetworkManager {
                 case .success(let jsonDecode):
                     completion(.success(jsonDecode))
                 case .failure:
-                    completion(.failure(ParserError.decoding))
+                    completion(.failure(ParserError.decodingFail))
                 }
             case .failure(let error):
                 completion(.failure(error))
@@ -72,7 +72,7 @@ struct NetworkManager {
         case .success(let data):
             encodeData = data
         case .failure:
-            return .failure(ParserError.encoding)
+            return .failure(ParserError.encodingFail)
         }
         var request = URLRequest(url: url)
         
@@ -109,7 +109,7 @@ struct NetworkManager {
         case .success(let data):
             encodeData = data
         case .failure:
-            return .failure(ParserError.encoding)
+            return .failure(ParserError.encodingFail)
         }
         var request = URLRequest(url: url)
         

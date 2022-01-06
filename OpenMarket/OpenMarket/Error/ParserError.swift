@@ -9,16 +9,16 @@ import Foundation
 
 enum ParserError: LocalizedError {
     case assestNotfound
-    case decoding
-    case encoding
+    case decodingFail
+    case encodingFail
     
     var errorDescription: String {
         switch self {
         case .assestNotfound:
             return "에셋 데이터를 찾을 수 없습니다."
-        case .decoding:
+        case .decodingFail:
             return "디코딩을 하는 도중 에러가 발생했습니다."
-        case .encoding:
+        case .encodingFail:
             return "인코딩을 하는 도중 에러가 발생했습니다."
         }
     }
