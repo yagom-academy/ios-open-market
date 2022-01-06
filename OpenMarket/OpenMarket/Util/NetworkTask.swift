@@ -1,7 +1,7 @@
-import UIKit
+import Foundation
 
 struct NetworkTask {
-    static let boundary = UUID().uuidString
+    private static let boundary = UUID().uuidString
     let jsonParser: JSONParsable
     
     func requestHealthChekcer(completionHandler: @escaping (Result<Data, Error>) -> Void) {
@@ -159,8 +159,7 @@ struct NetworkTask {
 }
 
 extension NetworkTask {
-    
-    enum NetworkAddress {
+    private enum NetworkAddress {
         static let apiHost = "https://market-training.yagom-academy.kr"
         
         case healthChecker
