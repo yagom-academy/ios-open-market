@@ -44,6 +44,8 @@
 		F39BD72A2782DFA000D4B32D /* Products.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39BD7292782DFA000D4B32D /* Products.swift */; };
 		F3D3B5AD2787329600943720 /* MultipartForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D3B5AC2787329600943720 /* MultipartForm.swift */; };
 		F3D3B5AF278732C700943720 /* ContentType.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D3B5AE278732C700943720 /* ContentType.swift */; };
+		F3D3B5D22788297C00943720 /* ListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D3B5D02788297C00943720 /* ListCollectionViewCell.swift */; };
+		F3D3B5D32788297C00943720 /* ListCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F3D3B5D12788297C00943720 /* ListCollectionViewCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -97,6 +99,8 @@
 		F39BD7292782DFA000D4B32D /* Products.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Products.swift; sourceTree = "<group>"; };
 		F3D3B5AC2787329600943720 /* MultipartForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipartForm.swift; sourceTree = "<group>"; };
 		F3D3B5AE278732C700943720 /* ContentType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentType.swift; sourceTree = "<group>"; };
+		F3D3B5D02788297C00943720 /* ListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCollectionViewCell.swift; sourceTree = "<group>"; };
+		F3D3B5D12788297C00943720 /* ListCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ListCollectionViewCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -219,6 +223,8 @@
 				C70FB10025BEF61C00C9924E /* Main.storyboard */,
 				9AAA3F4927881F7700D6E407 /* GridCollectionViewCell.swift */,
 				9AAA3F4A27881F7700D6E407 /* GridCollectionViewCell.xib */,
+				F3D3B5D02788297C00943720 /* ListCollectionViewCell.swift */,
+				F3D3B5D12788297C00943720 /* ListCollectionViewCell.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -348,6 +354,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F3D3B5D32788297C00943720 /* ListCollectionViewCell.xib in Resources */,
 				9AAA3F4C27881F7700D6E407 /* GridCollectionViewCell.xib in Resources */,
 				C70FB10725BEF61D00C9924E /* LaunchScreen.storyboard in Resources */,
 				C70FB10425BEF61D00C9924E /* Assets.xcassets in Resources */,
@@ -408,6 +415,7 @@
 				F35B1A892785380D0031A755 /* JSONParserable.swift in Sources */,
 				F3D3B5AF278732C700943720 /* ContentType.swift in Sources */,
 				9A1CFD7A2782E683003BEC69 /* JSONParser.swift in Sources */,
+				F3D3B5D22788297C00943720 /* ListCollectionViewCell.swift in Sources */,
 				9A1CFDC62783DD63003BEC69 /* Vendors.swift in Sources */,
 				9A1CFD7C2782EB88003BEC69 /* ParserError.swift in Sources */,
 				9A1CFD782782E341003BEC69 /* Product.swift in Sources */,
