@@ -43,7 +43,10 @@ class ProductsCollectionViewController: UICollectionViewController {
         ) as? ProductsCollectionViewCell else {
             return ProductsCollectionViewCell()
         }
-        guard let url = URL(string: productsList?.pages[indexPath.item].thumbnail ?? "") else {
+        guard let product = productsList?.pages[indexPath.item] else {
+            return ProductsCollectionViewCell()
+        }
+        guard let url = URL(string: product.thumbnail) else {
             return ProductsCollectionViewCell()
         }
         guard let imageData = try? Data(contentsOf: url) else {
@@ -51,6 +54,20 @@ class ProductsCollectionViewController: UICollectionViewController {
         }
         let image = UIImage(data: imageData)
         cell.productImageView.image = image
+        cell.productTitleLabel.text = product.name
+        cell.productPriceLabel.text = product.price.description
+        cell.productStockLabel.text = product.stock.description
         return cell
+    }
+}
+
+extension ProductsCollectionViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        sizeForItemAt indexPath: IndexPath
+    ) -> CGSize {
+        let width = collectionView.frame.width / 2 - 10
+        return CGSize(width: width, height: width)
     }
 }
