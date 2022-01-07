@@ -52,4 +52,21 @@ struct ProductService: APIService {
         }
     }
 
+    func deleteProduct(
+        identification: Int,
+        productSecret: String,
+        session: URLSessionProtocol,
+        completionHandler: @escaping ((Result<Data, NetworkingError>) -> Void)
+    ) {
+        let urlString = "\(HTTPUtility.baseURL)/api/products/\(identification)/\(productSecret)"
+        guard var request = HTTPUtility.urlRequest(urlString: urlString, method: .delete) else {
+            return
+        }
+        request.addHTTPHeaders(headers: HTTPUtility.defaultHeader)
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+
+        doDataTask(with: request, session: session) { result in
+            completionHandler(result)
+        }
+    }
 }
