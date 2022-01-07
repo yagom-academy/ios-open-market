@@ -29,7 +29,7 @@ struct APIManager {
   
   func productList(pageNumber: Int, itemsPerPage: Int, complition: @escaping (Result<ProductList, responseError>) -> Void) {
     do{
-      let url = try URLGenerator.productList(pageNumber: "1", itemsPerPage: "10")
+      let url = try URLGenerator.productList(pageNumber: "\(pageNumber)", itemsPerPage: "\(itemsPerPage)")
       var request = URLRequest(url: url)
       request.httpMethod = HttpMethod.get
       
@@ -51,7 +51,7 @@ struct APIManager {
     }
   }
   
-  func DetailProduct(productId: Int, complition: @escaping (Result<Product, responseError>) -> Void) {
+  func detailProduct(productId: Int, complition: @escaping (Result<Product, responseError>) -> Void) {
     do {
       let url = try URLGenerator.DetailProduct(productId: productId)
       var request = URLRequest(url: url)
