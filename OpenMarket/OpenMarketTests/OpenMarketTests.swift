@@ -15,37 +15,21 @@ class OpenMarketTests: XCTestCase {
         sut = ProductService()
     }
 
-    func test_retrieveProductList_FromSampleData_WithMockURLSession() {
-        let expectaion = XCTestExpectation(description: "파싱안됨")
-
-        guard let data = NSDataAsset(name: "products")?.data else {
-            return
-        }
-        print(data)
-        guard let result = try? JSONDecoder().decode(ProductList.self, from: data) else {
-            return
-        }
-
-        sut.retrieveProductList(session: MockURLSession()) { productList in
-            print(productList)
-            XCTAssertEqual(productList.itemsPerPage, result.itemsPerPage)
-            XCTAssertEqual(productList.pages.first?.identification,
-                           result.pages.first?.identification)
-            XCTAssertEqual(productList.pages.first?.currency, result.pages.first?.currency)
-            XCTAssertEqual(productList.pages.first?.createdAt, result.pages.first?.createdAt)
-
-            expectaion.fulfill()
-        }
-        wait(for: [expectaion], timeout: 2.0)
-    }
-
     func test_retrieveProduct() {
-        let expectaion = XCTestExpectation(description: "파싱안됨")
+        let expectaion = XCTestExpectation(description: "")
 
-        sut.retrieveProduct(productIdentification: 87, session: HTTPUtility.defaultSession) { product in
-            print(product)
-            XCTAssertEqual(product.name, "aladdin")
-
+        sut.retrieveProduct(productIdentification: 87, session: HTTPUtility.defaultSession) { result in
+            switch result {
+            case .success(let data):
+                do {
+                    let decodedData: Product = try DecodeUtility.decode(data: data)
+                    XCTAssertEqual(decodedData.name, "aladdin")
+                } catch {
+                    XCTFail("파싱 실패")
+                }
+            case .failure:
+                XCTFail("통신 실패")
+            }
             expectaion.fulfill()
         }
         wait(for: [expectaion], timeout: 2.0)
