@@ -59,13 +59,3 @@ extension APIManager {
     }
     
 }
-
-enum URLSessionError: LocalizedError {
-    case requestFailed
-    case responseFailed(code: Int)
-    case invaildData
-}
-
-enum JSONError: LocalizedError {
-    case dataDecodeFailed
-}
