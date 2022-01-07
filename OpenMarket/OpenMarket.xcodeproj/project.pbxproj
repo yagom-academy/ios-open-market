@@ -41,8 +41,6 @@
 		3AA0898A2783EAB3002A0002 /* Vendor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vendor.swift; sourceTree = "<group>"; };
 		3AAA1E2B2786C2320022D36D /* JSONParsable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONParsable.swift; sourceTree = "<group>"; };
 		3AABC1D42782D701005DDCE8 /* ProductsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsList.swift; sourceTree = "<group>"; };
-		3AFACD3B278800D00062EF02 /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = OpenMarket.app; path = "/Users/youngseo/Desktop/ios-open-market/OpenMarket/build/Debug-iphoneos/OpenMarket.app"; sourceTree = "<absolute>"; };
-		3AFACD3C278800D00062EF02 /* JSONParseTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = JSONParseTests.xctest; path = "/Users/youngseo/Desktop/ios-open-market/OpenMarket/build/Debug-iphoneos/JSONParseTests.xctest"; sourceTree = "<absolute>"; };
 		C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		C70FB0FE25BEF61C00C9924E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -57,6 +55,8 @@
 		DE83171A2782D51A00FF2120 /* Currency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
 		DE8317222782DFAC00FF2120 /* JSONParseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONParseTests.swift; sourceTree = "<group>"; };
 		DEAE69632785A61F00F21D21 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
+		DEAF36D62787D94C00E2688A /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = OpenMarket.app; path = "/Users/yanghojoon/Desktop/yagom/ios-open-market/OpenMarket/build/Debug-iphoneos/OpenMarket.app"; sourceTree = "<absolute>"; };
+		DEAF36D72787D94C00E2688A /* JSONParseTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = JSONParseTests.xctest; path = "/Users/yanghojoon/Desktop/yagom/ios-open-market/OpenMarket/build/Debug-iphoneos/JSONParseTests.xctest"; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -156,7 +156,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C70FB10B25BEF61D00C9924E /* Build configuration list for PBXNativeTarget "OpenMarket" */;
 			buildPhases = (
-				5209B9EF9731EFA7926BAA74 /* [CP] Check Pods Manifest.lock */,
 				DE00D5B52786E9010088795D /* ShellScript */,
 				C70FB0F325BEF61C00C9924E /* Sources */,
 				C70FB0F425BEF61C00C9924E /* Frameworks */,
@@ -168,7 +167,7 @@
 			);
 			name = OpenMarket;
 			productName = OpenMarket;
-			productReference = 3AFACD3B278800D00062EF02 /* OpenMarket.app */;
+			productReference = DEAF36D62787D94C00E2688A /* OpenMarket.app */;
 			productType = "com.apple.product-type.application";
 		};
 		DE83171F2782DFAC00FF2120 /* JSONParseTests */ = {
@@ -186,7 +185,7 @@
 			);
 			name = JSONParseTests;
 			productName = JSONParseTests;
-			productReference = 3AFACD3C278800D00062EF02 /* JSONParseTests.xctest */;
+			productReference = DEAF36D72787D94C00E2688A /* JSONParseTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -248,28 +247,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		5209B9EF9731EFA7926BAA74 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-OpenMarket-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
 		DE00D5B52786E9010088795D /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
