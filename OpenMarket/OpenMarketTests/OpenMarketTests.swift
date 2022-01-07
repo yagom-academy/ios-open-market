@@ -13,6 +13,7 @@ class OpenMarketTests: XCTestCase {
 
     override func setUpWithError() throws {
         sut = ProductService()
+        UserDefaultUtility().setVendorIdentification(identification: "cd706a3e-66db-11ec-9626-796401f2341a")
     }
 
     func test_checkNetworkConnection() {
@@ -51,5 +52,28 @@ class OpenMarketTests: XCTestCase {
             expectaion.fulfill()
         }
         wait(for: [expectaion], timeout: 2.0)
+    }
+
+    func test_retrieveSecretOfProduct() {
+        let expectaion = XCTestExpectation(description: "")
+        let secret = SecretOfProductRequest(secret: "password")
+
+        sut.retrieveSecretOfProduct(identification: 87, body: secret, session: HTTPUtility.defaultSession) { result in
+            switch result {
+            case .success(let data):
+                guard let encodedData = String(data: data, encoding: .utf8) else {
+                    return XCTFail("파싱 실패")
+                }
+                print(encodedData)
+                XCTAssertNotNil(encodedData)
+            case .failure:
+                XCTFail("통신 실패")
+            }
+            expectaion.fulfill()
+        }
+        wait(for: [expectaion], timeout: 2.0)
+
+        expectaion.fulfill()
+
     }
 }
