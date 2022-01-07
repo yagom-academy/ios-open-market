@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit.NSDataAsset
+@testable import OpenMarket
 
 final class MockURLSessionDataTask: URLSessionDataTask {
     var resumeDidCall: () -> Void = {}
@@ -16,7 +17,7 @@ final class MockURLSessionDataTask: URLSessionDataTask {
     }
 }
 
-final class MockURLSession: URLSessionProtocol {
+final class MockURLSession: DataTaskProvidable {
     var makeRequestFail: Bool
     var sessionDataTask: MockURLSessionDataTask?
     

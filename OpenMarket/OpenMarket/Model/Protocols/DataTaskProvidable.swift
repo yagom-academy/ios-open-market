@@ -7,9 +7,9 @@
 
 import Foundation
 
-protocol URLSessionProtocol {
+protocol DataTaskProvidable {
     func dataTask(with request: URLRequest,
                       completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask
 }
 
-extension URLSession: URLSessionProtocol { }
+extension URLSession: DataTaskProvidable { }

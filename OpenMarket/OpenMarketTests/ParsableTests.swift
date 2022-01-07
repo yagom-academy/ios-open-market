@@ -8,8 +8,8 @@
 import XCTest
 @testable import OpenMarket
 
-class OpenMarketTests: XCTestCase {
-    var sut: MarketAPIService!
+class ParsableTests: XCTestCase {
+    var sut: Parsable!
     
     override func setUpWithError() throws {
         sut = MarketAPIService()
@@ -19,12 +19,13 @@ class OpenMarketTests: XCTestCase {
         sut = nil
     }
     
-    func testParser_givenProductsFile_expectThrowError() {
+    func testParser_givenProductsFile_expectNotNil() {
         guard let data = NSDataAsset(name: "products")?.data else {
             return
         }
+        let parsedData = sut.parse(with: data, type: Page.self)
         
-        XCTAssertNoThrow(try sut.parse(with: data, type: Page.self))
+        XCTAssertNotNil(parsedData)
     }
     
     func testPageModel_givenParsedJSONData_expectCorrectPageProperties() {
@@ -95,20 +96,16 @@ class OpenMarketTests: XCTestCase {
         guard let data = NSDataAsset(name: "products")?.data else {
             return nil
         }
-        do {
-            let page = try sut.parse(with: data, type: Page.self)
-            return page
-        } catch JSONError.parsingError {
-            print(JSONError.parsingError.description)
-        } catch let error {
-            print(error.localizedDescription)
+        guard let page = sut.parse(with: data, type: Page.self) else {
+            return nil
         }
-        return nil
+        
+        return page
     }
 }
 
 extension Product: Equatable {
-    static func == (lhs: Product, rhs: Product) -> Bool {
+    public static func == (lhs: Product, rhs: Product) -> Bool {
         return lhs.id == rhs.id &&
             lhs.vendorID == rhs.vendorID &&
             lhs.name == rhs.name &&

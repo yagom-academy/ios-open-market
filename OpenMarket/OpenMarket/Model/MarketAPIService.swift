@@ -8,10 +8,10 @@
 import Foundation
 
 final class MarketAPIService {
-    private let session: URLSessionProtocol
+    private let session: DataTaskProvidable
     private let successRange = 200..<300
     
-    init(session: URLSessionProtocol = URLSession.shared) {
+    init(session: DataTaskProvidable = URLSession.shared) {
         self.session = session
     }
 }
