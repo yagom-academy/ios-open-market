@@ -22,9 +22,15 @@ struct APIManager {
     self.urlSession = urlSession
   }
   
-  func productList(pageNumber: Int, itemsPerPage: Int, complition: @escaping (Result<ProductList, ResponseError>) -> Void) {
+  func productList(
+    pageNumber: Int,
+    itemsPerPage: Int,
+    complition: @escaping (Result<ProductList, ResponseError>) -> Void
+  ) {
     do{
-      let url = try URLGenerator.productList(pageNumber: "\(pageNumber)", itemsPerPage: "\(itemsPerPage)")
+      let url = try URLGenerator.productList(
+        pageNumber: "\(pageNumber)",
+        itemsPerPage: "\(itemsPerPage)")
       var request = URLRequest(url: url)
       request.httpMethod = HttpMethod.get
       
@@ -48,7 +54,10 @@ struct APIManager {
     }
   }
   
-  func detailProduct(productId: Int, complition: @escaping (Result<Product, ResponseError>) -> Void) {
+  func detailProduct(
+    productId: Int,
+    complition: @escaping (Result<Product, ResponseError>) -> Void
+  ) {
     do {
       let url = try URLGenerator.DetailProduct(productId: productId)
       var request = URLRequest(url: url)

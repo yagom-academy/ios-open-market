@@ -14,7 +14,10 @@ enum NetworkError: Error {
 }
 
 extension URLSession {  
-  func dataTask(_ request: URLRequest, completion: @escaping (Result<Data, NetworkError>) -> ()) -> URLSessionDataTask {
+  func dataTask(
+    _ request: URLRequest,
+    completion: @escaping (Result<Data, NetworkError>) -> ()
+  ) -> URLSessionDataTask {
     let dataTask = dataTask(with: request) { data, response, error in
       guard error == nil else {
         return completion(.failure(.connectFailed))
