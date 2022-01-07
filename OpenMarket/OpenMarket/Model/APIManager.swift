@@ -16,7 +16,7 @@ class APIManager {
         task.resume()
     }
     
-    func checkProductDetail(from id: Int, completion: @escaping (Result<ProductDetail, Error>) -> Void) {
+    func checkProductDetail(id: Int, completion: @escaping (Result<ProductDetail, Error>) -> Void) {
         guard let url = URLManager.checkProductDetail(id: id).url else { return }
         let request = URLRequest(url: url, method: .get)
         creatDataTask(with: request, completion: completion)
@@ -49,7 +49,7 @@ extension APIManager {
                 completion(.failure(URLSessionError.invaildData))
                 return
             }
-            guard let decodedData = JSONParser.decodeData(of: data, how: T.self) else {
+            guard let decodedData = JSONParser.decodeData(of: data, type: T.self) else {
                 completion(.failure(JSONError.dataDecodeFailed))
                 return
             }
