@@ -9,6 +9,9 @@ import Foundation
 
 enum HTTPUtility {
     static let baseURL: String = "https://market-training.yagom-academy.kr/"
+    static let defaultHeader: [String: String] = [
+        "identifier": UserDefaultUtility().getVendorIdentification()
+    ]
     static let defaultSession: URLSession = {
         let configuration = URLSessionConfiguration.default
         return URLSession(configuration: configuration)
@@ -19,7 +22,6 @@ enum HTTPUtility {
         }
         var request = URLRequest(url: url)
         request.httpMethod = method.rawValue
-
         return request
     }
 
@@ -29,5 +31,13 @@ enum HTTPUtility {
         case put = "PUT"
         case patch = "PATCH"
         case delete = "DELETE"
+    }
+}
+
+extension URLRequest {
+    mutating func addHTTPHeaders(headers: [String: String]) {
+        headers.forEach { (key, value) in
+            self.addValue(value, forHTTPHeaderField: key)
+        }
     }
 }

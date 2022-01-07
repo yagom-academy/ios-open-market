@@ -33,4 +33,23 @@ struct ProductService: APIService {
             completionHandler(result)
         }
     }
+
+    func retrieveSecretOfProduct(
+        identification: Int,
+        body: SecretOfProductRequest,
+        session: URLSessionProtocol,
+        completionHandler: @escaping ((Result<Data, NetworkingError>) -> Void)
+    ) {
+        let urlString = "\(HTTPUtility.baseURL)/api/products/\(identification)/secret"
+        guard var request = HTTPUtility.urlRequest(urlString: urlString, method: .post) else {
+            return
+        }
+        request.addHTTPHeaders(headers: HTTPUtility.defaultHeader)
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpBody = try? JSONEncoder().encode(body)
+        doDataTask(with: request, session: session) { result in
+            completionHandler(result)
+        }
+    }
+
 }
