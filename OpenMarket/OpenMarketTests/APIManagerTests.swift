@@ -8,19 +8,23 @@
 import XCTest
 
 class APIManagerTests: XCTestCase {
-  var sutProductListData = NSDataAsset(name: "products")!.data
-  var sutProduct = NSDataAsset(name: "product")!.data
+  var sutProductListData: Data!
+  var sutProduct: Data!
   var sutURL: URL!
   var sutAPIManager: APIManager!
   var sutSession: URLSession!
   
   override func setUpWithError() throws {
+    sutProductListData = NSDataAsset(name: "products")!.data
+    sutProduct = NSDataAsset(name: "product")!.data
     sutURL = URL(string: "testURL")
     sutSession = MockSession.session
     sutAPIManager = APIManager(urlSession: sutSession)
   }
   
   override func tearDownWithError() throws {
+    sutProductListData = nil
+    sutProduct = nil
     sutURL = nil
     sutSession = nil
     sutAPIManager = nil
@@ -32,7 +36,6 @@ class APIManagerTests: XCTestCase {
     MockURLProtocol.requestHandler = { request in
       return (response!, self.sutProductListData)
     }
-
     let expectation = XCTestExpectation(description: "response")
     
     // when
@@ -45,11 +48,8 @@ class APIManagerTests: XCTestCase {
       case .failure:
         XCTFail()
       }
+      expectation.fulfill()
     }
-    sleep(5)
-
-    expectation.fulfill()
-
     wait(for: [expectation], timeout: 5)
   }
   
@@ -60,7 +60,6 @@ class APIManagerTests: XCTestCase {
     MockURLProtocol.requestHandler = { request in
       return (response!, self.sutProduct)
     }
-
     let expectation = XCTestExpectation(description: "response")
     
     // when
@@ -73,11 +72,8 @@ class APIManagerTests: XCTestCase {
       case .failure:
         XCTFail()
       }
+      expectation.fulfill()
     }
-    
-
-    expectation.fulfill()
-
     wait(for: [expectation], timeout: 5)
   }
 }
