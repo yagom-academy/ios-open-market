@@ -1,28 +1,23 @@
 import Foundation
 
 struct ProductService {
-    private func doDataTask<Element: Decodable>(
+    private func doDataTask(
         with request: URLRequest,
         session: URLSessionProtocol,
-        completionHandler: @escaping (Element) -> Void
+        completionHandler: @escaping (Result<Data, NetworkingError>) -> Void
     ) {
         let task = session.dataTask(with: request) { data, response, error in
             guard error == nil else {
-                return
+                return completionHandler(.failure(.request))
             }
             guard let response = response as? HTTPURLResponse,
                   (200...299).contains(response.statusCode) else {
-                return
+                return completionHandler(.failure(.response))
             }
             guard let data = data else {
-                return
+                return completionHandler(.failure(.data))
             }
-            do {
-                let data: Element = try JSONDecoder().decode(Element.self, from: data)
-                completionHandler(data)
-            } catch {
-                return
-            }
+            completionHandler(.success(data))
         }
         task.resume()
     }
@@ -30,14 +25,14 @@ struct ProductService {
     func retrieveProduct(
         productIdentification: Int,
         session: URLSessionProtocol,
-        completionHandler: @escaping ((Product) -> Void)
+        completionHandler: @escaping ((Result<Data, NetworkingError>) -> Void)
     ) {
         let urlString = "\(HTTPUtility.baseURL)/api/products/\(productIdentification)"
         guard let request = HTTPUtility.urlRequest(urlString: urlString) else {
             return
         }
-        doDataTask(with: request, session: session) { data in
-            completionHandler(data)
+        doDataTask(with: request, session: session) { result in
+            completionHandler(result)
         }
     }
 
@@ -45,7 +40,7 @@ struct ProductService {
         pageNumber: Int? = nil,
         itemsPerPage: Int? = nil,
         session: URLSessionProtocol,
-        completionHandler: @escaping ((ProductList) -> Void)
+        completionHandler: @escaping ((Result<Data, NetworkingError>) -> Void)
     ) {
         var urlString = "\(HTTPUtility.baseURL)/api/products"
         if let pageNumber = pageNumber,
@@ -55,8 +50,8 @@ struct ProductService {
         guard let request = HTTPUtility.urlRequest(urlString: urlString) else {
             return
         }
-        doDataTask(with: request, session: session) { data in
-            completionHandler(data)
+        doDataTask(with: request, session: session) { result in
+            completionHandler(result)
         }
     }
 }

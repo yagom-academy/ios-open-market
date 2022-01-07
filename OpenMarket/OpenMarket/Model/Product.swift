@@ -10,8 +10,8 @@ struct Product: Decodable {
     var bargainPrice: Int
     var discountedPrice: Int
     var stock: Int
-    var createdAt: String
-    var issuedAt: String
+    var createdAt: Date
+    var issuedAt: Date
     var images: [Image]?
     var vendors: Vendors?
 
@@ -42,7 +42,7 @@ struct Image: Decodable {
     var url: String
     var thumbnailUrl: String
     var succeed: Bool
-    var issuedAt: String
+    var issuedAt: Date
 
     enum CodingKeys: String, CodingKey {
         case identification = "id"
@@ -56,8 +56,8 @@ struct Image: Decodable {
 struct Vendors: Decodable {
     var name: String
     var identification: Int
-    var createdAt: String
-    var issuedAt: String
+    var createdAt: Date
+    var issuedAt: Date
 
     enum CodingKeys: String, CodingKey {
         case name
