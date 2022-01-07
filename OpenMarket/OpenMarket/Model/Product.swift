@@ -1,19 +1,19 @@
 import Foundation
 
 struct Product: Decodable {
-    var id: Int
-    var vendorId: Int
-    var name: String
-    var thumbnail: String
-    var currency: Currency
-    var price: Double
-    var bargainPrice: Double
-    var discountedPrice: Double
-    var stock: Int
-    var images: [Image]?
-    var vendor: Vendor?
-    var createdAt: Date
-    var issuedAt: Date
+    let id: Int
+    let vendorId: Int
+    let name: String
+    let thumbnail: String
+    let currency: Currency
+    let price: Double
+    let bargainPrice: Double
+    let discountedPrice: Double
+    let stock: Int
+    let images: [Image]?
+    let vendor: Vendor?
+    let createdAt: Date
+    let issuedAt: Date
     
     private enum CodingKeys: String, CodingKey {
         case vendor = "vendors"

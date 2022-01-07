@@ -6,7 +6,7 @@ struct NetworkTask {
     
     func requestHealthChekcer(completionHandler: @escaping (Result<Data, Error>) -> Void) {
         guard let url = NetworkAddress.healthChecker.url else { return }
-        let request = URLRequest(url: url)
+        let request = request(url: url, httpMethod: "GET")
         let task = dataTask(with: request, completionHandler: completionHandler)
         task.resume()
     }
@@ -18,15 +18,16 @@ struct NetworkTask {
         completionHandler: @escaping (Result<Data, Error>) -> Void
     ) {
         guard let url = NetworkAddress.productRegistration.url else { return }
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.addValue(identifier, forHTTPHeaderField: "identifier")
-        request.addValue(
-            "multipart/form-data; boundary=\(boundary)",
-            forHTTPHeaderField: "Content-Type"
-        )
         let body = buildBody(with: salesInformation, images: images)
-        request.httpBody = body
+        let request = request(
+            url: url,
+            httpMethod: "POST",
+            httpHeaders: [
+                "identifier": identifier,
+                "Content-Type": "multipart/form-data; boundary=\(boundary)"
+            ],
+            httpBody: body
+        )
         let task = dataTask(with: request, completionHandler: completionHandler)
         task.resume()
     }
@@ -40,10 +41,13 @@ struct NetworkTask {
         guard let url = NetworkAddress.productModification(productId: productId).url else {
             return
         }
-        var request = URLRequest(url: url)
-        request.httpMethod = "PATCH"
-        request.addValue(identifier, forHTTPHeaderField: "identifier")
-        request.httpBody = try? jsonParser.encode(from: information)
+        let body = try? jsonParser.encode(from: information)
+        let request = request(
+            url: url,
+            httpMethod: "PATCH",
+            httpHeaders: ["identifier": identifier],
+            httpBody: body
+        )
         let task = dataTask(with: request, completionHandler: completionHandler)
         task.resume()
     }
@@ -55,10 +59,13 @@ struct NetworkTask {
         completionHandler: @escaping (Result<Data, Error>) -> Void
     ) {
         guard let url = NetworkAddress.secret(productId: productId).url else { return }
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.addValue(identifier, forHTTPHeaderField: "identifier")
-        request.httpBody = try? jsonParser.encode(from: secret)
+        let body = try? jsonParser.encode(from: secret)
+        let request = request(
+            url: url,
+            httpMethod: "POST",
+            httpHeaders: ["identifier": identifier],
+            httpBody: body
+        )
         let task = dataTask(with: request, completionHandler: completionHandler)
         task.resume()
     }
@@ -72,10 +79,13 @@ struct NetworkTask {
         guard let url = NetworkAddress.removeProduct(
             productId: productId,
             productSecret: productSecret).url else { return }
-        var request = URLRequest(url: url)
-        request.httpMethod = "DELETE"
-        request.addValue(identifier, forHTTPHeaderField: "identifier")
-        request.httpBody = try? jsonParser.encode(from: productSecret)
+        let body = try? jsonParser.encode(from: productSecret)
+        let request = request(
+            url: url,
+            httpMethod: "DELETE",
+            httpHeaders: ["identifier": identifier],
+            httpBody: body
+        )
         let task = dataTask(with: request, completionHandler: completionHandler)
         task.resume()
     }
@@ -84,7 +94,7 @@ struct NetworkTask {
         productId: Int,
         completionHandler: @escaping (Result<Data, Error>) -> Void) {
             guard let url = NetworkAddress.productDetail(productId: productId).url else { return }
-            let request = URLRequest(url: url)
+            let request = request(url: url, httpMethod: "GET")
             let task = dataTask(with: request, completionHandler: completionHandler)
             task.resume()
         }
@@ -97,7 +107,7 @@ struct NetworkTask {
         guard let url = NetworkAddress.productList(
             pageNumber: pageNumber,
             itemsPerPage: itemsPerPage).url else { return }
-        let request = URLRequest(url: url)
+        let request = request(url: url, httpMethod: "GET")
         let task = dataTask(with: request, completionHandler: completionHandler)
         task.resume()
     }
@@ -120,6 +130,21 @@ struct NetworkTask {
             completionHandler(.success(data))
         }
         return dataTask
+    }
+    
+    private func request(
+        url: URL,
+        httpMethod: String,
+        httpHeaders: [String: String] = [:],
+        httpBody: Data? = nil
+    ) -> URLRequest {
+        var request = URLRequest(url: url)
+        request.httpMethod = httpMethod
+        httpHeaders.forEach { httpHeaderField, value in
+            request.addValue(value, forHTTPHeaderField: httpHeaderField)
+        }
+        request.httpBody = httpBody
+        return request
     }
     
     private func buildBody(
@@ -162,7 +187,7 @@ struct NetworkTask {
 
 extension NetworkTask {
     private enum NetworkAddress {
-        static let marketTrainingApiHost = "https://market-training.yagom-academy.kr"
+        static let apiHost = "https://market-training.yagom-academy.kr"
         
         case healthChecker
         case productRegistration
@@ -175,22 +200,22 @@ extension NetworkTask {
         var url: URL? {
             switch self {
             case .healthChecker:
-                let url = URL(string: Self.marketTrainingApiHost + "/healthChecker")
+                let url = URL(string: Self.apiHost + "/healthChecker")
                 return url
             case .productRegistration:
-                let url = URL(string: Self.marketTrainingApiHost + "/api/products")
+                let url = URL(string: Self.apiHost + "/api/products")
                 return url
             case let .productModification(productId):
-                let url = URL(string: Self.marketTrainingApiHost + "/api/products/\(productId)")
+                let url = URL(string: Self.apiHost + "/api/products/\(productId)")
                 return url
             case let .productDetail(productId):
                 let url = URL(
-                    string: Self.marketTrainingApiHost + "/api/products/" + String(productId)
+                    string: Self.apiHost + "/api/products/" + String(productId)
                 )
                 return url
             case let .productList(pageNumber, itemsPerPage):
                 var urlComponents = URLComponents(
-                    string: Self.marketTrainingApiHost + "/api/products?"
+                    string: Self.apiHost + "/api/products?"
                 )
                 let pageNumber = URLQueryItem(name: "page_no", value: String(pageNumber))
                 let itemsPerPage = URLQueryItem(
@@ -201,12 +226,12 @@ extension NetworkTask {
                 return urlComponents?.url
             case let .secret(productId):
                 let url = URL(
-                    string: Self.marketTrainingApiHost + "/api/products/\(productId)/secret"
+                    string: Self.apiHost + "/api/products/\(productId)/secret"
                 )
                 return url
             case let .removeProduct(productId, productSecret):
                 let url = URL(
-                    string: Self.marketTrainingApiHost +
+                    string: Self.apiHost +
                     "/api/products/\(productId)/\(productSecret)"
                 )
                 return url
@@ -215,23 +240,23 @@ extension NetworkTask {
     }
     
     struct SalesInformation: Encodable {
-        var name: String
-        var descriptions: String
-        var price: Double
-        var currency: Currency
-        var discountedPrice: Double?
-        var stock: Int?
-        var secret: String
+        let name: String
+        let descriptions: String
+        let price: Double
+        let currency: Currency
+        let discountedPrice: Double?
+        let stock: Int?
+        let secret: String
     }
     
     struct ModificationInformation: Encodable {
-        var name: String?
-        var descriptions: String?
-        var thumbnailId: Int?
-        var price: Int?
-        var currency: Currency?
-        var discountedPrice: Double?
-        var stock: Int?
-        var secret: String
+        let name: String?
+        let descriptions: String?
+        let thumbnail_id: Int?
+        let price: Int?
+        let currency: Currency?
+        let discountedPrice: Double?
+        let stock: Int?
+        let secret: String
     }
 }
