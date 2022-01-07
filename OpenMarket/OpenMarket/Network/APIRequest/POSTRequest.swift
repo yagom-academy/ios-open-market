@@ -18,10 +18,5 @@ protocol POSTRequest: APIRequest {
 extension POSTRequest {
     
     var method: String { return "POST" }
-    var urlRequest: URLRequest? {
-        guard let url = URL(string: finalURL) else { return nil }
-        let request = URLRequest(url: url)
-        request.addValue(<#T##value: String##String#>, forHTTPHeaderField: <#T##String#>)
-        return request
-    }
+    
 }

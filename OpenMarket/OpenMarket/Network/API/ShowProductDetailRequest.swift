@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ShowProductDetail: GETRequest {
+struct ShowProductDetailRequest: GETRequest {
     var path: String
     
     init(productID: String) {

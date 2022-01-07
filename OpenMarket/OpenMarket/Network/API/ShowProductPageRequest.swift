@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ShowProductPage: GETRequest {
+struct ShowProductPageRequest: GETRequest {
     var path: String
     
     init(pageNumber: String, itemsPerPage: String) {
