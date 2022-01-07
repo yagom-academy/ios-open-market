@@ -9,8 +9,6 @@ import Foundation
 
 protocol DELETERequest: APIRequest {
     
-    var header: [String: String] { get }
-    
 }
 
 extension DELETERequest {

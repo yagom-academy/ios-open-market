@@ -8,5 +8,6 @@
 import Foundation
 
 struct HealthCheckerRequest: GETRequest {
+    var header: [String : String]?
     var path = "/healthChecker"
 }

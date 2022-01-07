@@ -8,6 +8,7 @@
 import Foundation
 
 struct ShowProductDetailRequest: GETRequest {
+    var header: [String : String]?
     var path: String
     
     init(productID: String) {

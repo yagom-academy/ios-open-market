@@ -8,12 +8,9 @@
 import Foundation
 
 struct ShowProductSecretRequest: POSTRequest {
-    var header: [String : String]
-    
+    var header: [String : String]?
     var body: [String : Any]
-    
     var boundary: String
-    
     var path: String
     
     init(productID: String, header: [String : String], body: [String : String]) {

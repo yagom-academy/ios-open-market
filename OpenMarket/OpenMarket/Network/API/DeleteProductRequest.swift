@@ -8,7 +8,7 @@
 import Foundation
 
 struct DeleteProductRequest: DELETERequest {
-    var header: [String : String]
+    var header: [String : String]?
     var path: String
     
     init(productID: String, productSecret: String, header: [String: String]) {

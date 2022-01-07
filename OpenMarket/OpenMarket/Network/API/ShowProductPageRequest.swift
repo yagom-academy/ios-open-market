@@ -8,6 +8,7 @@
 import Foundation
 
 struct ShowProductPageRequest: GETRequest {
+    var header: [String : String]?
     var path: String
     
     init(pageNumber: String, itemsPerPage: String) {
