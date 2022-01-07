@@ -8,21 +8,20 @@
 import Foundation
 
 protocol Parsable {
-    func parse<T: Decodable>(with data: Data, type: T.Type) -> T
+    func parse<T: Decodable>(with data: Data, type: T.Type) -> T?
 }
 
 extension Parsable {
-    func parse<T: Decodable>(with data: Data, type: T.Type) -> T {
-        var parsedData = Data() as! T
-        
+    func parse<T: Decodable>(with data: Data, type: T.Type) -> T? {
         do {
-            parsedData = try JSONDecoder().decode(type, from: data)
+            let parsedData = try JSONDecoder().decode(type, from: data)
+            return parsedData
         } catch JSONError.parsingError {
             print(JSONError.parsingError.description)
         } catch {
             print(error.localizedDescription)
         }
         
-        return parsedData
+        return nil
     }
 }

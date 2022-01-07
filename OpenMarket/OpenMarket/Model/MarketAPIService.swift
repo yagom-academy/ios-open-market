@@ -40,17 +40,16 @@ extension MarketAPIService {
                 return URL(string: MarketAPI.baseURL + MarketAPI.path + id.stringFormat + "/secret")
             case .delete(let id, let secret):
                 return URL(string: MarketAPI.baseURL + MarketAPI.path + id.stringFormat + "/" + secret)
-            case .getProduct:
-                return URL(string: MarketAPI.baseURL + MarketAPI.path)
+            case .getProduct(let id):
+                return URL(string: MarketAPI.baseURL + MarketAPI.path + id.stringFormat)
             case .getPage(let id, let itemsPerPage):
-                guard var urlComponents = URLComponents(string: MarketAPI.baseURL + "?") else {
+                guard var urlComponents = URLComponents(string: MarketAPI.baseURL) else {
                     return nil
                 }
-                let pageNumberQuery = URLQueryItem(name: "page-no", value: id.stringFormat)
-                let itemsPerPageQuery = URLQueryItem(name: "items-per-page", value: itemsPerPage.stringFormat)
+                let pageNumberQuery = URLQueryItem(name: "page_no", value: id.stringFormat)
+                let itemsPerPageQuery = URLQueryItem(name: "items_per_page", value: itemsPerPage.stringFormat)
                 
-                urlComponents.queryItems?.append(pageNumberQuery)
-                urlComponents.queryItems?.append(itemsPerPageQuery)
+                urlComponents.queryItems = [pageNumberQuery, itemsPerPageQuery]
                 
                 return urlComponents.url
             }
@@ -82,9 +81,7 @@ extension MarketAPIService: APIServicable {
             return
         }
         let request = URLRequest(url: url)
-        let dataTask = createDataTask(request: request, completionHandler: completionHandler)
-        
-        dataTask.resume()
+        performDataTask(request: request, completionHandler: completionHandler)
     }
     
     func get(pageNumber: Int, itemsPerPage: Int, completionHandler: @escaping (Result<Page, APIError>) -> Void) {
@@ -92,18 +89,15 @@ extension MarketAPIService: APIServicable {
             return
         }
         let request = URLRequest(url: url)
-        let dataTask = createDataTask(request: request, completionHandler: completionHandler)
-        
-        dataTask.resume()
+        performDataTask(request: request, completionHandler: completionHandler)
     }
 }
 
 //MARK: - MarketAPIService 메서드
 
 extension MarketAPIService {
-    private func createDataTask<T: Decodable>(request: URLRequest,
-                                              completionHandler: @escaping (Result<T, APIError>) -> Void)
-    -> URLSessionDataTask {
+    private func performDataTask<T: Decodable>(request: URLRequest,
+                                              completionHandler: @escaping (Result<T, APIError>) -> Void) {
         let dataTask = session.dataTask(with: request) { [unowned self] data, response, error in
             guard error == nil else {
                 completionHandler(.failure(APIError.invalidHTTPMethod))
@@ -118,12 +112,14 @@ extension MarketAPIService {
                 completionHandler(.failure(APIError.noData))
                 return
             }
-            let parsedData = parse(with: data, type: T.self)
+            guard let parsedData = parse(with: data, type: T.self) else {
+                return
+            }
             
             completionHandler(.success(parsedData))
         }
         
-        return dataTask
+        dataTask.resume()
     }
 }
 
