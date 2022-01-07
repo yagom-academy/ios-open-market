@@ -53,13 +53,6 @@ extension OpenMarketService {
 }
 
 extension OpenMarketService {
-    var finalURL: String {
-        baseURL + path
-    }
-    
-    var baseURL: String {
-        return "https://market-training.yagom-academy.kr"
-    }
     
     var path: String {
         switch self {
@@ -80,18 +73,6 @@ extension OpenMarketService {
         }
     }
     
-    var method: String {
-        switch self {
-        case .checkHealth, .showProductDetail, .showProductPage:
-            return "GET"
-        case .createProduct, .showProductSecret:
-            return "POST"
-        case .updateProduct:
-            return "PATCH"
-        case .deleteProduct:
-            return "DELETE"
-        }
-    }
 }
 
 extension OpenMarketService {

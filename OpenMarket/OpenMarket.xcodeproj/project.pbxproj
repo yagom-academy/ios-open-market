@@ -20,6 +20,11 @@
 		C13469EF27870F460044DFDB /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17E063527846CF400D7F83D /* Product.swift */; };
 		C13469F1278710420044DFDB /* URLSessionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13469F0278710420044DFDB /* URLSessionProtocol.swift */; };
 		C13469F22787104E0044DFDB /* URLSessionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13469F0278710420044DFDB /* URLSessionProtocol.swift */; };
+		C13469F927885DB00044DFDB /* APIRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13469F827885DB00044DFDB /* APIRequest.swift */; };
+		C13469FB27885DCF0044DFDB /* GETRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13469FA27885DCF0044DFDB /* GETRequest.swift */; };
+		C13469FD27885DFB0044DFDB /* POSTRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13469FC27885DFB0044DFDB /* POSTRequest.swift */; };
+		C13469FF27885E320044DFDB /* PATCHRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13469FE27885E320044DFDB /* PATCHRequest.swift */; };
+		C1346A0127885E550044DFDB /* DELETERequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1346A0027885E550044DFDB /* DELETERequest.swift */; };
 		C171F88027841135001D0B76 /* URLSessionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C171F87F27841135001D0B76 /* URLSessionProvider.swift */; };
 		C171F8812784236B001D0B76 /* URLSessionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C171F87F27841135001D0B76 /* URLSessionProvider.swift */; };
 		C17E063627846CF400D7F83D /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17E063527846CF400D7F83D /* Product.swift */; };
@@ -62,6 +67,11 @@
 		C13469E82786E35C0044DFDB /* Vendor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vendor.swift; sourceTree = "<group>"; };
 		C13469EA2786E3B00044DFDB /* UpdateProductRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateProductRequest.swift; sourceTree = "<group>"; };
 		C13469F0278710420044DFDB /* URLSessionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionProtocol.swift; sourceTree = "<group>"; };
+		C13469F827885DB00044DFDB /* APIRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIRequest.swift; sourceTree = "<group>"; };
+		C13469FA27885DCF0044DFDB /* GETRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GETRequest.swift; sourceTree = "<group>"; };
+		C13469FC27885DFB0044DFDB /* POSTRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = POSTRequest.swift; sourceTree = "<group>"; };
+		C13469FE27885E320044DFDB /* PATCHRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PATCHRequest.swift; sourceTree = "<group>"; };
+		C1346A0027885E550044DFDB /* DELETERequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DELETERequest.swift; sourceTree = "<group>"; };
 		C171F87F27841135001D0B76 /* URLSessionProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionProvider.swift; sourceTree = "<group>"; };
 		C17E063527846CF400D7F83D /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
 		C1F964E82782E6D7006F6853 /* OpenMarketTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenMarketTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -122,9 +132,22 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		C13469F727885D950044DFDB /* APIRequest */ = {
+			isa = PBXGroup;
+			children = (
+				C13469F827885DB00044DFDB /* APIRequest.swift */,
+				C13469FA27885DCF0044DFDB /* GETRequest.swift */,
+				C13469FC27885DFB0044DFDB /* POSTRequest.swift */,
+				C13469FE27885E320044DFDB /* PATCHRequest.swift */,
+				C1346A0027885E550044DFDB /* DELETERequest.swift */,
+			);
+			path = APIRequest;
+			sourceTree = "<group>";
+		};
 		C17E063827846D3400D7F83D /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				C13469F727885D950044DFDB /* APIRequest */,
 				E9FDEA192784670B00B12770 /* OpenMarketService.swift */,
 				C171F87F27841135001D0B76 /* URLSessionProvider.swift */,
 				C13469F0278710420044DFDB /* URLSessionProtocol.swift */,
@@ -398,8 +421,11 @@
 			files = (
 				C13469F1278710420044DFDB /* URLSessionProtocol.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
+				C13469FF27885E320044DFDB /* PATCHRequest.swift in Sources */,
 				E9FDEA1A2784670B00B12770 /* OpenMarketService.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
+				C13469FB27885DCF0044DFDB /* GETRequest.swift in Sources */,
+				C1346A0127885E550044DFDB /* DELETERequest.swift in Sources */,
 				C171F88027841135001D0B76 /* URLSessionProvider.swift in Sources */,
 				C17E063627846CF400D7F83D /* Product.swift in Sources */,
 				E99FDE782782D4C00083D4D6 /* Page.swift in Sources */,
@@ -408,7 +434,9 @@
 				C13469EB2786E3B00044DFDB /* UpdateProductRequest.swift in Sources */,
 				E9FDEA202784677100B12770 /* CreateProductRequestParams.swift in Sources */,
 				C13469E92786E35C0044DFDB /* Vendor.swift in Sources */,
+				C13469FD27885DFB0044DFDB /* POSTRequest.swift in Sources */,
 				C13469E62786E32F0044DFDB /* Image.swift in Sources */,
+				C13469F927885DB00044DFDB /* APIRequest.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
