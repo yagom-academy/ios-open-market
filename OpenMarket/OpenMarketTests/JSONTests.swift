@@ -11,7 +11,7 @@ import XCTest
 class JSONTests: XCTestCase {
 
   func test_JSON파일이_파싱이_되는지() {
-    guard let asset = NSDataAsset(name: "products") else {
+    guard let asset = NSDataAsset(name: AssetFileName.products) else {
       XCTFail()
       return
     }
@@ -27,7 +27,7 @@ class JSONTests: XCTestCase {
   }
   
   func test_잘못된_제네릭_정보를_설정했을경우_fail을_반환하는지() {
-    guard let asset = NSDataAsset(name: "products") else {
+    guard let asset = NSDataAsset(name: AssetFileName.products) else {
       XCTFail()
       return
     }

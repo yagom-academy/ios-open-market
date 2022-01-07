@@ -15,8 +15,8 @@ class APIManagerTests: XCTestCase {
   var sutSession: URLSession!
   
   override func setUpWithError() throws {
-    sutProductListData = NSDataAsset(name: "products")!.data
-    sutProduct = NSDataAsset(name: "product")!.data
+    sutProductListData = NSDataAsset(name: AssetFileName.products)!.data
+    sutProduct = NSDataAsset(name: AssetFileName.Product)!.data
     sutURL = URL(string: "testURL")
     sutSession = MockSession.session
     sutAPIManager = APIManager(urlSession: sutSession)
