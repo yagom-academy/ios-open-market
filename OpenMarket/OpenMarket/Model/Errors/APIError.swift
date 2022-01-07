@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum APIError: LocalizedError {
+enum APIError: Error {
     case invalidResponse
     case invalidHTTPMethod
     case invalidRequest

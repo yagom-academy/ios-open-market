@@ -17,25 +17,28 @@ final class MockURLSessionDataTask: URLSessionDataTask {
     }
 }
 
+
 final class MockURLSession: DataTaskProvidable {
-    var makeRequestFail: Bool
+    var isSuccessfulRequest: Bool
     var sessionDataTask: MockURLSessionDataTask?
+    var request: MockRequest
     
-    init(makeRequestFail: Bool = false) {
-        self.makeRequestFail = makeRequestFail
+    init(isSuccessfulRequest: Bool = true, mockRequest: MockRequest) {
+        self.isSuccessfulRequest = isSuccessfulRequest
+        self.request = mockRequest
     }
     
     func dataTask(with request: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask {
-        let successResponse = HTTPURLResponse(url: request.url!, statusCode: 200, httpVersion: "2", headerFields: nil)
-        let failureResponse = HTTPURLResponse(url: request.url!, statusCode: 410, httpVersion: "2", headerFields: nil)
+        let successResponse = HTTPURLResponse(url: request.url!, statusCode: 200, httpVersion: nil, headerFields: nil)
+        let failureResponse = HTTPURLResponse(url: request.url!, statusCode: 410, httpVersion: nil, headerFields: nil)
         let sessionDataTask = MockURLSessionDataTask()
         
         sessionDataTask.resumeDidCall = {
-            if self.makeRequestFail {
-                completionHandler(nil, failureResponse, nil)
+            if self.isSuccessfulRequest {
+                completionHandler(self.request.data, successResponse, nil)
+                
             } else {
-                let data = NSDataAsset(name: "products")?.data
-                completionHandler(data, successResponse, nil)
+                completionHandler(nil, failureResponse, nil)
             }
         }
         

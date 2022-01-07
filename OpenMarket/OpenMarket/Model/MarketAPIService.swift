@@ -43,7 +43,7 @@ extension MarketAPIService {
             case .getProduct(let id):
                 return URL(string: MarketAPI.baseURL + MarketAPI.path + id.stringFormat)
             case .getPage(let id, let itemsPerPage):
-                guard var urlComponents = URLComponents(string: MarketAPI.baseURL) else {
+                guard var urlComponents = URLComponents(string: MarketAPI.baseURL + MarketAPI.path) else {
                     return nil
                 }
                 let pageNumberQuery = URLQueryItem(name: "page_no", value: id.stringFormat)

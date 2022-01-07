@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3B0CB6EF2787F3A500390413 /* APIServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B0CB6EE2787F3A500390413 /* APIServiceTests.swift */; };
+		3B0CB6F22788151C00390413 /* MockRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B0CB6F12788151C00390413 /* MockRequest.swift */; };
 		3B971C5A2782E26400088872 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B971C592782E26400088872 /* Product.swift */; };
 		3B971C782783EFCB00088872 /* DataTaskProvidable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B971C772783EFCB00088872 /* DataTaskProvidable.swift */; };
 		3B971C92278573B600088872 /* MarketAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B971C91278573B600088872 /* MarketAPIService.swift */; };
@@ -39,6 +41,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3B0CB6EE2787F3A500390413 /* APIServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIServiceTests.swift; sourceTree = "<group>"; };
+		3B0CB6F12788151C00390413 /* MockRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockRequest.swift; sourceTree = "<group>"; };
 		3B971C592782E26400088872 /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
 		3B971C772783EFCB00088872 /* DataTaskProvidable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataTaskProvidable.swift; sourceTree = "<group>"; };
 		3B971C91278573B600088872 /* MarketAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketAPIService.swift; sourceTree = "<group>"; };
@@ -82,6 +86,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3B0CB6F02787F3AC00390413 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				EDC4FD1E278570B500E0A775 /* ParsableTests.swift */,
+				3B0CB6EE2787F3A500390413 /* APIServiceTests.swift */,
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
 		C70FB0EE25BEF61C00C9924E = {
 			isa = PBXGroup;
 			children = (
@@ -142,6 +155,7 @@
 			isa = PBXGroup;
 			children = (
 				ED6EEFFA278728E90042B6C2 /* MockURLSession.swift */,
+				3B0CB6F12788151C00390413 /* MockRequest.swift */,
 			);
 			path = "Test Doubles";
 			sourceTree = "<group>";
@@ -150,7 +164,7 @@
 			isa = PBXGroup;
 			children = (
 				ED6EEFFC278728F00042B6C2 /* Test Doubles */,
-				EDC4FD1E278570B500E0A775 /* ParsableTests.swift */,
+				3B0CB6F02787F3AC00390413 /* Tests */,
 				EDC4FD20278570B500E0A775 /* Info.plist */,
 			);
 			path = OpenMarketTests;
@@ -296,6 +310,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3B0CB6EF2787F3A500390413 /* APIServiceTests.swift in Sources */,
+				3B0CB6F22788151C00390413 /* MockRequest.swift in Sources */,
 				EDC4FD1F278570B500E0A775 /* ParsableTests.swift in Sources */,
 				ED6EEFFB278728E90042B6C2 /* MockURLSession.swift in Sources */,
 			);
