@@ -187,7 +187,7 @@ struct NetworkTask {
 
 extension NetworkTask {
     private enum NetworkAddress {
-        static let marketTrainingApiHost = "https://market-training.yagom-academy.kr"
+        static let apiHost = "https://market-training.yagom-academy.kr"
         
         case healthChecker
         case productRegistration
@@ -200,22 +200,22 @@ extension NetworkTask {
         var url: URL? {
             switch self {
             case .healthChecker:
-                let url = URL(string: Self.marketTrainingApiHost + "/healthChecker")
+                let url = URL(string: Self.apiHost + "/healthChecker")
                 return url
             case .productRegistration:
-                let url = URL(string: Self.marketTrainingApiHost + "/api/products")
+                let url = URL(string: Self.apiHost + "/api/products")
                 return url
             case let .productModification(productId):
-                let url = URL(string: Self.marketTrainingApiHost + "/api/products/\(productId)")
+                let url = URL(string: Self.apiHost + "/api/products/\(productId)")
                 return url
             case let .productDetail(productId):
                 let url = URL(
-                    string: Self.marketTrainingApiHost + "/api/products/" + String(productId)
+                    string: Self.apiHost + "/api/products/" + String(productId)
                 )
                 return url
             case let .productList(pageNumber, itemsPerPage):
                 var urlComponents = URLComponents(
-                    string: Self.marketTrainingApiHost + "/api/products?"
+                    string: Self.apiHost + "/api/products?"
                 )
                 let pageNumber = URLQueryItem(name: "page_no", value: String(pageNumber))
                 let itemsPerPage = URLQueryItem(
@@ -226,12 +226,12 @@ extension NetworkTask {
                 return urlComponents?.url
             case let .secret(productId):
                 let url = URL(
-                    string: Self.marketTrainingApiHost + "/api/products/\(productId)/secret"
+                    string: Self.apiHost + "/api/products/\(productId)/secret"
                 )
                 return url
             case let .removeProduct(productId, productSecret):
                 let url = URL(
-                    string: Self.marketTrainingApiHost + "/api/products/\(productId)/\(productSecret)"
+                    string: Self.apiHost + "/api/products/\(productId)/\(productSecret)"
                 )
                 return url
             }
