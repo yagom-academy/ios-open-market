@@ -58,7 +58,7 @@ class OpenMarketTests: XCTestCase {
         let expectaion = XCTestExpectation(description: "")
         let secret = SecretOfProductRequest(secret: "password")
 
-        sut.retrieveSecretOfProduct(identification: 87, body: secret, session: HTTPUtility.defaultSession) { result in
+        sut.retrieveSecretOfProduct(identification: 86, body: secret, session: HTTPUtility.defaultSession) { result in
             switch result {
             case .success(let data):
                 guard let encodedData = String(data: data, encoding: .utf8) else {
@@ -72,8 +72,29 @@ class OpenMarketTests: XCTestCase {
             expectaion.fulfill()
         }
         wait(for: [expectaion], timeout: 2.0)
+    }
 
-        expectaion.fulfill()
+    func test_deleteProduct() {
+        let expectaion = XCTestExpectation(description: "")
 
+        sut.deleteProduct(
+            identification: 86,
+            productSecret: "8d4ca3fc-6eec-11ec-abfa-9f069eec4611",
+            session: HTTPUtility.defaultSession
+        ) { result in
+            switch result {
+            case .success(let data):
+                do {
+                    let decodedData: Product = try DecodeUtility.decode(data: data)
+                    print(decodedData)
+                } catch {
+                    XCTFail("파싱 실패")
+                }
+            case .failure:
+                XCTFail("통신 실패")
+            }
+            expectaion.fulfill()
+        }
+        wait(for: [expectaion], timeout: 2.0)
     }
 }
