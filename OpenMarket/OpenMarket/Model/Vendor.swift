@@ -1,8 +1,8 @@
 import Foundation
 
 struct Vendor: Decodable {
-    var name: String
-    var id: Int
-    var createdAt: Date
-    var issuedAt: Date
+    let name: String
+    let id: Int
+    let createdAt: Date
+    let issuedAt: Date
 }

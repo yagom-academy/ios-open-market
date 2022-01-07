@@ -214,23 +214,23 @@ extension NetworkTask {
     }
     
     struct SalesInformation: Encodable {
-        var name: String
-        var descriptions: String
-        var price: Double
-        var currency: Currency
-        var discountedPrice: Double?
-        var stock: Int?
-        var secret: String
+        let name: String
+        let descriptions: String
+        let price: Double
+        let currency: Currency
+        let discountedPrice: Double?
+        let stock: Int?
+        let secret: String
     }
     
     struct ModificationInformation: Encodable {
-        var name: String?
-        var descriptions: String?
-        var thumbnail_id: Int?
-        var price: Int?
-        var currency: Currency?
-        var discountedPrice: Double?
-        var stock: Int?
-        var secret: String
+        let name: String?
+        let descriptions: String?
+        let thumbnail_id: Int?
+        let price: Int?
+        let currency: Currency?
+        let discountedPrice: Double?
+        let stock: Int?
+        let secret: String
     }
 }

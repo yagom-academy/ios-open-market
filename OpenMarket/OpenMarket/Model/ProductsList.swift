@@ -1,15 +1,15 @@
 import Foundation
 
 struct ProductsList: Decodable {
-    var pageNumber: Int
-    var itemsPerPage: Int
-    var totalCount: Int
-    var offset: Int
-    var limit: Int
-    var lastPage: Int
-    var hasNext: Bool
-    var hasPrev: Bool
-    var pages: [Product]
+    let pageNumber: Int
+    let itemsPerPage: Int
+    let totalCount: Int
+    let offset: Int
+    let limit: Int
+    let lastPage: Int
+    let hasNext: Bool
+    let hasPrev: Bool
+    let pages: [Product]
     
     private enum CodingKeys: String, CodingKey {
         case pageNumber = "pageNo"
