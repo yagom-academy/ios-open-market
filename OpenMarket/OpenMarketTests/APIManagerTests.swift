@@ -43,8 +43,8 @@ class APIManagerTests: XCTestCase {
       // then
       switch result {
       case .success(let data):
-        dump(data)
-        XCTAssertTrue(true)
+        XCTAssertEqual(5, data.pages.count)
+        XCTAssertEqual(1, data.pageNumber)
       case .failure:
         XCTFail()
       }
@@ -67,8 +67,8 @@ class APIManagerTests: XCTestCase {
       // then
       switch result {
       case .success(let data):
-        dump(data)
-        XCTAssertTrue(true)
+        XCTAssertEqual("pizza", data.name)
+        XCTAssertEqual(25000, data.price)
       case .failure:
         XCTFail()
       }
