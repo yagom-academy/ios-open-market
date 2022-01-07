@@ -97,4 +97,29 @@ class OpenMarketTests: XCTestCase {
         }
         wait(for: [expectaion], timeout: 2.0)
     }
+
+    func test_modifyProduct() {
+        let expectaion = XCTestExpectation(description: "")
+        let secret = ProductModificationRequest(secret: "password")
+
+        sut.modifyProduct(
+            identification: 83,
+            body: secret,
+            session: HTTPUtility.defaultSession
+        ) { result in
+            switch result {
+            case .success(let data):
+                do {
+                    let decodedData: Product = try DecodeUtility.decode(data: data)
+                    print(decodedData)
+                } catch {
+                    XCTFail("파싱 실패")
+                }
+            case .failure:
+                XCTFail("통신 실패")
+            }
+            expectaion.fulfill()
+        }
+        wait(for: [expectaion], timeout: 2.0)
+    }
 }
