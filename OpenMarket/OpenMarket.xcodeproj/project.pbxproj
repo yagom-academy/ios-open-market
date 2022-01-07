@@ -51,6 +51,7 @@
 		E9FDEAA327885FE100B12770 /* HealthCheckerRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FDEAA227885FE100B12770 /* HealthCheckerRequest.swift */; };
 		E9FDEAAB2788647A00B12770 /* ShowProductPageRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FDEAAA2788647A00B12770 /* ShowProductPageRequest.swift */; };
 		E9FDEAAF2788668200B12770 /* ShowProductDetailRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FDEAAE2788668200B12770 /* ShowProductDetailRequest.swift */; };
+		E9FDEAB52788695400B12770 /* ShowProductSecretRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FDEAB42788695400B12770 /* ShowProductSecretRequest.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -102,6 +103,7 @@
 		E9FDEAA227885FE100B12770 /* HealthCheckerRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthCheckerRequest.swift; sourceTree = "<group>"; };
 		E9FDEAAA2788647A00B12770 /* ShowProductPageRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowProductPageRequest.swift; sourceTree = "<group>"; };
 		E9FDEAAE2788668200B12770 /* ShowProductDetailRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowProductDetailRequest.swift; sourceTree = "<group>"; };
+		E9FDEAB42788695400B12770 /* ShowProductSecretRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowProductSecretRequest.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -267,6 +269,7 @@
 				E9FDEAAA2788647A00B12770 /* ShowProductPageRequest.swift */,
 				E9FDEAAE2788668200B12770 /* ShowProductDetailRequest.swift */,
 				C1346A02278867DA0044DFDB /* DeleteProductRequest.swift */,
+				E9FDEAB42788695400B12770 /* ShowProductSecretRequest.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -441,6 +444,7 @@
 			files = (
 				C13469F1278710420044DFDB /* URLSessionProtocol.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
+				E9FDEAB52788695400B12770 /* ShowProductSecretRequest.swift in Sources */,
 				C13469FF27885E320044DFDB /* PATCHRequest.swift in Sources */,
 				E9FDEA1A2784670B00B12770 /* OpenMarketService.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,

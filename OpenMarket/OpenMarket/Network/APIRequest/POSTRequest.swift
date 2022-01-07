@@ -11,7 +11,6 @@ protocol POSTRequest: APIRequest {
     
     var header: [String: String] { get }
     var body: [String: Any] { get }
-    var boundary: String { get }
     
 }
 
