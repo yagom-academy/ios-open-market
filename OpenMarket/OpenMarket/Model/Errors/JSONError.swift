@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum JSONError: LocalizedError {
+enum JSONError: Error {
     case parsingError
 }
 

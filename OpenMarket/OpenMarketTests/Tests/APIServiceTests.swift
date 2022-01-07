@@ -8,8 +8,7 @@
 import XCTest
 @testable import OpenMarket
 
-class APIServiceTests: XCTestCase {
-
+final class APIServiceTests: XCTestCase {
     func testGetPage_givenSuccessfulRequest_expectCorrectData() {
         let mockURLSession = MockURLSession(isSuccessfulRequest: true, mockRequest: .getPage)
         let sut = MarketAPIService(session: mockURLSession)
@@ -38,18 +37,33 @@ class APIServiceTests: XCTestCase {
             }
         }
     }
-}
-
-extension Page: Equatable {
-    public static func == (lhs: Page, rhs: Page) -> Bool {
-        return lhs.pageNumber == rhs.pageNumber &&
-            lhs.itemsPerPage == rhs.itemsPerPage &&
-            lhs.totalCount == rhs.totalCount &&
-            lhs.offset == rhs.offset &&
-            lhs.limit == rhs.limit &&
-            lhs.products == rhs.products &&
-            lhs.lastPage == rhs.lastPage &&
-            lhs.hasNext == rhs.hasNext &&
-            lhs.hasPrevious == rhs.hasPrevious
+    
+    func testGetProduct_givenSuccessfulRequest_expectCorrectData() {
+        let mockURLSession = MockURLSession(isSuccessfulRequest: true, mockRequest: .getProduct)
+        let sut = MarketAPIService(session: mockURLSession)
+        let mockData = try? JSONDecoder().decode(Product.self, from: mockURLSession.request.data)
+        
+        sut.get(productID: 87) { result in
+            switch result {
+            case .success(let data):
+                XCTAssertEqual(data, mockData)
+            case .failure:
+                XCTFail()
+            }
+        }
+    }
+    
+    func testGetProduct_givenFailureRequest_expectInvalidRequestError() {
+        let mockURLSession = MockURLSession(isSuccessfulRequest: false, mockRequest: .getProduct)
+        let sut = MarketAPIService(session: mockURLSession)
+        
+        sut.get(productID: 87) { result in
+            switch result {
+            case .success(_):
+                XCTFail()
+            case .failure(let error):
+                XCTAssertEqual(error, .invalidRequest)
+            }
+        }
     }
 }
