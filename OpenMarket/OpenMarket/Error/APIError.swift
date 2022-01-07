@@ -1,12 +1,12 @@
 import Foundation
 
-enum APIError: Error {
+enum APIError: LocalizedError {
     case invalidURL
     case invalidResponse
     case invalidData
     case invalidRequest
     
-    var desciption: String {
+    var errorDesciption: String? {
         switch self {
         case .invalidURL:
             return "URL이 유효하지 않습니다"

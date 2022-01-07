@@ -15,7 +15,7 @@ enum URLCreator {
         case .productDetail(let id), .productUpdate(let id):
             return URL(string: URLCreator.baseURL + "/\(id)")
         case .productList(let pageNo, let itemsPerPage):
-            return createURLQuery(queries: ["page_no" : "\(pageNo)", "items_per_page": "\(itemsPerPage)"])
+            return createURLQuery(queries: ["page_no": "\(pageNo)", "items_per_page": "\(itemsPerPage)"])
         case .productRegister:
             return URL(string: URLCreator.baseURL)
         case .deleteProduct(let id, let secret):

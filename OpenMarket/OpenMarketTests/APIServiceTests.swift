@@ -37,7 +37,7 @@ class APIServiceTests: XCTestCase {
             case .success:
                 XCTFail()
             case .failure(let error):
-                XCTAssertEqual(error.desciption, "Request가 유효하지 않습니다")
+                XCTAssertEqual(error.errorDesciption, "Request가 유효하지 않습니다")
             }
         }
     }

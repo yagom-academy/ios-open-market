@@ -47,7 +47,7 @@ class APIService {
     }
 }
 
-//MARK: - OpenMarket APIs
+// MARK: - OpenMarket APIs
 
 extension APIService {
     func retrieveProductDetail(productId: Int, completion: @escaping (Result<ProductDetail, APIError>) -> Void) {
@@ -166,7 +166,7 @@ extension APIService {
     }
 }
 
-//MARK: - Create Request Body
+// MARK: - Create Request Body
 
 private extension APIService {
     func generateBoundary() -> String {
