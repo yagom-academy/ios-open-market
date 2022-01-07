@@ -9,7 +9,6 @@ import Foundation
 
 final class MarketAPIService {
     private let session: DataTaskProvidable
-    private let successRange = 200..<300
     
     init(session: DataTaskProvidable = URLSession.shared) {
         self.session = session
@@ -98,13 +97,14 @@ extension MarketAPIService: APIServicable {
 extension MarketAPIService {
     private func performDataTask<T: Decodable>(request: URLRequest,
                                               completionHandler: @escaping (Result<T, APIError>) -> Void) {
-        let dataTask = session.dataTask(with: request) { [unowned self] data, response, error in
+        let successRange = 200..<300
+        let dataTask = session.dataTask(with: request) { [weak self] data, response, error in
             guard error == nil else {
                 completionHandler(.failure(APIError.invalidHTTPMethod))
                 return
             }
             guard let statusCode = (response as? HTTPURLResponse)?.statusCode,
-                  self.successRange.contains(statusCode) else {
+                  successRange.contains(statusCode) else {
                 completionHandler(.failure(APIError.invalidRequest))
                 return
             }
@@ -112,7 +112,7 @@ extension MarketAPIService {
                 completionHandler(.failure(APIError.noData))
                 return
             }
-            guard let parsedData = parse(with: data, type: T.self) else {
+            guard let parsedData = self?.parse(with: data, type: T.self) else {
                 return
             }
             
