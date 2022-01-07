@@ -27,6 +27,20 @@ struct ProductService {
         task.resume()
     }
 
+    func retrieveProduct(
+        productIdentification: Int,
+        session: URLSessionProtocol,
+        completionHandler: @escaping ((Product) -> Void)
+    ) {
+        let urlString = "\(HTTPUtility.baseURL)/api/products/\(productIdentification)"
+        guard let request = HTTPUtility.urlRequest(urlString: urlString) else {
+            return
+        }
+        doDataTask(with: request, session: session) { data in
+            completionHandler(data)
+        }
+    }
+
     func retrieveProductList(
         pageNumber: Int? = nil,
         itemsPerPage: Int? = nil,
@@ -38,10 +52,9 @@ struct ProductService {
            let itemsPerPage = itemsPerPage {
             urlString += "?page-no=\(pageNumber)&items-per-page=\(itemsPerPage)"
         }
-        guard let url = URL(string: urlString) else {
+        guard let request = HTTPUtility.urlRequest(urlString: urlString) else {
             return
         }
-        let request = URLRequest(url: url)
         doDataTask(with: request, session: session) { data in
             completionHandler(data)
         }

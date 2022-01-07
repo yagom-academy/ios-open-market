@@ -13,4 +13,21 @@ enum HTTPUtility {
         let configuration = URLSessionConfiguration.default
         return URLSession(configuration: configuration)
     }()
+    static func urlRequest(urlString: String, method: HttpMethod = .get) -> URLRequest? {
+        guard let url = URL(string: urlString) else {
+            return nil
+        }
+        var request = URLRequest(url: url)
+        request.httpMethod = method.rawValue
+
+        return request
+    }
+
+    enum HttpMethod: String {
+        case get = "GET"
+        case post = "POST"
+        case put = "PUT"
+        case patch = "PATCH"
+        case delete = "DELETE"
+    }
 }

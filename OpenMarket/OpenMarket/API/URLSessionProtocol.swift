@@ -13,3 +13,5 @@ protocol URLSessionProtocol {
         completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void
     ) -> URLSessionDataTask
 }
+
+extension URLSession: URLSessionProtocol { }
