@@ -62,23 +62,17 @@ struct NetworkManager {
     
     // POST - 상품 삭제 Secret 상세 조회
     func requestSecretSearch<T: Encodable>(data: T, id: UInt, secret: String) -> Result<URLRequest?, Error> {
-        guard let url = APIAddress.secret(id: id, secret: secret).url else {
+        guard let url = APIAddress.secret(id: id, secret: secret).url else { // 다른점
             return .failure(NetworkError.notFoundURL)
         }
-        let encodingResult = parser.encode(object: data)
-        let encodeData: Data
-        
-        switch encodingResult {
-        case .success(let data):
-            encodeData = data
-        case .failure:
+        guard let encodeData = jsonEncode(data: data) else {
             return .failure(ParserError.encodingFail)
         }
-        var request = URLRequest(url: url)
         
-        request.httpMethod = HTTPMethod.post.rawValue
+        var request = URLRequest(url: url)
+        request.httpMethod = HTTPMethod.post.rawValue // 다른점
         request.httpBody = encodeData
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue(ContentType.json.string, forHTTPHeaderField: ContentType.contentType.string)
         request.addValue("80c47530-58bb-11ec-bf7f-d188f1cd5f22", forHTTPHeaderField: "identifier")
         
         return .success(request)
@@ -102,17 +96,11 @@ struct NetworkManager {
         guard let url = APIAddress.product(id: id).url else {
             return .failure(NetworkError.notFoundURL)
         }
-        let encodingResult = parser.encode(object: data)
-        let encodeData: Data
-        
-        switch encodingResult {
-        case .success(let data):
-            encodeData = data
-        case .failure:
+        guard let encodeData = jsonEncode(data: data) else {
             return .failure(ParserError.encodingFail)
         }
-        var request = URLRequest(url: url)
         
+        var request = URLRequest(url: url)
         request.httpMethod = HTTPMethod.patch.rawValue
         request.httpBody = encodeData
         request.addValue(ContentType.json.string, forHTTPHeaderField: ContentType.contentType.string)
@@ -181,5 +169,19 @@ extension NetworkManager {
         data.append(MultipartForm.imageContentType(imageType: image.type.description).string)
         data.append(MultipartForm.imageValue(data: image.data).string)
         return data
+    }
+    
+    private func jsonEncode<T: Encodable>(data: T) -> Data? {
+        let encodingResult = parser.encode(object: data)
+        let encodeData: Data?
+        
+        switch encodingResult {
+        case .success(let data):
+            encodeData = data
+        case .failure:
+            encodeData = nil
+        }
+        
+        return encodeData
     }
 }

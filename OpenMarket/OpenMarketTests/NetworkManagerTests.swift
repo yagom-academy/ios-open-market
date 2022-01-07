@@ -101,7 +101,7 @@ class NetworkManagerTests: XCTestCase {
     
     func test_request_상품리스트조회() {
         //given
-        let url = Address.products(page: 1, itemsPerPage: 10).url
+        let url = APIAddress.products(page: 1, itemsPerPage: 10).url
         
         //when
         let result = sutNetworkManager?.requestListSearch(page: 1, itemsPerPage: 10)
@@ -114,7 +114,7 @@ class NetworkManagerTests: XCTestCase {
     
     func test_request_상품상세조회() {
         //given
-        let url = Address.product(id: 1).url
+        let url = APIAddress.product(id: 1).url
         
         //when
         let result = sutNetworkManager?.requestDetailSearch(id: 1)
@@ -127,7 +127,7 @@ class NetworkManagerTests: XCTestCase {
     
     func test_request_상품삭제Secret조회() {
         //given
-        let url = Address.secret(id: 1, secret: "123").url
+        let url = APIAddress.secret(id: 1, secret: "123").url
         
         //when
         let result = sutNetworkManager?.requestSecretSearch(data: Data(), id: 1, secret: "123")
@@ -147,7 +147,7 @@ class NetworkManagerTests: XCTestCase {
     
     func test_request_상품삭제() {
         //given
-        let url = Address.delete(id: 1, secret: "123").url
+        let url = APIAddress.delete(id: 1, secret: "123").url
         
         //when
         let result = sutNetworkManager?.requestDelete(id: 1, secret: "123")
@@ -160,7 +160,7 @@ class NetworkManagerTests: XCTestCase {
     
     func test_request_상품수정() {
         //given
-        let url = Address.product(id: 1).url
+        let url = APIAddress.product(id: 1).url
         
         //when
         let result = sutNetworkManager?.requestModify(data: Data(), id: 1)
@@ -180,7 +180,7 @@ class NetworkManagerTests: XCTestCase {
     
     func test_request_상품등록() {
         //given
-        let url = Address.register.url
+        let url = APIAddress.register.url
         let params = ProductRegistration(name: "", description: "", price: 1, currency: .krw, discountedPrice: nil, stock: nil, secret: "")
         
         //when
