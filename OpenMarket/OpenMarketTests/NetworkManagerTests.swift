@@ -12,18 +12,18 @@ class NetworkManagerTests: XCTestCase {
     var stubProducts = NSDataAsset(name: "products")!.data
     var stubProduct = NSDataAsset(name: "product")!.data
     var sutNetworkManager: NetworkManager?
-    var sutURL: URL!
-    var sutData: Data!
-    var sutRequest: URLRequest!
+    var sutURL: URL?
+    var sutData: Data?
+    var sutRequest: URLRequest?
     
     override func setUpWithError() throws {
         let session = MockSession.session
         let netWork = Network(session: session)
         let parser = StubParser()
         sutNetworkManager = NetworkManager(network: netWork, parser: parser)
-        sutURL = URL(string: "testURL")!
+        sutURL = URL(string: "testURL")
         sutData = self.stubProducts
-        sutRequest = URLRequest(url: sutURL)
+        sutRequest = URLRequest(url: sutURL!)
     }
     
     override func tearDownWithError() throws {
@@ -35,13 +35,13 @@ class NetworkManagerTests: XCTestCase {
     
     func test_Fetch_Success() {
         // given
-        let response = HTTPURLResponse(url: sutURL, statusCode: 200, httpVersion: nil, headerFields: nil)
-        MockURLProtocol.mockURLs = [sutURL: (nil, sutData, response)]
+        let response = HTTPURLResponse(url: sutURL!, statusCode: 200, httpVersion: nil, headerFields: nil)
+        MockURLProtocol.mockURLs = [sutURL!: (nil, sutData, response)]
         let decodingtype = Products.self
         let expectation = XCTestExpectation(description: "네트워크 실행")
         
         //when
-        sutNetworkManager?.fetch(request: sutRequest, decodingType: decodingtype) { result in
+        sutNetworkManager?.fetch(request: sutRequest!, decodingType: decodingtype) { result in
            
             // then
             switch result {
@@ -57,13 +57,13 @@ class NetworkManagerTests: XCTestCase {
     
     func test_Fetch_Decode_failure() {
         // given
-        let response = HTTPURLResponse(url: sutURL, statusCode: 200, httpVersion: nil, headerFields: nil)
-        MockURLProtocol.mockURLs = [sutURL: (nil, sutData, response)]
+        let response = HTTPURLResponse(url: sutURL!, statusCode: 200, httpVersion: nil, headerFields: nil)
+        MockURLProtocol.mockURLs = [sutURL!: (nil, sutData, response)]
         let decodingtype = StubProduct.self
         let expectation = XCTestExpectation(description: "네트워크 실행")
         
         //when
-        sutNetworkManager?.fetch(request: sutRequest, decodingType: decodingtype) { result in
+        sutNetworkManager?.fetch(request: sutRequest!, decodingType: decodingtype) { result in
             
             // then
             switch result {
@@ -79,13 +79,13 @@ class NetworkManagerTests: XCTestCase {
     
     func test_Fetch_Network_failure() {
         // given
-        let response = HTTPURLResponse(url: sutURL, statusCode: 404, httpVersion: nil, headerFields: nil)
+        let response = HTTPURLResponse(url: sutURL!, statusCode: 404, httpVersion: nil, headerFields: nil)
         MockURLProtocol.mockURLs = [sutURL: (nil, sutData, response)]
         let decodingtype = Products.self
         let expectation = XCTestExpectation(description: "네트워크 실행")
         
         //when
-        sutNetworkManager?.fetch(request: sutRequest, decodingType: decodingtype) { result in
+        sutNetworkManager?.fetch(request: sutRequest!, decodingType: decodingtype) { result in
         
             // then
             switch result {
