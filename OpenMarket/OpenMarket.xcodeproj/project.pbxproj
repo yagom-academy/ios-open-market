@@ -47,6 +47,9 @@
 		E9FDEA5E2786DCCB00B12770 /* CreateProductRequestParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FDEA1F2784677100B12770 /* CreateProductRequestParams.swift */; };
 		E9FDEA67278705AD00B12770 /* Extension+NSMutableData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FDEA66278705AD00B12770 /* Extension+NSMutableData.swift */; };
 		E9FDEA7127870C6800B12770 /* Extension+NSMutableData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FDEA66278705AD00B12770 /* Extension+NSMutableData.swift */; };
+		E9FDEAA327885FE100B12770 /* HealthCheckerRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FDEAA227885FE100B12770 /* HealthCheckerRequest.swift */; };
+		E9FDEAAB2788647A00B12770 /* ShowProductPageRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FDEAAA2788647A00B12770 /* ShowProductPageRequest.swift */; };
+		E9FDEAAF2788668200B12770 /* ShowProductDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FDEAAE2788668200B12770 /* ShowProductDetail.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -94,6 +97,9 @@
 		E9FDEA192784670B00B12770 /* OpenMarketService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketService.swift; sourceTree = "<group>"; };
 		E9FDEA1F2784677100B12770 /* CreateProductRequestParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateProductRequestParams.swift; sourceTree = "<group>"; };
 		E9FDEA66278705AD00B12770 /* Extension+NSMutableData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+NSMutableData.swift"; sourceTree = "<group>"; };
+		E9FDEAA227885FE100B12770 /* HealthCheckerRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthCheckerRequest.swift; sourceTree = "<group>"; };
+		E9FDEAAA2788647A00B12770 /* ShowProductPageRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowProductPageRequest.swift; sourceTree = "<group>"; };
+		E9FDEAAE2788668200B12770 /* ShowProductDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowProductDetail.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -147,6 +153,7 @@
 		C17E063827846D3400D7F83D /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				E9FDEAA127885FCE00B12770 /* API */,
 				C13469F727885D950044DFDB /* APIRequest */,
 				E9FDEA192784670B00B12770 /* OpenMarketService.swift */,
 				C171F87F27841135001D0B76 /* URLSessionProvider.swift */,
@@ -249,6 +256,16 @@
 				E9FDEA66278705AD00B12770 /* Extension+NSMutableData.swift */,
 			);
 			path = Utility;
+			sourceTree = "<group>";
+		};
+		E9FDEAA127885FCE00B12770 /* API */ = {
+			isa = PBXGroup;
+			children = (
+				E9FDEAA227885FE100B12770 /* HealthCheckerRequest.swift */,
+				E9FDEAAA2788647A00B12770 /* ShowProductPageRequest.swift */,
+				E9FDEAAE2788668200B12770 /* ShowProductDetail.swift */,
+			);
+			path = API;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -424,14 +441,17 @@
 				C13469FF27885E320044DFDB /* PATCHRequest.swift in Sources */,
 				E9FDEA1A2784670B00B12770 /* OpenMarketService.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
+				E9FDEAA327885FE100B12770 /* HealthCheckerRequest.swift in Sources */,
 				C13469FB27885DCF0044DFDB /* GETRequest.swift in Sources */,
 				C1346A0127885E550044DFDB /* DELETERequest.swift in Sources */,
 				C171F88027841135001D0B76 /* URLSessionProvider.swift in Sources */,
+				E9FDEAAB2788647A00B12770 /* ShowProductPageRequest.swift in Sources */,
 				C17E063627846CF400D7F83D /* Product.swift in Sources */,
 				E99FDE782782D4C00083D4D6 /* Page.swift in Sources */,
 				E9FDEA67278705AD00B12770 /* Extension+NSMutableData.swift in Sources */,
 				E9FDEA15278463FE00B12770 /* Currency.swift in Sources */,
 				C13469EB2786E3B00044DFDB /* UpdateProductRequest.swift in Sources */,
+				E9FDEAAF2788668200B12770 /* ShowProductDetail.swift in Sources */,
 				E9FDEA202784677100B12770 /* CreateProductRequestParams.swift in Sources */,
 				C13469E92786E35C0044DFDB /* Vendor.swift in Sources */,
 				C13469FD27885DFB0044DFDB /* POSTRequest.swift in Sources */,

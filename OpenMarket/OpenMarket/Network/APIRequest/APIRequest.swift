@@ -27,4 +27,8 @@ extension APIRequest {
         return baseURL + path
     }
     
+    var urlRequest: URLRequest? {
+        guard let url = URL(string: finalURL) else { return nil }
+        return URLRequest(url: url)
+    }
 }
