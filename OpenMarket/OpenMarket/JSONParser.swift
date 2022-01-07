@@ -9,15 +9,19 @@ import Foundation
 
 enum JSONParser<Element: Codable> {
   
-  static func decode(data: Data) -> Element? {
-    let decodedData = try? JSONDecoder().decode(Element.self, from: data)
+  static func decode(data: Data) -> Result<Element, JSONParserError> {
+    guard let decodedData = try? JSONDecoder().decode(Element.self, from: data) else {
+      return .failure(.decodeFailed)
+    }
     
-    return decodedData
+    return .success(decodedData)
   }
   
-  static func encode(data: Element) -> Data? {
-    let encodedData = try? JSONEncoder().encode(data)
+  static func encode(data: Element) -> Result<Data, JSONParserError> {
+    guard let encodedData = try? JSONEncoder().encode(data) else {
+      return .failure(.encodeFailed)
+    }
     
-    return encodedData
+    return .success(encodedData)
   }
 }

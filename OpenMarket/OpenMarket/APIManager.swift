@@ -14,11 +14,6 @@ enum HttpMethod {
   static let delete = "DELETE"
 }
 
-enum responseError: Error {
-  case jsonParsingError
-  case responseFailed
-}
-
 struct APIManager {
   let semaphore = DispatchSemaphore(value: 0)
   let urlSession: URLSession
@@ -27,7 +22,7 @@ struct APIManager {
     self.urlSession = urlSession
   }
   
-  func productList(pageNumber: Int, itemsPerPage: Int, complition: @escaping (Result<ProductList, responseError>) -> Void) {
+  func productList(pageNumber: Int, itemsPerPage: Int, complition: @escaping (Result<ProductList, ResponseError>) -> Void) {
     do{
       let url = try URLGenerator.productList(pageNumber: "\(pageNumber)", itemsPerPage: "\(itemsPerPage)")
       var request = URLRequest(url: url)
@@ -36,11 +31,13 @@ struct APIManager {
       let dataTask = urlSession.dataTask(request) { response in
         switch response {
         case .success(let data):
-          guard let productList = JSONParser<ProductList>.decode(data: data) else {
-            complition(.failure(.jsonParsingError))
-            return
+          let result = JSONParser<ProductList>.decode(data: data)
+          switch result {
+          case .success(let data):
+            complition(.success(data))
+          case .failure(let error):
+            print(error)
           }
-          complition(.success(productList))
         case .failure(_):
           complition(.failure(.responseFailed))
         }
@@ -51,7 +48,7 @@ struct APIManager {
     }
   }
   
-  func detailProduct(productId: Int, complition: @escaping (Result<Product, responseError>) -> Void) {
+  func detailProduct(productId: Int, complition: @escaping (Result<Product, ResponseError>) -> Void) {
     do {
       let url = try URLGenerator.DetailProduct(productId: productId)
       var request = URLRequest(url: url)
@@ -60,11 +57,13 @@ struct APIManager {
       let dataTask = urlSession.dataTask(request) { response in
         switch response {
         case .success(let data):
-          guard let product = JSONParser<Product>.decode(data: data) else {
-            complition(.failure(.jsonParsingError))
-            return
+          let result = JSONParser<Product>.decode(data: data)
+          switch result {
+          case .success(let data):
+            complition(.success(data))
+          case .failure(let error):
+            print(error)
           }
-          complition(.success(product))
         case .failure(_):
           complition(.failure(.responseFailed))
         }
