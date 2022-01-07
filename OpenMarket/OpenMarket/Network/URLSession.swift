@@ -26,7 +26,7 @@ class URLSessionProvider {
         task.resume()
     }
     
-    func getUser(id: Int, completionHandler: @escaping (Result<Data, NetworkError>) -> Void) {
+    func getPage(id: Int, completionHandler: @escaping (Result<Data, NetworkError>) -> Void) {
         guard let url = URL(string: baseURL) else { return }
         
         var request = URLRequest(url: url)
