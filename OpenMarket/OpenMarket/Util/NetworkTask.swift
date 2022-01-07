@@ -6,7 +6,7 @@ struct NetworkTask {
     
     func requestHealthChekcer(completionHandler: @escaping (Result<Data, Error>) -> Void) {
         guard let url = NetworkAddress.healthChecker.url else { return }
-        let request = URLRequest(url: url)
+        let request = request(url: url, httpMethod: "GET")
         let task = dataTask(with: request, completionHandler: completionHandler)
         task.resume()
     }
@@ -18,15 +18,16 @@ struct NetworkTask {
         completionHandler: @escaping (Result<Data, Error>) -> Void
     ) {
         guard let url = NetworkAddress.productRegistration.url else { return }
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.addValue(identifier, forHTTPHeaderField: "identifier")
-        request.addValue(
-            "multipart/form-data; boundary=\(boundary)",
-            forHTTPHeaderField: "Content-Type"
-        )
         let body = buildBody(with: salesInformation, images: images)
-        request.httpBody = body
+        let request = request(
+            url: url,
+            httpMethod: "POST",
+            httpHeaders: [
+                "identifier": identifier,
+                "Content-Type": "multipart/form-data; boundary=\(boundary)"
+            ],
+            httpBody: body
+        )
         let task = dataTask(with: request, completionHandler: completionHandler)
         task.resume()
     }
@@ -40,10 +41,13 @@ struct NetworkTask {
         guard let url = NetworkAddress.productModification(productId: productId).url else {
             return
         }
-        var request = URLRequest(url: url)
-        request.httpMethod = "PATCH"
-        request.addValue(identifier, forHTTPHeaderField: "identifier")
-        request.httpBody = try? jsonParser.encode(from: information)
+        let body = try? jsonParser.encode(from: information)
+        let request = request(
+            url: url,
+            httpMethod: "PATCH",
+            httpHeaders: ["identifier": identifier],
+            httpBody: body
+        )
         let task = dataTask(with: request, completionHandler: completionHandler)
         task.resume()
     }
@@ -55,10 +59,13 @@ struct NetworkTask {
         completionHandler: @escaping (Result<Data, Error>) -> Void
     ) {
         guard let url = NetworkAddress.secret(productId: productId).url else { return }
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.addValue(identifier, forHTTPHeaderField: "identifier")
-        request.httpBody = try? jsonParser.encode(from: secret)
+        let body = try? jsonParser.encode(from: secret)
+        let request = request(
+            url: url,
+            httpMethod: "POST",
+            httpHeaders: ["identifier": identifier],
+            httpBody: body
+        )
         let task = dataTask(with: request, completionHandler: completionHandler)
         task.resume()
     }
@@ -72,10 +79,13 @@ struct NetworkTask {
         guard let url = NetworkAddress.removeProduct(
             productId: productId,
             productSecret: productSecret).url else { return }
-        var request = URLRequest(url: url)
-        request.httpMethod = "DELETE"
-        request.addValue(identifier, forHTTPHeaderField: "identifier")
-        request.httpBody = try? jsonParser.encode(from: productSecret)
+        let body = try? jsonParser.encode(from: productSecret)
+        let request = request(
+            url: url,
+            httpMethod: "DELETE",
+            httpHeaders: ["identifier": identifier],
+            httpBody: body
+        )
         let task = dataTask(with: request, completionHandler: completionHandler)
         task.resume()
     }
@@ -84,7 +94,7 @@ struct NetworkTask {
         productId: Int,
         completionHandler: @escaping (Result<Data, Error>) -> Void) {
             guard let url = NetworkAddress.productDetail(productId: productId).url else { return }
-            let request = URLRequest(url: url)
+            let request = request(url: url, httpMethod: "GET")
             let task = dataTask(with: request, completionHandler: completionHandler)
             task.resume()
         }
@@ -97,7 +107,7 @@ struct NetworkTask {
         guard let url = NetworkAddress.productList(
             pageNumber: pageNumber,
             itemsPerPage: itemsPerPage).url else { return }
-        let request = URLRequest(url: url)
+        let request = request(url: url, httpMethod: "GET")
         let task = dataTask(with: request, completionHandler: completionHandler)
         task.resume()
     }
@@ -120,6 +130,21 @@ struct NetworkTask {
             completionHandler(.success(data))
         }
         return dataTask
+    }
+    
+    private func request(
+        url: URL,
+        httpMethod: String,
+        httpHeaders: [String: String] = [:],
+        httpBody: Data? = nil
+    ) -> URLRequest {
+        var request = URLRequest(url: url)
+        request.httpMethod = httpMethod
+        httpHeaders.forEach { httpHeaderField, value in
+            request.addValue(value, forHTTPHeaderField: httpHeaderField)
+        }
+        request.httpBody = httpBody
+        return request
     }
     
     private func buildBody(
