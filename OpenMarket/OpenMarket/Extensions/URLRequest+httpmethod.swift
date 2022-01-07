@@ -1,4 +1,5 @@
 import Foundation
+import UIKit
 
 extension URLRequest {
     init(url: URL, api: API) {
@@ -17,3 +18,5 @@ extension URLRequest {
         }
     }
 }
+
+
