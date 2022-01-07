@@ -7,18 +7,23 @@
 
 import Foundation
 
-enum JSONParser<Element: Codable> {
+class JSONParser {
+  static let shared = JSONParser()
+  let decoder = JSONDecoder()
+  let encoder = JSONEncoder()
   
-  static func decode(data: Data) -> Result<Element, JSONParserError> {
-    guard let decodedData = try? JSONDecoder().decode(Element.self, from: data) else {
+  private init() { }
+  
+  func decode<Element: Codable>(data: Data, type: Element.Type) -> Result<Element, JSONParserError> {
+    guard let decodedData = try? decoder.decode(Element.self, from: data) else {
       return .failure(.decodeFailed)
     }
     
     return .success(decodedData)
   }
   
-  static func encode(data: Element) -> Result<Data, JSONParserError> {
-    guard let encodedData = try? JSONEncoder().encode(data) else {
+  func encode<Element: Codable>(data: Element , type: Element.Type) -> Result<Data, JSONParserError> {
+    guard let encodedData = try? encoder.encode(data) else {
       return .failure(.encodeFailed)
     }
     

@@ -8,6 +8,6 @@
 import Foundation
 
 enum AssetFileName {
-  static let Product = "Product"
+  static let Product = "product"
   static let products = "products"
 }

@@ -16,7 +16,7 @@ class JSONTests: XCTestCase {
       return
     }
   
-    let result = JSONParser<ProductList>.decode(data: asset.data)
+    let result = JSONParser.shared.decode(data: asset.data, type: ProductList.self)
     switch result {
     case .success(let data):
       XCTAssertNotNil(data)
@@ -32,7 +32,7 @@ class JSONTests: XCTestCase {
       return
     }
   
-    let result = JSONParser<Product>.decode(data: asset.data)
+    let result = JSONParser.shared.decode(data: asset.data, type: Product.self)
     switch result {
     case .success(_):
       XCTFail()

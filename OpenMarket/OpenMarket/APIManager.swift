@@ -37,7 +37,7 @@ struct APIManager {
       let dataTask = urlSession.dataTask(request) { response in
         switch response {
         case .success(let data):
-          let result = JSONParser<ProductList>.decode(data: data)
+          let result = JSONParser.shared.decode(data: data, type: ProductList.self)
           switch result {
           case .success(let data):
             complition(.success(data))
@@ -66,7 +66,7 @@ struct APIManager {
       let dataTask = urlSession.dataTask(request) { response in
         switch response {
         case .success(let data):
-          let result = JSONParser<Product>.decode(data: data)
+          let result = JSONParser.shared.decode(data: data, type: Product.self)
           switch result {
           case .success(let data):
             complition(.success(data))
