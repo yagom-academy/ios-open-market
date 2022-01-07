@@ -3,7 +3,7 @@ import Foundation
 class APIManager {
     
     func checkAPIHealth(completion: @escaping (Result<Data, Error>) -> Void) {
-        guard let url = WorkType.healthChecker.url else { return }
+        guard let url = URLManager.healthChecker.url else { return }
         let request = URLRequest(url: url, method: .get)
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             guard let data = data else {
@@ -17,13 +17,13 @@ class APIManager {
     }
     
     func checkProductDetail(from id: Int, completion: @escaping (Result<ProductDetail, Error>) -> Void) {
-        guard let url = WorkType.checkProductDetail(id: id).url else { return }
+        guard let url = URLManager.checkProductDetail(id: id).url else { return }
         let request = URLRequest(url: url, method: .get)
         creatDataTask(with: request, completion: completion)
     }
     
     func checkProductList(pageNumber: Int, itemsPerPage: Int, completion: @escaping (Result<ProductList, Error>) -> Void) {
-        guard let url = WorkType.checkProductList(pageNumber: pageNumber, itemsPerPage: itemsPerPage).url else { return }
+        guard let url = URLManager.checkProductList(pageNumber: pageNumber, itemsPerPage: itemsPerPage).url else { return }
         let request = URLRequest(url: url, method: .get)
         creatDataTask(with: request, completion: completion)
     }
