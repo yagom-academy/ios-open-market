@@ -69,4 +69,22 @@ struct ProductService: APIService {
             completionHandler(result)
         }
     }
+
+    func modifyProduct(
+        identification: Int,
+        body: ProductModificationRequest,
+        session: URLSessionProtocol,
+        completionHandler: @escaping ((Result<Data, NetworkingError>) -> Void)
+    ) {
+        let urlString = "\(HTTPUtility.baseURL)/api/products/\(identification)"
+        guard var request = HTTPUtility.urlRequest(urlString: urlString, method: .patch) else {
+            return
+        }
+        request.addHTTPHeaders(headers: HTTPUtility.defaultHeader)
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpBody = try? JSONEncoder().encode(body)
+        doDataTask(with: request, session: session) { result in
+            completionHandler(result)
+        }
+    }
 }
