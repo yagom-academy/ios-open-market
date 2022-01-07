@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		3C73DCD483CBAB511864AB28 /* Pods_OpenMarket.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC884582C3711126F04E92C9 /* Pods_OpenMarket.framework */; };
+		A68C5BD627883C9F00A9A2C8 /* LayoutSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = A68C5BD527883C9F00A9A2C8 /* LayoutSegmentedControl.swift */; };
 		A6A824342782EA2C006CE6DA /* ProductList.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6A824332782EA2C006CE6DA /* ProductList.swift */; };
 		A6A824362782EA42006CE6DA /* ProductDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6A824352782EA41006CE6DA /* ProductDetail.swift */; };
 		A6A824422782F65E006CE6DA /* APIServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6A824412782F65E006CE6DA /* APIServiceTests.swift */; };
@@ -56,6 +57,7 @@
 /* Begin PBXFileReference section */
 		261A1684FFD7D2F15467C40F /* Pods-OpenMarket.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenMarket.release.xcconfig"; path = "Target Support Files/Pods-OpenMarket/Pods-OpenMarket.release.xcconfig"; sourceTree = "<group>"; };
 		3EFA5FA2BEA99E822ACFBAD9 /* Pods-OpenMarket.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenMarket.debug.xcconfig"; path = "Target Support Files/Pods-OpenMarket/Pods-OpenMarket.debug.xcconfig"; sourceTree = "<group>"; };
+		A68C5BD527883C9F00A9A2C8 /* LayoutSegmentedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutSegmentedControl.swift; sourceTree = "<group>"; };
 		A6A824332782EA2C006CE6DA /* ProductList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductList.swift; sourceTree = "<group>"; };
 		A6A824352782EA41006CE6DA /* ProductDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetail.swift; sourceTree = "<group>"; };
 		A6A8243F2782F65E006CE6DA /* OpenMarketTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenMarketTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -102,6 +104,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A68C5BD727883CA600A9A2C8 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				A68C5BD527883C9F00A9A2C8 /* LayoutSegmentedControl.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		A68C5BD827883CAF00A9A2C8 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				C70FB0FE25BEF61C00C9924E /* ViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
 		A6A824372782EA4E006CE6DA /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -160,10 +178,11 @@
 				C9AC3E5F2786DB9A00177751 /* Error */,
 				C9B5FAD12783DB07001B6FDE /* Network */,
 				A6A824372782EA4E006CE6DA /* Models */,
-				C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */,
-				C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */,
-				C70FB0FE25BEF61C00C9924E /* ViewController.swift */,
+				A68C5BD727883CA600A9A2C8 /* Views */,
+				A68C5BD827883CAF00A9A2C8 /* Controllers */,
 				A6A8244D27841E01006CE6DA /* products.json */,
+				C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */,
+				C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */,
 				C70FB10325BEF61D00C9924E /* Assets.xcassets */,
 				C70FB10825BEF61D00C9924E /* Info.plist */,
 			);
@@ -391,6 +410,7 @@
 			files = (
 				A6A824592785DE3F006CE6DA /* Currency.swift in Sources */,
 				C9B5FADE2784362E001B6FDE /* Vendor.swift in Sources */,
+				A68C5BD627883C9F00A9A2C8 /* LayoutSegmentedControl.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
 				C9B5FADC2784361F001B6FDE /* ProductImage.swift in Sources */,
 				A6A824812786D271006CE6DA /* OpenMarketAPI.swift in Sources */,
