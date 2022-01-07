@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct UpdateProductRequest: Encodable {
+struct UpdateProductRequestModel: Encodable {
     
     let name: String?
     let descriptions: String?
