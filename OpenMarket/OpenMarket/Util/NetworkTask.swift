@@ -252,7 +252,7 @@ extension NetworkTask {
     struct ModificationInformation: Encodable {
         let name: String?
         let descriptions: String?
-        let thumbnail_id: Int?
+        let thumbnailId: Int?
         let price: Int?
         let currency: Currency?
         let discountedPrice: Double?
