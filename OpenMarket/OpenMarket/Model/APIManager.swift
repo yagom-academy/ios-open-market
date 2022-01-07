@@ -2,57 +2,70 @@ import Foundation
 
 class APIManager {
     
-    var apiHealth: String?
-    var product: ProductDetail?
-    var productList: ProductList?
-    let semaphore = DispatchSemaphore(value: 0)
-    
-    func checkAPIHealth() {
+    func checkAPIHealth(completion: @escaping (Result<Data, Error>) -> Void) {
         guard let url = WorkType.healthChecker.url else { return }
         let request = URLRequest(url: url, method: .get)
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             guard let data = data else {
                 print(String(describing: error))
-                self.semaphore.signal()
+                completion(.failure(error!))
                 return
             }
-            self.apiHealth = String(data: data, encoding: .utf8)!
-            self.semaphore.signal()
+            completion(.success(data))
         }
         task.resume()
-        semaphore.wait()
     }
     
-    func checkProductDetail(from id: Int) {
+    func checkProductDetail(from id: Int, completion: @escaping (Result<ProductDetail, Error>) -> Void) {
         guard let url = WorkType.checkProductDetail(id: id).url else { return }
         let request = URLRequest(url: url, method: .get)
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            guard let data = data else {
-                print(String(describing: error))
-                self.semaphore.signal()
-                return
-            }
-            self.product = JSONParser.decodeData(of: data, how: ProductDetail.self)
-            self.semaphore.signal()
-        }
-        task.resume()
-        semaphore.wait()
+        creatDataTask(with: request, completion: completion)
     }
     
-    func checkProductList(pageNumber: Int, itemsPerPage: Int) {
+    func checkProductList(pageNumber: Int, itemsPerPage: Int, completion: @escaping (Result<ProductList, Error>) -> Void) {
         guard let url = WorkType.checkProductList(pageNumber: pageNumber, itemsPerPage: itemsPerPage).url else { return }
         let request = URLRequest(url: url, method: .get)
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            guard let data = data else {
-                print(String(describing: error))
-                self.semaphore.signal()
-                return
-            }
-            self.productList = JSONParser.decodeData(of: data, how: ProductList.self)
-            self.semaphore.signal()
-        }
-        task.resume()
-        semaphore.wait()
+        creatDataTask(with: request, completion: completion)
     }
     
+}
+
+extension APIManager {
+    
+    func creatDataTask<T: Decodable>(with request: URLRequest, completion: @escaping (Result<T, Error>) -> Void) {
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            guard error == nil else {
+                completion(.failure(URLSessionError.requestFailed))
+                return
+            }
+            
+            if let httpResponse = response as? HTTPURLResponse,
+               httpResponse.statusCode >= 300 {
+                completion(.failure(URLSessionError.responseFailed(code: httpResponse.statusCode)))
+                return
+            }
+            
+            guard let data = data else {
+                completion(.failure(URLSessionError.invaildData))
+                return
+            }
+            guard let decodedData = JSONParser.decodeData(of: data, how: T.self) else {
+                completion(.failure(JSONError.dataDecodeFailed))
+                return
+            }
+            completion(.success(decodedData))
+        }
+        task.resume()
+    }
+    
+}
+
+enum URLSessionError: LocalizedError {
+    case requestFailed
+    case responseFailed(code: Int)
+    case invaildData
+}
+
+enum JSONError: LocalizedError {
+    case dataDecodeFailed
 }
