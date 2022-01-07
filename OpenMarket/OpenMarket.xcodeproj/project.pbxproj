@@ -41,6 +41,8 @@
 		3AA0898A2783EAB3002A0002 /* Vendor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vendor.swift; sourceTree = "<group>"; };
 		3AAA1E2B2786C2320022D36D /* JSONParsable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONParsable.swift; sourceTree = "<group>"; };
 		3AABC1D42782D701005DDCE8 /* ProductsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsList.swift; sourceTree = "<group>"; };
+		3AFACD43278802BD0062EF02 /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = OpenMarket.app; path = "/Users/youngseo/Desktop/ios-open-market/OpenMarket/build/Debug-iphoneos/OpenMarket.app"; sourceTree = "<absolute>"; };
+		3AFACD44278802BD0062EF02 /* JSONParseTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = JSONParseTests.xctest; path = "/Users/youngseo/Desktop/ios-open-market/OpenMarket/build/Debug-iphoneos/JSONParseTests.xctest"; sourceTree = "<absolute>"; };
 		C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		C70FB0FE25BEF61C00C9924E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -55,8 +57,6 @@
 		DE83171A2782D51A00FF2120 /* Currency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
 		DE8317222782DFAC00FF2120 /* JSONParseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONParseTests.swift; sourceTree = "<group>"; };
 		DEAE69632785A61F00F21D21 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
-		DEAF36D62787D94C00E2688A /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = OpenMarket.app; path = "/Users/yanghojoon/Desktop/yagom/ios-open-market/OpenMarket/build/Debug-iphoneos/OpenMarket.app"; sourceTree = "<absolute>"; };
-		DEAF36D72787D94C00E2688A /* JSONParseTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = JSONParseTests.xctest; path = "/Users/yanghojoon/Desktop/yagom/ios-open-market/OpenMarket/build/Debug-iphoneos/JSONParseTests.xctest"; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -167,7 +167,7 @@
 			);
 			name = OpenMarket;
 			productName = OpenMarket;
-			productReference = DEAF36D62787D94C00E2688A /* OpenMarket.app */;
+			productReference = 3AFACD43278802BD0062EF02 /* OpenMarket.app */;
 			productType = "com.apple.product-type.application";
 		};
 		DE83171F2782DFAC00FF2120 /* JSONParseTests */ = {
@@ -185,7 +185,7 @@
 			);
 			name = JSONParseTests;
 			productName = JSONParseTests;
-			productReference = DEAF36D72787D94C00E2688A /* JSONParseTests.xctest */;
+			productReference = 3AFACD44278802BD0062EF02 /* JSONParseTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
