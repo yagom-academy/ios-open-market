@@ -15,6 +15,24 @@ class OpenMarketTests: XCTestCase {
         sut = ProductService()
     }
 
+    func test_checkNetworkConnection() {
+        let expectaion = XCTestExpectation(description: "")
+
+        sut.checkNetworkConnection(session: HTTPUtility.defaultSession) { result in
+            switch result {
+            case .success(let data):
+                guard let encodedData = String(data: data, encoding: .utf8) else {
+                    return XCTFail("파싱 실패")
+                }
+                XCTAssertEqual(encodedData, "\"OK\"")
+            case .failure:
+                XCTFail("통신 실패")
+            }
+            expectaion.fulfill()
+        }
+        wait(for: [expectaion], timeout: 2.0)
+    }
+
     func test_retrieveProduct() {
         let expectaion = XCTestExpectation(description: "")
 
