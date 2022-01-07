@@ -9,12 +9,12 @@ import UIKit
 
 let decoder = JSONDecoder()
 
-func parsePageJSON() throws -> Page {
+func parsePageJSON() throws -> ProductList {
     guard let pageJSON: NSDataAsset = NSDataAsset(name: "products") else {
         throw NetworkError.parsingFailed
     }
     
-    guard let decodedPageJSON = try decoder.decode(Page?.self, from: pageJSON.data) else {
+    guard let decodedPageJSON = try decoder.decode(ProductList?.self, from: pageJSON.data) else {
         throw NetworkError.parsingFailed
     }
     

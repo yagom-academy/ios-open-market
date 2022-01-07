@@ -1,10 +1,9 @@
 import Foundation
 
 class URLSessionProvider {
-    let session: URLSessionProtocol
-    let baseURL = "https://market-training.yagom-academy.kr/"
+    let session: URLSession
     
-    init(session: URLSessionProtocol = URLSession.shared) {
+    init(session: URLSession = URLSession.shared) {
         self.session = session
     }
     
@@ -26,10 +25,12 @@ class URLSessionProvider {
         task.resume()
     }
     
-    func getPage(id: Int, completionHandler: @escaping (Result<Data, NetworkError>) -> Void) {
-        guard let url = URL(string: baseURL) else { return }
+    func getData(apiType: APIType, completionHandler: @escaping (Result<Data, NetworkError>) -> Void) {
+        guard let url = URL(string: apiType.description) else { return }
         
-        var request = URLRequest(url: url)
+        var request: URLRequest
+        
+        request = URLRequest(url: url)
         request.httpMethod = "GET"
         
         dataTask(request: request, completionHandler: completionHandler)
