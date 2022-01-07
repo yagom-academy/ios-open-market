@@ -7,8 +7,8 @@ protocol URLSessionProtocol {
 extension URLSession: URLSessionProtocol {}
 
 class APIService {
-    let session: URLSessionProtocol
-    let identifier = "cd706a3e-66db-11ec-9626-796401f2341a"
+    private let session: URLSessionProtocol
+    private let identifier = "cd706a3e-66db-11ec-9626-796401f2341a"
     
     private let decoder: JSONDecoder = {
         let decoder = JSONDecoder()
@@ -21,7 +21,35 @@ class APIService {
     init(session: URLSessionProtocol = URLSession.shared) {
         self.session = session
     }
-    
+        
+    private func dataTask(request: URLRequest, completion: @escaping (Result<Data, APIError>) -> Void) -> URLSessionDataTask {
+        let task = session.dataTask(with: request) { data, response, error in
+            guard error == nil else {
+                completion(.failure(.invalidRequest))
+                return
+            }
+            
+            guard let httpResponse = response as? HTTPURLResponse,
+                  (200..<300).contains(httpResponse.statusCode) else {
+                      completion(.failure(.invalidResponse))
+                      return
+                  }
+
+            guard let data = data else {
+                completion(.failure(.invalidData))
+                return
+            }
+            
+            completion(.success(data))
+        }
+        
+        return task
+    }
+}
+
+//MARK: - OpenMarket APIs
+
+extension APIService {
     func retrieveProductDetail(productId: Int, completion: @escaping (Result<ProductDetail, APIError>) -> Void) {
         guard let url = URLCreator.productDetail(id: productId).url else {
             completion(.failure(.invalidURL))
@@ -68,72 +96,7 @@ class APIService {
         task.resume()
     }
     
-    func registerProduct(newProduct: ProductRegisterInformation, images: [ImageData]) {
-        guard let url = URLCreator.productRegister.url else {
-            return
-        }
-                
-        guard let body = createBody(productRegisterInformation: newProduct, images: images) else {
-            return
-        }
-        
-        let request = URLRequest(url: url, api: .productRegister(body: body, id: identifier))
-        
-        let task = dataTask(request: request) { result in
-            switch result {
-            case .success:
-                return
-            case .failure(let error):
-                print(error)
-            }
-        }
-        
-        task.resume()
-    }
-    
-    func updateProduct(productId: Int, modifiedProduct: ProductRegisterInformation) {
-        guard let url = URLCreator.productUpdate(id: productId).url else {
-            return
-        }
-        
-        guard let body = try? JSONEncoder().encode(modifiedProduct) else {
-            return
-        }
-        
-        let request = URLRequest(url: url, api: .productUpdate(body: body, id: identifier))
-        
-        let task = dataTask(request: request) { result in
-            switch result {
-            case .success:
-                return
-            case .failure(let error):
-                print(error)
-            }
-        }
-        
-        task.resume()
-    }
-    
-    func deleteProduct(productId: Int, secret: String) {
-        guard let url = URLCreator.deleteProduct(id: productId, secret: secret).url else {
-            return
-        }
-        
-        let request = URLRequest(url: url, api: .deleteProduct(id: identifier))
-        
-        let task = dataTask(request: request) { result in
-            switch result {
-            case .success:
-                return
-            case .failure(let error):
-                print(error)
-            }
-        }
-        
-        task.resume()
-    }
-    
-    func retrieveProductSecret(productId: Int, secret: String, completion: @escaping (Result<String, APIError>) -> ()) {
+    func retrieveProductSecret(productId: Int, secret: String, completion: @escaping (Result<String, APIError>) -> Void) {
         guard let url = URLCreator.productSecret(id: productId).url else {
             return
         }
@@ -158,32 +121,54 @@ class APIService {
         task.resume()
     }
     
-    func dataTask(request: URLRequest, completion: @escaping (Result<Data, APIError>) -> Void) -> URLSessionDataTask {
-        let task = session.dataTask(with: request) { data, response, error in
-            guard error == nil else {
-                completion(.failure(.invalidRequest))
-                return
-            }
-            
-            guard let httpResponse = response as? HTTPURLResponse,
-                  (200..<300).contains(httpResponse.statusCode) else {
-                      completion(.failure(.invalidResponse))
-                      return
-                  }
-
-            guard let data = data else {
-                completion(.failure(.invalidData))
-                return
-            }
-            
-            completion(.success(data))
+    func registerProduct(newProduct: ProductRegisterInformation, images: [ImageData], completion: @escaping (Result<Data, APIError>) -> Void) {
+        guard let url = URLCreator.productRegister.url else {
+            return
+        }
+                
+        guard let body = createBody(productRegisterInformation: newProduct, images: images) else {
+            return
         }
         
-        return task
+        let request = URLRequest(url: url, api: .productRegister(body: body, id: identifier))
+        
+        let task = dataTask(request: request, completion: completion)
+        
+        task.resume()
+    }
+    
+    func updateProduct(productId: Int, modifiedProduct: ProductRegisterInformation, completion: @escaping (Result<Data, APIError>) -> Void) {
+        guard let url = URLCreator.productUpdate(id: productId).url else {
+            return
+        }
+        
+        guard let body = try? JSONEncoder().encode(modifiedProduct) else {
+            return
+        }
+        
+        let request = URLRequest(url: url, api: .productUpdate(body: body, id: identifier))
+        
+        let task = dataTask(request: request, completion: completion)
+        
+        task.resume()
+    }
+    
+    func deleteProduct(productId: Int, secret: String, completion: @escaping (Result<Data, APIError>) -> Void) {
+        guard let url = URLCreator.deleteProduct(id: productId, secret: secret).url else {
+            return
+        }
+        
+        let request = URLRequest(url: url, api: .deleteProduct(id: identifier))
+        
+        let task = dataTask(request: request, completion: completion)
+        
+        task.resume()
     }
 }
 
-extension APIService {
+//MARK: - Create Request Body
+
+private extension APIService {
     func generateBoundary() -> String {
         return "Boundary-\(UUID().uuidString)"
     }
