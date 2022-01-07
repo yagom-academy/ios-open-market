@@ -16,23 +16,30 @@ class JSONTests: XCTestCase {
       return
     }
   
-    guard let result = JSONParser<ProductList>.decode(data: asset.data) else {
+    let result = JSONParser<ProductList>.decode(data: asset.data)
+    switch result {
+    case .success(let data):
+      XCTAssertNotNil(data)
+    case .failure(_):
       XCTFail()
-      return
     }
-    
-    XCTAssertEqual(result.pageNumber, 1)
+  
   }
   
-  func test_잘못된_제네릭_정보를_설정했을경우_nil을_반환하는지() {
+  func test_잘못된_제네릭_정보를_설정했을경우_fail을_반환하는지() {
     guard let asset = NSDataAsset.init(name: "products") else {
       XCTFail()
       return
     }
   
     let result = JSONParser<Product>.decode(data: asset.data)
-    
-    XCTAssertNil(result)
+    switch result {
+    case .success(_):
+      XCTFail()
+    case .failure(_):
+      XCTAssertTrue(true)
+    }
+  
   }
 
 }

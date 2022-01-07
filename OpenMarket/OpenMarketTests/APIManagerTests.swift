@@ -8,29 +8,76 @@
 import XCTest
 
 class APIManagerTests: XCTestCase {
-
-  func test_목록조회() {
-    let apiManager = APIManager()
-    let itemList = apiManager.productList(pageNumber: 1, itemsPerPage: 10)
-    
-    guard let result = itemList else {
-      XCTFail()
-      return
-    }
-    
-    XCTAssertNotNil(result)
+  var sutProductListData = NSDataAsset(name: "products")!.data
+  var sutProduct = NSDataAsset(name: "product")!.data
+  var sutURL: URL!
+  var sutAPIManager: APIManager!
+  var sutSession: URLSession!
+  
+  override func setUpWithError() throws {
+    sutURL = URL(string: "testURL")
+    sutSession = MockSession.session
+    sutAPIManager = APIManager(urlSession: sutSession)
   }
   
-  func test_상품상세조회() {
-    let apiManager = APIManager()
-    let detailInfo = apiManager.DetailProduct(productId: 16)
-    
-    guard let result = detailInfo else {
-      XCTFail()
-      return
+  override func tearDownWithError() throws {
+    sutURL = nil
+    sutSession = nil
+    sutAPIManager = nil
+  }
+  
+  func test_목록조회() {
+    // given
+    let response = HTTPURLResponse(url: sutURL, statusCode: 200, httpVersion: nil, headerFields: nil)
+    MockURLProtocol.requestHandler = { request in
+      return (response!, self.sutProductListData)
     }
 
-    XCTAssertEqual(result.id, 16)
-  }
+    let expectation = XCTestExpectation(description: "response")
+    
+    // when
+    sutAPIManager!.productList(pageNumber: 1, itemsPerPage: 10) { result in
+      // then
+      switch result {
+      case .success(let data):
+        dump(data)
+        XCTAssertTrue(true)
+      case .failure:
+        XCTFail()
+      }
+    }
+    sleep(5)
 
+    expectation.fulfill()
+
+    wait(for: [expectation], timeout: 5)
+  }
+  
+  
+  func test_상품상세조회() {
+    // given
+    let response = HTTPURLResponse(url: sutURL, statusCode: 200, httpVersion: nil, headerFields: nil)
+    MockURLProtocol.requestHandler = { request in
+      return (response!, self.sutProduct)
+    }
+
+    let expectation = XCTestExpectation(description: "response")
+    
+    // when
+    sutAPIManager!.detailProduct(productId: 16) { result in
+      // then
+      switch result {
+      case .success(let data):
+        dump(data)
+        XCTAssertTrue(true)
+      case .failure:
+        XCTFail()
+      }
+    }
+    
+
+    expectation.fulfill()
+
+    wait(for: [expectation], timeout: 5)
+  }
 }
