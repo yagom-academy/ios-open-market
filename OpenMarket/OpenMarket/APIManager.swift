@@ -14,55 +14,64 @@ enum HttpMethod {
   static let delete = "DELETE"
 }
 
+enum responseError: Error {
+  case jsonParsingError
+  case responseFailed
+}
+
 struct APIManager {
   let semaphore = DispatchSemaphore(value: 0)
+  let urlSession: URLSession
   
-  func productList(pageNumber: Int, itemsPerPage: Int) -> ProductList? {
-    var productList: ProductList?
+  init(urlSession: URLSession) {
+    self.urlSession = urlSession
+  }
+  
+  func productList(pageNumber: Int, itemsPerPage: Int, complition: @escaping (Result<ProductList, responseError>) -> Void) {
     do{
       let url = try URLGenerator.productList(pageNumber: "1", itemsPerPage: "10")
       var request = URLRequest(url: url)
       request.httpMethod = HttpMethod.get
       
-      URLSession.shared.dataTask(request) { response in
+      let dataTask = urlSession.dataTask(request) { response in
         switch response {
         case .success(let data):
-          productList = JSONParser<ProductList>.decode(data: data)
+          guard let productList = JSONParser<ProductList>.decode(data: data) else {
+            complition(.failure(.jsonParsingError))
+            return
+          }
+          complition(.success(productList))
         case .failure(_):
-          productList = nil
+          complition(.failure(.responseFailed))
         }
-        semaphore.signal()
       }
-      semaphore.wait()
+      dataTask.resume()
     } catch let error {
       print(error)
     }
-    
-    return productList
   }
   
-  func DetailProduct(productId: Int) -> Product? {
-    var product: Product?
+  func DetailProduct(productId: Int, complition: @escaping (Result<Product, responseError>) -> Void) {
     do {
       let url = try URLGenerator.DetailProduct(productId: productId)
       var request = URLRequest(url: url)
       request.httpMethod = HttpMethod.get
-      URLSession.shared.dataTask(request) { response in
+      
+      let dataTask = urlSession.dataTask(request) { response in
         switch response {
         case .success(let data):
-          product = JSONParser<Product>.decode(data: data)
-          dump(product)
+          guard let product = JSONParser<Product>.decode(data: data) else {
+            complition(.failure(.jsonParsingError))
+            return
+          }
+          complition(.success(product))
         case .failure(_):
-          product = nil
+          complition(.failure(.responseFailed))
         }
-        semaphore.signal()
       }
-      semaphore.wait()
+      dataTask.resume()
     } catch let error {
       print(error)
     }
-    
-    return product
   }
-  
 }
