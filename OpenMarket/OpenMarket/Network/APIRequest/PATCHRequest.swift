@@ -9,7 +9,7 @@ import Foundation
 
 protocol PATCHRequest: APIRequest {
     
-    var body: [String: Any] { get }
+    var body: Data { get }
     
 }
 
@@ -22,8 +22,8 @@ extension PATCHRequest {
         var request = URLRequest(url: url)
         request.httpMethod = self.method
         header?.forEach { request.addValue($1, forHTTPHeaderField: $0) }
-        guard JSONSerialization.isValidJSONObject(body) else { return nil }
-        request.httpBody = try? JSONSerialization.data(withJSONObject: body, options: .prettyPrinted)
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpBody = body
         return request
     }
 }

@@ -27,6 +27,18 @@
 		C1346A0127885E550044DFDB /* DELETERequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1346A0027885E550044DFDB /* DELETERequest.swift */; };
 		C1346A03278867DA0044DFDB /* DeleteProductRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1346A02278867DA0044DFDB /* DeleteProductRequest.swift */; };
 		C1346A0627887E050044DFDB /* CreateProductRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1346A0527887E050044DFDB /* CreateProductRequest.swift */; };
+		C1346A07278894260044DFDB /* HealthCheckerRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FDEAA227885FE100B12770 /* HealthCheckerRequest.swift */; };
+		C1346A08278894290044DFDB /* ShowProductPageRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FDEAAA2788647A00B12770 /* ShowProductPageRequest.swift */; };
+		C1346A092788942B0044DFDB /* ShowProductDetailRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FDEAAE2788668200B12770 /* ShowProductDetailRequest.swift */; };
+		C1346A0A278894310044DFDB /* DeleteProductRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1346A02278867DA0044DFDB /* DeleteProductRequest.swift */; };
+		C1346A0B278894340044DFDB /* ShowProductSecretRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FDEAB42788695400B12770 /* ShowProductSecretRequest.swift */; };
+		C1346A0C278894370044DFDB /* CreateProductRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1346A0527887E050044DFDB /* CreateProductRequest.swift */; };
+		C1346A0D278894390044DFDB /* UpdateProductRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E96323BC278888F900851348 /* UpdateProductRequest.swift */; };
+		C1346A0E2788943C0044DFDB /* APIRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13469F827885DB00044DFDB /* APIRequest.swift */; };
+		C1346A0F2788943E0044DFDB /* GETRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13469FA27885DCF0044DFDB /* GETRequest.swift */; };
+		C1346A10278894410044DFDB /* POSTRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13469FC27885DFB0044DFDB /* POSTRequest.swift */; };
+		C1346A11278894440044DFDB /* PATCHRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13469FE27885E320044DFDB /* PATCHRequest.swift */; };
+		C1346A12278894460044DFDB /* DELETERequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1346A0027885E550044DFDB /* DELETERequest.swift */; };
 		C171F88027841135001D0B76 /* URLSessionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C171F87F27841135001D0B76 /* URLSessionProvider.swift */; };
 		C171F8812784236B001D0B76 /* URLSessionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C171F87F27841135001D0B76 /* URLSessionProvider.swift */; };
 		C17E063627846CF400D7F83D /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17E063527846CF400D7F83D /* Product.swift */; };
@@ -428,19 +440,31 @@
 			files = (
 				C13469F22787104E0044DFDB /* URLSessionProtocol.swift in Sources */,
 				C1F964F42782EA88006F6853 /* StubURLSession.swift in Sources */,
+				C1346A0B278894340044DFDB /* ShowProductSecretRequest.swift in Sources */,
+				C1346A08278894290044DFDB /* ShowProductPageRequest.swift in Sources */,
+				C1346A0F2788943E0044DFDB /* GETRequest.swift in Sources */,
+				C1346A0D278894390044DFDB /* UpdateProductRequest.swift in Sources */,
 				C13469ED27870E170044DFDB /* Vendor.swift in Sources */,
 				C1F964F22782E777006F6853 /* DummyData.swift in Sources */,
+				C1346A0C278894370044DFDB /* CreateProductRequest.swift in Sources */,
+				C1346A0A278894310044DFDB /* DeleteProductRequest.swift in Sources */,
 				E9FDEA5E2786DCCB00B12770 /* CreateProductRequestParams.swift in Sources */,
+				C1346A0E2788943C0044DFDB /* APIRequest.swift in Sources */,
 				E9FDEA7127870C6800B12770 /* Extension+NSMutableData.swift in Sources */,
 				E99FDE7F2782E9490083D4D6 /* StubURLSessionDataTask.swift in Sources */,
 				E99FDE842782F3970083D4D6 /* Page.swift in Sources */,
 				C171F8812784236B001D0B76 /* URLSessionProvider.swift in Sources */,
+				C1346A12278894460044DFDB /* DELETERequest.swift in Sources */,
+				C1346A07278894260044DFDB /* HealthCheckerRequest.swift in Sources */,
+				C1346A10278894410044DFDB /* POSTRequest.swift in Sources */,
 				C13469EC2786E9530044DFDB /* UpdateProductRequestModel.swift in Sources */,
 				C13469E42786BFBB0044DFDB /* OpenMarketService.swift in Sources */,
 				C13469E32786BF3F0044DFDB /* URLSessionProviderTests.swift in Sources */,
 				C13469E12786BF1E0044DFDB /* Currency.swift in Sources */,
 				C13469E72786E3350044DFDB /* Image.swift in Sources */,
 				C13469EF27870F460044DFDB /* Product.swift in Sources */,
+				C1346A11278894440044DFDB /* PATCHRequest.swift in Sources */,
+				C1346A092788942B0044DFDB /* ShowProductDetailRequest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

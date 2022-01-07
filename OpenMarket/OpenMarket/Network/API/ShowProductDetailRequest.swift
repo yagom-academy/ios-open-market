@@ -15,4 +15,3 @@ struct ShowProductDetailRequest: GETRequest {
         self.path = "/api/products/\(productID)"
     }
 }
-

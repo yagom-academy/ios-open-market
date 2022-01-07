@@ -21,6 +21,7 @@ struct CreateProductRequest: POSTRequest {
         request.httpMethod = self.method
         header?.forEach { request.addValue($1, forHTTPHeaderField: $0) }
         let boundary = UUID().uuidString
+        request.addValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
         request.httpBody = makeMultiPartBody(params: params, images: images, boundary: boundary)
         return request
     }

@@ -42,7 +42,7 @@ class URLSessionProviderTests: XCTestCase {
     }
     
     func test_showPage가_200번때_상태코드를_반환해야한다() {
-        sutURLSesssionProvider.request(.showProductPage(pageNumber: 1, itemsPerPage: 10)) { result in
+        sutURLSesssionProvider.request(.showProductPage(pageNumber: "1", itemsPerPage: "10")) { result in
             switch result {
             case .success(let data):
                 guard let stringData = String(data: data, encoding: .utf8) else {
@@ -61,7 +61,7 @@ class URLSessionProviderTests: XCTestCase {
     }
     
     func test_showProductDetail가_200번때_상태코드를_반환해야한다() {
-        sutURLSesssionProvider.request(.showProductDetail(productID: 39)) { result in
+        sutURLSesssionProvider.request(.showProductDetail(productID: "92")) { result in
             switch result {
             case .success(let data):
                 guard let stringData = String(data: data, encoding: .utf8) else {
@@ -82,7 +82,7 @@ class URLSessionProviderTests: XCTestCase {
     func test_showProductSecret가_200번때_상태코드를_반환해야한다() {
         let sellerID = "cd706a3e-66db-11ec-9626-796401f2341a"
         let sellerPassword = "password"
-        sutURLSesssionProvider.request(.showProductSecret(sellerID: sellerID, sellerPW: sellerPassword, productID: 39)) { result in
+        sutURLSesssionProvider.request(.showProductSecret(sellerID: sellerID, sellerPW: sellerPassword, productID: "93")) { result in
             switch result {
             case .success(let data):
                 guard let stringData = String(data: data, encoding: .utf8) else {
@@ -102,8 +102,8 @@ class URLSessionProviderTests: XCTestCase {
 
     func test_deleteProduct가_200번때_상태코드를_반환해야한다() {
         let sellerID = "cd706a3e-66db-11ec-9626-796401f2341a"
-        let productPassword = "7e90b940-6ec1-11ec-abfa-c95e9e5e9ca8"
-        sutURLSesssionProvider.request(.deleteProduct(sellerID: sellerID, productID: 48, productSecret: productPassword)) { result in
+        let productPassword = "266a5cf3-6fd3-11ec-abfa-89a958e75ce1"
+        sutURLSesssionProvider.request(.deleteProduct(sellerID: sellerID, productID: "93", productSecret: productPassword)) { result in
             switch result {
             case .success(let data):
                 guard let stringData = String(data: data, encoding: .utf8) else {
@@ -153,12 +153,13 @@ class URLSessionProviderTests: XCTestCase {
     func test_updateProduct가_200번때_상태코드를_반환해야한다() {
         let sellerID = "cd706a3e-66db-11ec-9626-796401f2341a"
         let secret = "password"
-        let param = UpdateProductRequest(name: nil, descriptions: nil, thumbnailID: nil, price: 10, currency: nil, discountedPrice: nil, secret: secret)
+        let param = UpdateProductRequestModel(name: nil, descriptions: nil, thumbnailID: nil, price: 10, currency: nil, discountedPrice: nil, secret: secret)
         guard let paramData = try? JSONEncoder().encode(param) else {
             XCTFail()
             return
         }
-        sutURLSesssionProvider.request(.updateProduct(sellerID: sellerID, productID: 40, body: paramData)) { result in
+        
+        sutURLSesssionProvider.request(.updateProduct(sellerID: sellerID, productID: "40", body: paramData)) { result in
             switch result {
             case .success(let data):
                 guard let stringData = String(data: data, encoding: .utf8) else {

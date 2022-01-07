@@ -10,69 +10,34 @@ import Foundation
 enum OpenMarketService {
     case checkHealth
     case createProduct(sellerID: String, params: Data, images: [Data])
-    case updateProduct(sellerID: String, productID: Int, body: Data)
-    case showProductSecret(sellerID: String, sellerPW: String, productID: Int)
-    case deleteProduct(sellerID: String, productID: Int, productSecret: String)
-    case showProductDetail(productID: Int)
-    case showProductPage(pageNumber: Int, itemsPerPage: Int)
+    case updateProduct(sellerID: String, productID: String, body: Data)
+    case showProductSecret(sellerID: String, sellerPW: String, productID: String)
+    case deleteProduct(sellerID: String, productID: String, productSecret: String)
+    case showProductDetail(productID: String)
+    case showProductPage(pageNumber: String, itemsPerPage: String)
 }
 
 extension OpenMarketService {
     var urlRequest: URLRequest? {
-        guard let url = URL(string: finalURL) else { return nil }
-        
-        switch self {
-        case .checkHealth, .showProductPage, .showProductDetail:
-            return makeURLRequest(url: url, header: [:])
-        case .createProduct(let sellerID, let params, let images):
-            
-        case .updateProduct(let sellerID, _, let body):
-            var request = makeURLRequest(url: url, header: [
-                "identifier": sellerID,
-                "Content-Type": "application/json"
-            ])
-            request?.httpBody = body
-            return request
-        case .showProductSecret(let sellerID, let sellerPW, _):
-            var request = makeURLRequest(url: url, header: [
-                "identifier": sellerID,
-                "Content-Type": "application/json"
-            ])
-            request?.httpBody = try? JSONEncoder().encode(["secret": sellerPW])
-            return request
-        case .deleteProduct(let sellerID, _, _):
-            return makeURLRequest(url: url, header: ["identifier": sellerID])
-        }
-    }
-}
-
-extension OpenMarketService {
-    
-    var path: String {
         switch self {
         case .checkHealth:
-            return "/healthChecker"
-        case .createProduct:
-            return "/api/products"
-        case .updateProduct(_, let productID, _):
-            return "/api/products/\(productID)"
-        case .showProductSecret(_, _, let productID):
-            return "/api/products/\(productID)/secret"
-        case .deleteProduct(_, let productID, let productSecret):
-            return "/api/products/\(productID)/\(productSecret)"
-        case .showProductDetail(let productID):
-            return "/api/products/\(productID)"
+            return HealthCheckerRequest().urlRequest
         case .showProductPage(let pageNumber, let itemsPerPage):
-            return "/api/products?page_no=\(pageNumber)&items_per_page=\(itemsPerPage)"
+            return ShowProductPageRequest(pageNumber: pageNumber, itemsPerPage: itemsPerPage).urlRequest
+        case .showProductDetail(let productID):
+            return ShowProductDetailRequest(productID: productID).urlRequest
+        case .createProduct(let sellerID, let params, let images):
+            return CreateProductRequest(header: ["identifier":  sellerID], params: params, images: images).urlRequest
+        case .updateProduct(let sellerID, let productID, let body):
+            let header = ["identifier": sellerID]
+            return UpdateProductRequest(productID: productID, header: header, body: body).urlRequest
+        case .showProductSecret(let sellerID, let sellerPW, let productID):
+            let header = ["identifier": sellerID]
+            let body = ["secret": sellerPW]
+            return ShowProductSecretRequest(productID: productID, header: header, body: body).urlRequest
+        case .deleteProduct(let sellerID, let productID, let productSecret):
+            let header = ["identifier": sellerID]
+            return DeleteProductRequest(productID: productID, productSecret: productSecret, header: header).urlRequest
         }
     }
-    
-}
-
-extension OpenMarketService {
-    
-    
-    
-    
-    
 }
