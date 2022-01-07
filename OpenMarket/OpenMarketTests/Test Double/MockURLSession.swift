@@ -19,9 +19,10 @@ class MockURLSession: URLSessionProtocol {
         let task = MockURLSessionDataTask(taskCompletion: {
             if self.isSuccess {
                 completionHandler(productData, successResponse, nil)
-            } else {
-                completionHandler(nil, failResponse, APIError.invalidRequest)
+                return
             }
+            
+            completionHandler(nil, failResponse, APIError.invalidRequest)            
         })
         
         return task
