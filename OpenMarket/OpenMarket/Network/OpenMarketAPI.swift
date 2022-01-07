@@ -1,6 +1,6 @@
 import Foundation
 
-enum API {
+enum OpenMarketAPI {
     case productDetail
     case productList
     case productRegister(body: Data, id: String)
