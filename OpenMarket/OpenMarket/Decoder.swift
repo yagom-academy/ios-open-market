@@ -11,11 +11,11 @@ let decoder = JSONDecoder()
 
 func parsePageJSON() throws -> Page {
     guard let pageJSON: NSDataAsset = NSDataAsset(name: "products") else {
-        throw CustomError.unknownError
+        throw NetworkError.parsingFailed
     }
     
     guard let decodedPageJSON = try decoder.decode(Page?.self, from: pageJSON.data) else {
-        throw CustomError.unknownError
+        throw NetworkError.parsingFailed
     }
     
     return decodedPageJSON
