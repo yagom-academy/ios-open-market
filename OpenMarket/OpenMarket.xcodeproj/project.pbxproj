@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		331C388B2789081B00A01A11 /* Data+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331C388A2789081B00A01A11 /* Data+Extension.swift */; };
+		331C388C278909CA00A01A11 /* Data+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331C388A2789081B00A01A11 /* Data+Extension.swift */; };
 		3368D5D7278448ED007D5760 /* ProductList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3368D5D6278448ED007D5760 /* ProductList.swift */; };
 		3368D5D927844A68007D5760 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3368D5D827844A68007D5760 /* Product.swift */; };
 		33C64BA22786B91A00D21535 /* ProductService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C64BA12786B91A00D21535 /* ProductService.swift */; };
@@ -16,6 +18,8 @@
 		33E922CC27872A5E0065DED8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 33E922CB27872A5E0065DED8 /* Assets.xcassets */; };
 		33E922CE2787EB050065DED8 /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33E922CD2787EB050065DED8 /* APIService.swift */; };
 		33E922CF2787EE8A0065DED8 /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33E922CD2787EB050065DED8 /* APIService.swift */; };
+		33E922D12788646F0065DED8 /* RegisterProductRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33E922D02788646F0065DED8 /* RegisterProductRequest.swift */; };
+		33E922D2278864DC0065DED8 /* RegisterProductRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33E922D02788646F0065DED8 /* RegisterProductRequest.swift */; };
 		33EF318AEF75098A17305B3B /* Pods_OpenMarket.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5324C09C633C616227C7916E /* Pods_OpenMarket.framework */; };
 		8403B3142787DFD800C40679 /* NetworkingError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F7A4FE2787CE61000A56B1 /* NetworkingError.swift */; };
 		8403B3182787E0E200C40679 /* MockOpenMarketTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8403B3172787E0E200C40679 /* MockOpenMarketTest.swift */; };
@@ -57,11 +61,13 @@
 
 /* Begin PBXFileReference section */
 		0276FBE10009883D95EC61DC /* Pods-OpenMarket.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenMarket.debug.xcconfig"; path = "Target Support Files/Pods-OpenMarket/Pods-OpenMarket.debug.xcconfig"; sourceTree = "<group>"; };
+		331C388A2789081B00A01A11 /* Data+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Extension.swift"; sourceTree = "<group>"; };
 		3368D5D6278448ED007D5760 /* ProductList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductList.swift; sourceTree = "<group>"; };
 		3368D5D827844A68007D5760 /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
 		33C64BA12786B91A00D21535 /* ProductService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductService.swift; sourceTree = "<group>"; };
 		33E922CB27872A5E0065DED8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		33E922CD2787EB050065DED8 /* APIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
+		33E922D02788646F0065DED8 /* RegisterProductRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterProductRequest.swift; sourceTree = "<group>"; };
 		5324C09C633C616227C7916E /* Pods_OpenMarket.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OpenMarket.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8403B3172787E0E200C40679 /* MockOpenMarketTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockOpenMarketTest.swift; sourceTree = "<group>"; };
 		8403B31D2788082B00C40679 /* UserDefaultUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultUtility.swift; sourceTree = "<group>"; };
@@ -114,6 +120,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		331C3889278907D900A01A11 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				331C388A2789081B00A01A11 /* Data+Extension.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
 		3368D5D5278448D6007D5760 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -121,6 +135,7 @@
 				3368D5D827844A68007D5760 /* Product.swift */,
 				8403B32127881EB300C40679 /* SecretOfProductRequest.swift */,
 				8437BEF3278839ED00EB8D63 /* ProductModificationRequest.swift */,
+				33E922D02788646F0065DED8 /* RegisterProductRequest.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -206,6 +221,7 @@
 		C70FB0F925BEF61C00C9924E /* OpenMarket */ = {
 			isa = PBXGroup;
 			children = (
+				331C3889278907D900A01A11 /* Extension */,
 				84F7A50C2787D6BA000A56B1 /* Service */,
 				84F7A4FD2787CE27000A56B1 /* Error */,
 				84A28AA62786B32200808E73 /* Utility */,
@@ -367,11 +383,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				84A28AF92786D50800808E73 /* URLSessionProtocol.swift in Sources */,
+				331C388C278909CA00A01A11 /* Data+Extension.swift in Sources */,
 				33E922CA2786F0B70065DED8 /* ProductList.swift in Sources */,
 				84282E6E2786D7D400C94F0A /* HTTPUtility.swift in Sources */,
 				84282E6B2786D5B200C94F0A /* MockURLSessionDataTask.swift in Sources */,
 				8403B3142787DFD800C40679 /* NetworkingError.swift in Sources */,
 				848A82F0278822B200DB1864 /* UserDefaultUtility.swift in Sources */,
+				33E922D2278864DC0065DED8 /* RegisterProductRequest.swift in Sources */,
 				84F7A5202787DF6A000A56B1 /* DecodeUtility.swift in Sources */,
 				8437BF09278844B400EB8D63 /* ProductModificationRequest.swift in Sources */,
 				8403B3182787E0E200C40679 /* MockOpenMarketTest.swift in Sources */,
@@ -404,6 +422,8 @@
 				33C64BA22786B91A00D21535 /* ProductService.swift in Sources */,
 				8403B32227881EB300C40679 /* SecretOfProductRequest.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
+				33E922D12788646F0065DED8 /* RegisterProductRequest.swift in Sources */,
+				331C388B2789081B00A01A11 /* Data+Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
