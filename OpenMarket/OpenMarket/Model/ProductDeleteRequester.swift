@@ -1,13 +1,14 @@
 import Foundation
 
 struct ProductDeleteRequester: Networkable {
-    let HttpMethod: HttpMethod = .DELETE
+    static var baseURLString: String = "https://market-training.yagom-academy.kr/api/products"
+    static var httpMethod: HttpMethod = .DELETE
     let identifier: String
     let productId: Int
     let productSecret: String
-    
-    func creatURL() {
-        <#code#>
+
+    var url: URL? {
+        return URL(string: "\(Self.baseURLString)/\(productId)/\(productSecret)")
     }
     
     func creatURLRequest(httpMethod: HttpMethod, url: URL) -> URLRequest {

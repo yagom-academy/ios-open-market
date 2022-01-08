@@ -1,13 +1,14 @@
 import Foundation
 
 struct ProductSecretAskRequester: Networkable {
-    let HttpMethod: HttpMethod = .GET
+    static var baseURLString: String = "https://market-training.yagom-academy.kr/api/products"
+    static var httpMethod: HttpMethod = .POST
     let productId: Int
     let identifier: String
     let secret: String
     
-    func creatURL() {
-        <#code#>
+    var url: URL? {
+        return URL(string: "\(Self.baseURLString)/\(productId)/secret")
     }
     
     func creatURLRequest(httpMethod: HttpMethod, url: URL) -> URLRequest {

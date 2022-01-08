@@ -1,13 +1,14 @@
 import Foundation
 
 struct ProductPostRequester: Networkable {
-    let HttpMethod: HttpMethod = .POST
+    static var baseURLString: String = "https://market-training.yagom-academy.kr/api/products"
+    static var httpMethod: HttpMethod = .POST
     let identifier: String
     let params: ProductPost.Request.Params
     let images: Data
     
-    func creatURL() {
-        <#code#>
+    var url: URL? {
+        return URL(string: Self.baseURLString)
     }
     
     func creatURLRequest(httpMethod: HttpMethod, url: URL) -> URLRequest {
