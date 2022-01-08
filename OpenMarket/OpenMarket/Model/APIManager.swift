@@ -2,10 +2,16 @@ import Foundation
 
 class APIManager {
     
+    let urlSession: URLSessionProtocol
+
+    init(urlSession: URLSessionProtocol = URLSession.shared) {
+        self.urlSession = urlSession
+    }
+    
     func checkAPIHealth(completion: @escaping (Result<Data, Error>) -> Void) {
         guard let url = URLManager.healthChecker.url else { return }
         let request = URLRequest(url: url, method: .get)
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+        let task = urlSession.dataTask(with: request) { data, response, error in
             guard let data = data else {
                 print(String(describing: error))
                 completion(.failure(error!))
@@ -33,7 +39,7 @@ class APIManager {
 extension APIManager {
     
     func creatDataTask<T: Decodable>(with request: URLRequest, completion: @escaping (Result<T, Error>) -> Void) {
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+        let task = urlSession.dataTask(with: request) { data, response, error in
             guard error == nil else {
                 completion(.failure(URLSessionError.requestFailed))
                 return
