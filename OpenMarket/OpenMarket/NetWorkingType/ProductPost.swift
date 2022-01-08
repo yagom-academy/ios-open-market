@@ -1,6 +1,6 @@
 import Foundation
 
-    enum ProductEntry {
+enum ProductPost {
         struct Request {
             struct Params: Encodable {
                 let name: String

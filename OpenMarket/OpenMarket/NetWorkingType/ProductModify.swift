@@ -1,6 +1,5 @@
 import Foundation
 
-
 enum ProductModify {
     struct Request: Encodable {
         let name: String?
