@@ -1,4 +1,5 @@
 import Foundation
+import UIKit
 
 struct ProductService: APIService {
     func retrieveProduct(
@@ -83,6 +84,32 @@ struct ProductService: APIService {
         request.addHTTPHeaders(headers: HTTPUtility.defaultHeader)
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpBody = try? JSONEncoder().encode(body)
+        doDataTask(with: request, session: session) { result in
+            completionHandler(result)
+        }
+    }
+
+    func registerProduct(
+        parameters: RegisterProductRequest,
+        session: URLSessionProtocol,
+        images: [Data],
+        completionHandler: @escaping ((Result<Data, NetworkingError>) -> Void)
+    ) {
+        let urlString = "\(HTTPUtility.baseURL)/api/products"
+        guard var request = HTTPUtility.urlRequest(urlString: urlString, method: .post) else {
+            return
+        }
+        let boundary: String = UUID().uuidString
+        request.addHTTPHeaders(headers: HTTPUtility.defaultHeader)
+        request.addValue(
+            "multipart/form-data; boundary=\(boundary)",
+            forHTTPHeaderField: "Content-Type"
+        )
+        request.httpBody = makeMultipartFormData(
+            parameters: parameters,
+            images: images,
+            boundary: boundary
+        )
         doDataTask(with: request, session: session) { result in
             completionHandler(result)
         }

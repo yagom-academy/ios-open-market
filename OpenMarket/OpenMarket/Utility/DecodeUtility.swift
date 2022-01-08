@@ -22,7 +22,7 @@ enum DecodeUtility {
 extension DateFormatter {
     static let openMarket: DateFormatter = {
         let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd'T'hh:mm:ss.ss"
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.ss"
         formatter.timeZone = TimeZone(secondsFromGMT: 0)
         return formatter
     }()
