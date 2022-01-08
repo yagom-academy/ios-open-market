@@ -24,6 +24,7 @@ class MockURLSession: URLSessionProtocol {
         sessionDataTask.resumeDidCall = {
             if request.url == URLManager.healthChecker.url {
                 completionHandler(MockData().healthData, successResponse, nil)
+                return
             }
             
             if self.makeRequestFail {

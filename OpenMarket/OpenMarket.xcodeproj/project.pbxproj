@@ -28,6 +28,8 @@
 		C70FB10425BEF61D00C9924E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C70FB10325BEF61D00C9924E /* Assets.xcassets */; };
 		C70FB10725BEF61D00C9924E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */; };
 		EA1FD6632789CD2A00193735 /* MockURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA1FD6622789CD2A00193735 /* MockURLSession.swift */; };
+		EA1FD6642789D39D00193735 /* URLSessionError.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAB8FC0E2787DB770036A4E3 /* URLSessionError.swift */; };
+		EA1FD6652789D39F00193735 /* JSONError.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAB8FC102787DB850036A4E3 /* JSONError.swift */; };
 		EAB8FBD027834AFF0036A4E3 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = EAB8FBCF27834AFF0036A4E3 /* .swiftlint.yml */; };
 		EAB8FBD22783E4780036A4E3 /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAB8FBD12783E4780036A4E3 /* APIManager.swift */; };
 		EAB8FBD4278417820036A4E3 /* APIManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAB8FBD3278417820036A4E3 /* APIManagerTests.swift */; };
@@ -367,7 +369,9 @@
 				473CF13D2783E08B00B8DA1F /* ProductList.swift in Sources */,
 				EA1FD6632789CD2A00193735 /* MockURLSession.swift in Sources */,
 				473CF13E2783E08D00B8DA1F /* JSONParser.swift in Sources */,
+				EA1FD6642789D39D00193735 /* URLSessionError.swift in Sources */,
 				EAB8FC1D2787DC900036A4E3 /* Vendors.swift in Sources */,
+				EA1FD6652789D39F00193735 /* JSONError.swift in Sources */,
 				47FF35792789CFD50098FB0C /* MockURLSessionDataTask.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
