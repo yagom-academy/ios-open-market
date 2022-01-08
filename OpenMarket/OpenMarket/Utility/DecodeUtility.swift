@@ -16,7 +16,6 @@ enum DecodeUtility {
         }
         return result
     }
-
 }
 
 extension DateFormatter {

@@ -8,14 +8,14 @@
 import Foundation
 
 struct ProductModificationRequest: Encodable {
-    let name: String? = nil
-    let descriptions: String? = nil
-    let thumbnailIdentification: Int? = nil
-    let price: Int? = nil
-    let currency: Currency? = nil
-    let discountedPrice: Int = 0
-    let stock: Int = 0
-    let secret: String
+    var name: String?
+    var descriptions: String?
+    var thumbnailIdentification: Int?
+    var price: Int?
+    var currency: Currency?
+    var discountedPrice: Int = 0
+    var stock: Int = 0
+    var secret: String
 
     enum CodingKeys: String, CodingKey {
         case name

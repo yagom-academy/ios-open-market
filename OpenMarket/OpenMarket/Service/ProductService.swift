@@ -5,9 +5,9 @@ struct ProductService: APIService {
     func retrieveProduct(
         productIdentification: Int,
         session: URLSessionProtocol,
-        completionHandler: @escaping ((Result<Data, NetworkingError>) -> Void)
+        completionHandler: @escaping ((Result<Product, NetworkingError>) -> Void)
     ) {
-        let urlString = "\(HTTPUtility.baseURL)/api/products/\(productIdentification)"
+        let urlString = "\(HTTPUtility.baseURL)\(HTTPUtility.productPath)\(productIdentification)"
         guard let request = HTTPUtility.urlRequest(urlString: urlString) else {
             return
         }
@@ -20,9 +20,9 @@ struct ProductService: APIService {
         pageNumber: Int? = nil,
         itemsPerPage: Int? = nil,
         session: URLSessionProtocol,
-        completionHandler: @escaping ((Result<Data, NetworkingError>) -> Void)
+        completionHandler: @escaping ((Result<ProductList, NetworkingError>) -> Void)
     ) {
-        var urlString = "\(HTTPUtility.baseURL)/api/products"
+        var urlString = "\(HTTPUtility.baseURL)\(HTTPUtility.productPath)"
         if let pageNumber = pageNumber,
            let itemsPerPage = itemsPerPage {
             urlString += "?page-no=\(pageNumber)&items-per-page=\(itemsPerPage)"
@@ -39,9 +39,9 @@ struct ProductService: APIService {
         identification: Int,
         body: SecretOfProductRequest,
         session: URLSessionProtocol,
-        completionHandler: @escaping ((Result<Data, NetworkingError>) -> Void)
+        completionHandler: @escaping ((Result<String, NetworkingError>) -> Void)
     ) {
-        let urlString = "\(HTTPUtility.baseURL)/api/products/\(identification)/secret"
+        let urlString = "\(HTTPUtility.baseURL)\(HTTPUtility.productPath)\(identification)/secret"
         guard var request = HTTPUtility.urlRequest(urlString: urlString, method: .post) else {
             return
         }
@@ -57,9 +57,10 @@ struct ProductService: APIService {
         identification: Int,
         productSecret: String,
         session: URLSessionProtocol,
-        completionHandler: @escaping ((Result<Data, NetworkingError>) -> Void)
+        completionHandler: @escaping ((Result<Product, NetworkingError>) -> Void)
     ) {
-        let urlString = "\(HTTPUtility.baseURL)/api/products/\(identification)/\(productSecret)"
+        let urlString =
+            "\(HTTPUtility.baseURL)\(HTTPUtility.productPath)\(identification)/\(productSecret)"
         guard var request = HTTPUtility.urlRequest(urlString: urlString, method: .delete) else {
             return
         }
@@ -75,9 +76,9 @@ struct ProductService: APIService {
         identification: Int,
         body: ProductModificationRequest,
         session: URLSessionProtocol,
-        completionHandler: @escaping ((Result<Data, NetworkingError>) -> Void)
+        completionHandler: @escaping ((Result<Product, NetworkingError>) -> Void)
     ) {
-        let urlString = "\(HTTPUtility.baseURL)/api/products/\(identification)"
+        let urlString = "\(HTTPUtility.baseURL)\(HTTPUtility.productPath)\(identification)"
         guard var request = HTTPUtility.urlRequest(urlString: urlString, method: .patch) else {
             return
         }
@@ -93,9 +94,9 @@ struct ProductService: APIService {
         parameters: RegisterProductRequest,
         session: URLSessionProtocol,
         images: [Data],
-        completionHandler: @escaping ((Result<Data, NetworkingError>) -> Void)
+        completionHandler: @escaping ((Result<Product, NetworkingError>) -> Void)
     ) {
-        let urlString = "\(HTTPUtility.baseURL)/api/products"
+        let urlString = "\(HTTPUtility.baseURL)\(HTTPUtility.productPath)"
         guard var request = HTTPUtility.urlRequest(urlString: urlString, method: .post) else {
             return
         }

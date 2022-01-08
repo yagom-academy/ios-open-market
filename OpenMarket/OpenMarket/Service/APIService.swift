@@ -1,18 +1,12 @@
 import Foundation
 
-protocol APIService {
-    func doDataTask(
-        with request: URLRequest,
-        session: URLSessionProtocol,
-        completionHandler: @escaping (Result<Data, NetworkingError>) -> Void
-    )
-}
+protocol APIService { }
 
 extension APIService {
-    func doDataTask(
+    func doDataTask<Type: Decodable>(
         with request: URLRequest,
         session: URLSessionProtocol,
-        completionHandler: @escaping (Result<Data, NetworkingError>) -> Void
+        completionHandler: @escaping (Result<Type, NetworkingError>) -> Void
     ) {
         let task = session.dataTask(with: request) { data, response, error in
             guard error == nil else {
@@ -25,14 +19,19 @@ extension APIService {
             guard let data = data else {
                 return completionHandler(.failure(.data))
             }
-            completionHandler(.success(data))
+            do {
+                let decodedData: Type = try DecodeUtility.decode(data: data)
+                completionHandler(.success(decodedData))
+            } catch {
+                completionHandler(.failure(.decoding))
+            }
         }
         task.resume()
     }
 
     func checkNetworkConnection(
         session: URLSessionProtocol,
-        completionHandler: @escaping ((Result<Data, NetworkingError>) -> Void)
+        completionHandler: @escaping ((Result<String, NetworkingError>) -> Void)
     ) {
         let urlString = "\(HTTPUtility.baseURL)/healthChecker"
         guard let request = HTTPUtility.urlRequest(urlString: urlString) else {
@@ -72,8 +71,11 @@ extension APIService {
 
     private func addImagePart(name: String, image: Data, boundary: String) -> Data {
         var data = Data()
+        let filename = UUID().uuidString
         data.append("--\(boundary)\r\n")
-        data.append("Content-Disposition: form-data; name=\"images\"; filename=\"robot.png\"\r\n")
+        data.append(
+            "Content-Disposition: form-data; name=\"images\"; filename=\"\(filename).png\"\r\n"
+        )
         data.append("Content-Type: image/png\r\n\r\n")
         data.append(image)
         data.append("\r\n")

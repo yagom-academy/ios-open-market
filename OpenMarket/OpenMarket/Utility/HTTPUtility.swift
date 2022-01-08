@@ -9,6 +9,7 @@ import Foundation
 
 enum HTTPUtility {
     static let baseURL: String = "https://market-training.yagom-academy.kr/"
+    static let productPath: String = "api/products/"
     static let defaultHeader: [String: String] = [
         "identifier": UserDefaultUtility().getVendorIdentification()
     ]
