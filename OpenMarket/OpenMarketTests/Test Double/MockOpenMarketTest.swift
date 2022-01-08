@@ -21,27 +21,22 @@ class MockOpenMarketTest: XCTestCase {
             return
         }
         guard let sampleDecodedData = try? JSONDecoder().decode(
-                ProductList.self,
-                from: data
+            ProductList.self,
+            from: data
         ) else {
             return
         }
 
         sut.retrieveProductList(session: MockURLSession()) { result in
             switch result {
-            case .success(let data):
-                do {
-                    let decodedData: ProductList = try DecodeUtility.decode(data: data)
-                    XCTAssertEqual(decodedData.itemsPerPage, sampleDecodedData.itemsPerPage)
-                    XCTAssertEqual(decodedData.pages.first?.identification,
-                                   sampleDecodedData.pages.first?.identification)
-                    XCTAssertEqual(decodedData.pages.first?.currency,
-                                   sampleDecodedData.pages.first?.currency)
-                    XCTAssertEqual(decodedData.pages.first?.createdAt,
-                                   sampleDecodedData.pages.first?.createdAt)
-                } catch {
-                    XCTFail("파싱 실패")
-                }
+            case .success(let decodedData):
+                XCTAssertEqual(decodedData.itemsPerPage, sampleDecodedData.itemsPerPage)
+                XCTAssertEqual(decodedData.pages.first?.identification,
+                               sampleDecodedData.pages.first?.identification)
+                XCTAssertEqual(decodedData.pages.first?.currency,
+                               sampleDecodedData.pages.first?.currency)
+                XCTAssertEqual(decodedData.pages.first?.createdAt,
+                               sampleDecodedData.pages.first?.createdAt)
             case .failure:
                 XCTFail("통신 실패")
             }

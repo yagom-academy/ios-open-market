@@ -13,7 +13,9 @@ class OpenMarketTests: XCTestCase {
 
     override func setUpWithError() throws {
         sut = ProductService()
-        UserDefaultUtility().setVendorIdentification(identification: "cd706a3e-66db-11ec-9626-796401f2341a")
+        UserDefaultUtility().setVendorIdentification(
+            identification: "cd706a3e-66db-11ec-9626-796401f2341a"
+        )
     }
 
     func test_checkNetworkConnection() {
@@ -21,11 +23,8 @@ class OpenMarketTests: XCTestCase {
 
         sut.checkNetworkConnection(session: HTTPUtility.defaultSession) { result in
             switch result {
-            case .success(let data):
-                guard let encodedData = String(data: data, encoding: .utf8) else {
-                    return XCTFail("파싱 실패")
-                }
-                XCTAssertEqual(encodedData, "\"OK\"")
+            case .success(let networkHealth):
+                XCTAssertEqual(networkHealth, "OK")
             case .failure:
                 XCTFail("통신 실패")
             }
@@ -37,16 +36,13 @@ class OpenMarketTests: XCTestCase {
     func test_retrieveProduct() {
         let expectaion = XCTestExpectation(description: "")
 
-        sut.retrieveProduct(productIdentification: 108, session: HTTPUtility.defaultSession) { result in
+        sut.retrieveProduct(
+            productIdentification: 108,
+            session: HTTPUtility.defaultSession
+        ) { result in
             switch result {
-            case .success(let data):
-                do {
-                    let decodedData: Product = try DecodeUtility.decode(data: data)
-                    print(decodedData)
-                    XCTAssertEqual(decodedData.name, "Yeha")
-                } catch {
-                    XCTFail("파싱 실패")
-                }
+            case .success(let product):
+                XCTAssertEqual(product.name, "Yeha")
             case .failure:
                 XCTFail("통신 실패")
             }
@@ -59,14 +55,14 @@ class OpenMarketTests: XCTestCase {
         let expectaion = XCTestExpectation(description: "")
         let secret = SecretOfProductRequest(secret: "password")
 
-        sut.retrieveSecretOfProduct(identification: 77, body: secret, session: HTTPUtility.defaultSession) { result in
+        sut.retrieveSecretOfProduct(
+            identification: 107,
+            body: secret,
+            session: HTTPUtility.defaultSession
+        ) { result in
             switch result {
-            case .success(let data):
-                guard let encodedData = String(data: data, encoding: .utf8) else {
-                    return XCTFail("파싱 실패")
-                }
-                print(encodedData)
-                XCTAssertNotNil(encodedData)
+            case .success(let secret):
+                XCTAssertNotNil(secret)
             case .failure:
                 XCTFail("통신 실패")
             }
@@ -79,18 +75,13 @@ class OpenMarketTests: XCTestCase {
         let expectaion = XCTestExpectation(description: "")
 
         sut.deleteProduct(
-            identification: 77,
-            productSecret: "2d658dc7-6eec-11ec-abfa-2316e964ddaa",
+            identification: 109,
+            productSecret: "4df1f4fd-7011-11ec-abfa-7729db260f07",
             session: HTTPUtility.defaultSession
         ) { result in
             switch result {
-            case .success(let data):
-                do {
-                    let decodedData: Product = try DecodeUtility.decode(data: data)
-                    print(decodedData)
-                } catch {
-                    XCTFail("파싱 실패")
-                }
+            case .success(let product):
+                XCTAssertNotNil(product)
             case .failure:
                 XCTFail("통신 실패")
             }
@@ -101,21 +92,19 @@ class OpenMarketTests: XCTestCase {
 
     func test_modifyProduct() {
         let expectaion = XCTestExpectation(description: "")
-        let secret = ProductModificationRequest(secret: "password")
+        let productToModify = ProductModificationRequest(
+            price: 10000,
+            secret: "password"
+            )
 
         sut.modifyProduct(
-            identification: 90,
-            body: secret,
+            identification: 109,
+            body: productToModify,
             session: HTTPUtility.defaultSession
         ) { result in
             switch result {
-            case .success(let data):
-                do {
-                    let decodedData: Product = try DecodeUtility.decode(data: data)
-                    print(decodedData)
-                } catch {
-                    XCTFail("파싱 실패")
-                }
+            case .success(let product):
+                XCTAssertEqual(product.price, 10000)
             case .failure:
                 XCTFail("통신 실패")
             }
@@ -134,6 +123,7 @@ class OpenMarketTests: XCTestCase {
             secret: "password")
         var images: [Data] = []
         let imageData = UIImage(named: "robot")!.pngData()!
+
         images.append(imageData)
         sut.registerProduct(
             parameters: param,
@@ -141,13 +131,8 @@ class OpenMarketTests: XCTestCase {
             images: images
         ) { result in
             switch result {
-            case .success(let data):
-                do {
-                    let decodedData: Product = try DecodeUtility.decode(data: data)
-                    XCTAssertNotNil(decodedData)
-                } catch {
-                    XCTFail("파싱 실패")
-                }
+            case .success(let product):
+                XCTAssertNotNil(product)
             case .failure:
                 XCTFail("통신 실패")
             }
