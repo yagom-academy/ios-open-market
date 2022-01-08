@@ -1,5 +1,4 @@
 import XCTest
-@testable import OpenMarket
 
 class APIManagerTests: XCTestCase {
     var sutAPIManager: APIManager!
