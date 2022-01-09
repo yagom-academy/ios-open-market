@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct CreateProductRequest: MultiPartRequest {
+struct CreateProductRequest: OpenMarketMultiPartRequest {
     var data: [MultiPartFileType]
     var path: String
     var method: String

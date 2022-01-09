@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ShowProductPageRequest: APIRequest {
+struct ShowProductPageRequest: OpenMarketAPIRequest {
     var method: String
     var header: [String : String]?
     var path: String

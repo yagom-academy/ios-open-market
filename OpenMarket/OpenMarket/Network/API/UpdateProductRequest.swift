@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct UpdateProductRequest: JSONRequest {
+struct UpdateProductRequest: OpenMarketJSONRequest {
     var method: String
     var body: UpdateProductRequestModel
     var header: [String : String]?

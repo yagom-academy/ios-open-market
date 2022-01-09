@@ -19,10 +19,6 @@ protocol APIRequest {
 }
 
 extension APIRequest {
-    
-    var baseURL: String {
-        return "https://market-training.yagom-academy.kr"
-    }
 
     var finalURL: String {
         return baseURL + path

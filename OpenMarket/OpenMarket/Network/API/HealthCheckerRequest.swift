@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct HealthCheckerRequest: APIRequest {
+struct HealthCheckerRequest: OpenMarketAPIRequest {
     var method: String
     var header: [String : String]?
     var path: String

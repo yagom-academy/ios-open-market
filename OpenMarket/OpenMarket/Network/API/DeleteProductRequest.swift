@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct DeleteProductRequest: APIRequest {
+struct DeleteProductRequest: OpenMarketAPIRequest {
     var method: String
     var header: [String : String]?
     var path: String
