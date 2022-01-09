@@ -6,7 +6,7 @@ protocol URLSessionProtocol {
 }
 
 extension URLSessionProtocol {
-    func request<T: Codable>(urlRequest: URLRequest, expecting: T.Type, completion: @escaping (Result<T, Error>) -> Void) {
+    func request(urlRequest: URLRequest, completion: @escaping (Result<Data, Error>) -> Void) {
         let task = dataTask(with: urlRequest) { (data, response, error) in
             guard let data = data else {
                 if let error = error {
@@ -30,13 +30,7 @@ extension URLSessionProtocol {
                 return
             }
             
-            guard let result = try? JSONDecoder().decode(expecting, from: data) else {
-                if let error = error {
-                    completion(.failure(error))
-                }
-                return
-            }
-            completion(.success(result))
+            completion(.success(data))
         }
         task.resume()
     }

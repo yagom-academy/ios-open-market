@@ -2,8 +2,6 @@ import Foundation
 
 struct APICaller {
     let openMarketFunction: Networkable
-    
-    func request() {
-        openMarketFunction.request()
-    }
+    let completion: Completion
+    typealias Completion = (Result<Data, Error>) -> Void
 }

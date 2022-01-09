@@ -5,12 +5,15 @@ struct HealthCheckerRequester: Networkable {
     static var httpMethod: HttpMethod = .GET
     
     var url: URL? {
-        return URL(string: Self.baseURLString)
+        return URL(string: Self.baseURLString)!
     }
     
-    func request() {
-        <#code#>
+    var request: URLRequest? {
+        guard let url = url else {
+            return nil
+        }
+        var request = URLRequest(url: url)
+        request.httpMethod = Self.httpMethod.rawValue
+        return request
     }
-    
-    
 }

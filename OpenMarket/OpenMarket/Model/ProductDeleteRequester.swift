@@ -11,13 +11,12 @@ struct ProductDeleteRequester: Networkable {
         return URL(string: "\(Self.baseURLString)/\(productId)/\(productSecret)")
     }
     
-    func creatURLRequest(httpMethod: HttpMethod, url: URL) -> URLRequest {
-        <#code#>
+    var request: URLRequest? {
+        guard let url = url else {
+            return nil
+        }
+        var request = URLRequest(url: url)
+        request.httpMethod = Self.httpMethod.rawValue
+        return request
     }
-    
-    func request() {
-        <#code#>
-    }
-    
-    
 }
