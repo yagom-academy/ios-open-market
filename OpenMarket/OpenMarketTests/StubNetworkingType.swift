@@ -1,4 +1,5 @@
 import Foundation
+
 @testable import OpenMarket
 
 class StubURLSession: URLSessionProtocol {
@@ -19,7 +20,6 @@ class StubURLSession: URLSessionProtocol {
         let sucessResponse = HTTPURLResponse(url: url, statusCode: 200, httpVersion: nil, headerFields: nil)
         let failureResponse = HTTPURLResponse(url: url, statusCode: 404, httpVersion: nil, headerFields: nil)
         let sessionDataTask = StubURLSessionDataTask()
-        
 
         if alwaysSuccess {
             sessionDataTask.resumeDidCall = {

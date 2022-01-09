@@ -1,7 +1,7 @@
 import XCTest
 @testable import OpenMarket
 
-class OpenMarketParsingTests: XCTestCase {
+class ParsingTests: XCTestCase {
 
     func test_ProductPageHTTPResponse가_정상적으로_디코딩되는지() throws {
         guard let data = NSDataAsset(name: "products") else {

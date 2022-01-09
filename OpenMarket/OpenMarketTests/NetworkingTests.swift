@@ -2,7 +2,7 @@ import XCTest
 
 @testable import OpenMarket
 
-class OpenMarketTests: XCTestCase {
+class NetworkingTests: XCTestCase {
     
     func test_1번페이지에_첫번째_상품의_id는_20이다() {
         let data = NSDataAsset(name: "products")
