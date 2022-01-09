@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ProductListRequest {
+struct ProductListRequest: Codable {
     let pageNumber: Int
     let itemsPerPage: Int
     
