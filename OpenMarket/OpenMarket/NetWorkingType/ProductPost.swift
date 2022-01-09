@@ -1,7 +1,7 @@
 import Foundation
 
-enum ProductPost: Codable {
-        struct Request {
+enum ProductPost {
+    struct Request: Encodable {
             struct Params: Encodable {
                 let name: String
                 let descriptions: String

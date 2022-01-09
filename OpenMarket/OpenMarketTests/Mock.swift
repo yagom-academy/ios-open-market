@@ -5,11 +5,11 @@ class StubURLSession: URLSessionProtocol {
     let alwaysSuccess: Bool
     var dummyData: Data?
     
-    init(alwaysSuccess: Bool) {
+    init(alwaysSuccess: Bool, dummyData: Data?) {
         self.alwaysSuccess = alwaysSuccess
     }
     
-    func dataTask(with urlRequest: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> ()) -> URLSessionDataTask{
+    func dataTask(with urlRequest: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> ()) -> URLSessionDataTask {
         
         guard let url = urlRequest.url else {
             return StubURLSessionDataTask()
@@ -19,6 +19,7 @@ class StubURLSession: URLSessionProtocol {
         let failureResponse = HTTPURLResponse(url: url, statusCode: 404, httpVersion: nil, headerFields: nil)
         let sessionDataTask = StubURLSessionDataTask()
         
+
         if alwaysSuccess {
             sessionDataTask.resumeDidCall = {
                 completionHandler(self.dummyData, sucessResponse, nil)

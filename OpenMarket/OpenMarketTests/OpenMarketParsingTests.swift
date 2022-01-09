@@ -8,7 +8,7 @@ class OpenMarketParsingTests: XCTestCase {
             XCTAssertTrue(false)
             return
         }
-        guard let decodedData = try? JSONDecoder().decode(ProductPageHTTPResponse.self, from: data.data) else {
+        guard let decodedData = try? JSONDecoder().decode(ProductListAsk.Response.self, from: data.data) else {
             XCTAssertTrue(false)
             return
         }
