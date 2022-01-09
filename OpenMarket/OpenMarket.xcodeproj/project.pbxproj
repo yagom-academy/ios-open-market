@@ -44,6 +44,7 @@
 		C1A56965278B1B2D004E4B3C /* URLSessionProviderDecodingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1A56964278B1B2C004E4B3C /* URLSessionProviderDecodingTests.swift */; };
 		C1A56967278B2098004E4B3C /* Extension+JSONDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1A56966278B2098004E4B3C /* Extension+JSONDecoder.swift */; };
 		C1A56968278B237A004E4B3C /* Extension+JSONDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1A56966278B2098004E4B3C /* Extension+JSONDecoder.swift */; };
+		C1A5696A278B30DA004E4B3C /* OpenMarketTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1F964EA2782E6D7006F6853 /* OpenMarketTests.swift */; };
 		C1F964F22782E777006F6853 /* DummyData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1F964F12782E777006F6853 /* DummyData.swift */; };
 		C1F964F42782EA88006F6853 /* StubURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1F964F32782EA88006F6853 /* StubURLSession.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
@@ -205,13 +206,21 @@
 			path = Network;
 			sourceTree = "<group>";
 		};
-		C1F964E92782E6D7006F6853 /* OpenMarketTests */ = {
+		C1A56969278B2EAC004E4B3C /* StubDataType */ = {
 			isa = PBXGroup;
 			children = (
-				C1F964EA2782E6D7006F6853 /* OpenMarketTests.swift */,
 				C1F964F12782E777006F6853 /* DummyData.swift */,
 				E99FDE7E2782E9490083D4D6 /* StubURLSessionDataTask.swift */,
 				C1F964F32782EA88006F6853 /* StubURLSession.swift */,
+			);
+			path = StubDataType;
+			sourceTree = "<group>";
+		};
+		C1F964E92782E6D7006F6853 /* OpenMarketTests */ = {
+			isa = PBXGroup;
+			children = (
+				C1A56969278B2EAC004E4B3C /* StubDataType */,
+				C1F964EA2782E6D7006F6853 /* OpenMarketTests.swift */,
 				C13469E22786BF3F0044DFDB /* URLSessionProviderTests.swift */,
 				C1A56964278B1B2C004E4B3C /* URLSessionProviderDecodingTests.swift */,
 			);
@@ -550,6 +559,7 @@
 				C171F8812784236B001D0B76 /* URLSessionProvider.swift in Sources */,
 				C1346A07278894260044DFDB /* HealthCheckerRequest.swift in Sources */,
 				C1A56963278B10D0004E4B3C /* OpenMarketRequest.swift in Sources */,
+				C1A5696A278B30DA004E4B3C /* OpenMarketTests.swift in Sources */,
 				C1A5695F278B06E0004E4B3C /* CreateProductRequestImage.swift in Sources */,
 				C13469EC2786E9530044DFDB /* UpdateProductRequestModel.swift in Sources */,
 				C13469E42786BFBB0044DFDB /* OpenMarketService.swift in Sources */,
