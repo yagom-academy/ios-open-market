@@ -25,8 +25,8 @@ class URLSessionProvider {
         task.resume()
     }
     
-    func getData(apiType: RequestType, completionHandler: @escaping (Result<Data, NetworkError>) -> Void) {
-        guard let url = URL(string: apiType.description) else { return }
+    func getData(requestType: RequestType, completionHandler: @escaping (Result<Data, NetworkError>) -> Void) {
+        guard let url = URL(string: requestType.description) else { return }
         
         var request: URLRequest
         
