@@ -23,7 +23,7 @@ class URLSessionProviderDecodingTests: XCTestCase {
     }
     
     func test_showPage가_200번때_상태코드를_반환해야한다() {
-        sutURLSesssionProvider.request(.showProductPage(pageNumber: "1", itemsPerPage: "10")) { (result: Result<Page, URLSessionProviderError>) in
+        sutURLSesssionProvider.request(.showProductPage(pageNumber: "1", itemsPerPage: "10")) { (result: Result<ShowProductPageResponse, URLSessionProviderError>) in
             switch result {
             case .success(let data):
                 print(data)
@@ -38,7 +38,7 @@ class URLSessionProviderDecodingTests: XCTestCase {
     }
     
     func test_showProductDetail가_200번때_상태코드를_반환해야한다() {
-        sutURLSesssionProvider.request(.showProductDetail(productID: "92")) { (result: Result<Product, URLSessionProviderError>) in
+        sutURLSesssionProvider.request(.showProductDetail(productID: "92")) { (result: Result<ShowProductDetailResponse, URLSessionProviderError>) in
             switch result {
             case .success(let data):
                 print(data)
@@ -76,7 +76,7 @@ class URLSessionProviderDecodingTests: XCTestCase {
     func test_deleteProduct가_200번때_상태코드를_반환해야한다() {
         let sellerID = "cd706a3e-66db-11ec-9626-796401f2341a"
         let productPassword = "69497279-7156-11ec-abfa-fbda6d6dae0d"
-        sutURLSesssionProvider.request(.deleteProduct(sellerID: sellerID, productID: "123", productSecret: productPassword)) { (result: Result<Product, URLSessionProviderError>) in
+        sutURLSesssionProvider.request(.deleteProduct(sellerID: sellerID, productID: "123", productSecret: productPassword)) { (result: Result<DeleteProductResponse, URLSessionProviderError>) in
             switch result {
             case .success(let data):
                 print(data)
@@ -104,7 +104,7 @@ class URLSessionProviderDecodingTests: XCTestCase {
         
         let image = Image(type: .png, data: data)
         
-        sutURLSesssionProvider.request(.createProduct(sellerID: sellerID, params: paramData, images: [image])) { (result: Result<Product, URLSessionProviderError>) in
+        sutURLSesssionProvider.request(.createProduct(sellerID: sellerID, params: paramData, images: [image])) { (result: Result<CreateProductResponse, URLSessionProviderError>) in
             switch result {
             case .success(let data):
                 print(data)
@@ -123,7 +123,7 @@ class URLSessionProviderDecodingTests: XCTestCase {
         let secret = "password"
         let param = UpdateProductRequestModel(name: nil, descriptions: nil, thumbnailID: nil, price: 10, currency: nil, discountedPrice: nil, secret: secret)
         
-        sutURLSesssionProvider.request(.updateProduct(sellerID: sellerID, productID: "92", body: param)) { (result: Result<Product, URLSessionProviderError>) in
+        sutURLSesssionProvider.request(.updateProduct(sellerID: sellerID, productID: "92", body: param)) { (result: Result<UpdateProductResponse, URLSessionProviderError>) in
             switch result {
             case .success(let data):
                 print(data)
