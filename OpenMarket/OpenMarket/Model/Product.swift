@@ -17,7 +17,7 @@ struct Product: Decodable {
     let bargainPrice: Decimal
     let discountedPrice: Decimal
     let stock: Int
-    let images: [Image]?
+    let images: [ProductImage]?
     let vendors: Vendor?
     let createdAt: Date
     let issuedAt: Date

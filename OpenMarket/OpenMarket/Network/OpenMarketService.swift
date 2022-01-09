@@ -9,8 +9,8 @@ import Foundation
 
 enum OpenMarketService {
     case checkHealth
-    case createProduct(sellerID: String, params: Data, images: [Data])
-    case updateProduct(sellerID: String, productID: String, body: Data)
+    case createProduct(sellerID: String, params: Data, images: [Image])
+    case updateProduct(sellerID: String, productID: String, body: UpdateProductRequestModel)
     case showProductSecret(sellerID: String, sellerPW: String, productID: String)
     case deleteProduct(sellerID: String, productID: String, productSecret: String)
     case showProductDetail(productID: String)

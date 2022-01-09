@@ -20,8 +20,7 @@ extension JSONRequest {
         request.httpMethod = self.method
         header?.forEach { request.addValue($1, forHTTPHeaderField: $0) }
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        guard JSONSerialization.isValidJSONObject(body) else { return nil }
-        request.httpBody = try? JSONSerialization.data(withJSONObject: body, options: .prettyPrinted)
+        request.httpBody = try? JSONEncoder().encode(body)
         return request
     }
 }

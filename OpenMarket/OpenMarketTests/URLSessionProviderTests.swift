@@ -82,7 +82,7 @@ class URLSessionProviderTests: XCTestCase {
     func test_showProductSecret가_200번때_상태코드를_반환해야한다() {
         let sellerID = "cd706a3e-66db-11ec-9626-796401f2341a"
         let sellerPassword = "password"
-        sutURLSesssionProvider.request(.showProductSecret(sellerID: sellerID, sellerPW: sellerPassword, productID: "93")) { result in
+        sutURLSesssionProvider.request(.showProductSecret(sellerID: sellerID, sellerPW: sellerPassword, productID: "92")) { result in
             switch result {
             case .success(let data):
                 guard let stringData = String(data: data, encoding: .utf8) else {
@@ -102,8 +102,8 @@ class URLSessionProviderTests: XCTestCase {
 
     func test_deleteProduct가_200번때_상태코드를_반환해야한다() {
         let sellerID = "cd706a3e-66db-11ec-9626-796401f2341a"
-        let productPassword = "266a5cf3-6fd3-11ec-abfa-89a958e75ce1"
-        sutURLSesssionProvider.request(.deleteProduct(sellerID: sellerID, productID: "93", productSecret: productPassword)) { result in
+        let productPassword = "e68a07c6-6fd7-11ec-abfa-8fdc4e022780"
+        sutURLSesssionProvider.request(.deleteProduct(sellerID: sellerID, productID: "94", productSecret: productPassword)) { result in
             switch result {
             case .success(let data):
                 guard let stringData = String(data: data, encoding: .utf8) else {
@@ -128,11 +128,14 @@ class URLSessionProviderTests: XCTestCase {
             XCTFail()
             return
         }
-        guard let imageData = UIImage(named: "Image")?.pngData() else {
+        guard let data = UIImage(named: "Image")?.pngData() else {
             XCTFail()
             return
         }
-        sutURLSesssionProvider.request(.createProduct(sellerID: sellerID, params: paramData, images: [imageData])) { result in
+        
+        let image = Image(type: .png, data: data)
+        
+        sutURLSesssionProvider.request(.createProduct(sellerID: sellerID, params: paramData, images: [image])) { result in
             switch result {
             case .success(let data):
                 guard let stringData = String(data: data, encoding: .utf8) else {
@@ -154,12 +157,8 @@ class URLSessionProviderTests: XCTestCase {
         let sellerID = "cd706a3e-66db-11ec-9626-796401f2341a"
         let secret = "password"
         let param = UpdateProductRequestModel(name: nil, descriptions: nil, thumbnailID: nil, price: 10, currency: nil, discountedPrice: nil, secret: secret)
-        guard let paramData = try? JSONEncoder().encode(param) else {
-            XCTFail()
-            return
-        }
         
-        sutURLSesssionProvider.request(.updateProduct(sellerID: sellerID, productID: "40", body: paramData)) { result in
+        sutURLSesssionProvider.request(.updateProduct(sellerID: sellerID, productID: "92", body: param)) { result in
             switch result {
             case .success(let data):
                 guard let stringData = String(data: data, encoding: .utf8) else {

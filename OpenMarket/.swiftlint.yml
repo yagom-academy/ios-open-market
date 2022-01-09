@@ -14,6 +14,7 @@ identifier_name:
     - GlobalAPIKey
     - KRW
     - USD
+    - png
 disabled_rules: # 실행에서 제외할 룰 식별자들
   - colon
   - comma
