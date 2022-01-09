@@ -8,19 +8,15 @@ class OpenMarketTests: XCTestCase {
         let data = NSDataAsset(name: "products")
         let testSession = StubURLSession(alwaysSuccess: true, dummyData: data?.data)
         let requester = ProductListAskRequester(pageNo: 1, itemsPerPage: 20)
-//        let promise = expectation(description: "getting data")
         
         testSession.request(urlRequest: requester.request!) { result in
             switch result {
             case .success(let data):
                 let products = requester.decode(data: data, expecting: ProductListAsk.Response.self)
                 XCTAssertEqual(products?.pages[0].id, 20)
-//                promise.fulfill()
             case .failure:
                 XCTAssertTrue(false)
             }
         }
-        
-//        wait(for: [promise], timeout: 10)
     }
 }

@@ -7,6 +7,7 @@ class StubURLSession: URLSessionProtocol {
     
     init(alwaysSuccess: Bool, dummyData: Data?) {
         self.alwaysSuccess = alwaysSuccess
+        self.dummyData = dummyData
     }
     
     func dataTask(with urlRequest: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> ()) -> URLSessionDataTask {
