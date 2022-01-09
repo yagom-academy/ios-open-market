@@ -41,6 +41,9 @@
 		C1A56961278B1014004E4B3C /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1A56960278B1014004E4B3C /* HTTPMethod.swift */; };
 		C1A56962278B10BB004E4B3C /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1A56960278B1014004E4B3C /* HTTPMethod.swift */; };
 		C1A56963278B10D0004E4B3C /* OpenMarketRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9632442278B0CF100851348 /* OpenMarketRequest.swift */; };
+		C1A56965278B1B2D004E4B3C /* URLSessionProviderDecodingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1A56964278B1B2C004E4B3C /* URLSessionProviderDecodingTests.swift */; };
+		C1A56967278B2098004E4B3C /* Extension+JSONDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1A56966278B2098004E4B3C /* Extension+JSONDecoder.swift */; };
+		C1A56968278B237A004E4B3C /* Extension+JSONDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1A56966278B2098004E4B3C /* Extension+JSONDecoder.swift */; };
 		C1F964F22782E777006F6853 /* DummyData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1F964F12782E777006F6853 /* DummyData.swift */; };
 		C1F964F42782EA88006F6853 /* StubURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1F964F32782EA88006F6853 /* StubURLSession.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
@@ -95,6 +98,8 @@
 		C17E063527846CF400D7F83D /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
 		C1A5695D278B0598004E4B3C /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
 		C1A56960278B1014004E4B3C /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
+		C1A56964278B1B2C004E4B3C /* URLSessionProviderDecodingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionProviderDecodingTests.swift; sourceTree = "<group>"; };
+		C1A56966278B2098004E4B3C /* Extension+JSONDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+JSONDecoder.swift"; sourceTree = "<group>"; };
 		C1F964E82782E6D7006F6853 /* OpenMarketTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenMarketTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C1F964EA2782E6D7006F6853 /* OpenMarketTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketTests.swift; sourceTree = "<group>"; };
 		C1F964F12782E777006F6853 /* DummyData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyData.swift; sourceTree = "<group>"; };
@@ -193,6 +198,7 @@
 				E99FDE7E2782E9490083D4D6 /* StubURLSessionDataTask.swift */,
 				C1F964F32782EA88006F6853 /* StubURLSession.swift */,
 				C13469E22786BF3F0044DFDB /* URLSessionProviderTests.swift */,
+				C1A56964278B1B2C004E4B3C /* URLSessionProviderDecodingTests.swift */,
 			);
 			path = OpenMarketTests;
 			sourceTree = "<group>";
@@ -286,6 +292,7 @@
 			isa = PBXGroup;
 			children = (
 				E9FDEA66278705AD00B12770 /* Extension+NSMutableData.swift */,
+				C1A56966278B2098004E4B3C /* Extension+JSONDecoder.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -451,12 +458,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				C13469F22787104E0044DFDB /* URLSessionProtocol.swift in Sources */,
+				C1A56965278B1B2D004E4B3C /* URLSessionProviderDecodingTests.swift in Sources */,
 				C1F964F42782EA88006F6853 /* StubURLSession.swift in Sources */,
 				C1346A0B278894340044DFDB /* ShowProductSecretRequest.swift in Sources */,
 				C1A5695B278B010A004E4B3C /* JSONRequest.swift in Sources */,
 				C1346A08278894290044DFDB /* ShowProductPageRequest.swift in Sources */,
 				C1346A0D278894390044DFDB /* UpdateProductRequest.swift in Sources */,
 				C13469ED27870E170044DFDB /* Vendor.swift in Sources */,
+				C1A56968278B237A004E4B3C /* Extension+JSONDecoder.swift in Sources */,
 				C1F964F22782E777006F6853 /* DummyData.swift in Sources */,
 				C1346A0C278894370044DFDB /* CreateProductRequest.swift in Sources */,
 				C1346A0A278894310044DFDB /* DeleteProductRequest.swift in Sources */,
@@ -487,6 +496,7 @@
 			files = (
 				C13469F1278710420044DFDB /* URLSessionProtocol.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
+				C1A56967278B2098004E4B3C /* Extension+JSONDecoder.swift in Sources */,
 				E9632434278AEAA900851348 /* JSONRequest.swift in Sources */,
 				E9FDEAB52788695400B12770 /* ShowProductSecretRequest.swift in Sources */,
 				C1A5695E278B0598004E4B3C /* Image.swift in Sources */,

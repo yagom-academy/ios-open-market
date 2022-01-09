@@ -52,10 +52,15 @@ class URLSessionProvider {
                   (200...299).contains(httpRespose.statusCode) else {
                 return completionHandler(.failure(.statusError))
             }
-            guard let data = data,
-                  let decoded = try? JSONDecoder().decode(T.self, from: data) else {
+            
+            guard let data = data else {
                 return completionHandler(.failure(.unknownError))
             }
+            
+            guard let decoded = try? JSONDecoder.shared.decode(T.self, from: data) else {
+                return completionHandler(.failure(.unknownError))
+            }
+            
             return completionHandler(.success(decoded))
         }
         task.resume()
