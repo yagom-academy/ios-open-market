@@ -7,13 +7,14 @@
 
 import Foundation
 
-struct UpdateProductRequest: PATCHRequest {
-    
-    var body: Data
+struct UpdateProductRequest: APIRequest {
+    var method: String
+    var body: UpdateProductRequestModel
     var header: [String : String]?
     var path: String
     
-    init(productID: String, header: [String: String], body: Data) {
+    init(productID: String, header: [String: String], body: UpdateProductRequestModel) {
+        self.method = "PATCH"
         self.path = "/api/products/\(productID)"
         self.header = header
         self.body = body

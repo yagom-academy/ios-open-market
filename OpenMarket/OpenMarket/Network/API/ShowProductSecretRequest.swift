@@ -7,13 +7,15 @@
 
 import Foundation
 
-struct ShowProductSecretRequest: POSTRequest {
+struct ShowProductSecretRequest: JSONRequest {
+    var method: String
     var header: [String : String]?
-    var body: [String : Any]
+    var body: [String : String]
     var boundary: String
     var path: String
     
     init(productID: String, header: [String : String], body: [String : String]) {
+        self.method = "POST"
         self.path = "/api/products/\(productID)/secret"
         self.header = header
         self.body = body

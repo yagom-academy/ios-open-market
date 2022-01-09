@@ -7,7 +7,14 @@
 
 import Foundation
 
-struct HealthCheckerRequest: GETRequest {
+struct HealthCheckerRequest: APIRequest {
+    var method: String
     var header: [String : String]?
-    var path = "/healthChecker"
+    var path: String
+    
+    init() {
+        self.method = "GET"
+        self.header = nil
+        self.path = "/healthChecker"
+    }
 }

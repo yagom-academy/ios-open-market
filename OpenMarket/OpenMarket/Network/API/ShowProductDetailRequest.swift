@@ -7,11 +7,14 @@
 
 import Foundation
 
-struct ShowProductDetailRequest: GETRequest {
+struct ShowProductDetailRequest: APIRequest {
+    var method: String
     var header: [String : String]?
     var path: String
     
     init(productID: String) {
+        self.method = "GET"
+        self.header = nil
         self.path = "/api/products/\(productID)"
     }
 }

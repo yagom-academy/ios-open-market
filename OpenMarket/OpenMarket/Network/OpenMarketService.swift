@@ -27,7 +27,7 @@ extension OpenMarketService {
         case .showProductDetail(let productID):
             return ShowProductDetailRequest(productID: productID).urlRequest
         case .createProduct(let sellerID, let params, let images):
-            return CreateProductRequest(header: ["identifier":  sellerID], params: params, images: images).urlRequest
+            return CreateProductRequest(header: ["identifier": sellerID], params: params, images: images).urlRequest
         case .updateProduct(let sellerID, let productID, let body):
             let header = ["identifier": sellerID]
             return UpdateProductRequest(productID: productID, header: header, body: body).urlRequest
