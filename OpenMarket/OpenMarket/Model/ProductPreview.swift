@@ -1,13 +1,13 @@
 //
-//  Product.swift
+//  ProductPreview.swift
 //  OpenMarket
 //
-//  Created by 서녕 on 2022/01/03.
+//  Created by 서녕 on 2022/01/09.
 //
 
 import Foundation
 
-struct Product: Codable {
+struct ProductPreview: Codable {
     let ID: Int
     let vendorID: Int
     let name: String

@@ -13,10 +13,10 @@ struct ProductList: Codable {
     let totalItemCount: Int
     let offset: Int
     let limit: Int
-    let productsInPage: [Product]
     let lastPage: Int
     let hasNext: Bool
     let hasPreview: Bool
+    let productsInPage: [ProductPreview]
     
     private enum CodingKeys: String, CodingKey {
         case pageNumber = "page_no"
@@ -24,9 +24,9 @@ struct ProductList: Codable {
         case totalItemCount = "total_count"
         case offset
         case limit
-        case productsInPage = "pages"
         case lastPage = "lastPage"
         case hasNext = "has_next"
         case hasPreview = "has_prev"
+        case productsInPage = "pages"
     }
 }
