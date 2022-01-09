@@ -38,6 +38,9 @@
 		C1A5695C278B010E004E4B3C /* MultiPartRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9632437278AEAB800851348 /* MultiPartRequest.swift */; };
 		C1A5695E278B0598004E4B3C /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1A5695D278B0598004E4B3C /* Image.swift */; };
 		C1A5695F278B06E0004E4B3C /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1A5695D278B0598004E4B3C /* Image.swift */; };
+		C1A56961278B1014004E4B3C /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1A56960278B1014004E4B3C /* HTTPMethod.swift */; };
+		C1A56962278B10BB004E4B3C /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1A56960278B1014004E4B3C /* HTTPMethod.swift */; };
+		C1A56963278B10D0004E4B3C /* OpenMarketRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9632442278B0CF100851348 /* OpenMarketRequest.swift */; };
 		C1F964F22782E777006F6853 /* DummyData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1F964F12782E777006F6853 /* DummyData.swift */; };
 		C1F964F42782EA88006F6853 /* StubURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1F964F32782EA88006F6853 /* StubURLSession.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
@@ -91,6 +94,7 @@
 		C171F87F27841135001D0B76 /* URLSessionProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionProvider.swift; sourceTree = "<group>"; };
 		C17E063527846CF400D7F83D /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
 		C1A5695D278B0598004E4B3C /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
+		C1A56960278B1014004E4B3C /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
 		C1F964E82782E6D7006F6853 /* OpenMarketTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenMarketTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C1F964EA2782E6D7006F6853 /* OpenMarketTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketTests.swift; sourceTree = "<group>"; };
 		C1F964F12782E777006F6853 /* DummyData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyData.swift; sourceTree = "<group>"; };
@@ -163,6 +167,7 @@
 				C13469F827885DB00044DFDB /* APIRequest.swift */,
 				E9632433278AEAA900851348 /* JSONRequest.swift */,
 				E9632437278AEAB800851348 /* MultiPartRequest.swift */,
+				C1A56960278B1014004E4B3C /* HTTPMethod.swift */,
 			);
 			path = APIRequest;
 			sourceTree = "<group>";
@@ -462,12 +467,14 @@
 				E99FDE842782F3970083D4D6 /* Page.swift in Sources */,
 				C171F8812784236B001D0B76 /* URLSessionProvider.swift in Sources */,
 				C1346A07278894260044DFDB /* HealthCheckerRequest.swift in Sources */,
+				C1A56963278B10D0004E4B3C /* OpenMarketRequest.swift in Sources */,
 				C1A5695F278B06E0004E4B3C /* Image.swift in Sources */,
 				C13469EC2786E9530044DFDB /* UpdateProductRequestModel.swift in Sources */,
 				C13469E42786BFBB0044DFDB /* OpenMarketService.swift in Sources */,
 				C1A5695C278B010E004E4B3C /* MultiPartRequest.swift in Sources */,
 				C13469E32786BF3F0044DFDB /* URLSessionProviderTests.swift in Sources */,
 				C13469E12786BF1E0044DFDB /* Currency.swift in Sources */,
+				C1A56962278B10BB004E4B3C /* HTTPMethod.swift in Sources */,
 				C13469E72786E3350044DFDB /* ProductImage.swift in Sources */,
 				C13469EF27870F460044DFDB /* Product.swift in Sources */,
 				C1346A092788942B0044DFDB /* ShowProductDetailRequest.swift in Sources */,
@@ -501,6 +508,7 @@
 				E9FDEAAF2788668200B12770 /* ShowProductDetailRequest.swift in Sources */,
 				E9FDEA202784677100B12770 /* CreateProductRequestParams.swift in Sources */,
 				C13469E92786E35C0044DFDB /* Vendor.swift in Sources */,
+				C1A56961278B1014004E4B3C /* HTTPMethod.swift in Sources */,
 				C13469E62786E32F0044DFDB /* ProductImage.swift in Sources */,
 				C13469F927885DB00044DFDB /* APIRequest.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,

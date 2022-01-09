@@ -8,13 +8,15 @@
 import Foundation
 
 struct ShowProductDetailRequest: OpenMarketAPIRequest {
-    var method: String
+    
+    var method: HTTPMethod
     var header: [String : String]?
     var path: String
     
     init(productID: String) {
-        self.method = "GET"
+        self.method = .GET
         self.header = nil
         self.path = "/api/products/\(productID)"
     }
+    
 }

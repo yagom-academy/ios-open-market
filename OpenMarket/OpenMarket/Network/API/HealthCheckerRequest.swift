@@ -8,13 +8,15 @@
 import Foundation
 
 struct HealthCheckerRequest: OpenMarketAPIRequest {
-    var method: String
+    
+    var method: HTTPMethod
     var header: [String : String]?
     var path: String
     
     init() {
-        self.method = "GET"
+        self.method = .GET
         self.header = nil
         self.path = "/healthChecker"
     }
+    
 }

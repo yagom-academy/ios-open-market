@@ -8,13 +8,15 @@
 import Foundation
 
 struct DeleteProductRequest: OpenMarketAPIRequest {
-    var method: String
+    
+    var method: HTTPMethod
     var header: [String : String]?
     var path: String
     
     init(productID: String, productSecret: String, header: [String: String]) {
-        self.method = "DELETE"
+        self.method = .DELETE
         self.path = "/api/products/\(productID)/\(productSecret)"
         self.header = header
     }
+    
 }

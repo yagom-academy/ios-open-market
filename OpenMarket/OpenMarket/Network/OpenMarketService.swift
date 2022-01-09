@@ -8,6 +8,7 @@
 import Foundation
 
 enum OpenMarketService {
+    
     case checkHealth
     case createProduct(sellerID: String, params: Data, images: [Image])
     case updateProduct(sellerID: String, productID: String, body: UpdateProductRequestModel)
@@ -15,9 +16,11 @@ enum OpenMarketService {
     case deleteProduct(sellerID: String, productID: String, productSecret: String)
     case showProductDetail(productID: String)
     case showProductPage(pageNumber: String, itemsPerPage: String)
+    
 }
 
 extension OpenMarketService {
+    
     var urlRequest: URLRequest? {
         switch self {
         case .checkHealth:
@@ -40,4 +43,5 @@ extension OpenMarketService {
             return DeleteProductRequest(productID: productID, productSecret: productSecret, header: header).urlRequest
         }
     }
+    
 }

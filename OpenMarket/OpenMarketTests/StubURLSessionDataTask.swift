@@ -8,6 +8,7 @@
 import Foundation
 
 class StubURLSessionDataTask: URLSessionDataTask {
+    
     var dummyData: DummyData?
     
     init(dummy: DummyData?, completionHandler: DataTaskCompletionHandler?) {
@@ -18,4 +19,5 @@ class StubURLSessionDataTask: URLSessionDataTask {
     override func resume() {
         dummyData?.completion()
     }
+    
 }

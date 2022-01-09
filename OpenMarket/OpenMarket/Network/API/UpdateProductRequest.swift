@@ -8,15 +8,17 @@
 import Foundation
 
 struct UpdateProductRequest: OpenMarketJSONRequest {
-    var method: String
+    
+    var method: HTTPMethod
     var body: UpdateProductRequestModel
     var header: [String : String]?
     var path: String
     
     init(productID: String, header: [String: String], body: UpdateProductRequestModel) {
-        self.method = "PATCH"
+        self.method = .PATCH
         self.path = "/api/products/\(productID)"
         self.header = header
         self.body = body
     }
+    
 }

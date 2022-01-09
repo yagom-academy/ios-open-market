@@ -8,6 +8,7 @@
 import Foundation
 
 struct Image {
+    
     let type: ImageType
     let data: Data
     
@@ -15,4 +16,5 @@ struct Image {
         case jpeg
         case png
     }
+    
 }

@@ -8,6 +8,7 @@
 import Foundation
 
 struct ProductImage: Decodable {
+    
     let id: Int
     let url: String
     let thumbnailURL: String
@@ -21,4 +22,5 @@ struct ProductImage: Decodable {
         case succeed
         case issuedAt = "issued_at"
     }
+    
 }

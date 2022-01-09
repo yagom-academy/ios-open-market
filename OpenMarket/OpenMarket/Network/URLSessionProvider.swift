@@ -8,6 +8,7 @@
 import Foundation
 
 class URLSessionProvider {
+    
     let session: URLSessionProtocol
     
     init(session: URLSessionProtocol) {
@@ -36,10 +37,13 @@ class URLSessionProvider {
         }
         task.resume()
     }
+    
 }
 
 enum URLSessionProviderError: Error {
+    
     case statusError
     case urlRequestError
     case unknownError
+    
 }

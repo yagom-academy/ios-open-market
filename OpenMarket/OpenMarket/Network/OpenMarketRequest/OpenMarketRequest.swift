@@ -8,7 +8,9 @@
 import Foundation
 
 protocol OpenMarketInfoOwner {
+    
     var baseURL: String { get }
+    
 }
 
 extension OpenMarketInfoOwner {
@@ -16,6 +18,7 @@ extension OpenMarketInfoOwner {
     var baseURL: String {
         return "https://market-training.yagom-academy.kr"
     }
+    
 }
 
 protocol OpenMarketAPIRequest: APIRequest, OpenMarketInfoOwner { }

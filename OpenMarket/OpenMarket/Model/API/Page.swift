@@ -8,6 +8,7 @@
 import Foundation
 
 struct Page: Decodable {
+    
     let pageNumber: Int
     let itemsPerPage: Int
     let totalCount: Int
@@ -29,4 +30,5 @@ struct Page: Decodable {
         case hasPrev = "has_prev"
         case pages
     }
+    
 }

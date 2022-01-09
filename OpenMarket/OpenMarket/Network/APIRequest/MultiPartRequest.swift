@@ -18,7 +18,7 @@ extension MultiPartRequest {
     var urlRequest: URLRequest? {
         guard let url = URL(string: finalURL) else { return nil }
         var request = URLRequest(url: url)
-        request.httpMethod = self.method
+        request.httpMethod = self.method.decription
         header?.forEach { request.addValue($1, forHTTPHeaderField: $0) }
         let boundary = UUID().uuidString
         request.addValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
@@ -45,6 +45,7 @@ extension MultiPartRequest {
 }
 
 enum MultiPartFileType {
+    
     case json(name: String, data: Data)
     case image(name: String, images: [Image])
 }

@@ -8,6 +8,7 @@
 import Foundation
 
 struct CreateProductRequestParams: Encodable {
+    
     let name: String
     let descriptions: String
     let price: Decimal
@@ -25,4 +26,5 @@ struct CreateProductRequestParams: Encodable {
         case stock
         case secret
     }
+    
 }

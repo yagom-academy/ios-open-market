@@ -8,6 +8,7 @@
 import Foundation
 
 struct Product: Decodable {
+    
     let id: Int
     let venderId: Int
     let name: String
@@ -37,4 +38,5 @@ struct Product: Decodable {
         case createdAt = "created_at"
         case issuedAt = "issued_at"
     }
+    
 }
