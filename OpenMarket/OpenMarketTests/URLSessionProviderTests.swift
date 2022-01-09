@@ -10,16 +10,16 @@ import XCTest
 class URLSessionProviderTests: XCTestCase {
     
     var sutURLSesssionProvider: URLSessionProvider!
-    var sutDispatchSemaphore: DispatchSemaphore!
+    var sutTestExpectation: XCTestExpectation!
 
     override func setUpWithError() throws {
         self.sutURLSesssionProvider = URLSessionProvider(session: URLSession.shared)
-        self.sutDispatchSemaphore = DispatchSemaphore(value: 0)
+        self.sutTestExpectation = XCTestExpectation()
     }
 
     override func tearDownWithError() throws {
         self.sutURLSesssionProvider = nil
-        self.sutDispatchSemaphore = nil
+        self.sutTestExpectation = nil
     }
 
     func test_healthCheck가_200번때_상태코드를_반환해야한다() {
@@ -32,13 +32,13 @@ class URLSessionProviderTests: XCTestCase {
                 }
                 print(stringData)
                 XCTAssertTrue(true)
-                self.sutDispatchSemaphore.signal()
+                self.sutTestExpectation.fulfill()
             case .failure(let error):
                 XCTFail("\(error)")
-                self.sutDispatchSemaphore.signal()
+                self.sutTestExpectation.fulfill()
             }
         }
-        sutDispatchSemaphore.wait()
+        wait(for: [sutTestExpectation], timeout: 10.0)
     }
     
     func test_showPage가_200번때_상태코드를_반환해야한다() {
@@ -51,13 +51,13 @@ class URLSessionProviderTests: XCTestCase {
                 }
                 print(stringData)
                 XCTAssertTrue(true)
-                self.sutDispatchSemaphore.signal()
+                self.sutTestExpectation.fulfill()
             case .failure(let error):
                 XCTFail("\(error)")
-                self.sutDispatchSemaphore.signal()
+                self.sutTestExpectation.fulfill()
             }
         }
-        sutDispatchSemaphore.wait()
+        wait(for: [sutTestExpectation], timeout: 10.0)
     }
     
     func test_showProductDetail가_200번때_상태코드를_반환해야한다() {
@@ -70,13 +70,13 @@ class URLSessionProviderTests: XCTestCase {
                 }
                 print(stringData)
                 XCTAssertTrue(true)
-                self.sutDispatchSemaphore.signal()
+                self.sutTestExpectation.fulfill()
             case .failure(let error):
                 XCTFail("\(error)")
-                self.sutDispatchSemaphore.signal()
+                self.sutTestExpectation.fulfill()
             }
         }
-        sutDispatchSemaphore.wait()
+        wait(for: [sutTestExpectation], timeout: 10.0)
     }
     
     func test_showProductSecret가_200번때_상태코드를_반환해야한다() {
@@ -91,13 +91,13 @@ class URLSessionProviderTests: XCTestCase {
                 }
                 print(stringData)
                 XCTAssertTrue(true)
-                self.sutDispatchSemaphore.signal()
+                self.sutTestExpectation.fulfill()
             case .failure(let error):
                 XCTFail("\(error)")
-                self.sutDispatchSemaphore.signal()
+                self.sutTestExpectation.fulfill()
             }
         }
-        sutDispatchSemaphore.wait()
+        wait(for: [sutTestExpectation], timeout: 10.0)
     }
 
     func test_deleteProduct가_200번때_상태코드를_반환해야한다() {
@@ -112,13 +112,13 @@ class URLSessionProviderTests: XCTestCase {
                 }
                 print(stringData)
                 XCTAssertTrue(true)
-                self.sutDispatchSemaphore.signal()
+                self.sutTestExpectation.fulfill()
             case .failure(let error):
                 XCTFail("\(error)")
-                self.sutDispatchSemaphore.signal()
+                self.sutTestExpectation.fulfill()
             }
         }
-        sutDispatchSemaphore.wait()
+        wait(for: [sutTestExpectation], timeout: 10.0)
     }
     
     func test_createProduct가_200번때_상태코드를_반환해야한다() {
@@ -144,13 +144,13 @@ class URLSessionProviderTests: XCTestCase {
                 }
                 print(stringData)
                 XCTAssertTrue(true)
-                self.sutDispatchSemaphore.signal()
+                self.sutTestExpectation.fulfill()
             case .failure(let error):
                 XCTFail("\(error)")
-                self.sutDispatchSemaphore.signal()
+                self.sutTestExpectation.fulfill()
             }
         }
-        sutDispatchSemaphore.wait()
+        wait(for: [sutTestExpectation], timeout: 10.0)
     }
     
     func test_updateProduct가_200번때_상태코드를_반환해야한다() {
@@ -167,13 +167,13 @@ class URLSessionProviderTests: XCTestCase {
                 }
                 print(stringData)
                 XCTAssertTrue(true)
-                self.sutDispatchSemaphore.signal()
+                self.sutTestExpectation.fulfill()
             case .failure(let error):
                 XCTFail("\(error)")
-                self.sutDispatchSemaphore.signal()
+                self.sutTestExpectation.fulfill()
             }
         }
-        sutDispatchSemaphore.wait()
+        wait(for: [sutTestExpectation], timeout: 10.0)
     }
     
 }

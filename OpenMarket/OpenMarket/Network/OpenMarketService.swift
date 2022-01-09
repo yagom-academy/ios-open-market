@@ -43,5 +43,5 @@ extension OpenMarketService {
             return DeleteProductRequest(productID: productID, productSecret: productSecret, header: header).urlRequest
         }
     }
-    
+
 }
