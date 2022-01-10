@@ -13,12 +13,29 @@ class ProductsCollectionViewController: UICollectionViewController {
         )
         return jsonParser
     }()
+    private lazy var networkTask = NetworkTask(jsonParser: jsonParser)
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let data = NSDataAsset(name: "products")!.data
-        productsList = try? jsonParser.decode(from: data)
+        networkTask.requestProductList(pageNumber: 1, itemsPerPage: 20) { result in
+            switch result {
+            case .success(let data):
+                self.productsList = try? self.jsonParser.decode(from: data)
+                DispatchQueue.main.async {
+                    self.collectionView.reloadData()
+                }
+            case .failure(let error):
+                let alert = UIAlertController(
+                    title: "Network error",
+                    message: "데이터를 불러오지 못했습니다.\n\(error.localizedDescription)",
+                    preferredStyle: .alert
+                )
+                let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+                alert.addAction(okAction)
+                self.present(alert, animated: true, completion: nil)
+            }
+        }
     }
     
     // MARK: UICollectionViewDataSource
