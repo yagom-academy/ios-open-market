@@ -99,13 +99,13 @@ extension MarketAPIService {
                                               completionHandler: @escaping (Result<T, APIError>) -> Void) {
         let successRange = 200..<300
         let dataTask = session.dataTask(with: request) { [weak self] data, response, error in
-            guard error == nil else {
-                completionHandler(.failure(APIError.invalidHTTPMethod))
+            guard error == nil,
+                  let statusCode = (response as? HTTPURLResponse)?.statusCode else {
+                completionHandler(.failure(APIError.invalidResponse))
                 return
             }
-            guard let statusCode = (response as? HTTPURLResponse)?.statusCode,
-                  successRange.contains(statusCode) else {
-                completionHandler(.failure(APIError.invalidRequest))
+            guard successRange.contains(statusCode) else {
+                completionHandler(.failure(APIError.unsuccessfulStatusCode(statusCode: statusCode)))
                 return
             }
             guard let data = data else {
