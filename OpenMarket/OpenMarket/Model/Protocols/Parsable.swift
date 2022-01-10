@@ -16,8 +16,6 @@ extension Parsable {
         do {
             let parsedData = try JSONDecoder().decode(type, from: data)
             return parsedData
-        } catch JSONError.parsingError {
-            print(JSONError.parsingError.description)
         } catch {
             print(error.localizedDescription)
         }
