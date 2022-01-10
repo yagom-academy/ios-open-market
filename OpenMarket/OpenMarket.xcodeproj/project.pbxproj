@@ -10,6 +10,8 @@
 		9A134562278C1C1F00660291 /* UIViewController+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A134561278C1C1F00660291 /* UIViewController+extension.swift */; };
 		9A134564278C260A00660291 /* String+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A134563278C260A00660291 /* String+extension.swift */; };
 		9A134566278C2BC300660291 /* Int+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A134565278C2BC300660291 /* Int+extension.swift */; };
+		9A13456C278C574800660291 /* RegisterProduct.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9A13456B278C574800660291 /* RegisterProduct.storyboard */; };
+		9A13456E278C576400660291 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A13456D278C576400660291 /* RegisterViewController.swift */; };
 		9A1CFD782782E341003BEC69 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1CFD772782E341003BEC69 /* Product.swift */; };
 		9A1CFD7A2782E683003BEC69 /* JSONParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1CFD792782E683003BEC69 /* JSONParser.swift */; };
 		9A1CFD7C2782EB88003BEC69 /* ParserError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1CFD7B2782EB88003BEC69 /* ParserError.swift */; };
@@ -64,6 +66,8 @@
 		9A134561278C1C1F00660291 /* UIViewController+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+extension.swift"; sourceTree = "<group>"; };
 		9A134563278C260A00660291 /* String+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+extension.swift"; sourceTree = "<group>"; };
 		9A134565278C2BC300660291 /* Int+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+extension.swift"; sourceTree = "<group>"; };
+		9A13456B278C574800660291 /* RegisterProduct.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = RegisterProduct.storyboard; sourceTree = "<group>"; };
+		9A13456D278C576400660291 /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		9A1CFD772782E341003BEC69 /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
 		9A1CFD792782E683003BEC69 /* JSONParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONParser.swift; sourceTree = "<group>"; };
 		9A1CFD7B2782EB88003BEC69 /* ParserError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParserError.swift; sourceTree = "<group>"; };
@@ -217,6 +221,7 @@
 			isa = PBXGroup;
 			children = (
 				C70FB0FE25BEF61C00C9924E /* MainViewController.swift */,
+				9A13456D278C576400660291 /* RegisterViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -225,6 +230,7 @@
 			isa = PBXGroup;
 			children = (
 				C70FB10025BEF61C00C9924E /* Main.storyboard */,
+				9A13456B278C574800660291 /* RegisterProduct.storyboard */,
 				9AAA3F4927881F7700D6E407 /* ProductCell.swift */,
 				9AAA3F4A27881F7700D6E407 /* GridCollectionViewCell.xib */,
 				F3D3B5D12788297C00943720 /* ListCollectionViewCell.xib */,
@@ -365,6 +371,7 @@
 				C70FB10725BEF61D00C9924E /* LaunchScreen.storyboard in Resources */,
 				C70FB10425BEF61D00C9924E /* Assets.xcassets in Resources */,
 				C70FB10225BEF61C00C9924E /* Main.storyboard in Resources */,
+				9A13456C278C574800660291 /* RegisterProduct.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -424,6 +431,7 @@
 				F35B1A892785380D0031A755 /* JSONParserable.swift in Sources */,
 				F3D3B5AF278732C700943720 /* ContentType.swift in Sources */,
 				9A1CFD7A2782E683003BEC69 /* JSONParser.swift in Sources */,
+				9A13456E278C576400660291 /* RegisterViewController.swift in Sources */,
 				9A1CFDC62783DD63003BEC69 /* Vendors.swift in Sources */,
 				9A1CFD7C2782EB88003BEC69 /* ParserError.swift in Sources */,
 				9A1CFD782782E341003BEC69 /* Product.swift in Sources */,
