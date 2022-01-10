@@ -9,8 +9,10 @@ class APIManager {
     let successRange = 200..<300
     
     func requestHealthChecker(completionHandler: @escaping (Result<Data, Error>) -> Void) {
-        let url = apiHost + "healthChecker"
-        var request = URLRequest(url: URL(string: url)!,timeoutInterval: Double.infinity)
+        guard let url = URL(string: apiHost + "healthChecker") else {
+            return
+        }
+        var request = URLRequest(url: url)
         request.httpMethod = HTTPMethod.get
  
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
@@ -39,15 +41,19 @@ class APIManager {
     }
     
     func requestProductInformation(productID: Int, completionHandler: @escaping (Result<ProductInformation, Error>) -> Void) {
-        let url = apiHost + "/api/products/" + "\(productID)"
-        var request = URLRequest(url: URL(string: url)!,timeoutInterval: Double.infinity)
+        guard let url = URL(string: apiHost + "/api/products/" + "\(productID)") else {
+            return
+        }
+        var request = URLRequest(url: url)
         request.httpMethod = HTTPMethod.get
         createDataTask(with: request, completionHandler)
     }
     
     func requestProductList(completionHandler: @escaping (Result<ProductList, Error>) -> Void) {
-        let url = apiHost + "/api/products?page-no=1&items-per-page=10"
-        var request = URLRequest(url: URL(string: url)!,timeoutInterval: Double.infinity)
+        guard let url = URL(string: apiHost + "/api/products?page-no=1&items-per-page=10") else {
+            return
+        }
+        var request = URLRequest(url: url)
         request.httpMethod = HTTPMethod.get
         createDataTask(with: request, completionHandler)
     }
