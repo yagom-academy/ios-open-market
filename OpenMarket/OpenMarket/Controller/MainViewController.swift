@@ -18,9 +18,12 @@ class MainViewController: UIViewController {
             segmentControl.backgroundColor = .black
         }
     }
+    var currentCellIdentifier = ProductCell.listIdentifier
     
     private var listFlowlayout: UICollectionViewFlowLayout {
         let flowLayout = UICollectionViewFlowLayout()
+        let halfWidth = UIScreen.main.bounds.width
+        flowLayout.itemSize = CGSize(width: halfWidth, height: halfWidth * 0.155)
         flowLayout.sectionInset = UIEdgeInsets.init(top: 0, left: 0, bottom: 0, right: 0)
         flowLayout.minimumLineSpacing = 0
         return flowLayout
@@ -28,7 +31,12 @@ class MainViewController: UIViewController {
     
     private var gridFlowlayout: UICollectionViewFlowLayout {
         let flowLayout = UICollectionViewFlowLayout()
-        flowLayout.sectionInset = UIEdgeInsets.init(top: 10, left: 5, bottom: 10, right: 5)
+        let halfWidth = UIScreen.main.bounds.width / 2
+        flowLayout.itemSize = CGSize(width: halfWidth * 0.93, height: halfWidth * 1.32)
+        let spacing = (UIScreen.main.bounds.width - flowLayout.itemSize.width * 2) / 3
+        flowLayout.sectionInset = UIEdgeInsets.init(top: 10, left: spacing, bottom: 10, right: spacing)
+        flowLayout.minimumInteritemSpacing = 0
+        flowLayout.minimumLineSpacing = spacing
         self.collectionView.collectionViewLayout = flowLayout
         return flowLayout
     }
@@ -39,20 +47,41 @@ class MainViewController: UIViewController {
         collectionView.delegate = self
         
         registerXib()
-        setUpFlowLayout()
+        setUpListFlowLayout()
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
     }
     
     private func registerXib() {
-        let gridNibName = UINib(nibName: "GridCollectionViewCell", bundle: .main)
-        collectionView.register(gridNibName, forCellWithReuseIdentifier: "GridView")
+        let gridNibName = UINib(nibName: ProductCell.listNibName, bundle: .main)
+        collectionView.register(gridNibName, forCellWithReuseIdentifier: ProductCell.listIdentifier)
         
-        let listNibName = UINib(nibName: "ListCollectionViewCell", bundle: .main)
-        collectionView.register(listNibName, forCellWithReuseIdentifier: "ListView")
+        let listNibName = UINib(nibName: ProductCell.gridNibName, bundle: .main)
+        collectionView.register(listNibName, forCellWithReuseIdentifier: ProductCell.gridItentifier)
     }
     
-    private func setUpFlowLayout() {
-        self.collectionView.collectionViewLayout = listFlowlayout
+    private func setUpListFlowLayout() {
+        collectionView.collectionViewLayout = listFlowlayout
+    }
+    
+    private func setUpGridFlowLayout() {
+        collectionView.collectionViewLayout = gridFlowlayout
+    }
+    
+    @IBAction func switchSegmentedControl(_ sender: UISegmentedControl) {
+        switch sender.selectedSegmentIndex {
+        case 0:
+            currentCellIdentifier = ProductCell.listIdentifier
+            setUpListFlowLayout()
+            collectionView.scrollToTop()
+            collectionView.reloadData()
+        case 1:
+            currentCellIdentifier = ProductCell.gridItentifier
+            setUpGridFlowLayout()
+            collectionView.scrollToTop()
+            collectionView.reloadData()
+        default:
+            return
+        }
     }
     
 }
@@ -67,30 +96,24 @@ extension MainViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView,
       cellForItemAt indexPath: IndexPath
     ) -> UICollectionViewCell {
-//        guard let cell = collectionView.dequeueReusableCell(
-//            withReuseIdentifier: "GridView", for: indexPath
-//        ) as? GridCollectionViewCell else {
-//            fatalError()
-//        }
-        
         guard let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: "ListView", for: indexPath
-        ) as? ListCollectionViewCell else {
+            withReuseIdentifier: currentCellIdentifier,
+            for: indexPath) as? ProductCell else {
             fatalError()
         }
+        cell.styleConfigure(identifier: currentCellIdentifier)
         
         return cell
     }
 }
 
 extension MainViewController: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView,
-      layout collectionViewLayout: UICollectionViewLayout,
-      sizeForItemAt indexPath: IndexPath
-    ) -> CGSize {
-//        let halfWidth = UIScreen.main.bounds.width / 2
-        let halfWidth = UIScreen.main.bounds.width
 
-        return CGSize(width: halfWidth, height: halfWidth * 0.16)
+}
+
+extension UIScrollView {
+    func scrollToTop() {
+        let topOffset = CGPoint(x: 0, y: -contentInset.top)
+        setContentOffset(topOffset, animated: false)
     }
 }

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -12,7 +12,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ListView" id="gTV-IL-0wX" customClass="ListCollectionViewCell" customModule="OpenMarket" customModuleProvider="target">
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ListView" id="gTV-IL-0wX" customClass="ProductCell" customModule="OpenMarket" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="388" height="82"/>
             <autoresizingMask key="autoresizingMask"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -104,11 +104,8 @@
                 <outlet property="priceStackView" destination="djh-pA-uzj" id="Pbb-69-Gh1"/>
                 <outlet property="productDiscountPrice" destination="I58-aU-Ssv" id="gDQ-Ez-Nq7"/>
                 <outlet property="productImageView" destination="EUv-nb-uvq" id="Oeb-S6-W6I"/>
-                <outlet property="productInfoStackView" destination="ANG-uV-SF8" id="GgN-K1-aLz"/>
                 <outlet property="productNameLabel" destination="fSc-Rn-zlZ" id="XsU-YK-5OT"/>
                 <outlet property="productPrice" destination="xcA-ur-CnH" id="60w-EO-xUZ"/>
-                <outlet property="productStackView" destination="M3O-vr-Sl5" id="iOY-4m-WIS"/>
-                <outlet property="productStock" destination="nel-0u-2Kh" id="U4v-WW-HQZ"/>
             </connections>
             <point key="canvasLocation" x="113.04347826086958" y="112.5"/>
         </collectionViewCell>

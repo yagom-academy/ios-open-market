@@ -7,7 +7,7 @@
 
 import UIKit
 
-class GridCollectionViewCell: UICollectionViewCell {
+class ProductCell: UICollectionViewCell {
     
     @IBOutlet var backgroundStackView: UIStackView!
     @IBOutlet var productImageView: UIImageView!
@@ -17,12 +17,33 @@ class GridCollectionViewCell: UICollectionViewCell {
     @IBOutlet var productDiscountPrice: UILabel!
     @IBOutlet var productStockPrice: UILabel!
 
+    static let listIdentifier = "ListView"
+    static let gridItentifier = "GridView"
+    static let listNibName = "ListCollectionViewCell"
+    static let gridNibName = "GridCollectionViewCell"
+    
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+    }
+
+    func styleConfigure(identifier: String) {
+        if identifier == Self.listIdentifier {
+            setupListView()
+        } else {
+            setupGridView()
+        }
+    }
+    
+    private func setupGridView() {
         self.layer.cornerRadius = 10
         self.layer.borderColor = UIColor.systemGray.cgColor
         self.layer.borderWidth = 1
     }
 
+    private func setupListView() {
+        self.layer.cornerRadius = 0
+        self.layer.borderColor = UIColor.clear.cgColor
+        self.layer.borderWidth = 0
+    }
+    
 }
