@@ -9,6 +9,12 @@ import UIKit
 class MainViewController: UIViewController {
     var productList: [Product] = []
     @IBOutlet private weak var collectionView: UICollectionView!
+    @IBOutlet private weak var indicator: UIActivityIndicatorView! {
+        didSet {
+            indicator.startAnimating()
+            indicator.isHidden = false
+        }
+    }
     @IBOutlet private weak var segmentControl: UISegmentedControl! {
         didSet {
             let normal: [NSAttributedString.Key: Any] = [.foregroundColor: UIColor.white]
@@ -46,6 +52,7 @@ class MainViewController: UIViewController {
         super.viewDidLoad()
         collectionView.dataSource = self
         collectionView.delegate = self
+        collectionView.isHidden = true
         
         registerXib()
         setUpListFlowLayout()
@@ -55,6 +62,9 @@ class MainViewController: UIViewController {
     func reload() {
         DispatchQueue.main.async {
             self.collectionView.reloadData()
+            self.indicator.stopAnimating()
+            self.indicator.isHidden = true
+            self.collectionView.isHidden = false
         }
     }
     
@@ -70,7 +80,9 @@ class MainViewController: UIViewController {
                 self.productList = products.pages
                 self.reload()
             case .failure(let error):
-                print(error.localizedDescription)
+                DispatchQueue.main.async {
+                    self.showAlert(message: error.localizedDescription)
+                }
             }
         }
     }
@@ -104,6 +116,7 @@ class MainViewController: UIViewController {
             collectionView.scrollToTop()
             collectionView.reloadData()
         default:
+            showAlert(message: "알 수 없는 에러가 발생했습니다.")
             return
         }
     }

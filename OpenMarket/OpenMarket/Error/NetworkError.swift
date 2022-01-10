@@ -12,7 +12,7 @@ enum NetworkError: LocalizedError {
     case statusCode(Int)
     case notFoundURL
     
-    var errorDescription: String {
+    var errorDescription: String? {
         switch self {
         case .responseCasting:
             return "캐스팅에 실패하였습니다."

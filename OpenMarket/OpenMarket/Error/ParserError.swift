@@ -12,7 +12,7 @@ enum ParserError: LocalizedError {
     case decodingFail
     case encodingFail
     
-    var errorDescription: String {
+    var errorDescription: String? {
         switch self {
         case .assetNotfound:
             return "에셋 데이터를 찾을 수 없습니다."
