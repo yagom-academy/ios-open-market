@@ -27,7 +27,7 @@ enum URLGenerator {
     return url
   }
   
-  static func DetailProduct(productId: Int) throws -> URL {
+  static func detailProduct(productId: Int) throws -> URL {
     host?.path = "/api/products/\(productId)"
     guard let url = host?.url else {
       throw error.urlGenerateFailed

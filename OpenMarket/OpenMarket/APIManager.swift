@@ -51,7 +51,7 @@ struct APIManager {
     completion: @escaping (Result<Product, Error>) -> Void
   ) {
     do {
-      let url = try URLGenerator.DetailProduct(productId: productId)
+      let url = try URLGenerator.detailProduct(productId: productId)
       let request = URLRequest(url: url, httpMethod: .get)
 
       let dataTask = urlSession.dataTask(request) { response in
