@@ -1,0 +1,12 @@
+disabled_rules:
+ - line_length
+ - trailing_whitespace
+ - unused_closure_parameter
+
+included:
+ - OpenMarket
+
+excluded:
+ - Pods
+ - OpenMarket/AppDelegate.swift
+ - OpenMarket/SceneDelegate.swift

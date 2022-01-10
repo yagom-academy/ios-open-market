@@ -1,9 +1,3 @@
-//
-//  OpenMarket - ViewController.swift
-//  Created by yagom. 
-//  Copyright © yagom. All rights reserved.
-// 
-
 import UIKit
 
 class ViewController: UIViewController {
@@ -13,6 +7,4 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
 
-
 }
-
