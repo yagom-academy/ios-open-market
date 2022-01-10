@@ -276,7 +276,7 @@
 				E963244E278B297100851348 /* CreateProductRequestModel */,
 				E963244F278B297E00851348 /* UpdateProductRequestModel */,
 				E963244D278B296200851348 /* ShowProductSecretRequestModel */,
-				E9632451278B29E600851348 /* DeleteProductRequest */,
+				E9632451278B29E600851348 /* DeleteProductRequestModel */,
 				E9632452278B2A3D00851348 /* ShowProductDetailRequestModel */,
 				E9632450278B29D500851348 /* ShowProductPageRequestModel */,
 			);
@@ -317,12 +317,12 @@
 			path = ShowProductPageRequestModel;
 			sourceTree = "<group>";
 		};
-		E9632451278B29E600851348 /* DeleteProductRequest */ = {
+		E9632451278B29E600851348 /* DeleteProductRequestModel */ = {
 			isa = PBXGroup;
 			children = (
 				E9632461278B2B9E00851348 /* DeleteProductResponse.swift */,
 			);
-			path = DeleteProductRequest;
+			path = DeleteProductRequestModel;
 			sourceTree = "<group>";
 		};
 		E9632452278B2A3D00851348 /* ShowProductDetailRequestModel */ = {
