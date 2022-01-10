@@ -5,7 +5,7 @@ class APIManager {
     var healthChecker: String?
     var product: ProductInformation?
     var productList: ProductList?
-    var semaphore = DispatchSemaphore (value: 0)
+    var semaphore = DispatchSemaphore(value: 0)
     let successRange = 200..<300
     
     func requestHealthChecker() {
@@ -14,14 +14,17 @@ class APIManager {
         request.httpMethod = HTTPMethod.get
         
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            guard error == nil,
-                  let statusCode = (response as? HTTPURLResponse)?.statusCode,
+            guard error == nil else {
+                return print(URLSessionError.requestFail.errorDescription)
+            }
+            
+            guard let statusCode = (response as? HTTPURLResponse)?.statusCode,
                   self.successRange.contains(statusCode) else {
-                return
+                      return print(URLSessionError.statusCodeError.errorDescription)
             }
             
             guard let data = data else {
-                print(String(describing: error))
+                print(URLSessionError.invalidData.errorDescription)
                 self.semaphore.signal()
                 
                 return
@@ -41,14 +44,17 @@ class APIManager {
         request.httpMethod = HTTPMethod.get
         
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            guard error == nil,
-                  let statusCode = (response as? HTTPURLResponse)?.statusCode,
+            guard error == nil else {
+                return print(URLSessionError.requestFail.errorDescription)
+            }
+            
+            guard let statusCode = (response as? HTTPURLResponse)?.statusCode,
                   self.successRange.contains(statusCode) else {
-                return
+                      return print(URLSessionError.statusCodeError.errorDescription)
             }
             
             guard let data = data else {
-                print(String(describing: error))
+                print(URLSessionError.invalidData.errorDescription)
                 self.semaphore.signal()
                 
                 return
@@ -73,15 +79,19 @@ class APIManager {
         request.httpMethod = HTTPMethod.get
         
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            guard error == nil,
-                  let statusCode = (response as? HTTPURLResponse)?.statusCode,
+            guard error == nil else {
+                return print(URLSessionError.requestFail.errorDescription)
+            }
+            
+            guard let statusCode = (response as? HTTPURLResponse)?.statusCode,
                   self.successRange.contains(statusCode) else {
-                return
+                      return print(URLSessionError.statusCodeError.errorDescription)
             }
             
             guard let data = data else {
-                print(String(describing: error))
+                print(URLSessionError.invalidData.errorDescription)
                 self.semaphore.signal()
+                
                 return
             }
             
