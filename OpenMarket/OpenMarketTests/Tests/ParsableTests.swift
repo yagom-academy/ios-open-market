@@ -9,7 +9,7 @@ import XCTest
 @testable import OpenMarket
 
 final class ParsableTests: XCTestCase {
-    var sut: Parsable!
+    var sut: JSONParsable!
     
     override func setUpWithError() throws {
         sut = MarketAPIService()

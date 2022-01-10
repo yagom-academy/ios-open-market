@@ -59,7 +59,11 @@ extension MarketAPIService {
 //MARK: - APIServiceable 프로토콜 채택
 
 extension MarketAPIService: APIServicable {
-    func post(product: PostProduct, images: [Data], completionHandler: @escaping (Result<Data, APIError>) -> Void) {
+    func post(
+        product: PostProduct,
+        images: [Data],
+        completionHandler: @escaping (Result<Data, APIError>) -> Void
+    ) {
         
     }
     
@@ -75,7 +79,10 @@ extension MarketAPIService: APIServicable {
         
     }
     
-    func get(productID: Int, completionHandler: @escaping (Result<Product, APIError>) -> Void) {
+    func get(
+        productID: Int,
+        completionHandler: @escaping (Result<Product, APIError>) -> Void
+    ) {
         guard let url = MarketAPI.getProduct(id: productID).url else {
             return
         }
@@ -83,7 +90,11 @@ extension MarketAPIService: APIServicable {
         performDataTask(request: request, completionHandler: completionHandler)
     }
     
-    func get(pageNumber: Int, itemsPerPage: Int, completionHandler: @escaping (Result<Page, APIError>) -> Void) {
+    func get(
+        pageNumber: Int,
+        itemsPerPage: Int,
+        completionHandler: @escaping (Result<Page, APIError>) -> Void
+    ) {
         guard let url = MarketAPI.getPage(pageNumber: pageNumber, itemsPerPage: itemsPerPage).url else {
             return
         }
@@ -95,17 +106,19 @@ extension MarketAPIService: APIServicable {
 //MARK: - MarketAPIService 메서드
 
 extension MarketAPIService {
-    private func performDataTask<T: Decodable>(request: URLRequest,
-                                              completionHandler: @escaping (Result<T, APIError>) -> Void) {
+    private func performDataTask<T: Decodable>(
+        request: URLRequest,
+        completionHandler: @escaping (Result<T, APIError>) -> Void
+    ) {
         let successRange = 200..<300
         let dataTask = session.dataTask(with: request) { [weak self] data, response, error in
             guard error == nil,
                   let statusCode = (response as? HTTPURLResponse)?.statusCode else {
-                completionHandler(.failure(APIError.invalidResponse))
-                return
-            }
+                      completionHandler(.failure(APIError.invalidResponse))
+                      return
+                  }
             guard successRange.contains(statusCode) else {
-                completionHandler(.failure(APIError.unsuccessfulStatusCode(statusCode: statusCode)))
+                completionHandler(.failure(APIError.unsuccessfulStatusCode(statusCode: 410)))
                 return
             }
             guard let data = data else {

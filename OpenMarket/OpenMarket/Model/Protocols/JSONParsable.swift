@@ -7,11 +7,11 @@
 
 import Foundation
 
-protocol Parsable {
+protocol JSONParsable {
     func parse<T: Decodable>(with data: Data, type: T.Type) -> T?
 }
 
-extension Parsable {
+extension JSONParsable {
     func parse<T: Decodable>(with data: Data, type: T.Type) -> T? {
         do {
             let parsedData = try JSONDecoder().decode(type, from: data)

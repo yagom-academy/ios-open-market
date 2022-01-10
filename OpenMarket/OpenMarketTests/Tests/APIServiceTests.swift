@@ -33,7 +33,7 @@ final class APIServiceTests: XCTestCase {
             case .success(_):
                 XCTFail()
             case .failure(let error):
-                XCTAssertEqual(error, .unsuccessfulStatusCode)
+                XCTAssertEqual(error, .unsuccessfulStatusCode(statusCode: 410))
             }
         }
     }
@@ -62,7 +62,7 @@ final class APIServiceTests: XCTestCase {
             case .success(_):
                 XCTFail()
             case .failure(let error):
-                XCTAssertEqual(error, .unsuccessfulStatusCode)
+                XCTAssertEqual(error, .unsuccessfulStatusCode(statusCode: 410))
             }
         }
     }

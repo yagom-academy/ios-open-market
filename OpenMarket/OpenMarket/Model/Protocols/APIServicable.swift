@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol APIServicable: Parsable {
+protocol APIServicable: JSONParsable {
     func post(product: PostProduct, images: [Data], completionHandler: @escaping (Result<Data, APIError>) -> Void)
     func patch(productID: Int, product: PatchProduct)
     func post(productID: Int, secret: String)

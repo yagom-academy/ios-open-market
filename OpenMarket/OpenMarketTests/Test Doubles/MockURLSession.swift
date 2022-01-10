@@ -28,7 +28,10 @@ final class MockURLSession: DataTaskProvidable {
         self.request = mockRequest
     }
     
-    func dataTask(with request: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask {
+    func dataTask(
+        with request: URLRequest,
+        completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void
+    ) -> URLSessionDataTask {
         let successResponse = HTTPURLResponse(url: request.url!, statusCode: 200, httpVersion: nil, headerFields: nil)
         let failureResponse = HTTPURLResponse(url: request.url!, statusCode: 410, httpVersion: nil, headerFields: nil)
         let sessionDataTask = MockURLSessionDataTask()
