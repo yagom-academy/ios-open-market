@@ -22,8 +22,7 @@ struct Page: Decodable {
         case pageNumber = "page_no"
         case itemsPerPage = "items_per_page"
         case totalCount = "total_count"
-        case offset
-        case limit
+        case offset, limit
         case products = "pages"
         case lastPage = "last_page"
         case hasNext = "has_next"

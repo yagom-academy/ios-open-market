@@ -21,15 +21,11 @@ struct Product: Decodable {
     let issuedAt: String
 
     enum CodingKeys: String, CodingKey {
-        case id
+        case id, name, currency, price, stock
         case vendorID = "vendor_id"
-        case name
         case thumbnailURL = "thumbnail"
-        case currency
-        case price
         case bargainPrice = "bargain_price"
         case discountedPrice = "discounted_price"
-        case stock
         case createdAt = "created_at"
         case issuedAt = "issued_at"
     }
