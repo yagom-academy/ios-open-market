@@ -14,15 +14,9 @@ class APIManager {
         request.httpMethod = HTTPMethod.get
         
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            guard error == nil else {
-                return
-            }
-            
-            guard let statusCode = (response as? HTTPURLResponse)?.statusCode else {
-                return
-            }
-            
-            guard self.successRange.contains(statusCode) else {
+            guard error == nil,
+                  let statusCode = (response as? HTTPURLResponse)?.statusCode,
+                  self.successRange.contains(statusCode) else {
                 return
             }
             
@@ -47,15 +41,9 @@ class APIManager {
         request.httpMethod = HTTPMethod.get
         
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            guard error == nil else {
-                return
-            }
-            
-            guard let statusCode = (response as? HTTPURLResponse)?.statusCode else {
-                return
-            }
-            
-            guard self.successRange.contains(statusCode) else {
+            guard error == nil,
+                  let statusCode = (response as? HTTPURLResponse)?.statusCode,
+                  self.successRange.contains(statusCode) else {
                 return
             }
             
@@ -85,15 +73,9 @@ class APIManager {
         request.httpMethod = HTTPMethod.get
         
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            guard error == nil else {
-                return
-            }
-            
-            guard let statusCode = (response as? HTTPURLResponse)?.statusCode else {
-                return
-            }
-            
-            guard self.successRange.contains(statusCode) else {
+            guard error == nil,
+                  let statusCode = (response as? HTTPURLResponse)?.statusCode,
+                  self.successRange.contains(statusCode) else {
                 return
             }
             
