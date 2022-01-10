@@ -1,6 +1,6 @@
 import UIKit
 
-private extension UIConfigurationStateCustomKey {
+fileprivate extension UIConfigurationStateCustomKey {
     static let productItemKey = UIConfigurationStateCustomKey("productItemKey")
 }
 
@@ -17,7 +17,7 @@ private extension UIConfigurationState {
 
 class ProductListLayoutCell: UICollectionViewListCell {
     private var productItem: ProductDetail?
-    private var listContentView = UIListContentView(configuration: .subtitleCell())
+    private lazy var listContentView = UIListContentView(configuration: defaultConfiguration())
     private var stockLabel = UILabel()
     private var stockLabelLayouts: [NSLayoutConstraint]?
     
@@ -60,7 +60,7 @@ class ProductListLayoutCell: UICollectionViewListCell {
         NSLayoutConstraint.activate([
             listContentView.topAnchor.constraint(equalTo: contentView.topAnchor),
             listContentView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            listContentView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            listContentView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor)
         ])
         
         NSLayoutConstraint.activate(stockConstraints)
@@ -95,7 +95,7 @@ class ProductListLayoutCell: UICollectionViewListCell {
         
         if product.stock == 0 {
             let attributedString = NSMutableAttributedString(string: soldOut)
-            attributedString.addAttribute(.foregroundColor, value: UIColor.yellow, range: NSRange(location: 0, length: soldOut.count))
+            attributedString.addAttribute(.foregroundColor, value: UIColor.orange, range: NSRange(location: 0, length: soldOut.count))
             
             return attributedString
         }
@@ -107,22 +107,22 @@ class ProductListLayoutCell: UICollectionViewListCell {
     override func updateConfiguration(using state: UICellConfigurationState) {
         setupViewsIfNeeded()
         
-        var content = defaultContentConfiguration().updated(for: state)
+        var content = defaultConfiguration().updated(for: state)
         
 //        content.image = state.prevItem?.thumbnail // imageLoader 만들어야함
         content.text = state.prevItem?.name
         content.secondaryAttributedText = createPriceText(product: state.prevItem) ?? nil
         listContentView.configuration = content
         
-        stockLabel.attributedText = createPriceText(product: state.prevItem) ?? nil
+        stockLabel.attributedText = createStockText(product: state.prevItem) ?? nil
     }
 }
 
 private extension NSMutableAttributedString {
     func strikeThroughStyle(string: String) -> NSMutableAttributedString {
         let attributedString = NSMutableAttributedString(string: string)
-        attributedString.addAttribute(NSAttributedString.Key.strikethroughStyle, value: NSUnderlineStyle.single.rawValue, range: NSMakeRange(0, self.length))
-        attributedString.addAttribute(NSAttributedString.Key.strikethroughColor, value: UIColor.red, range: NSMakeRange(0, self.length))
+        attributedString.addAttribute(NSAttributedString.Key.strikethroughStyle, value: NSUnderlineStyle.single.rawValue, range: NSRange(location: 0, length: self.length))
+        attributedString.addAttribute(NSAttributedString.Key.strikethroughColor, value: UIColor.red, range: NSRange(location: 0, length: self.length))
         return attributedString
     }
     
