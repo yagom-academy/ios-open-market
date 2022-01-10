@@ -12,9 +12,19 @@ class APIManager {
         guard let url = URLManager.healthChecker.url else { return }
         let request = URLRequest(url: url, method: .get)
         let task = urlSession.dataTask(with: request) { data, response, error in
+            if let httpResponse = response as? HTTPURLResponse,
+               httpResponse.statusCode >= 300 {
+                completion(.failure(URLSessionError.responseFailed(code: httpResponse.statusCode)))
+                return
+            }
+            
+            if let error = error {
+                completion(.failure(URLSessionError.requestFailed(description: error.localizedDescription)))
+                return
+            }
+            
             guard let data = data else {
-                print(String(describing: error))
-                completion(.failure(error!))
+                completion(.failure(URLSessionError.invaildData))
                 return
             }
             completion(.success(data))
@@ -40,14 +50,14 @@ extension APIManager {
     
     func creatDataTask<T: Decodable>(with request: URLRequest, completion: @escaping (Result<T, Error>) -> Void) {
         let task = urlSession.dataTask(with: request) { data, response, error in
-            guard error == nil else {
-                completion(.failure(URLSessionError.requestFailed))
-                return
-            }
-            
             if let httpResponse = response as? HTTPURLResponse,
                httpResponse.statusCode >= 300 {
                 completion(.failure(URLSessionError.responseFailed(code: httpResponse.statusCode)))
+                return
+            }
+            
+            if let error = error {
+                completion(.failure(URLSessionError.requestFailed(description: error.localizedDescription)))
                 return
             }
             
