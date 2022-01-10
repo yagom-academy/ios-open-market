@@ -120,6 +120,7 @@
 		C70FB0F925BEF61C00C9924E /* OpenMarket */ = {
 			isa = PBXGroup;
 			children = (
+				ED6EEFF727870D520042B6C2 /* Extensions */,
 				ED0157E62782EBE900BEE737 /* Model */,
 				C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */,
 				C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */,
@@ -135,7 +136,6 @@
 		ED0157E62782EBE900BEE737 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				ED6EEFF727870D520042B6C2 /* Extensions */,
 				EDC4FD2C2785CD4000E0A775 /* Errors */,
 				EDC4FD29278572F700E0A775 /* Protocols */,
 				ED0157E42782E5C400BEE737 /* Page.swift */,
