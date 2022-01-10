@@ -4,6 +4,7 @@ enum URLSessionError: LocalizedError {
     case requestFail
     case statusCodeError
     case invalidData
+    case urlIsNil
 }
 
 extension URLSessionError {
@@ -15,6 +16,8 @@ extension URLSessionError {
             return "Http status code error"
         case .invalidData:
             return "Invalid data"
+        case .urlIsNil:
+            return "Url is nil"
         }
     }
 }
