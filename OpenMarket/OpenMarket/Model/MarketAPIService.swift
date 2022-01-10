@@ -59,7 +59,7 @@ extension MarketAPIService {
 //MARK: - APIServiceable 프로토콜 채택
 
 extension MarketAPIService: APIServicable {
-    func post(
+    func registerProduct(
         product: PostProduct,
         images: [Data],
         completionHandler: @escaping (Result<Data, APIError>) -> Void
@@ -67,19 +67,19 @@ extension MarketAPIService: APIServicable {
         
     }
     
-    func patch(productID: Int, product: PatchProduct) {
+    func updateProduct(productID: Int, product: PatchProduct) {
         
     }
     
-    func post(productID: Int, secret: String) {
+    func getSecret(productID: Int, secret: String) {
         
     }
     
-    func delete(productID: Int, productSecret: String) {
+    func deleteProduct(productID: Int, productSecret: String) {
         
     }
     
-    func get(
+    func fetchProduct(
         productID: Int,
         completionHandler: @escaping (Result<Product, APIError>) -> Void
     ) {
@@ -90,7 +90,7 @@ extension MarketAPIService: APIServicable {
         performDataTask(request: request, completionHandler: completionHandler)
     }
     
-    func get(
+    func fetchPage(
         pageNumber: Int,
         itemsPerPage: Int,
         completionHandler: @escaping (Result<Page, APIError>) -> Void

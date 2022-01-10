@@ -8,11 +8,11 @@
 import Foundation
 
 protocol APIServicable: JSONParsable {
-    func post(product: PostProduct, images: [Data], completionHandler: @escaping (Result<Data, APIError>) -> Void)
-    func patch(productID: Int, product: PatchProduct)
-    func post(productID: Int, secret: String)
-    func delete(productID: Int, productSecret: String)
-    func get(productID: Int, completionHandler: @escaping (Result<Product, APIError>) -> Void)
-    func get(pageNumber: Int, itemsPerPage: Int, completionHandler: @escaping (Result<Page, APIError>) -> Void) 
+    func registerProduct(product: PostProduct, images: [Data], completionHandler: @escaping (Result<Data, APIError>) -> Void)
+    func updateProduct(productID: Int, product: PatchProduct)
+    func getSecret(productID: Int, secret: String)
+    func deleteProduct(productID: Int, productSecret: String)
+    func fetchProduct(productID: Int, completionHandler: @escaping (Result<Product, APIError>) -> Void)
+    func fetchPage(pageNumber: Int, itemsPerPage: Int, completionHandler: @escaping (Result<Page, APIError>) -> Void) 
 }
 
