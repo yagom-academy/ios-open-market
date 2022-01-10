@@ -12,14 +12,14 @@ class ProductsTests: XCTestCase {
     func test_decoding된_JSON데이터의_productList의_pageNumber가_1인지() {
         let decodeResult = try! Parser<ProductList>.decode(from: sut!)
         let result = decodeResult!.pageNumber
-        
+
         XCTAssertEqual(result, 1)
     }
-    
+
     func test_decoding된_productList_pages의_첫번째데이터이름이_pizza인지() {
         let decodeResult = try! Parser<ProductList>.decode(from: sut!)
         let result = decodeResult!.pages[0].name
-        
+
         XCTAssertEqual(result, "pizza")
     }
 }

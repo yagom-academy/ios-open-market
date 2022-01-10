@@ -30,6 +30,8 @@
 		FB2CEAE02784364400DB75DF /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB2CEADF2784364400DB75DF /* APIManager.swift */; };
 		FB2CEAE22786D62800DB75DF /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB2CEAE12786D62700DB75DF /* HTTPMethod.swift */; };
 		FB2CEAE42787188200DB75DF /* ProductImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB2CEAE32787188100DB75DF /* ProductImage.swift */; };
+		FB73D8FF278C86490063E15A /* URLSessionError.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB95741D278C119000B1E7D2 /* URLSessionError.swift */; };
+		FB73D900278C864C0063E15A /* ParserError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A8326A278C666200448699 /* ParserError.swift */; };
 		FB95741E278C119000B1E7D2 /* URLSessionError.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB95741D278C119000B1E7D2 /* URLSessionError.swift */; };
 /* End PBXBuildFile section */
 
@@ -259,6 +261,8 @@
 				53A831212784168400448699 /* ProductList.swift in Sources */,
 				53A8312B27871E7800448699 /* Vendors.swift in Sources */,
 				53A831202784168200448699 /* ProductInformation.swift in Sources */,
+				FB73D8FF278C86490063E15A /* URLSessionError.swift in Sources */,
+				FB73D900278C864C0063E15A /* ParserError.swift in Sources */,
 				53A831182784161A00448699 /* ProductsTests.swift in Sources */,
 				53A8312727871E6100448699 /* APIManagerTests.swift in Sources */,
 			);
