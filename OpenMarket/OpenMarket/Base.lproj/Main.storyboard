@@ -49,8 +49,8 @@
                                                 <constraint firstAttribute="width" secondItem="gFh-Tn-k5m" secondAttribute="height" multiplier="1:1" id="nNK-yX-tTf"/>
                                             </constraints>
                                         </imageView>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="price" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zPO-Ns-2g3">
-                                            <rect key="frame" x="73.5" y="130" width="38.5" height="20.5"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="price" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zPO-Ns-2g3">
+                                            <rect key="frame" x="0.0" y="130" width="185" height="20.5"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
@@ -59,6 +59,7 @@
                                     <constraints>
                                         <constraint firstItem="gFh-Tn-k5m" firstAttribute="centerX" secondItem="dFc-XT-l17" secondAttribute="centerX" id="AwB-gz-LFk"/>
                                         <constraint firstItem="Vqk-Ps-HQk" firstAttribute="centerX" secondItem="dFc-XT-l17" secondAttribute="centerX" id="CBk-35-FBL"/>
+                                        <constraint firstItem="zPO-Ns-2g3" firstAttribute="width" secondItem="dFc-XT-l17" secondAttribute="width" id="FSC-z8-YO4"/>
                                         <constraint firstItem="gFh-Tn-k5m" firstAttribute="top" secondItem="dFc-XT-l17" secondAttribute="top" id="Km7-xI-4WP"/>
                                         <constraint firstItem="zPO-Ns-2g3" firstAttribute="centerX" secondItem="dFc-XT-l17" secondAttribute="centerX" id="T3s-V0-wgH"/>
                                         <constraint firstItem="0jF-qR-SUn" firstAttribute="centerX" secondItem="dFc-XT-l17" secondAttribute="centerX" id="Z88-Zc-hkh"/>
