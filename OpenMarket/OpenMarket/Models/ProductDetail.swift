@@ -24,3 +24,5 @@ struct ProductDetail: Codable {
         case id, name, thumbnail, currency, price, stock, images, vendors
     }
 }
+
+extension ProductDetail: Hashable { }

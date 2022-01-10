@@ -7,6 +7,8 @@
 import UIKit
 
 class ViewController: UIViewController {
+    private var productCollectionView: UICollectionView?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configUI()
@@ -20,5 +22,10 @@ class ViewController: UIViewController {
     func configNavigationBar() {
         let segment = LayoutSegmentedControl(items: ["LIST", "GRID"])
         self.navigationController?.navigationBar.topItem?.titleView = segment
+    }
+    
+    func createListLayout() -> UICollectionViewCompositionalLayout {
+        let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
+        return UICollectionViewCompositionalLayout.list(using: configuration)
     }
 }
