@@ -7,12 +7,9 @@
 
 import Foundation
 
-class JSONParser {
-  static let shared = JSONParser()
-  let decoder = JSONDecoder()
-  let encoder = JSONEncoder()
-  
-  private init() { }
+struct JSONParser {
+  private let decoder = JSONDecoder()
+  private let encoder = JSONEncoder()
   
   func decode<Element: Codable>(
     data: Data,

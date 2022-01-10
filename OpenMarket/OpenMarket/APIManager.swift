@@ -9,6 +9,7 @@ import Foundation
 
 struct APIManager {
   private let urlSession: URLSession
+  private let jsonParser = JSONParser()
   
   init(urlSession: URLSession) {
     self.urlSession = urlSession
@@ -28,7 +29,7 @@ struct APIManager {
       let dataTask = urlSession.dataTask(request) { response in
         switch response {
         case .success(let data):
-          let result = JSONParser.shared.decode(data: data, type: ProductList.self)
+          let result = jsonParser.decode(data: data, type: ProductList.self)
           switch result {
           case .success(let data):
             completion(.success(data))
@@ -56,7 +57,7 @@ struct APIManager {
       let dataTask = urlSession.dataTask(request) { response in
         switch response {
         case .success(let data):
-          let result = JSONParser.shared.decode(data: data, type: Product.self)
+          let result = jsonParser.decode(data: data, type: Product.self)
           switch result {
           case .success(let data):
             completion(.success(data))

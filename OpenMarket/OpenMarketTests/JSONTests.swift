@@ -9,6 +9,8 @@ import XCTest
 @testable import OpenMarket
 
 class JSONTests: XCTestCase {
+  
+  let jsonParser = JSONParser()
 
   func test_JSON파일이_파싱이_되는지() {
     guard let asset = NSDataAsset(name: AssetFileName.products) else {
@@ -16,7 +18,7 @@ class JSONTests: XCTestCase {
       return
     }
   
-    let result = JSONParser.shared.decode(data: asset.data, type: ProductList.self)
+    let result = jsonParser.decode(data: asset.data, type: ProductList.self)
     switch result {
     case .success(let data):
       XCTAssertNotNil(data)
@@ -32,7 +34,7 @@ class JSONTests: XCTestCase {
       return
     }
   
-    let result = JSONParser.shared.decode(data: asset.data, type: Product.self)
+    let result = jsonParser.decode(data: asset.data, type: Product.self)
     switch result {
     case .success(_):
       XCTFail()
