@@ -28,8 +28,8 @@ struct APIManager {
   ) {
     do{
       let url = try URLGenerator.productList(
-        pageNumber: "\(pageNumber)",
-        itemsPerPage: "\(itemsPerPage)")
+        pageNumber: pageNumber,
+        itemsPerPage: itemsPerPage)
       var request = URLRequest(url: url)
       request.httpMethod = HttpMethod.get
       
