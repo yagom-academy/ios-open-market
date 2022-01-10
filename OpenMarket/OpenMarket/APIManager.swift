@@ -15,8 +15,7 @@ enum HttpMethod {
 }
 
 struct APIManager {
-  let semaphore = DispatchSemaphore(value: 0)
-  let urlSession: URLSession
+  private let urlSession: URLSession
   
   init(urlSession: URLSession) {
     self.urlSession = urlSession
