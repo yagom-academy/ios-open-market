@@ -2,10 +2,6 @@ import Foundation
 
 class APIManager {
     let apiHost = "https://market-training.yagom-academy.kr/"
-    var healthChecker: String?
-    var product: ProductInformation?
-    var productList: ProductList?
-    var semaphore = DispatchSemaphore(value: 0)
     let successRange = 200..<300
     
     func requestHealthChecker(completionHandler: @escaping (Result<Data, Error>) -> Void) {
