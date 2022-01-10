@@ -17,7 +17,7 @@ struct APIManager {
   func productList(
     pageNumber: Int,
     itemsPerPage: Int,
-    completion: @escaping (Result<ProductList, ResponseError>) -> Void
+    completion: @escaping (Result<ProductList, Error>) -> Void
   ) {
     do{
       let url = try URLGenerator.productList(
@@ -33,21 +33,21 @@ struct APIManager {
           case .success(let data):
             completion(.success(data))
           case .failure(let error):
-            print(error)
+            completion(.failure(error))
           }
         case .failure(_):
-          completion(.failure(.responseFailed))
+          completion(.failure(ResponseError.responseFailed))
         }
       }
       dataTask.resume()
     } catch let error {
-      print(error)
+      completion(.failure(error))
     }
   }
   
   func detailProduct(
     productId: Int,
-    completion: @escaping (Result<Product, ResponseError>) -> Void
+    completion: @escaping (Result<Product, Error>) -> Void
   ) {
     do {
       let url = try URLGenerator.DetailProduct(productId: productId)
@@ -61,15 +61,15 @@ struct APIManager {
           case .success(let data):
             completion(.success(data))
           case .failure(let error):
-            print(error)
+            completion(.failure(error))
           }
         case .failure(_):
-          completion(.failure(.responseFailed))
+          completion(.failure(ResponseError.responseFailed))
         }
       }
       dataTask.resume()
     } catch let error {
-      print(error)
+      completion(.failure(error))
     }
   }
 }
