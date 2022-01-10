@@ -1,4 +1,4 @@
-import Foundation
+import UIKit
 
 struct Product: Decodable {
     let id: Int
@@ -19,5 +19,14 @@ struct Product: Decodable {
         case vendor = "vendors"
         case id, vendorId, name, thumbnail, currency, price, bargainPrice, discountedPrice, stock,
              images, createdAt, issuedAt
+    }
+}
+
+extension Product {
+    var title: NSAttributedString {
+        return NSAttributedString(
+            string: name,
+            attributes: [.font: UIFont.preferredFont(forTextStyle: .headline)]
+        )
     }
 }
