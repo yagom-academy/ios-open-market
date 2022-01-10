@@ -18,6 +18,10 @@ class ProductsCollectionViewController: UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        loadProductsList()
+    }
+    
+    private func loadProductsList() {
         networkTask.requestProductList(pageNumber: 1, itemsPerPage: 20) { result in
             switch result {
             case .success(let data):
