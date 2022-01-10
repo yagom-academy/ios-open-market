@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <accessibilityOverrides isEnabled="YES" dynamicTypePreference="3"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -29,13 +29,13 @@
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="249" text="MacBook Pro" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KKy-Ga-QAZ">
-                                <rect key="frame" x="27.5" y="140.5" width="105.5" height="20.5"/>
+                                <rect key="frame" x="27.5" y="138" width="105.5" height="20.5"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="qUV-l3-g4b" userLabel="Price Stack View">
-                                <rect key="frame" x="42.5" y="171" width="75" height="29"/>
+                                <rect key="frame" x="42.5" y="166.5" width="75" height="36"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="USD 2,500" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oWp-gI-7is">
                                         <rect key="frame" x="0.0" y="0.0" width="75" height="18"/>
@@ -44,15 +44,12 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" text="USD 2,500" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TYI-nC-LD9">
-                                        <rect key="frame" x="0.0" y="18" width="75" height="11"/>
+                                        <rect key="frame" x="0.0" y="18" width="75" height="18"/>
                                         <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                                         <color key="textColor" systemColor="systemGrayColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="29" id="nRt-le-33V"/>
-                                </constraints>
                             </stackView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="잔여수량 : 148" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1dj-I8-xMI">
                                 <rect key="frame" x="32.5" y="210.5" width="95.5" height="19.5"/>
