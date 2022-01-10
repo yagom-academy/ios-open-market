@@ -22,15 +22,12 @@ class URLSessionProvider {
         }
         
         let task = session.dataTask(with: urlRequest) { data, response, _ in
-            
-            print(String(data: data!, encoding: .utf8))
-            
             guard let httpRespose = response as? HTTPURLResponse,
                   (200...299).contains(httpRespose.statusCode) else {
                 return completionHandler(.failure(.statusError))
             }
             guard let data = data else {
-                return completionHandler(.failure(.unknownError))
+                return completionHandler(.failure(.dataError))
             }
             return completionHandler(.success(data))
         }
@@ -44,21 +41,18 @@ class URLSessionProvider {
             return
         }
         
-        let task = session.dataTask(with: urlRequest) { data, response, _ in
-            
-            print(String(data: data!, encoding: .utf8))
-            
-            guard let httpRespose = response as? HTTPURLResponse,
-                  (200...299).contains(httpRespose.statusCode) else {
+        let task = session.dataTask(with: urlRequest) { data, response, error in
+            guard let httpResponse = response as? HTTPURLResponse,
+                  (200...299).contains(httpResponse.statusCode) else {
                 return completionHandler(.failure(.statusError))
             }
             
             guard let data = data else {
-                return completionHandler(.failure(.unknownError))
+                return completionHandler(.failure(.dataError))
             }
             
             guard let decoded = try? JSONDecoder.shared.decode(T.self, from: data) else {
-                return completionHandler(.failure(.unknownError))
+                return completionHandler(.failure(.decodingError))
             }
             
             return completionHandler(.success(decoded))
@@ -72,6 +66,7 @@ enum URLSessionProviderError: Error {
     
     case statusError
     case urlRequestError
-    case unknownError
+    case dataError
+    case decodingError
     
 }
