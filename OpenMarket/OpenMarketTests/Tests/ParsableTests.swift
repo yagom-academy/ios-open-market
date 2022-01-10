@@ -8,8 +8,8 @@
 import XCTest
 @testable import OpenMarket
 
-final class ParsableTests: XCTestCase {
-    var sut: JSONParsable!
+final class JSONParsableTests: XCTestCase {
+    var sut: JSONParsable?
     
     override func setUpWithError() throws {
         sut = MarketAPIService()
@@ -21,6 +21,9 @@ final class ParsableTests: XCTestCase {
     
     func testParser_givenProductsFile_expectNotNil() {
         guard let data = NSDataAsset(name: "products")?.data else {
+            return
+        }
+        guard let sut = sut else {
             return
         }
         let parsedData = sut.parse(with: data, type: Page.self)
@@ -94,6 +97,9 @@ final class ParsableTests: XCTestCase {
     
     private func parsePage() -> Page? {
         guard let data = NSDataAsset(name: "products")?.data else {
+            return nil
+        }
+        guard let sut = sut else {
             return nil
         }
         guard let page = sut.parse(with: data, type: Page.self) else {
