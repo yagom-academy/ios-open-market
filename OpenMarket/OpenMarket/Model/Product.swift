@@ -42,30 +42,49 @@ extension Product {
             )
             result.append(price)
             return result
-        } else {
-            let formattedOriginalPrice = price.formatted ?? price.description
-            let originalPrice = NSAttributedString(
-                string: currency.rawValue + " " + formattedOriginalPrice,
-                attributes: [
-                    .font: UIFont.preferredFont(forTextStyle: .body),
-                    .foregroundColor: UIColor.systemRed,
-                    .strikethroughStyle: NSUnderlineStyle.single.rawValue
-                ]
-            )
-            let formattedBargainPrice = bargainPrice.formatted ?? bargainPrice.description
-            let bargainPrice = NSAttributedString(
-                string: currency.rawValue + " " + formattedBargainPrice,
-                attributes: [
-                    .font: UIFont.preferredFont(forTextStyle: .body),
-                    .foregroundColor: UIColor.systemGray
-                ]
-            )
-            let blank = NSAttributedString(string: " ")
-            result.append(originalPrice)
-            result.append(blank)
-            result.append(bargainPrice)
-            return result
         }
+        let formattedOriginalPrice = price.formatted ?? price.description
+        let originalPrice = NSAttributedString(
+            string: currency.rawValue + " " + formattedOriginalPrice,
+            attributes: [
+                .font: UIFont.preferredFont(forTextStyle: .body),
+                .foregroundColor: UIColor.systemRed,
+                .strikethroughStyle: NSUnderlineStyle.single.rawValue
+            ]
+        )
+        let formattedBargainPrice = bargainPrice.formatted ?? bargainPrice.description
+        let bargainPrice = NSAttributedString(
+            string: currency.rawValue + " " + formattedBargainPrice,
+            attributes: [
+                .font: UIFont.preferredFont(forTextStyle: .body),
+                .foregroundColor: UIColor.systemGray
+            ]
+        )
+        let blank = NSAttributedString(string: " ")
+        result.append(originalPrice)
+        result.append(blank)
+        result.append(bargainPrice)
+        return result
+    }
+    var attributedStock: NSAttributedString {
+        if stock == 0 {
+            let outOfStock = NSAttributedString(
+                string: "품절",
+                attributes: [
+                    .font: UIFont.preferredFont(forTextStyle: .body),
+                    .foregroundColor: UIColor.systemOrange
+                ]
+            )
+            return outOfStock
+        }
+        let currentStock = NSAttributedString(
+            string: "잔여수량 : \(stock)",
+            attributes: [
+                .font: UIFont.preferredFont(forTextStyle: .body),
+                .foregroundColor: UIColor.systemGray
+            ]
+        )
+        return currentStock
     }
 }
 

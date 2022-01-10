@@ -77,7 +77,7 @@ class ProductsCollectionViewController: UICollectionViewController {
         cell.productImageView.image = image
         cell.productTitleLabel.attributedText = product.attributedTitle
         cell.productPriceLabel.attributedText = product.attributedPrice
-        cell.productStockLabel.text = product.stock.description
+        cell.productStockLabel.attributedText = product.attributedStock
         return cell
     }
 }
