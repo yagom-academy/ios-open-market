@@ -8,11 +8,34 @@ class APIManager {
     var semaphore = DispatchSemaphore(value: 0)
     let successRange = 200..<300
     
-    func requestHealthChecker() {
+    func requestHealthChecker(completionHandler: @escaping (Result<Data, Error>) -> Void) {
         let url = apiHost + "healthChecker"
         var request = URLRequest(url: URL(string: url)!,timeoutInterval: Double.infinity)
         request.httpMethod = HTTPMethod.get
  
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            guard let statusCode = (response as? HTTPURLResponse)?.statusCode, self.successRange.contains(statusCode) else {
+                completionHandler(.failure(URLSessionError.statusCodeError))
+                
+                return
+            }
+            
+            guard error == nil else {
+                completionHandler(.failure(URLSessionError.requestFail))
+                
+                return
+            }
+            
+            guard let data = data else {
+                completionHandler(.failure(URLSessionError.invalidData))
+                
+                return
+            }
+            
+            completionHandler(.success(data))
+        }
+        task.resume()
+        
     }
     
     func requestProductInformation(productID: Int, completionHandler: @escaping (Result<ProductInformation, Error>) -> Void) {
