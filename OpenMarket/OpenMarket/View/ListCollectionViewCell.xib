@@ -100,13 +100,11 @@
             </constraints>
             <size key="customSize" width="388" height="82"/>
             <connections>
-                <outlet property="backgroundStackView" destination="c9w-A2-fX1" id="u62-Od-Afa"/>
-                <outlet property="priceStackView" destination="djh-pA-uzj" id="Pbb-69-Gh1"/>
-                <outlet property="productDiscountPrice" destination="I58-aU-Ssv" id="gDQ-Ez-Nq7"/>
+                <outlet property="discountPriceLabel" destination="I58-aU-Ssv" id="gDQ-Ez-Nq7"/>
+                <outlet property="priceLabel" destination="xcA-ur-CnH" id="60w-EO-xUZ"/>
                 <outlet property="productImageView" destination="EUv-nb-uvq" id="Oeb-S6-W6I"/>
                 <outlet property="productNameLabel" destination="fSc-Rn-zlZ" id="XsU-YK-5OT"/>
-                <outlet property="productPrice" destination="xcA-ur-CnH" id="60w-EO-xUZ"/>
-                <outlet property="productStockPrice" destination="nel-0u-2Kh" id="uv9-zU-JBb"/>
+                <outlet property="stockLabel" destination="nel-0u-2Kh" id="uv9-zU-JBb"/>
             </connections>
             <point key="canvasLocation" x="113.04347826086958" y="112.5"/>
         </collectionViewCell>

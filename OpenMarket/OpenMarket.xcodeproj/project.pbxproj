@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		9A134562278C1C1F00660291 /* UIViewController+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A134561278C1C1F00660291 /* UIViewController+extension.swift */; };
+		9A134564278C260A00660291 /* String+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A134563278C260A00660291 /* String+extension.swift */; };
+		9A134566278C2BC300660291 /* Int+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A134565278C2BC300660291 /* Int+extension.swift */; };
 		9A1CFD782782E341003BEC69 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1CFD772782E341003BEC69 /* Product.swift */; };
 		9A1CFD7A2782E683003BEC69 /* JSONParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1CFD792782E683003BEC69 /* JSONParser.swift */; };
 		9A1CFD7C2782EB88003BEC69 /* ParserError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1CFD7B2782EB88003BEC69 /* ParserError.swift */; };
@@ -60,6 +62,8 @@
 
 /* Begin PBXFileReference section */
 		9A134561278C1C1F00660291 /* UIViewController+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+extension.swift"; sourceTree = "<group>"; };
+		9A134563278C260A00660291 /* String+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+extension.swift"; sourceTree = "<group>"; };
+		9A134565278C2BC300660291 /* Int+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+extension.swift"; sourceTree = "<group>"; };
 		9A1CFD772782E341003BEC69 /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
 		9A1CFD792782E683003BEC69 /* JSONParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONParser.swift; sourceTree = "<group>"; };
 		9A1CFD7B2782EB88003BEC69 /* ParserError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParserError.swift; sourceTree = "<group>"; };
@@ -233,6 +237,8 @@
 			children = (
 				F35B1A6A2784335B0031A755 /* Data+extension.swift */,
 				9A134561278C1C1F00660291 /* UIViewController+extension.swift */,
+				9A134563278C260A00660291 /* String+extension.swift */,
+				9A134565278C2BC300660291 /* Int+extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -399,6 +405,7 @@
 			files = (
 				9A1CFDCC27842755003BEC69 /* ProductModification.swift in Sources */,
 				F35B1A642783E6420031A755 /* Network.swift in Sources */,
+				9A134566278C2BC300660291 /* Int+extension.swift in Sources */,
 				9A134562278C1C1F00660291 /* UIViewController+extension.swift in Sources */,
 				F35B1A6B2784335B0031A755 /* Data+extension.swift in Sources */,
 				9A1CFDCA27841CD0003BEC69 /* ProductSecret.swift in Sources */,
@@ -409,6 +416,7 @@
 				9AAA3F4B27881F7700D6E407 /* ProductCell.swift in Sources */,
 				F35B1A712784351B0031A755 /* ProductRegistration.swift in Sources */,
 				F39BD72A2782DFA000D4B32D /* Products.swift in Sources */,
+				9A134564278C260A00660291 /* String+extension.swift in Sources */,
 				F35B1A73278442F40031A755 /* ImageFile.swift in Sources */,
 				9A1CFDC82783EE09003BEC69 /* APIAddress.swift in Sources */,
 				F3D3B5AD2787329600943720 /* MultipartForm.swift in Sources */,

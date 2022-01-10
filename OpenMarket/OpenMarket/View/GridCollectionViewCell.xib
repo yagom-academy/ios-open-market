@@ -76,13 +76,11 @@
                 <constraint firstItem="Xs2-V8-Nju" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="5" id="eR1-O0-MRe"/>
             </constraints>
             <connections>
-                <outlet property="backgroundStackView" destination="Xs2-V8-Nju" id="gyY-OI-Pl3"/>
-                <outlet property="priceStackView" destination="qUV-l3-g4b" id="PWF-dV-0ch"/>
-                <outlet property="productDiscountPrice" destination="TYI-nC-LD9" id="Sq0-rY-nXX"/>
+                <outlet property="discountPriceLabel" destination="TYI-nC-LD9" id="Sq0-rY-nXX"/>
+                <outlet property="priceLabel" destination="oWp-gI-7is" id="Xig-JS-jlo"/>
                 <outlet property="productImageView" destination="2vy-Hf-ngl" id="hMM-71-X7G"/>
                 <outlet property="productNameLabel" destination="KKy-Ga-QAZ" id="ULy-mT-IsN"/>
-                <outlet property="productPrice" destination="oWp-gI-7is" id="Xig-JS-jlo"/>
-                <outlet property="productStockPrice" destination="1dj-I8-xMI" id="lJH-qO-8Xg"/>
+                <outlet property="stockLabel" destination="1dj-I8-xMI" id="lJH-qO-8Xg"/>
             </connections>
             <point key="canvasLocation" x="139" y="153"/>
         </collectionViewCell>
