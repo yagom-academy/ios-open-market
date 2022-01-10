@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct DeleteRequest: Codable {
+struct DeleteProductRequest: Codable {
     let vendorID: String
     let productID: Int
     let productSecretKey: String

@@ -9,7 +9,6 @@ class URLSessionProvider {
     
     func dataTask(request: URLRequest, completionHandler: @escaping (Result<Data, NetworkError>) -> Void) {
         let task = session.dataTask(with: request) { data, urlResponse, error in
-            
             guard let httpResponse = urlResponse as? HTTPURLResponse,
                   (200...299).contains(httpResponse.statusCode) else {
                       return completionHandler(.failure(.statusCodeError))
@@ -25,8 +24,10 @@ class URLSessionProvider {
         task.resume()
     }
     
-    func getData(requestType: RequestType, completionHandler: @escaping (Result<Data, NetworkError>) -> Void) {
-        guard let url = URL(string: requestType.description) else { return }
+    func getData(requestType: RequestType, completionHandler: @escaping (Result<Data, NetworkError>) -> Void) throws {
+        guard let url = URL(string: requestType.description) else {
+            throw NetworkError.wrongURL
+        }
         
         var request: URLRequest
         
