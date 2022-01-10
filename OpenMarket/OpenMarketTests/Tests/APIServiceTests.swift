@@ -10,7 +10,7 @@ import XCTest
 
 final class APIServiceTests: XCTestCase {
     func testGetPage_givenSuccessfulRequest_expectCorrectData() {
-        let mockURLSession = MockURLSession(isSuccessfulRequest: true, mockRequest: .getPage)
+        let mockURLSession = StubURLSession(isSuccessfulRequest: true, mockRequest: .getPage)
         let sut = MarketAPIService(session: mockURLSession)
         let mockData = try? JSONDecoder().decode(Page.self, from: mockURLSession.request.data)
         
@@ -25,7 +25,7 @@ final class APIServiceTests: XCTestCase {
     }
     
     func testGetPage_givenFailureRequest_expectInvalidRequestError() {
-        let mockURLSession = MockURLSession(isSuccessfulRequest: false, mockRequest: .getPage)
+        let mockURLSession = StubURLSession(isSuccessfulRequest: false, mockRequest: .getPage)
         let sut = MarketAPIService(session: mockURLSession)
         
         sut.fetchPage(pageNumber: 1, itemsPerPage: 1) { result in
@@ -39,7 +39,7 @@ final class APIServiceTests: XCTestCase {
     }
     
     func testGetProduct_givenSuccessfulRequest_expectCorrectData() {
-        let mockURLSession = MockURLSession(isSuccessfulRequest: true, mockRequest: .getProduct)
+        let mockURLSession = StubURLSession(isSuccessfulRequest: true, mockRequest: .getProduct)
         let sut = MarketAPIService(session: mockURLSession)
         let mockData = try? JSONDecoder().decode(Product.self, from: mockURLSession.request.data)
         
@@ -54,7 +54,7 @@ final class APIServiceTests: XCTestCase {
     }
     
     func testGetProduct_givenFailureRequest_expectInvalidRequestError() {
-        let mockURLSession = MockURLSession(isSuccessfulRequest: false, mockRequest: .getProduct)
+        let mockURLSession = StubURLSession(isSuccessfulRequest: false, mockRequest: .getProduct)
         let sut = MarketAPIService(session: mockURLSession)
         
         sut.fetchProduct(productID: 87) { result in

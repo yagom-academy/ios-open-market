@@ -9,7 +9,7 @@ import Foundation
 import UIKit.NSDataAsset
 @testable import OpenMarket
 
-final class MockURLSessionDataTask: URLSessionDataTask {
+final class StubURLSessionDataTask: URLSessionDataTask {
     var resumeDidCall: () -> Void = {}
     
     override func resume() {
@@ -18,12 +18,12 @@ final class MockURLSessionDataTask: URLSessionDataTask {
 }
 
 
-final class MockURLSession: DataTaskProvidable {
-    var isSuccessfulRequest: Bool
-    var sessionDataTask: MockURLSessionDataTask?
-    var request: MockRequest
+final class StubURLSession: DataTaskProvidable {
+    let isSuccessfulRequest: Bool
+    var sessionDataTask: StubURLSessionDataTask?
+    let request: StubRequest
     
-    init(isSuccessfulRequest: Bool = true, mockRequest: MockRequest) {
+    init(isSuccessfulRequest: Bool = true, mockRequest: StubRequest) {
         self.isSuccessfulRequest = isSuccessfulRequest
         self.request = mockRequest
     }
@@ -34,12 +34,11 @@ final class MockURLSession: DataTaskProvidable {
     ) -> URLSessionDataTask {
         let successResponse = HTTPURLResponse(url: request.url!, statusCode: 200, httpVersion: nil, headerFields: nil)
         let failureResponse = HTTPURLResponse(url: request.url!, statusCode: 410, httpVersion: nil, headerFields: nil)
-        let sessionDataTask = MockURLSessionDataTask()
+        let sessionDataTask = StubURLSessionDataTask()
         
         sessionDataTask.resumeDidCall = {
             if self.isSuccessfulRequest {
                 completionHandler(self.request.data, successResponse, nil)
-                
             } else {
                 completionHandler(nil, failureResponse, nil)
             }
