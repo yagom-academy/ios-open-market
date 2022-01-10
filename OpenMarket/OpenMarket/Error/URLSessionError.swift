@@ -7,7 +7,7 @@ enum URLSessionError: LocalizedError {
 }
 
 extension URLSessionError {
-    var errorDescription: String {
+    var description: String {
         switch self {
         case .requestFail:
             return "Request has been failed"

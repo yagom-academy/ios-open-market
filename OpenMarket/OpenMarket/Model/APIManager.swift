@@ -12,99 +12,53 @@ class APIManager {
         let url = apiHost + "healthChecker"
         var request = URLRequest(url: URL(string: url)!,timeoutInterval: Double.infinity)
         request.httpMethod = HTTPMethod.get
-        
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            guard error == nil else {
-                return print(URLSessionError.requestFail.errorDescription)
-            }
-            
-            guard let statusCode = (response as? HTTPURLResponse)?.statusCode,
-                  self.successRange.contains(statusCode) else {
-                      return print(URLSessionError.statusCodeError.errorDescription)
-            }
-            
-            guard let data = data else {
-                print(URLSessionError.invalidData.errorDescription)
-                self.semaphore.signal()
-                
-                return
-            }
-            
-            self.healthChecker = String(data: data, encoding: .utf8)!
-            self.semaphore.signal()
-        }
-        
-        task.resume()
-        self.semaphore.wait()
+ 
     }
     
-    func requestProductInformation(productID: Int) {
+    func requestProductInformation(productID: Int, completionHandler: @escaping (Result<ProductInformation, Error>) -> Void) {
         let url = apiHost + "/api/products/" + "\(productID)"
         var request = URLRequest(url: URL(string: url)!,timeoutInterval: Double.infinity)
         request.httpMethod = HTTPMethod.get
-        
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            guard error == nil else {
-                return print(URLSessionError.requestFail.errorDescription)
-            }
-            
-            guard let statusCode = (response as? HTTPURLResponse)?.statusCode,
-                  self.successRange.contains(statusCode) else {
-                      return print(URLSessionError.statusCodeError.errorDescription)
-            }
-            
-            guard let data = data else {
-                print(URLSessionError.invalidData.errorDescription)
-                self.semaphore.signal()
-                
-                return
-            }
-            
-            do {
-                self.product = try Parser.decode(from: data)
-            } catch {
-                print(error)
-            }
-            
-            self.semaphore.signal()
-        }
-        
-        task.resume()
-        self.semaphore.wait()
+        createDataTask(with: request, completionHandler)
     }
     
-    func requestProductList() {
+    func requestProductList(completionHandler: @escaping (Result<ProductList, Error>) -> Void) {
         let url = apiHost + "/api/products?page-no=1&items-per-page=10"
         var request = URLRequest(url: URL(string: url)!,timeoutInterval: Double.infinity)
         request.httpMethod = HTTPMethod.get
-        
+        createDataTask(with: request, completionHandler)
+    }
+}
+
+extension APIManager {
+    func createDataTask<Element: Decodable>(with request: URLRequest, _ completionHandler: @escaping (Result<Element, Error>) -> Void) {
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            guard error == nil else {
-                return print(URLSessionError.requestFail.errorDescription)
-            }
-            
-            guard let statusCode = (response as? HTTPURLResponse)?.statusCode,
-                  self.successRange.contains(statusCode) else {
-                      return print(URLSessionError.statusCodeError.errorDescription)
-            }
-            
-            guard let data = data else {
-                print(URLSessionError.invalidData.errorDescription)
-                self.semaphore.signal()
+            guard let statusCode = (response as? HTTPURLResponse)?.statusCode, self.successRange.contains(statusCode) else {
+                completionHandler(.failure(URLSessionError.statusCodeError))
                 
                 return
             }
             
-            do {
-                self.productList = try Parser.decode(from: data)
-            } catch {
-                print(error)
+            guard error == nil else {
+                completionHandler(.failure(URLSessionError.requestFail))
+                
+                return
             }
             
-            self.semaphore.signal()
+            guard let data = data else {
+                completionHandler(.failure(URLSessionError.invalidData))
+                
+                return
+            }
+            
+            guard let parsedData = Parser<Element>.decode(from: data) else {
+                completionHandler(.failure(ParserError.decodeFail))
+                
+                return
+            }
+            
+            completionHandler(.success(parsedData))
         }
-        
         task.resume()
-        self.semaphore.wait()
     }
 }
