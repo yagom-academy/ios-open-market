@@ -59,20 +59,15 @@ class ProductsCollectionViewController: UICollectionViewController {
         _ collectionView: UICollectionView,
         cellForItemAt indexPath: IndexPath
     ) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: reuseIdentifier, for: indexPath
-        ) as? ProductsCollectionViewCell else {
-            return ProductsCollectionViewCell()
-        }
-        guard let product = productsList?.pages[indexPath.item] else {
-            return ProductsCollectionViewCell()
-        }
-        guard let url = URL(string: product.thumbnail) else {
-            return ProductsCollectionViewCell()
-        }
-        guard let imageData = try? Data(contentsOf: url) else {
-            return ProductsCollectionViewCell()
-        }
+        guard
+            let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: reuseIdentifier, for: indexPath
+            ) as? ProductsCollectionViewCell,
+            let product = productsList?.pages[indexPath.item],
+            let url = URL(string: product.thumbnail),
+            let imageData = try? Data(contentsOf: url) else {
+                return ProductsCollectionViewCell()
+            }
         let image = UIImage(data: imageData)
         cell.productImageView.image = image
         cell.productTitleLabel.attributedText = product.attributedTitle
@@ -89,6 +84,6 @@ extension ProductsCollectionViewController: UICollectionViewDelegateFlowLayout {
         sizeForItemAt indexPath: IndexPath
     ) -> CGSize {
         let width = collectionView.frame.width / 2 - 10
-        return CGSize(width: width, height: width)
+        return CGSize(width: width, height: width * 1.5)
     }
 }
