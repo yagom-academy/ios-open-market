@@ -31,17 +31,30 @@ extension Product {
     }
     var attributedPrice: NSAttributedString {
         let result = NSMutableAttributedString()
-        if self.bargainPrice != 0.0 {
+        if self.bargainPrice == 0.0 {
+            let formattedPrice = price.formatted ?? price.description
+            let price = NSAttributedString(
+                string: currency.rawValue + " " + formattedPrice,
+                attributes: [
+                    .font: UIFont.preferredFont(forTextStyle: .body),
+                    .foregroundColor: UIColor.systemGray
+                ]
+            )
+            result.append(price)
+            return result
+        } else {
+            let formattedOriginalPrice = price.formatted ?? price.description
             let originalPrice = NSAttributedString(
-                string: currency.rawValue + " " + self.price.description,
+                string: currency.rawValue + " " + formattedOriginalPrice,
                 attributes: [
                     .font: UIFont.preferredFont(forTextStyle: .body),
                     .foregroundColor: UIColor.systemRed,
                     .strikethroughStyle: NSUnderlineStyle.single.rawValue
                 ]
             )
+            let formattedBargainPrice = bargainPrice.formatted ?? bargainPrice.description
             let bargainPrice = NSAttributedString(
-                string: currency.rawValue + " " + self.bargainPrice.description,
+                string: currency.rawValue + " " + formattedBargainPrice,
                 attributes: [
                     .font: UIFont.preferredFont(forTextStyle: .body),
                     .foregroundColor: UIColor.systemGray
@@ -52,16 +65,14 @@ extension Product {
             result.append(blank)
             result.append(bargainPrice)
             return result
-        } else {
-            let price = NSAttributedString(
-                string: currency.rawValue + " " + self.price.description,
-                attributes: [
-                    .font: UIFont.preferredFont(forTextStyle: .body),
-                    .foregroundColor: UIColor.systemGray
-                ]
-            )
-            result.append(price)
-            return result
         }
+    }
+}
+
+private extension Double {
+    var formatted: String? {
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .decimal
+        return numberFormatter.string(for: self)
     }
 }
