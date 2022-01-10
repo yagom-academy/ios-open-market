@@ -7,13 +7,6 @@
 
 import Foundation
 
-enum HttpMethod {
-  static let get = "GET"
-  static let post = "POST"
-  static let patch = "PATCH"
-  static let delete = "DELETE"
-}
-
 struct APIManager {
   private let urlSession: URLSession
   
@@ -30,8 +23,7 @@ struct APIManager {
       let url = try URLGenerator.productList(
         pageNumber: pageNumber,
         itemsPerPage: itemsPerPage)
-      var request = URLRequest(url: url)
-      request.httpMethod = HttpMethod.get
+      let request = URLRequest(url: url, httpMethod: .get)
       
       let dataTask = urlSession.dataTask(request) { response in
         switch response {
@@ -59,9 +51,8 @@ struct APIManager {
   ) {
     do {
       let url = try URLGenerator.DetailProduct(productId: productId)
-      var request = URLRequest(url: url)
-      request.httpMethod = HttpMethod.get
-      
+      let request = URLRequest(url: url, httpMethod: .get)
+
       let dataTask = urlSession.dataTask(request) { response in
         switch response {
         case .success(let data):

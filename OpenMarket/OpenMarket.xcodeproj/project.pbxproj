@@ -26,6 +26,8 @@
 		2580F2222787EA54005FC50F /* MockURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2580F21D2787E9CB005FC50F /* MockURLSession.swift */; };
 		2580F2232787EAB5005FC50F /* ResponseError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2580F2162787D054005FC50F /* ResponseError.swift */; };
 		2580F2242787EAB7005FC50F /* JSONParserError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2580F2182787D064005FC50F /* JSONParserError.swift */; };
+		25D77E3B278C11D5003F328C /* URLRequest+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25D77E3A278C11D5003F328C /* URLRequest+Extension.swift */; };
+		25D77E3D278C11F5003F328C /* URLRequest+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25D77E3A278C11D5003F328C /* URLRequest+Extension.swift */; };
 		89376D152783BF3900364CB8 /* OpenMarketTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89376D142783BF3900364CB8 /* OpenMarketTests.swift */; };
 		89376D1C2783BF6600364CB8 /* APIManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89376D1B2783BF6600364CB8 /* APIManagerTests.swift */; };
 		89376D2127844F0700364CB8 /* ProductList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89376D2027844F0700364CB8 /* ProductList.swift */; };
@@ -62,6 +64,7 @@
 		2580F2182787D064005FC50F /* JSONParserError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONParserError.swift; sourceTree = "<group>"; };
 		2580F21D2787E9CB005FC50F /* MockURLSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSession.swift; sourceTree = "<group>"; };
 		2580F21F2787E9DC005FC50F /* MockURLProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLProtocol.swift; sourceTree = "<group>"; };
+		25D77E3A278C11D5003F328C /* URLRequest+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLRequest+Extension.swift"; sourceTree = "<group>"; };
 		89376D122783BF3900364CB8 /* OpenMarketTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenMarketTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		89376D142783BF3900364CB8 /* OpenMarketTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketTests.swift; sourceTree = "<group>"; };
 		89376D1B2783BF6600364CB8 /* APIManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManagerTests.swift; sourceTree = "<group>"; };
@@ -102,8 +105,8 @@
 		2580F2132787D02B005FC50F /* Error */ = {
 			isa = PBXGroup;
 			children = (
-				2580F2162787D054005FC50F /* ResponseError.swift */,
 				2580F2182787D064005FC50F /* JSONParserError.swift */,
+				2580F2162787D054005FC50F /* ResponseError.swift */,
 			);
 			path = Error;
 			sourceTree = "<group>";
@@ -115,6 +118,15 @@
 				2580F21D2787E9CB005FC50F /* MockURLSession.swift */,
 			);
 			path = TestDouble;
+			sourceTree = "<group>";
+		};
+		25D77E3C278C11E1003F328C /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				89E41D94278303C600DBC651 /* URLSession+Extension.swift */,
+				25D77E3A278C11D5003F328C /* URLRequest+Extension.swift */,
+			);
+			path = Extension;
 			sourceTree = "<group>";
 		};
 		89376D132783BF3900364CB8 /* OpenMarketTests */ = {
@@ -163,6 +175,7 @@
 			children = (
 				2580F2132787D02B005FC50F /* Error */,
 				89376D1F27844EAF00364CB8 /* Model */,
+				25D77E3C278C11E1003F328C /* Extension */,
 				C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */,
 				C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */,
 				C70FB0FE25BEF61C00C9924E /* ViewController.swift */,
@@ -170,7 +183,6 @@
 				C70FB10325BEF61D00C9924E /* Assets.xcassets */,
 				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
 				C70FB10825BEF61D00C9924E /* Info.plist */,
-				89E41D94278303C600DBC651 /* URLSession+Extension.swift */,
 				25561997278459B000067096 /* APIManager.swift */,
 				255619952784562B00067096 /* JSONParser.swift */,
 				2580F2062786C6CC005FC50F /* URLGenerator.swift */,
@@ -287,6 +299,7 @@
 				89376D3027847D0400364CB8 /* JSONTests.swift in Sources */,
 				25561992278450E800067096 /* Vendor.swift in Sources */,
 				2580F2202787E9DC005FC50F /* MockURLProtocol.swift in Sources */,
+				25D77E3D278C11F5003F328C /* URLRequest+Extension.swift in Sources */,
 				89DA5A7E27847F5900D39567 /* JSONParser.swift in Sources */,
 				25561993278450EA00067096 /* ProductList.swift in Sources */,
 				2580F2082786C88D005FC50F /* URLGenerator.swift in Sources */,
@@ -310,6 +323,7 @@
 				89376D2327844F6200364CB8 /* Vendor.swift in Sources */,
 				2525ED3A2782E55600D90CE7 /* Product.swift in Sources */,
 				2580F2212787EA51005FC50F /* MockURLProtocol.swift in Sources */,
+				25D77E3B278C11D5003F328C /* URLRequest+Extension.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				89376D2127844F0700364CB8 /* ProductList.swift in Sources */,
 				2580F2192787D064005FC50F /* JSONParserError.swift in Sources */,

@@ -14,7 +14,10 @@ class JSONParser {
   
   private init() { }
   
-  func decode<Element: Codable>(data: Data, type: Element.Type) -> Result<Element, JSONParserError> {
+  func decode<Element: Codable>(
+    data: Data,
+    type: Element.Type
+  ) -> Result<Element, JSONParserError> {
     guard let decodedData = try? decoder.decode(Element.self, from: data) else {
       return .failure(.decodeFailed)
     }
@@ -22,7 +25,10 @@ class JSONParser {
     return .success(decodedData)
   }
   
-  func encode<Element: Codable>(data: Element , type: Element.Type) -> Result<Data, JSONParserError> {
+  func encode<Element: Codable>(
+    data: Element,
+    type: Element.Type
+  ) -> Result<Data, JSONParserError> {
     guard let encodedData = try? encoder.encode(data) else {
       return .failure(.encodeFailed)
     }
