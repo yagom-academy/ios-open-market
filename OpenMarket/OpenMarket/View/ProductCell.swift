@@ -25,6 +25,14 @@ class ProductCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
     }
+    
+    func productConfigure(product: Product) {
+        productImageView.image = UIImage(data: imageData(url: product.thumbnail))
+        productNameLabel.text = product.name
+        productPrice.text = "\(product.price)"
+        productDiscountPrice.text = "\(product.discountedPrice)"
+        productStockPrice.text = "\(product.stock)"
+    }
 
     func styleConfigure(identifier: String) {
         if identifier == Self.listIdentifier {
@@ -32,6 +40,13 @@ class ProductCell: UICollectionViewCell {
         } else {
             setupGridView()
         }
+    }
+    
+    private func imageData(url: String) -> Data {
+        guard let url = URL(string: url), let data = try? Data(contentsOf: url) else {
+            return Data()
+        }
+        return data
     }
     
     private func setupGridView() {

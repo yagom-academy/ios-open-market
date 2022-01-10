@@ -7,6 +7,7 @@
 import UIKit
 
 class MainViewController: UIViewController {
+    var productList: [Product] = []
     @IBOutlet private weak var collectionView: UICollectionView!
     @IBOutlet private weak var segmentControl: UISegmentedControl! {
         didSet {
@@ -48,7 +49,30 @@ class MainViewController: UIViewController {
         
         registerXib()
         setUpListFlowLayout()
-        collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        requestProducts()
+    }
+    
+    func reload() {
+        DispatchQueue.main.async {
+            self.collectionView.reloadData()
+        }
+    }
+    
+    func requestProducts() {
+        let networkManager: NetworkManager = NetworkManager()
+        guard let request = networkManager.requestListSearch(page: 1, itemsPerPage: 10) else {
+            return
+        }
+        
+        networkManager.fetch(request: request, decodingType: Products.self) { result in
+            switch result {
+            case .success(let products):
+                self.productList = products.pages
+                self.reload()
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
     }
     
     private func registerXib() {
@@ -89,8 +113,7 @@ class MainViewController: UIViewController {
 extension MainViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView,
     numberOfItemsInSection section: Int) -> Int {
-
-        return 20
+        return productList.count
     }
     
     func collectionView(_ collectionView: UICollectionView,
@@ -102,6 +125,8 @@ extension MainViewController: UICollectionViewDataSource {
             fatalError()
         }
         cell.styleConfigure(identifier: currentCellIdentifier)
+        
+        cell.productConfigure(product: productList[indexPath.row])
         
         return cell
     }
