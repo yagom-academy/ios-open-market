@@ -14,6 +14,7 @@ enum MultipartForm {
     case imageContentDisposition(filename: String)
     case imageContentType(imageType: String)
     case imageValue(data: Data)
+    case lastBoundary(baseBoundary: String)
     
     var string: String {
         switch self {
@@ -29,6 +30,8 @@ enum MultipartForm {
             return "Content-Type: \(imageType)\r\n\r\n"
         case .imageValue(let data):
             return "\(data)\r\n"
+        case .lastBoundary(let boundary):
+            return "--\(boundary)--"
         }
     }
 }

@@ -151,6 +151,8 @@ extension NetworkManager {
         for image in images {
             body.append(imageMultiPartForm(image: image, boundary: boundary))
         }
+        body.append(MultipartForm.lastBoundary(baseBoundary: boundary).string)
+        
         return body
     }
     
