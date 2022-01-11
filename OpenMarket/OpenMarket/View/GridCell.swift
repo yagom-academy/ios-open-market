@@ -1,5 +1,5 @@
 //
-//  ListCell.swift
+//  GridCell.swift
 //  OpenMarket
 //
 //  Created by 권나영 on 2022/01/11.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class ListCell: UICollectionViewCell {
+class GridCell: UICollectionViewCell {
 
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var productNameLabel: UILabel!
@@ -17,6 +17,7 @@ final class ListCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        
     }
     
     func configure(with product: Product) {

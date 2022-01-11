@@ -7,7 +7,13 @@
 import UIKit
 // 🤞
 final class MarketViewController: UIViewController {
+    
+    //MARK: - IBOutlets
+    
     @IBOutlet weak var collectionView: UICollectionView!
+    
+    //MARK: - Properties
+    
     let apiService = MarketAPIService()
     var products: [Product] = [] {
         didSet {
@@ -17,6 +23,8 @@ final class MarketViewController: UIViewController {
         }
     }
     
+    //MARK: - Lifecycle Methods
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         collectionView.dataSource = self
@@ -25,9 +33,26 @@ final class MarketViewController: UIViewController {
         setupCollectionViewCells()
     }
     
+    @IBAction func segmentedControlTapped(_ sender: UISegmentedControl) {
+        if sender.selectedSegmentIndex == 0 {
+            configureCollectionViewList()
+        } else {
+            configureCollectionViewGrid()
+        }
+    }
+}
+
+//MARK: - Private Methods
+
+extension MarketViewController {
     private func configureCollectionViewList() {
         let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
         let layout = UICollectionViewCompositionalLayout.list(using: configuration)
+        collectionView.collectionViewLayout = layout
+    }
+    
+    private func configureCollectionViewGrid() {
+        let layout = UICollectionViewFlowLayout()
         collectionView.collectionViewLayout = layout
     }
     
@@ -56,7 +81,7 @@ extension MarketViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "listCell", for: indexPath) as! ListCell
         
-        cell.configure(product: products[indexPath.row])
+        cell.configure(with: products[indexPath.row])
         
         return cell
     }

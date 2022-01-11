@@ -47,6 +47,9 @@
                                 <segment title="First"/>
                                 <segment title="Second"/>
                             </segments>
+                            <connections>
+                                <action selector="changeCollectionViewMode:" destination="BYZ-38-t0r" eventType="valueChanged" id="uLC-Br-pDU"/>
+                            </connections>
                         </segmentedControl>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="paV-NC-dDI"/>
                     </navigationItem>
