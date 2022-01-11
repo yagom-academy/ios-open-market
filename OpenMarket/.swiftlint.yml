@@ -1,0 +1,23 @@
+included:
+  - OpenMarket # 프로젝트 이름
+excluded: # 린트 과정에서 무시할 파일 경로. `included`보다 우선순위 높음
+  - OpenMarket/Controller/AppDelegate.swift
+  - OpenMarket/Controller/SceneDelegate.swift
+  - Pods
+identifier_name:
+    min_length:  # only min_length
+        error: 4 # only error
+    excluded: # 제외할 문자열 목록 사용
+    - id
+    - URL
+    - url
+    - GlobalAPIKey
+    - KRW
+    - USD
+    - GET
+    - png
+disabled_rules: # 실행에서 제외할 룰 식별자들
+  - colon
+  - comma
+  - control_statement
+  - trailing_whitespace
