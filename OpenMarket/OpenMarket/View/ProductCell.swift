@@ -9,32 +9,46 @@ import UIKit
 
 class ProductCell: UICollectionViewCell {
     
-    @IBOutlet var productImageView: UIImageView!
-    @IBOutlet var productNameLabel: UILabel!
-    @IBOutlet var priceLabel: UILabel!
-    @IBOutlet var discountPriceLabel: UILabel!
-    @IBOutlet var stockLabel: UILabel!
+    @IBOutlet private var productImageView: UIImageView!
+    @IBOutlet private var productNameLabel: UILabel!
+    @IBOutlet private var priceLabel: UILabel!
+    @IBOutlet private var discountPriceLabel: UILabel!
+    @IBOutlet private var stockLabel: UILabel!
 
     static let listIdentifier = "ListView"
     static let gridItentifier = "GridView"
     static let listNibName = "ListCollectionViewCell"
     static let gridNibName = "GridCollectionViewCell"
     
-    var priceLabels: [UILabel] = []
+    private var priceLabels: [UILabel] = []
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        
         priceLabels = [priceLabel, discountPriceLabel, stockLabel]
     }
     
     func productConfigure(product: Product) {
-        productImageView.image = UIImage(data: imageData(url: product.thumbnail))
+        let imageResult = imageData(url: product.thumbnail)
+        
+        switch imageResult {
+        case .success(let data):
+            productImageView.image = UIImage(data: data)
+        case .failure(let error):
+            print(error.localizedDescription)
+        }
         productNameLabel.text = product.name
         resetLabel()
         priceConfigure(product: product)
         discountPriceConfigure(product: product)
         stockConfigure(product: product)
+    }
+    
+    func styleConfigure(identifier: String) {
+        if identifier == Self.listIdentifier {
+            setupListView()
+        } else {
+            setupGridView()
+        }
     }
     
     private func resetLabel() {
@@ -47,7 +61,7 @@ class ProductCell: UICollectionViewCell {
     
     private func priceConfigure(product: Product) {
         let formatedPrice = "\(product.currency.rawValue) \(product.price.fomattingString)"
-        if product.discountedPrice == 0 {
+        if product.discountedPrice == .zero {
             priceLabel.textColor = .systemGray
             priceLabel.text = formatedPrice
         } else {
@@ -57,7 +71,7 @@ class ProductCell: UICollectionViewCell {
     }
     
     private func discountPriceConfigure(product: Product) {
-        if product.discountedPrice == 0 {
+        if product.discountedPrice == .zero {
             discountPriceLabel.isHidden = true
         } else {
             discountPriceLabel.isHidden = false
@@ -67,7 +81,7 @@ class ProductCell: UICollectionViewCell {
     }
     
     private func stockConfigure(product: Product) {
-        if product.stock == 0 {
+        if product.stock == .zero {
             stockLabel.textColor = .systemOrange
             stockLabel.text = "품절"
         } else {
@@ -76,19 +90,11 @@ class ProductCell: UICollectionViewCell {
         }
     }
 
-    func styleConfigure(identifier: String) {
-        if identifier == Self.listIdentifier {
-            setupListView()
-        } else {
-            setupGridView()
-        }
-    }
-    
-    private func imageData(url: String) -> Data {
+    private func imageData(url: String) -> Result<Data, Error> {
         guard let url = URL(string: url), let data = try? Data(contentsOf: url) else {
-            return Data()
+            return .failure(OpenMarketError.badRequestURL)
         }
-        return data
+        return .success(data)
     }
     
     private func setupGridView() {
@@ -98,9 +104,9 @@ class ProductCell: UICollectionViewCell {
     }
 
     private func setupListView() {
-        self.layer.cornerRadius = 0
+        self.layer.cornerRadius = .zero
         self.layer.borderColor = UIColor.clear.cgColor
-        self.layer.borderWidth = 0
+        self.layer.borderWidth = .zero
     }
     
 }

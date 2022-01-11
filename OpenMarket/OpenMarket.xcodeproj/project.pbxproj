@@ -12,6 +12,7 @@
 		9A134566278C2BC300660291 /* Int+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A134565278C2BC300660291 /* Int+extension.swift */; };
 		9A13456C278C574800660291 /* RegisterProduct.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9A13456B278C574800660291 /* RegisterProduct.storyboard */; };
 		9A13456E278C576400660291 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A13456D278C576400660291 /* RegisterViewController.swift */; };
+		9A134570278D1A0E00660291 /* OpenMarketError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A13456F278D1A0E00660291 /* OpenMarketError.swift */; };
 		9A1CFD782782E341003BEC69 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1CFD772782E341003BEC69 /* Product.swift */; };
 		9A1CFD7A2782E683003BEC69 /* JSONParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1CFD792782E683003BEC69 /* JSONParser.swift */; };
 		9A1CFD7C2782EB88003BEC69 /* ParserError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1CFD7B2782EB88003BEC69 /* ParserError.swift */; };
@@ -70,6 +71,7 @@
 		9A134565278C2BC300660291 /* Int+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+extension.swift"; sourceTree = "<group>"; };
 		9A13456B278C574800660291 /* RegisterProduct.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = RegisterProduct.storyboard; sourceTree = "<group>"; };
 		9A13456D278C576400660291 /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
+		9A13456F278D1A0E00660291 /* OpenMarketError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketError.swift; sourceTree = "<group>"; };
 		9A1CFD772782E341003BEC69 /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
 		9A1CFD792782E683003BEC69 /* JSONParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONParser.swift; sourceTree = "<group>"; };
 		9A1CFD7B2782EB88003BEC69 /* ParserError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParserError.swift; sourceTree = "<group>"; };
@@ -217,6 +219,7 @@
 			children = (
 				9A1CFD7B2782EB88003BEC69 /* ParserError.swift */,
 				F35B1A652783E9D50031A755 /* NetworkError.swift */,
+				9A13456F278D1A0E00660291 /* OpenMarketError.swift */,
 			);
 			path = Error;
 			sourceTree = "<group>";
@@ -420,6 +423,7 @@
 				F35B1A642783E6420031A755 /* Network.swift in Sources */,
 				9A134566278C2BC300660291 /* Int+extension.swift in Sources */,
 				9A134562278C1C1F00660291 /* UIViewController+extension.swift in Sources */,
+				9A134570278D1A0E00660291 /* OpenMarketError.swift in Sources */,
 				F35B1A6B2784335B0031A755 /* Data+extension.swift in Sources */,
 				9A1CFDCA27841CD0003BEC69 /* ProductSecret.swift in Sources */,
 				9A1CFDC22783D6FA003BEC69 /* Image.swift in Sources */,
