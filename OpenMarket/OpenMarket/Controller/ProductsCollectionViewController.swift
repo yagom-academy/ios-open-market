@@ -80,22 +80,39 @@ class ProductsCollectionViewController: UICollectionViewController {
                 for: indexPath
             ) as? ProductsCollectionViewCell,
             let product = productsList?.pages[indexPath.item],
-            let url = URL(string: product.thumbnail),
-            let imageData = try? Data(contentsOf: url) else {
+            let url = URL(string: product.thumbnail) else {
                 let cell = collectionView.dequeueReusableCell(
                     withReuseIdentifier: reuseIdentifier,
                     for: indexPath
                 )
                 return cell
             }
-        let image = UIImage(data: imageData)
-        cell.productImageView.image = image
         cell.productTitleLabel.attributedText = product.attributedTitle
         cell.productPriceLabel.attributedText = product.attributedPrice
         cell.productStockLabel.attributedText = product.attributedStock
         cell.layer.borderWidth = 1.0
         cell.layer.borderColor = UIColor.systemGray.cgColor
         cell.layer.cornerRadius = 10
+        
+        networkTask.downloadImage(from: url) { result in
+            switch result {
+            case .success(let data):
+                guard let image = UIImage(data: data) else { return }
+                DispatchQueue.main.async {
+                    guard indexPath == collectionView.indexPath(for: cell) else { return }
+                    cell.productImageView.image = image
+                }
+            case .failure(let error):
+                let alert = UIAlertController(
+                    title: "Network error",
+                    message: "데이터를 불러오지 못했습니다.\n\(error.localizedDescription)",
+                    preferredStyle: .alert
+                )
+                let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+                alert.addAction(okAction)
+                self.present(alert, animated: true, completion: nil)
+            }
+        }
         return cell
     }
 }

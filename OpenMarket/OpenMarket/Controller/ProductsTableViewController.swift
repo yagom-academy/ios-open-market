@@ -80,19 +80,36 @@ class ProductsTableViewController: UITableViewController {
             for: indexPath
         ) as? ProductsTableViewCell,
               let product = productsList?.pages[indexPath.row],
-              let url = URL(string: product.thumbnail),
-              let imageData = try? Data(contentsOf: url) else {
+              let url = URL(string: product.thumbnail) else {
                   let cell = tableView.dequeueReusableCell(
                     withIdentifier: reuseIdentifier,
                     for: indexPath
                   )
                   return cell
               }
-        let image = UIImage(data: imageData)
-        cell.productImageView.image = image
         cell.titleLabel.attributedText = product.attributedTitle
         cell.priceLabel.attributedText = product.attributedPrice
         cell.stockLabel.attributedText = product.attributedStock
+        
+        networkTask.downloadImage(from: url) { result in
+            switch result {
+            case .success(let data):
+                guard let image = UIImage(data: data) else { return }
+                DispatchQueue.main.async {
+                    guard indexPath == tableView.indexPath(for: cell) else { return }
+                    cell.productImageView.image = image
+                }
+            case .failure(let error):
+                let alert = UIAlertController(
+                    title: "Network error",
+                    message: "데이터를 불러오지 못했습니다.\n\(error.localizedDescription)",
+                    preferredStyle: .alert
+                )
+                let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+                alert.addAction(okAction)
+                self.present(alert, animated: true, completion: nil)
+            }
+        }
         return cell
     }
 }

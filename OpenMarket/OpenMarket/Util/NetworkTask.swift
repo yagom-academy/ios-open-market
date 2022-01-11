@@ -112,6 +112,15 @@ struct NetworkTask {
         task.resume()
     }
     
+    func downloadImage(
+        from url: URL,
+        completionHandler: @escaping (Result<Data, Error>
+        ) -> Void) {
+        let request = request(url: url, httpMethod: "GET")
+        let task = dataTask(with: request, completionHandler: completionHandler)
+        task.resume()
+    }
+    
     private func dataTask(
         with request: URLRequest,
         completionHandler: @escaping (Result<Data, Error>) -> Void
