@@ -7,8 +7,7 @@
 
 import UIKit
 
-@available(iOS 14.0, *)
-class ListCell: UICollectionViewListCell {
+final class ListCell: UICollectionViewCell {
 
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var productNameLabel: UILabel!
@@ -18,8 +17,20 @@ class ListCell: UICollectionViewListCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        
-        accessories = [.disclosureIndicator()]
     }
     
+    func configure(product: Product) {
+        guard let url = URL(string: product.thumbnailURL) else {
+            return
+        }
+        guard let data = try? Data(contentsOf: url) else {
+            return
+        }
+        
+        imageView.image = UIImage(data: data)
+        productNameLabel.text = product.name
+        discountedPriceLabel.text = product.discountedPrice.stringFormat
+        priceLabel.text = product.price.stringFormat
+        stockLabel.text = product.stock.stringFormat
+    }
 }
