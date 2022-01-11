@@ -5,7 +5,7 @@ fileprivate extension UIConfigurationStateCustomKey {
 }
 
 private extension UIConfigurationState {
-    var prevItem: ProductDetail? {
+    var prevItem: ProductDetail? { // TODO
         get {
             return self[.productItemKey] as? ProductDetail
         }
@@ -69,46 +69,6 @@ class ProductListLayoutCell: UICollectionViewListCell {
         stockLabelLayouts = stockConstraints
     }
     
-    private func createPriceText(product: ProductDetail?) -> NSMutableAttributedString? {
-        guard let product = product else {
-            return nil
-        }
-        
-        let priceAttributedText = NSMutableAttributedString()
-        let spacing = " "
-        
-        if product.discountedPrice == 0 {
-            return NSMutableAttributedString()
-                .normalStyle(string: "\(product.currency) \(product.price)")
-        }
-        
-        priceAttributedText.append(NSMutableAttributedString()
-                            .strikeThroughStyle(string: "\(product.currency) \(product.discountedPrice)"))
-        priceAttributedText.append(NSMutableAttributedString().normalStyle(string: spacing))
-        priceAttributedText.append(NSMutableAttributedString()
-                            .normalStyle(string: "\(product.currency) \(product.price)"))
-        
-        return priceAttributedText
-    }
-    
-    private func createStockText(product: ProductDetail?) -> NSMutableAttributedString? {
-        let soldOut = "품절"
-        
-        guard let product = product else {
-            return nil
-        }
-        
-        if product.stock == 0 {
-            let attributedString = NSMutableAttributedString(string: soldOut)
-            attributedString.addAttribute(.foregroundColor, value: UIColor.orange, range: NSRange(location: 0, length: soldOut.count))
-            
-            return attributedString
-        }
-        
-        return NSMutableAttributedString()
-            .normalStyle(string: "잔여수량 : \(product.stock)")
-    }
-    
     override func updateConfiguration(using state: UICellConfigurationState) {
         setupViewsIfNeeded()
         
@@ -122,31 +82,11 @@ class ProductListLayoutCell: UICollectionViewListCell {
         content.text = state.prevItem?.name
         content.textProperties.font = .preferredFont(forTextStyle: .headline)
         
-        content.secondaryAttributedText = createPriceText(product: state.prevItem) ?? nil
+        content.secondaryAttributedText = AttributedTextCreator.createPriceText(product: state.prevItem) ?? nil
         content.secondaryTextProperties.font = .preferredFont(forTextStyle: .body)
         
         listContentView.configuration = content
         
-        stockLabel.attributedText = createStockText(product: state.prevItem) ?? nil
-        stockLabel.textColor = .gray
-    }
-}
-
-private extension NSMutableAttributedString {
-    func strikeThroughStyle(string: String) -> NSMutableAttributedString {
-        let attributedString = NSMutableAttributedString(string: string)
-        attributedString.addAttributes([
-            NSAttributedString.Key.strikethroughStyle: NSUnderlineStyle.single.rawValue,
-            NSAttributedString.Key.foregroundColor: UIColor.systemRed
-        ], range: NSRange(location: 0, length: attributedString.length))
-
-        return attributedString
-    }
-    
-    func normalStyle(string: String) -> NSMutableAttributedString {
-        let attributedString = NSMutableAttributedString(string: string)
-        attributedString.addAttributes([NSAttributedString.Key.foregroundColor: UIColor.gray], range: NSRange(location: 0, length: attributedString.length))
-    
-        return attributedString
+        stockLabel.attributedText = AttributedTextCreator.createStockText(product: state.prevItem) ?? nil
     }
 }
