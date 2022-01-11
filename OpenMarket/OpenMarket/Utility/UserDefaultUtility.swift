@@ -9,22 +9,22 @@ import Foundation
 
 struct UserDefaultUtility {
     let userDefaults = UserDefaults()
-    static let KEY_VENDOR_ID = "KEY_VENDOR_ID"
-    static let KEY_VENDOR_PASSWORD = "KEY_VENDOR_PASSWORD"
+    static let vendorIdentification = "KEY_VENDOR_ID"
+    static let vendorPassword = "KEY_VENDOR_PASSWORD"
 
-    func setVendorIdentification(identification: String) {
-        self.userDefaults.set(identification, forKey: UserDefaultUtility.KEY_VENDOR_ID)
+    func setVendorIdentification(_ identification: String) {
+        self.userDefaults.set(identification, forKey: UserDefaultUtility.vendorIdentification)
     }
 
     func getVendorIdentification() -> String {
-        return self.userDefaults.string(forKey: UserDefaultUtility.KEY_VENDOR_ID) ?? ""
+        return self.userDefaults.string(forKey: UserDefaultUtility.vendorIdentification) ?? ""
     }
 
-    func setVendorPassword(password: String) {
-        self.userDefaults.set(password, forKey: UserDefaultUtility.KEY_VENDOR_PASSWORD)
+    func setVendorPassword(_ password: String) {
+        self.userDefaults.set(password, forKey: UserDefaultUtility.vendorPassword)
     }
 
     func getVendorPassword() -> String {
-        return self.userDefaults.string(forKey: UserDefaultUtility.KEY_VENDOR_PASSWORD) ?? ""
+        return self.userDefaults.string(forKey: UserDefaultUtility.vendorPassword) ?? ""
     }
 }

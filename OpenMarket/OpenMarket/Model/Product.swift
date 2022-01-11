@@ -41,14 +41,14 @@ struct Image: Decodable {
     var identification: Int
     var url: String
     var thumbnailUrl: String
-    var succeed: Bool
+    var isSuccess: Bool
     var issuedAt: Date
 
     enum CodingKeys: String, CodingKey {
         case identification = "id"
         case url
         case thumbnailUrl = "thumbnail_url"
-        case succeed
+        case isSuccess
         case issuedAt = "issued_at"
     }
 }
