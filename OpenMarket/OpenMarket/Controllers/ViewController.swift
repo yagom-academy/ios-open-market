@@ -7,10 +7,20 @@ private enum Section: Hashable {
 class ViewController: UIViewController {
     private var productListCollectionView: UICollectionView!
     private var productGridCollectionView: UICollectionView!
-    private var segment: LayoutSegmentedControl!
+    private var layoutSegmentedControl: LayoutSegmentedControl!
     private var listDataSource: UICollectionViewDiffableDataSource<Section, ProductDetail>?
     private var gridDataSource: UICollectionViewDiffableDataSource<Section, ProductDetail>?
     private var productData: [ProductDetail] = []
+    
+    private lazy var activityIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView()
+        indicator.hidesWhenStopped = true
+        indicator.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
+        indicator.center = view.center
+        indicator.style = .large
+        indicator.color = .black
+        return indicator
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,6 +30,8 @@ class ViewController: UIViewController {
     }
 
     private func fetchProductData() {
+        activityIndicator.startAnimating()
+        
         let api = APIService()
         api.retrieveProductList(pageNo: 0, itemsPerPage: 3) { result in
             switch result {
@@ -27,6 +39,7 @@ class ViewController: UIViewController {
                 self.productData = data.pages
                 DispatchQueue.main.async {
                     self.setupListCollectionView()
+                    self.activityIndicator.stopAnimating()
                 }
             case .failure(let error):
                 print(error)
@@ -35,16 +48,16 @@ class ViewController: UIViewController {
     }
     
     private func configSegmentedControl() {
-        segment = LayoutSegmentedControl(items: ["LIST", "GRID"])
-        segment.addTarget(self, action: #selector(switchCollectionViewLayout), for: .valueChanged)
+        layoutSegmentedControl = LayoutSegmentedControl(items: ["LIST", "GRID"])
+        layoutSegmentedControl.addTarget(self, action: #selector(switchCollectionViewLayout), for: .valueChanged)
     }
     
-    @objc func switchCollectionViewLayout() {
+    @objc private func switchCollectionViewLayout() {
         if productGridCollectionView == nil {
             setupGridCollectionView()
         }
         
-        if segment.selectedSegmentIndex == 0 {
+        if layoutSegmentedControl.selectedSegmentIndex == 0 {
             productListCollectionView.isHidden = false
             productGridCollectionView.isHidden = true
         } else {
@@ -55,11 +68,12 @@ class ViewController: UIViewController {
 
     private func configUI() {
         view.backgroundColor = .white
+        view.addSubview(activityIndicator)
         configNavigationBar()
     }
 
     private func configNavigationBar() {
-        self.navigationController?.navigationBar.topItem?.titleView = segment
+        self.navigationController?.navigationBar.topItem?.titleView = layoutSegmentedControl
     }
 }
 
@@ -100,7 +114,7 @@ private extension ViewController {
 
 // MARK: - CustomGridCollectionView
 
-extension ViewController {
+private extension ViewController {
     func setupGridCollectionView() {
         configGridCollectionView()
         configGridDataSource()
