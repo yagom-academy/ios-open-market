@@ -6,6 +6,7 @@ enum APIError: LocalizedError {
     case notProperStatusCode
     case decodingFail
     case encodingFail
+    case URLConversionFail
     
     var errorDescription: String? {
         switch self {
@@ -19,6 +20,8 @@ enum APIError: LocalizedError {
             return "디코딩에 실패했습니다."
         case .encodingFail:
             return "인코딩에 실패했습니다."
+        case .URLConversionFail:
+            return "URL 변환에 실패했습니다."
         }
     }
 }

@@ -1,8 +1,15 @@
 import Foundation
 
-struct ProductPostRequester: Requestable {
-    private var baseURLString: String = "https://market-training.yagom-academy.kr/api/products"
-    private var httpMethod: HTTPMethod = .POST
+struct ProductPostRequester: Requestable, JSONResponseDecodable {
+    var url: URL? {
+        return URL(string: "https://market-training.yagom-academy.kr/api/products")
+    }
+    var httpMethod: HTTPMethod = .POST
+    var httpBody: Data? = nil
+    var headerFields: [String: String]? = nil
+    
+    typealias DecodingType = ProductPost.Response
+
     private let identifier: String
     private let params: ProductPost.Request.Params
     private let images: Data
@@ -11,21 +18,5 @@ struct ProductPostRequester: Requestable {
         self.identifier = identifier
         self.params = params
         self.images = images
-    }
-    
-    private var url: URL? {
-        return URL(string: baseURLString)
-    }
-    
-    var request: URLRequest? {
-        guard let url = url else {
-            return nil
-        }
-        var request = URLRequest(url: url)
-        request.httpMethod = Self.httpMethod.rawValue
-        
-        //TODO: need to add Body
-        
-        return request
     }
 }

@@ -9,10 +9,10 @@ class NetworkingTests: XCTestCase {
         let testSession = StubURLSession(alwaysSuccess: true, dummyData: data?.data)
         let requester = ProductListAskRequester(pageNo: 1, itemsPerPage: 20)
         
-        testSession.request(urlRequest: requester.request!) { result in
+        testSession.request(requester: requester) {result in
             switch result {
             case .success(let data):
-                let products = requester.decode(data: data, expecting: ProductListAsk.Response.self)
+                let products = requester.decode(data: data)
                 XCTAssertEqual(products?.pages[0].id, 20)
             case .failure:
                 XCTAssertTrue(false)

@@ -1,8 +1,16 @@
 import Foundation
 
-struct ProductDeleteRequester: Requestable {
+struct ProductDeleteRequester: Requestable, JSONResponseDecodable {
+    var url: URL? {
+        return URL(string: "\(baseURLString)/\(productId)/\(productSecret)")
+    }
+    var httpMethod: HTTPMethod = .POST
+    var httpBody: Data? = nil
+    var headerFields: [String: String]? = nil
+    
+    typealias DecodingType = ProductDelete.Response
+    
     private var baseURLString: String = "https://market-training.yagom-academy.kr/api/products"
-    private var httpMethod: HTTPMethod = .DELETE
     private let identifier: String
     private let productId: Int
     private let productSecret: String
@@ -11,19 +19,5 @@ struct ProductDeleteRequester: Requestable {
         self.identifier = identifier
         self.productId = productId
         self.productSecret = productSecret
-    }
-    
-    private var url: URL? {
-        return URL(string: "\(baseURLString)/\(productId)/\(productSecret)")
-    }
-    
-    var request: URLRequest? {
-        guard let url = url else {
-            return nil
-        }
-        var request = URLRequest(url: url)
-        request.httpMethod = httpMethod.rawValue
-        
-        return request
     }
 }

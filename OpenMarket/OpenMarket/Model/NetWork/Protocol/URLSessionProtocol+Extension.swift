@@ -5,11 +5,35 @@ protocol URLSessionProtocol {
         with request: URLRequest,
         completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void
     ) -> URLSessionDataTask
-//    func creatURLRequest { }
 }
 
 extension URLSessionProtocol {
-    func request(urlRequest: URLRequest, completion: @escaping (Result<Data, Error>) -> Void) {
+    func createURLRequest(requester: Requestable) throws -> URLRequest {
+        guard let url = requester.url else {
+            throw APIError.URLConversionFail
+        }
+        var request = URLRequest(url: url)
+        request.httpMethod = requester.httpMethod.rawValue
+        
+        if let httpBody = requester.httpBody {
+            request.httpBody = httpBody
+        }
+        
+        if let headerFields = requester.headerFields {
+            headerFields.forEach {
+                request.addValue($0.value, forHTTPHeaderField: $0.key)
+            }
+        }
+        
+        return request
+    }
+    
+    func request(requester: Requestable, completion: @escaping (Result<Data, Error>) -> Void) {
+        guard let urlRequest = try? createURLRequest(requester: requester) else {
+            completion(.failure(APIError.URLConversionFail))
+            return
+        }
+
         let task = dataTask(with: urlRequest) { (data, response, error) in
             guard let data = data else {
                 completion(.failure(APIError.invalidData))
