@@ -15,11 +15,15 @@ class MainViewController: UIViewController {
             children.removeFromParent()
         }
         if viewSegmetedControl.selectedSegmentIndex == 0 {
-            guard let controller = storyboard?.instantiateViewController(withIdentifier: listViewControllerIdentifier) else { return }
+            guard let controller = storyboard?.instantiateViewController(
+                withIdentifier: listViewControllerIdentifier
+            ) else { return }
             addChild(controller)
             view.addSubview(controller.view)
         } else if viewSegmetedControl.selectedSegmentIndex == 1 {
-            guard let controller = storyboard?.instantiateViewController(withIdentifier: gridViewControllerIdentifier) else { return }
+            guard let controller = storyboard?.instantiateViewController(
+                withIdentifier: gridViewControllerIdentifier
+            ) else { return }
             addChild(controller)
             view.addSubview(controller.view)
         }
