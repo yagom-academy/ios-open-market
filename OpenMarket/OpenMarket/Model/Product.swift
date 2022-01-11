@@ -48,7 +48,7 @@ struct Image: Decodable {
         case identification = "id"
         case url
         case thumbnailUrl = "thumbnail_url"
-        case isSuccess
+        case isSuccess = "succeed"
         case issuedAt = "issued_at"
     }
 }
