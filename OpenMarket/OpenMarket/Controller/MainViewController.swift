@@ -14,6 +14,9 @@ class MainViewController: UIViewController {
         children.forEach { children in
             children.removeFromParent()
         }
+        view.subviews.forEach { subView in
+            subView.removeFromSuperview()
+        }
         if viewSegmetedControl.selectedSegmentIndex == 0 {
             guard let controller = storyboard?.instantiateViewController(
                 withIdentifier: listViewControllerIdentifier
