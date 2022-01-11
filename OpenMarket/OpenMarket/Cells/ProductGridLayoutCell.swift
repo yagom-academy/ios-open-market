@@ -63,6 +63,22 @@ class ProductGridLayoutCell: UICollectionViewCell {
     }()
     
     func configUI(with product: ProductDetail) {
+        if product.discountedPrice == 0 {
+            priceLabel.isHidden = true
+        } else {
+            priceLabel.isHidden = false
+            priceLabel.attributedText = NSMutableAttributedString.strikeThroughStyle(string: "\(product.currency) \(product.price)")
+        }
+        
+        productNameLabel.text = product.name
+        productImageView.image = ImageLoader.loadImage(from: product.thumbnail)
+        
+        bargainPriceLabel.attributedText = NSMutableAttributedString.normalStyle(string: "\(product.currency) \(product.bargainPrice)")
+
+        productStockLabel.attributedText = AttributedTextCreator.createStockText(product: product)
+    }
+    
+    private func configUILayout() {
         [priceLabel, bargainPriceLabel].forEach {
             productPriceStackView.addArrangedSubview($0)
         }
@@ -71,28 +87,23 @@ class ProductGridLayoutCell: UICollectionViewCell {
             productStackView.addArrangedSubview($0)
         }
         
-        if product.discountedPrice == 0 {
-            priceLabel.isHidden = true
-        } else {
-            priceLabel.isHidden = false
-            priceLabel.attributedText = NSMutableAttributedString.strikeThroughStyle(string: "\(product.price)")
-        }
+        productPriceStackView.setContentCompressionResistancePriority(.defaultHigh, for: .vertical)
         
-        bargainPriceLabel.attributedText = NSMutableAttributedString.normalStyle(string: "\(product.bargainPrice)")
-
-        productStockLabel.attributedText = AttributedTextCreator.createStockText(product: product)
-    }
-    
-    private func configUILayout() {
         self.contentView.addSubview(productStackView)
         
         productStackView.translatesAutoresizingMaskIntoConstraints = false
+        productImageView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            productStackView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 5),
-            productStackView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 5),
-            productStackView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -5),
-            productStackView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -5)
+            productStackView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 8),
+            productStackView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 8),
+            productStackView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -8),
+            productStackView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -8),
+            
+            productImageView.topAnchor.constraint(equalTo: productStackView.topAnchor, constant: 5),
+            productImageView.leadingAnchor.constraint(equalTo: productStackView.leadingAnchor, constant: 5),
+            productImageView.trailingAnchor.constraint(equalTo: productStackView.trailingAnchor, constant: -5),
+            productImageView.heightAnchor.constraint(equalToConstant: self.contentView.frame.height / 1.7)
         ])
     }
 }
