@@ -1,6 +1,7 @@
 import UIKit
 
 class ProductsCollectionViewController: UICollectionViewController {
+    private let loadingActivityIndicator = UIActivityIndicatorView()
     private let reuseIdentifier = "productCell"
     private var productsList: ProductsList?
     private let jsonParser: JSONParser = {
@@ -17,8 +18,20 @@ class ProductsCollectionViewController: UICollectionViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        startActivityIndicator()
         loadProductsList()
+    }
+    
+    private func startActivityIndicator() {
+        view.addSubview(loadingActivityIndicator)
+        loadingActivityIndicator.translatesAutoresizingMaskIntoConstraints = false
+        loadingActivityIndicator.centerYAnchor.constraint(
+            equalTo: view.centerYAnchor
+        ).isActive = true
+        loadingActivityIndicator.centerXAnchor.constraint(
+            equalTo: view.centerXAnchor
+        ).isActive = true
+        loadingActivityIndicator.startAnimating()
     }
     
     private func loadProductsList() {
@@ -28,6 +41,7 @@ class ProductsCollectionViewController: UICollectionViewController {
                 self.productsList = try? self.jsonParser.decode(from: data)
                 DispatchQueue.main.async {
                     self.collectionView.reloadData()
+                    self.loadingActivityIndicator.stopAnimating()
                 }
             case .failure(let error):
                 let alert = UIAlertController(
@@ -38,6 +52,7 @@ class ProductsCollectionViewController: UICollectionViewController {
                 let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
                 alert.addAction(okAction)
                 self.present(alert, animated: true, completion: nil)
+                self.loadingActivityIndicator.stopAnimating()
             }
         }
     }

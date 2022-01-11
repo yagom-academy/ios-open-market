@@ -1,6 +1,7 @@
 import UIKit
 
 class ProductsTableViewController: UITableViewController {
+    private let loadingActivityIndicator = UIActivityIndicatorView()
     private let reuseIdentifier = "productsListCell"
     private var productsList: ProductsList?
     private let jsonParser: JSONParser = {
@@ -17,9 +18,24 @@ class ProductsTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        startActivityIndicator()
         let nibName = UINib(nibName: "ProductsTableViewCell", bundle: nil)
         tableView.register(nibName, forCellReuseIdentifier: reuseIdentifier)
         loadProductsList()
+        
+    }
+    
+    private func startActivityIndicator() {
+        view.addSubview(loadingActivityIndicator)
+        loadingActivityIndicator.translatesAutoresizingMaskIntoConstraints = false
+        loadingActivityIndicator.centerYAnchor.constraint(
+            equalTo: view.centerYAnchor
+        ).isActive = true
+        loadingActivityIndicator.centerXAnchor.constraint(
+            equalTo: view.centerXAnchor
+        ).isActive = true
+        loadingActivityIndicator.startAnimating()
     }
     
     private func loadProductsList() {
@@ -29,6 +45,7 @@ class ProductsTableViewController: UITableViewController {
                 self.productsList = try? self.jsonParser.decode(from: data)
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
+                    self.loadingActivityIndicator.stopAnimating()
                 }
             case .failure(let error):
                 let alert = UIAlertController(
@@ -39,6 +56,7 @@ class ProductsTableViewController: UITableViewController {
                 let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
                 alert.addAction(okAction)
                 self.present(alert, animated: true, completion: nil)
+                self.loadingActivityIndicator.stopAnimating()
             }
         }
     }
