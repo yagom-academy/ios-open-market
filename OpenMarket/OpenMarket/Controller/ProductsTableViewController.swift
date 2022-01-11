@@ -64,7 +64,11 @@ class ProductsTableViewController: UITableViewController {
               let product = productsList?.pages[indexPath.row],
               let url = URL(string: product.thumbnail),
               let imageData = try? Data(contentsOf: url) else {
-                  return ProductsTableViewCell()
+                  let cell = tableView.dequeueReusableCell(
+                    withIdentifier: reuseIdentifier,
+                    for: indexPath
+                  )
+                  return cell
               }
         let image = UIImage(data: imageData)
         cell.productImageView.image = image

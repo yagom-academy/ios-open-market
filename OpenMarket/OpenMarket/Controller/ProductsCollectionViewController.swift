@@ -61,12 +61,17 @@ class ProductsCollectionViewController: UICollectionViewController {
     ) -> UICollectionViewCell {
         guard
             let cell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: reuseIdentifier, for: indexPath
+                withReuseIdentifier: reuseIdentifier,
+                for: indexPath
             ) as? ProductsCollectionViewCell,
             let product = productsList?.pages[indexPath.item],
             let url = URL(string: product.thumbnail),
             let imageData = try? Data(contentsOf: url) else {
-                return ProductsCollectionViewCell()
+                let cell = collectionView.dequeueReusableCell(
+                    withReuseIdentifier: reuseIdentifier,
+                    for: indexPath
+                )
+                return cell
             }
         let image = UIImage(data: imageData)
         cell.productImageView.image = image
