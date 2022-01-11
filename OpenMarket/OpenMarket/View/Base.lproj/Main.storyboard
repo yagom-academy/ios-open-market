@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BXV-pl-X5K">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BXV-pl-X5K">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -77,7 +77,7 @@
                             <imageReference key="image" image="plus" catalog="system" symbolScale="small"/>
                             <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <connections>
-                                <segue destination="P6W-oX-LDK" kind="modal" id="T5v-fa-zYQ"/>
+                                <segue destination="P6W-oX-LDK" kind="show" id="T5v-fa-zYQ"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -94,7 +94,9 @@
         <!--RegisterView-->
         <scene sceneID="7mB-0I-eeh">
             <objects>
-                <viewControllerPlaceholder storyboardName="RegisterProduct" referencedIdentifier="RegisterView" id="P6W-oX-LDK" sceneMemberID="viewController"/>
+                <viewControllerPlaceholder storyboardName="RegisterProduct" referencedIdentifier="RegisterView" id="P6W-oX-LDK" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="OK4-EF-qPs"/>
+                </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Fqw-oP-eL3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="884" y="84"/>
