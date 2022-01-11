@@ -13,9 +13,8 @@ class OpenMarketTests: XCTestCase {
 
     override func setUpWithError() throws {
         sut = ProductService()
-        UserDefaultUtility().setVendorIdentification(
-            identification: "cd706a3e-66db-11ec-9626-796401f2341a"
-        )
+        let vendorIdentification = "cd706a3e-66db-11ec-9626-796401f2341a"
+        UserDefaultUtility().setVendorIdentification(vendorIdentification)
     }
 
     func test_checkNetworkConnection() {
@@ -44,7 +43,7 @@ class OpenMarketTests: XCTestCase {
             case .success(let product):
                 XCTAssertEqual(product.name, "Yeha")
             case .failure:
-                XCTFail("통신 실패")
+                XCTFail("상품 조회 실패")
             }
             expectaion.fulfill()
         }
@@ -64,7 +63,7 @@ class OpenMarketTests: XCTestCase {
             case .success(let secret):
                 XCTAssertNotNil(secret)
             case .failure:
-                XCTFail("통신 실패")
+                XCTFail("상품 secret 조회 실패")
             }
             expectaion.fulfill()
         }
@@ -83,7 +82,7 @@ class OpenMarketTests: XCTestCase {
             case .success(let product):
                 XCTAssertNotNil(product)
             case .failure:
-                XCTFail("통신 실패")
+                XCTFail("상품 삭제 실패")
             }
             expectaion.fulfill()
         }
@@ -106,7 +105,7 @@ class OpenMarketTests: XCTestCase {
             case .success(let product):
                 XCTAssertEqual(product.price, 10000)
             case .failure:
-                XCTFail("통신 실패")
+                XCTFail("상품 수정 실패")
             }
             expectaion.fulfill()
         }
@@ -134,7 +133,7 @@ class OpenMarketTests: XCTestCase {
             case .success(let product):
                 XCTAssertNotNil(product)
             case .failure:
-                XCTFail("통신 실패")
+                XCTFail("상품 등록 실패")
             }
             expectaion.fulfill()
         }
