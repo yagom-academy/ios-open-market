@@ -105,7 +105,6 @@ class ProductGridLayoutCell: UICollectionViewCell {
             productStackView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -8),
             productStackView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -8),
             
-            productImageView.topAnchor.constraint(equalTo: productStackView.topAnchor, constant: 5),
             productImageView.leadingAnchor.constraint(equalTo: productStackView.leadingAnchor, constant: 5),
             productImageView.trailingAnchor.constraint(equalTo: productStackView.trailingAnchor, constant: -5),
             productImageView.heightAnchor.constraint(equalToConstant: self.contentView.frame.height / 1.7)
