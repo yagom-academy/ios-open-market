@@ -13,22 +13,22 @@ struct UserDefaultUtility {
     static let vendorPassword = "KEY_VENDOR_PASSWORD"
 
     func setVendorIdentification(_ identification: String) {
-        self.userDefaults.set(identification, forKey: UserDefaultUtility.vendorIdentification)
+        userDefaults.set(identification, forKey: UserDefaultUtility.vendorIdentification)
     }
 
     func getVendorIdentification() -> String? {
-        guard let identification = self.userDefaults.string(forKey: UserDefaultUtility.vendorIdentification) else {
+        guard let identification = userDefaults.string(forKey: UserDefaultUtility.vendorIdentification) else {
             return nil
         }
         return identification
     }
 
     func setVendorPassword(_ password: String) {
-        self.userDefaults.set(password, forKey: UserDefaultUtility.vendorPassword)
+        userDefaults.set(password, forKey: UserDefaultUtility.vendorPassword)
     }
 
     func getVendorPassword() throws -> String {
-        guard let password = self.userDefaults.string(forKey: UserDefaultUtility.vendorPassword) else {
+        guard let password = userDefaults.string(forKey: UserDefaultUtility.vendorPassword) else {
             throw UserError.passwordNotFound
         }
         return password
