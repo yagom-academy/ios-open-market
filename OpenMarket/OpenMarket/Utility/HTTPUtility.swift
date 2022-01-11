@@ -10,9 +10,6 @@ import Foundation
 enum HTTPUtility {
     static let baseURL: String = "https://market-training.yagom-academy.kr/"
     static let productPath: String = "api/products/"
-    static let defaultHeader: [String: String] = [
-        "identifier": UserDefaultUtility().getVendorIdentification()
-    ]
     static let defaultSession: URLSession = {
         let configuration = URLSessionConfiguration.default
         return URLSession(configuration: configuration)
@@ -36,8 +33,11 @@ enum HTTPUtility {
 }
 
 extension URLRequest {
-    mutating func addHTTPHeaders(headers: [String: String]) {
-        headers.forEach { (key, value) in
+    mutating func addHTTPHeaders(headers: [String: String?]) {
+        for (key, value) in headers {
+            guard let value = value else {
+                return
+            }
             self.addValue(value, forHTTPHeaderField: key)
         }
     }

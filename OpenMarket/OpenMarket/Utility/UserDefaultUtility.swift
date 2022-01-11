@@ -16,9 +16,9 @@ struct UserDefaultUtility {
         self.userDefaults.set(identification, forKey: UserDefaultUtility.vendorIdentification)
     }
 
-    func getVendorIdentification() throws -> String {
+    func getVendorIdentification() -> String? {
         guard let identification = self.userDefaults.string(forKey: UserDefaultUtility.vendorIdentification) else {
-            throw UserError.identificationNotFound
+            return nil
         }
         return identification
     }

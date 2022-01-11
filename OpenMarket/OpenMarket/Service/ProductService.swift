@@ -2,6 +2,8 @@ import Foundation
 import UIKit
 
 struct ProductService: APIService {
+    let venderIdentification = UserDefaultUtility().getVendorIdentification()
+
     func retrieveProduct(
         productIdentification: Int,
         session: URLSessionProtocol,
@@ -45,8 +47,10 @@ struct ProductService: APIService {
         guard var request = HTTPUtility.urlRequest(urlString: urlString, method: .post) else {
             return
         }
-        request.addHTTPHeaders(headers: HTTPUtility.defaultHeader)
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addHTTPHeaders(
+            headers: ["identifier": venderIdentification,
+                      "Content-Type": "application/json"]
+        )
         request.httpBody = try? JSONEncoder().encode(body)
         doDataTask(with: request, session: session) { result in
             completionHandler(result)
@@ -64,9 +68,10 @@ struct ProductService: APIService {
         guard var request = HTTPUtility.urlRequest(urlString: urlString, method: .delete) else {
             return
         }
-        request.addHTTPHeaders(headers: HTTPUtility.defaultHeader)
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-
+        request.addHTTPHeaders(
+            headers: ["identifier": venderIdentification,
+                      "Content-Type": "application/json"]
+        )
         doDataTask(with: request, session: session) { result in
             completionHandler(result)
         }
@@ -82,8 +87,10 @@ struct ProductService: APIService {
         guard var request = HTTPUtility.urlRequest(urlString: urlString, method: .patch) else {
             return
         }
-        request.addHTTPHeaders(headers: HTTPUtility.defaultHeader)
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addHTTPHeaders(
+            headers: ["identifier": venderIdentification,
+                      "Content-Type": "application/json"]
+        )
         request.httpBody = try? JSONEncoder().encode(body)
         doDataTask(with: request, session: session) { result in
             completionHandler(result)
@@ -101,10 +108,9 @@ struct ProductService: APIService {
             return
         }
         let boundary: String = UUID().uuidString
-        request.addHTTPHeaders(headers: HTTPUtility.defaultHeader)
-        request.addValue(
-            "multipart/form-data; boundary=\(boundary)",
-            forHTTPHeaderField: "Content-Type"
+        request.addHTTPHeaders(
+            headers: ["identifier": venderIdentification,
+                      "Content-Type": "multipart/form-data; boundary=\(boundary)"]
         )
         request.httpBody = makeMultipartFormData(
             parameters: parameters,
