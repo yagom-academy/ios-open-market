@@ -4,7 +4,7 @@ private enum Section: Hashable {
     case main
 }
 
-class ViewController: UIViewController {
+class MainViewController: UIViewController {
     private var productListCollectionView: UICollectionView!
     private var productGridCollectionView: UICollectionView!
     private var layoutSegmentedControl: LayoutSegmentedControl!
@@ -73,13 +73,30 @@ class ViewController: UIViewController {
     }
 
     private func configNavigationBar() {
-        self.navigationController?.navigationBar.topItem?.titleView = layoutSegmentedControl
+        self.navigationItem.titleView = layoutSegmentedControl
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "plus"), style: .plain, target: self, action: #selector(presentProductRegisterView))
+    }
+    
+    @objc private func presentProductRegisterView() {
+        let destination = ProductRegisterViewController()
+        self.present(destination, animated: true, completion: nil)
+    }
+    
+    private func configCollectionViewLayout(_ collectionView: UICollectionView) {
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+                
+        NSLayoutConstraint.activate([
+            collectionView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
+            collectionView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
+        ])
     }
 }
 
-// MARK: - CustomListCollectionView
+// MARK: - Custom List CollectionView
 
-private extension ViewController {
+private extension MainViewController {
     func setupListCollectionView() {
         configListCollectionView()
         configListDataSource()
@@ -91,8 +108,9 @@ private extension ViewController {
     }
     
     func configListCollectionView() {
-        productListCollectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createListLayout())
+        productListCollectionView = UICollectionView(frame: .zero, collectionViewLayout: createListLayout())
         view.addSubview(productListCollectionView)
+        configCollectionViewLayout(productListCollectionView)
     }
     
     func configListDataSource() {
@@ -112,9 +130,9 @@ private extension ViewController {
     }
 }
 
-// MARK: - CustomGridCollectionView
+// MARK: - Custom Grid CollectionView
 
-private extension ViewController {
+private extension MainViewController {
     func setupGridCollectionView() {
         configGridCollectionView()
         configGridDataSource()
@@ -139,8 +157,9 @@ private extension ViewController {
     }
     
     func configGridCollectionView() {
-        productGridCollectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createGridLayout())
+        productGridCollectionView = UICollectionView(frame: .zero, collectionViewLayout: createGridLayout())
         view.addSubview(productGridCollectionView)
+        configCollectionViewLayout(productGridCollectionView)
     }
     
     func configGridDataSource() {
