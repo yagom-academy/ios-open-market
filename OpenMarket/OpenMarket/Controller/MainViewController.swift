@@ -41,7 +41,7 @@ class MainViewController: UIViewController {
     private func requestProducts() {
         let networkManager: NetworkManager = NetworkManager()
         guard let request = networkManager.requestListSearch(page: 1, itemsPerPage: 10) else {
-            showAlert(message: "잘못된 요청입니다.")
+            showAlert(message: Message.badRequest)
             return
         }
         
@@ -67,7 +67,7 @@ class MainViewController: UIViewController {
             currentCellIdentifier = ProductCell.gridItentifier
             collectionView.setUpGridFlowLayout()
         default:
-            showAlert(message: "알 수 없는 에러가 발생했습니다.")
+            showAlert(message: Message.unknownError)
             return
         }
         collectionView.scrollToTop()
