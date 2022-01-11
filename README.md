@@ -25,6 +25,12 @@
     + [의문점](#1-2-의문점)
     + [Trouble Shooting](#1-3-Trouble-Shooting)
     + [배운 개념](#1-4-배운-개념)
+    + [PR 후 개선사항](#1-5-PR-후-개선사항)
+- [STEP 2 : 상품 목록 화면 구현](#STEP-2--상품-목록-화면-구현)
+    + [고민했던 것](#2-1-고민했던-것)
+    + [의문점](#2-2-의문점)
+    + [Trouble Shooting](#2-3-Trouble-Shooting)
+    + [배운 개념](#2-4-배운-개념)
 
 # 키워드
 
@@ -40,6 +46,11 @@
 - `Result`
 - `Codable` `CodingKey`
 - `Async Test`
+- `UICollectionView` `UICollectionViewFlowLayout`
+- `Xib File`
+- `UISegmentedControl`
+- `UIActivityIndicatorView`
+- `reloadData`
 
 # STEP 1 : 네트워킹 타입 구현
 
@@ -143,6 +154,7 @@ class StubURLSessionDataTask: URLSessionDataTask {
 
 > 'init()' was deprecated in iOS 13.0: Please use -[NSURLSession dataTaskWithRequest:] or other NSURLSession methods to create instances
 > 
+- 을 만들어 DummyData를 URLSessionDataTask에 전달하는 방식으로 Test를 진행하는 과정에서 경고가 나타났습니다.
 - `이유` URLSessionDataTask `init()`이 IOS13 이후에 deprecatede되었기 때문이다. 해당 경고를 없애고 싶어서 구글링을 하다가 `URLProtocol`을 발견하게 되었다.
 - `해결` URLProtocol을 상속받은 MockURLProtocol을 만들어서 URLSession configuration을 구성하는 방법으로 문제를 해결하고 기존에 만들었던 StubURLSessionDataTask, DummyData, MockSession 타입은 더이상 사용하지 않게되어 모두 삭제해주었다.
     - `URLProtocol`이란?
@@ -209,5 +221,99 @@ class StubURLSessionDataTask: URLSessionDataTask {
     - Testable한 네트워크 코드 작성하기
         - 네트워크 상황과 무관한 네트워킹 데이터 타입의 단위 테스트(Unit Test)
 
+## **1-5 PR 후 개선사항**
+
+- 테스트 코드에 중복되는 부분을 개선
+    - 빠진 주석 및 줄바꿈을 수정
+- Image의 프로퍼티 네이밍을 명확하게 수정
+- 하드코딩 되어있는 문자열을 따로 enum 타입으로 빼주어 개선
+- 에러의 네이밍을 명확하게 개선
+- Parser, Parsable의 네이밍을 JSON을 덧붙혀 명확하게 개선
+- 접근제어가 붙어있지 않은 프로퍼티에 접근제어를 추가
+- Address의 네이밍을 명확하게 개선 (APIAddress)
+
 [![top](https://img.shields.io/badge/top-%23000000.svg?&amp;style=for-the-badge&amp;logo=Acclaim&amp;logoColor=white&amp;)](#오픈-마켓)
 
+
+# STEP 2 : **상품 목록 화면 구현**
+
+상품목록을 볼 수 있는 화면을 구현합니다.
+
+## 2-1 고민했던 것
+
+- `CollectionView` 하나로 Cell 두개를 활용하여 화면을 전환하기
+    - Custom Cell을 구현하고, 두개의 레이아웃을 만들어 셀만 바꿔주는 방식으로 목록화면 구성
+    - `FlowLayout`을 활용하여 Cell의 레이아웃을 구성
+    - 서버에서 상품 목록을 불러오는 부분과 뷰를 그리는 부분 비동기 처리 구현
+- CollectionView cell 각각 xib로 구현
+    - `CollectionView`의 `GridCell`, `ListCell`을 각각 xib파일을 생성하여 storyboard로 구현하였고 두개의 xib에 대한 코드는 `ProductCell` 하나의 cell로 구성
+- Network를 통해 data를 가져와 `CollectionView`를 구성
+    - API의 Data를 가져오기 위해 productList Search하는 `request` 생성하여 `networkManager`의 `fetch()`로 network를 진행하였고 가져온 `data`로  `collectionViewload`하였다.
+        
+        ```swift
+        let request = networkManager.requestListSearch(page: 1, itemsPerPage: 10) else {
+        ...        
+        networkManager.fetch(request: request, decodingType: Products.self) { result in
+            switch result {
+                case .success(let products):
+                   self.productList = products.pages
+                   self.collectionViewLoad()
+                ...
+        ```
+        
+- `CollectionView`를 재구성하는 경우 `reloadData()` 사용
+    - `SegmentControl`을 이용해 `flowlayout`을 변경하는 경우  `CollectionView`를 재구성하기 위해 reloadData를 사용하였다.
+        
+        ```swift
+        // list -> gird, grid -> list로 변경
+        @IBAction private func switchSegmentedControl(_ sender: UISegmentedControl) {
+                switch sender.selectedSegmentIndex {
+                case 0:
+                    currentCellIdentifier = ProductCell.listIdentifier
+                    collectionView.setUpListFlowLayout()
+                    collectionView.scrollToTop()
+                    collectionView.reloadData()
+        ```
+        
+- alert을 이용한 `Error Handling`
+    - OpenMarket app에서 발생한 error는 alert 창을 띄워 error를 나타내었다.
+    - `localizedError` 프로토콜의 `errorDescription`을 이용하여 description을 정의하였고 `error.localizedDescription`으로 error Message를 출력하도록 에러처리.
+- 상품등록 버튼 Segue
+    - HIG를 참고하여 상품등록 버튼을 눌렀을 때 `Navigation` 형태가 아니라 `Modal`로 띄우도록 구성
+    - Navigation Bar를 활용하여 취소 버튼을 구성
+
+## 2-2 의문점
+
+- collectionview의 flowlayout을 변경할 때 `AutoLayout 충돌 관련 경고`가 뜨는데, 해결 방법을 모르겠다.
+- `SegmentControl`을 활용하여 List나 Grid를 전환할 때 생기는 약간의 딜레이의 원인을 모르겠다.
+
+## 2-3 Trouble Shooting
+
+### 1. Segument Control을 이용하여 화면전환 시 스크롤 위치가 정상적이지 않은 경우
+
+![https://i.imgur.com/DRtK0Xs.gif](https://i.imgur.com/DRtK0Xs.gif)
+
+- `상황`  FlowLayout을 활용하여 화면을 전환할 때, 스크롤이 상단에 위치하는게 아니라 제멋대로인 위치에 가있는 현상이 발생했다.
+- `이유` 레이아웃이 서로 다르기 때문에 스크롤의 좌표도 다른 것으로 추측이 되었다.
+- `해결` 따라서 이 부분을 화면을 전환할 때 스크롤의 위치를 상단에 위치하게 설정해주니 해결되었다.
+    
+    ```swift
+    extension UIScrollView {
+        func scrollToTop() {
+            let topOffset = CGPoint(x: 0, y: -contentInset.top)
+            setContentOffset(topOffset, animated: false)
+        }
+    }
+    ```
+    
+
+## 2-4 배운 개념
+
+- `UICollectionView`  `UICollectionViewFlowLayout`
+- `Networking`을 통한 뷰에 대한 비동기 처리
+- `reloadData`
+- `Xib File`
+- `UISegmentedControl`
+- `UIActivityIndicatorView`
+
+[![top](https://img.shields.io/badge/top-%23000000.svg?&amp;style=for-the-badge&amp;logo=Acclaim&amp;logoColor=white&amp;)](#오픈-마켓)
