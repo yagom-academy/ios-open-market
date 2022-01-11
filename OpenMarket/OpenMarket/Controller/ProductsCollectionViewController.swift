@@ -73,6 +73,9 @@ class ProductsCollectionViewController: UICollectionViewController {
         cell.productTitleLabel.attributedText = product.attributedTitle
         cell.productPriceLabel.attributedText = product.attributedPrice
         cell.productStockLabel.attributedText = product.attributedStock
+        cell.layer.borderWidth = 1.0
+        cell.layer.borderColor = UIColor.systemGray.cgColor
+        cell.layer.cornerRadius = 10
         return cell
     }
 }
@@ -83,7 +86,7 @@ extension ProductsCollectionViewController: UICollectionViewDelegateFlowLayout {
         layout collectionViewLayout: UICollectionViewLayout,
         sizeForItemAt indexPath: IndexPath
     ) -> CGSize {
-        let width = collectionView.frame.width / 2 - 10
+        let width = collectionView.frame.width / 2 - 15
         return CGSize(width: width, height: width * 1.5)
     }
 }
