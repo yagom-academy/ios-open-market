@@ -19,11 +19,14 @@
 		C70FB10425BEF61D00C9924E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C70FB10325BEF61D00C9924E /* Assets.xcassets */; };
 		C70FB10725BEF61D00C9924E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */; };
 		DE00D5B72786EE0E0088795D /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = DE00D5B62786EE0E0088795D /* .swiftlint.yml */; };
+		DE62049F278D1D95009D5AE7 /* ProductsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE62049D278D1D95009D5AE7 /* ProductsTableViewCell.swift */; };
+		DE6204A0278D1D95009D5AE7 /* ProductsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DE62049E278D1D95009D5AE7 /* ProductsTableViewCell.xib */; };
 		DE65CFF927840F5500E1B619 /* NetworkTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE65CFF827840F5500E1B619 /* NetworkTask.swift */; };
 		DE65CFFB27840F6F00E1B619 /* JSONParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE65CFFA27840F6F00E1B619 /* JSONParser.swift */; };
 		DE8317192782D1EF00FF2120 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE8317182782D1EF00FF2120 /* Product.swift */; };
 		DE83171B2782D51A00FF2120 /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE83171A2782D51A00FF2120 /* Currency.swift */; };
 		DE8317232782DFAC00FF2120 /* JSONParseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE8317222782DFAC00FF2120 /* JSONParseTests.swift */; };
+		DE888795278C2DFE005242E6 /* ProductsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE888794278C2DFE005242E6 /* ProductsTableViewController.swift */; };
 		DEAE69642785A61F00F21D21 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEAE69632785A61F00F21D21 /* NetworkError.swift */; };
 /* End PBXBuildFile section */
 
@@ -53,11 +56,14 @@
 		C70FB10825BEF61D00C9924E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DE00D5B62786EE0E0088795D /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		DE04FFBD27882BDD009156DA /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DE62049D278D1D95009D5AE7 /* ProductsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsTableViewCell.swift; sourceTree = "<group>"; };
+		DE62049E278D1D95009D5AE7 /* ProductsTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProductsTableViewCell.xib; sourceTree = "<group>"; };
 		DE65CFF827840F5500E1B619 /* NetworkTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkTask.swift; sourceTree = "<group>"; };
 		DE65CFFA27840F6F00E1B619 /* JSONParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONParser.swift; sourceTree = "<group>"; };
 		DE8317182782D1EF00FF2120 /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
 		DE83171A2782D51A00FF2120 /* Currency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
 		DE8317222782DFAC00FF2120 /* JSONParseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONParseTests.swift; sourceTree = "<group>"; };
+		DE888794278C2DFE005242E6 /* ProductsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsTableViewController.swift; sourceTree = "<group>"; };
 		DEAE69632785A61F00F21D21 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -91,6 +97,7 @@
 			isa = PBXGroup;
 			children = (
 				3AD3946327882D330080754F /* ProductsCollectionViewController.swift */,
+				DE888794278C2DFE005242E6 /* ProductsTableViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -99,6 +106,8 @@
 			isa = PBXGroup;
 			children = (
 				3AD394662788337C0080754F /* ProductsCollectionViewCell.swift */,
+				DE62049D278D1D95009D5AE7 /* ProductsTableViewCell.swift */,
+				DE62049E278D1D95009D5AE7 /* ProductsTableViewCell.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -253,6 +262,7 @@
 			files = (
 				DE00D5B72786EE0E0088795D /* .swiftlint.yml in Resources */,
 				C70FB10725BEF61D00C9924E /* LaunchScreen.storyboard in Resources */,
+				DE6204A0278D1D95009D5AE7 /* ProductsTableViewCell.xib in Resources */,
 				C70FB10425BEF61D00C9924E /* Assets.xcassets in Resources */,
 				C70FB10225BEF61C00C9924E /* Main.storyboard in Resources */,
 			);
@@ -298,7 +308,9 @@
 				DE83171B2782D51A00FF2120 /* Currency.swift in Sources */,
 				DE65CFF927840F5500E1B619 /* NetworkTask.swift in Sources */,
 				3AD3946427882D330080754F /* ProductsCollectionViewController.swift in Sources */,
+				DE62049F278D1D95009D5AE7 /* ProductsTableViewCell.swift in Sources */,
 				3AAA1E2C2786C2320022D36D /* JSONParsable.swift in Sources */,
+				DE888795278C2DFE005242E6 /* ProductsTableViewController.swift in Sources */,
 				DE8317192782D1EF00FF2120 /* Product.swift in Sources */,
 				DE65CFFB27840F6F00E1B619 /* JSONParser.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
