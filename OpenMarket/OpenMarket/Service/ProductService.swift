@@ -1,5 +1,4 @@
 import Foundation
-import UIKit
 
 struct ProductService: APIService {
     let venderIdentification = UserDefaultUtility().getVendorIdentification()

@@ -1,10 +1,3 @@
-//
-//  URLSessionProtocol.swift
-//  OpenMarketTests
-//
-//  Created by yeha on 2022/01/06.
-//
-
 import Foundation
 
 protocol URLSessionProtocol {

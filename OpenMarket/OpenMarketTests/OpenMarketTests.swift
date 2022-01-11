@@ -1,10 +1,3 @@
-//
-//  OpenMarketTests.swift
-//  OpenMarketTests
-//
-//  Created by yeha on 2022/01/06.
-//
-
 import XCTest
 @testable import OpenMarket
 
@@ -97,7 +90,7 @@ class OpenMarketTests: XCTestCase {
             )
 
         sut.modifyProduct(
-            identification: 109,
+            identification: 201,
             body: productToModify,
             session: HTTPUtility.defaultSession
         ) { result in

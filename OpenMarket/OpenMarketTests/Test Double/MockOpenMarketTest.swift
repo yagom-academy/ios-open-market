@@ -1,10 +1,3 @@
-//
-//  MockOpenMarketTest.swift
-//  OpenMarketTests
-//
-//  Created by yeha on 2022/01/07.
-//
-
 import XCTest
 @testable import OpenMarket
 

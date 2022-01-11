@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		331C388B2789081B00A01A11 /* Data+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331C388A2789081B00A01A11 /* Data+Extension.swift */; };
 		331C388C278909CA00A01A11 /* Data+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331C388A2789081B00A01A11 /* Data+Extension.swift */; };
+		334998CF278D7146008A642E /* UserError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8467238E278D204700EA88B1 /* UserError.swift */; };
 		3368D5D7278448ED007D5760 /* ProductList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3368D5D6278448ED007D5760 /* ProductList.swift */; };
 		3368D5D927844A68007D5760 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3368D5D827844A68007D5760 /* Product.swift */; };
 		33C64BA22786B91A00D21535 /* ProductService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C64BA12786B91A00D21535 /* ProductService.swift */; };
@@ -390,6 +391,7 @@
 				33E922CA2786F0B70065DED8 /* ProductList.swift in Sources */,
 				84282E6E2786D7D400C94F0A /* HTTPUtility.swift in Sources */,
 				84282E6B2786D5B200C94F0A /* MockURLSessionDataTask.swift in Sources */,
+				334998CF278D7146008A642E /* UserError.swift in Sources */,
 				8403B3142787DFD800C40679 /* NetworkingError.swift in Sources */,
 				848A82F0278822B200DB1864 /* UserDefaultUtility.swift in Sources */,
 				33E922D2278864DC0065DED8 /* RegisterProductRequest.swift in Sources */,

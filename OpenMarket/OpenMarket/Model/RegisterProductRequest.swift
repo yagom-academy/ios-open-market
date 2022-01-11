@@ -1,10 +1,3 @@
-//
-//  RegisterProductRequest.swift
-//  OpenMarket
-//
-//  Created by 이승재 on 2022/01/07.
-//
-
 import Foundation
 
 struct RegisterProductRequest: Encodable {

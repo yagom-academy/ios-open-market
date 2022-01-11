@@ -1,10 +1,3 @@
-//
-//  HTTPUtility.swift
-//  OpenMarket
-//
-//  Created by yeha on 2022/01/06.
-//
-
 import Foundation
 
 enum HTTPUtility {
@@ -14,7 +7,7 @@ enum HTTPUtility {
         let configuration = URLSessionConfiguration.default
         return URLSession(configuration: configuration)
     }()
-    
+
     static func urlRequest(urlString: String, method: HttpMethod = .get) -> URLRequest? {
         guard let url = URL(string: urlString) else {
             return nil
