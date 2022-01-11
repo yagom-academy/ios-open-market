@@ -55,7 +55,7 @@ class URLSessionProviderDecodingTests: XCTestCase {
     func test_showProductSecret가_200번때_상태코드를_반환해야한다() {
         let sellerID = "cd706a3e-66db-11ec-9626-796401f2341a"
         let sellerPassword = "password"
-        sutURLSesssionProvider.request(.showProductSecret(sellerID: sellerID, sellerPW: sellerPassword, productID: "123")) { result in
+        sutURLSesssionProvider.request(.showProductSecret(sellerID: sellerID, sellerPW: sellerPassword, productID: "124")) { result in
             switch result {
             case .success(let data):
                 guard let stringData = String(data: data, encoding: .utf8) else {

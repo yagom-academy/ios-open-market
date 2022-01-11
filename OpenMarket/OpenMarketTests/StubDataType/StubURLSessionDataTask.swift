@@ -7,17 +7,20 @@
 
 import Foundation
 
+typealias DataTaskCompletionHandler = (Data?, URLResponse?, Error?) -> Void
+
 class StubURLSessionDataTask: URLSessionDataTask {
     
     var dummyData: DummyData?
+    var completionHandler: DataTaskCompletionHandler?
     
     init(dummy: DummyData?, completionHandler: DataTaskCompletionHandler?) {
         self.dummyData = dummy
-        self.dummyData?.completionHandler = completionHandler
+        self.completionHandler = completionHandler
     }
     
     override func resume() {
-        dummyData?.completion()
+        completionHandler?(dummyData?.data, dummyData?.response, dummyData?.error)
     }
     
 }

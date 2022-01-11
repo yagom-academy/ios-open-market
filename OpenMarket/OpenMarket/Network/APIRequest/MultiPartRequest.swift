@@ -34,6 +34,7 @@ extension MultiPartRequest {
             case .image(let name, let images):
                 $0.appendImage(name: name, images: images, boundary: boundary)
             }
+            return $0
         }
         data.append("--\(boundary)--\r\n")
         return data as Data
@@ -45,6 +46,7 @@ enum MultiPartFileType {
     
     case json(name: String, data: Data)
     case image(name: String, images: [Image])
+    
 }
 
 private extension NSMutableData {
