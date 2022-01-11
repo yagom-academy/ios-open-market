@@ -33,6 +33,7 @@
 		FB2CEAE42787188200DB75DF /* ProductImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB2CEAE32787188100DB75DF /* ProductImage.swift */; };
 		FB73D8FF278C86490063E15A /* URLSessionError.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB95741D278C119000B1E7D2 /* URLSessionError.swift */; };
 		FB73D900278C864C0063E15A /* ParserError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A8326A278C666200448699 /* ParserError.swift */; };
+		FB73D902278D7E4D0063E15A /* URLManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53661E68278D724B003BB6DA /* URLManager.swift */; };
 		FB95741E278C119000B1E7D2 /* URLSessionError.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB95741D278C119000B1E7D2 /* URLSessionError.swift */; };
 /* End PBXBuildFile section */
 
@@ -136,16 +137,24 @@
 		FB2CEABD2783E5F200DB75DF /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				FB73D901278D7B7C0063E15A /* Networking */,
 				FB2CEABB2783E54800DB75DF /* ProductList.swift */,
 				FB2CEABE2783E6F200DB75DF /* ProductInformation.swift */,
-				FB2CEADD27840FB800DB75DF /* Parser.swift */,
-				FB2CEADF2784364400DB75DF /* APIManager.swift */,
-				FB2CEAE12786D62700DB75DF /* HTTPMethod.swift */,
 				FB2CEAE32787188100DB75DF /* ProductImage.swift */,
 				53A83124278719F600448699 /* Vendors.swift */,
-				53661E68278D724B003BB6DA /* URLManager.swift */,
+				FB2CEADD27840FB800DB75DF /* Parser.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		FB73D901278D7B7C0063E15A /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				FB2CEADF2784364400DB75DF /* APIManager.swift */,
+				FB2CEAE12786D62700DB75DF /* HTTPMethod.swift */,
+				53661E68278D724B003BB6DA /* URLManager.swift */,
+			);
+			path = Networking;
 			sourceTree = "<group>";
 		};
 		FB95741F278C119500B1E7D2 /* Error */ = {
@@ -262,6 +271,7 @@
 				53A8311F2784167F00448699 /* Parser.swift in Sources */,
 				53A8312927871E7200448699 /* HTTPMethod.swift in Sources */,
 				53A831212784168400448699 /* ProductList.swift in Sources */,
+				FB73D902278D7E4D0063E15A /* URLManager.swift in Sources */,
 				53A8312B27871E7800448699 /* Vendors.swift in Sources */,
 				53A831202784168200448699 /* ProductInformation.swift in Sources */,
 				FB73D8FF278C86490063E15A /* URLSessionError.swift in Sources */,

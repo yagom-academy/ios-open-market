@@ -14,7 +14,7 @@ enum URLManager {
         case .productInformation(let productID):
             return URL(string: URLManager.apiHost + "/api/products/" + "\(productID)" )
         case .productList(let pageNumber, let itemsPerPage):
-            return URL(string: URLManager.apiHost + "/api/products? page_no=\(pageNumber)&items_per_page=\(itemsPerPage)")
+            return URL(string: URLManager.apiHost + "/api/products?page_no=\(pageNumber)&items_per_page=\(itemsPerPage)")
         }
     }
 }

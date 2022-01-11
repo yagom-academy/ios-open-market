@@ -3,14 +3,20 @@ import Foundation
 class APIManager {
     let successRange = 200..<300
     
+    private func request(_ url: URL, _ httpMethod: String) -> URLRequest {
+        var request = URLRequest(url: url)
+        request.httpMethod = httpMethod
+        
+        return request
+    }
+    
     func requestHealthChecker(completionHandler: @escaping (Result<Data, Error>) -> Void) {
         guard let url = URLManager.healthChecker.url else {
             completionHandler(.failure(URLSessionError.urlIsNil))
             return
         }
         
-        var request = URLRequest(url: url)
-        request.httpMethod = HTTPMethod.get
+        let request = request(url, HTTPMethod.get)
  
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             guard error == nil else {
@@ -39,8 +45,7 @@ class APIManager {
             return
         }
         
-        var request = URLRequest(url: url)
-        request.httpMethod = HTTPMethod.get
+        let request = request(url, HTTPMethod.get)
         createDataTask(with: request, completionHandler)
     }
     
@@ -50,8 +55,7 @@ class APIManager {
             return
         }
         
-        var request = URLRequest(url: url)
-        request.httpMethod = HTTPMethod.get
+        let request = request(url, HTTPMethod.get)
         createDataTask(with: request, completionHandler)
     }
 }
