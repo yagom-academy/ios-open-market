@@ -1,8 +1,8 @@
 import Foundation
 
 struct ProductPostRequester: Requestable {
-    private static var baseURLString: String = "https://market-training.yagom-academy.kr/api/products"
-    private static var httpMethod: HttpMethod = .POST
+    private var baseURLString: String = "https://market-training.yagom-academy.kr/api/products"
+    private var httpMethod: HTTPMethod = .POST
     private let identifier: String
     private let params: ProductPost.Request.Params
     private let images: Data
@@ -14,7 +14,7 @@ struct ProductPostRequester: Requestable {
     }
     
     private var url: URL? {
-        return URL(string: Self.baseURLString)
+        return URL(string: baseURLString)
     }
     
     var request: URLRequest? {

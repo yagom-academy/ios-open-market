@@ -1,8 +1,8 @@
 import Foundation
 
 struct ProductModifyRequester: Requestable {
-    private static var baseURLString: String = "https://market-training.yagom-academy.kr/api/products"
-    private static var httpMethod: HttpMethod = .PATCH
+    private var baseURLString: String = "https://market-training.yagom-academy.kr/api/products"
+    private var httpMethod: HTTPMethod = .PATCH
     private let identifier: String
     private let productId: Int
     private let secret: String
@@ -14,7 +14,7 @@ struct ProductModifyRequester: Requestable {
     }
 
     private var url: URL? {
-        return URL(string: "\(Self.baseURLString)/\(productId)")
+        return URL(string: "\(baseURLString)/\(productId)")
     }
     
     var request: URLRequest? {

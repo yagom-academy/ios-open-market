@@ -1,8 +1,8 @@
 import Foundation
 
-struct ProductDetailAskRequester: Requestable, JSONParsable {
-    private static var baseURLString: String = "https://market-training.yagom-academy.kr/api/products"
-    private static var httpMethod: HttpMethod = .GET
+struct ProductDetailAskRequester: Requestable {
+    private var baseURLString: String = "https://market-training.yagom-academy.kr/api/products"
+    private var httpMethod: HTTPMethod = .GET
     private let productId: Int
 
     init(productId: Int) {
@@ -10,7 +10,7 @@ struct ProductDetailAskRequester: Requestable, JSONParsable {
     }
     
     private var url: URL? {
-        return URL(string: "\(Self.baseURLString)/\(productId)")
+        return URL(string: "\(baseURLString)/\(productId)")
     }
     
     var request: URLRequest? {
@@ -18,7 +18,7 @@ struct ProductDetailAskRequester: Requestable, JSONParsable {
             return nil
         }
         var request = URLRequest(url: url)
-        request.httpMethod = Self.httpMethod.rawValue
+        request.httpMethod = httpMethod.rawValue
         
         return request
     }

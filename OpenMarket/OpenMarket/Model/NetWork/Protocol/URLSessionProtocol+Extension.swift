@@ -5,6 +5,7 @@ protocol URLSessionProtocol {
         with request: URLRequest,
         completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void
     ) -> URLSessionDataTask
+//    func creatURLRequest { }
 }
 
 extension URLSessionProtocol {

@@ -1,8 +1,8 @@
 import Foundation
 
-struct ProductListAskRequester: Requestable, JSONParsable {
+struct ProductListAskRequester: Requestable {
     private static var baseURLString: String = "https://market-training.yagom-academy.kr/api/products"
-    private static var httpMethod: HttpMethod = .POST
+    private static var httpMethod: HTTPMethod = .POST
     private let pageNo: Int
     private let itemsPerPage: Int
     
@@ -12,7 +12,7 @@ struct ProductListAskRequester: Requestable, JSONParsable {
     }
     
     private var url: URL? {
-        return URL(string: "\(Self.baseURLString)?page_no=\(pageNo)&items_per_page=\(itemsPerPage)")
+        return URL(string: "\(baseURLString)?page_no=\(pageNo)&items_per_page=\(itemsPerPage)")
     }
     
     var request: URLRequest? {
