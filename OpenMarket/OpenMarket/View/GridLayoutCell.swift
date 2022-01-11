@@ -23,6 +23,12 @@ class GridLayoutCell: UICollectionViewCell {
         super.awakeFromNib()
         // Initialization code
     }
+    
+    override func prepareForReuse() {
+        guard priceStackView.arrangedSubviews.count >= 2 else { return }
+        guard let view = priceStackView.arrangedSubviews.first else { return }
+        priceStackView.removeArrangedSubview(view)
+    }
 
     func configureContents(image: UIImage, productName: String, price: String, discountedPrice: String?, stock: String) {
         imageView.image = image
