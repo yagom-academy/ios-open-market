@@ -27,19 +27,16 @@ extension MultiPartRequest {
     }
     
     private func makeMultiPartBody(_ dataArray: [MultiPartFileType], boundary: String) -> Data {
-        let body = NSMutableData()
-        
-        for file in dataArray {
-            switch file {
+        let data = dataArray.reduce(NSMutableData()) {
+            switch $1 {
             case .json(let name, let data):
-                body.appendJSON(name: name, data: data, boundary: boundary)
+                $0.appendJSON(name: name, data: data, boundary: boundary)
             case .image(let name, let images):
-                body.appendImage(name: name, images: images, boundary: boundary)
+                $0.appendImage(name: name, images: images, boundary: boundary)
             }
         }
-        
-        body.append("--\(boundary)--\r\n")
-        return body as Data
+        data.append("--\(boundary)--\r\n")
+        return data as Data
     }
     
 }
