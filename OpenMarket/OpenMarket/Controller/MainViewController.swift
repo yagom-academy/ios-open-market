@@ -11,12 +11,8 @@ class MainViewController: UIViewController {
     private var currentCellIdentifier = ProductCell.listIdentifier
     
     @IBOutlet private weak var collectionView: ProductsCollectionView!
-    @IBOutlet private weak var indicator: UIActivityIndicatorView! {
-        didSet {
-            indicator.startAnimating()
-            indicator.isHidden = false
-        }
-    }
+    @IBOutlet private weak var indicator: UIActivityIndicatorView!
+    
     @IBOutlet private weak var segmentControl: UISegmentedControl! {
         didSet {
             let normal: [NSAttributedString.Key: Any] = [.foregroundColor: UIColor.white]
@@ -34,7 +30,7 @@ class MainViewController: UIViewController {
         requestProducts()
     }
     
-    func reload() {
+    private func reload() {
         DispatchQueue.main.async {
             self.collectionView.reloadData()
             self.indicator.stopAnimating()
@@ -43,9 +39,10 @@ class MainViewController: UIViewController {
         }
     }
     
-    func requestProducts() {
+    private func requestProducts() {
         let networkManager: NetworkManager = NetworkManager()
         guard let request = networkManager.requestListSearch(page: 1, itemsPerPage: 10) else {
+            showAlert(message: "잘못된 요청입니다.")
             return
         }
         
@@ -62,7 +59,7 @@ class MainViewController: UIViewController {
         }
     }
     
-    @IBAction func switchSegmentedControl(_ sender: UISegmentedControl) {
+    @IBAction private func switchSegmentedControl(_ sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex {
         case 0:
             currentCellIdentifier = ProductCell.listIdentifier

@@ -9,25 +9,6 @@ import UIKit
 
 class ProductsCollectionView: UICollectionView {
 
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-        registerXib()
-        setUpListFlowLayout()
-        isHidden = true
-    }
-    
-    override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
-        super.init(frame: frame, collectionViewLayout: layout)
-    }
-    
-    private func registerXib() {
-        let gridNibName = UINib(nibName: ProductCell.listNibName, bundle: .main)
-        register(gridNibName, forCellWithReuseIdentifier: ProductCell.listIdentifier)
-        
-        let listNibName = UINib(nibName: ProductCell.gridNibName, bundle: .main)
-        register(listNibName, forCellWithReuseIdentifier: ProductCell.gridItentifier)
-    }
-    
     private var listFlowlayout: UICollectionViewFlowLayout {
         let flowLayout = UICollectionViewFlowLayout()
         let halfWidth = UIScreen.main.bounds.width
@@ -49,11 +30,30 @@ class ProductsCollectionView: UICollectionView {
         return flowLayout
     }
     
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        registerXib()
+        setUpListFlowLayout()
+        isHidden = true
+    }
+    
+    override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
+        super.init(frame: frame, collectionViewLayout: layout)
+    }
+    
     func setUpListFlowLayout() {
         self.collectionViewLayout = listFlowlayout
     }
     
     func setUpGridFlowLayout() {
         self.collectionViewLayout = gridFlowlayout
+    }
+    
+    private func registerXib() {
+        let gridNibName = UINib(nibName: ProductCell.listNibName, bundle: .main)
+        register(gridNibName, forCellWithReuseIdentifier: ProductCell.listIdentifier)
+        
+        let listNibName = UINib(nibName: ProductCell.gridNibName, bundle: .main)
+        register(listNibName, forCellWithReuseIdentifier: ProductCell.gridItentifier)
     }
 }
