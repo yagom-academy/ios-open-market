@@ -50,6 +50,8 @@
 		F3D3B5AD2787329600943720 /* MultipartForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D3B5AC2787329600943720 /* MultipartForm.swift */; };
 		F3D3B5AF278732C700943720 /* ContentType.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D3B5AE278732C700943720 /* ContentType.swift */; };
 		F3D3B5D32788297C00943720 /* ListCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F3D3B5D12788297C00943720 /* ListCollectionViewCell.xib */; };
+		F3D3B608278D128100943720 /* ProductsCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D3B607278D128100943720 /* ProductsCollectionView.swift */; };
+		F3D3B60A278D164800943720 /* UIScrollView+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D3B609278D164700943720 /* UIScrollView+extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -109,6 +111,8 @@
 		F3D3B5AC2787329600943720 /* MultipartForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipartForm.swift; sourceTree = "<group>"; };
 		F3D3B5AE278732C700943720 /* ContentType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentType.swift; sourceTree = "<group>"; };
 		F3D3B5D12788297C00943720 /* ListCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ListCollectionViewCell.xib; sourceTree = "<group>"; };
+		F3D3B607278D128100943720 /* ProductsCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsCollectionView.swift; sourceTree = "<group>"; };
+		F3D3B609278D164700943720 /* UIScrollView+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScrollView+extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -234,6 +238,7 @@
 				9AAA3F4927881F7700D6E407 /* ProductCell.swift */,
 				9AAA3F4A27881F7700D6E407 /* GridCollectionViewCell.xib */,
 				F3D3B5D12788297C00943720 /* ListCollectionViewCell.xib */,
+				F3D3B607278D128100943720 /* ProductsCollectionView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -245,6 +250,7 @@
 				9A134561278C1C1F00660291 /* UIViewController+extension.swift */,
 				9A134563278C260A00660291 /* String+extension.swift */,
 				9A134565278C2BC300660291 /* Int+extension.swift */,
+				F3D3B609278D164700943720 /* UIScrollView+extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -417,6 +423,7 @@
 				F35B1A6B2784335B0031A755 /* Data+extension.swift in Sources */,
 				9A1CFDCA27841CD0003BEC69 /* ProductSecret.swift in Sources */,
 				9A1CFDC22783D6FA003BEC69 /* Image.swift in Sources */,
+				F3D3B60A278D164800943720 /* UIScrollView+extension.swift in Sources */,
 				9A1CFDCE27842E2E003BEC69 /* Currency.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* MainViewController.swift in Sources */,
 				F35B1A6827840CA80031A755 /* NetworkManager.swift in Sources */,
@@ -436,6 +443,7 @@
 				9A1CFD7C2782EB88003BEC69 /* ParserError.swift in Sources */,
 				9A1CFD782782E341003BEC69 /* Product.swift in Sources */,
 				F35B1A87278537BD0031A755 /* Networkable.swift in Sources */,
+				F3D3B608278D128100943720 /* ProductsCollectionView.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				9AAA3F362786B92400D6E407 /* HTTPMethod.swift in Sources */,
 				F35B1A662783E9D50031A755 /* NetworkError.swift in Sources */,

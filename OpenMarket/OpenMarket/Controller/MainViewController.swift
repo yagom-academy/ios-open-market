@@ -7,8 +7,10 @@
 import UIKit
 
 class MainViewController: UIViewController {
-    var productList: [Product] = []
-    @IBOutlet private weak var collectionView: UICollectionView!
+    private var productList: [Product] = []
+    private var currentCellIdentifier = ProductCell.listIdentifier
+    
+    @IBOutlet private weak var collectionView: ProductsCollectionView!
     @IBOutlet private weak var indicator: UIActivityIndicatorView! {
         didSet {
             indicator.startAnimating()
@@ -25,37 +27,10 @@ class MainViewController: UIViewController {
             segmentControl.backgroundColor = .black
         }
     }
-    var currentCellIdentifier = ProductCell.listIdentifier
-    
-    private var listFlowlayout: UICollectionViewFlowLayout {
-        let flowLayout = UICollectionViewFlowLayout()
-        let halfWidth = UIScreen.main.bounds.width
-        flowLayout.itemSize = CGSize(width: halfWidth, height: halfWidth * 0.155)
-        flowLayout.sectionInset = UIEdgeInsets.init(top: 0, left: 0, bottom: 0, right: 0)
-        flowLayout.minimumLineSpacing = 0
-        return flowLayout
-    }
-    
-    private var gridFlowlayout: UICollectionViewFlowLayout {
-        let flowLayout = UICollectionViewFlowLayout()
-        let halfWidth = UIScreen.main.bounds.width / 2
-        flowLayout.itemSize = CGSize(width: halfWidth * 0.93, height: halfWidth * 1.32)
-        let spacing = (UIScreen.main.bounds.width - flowLayout.itemSize.width * 2) / 3
-        flowLayout.sectionInset = UIEdgeInsets.init(top: 10, left: spacing, bottom: 10, right: spacing)
-        flowLayout.minimumInteritemSpacing = 0
-        flowLayout.minimumLineSpacing = spacing
-        self.collectionView.collectionViewLayout = flowLayout
-        return flowLayout
-    }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         collectionView.dataSource = self
-        collectionView.delegate = self
-        collectionView.isHidden = true
-        
-        registerXib()
-        setUpListFlowLayout()
         requestProducts()
     }
     
@@ -87,32 +62,16 @@ class MainViewController: UIViewController {
         }
     }
     
-    private func registerXib() {
-        let gridNibName = UINib(nibName: ProductCell.listNibName, bundle: .main)
-        collectionView.register(gridNibName, forCellWithReuseIdentifier: ProductCell.listIdentifier)
-        
-        let listNibName = UINib(nibName: ProductCell.gridNibName, bundle: .main)
-        collectionView.register(listNibName, forCellWithReuseIdentifier: ProductCell.gridItentifier)
-    }
-    
-    private func setUpListFlowLayout() {
-        collectionView.collectionViewLayout = listFlowlayout
-    }
-    
-    private func setUpGridFlowLayout() {
-        collectionView.collectionViewLayout = gridFlowlayout
-    }
-    
     @IBAction func switchSegmentedControl(_ sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex {
         case 0:
             currentCellIdentifier = ProductCell.listIdentifier
-            setUpListFlowLayout()
+            collectionView.setUpListFlowLayout()
             collectionView.scrollToTop()
             collectionView.reloadData()
         case 1:
             currentCellIdentifier = ProductCell.gridItentifier
-            setUpGridFlowLayout()
+            collectionView.setUpGridFlowLayout()
             collectionView.scrollToTop()
             collectionView.reloadData()
         default:
@@ -138,20 +97,8 @@ extension MainViewController: UICollectionViewDataSource {
             fatalError()
         }
         cell.styleConfigure(identifier: currentCellIdentifier)
-        
         cell.productConfigure(product: productList[indexPath.row])
         
         return cell
-    }
-}
-
-extension MainViewController: UICollectionViewDelegateFlowLayout {
-
-}
-
-extension UIScrollView {
-    func scrollToTop() {
-        let topOffset = CGPoint(x: 0, y: -contentInset.top)
-        setContentOffset(topOffset, animated: false)
     }
 }
