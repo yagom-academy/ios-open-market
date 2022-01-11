@@ -87,6 +87,7 @@ class ProductsCollectionViewController: UICollectionViewController {
                 )
                 return cell
             }
+        cell.productImageView.image = nil
         cell.productTitleLabel.attributedText = product.attributedTitle
         cell.productPriceLabel.attributedText = product.attributedPrice
         cell.productStockLabel.attributedText = product.attributedStock

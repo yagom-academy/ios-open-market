@@ -87,6 +87,7 @@ class ProductsTableViewController: UITableViewController {
                   )
                   return cell
               }
+        cell.productImageView.image = nil
         cell.titleLabel.attributedText = product.attributedTitle
         cell.priceLabel.attributedText = product.attributedPrice
         cell.stockLabel.attributedText = product.attributedStock
