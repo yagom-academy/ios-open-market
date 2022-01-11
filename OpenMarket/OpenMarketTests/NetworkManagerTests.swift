@@ -127,8 +127,7 @@ class NetworkManagerTests: XCTestCase {
     
     func test_request_상품삭제Secret조회() {
         //given
-        let url = APIAddress.secret(id: 1, secret: "123").url
-        
+        let url = APIAddress.secretSearch(id: 1).url
         //when
         let result = sutNetworkManager?.requestSecretSearch(data: Data(), id: 1, secret: "123")
         
@@ -169,8 +168,8 @@ class NetworkManagerTests: XCTestCase {
         case .success(let request):
             //then
             XCTAssertNotNil(request)
-            XCTAssertEqual(request?.url, url)
-            XCTAssertEqual(request?.httpMethod, HTTPMethod.patch.rawValue)
+            XCTAssertEqual(request.url, url)
+            XCTAssertEqual(request.httpMethod, HTTPMethod.patch.rawValue)
         case .failure:
             XCTFail()
         case .none:
@@ -181,7 +180,7 @@ class NetworkManagerTests: XCTestCase {
     func test_request_상품등록() {
         //given
         let url = APIAddress.register.url
-        let params = ProductRegistration(name: "", description: "", price: 1, currency: .krw, discountedPrice: nil, stock: nil, secret: "")
+        let params = ProductRegistration(name: "", descriptions: "", price: 1, currency: .krw, discountedPrice: nil, stock: nil, secret: "")
         
         //when
         let result = sutNetworkManager?.requestRegister(params: params, images: [])
@@ -190,8 +189,8 @@ class NetworkManagerTests: XCTestCase {
         case .success(let request):
             //then
             XCTAssertNotNil(request)
-            XCTAssertEqual(request?.url, url)
-            XCTAssertEqual(request?.httpMethod, HTTPMethod.post.rawValue)
+            XCTAssertEqual(request.url, url)
+            XCTAssertEqual(request.httpMethod, HTTPMethod.post.rawValue)
         case .failure:
             XCTFail()
         case .none:

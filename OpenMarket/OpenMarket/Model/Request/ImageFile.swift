@@ -12,10 +12,10 @@ struct ImageFile {
     let data: Data
     let type: Form
     
-    enum Form {
-        case png
-        case jpg
-        case jpeg
+    enum Form: String {
+        case png = ".png"
+        case jpg = ".jpg"
+        case jpeg = ".jpeg"
         
         var description: String {
             switch self {

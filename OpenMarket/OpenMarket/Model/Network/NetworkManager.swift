@@ -11,8 +11,9 @@ struct NetworkManager {
     let network: Networkable
     let parser: JSONParserable
     var baseBoundary: String {
-        return "Boundary-\(UUID().uuidString)"
+        return UUID().uuidString
     }
+    let identifier = "cd706a3e-66db-11ec-9626-796401f2341a"
     
     init(network: Networkable = Network(), parser: JSONParserable = JSONParser()) {
         self.network = network
@@ -73,7 +74,7 @@ struct NetworkManager {
         request.httpMethod = HTTPMethod.post.rawValue // 다른점
         request.httpBody = encodeData
         request.addValue(ContentType.json.string, forHTTPHeaderField: ContentType.contentType.string)
-        request.addValue("80c47530-58bb-11ec-bf7f-d188f1cd5f22", forHTTPHeaderField: "identifier")
+        request.addValue(identifier, forHTTPHeaderField: "identifier")
         
         return .success(request)
     }
@@ -86,13 +87,13 @@ struct NetworkManager {
         var request = URLRequest(url: url)
         
         request.httpMethod = HTTPMethod.delete.rawValue
-        request.addValue("80c47530-58bb-11ec-bf7f-d188f1cd5f22", forHTTPHeaderField: "identifier")
+        request.addValue(identifier, forHTTPHeaderField: "identifier")
         
         return request
     }
     
     // PATCH - 상품 수정
-    func requestModify<T: Encodable>(data: T, id: UInt) -> Result<URLRequest?, Error> {
+    func requestModify<T: Encodable>(data: T, id: UInt) -> Result<URLRequest, Error> {
         guard let url = APIAddress.product(id: id).url else {
             return .failure(NetworkError.notFoundURL)
         }
@@ -104,72 +105,76 @@ struct NetworkManager {
         request.httpMethod = HTTPMethod.patch.rawValue
         request.httpBody = encodeData
         request.addValue(ContentType.json.string, forHTTPHeaderField: ContentType.contentType.string)
-        request.addValue("80c47530-58bb-11ec-bf7f-d188f1cd5f22", forHTTPHeaderField: "identifier")
+        request.addValue(identifier, forHTTPHeaderField: "identifier")
 
         return .success(request)
     }
     
     // POST - 상품 등록
-    func requestRegister<T: MultipartFormProtocol>(params: T, images: [ImageFile]) -> Result<URLRequest?, Error> {
+    func requestRegister<T: Encodable>(params: T, images: [ImageFile]) -> Result<URLRequest, Error> {
         guard let url = APIAddress.register.url else {
             return .failure(NetworkError.notFoundURL)
         }
-        let request = requestMultipartForm(url: url, params: params, images: images)
-        return .success(request)
+        let requestResult = requestMultipartForm(url: url, params: params, images: images)
+        
+        return requestResult
     }
     
 }
 
 extension NetworkManager {
-    private func requestMultipartForm<T: MultipartFormProtocol>(
+    private func requestMultipartForm<T: Encodable>(
         url: URL,
         params: T,
         images: [ImageFile]
-    ) -> URLRequest {
+    ) -> Result<URLRequest, Error> {
         let boundary = baseBoundary
-        let encodeBody = createBody(parameters: params.dictionary, images: images, boundary: boundary)
         var request = URLRequest(url: url)
+        let bodyResult = createBody(data: params, images: images, boundary: boundary)
+        
+        switch bodyResult {
+        case .success(let bodyData):
+            request.httpBody = bodyData
+        case .failure(let error):
+            return .failure(error)
+        }
         
         request.httpMethod = HTTPMethod.post.rawValue
-        request.setValue(ContentType.formData(boundary: boundary).string,
+        request.addValue(identifier, forHTTPHeaderField: "identifier")
+        request.addValue(ContentType.formData(boundary: boundary).string,
                          forHTTPHeaderField: ContentType.contentType.string)
-        request.addValue("80c47530-58bb-11ec-bf7f-d188f1cd5f22", forHTTPHeaderField: "identifier")
-        request.httpBody = encodeBody
-        
-        return request
+    
+        return .success(request)
     }
     
-    private func createBody(parameters: [String: Any?], images: [ImageFile], boundary: String) -> Data {
+    private func createBody<T: Encodable>(data: T, images: [ImageFile], boundary: String) -> Result<Data, Error> {
         var body = Data()
-        for (key, value) in parameters {
-            if let value = value {
-                body.append(jsonMultiPartForm(name: key, value: value, boundary: boundary))
-            } else {
-                continue
-            }
+        guard let encodeData = jsonEncode(data: data) else {
+            return .failure(ParserError.encodingFail)
         }
+        body.append(MultipartForm.boundary(baseBoundary: boundary).string)
+        body.append(MultipartForm.paramsDisposition.string)
+        body.append(MultipartForm.paramsContentType.string)
+        body.append(encodeData)
+        body.append(MultipartForm.newline.string)
+        
         for image in images {
             body.append(imageMultiPartForm(image: image, boundary: boundary))
         }
         body.append(MultipartForm.lastBoundary(baseBoundary: boundary).string)
         
-        return body
-    }
-    
-    private func jsonMultiPartForm(name: String, value: Any, boundary: String) -> Data {
-        var data = Data()
-        data.append(MultipartForm.boundary(baseBoundary: boundary).string)
-        data.append(MultipartForm.contentDisposition(name: name).string)
-        data.append(MultipartForm.value(value).string)
-        return data
+        return .success(body)
     }
     
     private func imageMultiPartForm(image: ImageFile, boundary: String) -> Data {
         var data = Data()
+        let fileName = "\(UUID().uuidString).\(image.type.rawValue)"
         data.append(MultipartForm.boundary(baseBoundary: boundary).string)
-        data.append(MultipartForm.imageContentDisposition(filename: image.name).string)
+        data.append(MultipartForm.imagesDisposition(filename: fileName).string)
         data.append(MultipartForm.imageContentType(imageType: image.type.description).string)
-        data.append(MultipartForm.imageValue(data: image.data).string)
+        data.append(image.data)
+        data.append(MultipartForm.newline.string)
+
         return data
     }
     
