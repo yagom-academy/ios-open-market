@@ -27,7 +27,7 @@ struct Product: Codable {
   /// 상품의 거래 통화
   let currency: Currency
   /// 상품의 정가
-  let price: Int
+  var price: Int
   /// 상품의 할인 가격
   let bargainPrice: Int
   /// 할인된 가격
@@ -41,6 +41,22 @@ struct Product: Codable {
   let createdAt: String
   let issuedAt: String
   
+  var getBargainPrice: String {
+    return "\(currency.rawValue) \(bargainPrice)"
+  }
+  
+  var getPrice: String {
+    
+    return "\(currency.rawValue) \(bargainPrice)\n\(currency.rawValue) \(price)"
+  }
+  
+  var getStock: String {
+    if stock == 0 {
+      return "품절"
+    }
+    return "잔여수량: \(stock)"
+  }
+  
   enum CodingKeys: String, CodingKey {
     case id, name, thumbnail, currency, price, stock, images
     case vendor = "vendors"
@@ -51,3 +67,4 @@ struct Product: Codable {
     case issuedAt = "issued_at"
   }
 }
+
