@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		53661E69278D724B003BB6DA /* URLManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53661E68278D724B003BB6DA /* URLManager.swift */; };
 		53A831182784161A00448699 /* ProductsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A831172784161A00448699 /* ProductsTests.swift */; };
 		53A8311F2784167F00448699 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB2CEADD27840FB800DB75DF /* Parser.swift */; };
 		53A831202784168200448699 /* ProductInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB2CEABE2783E6F200DB75DF /* ProductInformation.swift */; };
@@ -46,6 +47,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		53661E68278D724B003BB6DA /* URLManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLManager.swift; sourceTree = "<group>"; };
 		53A831152784161900448699 /* ProductsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ProductsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		53A831172784161A00448699 /* ProductsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsTests.swift; sourceTree = "<group>"; };
 		53A831192784161A00448699 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -141,6 +143,7 @@
 				FB2CEAE12786D62700DB75DF /* HTTPMethod.swift */,
 				FB2CEAE32787188100DB75DF /* ProductImage.swift */,
 				53A83124278719F600448699 /* Vendors.swift */,
+				53661E68278D724B003BB6DA /* URLManager.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -275,6 +278,7 @@
 				FB2CEABF2783E6F200DB75DF /* ProductInformation.swift in Sources */,
 				53A83125278719F600448699 /* Vendors.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
+				53661E69278D724B003BB6DA /* URLManager.swift in Sources */,
 				FB95741E278C119000B1E7D2 /* URLSessionError.swift in Sources */,
 				FB2CEADE27840FB800DB75DF /* Parser.swift in Sources */,
 				FB2CEABC2783E54800DB75DF /* ProductList.swift in Sources */,

@@ -1,11 +1,10 @@
 import Foundation
 
 class APIManager {
-    let apiHost = "https://market-training.yagom-academy.kr/"
     let successRange = 200..<300
     
     func requestHealthChecker(completionHandler: @escaping (Result<Data, Error>) -> Void) {
-        guard let url = URL(string: apiHost + "healthChecker") else {
+        guard let url = URLManager.healthChecker.url else {
             completionHandler(.failure(URLSessionError.urlIsNil))
             return
         }
@@ -35,7 +34,7 @@ class APIManager {
     }
     
     func requestProductInformation(productID: Int, completionHandler: @escaping (Result<ProductInformation, Error>) -> Void) {
-        guard let url = URL(string: apiHost + "/api/products/" + "\(productID)") else {
+        guard let url = URLManager.productInformation(productID).url else {
             completionHandler(.failure(URLSessionError.urlIsNil))
             return
         }
@@ -46,13 +45,7 @@ class APIManager {
     }
     
     func requestProductList(pageNumber: Int, itemsPerPage: Int, completionHandler: @escaping (Result<ProductList, Error>) -> Void) {
-        var urlComponents = URLComponents(string: apiHost + "/api/products?")
-        let pageNumberQuery = URLQueryItem(name: "page_no", value: "\(pageNumber)")
-        let itemsPerPageQuery = URLQueryItem(name: "items_per_page", value: "\(itemsPerPage)")
-        urlComponents?.queryItems?.append(pageNumberQuery)
-        urlComponents?.queryItems?.append(itemsPerPageQuery)
-        
-        guard let url = urlComponents?.url else {
+        guard let url = URLManager.productList(pageNumber, itemsPerPage).url else {
             completionHandler(.failure(URLSessionError.urlIsNil))
             return
         }
@@ -85,7 +78,6 @@ extension APIManager {
                 completionHandler(.failure(ParserError.decodeFail))
                 return
             }
-            
             completionHandler(.success(parsedData))
         }
         task.resume()
