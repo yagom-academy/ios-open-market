@@ -135,8 +135,8 @@ class NetworkManagerTests: XCTestCase {
         case .success(let request):
             //then
             XCTAssertNotNil(request)
-            XCTAssertEqual(request?.url, url)
-            XCTAssertEqual(request?.httpMethod, HTTPMethod.post.rawValue)
+            XCTAssertEqual(request.url, url)
+            XCTAssertEqual(request.httpMethod, HTTPMethod.post.rawValue)
         case .failure:
             XCTFail()
         case .none:

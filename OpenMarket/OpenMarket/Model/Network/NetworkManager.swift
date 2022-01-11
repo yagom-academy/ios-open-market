@@ -62,8 +62,8 @@ struct NetworkManager {
     }
     
     // POST - 상품 삭제 Secret 상세 조회
-    func requestSecretSearch<T: Encodable>(data: T, id: UInt, secret: String) -> Result<URLRequest?, Error> {
-        guard let url = APIAddress.secretSearch(id: id).url else { // 다른점
+    func requestSecretSearch<T: Encodable>(data: T, id: UInt, secret: String) -> Result<URLRequest, Error> {
+        guard let url = APIAddress.secretSearch(id: id).url else {
             return .failure(NetworkError.notFoundURL)
         }
         guard let encodeData = jsonEncode(data: data) else {
@@ -71,7 +71,7 @@ struct NetworkManager {
         }
         
         var request = URLRequest(url: url)
-        request.httpMethod = HTTPMethod.post.rawValue // 다른점
+        request.httpMethod = HTTPMethod.post.rawValue
         request.httpBody = encodeData
         request.addValue(ContentType.json.string, forHTTPHeaderField: ContentType.contentType.string)
         request.addValue(identifier, forHTTPHeaderField: "identifier")
