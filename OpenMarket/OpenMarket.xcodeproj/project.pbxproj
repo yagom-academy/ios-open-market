@@ -7,15 +7,65 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		08A5B0D427843617002E1ABE /* MockProduct.json in Resources */ = {isa = PBXBuildFile; fileRef = 08A5B0D327843617002E1ABE /* MockProduct.json */; };
+		08A5B0D62784362C002E1ABE /* MockProductPage.json in Resources */ = {isa = PBXBuildFile; fileRef = 08A5B0D52784362C002E1ABE /* MockProductPage.json */; };
+		08A5B0D8278589C2002E1ABE /* NetworkDataTransfer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A5B0D7278589C2002E1ABE /* NetworkDataTransfer.swift */; };
+		08A5B0DC27859A4A002E1ABE /* URLRequest+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A5B0DB27859A4A002E1ABE /* URLRequest+Extension.swift */; };
+		08A5B0DE27859DBD002E1ABE /* OpenMarketURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A5B0DD27859DBD002E1ABE /* OpenMarketURL.swift */; };
+		08AF0B59278D0ED8005FF21D /* APIProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08AF0B58278D0ED8005FF21D /* APIProtocol.swift */; };
+		08AF854D278C003100392FC1 /* BaseURLProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08AF854C278C003100392FC1 /* BaseURLProtocol.swift */; };
+		08B2CE8B2782DEAD009295F2 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B2CE8A2782DEAD009295F2 /* Product.swift */; };
+		08B2CE8D2782E0D4009295F2 /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B2CE8C2782E0D4009295F2 /* Currency.swift */; };
+		08B2CE8F2782E7B1009295F2 /* ProductPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B2CE8E2782E7B1009295F2 /* ProductPage.swift */; };
+		08B2CE972782EE56009295F2 /* JSONParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B2CE962782EE56009295F2 /* JSONParserTests.swift */; };
+		369126292782EAC1002304D4 /* JSONParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 369126282782EAC1002304D4 /* JSONParser.swift */; };
+		3691262E2783D6FA002304D4 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 3691262D2783D6FA002304D4 /* .swiftlint.yml */; };
+		369126382784772A002304D4 /* NetworkDataTransferTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 369126372784772A002304D4 /* NetworkDataTransferTests.swift */; };
+		3691266D2785B563002304D4 /* URLSession+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3691266C2785B563002304D4 /* URLSession+Extension.swift */; };
+		3691266F2785B928002304D4 /* MockURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3691266E2785B928002304D4 /* MockURLSession.swift */; };
+		6DDB0F9DE9375850BABD8722 /* Pods_OpenMarketTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 915CCA0E361B84730E9B5851 /* Pods_OpenMarketTests.framework */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
 		C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */; };
 		C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FE25BEF61C00C9924E /* ViewController.swift */; };
 		C70FB10225BEF61C00C9924E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C70FB10025BEF61C00C9924E /* Main.storyboard */; };
 		C70FB10425BEF61D00C9924E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C70FB10325BEF61D00C9924E /* Assets.xcassets */; };
 		C70FB10725BEF61D00C9924E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */; };
+		D49E3589553A7D714AAFEE8D /* Pods_OpenMarket.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 984B93C40ADF0D00A3956351 /* Pods_OpenMarket.framework */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		08B2CE982782EE56009295F2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C70FB0EF25BEF61C00C9924E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C70FB0F625BEF61C00C9924E;
+			remoteInfo = OpenMarket;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
+		08A5B0D327843617002E1ABE /* MockProduct.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = MockProduct.json; sourceTree = "<group>"; };
+		08A5B0D52784362C002E1ABE /* MockProductPage.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = MockProductPage.json; sourceTree = "<group>"; };
+		08A5B0D7278589C2002E1ABE /* NetworkDataTransfer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkDataTransfer.swift; sourceTree = "<group>"; };
+		08A5B0DB27859A4A002E1ABE /* URLRequest+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLRequest+Extension.swift"; sourceTree = "<group>"; };
+		08A5B0DD27859DBD002E1ABE /* OpenMarketURL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketURL.swift; sourceTree = "<group>"; };
+		08AF0B58278D0ED8005FF21D /* APIProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIProtocol.swift; sourceTree = "<group>"; };
+		08AF854C278C003100392FC1 /* BaseURLProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseURLProtocol.swift; sourceTree = "<group>"; };
+		08B2CE8A2782DEAD009295F2 /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
+		08B2CE8C2782E0D4009295F2 /* Currency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
+		08B2CE8E2782E7B1009295F2 /* ProductPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductPage.swift; sourceTree = "<group>"; };
+		08B2CE942782EE56009295F2 /* OpenMarketTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenMarketTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		08B2CE962782EE56009295F2 /* JSONParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONParserTests.swift; sourceTree = "<group>"; };
+		369126282782EAC1002304D4 /* JSONParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONParser.swift; sourceTree = "<group>"; };
+		3691262D2783D6FA002304D4 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
+		369126372784772A002304D4 /* NetworkDataTransferTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkDataTransferTests.swift; sourceTree = "<group>"; };
+		3691266C2785B563002304D4 /* URLSession+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSession+Extension.swift"; sourceTree = "<group>"; };
+		3691266E2785B928002304D4 /* MockURLSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSession.swift; sourceTree = "<group>"; };
+		8175CB3350BE04295834DF12 /* Pods-OpenMarketTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenMarketTests.release.xcconfig"; path = "Target Support Files/Pods-OpenMarketTests/Pods-OpenMarketTests.release.xcconfig"; sourceTree = "<group>"; };
+		915CCA0E361B84730E9B5851 /* Pods_OpenMarketTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OpenMarketTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		984B93C40ADF0D00A3956351 /* Pods_OpenMarket.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OpenMarket.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A58FC72914E8B0BDB5B97B53 /* Pods-OpenMarketTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenMarketTests.debug.xcconfig"; path = "Target Support Files/Pods-OpenMarketTests/Pods-OpenMarketTests.debug.xcconfig"; sourceTree = "<group>"; };
+		BBE3FE11297ACA21AF34DEA8 /* Pods-OpenMarket.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenMarket.debug.xcconfig"; path = "Target Support Files/Pods-OpenMarket/Pods-OpenMarket.debug.xcconfig"; sourceTree = "<group>"; };
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -24,24 +74,133 @@
 		C70FB10325BEF61D00C9924E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C70FB10625BEF61D00C9924E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C70FB10825BEF61D00C9924E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CDAADAC022965663AE7CB34A /* Pods-OpenMarket.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenMarket.release.xcconfig"; path = "Target Support Files/Pods-OpenMarket/Pods-OpenMarket.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		08B2CE912782EE56009295F2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6DDB0F9DE9375850BABD8722 /* Pods_OpenMarketTests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C70FB0F425BEF61C00C9924E /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D49E3589553A7D714AAFEE8D /* Pods_OpenMarket.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		08A5B0DA27859A28002E1ABE /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				08A5B0DB27859A4A002E1ABE /* URLRequest+Extension.swift */,
+				3691266C2785B563002304D4 /* URLSession+Extension.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		08AF854B278C001F00392FC1 /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				08AF854C278C003100392FC1 /* BaseURLProtocol.swift */,
+				08AF0B58278D0ED8005FF21D /* APIProtocol.swift */,
+			);
+			path = Protocol;
+			sourceTree = "<group>";
+		};
+		08B2CE952782EE56009295F2 /* OpenMarketTests */ = {
+			isa = PBXGroup;
+			children = (
+				08B2CE9E2782EF01009295F2 /* Mock */,
+				08B2CE962782EE56009295F2 /* JSONParserTests.swift */,
+				369126372784772A002304D4 /* NetworkDataTransferTests.swift */,
+			);
+			path = OpenMarketTests;
+			sourceTree = "<group>";
+		};
+		08B2CE9E2782EF01009295F2 /* Mock */ = {
+			isa = PBXGroup;
+			children = (
+				08A5B0D327843617002E1ABE /* MockProduct.json */,
+				08A5B0D52784362C002E1ABE /* MockProductPage.json */,
+				3691266E2785B928002304D4 /* MockURLSession.swift */,
+			);
+			path = Mock;
+			sourceTree = "<group>";
+		};
+		369126202782D3A0002304D4 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				08B2CE8A2782DEAD009295F2 /* Product.swift */,
+				08B2CE8C2782E0D4009295F2 /* Currency.swift */,
+				08B2CE8E2782E7B1009295F2 /* ProductPage.swift */,
+				08A5B0DD27859DBD002E1ABE /* OpenMarketURL.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		369126212782D3AC002304D4 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				C70FB10025BEF61C00C9924E /* Main.storyboard */,
+				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		369126222782D3B1002304D4 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				C70FB0FE25BEF61C00C9924E /* ViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		369126272782EA85002304D4 /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				369126282782EAC1002304D4 /* JSONParser.swift */,
+				08A5B0D7278589C2002E1ABE /* NetworkDataTransfer.swift */,
+			);
+			path = Utility;
+			sourceTree = "<group>";
+		};
+		5833BDE63C0E1D92191D4EE2 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				984B93C40ADF0D00A3956351 /* Pods_OpenMarket.framework */,
+				915CCA0E361B84730E9B5851 /* Pods_OpenMarketTests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		83956587C66DBDC99C173D28 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				BBE3FE11297ACA21AF34DEA8 /* Pods-OpenMarket.debug.xcconfig */,
+				CDAADAC022965663AE7CB34A /* Pods-OpenMarket.release.xcconfig */,
+				A58FC72914E8B0BDB5B97B53 /* Pods-OpenMarketTests.debug.xcconfig */,
+				8175CB3350BE04295834DF12 /* Pods-OpenMarketTests.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		C70FB0EE25BEF61C00C9924E = {
 			isa = PBXGroup;
 			children = (
+				3691262D2783D6FA002304D4 /* .swiftlint.yml */,
 				C70FB0F925BEF61C00C9924E /* OpenMarket */,
+				08B2CE952782EE56009295F2 /* OpenMarketTests */,
 				C70FB0F825BEF61C00C9924E /* Products */,
+				83956587C66DBDC99C173D28 /* Pods */,
+				5833BDE63C0E1D92191D4EE2 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -49,6 +208,7 @@
 			isa = PBXGroup;
 			children = (
 				C70FB0F725BEF61C00C9924E /* OpenMarket.app */,
+				08B2CE942782EE56009295F2 /* OpenMarketTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -56,13 +216,16 @@
 		C70FB0F925BEF61C00C9924E /* OpenMarket */ = {
 			isa = PBXGroup;
 			children = (
+				08AF854B278C001F00392FC1 /* Protocol */,
+				08A5B0DA27859A28002E1ABE /* Extension */,
+				369126272782EA85002304D4 /* Utility */,
+				369126222782D3B1002304D4 /* Controller */,
+				369126212782D3AC002304D4 /* View */,
+				369126202782D3A0002304D4 /* Model */,
+				C70FB10825BEF61D00C9924E /* Info.plist */,
+				C70FB10325BEF61D00C9924E /* Assets.xcassets */,
 				C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */,
 				C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */,
-				C70FB0FE25BEF61C00C9924E /* ViewController.swift */,
-				C70FB10025BEF61C00C9924E /* Main.storyboard */,
-				C70FB10325BEF61D00C9924E /* Assets.xcassets */,
-				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
-				C70FB10825BEF61D00C9924E /* Info.plist */,
 			);
 			path = OpenMarket;
 			sourceTree = "<group>";
@@ -70,13 +233,34 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		08B2CE932782EE56009295F2 /* OpenMarketTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 08B2CE9C2782EE56009295F2 /* Build configuration list for PBXNativeTarget "OpenMarketTests" */;
+			buildPhases = (
+				6CF834B1377827CCCB4DAD9E /* [CP] Check Pods Manifest.lock */,
+				08B2CE902782EE56009295F2 /* Sources */,
+				08B2CE912782EE56009295F2 /* Frameworks */,
+				08B2CE922782EE56009295F2 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				08B2CE992782EE56009295F2 /* PBXTargetDependency */,
+			);
+			name = OpenMarketTests;
+			productName = OpenMarketTests;
+			productReference = 08B2CE942782EE56009295F2 /* OpenMarketTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		C70FB0F625BEF61C00C9924E /* OpenMarket */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = C70FB10B25BEF61D00C9924E /* Build configuration list for PBXNativeTarget "OpenMarket" */;
 			buildPhases = (
+				CD084580E5818D94CF633F93 /* [CP] Check Pods Manifest.lock */,
 				C70FB0F325BEF61C00C9924E /* Sources */,
 				C70FB0F425BEF61C00C9924E /* Frameworks */,
 				C70FB0F525BEF61C00C9924E /* Resources */,
+				3691262C2783CED7002304D4 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -93,9 +277,13 @@
 		C70FB0EF25BEF61C00C9924E /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1230;
+				LastSwiftUpdateCheck = 1310;
 				LastUpgradeCheck = 1230;
 				TargetAttributes = {
+					08B2CE932782EE56009295F2 = {
+						CreatedOnToolsVersion = 13.1;
+						TestTargetID = C70FB0F625BEF61C00C9924E;
+					};
 					C70FB0F625BEF61C00C9924E = {
 						CreatedOnToolsVersion = 12.3;
 					};
@@ -115,15 +303,26 @@
 			projectRoot = "";
 			targets = (
 				C70FB0F625BEF61C00C9924E /* OpenMarket */,
+				08B2CE932782EE56009295F2 /* OpenMarketTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		08B2CE922782EE56009295F2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				08A5B0D427843617002E1ABE /* MockProduct.json in Resources */,
+				08A5B0D62784362C002E1ABE /* MockProductPage.json in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C70FB0F525BEF61C00C9924E /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3691262E2783D6FA002304D4 /* .swiftlint.yml in Resources */,
 				C70FB10725BEF61D00C9924E /* LaunchScreen.storyboard in Resources */,
 				C70FB10425BEF61D00C9924E /* Assets.xcassets in Resources */,
 				C70FB10225BEF61C00C9924E /* Main.storyboard in Resources */,
@@ -132,18 +331,110 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		3691262C2783CED7002304D4 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/SwiftLint/swiftlint\"\n";
+		};
+		6CF834B1377827CCCB4DAD9E /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-OpenMarketTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		CD084580E5818D94CF633F93 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-OpenMarket-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
+		08B2CE902782EE56009295F2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3691266F2785B928002304D4 /* MockURLSession.swift in Sources */,
+				08B2CE972782EE56009295F2 /* JSONParserTests.swift in Sources */,
+				369126382784772A002304D4 /* NetworkDataTransferTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C70FB0F325BEF61C00C9924E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
+				08A5B0DC27859A4A002E1ABE /* URLRequest+Extension.swift in Sources */,
+				08A5B0DE27859DBD002E1ABE /* OpenMarketURL.swift in Sources */,
+				369126292782EAC1002304D4 /* JSONParser.swift in Sources */,
+				08B2CE8F2782E7B1009295F2 /* ProductPage.swift in Sources */,
+				08A5B0D8278589C2002E1ABE /* NetworkDataTransfer.swift in Sources */,
+				08B2CE8D2782E0D4009295F2 /* Currency.swift in Sources */,
+				08B2CE8B2782DEAD009295F2 /* Product.swift in Sources */,
+				3691266D2785B563002304D4 /* URLSession+Extension.swift in Sources */,
+				08AF854D278C003100392FC1 /* BaseURLProtocol.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
+				08AF0B59278D0ED8005FF21D /* APIProtocol.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		08B2CE992782EE56009295F2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C70FB0F625BEF61C00C9924E /* OpenMarket */;
+			targetProxy = 08B2CE982782EE56009295F2 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		C70FB10025BEF61C00C9924E /* Main.storyboard */ = {
@@ -165,6 +456,58 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		08B2CE9A2782EE56009295F2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = A58FC72914E8B0BDB5B97B53 /* Pods-OpenMarketTests.debug.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = XXJA3T7PA3;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = heohwang.OpenMarketTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OpenMarket.app/OpenMarket";
+			};
+			name = Debug;
+		};
+		08B2CE9B2782EE56009295F2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8175CB3350BE04295834DF12 /* Pods-OpenMarketTests.release.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = XXJA3T7PA3;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = heohwang.OpenMarketTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OpenMarket.app/OpenMarket";
+			};
+			name = Release;
+		};
 		C70FB10925BEF61D00C9924E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -283,6 +626,7 @@
 		};
 		C70FB10C25BEF61D00C9924E /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BBE3FE11297ACA21AF34DEA8 /* Pods-OpenMarket.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -302,6 +646,7 @@
 		};
 		C70FB10D25BEF61D00C9924E /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CDAADAC022965663AE7CB34A /* Pods-OpenMarket.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -322,6 +667,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		08B2CE9C2782EE56009295F2 /* Build configuration list for PBXNativeTarget "OpenMarketTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				08B2CE9A2782EE56009295F2 /* Debug */,
+				08B2CE9B2782EE56009295F2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		C70FB0F225BEF61C00C9924E /* Build configuration list for PBXProject "OpenMarket" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
