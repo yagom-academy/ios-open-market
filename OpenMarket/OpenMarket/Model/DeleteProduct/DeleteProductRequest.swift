@@ -9,12 +9,12 @@ import Foundation
 
 struct DeleteProductRequest: Codable {
     let vendorID: String
-    let productID: Int
+    let productNumber: Int
     let productSecretKey: String
     
     private enum CodingKeys: String, CodingKey {
         case vendorID = "identifier"
-        case productID = "product_id"
+        case productNumber = "product_id"
         case productSecretKey = "product_secret"
     }
 }

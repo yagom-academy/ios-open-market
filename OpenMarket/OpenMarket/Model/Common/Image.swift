@@ -8,14 +8,14 @@
 import Foundation
 
 struct Image: Codable {
-    let id: Int
+    let number: Int
     let url: String
     let thumbnailURL: String
     let succeed: Bool
     let issuedAt: String
     
     private enum CodingKeys: String, CodingKey {
-        case id
+        case number
         case url
         case thumbnailURL = "thumbnail_url"
         case succeed

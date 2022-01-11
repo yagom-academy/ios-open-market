@@ -8,8 +8,8 @@
 import Foundation
 
 struct ProductPreview: Codable {
-    let ID: Int
-    let vendorID: Int
+    let productNumber: Int
+    let vendorNumber: Int
     let name: String
     let thumbnail: String
     let currency: Currency
@@ -21,8 +21,8 @@ struct ProductPreview: Codable {
     let issuedAt: Date
     
     private enum CodingKeys: String, CodingKey {
-        case ID = "id"
-        case vendorID = "vendor_id"
+        case productNumber = "id"
+        case vendorNumber = "vendor_id"
         case name
         case thumbnail
         case currency

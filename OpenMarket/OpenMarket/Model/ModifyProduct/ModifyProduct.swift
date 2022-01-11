@@ -8,8 +8,8 @@
 import Foundation
 
 struct ModifyProduct: Codable {
-    let identifier: String
-    let productID: Int
+    let vendorID: String
+    let productNumber: Int
     let name: String
     let descripstions: String
     let thumbnailID: Int
@@ -20,8 +20,8 @@ struct ModifyProduct: Codable {
     let secret: String
     
     private enum CodingKeys: String, CodingKey {
-        case identifier
-        case productID = "product_id"
+        case vendorID
+        case productNumber = "product_id"
         case name
         case descripstions
         case thumbnailID = "thumbnail_id"

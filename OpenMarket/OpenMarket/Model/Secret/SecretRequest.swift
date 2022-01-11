@@ -8,12 +8,12 @@
 import Foundation
 
 struct SecretRequest: Codable {
-    let productID: Int
+    let productNumber: Int
     let vendorID: String
     let vendorPassword: String
     
     private enum CodingKeys: String, CodingKey {
-        case productID = "product_id"
+        case productNumber = "product_id"
         case vendorID = "identifier"
         case vendorPassword = "secret"
     }
