@@ -14,13 +14,13 @@ class APIManager {
         request.httpMethod = HTTPMethod.get
  
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            guard let statusCode = (response as? HTTPURLResponse)?.statusCode, self.successRange.contains(statusCode) else {
-                completionHandler(.failure(URLSessionError.statusCodeError))
+            guard error == nil else {
+                completionHandler(.failure(URLSessionError.requestFail))
                 return
             }
             
-            guard error == nil else {
-                completionHandler(.failure(URLSessionError.requestFail))
+            guard let statusCode = (response as? HTTPURLResponse)?.statusCode, self.successRange.contains(statusCode) else {
+                completionHandler(.failure(URLSessionError.statusCodeError))
                 return
             }
             
@@ -32,7 +32,6 @@ class APIManager {
             completionHandler(.success(data))
         }
         task.resume()
-        
     }
     
     func requestProductInformation(productID: Int, completionHandler: @escaping (Result<ProductInformation, Error>) -> Void) {
@@ -67,13 +66,13 @@ class APIManager {
 extension APIManager {
     func createDataTask<Element: Decodable>(with request: URLRequest, _ completionHandler: @escaping (Result<Element, Error>) -> Void) {
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            guard let statusCode = (response as? HTTPURLResponse)?.statusCode, self.successRange.contains(statusCode) else {
-                completionHandler(.failure(URLSessionError.statusCodeError))
+            guard error == nil else {
+                completionHandler(.failure(URLSessionError.requestFail))
                 return
             }
             
-            guard error == nil else {
-                completionHandler(.failure(URLSessionError.requestFail))
+            guard let statusCode = (response as? HTTPURLResponse)?.statusCode, self.successRange.contains(statusCode) else {
+                completionHandler(.failure(URLSessionError.statusCodeError))
                 return
             }
             
