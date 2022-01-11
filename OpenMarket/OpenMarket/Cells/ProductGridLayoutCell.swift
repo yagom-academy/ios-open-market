@@ -63,17 +63,22 @@ class ProductGridLayoutCell: UICollectionViewCell {
     }()
     
     func configUI(with product: ProductDetail) {
+        guard let price = product.price.formattedToDecimal,
+              let bargainPrice = product.bargainPrice.formattedToDecimal else {
+            return
+        }
+        
         if product.discountedPrice == 0 {
             priceLabel.isHidden = true
         } else {
             priceLabel.isHidden = false
-            priceLabel.attributedText = NSMutableAttributedString.strikeThroughStyle(string: "\(product.currency) \(product.price)")
+            priceLabel.attributedText = NSMutableAttributedString.strikeThroughStyle(string: "\(product.currency.unit) \(price)")
         }
         
         productNameLabel.text = product.name
         productImageView.image = ImageLoader.loadImage(from: product.thumbnail)
         
-        bargainPriceLabel.attributedText = NSMutableAttributedString.normalStyle(string: "\(product.currency) \(product.bargainPrice)")
+        bargainPriceLabel.attributedText = NSMutableAttributedString.normalStyle(string: "\(product.currency.unit) \(bargainPrice)")
 
         productStockLabel.attributedText = AttributedTextCreator.createStockText(product: product)
     }

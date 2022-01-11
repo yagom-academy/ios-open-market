@@ -5,7 +5,7 @@ fileprivate extension UIConfigurationStateCustomKey {
 }
 
 private extension UIConfigurationState {
-    var prevItem: ProductDetail? { // TODO
+    var product: ProductDetail? {
         get {
             return self[.productItemKey] as? ProductDetail
         }
@@ -36,7 +36,7 @@ class ProductListLayoutCell: UICollectionViewListCell {
     
     override var configurationState: UICellConfigurationState {
         var state = super.configurationState
-        state.prevItem = self.productItem
+        state.product = self.productItem
         return state
     }
     
@@ -59,8 +59,8 @@ class ProductListLayoutCell: UICollectionViewListCell {
         ]
         
         NSLayoutConstraint.activate([
-            listContentView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
-            listContentView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
+            listContentView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
+            listContentView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5),
             listContentView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor)
         ])
         
@@ -73,20 +73,21 @@ class ProductListLayoutCell: UICollectionViewListCell {
         setupViewsIfNeeded()
         
         var content = defaultConfiguration().updated(for: state)
-        
+            
         content.textToSecondaryTextVerticalPadding = 10
+        content.imageToTextPadding = 10
         
-        content.image = ImageLoader.loadImage(from: state.prevItem?.thumbnail)
-        content.imageProperties.reservedLayoutSize = CGSize(width: 50, height: 50)
+        content.image = ImageLoader.loadImage(from: state.product?.thumbnail)
+        content.imageProperties.maximumSize = CGSize(width: 50, height: 50)
         
-        content.text = state.prevItem?.name
+        content.text = state.product?.name
         content.textProperties.font = .preferredFont(forTextStyle: .headline)
         
-        content.secondaryAttributedText = AttributedTextCreator.createPriceText(product: state.prevItem) ?? nil
+        content.secondaryAttributedText = AttributedTextCreator.createPriceText(product: state.product) ?? nil
         content.secondaryTextProperties.font = .preferredFont(forTextStyle: .body)
         
         listContentView.configuration = content
         
-        stockLabel.attributedText = AttributedTextCreator.createStockText(product: state.prevItem) ?? nil
+        stockLabel.attributedText = AttributedTextCreator.createStockText(product: state.product) ?? nil
     }
 }
