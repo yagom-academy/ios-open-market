@@ -26,13 +26,12 @@ class MainViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        collectionView.dataSource = self
         requestProducts()
     }
     
-    private func reload() {
+    private func collectionViewLoad() {
         DispatchQueue.main.async {
-            self.collectionView.reloadData()
+            self.collectionView.dataSource = self
             self.indicator.stopAnimating()
             self.indicator.isHidden = true
             self.collectionView.isHidden = false
@@ -50,7 +49,7 @@ class MainViewController: UIViewController {
             switch result {
             case .success(let products):
                 self.productList = products.pages
-                self.reload()
+                self.collectionViewLoad()
             case .failure(let error):
                 DispatchQueue.main.async {
                     self.showAlert(message: error.localizedDescription)
@@ -64,17 +63,15 @@ class MainViewController: UIViewController {
         case 0:
             currentCellIdentifier = ProductCell.listIdentifier
             collectionView.setUpListFlowLayout()
-            collectionView.scrollToTop()
-            collectionView.reloadData()
         case 1:
             currentCellIdentifier = ProductCell.gridItentifier
             collectionView.setUpGridFlowLayout()
-            collectionView.scrollToTop()
-            collectionView.reloadData()
         default:
             showAlert(message: "알 수 없는 에러가 발생했습니다.")
             return
         }
+        collectionView.scrollToTop()
+        collectionView.reloadData()
     }
     
 }
