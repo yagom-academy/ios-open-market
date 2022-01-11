@@ -25,6 +25,10 @@ extension APIRequest {
     }
     
     var urlRequest: URLRequest? {
+        return basicRequest
+    }
+    
+    var basicRequest: URLRequest? {
         guard let url = URL(string: finalURL) else { return nil }
         var request = URLRequest(url: url)
         request.httpMethod = self.method.decription

@@ -16,13 +16,10 @@ protocol MultiPartRequest: APIRequest {
 extension MultiPartRequest {
     
     var urlRequest: URLRequest? {
-        guard let url = URL(string: finalURL) else { return nil }
-        var request = URLRequest(url: url)
-        request.httpMethod = self.method.decription
-        header?.forEach { request.addValue($1, forHTTPHeaderField: $0) }
+        var request = basicRequest
         let boundary = UUID().uuidString
-        request.addValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
-        request.httpBody = makeMultiPartBody(data, boundary: boundary)
+        request?.addValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        request?.httpBody = makeMultiPartBody(data, boundary: boundary)
         return request
     }
     

@@ -18,12 +18,9 @@ protocol JSONRequest: APIRequest {
 extension JSONRequest {
     
     var urlRequest: URLRequest? {
-        guard let url = URL(string: finalURL) else { return nil }
-        var request = URLRequest(url: url)
-        request.httpMethod = self.method.decription
-        header?.forEach { request.addValue($1, forHTTPHeaderField: $0) }
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.httpBody = try? JSONEncoder().encode(body)
+        var request = basicRequest
+        request?.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request?.httpBody = try? JSONEncoder().encode(body)
         return request
     }
     
