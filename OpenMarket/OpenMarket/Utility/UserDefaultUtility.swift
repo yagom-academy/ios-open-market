@@ -17,7 +17,9 @@ struct UserDefaultUtility {
     }
 
     func getVendorIdentification() -> String? {
-        guard let identification = userDefaults.string(forKey: UserDefaultUtility.vendorIdentification) else {
+        guard let identification = userDefaults.string(
+            forKey: UserDefaultUtility.vendorIdentification
+        ) else {
             return nil
         }
         return identification

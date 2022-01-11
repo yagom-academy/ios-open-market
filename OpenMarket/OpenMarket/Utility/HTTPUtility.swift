@@ -14,6 +14,7 @@ enum HTTPUtility {
         let configuration = URLSessionConfiguration.default
         return URLSession(configuration: configuration)
     }()
+    
     static func urlRequest(urlString: String, method: HttpMethod = .get) -> URLRequest? {
         guard let url = URL(string: urlString) else {
             return nil
