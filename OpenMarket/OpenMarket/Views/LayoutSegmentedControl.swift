@@ -24,6 +24,5 @@ class LayoutSegmentedControl: UISegmentedControl {
         layer.borderColor = UIColor.systemBlue.cgColor
         layer.borderWidth = 2
         setTitleTextAttributes([.foregroundColor: UIColor.systemBlue], for: .normal)
-        setTitleTextAttributes([.foregroundColor: UIColor.white], for: .selected)
-    }
+        setTitleTextAttributes([.foregroundColor: UIColor.white], for: .selected)    }
 }
