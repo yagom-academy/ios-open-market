@@ -10,9 +10,9 @@ class APIManager {
         return request
     }
     
-    func requestHealthChecker(completionHandler: @escaping (Result<Data, Error>) -> Void) {
+    func requestHealthChecker(completionHandler: @escaping (Result<Data, URLSessionError>) -> Void) {
         guard let url = URLManager.healthChecker.url else {
-            completionHandler(.failure(URLSessionError.urlIsNil))
+            completionHandler(.failure(.urlIsNil))
             return
         }
         
@@ -20,17 +20,17 @@ class APIManager {
  
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             guard error == nil else {
-                completionHandler(.failure(URLSessionError.requestFail))
+                completionHandler(.failure(.requestFail))
                 return
             }
             
             guard let statusCode = (response as? HTTPURLResponse)?.statusCode, self.successRange.contains(statusCode) else {
-                completionHandler(.failure(URLSessionError.statusCodeError))
+                completionHandler(.failure(.statusCodeError))
                 return
             }
             
             guard let data = data else {
-                completionHandler(.failure(URLSessionError.invalidData))
+                completionHandler(.failure(.invalidData))
                 return
             }
             
@@ -46,7 +46,7 @@ class APIManager {
         }
         
         let request = request(url, HTTPMethod.get)
-        createDataTask(with: request, completionHandler)
+        performDataTask(with: request, completionHandler)
     }
     
     func requestProductList(pageNumber: Int, itemsPerPage: Int, completionHandler: @escaping (Result<ProductList, Error>) -> Void) {
@@ -56,12 +56,12 @@ class APIManager {
         }
         
         let request = request(url, HTTPMethod.get)
-        createDataTask(with: request, completionHandler)
+        performDataTask(with: request, completionHandler)
     }
 }
 
 extension APIManager {
-    func createDataTask<Element: Decodable>(with request: URLRequest, _ completionHandler: @escaping (Result<Element, Error>) -> Void) {
+    func performDataTask<Element: Decodable>(with request: URLRequest, _ completionHandler: @escaping (Result<Element, Error>) -> Void) {
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             guard error == nil else {
                 completionHandler(.failure(URLSessionError.requestFail))
