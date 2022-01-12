@@ -8,7 +8,7 @@
 import UIKit
 
 extension Int {
-    var fomattingString: String {
+    var fomattedString: String {
         let numberfommater = NumberFormatter()
         numberfommater.numberStyle = .decimal
         return numberfommater.string(for: self) ?? self.description

@@ -11,8 +11,8 @@ class ProductsCollectionView: UICollectionView {
 
     private var listFlowlayout: UICollectionViewFlowLayout {
         let flowLayout = UICollectionViewFlowLayout()
-        let halfWidth = UIScreen.main.bounds.width
-        flowLayout.itemSize = CGSize(width: halfWidth, height: halfWidth * 0.155)
+        let width = UIScreen.main.bounds.width
+        flowLayout.itemSize = CGSize(width: width, height: width * 0.155)
         flowLayout.sectionInset = UIEdgeInsets.init(top: 0, left: 0, bottom: 0, right: 0)
         flowLayout.minimumLineSpacing = 0
         return flowLayout
@@ -54,6 +54,6 @@ class ProductsCollectionView: UICollectionView {
         register(gridNibName, forCellWithReuseIdentifier: ProductCell.listIdentifier)
         
         let listNibName = UINib(nibName: ProductCell.gridNibName, bundle: .main)
-        register(listNibName, forCellWithReuseIdentifier: ProductCell.gridItentifier)
+        register(listNibName, forCellWithReuseIdentifier: ProductCell.gridIdentifier)
     }
 }

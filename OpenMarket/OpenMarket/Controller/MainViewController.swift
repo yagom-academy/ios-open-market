@@ -64,7 +64,7 @@ class MainViewController: UIViewController {
             currentCellIdentifier = ProductCell.listIdentifier
             collectionView.setUpListFlowLayout()
         case 1:
-            currentCellIdentifier = ProductCell.gridItentifier
+            currentCellIdentifier = ProductCell.gridIdentifier
             collectionView.setUpGridFlowLayout()
         default:
             showAlert(message: Message.unknownError)
@@ -90,8 +90,8 @@ extension MainViewController: UICollectionViewDataSource {
             for: indexPath) as? ProductCell else {
             fatalError()
         }
-        cell.styleConfigure(identifier: currentCellIdentifier)
-        cell.productConfigure(product: productList[indexPath.row])
+        cell.configureStyle(of: currentCellIdentifier)
+        cell.configureProduct(of: productList[indexPath.row])
         
         return cell
     }

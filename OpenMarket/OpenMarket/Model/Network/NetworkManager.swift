@@ -66,13 +66,13 @@ struct NetworkManager {
         guard let url = APIAddress.secretSearch(id: id).url else {
             return .failure(NetworkError.notFoundURL)
         }
-        guard let encodeData = jsonEncode(data: data) else {
+        guard let encodedData = jsonEncode(data: data) else {
             return .failure(ParserError.encodingFail)
         }
         
         var request = URLRequest(url: url)
         request.httpMethod = HTTPMethod.post.rawValue
-        request.httpBody = encodeData
+        request.httpBody = encodedData
         request.addValue(ContentType.json.string, forHTTPHeaderField: ContentType.contentType.string)
         request.addValue(identifier, forHTTPHeaderField: "identifier")
         
@@ -149,13 +149,13 @@ extension NetworkManager {
     
     private func createBody<T: Encodable>(data: T, images: [ImageFile], boundary: String) -> Result<Data, Error> {
         var body = Data()
-        guard let encodeData = jsonEncode(data: data) else {
+        guard let encodedData = jsonEncode(data: data) else {
             return .failure(ParserError.encodingFail)
         }
         body.append(MultipartForm.boundary(baseBoundary: boundary).string)
         body.append(MultipartForm.paramsDisposition.string)
         body.append(MultipartForm.paramsContentType.string)
-        body.append(encodeData)
+        body.append(encodedData)
         body.append(MultipartForm.newline.string)
         
         for image in images {
@@ -180,15 +180,15 @@ extension NetworkManager {
     
     private func jsonEncode<T: Encodable>(data: T) -> Data? {
         let encodingResult = parser.encode(object: data)
-        let encodeData: Data?
+        let encodedData: Data?
         
         switch encodingResult {
         case .success(let data):
-            encodeData = data
+            encodedData = data
         case .failure:
-            encodeData = nil
+            encodedData = nil
         }
         
-        return encodeData
+        return encodedData
     }
 }

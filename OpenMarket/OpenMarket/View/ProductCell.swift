@@ -16,7 +16,7 @@ class ProductCell: UICollectionViewCell {
     @IBOutlet private var stockLabel: UILabel!
 
     static let listIdentifier = "ListView"
-    static let gridItentifier = "GridView"
+    static let gridIdentifier = "GridView"
     static let listNibName = "ListCollectionViewCell"
     static let gridNibName = "GridCollectionViewCell"
     
@@ -27,7 +27,7 @@ class ProductCell: UICollectionViewCell {
         priceLabels = [priceLabel, discountPriceLabel, stockLabel]
     }
     
-    func productConfigure(product: Product) {
+    func configureProduct(of product: Product) {
         let imageResult = imageData(url: product.thumbnail)
         
         switch imageResult {
@@ -43,7 +43,7 @@ class ProductCell: UICollectionViewCell {
         stockConfigure(product: product)
     }
     
-    func styleConfigure(identifier: String) {
+    func configureStyle(of identifier: String) {
         if identifier == Self.listIdentifier {
             setupListView()
         } else {
@@ -60,7 +60,7 @@ class ProductCell: UICollectionViewCell {
     }
     
     private func priceConfigure(product: Product) {
-        let formatedPrice = "\(product.currency.rawValue) \(product.price.fomattingString)"
+        let formatedPrice = "\(product.currency.rawValue) \(product.price.fomattedString)"
         if product.discountedPrice == .zero {
             priceLabel.textColor = .systemGray
             priceLabel.text = formatedPrice
@@ -76,7 +76,7 @@ class ProductCell: UICollectionViewCell {
         } else {
             discountPriceLabel.isHidden = false
             discountPriceLabel.textColor = .systemGray
-            discountPriceLabel.text = "\(product.currency.rawValue) \(product.bargainPrice.fomattingString)"
+            discountPriceLabel.text = "\(product.currency.rawValue) \(product.bargainPrice.fomattedString)"
         }
     }
     
