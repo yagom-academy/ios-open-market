@@ -42,6 +42,8 @@
 		EAB8FC1B2787DC8A0036A4E3 /* ProductDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAB8FC132787DBFC0036A4E3 /* ProductDetail.swift */; };
 		EAB8FC1C2787DC8F0036A4E3 /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAB8FC152787DC140036A4E3 /* Image.swift */; };
 		EAB8FC1D2787DC900036A4E3 /* Vendors.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAB8FC172787DC290036A4E3 /* Vendors.swift */; };
+		EAC5F3B9278EA60400AD2DA5 /* ProductListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAC5F3B7278EA60400AD2DA5 /* ProductListCell.swift */; };
+		EAC5F3BA278EA60400AD2DA5 /* ProductListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EAC5F3B8278EA60400AD2DA5 /* ProductListCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -84,6 +86,8 @@
 		EAB8FC132787DBFC0036A4E3 /* ProductDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetail.swift; sourceTree = "<group>"; };
 		EAB8FC152787DC140036A4E3 /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
 		EAB8FC172787DC290036A4E3 /* Vendors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vendors.swift; sourceTree = "<group>"; };
+		EAC5F3B7278EA60400AD2DA5 /* ProductListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductListCell.swift; sourceTree = "<group>"; };
+		EAC5F3B8278EA60400AD2DA5 /* ProductListCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProductListCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -175,6 +179,8 @@
 				C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */,
 				C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */,
 				C70FB0FE25BEF61C00C9924E /* ViewController.swift */,
+				EAC5F3B7278EA60400AD2DA5 /* ProductListCell.swift */,
+				EAC5F3B8278EA60400AD2DA5 /* ProductListCell.xib */,
 				C70FB10025BEF61C00C9924E /* Main.storyboard */,
 				C70FB10325BEF61D00C9924E /* Assets.xcassets */,
 				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
@@ -302,6 +308,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EAB8FBD027834AFF0036A4E3 /* .swiftlint.yml in Resources */,
+				EAC5F3BA278EA60400AD2DA5 /* ProductListCell.xib in Resources */,
 				C70FB10725BEF61D00C9924E /* LaunchScreen.storyboard in Resources */,
 				C70FB10425BEF61D00C9924E /* Assets.xcassets in Resources */,
 				C70FB10225BEF61C00C9924E /* Main.storyboard in Resources */,
@@ -394,6 +401,7 @@
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 				EAB8FC142787DBFC0036A4E3 /* ProductDetail.swift in Sources */,
 				EAB8FBD6278583040036A4E3 /* URLRequest+extension.swift in Sources */,
+				EAC5F3B9278EA60400AD2DA5 /* ProductListCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -591,7 +599,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = OpenMarket/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -611,7 +619,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = OpenMarket/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
