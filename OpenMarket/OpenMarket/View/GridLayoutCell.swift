@@ -9,19 +9,49 @@ import UIKit
 
 class GridLayoutCell: UICollectionViewCell {
     static var reuseIdentifier: String { "gridCell" }
-    static var nib: UINib {
-        UINib(nibName: "GridLayoutCell", bundle: nil)
-    }
-
-    @IBOutlet weak var imageView: UIImageView!
-    @IBOutlet weak var productNameLabel: UILabel!
-    @IBOutlet weak var priceStackView: UIStackView!
-    @IBOutlet weak var priceLabel: UILabel!
-    @IBOutlet weak var stockLabel: UILabel!
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
+    var stackView = UIStackView()
+    var imageView = UIImageView()
+    var productNameLabel = UILabel()
+    var priceStackView = UIStackView()
+    var priceLabel = UILabel()
+    var stockLabel = UILabel()
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        configureCellLayout()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError()
+    }
+    
+    private func configureCellLayout() {
+        self.addSubview(stackView)
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .vertical
+        stackView.alignment = .center
+        stackView.distribution = .equalSpacing
+        stackView.spacing = 4
+        
+        NSLayoutConstraint.activate([
+            stackView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 10),
+            stackView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 10),
+            stackView.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: 10),
+            stackView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor, constant: 10),
+        ])
+        
+        stackView.addArrangedSubview(imageView)
+        stackView.addArrangedSubview(productNameLabel)
+        stackView.addArrangedSubview(priceStackView)
+        
+        priceStackView.axis = .vertical
+        priceStackView.alignment = .center
+        priceStackView.distribution = .equalSpacing
+        priceStackView.spacing = 4
+        
+        priceStackView.addArrangedSubview(priceLabel)
+        stackView.addArrangedSubview(stockLabel)
     }
     
     override func prepareForReuse() {
