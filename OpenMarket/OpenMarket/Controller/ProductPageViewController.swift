@@ -12,7 +12,7 @@ class ProductPageViewController: UIViewController {
     var dataSource: UICollectionViewDiffableDataSource<Int, Product>?
     
     var currentPage: Int = 1
-    var itemsPerPage: Int = 20
+    var itemsPerPage: Int = 10
     var page: Page?
     var pages: [Product] = [] {
         didSet {
@@ -22,15 +22,28 @@ class ProductPageViewController: UIViewController {
             self.dataSource?.apply(snapShot)
         }
     }
+    var refControl = UIRefreshControl()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         collectionView.setCollectionViewLayout(createLayout(), animated: false)
-        
+        collectionView.isSpringLoaded = true
         collectionView.delegate = self
         
+        refControl.addTarget(self, action: #selector(refreshDidActivate), for: .valueChanged)
+        refControl.attributedTitle = NSAttributedString(string: "상품 로드중!")
+        collectionView.refreshControl = refControl
+        collectionView.addSubview(refControl)
+        refControl.translatesAutoresizingMaskIntoConstraints = false
         configureDatasource()
         fetchPage()
+    }
+    
+    @objc
+    func refreshDidActivate() {
+        itemsPerPage = 10
+        fetchPage()
+        refControl.endRefreshing()
     }
 
 }
@@ -38,31 +51,15 @@ class ProductPageViewController: UIViewController {
 extension ProductPageViewController: UICollectionViewDelegate {
     
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-        
-        let startPoint = CGPoint(x: 0, y: 0)
         let endPoint = CGPoint(x: 0, y: scrollView.contentSize.height)
-        
-        if targetContentOffset.pointee.y <= startPoint.y {
-            // 이전 페이지 로드
-            guard let value = page?.hasPrev, value else { return }
-            
-            currentPage = max(currentPage - 1, 1)
-            fetchPage()
-            
-        }
-        
         if targetContentOffset.pointee.y + scrollView.frame.height >= endPoint.y {
-            // 다음 페이지 로드
             guard let value = page?.hasNext, value else { return }
-            
-            currentPage += 1
+            itemsPerPage += 10
             fetchPage()
         }
-        
     }
     
 }
-
 
 extension ProductPageViewController {
     private func createLayout() -> UICollectionViewLayout {
