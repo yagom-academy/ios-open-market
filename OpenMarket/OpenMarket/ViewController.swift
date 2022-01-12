@@ -6,6 +6,7 @@ class ViewController: UIViewController {
         case main
     }
     
+    @IBOutlet weak var segmentedControl: UISegmentedControl!
     let apiManager = APIManager()
     let collectionView = ProductListView()
     var dataSource: UICollectionViewDiffableDataSource<Section, ProductDetail>?
@@ -19,6 +20,8 @@ class ViewController: UIViewController {
         collectionView.register(UINib(nibName: "ProductListCell", bundle: nil), forCellWithReuseIdentifier: ProductListCell.identifier)
         setupCollectionView()
         getProducts()
+        segmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.systemBlue], for: .normal)
+        segmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for: .selected)
     }
     
     func getProducts() {
