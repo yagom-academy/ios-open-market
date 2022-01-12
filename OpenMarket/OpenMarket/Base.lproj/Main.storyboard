@@ -130,13 +130,75 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="productsListCell" id="oVW-FM-gv2" customClass="ProductsTableViewCell" customModule="OpenMarket" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="44.5" width="414" height="43.5"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="oVW-FM-gv2" id="Gy3-nD-crL">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="productsListCell" id="cEK-jw-P2H" customClass="ProductsTableViewCell" customModule="OpenMarket" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="44.5" width="414" height="80.5"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="cEK-jw-P2H" id="qa3-Qe-XfG">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="80.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="6YW-VG-ak9">
+                                            <rect key="frame" x="10" y="10" width="394" height="60.5"/>
+                                            <subviews>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1" verticalCompressionResistancePriority="1" placeholderIntrinsicWidth="60" placeholderIntrinsicHeight="60" translatesAutoresizingMaskIntoConstraints="NO" id="4no-bs-rQx">
+                                                    <rect key="frame" x="0.0" y="0.0" width="60" height="60.5"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="60" id="4o8-Fl-cD5"/>
+                                                        <constraint firstAttribute="width" secondItem="4no-bs-rQx" secondAttribute="height" multiplier="1:1" id="cYI-Um-Z7t"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="MTn-R6-dX5">
+                                                    <rect key="frame" x="65" y="0.0" width="329" height="60.5"/>
+                                                    <subviews>
+                                                        <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qNz-Zq-lGz">
+                                                            <rect key="frame" x="0.0" y="0.0" width="329" height="28"/>
+                                                            <subviews>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rJK-L9-fth">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="257.5" height="28"/>
+                                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                                    <nil key="textColor"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="Stock" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UE3-L3-GTX">
+                                                                    <rect key="frame" x="257.5" y="0.0" width="44" height="28"/>
+                                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                                    <nil key="textColor"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="chevron.right" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="62g-NB-gbN">
+                                                                    <rect key="frame" x="301.5" y="2" width="27.5" height="24.5"/>
+                                                                    <color key="tintColor" systemColor="systemGrayColor"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="width" secondItem="62g-NB-gbN" secondAttribute="height" multiplier="1:1" id="PDb-Y0-JmY"/>
+                                                                    </constraints>
+                                                                </imageView>
+                                                            </subviews>
+                                                        </stackView>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Price" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="owv-mx-iXF">
+                                                            <rect key="frame" x="0.0" y="33" width="329" height="27.5"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                    </subviews>
+                                                </stackView>
+                                            </subviews>
+                                        </stackView>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="trailing" secondItem="6YW-VG-ak9" secondAttribute="trailing" constant="10" id="F3d-O3-LCr"/>
+                                        <constraint firstAttribute="bottom" secondItem="6YW-VG-ak9" secondAttribute="bottom" constant="10" id="gnP-xy-JBY"/>
+                                        <constraint firstItem="6YW-VG-ak9" firstAttribute="top" secondItem="qa3-Qe-XfG" secondAttribute="top" constant="10" id="nUz-Ue-KTb"/>
+                                        <constraint firstItem="6YW-VG-ak9" firstAttribute="leading" secondItem="qa3-Qe-XfG" secondAttribute="leading" constant="10" id="rjy-17-d7m"/>
+                                    </constraints>
                                 </tableViewCellContentView>
+                                <viewLayoutGuide key="safeArea" id="vux-WN-zlW"/>
+                                <connections>
+                                    <outlet property="priceLabel" destination="owv-mx-iXF" id="GDI-CG-J12"/>
+                                    <outlet property="productImageView" destination="4no-bs-rQx" id="p49-6x-IEm"/>
+                                    <outlet property="stockLabel" destination="UE3-L3-GTX" id="Lly-Ru-XQe"/>
+                                    <outlet property="titleLabel" destination="rJK-L9-fth" id="PCB-MV-AaZ"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -169,8 +231,12 @@
         </scene>
     </scenes>
     <resources>
+        <image name="chevron.right" catalog="system" width="96" height="128"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemGrayColor">
+            <color red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

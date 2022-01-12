@@ -18,10 +18,7 @@ class ProductsTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         startActivityIndicator()
-        let nibName = UINib(nibName: "ProductsTableViewCell", bundle: nil)
-        tableView.register(nibName, forCellReuseIdentifier: reuseIdentifier)
         loadProductsList()
         
     }
