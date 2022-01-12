@@ -11,7 +11,7 @@ class ProductsCollectionView: UICollectionView {
 
     private var listFlowlayout: UICollectionViewFlowLayout {
         let flowLayout = UICollectionViewFlowLayout()
-        let width = UIScreen.main.bounds.width
+        let width = self.safeAreaLayoutGuide.layoutFrame.width
         flowLayout.itemSize = CGSize(width: width, height: width * 0.155)
         flowLayout.sectionInset = UIEdgeInsets.init(top: 0, left: 0, bottom: 0, right: 0)
         flowLayout.minimumLineSpacing = 0
@@ -20,33 +20,55 @@ class ProductsCollectionView: UICollectionView {
     
     private var gridFlowlayout: UICollectionViewFlowLayout {
         let flowLayout = UICollectionViewFlowLayout()
-        let halfWidth = UIScreen.main.bounds.width / 2
+        let halfWidth = self.safeAreaLayoutGuide.layoutFrame.width / 2
         flowLayout.itemSize = CGSize(width: halfWidth * 0.93, height: halfWidth * 1.32)
-        let spacing = (UIScreen.main.bounds.width - flowLayout.itemSize.width * 2) / 3
+        let spacing = ((halfWidth * 2) - (flowLayout.itemSize.width * 2)) / 3
         flowLayout.sectionInset = UIEdgeInsets.init(top: 10, left: spacing, bottom: 10, right: spacing)
         flowLayout.minimumInteritemSpacing = 0
         flowLayout.minimumLineSpacing = spacing
-        self.collectionViewLayout = flowLayout
         return flowLayout
+    }
+    
+    var listItemSize: CGSize {
+        return listFlowlayout.itemSize
+    }
+    var gridItemSize: CGSize {
+        return gridFlowlayout.itemSize
+    }
+    
+    var listSectionInset: UIEdgeInsets {
+        return listFlowlayout.sectionInset
+    }
+    
+    var gridSectionInset: UIEdgeInsets {
+        return gridFlowlayout.sectionInset
+    }
+    
+    var listMinimumLineSpacing: CGFloat {
+        return listFlowlayout.minimumLineSpacing
+    }
+    
+    var gridMinimumLineSpacing: CGFloat {
+        return gridFlowlayout.minimumLineSpacing
+    }
+    
+    var listMinimumInteritemSpacing : CGFloat {
+        return listFlowlayout.minimumInteritemSpacing
+    }
+    
+    var gridMinimumInteritemSpacing : CGFloat {
+        return gridFlowlayout.minimumInteritemSpacing
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         registerXib()
-        setUpListFlowLayout()
+        self.collectionViewLayout = listFlowlayout
         isHidden = true
     }
     
     override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
         super.init(frame: frame, collectionViewLayout: layout)
-    }
-    
-    func setUpListFlowLayout() {
-        self.collectionViewLayout = listFlowlayout
-    }
-    
-    func setUpGridFlowLayout() {
-        self.collectionViewLayout = gridFlowlayout
     }
     
     private func registerXib() {

@@ -32,6 +32,7 @@ class MainViewController: UIViewController {
     private func collectionViewLoad() {
         DispatchQueue.main.async {
             self.collectionView.dataSource = self
+            self.collectionView.delegate = self
             self.indicator.stopAnimating()
             self.indicator.isHidden = true
             self.collectionView.isHidden = false
@@ -59,19 +60,17 @@ class MainViewController: UIViewController {
     }
     
     @IBAction private func switchSegmentedControl(_ sender: UISegmentedControl) {
+        collectionView.reloadData()
+        collectionView.scrollToTop()
         switch sender.selectedSegmentIndex {
         case 0:
             currentCellIdentifier = ProductCell.listIdentifier
-            collectionView.setUpListFlowLayout()
         case 1:
             currentCellIdentifier = ProductCell.gridIdentifier
-            collectionView.setUpGridFlowLayout()
         default:
             showAlert(message: Message.unknownError)
             return
         }
-        collectionView.scrollToTop()
-        collectionView.reloadData()
     }
     
 }
@@ -95,5 +94,51 @@ extension MainViewController: UICollectionViewDataSource {
         cell.configureProduct(of: productList[indexPath.row])
         
         return cell
+    }
+}
+
+extension MainViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath
+    ) -> CGSize {
+        guard let productView = collectionView as? ProductsCollectionView else {
+            return CGSize()
+        }
+        return currentCellIdentifier == ProductCell.listIdentifier ?
+        productView.listItemSize : productView.gridItemSize
+    }
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        insetForSectionAt section: Int
+    ) -> UIEdgeInsets {
+        guard let productView = collectionView as? ProductsCollectionView else {
+            return UIEdgeInsets()
+        }
+        return currentCellIdentifier == ProductCell.listIdentifier ?
+        productView.listSectionInset : productView.gridSectionInset
+    }
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        minimumLineSpacingForSectionAt section: Int
+    ) -> CGFloat {
+        guard let productView = collectionView as? ProductsCollectionView else {
+            return CGFloat()
+        }
+        return currentCellIdentifier == ProductCell.listIdentifier ?
+        productView.listMinimumLineSpacing : productView.gridMinimumLineSpacing
+    }
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        minimumInteritemSpacingForSectionAt section: Int
+    ) -> CGFloat {
+        guard let productView = collectionView as? ProductsCollectionView else {
+            return CGFloat()
+        }
+        return currentCellIdentifier == ProductCell.listIdentifier ?
+        productView.listMinimumInteritemSpacing : productView.gridMinimumInteritemSpacing
     }
 }
