@@ -20,7 +20,6 @@ class ProductsTableViewController: UITableViewController {
         super.viewDidLoad()
         startActivityIndicator()
         loadProductsList()
-        
     }
     
     private func startActivityIndicator() {
