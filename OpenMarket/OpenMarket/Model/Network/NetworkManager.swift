@@ -8,12 +8,12 @@
 import UIKit
 
 struct NetworkManager {
-    let network: Networkable
-    let parser: JSONParserable
-    var baseBoundary: String {
+    private let network: Networkable
+    private let parser: JSONParserable
+    private var baseBoundary: String {
         return UUID().uuidString
     }
-    let identifier = "cd706a3e-66db-11ec-9626-796401f2341a"
+    private let identifier = "cd706a3e-66db-11ec-9626-796401f2341a"
     
     init(network: Networkable = Network(), parser: JSONParserable = JSONParser()) {
         self.network = network
