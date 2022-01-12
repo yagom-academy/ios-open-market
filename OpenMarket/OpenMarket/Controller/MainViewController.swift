@@ -1,13 +1,28 @@
 import UIKit
 
 class MainViewController: UIViewController {
-    @IBOutlet weak var viewSegmetedControl: UISegmentedControl!
+    @IBOutlet weak var viewSegmentedControl: UISegmentedControl!
     let listViewControllerIdentifier = "ListViewController"
     let gridViewControllerIdentifier = "GridViewController"
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupSegmentedControl()
         loadViewController()
+    }
+    
+    private func setupSegmentedControl() {
+        viewSegmentedControl.selectedSegmentTintColor = .systemBlue
+        viewSegmentedControl.layer.borderColor = UIColor.systemBlue.cgColor
+        viewSegmentedControl.layer.borderWidth = 1.0
+        viewSegmentedControl.setTitleTextAttributes(
+            [.foregroundColor: UIColor.white],
+            for: .selected
+        )
+        viewSegmentedControl.setTitleTextAttributes(
+            [.foregroundColor: UIColor.systemBlue],
+            for: .normal
+        )
     }
     
     private func loadViewController() {
@@ -17,13 +32,13 @@ class MainViewController: UIViewController {
         view.subviews.forEach { subView in
             subView.removeFromSuperview()
         }
-        if viewSegmetedControl.selectedSegmentIndex == 0 {
+        if viewSegmentedControl.selectedSegmentIndex == 0 {
             guard let controller = storyboard?.instantiateViewController(
                 withIdentifier: listViewControllerIdentifier
             ) else { return }
             addChild(controller)
             view.addSubview(controller.view)
-        } else if viewSegmetedControl.selectedSegmentIndex == 1 {
+        } else if viewSegmentedControl.selectedSegmentIndex == 1 {
             guard let controller = storyboard?.instantiateViewController(
                 withIdentifier: gridViewControllerIdentifier
             ) else { return }

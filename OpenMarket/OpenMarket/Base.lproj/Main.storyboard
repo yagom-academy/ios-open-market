@@ -36,7 +36,7 @@
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="0iu-rd-SuS"/>
                     </navigationItem>
                     <connections>
-                        <outlet property="viewSegmetedControl" destination="lWY-7m-R2h" id="msJ-9f-wl6"/>
+                        <outlet property="viewSegmentedControl" destination="lWY-7m-R2h" id="msJ-9f-wl6"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1GQ-PA-RU6" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
