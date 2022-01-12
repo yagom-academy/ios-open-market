@@ -55,6 +55,36 @@ class ProductsTableViewController: UITableViewController {
         }
     }
     
+    private func setupCellLabel(for cell: ProductsTableViewCell, from product: Product) {
+        cell.titleLabel.attributedText = product.attributedTitle
+        cell.priceLabel.attributedText = product.attributedPrice
+        cell.stockLabel.attributedText = product.attributedStock
+    }
+    
+    private func setupCellImage(
+        for cell: ProductsTableViewCell,
+        from url: URL,
+        indexPath: IndexPath,
+        tableView: UITableView
+    ) {
+        cell.productImageView.image = nil
+        networkTask.downloadImage(from: url) { result in
+            switch result {
+            case .success(let data):
+                guard let image = UIImage(data: data) else { return }
+                DispatchQueue.main.async {
+                    guard indexPath == tableView.indexPath(for: cell) else { return }
+                    cell.productImageView.image = image
+                }
+            case .failure(let error):
+                self.showAlert(
+                    title: "Network error",
+                    message: "데이터를 불러오지 못했습니다.\n\(error.localizedDescription)"
+                )
+            }
+        }
+    }
+    
     // MARK: - Table view data source
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -81,26 +111,8 @@ class ProductsTableViewController: UITableViewController {
                   )
                   return cell
               }
-        cell.productImageView.image = nil
-        cell.titleLabel.attributedText = product.attributedTitle
-        cell.priceLabel.attributedText = product.attributedPrice
-        cell.stockLabel.attributedText = product.attributedStock
-        
-        networkTask.downloadImage(from: url) { result in
-            switch result {
-            case .success(let data):
-                guard let image = UIImage(data: data) else { return }
-                DispatchQueue.main.async {
-                    guard indexPath == tableView.indexPath(for: cell) else { return }
-                    cell.productImageView.image = image
-                }
-            case .failure(let error):
-                self.showAlert(
-                    title: "Network error",
-                    message: "데이터를 불러오지 못했습니다.\n\(error.localizedDescription)"
-                )
-            }
-        }
+        setupCellLabel(for: cell, from: product)
+        setupCellImage(for: cell, from: url, indexPath: indexPath, tableView: tableView)
         return cell
     }
 }
