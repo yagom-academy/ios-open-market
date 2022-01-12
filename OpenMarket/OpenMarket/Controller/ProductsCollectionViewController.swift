@@ -133,7 +133,7 @@ extension ProductsCollectionViewController: UICollectionViewDelegateFlowLayout {
         layout collectionViewLayout: UICollectionViewLayout,
         sizeForItemAt indexPath: IndexPath
     ) -> CGSize {
-        let width = collectionView.frame.width / 2 - 15
+        let width = collectionView.safeAreaLayoutGuide.layoutFrame.width / 2 - 15
         return CGSize(width: width, height: width * 1.5)
     }
 }
