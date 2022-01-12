@@ -15,6 +15,7 @@ class ProductPageViewController: UIViewController {
         super.viewDidLoad()
         collectionView.setCollectionViewLayout(createLayout(), animated: false)
         configureDatasource()
+        fetchPage(itemsPerPage: 10)
     }
 
 }
@@ -37,12 +38,13 @@ extension ProductPageViewController {
     
     private func configureDatasource() {
         let cellRegistration = UICollectionView.CellRegistration<GridLayoutCell, Product> { (cell, indexPath, identifier) in
-            cell.configureContents(image: UIImage(named: "Image")!,
-                                   productName: "MacBook Pro",
-                                   price: "999.99",
-                                   discountedPrice: nil,
-                                   currency: .USD,
-                                   stock: "100")
+            
+            cell.configureContents(imageURL: identifier.thumbnail,
+                                   productName: identifier.name,
+                                   price: identifier.price.description,
+                                   discountedPrice: identifier.discountedPrice.description,
+                                   currency: identifier.currency,
+                                   stock: String(identifier.stock))
             cell.layer.borderWidth = 1
             cell.layer.borderColor = UIColor.systemGray.cgColor
             cell.layer.cornerRadius = 10
@@ -53,77 +55,22 @@ extension ProductPageViewController {
         dataSource = UICollectionViewDiffableDataSource<Int, Product>(collectionView: collectionView) { (collectionView, indexPath, identifier) -> UICollectionViewCell? in
             return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: identifier)
         }
-        
-        var snapShot = NSDiffableDataSourceSnapshot<Int, Product>()
-        snapShot.appendSections([0])
-        snapShot.appendItems([
-            Product(id: 1,
-                    venderId: 1,
-                    name: "1",
-                    thumbnail: "1",
-                    currency: .KRW,
-                    price: 1,
-                    bargainPrice: 1,
-                    discountedPrice: 1,
-                    stock: 1,
-                    images: [],
-                    vendors: nil,
-                    createdAt: Date(timeInterval: TimeInterval(), since: .distantFuture),
-                    issuedAt: Date(timeInterval: TimeInterval(), since: .distantFuture)),
-            Product(id: 2,
-                    venderId: 1,
-                    name: "1",
-                    thumbnail: "1",
-                    currency: .KRW,
-                    price: 1,
-                    bargainPrice: 1,
-                    discountedPrice: 1,
-                    stock: 1,
-                    images: [],
-                    vendors: nil,
-                    createdAt: Date(timeInterval: TimeInterval(), since: .distantFuture),
-                    issuedAt: Date(timeInterval: TimeInterval(), since: .distantFuture)),
-            Product(id: 3,
-                    venderId: 1,
-                    name: "1",
-                    thumbnail: "1",
-                    currency: .KRW,
-                    price: 1,
-                    bargainPrice: 1,
-                    discountedPrice: 1,
-                    stock: 1,
-                    images: [],
-                    vendors: nil,
-                    createdAt: Date(timeInterval: TimeInterval(), since: .distantFuture),
-                    issuedAt: Date(timeInterval: TimeInterval(), since: .distantFuture)),
-            Product(id: 4,
-                    venderId: 1,
-                    name: "1",
-                    thumbnail: "1",
-                    currency: .KRW,
-                    price: 1,
-                    bargainPrice: 1,
-                    discountedPrice: 1,
-                    stock: 1,
-                    images: [],
-                    vendors: nil,
-                    createdAt: Date(timeInterval: TimeInterval(), since: .distantFuture),
-                    issuedAt: Date(timeInterval: TimeInterval(), since: .distantFuture)),
-            Product(id: 5,
-                    venderId: 1,
-                    name: "1",
-                    thumbnail: "1",
-                    currency: .KRW,
-                    price: 1,
-                    bargainPrice: 1,
-                    discountedPrice: 1,
-                    stock: 1,
-                    images: [],
-                    vendors: nil,
-                    createdAt: Date(timeInterval: TimeInterval(), since: .distantFuture),
-                    issuedAt: Date(timeInterval: TimeInterval(), since: .distantFuture))
-            
-        ])
-        dataSource?.apply(snapShot)
     }
+
+    private func fetchPage(itemsPerPage: Int) {
+        URLSessionProvider(session: URLSession.shared)
+            .request(.showProductPage(pageNumber: "1", itemsPerPage: String(itemsPerPage))) { (result: Result<ShowProductPageResponse, URLSessionProviderError>) in
+            switch result {
+            case .success(let data):
+                var snapShot = NSDiffableDataSourceSnapshot<Int, Product>()
+                snapShot.appendSections([0])
+                snapShot.appendItems(data.pages as [Product])
+                self.dataSource?.apply(snapShot)
+                
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+
 }

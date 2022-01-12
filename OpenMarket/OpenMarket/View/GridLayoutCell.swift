@@ -38,7 +38,7 @@ class GridLayoutCell: UICollectionViewCell {
             stackView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 10),
             stackView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 10),
             stackView.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -10),
-            stackView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor, constant: -10),
+            stackView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor, constant: -10)
         ])
         
         stackView.addArrangedSubview(imageView)
@@ -46,7 +46,7 @@ class GridLayoutCell: UICollectionViewCell {
         
         NSLayoutConstraint.activate([
             imageView.widthAnchor.constraint(equalTo: stackView.widthAnchor, multiplier: 0.9),
-            imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor),
+            imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor)
         ])
         
         stackView.addArrangedSubview(productNameLabel)
@@ -66,8 +66,18 @@ class GridLayoutCell: UICollectionViewCell {
         priceStackView.removeArrangedSubview(view)
     }
 
-    func configureContents(image: UIImage, productName: String, price: String, discountedPrice: String?, currency: Currency, stock: String) {
-        imageView.image = image
+    func configureContents(imageURL: String, productName: String, price: String,
+                           discountedPrice: String?, currency: Currency, stock: String) {
+        URLSessionProvider(session: URLSession.shared).requestImage(from: imageURL) { result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let data):
+                    self.imageView.image = data
+                case .failure:
+                    self.imageView.image = UIImage(named: "Image")
+                }
+            }
+        }
         productNameLabel.text = productName
         
         productNameLabel.font = UIFont.boldSystemFont(ofSize: 17)
@@ -77,11 +87,9 @@ class GridLayoutCell: UICollectionViewCell {
             stockLabel.textColor = .systemGray
             stockLabel.text = "잔여수량 : \(stock)"
         } else {
-            stockLabel.textColor = #colorLiteral(red: 1, green: 0.5843137255, blue: 0, alpha: 1)
+            stockLabel.textColor = #colorLiteral(red: 0.9529411793, green: 0.6862745285, blue: 0.1333333403, alpha: 1)
             stockLabel.text = "품절"
         }
-        
-        
         
         if let discounted = discountedPrice {
             priceLabel.textColor = .systemRed
