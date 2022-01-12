@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ProductImage: Decodable {
+struct ProductImage: Decodable, Hashable {
     
     let id: Int
     let url: String

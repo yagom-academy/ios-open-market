@@ -9,71 +9,117 @@ import UIKit
 class ProductPageViewController: UIViewController {
 
     @IBOutlet var collectionView: UICollectionView!
+    var dataSource: UICollectionViewDiffableDataSource<Int, Product>?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        collectionView.register(
-            GridLayoutCell.nib,
-            forCellWithReuseIdentifier: GridLayoutCell.reuseIdentifier
-        )
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        
-        let layout = UICollectionViewFlowLayout()
-        collectionView.setCollectionViewLayout(layout, animated: true)
+        collectionView.setCollectionViewLayout(createLayout(), animated: false)
+        configureDatasource()
     }
 
 }
 
-extension ProductPageViewController: UICollectionViewDelegateFlowLayout {
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = (collectionView.frame.width - 30) * 0.5
-        let height = width * 1.5
-        return CGSize(width: width, height: height)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-    }
-    
-}
+extension ProductPageViewController {
+    private func createLayout() -> UICollectionViewLayout {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5),
+                                             heightDimension: .fractionalHeight(1.0))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        item.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 8)
 
-extension ProductPageViewController: UICollectionViewDelegate {
-    
-}
-
-extension ProductPageViewController: UICollectionViewDataSource {
-    
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 1
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                              heightDimension: .fractionalHeight(0.37))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
+                                                         subitems: [item])
+        let section = NSCollectionLayoutSection(group: group)
+        let layout = UICollectionViewCompositionalLayout(section: section)
+        return layout
     }
     
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 20
-    }
-    
-    func collectionView(_ collectionView: UICollectionView,
-                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: GridLayoutCell.reuseIdentifier,
-            for: indexPath
-        )
-        
-        guard let image = UIImage(named: "macBook") else { return cell }
-        
-        if let cell = cell as? GridLayoutCell {
-            cell.configureContents(
-                image: image,
-                productName: "MacBook Pro",
-                price: "USD 9,999",
-                discountedPrice: "USD 9,000",
-                stock: "1"
-            )
+    private func configureDatasource() {
+        let cellRegistration = UICollectionView.CellRegistration<GridLayoutCell, Product> { (cell, indexPath, identifier) in
+            cell.configureContents(image: UIImage(named: "Image")!,
+                                   productName: "물건",
+                                   price: "USD 999.99",
+                                   discountedPrice: "USD 1",
+                                   stock: "1")
+            cell.layer.borderWidth = 0.5
+            cell.layer.borderColor = UIColor.systemGray3.cgColor
         }
         
-        return cell
+        dataSource = UICollectionViewDiffableDataSource<Int, Product>(collectionView: collectionView) { (collectionView, indexPath, identifier) -> UICollectionViewCell? in
+            return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: identifier)
+        }
+        
+        var snapShot = NSDiffableDataSourceSnapshot<Int, Product>()
+        snapShot.appendSections([0])
+        snapShot.appendItems([
+            Product(id: 1,
+                    venderId: 1,
+                    name: "1",
+                    thumbnail: "1",
+                    currency: .KRW,
+                    price: 1,
+                    bargainPrice: 1,
+                    discountedPrice: 1,
+                    stock: 1,
+                    images: [],
+                    vendors: nil,
+                    createdAt: Date(timeInterval: TimeInterval(), since: .distantFuture),
+                    issuedAt: Date(timeInterval: TimeInterval(), since: .distantFuture)),
+            Product(id: 2,
+                    venderId: 1,
+                    name: "1",
+                    thumbnail: "1",
+                    currency: .KRW,
+                    price: 1,
+                    bargainPrice: 1,
+                    discountedPrice: 1,
+                    stock: 1,
+                    images: [],
+                    vendors: nil,
+                    createdAt: Date(timeInterval: TimeInterval(), since: .distantFuture),
+                    issuedAt: Date(timeInterval: TimeInterval(), since: .distantFuture)),
+            Product(id: 3,
+                    venderId: 1,
+                    name: "1",
+                    thumbnail: "1",
+                    currency: .KRW,
+                    price: 1,
+                    bargainPrice: 1,
+                    discountedPrice: 1,
+                    stock: 1,
+                    images: [],
+                    vendors: nil,
+                    createdAt: Date(timeInterval: TimeInterval(), since: .distantFuture),
+                    issuedAt: Date(timeInterval: TimeInterval(), since: .distantFuture)),
+            Product(id: 4,
+                    venderId: 1,
+                    name: "1",
+                    thumbnail: "1",
+                    currency: .KRW,
+                    price: 1,
+                    bargainPrice: 1,
+                    discountedPrice: 1,
+                    stock: 1,
+                    images: [],
+                    vendors: nil,
+                    createdAt: Date(timeInterval: TimeInterval(), since: .distantFuture),
+                    issuedAt: Date(timeInterval: TimeInterval(), since: .distantFuture)),
+            Product(id: 5,
+                    venderId: 1,
+                    name: "1",
+                    thumbnail: "1",
+                    currency: .KRW,
+                    price: 1,
+                    bargainPrice: 1,
+                    discountedPrice: 1,
+                    stock: 1,
+                    images: [],
+                    vendors: nil,
+                    createdAt: Date(timeInterval: TimeInterval(), since: .distantFuture),
+                    issuedAt: Date(timeInterval: TimeInterval(), since: .distantFuture))
+            
+        ])
+        dataSource?.apply(snapShot)
     }
-    
 }

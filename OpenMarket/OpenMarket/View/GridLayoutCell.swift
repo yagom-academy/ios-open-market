@@ -37,10 +37,11 @@ class GridLayoutCell: UICollectionViewCell {
         NSLayoutConstraint.activate([
             stackView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 10),
             stackView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 10),
-            stackView.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: 10),
-            stackView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor, constant: 10),
+            stackView.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -10),
+            stackView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor, constant: -10),
         ])
         
+        NSLayoutConstraint.activate([imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor)])
         stackView.addArrangedSubview(imageView)
         stackView.addArrangedSubview(productNameLabel)
         stackView.addArrangedSubview(priceStackView)
@@ -48,7 +49,6 @@ class GridLayoutCell: UICollectionViewCell {
         priceStackView.axis = .vertical
         priceStackView.alignment = .center
         priceStackView.distribution = .equalSpacing
-        priceStackView.spacing = 4
         
         priceStackView.addArrangedSubview(priceLabel)
         stackView.addArrangedSubview(stockLabel)
@@ -68,7 +68,7 @@ class GridLayoutCell: UICollectionViewCell {
         
         if let discounted = discountedPrice {
             priceLabel.textColor = .systemRed
-            let attributeString =  NSMutableAttributedString(string: price)
+            let attributeString = NSMutableAttributedString(string: price)
             attributeString.addAttribute(NSAttributedString.Key.strikethroughStyle, value: 2, range: NSMakeRange(0, attributeString.length))
             priceLabel.attributedText = attributeString
             let discountedLabel = UILabel()
