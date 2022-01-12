@@ -25,6 +25,7 @@ class ProductsTableViewController: UITableViewController {
     
     private func startActivityIndicator() {
         view.addSubview(loadingActivityIndicator)
+        
         loadingActivityIndicator.translatesAutoresizingMaskIntoConstraints = false
         loadingActivityIndicator.centerYAnchor.constraint(
             equalTo: view.centerYAnchor
