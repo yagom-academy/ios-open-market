@@ -14,7 +14,6 @@ class GridLayoutCell: UICollectionViewCell {
     var imageView = UIImageView()
     var productNameLabel = UILabel()
     var priceStackView = UIStackView()
-    var priceLabel = UILabel()
     var stockLabel = UILabel()
     
     override init(frame: CGRect) {
@@ -56,18 +55,18 @@ class GridLayoutCell: UICollectionViewCell {
         priceStackView.alignment = .center
         priceStackView.distribution = .equalSpacing
         
-        priceStackView.addArrangedSubview(priceLabel)
         stackView.addArrangedSubview(stockLabel)
     }
     
     override func prepareForReuse() {
-        guard priceStackView.arrangedSubviews.count >= 2 else { return }
-        guard let view = priceStackView.arrangedSubviews.first else { return }
-        priceStackView.removeArrangedSubview(view)
+        priceStackView.arrangedSubviews.forEach { view in
+            view.removeFromSuperview()
+        }
     }
-
+    
     func configureContents(imageURL: String, productName: String, price: String,
                            discountedPrice: String?, currency: Currency, stock: String) {
+        
         URLSessionProvider(session: URLSession.shared).requestImage(from: imageURL) { result in
             DispatchQueue.main.async {
                 switch result {
@@ -78,8 +77,8 @@ class GridLayoutCell: UICollectionViewCell {
                 }
             }
         }
-        productNameLabel.text = productName
         
+        productNameLabel.text = productName
         productNameLabel.font = UIFont.boldSystemFont(ofSize: 17)
         productNameLabel.adjustsFontForContentSizeCategory = true
         
@@ -90,6 +89,9 @@ class GridLayoutCell: UICollectionViewCell {
             stockLabel.textColor = #colorLiteral(red: 0.9529411793, green: 0.6862745285, blue: 0.1333333403, alpha: 1)
             stockLabel.text = "품절"
         }
+        
+        let priceLabel = UILabel()
+        priceStackView.addArrangedSubview(priceLabel)
         
         if let discounted = discountedPrice {
             priceLabel.textColor = .systemRed
