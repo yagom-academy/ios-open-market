@@ -132,8 +132,12 @@ extension MarketViewController: UICollectionViewDelegateFlowLayout {
         return 10
     }
     
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
+    }
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = collectionView.frame.width / 2 - 10
+        let width = collectionView.frame.width / 2 - 15
         let height = collectionView.frame.height / 3 - 10
         let size = CGSize(width: width, height: height)
         

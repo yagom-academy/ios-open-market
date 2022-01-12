@@ -17,7 +17,7 @@ class GridCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        
+        setBorder()
     }
     
     func configure(with product: Product) {
@@ -33,5 +33,11 @@ class GridCell: UICollectionViewCell {
         discountedPriceLabel.text = product.discountedPrice.stringFormat
         priceLabel.text = product.price.stringFormat
         stockLabel.text = product.stock.stringFormat
+    }
+    
+    func setBorder() {
+        layer.borderWidth = 1
+        layer.borderColor = UIColor.lightGray.cgColor
+        layer.cornerRadius = 10
     }
 }
