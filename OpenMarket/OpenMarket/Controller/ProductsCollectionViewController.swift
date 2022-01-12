@@ -44,14 +44,10 @@ class ProductsCollectionViewController: UICollectionViewController {
                     self.loadingActivityIndicator.stopAnimating()
                 }
             case .failure(let error):
-                let alert = UIAlertController(
+                self.showAlert(
                     title: "Network error",
-                    message: "데이터를 불러오지 못했습니다.\n\(error.localizedDescription)",
-                    preferredStyle: .alert
+                    message: "데이터를 불러오지 못했습니다.\n\(error.localizedDescription)"
                 )
-                let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-                alert.addAction(okAction)
-                self.present(alert, animated: true, completion: nil)
                 self.loadingActivityIndicator.stopAnimating()
             }
         }
