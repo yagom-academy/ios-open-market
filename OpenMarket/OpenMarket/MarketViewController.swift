@@ -8,13 +8,6 @@ import UIKit
 // 🤞
 final class MarketViewController: UIViewController {
     
-    //MARK: - Nested Type
-    
-    private enum PresentationMode {
-        case list
-        case grid
-    }
-    
     //MARK: - IBOutlets
     
     @IBOutlet weak var collectionView: UICollectionView!
@@ -24,32 +17,44 @@ final class MarketViewController: UIViewController {
     let apiService = MarketAPIService()
     var products: [Product] = [] {
         didSet {
-            reloadData()
+            self.listViewController.products = products
+            self.listViewController.reloadData()
         }
     }
-    private var presentationMode: PresentationMode = .list
+    
+    private lazy var listViewController: ListViewController = {
+        let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+        var viewController = storyboard.instantiateViewController(withIdentifier: "ListViewController") as! ListViewController
+        
+        add(asChildViewController: viewController)
+        return viewController
+    }()
+    
+    private lazy var gridViewController: GridViewController = {
+        let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+        var viewController = storyboard.instantiateViewController(withIdentifier: "GridViewController") as! GridViewController
+        
+        add(asChildViewController: viewController)
+        return viewController
+    }()
     
     //MARK: - Lifecycle Methods
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        collectionView.dataSource = self
-        collectionView.delegate = self
-        configureCollectionViewList()
         fetchPage()
-        setupCollectionViewCells()
+        add(asChildViewController: listViewController)
     }
     
     //MARK: - IBActions
     
     @IBAction func segmentedControlTapped(_ sender: UISegmentedControl) {
-        reloadCurrentCells()
         if sender.selectedSegmentIndex == 0 {
-            configureCollectionViewList()
-            presentationMode = .list
+            remove(asChildViewController: gridViewController)
+            add(asChildViewController: listViewController)
         } else {
-            configureCollectionViewGrid()
-            presentationMode = .grid
+            remove(asChildViewController: listViewController)
+            add(asChildViewController: gridViewController)
         }
     }
 }
@@ -57,17 +62,20 @@ final class MarketViewController: UIViewController {
 //MARK: - Private Methods
 
 extension MarketViewController {
-    private func configureCollectionViewList() {
-        let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
-        let layout = UICollectionViewCompositionalLayout.list(using: configuration)
-        collectionView.collectionViewLayout = layout
+    private func add(asChildViewController viewController: UIViewController) {
+        addChild(viewController)
+        view.addSubview(viewController.view)
+        viewController.view.frame = view.bounds
+        viewController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        viewController.didMove(toParent: self)
     }
     
-    private func configureCollectionViewGrid() {
-        let layout = UICollectionViewFlowLayout()
-        collectionView.collectionViewLayout = layout
+    private func remove(asChildViewController viewController: UIViewController) {
+        viewController.willMove(toParent: nil)
+        viewController.view.removeFromSuperview()
+        viewController.removeFromParent()
     }
-    
+
     private func fetchPage() {
         apiService.fetchPage(pageNumber: 1, itemsPerPage: 20) { result in
             switch result {
@@ -78,69 +86,5 @@ extension MarketViewController {
             }
         }
     }
-    
-    private func setupCollectionViewCells() {
-        let listNib = UINib(nibName: "ListCell", bundle: .main)
-        let gridNib = UINib(nibName: "GridCell", bundle: .main)
-        collectionView.register(listNib, forCellWithReuseIdentifier: "listCell")
-        collectionView.register(gridNib, forCellWithReuseIdentifier: "gridCell")
-    }
-    
-    private func reloadData() {
-        DispatchQueue.main.async {
-            self.collectionView.reloadData()
-        }
-    }
-    
-    private func reloadCurrentCells() {
-        DispatchQueue.main.async {
-            let currentIndexPaths = self.collectionView.indexPathsForVisibleItems
-            self.collectionView.reloadItems(at: currentIndexPaths)
-        }
-    }
 }
 
-extension MarketViewController: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return products.count
-    }
-
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        switch presentationMode {
-        case .list:
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "listCell", for: indexPath) as? ListCell else {
-                return UICollectionViewCell()
-            }
-            cell.configure(with: products[indexPath.row])
-            return cell
-        case .grid:
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "gridCell", for: indexPath) as? GridCell else {
-                return UICollectionViewCell()
-            }
-            cell.configure(with: products[indexPath.row])
-            return cell
-        }
-    }
-}
-
-extension MarketViewController: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 10
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 10
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = collectionView.frame.width / 2 - 15
-        let height = collectionView.frame.height / 3 - 10
-        let size = CGSize(width: width, height: height)
-        
-        return size
-    }
-}
