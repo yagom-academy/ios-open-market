@@ -12,7 +12,7 @@ class ProductListCell: UICollectionViewListCell {
         static let stockTitle = "잔여수량 : "
     }
     
-    @IBOutlet weak var thumbnailImage: UIImageView!
+    @IBOutlet var thumbnailImage: UIImageView!
     @IBOutlet var nameLabel: UILabel!
     @IBOutlet var priceLabel: UILabel!
     @IBOutlet var stockLabel: UILabel!
@@ -25,14 +25,10 @@ class ProductListCell: UICollectionViewListCell {
     }
     
     func setup(with product: ProductDetail) {
-        setupCellAccessory()
         setupImage(with: product)
+        setupNameLabel(with: product)
         setupPriceLabel(with: product)
         setupStockLabel(with: product)
-    }
-    
-    func setupCellAccessory() {
-        self.accessories = [.disclosureIndicator()]
     }
     
     func setupImage(with product: ProductDetail) {
@@ -43,6 +39,10 @@ class ProductListCell: UICollectionViewListCell {
                return
            }
         thumbnailImage.image = image
+    }
+    
+    func setupNameLabel(with product: ProductDetail) {
+        nameLabel.text = product.name
     }
     
     func setupPriceLabel(with product: ProductDetail) {

@@ -1,6 +1,6 @@
 import Foundation
 
-struct ProductList: Codable {
+struct ProductList: Codable, Hashable {
     let pageNo, itemsPerPage, totalCount, offset: Int
     let limit: Int
     let pages: [ProductDetail]
