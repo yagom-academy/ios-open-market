@@ -61,6 +61,7 @@ extension Product {
             ]
         )
         let blank = NSAttributedString(string: " ")
+        
         priceWithBargainPrice.append(originalPrice)
         priceWithBargainPrice.append(blank)
         priceWithBargainPrice.append(bargainPrice)
