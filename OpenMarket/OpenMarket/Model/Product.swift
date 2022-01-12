@@ -43,6 +43,7 @@ extension Product {
             result.append(price)
             return result
         }
+        
         let formattedOriginalPrice = price.formatted ?? price.description
         let originalPrice = NSAttributedString(
             string: currency.rawValue + " " + formattedOriginalPrice,
@@ -77,6 +78,7 @@ extension Product {
             )
             return outOfStock
         }
+        
         let currentStock = NSAttributedString(
             string: "잔여수량 : \(stock)",
             attributes: [
