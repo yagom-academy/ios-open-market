@@ -8,62 +8,11 @@
 import UIKit
 
 class ProductsCollectionView: UICollectionView {
-
-    private var listFlowlayout: UICollectionViewFlowLayout {
-        let flowLayout = UICollectionViewFlowLayout()
-        let width = self.safeAreaLayoutGuide.layoutFrame.width
-        flowLayout.itemSize = CGSize(width: width, height: width * 0.155)
-        flowLayout.sectionInset = UIEdgeInsets.init(top: 0, left: 0, bottom: 0, right: 0)
-        flowLayout.minimumLineSpacing = 0
-        return flowLayout
-    }
-    
-    private var gridFlowlayout: UICollectionViewFlowLayout {
-        let flowLayout = UICollectionViewFlowLayout()
-        let halfWidth = self.safeAreaLayoutGuide.layoutFrame.width / 2
-        flowLayout.itemSize = CGSize(width: halfWidth * 0.93, height: halfWidth * 1.32)
-        let spacing = ((halfWidth * 2) - (flowLayout.itemSize.width * 2)) / 3
-        flowLayout.sectionInset = UIEdgeInsets.init(top: 10, left: spacing, bottom: 10, right: spacing)
-        flowLayout.minimumInteritemSpacing = 0
-        flowLayout.minimumLineSpacing = spacing
-        return flowLayout
-    }
-    
-    var listItemSize: CGSize {
-        return listFlowlayout.itemSize
-    }
-    var gridItemSize: CGSize {
-        return gridFlowlayout.itemSize
-    }
-    
-    var listSectionInset: UIEdgeInsets {
-        return listFlowlayout.sectionInset
-    }
-    
-    var gridSectionInset: UIEdgeInsets {
-        return gridFlowlayout.sectionInset
-    }
-    
-    var listMinimumLineSpacing: CGFloat {
-        return listFlowlayout.minimumLineSpacing
-    }
-    
-    var gridMinimumLineSpacing: CGFloat {
-        return gridFlowlayout.minimumLineSpacing
-    }
-    
-    var listMinimumInteritemSpacing : CGFloat {
-        return listFlowlayout.minimumInteritemSpacing
-    }
-    
-    var gridMinimumInteritemSpacing : CGFloat {
-        return gridFlowlayout.minimumInteritemSpacing
-    }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         registerXib()
-        self.collectionViewLayout = listFlowlayout
+        self.collectionViewLayout = setUpLayput()
         isHidden = true
     }
     
@@ -78,4 +27,77 @@ class ProductsCollectionView: UICollectionView {
         let listNibName = UINib(nibName: ProductCell.gridNibName, bundle: .main)
         register(listNibName, forCellWithReuseIdentifier: ProductCell.gridIdentifier)
     }
+    
+    private func setUpLayput() -> UICollectionViewFlowLayout {
+        let flowLayout = UICollectionViewFlowLayout()
+        flowLayout.itemSize = listItemSize
+        flowLayout.sectionInset = listSectionInset
+        flowLayout.minimumLineSpacing = listMinimumLineSpacing
+        flowLayout.minimumInteritemSpacing = listminimumInteritemSpacing
+        return flowLayout
+    }
+}
+
+extension ProductsCollectionView {
+    func cellSize(numberOFItemsRowAt: CellStyle) -> CGSize {
+        switch numberOFItemsRowAt {
+        case .portraitList:
+            return listItemSize
+        case .portraitGrid:
+           return portraitGridItemSize
+        case .landscapeGrid:
+            return landscapeGridItemSize
+        }
+    }
+    
+    var listSectionInset: UIEdgeInsets {
+        return UIEdgeInsets.init(top: 0, left: 0, bottom: 0, right: 0)
+    }
+    
+    var gridSectionInset: UIEdgeInsets {
+        let spacing = ((screenWidth) - (portraitGridItemSize.width * 2)) / 3
+        return UIEdgeInsets.init(top: 10, left: spacing, bottom: 10, right: spacing)
+    }
+    
+    var listMinimumLineSpacing: CGFloat {
+        return 0
+    }
+    
+    var gridMinimumLineSpacing: CGFloat {
+        let spacing = ((screenWidth) - (portraitGridItemSize.width * 2)) / 3
+        return spacing
+    }
+    
+    var listminimumInteritemSpacing: CGFloat {
+        return 0
+    }
+    
+    var gridminimumInteritemSpacing: CGFloat {
+        return 0
+    }
+    
+    private var screenWidth: CGFloat {
+        return self.safeAreaLayoutGuide.layoutFrame.width
+    }
+    
+    private var listItemSize: CGSize {
+        return CGSize(width: screenWidth,
+                      height: screenWidth * 0.155)
+    }
+    
+    private var portraitGridItemSize: CGSize {
+        return CGSize(width: (screenWidth / 2) * 0.93,
+                      height: (screenWidth / 2) * 1.32)
+    }
+    
+    private var landscapeGridItemSize: CGSize {
+        return CGSize(width: screenWidth / 5,
+                      height: (screenWidth / 3))
+    }
+}
+
+enum CellStyle {
+    case portraitList
+    case portraitGrid
+    case landscapeGrid
 }

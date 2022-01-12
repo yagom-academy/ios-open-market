@@ -105,8 +105,13 @@ extension MainViewController: UICollectionViewDelegateFlowLayout {
         guard let productView = collectionView as? ProductsCollectionView else {
             return CGSize()
         }
-        return currentCellIdentifier == ProductCell.listIdentifier ?
-        productView.listItemSize : productView.gridItemSize
+        if currentCellIdentifier == ProductCell.listIdentifier {
+            return productView.cellSize(numberOFItemsRowAt: .portraitList)
+        } else {
+            return UIDevice.current.orientation.isLandscape ?
+            productView.cellSize(numberOFItemsRowAt: .landscapeGrid) :
+            productView.cellSize(numberOFItemsRowAt: .portraitGrid)
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView,
@@ -139,6 +144,6 @@ extension MainViewController: UICollectionViewDelegateFlowLayout {
             return CGFloat()
         }
         return currentCellIdentifier == ProductCell.listIdentifier ?
-        productView.listMinimumInteritemSpacing : productView.gridMinimumInteritemSpacing
+        productView.listminimumInteritemSpacing : productView.gridminimumInteritemSpacing
     }
 }
