@@ -10,7 +10,7 @@ class LayoutSegmentedControl: UISegmentedControl {
     }
     
     init(items: [String]) {
-        super.init(frame: CGRect(x: 0, y: 0, width: 200, height: 30))
+        super.init(frame: CGRect(x: 0, y: 0, width: 180, height: 35))
         configUI(with: items)
     }
     
@@ -24,5 +24,6 @@ class LayoutSegmentedControl: UISegmentedControl {
         layer.borderColor = UIColor.systemBlue.cgColor
         layer.borderWidth = 2
         setTitleTextAttributes([.foregroundColor: UIColor.systemBlue], for: .normal)
-        setTitleTextAttributes([.foregroundColor: UIColor.white], for: .selected)    }
+        setTitleTextAttributes([.foregroundColor: UIColor.white], for: .selected)
+    }
 }
