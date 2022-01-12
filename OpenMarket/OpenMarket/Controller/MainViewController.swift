@@ -33,17 +33,17 @@ class MainViewController: UIViewController {
             subView.removeFromSuperview()
         }
         if viewSegmentedControl.selectedSegmentIndex == 0 {
-            guard let controller = storyboard?.instantiateViewController(
+            guard let listViewController = storyboard?.instantiateViewController(
                 withIdentifier: listViewControllerIdentifier
             ) else { return }
-            addChild(controller)
-            view.addSubview(controller.view)
+            addChild(listViewController)
+            view.addSubview(listViewController.view)
         } else if viewSegmentedControl.selectedSegmentIndex == 1 {
-            guard let controller = storyboard?.instantiateViewController(
+            guard let gridViewController = storyboard?.instantiateViewController(
                 withIdentifier: gridViewControllerIdentifier
             ) else { return }
-            addChild(controller)
-            view.addSubview(controller.view)
+            addChild(gridViewController)
+            view.addSubview(gridViewController.view)
         }
     }
     
