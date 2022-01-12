@@ -88,7 +88,8 @@ extension MainViewController: UICollectionViewDataSource {
         guard let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: currentCellIdentifier,
             for: indexPath) as? ProductCell else {
-            fatalError()
+            showAlert(message: Message.unknownError)
+            return UICollectionViewCell()
         }
         cell.configureStyle(of: currentCellIdentifier)
         cell.configureProduct(of: productList[indexPath.row])
