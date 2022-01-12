@@ -44,11 +44,7 @@ class ProductCell: UICollectionViewCell {
     }
     
     func configureStyle(of identifier: String) {
-        if identifier == Self.listIdentifier {
-            setupListView()
-        } else {
-            setupGridView()
-        }
+        identifier == Self.listIdentifier ? setupListView() : setupGridView()
     }
     
     private func resetLabel() {
