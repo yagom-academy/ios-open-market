@@ -32,7 +32,7 @@ class GridLayoutCell: UICollectionViewCell {
         stackView.axis = .vertical
         stackView.alignment = .center
         stackView.distribution = .equalSpacing
-        stackView.spacing = 4
+        stackView.spacing = 2
         
         NSLayoutConstraint.activate([
             stackView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 10),
@@ -41,8 +41,14 @@ class GridLayoutCell: UICollectionViewCell {
             stackView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor, constant: -10),
         ])
         
-        NSLayoutConstraint.activate([imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor)])
         stackView.addArrangedSubview(imageView)
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            imageView.widthAnchor.constraint(equalTo: stackView.widthAnchor, multiplier: 0.9),
+            imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor),
+        ])
+        
         stackView.addArrangedSubview(productNameLabel)
         stackView.addArrangedSubview(priceStackView)
         
@@ -60,20 +66,40 @@ class GridLayoutCell: UICollectionViewCell {
         priceStackView.removeArrangedSubview(view)
     }
 
-    func configureContents(image: UIImage, productName: String, price: String, discountedPrice: String?, stock: String) {
+    func configureContents(image: UIImage, productName: String, price: String, discountedPrice: String?, currency: Currency, stock: String) {
         imageView.image = image
         productNameLabel.text = productName
-        priceLabel.text = price
-        stockLabel.text = stock
+        
+        productNameLabel.font = UIFont.boldSystemFont(ofSize: 17)
+        productNameLabel.adjustsFontForContentSizeCategory = true
+        
+        if let intStock = Int(stock), intStock > 0 {
+            stockLabel.textColor = .systemGray
+            stockLabel.text = "잔여수량 : \(stock)"
+        } else {
+            stockLabel.textColor = #colorLiteral(red: 1, green: 0.5843137255, blue: 0, alpha: 1)
+            stockLabel.text = "품절"
+        }
+        
+        
         
         if let discounted = discountedPrice {
             priceLabel.textColor = .systemRed
-            let attributeString = NSMutableAttributedString(string: price)
-            attributeString.addAttribute(NSAttributedString.Key.strikethroughStyle, value: 2, range: NSMakeRange(0, attributeString.length))
+            let attributeString = NSMutableAttributedString(string: "\(currency) \(price)")
+            attributeString.addAttribute(
+                NSAttributedString.Key.strikethroughStyle,
+                value: 2,
+                range: NSMakeRange(0, attributeString.length)
+            )
             priceLabel.attributedText = attributeString
+            
             let discountedLabel = UILabel()
-            discountedLabel.text = discounted
+            discountedLabel.text = "\(currency) \(discounted)"
+            discountedLabel.textColor = .systemGray
             priceStackView.addArrangedSubview(discountedLabel)
+        } else {
+            priceLabel.text = "\(currency) \(price)"
+            priceLabel.textColor = .systemGray
         }
     }
 }

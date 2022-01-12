@@ -27,7 +27,7 @@ extension ProductPageViewController {
         item.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 8)
 
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                              heightDimension: .fractionalHeight(0.37))
+                                              heightDimension: .fractionalHeight(0.3225))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
                                                          subitems: [item])
         let section = NSCollectionLayoutSection(group: group)
@@ -38,12 +38,16 @@ extension ProductPageViewController {
     private func configureDatasource() {
         let cellRegistration = UICollectionView.CellRegistration<GridLayoutCell, Product> { (cell, indexPath, identifier) in
             cell.configureContents(image: UIImage(named: "Image")!,
-                                   productName: "물건",
-                                   price: "USD 999.99",
-                                   discountedPrice: "USD 1",
-                                   stock: "1")
-            cell.layer.borderWidth = 0.5
-            cell.layer.borderColor = UIColor.systemGray3.cgColor
+                                   productName: "MacBook Pro",
+                                   price: "999.99",
+                                   discountedPrice: nil,
+                                   currency: .USD,
+                                   stock: "100")
+            cell.layer.borderWidth = 1
+            cell.layer.borderColor = UIColor.systemGray.cgColor
+            cell.layer.cornerRadius = 10
+            cell.layer.masksToBounds = true
+            
         }
         
         dataSource = UICollectionViewDiffableDataSource<Int, Product>(collectionView: collectionView) { (collectionView, indexPath, identifier) -> UICollectionViewCell? in
