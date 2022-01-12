@@ -7,34 +7,28 @@
 import UIKit
 // 🤞
 final class MarketViewController: UIViewController {
-    
     //MARK: - IBOutlets
     
     @IBOutlet weak var collectionView: UICollectionView!
     
     //MARK: - Properties
     
-    let apiService = MarketAPIService()
-    var products: [Product] = [] {
-        didSet {
-            self.listViewController.products = products
-            self.listViewController.reloadData()
-        }
-    }
+    private let apiService = MarketAPIService()
+    private var products: [Product] = []
     
     private lazy var listViewController: ListViewController = {
         let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
-        var viewController = storyboard.instantiateViewController(withIdentifier: "ListViewController") as! ListViewController
-        
-        add(asChildViewController: viewController)
+        let viewController = storyboard.instantiateViewController(identifier: "ListViewController") { coder in
+            ListViewController(products: self.products, coder: coder)
+        }
         return viewController
     }()
     
     private lazy var gridViewController: GridViewController = {
         let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
-        var viewController = storyboard.instantiateViewController(withIdentifier: "GridViewController") as! GridViewController
-        
-        add(asChildViewController: viewController)
+        let viewController = storyboard.instantiateViewController(identifier: "GridViewController") { coder in
+            GridViewController(products: self.products, coder: coder)
+        }
         return viewController
     }()
     
@@ -43,11 +37,12 @@ final class MarketViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         fetchPage()
-        add(asChildViewController: listViewController)
     }
-    
-    //MARK: - IBActions
-    
+}
+
+//MARK: - IBActions
+
+extension MarketViewController {
     @IBAction func segmentedControlTapped(_ sender: UISegmentedControl) {
         if sender.selectedSegmentIndex == 0 {
             remove(asChildViewController: gridViewController)
@@ -75,12 +70,15 @@ extension MarketViewController {
         viewController.view.removeFromSuperview()
         viewController.removeFromParent()
     }
-
+    
     private func fetchPage() {
         apiService.fetchPage(pageNumber: 1, itemsPerPage: 20) { result in
             switch result {
             case .success(let data):
                 self.products = data.products
+                DispatchQueue.main.async {
+                    self.add(asChildViewController: self.listViewController)
+                }
             case .failure(let error):
                 print(error)
             }

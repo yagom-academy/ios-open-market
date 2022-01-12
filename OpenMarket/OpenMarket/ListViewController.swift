@@ -8,9 +8,26 @@
 import UIKit
 
 class ListViewController: UIViewController {
+    //MARK: - IBOutlets
     
     @IBOutlet weak var collectionView: UICollectionView!
-    var products: [Product] = []
+    
+    //MARK: - Properties
+    
+    private var products: [Product]
+    
+    //MARK: - Initializer
+    
+    init?(products: [Product], coder: NSCoder) {
+        self.products = products
+        super.init(coder: coder)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("class does not support nscoder")
+    }
+    
+    //MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,13 +35,11 @@ class ListViewController: UIViewController {
         configureCollectionViewList()
         collectionView.dataSource = self
     }
-    
-    func reloadData() {
-        DispatchQueue.main.async {
-            self.collectionView.reloadData()
-        }
-    }
-    
+}
+
+//MARK: - Private Methods
+
+extension ListViewController {
     private func configureCollectionViewList() {
         let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
         let layout = UICollectionViewCompositionalLayout.list(using: configuration)
@@ -35,8 +50,9 @@ class ListViewController: UIViewController {
         let listNib = UINib(nibName: "ListCell", bundle: .main)
         collectionView.register(listNib, forCellWithReuseIdentifier: "listCell")
     }
-    
 }
+
+//MARK: - UICollectionViewDataSource
 
 extension ListViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -48,6 +64,7 @@ extension ListViewController: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         cell.configure(with: products[indexPath.row])
+        
         return cell
     }
 }
