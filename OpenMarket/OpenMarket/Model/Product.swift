@@ -30,7 +30,6 @@ extension Product {
         )
     }
     var attributedPrice: NSAttributedString {
-        let result = NSMutableAttributedString()
         if self.bargainPrice == 0.0 {
             let formattedPrice = price.formatted ?? price.description
             let price = NSAttributedString(
@@ -40,10 +39,10 @@ extension Product {
                     .foregroundColor: UIColor.systemGray
                 ]
             )
-            result.append(price)
-            return result
+            return price
         }
         
+        let priceWithBargainPrice = NSMutableAttributedString()
         let formattedOriginalPrice = price.formatted ?? price.description
         let originalPrice = NSAttributedString(
             string: currency.rawValue + " " + formattedOriginalPrice,
@@ -62,10 +61,10 @@ extension Product {
             ]
         )
         let blank = NSAttributedString(string: " ")
-        result.append(originalPrice)
-        result.append(blank)
-        result.append(bargainPrice)
-        return result
+        priceWithBargainPrice.append(originalPrice)
+        priceWithBargainPrice.append(blank)
+        priceWithBargainPrice.append(bargainPrice)
+        return priceWithBargainPrice
     }
     var attributedStock: NSAttributedString {
         if stock == 0 {
