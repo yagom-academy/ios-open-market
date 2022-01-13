@@ -3,7 +3,8 @@ import UIKit
 class ProductsTableViewController: UITableViewController {
     private let loadingActivityIndicator = UIActivityIndicatorView()
     private let reuseIdentifier = "productsListCell"
-    private var productsList: ProductsList?
+    private var pageInformation: ProductsList?
+    private var products = [Product]()
     private let jsonParser: JSONParser = {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SS"
@@ -19,7 +20,7 @@ class ProductsTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         startActivityIndicator()
-        loadProductsList()
+        loadProductsList(pageNumber: 1)
     }
     
     private func startActivityIndicator() {
@@ -35,14 +36,18 @@ class ProductsTableViewController: UITableViewController {
         loadingActivityIndicator.startAnimating()
     }
     
-    private func loadProductsList() {
-        networkTask.requestProductList(pageNumber: 1, itemsPerPage: 20) { result in
+    private func loadProductsList(pageNumber: Int) {
+        networkTask.requestProductList(pageNumber: pageNumber, itemsPerPage: 20) { result in
             switch result {
             case .success(let data):
-                self.productsList = try? self.jsonParser.decode(from: data)
+                guard let productsList: ProductsList = try? self.jsonParser.decode(
+                    from: data
+                ) else { return }
                 DispatchQueue.main.async {
-                    self.tableView.reloadData()
+                    self.pageInformation = productsList
+                    self.products.append(contentsOf: productsList.pages)
                     self.loadingActivityIndicator.stopAnimating()
+                    self.tableView.reloadData()
                 }
             case .failure(let error):
                 self.showAlert(
@@ -91,18 +96,18 @@ class ProductsTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return productsList?.pages.count ?? 0
+        return products.count
     }
     
     override func tableView(
         _ tableView: UITableView,
         cellForRowAt indexPath: IndexPath
     ) -> UITableViewCell {
+        let product = products[indexPath.row]
         guard let cell = tableView.dequeueReusableCell(
             withIdentifier: reuseIdentifier,
             for: indexPath
         ) as? ProductsTableViewCell,
-              let product = productsList?.pages[indexPath.row],
               let url = URL(string: product.thumbnail) else {
                   let cell = tableView.dequeueReusableCell(
                     withIdentifier: reuseIdentifier,
@@ -113,5 +118,19 @@ class ProductsTableViewController: UITableViewController {
         setupCellLabel(for: cell, from: product)
         setupCellImage(for: cell, from: url, indexPath: indexPath, tableView: tableView)
         return cell
+    }
+}
+
+extension ProductsTableViewController {
+    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        guard pageInformation?.hasNext == true else { return }
+        let contentOffsetY = scrollView.contentOffset.y
+        let tableViewContentSize = tableView.contentSize.height
+        let frameHeight = scrollView.frame.height
+
+        if contentOffsetY > tableViewContentSize - frameHeight {
+            guard let num = pageInformation?.pageNumber else { return }
+            loadProductsList(pageNumber: num + 1)
+        }
     }
 }
