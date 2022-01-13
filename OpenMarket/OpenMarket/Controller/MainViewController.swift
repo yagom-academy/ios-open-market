@@ -6,11 +6,17 @@
 
 import UIKit
 
+enum NetworkingState {
+    case idle
+    case isLoding
+}
+
 class MainViewController: UIViewController {
     private var page: Products?
     private var currentPage: UInt = 1
     private var productList: [Product] = []
     private var currentCellIdentifier = ProductCell.listIdentifier
+    private var networkingState = NetworkingState.idle
     
     @IBOutlet private weak var collectionView: ProductsCollectionView!
     @IBOutlet private weak var indicator: UIActivityIndicatorView!
@@ -32,13 +38,18 @@ class MainViewController: UIViewController {
     }
     
     private func requestProducts() {
+        guard networkingState == .idle else {
+            return
+        }
         let networkManager: NetworkManager = NetworkManager()
         guard let request = networkManager.requestListSearch(page: currentPage, itemsPerPage: 20) else {
             showAlert(message: Message.badRequest)
             return
         }
-        
+        networkingState = .isLoding
         networkManager.fetch(request: request, decodingType: Products.self) { result in
+            self.networkingState = .idle
+            
             switch result {
             case .success(let products):
                 self.setUpData(for: products)
