@@ -1,10 +1,8 @@
-import Foundation
 import UIKit
 
 extension URLRequest {
     init(url: URL, api: OpenMarketAPI) {
         self.init(url: url)
-        
         self.httpMethod = api.httpMethod
         
         switch api {

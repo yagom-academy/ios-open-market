@@ -154,6 +154,7 @@ private extension MainViewController {
         section.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5)
         
         let layout = UICollectionViewCompositionalLayout(section: section)
+        
         return layout
     }
     

@@ -37,6 +37,7 @@ class ProductListLayoutCell: UICollectionViewListCell {
     override var configurationState: UICellConfigurationState {
         var state = super.configurationState
         state.product = self.productItem
+        
         return state
     }
     
