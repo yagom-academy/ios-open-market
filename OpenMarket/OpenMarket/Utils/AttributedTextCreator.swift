@@ -8,8 +8,8 @@ struct AttributedTextCreator {
         
         guard let price = product.price.formattedToDecimal,
               let bargainPrice = product.bargainPrice.formattedToDecimal else {
-                  return nil
-              }
+            return nil
+        }
         
         let priceAttributedText = NSMutableAttributedString()
         let spacing = " "
