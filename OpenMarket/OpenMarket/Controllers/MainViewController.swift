@@ -74,7 +74,8 @@ class MainViewController: UIViewController {
 
     private func configNavigationBar() {
         self.navigationItem.titleView = layoutSegmentedControl
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "plus"), style: .plain, target: self, action: #selector(presentProductRegisterView))
+        let plusImage = UIImage(systemName: "plus")
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: plusImage, style: .plain, target: self, action: #selector(presentProductRegisterView))
     }
     
     @objc private func presentProductRegisterView() {
