@@ -12,7 +12,7 @@ class ProductsCollectionView: UICollectionView {
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         registerXib()
-        self.collectionViewLayout = setUpLayput()
+        self.collectionViewLayout = setUpLayout()
         isHidden = true
     }
     
@@ -28,7 +28,7 @@ class ProductsCollectionView: UICollectionView {
         register(listNibName, forCellWithReuseIdentifier: ProductCell.gridIdentifier)
     }
     
-    private func setUpLayput() -> UICollectionViewFlowLayout {
+    private func setUpLayout() -> UICollectionViewFlowLayout {
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.itemSize = listItemSize
         flowLayout.sectionInset = listSectionInset
