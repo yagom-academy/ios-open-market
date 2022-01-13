@@ -19,18 +19,55 @@ class CollectionViewController: UIViewController {
   private var dataSource: UICollectionViewDiffableDataSource<Section, Product>? = nil
   
   let api = APIManager(urlSession: URLSession(configuration: .default))
+  var products: [Product] = []
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    collectionView.dataSource = self
-    collectionView.delegate = self
-    
     let productCollectionViewGridCellNib =  UINib(nibName: "ProductCollectionViewGridCell", bundle: nil)
     self.collectionView.register(productCollectionViewGridCellNib, forCellWithReuseIdentifier: "ProductCollectionViewGridCell")
+    fetchProducts()
+    collectionView.delegate = self
+    
+  }
+  
+  func fetchProducts() {
+    api.productList(pageNumber: 1, itemsPerPage: 10) { response in
+      switch response {
+      case .success(let data):
+        self.products = data.pages
+        DispatchQueue.main.async {
+          self.configureGridViewDataSource()
+          self.collectionView.collectionViewLayout = self.createGridViewLayout()
+        }
+      case .failure(let error):
+        print(error)
+      }
+    }
   }
 }
 
 extension CollectionViewController {
+  private func createGridViewLayout() -> UICollectionViewLayout {
+    let layout = UICollectionViewCompositionalLayout {
+      (sectionIndex: Int, layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
+      let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
+      let item = NSCollectionLayoutItem(layoutSize: itemSize)
+      item.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 10, bottom: 5, trailing: 10)
+      
+      let groupHeight = NSCollectionLayoutDimension.fractionalWidth(0.677)
+      let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: groupHeight)
+      
+      let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 2)
+      let section = NSCollectionLayoutSection(group: group)
+      section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 0, bottom: 10, trailing: 0)
+      
+      return section
+    }
+    
+    
+    return layout
+  }
+  
   private func configureGridViewDataSource() {
     dataSource = UICollectionViewDiffableDataSource<Section, Product>(collectionView: collectionView) {
       (collectionView: UICollectionView, indexPath: IndexPath, item: Product) -> UICollectionViewCell? in
@@ -48,36 +85,10 @@ extension CollectionViewController {
       
       return cell
     }
-  }
-}
-
-extension CollectionViewController: UICollectionViewDataSource {
-  func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return 10
-  }
-  
-  func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProductCollectionViewGridCell", for: indexPath) as? ProductCollectionViewGridCell else {
-      return UICollectionViewCell()
-    }
-    api.productList(pageNumber: 1, itemsPerPage: 10) { response in
-      switch response {
-      case .success(let data):
-        let product = data.pages[indexPath.item]
-        guard let imageURL = URL(string: product.thumbnail) else {
-          return
-        }
-        guard let imageData = try? Data(contentsOf: imageURL), let image = UIImage(data: imageData) else {
-          return
-        }
-        DispatchQueue.main.async {
-          cell.insertCellData(image: image, name: product.name, fixedPrice: product.fixedPrice, bargainPrice: product.getBargainPrice, stock: product.getStock)
-        }
-      case .failure(let error):
-        print(error)
-      }
-    }
-    return cell
+    var snapshot = NSDiffableDataSourceSnapshot<Section, Product>()
+    snapshot.appendSections([.main])
+    snapshot.appendItems(products)
+    dataSource?.apply(snapshot, animatingDifferences: false)
   }
 }
 
