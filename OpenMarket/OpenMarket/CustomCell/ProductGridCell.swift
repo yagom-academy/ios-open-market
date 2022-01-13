@@ -26,7 +26,7 @@ class ProductGridCell: UICollectionViewCell {
         setupStockLabel(with: product)
     }
     
-    func setupImage(with product: ProductDetail) {
+    private func setupImage(with product: ProductDetail) {
         guard let imageURL = URL(string: product.thumbnail),
             let imageData = try? Data(contentsOf: imageURL),
            let image = UIImage(data: imageData) else {
@@ -36,11 +36,11 @@ class ProductGridCell: UICollectionViewCell {
         gridThumbnailImage.image = image
     }
     
-    func setupNameLabel(with product: ProductDetail) {
+    private func setupNameLabel(with product: ProductDetail) {
         gridNameLabel.text = product.name
     }
     
-    func setupPriceLabel(with product: ProductDetail) {
+    private func setupPriceLabel(with product: ProductDetail) {
         let currentPriceText = product.currency + StringSeparator.blank + String(product.price.addComma())
         if product.discountedPrice == 0 {
             gridPriceLabel.attributedText = NSAttributedString(string: currentPriceText)
@@ -56,7 +56,7 @@ class ProductGridCell: UICollectionViewCell {
         }
     }
     
-    func setupStockLabel(with product: ProductDetail) {
+    private func setupStockLabel(with product: ProductDetail) {
         if product.stock == 0 {
             gridStockLabel.textColor = .systemOrange
             gridStockLabel.text = LabelString.outOfStock

@@ -20,7 +20,7 @@ class ProductListCell: UICollectionViewListCell {
         setupStockLabel(with: product)
     }
     
-    func setupImage(with product: ProductDetail) {
+    private func setupImage(with product: ProductDetail) {
         guard let imageURL = URL(string: product.thumbnail),
             let imageData = try? Data(contentsOf: imageURL),
            let image = UIImage(data: imageData) else {
@@ -30,11 +30,11 @@ class ProductListCell: UICollectionViewListCell {
         thumbnailImage.image = image
     }
     
-    func setupNameLabel(with product: ProductDetail) {
+    private func setupNameLabel(with product: ProductDetail) {
         nameLabel.text = product.name
     }
     
-    func setupPriceLabel(with product: ProductDetail) {
+    private func setupPriceLabel(with product: ProductDetail) {
         let currentPriceText = product.currency + StringSeparator.blank + String(product.price.addComma())
         if product.discountedPrice == 0 {
             priceLabel.attributedText = NSAttributedString(string: currentPriceText)
@@ -50,7 +50,7 @@ class ProductListCell: UICollectionViewListCell {
         }
     }
     
-    func setupStockLabel(with product: ProductDetail) {
+    private func setupStockLabel(with product: ProductDetail) {
         if product.stock == 0 {
             stockLabel.textColor = .systemOrange
             stockLabel.text = LabelString.outOfStock
