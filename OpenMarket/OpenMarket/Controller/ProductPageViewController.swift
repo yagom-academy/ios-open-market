@@ -10,9 +10,9 @@ class ProductPageViewController: UIViewController {
     
     @IBOutlet var collectionView: UICollectionView!
     @IBOutlet var segmentedControl: UISegmentedControl!
+    @IBOutlet weak var loadIndicatorView: UIActivityIndicatorView!
     
     var dataSource: UICollectionViewDiffableDataSource<Int, Product>?
-    
     var currentPage: Int = 1
     var itemsPerPage: Int = 10
     var page: Page?
@@ -40,6 +40,7 @@ class ProductPageViewController: UIViewController {
         configureDatasource()
         fetchPage()
         segmentedControl.selectedSegmentIndex = 1
+        loadIndicatorView.stopAnimating()
     }
     
     @objc
@@ -47,7 +48,7 @@ class ProductPageViewController: UIViewController {
         itemsPerPage = 10
         fetchPage()
         DispatchQueue.global().async {
-            Thread.sleep(forTimeInterval: 1.5)
+            Thread.sleep(forTimeInterval: 2)
             DispatchQueue.main.async {
                 self.refControl.endRefreshing()
             }
@@ -55,16 +56,23 @@ class ProductPageViewController: UIViewController {
     }
     
     @IBAction func segmentedControlChanged(_ sender: UISegmentedControl) {
+        view.bringSubviewToFront(loadIndicatorView)
+        loadIndicatorView.isHidden = false
+        loadIndicatorView.startAnimating()
+        collectionView.isHidden = true
         
-        switch sender.selectedSegmentIndex {
-        case 0:
-            collectionView.setCollectionViewLayout(createListLayout(), animated: false)
-        default:
-            collectionView.setCollectionViewLayout(createLayout(), animated: false)
+        DispatchQueue.global().async {
+            Thread.sleep(forTimeInterval: 1.5)
+            DispatchQueue.main.async {
+                self.loadIndicatorView.stopAnimating()
+                self.collectionView.isHidden = false
+            }
         }
-        
+        sender.selectedSegmentIndex == 0 ?
+            collectionView.setCollectionViewLayout(createListLayout(), animated: false)
+            : collectionView.setCollectionViewLayout(createLayout(), animated: false)
+        collectionView.reloadData()
         fetchPage()
-        
     }
     
 }
@@ -154,9 +162,11 @@ extension ProductPageViewController {
             URLSessionProvider(session: URLSession.shared).requestImage(from: item.thumbnail) { result in
                 
                 DispatchQueue.main.async {
+                    let imageWidth = self.collectionView.contentSize.width / 6
                     switch result {
                     case .success(let data):
                         content.image = data
+                        content.imageProperties.maximumSize = CGSize(width: imageWidth, height: imageWidth)
                         cell.contentConfiguration = content
                     case .failure:
                         content.image = UIImage(named: "Image")!
