@@ -48,7 +48,7 @@
 		EAB8FC1D2787DC900036A4E3 /* Vendors.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAB8FC172787DC290036A4E3 /* Vendors.swift */; };
 		EAC5F3B9278EA60400AD2DA5 /* ProductListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAC5F3B7278EA60400AD2DA5 /* ProductListCell.swift */; };
 		EAC5F3BA278EA60400AD2DA5 /* ProductListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EAC5F3B8278EA60400AD2DA5 /* ProductListCell.xib */; };
-		EAC5F3BC278EBE9800AD2DA5 /* ProductListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAC5F3BB278EBE9800AD2DA5 /* ProductListView.swift */; };
+		EAC5F3BC278EBE9800AD2DA5 /* OpenMarketViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAC5F3BB278EBE9800AD2DA5 /* OpenMarketViewLayout.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -97,7 +97,7 @@
 		EAB8FC172787DC290036A4E3 /* Vendors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vendors.swift; sourceTree = "<group>"; };
 		EAC5F3B7278EA60400AD2DA5 /* ProductListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductListCell.swift; sourceTree = "<group>"; };
 		EAC5F3B8278EA60400AD2DA5 /* ProductListCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProductListCell.xib; sourceTree = "<group>"; };
-		EAC5F3BB278EBE9800AD2DA5 /* ProductListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductListView.swift; sourceTree = "<group>"; };
+		EAC5F3BB278EBE9800AD2DA5 /* OpenMarketViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketViewLayout.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -202,7 +202,7 @@
 				C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */,
 				C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */,
 				C70FB0FE25BEF61C00C9924E /* ViewController.swift */,
-				EAC5F3BB278EBE9800AD2DA5 /* ProductListView.swift */,
+				EAC5F3BB278EBE9800AD2DA5 /* OpenMarketViewLayout.swift */,
 				47321080278FF59F0052EEB1 /* CustomCell */,
 				C70FB10025BEF61C00C9924E /* Main.storyboard */,
 				C70FB10325BEF61D00C9924E /* Assets.xcassets */,
@@ -421,7 +421,7 @@
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
 				470F81762782F51A006B4734 /* JSONParser.swift in Sources */,
 				470F81742782E8AC006B4734 /* ProductList.swift in Sources */,
-				EAC5F3BC278EBE9800AD2DA5 /* ProductListView.swift in Sources */,
+				EAC5F3BC278EBE9800AD2DA5 /* OpenMarketViewLayout.swift in Sources */,
 				EAB8FC182787DC290036A4E3 /* Vendors.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				EAB8FC0F2787DB770036A4E3 /* URLSessionError.swift in Sources */,

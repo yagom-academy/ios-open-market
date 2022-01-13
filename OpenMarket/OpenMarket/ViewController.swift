@@ -8,8 +8,9 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var segmentedControl: UISegmentedControl!
     let apiManager = APIManager()
-    let collectionView = ProductListView()
+    let collectionView = UICollectionView(frame: .zero, collectionViewLayout: OpenMarketViewLayout.list)
     var dataSource: UICollectionViewDiffableDataSource<Section, ProductDetail>?
+    var isListLayout = true
     
     override func loadView() {
         view = collectionView
@@ -18,6 +19,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         collectionView.register(UINib(nibName: "ProductListCell", bundle: nil), forCellWithReuseIdentifier: ProductListCell.identifier)
+        collectionView.register(UINib(nibName: "ProductGridCell", bundle: nil), forCellWithReuseIdentifier: ProductGridCell.identifier)
         setupCollectionView()
         getProducts()
         segmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.systemBlue], for: .normal)
