@@ -15,15 +15,12 @@ struct AttributedTextCreator {
         let spacing = " "
         
         if product.discountedPrice == 0 {
-            return NSMutableAttributedString
-                .normalStyle(string: "\(product.currency.unit) \(price)")
+            return NSMutableAttributedString.normalStyle(string: "\(product.currency.unit) \(price)")
         }
         
-        priceAttributedText.append(NSMutableAttributedString
-                                    .strikeThroughStyle(string: "\(product.currency.unit) \(price)"))
+        priceAttributedText.append(NSMutableAttributedString.strikeThroughStyle(string: "\(product.currency.unit) \(price)"))
         priceAttributedText.append(NSMutableAttributedString.normalStyle(string: spacing))
-        priceAttributedText.append(NSMutableAttributedString
-                                    .normalStyle(string: "\(product.currency.unit) \(bargainPrice)"))
+        priceAttributedText.append(NSMutableAttributedString.normalStyle(string: "\(product.currency.unit) \(bargainPrice)"))
         
         return priceAttributedText
     }
@@ -42,7 +39,6 @@ struct AttributedTextCreator {
             return attributedString
         }
         
-        return NSMutableAttributedString
-            .normalStyle(string: "잔여수량 : \(product.stock)")
+        return NSMutableAttributedString.normalStyle(string: "잔여수량 : \(product.stock)")
     }
 }
