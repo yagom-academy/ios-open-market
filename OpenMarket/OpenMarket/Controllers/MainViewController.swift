@@ -1,6 +1,6 @@
 import UIKit
 
-private enum Section: Hashable {
+private enum ProductSection: Hashable {
     case main
 }
 
@@ -8,8 +8,8 @@ class MainViewController: UIViewController {
     private var productListCollectionView: UICollectionView!
     private var productGridCollectionView: UICollectionView!
     private var layoutSegmentedControl: LayoutSegmentedControl!
-    private var listDataSource: UICollectionViewDiffableDataSource<Section, ProductDetail>?
-    private var gridDataSource: UICollectionViewDiffableDataSource<Section, ProductDetail>?
+    private var listDataSource: UICollectionViewDiffableDataSource<ProductSection, ProductDetail>?
+    private var gridDataSource: UICollectionViewDiffableDataSource<ProductSection, ProductDetail>?
     private var productData: [ProductDetail] = []
     
     private lazy var activityIndicator: UIActivityIndicatorView = {
@@ -119,11 +119,11 @@ private extension MainViewController {
             cell.accessories = [.disclosureIndicator()]
         }
         
-        listDataSource = UICollectionViewDiffableDataSource<Section, ProductDetail>(collectionView: productListCollectionView) { (collectionView, indexPath, product) -> UICollectionViewCell? in
+        listDataSource = UICollectionViewDiffableDataSource<ProductSection, ProductDetail>(collectionView: productListCollectionView) { (collectionView, indexPath, product) -> UICollectionViewCell? in
             return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: product)
         }
         
-        var snapshot = NSDiffableDataSourceSnapshot<Section, ProductDetail>()
+        var snapshot = NSDiffableDataSourceSnapshot<ProductSection, ProductDetail>()
         snapshot.appendSections([.main])
         snapshot.appendItems(productData)
         listDataSource?.apply(snapshot)
@@ -171,11 +171,11 @@ private extension MainViewController {
             cell.layer.cornerRadius = 10
         }
         
-        gridDataSource = UICollectionViewDiffableDataSource<Section, ProductDetail>(collectionView: productGridCollectionView) { (collectionView, indexPath, product) -> UICollectionViewCell? in
+        gridDataSource = UICollectionViewDiffableDataSource<ProductSection, ProductDetail>(collectionView: productGridCollectionView) { (collectionView, indexPath, product) -> UICollectionViewCell? in
             return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: product)
         }
         
-        var snapshot = NSDiffableDataSourceSnapshot<Section, ProductDetail>()
+        var snapshot = NSDiffableDataSourceSnapshot<ProductSection, ProductDetail>()
         snapshot.appendSections([.main])
         snapshot.appendItems(productData)
         gridDataSource?.apply(snapshot)
