@@ -6,7 +6,7 @@
 
 import UIKit
 
-class ProductPageViewController: UIViewController {
+class ProductPageViewController: UIViewController, LayoutSwitchable {
     
     @IBOutlet var collectionView: UICollectionView!
     @IBOutlet var segmentedControl: UISegmentedControl!
@@ -25,6 +25,8 @@ class ProductPageViewController: UIViewController {
         }
     }
     var refControl = UIRefreshControl()
+    
+    var isGridLayout: Bool = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,13 +58,16 @@ class ProductPageViewController: UIViewController {
     }
     
     @IBAction func segmentedControlChanged(_ sender: UISegmentedControl) {
+        
+        isGridLayout.toggle()
+        
         view.bringSubviewToFront(loadIndicatorView)
         loadIndicatorView.isHidden = false
         loadIndicatorView.startAnimating()
         collectionView.isHidden = true
-        
+
         DispatchQueue.global().async {
-            Thread.sleep(forTimeInterval: 1.5)
+            Thread.sleep(forTimeInterval: 1)
             DispatchQueue.main.async {
                 self.loadIndicatorView.stopAnimating()
                 self.collectionView.isHidden = false
@@ -115,12 +120,14 @@ extension ProductPageViewController {
     private func configureDatasource() {
         let cellRegistration = UICollectionView.CellRegistration<GridLayoutCell, Product> { (cell, indexPath, identifier) in
             
+            cell.delegate = self
             cell.configureContents(imageURL: identifier.thumbnail,
                                    productName: identifier.name,
                                    price: identifier.price.description,
                                    discountedPrice: identifier.discountedPrice.description,
                                    currency: identifier.currency,
                                    stock: String(identifier.stock))
+            
             cell.layer.borderWidth = 1
             cell.layer.borderColor = UIColor.systemGray.cgColor
             cell.layer.cornerRadius = 10
@@ -128,63 +135,8 @@ extension ProductPageViewController {
             
         }
         
-        let listCellRegistration = UICollectionView.CellRegistration<UICollectionViewListCell, Product> { (cell, indexPath, item) in
-            
-            var content = UIListContentConfiguration.subtitleCell()
-            
-            content.text = item.name
-            content.secondaryText = item.price.description
-            
-            if item.discountedPrice == 0  {
-                
-                content.secondaryText = "\(item.currency) \(item.price)"
-                
-            } else {
-                
-                let attributeString = NSMutableAttributedString(string: "\(item.currency) \(item.discountedPrice)")
-                attributeString.addAttribute(
-                    NSAttributedString.Key.strikethroughStyle,
-                    value: 2,
-                    range: NSMakeRange(0, attributeString.length)
-                )
-                
-                let twoAttributeString = NSMutableAttributedString(string: " \(item.currency) \(item.price)")
-                
-                attributeString.append(twoAttributeString)
-                
-                content.secondaryAttributedText = attributeString
-                
-                
-            }
-            
-            content.image = UIImage(named: "Image")!
-            
-            URLSessionProvider(session: URLSession.shared).requestImage(from: item.thumbnail) { result in
-                
-                DispatchQueue.main.async {
-                    let imageWidth = self.collectionView.contentSize.width / 6
-                    switch result {
-                    case .success(let data):
-                        content.image = data
-                        content.imageProperties.maximumSize = CGSize(width: imageWidth, height: imageWidth)
-                        cell.contentConfiguration = content
-                    case .failure:
-                        content.image = UIImage(named: "Image")!
-                        cell.contentConfiguration = content
-                    }
-                }
-            }
-            
-        }
-        
         dataSource = UICollectionViewDiffableDataSource<Int, Product>(collectionView: collectionView) { (collectionView, indexPath, identifier) -> UICollectionViewCell? in
-            
-            switch self.segmentedControl.selectedSegmentIndex {
-            case 1:
-                return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: identifier)
-            default:
-                return collectionView.dequeueConfiguredReusableCell(using: listCellRegistration, for: indexPath, item: identifier)
-            }
+            return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: identifier)
         }
     }
     

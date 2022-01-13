@@ -7,18 +7,27 @@
 
 import UIKit
 
+protocol LayoutSwitchable: AnyObject {
+    
+    var isGridLayout: Bool { get set }
+    
+}
+
 class GridLayoutCell: UICollectionViewCell {
     static var reuseIdentifier: String { "gridCell" }
     
+    var containerStackView = UIStackView()
     var stackView = UIStackView()
     var imageView = UIImageView()
+    var productStackView = UIStackView()
     var productNameLabel = UILabel()
     var priceStackView = UIStackView()
     var stockLabel = UILabel()
     
+    weak var delegate: LayoutSwitchable?
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
-        configureCellLayout()
     }
     
     required init?(coder: NSCoder) {
@@ -26,6 +35,61 @@ class GridLayoutCell: UICollectionViewCell {
     }
     
     private func configureCellLayout() {
+        
+        guard let delegate = delegate else {
+            print("닐리리야")
+            return
+        }
+        
+        switch delegate.isGridLayout {
+        case true:
+            configureGridCellLayout()
+        case false:
+            configureListCellLayout()
+        }
+    }
+    
+    private func configureListCellLayout() {
+        
+        self.addSubview(stackView)
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .horizontal
+        stackView.alignment = .top
+        stackView.distribution = .fillProportionally
+        stackView.spacing = 2
+        
+        NSLayoutConstraint.activate([
+            stackView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 10),
+            stackView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 10),
+            stackView.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -10),
+            stackView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor, constant: -10)
+        ])
+        
+        stackView.addArrangedSubview(imageView)
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            imageView.widthAnchor.constraint(equalTo: stackView.widthAnchor, multiplier: 0.2),
+            imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor)
+        ])
+        
+        stackView.addArrangedSubview(productStackView)
+        productStackView.axis = .vertical
+        productStackView.alignment = .leading
+        productStackView.distribution = .equalSpacing
+        productStackView.spacing = 2
+        
+        productStackView.addArrangedSubview(productNameLabel)
+        productStackView.addArrangedSubview(priceStackView)
+        
+        priceStackView.axis = .horizontal
+        priceStackView.alignment = .center
+        priceStackView.distribution = .equalSpacing
+        priceStackView.spacing = 2
+        
+        stackView.addArrangedSubview(stockLabel)
+    }
+    
+    private func configureGridCellLayout() {
         self.addSubview(stackView)
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
@@ -66,6 +130,8 @@ class GridLayoutCell: UICollectionViewCell {
     
     func configureContents(imageURL: String, productName: String, price: String,
                            discountedPrice: String?, currency: Currency, stock: String) {
+        
+        configureCellLayout()
         
         URLSessionProvider(session: URLSession.shared).requestImage(from: imageURL) { result in
             DispatchQueue.main.async {
