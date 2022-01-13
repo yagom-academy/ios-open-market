@@ -29,11 +29,13 @@ enum URLCreator {
 extension URLCreator {
     private func createURLQuery(queries: [String: String]) -> URL? {
         var components = URLComponents(string: URLCreator.baseURL)
+        var queryItems = [URLQueryItem]()
         
         queries.forEach { query in
             let queryItem = URLQueryItem(name: query.key, value: query.value)
-            components?.queryItems?.append(queryItem)
+            queryItems.append(queryItem)
         }
+        components?.queryItems = queryItems
         
         return components?.url
     }

@@ -33,7 +33,7 @@ class MainViewController: UIViewController {
         activityIndicator.startAnimating()
         
         let api = APIService()
-        api.retrieveProductList(pageNo: 0, itemsPerPage: 3) { result in
+        api.retrieveProductList(pageNo: 1, itemsPerPage: 30) { result in
             switch result {
             case .success(let data):
                 self.productData = data.pages
