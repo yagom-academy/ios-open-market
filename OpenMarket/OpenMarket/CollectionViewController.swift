@@ -44,6 +44,8 @@ extension CollectionViewController {
           return UICollectionViewCell()
       }
       
+      cell.insertCellData(image: image, name: item.name, fixedPrice: item.fixedPrice, bargainPrice: item.getBargainPrice, stock: item.getStock)
+      
       return cell
     }
   }
@@ -69,7 +71,7 @@ extension CollectionViewController: UICollectionViewDataSource {
           return
         }
         DispatchQueue.main.async {
-          cell.insertCellData(image: image, name: product.name, price: product.getPrice, bargainPrice: product.getBargainPrice, stock: product.getStock)
+          cell.insertCellData(image: image, name: product.name, fixedPrice: product.fixedPrice, bargainPrice: product.getBargainPrice, stock: product.getStock)
         }
       case .failure(let error):
         print(error)
@@ -86,7 +88,7 @@ extension CollectionViewController: UICollectionViewDelegate {
 extension CollectionViewController: UICollectionViewDelegateFlowLayout {
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
     let width = collectionView.frame.width
-    let size = CGSize(width: width / 2.1, height: width / 1.8)
+    let size = CGSize(width: width / 2.1, height: width / 1.65)
     
     return size
   }

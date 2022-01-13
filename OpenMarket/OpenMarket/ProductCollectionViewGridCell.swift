@@ -11,8 +11,9 @@ class ProductCollectionViewGridCell: UICollectionViewCell {
   
   @IBOutlet weak var productImageView: UIImageView!
   @IBOutlet weak var productNameLabel: UILabel!
-  @IBOutlet weak var productPriceLabel: UILabel!
+  @IBOutlet weak var productBargainLabel: UILabel!
   @IBOutlet weak var productStockLabel: UILabel!
+  @IBOutlet weak var productFixedPrice: UILabel!
   
   override func awakeFromNib() {
     super.awakeFromNib()
@@ -22,11 +23,14 @@ class ProductCollectionViewGridCell: UICollectionViewCell {
     contentView.layer.cornerRadius = 8
   }
   
-  func insertCellData(image: UIImage, name: String, price: String, bargainPrice: String , stock: String) {
+  func insertCellData(image: UIImage, name: String, fixedPrice: String, bargainPrice: String , stock: String) {
     productImageView.image = image
     productNameLabel.text = name
-    productPriceLabel.text = price
-    productPriceLabel.attributedText = price.strikeThrough(strikeTaget: bargainPrice)
+    productFixedPrice.attributedText = fixedPrice.strikeThrough(strikeTaget: fixedPrice)
+    if fixedPrice == bargainPrice {
+      productFixedPrice.isHidden = true
+    }
+    productBargainLabel.text = bargainPrice
     productStockLabel.text = stock
   }
 }

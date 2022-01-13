@@ -43,20 +43,22 @@ struct Product: Codable {
   let createdAt: String
   let issuedAt: String
   
-  var getBargainPrice: String {
-    return "\(currency.rawValue) \(bargainPrice)"
+  var fixedPrice: String {
+    let formattedPrice = PresentStyle.formatNumber(price)
+    return "\(currency.rawValue) \(formattedPrice)"
   }
   
-  var getPrice: String {
-    
-    return "\(currency.rawValue) \(bargainPrice)\n\(currency.rawValue) \(price)"
+  var getBargainPrice: String {
+    let formattedBargainPrice = PresentStyle.formatNumber(price)
+    return "\(currency.rawValue) \(formattedBargainPrice)"
   }
   
   var getStock: String {
     if stock == 0 {
       return "품절"
     }
-    return "잔여수량: \(stock)"
+    let formattedStock = PresentStyle.formatNumber(stock)
+    return "잔여수량: \(formattedStock)"
   }
   
   enum CodingKeys: String, CodingKey {
