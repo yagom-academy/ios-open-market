@@ -9,6 +9,7 @@ import UIKit
 final class MarketViewController: UIViewController {
     //MARK: - IBOutlets
     
+    @IBOutlet weak var segmentedControl: UISegmentedControl!
     @IBOutlet weak var collectionView: UICollectionView!
     
     //MARK: - Properties
@@ -36,6 +37,7 @@ final class MarketViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupSegmentedControl()
         fetchPage()
     }
 }
@@ -57,6 +59,15 @@ extension MarketViewController {
 //MARK: - Private Methods
 
 extension MarketViewController {
+    private func setupSegmentedControl() {
+        segmentedControl.setTitle("LIST", forSegmentAt: 0)
+        segmentedControl.setTitle("GRID", forSegmentAt: 1)
+        segmentedControl.selectedSegmentTintColor = .systemBlue
+        segmentedControl.backgroundColor = .white
+        segmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for: .selected)
+        segmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.systemBlue], for: .normal)
+    }
+    
     private func add(asChildViewController viewController: UIViewController) {
         addChild(viewController)
         view.addSubview(viewController.view)
