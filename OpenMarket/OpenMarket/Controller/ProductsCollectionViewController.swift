@@ -133,7 +133,10 @@ extension ProductsCollectionViewController: UICollectionViewDelegateFlowLayout {
         layout collectionViewLayout: UICollectionViewLayout,
         sizeForItemAt indexPath: IndexPath
     ) -> CGSize {
-        let width = collectionView.safeAreaLayoutGuide.layoutFrame.width / 2 - 15
-        return CGSize(width: width, height: width * 1.5)
+        let frameWidth = collectionView.frameLayoutGuide.layoutFrame.width
+        let frameHeight = collectionView.frameLayoutGuide.layoutFrame.height
+        let shortLength = frameWidth < frameHeight ? frameWidth : frameHeight
+        let cellWidth = shortLength / 2 - 15
+        return CGSize(width: cellWidth, height: cellWidth * 1.5)
     }
 }
