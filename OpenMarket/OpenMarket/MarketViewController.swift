@@ -11,7 +11,6 @@ final class MarketViewController: UIViewController {
     
     @IBOutlet weak var segmentedControl: UISegmentedControl!
     @IBOutlet weak var collectionView: UICollectionView!
-    @IBOutlet weak var loadingIndicator: UIActivityIndicatorView!
     
     //MARK: - Properties
     
@@ -34,10 +33,26 @@ final class MarketViewController: UIViewController {
         return viewController
     }()
     
+    private lazy var loadingIndicator: UIActivityIndicatorView = {
+        let loadingIndicator = UIActivityIndicatorView(style: .large)
+        loadingIndicator.isHidden = false
+        loadingIndicator.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(loadingIndicator)
+        
+        let horizontalConstraint = loadingIndicator.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
+        let verticalConstraint = loadingIndicator.centerYAnchor.constraint(equalTo: self.view.centerYAnchor)
+        
+        self.view.addConstraint(horizontalConstraint)
+        self.view.addConstraint(verticalConstraint)
+        
+        return loadingIndicator
+    }()
+    
     //MARK: - Lifecycle Methods
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         setupSegmentedControl()
         fetchPage()
     }
