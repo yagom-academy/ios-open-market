@@ -26,7 +26,7 @@ class ProductListLayoutCell: UICollectionViewListCell {
     }
     
     func updateWithProduct(from newProductItem: ProductDetail) {
-        guard productItem != newProductItem else {
+        if productItem == newProductItem {
             return
         }
         
