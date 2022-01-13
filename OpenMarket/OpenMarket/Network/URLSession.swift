@@ -25,7 +25,7 @@ class URLSessionProvider {
     }
     
     func getData(requestType: RequestType, completionHandler: @escaping (Result<Data, NetworkError>) -> Void) throws {
-        guard let url = URL(string: requestType.description) else {
+        guard let url = URL(string: requestType.url(type: requestType)) else {
             throw NetworkError.wrongURL
         }
         
