@@ -4,6 +4,22 @@ private enum ProductSection: Hashable {
     case main
 }
 
+private enum RequestInformation {
+    static let pageNumber = 1
+    static let itemsPerPage = 30
+}
+
+private enum Design {
+    static let indicatorFrame: CGRect = CGRect(x: 0, y: 0, width: 50, height: 50)
+    static let interItemSpacing: CGFloat = 15
+    static let interGroupSpacing: CGFloat = 10
+    static let columnCount = 2
+    static let sectionEdgeInsets: NSDirectionalEdgeInsets = NSDirectionalEdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5)
+    static let gridCellBorderWidth: CGFloat = 1
+    static let gridCellCornerRadius: CGFloat = 10
+    
+}
+
 class MainViewController: UIViewController {
     private var productListCollectionView: UICollectionView!
     private var productGridCollectionView: UICollectionView!
@@ -15,7 +31,7 @@ class MainViewController: UIViewController {
     private lazy var activityIndicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView()
         indicator.hidesWhenStopped = true
-        indicator.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
+        indicator.frame = Design.indicatorFrame
         indicator.center = view.center
         indicator.style = .large
         indicator.color = .black
@@ -33,7 +49,7 @@ class MainViewController: UIViewController {
         activityIndicator.startAnimating()
         
         let api = APIService()
-        api.retrieveProductList(pageNo: 1, itemsPerPage: 30) { result in
+        api.retrieveProductList(pageNo: RequestInformation.pageNumber, itemsPerPage: RequestInformation.itemsPerPage) { result in
             switch result {
             case .success(let data):
                 self.productData = data.pages
@@ -140,18 +156,16 @@ private extension MainViewController {
     }
     
     func createGridLayout() -> UICollectionViewLayout {
-        let spacing: CGFloat = 15
-        
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(self.view.frame.height * 0.35))
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 2)
-        group.interItemSpacing = .fixed(spacing)
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: Design.columnCount)
+        group.interItemSpacing = .fixed(Design.interItemSpacing)
         
         let section = NSCollectionLayoutSection(group: group)
-        section.interGroupSpacing = CGFloat(10)
-        section.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5)
+        section.interGroupSpacing = CGFloat(Design.interGroupSpacing)
+        section.contentInsets = Design.sectionEdgeInsets
         
         let layout = UICollectionViewCompositionalLayout(section: section)
         
@@ -168,9 +182,9 @@ private extension MainViewController {
         let cellRegistration = UICollectionView.CellRegistration<ProductGridLayoutCell, ProductDetail> { (cell, _, product) in
             cell.configUI(with: product)
             cell.layer.borderColor = UIColor.lightGray.cgColor
-            cell.layer.borderWidth = 1
+            cell.layer.borderWidth = Design.gridCellBorderWidth
             cell.layer.masksToBounds = true
-            cell.layer.cornerRadius = 10
+            cell.layer.cornerRadius = Design.gridCellCornerRadius
         }
         
         gridDataSource = UICollectionViewDiffableDataSource<ProductSection, ProductDetail>(collectionView: productGridCollectionView) { (collectionView, indexPath, product) -> UICollectionViewCell? in
