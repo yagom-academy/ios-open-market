@@ -76,17 +76,21 @@ class MainViewController: UIViewController {
 }
 
 extension MainViewController: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView,
-    numberOfItemsInSection section: Int) -> Int {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        numberOfItemsInSection section: Int) -> Int {
         return productList.count
     }
     
-    func collectionView(_ collectionView: UICollectionView,
-      cellForItemAt indexPath: IndexPath
+    func collectionView(
+        _ collectionView: UICollectionView,
+        cellForItemAt indexPath: IndexPath
     ) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: currentCellIdentifier,
-            for: indexPath) as? ProductCell else {
+            for: indexPath
+        ) as? ProductCell else
+        {
             showAlert(message: Message.unknownError)
             return UICollectionViewCell()
         }
@@ -98,9 +102,10 @@ extension MainViewController: UICollectionViewDataSource {
 }
 
 extension MainViewController: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        sizeForItemAt indexPath: IndexPath
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        sizeForItemAt indexPath: IndexPath
     ) -> CGSize {
         guard let productView = collectionView as? ProductsCollectionView else {
             return CGSize()
@@ -114,9 +119,10 @@ extension MainViewController: UICollectionViewDelegateFlowLayout {
         }
     }
     
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        insetForSectionAt section: Int
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        insetForSectionAt section: Int
     ) -> UIEdgeInsets {
         guard let productView = collectionView as? ProductsCollectionView else {
             return UIEdgeInsets()
@@ -125,9 +131,10 @@ extension MainViewController: UICollectionViewDelegateFlowLayout {
         productView.listSectionInset : productView.gridSectionInset
     }
     
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        minimumLineSpacingForSectionAt section: Int
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        minimumLineSpacingForSectionAt section: Int
     ) -> CGFloat {
         guard let productView = collectionView as? ProductsCollectionView else {
             return CGFloat()
@@ -136,9 +143,10 @@ extension MainViewController: UICollectionViewDelegateFlowLayout {
         productView.listMinimumLineSpacing : productView.gridMinimumLineSpacing
     }
     
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        minimumInteritemSpacingForSectionAt section: Int
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        minimumInteritemSpacingForSectionAt section: Int
     ) -> CGFloat {
         guard let productView = collectionView as? ProductsCollectionView else {
             return CGFloat()
