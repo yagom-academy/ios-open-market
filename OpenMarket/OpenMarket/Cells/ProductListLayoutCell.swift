@@ -45,9 +45,9 @@ class ProductListLayoutCell: UICollectionViewListCell {
             return
         }
         
-        [listContentView, stockLabel].forEach {
-            contentView.addSubview($0)
-            $0.translatesAutoresizingMaskIntoConstraints = false
+        [listContentView, stockLabel].forEach { view in
+            contentView.addSubview(view)
+            view.translatesAutoresizingMaskIntoConstraints = false
         }
         
         listContentView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
