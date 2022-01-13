@@ -32,4 +32,22 @@ final class Network: Networkable {
         }.resume()
     }
     
+    func execute(url: URL, completion: @escaping (Result<Data?, Error>) -> Void) {
+        session.dataTask(with: url) { data, response, error in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+            guard let response = response as? HTTPURLResponse else {
+                completion(.failure(NetworkError.responseCasting))
+                return
+            }
+            guard (200...299).contains(response.statusCode) else {
+                completion(.failure(NetworkError.statusCode(response.statusCode)))
+                return
+            }
+            completion(.success(data))
+        }.resume()
+    }
+    
 }

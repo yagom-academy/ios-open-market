@@ -177,9 +177,7 @@ extension MainViewController: UICollectionViewDelegate {
         if heightRemainBottomHeight < frameHeight ,
            let hasNextPage = page?.hasNext, hasNextPage {
             currentPage += 1
-            DispatchQueue.global().async {
-                self.requestProducts()
-            }
+            self.requestProducts()
         }
     }
 }
