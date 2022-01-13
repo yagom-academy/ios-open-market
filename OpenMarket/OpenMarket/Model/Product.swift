@@ -12,6 +12,8 @@ enum Currency: String, Codable {
   case USD
 }
 
+extension Currency: Hashable { }
+
 /**
  상품 정보의 모델타입입니다.
 */
@@ -67,4 +69,6 @@ struct Product: Codable {
     case issuedAt = "issued_at"
   }
 }
+
+extension Product: Hashable { }
 

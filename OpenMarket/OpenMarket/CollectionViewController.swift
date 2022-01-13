@@ -7,10 +7,16 @@
 
 import UIKit
 
+private enum Section: Hashable {
+  case main
+}
+
 class CollectionViewController: UIViewController {
   
   @IBOutlet weak var segmentControl: UISegmentedControl!
   @IBOutlet weak var collectionView: UICollectionView!
+  
+  private var dataSource: UICollectionViewDiffableDataSource<Section, Product>? = nil
   
   let api = APIManager(urlSession: URLSession(configuration: .default))
 
@@ -21,6 +27,25 @@ class CollectionViewController: UIViewController {
     
     let productCollectionViewGridCellNib =  UINib(nibName: "ProductCollectionViewGridCell", bundle: nil)
     self.collectionView.register(productCollectionViewGridCellNib, forCellWithReuseIdentifier: "ProductCollectionViewGridCell")
+  }
+}
+
+extension CollectionViewController {
+  private func configureGridViewDataSource() {
+    dataSource = UICollectionViewDiffableDataSource<Section, Product>(collectionView: collectionView) {
+      (collectionView: UICollectionView, indexPath: IndexPath, item: Product) -> UICollectionViewCell? in
+      guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProductCollectionViewGridCell", for: indexPath) as? ProductCollectionViewGridCell else {
+        return UICollectionViewCell()
+      }
+      
+      guard let imageUrl = URL(string: item.thumbnail),
+        let imageData = try? Data(contentsOf: imageUrl),
+        let image = UIImage(data: imageData) else {
+          return UICollectionViewCell()
+      }
+      
+      return cell
+    }
   }
 }
 
