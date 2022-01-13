@@ -1,5 +1,10 @@
 import UIKit
 
+private enum Stock {
+    static let soldOut = "품절"
+    static let remainingTitle = "잔여수량 :"
+}
+
 struct AttributedTextCreator {
     static func createPriceText(product: ProductDetail?) -> NSMutableAttributedString? {
         guard let product = product else {
@@ -26,7 +31,7 @@ struct AttributedTextCreator {
     }
     
     static func createStockText(product: ProductDetail?) -> NSMutableAttributedString? {
-        let soldOut = "품절"
+        let soldOut = Stock.soldOut
         
         guard let product = product else {
             return nil
@@ -39,6 +44,6 @@ struct AttributedTextCreator {
             return attributedString
         }
         
-        return NSMutableAttributedString.normalStyle(string: "잔여수량 : \(product.stock)")
+        return NSMutableAttributedString.normalStyle(string: "\(Stock.remainingTitle) \(product.stock)")
     }
 }
