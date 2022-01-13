@@ -8,19 +8,21 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var segmentedControl: UISegmentedControl!
     let apiManager = APIManager()
-    let collectionView = UICollectionView(frame: .zero, collectionViewLayout: OpenMarketViewLayout.list)
-    var dataSource: UICollectionViewDiffableDataSource<Section, ProductDetail>?
-    var isListLayout = true
+    let listCollectionView = UICollectionView(frame: .zero, collectionViewLayout: OpenMarketViewLayout.list)
+    let gridCollectionView = UICollectionView(frame: .zero, collectionViewLayout: OpenMarketViewLayout.grid)
+    var listDataSource: UICollectionViewDiffableDataSource<Section, ProductDetail>?
+    var gridDataSource: UICollectionViewDiffableDataSource<Section, ProductDetail>?
     
     override func loadView() {
-        view = collectionView
+        view = listCollectionView
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        collectionView.register(UINib(nibName: "ProductListCell", bundle: nil), forCellWithReuseIdentifier: ProductListCell.identifier)
-        collectionView.register(UINib(nibName: "ProductGridCell", bundle: nil), forCellWithReuseIdentifier: ProductGridCell.identifier)
-        setupCollectionView()
+        listCollectionView.register(UINib(nibName: "ProductListCell", bundle: nil), forCellWithReuseIdentifier: ProductListCell.identifier)
+        gridCollectionView.register(UINib(nibName: "ProductGridCell", bundle: nil), forCellWithReuseIdentifier: ProductGridCell.identifier)
+        setupListCollectionView()
+        setupGridCollectionView()
         getProducts()
         segmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.systemBlue], for: .normal)
         segmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for: .selected)
@@ -37,49 +39,42 @@ class ViewController: UIViewController {
         }
     }
     
-    func setupCollectionView() {
-        dataSource = UICollectionViewDiffableDataSource<Section, ProductDetail>(collectionView: collectionView) { collectionView, indexPath, product in
+    func setupListCollectionView() {
+        listDataSource = UICollectionViewDiffableDataSource<Section, ProductDetail>(collectionView: listCollectionView) { collectionView, indexPath, product in
             
-            if self.isListLayout {
-                return self.productListCell(indexPath: indexPath, with: product)
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProductListCell.identifier, for: indexPath) as? ProductListCell else {
+                return UICollectionViewListCell()
             }
-            return self.productGridCell(indexPath: indexPath, with: product)
+            cell.setup(with: product)
+            return cell
         }
     }
     
-    func productListCell(indexPath: IndexPath, with product: ProductDetail) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProductListCell.identifier, for: indexPath) as? ProductListCell else {
-            return UICollectionViewListCell()
+    func setupGridCollectionView() {
+        gridDataSource = UICollectionViewDiffableDataSource<Section, ProductDetail>(collectionView: gridCollectionView) { collectionView, indexPath, product in
+            
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProductGridCell.identifier, for: indexPath) as? ProductGridCell else {
+                return UICollectionViewListCell()
+            }
+            cell.setup(with: product)
+            return cell
         }
-        cell.setup(with: product)
-        return cell
-    }
-    
-    func productGridCell(indexPath: IndexPath, with product: ProductDetail) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProductGridCell.identifier, for: indexPath) as? ProductGridCell else {
-            return UICollectionViewListCell()
-        }
-        cell.setup(with: product)
-        return cell
     }
     
     func populate(with products: [ProductDetail]) {
         var snapshot = NSDiffableDataSourceSnapshot<Section, ProductDetail>()
         snapshot.appendSections([.main])
         snapshot.appendItems(products)
-        dataSource?.apply(snapshot)
+        listDataSource?.apply(snapshot)
+        gridDataSource?.apply(snapshot)
     }
     
     @IBAction func segementChanged(_ sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex {
         case 0:
-            isListLayout = true
-            collectionView.collectionViewLayout = OpenMarketViewLayout.list
-            collectionView.reloadData()
+            view = listCollectionView
         case 1:
-            isListLayout = false
-            collectionView.collectionViewLayout = OpenMarketViewLayout.grid
-            collectionView.reloadData()
+            view = gridCollectionView
         default:
             return
         }
