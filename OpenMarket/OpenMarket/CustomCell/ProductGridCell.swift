@@ -1,10 +1,3 @@
-//
-//  ProductGridCell.swift
-//  OpenMarket
-//
-//  Created by Seul Mac on 2022/01/13.
-//
-
 import UIKit
 
 class ProductGridCell: UICollectionViewCell {
@@ -18,7 +11,6 @@ class ProductGridCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
     }
     
     override func draw(_ rect: CGRect) {
@@ -66,9 +58,11 @@ class ProductGridCell: UICollectionViewCell {
     
     func setupStockLabel(with product: ProductDetail) {
         if product.stock == 0 {
-            gridStockLabel.text = LabelString.outOfStock
             gridStockLabel.textColor = .systemOrange
+            gridStockLabel.text = LabelString.outOfStock
+            
         } else {
+            gridStockLabel.textColor = .systemGray
             gridStockLabel.text = LabelString.stockTitle + String(product.stock)
         }
     }

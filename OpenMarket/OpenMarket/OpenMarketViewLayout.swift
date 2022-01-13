@@ -14,7 +14,7 @@ struct OpenMarketViewLayout {
         layout.minimumInteritemSpacing = 0
         layout.minimumLineSpacing = 10
         let halfWidth: CGFloat = UIScreen.main.bounds.width / 2.0
-        layout.itemSize = CGSize(width: halfWidth - 15, height: 280)
+        layout.itemSize = CGSize(width: halfWidth - 15, height: 260)
         return layout
     }()
     

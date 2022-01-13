@@ -11,7 +11,6 @@ class ProductListCell: UICollectionViewListCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
     }
     
     func setup(with product: ProductDetail) {
@@ -53,11 +52,13 @@ class ProductListCell: UICollectionViewListCell {
     
     func setupStockLabel(with product: ProductDetail) {
         if product.stock == 0 {
-            stockLabel.text = LabelString.outOfStock
             stockLabel.textColor = .systemOrange
+            stockLabel.text = LabelString.outOfStock
         } else {
+            stockLabel.textColor = .systemGray
             stockLabel.text = LabelString.stockTitle + String(product.stock)
         }
+        
     }
     
 }
