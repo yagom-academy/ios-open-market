@@ -43,9 +43,9 @@ class ProductsTableViewController: UITableViewController {
                 guard let productsList: ProductsList = try? self.jsonParser.decode(
                     from: data
                 ) else { return }
+                self.pageInformation = productsList
+                self.products.append(contentsOf: productsList.pages)
                 DispatchQueue.main.async {
-                    self.pageInformation = productsList
-                    self.products.append(contentsOf: productsList.pages)
                     self.loadingActivityIndicator.stopAnimating()
                     self.tableView.reloadData()
                 }
