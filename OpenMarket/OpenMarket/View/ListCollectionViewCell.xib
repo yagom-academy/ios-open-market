@@ -26,7 +26,7 @@
                     <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="c9w-A2-fX1">
                         <rect key="frame" x="8" y="0.0" width="380" height="81"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="mac mini" translatesAutoresizingMaskIntoConstraints="NO" id="EUv-nb-uvq">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="macMini" translatesAutoresizingMaskIntoConstraints="NO" id="EUv-nb-uvq">
                                 <rect key="frame" x="0.0" y="0.0" width="81" height="81"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="EUv-nb-uvq" secondAttribute="height" multiplier="1:1" id="oVG-ba-vIL"/>
@@ -111,7 +111,7 @@
     </objects>
     <resources>
         <image name="chevron.right" catalog="system" width="96" height="128"/>
-        <image name="mac mini" width="324" height="260"/>
+        <image name="macMini" width="324" height="260"/>
         <systemColor name="systemGray5Color">
             <color red="0.89803921568627454" green="0.89803921568627454" blue="0.91764705882352937" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>

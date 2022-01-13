@@ -22,7 +22,7 @@
                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Xs2-V8-Nju">
                         <rect key="frame" x="5" y="5" width="160" height="230"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="mac book" translatesAutoresizingMaskIntoConstraints="NO" id="2vy-Hf-ngl">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="macBook" translatesAutoresizingMaskIntoConstraints="NO" id="2vy-Hf-ngl">
                                 <rect key="frame" x="0.0" y="0.0" width="160" height="130"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="130" id="sUG-rZ-wTF"/>
@@ -83,7 +83,7 @@
         </collectionViewCell>
     </objects>
     <resources>
-        <image name="mac book" width="904" height="840"/>
+        <image name="macBook" width="904" height="840"/>
         <systemColor name="systemGrayColor">
             <color red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
