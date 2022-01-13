@@ -7,6 +7,8 @@
 import UIKit
 
 class MainViewController: UIViewController {
+    private var page: Products?
+    private var currentPage: UInt = 1
     private var productList: [Product] = []
     private var currentCellIdentifier = ProductCell.listIdentifier
     
@@ -29,6 +31,31 @@ class MainViewController: UIViewController {
         requestProducts()
     }
     
+    private func requestProducts() {
+        let networkManager: NetworkManager = NetworkManager()
+        guard let request = networkManager.requestListSearch(page: currentPage, itemsPerPage: 20) else {
+            showAlert(message: Message.badRequest)
+            return
+        }
+        
+        networkManager.fetch(request: request, decodingType: Products.self) { result in
+            switch result {
+            case .success(let products):
+                self.setUpData(for: products)
+            case .failure(let error):
+                DispatchQueue.main.async {
+                    self.showAlert(message: error.localizedDescription)
+                }
+            }
+        }
+    }
+    
+    private func setUpData(for products: Products) {
+        page = products
+        productList.append(contentsOf: products.pages)
+        currentPage == 1 ? collectionViewLoad() : collectionViewReload()
+    }
+    
     private func collectionViewLoad() {
         DispatchQueue.main.async {
             self.collectionView.dataSource = self
@@ -39,23 +66,9 @@ class MainViewController: UIViewController {
         }
     }
     
-    private func requestProducts() {
-        let networkManager: NetworkManager = NetworkManager()
-        guard let request = networkManager.requestListSearch(page: 1, itemsPerPage: 10) else {
-            showAlert(message: Message.badRequest)
-            return
-        }
-        
-        networkManager.fetch(request: request, decodingType: Products.self) { result in
-            switch result {
-            case .success(let products):
-                self.productList = products.pages
-                self.collectionViewLoad()
-            case .failure(let error):
-                DispatchQueue.main.async {
-                    self.showAlert(message: error.localizedDescription)
-                }
-            }
+    private func collectionViewReload() {
+        DispatchQueue.main.async {
+            self.collectionView.reloadData()
         }
     }
     
@@ -89,8 +102,7 @@ extension MainViewController: UICollectionViewDataSource {
         guard let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: currentCellIdentifier,
             for: indexPath
-        ) as? ProductCell else
-        {
+        ) as? ProductCell else {
             showAlert(message: Message.unknownError)
             return UICollectionViewCell()
         }
@@ -153,5 +165,21 @@ extension MainViewController: UICollectionViewDelegateFlowLayout {
         }
         return currentCellIdentifier == ProductCell.listIdentifier ?
         productView.listminimumInteritemSpacing : productView.gridminimumInteritemSpacing
+    }
+}
+
+extension MainViewController: UICollectionViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let contentHeight = scrollView.contentSize.height
+        let yOffset = scrollView.contentOffset.y
+        let heightRemainBottomHeight = contentHeight - yOffset
+        let frameHeight = scrollView.frame.size.height
+        if heightRemainBottomHeight < frameHeight ,
+           let hasNextPage = page?.hasNext, hasNextPage {
+            currentPage += 1
+            DispatchQueue.global().async {
+                self.requestProducts()
+            }
+        }
     }
 }

@@ -19,7 +19,7 @@ enum APIAddress {
     var url: URL? {
         switch self {
         case .products(let page, let itemsPerPage):
-            return URL(string: APIAddress.baseURL + "?page-no=\(page)" + "&items-per-page=\(itemsPerPage)")
+            return URL(string: APIAddress.baseURL + "?page_no=\(page)" + "&items_per_page=\(itemsPerPage)")
         case .product(let id):
             return URL(string: APIAddress.baseURL + "/\(id)")
         case .register:
