@@ -3,7 +3,8 @@ import UIKit
 class ProductsCollectionViewController: UICollectionViewController {
     private let loadingActivityIndicator = UIActivityIndicatorView()
     private let reuseIdentifier = "productCell"
-    private var productsList: ProductsList?
+    private var pageInformation: ProductsList?
+    private var products = [Product]()
     private let jsonParser: JSONParser = {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SS"
@@ -19,7 +20,7 @@ class ProductsCollectionViewController: UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         startActivityIndicator()
-        loadProductsList()
+        loadProductsList(pageNumber: 1)
     }
     
     private func startActivityIndicator() {
@@ -35,14 +36,18 @@ class ProductsCollectionViewController: UICollectionViewController {
         loadingActivityIndicator.startAnimating()
     }
     
-    private func loadProductsList() {
-        networkTask.requestProductList(pageNumber: 1, itemsPerPage: 20) { result in
+    private func loadProductsList(pageNumber: Int) {
+        networkTask.requestProductList(pageNumber: pageNumber, itemsPerPage: 20) { result in
             switch result {
             case .success(let data):
-                self.productsList = try? self.jsonParser.decode(from: data)
+                guard let productsList: ProductsList = try? self.jsonParser.decode(
+                    from: data
+                ) else { return }
                 DispatchQueue.main.async {
-                    self.collectionView.reloadData()
+                    self.pageInformation = productsList
+                    self.products.append(contentsOf: productsList.pages)
                     self.loadingActivityIndicator.stopAnimating()
+                    self.collectionView.reloadData()
                 }
             case .failure(let error):
                 self.showAlert(
@@ -100,19 +105,19 @@ class ProductsCollectionViewController: UICollectionViewController {
         _ collectionView: UICollectionView,
         numberOfItemsInSection section: Int
     ) -> Int {
-        return productsList?.pages.count ?? 0
+        return products.count
     }
     
     override func collectionView(
         _ collectionView: UICollectionView,
         cellForItemAt indexPath: IndexPath
     ) -> UICollectionViewCell {
+        let product = products[indexPath.item]
         guard
             let cell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: reuseIdentifier,
                 for: indexPath
             ) as? ProductsCollectionViewCell,
-            let product = productsList?.pages[indexPath.item],
             let url = URL(string: product.thumbnail) else {
                 let cell = collectionView.dequeueReusableCell(
                     withReuseIdentifier: reuseIdentifier,
@@ -138,5 +143,19 @@ extension ProductsCollectionViewController: UICollectionViewDelegateFlowLayout {
         let shortLength = frameWidth < frameHeight ? frameWidth : frameHeight
         let cellWidth = shortLength / 2 - 15
         return CGSize(width: cellWidth, height: cellWidth * 1.5)
+    }
+}
+
+extension ProductsCollectionViewController {
+    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        guard pageInformation?.hasNext == true else { return }
+        let contentOffsetY = scrollView.contentOffset.y
+        let tableViewContentSize = collectionView.contentSize.height
+        let frameHeight = scrollView.frame.height
+
+        if contentOffsetY > tableViewContentSize - frameHeight {
+            guard let num = pageInformation?.pageNumber else { return }
+            loadProductsList(pageNumber: num + 1)
+        }
     }
 }
