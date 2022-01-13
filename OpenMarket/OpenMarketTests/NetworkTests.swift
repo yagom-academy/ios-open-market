@@ -9,16 +9,16 @@ import XCTest
 @testable import OpenMarket
 
 class NetworkTests: XCTestCase {
-    var sutURL: URL!
-    var sutData: Data!
-    var sutRequest: URLRequest!
-    var sutSession: URLSession!
-    var sutNetwork: Network!
+    var sutURL: URL?
+    var sutData: Data?
+    var sutRequest: URLRequest?
+    var sutSession: URLSession?
+    var sutNetwork: Network?
         
     override func setUpWithError() throws {
-        sutURL = URL(string: "testURL")!
+        sutURL = URL(string: "testURL")
         sutData = Data()
-        sutRequest = URLRequest(url: sutURL)
+        sutRequest = URLRequest(url: sutURL!)
         sutSession = MockSession.session
         sutNetwork = Network(session: sutSession!)
     }
@@ -31,7 +31,7 @@ class NetworkTests: XCTestCase {
 
     func test_Success() {
         // given
-        let response = HTTPURLResponse(url: sutURL, statusCode: 200, httpVersion: nil, headerFields: nil)
+        let response = HTTPURLResponse(url: sutURL!, statusCode: 200, httpVersion: nil, headerFields: nil)
         MockURLProtocol.mockURLs = [sutURL: (nil, sutData, response)]
         let expectation = XCTestExpectation(description: "네트워크 실행")
         
@@ -54,7 +54,7 @@ class NetworkTests: XCTestCase {
     
     func test_Failure() {
         // given
-        let response = HTTPURLResponse(url: sutURL, statusCode: 404, httpVersion: nil, headerFields: nil)
+        let response = HTTPURLResponse(url: sutURL!, statusCode: 404, httpVersion: nil, headerFields: nil)
         MockURLProtocol.mockURLs = [sutURL: (nil, sutData, response)]
         let expectation = XCTestExpectation(description: "네트워크 실행")
         

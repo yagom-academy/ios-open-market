@@ -13,6 +13,7 @@ enum APIAddress {
     case product(id: UInt)
     case register
     case secret(id: UInt, secret: String)
+    case secretSearch(id: UInt)
     case delete(id: UInt, secret: String)
     
     var url: URL? {
@@ -25,6 +26,8 @@ enum APIAddress {
             return URL(string: APIAddress.baseURL)
         case .secret(let id, let secret):
             return URL(string: APIAddress.baseURL + "/\(id)" + "/\(secret)")
+        case .secretSearch(let id):
+            return URL(string: APIAddress.baseURL + "/\(id)/secret")
         case .delete(let id, let secret):
             return URL(string: APIAddress.baseURL + "/\(id)" + "/\(secret)")
         }

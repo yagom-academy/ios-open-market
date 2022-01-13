@@ -7,22 +7,17 @@
 
 import Foundation
 
-struct ProductRegistration: Codable, MultipartFormProtocol {
+struct ProductRegistration: Codable {
     let name: String
-    let description: String
+    let descriptions: String
     let price: Int
     let currency: Currency
     let discountedPrice: Int?
     let stock: Int?
     let secret: String
     
-    var dictionary: [String: Any?] {
-        ["name": self.name,
-         "description": self.description,
-         "price": self.price,
-         "currency": self.currency,
-         "discounted_price": self.discountedPrice,
-         "stock": self.stock,
-         "secret": self.secret]
+    enum CodingKeys: String, CodingKey {
+        case name, descriptions, price, currency, stock, secret
+        case discountedPrice = "discounted_price"
     }
 }
