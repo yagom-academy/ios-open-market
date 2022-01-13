@@ -1,6 +1,6 @@
 import UIKit
 
-class ViewController: UIViewController {
+class OpenMarketViewController: UIViewController {
     
     enum Section {
         case main
@@ -19,24 +19,21 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        listCollectionView.register(UINib(nibName: "ProductListCell", bundle: nil), forCellWithReuseIdentifier: ProductListCell.identifier)
-        gridCollectionView.register(UINib(nibName: "ProductGridCell", bundle: nil), forCellWithReuseIdentifier: ProductGridCell.identifier)
+        setupSegmentedControl()
+        registerCollectionViewCell()
         setupListCollectionView()
         setupGridCollectionView()
         getProducts()
+    }
+    
+    func setupSegmentedControl() {
         segmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.systemBlue], for: .normal)
         segmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for: .selected)
     }
     
-    func getProducts() {
-        apiManager.checkProductList(pageNumber: 1, itemsPerPage: 20) { result in
-            switch result {
-            case .success(let products):
-                self.populate(with: products.pages)
-            case .failure(let error):
-                print(error.localizedDescription)
-            }
-        }
+    func registerCollectionViewCell() {
+        listCollectionView.register(UINib(nibName: "ProductListCell", bundle: nil), forCellWithReuseIdentifier: ProductListCell.identifier)
+        gridCollectionView.register(UINib(nibName: "ProductGridCell", bundle: nil), forCellWithReuseIdentifier: ProductGridCell.identifier)
     }
     
     func setupListCollectionView() {
@@ -61,6 +58,17 @@ class ViewController: UIViewController {
         }
     }
     
+    func getProducts() {
+        apiManager.checkProductList(pageNumber: 1, itemsPerPage: 20) { result in
+            switch result {
+            case .success(let products):
+                self.populate(with: products.pages)
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
     func populate(with products: [ProductDetail]) {
         var snapshot = NSDiffableDataSourceSnapshot<Section, ProductDetail>()
         snapshot.appendSections([.main])
@@ -79,6 +87,5 @@ class ViewController: UIViewController {
             return
         }
     }
-    
     
 }
