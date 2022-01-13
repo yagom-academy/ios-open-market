@@ -1,6 +1,6 @@
 import UIKit
 
-class GridCollectionViewCell: UICollectionViewCell {
+class GridCell: UICollectionViewCell {
     let itemStackView = UIStackView()
     let thumbnailImageView = UIImageView()
     let nameLabel = UILabel()
@@ -19,7 +19,7 @@ class GridCollectionViewCell: UICollectionViewCell {
     }
 }
 
-extension GridCollectionViewCell {
+extension GridCell {
     func configure() {
         itemStackView.translatesAutoresizingMaskIntoConstraints = false
         priceStackView.addArrangedSubview(priceLabel)
