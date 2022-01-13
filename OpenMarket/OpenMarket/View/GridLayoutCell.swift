@@ -22,40 +22,27 @@ class GridLayoutCell: UICollectionViewCell {
     var productStackView = UIStackView()
     var productNameLabel = UILabel()
     var priceStackView = UIStackView()
+    var priceLabel = UILabel()
+    var discountedLabel = UILabel()
     var stockLabel = UILabel()
     
     weak var delegate: LayoutSwitchable?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        commonConfig()
     }
     
     required init?(coder: NSCoder) {
         fatalError()
     }
     
-    private func configureCellLayout() {
-        
-        guard let delegate = delegate else {
-            print("닐리리야")
-            return
-        }
-        
-        switch delegate.isGridLayout {
-        case true:
-            configureGridCellLayout()
-        case false:
-            configureListCellLayout()
-        }
-    }
-    
-    private func configureListCellLayout() {
-        
+    private func commonConfig() {
         self.addSubview(stackView)
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
         stackView.alignment = .top
-        stackView.distribution = .fillProportionally
+        stackView.distribution = .fill
         stackView.spacing = 2
         
         NSLayoutConstraint.activate([
@@ -79,53 +66,71 @@ class GridLayoutCell: UICollectionViewCell {
         productStackView.spacing = 2
         
         productStackView.addArrangedSubview(productNameLabel)
+        
+        priceStackView.addArrangedSubview(priceLabel)
+        priceStackView.addArrangedSubview(discountedLabel)
+        priceLabel.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+        discountedLabel.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         productStackView.addArrangedSubview(priceStackView)
         
         priceStackView.axis = .horizontal
         priceStackView.alignment = .center
         priceStackView.distribution = .equalSpacing
-        priceStackView.spacing = 2
-        
+        stockLabel.textAlignment = .right
+        stockLabel.numberOfLines = 0
         stackView.addArrangedSubview(stockLabel)
+        stockLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        priceStackView.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+        
+        priceLabel.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+        discountedLabel.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+        
+        stockLabel.textAlignment = .right
+        stockLabel.numberOfLines = 0
+        
+        stockLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        priceStackView.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+    }
+    
+    private func configureCellLayout() {
+        
+        guard let delegate = delegate else {
+            print("닐리리야")
+            return
+        }
+        
+        switch delegate.isGridLayout {
+        case true:
+            configureGridCellLayout()
+        case false:
+            configureListCellLayout()
+        }
+    }
+    
+    private func configureListCellLayout() {
+        stackView.axis = .horizontal
+        stackView.alignment = .top
+        stackView.distribution = .fill
+        
+        NSLayoutConstraint.activate([
+            imageView.widthAnchor.constraint(equalTo: stackView.widthAnchor, multiplier: 0.2)
+        ])
+        priceStackView.axis = .horizontal
     }
     
     private func configureGridCellLayout() {
-        self.addSubview(stackView)
-        stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
         stackView.alignment = .center
         stackView.distribution = .equalSpacing
-        stackView.spacing = 2
         
         NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 10),
-            stackView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 10),
-            stackView.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -10),
-            stackView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor, constant: -10)
+            imageView.widthAnchor.constraint(equalTo: stackView.widthAnchor, multiplier: 0.9)
         ])
-        
-        stackView.addArrangedSubview(imageView)
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            imageView.widthAnchor.constraint(equalTo: stackView.widthAnchor, multiplier: 0.9),
-            imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor)
-        ])
-        
-        stackView.addArrangedSubview(productNameLabel)
-        stackView.addArrangedSubview(priceStackView)
-        
         priceStackView.axis = .vertical
-        priceStackView.alignment = .center
-        priceStackView.distribution = .equalSpacing
-        
-        stackView.addArrangedSubview(stockLabel)
     }
     
     override func prepareForReuse() {
-        priceStackView.arrangedSubviews.forEach { view in
-            view.removeFromSuperview()
-        }
+        discountedLabel.isHidden = true
     }
     
     func configureContents(imageURL: String, productName: String, price: String,
@@ -156,9 +161,6 @@ class GridLayoutCell: UICollectionViewCell {
             stockLabel.text = "품절"
         }
         
-        let priceLabel = UILabel()
-        priceStackView.addArrangedSubview(priceLabel)
-        
         if let discounted = discountedPrice {
             priceLabel.textColor = .systemRed
             let attributeString = NSMutableAttributedString(string: "\(currency) \(price)")
@@ -169,10 +171,9 @@ class GridLayoutCell: UICollectionViewCell {
             )
             priceLabel.attributedText = attributeString
             
-            let discountedLabel = UILabel()
+            discountedLabel.isHidden = false
             discountedLabel.text = "\(currency) \(discounted)"
             discountedLabel.textColor = .systemGray
-            priceStackView.addArrangedSubview(discountedLabel)
         } else {
             priceLabel.text = "\(currency) \(price)"
             priceLabel.textColor = .systemGray

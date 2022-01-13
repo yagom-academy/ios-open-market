@@ -132,7 +132,6 @@ extension ProductPageViewController {
             cell.layer.borderColor = UIColor.systemGray.cgColor
             cell.layer.cornerRadius = 10
             cell.layer.masksToBounds = true
-            
         }
         
         dataSource = UICollectionViewDiffableDataSource<Int, Product>(collectionView: collectionView) { (collectionView, indexPath, identifier) -> UICollectionViewCell? in
