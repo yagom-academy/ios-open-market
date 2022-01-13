@@ -2,16 +2,6 @@ import UIKit
 
 class ProductListCell: UICollectionViewListCell {
     
-    struct StringSeparator {
-        static let blank = " "
-        static let doubleBlank = "  "
-    }
-    
-    struct LabelString {
-        static let outOfStock = "품절"
-        static let stockTitle = "잔여수량 : "
-    }
-    
     @IBOutlet var thumbnailImage: UIImageView!
     @IBOutlet var nameLabel: UILabel!
     @IBOutlet var priceLabel: UILabel!
@@ -70,14 +60,4 @@ class ProductListCell: UICollectionViewListCell {
         }
     }
     
-}
-
-extension String {
-    func strikeThrough() -> NSAttributedString {
-        let attributeString = NSMutableAttributedString(string: self)
-        let totalRange = NSRange(location: 0, length: attributeString.length)
-        attributeString.addAttribute(NSAttributedString.Key.strikethroughStyle, value: NSUnderlineStyle.single.rawValue, range: totalRange)
-        attributeString.addAttribute(.foregroundColor, value: UIColor.systemOrange, range: totalRange)
-        return attributeString
-    }
 }
