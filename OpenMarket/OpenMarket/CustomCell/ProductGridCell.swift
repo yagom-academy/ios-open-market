@@ -21,6 +21,12 @@ class ProductGridCell: UICollectionViewCell {
         // Initialization code
     }
     
+    override func draw(_ rect: CGRect) {
+        layer.cornerRadius = 10
+        layer.borderWidth = 1
+        layer.borderColor = UIColor.systemGray.cgColor
+    }
+    
     func setup(with product: ProductDetail) {
         setupImage(with: product)
         setupNameLabel(with: product)

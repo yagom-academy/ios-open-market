@@ -8,9 +8,9 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var segmentedControl: UISegmentedControl!
     let apiManager = APIManager()
-    let collectionView = UICollectionView(frame: .zero, collectionViewLayout: OpenMarketViewLayout.list)
+    let collectionView = UICollectionView(frame: .zero, collectionViewLayout: OpenMarketViewLayout.grid)
     var dataSource: UICollectionViewDiffableDataSource<Section, ProductDetail>?
-    var isListLayout = true
+    var isListLayout = false
     
     override func loadView() {
         view = collectionView
@@ -40,12 +40,27 @@ class ViewController: UIViewController {
     func setupCollectionView() {
         dataSource = UICollectionViewDiffableDataSource<Section, ProductDetail>(collectionView: collectionView) { collectionView, indexPath, product in
             
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProductListCell.identifier, for: indexPath) as? ProductListCell else {
-                return UICollectionViewListCell()
+            if self.isListLayout {
+                return self.productListCell(indexPath: indexPath, with: product)
             }
-            cell.setup(with: product)
-            return cell
+            return self.productGridCell(indexPath: indexPath, with: product)
         }
+    }
+    
+    func productListCell(indexPath: IndexPath, with product: ProductDetail) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProductListCell.identifier, for: indexPath) as? ProductListCell else {
+            return UICollectionViewListCell()
+        }
+        cell.setup(with: product)
+        return cell
+    }
+    
+    func productGridCell(indexPath: IndexPath, with product: ProductDetail) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProductGridCell.identifier, for: indexPath) as? ProductGridCell else {
+            return UICollectionViewListCell()
+        }
+        cell.setup(with: product)
+        return cell
     }
     
     func populate(with products: [ProductDetail]) {
