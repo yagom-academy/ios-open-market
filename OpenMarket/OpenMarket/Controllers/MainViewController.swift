@@ -60,10 +60,10 @@ class MainViewController: UIViewController {
         if layoutSegmentedControl.selectedSegmentIndex == 0 {
             productListCollectionView.isHidden = false
             productGridCollectionView.isHidden = true
-        } else {
-            productListCollectionView.isHidden = true
-            productGridCollectionView.isHidden = false
+            return
         }
+        productListCollectionView.isHidden = true
+        productGridCollectionView.isHidden = false
     }
 
     private func configUI() {
