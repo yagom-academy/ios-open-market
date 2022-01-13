@@ -8,9 +8,9 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var segmentedControl: UISegmentedControl!
     let apiManager = APIManager()
-    let collectionView = UICollectionView(frame: .zero, collectionViewLayout: OpenMarketViewLayout.grid)
+    let collectionView = UICollectionView(frame: .zero, collectionViewLayout: OpenMarketViewLayout.list)
     var dataSource: UICollectionViewDiffableDataSource<Section, ProductDetail>?
-    var isListLayout = false
+    var isListLayout = true
     
     override func loadView() {
         view = collectionView
@@ -69,5 +69,21 @@ class ViewController: UIViewController {
         snapshot.appendItems(products)
         dataSource?.apply(snapshot)
     }
+    
+    @IBAction func segementChanged(_ sender: UISegmentedControl) {
+        switch sender.selectedSegmentIndex {
+        case 0:
+            isListLayout = true
+            collectionView.collectionViewLayout = OpenMarketViewLayout.list
+            collectionView.reloadData()
+        case 1:
+            isListLayout = false
+            collectionView.collectionViewLayout = OpenMarketViewLayout.grid
+            collectionView.reloadData()
+        default:
+            return
+        }
+    }
+    
     
 }

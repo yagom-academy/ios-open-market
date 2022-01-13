@@ -29,10 +29,13 @@
                                 <segment title="GRID"/>
                             </segments>
                             <color key="selectedSegmentTintColor" systemColor="linkColor"/>
+                            <connections>
+                                <action selector="segementChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="adn-4W-34z"/>
+                            </connections>
                         </segmentedControl>
                         <barButtonItem key="rightBarButtonItem" style="plain" id="bXY-vY-K7i">
-                            <button key="customView" opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="3zk-T9-Gsl">
-                                <rect key="frame" x="-33" y="-15" width="44" height="44"/>
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="3zk-T9-Gsl">
+                                <rect key="frame" x="350" y="0.0" width="44" height="44"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="+">
