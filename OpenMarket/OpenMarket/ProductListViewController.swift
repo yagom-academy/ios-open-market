@@ -5,9 +5,12 @@ class ProductListViewController: UIViewController {
         case main
     }
     
-    lazy var collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: makeGridLayout())
-    var dataSource: UICollectionViewDiffableDataSource<Section, Int>!
-    
+    var products: ProductListAsk.Response?
+    lazy var collectionView = UICollectionView(
+        frame: view.bounds,
+        collectionViewLayout: makeGridLayout()
+    )
+    var dataSource: UICollectionViewDiffableDataSource<Section, ProductListAsk.Response.Page>!
     let data = [1,2,3,4,5,5]
     
     let segmentedControl: UISegmentedControl = {
@@ -47,10 +50,16 @@ class ProductListViewController: UIViewController {
     }
     
     func makeGridLayout() -> UICollectionViewLayout {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
+        let itemSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .fractionalHeight(1.0)
+        )
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(0.2))
+        let groupSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .fractionalHeight(0.5)
+        )
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 2)
         
         let section = NSCollectionLayoutSection(group: group)
@@ -61,24 +70,46 @@ class ProductListViewController: UIViewController {
     }
     
     func configureDataSource() {
-        let cellRegistration = UICollectionView.CellRegistration<CollectionViewGridCell, Int> {
+        let cellRegistration = UICollectionView.CellRegistration<CollectionViewGridCell, ProductListAsk.Response.Page> {
             (cell, indexPath, item) in
         }
       
-        dataSource = UICollectionViewDiffableDataSource<Section, Int>(collectionView: collectionView) {
+        dataSource = UICollectionViewDiffableDataSource<Section, ProductListAsk.Response.Page>(collectionView: collectionView) {
             (collectionView, indexPath, item) -> UICollectionViewCell? in
-            return collectionView.dequeueConfiguredReusableCell(
+            let cell = collectionView.dequeueConfiguredReusableCell(
                 using: cellRegistration,
                 for: indexPath,
                 item: item
             )
+            print("item:\(indexPath.item)")
+// TODO: cell.image load
+            cell.activityIndicator.stopAnimating()
+            cell.nameLabel.text = item.name
+            cell.priceLabel.text = item.price.description
+            cell.stockLabel.text = item.stock.description
+            return cell 
         }
         
-        var snapshot = NSDiffableDataSourceSnapshot<Section, Int>()
-        snapshot.appendSections([.main])
-        snapshot.appendItems(Array(0..<20))
-        dataSource.apply(snapshot, animatingDifferences: false)
+        updateProductList()
+    }
+    
+    func updateProductList() {
+        let requester = ProductListAskRequester(pageNo: 1, itemsPerPage: 15)
+        URLSession.shared.request(requester: requester) { [self] result in
+            switch result {
+            case .success(let data):
+                guard let products = requester.decode(data: data) else {
+                    print(APIError.decodingFail.localizedDescription)
+                    return
+                }
+                var snapshot = NSDiffableDataSourceSnapshot<Section, ProductListAsk.Response.Page>()
+                snapshot.appendSections([.main])
+                snapshot.appendItems(products.pages)
+                self.dataSource.apply(snapshot, animatingDifferences: false)
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
     }
 }
-    
 

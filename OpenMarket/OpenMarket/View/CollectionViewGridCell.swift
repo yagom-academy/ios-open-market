@@ -2,14 +2,8 @@ import UIKit
 
 class CollectionViewGridCell: UICollectionViewCell {
 
-    lazy var activityIndicator: UIActivityIndicatorView = {
+     var activityIndicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView()
-        NSLayoutConstraint.activate([
-            indicator.topAnchor.constraint(equalTo: self.topAnchor),
-            indicator.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-            indicator.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            indicator.trailingAnchor.constraint(equalTo: self.trailingAnchor)
-        ])
         return indicator
     }()
     
@@ -48,29 +42,44 @@ class CollectionViewGridCell: UICollectionViewCell {
     
     lazy var stackView: UIStackView = {
         let stackView = UIStackView()
-//        stackView.addArrangedSubview(imageView)
+        stackView.addArrangedSubview(activityIndicator)
+        stackView.addArrangedSubview(imageView)
         stackView.addArrangedSubview(nameLabel)
         stackView.addArrangedSubview(priceLabel)
         stackView.addArrangedSubview(stockLabel)
         stackView.axis = .vertical
         stackView.distribution = .equalSpacing
         stackView.alignment = .center
-        
-        stackView.backgroundColor = .systemBlue
+        // TODO: 테두리 추가 
         return stackView
     }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         addSubview(stackView)
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
-        stackView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
-        stackView.topAnchor.constraint(equalTo: topAnchor).isActive = true
-        stackView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+        configureAutoLayout()
+        activityIndicator.startAnimating()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
+    }
+    
+    func configureAutoLayout() {
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            stackView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            stackView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            stackView.topAnchor.constraint(equalTo: topAnchor),
+            stackView.bottomAnchor.constraint(equalTo: bottomAnchor),
+        ])
+        NSLayoutConstraint.activate([
+            activityIndicator.widthAnchor.constraint(equalTo: stackView.widthAnchor, multiplier: 0.8),
+            activityIndicator.heightAnchor.constraint(equalTo: activityIndicator.widthAnchor)
+        ])
+        NSLayoutConstraint.activate([
+            imageView.widthAnchor.constraint(equalTo: stackView.widthAnchor, multiplier: 0.8),
+            imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor)
+        ])
     }
 }

@@ -22,7 +22,7 @@ enum ProductListAsk {
             case hasPrev = "has_prev"
         }
         
-        struct Page: Decodable {
+        struct Page: Decodable, Hashable {
             let id: Int
             let vendorId: Int
             let name: String

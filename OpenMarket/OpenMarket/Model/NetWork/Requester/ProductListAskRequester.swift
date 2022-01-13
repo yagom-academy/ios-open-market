@@ -4,7 +4,7 @@ struct ProductListAskRequester: Requestable, JSONResponseDecodable {
     var url: URL? {
         return URL(string: "\(baseURLString)?page_no=\(pageNo)&items_per_page=\(itemsPerPage)")
     }
-    var httpMethod: HTTPMethod = .POST
+    var httpMethod: HTTPMethod = .GET
     var httpBody: Data? = nil
     var headerFields: [String: String]? = nil
     
