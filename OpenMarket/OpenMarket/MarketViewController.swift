@@ -11,6 +11,7 @@ final class MarketViewController: UIViewController {
     
     @IBOutlet weak var segmentedControl: UISegmentedControl!
     @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var loadingIndicator: UIActivityIndicatorView!
     
     //MARK: - Properties
     
@@ -59,6 +60,22 @@ extension MarketViewController {
 //MARK: - Private Methods
 
 extension MarketViewController {
+    private func startLoadingIndicator() {
+        loadingIndicator.startAnimating()
+    }
+    
+    private func stopLoadingIndicator() {
+        DispatchQueue.main.async {
+            self.loadingIndicator.stopAnimating()
+        }
+    }
+    
+    private func showListViewController() {
+        DispatchQueue.main.async {
+            self.add(asChildViewController: self.listViewController)
+        }
+    }
+    
     private func setupSegmentedControl() {
         segmentedControl.setTitle("LIST", forSegmentAt: 0)
         segmentedControl.setTitle("GRID", forSegmentAt: 1)
@@ -83,13 +100,13 @@ extension MarketViewController {
     }
     
     private func fetchPage() {
-        apiService.fetchPage(pageNumber: 1, itemsPerPage: 20) { result in
+        startLoadingIndicator()
+        apiService.fetchPage(pageNumber: 1, itemsPerPage: 20) { [weak self] result in
+            self?.stopLoadingIndicator()
             switch result {
             case .success(let data):
-                self.products = data.products
-                DispatchQueue.main.async {
-                    self.add(asChildViewController: self.listViewController)
-                }
+                self?.products = data.products
+                self?.showListViewController()
             case .failure(let error):
                 print(error)
             }
