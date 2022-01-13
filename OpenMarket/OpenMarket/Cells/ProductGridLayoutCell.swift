@@ -1,5 +1,15 @@
 import UIKit
 
+private enum Design {
+    static let productStackViewSpacing: CGFloat = 5
+    static let productStackViewTopMargin: CGFloat = 8
+    static let productStackViewLeadingMargin: CGFloat = 8
+    static let productStackViewBottomMargin: CGFloat = -8
+    static let productStackViewTrailingMargin: CGFloat = -8
+    static let productImageViewLeadingMargin: CGFloat = 5
+    static let productImageViewTrailingMargin: CGFloat = -5
+}
+
 class ProductGridLayoutCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -15,7 +25,7 @@ class ProductGridLayoutCell: UICollectionViewCell {
         stackView.axis = .vertical
         stackView.distribution = .equalSpacing
         stackView.alignment = .center
-        stackView.spacing = 5
+        stackView.spacing = Design.productStackViewSpacing
         return stackView
     }()
     
@@ -98,13 +108,13 @@ class ProductGridLayoutCell: UICollectionViewCell {
         productImageView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            productStackView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 8),
-            productStackView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 8),
-            productStackView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -8),
-            productStackView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -8),
+            productStackView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: Design.productStackViewTopMargin),
+            productStackView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: Design.productStackViewLeadingMargin),
+            productStackView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: Design.productStackViewBottomMargin),
+            productStackView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: Design.productStackViewTrailingMargin),
             
-            productImageView.leadingAnchor.constraint(equalTo: productStackView.leadingAnchor, constant: 5),
-            productImageView.trailingAnchor.constraint(equalTo: productStackView.trailingAnchor, constant: -5),
+            productImageView.leadingAnchor.constraint(equalTo: productStackView.leadingAnchor, constant: Design.productImageViewLeadingMargin),
+            productImageView.trailingAnchor.constraint(equalTo: productStackView.trailingAnchor, constant: Design.productImageViewTrailingMargin),
             productImageView.heightAnchor.constraint(equalToConstant: self.contentView.frame.height / 2)
         ])
     }
