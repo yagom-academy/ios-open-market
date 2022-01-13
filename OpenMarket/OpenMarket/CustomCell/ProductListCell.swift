@@ -35,12 +35,12 @@ class ProductListCell: UICollectionViewListCell {
     }
     
     func setupPriceLabel(with product: ProductDetail) {
-        let currentPriceText = product.currency + StringSeparator.blank + String(product.price)
+        let currentPriceText = product.currency + StringSeparator.blank + String(product.price.addComma())
         if product.discountedPrice == 0 {
             priceLabel.attributedText = NSAttributedString(string: currentPriceText)
         } else {
             let previousPrice = currentPriceText.strikeThrough()
-            let bargainPriceText = StringSeparator.doubleBlank + product.currency + StringSeparator.blank + String(product.bargainPrice)
+            let bargainPriceText = StringSeparator.doubleBlank + product.currency + StringSeparator.blank + String(product.bargainPrice.addComma())
             let bargainPrice = NSAttributedString(string: bargainPriceText)
             
             let priceLabelText = NSMutableAttributedString()
@@ -56,7 +56,7 @@ class ProductListCell: UICollectionViewListCell {
             stockLabel.text = LabelString.outOfStock
         } else {
             stockLabel.textColor = .systemGray
-            stockLabel.text = LabelString.stockTitle + String(product.stock)
+            stockLabel.text = LabelString.stockTitle + String(product.stock.addComma())
         }
         
     }
