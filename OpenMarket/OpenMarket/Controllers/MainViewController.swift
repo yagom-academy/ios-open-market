@@ -10,7 +10,8 @@ private enum RequestInformation {
 }
 
 private enum Design {
-    static let indicatorFrame: CGRect = CGRect(x: 0, y: 0, width: 50, height: 50)
+    static let indicatorWidth: CGFloat = 50
+    static let indicatorHeight: CGFloat = 50
     static let interItemSpacing: CGFloat = 15
     static let interGroupSpacing: CGFloat = 10
     static let columnCount = 2
@@ -31,7 +32,7 @@ class MainViewController: UIViewController {
     private lazy var activityIndicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView()
         indicator.hidesWhenStopped = true
-        indicator.frame = Design.indicatorFrame
+        indicator.frame = CGRect(origin: .zero, size: CGSize(width: Design.indicatorWidth, height: Design.indicatorHeight))
         indicator.center = view.center
         indicator.style = .large
         indicator.color = .black

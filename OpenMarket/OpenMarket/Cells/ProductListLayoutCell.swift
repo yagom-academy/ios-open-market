@@ -1,7 +1,8 @@
 import UIKit
 
 private enum Design {
-    static let maximumImageSize: CGSize = CGSize(width: 50, height: 50)
+    static let maximumImageWidth: CGFloat = 50
+    static let maximumImageHeight: CGFloat = 50
     static let padding: CGFloat = 10
     static let stockTrailingMargin: CGFloat = -8
     static let listContentViewTopMargin: CGFloat = 5
@@ -87,7 +88,7 @@ class ProductListLayoutCell: UICollectionViewListCell {
         content.imageToTextPadding = Design.padding
         
         content.image = ImageLoader.loadImage(from: state.product?.thumbnail)
-        content.imageProperties.maximumSize = Design.maximumImageSize
+        content.imageProperties.maximumSize = CGSize(width: Design.maximumImageWidth, height: Design.maximumImageHeight)
         
         content.text = state.product?.name
         content.textProperties.font = .preferredFont(forTextStyle: .headline)
