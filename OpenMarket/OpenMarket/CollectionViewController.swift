@@ -26,6 +26,9 @@ class CollectionViewController: UIViewController {
     let productCollectionViewGridCellNib =  UINib(nibName: "ProductCollectionViewGridCell", bundle: nil)
     self.collectionView.register(productCollectionViewGridCellNib, forCellWithReuseIdentifier: "ProductCollectionViewGridCell")
     fetchProducts()
+    let productCollectionViewListCellNib =  UINib(nibName: "ProductCollectionViewListCell", bundle: nil)
+    self.collectionView.register(productCollectionViewListCellNib, forCellWithReuseIdentifier: "ProductCollectionViewListCell")
+    fetchProducts()
     collectionView.delegate = self
     
   }
@@ -36,8 +39,8 @@ class CollectionViewController: UIViewController {
       case .success(let data):
         self.products = data.pages
         DispatchQueue.main.async {
-          self.configureGridViewDataSource()
           self.collectionView.collectionViewLayout = self.createGridViewLayout()
+          self.configureGridViewDataSource()
         }
       case .failure(let error):
         print(error)
@@ -63,8 +66,6 @@ extension CollectionViewController {
       
       return section
     }
-    
-    
     return layout
   }
   
