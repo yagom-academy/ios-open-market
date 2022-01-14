@@ -19,4 +19,9 @@ class NetworkingTests: XCTestCase {
             }
         }
     }
+    
+    func test_temp() {
+        print(Temp().toRedStrikeThrough(from: "abc"))
+        print(Temp().toRedStrikeThrough2(from: "def"))
+    }
 }

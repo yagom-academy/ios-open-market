@@ -2,6 +2,9 @@ import Foundation
 
 @testable import OpenMarket
 
+struct Temp: TextCustomizable {
+
+}
 class StubURLSession: URLSessionProtocol {
     let alwaysSuccess: Bool
     var dummyData: Data?

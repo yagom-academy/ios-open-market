@@ -63,9 +63,11 @@ class ProductListViewController: UIViewController {
             heightDimension: .fractionalHeight(0.3)
         )
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 2)
+        let spacing = 10.0
+        group.interItemSpacing = .fixed(spacing)
         
         let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = NSDirectionalEdgeInsets(top: 3, leading: 3, bottom: 3, trailing: 3)
+        section.interGroupSpacing = spacing
         
         let layout = UICollectionViewCompositionalLayout(section: section)
         return layout
@@ -92,12 +94,11 @@ class ProductListViewController: UIViewController {
                 for: indexPath,
                 item: item
             )
-            print("item:\(indexPath.item)")
             cell.imageView.image = ImageLoader.load(from: item.thumbnail)
             cell.activityIndicator.stopAnimating()
-            cell.nameLabel.text = item.name
-            cell.priceLabel.text = item.price.description
-            cell.stockLabel.text = item.stock.description
+            cell.nameLabel.attributedText = item.name.boldFont
+            cell.priceLabel.attributedText = item.price.description.redStrikeThroughStyle
+            cell.stockLabel.attributedText = item.stock.description.grayColor
             return cell
         }
         applySnapShot(section: .list)
@@ -106,6 +107,9 @@ class ProductListViewController: UIViewController {
     func configureGridDataSource() {
         let cellRegistration = UICollectionView.CellRegistration<CollectionViewGridCell, ProductListAsk.Response.Page> {
             (cell, indexPath, item) in
+            cell.layer.borderColor = UIColor.systemGray.cgColor
+            cell.layer.borderWidth = 1
+            cell.layer.cornerRadius = 15
         }
       
         dataSource = UICollectionViewDiffableDataSource<Section, ProductListAsk.Response.Page>(collectionView: collectionView) {
@@ -115,12 +119,7 @@ class ProductListViewController: UIViewController {
                 for: indexPath,
                 item: item
             )
-            print("item:\(indexPath.item)")
-            cell.imageView.image = ImageLoader.load(from: item.thumbnail)
-            cell.activityIndicator.stopAnimating()
-            cell.nameLabel.text = item.name
-            cell.priceLabel.text = item.price.description
-            cell.stockLabel.text = item.stock.description
+            cell.updateAllComponents(from: item)
             return cell 
         }
         applySnapShot(section: .grid)
