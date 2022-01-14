@@ -9,7 +9,6 @@ import UIKit
 class ViewController: UIViewController {
     @IBOutlet weak var tableView: UIView!
     @IBOutlet weak var collectionView: UIView!
-    
     @IBOutlet weak var collectionContainerView: UIView!
     @IBOutlet weak var tableContainerView: UIView!
     
@@ -28,5 +27,22 @@ class ViewController: UIViewController {
         }
     }
     
+    func getDecodedData<T: Codable>(completionHandler: @escaping (Result<T, NetworkError>) -> Void) {
+        let decoder = Decoder()
+        let urlSessionProvider = URLSessionProvider()
+        
+        urlSessionProvider.getData(requestType: .productList(pageNo: 1, items: 10)) { result in
+            switch result {
+            case .success(let data):
+                guard let test: T = decoder.parsePageJSON(data: data) else {
+                    return
+                }
+                return completionHandler(.success(test))
+            case .failure(_):
+                return completionHandler(.failure(NetworkError.unknownFailed))
+            }
+        }
+    }
 }
+
 

@@ -15,18 +15,16 @@ class URLSessionProvider {
                   }
             
             if let data = data {
-                return completionHandler(.success(data))
+                completionHandler(.success(data))
             }
-            
             completionHandler(.failure(.unknownFailed))
         }
-        
         task.resume()
     }
     
-    func getData(requestType: RequestType, completionHandler: @escaping (Result<Data, NetworkError>) -> Void) throws {
+    func getData(requestType: GetType, completionHandler: @escaping (Result<Data, NetworkError>) -> Void)  {
         guard let url = URL(string: requestType.url(type: requestType)) else {
-            throw NetworkError.wrongURL
+            return completionHandler(.failure(NetworkError.wrongURL))
         }
         
         var request: URLRequest
