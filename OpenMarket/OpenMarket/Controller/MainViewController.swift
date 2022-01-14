@@ -2,10 +2,6 @@ import UIKit
 
 class MainViewController: UIViewController {
     @IBOutlet private weak var viewSegmentedControl: UISegmentedControl!
-    private let listViewStoryboardName = "ProductsTableView"
-    private let gridViewStoryboardName = "ProductsCollectionView"
-    private let listViewControllerIdentifier = "ListViewController"
-    private let gridViewControllerIdentifier = "GridViewController"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -62,14 +58,20 @@ extension MainViewController {
         let viewController: UIViewController
         switch segment {
         case .list:
-            let listViewStoryboard = UIStoryboard(name: listViewStoryboardName, bundle: nil)
+            let storyboardName = ProductsTableViewController.listViewStoryboardName
+            let controllerIdentifier = ProductsTableViewController.listViewControllerIdentifier
+            
+            let listViewStoryboard = UIStoryboard(name: storyboardName, bundle: nil)
             viewController = listViewStoryboard.instantiateViewController(
-                withIdentifier: listViewControllerIdentifier
+                withIdentifier: controllerIdentifier
             )
         case .grid:
-            let gridViewStoryboard = UIStoryboard(name: gridViewStoryboardName, bundle: nil)
+            let storyboardName = ProductsCollectionViewController.gridViewStoryboardName
+            let controllerIdentifier = ProductsCollectionViewController.gridViewControllerIdentifier
+            
+            let gridViewStoryboard = UIStoryboard(name: storyboardName, bundle: nil)
             viewController = gridViewStoryboard.instantiateViewController(
-                withIdentifier: gridViewControllerIdentifier
+                withIdentifier: controllerIdentifier
             )
         }
         return viewController

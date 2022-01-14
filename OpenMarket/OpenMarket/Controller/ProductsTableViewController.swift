@@ -2,7 +2,6 @@ import UIKit
 
 class ProductsTableViewController: UITableViewController {
     private let loadingActivityIndicator = UIActivityIndicatorView()
-    private let reuseIdentifier = "productsListCell"
     private var pageInformation: ProductsList?
     private var products = [Product]()
     private let jsonParser: JSONParser = {
@@ -104,6 +103,7 @@ class ProductsTableViewController: UITableViewController {
         cellForRowAt indexPath: IndexPath
     ) -> UITableViewCell {
         let product = products[indexPath.row]
+        let reuseIdentifier = ProductsTableViewCell.reuseIdentifier
         guard let cell = tableView.dequeueReusableCell(
             withIdentifier: reuseIdentifier,
             for: indexPath
@@ -133,4 +133,9 @@ class ProductsTableViewController: UITableViewController {
             loadProductsList(pageNumber: num + 1)
         }
     }
+}
+
+extension ProductsTableViewController {
+    static let listViewStoryboardName = "ProductsTableView"
+    static let listViewControllerIdentifier = "ListViewController"
 }

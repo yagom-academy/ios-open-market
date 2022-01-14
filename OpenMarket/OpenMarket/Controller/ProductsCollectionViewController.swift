@@ -2,7 +2,6 @@ import UIKit
 
 class ProductsCollectionViewController: UICollectionViewController {
     private let loadingActivityIndicator = UIActivityIndicatorView()
-    private let reuseIdentifier = "productCell"
     private var pageInformation: ProductsList?
     private var products = [Product]()
     private let jsonParser: JSONParser = {
@@ -113,6 +112,7 @@ class ProductsCollectionViewController: UICollectionViewController {
         cellForItemAt indexPath: IndexPath
     ) -> UICollectionViewCell {
         let product = products[indexPath.item]
+        let reuseIdentifier = ProductsCollectionViewCell.reuseIdentifier
         guard
             let cell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: reuseIdentifier,
@@ -158,4 +158,9 @@ extension ProductsCollectionViewController: UICollectionViewDelegateFlowLayout {
         let cellWidth = shortLength / 2 - 15
         return CGSize(width: cellWidth, height: cellWidth * 1.5)
     }
+}
+
+extension ProductsCollectionViewController {
+    static let gridViewStoryboardName = "ProductsCollectionView"
+    static let gridViewControllerIdentifier = "GridViewController"
 }

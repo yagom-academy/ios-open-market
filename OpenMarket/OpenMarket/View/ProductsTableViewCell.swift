@@ -6,3 +6,7 @@ class ProductsTableViewCell: UITableViewCell {
     @IBOutlet weak var priceLabel: UILabel!
     @IBOutlet weak var stockLabel: UILabel!
 }
+
+extension ProductsTableViewCell {
+    static let reuseIdentifier = "productsListCell"
+}
