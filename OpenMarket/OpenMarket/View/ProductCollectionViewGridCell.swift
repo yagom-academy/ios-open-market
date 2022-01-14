@@ -17,10 +17,7 @@ class ProductCollectionViewGridCell: UICollectionViewCell {
   
   override func awakeFromNib() {
     super.awakeFromNib()
-    
-    contentView.layer.borderWidth = 1
-    contentView.layer.borderColor = UIColor.gray.cgColor
-    contentView.layer.cornerRadius = 8
+    configureBorderStyle()
   }
   
   func insertCellData(image: UIImage, name: String, fixedPrice: String, bargainPrice: String , stock: String) {
@@ -37,5 +34,11 @@ class ProductCollectionViewGridCell: UICollectionViewCell {
     }
     productBargainPriceLabel.text = bargainPrice
     productStockLabel.text = stock
+  }
+  
+  private func configureBorderStyle() {
+    contentView.layer.borderWidth = 1
+    contentView.layer.borderColor = UIColor.gray.cgColor
+    contentView.layer.cornerRadius = 8
   }
 }

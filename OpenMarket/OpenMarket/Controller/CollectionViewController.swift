@@ -13,47 +13,55 @@ private enum Section: Hashable {
 
 class CollectionViewController: UIViewController {
   
-  @IBOutlet weak var segmentControl: UISegmentedControl!
-  @IBOutlet weak var collectionView: UICollectionView!
+  @IBOutlet private weak var segmentControl: UISegmentedControl!
+  @IBOutlet private weak var collectionView: UICollectionView!
   
   private var dataSource: UICollectionViewDiffableDataSource<Section, Product>? = nil
+  private let api = APIManager(urlSession: URLSession(configuration: .default))
+  private var products: [Product] = []
   
-  let api = APIManager(urlSession: URLSession(configuration: .default))
-  var products: [Product] = []
+  let listView = 0
+  let gridView = 1
   
   private lazy var activityIndicator: UIActivityIndicatorView = {
     let activityIndicator = UIActivityIndicatorView()
     activityIndicator.center = self.view.center
     activityIndicator.style = .large
-    activityIndicator.hidesWhenStopped = true
     return activityIndicator
   }()
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    collectionView.delegate = self
     startIndicator()
     registerNib()
     fetchProducts()
-    collectionView.delegate = self
   }
   
-  func startIndicator() {
-    self.view.addSubview(activityIndicator)
-    activityIndicator.startAnimating()
-  }
-  
-  @IBAction func touchUpPresentingSegment(_ sender: UISegmentedControl) {
+  @IBAction private func touchUpPresentingSegment(_ sender: UISegmentedControl) {
     switch sender.selectedSegmentIndex {
-    case 0:
+    case listView:
       configureListViewDataSource()
-    case 1:
+    case gridView:
       configureGridViewDataSource()
     default:
       return
     }
   }
   
-  func fetchProducts() {
+  private func startIndicator() {
+    self.view.addSubview(activityIndicator)
+    activityIndicator.startAnimating()
+  }
+  
+  private func registerNib() {
+    let productCollectionViewListCellNib =  UINib(nibName: ProductCollectionViewListCell.nibName, bundle: nil)
+    self.collectionView.register(productCollectionViewListCellNib, forCellWithReuseIdentifier: ProductCollectionViewListCell.reuseIdentifier)
+    let productCollectionViewGridCellNib =  UINib(nibName: ProductCollectionViewGridCell.nibName, bundle: nil)
+    self.collectionView.register(productCollectionViewGridCellNib, forCellWithReuseIdentifier: ProductCollectionViewGridCell.reuseIdentifier)
+  }
+  
+  private func fetchProducts() {
     api.productList(pageNumber: 1, itemsPerPage: 20) { response in
       switch response {
       case .success(let data):
@@ -67,20 +75,13 @@ class CollectionViewController: UIViewController {
       }
     }
   }
-  
-  func registerNib() {
-    let productCollectionViewListCellNib =  UINib(nibName: "ProductCollectionViewListCell", bundle: nil)
-    self.collectionView.register(productCollectionViewListCellNib, forCellWithReuseIdentifier: "ProductCollectionViewListCell")
-    let productCollectionViewGridCellNib =  UINib(nibName: "ProductCollectionViewGridCell", bundle: nil)
-    self.collectionView.register(productCollectionViewGridCellNib, forCellWithReuseIdentifier: "ProductCollectionViewGridCell")
-  }
 }
 
 extension CollectionViewController {
   private func configureGridViewDataSource() {
     dataSource = UICollectionViewDiffableDataSource<Section, Product>(collectionView: collectionView) {
       (collectionView: UICollectionView, indexPath: IndexPath, item: Product) -> UICollectionViewCell? in
-      guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProductCollectionViewGridCell", for: indexPath) as? ProductCollectionViewGridCell else {
+      guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProductCollectionViewGridCell.reuseIdentifier, for: indexPath) as? ProductCollectionViewGridCell else {
         return UICollectionViewCell()
       }
       
@@ -90,7 +91,13 @@ extension CollectionViewController {
               return UICollectionViewCell()
             }
       
-      cell.insertCellData(image: image, name: item.name, fixedPrice: item.fixedPrice, bargainPrice: item.getBargainPrice, stock: item.getStock)
+      cell.insertCellData(
+        image: image,
+        name: item.name,
+        fixedPrice: item.fixedPrice,
+        bargainPrice: item.getBargainPrice,
+        stock: item.getStock
+      )
       
       return cell
     }
@@ -103,7 +110,7 @@ extension CollectionViewController {
   private func configureListViewDataSource() {
     dataSource = UICollectionViewDiffableDataSource<Section, Product>(collectionView: collectionView) {
       (collectionView: UICollectionView, indexPath: IndexPath, item: Product) -> UICollectionViewCell? in
-      guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProductCollectionViewListCell", for: indexPath) as? ProductCollectionViewListCell else {
+      guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProductCollectionViewListCell.reuseIdentifier, for: indexPath) as? ProductCollectionViewListCell else {
         return UICollectionViewCell()
       }
       
@@ -113,7 +120,13 @@ extension CollectionViewController {
               return UICollectionViewCell()
             }
       
-      cell.insertCellData(image: image, name: item.name, fixedPrice: item.fixedPrice, bargainPrice: item.getBargainPrice, stock: item.getStock)
+      cell.insertCellData(
+        image: image,
+        name: item.name,
+        fixedPrice: item.fixedPrice,
+        bargainPrice: item.getBargainPrice,
+        stock: item.getStock
+      )
       
       return cell
     }
@@ -125,33 +138,41 @@ extension CollectionViewController {
 }
 
 extension CollectionViewController: UICollectionViewDelegateFlowLayout {
-  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+  func collectionView(
+    _ collectionView: UICollectionView,
+    layout collectionViewLayout: UICollectionViewLayout,
+    sizeForItemAt indexPath: IndexPath
+  ) -> CGSize {
     let width = collectionView.frame.width
     
-    if segmentControl.selectedSegmentIndex == 0 {
+    if segmentControl.selectedSegmentIndex == listView {
       return CGSize(width: width, height: width / 7)
     } else {
       return CGSize(width: width / 2.2, height: width / 1.55)
     }
   }
   
-  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-    if segmentControl.selectedSegmentIndex == 0 {
+  func collectionView(
+    _ collectionView: UICollectionView,
+    layout collectionViewLayout: UICollectionViewLayout,
+    insetForSectionAt section: Int
+  ) -> UIEdgeInsets {
+    if segmentControl.selectedSegmentIndex == listView {
       return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
     } else {
       return UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 8)
     }
   }
   
-  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-    if segmentControl.selectedSegmentIndex == 0 {
+  func collectionView(
+    _ collectionView: UICollectionView,
+    layout collectionViewLayout: UICollectionViewLayout,
+    minimumLineSpacingForSectionAt section: Int
+  ) -> CGFloat {
+    if segmentControl.selectedSegmentIndex == listView {
       return 5
     } else {
       return 8
     }
-  }
-  
-  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-    return 0
   }
 }
