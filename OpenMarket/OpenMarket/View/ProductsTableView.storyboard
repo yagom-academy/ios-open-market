@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -82,10 +82,10 @@
                                 </tableViewCellContentView>
                                 <viewLayoutGuide key="safeArea" id="vDq-CB-LMW"/>
                                 <connections>
-                                    <outlet property="priceLabel" destination="hzA-2N-JQ1" id="NWg-gD-YXd"/>
                                     <outlet property="productImageView" destination="pvC-rv-Cwo" id="KaK-5D-Dyr"/>
-                                    <outlet property="stockLabel" destination="ug0-3H-2Vx" id="Kla-gr-Xgq"/>
-                                    <outlet property="titleLabel" destination="Cbj-Zq-nPY" id="9BD-a6-51p"/>
+                                    <outlet property="productPriceLabel" destination="hzA-2N-JQ1" id="WJl-u8-Ylb"/>
+                                    <outlet property="productStockLabel" destination="ug0-3H-2Vx" id="tTH-S6-T0g"/>
+                                    <outlet property="productTitleLabel" destination="hzA-2N-JQ1" id="62r-Oy-Ura"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>

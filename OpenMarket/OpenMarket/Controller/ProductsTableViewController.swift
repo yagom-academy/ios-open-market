@@ -55,26 +55,20 @@ class ProductsTableViewController: UITableViewController {
         }
     }
     
-    private func setupCellLabel(for cell: ProductsTableViewCell, from product: Product) {
-        cell.titleLabel.attributedText = product.attributedTitle
-        cell.priceLabel.attributedText = product.attributedPrice
-        cell.stockLabel.attributedText = product.attributedStock
-    }
-    
     private func setupCellImage(
         for cell: ProductsTableViewCell,
         from url: URL,
         indexPath: IndexPath,
         tableView: UITableView
     ) {
-        cell.productImageView.image = nil
+        cell.setup(imageView: nil)
         networkTask?.downloadImage(from: url) { result in
             switch result {
             case .success(let data):
                 guard let image = UIImage(data: data) else { return }
                 DispatchQueue.main.async {
                     guard indexPath == tableView.indexPath(for: cell) else { return }
-                    cell.productImageView.image = image
+                    cell.setup(imageView: image)
                 }
             case .failure(let error):
                 self.showAlert(
@@ -101,18 +95,19 @@ class ProductsTableViewController: UITableViewController {
     ) -> UITableViewCell {
         let product = products[indexPath.row]
         let reuseIdentifier = ProductsTableViewCell.reuseIdentifier
-        guard let cell = tableView.dequeueReusableCell(
+        let cell = tableView.dequeueReusableCell(
             withIdentifier: reuseIdentifier,
             for: indexPath
-        ) as? ProductsTableViewCell,
+        )
+        guard let cell = cell as? ProductsTableViewCell,
               let url = URL(string: product.thumbnail) else {
-                  let cell = tableView.dequeueReusableCell(
-                    withIdentifier: reuseIdentifier,
-                    for: indexPath
-                  )
                   return cell
               }
-        setupCellLabel(for: cell, from: product)
+        cell.setup(
+            titleLabel: product.attributedTitle,
+            priceLabel: product.attributedPrice,
+            stockLabel: product.attributedStock
+        )
         setupCellImage(for: cell, from: url, indexPath: indexPath, tableView: tableView)
         return cell
     }
