@@ -1,19 +1,19 @@
 import UIKit
 
 class ProductListViewController: UIViewController {
-    enum Section: Hashable {
+    private enum Section: Hashable {
         case list
         case grid
     }
     
-    var products: ProductListAsk.Response?
-    lazy var collectionView = UICollectionView(
+    private var products: ProductListAsk.Response?
+    private lazy var collectionView = UICollectionView(
         frame: view.bounds,
         collectionViewLayout: makeListLayout()
     )
-    var dataSource: UICollectionViewDiffableDataSource<Section, ProductListAsk.Response.Page>!
+    private var dataSource: UICollectionViewDiffableDataSource<Section, ProductListAsk.Response.Page>!
     
-    let segmentedControl: UISegmentedControl = {
+    private let segmentedControl: UISegmentedControl = {
         let items: [String] = ["List","Grid"]
         var segmented = UISegmentedControl(items: items)
          
@@ -40,7 +40,7 @@ class ProductListViewController: UIViewController {
         segmentedControl.addTarget(self, action: #selector(touchUpListButton), for: .valueChanged)
     }
     
-    func configureNavigationItems() {
+    private func configureNavigationItems() {
         let bounds = CGRect(
             x: 0,
             y: 0,
@@ -51,7 +51,7 @@ class ProductListViewController: UIViewController {
         navigationItem.titleView = segmentedControl
     }
     
-    func makeGridLayout() -> UICollectionViewLayout {
+    private func makeGridLayout() -> UICollectionViewLayout {
         let itemSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
             heightDimension: .fractionalHeight(1.0)
@@ -73,7 +73,7 @@ class ProductListViewController: UIViewController {
         return layout
     }
     
-    func makeListLayout() -> UICollectionViewLayout {
+    private func makeListLayout() -> UICollectionViewLayout {
         return UICollectionViewCompositionalLayout { (section, layoutEnvironment) in
             let appearance = UICollectionLayoutListConfiguration.Appearance.plain
             let configuration = UICollectionLayoutListConfiguration(appearance: appearance)
@@ -82,7 +82,7 @@ class ProductListViewController: UIViewController {
         }
     }
     
-    func configureListDataSource() {
+    private func configureListDataSource() {
         let cellRegistration = UICollectionView.CellRegistration<CollectionViewListCell, ProductListAsk.Response.Page> {
             (cell, indexPath, item) in
         }
@@ -102,7 +102,7 @@ class ProductListViewController: UIViewController {
         applySnapShot(section: .list)
     }
     
-    func configureGridDataSource() {
+    private func configureGridDataSource() {
         let cellRegistration = UICollectionView.CellRegistration<CollectionViewGridCell, ProductListAsk.Response.Page> {
             (cell, indexPath, item) in
             cell.layer.borderColor = UIColor.systemGray.cgColor
@@ -123,7 +123,7 @@ class ProductListViewController: UIViewController {
         applySnapShot(section: .grid)
     }
     
-    func applySnapShot(section: Section) {
+    private func applySnapShot(section: Section) {
         guard let products = products else {
             return
         }
@@ -134,7 +134,7 @@ class ProductListViewController: UIViewController {
         self.dataSource.apply(snapshot, animatingDifferences: false)
     }
 
-    func fetchProductList() {
+    private func fetchProductList() {
         let requester = ProductListAskRequester(pageNo: 1, itemsPerPage: 30)
         URLSession.shared.request(requester: requester) { result in
             switch result {

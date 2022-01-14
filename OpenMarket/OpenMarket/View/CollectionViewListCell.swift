@@ -2,28 +2,28 @@ import UIKit
 
 class CollectionViewListCell: UICollectionViewListCell {
     
-    let activityIndicator: UIActivityIndicatorView = {
+    private let activityIndicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView()
         return indicator
     }()
     
-    let imageView: UIImageView = {
+    private let imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(systemName: "pencil")
         return imageView
     }()
     
-    let nameLabel: UILabel = {
+    private let nameLabel: UILabel = {
         let label = UILabel()
         return label
     }()
     
-    let priceLabel: UILabel = {
+    private let priceLabel: UILabel = {
         let label = UILabel()
         return label
     }()
     
-    lazy var labelStackView: UIStackView = {
+    private lazy var labelStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.distribution = .fillEqually
@@ -32,7 +32,7 @@ class CollectionViewListCell: UICollectionViewListCell {
         return stackView
     }()
     
-    let stockLabel: UILabel = {
+    private let stockLabel: UILabel = {
         let label = UILabel()
         return label
     }()
@@ -58,13 +58,13 @@ class CollectionViewListCell: UICollectionViewListCell {
         updateStockLabel(from: item)
     }
     
-    func updateNameLabel(from item: ProductListAsk.Response.Page) {
+    private func updateNameLabel(from item: ProductListAsk.Response.Page) {
         let nameText = item.name.boldFont
         nameText.addAttribute(.font, value: UIFont.preferredFont(forTextStyle: .caption1), range: NSMakeRange(0, nameText.length))
         nameLabel.attributedText = nameText
     }
     
-    func updateStockLabel(from item: ProductListAsk.Response.Page) {
+    private func updateStockLabel(from item: ProductListAsk.Response.Page) {
         let stockText = NSMutableAttributedString(string: "")
         if item.stock == 0 {
             stockText.append("품절".yellowColor)
@@ -77,7 +77,7 @@ class CollectionViewListCell: UICollectionViewListCell {
         stockLabel.attributedText = stockText
     }
     
-    func updatePriceLabel(from item: ProductListAsk.Response.Page) {
+    private func updatePriceLabel(from item: ProductListAsk.Response.Page) {
         guard let bargainPrice = item.bargainPrice.description.decimal,
               let originalPrice = item.price.description.decimal else {
                   return
@@ -97,7 +97,7 @@ class CollectionViewListCell: UICollectionViewListCell {
         priceLabel.attributedText = priceText
     }
     
-    func configureLayout() {
+    private func configureLayout() {
         activityIndicator.bounds = contentView.bounds
         imageView.translatesAutoresizingMaskIntoConstraints = false
         labelStackView.translatesAutoresizingMaskIntoConstraints = false

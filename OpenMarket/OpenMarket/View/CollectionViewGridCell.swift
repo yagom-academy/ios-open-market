@@ -2,7 +2,7 @@ import UIKit
 
 class CollectionViewGridCell: UICollectionViewCell {
 
-     var activityIndicator: UIActivityIndicatorView = {
+    private var activityIndicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView()
         return indicator
     }()
@@ -13,7 +13,7 @@ class CollectionViewGridCell: UICollectionViewCell {
         return imageView
     }()
     
-    let nameLabel: UILabel = {
+    private let nameLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
         label.textAlignment = .center
@@ -22,7 +22,7 @@ class CollectionViewGridCell: UICollectionViewCell {
         return label
     }()
     
-    let priceLabel: UILabel = {
+    private let priceLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
         label.textAlignment = .center
@@ -31,7 +31,7 @@ class CollectionViewGridCell: UICollectionViewCell {
         return label
     }()
     
-    let stockLabel: UILabel = {
+    private let stockLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
         label.textAlignment = .center
@@ -40,7 +40,7 @@ class CollectionViewGridCell: UICollectionViewCell {
         return label
     }()
     
-    lazy var stackView: UIStackView = {
+    private lazy var stackView: UIStackView = {
         let stackView = UIStackView()
         stackView.addArrangedSubview(activityIndicator)
         stackView.addArrangedSubview(imageView)
@@ -50,7 +50,6 @@ class CollectionViewGridCell: UICollectionViewCell {
         stackView.axis = .vertical
         stackView.distribution = .equalSpacing
         stackView.alignment = .center
-        // TODO: 테두리 추가 
         return stackView
     }()
     
@@ -73,13 +72,13 @@ class CollectionViewGridCell: UICollectionViewCell {
         updateStockLabel(from: item)
     }
     
-    func updateNameLabel(from item: ProductListAsk.Response.Page) {
+    private func updateNameLabel(from item: ProductListAsk.Response.Page) {
         let nameText = item.name.boldFont
         nameText.addAttribute(.font, value: UIFont.preferredFont(forTextStyle: .title3), range: NSMakeRange(0, nameText.length))
         nameLabel.attributedText = nameText
     }
     
-    func updateStockLabel(from item: ProductListAsk.Response.Page) {
+    private func updateStockLabel(from item: ProductListAsk.Response.Page) {
         let stockText = NSMutableAttributedString(string: "")
         if item.stock == 0 {
             stockText.append("품절".yellowColor)
@@ -92,7 +91,7 @@ class CollectionViewGridCell: UICollectionViewCell {
         stockLabel.attributedText = stockText
     }
     
-    func updatePriceLabel(from item: ProductListAsk.Response.Page) {
+    private func updatePriceLabel(from item: ProductListAsk.Response.Page) {
         guard let bargainPrice = item.bargainPrice.description.decimal,
               let originalPrice = item.price.description.decimal else {
                   return
@@ -111,7 +110,7 @@ class CollectionViewGridCell: UICollectionViewCell {
         priceText.addAttribute(.font, value: UIFont.preferredFont(forTextStyle: .body), range: NSMakeRange(0, priceText.length))
         priceLabel.attributedText = priceText
     }
-    func configureAutoLayout() {
+    private func configureAutoLayout() {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             stackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
