@@ -140,17 +140,17 @@
 //}
 //
 //extension ProductPageViewController: UICollectionViewDelegate {
-//    
+//
 //    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
 //        let endPoint = CGPoint(x: 0, y: scrollView.contentSize.height)
 //        if targetContentOffset.pointee.y + scrollView.frame.height >= endPoint.y {
 //            guard let value = page?.hasNext, value else { return }
-//            
+//
 //            itemsPerPage += 10
 //            fetchPage()
 //        }
 //    }
-//    
+//
 //}
 //
 //extension ProductPageViewController {
