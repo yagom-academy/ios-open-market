@@ -14,17 +14,17 @@ class ProductsCollectionViewCell: UICollectionViewCell {
     }
     
     func setup(
-        title: NSAttributedString,
-        price: NSAttributedString,
-        stock: NSAttributedString
+        titleLabel: NSAttributedString,
+        priceLabel: NSAttributedString,
+        stockLabel: NSAttributedString
     ) {
         self.productTitleLabel.attributedText = title
         self.productPriceLabel.attributedText = price
-        self.productStockLabel.attributedText = stock
+        self.productStockLabel.attributedText = stockLabl
     }
     
-    func setup(image: UIImage?) {
-        self.productImageView.image = image
+    func setup(imageView: UIImage?) {
+        self.productImageView.image = imageView
     }
 }
 

@@ -61,14 +61,14 @@ class ProductsCollectionViewController: UICollectionViewController {
         indexPath: IndexPath,
         collectionView: UICollectionView
     ) {
-        cell.setup(image: nil)
+        cell.setup(imageView: nil)
         networkTask?.downloadImage(from: url) { result in
             switch result {
             case .success(let data):
                 guard let image = UIImage(data: data) else { return }
                 DispatchQueue.main.async {
                     guard indexPath == collectionView.indexPath(for: cell) else { return }
-                    cell.setup(image: image)
+                    cell.setup(imageView: image)
                 }
             case .failure(let error):
                 self.showAlert(
@@ -98,22 +98,18 @@ class ProductsCollectionViewController: UICollectionViewController {
     ) -> UICollectionViewCell {
         let product = products[indexPath.item]
         let reuseIdentifier = ProductsCollectionViewCell.reuseIdentifier
-        guard
-            let cell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: reuseIdentifier,
-                for: indexPath
-            ) as? ProductsCollectionViewCell,
-            let url = URL(string: product.thumbnail) else {
-                let cell = collectionView.dequeueReusableCell(
-                    withReuseIdentifier: reuseIdentifier,
-                    for: indexPath
-                )
-                return cell
-            }
+        let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: reuseIdentifier,
+            for: indexPath
+        )
+        guard let cell = cell as? ProductsCollectionViewCell,
+              let url = URL(string: product.thumbnail) else {
+                  return cell
+              }
         cell.setup(
-            title: product.attributedTitle,
-            price: product.attributedPrice,
-            stock: product.attributedStock
+            titleLabel: product.attributedTitle,
+            priceLabel: product.attributedPrice,
+            stockLabel: product.attributedStock
         )
         setupCellImage(for: cell, from: url, indexPath: indexPath, collectionView: collectionView)
         return cell
