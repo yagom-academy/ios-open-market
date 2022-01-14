@@ -23,7 +23,7 @@ class ProductGridLayoutCell: UICollectionViewCell {
     private let productStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
-        stackView.distribution = .fill
+        stackView.distribution = .equalSpacing
         stackView.alignment = .center
         stackView.spacing = Design.productStackViewSpacing
         return stackView
@@ -60,7 +60,7 @@ class ProductGridLayoutCell: UICollectionViewCell {
     private let productPriceStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
-        stackView.distribution = .fillEqually
+        stackView.distribution = .fill
         stackView.alignment = .fill
         return stackView
     }()

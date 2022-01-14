@@ -156,18 +156,32 @@ private extension MainViewController {
         configGridDataSource()
     }
     
-    func createGridLayout() -> UICollectionViewLayout {
+    func createItemLayout() -> NSCollectionLayoutItem {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
+        return NSCollectionLayoutItem(layoutSize: itemSize)
+    }
+    
+    func createGroupLayout(with item: NSCollectionLayoutItem) -> NSCollectionLayoutGroup {
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(self.view.frame.height * 0.35))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: Design.columnCount)
         group.interItemSpacing = .fixed(Design.interItemSpacing)
         
+        return group
+    }
+    
+    func createSectionLayout(with group: NSCollectionLayoutGroup) -> NSCollectionLayoutSection {
         let section = NSCollectionLayoutSection(group: group)
         section.interGroupSpacing = CGFloat(Design.interGroupSpacing)
         section.contentInsets = Design.sectionEdgeInsets
         
+        return section
+    }
+    
+    func createGridLayout() -> UICollectionViewLayout {
+        let item = createItemLayout()
+        let group = createGroupLayout(with: item)
+        let section = createSectionLayout(with: group)
         let layout = UICollectionViewCompositionalLayout(section: section)
         
         return layout
