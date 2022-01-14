@@ -23,14 +23,20 @@ class CollectionViewController: UIViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    let productCollectionViewGridCellNib =  UINib(nibName: "ProductCollectionViewGridCell", bundle: nil)
-    self.collectionView.register(productCollectionViewGridCellNib, forCellWithReuseIdentifier: "ProductCollectionViewGridCell")
-    fetchProducts()
-    let productCollectionViewListCellNib =  UINib(nibName: "ProductCollectionViewListCell", bundle: nil)
-    self.collectionView.register(productCollectionViewListCellNib, forCellWithReuseIdentifier: "ProductCollectionViewListCell")
+    registerNib()
     fetchProducts()
     collectionView.delegate = self
-    
+  }
+  
+  @IBAction func touchUpPresentingSegment(_ sender: UISegmentedControl) {
+    switch sender.selectedSegmentIndex {
+    case 0:
+      configureListViewDataSource()
+    case 1:
+      configureGridViewDataSource()
+    default:
+      return
+    }
   }
   
   func fetchProducts() {
@@ -40,12 +46,19 @@ class CollectionViewController: UIViewController {
         self.products = data.pages
         DispatchQueue.main.async {
           self.collectionView.collectionViewLayout = self.createGridViewLayout()
-          self.configureGridViewDataSource()
+          self.configureListViewDataSource()
         }
       case .failure(let error):
         print(error)
       }
     }
+  }
+  
+  func registerNib() {
+    let productCollectionViewGridCellNib =  UINib(nibName: "ProductCollectionViewGridCell", bundle: nil)
+    self.collectionView.register(productCollectionViewGridCellNib, forCellWithReuseIdentifier: "ProductCollectionViewGridCell")
+    let productCollectionViewListCellNib =  UINib(nibName: "ProductCollectionViewListCell", bundle: nil)
+    self.collectionView.register(productCollectionViewListCellNib, forCellWithReuseIdentifier: "ProductCollectionViewListCell")
   }
 }
 
@@ -73,6 +86,29 @@ extension CollectionViewController {
     dataSource = UICollectionViewDiffableDataSource<Section, Product>(collectionView: collectionView) {
       (collectionView: UICollectionView, indexPath: IndexPath, item: Product) -> UICollectionViewCell? in
       guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProductCollectionViewGridCell", for: indexPath) as? ProductCollectionViewGridCell else {
+        return UICollectionViewCell()
+      }
+      
+      guard let imageUrl = URL(string: item.thumbnail),
+        let imageData = try? Data(contentsOf: imageUrl),
+        let image = UIImage(data: imageData) else {
+          return UICollectionViewCell()
+      }
+      
+      cell.insertCellData(image: image, name: item.name, fixedPrice: item.fixedPrice, bargainPrice: item.getBargainPrice, stock: item.getStock)
+      
+      return cell
+    }
+    var snapshot = NSDiffableDataSourceSnapshot<Section, Product>()
+    snapshot.appendSections([.main])
+    snapshot.appendItems(products)
+    dataSource?.apply(snapshot, animatingDifferences: false)
+  }
+  
+  private func configureListViewDataSource() {
+    dataSource = UICollectionViewDiffableDataSource<Section, Product>(collectionView: collectionView) {
+      (collectionView: UICollectionView, indexPath: IndexPath, item: Product) -> UICollectionViewCell? in
+      guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProductCollectionViewListCell", for: indexPath) as? ProductCollectionViewListCell else {
         return UICollectionViewCell()
       }
       

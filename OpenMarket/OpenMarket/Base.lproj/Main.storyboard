@@ -51,12 +51,15 @@
                     <navigationItem key="navigationItem" id="gJW-Pq-AQ4">
                         <nil key="title"/>
                         <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="uyS-rh-GEx">
-                            <rect key="frame" x="141.5" y="6" width="131" height="32"/>
+                            <rect key="frame" x="141.5" y="5.5" width="131" height="33"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <segments>
-                                <segment title="First"/>
-                                <segment title="Second"/>
+                                <segment title="LIST"/>
+                                <segment title="GRID"/>
                             </segments>
+                            <connections>
+                                <action selector="touchUpPresentingSegment:" destination="BYZ-38-t0r" eventType="valueChanged" id="49B-VW-NdZ"/>
+                            </connections>
                         </segmentedControl>
                         <barButtonItem key="rightBarButtonItem" style="plain" systemItem="add" id="LTF-EP-78w"/>
                     </navigationItem>
