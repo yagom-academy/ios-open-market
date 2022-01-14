@@ -28,7 +28,7 @@ class ListCell: UICollectionViewCell {
         content.secondaryTextProperties.color = .systemGray
 
         let priceAttributedString =
-            "\(product.currency) \(product.price.format())".erasedOriginalPrice()
+            "\(product.currency) \(product.price.format())".eraseOriginalPrice()
         let bargainPriceAttributedString = NSMutableAttributedString(
             string: "\(product.currency) \(product.bargainPrice)"
         )
