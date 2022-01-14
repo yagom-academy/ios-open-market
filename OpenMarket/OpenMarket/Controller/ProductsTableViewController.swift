@@ -119,17 +119,17 @@ class ProductsTableViewController: UITableViewController {
         setupCellImage(for: cell, from: url, indexPath: indexPath, tableView: tableView)
         return cell
     }
-}
-
-extension ProductsTableViewController {
-    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        guard pageInformation?.hasNext == true else { return }
-        let contentOffsetY = scrollView.contentOffset.y
-        let tableViewContentSize = tableView.contentSize.height
-        let frameHeight = scrollView.frame.height
-
-        if contentOffsetY > tableViewContentSize - frameHeight {
-            guard let num = pageInformation?.pageNumber else { return }
+    
+    // MARK: - Table view delegate
+    
+    override func tableView(
+        _ tableView: UITableView,
+        willDisplay cell: UITableViewCell,
+        forRowAt indexPath: IndexPath
+    ) {
+        if indexPath.row == products.count - 1,
+           pageInformation?.hasNext == true,
+           let num = pageInformation?.pageNumber {
             loadProductsList(pageNumber: num + 1)
         }
     }

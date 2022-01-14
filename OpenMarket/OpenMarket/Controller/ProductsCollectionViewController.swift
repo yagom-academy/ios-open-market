@@ -95,7 +95,7 @@ class ProductsCollectionViewController: UICollectionViewController {
         }
     }
     
-    // MARK: UICollectionViewDataSource
+    // MARK: - Collection view Data source
     
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
@@ -130,6 +130,20 @@ class ProductsCollectionViewController: UICollectionViewController {
         setupCellImage(for: cell, from: url, indexPath: indexPath, collectionView: collectionView)
         return cell
     }
+    
+    // MARK: - Collection view delegate
+    
+    override func collectionView(
+        _ collectionView: UICollectionView,
+        willDisplay cell: UICollectionViewCell,
+        forItemAt indexPath: IndexPath
+    ) {
+        if indexPath.row == products.count - 1,
+           pageInformation?.hasNext == true,
+           let num = pageInformation?.pageNumber {
+            loadProductsList(pageNumber: num + 1)
+        }
+    }
 }
 
 extension ProductsCollectionViewController: UICollectionViewDelegateFlowLayout {
@@ -143,19 +157,5 @@ extension ProductsCollectionViewController: UICollectionViewDelegateFlowLayout {
         let shortLength = frameWidth < frameHeight ? frameWidth : frameHeight
         let cellWidth = shortLength / 2 - 15
         return CGSize(width: cellWidth, height: cellWidth * 1.5)
-    }
-}
-
-extension ProductsCollectionViewController {
-    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        guard pageInformation?.hasNext == true else { return }
-        let contentOffsetY = scrollView.contentOffset.y
-        let tableViewContentSize = collectionView.contentSize.height
-        let frameHeight = scrollView.frame.height
-
-        if contentOffsetY > tableViewContentSize - frameHeight {
-            guard let num = pageInformation?.pageNumber else { return }
-            loadProductsList(pageNumber: num + 1)
-        }
     }
 }
