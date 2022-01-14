@@ -93,7 +93,7 @@ class ProductListViewController: UIViewController {
                 item: item
             )
             print("item:\(indexPath.item)")
-// TODO: cell.image load
+            cell.imageView.image = ImageLoader.load(from: item.thumbnail)
             cell.activityIndicator.stopAnimating()
             cell.nameLabel.text = item.name
             cell.priceLabel.text = item.price.description
@@ -116,7 +116,7 @@ class ProductListViewController: UIViewController {
                 item: item
             )
             print("item:\(indexPath.item)")
-// TODO: cell.image load
+            cell.imageView.image = ImageLoader.load(from: item.thumbnail)
             cell.activityIndicator.stopAnimating()
             cell.nameLabel.text = item.name
             cell.priceLabel.text = item.price.description
