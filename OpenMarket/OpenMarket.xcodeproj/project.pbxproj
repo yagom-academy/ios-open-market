@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3A4FCD2F279154E800B95E40 /* ProductsTableView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3A4FCD2E279154E800B95E40 /* ProductsTableView.storyboard */; };
+		3A4FCD312791551100B95E40 /* ProductsCollectionView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3A4FCD302791551100B95E40 /* ProductsCollectionView.storyboard */; };
 		3AA089892783E9CD002A0002 /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA089882783E9CD002A0002 /* Image.swift */; };
 		3AA0898B2783EAB3002A0002 /* Vendor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA0898A2783EAB3002A0002 /* Vendor.swift */; };
 		3AAA1E2C2786C2320022D36D /* JSONParsable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AAA1E2B2786C2320022D36D /* JSONParsable.swift */; };
@@ -42,6 +44,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3A4FCD2E279154E800B95E40 /* ProductsTableView.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ProductsTableView.storyboard; sourceTree = "<group>"; };
+		3A4FCD302791551100B95E40 /* ProductsCollectionView.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ProductsCollectionView.storyboard; sourceTree = "<group>"; };
 		3AA089882783E9CD002A0002 /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
 		3AA0898A2783EAB3002A0002 /* Vendor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vendor.swift; sourceTree = "<group>"; };
 		3AAA1E2B2786C2320022D36D /* JSONParsable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONParsable.swift; sourceTree = "<group>"; };
@@ -110,6 +114,10 @@
 			children = (
 				3AD394662788337C0080754F /* ProductsCollectionViewCell.swift */,
 				DE62049D278D1D95009D5AE7 /* ProductsTableViewCell.swift */,
+				3A4FCD2E279154E800B95E40 /* ProductsTableView.storyboard */,
+				3A4FCD302791551100B95E40 /* ProductsCollectionView.storyboard */,
+				C70FB10025BEF61C00C9924E /* Main.storyboard */,
+				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -137,9 +145,7 @@
 				DE8317172782D1DD00FF2120 /* Model */,
 				C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */,
 				C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */,
-				C70FB10025BEF61C00C9924E /* Main.storyboard */,
 				C70FB10325BEF61D00C9924E /* Assets.xcassets */,
-				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
 				C70FB10825BEF61D00C9924E /* Info.plist */,
 			);
 			path = OpenMarket;
@@ -272,6 +278,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				DE00D5B72786EE0E0088795D /* .swiftlint.yml in Resources */,
+				3A4FCD312791551100B95E40 /* ProductsCollectionView.storyboard in Resources */,
+				3A4FCD2F279154E800B95E40 /* ProductsTableView.storyboard in Resources */,
 				C70FB10725BEF61D00C9924E /* LaunchScreen.storyboard in Resources */,
 				C70FB10425BEF61D00C9924E /* Assets.xcassets in Resources */,
 				C70FB10225BEF61C00C9924E /* Main.storyboard in Resources */,

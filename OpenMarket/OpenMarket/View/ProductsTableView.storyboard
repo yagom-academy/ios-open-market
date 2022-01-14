@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Products Table View Controller-->
+        <scene sceneID="j4M-lm-dd8">
+            <objects>
+                <tableViewController storyboardIdentifier="ListViewController" id="Hhb-Mt-642" customClass="ProductsTableViewController" customModule="OpenMarket" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="fTY-1l-s4s">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="productsListCell" id="IMQ-br-N7o" customClass="ProductsTableViewCell" customModule="OpenMarket" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="44.5" width="414" height="66.5"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="IMQ-br-N7o" id="Tpr-G8-4Rf">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="66.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="750" verticalHuggingPriority="750" image="chevron.right" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="2hE-YG-PCz">
+                                            <rect key="frame" x="384" y="12" width="20" height="16.5"/>
+                                            <color key="tintColor" systemColor="systemGrayColor"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="20" id="FNf-sU-C7D"/>
+                                                <constraint firstAttribute="width" secondItem="2hE-YG-PCz" secondAttribute="height" multiplier="1:1" id="LPs-nf-5fN"/>
+                                            </constraints>
+                                        </imageView>
+                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="a28-go-u4m">
+                                            <rect key="frame" x="80" y="10" width="294" height="46.5"/>
+                                            <subviews>
+                                                <stackView opaque="NO" contentMode="scaleToFill" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="iho-Jn-fxq">
+                                                    <rect key="frame" x="0.0" y="0.0" width="294" height="21"/>
+                                                    <subviews>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="800" verticalCompressionResistancePriority="800" text="Title" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cbj-Zq-nPY">
+                                                            <rect key="frame" x="0.0" y="0.0" width="250" height="20.5"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="951" verticalHuggingPriority="252" text="Stock" textAlignment="right" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ug0-3H-2Vx">
+                                                            <rect key="frame" x="250" y="0.0" width="44" height="20.5"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                    </subviews>
+                                                </stackView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Price" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hzA-2N-JQ1">
+                                                    <rect key="frame" x="0.0" y="26" width="294" height="20.5"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </stackView>
+                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1" verticalCompressionResistancePriority="1" placeholderIntrinsicWidth="60" placeholderIntrinsicHeight="60" translatesAutoresizingMaskIntoConstraints="NO" id="pvC-rv-Cwo">
+                                            <rect key="frame" x="10" y="3.5" width="60" height="60"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" secondItem="pvC-rv-Cwo" secondAttribute="height" multiplier="1:1" id="rC5-wV-MUj"/>
+                                                <constraint firstAttribute="width" constant="60" id="rvN-fr-ghT"/>
+                                            </constraints>
+                                        </imageView>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="pvC-rv-Cwo" firstAttribute="leading" secondItem="Tpr-G8-4Rf" secondAttribute="leading" constant="10" id="Et8-sq-dBe"/>
+                                        <constraint firstItem="2hE-YG-PCz" firstAttribute="firstBaseline" secondItem="ug0-3H-2Vx" secondAttribute="firstBaseline" id="OoN-Pi-ewS"/>
+                                        <constraint firstItem="a28-go-u4m" firstAttribute="leading" secondItem="pvC-rv-Cwo" secondAttribute="trailing" constant="10" id="eHc-9g-hNe"/>
+                                        <constraint firstAttribute="trailing" secondItem="2hE-YG-PCz" secondAttribute="trailing" constant="10" id="igT-8q-kJ2"/>
+                                        <constraint firstAttribute="bottom" secondItem="a28-go-u4m" secondAttribute="bottom" constant="10" id="jvq-5m-iCt"/>
+                                        <constraint firstItem="2hE-YG-PCz" firstAttribute="leading" secondItem="a28-go-u4m" secondAttribute="trailing" constant="10" id="l7o-QO-apL"/>
+                                        <constraint firstItem="a28-go-u4m" firstAttribute="top" secondItem="Tpr-G8-4Rf" secondAttribute="top" constant="10" id="nyV-NV-ucb"/>
+                                        <constraint firstItem="pvC-rv-Cwo" firstAttribute="centerY" secondItem="Tpr-G8-4Rf" secondAttribute="centerY" id="pC3-5Y-VLV"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <viewLayoutGuide key="safeArea" id="vDq-CB-LMW"/>
+                                <connections>
+                                    <outlet property="priceLabel" destination="hzA-2N-JQ1" id="NWg-gD-YXd"/>
+                                    <outlet property="productImageView" destination="pvC-rv-Cwo" id="KaK-5D-Dyr"/>
+                                    <outlet property="stockLabel" destination="ug0-3H-2Vx" id="Kla-gr-Xgq"/>
+                                    <outlet property="titleLabel" destination="Cbj-Zq-nPY" id="9BD-a6-51p"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="Hhb-Mt-642" id="h8u-46-bOK"/>
+                            <outlet property="delegate" destination="Hhb-Mt-642" id="HBd-qd-otw"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="o0Z-FG-Qn1" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1104" y="-88"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="chevron.right" catalog="system" width="96" height="128"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemGrayColor">
+            <color red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>
