@@ -9,7 +9,7 @@ class ProductListViewController: UIViewController {
     var products: ProductListAsk.Response?
     lazy var collectionView = UICollectionView(
         frame: view.bounds,
-        collectionViewLayout: makeGridLayout()
+        collectionViewLayout: makeListLayout()
     )
     var dataSource: UICollectionViewDiffableDataSource<Section, ProductListAsk.Response.Page>!
     
@@ -35,7 +35,7 @@ class ProductListViewController: UIViewController {
         view.backgroundColor = .white
         configureNavigationItems()
         view.addSubview(collectionView)
-        configureDataSource()
+        configureListDataSource()
         segmentedControl.addTarget(self, action: #selector(touchUpListButton), for: .valueChanged)
     }
     
@@ -74,11 +74,35 @@ class ProductListViewController: UIViewController {
         return UICollectionViewCompositionalLayout { (section, layoutEnvironment) in
             let appearance = UICollectionLayoutListConfiguration.Appearance.plain
             let configuration = UICollectionLayoutListConfiguration(appearance: appearance)
+            
             return NSCollectionLayoutSection.list(using: configuration, layoutEnvironment: layoutEnvironment)
         }
     }
     
-    func configureDataSource() {
+    func configureListDataSource() {
+        let cellRegistration = UICollectionView.CellRegistration<CollectionViewListCell, ProductListAsk.Response.Page> {
+            (cell, indexPath, item) in
+        }
+      
+        dataSource = UICollectionViewDiffableDataSource<Section, ProductListAsk.Response.Page>(collectionView: collectionView) {
+            (collectionView, indexPath, item) -> UICollectionViewCell? in
+            let cell = collectionView.dequeueConfiguredReusableCell(
+                using: cellRegistration,
+                for: indexPath,
+                item: item
+            )
+            print("item:\(indexPath.item)")
+// TODO: cell.image load
+            cell.activityIndicator.stopAnimating()
+            cell.nameLabel.text = item.name
+            cell.priceLabel.text = item.price.description
+            cell.stockLabel.text = item.stock.description
+            return cell
+        }
+        updateProductList(section: .list)
+    }
+    
+    func configureGridDataSource() {
         let cellRegistration = UICollectionView.CellRegistration<CollectionViewGridCell, ProductListAsk.Response.Page> {
             (cell, indexPath, item) in
         }
@@ -98,11 +122,10 @@ class ProductListViewController: UIViewController {
             cell.stockLabel.text = item.stock.description
             return cell 
         }
-        
-        updateProductList()
+        updateProductList(section: .grid)
     }
     
-    func updateProductList() {
+        func updateProductList(section: Section) {
         let requester = ProductListAskRequester(pageNo: 1, itemsPerPage: 15)
         URLSession.shared.request(requester: requester) { [self] result in
             switch result {
@@ -112,7 +135,7 @@ class ProductListViewController: UIViewController {
                     return
                 }
                 var snapshot = NSDiffableDataSourceSnapshot<Section, ProductListAsk.Response.Page>()
-                snapshot.appendSections([.grid])
+                snapshot.appendSections([section])
                 snapshot.appendItems(products.pages)
                 self.dataSource.apply(snapshot, animatingDifferences: false)
             case .failure(let error):
