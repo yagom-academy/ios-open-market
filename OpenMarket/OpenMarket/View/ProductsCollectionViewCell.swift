@@ -18,9 +18,9 @@ class ProductsCollectionViewCell: UICollectionViewCell {
         priceLabel: NSAttributedString,
         stockLabel: NSAttributedString
     ) {
-        self.productTitleLabel.attributedText = title
-        self.productPriceLabel.attributedText = price
-        self.productStockLabel.attributedText = stockLabl
+        self.productTitleLabel.attributedText = titleLabel
+        self.productPriceLabel.attributedText = priceLabel
+        self.productStockLabel.attributedText = stockLabel
     }
     
     func setup(imageView: UIImage?) {
