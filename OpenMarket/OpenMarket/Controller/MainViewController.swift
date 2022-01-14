@@ -38,18 +38,12 @@ class MainViewController: UIViewController {
     }
     
     private func requestProducts() {
-        guard networkingState == .idle else {
-            return
-        }
         let networkManager: NetworkManager = NetworkManager()
         guard let request = networkManager.requestListSearch(page: currentPage, itemsPerPage: 20) else {
             showAlert(message: Message.badRequest)
             return
         }
-        networkingState = .isLoding
         networkManager.fetch(request: request, decodingType: Products.self) { result in
-            self.networkingState = .idle
-            
             switch result {
             case .success(let products):
                 self.setUpData(for: products)
