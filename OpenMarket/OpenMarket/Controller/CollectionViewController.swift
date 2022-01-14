@@ -54,10 +54,10 @@ class CollectionViewController: UIViewController {
   }
   
   func registerNib() {
-    let productCollectionViewGridCellNib =  UINib(nibName: "ProductCollectionViewGridCell", bundle: nil)
-    self.collectionView.register(productCollectionViewGridCellNib, forCellWithReuseIdentifier: "ProductCollectionViewGridCell")
     let productCollectionViewListCellNib =  UINib(nibName: "ProductCollectionViewListCell", bundle: nil)
     self.collectionView.register(productCollectionViewListCellNib, forCellWithReuseIdentifier: "ProductCollectionViewListCell")
+    let productCollectionViewGridCellNib =  UINib(nibName: "ProductCollectionViewGridCell", bundle: nil)
+    self.collectionView.register(productCollectionViewGridCellNib, forCellWithReuseIdentifier: "ProductCollectionViewGridCell")
   }
 }
 
@@ -107,10 +107,6 @@ extension CollectionViewController {
     snapshot.appendItems(products)
     dataSource?.apply(snapshot, animatingDifferences: false)
   }
-}
-
-extension CollectionViewController: UICollectionViewDelegate {
-  
 }
 
 extension CollectionViewController: UICollectionViewDelegateFlowLayout {
