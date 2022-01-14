@@ -2,7 +2,8 @@ import UIKit
 
 class ProductListViewController: UIViewController {
     enum Section: Hashable {
-        case main
+        case list
+        case grid
     }
     
     var products: ProductListAsk.Response?
@@ -11,7 +12,6 @@ class ProductListViewController: UIViewController {
         collectionViewLayout: makeGridLayout()
     )
     var dataSource: UICollectionViewDiffableDataSource<Section, ProductListAsk.Response.Page>!
-    let data = [1,2,3,4,5,5]
     
     let segmentedControl: UISegmentedControl = {
         let items: [String] = ["List","Grid"]
@@ -29,13 +29,14 @@ class ProductListViewController: UIViewController {
         segmented.selectedSegmentIndex = 0
         return segmented
     }()
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         configureNavigationItems()
         view.addSubview(collectionView)
         configureDataSource()
+        segmentedControl.addTarget(self, action: #selector(touchUpListButton), for: .valueChanged)
     }
     
     func configureNavigationItems() {
@@ -67,6 +68,14 @@ class ProductListViewController: UIViewController {
         
         let layout = UICollectionViewCompositionalLayout(section: section)
         return layout
+    }
+    
+    func makeListLayout() -> UICollectionViewLayout {
+        return UICollectionViewCompositionalLayout { (section, layoutEnvironment) in
+            let appearance = UICollectionLayoutListConfiguration.Appearance.plain
+            let configuration = UICollectionLayoutListConfiguration(appearance: appearance)
+            return NSCollectionLayoutSection.list(using: configuration, layoutEnvironment: layoutEnvironment)
+        }
     }
     
     func configureDataSource() {
@@ -103,7 +112,7 @@ class ProductListViewController: UIViewController {
                     return
                 }
                 var snapshot = NSDiffableDataSourceSnapshot<Section, ProductListAsk.Response.Page>()
-                snapshot.appendSections([.main])
+                snapshot.appendSections([.grid])
                 snapshot.appendItems(products.pages)
                 self.dataSource.apply(snapshot, animatingDifferences: false)
             case .failure(let error):
@@ -113,3 +122,13 @@ class ProductListViewController: UIViewController {
     }
 }
 
+//MARK: - Segmented Control
+extension ProductListViewController {
+    @objc func touchUpListButton() {
+        if segmentedControl.selectedSegmentIndex == 0 {
+            collectionView.collectionViewLayout = makeListLayout()
+        } else if segmentedControl.selectedSegmentIndex == 1 {
+            collectionView.collectionViewLayout = makeListLayout()
+        }
+    }
+}
