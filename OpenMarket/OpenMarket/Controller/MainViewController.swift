@@ -35,7 +35,7 @@ class MainViewController: UIViewController {
                 self.pageInformation = productsList
                 self.products.append(contentsOf: productsList.pages)
                 DispatchQueue.main.async {
-//                    self.loadingActivityIndicator.stopAnimating()
+                    self.loadingActivityIndicator.stopAnimating()
                     let productView = self.view as? ProductView
                     productView?.reloadData()
                 }
