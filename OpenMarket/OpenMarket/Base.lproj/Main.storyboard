@@ -61,7 +61,11 @@
                                 <action selector="touchUpPresentingSegment:" destination="BYZ-38-t0r" eventType="valueChanged" id="49B-VW-NdZ"/>
                             </connections>
                         </segmentedControl>
-                        <barButtonItem key="rightBarButtonItem" style="plain" systemItem="add" id="LTF-EP-78w"/>
+                        <barButtonItem key="rightBarButtonItem" style="plain" systemItem="add" id="LTF-EP-78w">
+                            <connections>
+                                <segue destination="LMz-jZ-dJ1" kind="presentation" modalPresentationStyle="automatic" id="JaY-MZ-RcE"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="collectionView" destination="mlK-6u-tcA" id="eSs-OR-LzH"/>
@@ -89,6 +93,31 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hDD-cL-uce" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="69.565217391304358" y="114.50892857142857"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="6ID-nA-Nxq">
+            <objects>
+                <viewController id="LMz-jZ-dJ1" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="rPI-9z-MTW">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="상품 등록 페이지" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uJz-aY-307">
+                                <rect key="frame" x="101" y="321" width="211" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="Cjs-ju-PeW"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="aIX-UE-4Cm"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="cnt-ce-H46" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2028.985507246377" y="-270.53571428571428"/>
         </scene>
     </scenes>
     <resources>
