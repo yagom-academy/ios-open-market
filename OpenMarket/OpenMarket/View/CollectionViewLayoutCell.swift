@@ -18,6 +18,7 @@ class CollectionViewLayoutCell: UICollectionViewCell {
     var priceLabel = UILabel()
     var discountedLabel = UILabel()
     var stockLabel = UILabel()
+    var accessoryImageView = UIImageView()
     
     var isGridLayout: Bool = true
     
@@ -74,6 +75,10 @@ class CollectionViewLayoutCell: UICollectionViewCell {
         stackView.addArrangedSubview(stockLabel)
         stockLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         priceStackView.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+        
+        stackView.addArrangedSubview(accessoryImageView)
+        accessoryImageView.image = UIImage(systemName: "chevron.right")
+        accessoryImageView.tintColor = .systemGray
         
         priceLabel.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         discountedLabel.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
