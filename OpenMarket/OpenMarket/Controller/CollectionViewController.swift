@@ -21,11 +21,25 @@ class CollectionViewController: UIViewController {
   let api = APIManager(urlSession: URLSession(configuration: .default))
   var products: [Product] = []
   
+  private lazy var activityIndicator: UIActivityIndicatorView = {
+    let activityIndicator = UIActivityIndicatorView()
+    activityIndicator.center = self.view.center
+    activityIndicator.style = .large
+    activityIndicator.hidesWhenStopped = true
+    return activityIndicator
+  }()
+  
   override func viewDidLoad() {
     super.viewDidLoad()
+    startIndicator()
     registerNib()
     fetchProducts()
     collectionView.delegate = self
+  }
+  
+  func startIndicator() {
+    self.view.addSubview(activityIndicator)
+    activityIndicator.startAnimating()
   }
   
   @IBAction func touchUpPresentingSegment(_ sender: UISegmentedControl) {
@@ -40,12 +54,13 @@ class CollectionViewController: UIViewController {
   }
   
   func fetchProducts() {
-    api.productList(pageNumber: 1, itemsPerPage: 10) { response in
+    api.productList(pageNumber: 1, itemsPerPage: 20) { response in
       switch response {
       case .success(let data):
         self.products = data.pages
         DispatchQueue.main.async {
           self.configureListViewDataSource()
+          self.activityIndicator.stopAnimating()
         }
       case .failure(let error):
         print(error)

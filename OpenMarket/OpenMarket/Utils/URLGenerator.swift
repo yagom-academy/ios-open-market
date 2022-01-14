@@ -15,8 +15,8 @@ enum URLGenerator {
   static var host = URLComponents(string: "https://market-training.yagom-academy.kr")
   
   static func productList(pageNumber: Int, itemsPerPage: Int) throws -> URL {
-    let pageNumber = URLQueryItem(name: "page-no", value: "\(pageNumber)")
-    let itemsPerPage = URLQueryItem(name: "items-per-page", value: "\(itemsPerPage)")
+    let pageNumber = URLQueryItem(name: "page_no", value: "\(pageNumber)")
+    let itemsPerPage = URLQueryItem(name: "items_per_page", value: "\(itemsPerPage)")
     host?.path = "/api/products"
     host?.queryItems = [pageNumber, itemsPerPage]
     
