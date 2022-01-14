@@ -2,6 +2,8 @@ import UIKit
 
 class MainViewController: UIViewController {
     @IBOutlet weak var viewSegmentedControl: UISegmentedControl!
+    let listViewStoryboardName = "ProductsTableView"
+    let gridViewStoryboardName = "ProductsCollectionView"
     let listViewControllerIdentifier = "ListViewController"
     let gridViewControllerIdentifier = "GridViewController"
     
@@ -33,14 +35,14 @@ class MainViewController: UIViewController {
             subView.removeFromSuperview()
         }
         if viewSegmentedControl.selectedSegmentIndex == 0 {
-            let listViewStoryboard = UIStoryboard(name: "ProductsTableView", bundle: nil)
+            let listViewStoryboard = UIStoryboard(name: listViewStoryboardName, bundle: nil)
             let listViewController = listViewStoryboard.instantiateViewController(
                 withIdentifier: listViewControllerIdentifier
             )
             addChild(listViewController)
             view.addSubview(listViewController.view)
         } else if viewSegmentedControl.selectedSegmentIndex == 1 {
-            let gridViewStoryboard = UIStoryboard(name: "ProductsCollectionView", bundle: nil)
+            let gridViewStoryboard = UIStoryboard(name: gridViewStoryboardName, bundle: nil)
             let gridViewController = gridViewStoryboard.instantiateViewController(
                 withIdentifier: gridViewControllerIdentifier
             )
