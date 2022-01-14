@@ -96,7 +96,6 @@ class MainViewController: UIViewController {
             return
         }
     }
-    
 }
 
 extension MainViewController: UICollectionViewDataSource {
@@ -186,7 +185,7 @@ extension MainViewController: UICollectionViewDelegate {
         let heightRemainBottomHeight = contentHeight - yOffset
         let frameHeight = scrollView.frame.size.height
         if heightRemainBottomHeight < frameHeight ,
-           let hasNextPage = page?.hasNext, hasNextPage {
+           let page = page, page.hasNext, page.pageNumber == currentPage {
             currentPage += 1
             self.requestProducts()
         }
