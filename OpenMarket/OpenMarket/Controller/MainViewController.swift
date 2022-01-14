@@ -10,7 +10,7 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupSegmentedControl()
-        loadViewController()
+        changeViewController()
     }
     
     private func setupSegmentedControl() {
@@ -27,31 +27,51 @@ class MainViewController: UIViewController {
         )
     }
     
-    private func loadViewController() {
+    private func removeChildren() {
         children.forEach { children in
             children.removeFromParent()
         }
         view.subviews.forEach { subView in
             subView.removeFromSuperview()
         }
-        if viewSegmentedControl.selectedSegmentIndex == 0 {
+    }
+    
+    private func loadViewController(from segment: Segement) -> UIViewController {
+        let viewController: UIViewController
+        switch segment {
+        case .list:
             let listViewStoryboard = UIStoryboard(name: listViewStoryboardName, bundle: nil)
-            let listViewController = listViewStoryboard.instantiateViewController(
+            viewController = listViewStoryboard.instantiateViewController(
                 withIdentifier: listViewControllerIdentifier
             )
-            addChild(listViewController)
-            view.addSubview(listViewController.view)
-        } else if viewSegmentedControl.selectedSegmentIndex == 1 {
+        case .grid:
             let gridViewStoryboard = UIStoryboard(name: gridViewStoryboardName, bundle: nil)
-            let gridViewController = gridViewStoryboard.instantiateViewController(
+            viewController = gridViewStoryboard.instantiateViewController(
                 withIdentifier: gridViewControllerIdentifier
             )
-            addChild(gridViewController)
-            view.addSubview(gridViewController.view)
         }
+        return viewController
+    }
+    
+    private func changeViewController() {
+        guard let selectedSegment = Segement(
+            rawValue: viewSegmentedControl.selectedSegmentIndex
+        ) else { return }
+        let viewController = loadViewController(from: selectedSegment)
+        
+        removeChildren()
+        addChild(viewController)
+        view.addSubview(viewController.view)
     }
     
     @IBAction private func segmentedControlChanged(_ sender: UISegmentedControl) {
-        loadViewController()
+        changeViewController()
+    }
+}
+
+private extension MainViewController {
+    enum Segement: Int {
+        case list
+        case grid
     }
 }
