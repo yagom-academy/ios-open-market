@@ -1,11 +1,11 @@
 import UIKit
 
 class MainViewController: UIViewController {
-    @IBOutlet weak var viewSegmentedControl: UISegmentedControl!
-    let listViewStoryboardName = "ProductsTableView"
-    let gridViewStoryboardName = "ProductsCollectionView"
-    let listViewControllerIdentifier = "ListViewController"
-    let gridViewControllerIdentifier = "GridViewController"
+    @IBOutlet private weak var viewSegmentedControl: UISegmentedControl!
+    private let listViewStoryboardName = "ProductsTableView"
+    private let gridViewStoryboardName = "ProductsCollectionView"
+    private let listViewControllerIdentifier = "ListViewController"
+    private let gridViewControllerIdentifier = "GridViewController"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,7 +51,7 @@ class MainViewController: UIViewController {
         }
     }
     
-    @IBAction func segmentedControlChanged(_ sender: UISegmentedControl) {
+    @IBAction private func segmentedControlChanged(_ sender: UISegmentedControl) {
         loadViewController()
     }
 }
