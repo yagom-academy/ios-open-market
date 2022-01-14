@@ -35,9 +35,8 @@ final class ProductPageViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         configureSegmentedConrol()
-        
+        configureRefreshControl()
         configureViewLayout()
         datamanager.update()
     }
@@ -69,6 +68,7 @@ extension ProductPageViewController: UICollectionViewDelegate {
             applyDataToCurrentView()
         }
     }
+    
 }
 
 // MARK: - Updating Layout
@@ -79,11 +79,32 @@ extension ProductPageViewController {
         segmentedControl.backgroundColor = UIColor(cgColor: CGColor(red: 255, green: 255, blue: 255, alpha: 0))
         
         segmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for: UIControl.State.selected)
-        
         segmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.systemBlue], for: UIControl.State.normal)
         
         segmentedControl.layer.borderColor = UIColor.systemBlue.cgColor
         segmentedControl.layer.borderWidth = 2
+    }
+    
+    private func configureRefreshControl() {
+        let refreshControl1 = UIRefreshControl()
+        let refreshControl2 = UIRefreshControl()
+        gridCollectionView.refreshControl = refreshControl1
+        listCollectionView.refreshControl = refreshControl2
+        refreshControl1.addTarget(self, action: #selector(refreshDidTrigger) , for: .valueChanged)
+        refreshControl2.addTarget(self, action: #selector(refreshDidTrigger) , for: .valueChanged)
+        gridCollectionView.addSubview(refreshControl1)
+        listCollectionView.addSubview(refreshControl2)
+    }
+    
+    @objc
+    func refreshDidTrigger() {
+        datamanager.update()
+        DispatchQueue.global().async {
+            Thread.sleep(forTimeInterval: 1)
+            DispatchQueue.main.async {
+                self.currentCollectionView?.refreshControl?.endRefreshing()
+            }
+        }
     }
     
     func configureViewLayout() {

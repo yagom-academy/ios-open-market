@@ -9,7 +9,7 @@ import Foundation
 
 class DataManager {
     
-    var itemsPerPage: Int = 20
+    var itemsPerPage: Int = 200
     var page: Page?
     var products: [Product] = [] {
         didSet {
@@ -27,6 +27,7 @@ class DataManager {
         }
     }
     
+    @objc
     func update() {
         fetchPage()
     }
