@@ -16,7 +16,6 @@ class MainViewController: UIViewController {
     private var currentPage: UInt = 1
     private var productList: [Product] = []
     private var currentCellIdentifier = ProductCell.listIdentifier
-    private var networkingState = NetworkingState.idle
     
     @IBOutlet private weak var collectionView: ProductsCollectionView!
     @IBOutlet private weak var indicator: UIActivityIndicatorView!
