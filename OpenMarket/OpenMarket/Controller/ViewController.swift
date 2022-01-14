@@ -60,7 +60,7 @@ extension ViewController {
             if identifier.discountedPrice != .zero {
                 let formattedPrice = identifier.price.format()
                 let priceAttributedString =
-                    "\(identifier.currency) \(formattedPrice)".erasedOriginalPrice()
+                    "\(identifier.currency) \(formattedPrice)".eraseOriginalPrice()
                 cell.priceLabel.attributedText = priceAttributedString
             } else {
                 cell.priceLabel.isHidden = true

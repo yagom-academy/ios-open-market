@@ -1,13 +1,21 @@
 import UIKit
 
 class ListCell: UICollectionViewCell {
-
     private lazy var listContentView = UIListContentView(configuration: .subtitleCell())
-
     private let stockStackView = UIStackView()
     private let stockLabel = UILabel()
     private let disclosureImage = UIImageView()
 
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError()
+    }
+}
+
+extension ListCell {
     func configure(product: Product) {
         var content = UIListContentConfiguration.subtitleCell()
         content.imageProperties.maximumSize = CGSize(width: 50, height: 50)
@@ -57,5 +65,18 @@ class ListCell: UICollectionViewCell {
         disclosureImage.image = UIImage(systemName: "chevron.forward")
         stockStackView.addArrangedSubview(stockLabel)
         stockStackView.addArrangedSubview(disclosureImage)
+
+        configureConstraint()
+    }
+
+    private func configureConstraint() {
+        NSLayoutConstraint.activate([
+            listContentView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            listContentView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            listContentView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            stockStackView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            stockStackView.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.35),
+            stockStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
+        ])
     }
 }
