@@ -12,7 +12,9 @@ class ProductsCollectionViewCell: UICollectionViewCell {
         self.layer.borderColor = UIColor.systemGray.cgColor
         self.layer.cornerRadius = 10
     }
-    
+}
+
+extension ProductsCollectionViewCell: ProductCell {
     func setup(
         titleLabel: NSAttributedString,
         priceLabel: NSAttributedString,

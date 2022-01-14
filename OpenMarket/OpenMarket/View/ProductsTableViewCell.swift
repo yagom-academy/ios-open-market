@@ -5,7 +5,9 @@ class ProductsTableViewCell: UITableViewCell {
     @IBOutlet private weak var productTitleLabel: UILabel!
     @IBOutlet private weak var productPriceLabel: UILabel!
     @IBOutlet private weak var productStockLabel: UILabel!
-    
+}
+
+extension ProductsTableViewCell: ProductCell {
     func setup(
         titleLabel: NSAttributedString,
         priceLabel: NSAttributedString,

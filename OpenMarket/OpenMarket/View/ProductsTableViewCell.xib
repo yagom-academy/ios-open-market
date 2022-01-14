@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="productsListCell" id="WJH-w0-cJa" customClass="ProductsTableViewCell" customModule="OpenMarket" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="66.5"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="WJH-w0-cJa" id="a4O-ZX-5lx">
+                <rect key="frame" x="0.0" y="0.0" width="414" height="66.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="750" verticalHuggingPriority="750" image="chevron.right" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="QQX-mr-UVy">
+                        <rect key="frame" x="384" y="12" width="20" height="16.5"/>
+                        <color key="tintColor" systemColor="systemGrayColor"/>
+                        <constraints>
+                            <constraint firstAttribute="width" secondItem="QQX-mr-UVy" secondAttribute="height" multiplier="1:1" id="ZTP-Ri-tMc"/>
+                            <constraint firstAttribute="width" constant="20" id="kdn-CQ-YR6"/>
+                        </constraints>
+                    </imageView>
+                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="MiJ-go-sid">
+                        <rect key="frame" x="80" y="10" width="294" height="46.5"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="Rcv-w2-uho">
+                                <rect key="frame" x="0.0" y="0.0" width="294" height="21"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="800" verticalCompressionResistancePriority="800" text="Title" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L9W-xr-Fc6">
+                                        <rect key="frame" x="0.0" y="0.0" width="250" height="20.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="951" verticalHuggingPriority="252" text="Stock" textAlignment="right" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nAu-We-snB">
+                                        <rect key="frame" x="250" y="0.0" width="44" height="20.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                            </stackView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Price" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eZl-lD-8S4">
+                                <rect key="frame" x="0.0" y="26" width="294" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                    </stackView>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1" verticalCompressionResistancePriority="1" placeholderIntrinsicWidth="60" placeholderIntrinsicHeight="60" translatesAutoresizingMaskIntoConstraints="NO" id="4Ix-e7-TcK">
+                        <rect key="frame" x="10" y="3.5" width="60" height="60"/>
+                        <constraints>
+                            <constraint firstAttribute="width" secondItem="4Ix-e7-TcK" secondAttribute="height" multiplier="1:1" id="02u-Bk-Bhe"/>
+                            <constraint firstAttribute="width" constant="60" id="oFA-cc-gTp"/>
+                        </constraints>
+                    </imageView>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="bottom" secondItem="MiJ-go-sid" secondAttribute="bottom" constant="10" id="HIX-P3-9YJ"/>
+                    <constraint firstItem="MiJ-go-sid" firstAttribute="leading" secondItem="4Ix-e7-TcK" secondAttribute="trailing" constant="10" id="Nyt-jr-iIr"/>
+                    <constraint firstItem="MiJ-go-sid" firstAttribute="top" secondItem="a4O-ZX-5lx" secondAttribute="top" constant="10" id="UQ3-om-9kO"/>
+                    <constraint firstAttribute="trailing" secondItem="QQX-mr-UVy" secondAttribute="trailing" constant="10" id="cwL-ht-ySb"/>
+                    <constraint firstItem="4Ix-e7-TcK" firstAttribute="leading" secondItem="a4O-ZX-5lx" secondAttribute="leading" constant="10" id="dBu-a7-rtt"/>
+                    <constraint firstItem="4Ix-e7-TcK" firstAttribute="centerY" secondItem="a4O-ZX-5lx" secondAttribute="centerY" id="kZ8-2v-2Za"/>
+                    <constraint firstItem="QQX-mr-UVy" firstAttribute="leading" secondItem="MiJ-go-sid" secondAttribute="trailing" constant="10" id="uKj-9V-Ol3"/>
+                    <constraint firstItem="QQX-mr-UVy" firstAttribute="firstBaseline" secondItem="nAu-We-snB" secondAttribute="firstBaseline" id="ucL-Dr-1xj"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="2lx-sk-P6p"/>
+            <connections>
+                <outlet property="productImageView" destination="4Ix-e7-TcK" id="xfo-2a-KQy"/>
+                <outlet property="productPriceLabel" destination="eZl-lD-8S4" id="VAK-tr-AhG"/>
+                <outlet property="productStockLabel" destination="nAu-We-snB" id="oxq-Gu-2dn"/>
+                <outlet property="productTitleLabel" destination="L9W-xr-Fc6" id="aHD-fZ-UGp"/>
+            </connections>
+            <point key="canvasLocation" x="1753.6231884057972" y="-943.19196428571422"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="chevron.right" catalog="system" width="96" height="128"/>
+        <systemColor name="systemGrayColor">
+            <color red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>
