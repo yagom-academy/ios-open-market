@@ -4,17 +4,14 @@ class ProductsCollectionViewController: UICollectionViewController {
     private let loadingActivityIndicator = UIActivityIndicatorView()
     private var pageInformation: ProductsList?
     private var products = [Product]()
-    private let jsonParser: JSONParser = {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SS"
-        let jsonParser = JSONParser(
-            dateDecodingStrategy: .formatted(formatter),
-            keyDecodingStrategy: .convertFromSnakeCase,
-            keyEncodingStrategy: .convertToSnakeCase
-        )
-        return jsonParser
-    }()
-    private lazy var networkTask = NetworkTask(jsonParser: jsonParser)
+    private var jsonParser: JSONParser?
+    private var networkTask: NetworkTask?
+    
+    convenience init?(coder: NSCoder, jsonParser: JSONParser, networkTask: NetworkTask) {
+        self.init(coder: coder)
+        self.jsonParser = jsonParser
+        self.networkTask = networkTask
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,10 +33,10 @@ class ProductsCollectionViewController: UICollectionViewController {
     }
     
     private func loadProductsList(pageNumber: Int) {
-        networkTask.requestProductList(pageNumber: pageNumber, itemsPerPage: 20) { result in
+        networkTask?.requestProductList(pageNumber: pageNumber, itemsPerPage: 20) { result in
             switch result {
             case .success(let data):
-                guard let productsList: ProductsList = try? self.jsonParser.decode(
+                guard let productsList: ProductsList = try? self.jsonParser?.decode(
                     from: data
                 ) else { return }
                 self.pageInformation = productsList
@@ -77,7 +74,7 @@ class ProductsCollectionViewController: UICollectionViewController {
         collectionView: UICollectionView
     ) {
         cell.productImageView.image = nil
-        networkTask.downloadImage(from: url) { result in
+        networkTask?.downloadImage(from: url) { result in
             switch result {
             case .success(let data):
                 guard let image = UIImage(data: data) else { return }

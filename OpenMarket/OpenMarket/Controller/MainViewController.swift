@@ -40,7 +40,7 @@ class MainViewController: UIViewController {
 }
 
 extension MainViewController {
-     private enum Segement: Int {
+    private enum Segement: Int {
         case list
         case grid
     }
@@ -55,24 +55,72 @@ extension MainViewController {
     }
     
     private func loadViewController(from segment: Segement) -> UIViewController {
+        let jsonParser: JSONParser = {
+            let formatter = DateFormatter()
+            formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SS"
+            let jsonParser = JSONParser(
+                dateDecodingStrategy: .formatted(formatter),
+                keyDecodingStrategy: .convertFromSnakeCase,
+                keyEncodingStrategy: .convertToSnakeCase
+            )
+            return jsonParser
+        }()
+        let networkTask = NetworkTask(jsonParser: jsonParser)
         let viewController: UIViewController
+        
         switch segment {
         case .list:
-            let storyboardName = ProductsTableViewController.listViewStoryboardName
-            let controllerIdentifier = ProductsTableViewController.listViewControllerIdentifier
-            
-            let listViewStoryboard = UIStoryboard(name: storyboardName, bundle: nil)
-            viewController = listViewStoryboard.instantiateViewController(
-                withIdentifier: controllerIdentifier
+            viewController = makeProductsTableViewController(
+                jsonParser: jsonParser,
+                networkTask: networkTask
             )
         case .grid:
-            let storyboardName = ProductsCollectionViewController.gridViewStoryboardName
-            let controllerIdentifier = ProductsCollectionViewController.gridViewControllerIdentifier
-            
-            let gridViewStoryboard = UIStoryboard(name: storyboardName, bundle: nil)
-            viewController = gridViewStoryboard.instantiateViewController(
-                withIdentifier: controllerIdentifier
+            viewController = makeProductsCollectionViewController(
+                jsonParser: jsonParser,
+                networkTask: networkTask
             )
+        }
+        return viewController
+    }
+    
+    private func makeProductsTableViewController(
+        jsonParser: JSONParser,
+        networkTask: NetworkTask
+    ) -> UIViewController {
+        let storyboardName = ProductsTableViewController.listViewStoryboardName
+        let controllerIdentifier = ProductsTableViewController.listViewControllerIdentifier
+        
+        let listViewStoryboard = UIStoryboard(name: storyboardName, bundle: nil)
+        let viewController = listViewStoryboard.instantiateViewController(
+            identifier: controllerIdentifier
+        ) { coder in
+            let productsTableViewController = ProductsTableViewController(
+                coder: coder,
+                jsonParser: jsonParser,
+                networkTask: networkTask
+            )
+            return productsTableViewController
+        }
+        return viewController
+    }
+    
+    private func makeProductsCollectionViewController(
+        jsonParser: JSONParser,
+        networkTask: NetworkTask
+    ) -> UIViewController {
+        let storyboardName = ProductsCollectionViewController.gridViewStoryboardName
+        let controllerIdentifier = ProductsCollectionViewController.gridViewControllerIdentifier
+        
+        let gridViewStoryboard = UIStoryboard(name: storyboardName, bundle: nil)
+        let viewController = gridViewStoryboard.instantiateViewController(
+            identifier: controllerIdentifier
+        ) { coder in
+            let productsCollectionViewController = ProductsCollectionViewController(
+                coder: coder,
+                jsonParser: jsonParser,
+                networkTask: networkTask
+            )
+            return productsCollectionViewController
         }
         return viewController
     }
