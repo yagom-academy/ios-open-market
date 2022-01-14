@@ -33,7 +33,7 @@ enum OpenMarketLayout {
     }
     func createDataSource(for collectionView: UICollectionView) -> UICollectionViewDiffableDataSource<Int, Product> {
         
-        let cellRegistration = UICollectionView.CellRegistration<GridLayoutCell, Product> { (cell, indexPath, item) in
+        let cellRegistration = UICollectionView.CellRegistration<CollectionViewLayoutCell, Product> { (cell, indexPath, item) in
             cell.isGridLayout = self == .grid ? true : false
             cell.configureContents(imageURL: item.thumbnail,
                                    productName: item.name,

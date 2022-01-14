@@ -1,5 +1,5 @@
 //
-//  GridLayoutCell.swift
+//  CollectionViewLayoutCell.swift
 //  OpenMarket
 //
 //  Created by Jae-hoon Sim on 2022/01/11.
@@ -7,8 +7,7 @@
 
 import UIKit
 
-class GridLayoutCell: UICollectionViewCell {
-    static var reuseIdentifier: String { "gridCell" }
+class CollectionViewLayoutCell: UICollectionViewCell {
     
     var containerStackView = UIStackView()
     var stackView = UIStackView()
