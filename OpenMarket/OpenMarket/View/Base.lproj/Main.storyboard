@@ -6,7 +6,6 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
-        <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -18,33 +17,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="C2h-Oe-5Ro">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="1A4-vx-aNK">
-                                    <size key="itemSize" width="62" height="61"/>
-                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                </collectionViewFlowLayout>
-                                <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="FnX-UY-UiZ">
-                                        <rect key="frame" x="0.0" y="0.0" width="62" height="61"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="jZa-YB-BY9">
-                                            <rect key="frame" x="0.0" y="0.0" width="62" height="61"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <stackView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="ocd-wp-aUI">
-                                                    <rect key="frame" x="59" y="94" width="110" height="200"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                </stackView>
-                                            </subviews>
-                                        </collectionViewCellContentView>
-                                        <size key="customSize" width="62" height="61"/>
-                                    </collectionViewCell>
-                                </cells>
-                            </collectionView>
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="Crt-3U-OBg">
                                 <rect key="frame" x="188.5" y="456.5" width="37" height="37"/>
                             </activityIndicatorView>
@@ -54,10 +26,6 @@
                         <constraints>
                             <constraint firstItem="Crt-3U-OBg" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="NyW-z8-CBy"/>
                             <constraint firstItem="Crt-3U-OBg" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" id="P6O-bN-hrF"/>
-                            <constraint firstItem="C2h-Oe-5Ro" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="lo8-RO-YdS"/>
-                            <constraint firstItem="C2h-Oe-5Ro" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="lzT-cD-5ro"/>
-                            <constraint firstAttribute="bottom" secondItem="C2h-Oe-5Ro" secondAttribute="bottom" id="n1m-Sj-8Io"/>
-                            <constraint firstItem="C2h-Oe-5Ro" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="t5r-Ll-KkY"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="T9E-g4-OZG">
@@ -76,7 +44,6 @@
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="SLN-Rr-B58"/>
                     </navigationItem>
                     <connections>
-                        <outlet property="collectionView" destination="C2h-Oe-5Ro" id="yWi-Ly-hsa"/>
                         <outlet property="loadIndicatorView" destination="Crt-3U-OBg" id="P3A-1F-XZy"/>
                         <outlet property="segmentedControl" destination="26R-04-yGZ" id="dx8-Fu-wsy"/>
                     </connections>

@@ -8,9 +8,13 @@ import UIKit
 
 class ProductPageViewController: UIViewController, LayoutSwitchable {
     
-    @IBOutlet var collectionView: UICollectionView!
+    var collectionView: UICollectionView!
     @IBOutlet var segmentedControl: UISegmentedControl!
     @IBOutlet weak var loadIndicatorView: UIActivityIndicatorView!
+    
+    
+    let listColletionView = UICollectionView(frame: .zero, collectionViewLayout: createListLayout())
+    let gridCollectionView = UICollectionView(frame: .zero, collectionViewLayout: createGridLayout())
     
     var dataSource: UICollectionViewDiffableDataSource<Int, Product>?
     var currentPage: Int = 1
@@ -30,7 +34,9 @@ class ProductPageViewController: UIViewController, LayoutSwitchable {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        collectionView.setCollectionViewLayout(createLayout(), animated: false)
+        
+        configureViewLayout()
+        
         collectionView.isSpringLoaded = true
         collectionView.delegate = self
         
@@ -43,6 +49,29 @@ class ProductPageViewController: UIViewController, LayoutSwitchable {
         fetchPage()
         segmentedControl.selectedSegmentIndex = 1
         loadIndicatorView.stopAnimating()
+    }
+    
+    func configureViewLayout() {
+        if let collectionView = collectionView {
+            collectionView.removeFromSuperview()
+        }
+        
+        switch isGridLayout {
+        case true:
+            collectionView = gridCollectionView
+        case false:
+            collectionView = listColletionView
+        }
+        
+        view.addSubview(collectionView)
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            collectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0),
+            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0),
+            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
+            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0)
+        ])
     }
     
     @objc
@@ -60,11 +89,13 @@ class ProductPageViewController: UIViewController, LayoutSwitchable {
     @IBAction func segmentedControlChanged(_ sender: UISegmentedControl) {
         
         isGridLayout.toggle()
+        collectionView.isHidden = true
+        
+        configureViewLayout()
         
         view.bringSubviewToFront(loadIndicatorView)
         loadIndicatorView.isHidden = false
         loadIndicatorView.startAnimating()
-        collectionView.isHidden = true
 
         DispatchQueue.global().async {
             Thread.sleep(forTimeInterval: 1)
@@ -74,8 +105,8 @@ class ProductPageViewController: UIViewController, LayoutSwitchable {
             }
         }
         sender.selectedSegmentIndex == 0 ?
-            collectionView.setCollectionViewLayout(createListLayout(), animated: false)
-            : collectionView.setCollectionViewLayout(createLayout(), animated: false)
+        collectionView.setCollectionViewLayout(ProductPageViewController.createListLayout(), animated: false)
+        : collectionView.setCollectionViewLayout(ProductPageViewController.createGridLayout(), animated: false)
         collectionView.reloadData()
         fetchPage()
     }
@@ -97,7 +128,7 @@ extension ProductPageViewController: UICollectionViewDelegate {
 }
 
 extension ProductPageViewController {
-    private func createLayout() -> UICollectionViewLayout {
+    private static func createGridLayout() -> UICollectionViewLayout {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5),
                                               heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
@@ -112,7 +143,7 @@ extension ProductPageViewController {
         return layout
     }
     
-    private func createListLayout() -> UICollectionViewLayout {
+    private static func createListLayout() -> UICollectionViewLayout {
         let config = UICollectionLayoutListConfiguration(appearance: .plain)
         return UICollectionViewCompositionalLayout.list(using: config)
     }
