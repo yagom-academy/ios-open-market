@@ -35,6 +35,7 @@ class ProductListViewController: UIViewController {
         view.backgroundColor = .white
         configureNavigationItems()
         view.addSubview(collectionView)
+        fetchProductList()
         configureListDataSource()
         segmentedControl.addTarget(self, action: #selector(touchUpListButton), for: .valueChanged)
     }
@@ -59,7 +60,7 @@ class ProductListViewController: UIViewController {
         
         let groupSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
-            heightDimension: .fractionalHeight(0.5)
+            heightDimension: .fractionalHeight(0.3)
         )
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 2)
         
@@ -99,7 +100,7 @@ class ProductListViewController: UIViewController {
             cell.stockLabel.text = item.stock.description
             return cell
         }
-        updateProductList(section: .list)
+        applySnapShot(section: .list)
     }
     
     func configureGridDataSource() {
@@ -122,22 +123,32 @@ class ProductListViewController: UIViewController {
             cell.stockLabel.text = item.stock.description
             return cell 
         }
-        updateProductList(section: .grid)
+        applySnapShot(section: .grid)
     }
     
-        func updateProductList(section: Section) {
+    func applySnapShot(section: Section) {
+        guard let products = products else {
+            return
+        }
+
+        var snapshot = NSDiffableDataSourceSnapshot<Section, ProductListAsk.Response.Page>()
+        snapshot.appendSections([section])
+        snapshot.appendItems(products.pages)
+        self.dataSource.apply(snapshot, animatingDifferences: false)
+    }
+
+    func fetchProductList() {
         let requester = ProductListAskRequester(pageNo: 1, itemsPerPage: 15)
-        URLSession.shared.request(requester: requester) { [self] result in
+        URLSession.shared.request(requester: requester) { result in
             switch result {
             case .success(let data):
                 guard let products = requester.decode(data: data) else {
                     print(APIError.decodingFail.localizedDescription)
                     return
                 }
-                var snapshot = NSDiffableDataSourceSnapshot<Section, ProductListAsk.Response.Page>()
-                snapshot.appendSections([section])
-                snapshot.appendItems(products.pages)
-                self.dataSource.apply(snapshot, animatingDifferences: false)
+                self.products = products
+                let section: Section = self.segmentedControl.selectedSegmentIndex == 0 ? .list : .grid
+                self.applySnapShot(section: section)
             case .failure(let error):
                 print(error.localizedDescription)
             }
@@ -150,8 +161,10 @@ extension ProductListViewController {
     @objc func touchUpListButton() {
         if segmentedControl.selectedSegmentIndex == 0 {
             collectionView.collectionViewLayout = makeListLayout()
+            configureListDataSource()
         } else if segmentedControl.selectedSegmentIndex == 1 {
-            collectionView.collectionViewLayout = makeListLayout()
+            collectionView.collectionViewLayout = makeGridLayout()
+            configureGridDataSource()
         }
     }
 }
