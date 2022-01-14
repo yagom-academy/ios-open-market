@@ -73,7 +73,6 @@ extension ProductPageViewController: UICollectionViewDelegate {
             applyDataToCurrentView()
         }
     }
-    
 }
 
 // MARK: - Updating Layout
@@ -125,7 +124,6 @@ extension ProductPageViewController {
         }
         
         guard let collectionView = currentCollectionView else { return }
-        
         view.addSubview(collectionView)
         collectionView.backgroundColor = .systemBackground
         collectionView.translatesAutoresizingMaskIntoConstraints = false

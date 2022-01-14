@@ -14,8 +14,19 @@ enum OpenMarketLayout {
     var layout: UICollectionViewLayout {
         switch  self {
         case .list:
-            let config = UICollectionLayoutListConfiguration(appearance: .plain)
-            return UICollectionViewCompositionalLayout.list(using: config)
+            let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                                  heightDimension: .fractionalHeight(1.0))
+            let item = NSCollectionLayoutItem(layoutSize: itemSize)
+//            item.contentInsets = NSDirectionalEdgeInsets(top: 3, leading: 3, bottom: 3, trailing: 3)
+            
+            let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                                   heightDimension: .fractionalHeight(0.1))
+            let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
+                                                           subitems: [item])
+            let section = NSCollectionLayoutSection(group: group)
+            let layout = UICollectionViewCompositionalLayout(section: section)
+            return layout
+            
         case .grid:
             let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5),
                                                   heightDimension: .fractionalHeight(1.0))
@@ -42,10 +53,15 @@ enum OpenMarketLayout {
                                    currency: item.currency,
                                    stock: String(item.stock))
             
-            cell.layer.borderWidth = 1
+            if cell.isGridLayout {
+                cell.layer.cornerRadius = 10
+                cell.layer.masksToBounds = true
+                cell.layer.borderWidth = 1.0
+            } else {
+                cell.layer.borderWidth = 0.3
+            }
+            
             cell.layer.borderColor = UIColor.systemGray.cgColor
-            cell.layer.cornerRadius = 10
-            cell.layer.masksToBounds = true
         }
         
         return UICollectionViewDiffableDataSource(collectionView: collectionView) { (collectionView, indexPath, identifier) -> UICollectionViewCell? in

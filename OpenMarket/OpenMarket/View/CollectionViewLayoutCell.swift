@@ -76,9 +76,6 @@ class CollectionViewLayoutCell: UICollectionViewCell {
         stockLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         priceStackView.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         
-        stackView.addArrangedSubview(accessoryImageView)
-        accessoryImageView.image = UIImage(systemName: "chevron.right")
-        accessoryImageView.tintColor = .systemGray
         
         priceLabel.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         discountedLabel.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
@@ -104,6 +101,9 @@ class CollectionViewLayoutCell: UICollectionViewCell {
         stackView.axis = .horizontal
         stackView.alignment = .top
         stackView.distribution = .fill
+        stackView.addArrangedSubview(accessoryImageView)
+        accessoryImageView.image = UIImage(systemName: "chevron.right")
+        accessoryImageView.tintColor = .systemGray
         
         NSLayoutConstraint.activate([
             imageView.widthAnchor.constraint(equalTo: stackView.widthAnchor, multiplier: 0.2)
