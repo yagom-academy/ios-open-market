@@ -29,7 +29,7 @@ extension GridCell {
         itemStackView.addArrangedSubview(priceStackView)
         itemStackView.addArrangedSubview(stockLabel)
 
-        self.layer.borderColor = UIColor.systemGray.cgColor
+        self.layer.borderColor = UIColor.systemGray3.cgColor
         self.layer.borderWidth = 2
         self.layer.cornerRadius = 8
         self.layer.backgroundColor = UIColor.white.cgColor
@@ -38,12 +38,45 @@ extension GridCell {
         itemStackView.axis = .vertical
         itemStackView.alignment = .center
         itemStackView.distribution = .fill
+        itemStackView.spacing = 10
+        priceStackView.axis = .vertical
+        priceStackView.alignment = .center
+        priceStackView.distribution = .fillEqually
 
+        thumbnailImageView.contentMode = .scaleAspectFit
+
+        nameLabel.font = .preferredFont(forTextStyle: .headline)
+        nameLabel.textColor = .black
+        priceLabel.font = .preferredFont(forTextStyle: .callout)
+        priceLabel.textColor = .systemRed
+        bargainPriceLabel.font = .preferredFont(forTextStyle: .callout)
+        bargainPriceLabel.textColor = .systemGray
+        stockLabel.font = .preferredFont(forTextStyle: .callout)
+
+        configureConstraint()
+    }
+
+    private func configureConstraint() {
         NSLayoutConstraint.activate([
-            itemStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            itemStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            itemStackView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            itemStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+            itemStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
+            itemStackView.bottomAnchor.constraint(
+                equalTo: contentView.bottomAnchor,
+                constant: -10
+            ),
+            itemStackView.leadingAnchor.constraint(
+                equalTo: contentView.leadingAnchor,
+                constant: 5
+            ),
+            itemStackView.trailingAnchor.constraint(
+                equalTo: contentView.trailingAnchor,
+                constant: -5
+            ),
+            thumbnailImageView.heightAnchor.constraint(
+                equalTo: contentView.heightAnchor,
+                multiplier: 0.55
+            ),
+            nameLabel.heightAnchor.constraint(equalToConstant: 15),
+            stockLabel.heightAnchor.constraint(equalToConstant: 15)
         ])
     }
 }

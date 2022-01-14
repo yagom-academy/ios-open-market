@@ -17,16 +17,17 @@ class ViewController: UIViewController {
 }
 
 extension ViewController {
-    private func creatLayout() -> UICollectionViewLayout {
+    private func createLayout() -> UICollectionViewLayout {
         let itemSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(0.5),
             heightDimension: .fractionalHeight(1.0)
         )
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        item.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5)
 
         let groupSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
-            heightDimension: .absolute(200)
+            heightDimension: .absolute(270)
         )
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
 
@@ -37,7 +38,7 @@ extension ViewController {
     }
 
     private func configureHierarchy() {
-        collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: creatLayout())
+        collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createLayout())
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         collectionView.backgroundColor = .white
         view.addSubview(collectionView)
@@ -56,9 +57,23 @@ extension ViewController {
             }
             cell.thumbnailImageView.image = UIImage(data: imageData)
             cell.nameLabel.text = identifier.name
-            cell.priceLabel.text = String(identifier.price)
-            cell.bargainPriceLabel.text = String(identifier.bargainPrice)
-            cell.stockLabel.text = String(identifier.stock)
+            if identifier.discountedPrice != .zero {
+                let formattedPrice = identifier.price.format()
+                cell.priceLabel.text = "\(identifier.currency) \(formattedPrice)"
+                cell.priceLabel.strikeThrough()
+            } else {
+                cell.priceLabel.isHidden = true
+            }
+            let formattedBargainPrice = identifier.bargainPrice.format()
+            cell.bargainPriceLabel.text = "\(identifier.currency) \(formattedBargainPrice)"
+            if identifier.stock == .zero {
+                cell.stockLabel.text = "품절"
+                cell.stockLabel.textColor = .systemOrange
+            } else {
+                let formattedStock = identifier.bargainPrice.format()
+                cell.stockLabel.text = "잔여수량 : \(formattedStock)"
+                cell.stockLabel.textColor = .systemGray
+            }
         }
 
         dataSource = UICollectionViewDiffableDataSource<Section, Product>(
@@ -75,7 +90,7 @@ extension ViewController {
         generateProductItems()
     }
 
-    func generateProductItems() {
+    private func generateProductItems() {
         var snapshot = NSDiffableDataSourceSnapshot<Section, Product>()
 
         snapshot.appendSections([.main])
