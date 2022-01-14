@@ -45,7 +45,7 @@ extension Product {
         let priceWithBargainPrice = NSMutableAttributedString()
         let formattedOriginalPrice = price.formatted ?? price.description
         let originalPrice = NSAttributedString(
-            string: currency.rawValue + " " + formattedOriginalPrice,
+            string: currency.rawValue + "\u{A0}" + formattedOriginalPrice,
             attributes: [
                 .font: UIFont.preferredFont(forTextStyle: .body),
                 .foregroundColor: UIColor.systemRed,
@@ -54,7 +54,7 @@ extension Product {
         )
         let formattedBargainPrice = bargainPrice.formatted ?? bargainPrice.description
         let bargainPrice = NSAttributedString(
-            string: currency.rawValue + " " + formattedBargainPrice,
+                string: currency.rawValue + "\u{A0}" + formattedBargainPrice,
             attributes: [
                 .font: UIFont.preferredFont(forTextStyle: .body),
                 .foregroundColor: UIColor.systemGray
