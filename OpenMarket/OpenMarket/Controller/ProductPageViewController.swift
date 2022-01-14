@@ -10,6 +10,7 @@ import UIKit
 final class ProductPageViewController: UIViewController {
     
     @IBOutlet weak var segmentedControl: UISegmentedControl!
+    @IBOutlet var activityIndicator: UIActivityIndicatorView!
     
     let datamanager = DataManager()
     var snapshot = NSDiffableDataSourceSnapshot<Int, Product>()
@@ -35,9 +36,13 @@ final class ProductPageViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.style = .large
+        activityIndicator.startAnimating()
         configureSegmentedConrol()
         configureRefreshControl()
         configureViewLayout()
+        view.bringSubviewToFront(activityIndicator)
         datamanager.update()
     }
     
@@ -138,6 +143,8 @@ extension ProductPageViewController {
             self.segmentedControl.selectedSegmentIndex == 0 ?
                 self.listDataSource.apply(self.snapshot)
                 : self.gridDataSource.apply(self.snapshot)
+            
+            self.activityIndicator.stopAnimating()
         }
     }
     

@@ -16,8 +16,19 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="Y3a-M4-mVk">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                            </activityIndicatorView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="Y3a-M4-mVk" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="1gN-Rz-tAL"/>
+                            <constraint firstItem="Y3a-M4-mVk" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="70A-6H-zAc"/>
+                            <constraint firstAttribute="bottom" secondItem="Y3a-M4-mVk" secondAttribute="bottom" id="bgf-FW-9df"/>
+                            <constraint firstItem="Y3a-M4-mVk" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="bxI-0G-4jw"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="T9E-g4-OZG">
                         <nil key="title"/>
@@ -35,6 +46,7 @@
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="SLN-Rr-B58"/>
                     </navigationItem>
                     <connections>
+                        <outlet property="activityIndicator" destination="Y3a-M4-mVk" id="Sxq-SN-YOl"/>
                         <outlet property="segmentedControl" destination="26R-04-yGZ" id="Ojg-oR-KTj"/>
                     </connections>
                 </viewController>
