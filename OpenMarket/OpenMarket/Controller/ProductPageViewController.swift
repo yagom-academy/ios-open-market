@@ -1,197 +1,123 @@
-////
-////  OpenMarket - ViewController.swift
-////  Created by yagom. 
-////  Copyright © yagom. All rights reserved.
-//// 
 //
-//import UIKit
+//  ProductPageViewController.swift
+//  OpenMarket
 //
-//class ProductPageViewController: UIViewController {
-//    
-//    var collectionView: UICollectionView!
-//    @IBOutlet var segmentedControl: UISegmentedControl!
-//    @IBOutlet weak var loadIndicatorView: UIActivityIndicatorView!
-//    
-//    
-//    let listCollectionView = UICollectionView(frame: .zero, collectionViewLayout: createListLayout())
-//    let gridCollectionView = UICollectionView(frame: .zero, collectionViewLayout: createGridLayout())
-//    
-////    var dataSource: UICollectionViewDiffableDataSource<Int, Product>?
-//    lazy var gridDataSource: UICollectionViewDiffableDataSource<Int, Product> = {
-//        return UICollectionViewDiffableDataSource<Int, Product>(collectionView: gridCollectionView) { (collectionView, indexPath, identifier) -> UICollectionViewCell? in
-//            return collectionView.dequeueConfiguredReusableCell(using: self.cellRegistration, for: indexPath, item: identifier)
-//        }
-//    }()
-//    lazy var listDataSource: UICollectionViewDiffableDataSource<Int, Product> = {
-//        return UICollectionViewDiffableDataSource<Int, Product>(collectionView: listCollectionView) { (collectionView, indexPath, identifier) -> UICollectionViewCell? in
-//            return collectionView.dequeueConfiguredReusableCell(using: self.cellRegistration, for: indexPath, item: identifier)
-//        }
-//    }()
-//    lazy var cellRegistration = UICollectionView.CellRegistration<GridLayoutCell, Product> { (cell, indexPath, identifier) in
-//        
-////        cell.delegate = self
-//        cell.configureContents(imageURL: identifier.thumbnail,
-//                               productName: identifier.name,
-//                               price: identifier.price.description,
-//                               discountedPrice: identifier.discountedPrice.description,
-//                               currency: identifier.currency,
-//                               stock: String(identifier.stock))
-//        
-//        cell.layer.borderWidth = 1
-//        cell.layer.borderColor = UIColor.systemGray.cgColor
-//        cell.layer.cornerRadius = 10
-//        cell.layer.masksToBounds = true
-//    }
-//    var currentPage: Int = 1
-//    var itemsPerPage: Int = 10
-//    var page: Page?
-//    var pages: [Product] = [] {
-//        didSet {
-//            var snapShot = NSDiffableDataSourceSnapshot<Int, Product>()
-//            snapShot.appendSections([0])
-//            snapShot.appendItems(pages)
-//            isGridLayout ? self.gridDataSource.apply(snapShot) : self.listDataSource.apply(snapShot)
-////            self.dataSource?.apply(snapShot)
-//        }
-//    }
-//    var refControl = UIRefreshControl()
-//    
-//    override func viewDidLoad() {
-//        super.viewDidLoad()
-//        
-//        configureViewLayout()
-//        
-//        collectionView.isSpringLoaded = true
-//        
-//        refControl.addTarget(self, action: #selector(refreshDidActivate), for: .valueChanged)
-//        refControl.attributedTitle = NSAttributedString(string: "상품 로드중!")
-//        collectionView.refreshControl = refControl
-//        collectionView.addSubview(refControl)
-//        refControl.translatesAutoresizingMaskIntoConstraints = false
-////        configureDatasource()
-//        fetchPage()
-//        segmentedControl.selectedSegmentIndex = 1
-//        loadIndicatorView.stopAnimating()
-//    }
-//    
-//    func configureViewLayout() {
-//        if let collectionView = collectionView {
-//            collectionView.removeFromSuperview()
-//        }
-//        
-//        switch isGridLayout {
-//        case true:
-//            collectionView = gridCollectionView
-//        case false:
-//            collectionView = listCollectionView
-//        }
-//        
-//        collectionView.delegate = self
-////        configureDatasource()
-//        view.addSubview(collectionView)
-//        collectionView.backgroundColor = .systemBackground
-//        collectionView.translatesAutoresizingMaskIntoConstraints = false
-//        
-//        NSLayoutConstraint.activate([
-//            collectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0),
-//            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0),
-//            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
-//            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0)
-//        ])
-//    }
-//    
-//    @objc
-//    func refreshDidActivate() {
-//        itemsPerPage = 10
-//        fetchPage()
-//        DispatchQueue.global().async {
-//            Thread.sleep(forTimeInterval: 2)
-//            DispatchQueue.main.async {
-//                self.refControl.endRefreshing()
-//            }
-//        }
-//    }
-//    
-//    @IBAction func segmentedControlChanged(_ sender: UISegmentedControl) {
-//        
-//        isGridLayout.toggle()
-//        collectionView.isHidden = true
-//        
-//        configureViewLayout()
-//        
-//        view.bringSubviewToFront(loadIndicatorView)
-//        loadIndicatorView.isHidden = false
-//        loadIndicatorView.startAnimating()
+//  Created by Jae-hoon Sim on 2022/01/14.
 //
-//        DispatchQueue.global().async {
-//            Thread.sleep(forTimeInterval: 1)
-//            DispatchQueue.main.async {
-//                self.loadIndicatorView.stopAnimating()
-//                self.collectionView.isHidden = false
-//            }
-//        }
-//        sender.selectedSegmentIndex == 0 ?
-//        collectionView.setCollectionViewLayout(ProductPageViewController.createListLayout(), animated: false)
-//        : collectionView.setCollectionViewLayout(ProductPageViewController.createGridLayout(), animated: false)
-//        collectionView.reloadData()
-//        fetchPage()
-//    }
-//    
-//}
-//
-//extension ProductPageViewController: UICollectionViewDelegate {
-//
-//    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-//        let endPoint = CGPoint(x: 0, y: scrollView.contentSize.height)
-//        if targetContentOffset.pointee.y + scrollView.frame.height >= endPoint.y {
-//            guard let value = page?.hasNext, value else { return }
-//
-//            itemsPerPage += 10
-//            fetchPage()
-//        }
-//    }
-//
-//}
-//
-//extension ProductPageViewController {
-//    private static func createGridLayout() -> UICollectionViewLayout {
-//        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5),
-//                                              heightDimension: .fractionalHeight(1.0))
-//        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-//        item.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 8)
-//        
-//        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-//                                               heightDimension: .fractionalHeight(0.3225))
-//        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
-//                                                       subitems: [item])
-//        let section = NSCollectionLayoutSection(group: group)
-//        let layout = UICollectionViewCompositionalLayout(section: section)
-//        return layout
-//    }
-//    
-//    private static func createListLayout() -> UICollectionViewLayout {
-//        let config = UICollectionLayoutListConfiguration(appearance: .plain)
-//        return UICollectionViewCompositionalLayout.list(using: config)
-//    }
-////
-////    private func configureDatasource() {
-////        dataSource = UICollectionViewDiffableDataSource<Int, Product>(collectionView: collectionView) { (collectionView, indexPath, identifier) -> UICollectionViewCell? in
-////            return collectionView.dequeueConfiguredReusableCell(using: self.cellRegistration, for: indexPath, item: identifier)
-////        }
-////    }
-//    
-//    private func fetchPage() {
-//        URLSessionProvider(session: URLSession.shared)
-//            .request(.showProductPage(pageNumber: String(currentPage), itemsPerPage: String(itemsPerPage))) { (result: Result<ShowProductPageResponse, URLSessionProviderError>) in
-//                switch result {
-//                case .success(let data):
-//                    self.page = data
-//                    self.pages = data.pages
-//                    
-//                case .failure(let error):
-//                    print(error)
-//                }
-//            }
-//    }
-//    
-//}
+
+import UIKit
+
+final class ProductPageViewController: UIViewController {
+    
+    @IBOutlet weak var segmentedControl: UISegmentedControl!
+    
+    let datamanager = DataManager()
+    var snapshot = NSDiffableDataSourceSnapshot<Int, Product>()
+    
+    var currentCollectionView: UICollectionView?
+    
+    let listCollectionView: UICollectionView
+    let gridCollectionView: UICollectionView
+    let listDataSource: UICollectionViewDiffableDataSource<Int, Product>
+    let gridDataSource: UICollectionViewDiffableDataSource<Int, Product>
+    
+    required init?(coder: NSCoder) {
+        self.listCollectionView = UICollectionView(frame: .zero, collectionViewLayout: OpenMarketLayout.list.layout)
+        self.gridCollectionView = UICollectionView(frame: .zero, collectionViewLayout: OpenMarketLayout.grid.layout)
+        self.gridDataSource = OpenMarketLayout.grid.createDataSource(for: gridCollectionView)
+        self.listDataSource = OpenMarketLayout.list.createDataSource(for: listCollectionView)
+        self.snapshot.appendSections([0])
+        super.init(coder: coder)
+        self.listCollectionView.delegate = self
+        self.gridCollectionView.delegate = self
+        self.datamanager.delegate = self
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        configureSegmentedConrol()
+        
+        configureViewLayout()
+        datamanager.update()
+    }
+    
+    @IBAction func segmentedControlValueChanged(_ sender: UISegmentedControl) {
+        configureViewLayout()
+        applyDataToCurrentView()
+    }
+}
+
+// MARK: - DataRepresentable Protocol RequireMents
+extension ProductPageViewController: DataRepresentable {
+    
+    func dataDidChange(data: [Product]) {
+        snapshot.appendItems(data)
+        applyDataToCurrentView()
+    }
+    
+}
+
+// MARK: - UICollectionViewDelegate Protocol RequireMents
+extension ProductPageViewController: UICollectionViewDelegate {
+
+    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint,
+                                   targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        let endPoint = CGPoint(x: 0, y: scrollView.contentSize.height)
+        if targetContentOffset.pointee.y + scrollView.frame.height >= endPoint.y {
+            datamanager.nextPage()
+            applyDataToCurrentView()
+        }
+    }
+}
+
+// MARK: - Updating Layout
+extension ProductPageViewController {
+    
+    private func configureSegmentedConrol() {
+        segmentedControl.selectedSegmentTintColor = .systemBlue
+        segmentedControl.backgroundColor = UIColor(cgColor: CGColor(red: 255, green: 255, blue: 255, alpha: 0))
+        
+        segmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for: UIControl.State.selected)
+        
+        segmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.systemBlue], for: UIControl.State.normal)
+        
+        segmentedControl.layer.borderColor = UIColor.systemBlue.cgColor
+        segmentedControl.layer.borderWidth = 2
+    }
+    
+    func configureViewLayout() {
+        if currentCollectionView != nil {
+            currentCollectionView?.removeFromSuperview()
+        }
+        
+        switch segmentedControl.selectedSegmentIndex {
+        case 0:
+            currentCollectionView = listCollectionView
+        default:
+            currentCollectionView = gridCollectionView
+        }
+        
+        guard let collectionView = currentCollectionView else { return }
+        
+        view.addSubview(collectionView)
+        collectionView.backgroundColor = .systemBackground
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            collectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0),
+            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0),
+            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
+            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0)
+        ])
+    }
+
+    func applyDataToCurrentView() {
+        DispatchQueue.main.async {
+            self.segmentedControl.selectedSegmentIndex == 0 ?
+                self.listDataSource.apply(self.snapshot)
+                : self.gridDataSource.apply(self.snapshot)
+        }
+    }
+    
+}

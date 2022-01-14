@@ -32,24 +32,25 @@ enum OpenMarketLayout {
         }
     }
     func createDataSource(for collectionView: UICollectionView) -> UICollectionViewDiffableDataSource<Int, Product> {
-        UICollectionViewDiffableDataSource(collectionView: collectionView) { (collectionView, indexPath, identifier) -> UICollectionViewCell? in
-            return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: identifier)
-        }
-    }
-    private var cellRegistration: UICollectionView.CellRegistration<GridLayoutCell, Product> {
-        UICollectionView.CellRegistration { (cell, indexPath, identifier) in
+        
+        let cellRegistration = UICollectionView.CellRegistration<GridLayoutCell, Product> { (cell, indexPath, item) in
             cell.isGridLayout = self == .grid ? true : false
-            cell.configureContents(imageURL: identifier.thumbnail,
-                                   productName: identifier.name,
-                                   price: identifier.price.description,
-                                   discountedPrice: identifier.discountedPrice.description,
-                                   currency: identifier.currency,
-                                   stock: String(identifier.stock))
+            cell.configureContents(imageURL: item.thumbnail,
+                                   productName: item.name,
+                                   price: item.price.description,
+                                   discountedPrice: item.discountedPrice.description,
+                                   currency: item.currency,
+                                   stock: String(item.stock))
             
             cell.layer.borderWidth = 1
             cell.layer.borderColor = UIColor.systemGray.cgColor
             cell.layer.cornerRadius = 10
             cell.layer.masksToBounds = true
+        }
+        
+        return UICollectionViewDiffableDataSource(collectionView: collectionView) { (collectionView, indexPath, identifier) -> UICollectionViewCell? in
+            
+            collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: identifier)
         }
     }
 }
