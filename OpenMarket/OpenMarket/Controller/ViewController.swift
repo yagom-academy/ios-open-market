@@ -5,15 +5,60 @@ class ViewController: UIViewController {
     enum Section {
         case main
     }
-
-    var collectionView: UICollectionView! = nil
-    var dataSource: UICollectionViewDiffableDataSource<Section, Product>!
+    private var switchSegmentedControl: UISegmentedControl!
+    private var collectionView: UICollectionView! = nil
+    private var dataSource: UICollectionViewDiffableDataSource<Section, Product>!
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureNavigationBar()
         configureHierarchy()
         configureDataSource()
     }
+}
+
+extension ViewController {
+    private func configureNavigationBar() {
+        self.navigationItem.titleView = configureSegmentedControl()
+        guard let image = UIImage(systemName: "plus") else {
+            return
+        }
+        guard let cgImage = image.cgImage else {
+            return
+        }
+        let resizedImage = UIImage(cgImage: cgImage, scale: 4, orientation: image.imageOrientation)
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(
+            image: resizedImage,
+            style: .plain,
+            target: nil,
+            action: nil
+        )
+        navigationItem.rightBarButtonItem?.width = 0
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithDefaultBackground()
+        self.navigationController?.navigationBar.scrollEdgeAppearance = appearance
+    }
+
+    private func configureSegmentedControl() -> UISegmentedControl {
+        let item = ["LIST", "GRID"]
+        let segmentedControl = UISegmentedControl(items: item)
+
+        segmentedControl.frame = CGRect(x: 0, y: 0, width: 170, height: 15)
+        segmentedControl.selectedSegmentIndex = 0
+        segmentedControl.selectedSegmentTintColor = .systemBlue
+        segmentedControl.layer.borderWidth = 1
+        segmentedControl.layer.borderColor = UIColor.systemBlue.cgColor
+        let selectedText = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        let defaultText = [NSAttributedString.Key.foregroundColor: UIColor.systemBlue]
+        segmentedControl.setTitleTextAttributes(selectedText, for: .selected)
+        segmentedControl.setTitleTextAttributes(defaultText, for: .normal)
+
+        segmentedControl.addTarget(self, action: #selector(segmentedValueChanged), for: .valueChanged)
+
+        return segmentedControl
+    }
+
+    @objc func segmentedValueChanged(sender: UISegmentedControl) { }
 }
 
 extension ViewController {
