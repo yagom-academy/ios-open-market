@@ -373,7 +373,7 @@ class StubURLSessionDataTask: URLSessionDataTask {
 - 항상 뜨는 에러는 아니고, 간헐적으로 뜨는 에러다. 스크롤을 하단까지 했을 때 디코딩에 실패하는 경우가 있습니다. 디버깅을 해보니 결과는 아래와 같다.
 - ![](https://i.imgur.com/jotGTB4.png)
 - ![](https://i.imgur.com/YQuHS96.png)
-- ![](https://i.imgur.com/ZLAl6se.png)
+- ![](https://i.imgur.com/cm6J1vD.png)
 - 뷰컨트롤러 쪽에서 네트워크 매니저의 `fetch` 메소드를 사용하는 쪽에서 에러가 나는 것 같은데, 네트워크에서는 `success`로 데이터를 가져오긴 했으나 조회를 해보면 데이터가 비어있는 것을 확인할 수 있었다.
 - ![](https://i.imgur.com/rHL8Ebf.png)
 - Response를 확인해보면 `204`코드로 응답하고 있다.
