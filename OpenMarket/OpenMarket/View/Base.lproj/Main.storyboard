@@ -1,32 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="o2V-h5-5jd">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="o2V-h5-5jd">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Product Page View Controller-->
+        <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ProductPageViewController" customModule="OpenMarket" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="OpenMarket" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="Crt-3U-OBg">
-                                <rect key="frame" x="188.5" y="456.5" width="37" height="37"/>
-                            </activityIndicatorView>
-                        </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <constraints>
-                            <constraint firstItem="Crt-3U-OBg" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="NyW-z8-CBy"/>
-                            <constraint firstItem="Crt-3U-OBg" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" id="P6O-bN-hrF"/>
-                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="T9E-g4-OZG">
                         <nil key="title"/>
@@ -38,14 +28,13 @@
                                 <segment title="GRID"/>
                             </segments>
                             <connections>
-                                <action selector="segmentedControlChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="des-4B-0Hr"/>
+                                <action selector="segmentedControlValueChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="48h-by-Ho8"/>
                             </connections>
                         </segmentedControl>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="SLN-Rr-B58"/>
                     </navigationItem>
                     <connections>
-                        <outlet property="loadIndicatorView" destination="Crt-3U-OBg" id="P3A-1F-XZy"/>
-                        <outlet property="segmentedControl" destination="26R-04-yGZ" id="dx8-Fu-wsy"/>
+                        <outlet property="segmentedControl" destination="26R-04-yGZ" id="Ojg-oR-KTj"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

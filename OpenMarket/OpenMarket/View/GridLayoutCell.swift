@@ -27,6 +27,7 @@ class GridLayoutCell: UICollectionViewCell {
     var stockLabel = UILabel()
     
     weak var delegate: LayoutSwitchable?
+    var isGridLayout: Bool = true
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -95,7 +96,6 @@ class GridLayoutCell: UICollectionViewCell {
     private func configureCellLayout() {
         
         guard let delegate = delegate else {
-            print("닐리리야")
             return
         }
         

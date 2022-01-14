@@ -70,6 +70,8 @@
 		E9632476278B2D8500851348 /* ShowProductDetailResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9632465278B2BCD00851348 /* ShowProductDetailResponse.swift */; };
 		E9632479278B2D8900851348 /* ShowProductPageResposne.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9632469278B2C0200851348 /* ShowProductPageResposne.swift */; };
 		E963248A278D6AC800851348 /* GridLayoutCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9632488278D6AC800851348 /* GridLayoutCell.swift */; };
+		E998F88627915D8B008DD201 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E998F88527915D8B008DD201 /* ViewController.swift */; };
+		E998F88E279164BF008DD201 /* OpenMarketLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = E998F88D279164BF008DD201 /* OpenMarketLayout.swift */; };
 		E99FDE782782D4C00083D4D6 /* Page.swift in Sources */ = {isa = PBXBuildFile; fileRef = E99FDE772782D4C00083D4D6 /* Page.swift */; };
 		E99FDE7F2782E9490083D4D6 /* StubURLSessionDataTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = E99FDE7E2782E9490083D4D6 /* StubURLSessionDataTask.swift */; };
 		E99FDE842782F3970083D4D6 /* Page.swift in Sources */ = {isa = PBXBuildFile; fileRef = E99FDE772782D4C00083D4D6 /* Page.swift */; };
@@ -136,6 +138,8 @@
 		E9632465278B2BCD00851348 /* ShowProductDetailResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowProductDetailResponse.swift; sourceTree = "<group>"; };
 		E9632469278B2C0200851348 /* ShowProductPageResposne.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowProductPageResposne.swift; sourceTree = "<group>"; };
 		E9632488278D6AC800851348 /* GridLayoutCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridLayoutCell.swift; sourceTree = "<group>"; };
+		E998F88527915D8B008DD201 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		E998F88D279164BF008DD201 /* OpenMarketLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketLayout.swift; sourceTree = "<group>"; };
 		E99FDE772782D4C00083D4D6 /* Page.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Page.swift; sourceTree = "<group>"; };
 		E99FDE7E2782E9490083D4D6 /* StubURLSessionDataTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubURLSessionDataTask.swift; sourceTree = "<group>"; };
 		E9FDEA14278463FE00B12770 /* Currency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
@@ -351,6 +355,7 @@
 			isa = PBXGroup;
 			children = (
 				E9632488278D6AC800851348 /* GridLayoutCell.swift */,
+				E998F88D279164BF008DD201 /* OpenMarketLayout.swift */,
 				C70FB10025BEF61C00C9924E /* Main.storyboard */,
 				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
 			);
@@ -363,6 +368,7 @@
 				C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */,
 				C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */,
 				C70FB0FE25BEF61C00C9924E /* ProductPageViewController.swift */,
+				E998F88527915D8B008DD201 /* ViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -593,6 +599,7 @@
 				E9FDEAA327885FE100B12770 /* HealthCheckerRequest.swift in Sources */,
 				E9632438278AEAB800851348 /* MultiPartRequest.swift in Sources */,
 				E96323BD278888F900851348 /* UpdateProductRequest.swift in Sources */,
+				E998F88E279164BF008DD201 /* OpenMarketLayout.swift in Sources */,
 				C1346A0627887E050044DFDB /* CreateProductRequest.swift in Sources */,
 				E9632454278B2A7600851348 /* CreateProductResponse.swift in Sources */,
 				C171F88027841135001D0B76 /* URLSessionProvider.swift in Sources */,
@@ -605,6 +612,7 @@
 				E963245A278B2ABF00851348 /* UpdateProductResponse.swift in Sources */,
 				E9632443278B0CF100851348 /* OpenMarketRequest.swift in Sources */,
 				C13469EB2786E3B00044DFDB /* UpdateProductRequestModel.swift in Sources */,
+				E998F88627915D8B008DD201 /* ViewController.swift in Sources */,
 				C1346A03278867DA0044DFDB /* DeleteProductRequest.swift in Sources */,
 				E9FDEAAF2788668200B12770 /* ShowProductDetailRequest.swift in Sources */,
 				E9FDEA202784677100B12770 /* CreateProductRequestParams.swift in Sources */,

@@ -13,10 +13,35 @@ class ProductPageViewController: UIViewController, LayoutSwitchable {
     @IBOutlet weak var loadIndicatorView: UIActivityIndicatorView!
     
     
-    let listColletionView = UICollectionView(frame: .zero, collectionViewLayout: createListLayout())
+    let listCollectionView = UICollectionView(frame: .zero, collectionViewLayout: createListLayout())
     let gridCollectionView = UICollectionView(frame: .zero, collectionViewLayout: createGridLayout())
     
-    var dataSource: UICollectionViewDiffableDataSource<Int, Product>?
+//    var dataSource: UICollectionViewDiffableDataSource<Int, Product>?
+    lazy var gridDataSource: UICollectionViewDiffableDataSource<Int, Product> = {
+        return UICollectionViewDiffableDataSource<Int, Product>(collectionView: gridCollectionView) { (collectionView, indexPath, identifier) -> UICollectionViewCell? in
+            return collectionView.dequeueConfiguredReusableCell(using: self.cellRegistration, for: indexPath, item: identifier)
+        }
+    }()
+    lazy var listDataSource: UICollectionViewDiffableDataSource<Int, Product> = {
+        return UICollectionViewDiffableDataSource<Int, Product>(collectionView: listCollectionView) { (collectionView, indexPath, identifier) -> UICollectionViewCell? in
+            return collectionView.dequeueConfiguredReusableCell(using: self.cellRegistration, for: indexPath, item: identifier)
+        }
+    }()
+    lazy var cellRegistration = UICollectionView.CellRegistration<GridLayoutCell, Product> { (cell, indexPath, identifier) in
+        
+//        cell.delegate = self
+        cell.configureContents(imageURL: identifier.thumbnail,
+                               productName: identifier.name,
+                               price: identifier.price.description,
+                               discountedPrice: identifier.discountedPrice.description,
+                               currency: identifier.currency,
+                               stock: String(identifier.stock))
+        
+        cell.layer.borderWidth = 1
+        cell.layer.borderColor = UIColor.systemGray.cgColor
+        cell.layer.cornerRadius = 10
+        cell.layer.masksToBounds = true
+    }
     var currentPage: Int = 1
     var itemsPerPage: Int = 10
     var page: Page?
@@ -25,7 +50,8 @@ class ProductPageViewController: UIViewController, LayoutSwitchable {
             var snapShot = NSDiffableDataSourceSnapshot<Int, Product>()
             snapShot.appendSections([0])
             snapShot.appendItems(pages)
-            self.dataSource?.apply(snapShot)
+            isGridLayout ? self.gridDataSource.apply(snapShot) : self.listDataSource.apply(snapShot)
+//            self.dataSource?.apply(snapShot)
         }
     }
     var refControl = UIRefreshControl()
@@ -38,14 +64,13 @@ class ProductPageViewController: UIViewController, LayoutSwitchable {
         configureViewLayout()
         
         collectionView.isSpringLoaded = true
-        collectionView.delegate = self
         
         refControl.addTarget(self, action: #selector(refreshDidActivate), for: .valueChanged)
         refControl.attributedTitle = NSAttributedString(string: "상품 로드중!")
         collectionView.refreshControl = refControl
         collectionView.addSubview(refControl)
         refControl.translatesAutoresizingMaskIntoConstraints = false
-        configureDatasource()
+//        configureDatasource()
         fetchPage()
         segmentedControl.selectedSegmentIndex = 1
         loadIndicatorView.stopAnimating()
@@ -60,10 +85,13 @@ class ProductPageViewController: UIViewController, LayoutSwitchable {
         case true:
             collectionView = gridCollectionView
         case false:
-            collectionView = listColletionView
+            collectionView = listCollectionView
         }
         
+        collectionView.delegate = self
+//        configureDatasource()
         view.addSubview(collectionView)
+        collectionView.backgroundColor = .systemBackground
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
@@ -147,28 +175,12 @@ extension ProductPageViewController {
         let config = UICollectionLayoutListConfiguration(appearance: .plain)
         return UICollectionViewCompositionalLayout.list(using: config)
     }
-    
-    private func configureDatasource() {
-        let cellRegistration = UICollectionView.CellRegistration<GridLayoutCell, Product> { (cell, indexPath, identifier) in
-            
-            cell.delegate = self
-            cell.configureContents(imageURL: identifier.thumbnail,
-                                   productName: identifier.name,
-                                   price: identifier.price.description,
-                                   discountedPrice: identifier.discountedPrice.description,
-                                   currency: identifier.currency,
-                                   stock: String(identifier.stock))
-            
-            cell.layer.borderWidth = 1
-            cell.layer.borderColor = UIColor.systemGray.cgColor
-            cell.layer.cornerRadius = 10
-            cell.layer.masksToBounds = true
-        }
-        
-        dataSource = UICollectionViewDiffableDataSource<Int, Product>(collectionView: collectionView) { (collectionView, indexPath, identifier) -> UICollectionViewCell? in
-            return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: identifier)
-        }
-    }
+//
+//    private func configureDatasource() {
+//        dataSource = UICollectionViewDiffableDataSource<Int, Product>(collectionView: collectionView) { (collectionView, indexPath, identifier) -> UICollectionViewCell? in
+//            return collectionView.dequeueConfiguredReusableCell(using: self.cellRegistration, for: indexPath, item: identifier)
+//        }
+//    }
     
     private func fetchPage() {
         URLSessionProvider(session: URLSession.shared)
