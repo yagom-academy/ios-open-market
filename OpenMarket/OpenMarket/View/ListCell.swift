@@ -18,40 +18,42 @@ class ListCell: UICollectionViewCell {
 extension ListCell {
     func configure(product: Product) {
         var content = UIListContentConfiguration.subtitleCell()
-        content.imageProperties.maximumSize = CGSize(width: 50, height: 50)
+        content.imageProperties.maximumSize = CGSize(width: 40, height: 40)
         guard let url = URL(string: product.thumbnail) else {
             return
         }
         guard let imageData = try? Data(contentsOf: url) else {
             return
         }
-
         content.image = UIImage(data: imageData)
 
         content.textProperties.font = .preferredFont(forTextStyle: .headline)
         content.textProperties.color = .black
         content.text = product.name
 
+        content.textToSecondaryTextVerticalPadding = 3
         content.secondaryTextProperties.font = .preferredFont(forTextStyle: .callout)
         content.secondaryTextProperties.color = .systemGray
 
         let priceAttributedString =
             "\(product.currency) \(product.price.format())".eraseOriginalPrice()
         let bargainPriceAttributedString = NSMutableAttributedString(
-            string: "\(product.currency) \(product.bargainPrice)"
+            string: "\(product.currency) \(product.bargainPrice.format())"
         )
 
         if product.discountedPrice != 0 {
+            let blank = NSMutableAttributedString(string: " ")
+            bargainPriceAttributedString.insert(blank, at: 0)
             bargainPriceAttributedString.insert(priceAttributedString, at: 0)
         }
         content.secondaryAttributedText = bargainPriceAttributedString
 
         listContentView.configuration = content
 
-        stockStackView.translatesAutoresizingMaskIntoConstraints = false
         stockStackView.axis = .horizontal
         stockStackView.alignment = .center
         stockStackView.distribution = .fill
+        stockStackView.spacing = 10
         stockLabel.font = .preferredFont(forTextStyle: .callout)
         if product.stock == .zero {
             stockLabel.text = "품절"
@@ -63,20 +65,35 @@ extension ListCell {
         }
 
         disclosureImage.image = UIImage(systemName: "chevron.forward")
-        stockStackView.addArrangedSubview(stockLabel)
-        stockStackView.addArrangedSubview(disclosureImage)
+        disclosureImage.tintColor = .systemGray
 
+        configureViewHierarchy()
         configureConstraint()
     }
 
     private func configureConstraint() {
+        listContentView.translatesAutoresizingMaskIntoConstraints = false
+        stockStackView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             listContentView.topAnchor.constraint(equalTo: contentView.topAnchor),
             listContentView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             listContentView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            stockStackView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            stockStackView.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.35),
-            stockStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
+            stockStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
+            stockStackView.heightAnchor.constraint(
+                equalTo: contentView.heightAnchor,
+                multiplier: 0.3
+            ),
+            stockStackView.trailingAnchor.constraint(
+                equalTo: contentView.trailingAnchor,
+                constant: -15
+            )
         ])
+    }
+
+    private func configureViewHierarchy() {
+        contentView.addSubview(listContentView)
+        contentView.addSubview(stockStackView)
+        stockStackView.addArrangedSubview(stockLabel)
+        stockStackView.addArrangedSubview(disclosureImage)
     }
 }
