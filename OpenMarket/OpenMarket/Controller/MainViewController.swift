@@ -10,7 +10,7 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupSegmentedControl()
-        changeViewController()
+        changeSubviewController()
     }
     
     private func setupSegmentedControl() {
@@ -25,6 +25,28 @@ class MainViewController: UIViewController {
             [.foregroundColor: UIColor.systemBlue],
             for: .normal
         )
+    }
+    
+    private func changeSubviewController() {
+        guard let selectedSegment = Segement(
+            rawValue: viewSegmentedControl.selectedSegmentIndex
+        ) else { return }
+        let viewController = loadViewController(from: selectedSegment)
+        
+        removeChildren()
+        addChild(viewController)
+        view.addSubview(viewController.view)
+    }
+    
+    @IBAction private func segmentedControlChanged(_ sender: UISegmentedControl) {
+        changeSubviewController()
+    }
+}
+
+extension MainViewController {
+     private enum Segement: Int {
+        case list
+        case grid
     }
     
     private func removeChildren() {
@@ -51,27 +73,5 @@ class MainViewController: UIViewController {
             )
         }
         return viewController
-    }
-    
-    private func changeViewController() {
-        guard let selectedSegment = Segement(
-            rawValue: viewSegmentedControl.selectedSegmentIndex
-        ) else { return }
-        let viewController = loadViewController(from: selectedSegment)
-        
-        removeChildren()
-        addChild(viewController)
-        view.addSubview(viewController.view)
-    }
-    
-    @IBAction private func segmentedControlChanged(_ sender: UISegmentedControl) {
-        changeViewController()
-    }
-}
-
-private extension MainViewController {
-    enum Segement: Int {
-        case list
-        case grid
     }
 }
