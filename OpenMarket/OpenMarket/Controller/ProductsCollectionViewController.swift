@@ -55,32 +55,20 @@ class ProductsCollectionViewController: UICollectionViewController {
         }
     }
     
-    private func setupCellStyle(for cell: ProductsCollectionViewCell) {
-        cell.layer.borderWidth = 1.0
-        cell.layer.borderColor = UIColor.systemGray.cgColor
-        cell.layer.cornerRadius = 10
-    }
-    
-    private func setupCellLabel(for cell: ProductsCollectionViewCell, from product: Product) {
-        cell.productTitleLabel.attributedText = product.attributedTitle
-        cell.productPriceLabel.attributedText = product.attributedPrice
-        cell.productStockLabel.attributedText = product.attributedStock
-    }
-    
     private func setupCellImage(
         for cell: ProductsCollectionViewCell,
         from url: URL,
         indexPath: IndexPath,
         collectionView: UICollectionView
     ) {
-        cell.productImageView.image = nil
+        cell.setup(image: nil)
         networkTask?.downloadImage(from: url) { result in
             switch result {
             case .success(let data):
                 guard let image = UIImage(data: data) else { return }
                 DispatchQueue.main.async {
                     guard indexPath == collectionView.indexPath(for: cell) else { return }
-                    cell.productImageView.image = image
+                    cell.setup(image: image)
                 }
             case .failure(let error):
                 self.showAlert(
@@ -122,8 +110,11 @@ class ProductsCollectionViewController: UICollectionViewController {
                 )
                 return cell
             }
-        setupCellStyle(for: cell)
-        setupCellLabel(for: cell, from: product)
+        cell.setup(
+            title: product.attributedTitle,
+            price: product.attributedPrice,
+            stock: product.attributedStock
+        )
         setupCellImage(for: cell, from: url, indexPath: indexPath, collectionView: collectionView)
         return cell
     }
