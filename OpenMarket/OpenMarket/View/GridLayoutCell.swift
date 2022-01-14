@@ -7,12 +7,6 @@
 
 import UIKit
 
-protocol LayoutSwitchable: AnyObject {
-    
-    var isGridLayout: Bool { get set }
-    
-}
-
 class GridLayoutCell: UICollectionViewCell {
     static var reuseIdentifier: String { "gridCell" }
     
@@ -26,7 +20,6 @@ class GridLayoutCell: UICollectionViewCell {
     var discountedLabel = UILabel()
     var stockLabel = UILabel()
     
-    weak var delegate: LayoutSwitchable?
     var isGridLayout: Bool = true
     
     override init(frame: CGRect) {
@@ -95,11 +88,7 @@ class GridLayoutCell: UICollectionViewCell {
     
     private func configureCellLayout() {
         
-        guard let delegate = delegate else {
-            return
-        }
-        
-        switch delegate.isGridLayout {
+        switch isGridLayout {
         case true:
             configureGridCellLayout()
         case false:

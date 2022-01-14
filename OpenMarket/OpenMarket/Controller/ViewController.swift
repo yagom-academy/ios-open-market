@@ -8,7 +8,7 @@
 import UIKit
 
 class ViewController: UIViewController {
-
+    
     @IBOutlet weak var segmentedControl: UISegmentedControl!
     
     var currentCollectionView: UICollectionView?
@@ -29,10 +29,43 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        configureViewLayout()
+        
     }
     
     @IBAction func segmentedControlValueChanged(_ sender: UISegmentedControl) {
+        
+        configureViewLayout()
+        
     }
 }
 
-
+extension ViewController {
+    
+    func configureViewLayout() {
+        if currentCollectionView != nil {
+            currentCollectionView?.removeFromSuperview()
+        }
+        
+        switch segmentedControl.selectedSegmentIndex {
+        case 0:
+            currentCollectionView = listCollectionView
+        default:
+            currentCollectionView = gridCollectionView
+        }
+        
+        guard let collectionView = currentCollectionView else { return }
+        
+        view.addSubview(collectionView)
+        collectionView.backgroundColor = .systemBackground
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            collectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0),
+            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0),
+            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
+            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0)
+        ])
+    }
+    
+}
