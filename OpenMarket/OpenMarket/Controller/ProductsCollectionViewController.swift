@@ -138,7 +138,7 @@ class ProductsCollectionViewController: UICollectionViewController {
         willDisplay cell: UICollectionViewCell,
         forItemAt indexPath: IndexPath
     ) {
-        if indexPath.row == products.count - 1,
+        if indexPath.item == products.count - 1,
            pageInformation?.hasNext == true,
            let num = pageInformation?.pageNumber {
             loadProductsList(pageNumber: num + 1)
