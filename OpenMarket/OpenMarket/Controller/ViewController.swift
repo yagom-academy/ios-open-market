@@ -59,8 +59,9 @@ extension ViewController {
             cell.nameLabel.text = identifier.name
             if identifier.discountedPrice != .zero {
                 let formattedPrice = identifier.price.format()
-                cell.priceLabel.text = "\(identifier.currency) \(formattedPrice)"
-                cell.priceLabel.strikeThrough()
+                let priceAttributedString =
+                    "\(identifier.currency) \(formattedPrice)".erasedOriginalPrice()
+                cell.priceLabel.attributedText = priceAttributedString
             } else {
                 cell.priceLabel.isHidden = true
             }
