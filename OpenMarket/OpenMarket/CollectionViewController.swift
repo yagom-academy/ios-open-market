@@ -20,7 +20,7 @@ class CollectionViewController: UIViewController {
   
   let api = APIManager(urlSession: URLSession(configuration: .default))
   var products: [Product] = []
-
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     registerNib()
@@ -45,7 +45,6 @@ class CollectionViewController: UIViewController {
       case .success(let data):
         self.products = data.pages
         DispatchQueue.main.async {
-          self.collectionView.collectionViewLayout = self.createGridViewLayout()
           self.configureListViewDataSource()
         }
       case .failure(let error):
@@ -63,25 +62,6 @@ class CollectionViewController: UIViewController {
 }
 
 extension CollectionViewController {
-  private func createGridViewLayout() -> UICollectionViewLayout {
-    let layout = UICollectionViewCompositionalLayout {
-      (sectionIndex: Int, layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
-      let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
-      let item = NSCollectionLayoutItem(layoutSize: itemSize)
-      item.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 10, bottom: 5, trailing: 10)
-      
-      let groupHeight = NSCollectionLayoutDimension.fractionalWidth(0.677)
-      let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: groupHeight)
-      
-      let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 2)
-      let section = NSCollectionLayoutSection(group: group)
-      section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 0, bottom: 10, trailing: 0)
-      
-      return section
-    }
-    return layout
-  }
-  
   private func configureGridViewDataSource() {
     dataSource = UICollectionViewDiffableDataSource<Section, Product>(collectionView: collectionView) {
       (collectionView: UICollectionView, indexPath: IndexPath, item: Product) -> UICollectionViewCell? in
@@ -90,10 +70,10 @@ extension CollectionViewController {
       }
       
       guard let imageUrl = URL(string: item.thumbnail),
-        let imageData = try? Data(contentsOf: imageUrl),
-        let image = UIImage(data: imageData) else {
-          return UICollectionViewCell()
-      }
+            let imageData = try? Data(contentsOf: imageUrl),
+            let image = UIImage(data: imageData) else {
+              return UICollectionViewCell()
+            }
       
       cell.insertCellData(image: image, name: item.name, fixedPrice: item.fixedPrice, bargainPrice: item.getBargainPrice, stock: item.getStock)
       
@@ -113,10 +93,10 @@ extension CollectionViewController {
       }
       
       guard let imageUrl = URL(string: item.thumbnail),
-        let imageData = try? Data(contentsOf: imageUrl),
-        let image = UIImage(data: imageData) else {
-          return UICollectionViewCell()
-      }
+            let imageData = try? Data(contentsOf: imageUrl),
+            let image = UIImage(data: imageData) else {
+              return UICollectionViewCell()
+            }
       
       cell.insertCellData(image: image, name: item.name, fixedPrice: item.fixedPrice, bargainPrice: item.getBargainPrice, stock: item.getStock)
       
@@ -136,8 +116,31 @@ extension CollectionViewController: UICollectionViewDelegate {
 extension CollectionViewController: UICollectionViewDelegateFlowLayout {
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
     let width = collectionView.frame.width
-    let size = CGSize(width: width / 2.1, height: width / 1.65)
     
-    return size
+    if segmentControl.selectedSegmentIndex == 0 {
+      return CGSize(width: width, height: width / 7)
+    } else {
+      return CGSize(width: width / 2.2, height: width / 1.55)
+    }
+  }
+  
+  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+    if segmentControl.selectedSegmentIndex == 0 {
+      return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+    } else {
+      return UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 8)
+    }
+  }
+  
+  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+    if segmentControl.selectedSegmentIndex == 0 {
+      return 5
+    } else {
+      return 8
+    }
+  }
+  
+  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+    return 0
   }
 }

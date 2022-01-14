@@ -202,8 +202,8 @@
 				2580F2062786C6CC005FC50F /* URLGenerator.swift */,
 				2530792D278D2FBA004639B2 /* CollectionViewController.swift */,
 				2530792B278D2BB5004639B2 /* ProductCollectionViewGridCell.swift */,
-				2530793E27901928004639B2 /* NumberFormatter.swift */,
 				253079422790FCF2004639B2 /* ProductCollectionViewListCell.swift */,
+				2530793E27901928004639B2 /* NumberFormatter.swift */,
 			);
 			path = OpenMarket;
 			sourceTree = "<group>";

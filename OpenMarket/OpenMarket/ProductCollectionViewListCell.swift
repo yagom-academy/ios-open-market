@@ -22,11 +22,18 @@ class ProductCollectionViewListCell: UICollectionViewCell {
   func insertCellData(image: UIImage, name: String, fixedPrice: String, bargainPrice: String , stock: String) {
     productImageView.image = image
     productNameLabel.text = name
-    productFixedPriceLabel.attributedText = fixedPrice.strikeThrough(strikeTaget: fixedPrice)
+    
+    productFixedPriceLabel.attributedText = fixedPrice.strikeThrough(strikeTarget: fixedPrice)
+    productBargainPriceLabel.text = bargainPrice
     if fixedPrice == bargainPrice {
       productFixedPriceLabel.isHidden = true
     }
-    productBargainPriceLabel.text = bargainPrice
+    
+    if stock == "품절" {
+      productStockLabel.textColor = .orange
+    } else {
+      productStockLabel.textColor = .darkGray
+    }
     productStockLabel.text = stock
   }
 }

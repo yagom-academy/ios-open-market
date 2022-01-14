@@ -49,7 +49,7 @@ struct Product: Codable {
   }
   
   var getBargainPrice: String {
-    let formattedBargainPrice = PresentStyle.formatNumber(price)
+    let formattedBargainPrice = PresentStyle.formatNumber(bargainPrice)
     return "\(currency.rawValue) \(formattedBargainPrice)"
   }
   

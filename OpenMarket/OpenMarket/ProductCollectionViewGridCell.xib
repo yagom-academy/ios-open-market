@@ -71,8 +71,8 @@
             </collectionViewCellContentView>
             <size key="customSize" width="133" height="223"/>
             <connections>
-                <outlet property="productBargainLabel" destination="RSk-RL-ALz" id="P3K-cb-1Px"/>
-                <outlet property="productFixedPrice" destination="WOg-7I-e61" id="cKK-4e-x3o"/>
+                <outlet property="productBargainPriceLabel" destination="RSk-RL-ALz" id="P3K-cb-1Px"/>
+                <outlet property="productFixedPriceLabel" destination="WOg-7I-e61" id="cKK-4e-x3o"/>
                 <outlet property="productImageView" destination="yR1-7r-x3a" id="gLt-kX-zG3"/>
                 <outlet property="productNameLabel" destination="XfL-ub-Vzy" id="oIe-UI-7K1"/>
                 <outlet property="productStockLabel" destination="WY3-ev-7Vu" id="jSG-Zo-nbG"/>
