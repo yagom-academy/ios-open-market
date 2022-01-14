@@ -92,12 +92,12 @@ class ProductGridLayoutCell: UICollectionViewCell {
     }
     
     private func configUILayout() {
-        [priceLabel, bargainPriceLabel].forEach {
-            productPriceStackView.addArrangedSubview($0)
+        [priceLabel, bargainPriceLabel].forEach { label in
+            productPriceStackView.addArrangedSubview(label)
         }
         
-        [productImageView, productNameLabel, productPriceStackView, productStockLabel].forEach {
-            productStackView.addArrangedSubview($0)
+        [productImageView, productNameLabel, productPriceStackView, productStockLabel].forEach { view in
+            productStackView.addArrangedSubview(view)
         }
         
         self.contentView.addSubview(productStackView)
