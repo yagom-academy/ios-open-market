@@ -7,7 +7,7 @@
 
 import UIKit
 
-class GridCell: UICollectionViewCell {
+final class GridCell: UICollectionViewCell {
     
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var productNameLabel: UILabel!
@@ -27,7 +27,6 @@ class GridCell: UICollectionViewCell {
     }
     
     func configure(with product: Product) {
-        
         setImageView(with: product.thumbnailURL)
         setProductNameLabel(to: product.name)
         setPriceLabels(with: product.price, and: product.discountedPrice, currency: product.currency)
