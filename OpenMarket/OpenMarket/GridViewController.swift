@@ -7,7 +7,7 @@
 
 import UIKit
 
-class GridViewController: UIViewController {
+final class GridViewController: UIViewController {
     //MARK: - IBOutlets
     
     @IBOutlet weak var collectionView: UICollectionView!
@@ -31,6 +31,7 @@ class GridViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         setupCollectionViewCells()
         configureCollectionViewGrid()
         collectionView.dataSource = self
@@ -47,8 +48,8 @@ extension GridViewController {
     }
     
     private func setupCollectionViewCells() {
-        let gridNib = UINib(nibName: "GridCell", bundle: .main)
-        collectionView.register(gridNib, forCellWithReuseIdentifier: "gridCell")
+        let gridNib = UINib(nibName: NibIdentifier.grid, bundle: .main)
+        collectionView.register(gridNib, forCellWithReuseIdentifier: CellIdentifier.grid)
     }
 }
 
@@ -60,7 +61,7 @@ extension GridViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "gridCell", for: indexPath) as? GridCell else {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CellIdentifier.grid, for: indexPath) as? GridCell else {
             return UICollectionViewCell()
         }
         cell.configure(with: products[indexPath.row])

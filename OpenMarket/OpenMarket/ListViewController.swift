@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ListViewController: UIViewController {
+final class ListViewController: UIViewController {
     //MARK: - IBOutlets
     
     @IBOutlet weak var collectionView: UICollectionView!
@@ -31,6 +31,7 @@ class ListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         setupCollectionViewCells()
         configureCollectionViewList()
         collectionView.dataSource = self
@@ -47,8 +48,8 @@ extension ListViewController {
     }
     
     private func setupCollectionViewCells() {
-        let listNib = UINib(nibName: "ListCell", bundle: .main)
-        collectionView.register(listNib, forCellWithReuseIdentifier: "listCell")
+        let listNib = UINib(nibName: NibIdentifier.list, bundle: .main)
+        collectionView.register(listNib, forCellWithReuseIdentifier: CellIdentifier.list)
     }
 }
 
@@ -60,7 +61,7 @@ extension ListViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "listCell", for: indexPath) as? ListCell else {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CellIdentifier.list, for: indexPath) as? ListCell else {
             return UICollectionViewCell()
         }
         cell.configure(with: products[indexPath.row])

@@ -8,18 +8,19 @@
 import UIKit
 
 final class ListCell: UICollectionViewCell {
+    //MARK: - IBOutlets
+    
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var productNameLabel: UILabel!
     @IBOutlet weak var priceLabel: UILabel!
     @IBOutlet weak var discountedPriceLabel: UILabel!
     @IBOutlet weak var stockLabel: UILabel!
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-    }
+    //MARK: - Configure Methods
     
     override func prepareForReuse() {
         super.prepareForReuse()
+        
         discountedPriceLabel.isHidden = false
         priceLabel.attributedText = nil
     }
@@ -32,14 +33,14 @@ final class ListCell: UICollectionViewCell {
     }
 }
 
+//MARK: - Private Methods
+
 extension ListCell {
     private func setImageView(with urlString: String) {
-        guard let url = URL(string: urlString) else {
-            return
-        }
-        guard let data = try? Data(contentsOf: url) else {
-            return
-        }
+        guard let url = URL(string: urlString),
+              let data = try? Data(contentsOf: url)else {
+                  return
+              }
         imageView.image = UIImage(data: data)
     }
     
@@ -49,25 +50,19 @@ extension ListCell {
     }
     
     private func setPriceLabels(with price: Int, and discountedPrice: Int, currency: String) {
-        let dontShowDiscounted = discountedPrice == 0
+        let isNotDiscounted = discountedPrice == 0
         guard let priceString = price.decimalFormat,
               let discountedPriceString = discountedPrice.decimalFormat else {
             return
         }
-        priceLabel.text = currency + " " + priceString
-        discountedPriceLabel.text = currency + " " + discountedPriceString
+        priceLabel.text = currency + CellString.space + priceString
+        discountedPriceLabel.text = currency + CellString.space + discountedPriceString
         
-        if dontShowDiscounted {
+        if isNotDiscounted {
             discountedPriceLabel.isHidden = true
             priceLabel.textColor = .systemGray
         } else {
-            guard let priceLabelString = priceLabel.text else {
-                return
-            }
-            let attributeString = NSMutableAttributedString(string: priceLabelString)
-            
-            attributeString.addAttribute(NSAttributedString.Key.strikethroughStyle, value: 1, range: NSRange(location: 0, length: attributeString.length))
-            priceLabel.attributedText = attributeString
+            priceLabel.attributedText = convertToAttributedString(from: priceLabel)
             priceLabel.textColor = .red
             discountedPriceLabel.textColor = .systemGray
         }
@@ -75,11 +70,22 @@ extension ListCell {
     
     private func setStockLabel(to stock: Int) {
         if stock == 0 {
-            stockLabel.text = "품절"
+            stockLabel.text = CellString.outOfStock
             stockLabel.textColor = .systemOrange
         } else {
-            stockLabel.text = "잔여수량: " + stock.stringFormat
+            stockLabel.text = CellString.remainingStock + stock.stringFormat
             stockLabel.textColor = .systemGray
         }
+    }
+    
+    private func convertToAttributedString(from label: UILabel) -> NSMutableAttributedString? {
+        guard let priceLabelString = label.text else {
+            return nil
+        }
+        let attributeString = NSMutableAttributedString(string: priceLabelString)
+        let range = NSRange(location: 0, length: attributeString.length)
+        attributeString.addAttribute(.strikethroughStyle, value: 1, range: range)
+        
+        return attributeString
     }
 }

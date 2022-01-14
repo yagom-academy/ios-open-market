@@ -5,8 +5,16 @@
 // 
 
 import UIKit
-// 🤞
+
 final class MarketViewController: UIViewController {
+    //MARK: - Namespace
+    
+    private enum Identifier {
+        static let mainStoryBoard = "Main"
+        static let list = "ListViewController"
+        static let grid = "GridViewController"
+    }
+    
     //MARK: - IBOutlets
     
     @IBOutlet weak var segmentedControl: UISegmentedControl!
@@ -18,16 +26,16 @@ final class MarketViewController: UIViewController {
     private var products: [Product] = []
     
     private lazy var listViewController: ListViewController = {
-        let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
-        let viewController = storyboard.instantiateViewController(identifier: "ListViewController") { coder in
+        let storyboard = UIStoryboard(name: Identifier.mainStoryBoard, bundle: Bundle.main)
+        let viewController = storyboard.instantiateViewController(identifier: Identifier.list) { coder in
             ListViewController(products: self.products, coder: coder)
         }
         return viewController
     }()
     
     private lazy var gridViewController: GridViewController = {
-        let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
-        let viewController = storyboard.instantiateViewController(identifier: "GridViewController") { coder in
+        let storyboard = UIStoryboard(name: Identifier.mainStoryBoard, bundle: Bundle.main)
+        let viewController = storyboard.instantiateViewController(identifier: Identifier.grid) { coder in
             GridViewController(products: self.products, coder: coder)
         }
         return viewController
@@ -36,14 +44,11 @@ final class MarketViewController: UIViewController {
     private lazy var loadingIndicator: UIActivityIndicatorView = {
         let loadingIndicator = UIActivityIndicatorView(style: .large)
         loadingIndicator.isHidden = false
-        loadingIndicator.translatesAutoresizingMaskIntoConstraints = false
+        
         self.view.addSubview(loadingIndicator)
-        
-        let horizontalConstraint = loadingIndicator.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
-        let verticalConstraint = loadingIndicator.centerYAnchor.constraint(equalTo: self.view.centerYAnchor)
-        
-        self.view.addConstraint(horizontalConstraint)
-        self.view.addConstraint(verticalConstraint)
+        loadingIndicator.translatesAutoresizingMaskIntoConstraints = false
+        loadingIndicator.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        loadingIndicator.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
         
         return loadingIndicator
     }()
@@ -54,7 +59,7 @@ final class MarketViewController: UIViewController {
         super.viewDidLoad()
         
         setupSegmentedControl()
-        fetchPage()
+        fetchPage(pageNumber: 1, itemsPerPage: 20)
     }
 }
 
@@ -96,8 +101,8 @@ extension MarketViewController {
         segmentedControl.setTitle("GRID", forSegmentAt: 1)
         segmentedControl.selectedSegmentTintColor = .systemBlue
         segmentedControl.backgroundColor = .white
-        segmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for: .selected)
-        segmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.systemBlue], for: .normal)
+        segmentedControl.setTitleTextAttributes([.foregroundColor: UIColor.white], for: .selected)
+        segmentedControl.setTitleTextAttributes([.foregroundColor: UIColor.systemBlue], for: .normal)
     }
     
     private func add(asChildViewController viewController: UIViewController) {
@@ -114,9 +119,9 @@ extension MarketViewController {
         viewController.removeFromParent()
     }
     
-    private func fetchPage() {
+    private func fetchPage(pageNumber: Int, itemsPerPage: Int) {
         startLoadingIndicator()
-        apiService.fetchPage(pageNumber: 1, itemsPerPage: 20) { [weak self] result in
+        apiService.fetchPage(pageNumber: pageNumber, itemsPerPage: itemsPerPage) { [weak self] result in
             self?.stopLoadingIndicator()
             switch result {
             case .success(let data):
