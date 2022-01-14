@@ -94,11 +94,9 @@ class ProductListViewController: UIViewController {
                 for: indexPath,
                 item: item
             )
-            cell.imageView.image = ImageLoader.load(from: item.thumbnail)
-            cell.activityIndicator.stopAnimating()
-            cell.nameLabel.attributedText = item.name.boldFont
-            cell.priceLabel.attributedText = item.price.description.redStrikeThroughStyle
-            cell.stockLabel.attributedText = item.stock.description.grayColor
+            cell.updateAllComponents(from: item)
+            cell.accessories = [.disclosureIndicator()]
+            
             return cell
         }
         applySnapShot(section: .list)
@@ -137,7 +135,7 @@ class ProductListViewController: UIViewController {
     }
 
     func fetchProductList() {
-        let requester = ProductListAskRequester(pageNo: 1, itemsPerPage: 15)
+        let requester = ProductListAskRequester(pageNo: 1, itemsPerPage: 30)
         URLSession.shared.request(requester: requester) { result in
             switch result {
             case .success(let data):
