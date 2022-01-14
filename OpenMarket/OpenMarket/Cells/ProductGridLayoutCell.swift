@@ -23,7 +23,7 @@ class ProductGridLayoutCell: UICollectionViewCell {
     private let productStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
-        stackView.distribution = .equalSpacing
+        stackView.distribution = .fill
         stackView.alignment = .center
         stackView.spacing = Design.productStackViewSpacing
         return stackView
@@ -100,12 +100,10 @@ class ProductGridLayoutCell: UICollectionViewCell {
             productStackView.addArrangedSubview($0)
         }
         
-        productPriceStackView.setContentCompressionResistancePriority(.defaultHigh, for: .vertical)
-        
         self.contentView.addSubview(productStackView)
-        
         productStackView.translatesAutoresizingMaskIntoConstraints = false
         productImageView.translatesAutoresizingMaskIntoConstraints = false
+        productImageView.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
         
         NSLayoutConstraint.activate([
             productStackView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: Design.productStackViewTopMargin),
@@ -115,7 +113,7 @@ class ProductGridLayoutCell: UICollectionViewCell {
             
             productImageView.leadingAnchor.constraint(equalTo: productStackView.leadingAnchor, constant: Design.productImageViewLeadingMargin),
             productImageView.trailingAnchor.constraint(equalTo: productStackView.trailingAnchor, constant: Design.productImageViewTrailingMargin),
-            productImageView.heightAnchor.constraint(equalToConstant: self.contentView.frame.height / 2)
+            productImageView.heightAnchor.constraint(lessThanOrEqualToConstant: self.contentView.frame.height / 2)
         ])
     }
 }
