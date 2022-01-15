@@ -22,10 +22,15 @@ extension ListCell {
         guard let url = URL(string: product.thumbnail) else {
             return
         }
-        guard let imageData = try? Data(contentsOf: url) else {
-            return
+        DispatchQueue.global().async {
+            guard let imageData = try? Data(contentsOf: url) else {
+                return
+            }
+            DispatchQueue.main.async {
+                content.image = UIImage(data: imageData)
+                self.listContentView.configuration = content
+            }
         }
-        content.image = UIImage(data: imageData)
 
         content.textProperties.font = .preferredFont(forTextStyle: .headline)
         content.textProperties.color = .black

@@ -11,10 +11,12 @@ class ViewController: UIViewController {
     }
 
     var presentView: ViewType = .list
+    var pageNumber: Int = 1
 
     private var switchSegmentedControl: UISegmentedControl!
     private var listCollectionView: UICollectionView! = nil
     private var gridCollectionView: UICollectionView! = nil
+    private let indicator = UIActivityIndicatorView()
     private var listDataSource: UICollectionViewDiffableDataSource<Section, Product>!
     private var gridDataSource: UICollectionViewDiffableDataSource<Section, Product>!
     private var snapshot = NSDiffableDataSourceSnapshot<Section, Product>()
@@ -22,10 +24,18 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureNavigationBar()
+
         listCollectionView = configureHierarchy(for: presentView)
         configureDataSource(for: presentView)
-        generateProductItems()
+        listCollectionView.delegate = self
         view = listCollectionView
+        generateProductItems()
+
+        configureIndicator()
+
+        gridCollectionView = configureHierarchy(for: .grid)
+        configureDataSource(for: .grid)
+        gridCollectionView.delegate = self
     }
 }
 
@@ -83,13 +93,20 @@ extension ViewController {
             view = listCollectionView
             listDataSource.apply(snapshot, animatingDifferences: false, completion: nil)
         case .grid:
-            if gridCollectionView == nil {
-                gridCollectionView = configureHierarchy(for: viewType)
-                configureDataSource(for: viewType)
-            }
             view = gridCollectionView
             gridDataSource.apply(snapshot)
         }
+        presentView = viewType
+    }
+
+    private func configureIndicator() {
+        view.addSubview(indicator)
+        indicator.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            indicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            indicator.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ])
+        indicator.startAnimating()
     }
 }
 
@@ -140,25 +157,25 @@ extension ViewController {
     private func configureDataSource(for viewType: ViewType) {
         switch viewType {
         case .list:
-            let registerListCell = registerListCell()
+            let listCellRegistration = registerListCell()
             listDataSource = UICollectionViewDiffableDataSource<Section, Product>(
                 collectionView: listCollectionView
             ) { (collectionView: UICollectionView, indexPath: IndexPath, identifier: Product
             ) -> UICollectionViewCell? in
                 return collectionView.dequeueConfiguredReusableCell(
-                    using: registerListCell,
+                    using: listCellRegistration,
                     for: indexPath,
                     item: identifier
                 )
             }
         case .grid:
-            let registerGridCell = registerGridCell()
+            let gridCellRegistration = registerGridCell()
             gridDataSource = UICollectionViewDiffableDataSource<Section, Product>(
                 collectionView: gridCollectionView
             ) { (collectionView: UICollectionView, indexPath: IndexPath, identifier: Product
             ) -> UICollectionViewCell? in
                 return collectionView.dequeueConfiguredReusableCell(
-                    using: registerGridCell,
+                    using: gridCellRegistration,
                     for: indexPath,
                     item: identifier
                 )
@@ -213,12 +230,13 @@ extension ViewController {
         }
 
         ProductService().retrieveProductList(
-            pageNumber: 1,
+            pageNumber: pageNumber,
             itemsPerPage: 20,
             session: HTTPUtility.defaultSession
         ) { result in
             switch result {
             case .success(let productList):
+                self.pageNumber += 1
                 let products = productList.pages
                 self.snapshot.appendItems(products)
                 DispatchQueue.main.async {
@@ -228,10 +246,26 @@ extension ViewController {
                     case .grid:
                         self.gridDataSource.apply(self.snapshot)
                     }
+                    self.indicator.stopAnimating()
                 }
-            case .failure(let error):
-                print(error)
+            case .failure:
+                return
             }
+        }
+    }
+}
+
+extension ViewController: UICollectionViewDelegate {
+    func scrollViewWillEndDragging(
+        _ scrollView: UIScrollView,
+        withVelocity velocity: CGPoint,
+        targetContentOffset: UnsafeMutablePointer<CGPoint>
+    ) {
+        let targetOffset = targetContentOffset.pointee.y + view.frame.height
+        let scrollViewHeight = scrollView.contentSize.height
+
+        if targetOffset > scrollViewHeight {
+            generateProductItems()
         }
     }
 }
