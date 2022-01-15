@@ -10,16 +10,22 @@ class ViewController: UIViewController {
         case main
     }
 
+    var presentView: ViewType = .list
+
     private var switchSegmentedControl: UISegmentedControl!
-    private var collectionView: UICollectionView! = nil
-    private var dataSource: UICollectionViewDiffableDataSource<Section, Product>!
+    private var listCollectionView: UICollectionView! = nil
+    private var gridCollectionView: UICollectionView! = nil
+    private var listDataSource: UICollectionViewDiffableDataSource<Section, Product>!
+    private var gridDataSource: UICollectionViewDiffableDataSource<Section, Product>!
     private var snapshot = NSDiffableDataSourceSnapshot<Section, Product>()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         configureNavigationBar()
-        configureHierarchy(for: .list)
-        configureDataSource(for: .list)
+        listCollectionView = configureHierarchy(for: presentView)
+        configureDataSource(for: presentView)
+        generateProductItems()
+        view = listCollectionView
     }
 }
 
@@ -72,7 +78,18 @@ extension ViewController {
         guard let viewType = ViewType(rawValue: sender.selectedSegmentIndex) else {
             return
         }
-        configureHierarchy(for: viewType)
+        switch viewType {
+        case .list:
+            view = listCollectionView
+            listDataSource.apply(snapshot, animatingDifferences: false, completion: nil)
+        case .grid:
+            if gridCollectionView == nil {
+                gridCollectionView = configureHierarchy(for: viewType)
+                configureDataSource(for: viewType)
+            }
+            view = gridCollectionView
+            gridDataSource.apply(snapshot)
+        }
     }
 }
 
@@ -103,7 +120,7 @@ extension ViewController {
         return layout
     }
 
-    private func configureHierarchy(for viewType: ViewType) {
+    private func configureHierarchy(for viewType: ViewType) -> UICollectionView {
         var layout: UICollectionViewLayout
         switch viewType {
         case .list:
@@ -111,36 +128,42 @@ extension ViewController {
         case .grid:
             layout = createGridLayout()
         }
-        collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: layout)
+        let collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: layout)
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         collectionView.backgroundColor = .white
-        view.addSubview(collectionView)
+
+        return collectionView
     }
 }
 
 extension ViewController {
     private func configureDataSource(for viewType: ViewType) {
-        dataSource = UICollectionViewDiffableDataSource<Section, Product>(
-            collectionView: collectionView
-        ) { (collectionView: UICollectionView, indexPath: IndexPath, identifier: Product
-        ) -> UICollectionViewCell? in
-            switch viewType {
-            case .list:
+        switch viewType {
+        case .list:
+            let registerListCell = registerListCell()
+            listDataSource = UICollectionViewDiffableDataSource<Section, Product>(
+                collectionView: listCollectionView
+            ) { (collectionView: UICollectionView, indexPath: IndexPath, identifier: Product
+            ) -> UICollectionViewCell? in
                 return collectionView.dequeueConfiguredReusableCell(
-                    using: self.registerListCell(),
+                    using: registerListCell,
                     for: indexPath,
                     item: identifier
                 )
-            case .grid:
+            }
+        case .grid:
+            let registerGridCell = registerGridCell()
+            gridDataSource = UICollectionViewDiffableDataSource<Section, Product>(
+                collectionView: gridCollectionView
+            ) { (collectionView: UICollectionView, indexPath: IndexPath, identifier: Product
+            ) -> UICollectionViewCell? in
                 return collectionView.dequeueConfiguredReusableCell(
-                    using: self.registerGridCell(),
+                    using: registerGridCell,
                     for: indexPath,
                     item: identifier
                 )
             }
         }
-
-        generateProductItems()
     }
 
     private func registerGridCell() -> UICollectionView.CellRegistration<GridCell, Product> {
@@ -199,7 +222,12 @@ extension ViewController {
                 let products = productList.pages
                 self.snapshot.appendItems(products)
                 DispatchQueue.main.async {
-                    self.dataSource.apply(self.snapshot)
+                    switch self.presentView {
+                    case .list:
+                        self.listDataSource.apply(self.snapshot)
+                    case .grid:
+                        self.gridDataSource.apply(self.snapshot)
+                    }
                 }
             case .failure(let error):
                 print(error)

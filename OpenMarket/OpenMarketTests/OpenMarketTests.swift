@@ -108,7 +108,7 @@ class OpenMarketTests: XCTestCase {
     func test_registerProduct() {
         let expectaion = XCTestExpectation(description: "")
         let param = RegisterProductRequest(
-            name: "Yeha",
+            name: "MacBook M1 Pro",
             descriptions: "pasta",
             price: 200,
             currency: .KRW,
