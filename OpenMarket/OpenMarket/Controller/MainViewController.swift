@@ -1,13 +1,23 @@
 import UIKit
 
 class MainViewController: UIViewController {
-    private let productsDataSource = ProductsDataSource()
     private let loadingActivityIndicator = UIActivityIndicatorView()
+    private lazy var productsDataSource = ProductsDataSource(
+        stopActivityIndicator: {
+            self.loadingActivityIndicator.stopAnimating()
+        },
+        reloadData: {
+            let view = self.view as? ProductView
+            view?.reloadData()
+        },
+        showAlert: {
+            self.showAlert(title: $0, message: $1)
+        }
+    )
     @IBOutlet private weak var viewSegmentedControl: UISegmentedControl!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        productsDataSource.delegate = self
         setupSegmentedControl()
         changeSubview()
         startActivityIndicator()
@@ -85,16 +95,6 @@ extension MainViewController {
             )
             return collectionView
         }
-    }
-}
-
-extension MainViewController: ProductsDataSourceDelegate {
-    func stopActivityIndicator() {
-        loadingActivityIndicator.stopAnimating()
-    }
-    func reloadData() {
-        let productView = self.view as? ProductView
-        productView?.reloadData()
     }
 }
 

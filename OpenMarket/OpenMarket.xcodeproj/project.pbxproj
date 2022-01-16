@@ -26,7 +26,6 @@
 		DE00D5B72786EE0E0088795D /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = DE00D5B62786EE0E0088795D /* .swiftlint.yml */; };
 		DE310512278E9D1300BF1EA5 /* UIViewController+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE310511278E9D1300BF1EA5 /* UIViewController+extension.swift */; };
 		DE4E23F32794039A005E6A40 /* ProductsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE4E23F22794039A005E6A40 /* ProductsDataSource.swift */; };
-		DE4E23F527940B11005E6A40 /* ProductsDataSourceDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE4E23F427940B11005E6A40 /* ProductsDataSourceDelegate.swift */; };
 		DE62049F278D1D95009D5AE7 /* ProductsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE62049D278D1D95009D5AE7 /* ProductsTableViewCell.swift */; };
 		DE6204A2278D574F009D5AE7 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6204A1278D574F009D5AE7 /* MainViewController.swift */; };
 		DE65CFF927840F5500E1B619 /* NetworkTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE65CFF827840F5500E1B619 /* NetworkTask.swift */; };
@@ -70,7 +69,6 @@
 		DE04FFBD27882BDD009156DA /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DE310511278E9D1300BF1EA5 /* UIViewController+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+extension.swift"; sourceTree = "<group>"; };
 		DE4E23F22794039A005E6A40 /* ProductsDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsDataSource.swift; sourceTree = "<group>"; };
-		DE4E23F427940B11005E6A40 /* ProductsDataSourceDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsDataSourceDelegate.swift; sourceTree = "<group>"; };
 		DE62049D278D1D95009D5AE7 /* ProductsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsTableViewCell.swift; sourceTree = "<group>"; };
 		DE6204A1278D574F009D5AE7 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		DE65CFF827840F5500E1B619 /* NetworkTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkTask.swift; sourceTree = "<group>"; };
@@ -105,7 +103,6 @@
 				3AAA1E2B2786C2320022D36D /* JSONParsable.swift */,
 				3A4FCD362791AB2B00B95E40 /* ProductCell.swift */,
 				3A4FCD382791B8AA00B95E40 /* ProductView.swift */,
-				DE4E23F427940B11005E6A40 /* ProductsDataSourceDelegate.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -339,7 +336,6 @@
 				DE83171B2782D51A00FF2120 /* Currency.swift in Sources */,
 				3A4FCD392791B8AA00B95E40 /* ProductView.swift in Sources */,
 				DE65CFF927840F5500E1B619 /* NetworkTask.swift in Sources */,
-				DE4E23F527940B11005E6A40 /* ProductsDataSourceDelegate.swift in Sources */,
 				DE62049F278D1D95009D5AE7 /* ProductsTableViewCell.swift in Sources */,
 				DE6204A2278D574F009D5AE7 /* MainViewController.swift in Sources */,
 				3AAA1E2C2786C2320022D36D /* JSONParsable.swift in Sources */,

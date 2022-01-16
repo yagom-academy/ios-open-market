@@ -1,7 +1,6 @@
 import UIKit
 
 class ProductsDataSource: NSObject {
-    weak var delegate: ProductsDataSourceDelegate?
     private var pageInformation: ProductsList?
     private var products = [Product]()
     private let jsonParser: JSONParser = {
@@ -15,6 +14,19 @@ class ProductsDataSource: NSObject {
         return jsonParser
     }()
     private lazy var networkTask = NetworkTask(jsonParser: jsonParser)
+    private let stopActivityIndicator: (() -> Void)?
+    private let reloadData: (() -> Void)?
+    private let showAlert: ((String?, String?) -> Void)?
+    
+    init(
+        stopActivityIndicator: (() -> Void)?,
+        reloadData: (() -> Void)?,
+        showAlert: ((String?, String?) -> Void)?
+    ) {
+        self.stopActivityIndicator = stopActivityIndicator
+        self.reloadData = reloadData
+        self.showAlert = showAlert
+    }
     
     func loadProductsList(pageNumber: Int) {
         networkTask.requestProductList(pageNumber: pageNumber, itemsPerPage: 20) { result in
@@ -26,15 +38,15 @@ class ProductsDataSource: NSObject {
                 self.pageInformation = productsList
                 self.products.append(contentsOf: productsList.pages)
                 DispatchQueue.main.async {
-                    self.delegate?.stopActivityIndicator()
-                    self.delegate?.reloadData()
+                    self.stopActivityIndicator?()
+                    self.reloadData?()
                 }
             case .failure(let error):
-                self.delegate?.showAlert(
-                    title: "Network error",
-                    message: "데이터를 불러오지 못했습니다.\n\(error.localizedDescription)"
+                self.showAlert?(
+                    "Network error",
+                    "데이터를 불러오지 못했습니다.\n\(error.localizedDescription)"
                 )
-                self.delegate?.stopActivityIndicator()
+                self.stopActivityIndicator?()
             }
         }
     }
@@ -63,9 +75,9 @@ class ProductsDataSource: NSObject {
                     cell.setup(imageView: image)
                 }
             case .failure(let error):
-                self.delegate?.showAlert(
-                    title: "Network error",
-                    message: "데이터를 불러오지 못했습니다.\n\(error.localizedDescription)"
+                self.showAlert?(
+                    "Network error",
+                    "데이터를 불러오지 못했습니다.\n\(error.localizedDescription)"
                 )
             }
         }
