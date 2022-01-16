@@ -28,3 +28,5 @@ struct Image: Codable {
     case issuedAt = "issued_at"
   }
 }
+
+extension Image: Hashable { }

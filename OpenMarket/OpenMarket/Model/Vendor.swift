@@ -27,3 +27,6 @@ struct Vendor: Codable {
     case issuedAt = "issued_at"
   }
 }
+
+extension Vendor: Hashable { }
+

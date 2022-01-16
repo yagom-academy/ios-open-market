@@ -14,9 +14,9 @@ enum URLGenerator {
   
   static var host = URLComponents(string: "https://market-training.yagom-academy.kr")
   
-  static func productList(pageNumber: String, itemsPerPage: String) throws -> URL {
-    let pageNumber = URLQueryItem(name: "page-no", value: "\(pageNumber)")
-    let itemsPerPage = URLQueryItem(name: "items-per-page", value: itemsPerPage)
+  static func productList(pageNumber: Int, itemsPerPage: Int) throws -> URL {
+    let pageNumber = URLQueryItem(name: "page_no", value: "\(pageNumber)")
+    let itemsPerPage = URLQueryItem(name: "items_per_page", value: "\(itemsPerPage)")
     host?.path = "/api/products"
     host?.queryItems = [pageNumber, itemsPerPage]
     
@@ -27,7 +27,7 @@ enum URLGenerator {
     return url
   }
   
-  static func DetailProduct(productId: Int) throws -> URL {
+  static func detailProduct(productId: Int) throws -> URL {
     host?.path = "/api/products/\(productId)"
     guard let url = host?.url else {
       throw error.urlGenerateFailed

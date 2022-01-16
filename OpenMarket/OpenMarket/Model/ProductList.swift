@@ -40,3 +40,5 @@ struct ProductList: Codable {
     case hasPrevious = "has_prev"
   }
 }
+
+extension ProductList: Hashable { }

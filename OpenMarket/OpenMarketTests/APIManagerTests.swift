@@ -39,7 +39,7 @@ class APIManagerTests: XCTestCase {
     let expectation = XCTestExpectation(description: "response")
     
     // when
-    sutAPIManager!.productList(pageNumber: 1, itemsPerPage: 10) { result in
+    sutAPIManager.productList(pageNumber: 1, itemsPerPage: 10) { result in
       // then
       switch result {
       case .success(let data):
@@ -63,7 +63,7 @@ class APIManagerTests: XCTestCase {
     let expectation = XCTestExpectation(description: "response")
     
     // when
-    sutAPIManager!.detailProduct(productId: 16) { result in
+    sutAPIManager.detailProduct(productId: 16) { result in
       // then
       switch result {
       case .success(let data):

@@ -12,6 +12,8 @@ enum Currency: String, Codable {
   case USD
 }
 
+extension Currency: Hashable { }
+
 /**
  상품 정보의 모델타입입니다.
 */
@@ -27,7 +29,7 @@ struct Product: Codable {
   /// 상품의 거래 통화
   let currency: Currency
   /// 상품의 정가
-  let price: Int
+  var price: Int
   /// 상품의 할인 가격
   let bargainPrice: Int
   /// 할인된 가격
@@ -41,6 +43,24 @@ struct Product: Codable {
   let createdAt: String
   let issuedAt: String
   
+  var fixedPrice: String {
+    let formattedPrice = PresentStyle.formatNumber(price)
+    return "\(currency.rawValue) \(formattedPrice)"
+  }
+  
+  var getBargainPrice: String {
+    let formattedBargainPrice = PresentStyle.formatNumber(bargainPrice)
+    return "\(currency.rawValue) \(formattedBargainPrice)"
+  }
+  
+  var getStock: String {
+    if stock == 0 {
+      return "품절"
+    }
+    let formattedStock = PresentStyle.formatNumber(stock)
+    return "잔여수량: \(formattedStock)"
+  }
+  
   enum CodingKeys: String, CodingKey {
     case id, name, thumbnail, currency, price, stock, images
     case vendor = "vendors"
@@ -51,3 +71,6 @@ struct Product: Codable {
     case issuedAt = "issued_at"
   }
 }
+
+extension Product: Hashable { }
+
