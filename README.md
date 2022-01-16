@@ -267,10 +267,10 @@ private extension Data {
 
 ```swift
 let frameWidth = collectionView.frameLayoutGuide.layoutFrame.width
-    let frameHeight = collectionView.frameLayoutGuide.layoutFrame.height
-    let shortLength = frameWidth < frameHeight ? frameWidth : frameHeight
-    let cellWidth = shortLength / 2 - 15
-    return CGSize(width: cellWidth, height: cellWidth * 1.5)
+let frameHeight = collectionView.frameLayoutGuide.layoutFrame.height
+let shortLength = frameWidth < frameHeight ? frameWidth : frameHeight
+let cellWidth = shortLength / 2 - 15
+return CGSize(width: cellWidth, height: cellWidth * 1.5)
 ```
 
 ### 9. Pagination 구현
