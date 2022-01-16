@@ -1,9 +1,20 @@
 import Foundation
 
-enum NetworkError: Error {
+enum NetworkError: Error, LocalizedError {
     case statusCodeError
     case unknownError
     case urlIsNil
+
+    var errorDescription: String? {
+        switch self {
+        case .statusCodeError:
+            return "정상적인 StatusCode가 아닙니다."
+        case .unknownError:
+            return "알수 없는 에러가 발생했습니다."
+        case .urlIsNil:
+            return "정상적인 URL이 아닙니다."
+        }
+    }
 }
 
 struct NetworkDataTransfer {
@@ -39,5 +50,26 @@ struct NetworkDataTransfer {
         }
 
         loadData(request: urlRequest, completionHandler: completionHandler)
+    }
+    
+    func fetchData<T: Codable>(api: APIProtocol,
+                               decodingType: T.Type,
+                               completionHandler: @escaping ((_ data: T) -> Void)) {
+        request(api: api) { result in
+            switch result {
+            case .success(let data):
+                let decodedData = JSONParser<T>().decode(from: data)
+                
+                switch decodedData {
+                case .success(let data):
+                    completionHandler(data)
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
+                
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
     }
 }
