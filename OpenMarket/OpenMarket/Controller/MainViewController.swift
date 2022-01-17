@@ -6,11 +6,6 @@
 
 import UIKit
 
-enum NetworkingState {
-    case idle
-    case isLoding
-}
-
 class MainViewController: UIViewController {
     private var page: Products?
     private var currentPage: UInt = 1
