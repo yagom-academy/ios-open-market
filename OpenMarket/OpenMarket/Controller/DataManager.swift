@@ -7,44 +7,57 @@
 
 import Foundation
 
-class DataManager {
+class DataManager: NetworkManagerDelegate {
     
+    private var networkManager: NetworkManager
+    
+    var pageNumber: Int = 1
     var itemsPerPage: Int = 20
     var page: Page?
-    var products: [Product] = [] {
-        didSet {
-            delegate?.dataDidChange(data: products)
-        }
+    var products: [Product] = []
+    
+    var itemsCount: String {
+        return String(itemsPerPage)
     }
     
-    weak var delegate: DataRepresentable?
+    init() {
+        networkManager = NetworkManager()
+        networkManager.delegate = self
+        networkManager.fetchPage(itemsPerPage: itemsCount)
+    }
     
-    func nextPage() {
+    func requestNextPage() {
         guard let page = page, page.hasNext else { return }
         itemsPerPage += 20
-        fetchPage()
+        networkManager.fetchPage(itemsPerPage: String(itemsPerPage))
     }
     
-    @objc
     func update() {
-        fetchPage()
+        networkManager.fetchPage(itemsPerPage: itemsCount)
     }
     
-    private func fetchPage() {
-        URLSessionProvider(session: URLSession.shared)
-            .request(.showProductPage(pageNumber: "1", itemsPerPage: String(itemsPerPage))) {  (result: Result<ShowProductPageResponse, URLSessionProviderError>) in
-                switch result {
-                case .success(let data):
-                    self.page = data
-                    self.products = data.pages
-                case .failure(let error):
-                    print(error)
-                }
-            }
+    func fetchRequest(data: Page) {
+        self.page = data
+        self.products = data.pages
+        NotificationCenter.dataManager.post(name: .dataDidChanged, object: nil)
     }
     
 }
 
-protocol DataRepresentable: AnyObject {
-    func dataDidChange(data: [Product])
+protocol NetworkManagerDelegate: AnyObject {
+    
+    func fetchRequest(data: Page)
+    
+}
+
+extension NotificationCenter {
+    
+    static let dataManager = NotificationCenter()
+    
+}
+
+extension Notification.Name {
+    
+    static let dataDidChanged = Notification.Name("dataDidChanged")
+    
 }

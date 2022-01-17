@@ -47,6 +47,7 @@ class OpenMarketCollectionViewCell: UICollectionViewCell {
         
         stackView.addArrangedSubview(imageView)
         imageView.translatesAutoresizingMaskIntoConstraints = false
+        // 높이에다가 제약을 걸어준다!
         NSLayoutConstraint.activate([
             imageView.widthAnchor.constraint(equalTo: stackView.widthAnchor, multiplier: 0.2),
             imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor)
@@ -89,9 +90,10 @@ class OpenMarketCollectionViewCell: UICollectionViewCell {
         discountedLabel.isHidden = true
     }
     
-    func configureContents(with item: Product) {
+    func configureContents(at indexPath: IndexPath, with item: Product) {
         
         URLSessionProvider(session: URLSession.shared).requestImage(from: item.thumbnail) { result in
+             
             DispatchQueue.main.async {
                 switch result {
                 case .success(let data):
@@ -101,6 +103,8 @@ class OpenMarketCollectionViewCell: UICollectionViewCell {
                 }
             }
         }
+        
+        // 리스트 뷰일 때 이미지 뷰 높이가 지정되어있는 것을 해제한다!
         
         productNameLabel.text = item.name
         productNameLabel.font = UIFont.boldSystemFont(ofSize: 17)

@@ -9,34 +9,45 @@ import UIKit
 
 final class ProductPageViewController: UIViewController {
     
+    var dataManager = DataManager()
+    
     @IBOutlet private weak var segmentedControl: UISegmentedControl?
     @IBOutlet private var activityIndicator: UIActivityIndicatorView?
-    
-    private let datamanager = DataManager()
-    private var snapshot = NSDiffableDataSourceSnapshot<Int, Product>()
     
     private var currentCollectionView: UICollectionView?
     
     private let listCollectionView: UICollectionView
     private let gridCollectionView: UICollectionView
+    
     private var listDataSource: OpenMarketDiffableDataSource?
     private var gridDataSource: OpenMarketDiffableDataSource?
+    
     private let listCellRegistration: OpenMarketListCellRegistration
     private let gridCellRegistration: OpenMarketGridCellRegistration
+    
+    @objc
+    func dataManagerDidChanged() {
+        let snapshot = createSnapshot()
+        updateUI(with: snapshot)
+    }
+    
+    deinit {
+        NotificationCenter.dataManager.removeObserver(self)
+    }
     
     required init?(coder: NSCoder) {
         self.listCollectionView = UICollectionView(frame: .zero, collectionViewLayout: OpenMarketLayout.list.layout)
         self.gridCollectionView = UICollectionView(frame: .zero, collectionViewLayout: OpenMarketLayout.grid.layout)
         
         self.listCellRegistration = OpenMarketListCellRegistration { (cell, indexPath, item) in
-            cell.configureContents(with: item)
+            cell.configureContents(at: indexPath, with: item)
             
             cell.layer.borderWidth = 0.3
             cell.layer.borderColor = UIColor.systemGray.cgColor
         }
         
         self.gridCellRegistration = OpenMarketGridCellRegistration { (cell, indexPath, item) in
-            cell.configureContents(with: item)
+            cell.configureContents(at: indexPath, with: item)
             
             cell.layer.cornerRadius = 10
             cell.layer.masksToBounds = true
@@ -44,49 +55,63 @@ final class ProductPageViewController: UIViewController {
             cell.layer.borderColor = UIColor.systemGray.cgColor
         }
         
-        self.snapshot.appendSections([0])
-        
         super.init(coder: coder)
         
-        self.gridDataSource = OpenMarketDiffableDataSource(collectionView: self.gridCollectionView) { (collectionView, indexPath, identifier) -> UICollectionViewCell? in
-            return collectionView.dequeueConfiguredReusableCell(using: self.gridCellRegistration, for: indexPath, item: identifier)
+        self.gridDataSource = OpenMarketDiffableDataSource(
+            collectionView: self.gridCollectionView
+        ) { (collectionView, indexPath, identifier) -> UICollectionViewCell? in
+            return collectionView.dequeueConfiguredReusableCell(
+                using: self.gridCellRegistration,
+                for: indexPath,
+                item: identifier
+            )
         }
-        self.listDataSource = OpenMarketDiffableDataSource(collectionView: self.listCollectionView) { (collectionView, indexPath, identifier) -> UICollectionViewCell? in
-            return collectionView.dequeueConfiguredReusableCell(using: self.listCellRegistration, for: indexPath, item: identifier)
+        self.listDataSource = OpenMarketDiffableDataSource(
+            collectionView: self.listCollectionView
+        ) { (collectionView, indexPath, identifier) -> UICollectionViewCell? in
+            return collectionView.dequeueConfiguredReusableCell(
+                using: self.listCellRegistration,
+                for: indexPath,
+                item: identifier
+            )
         }
         
         self.listCollectionView.delegate = self
         self.gridCollectionView.delegate = self
-        self.datamanager.delegate = self
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        guard let activityIndicator = activityIndicator else { return }
+        NotificationCenter.dataManager.addObserver(
+            self,
+            selector: #selector(dataManagerDidChanged),
+            name: .dataDidChanged,
+            
+            object: nil
+        )
         
-        activityIndicator.hidesWhenStopped = true
-        activityIndicator.style = .large
-        activityIndicator.startAnimating()
+        configureActivityIndicator()
         configureSegmentedConrol()
         configureRefreshControl()
         configureViewLayout()
-        view.bringSubviewToFront(activityIndicator)
-        datamanager.update()
+        
+        dataManager.update()
     }
     
     @IBAction func segmentedControlValueChanged(_ sender: UISegmentedControl) {
+        dataManager.update()
         configureViewLayout()
-        applyDataToCurrentView()
     }
 }
 
-// MARK: - DataRepresentable Protocol Requirements
-extension ProductPageViewController: DataRepresentable {
+// MARK: - UIRefreshControl Action
+private extension ProductPageViewController {
     
-    func dataDidChange(data: [Product]) {
-        snapshot.appendItems(data)
-        applyDataToCurrentView()
+    @objc
+    func refreshDidTrigger() {
+        dataManager.update()
+        currentCollectionView?.refreshControl?.endRefreshing()
     }
     
 }
@@ -98,31 +123,42 @@ extension ProductPageViewController: UICollectionViewDelegate {
         let bottomY = scrollView.contentSize.height - scrollView.bounds.size.height + scrollView.contentInset.bottom
         
         if scrollView.contentOffset.y > bottomY {
-            datamanager.nextPage()
-            applyDataToCurrentView()
+            dataManager.requestNextPage()
         }
     }
     
 }
 
 // MARK: - Updating Layout
-extension ProductPageViewController {
+private extension ProductPageViewController {
     
-    private func configureSegmentedConrol() {
-        
+    func configureActivityIndicator() {
+        guard let activityIndicator = activityIndicator else { return }
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.style = .large
+        activityIndicator.startAnimating()
+    }
+    
+    func configureSegmentedConrol() {
         guard let segmentedControl = segmentedControl else { return }
         
         segmentedControl.selectedSegmentTintColor = .systemBlue
-        segmentedControl.backgroundColor = UIColor(cgColor: CGColor(red: 255, green: 255, blue: 255, alpha: 0))
+        segmentedControl.backgroundColor = .systemBackground
         
-        segmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for: UIControl.State.selected)
-        segmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.systemBlue], for: UIControl.State.normal)
+        segmentedControl.setTitleTextAttributes(
+            [NSAttributedString.Key.foregroundColor: UIColor.white],
+            for: UIControl.State.selected
+        )
+        segmentedControl.setTitleTextAttributes(
+            [NSAttributedString.Key.foregroundColor: UIColor.systemBlue],
+            for: UIControl.State.normal
+        )
         
         segmentedControl.layer.borderColor = UIColor.systemBlue.cgColor
         segmentedControl.layer.borderWidth = 2
     }
     
-    private func configureRefreshControl() {
+    func configureRefreshControl() {
         let refreshControl1 = UIRefreshControl()
         let refreshControl2 = UIRefreshControl()
         gridCollectionView.refreshControl = refreshControl1
@@ -133,15 +169,6 @@ extension ProductPageViewController {
         listCollectionView.addSubview(refreshControl2)
     }
     
-    @objc
-    func refreshDidTrigger() {
-        datamanager.update()
-        
-        DispatchQueue.main.async {
-            self.currentCollectionView?.refreshControl?.endRefreshing()
-        }
-    }
-    
     func configureViewLayout() {
         if currentCollectionView != nil {
             currentCollectionView?.removeFromSuperview()
@@ -149,10 +176,9 @@ extension ProductPageViewController {
         
         guard let segmentedControl = segmentedControl else { return }
         
-        switch segmentedControl.selectedSegmentIndex {
-        case 0:
+        if segmentedControl.isListLayout {
             currentCollectionView = listCollectionView
-        default:
+        } else {
             currentCollectionView = gridCollectionView
         }
         
@@ -169,34 +195,51 @@ extension ProductPageViewController {
         ])
     }
     
-    private func applyDataToCurrentView() {
-        DispatchQueue.main.async {
-            self.segmentedControl?.selectedSegmentIndex == 0 ?
-            self.listDataSource?.apply(self.snapshot)
-            : self.gridDataSource?.apply(self.snapshot)
-            
-            self.activityIndicator?.stopAnimating()
+    func updateUI(with snapshot: OpenMarketSnapshot) {
+        guard let segmentedControl = segmentedControl else { return }
+        
+        self.activityIndicator?.startAnimating()
+        
+        if segmentedControl.isListLayout {
+            listDataSource?.apply(snapshot)
+        } else {
+            gridDataSource?.apply(snapshot)
         }
-    }
-    
-    private func createDiffableDataSorce(with view: UICollectionView, layout: OpenMarketLayout) -> OpenMarketDiffableDataSource {
-        OpenMarketDiffableDataSource(collectionView: view) { (collectionView, indexPath, identifier) -> UICollectionViewCell? in
-            
-            switch layout {
-            case .list:
-                return collectionView.dequeueConfiguredReusableCell(using: self.listCellRegistration, for: indexPath, item: identifier)
-            case .grid:
-                return collectionView.dequeueConfiguredReusableCell(using: self.gridCellRegistration, for: indexPath, item: identifier)
-            }
-        }
+
+        self.activityIndicator?.stopAnimating()
     }
     
 }
 
+// MARK: - Managing Item Data
+private extension ProductPageViewController {
+    
+    func createSnapshot() -> OpenMarketSnapshot {
+        var snapshot = OpenMarketSnapshot()
+        let products = dataManager.products
+        snapshot.appendSections([0])
+        snapshot.appendItems(products)
+        return snapshot
+    }
+    
+}
+
+// MARK: - Managing typealias
 private extension ProductPageViewController {
     
     typealias OpenMarketDiffableDataSource = UICollectionViewDiffableDataSource<Int, Product>
-    typealias OpenMarketListCellRegistration = UICollectionView.CellRegistration<OpenMarketListCollectionViewCell, Product>
-    typealias OpenMarketGridCellRegistration = UICollectionView.CellRegistration<OpenMarketGridCollectionViewCell, Product>
+    typealias OpenMarketSnapshot = NSDiffableDataSourceSnapshot<Int, Product>
+    typealias OpenMarketCellRegistration = UICollectionView.CellRegistration
+    typealias OpenMarketListCellRegistration = OpenMarketCellRegistration<OpenMarketListCollectionViewCell, Product>
+    typealias OpenMarketGridCellRegistration = OpenMarketCellRegistration<OpenMarketGridCollectionViewCell, Product>
+    
+}
+
+// MARK: - Managing SegmentedControl Utilities
+fileprivate extension UISegmentedControl {
+    
+    var isListLayout: Bool {
+        return self.selectedSegmentIndex == 0
+    }
     
 }

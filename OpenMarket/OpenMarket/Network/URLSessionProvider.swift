@@ -8,13 +8,14 @@
 import Foundation
 import UIKit.UIImage
 
-class URLSessionProvider {
+struct URLSessionProvider {
     
     let session: URLSessionProtocol
     
     init(session: URLSessionProtocol) {
         self.session = session
     }
+    
     func request(_ service: OpenMarketService,
                  completionHandler: @escaping (Result<Data, URLSessionProviderError>) -> Void) {
         guard let urlRequest = service.urlRequest else {
