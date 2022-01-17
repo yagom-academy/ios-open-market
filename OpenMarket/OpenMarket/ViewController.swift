@@ -1,7 +1,7 @@
 import UIKit
 
 class ViewController: UIViewController {
-    enum Section {
+    enum Section: CaseIterable {
         case main
     }
     
@@ -10,6 +10,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var gridCollectionView: UICollectionView!
     
     var productList = [ProductInformation]()
+    
+    private var dataSource: UICollectionViewDiffableDataSource<Section, ProductInformation>?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,6 +47,18 @@ class ViewController: UIViewController {
                 print(error)
             }
         }
+    }
+    
+    func setUpCell() {
+        listCollectionView.register(ListCollectionViewCell.self, forCellWithReuseIdentifier: "cell")
+        dataSource = UICollectionViewDiffableDataSource<Section, ProductInformation>(collectionView: listCollectionView, cellProvider: { (collectionView, indexPath, product) -> ListCollectionViewCell in
+            
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as? ListCollectionViewCell else {
+                return ListCollectionViewCell()
+            }
+            
+            return cell
+        })
     }
 }
 
