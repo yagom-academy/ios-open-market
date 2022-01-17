@@ -1,17 +1,22 @@
 import UIKit
 
 class ViewController: UIViewController {
+    enum Section {
+        case main
+    }
+    
     @IBOutlet weak var segment: SegmentedControl!
     @IBOutlet weak var listCollectionView: UICollectionView!
     @IBOutlet weak var gridCollectionView: UICollectionView!
+    
+    var productList = [ProductInformation]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setSegmentedControl()
-        setUpListCollectionView()
     }
-
+    
     func setSegmentedControl() {
         self.navigationItem.titleView = segment
         segment.setUpUI()
@@ -29,12 +34,20 @@ class ViewController: UIViewController {
             break
         }
     }
+    
+    func getData() {
+        let api = APIManager()
+        api.requestProductList(pageNumber: 1, itemsPerPage: 20) { result in
+            switch result {
+            case .success(let data):
+                self.productList = data.pages
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
 }
 
 extension ViewController {
-    func setUpListCollectionView() {
-        // 뷰 전환 테스트
-        listCollectionView.backgroundColor = .red
-        gridCollectionView.backgroundColor = .blue
-    }
+    
 }

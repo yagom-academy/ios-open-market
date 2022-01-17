@@ -1,4 +1,4 @@
-struct ProductList: Codable {
+struct ProductList: Codable, Hashable {
     let pageNumber: Int
     let itemsPerPage: Int
     let totalCount: Int
