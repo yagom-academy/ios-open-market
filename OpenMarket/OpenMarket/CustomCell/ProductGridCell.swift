@@ -26,14 +26,8 @@ class ProductGridCell: UICollectionViewCell {
         setupStockLabel(with: product)
     }
     
-    private func setupImage(with product: ProductDetail) {
-        guard let imageURL = URL(string: product.thumbnail),
-            let imageData = try? Data(contentsOf: imageURL),
-           let image = UIImage(data: imageData) else {
-               print("잘못된 이미지 URL입니다.")
-               return
-           }
-        gridThumbnailImage.image = image
+    func setupImage(with product: ProductDetail) {
+        gridThumbnailImage.image = UIImage(data: product.thumbnail)
     }
     
     private func setupNameLabel(with product: ProductDetail) {

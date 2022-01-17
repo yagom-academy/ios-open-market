@@ -3,9 +3,10 @@ import Foundation
 struct ProductDetail: Codable, Hashable {
     let id, vendorID: Int
     let name: String
-    let thumbnail: String
+    let thumbnail: Data
     let currency: String
-    let price, bargainPrice, discountedPrice, stock: Int
+    let price, bargainPrice, discountedPrice: Double
+    let stock: Int
     let createdAt, issuedAt: String
     let images: [Image]?
     let vendors: Vendors?

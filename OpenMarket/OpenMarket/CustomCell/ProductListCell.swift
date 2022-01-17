@@ -20,14 +20,8 @@ class ProductListCell: UICollectionViewListCell {
         setupStockLabel(with: product)
     }
     
-    private func setupImage(with product: ProductDetail) {
-        guard let imageURL = URL(string: product.thumbnail),
-            let imageData = try? Data(contentsOf: imageURL),
-           let image = UIImage(data: imageData) else {
-               print("잘못된 이미지 URL입니다.")
-               return
-           }
-        thumbnailImage.image = image
+    func setupImage(with product: ProductDetail) {
+        thumbnailImage.image = UIImage(data: product.thumbnail)
     }
     
     private func setupNameLabel(with product: ProductDetail) {

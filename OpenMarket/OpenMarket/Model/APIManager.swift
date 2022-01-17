@@ -35,20 +35,20 @@ class APIManager {
     func checkProductDetail(id: Int, completion: @escaping (Result<ProductDetail, Error>) -> Void) {
         guard let url = URLManager.checkProductDetail(id: id).url else { return }
         let request = URLRequest(url: url, method: .get)
-        creatDataTask(with: request, completion: completion)
+        createDataTask(with: request, completion: completion)
     }
     
     func checkProductList(pageNumber: Int, itemsPerPage: Int, completion: @escaping (Result<ProductList, Error>) -> Void) {
         guard let url = URLManager.checkProductList(pageNumber: pageNumber, itemsPerPage: itemsPerPage).url else { return }
         let request = URLRequest(url: url, method: .get)
-        creatDataTask(with: request, completion: completion)
+        createDataTask(with: request, completion: completion)
     }
     
 }
 
 extension APIManager {
     
-    func creatDataTask<T: Decodable>(with request: URLRequest, completion: @escaping (Result<T, Error>) -> Void) {
+    func createDataTask<T: Decodable>(with request: URLRequest, completion: @escaping (Result<T, Error>) -> Void) {
         let task = urlSession.dataTask(with: request) { data, response, error in
             if let httpResponse = response as? HTTPURLResponse,
                httpResponse.statusCode >= 300 {
