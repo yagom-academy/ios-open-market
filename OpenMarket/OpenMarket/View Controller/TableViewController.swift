@@ -7,8 +7,9 @@
 import UIKit
 
 @available(iOS 14.0, *)
-class TableViewController: UITableViewController {
+class TableViewController<T>: UITableViewController {
     @IBOutlet var productListTableView: UITableView!
+    var productListData: T?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,4 +36,6 @@ class TableViewController: UITableViewController {
         
         return cell
     }
+    
+    
 }
