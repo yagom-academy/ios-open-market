@@ -12,9 +12,9 @@ struct ProductModification: Codable {
     let name: String?
     let descriptions: String?
     let thumbnailID: Int?
-    let price: Int?
+    let price: Double?
     let currency: Currency?
-    let discountedPrice: Int?
+    let discountedPrice: Double?
     let stock: Int?
     
     enum CodingKeys: String, CodingKey {
