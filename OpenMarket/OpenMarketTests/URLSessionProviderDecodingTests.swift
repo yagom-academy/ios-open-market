@@ -23,7 +23,7 @@ class URLSessionProviderDecodingTests: XCTestCase {
     }
     
     func test_showPage가_200번때_상태코드를_반환해야한다() {
-        sutURLSesssionProvider.request(.showProductPage(pageNumber: "1", itemsPerPage: "10")) { (result: Result<ShowProductPageResponse, URLSessionProviderError>) in
+        sutURLSesssionProvider.request(.showProductPage(pageNumber: "1", itemsPerPage: "50")) { (result: Result<ShowProductPageResponse, URLSessionProviderError>) in
             switch result {
             case .success(let data):
                 print(data)

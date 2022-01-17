@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit.UIImage
 
 class URLSessionProvider {
     
@@ -60,6 +61,30 @@ class URLSessionProvider {
         task.resume()
     }
     
+    func requestImage(from URLString: String,
+                 completionHandler: @escaping (Result<UIImage, URLSessionProviderError>) -> Void) {
+        guard let url = URL(string: URLString) else {
+            completionHandler(.failure(.urlRequestError))
+            return
+        }
+        let task = session.dataTask(with: URLRequest(url: url)) { data, response, error in
+            guard let httpResponse = response as? HTTPURLResponse,
+                  (200...299).contains(httpResponse.statusCode) else {
+                return completionHandler(.failure(.statusError))
+            }
+            
+            guard let data = data else {
+                return completionHandler(.failure(.dataError))
+            }
+            
+            guard let image = UIImage(data: data) else {
+                return completionHandler(.failure(.decodingError))
+            }
+            
+            return completionHandler(.success(image))
+        }
+        task.resume()
+    }
 }
 
 enum URLSessionProviderError: Error {

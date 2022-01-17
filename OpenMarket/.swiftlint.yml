@@ -11,6 +11,7 @@ identifier_name:
     - id
     - URL
     - url
+    - nib
     - GlobalAPIKey
     - KRW
     - USD
