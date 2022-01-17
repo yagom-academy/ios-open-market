@@ -48,8 +48,8 @@ extension GridViewController {
     }
     
     private func setupCollectionViewCells() {
-        let gridNib = UINib(nibName: NibIdentifier.grid, bundle: .main)
-        collectionView.register(gridNib, forCellWithReuseIdentifier: CellIdentifier.grid)
+        let gridNib = UINib(nibName: GridCell.identifier, bundle: .main)
+        collectionView.register(gridNib, forCellWithReuseIdentifier: GridCell.identifier)
     }
 }
 
@@ -61,7 +61,7 @@ extension GridViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CellIdentifier.grid, for: indexPath) as? GridCell else {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: GridCell.identifier, for: indexPath) as? GridCell else {
             return UICollectionViewCell()
         }
         cell.configure(with: products[indexPath.row])
@@ -93,3 +93,7 @@ extension GridViewController: UICollectionViewDelegateFlowLayout {
         return size
     }
 }
+
+//MARK: - IdentifiableView
+
+extension GridViewController: IdentifiableView { }

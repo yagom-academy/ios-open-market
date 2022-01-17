@@ -89,3 +89,7 @@ extension ListCell {
         return attributeString
     }
 }
+
+//MARK: - IdentifiableView
+
+extension ListCell: IdentifiableView { }
