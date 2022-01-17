@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ProductCollectionViewGridCell: UICollectionViewCell, ReuseIdentifying, CollectionViewCell {
+class ProductCollectionViewGridCell: UICollectionViewCell, ReuseIdentifying, ProductCollectionViewCell {
   
   @IBOutlet weak var productImageView: UIImageView!
   @IBOutlet weak var productNameLabel: UILabel!

@@ -7,16 +7,6 @@
 
 import UIKit
 
-protocol CollectionViewCell: UICollectionViewCell {
-  var productImageView: UIImageView! { get set }
-  var productNameLabel: UILabel! { get set }
-  var productBargainPriceLabel: UILabel! { get set }
-  var productStockLabel: UILabel! { get set }
-  var productFixedPriceLabel: UILabel! { get set }
-  func setCellImage(image: UIImage?)
-  func setCellData(product: Product)
-}
-
 private enum Section: Hashable {
   case productList
   case productGrid
@@ -108,7 +98,7 @@ extension CollectionViewController {
       guard let cell = collectionView.dequeueReusableCell(
         withReuseIdentifier: currentIdentifier,
         for: indexPath
-      ) as? CollectionViewCell else {
+      ) as? ProductCollectionViewCell else {
         return UICollectionViewCell()
       }
       
@@ -117,7 +107,9 @@ extension CollectionViewController {
         case .success(let data):
           let image = UIImage(data: data)
           DispatchQueue.main.async {
-            cell.setCellImage(image: image)
+            if indexPath == collectionView.indexPath(for: cell) {
+              cell.setCellImage(image: image)
+            }
           }
         case .failure(_):
           let image = UIImage(named: "nosign")
