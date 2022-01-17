@@ -81,7 +81,7 @@ final class ProductPageViewController: UIViewController {
     }
 }
 
-// MARK: - DataRepresentable Protocol RequireMents
+// MARK: - DataRepresentable Protocol Requirements
 extension ProductPageViewController: DataRepresentable {
     
     func dataDidChange(data: [Product]) {
@@ -94,10 +94,10 @@ extension ProductPageViewController: DataRepresentable {
 // MARK: - UICollectionViewDelegate Protocol RequireMents
 extension ProductPageViewController: UICollectionViewDelegate {
     
-    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint,
-                                   targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-        let endPoint = CGPoint(x: 0, y: scrollView.contentSize.height)
-        if targetContentOffset.pointee.y + scrollView.frame.height >= endPoint.y {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let bottomY = scrollView.contentSize.height - scrollView.bounds.size.height + scrollView.contentInset.bottom
+        
+        if scrollView.contentOffset.y > bottomY {
             datamanager.nextPage()
             applyDataToCurrentView()
         }
@@ -181,14 +181,14 @@ extension ProductPageViewController {
     
     private func createDiffableDataSorce(with view: UICollectionView, layout: OpenMarketLayout) -> OpenMarketDiffableDataSource {
         OpenMarketDiffableDataSource(collectionView: view) { (collectionView, indexPath, identifier) -> UICollectionViewCell? in
-           
+            
             switch layout {
             case .list:
                 return collectionView.dequeueConfiguredReusableCell(using: self.listCellRegistration, for: indexPath, item: identifier)
             case .grid:
                 return collectionView.dequeueConfiguredReusableCell(using: self.gridCellRegistration, for: indexPath, item: identifier)
             }
-       }
+        }
     }
     
 }
