@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CollectionViewLayoutCell: UICollectionViewCell {
+class OpenMarketCollectionViewCell: UICollectionViewCell {
     
     var containerStackView = UIStackView()
     var stackView = UIStackView()
@@ -20,15 +20,14 @@ class CollectionViewLayoutCell: UICollectionViewCell {
     var stockLabel = UILabel()
     var accessoryImageView = UIImageView()
     
-    var isGridLayout: Bool = true
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
         commonConfig()
     }
     
     required init?(coder: NSCoder) {
-        fatalError()
+        super.init(coder: coder)
+        commonConfig()
     }
     
     private func commonConfig() {
@@ -87,51 +86,13 @@ class CollectionViewLayoutCell: UICollectionViewCell {
         priceStackView.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
     }
     
-    private func configureCellLayout() {
-        
-        switch isGridLayout {
-        case true:
-            configureGridCellLayout()
-        case false:
-            configureListCellLayout()
-        }
-    }
-    
-    private func configureListCellLayout() {
-        stackView.axis = .horizontal
-        stackView.alignment = .top
-        stackView.distribution = .fill
-        stackView.addArrangedSubview(accessoryImageView)
-        accessoryImageView.image = UIImage(systemName: "chevron.right")
-        accessoryImageView.tintColor = .systemGray
-        
-        NSLayoutConstraint.activate([
-            imageView.widthAnchor.constraint(equalTo: stackView.widthAnchor, multiplier: 0.2)
-        ])
-        priceStackView.axis = .horizontal
-    }
-    
-    private func configureGridCellLayout() {
-        stackView.axis = .vertical
-        stackView.alignment = .center
-        stackView.distribution = .equalSpacing
-        
-        NSLayoutConstraint.activate([
-            imageView.widthAnchor.constraint(equalTo: stackView.widthAnchor, multiplier: 0.9)
-        ])
-        priceStackView.axis = .vertical
-    }
-    
     override func prepareForReuse() {
         discountedLabel.isHidden = true
     }
     
-    func configureContents(imageURL: String, productName: String, price: String,
-                           discountedPrice: String?, currency: Currency, stock: String) {
+    func configureContents(with item: Product) {
         
-        configureCellLayout()
-        
-        URLSessionProvider(session: URLSession.shared).requestImage(from: imageURL) { result in
+        URLSessionProvider(session: URLSession.shared).requestImage(from: item.thumbnail) { result in
             DispatchQueue.main.async {
                 switch result {
                 case .success(let data):
@@ -142,21 +103,22 @@ class CollectionViewLayoutCell: UICollectionViewCell {
             }
         }
         
-        productNameLabel.text = productName
+        productNameLabel.text = item.name
         productNameLabel.font = UIFont.boldSystemFont(ofSize: 17)
         productNameLabel.adjustsFontForContentSizeCategory = true
         
-        if let intStock = Int(stock), intStock > 0 {
+        if item.stock > 0 {
             stockLabel.textColor = .systemGray
-            stockLabel.text = "잔여수량 : \(stock)"
+            stockLabel.text = "잔여수량 : \(item.stock)"
         } else {
-            stockLabel.textColor = #colorLiteral(red: 0.9529411793, green: 0.6862745285, blue: 0.1333333403, alpha: 1)
+            stockLabel.textColor = UIColor.systemOrange
             stockLabel.text = "품절"
         }
         
-        if let discounted = discountedPrice {
+        
+        if item.discountedPrice != 0 {
             priceLabel.textColor = .systemRed
-            let attributeString = NSMutableAttributedString(string: "\(currency) \(price)")
+            let attributeString = NSMutableAttributedString(string: "\(item.currency) \(item.price)")
             attributeString.addAttribute(
                 NSAttributedString.Key.strikethroughStyle,
                 value: 2,
@@ -165,10 +127,10 @@ class CollectionViewLayoutCell: UICollectionViewCell {
             priceLabel.attributedText = attributeString
             
             discountedLabel.isHidden = false
-            discountedLabel.text = "\(currency) \(discounted)"
+            discountedLabel.text = "\(item.currency) \(item.discountedPrice)"
             discountedLabel.textColor = .systemGray
         } else {
-            priceLabel.text = "\(currency) \(price)"
+            priceLabel.text = "\(item.currency) \(item.price)"
             priceLabel.textColor = .systemGray
         }
     }

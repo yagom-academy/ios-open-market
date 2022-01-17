@@ -9,26 +9,52 @@ import UIKit
 
 final class ProductPageViewController: UIViewController {
     
-    @IBOutlet weak var segmentedControl: UISegmentedControl!
-    @IBOutlet var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet private weak var segmentedControl: UISegmentedControl?
+    @IBOutlet private var activityIndicator: UIActivityIndicatorView?
     
-    let datamanager = DataManager()
-    var snapshot = NSDiffableDataSourceSnapshot<Int, Product>()
+    private let datamanager = DataManager()
+    private var snapshot = NSDiffableDataSourceSnapshot<Int, Product>()
     
-    var currentCollectionView: UICollectionView?
+    private var currentCollectionView: UICollectionView?
     
-    let listCollectionView: UICollectionView
-    let gridCollectionView: UICollectionView
-    let listDataSource: UICollectionViewDiffableDataSource<Int, Product>
-    let gridDataSource: UICollectionViewDiffableDataSource<Int, Product>
+    private let listCollectionView: UICollectionView
+    private let gridCollectionView: UICollectionView
+    private var listDataSource: OpenMarketDiffableDataSource?
+    private var gridDataSource: OpenMarketDiffableDataSource?
+    private let listCellRegistration: OpenMarketListCellRegistration
+    private let gridCellRegistration: OpenMarketGridCellRegistration
     
     required init?(coder: NSCoder) {
         self.listCollectionView = UICollectionView(frame: .zero, collectionViewLayout: OpenMarketLayout.list.layout)
         self.gridCollectionView = UICollectionView(frame: .zero, collectionViewLayout: OpenMarketLayout.grid.layout)
-        self.gridDataSource = OpenMarketLayout.grid.createDataSource(for: gridCollectionView)
-        self.listDataSource = OpenMarketLayout.list.createDataSource(for: listCollectionView)
+        
+        self.listCellRegistration = OpenMarketListCellRegistration { (cell, indexPath, item) in
+            cell.configureContents(with: item)
+            
+            cell.layer.borderWidth = 0.3
+            cell.layer.borderColor = UIColor.systemGray.cgColor
+        }
+        
+        self.gridCellRegistration = OpenMarketGridCellRegistration { (cell, indexPath, item) in
+            cell.configureContents(with: item)
+            
+            cell.layer.cornerRadius = 10
+            cell.layer.masksToBounds = true
+            cell.layer.borderWidth = 1.0
+            cell.layer.borderColor = UIColor.systemGray.cgColor
+        }
+        
         self.snapshot.appendSections([0])
+        
         super.init(coder: coder)
+        
+        self.gridDataSource = OpenMarketDiffableDataSource(collectionView: self.gridCollectionView) { (collectionView, indexPath, identifier) -> UICollectionViewCell? in
+            return collectionView.dequeueConfiguredReusableCell(using: self.gridCellRegistration, for: indexPath, item: identifier)
+        }
+        self.listDataSource = OpenMarketDiffableDataSource(collectionView: self.gridCollectionView) { (collectionView, indexPath, identifier) -> UICollectionViewCell? in
+            return collectionView.dequeueConfiguredReusableCell(using: self.listCellRegistration, for: indexPath, item: identifier)
+        }
+        
         self.listCollectionView.delegate = self
         self.gridCollectionView.delegate = self
         self.datamanager.delegate = self
@@ -36,6 +62,9 @@ final class ProductPageViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        guard let activityIndicator = activityIndicator else { return }
+        
         activityIndicator.hidesWhenStopped = true
         activityIndicator.style = .large
         activityIndicator.startAnimating()
@@ -64,7 +93,7 @@ extension ProductPageViewController: DataRepresentable {
 
 // MARK: - UICollectionViewDelegate Protocol RequireMents
 extension ProductPageViewController: UICollectionViewDelegate {
-
+    
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint,
                                    targetContentOffset: UnsafeMutablePointer<CGPoint>) {
         let endPoint = CGPoint(x: 0, y: scrollView.contentSize.height)
@@ -73,12 +102,16 @@ extension ProductPageViewController: UICollectionViewDelegate {
             applyDataToCurrentView()
         }
     }
+    
 }
 
 // MARK: - Updating Layout
 extension ProductPageViewController {
     
     private func configureSegmentedConrol() {
+        
+        guard let segmentedControl = segmentedControl else { return }
+        
         segmentedControl.selectedSegmentTintColor = .systemBlue
         segmentedControl.backgroundColor = UIColor(cgColor: CGColor(red: 255, green: 255, blue: 255, alpha: 0))
         
@@ -103,11 +136,9 @@ extension ProductPageViewController {
     @objc
     func refreshDidTrigger() {
         datamanager.update()
-        DispatchQueue.global().async {
-            Thread.sleep(forTimeInterval: 1)
-            DispatchQueue.main.async {
-                self.currentCollectionView?.refreshControl?.endRefreshing()
-            }
+        
+        DispatchQueue.main.async {
+            self.currentCollectionView?.refreshControl?.endRefreshing()
         }
     }
     
@@ -115,6 +146,8 @@ extension ProductPageViewController {
         if currentCollectionView != nil {
             currentCollectionView?.removeFromSuperview()
         }
+        
+        guard let segmentedControl = segmentedControl else { return }
         
         switch segmentedControl.selectedSegmentIndex {
         case 0:
@@ -135,15 +168,35 @@ extension ProductPageViewController {
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0)
         ])
     }
-
-    func applyDataToCurrentView() {
+    
+    private func applyDataToCurrentView() {
         DispatchQueue.main.async {
-            self.segmentedControl.selectedSegmentIndex == 0 ?
-                self.listDataSource.apply(self.snapshot)
-                : self.gridDataSource.apply(self.snapshot)
+            self.segmentedControl?.selectedSegmentIndex == 0 ?
+            self.listDataSource?.apply(self.snapshot)
+            : self.gridDataSource?.apply(self.snapshot)
             
-            self.activityIndicator.stopAnimating()
+            self.activityIndicator?.stopAnimating()
         }
     }
+    
+    private func createDiffableDataSorce(with view: UICollectionView, layout: OpenMarketLayout) -> OpenMarketDiffableDataSource {
+        OpenMarketDiffableDataSource(collectionView: view) { (collectionView, indexPath, identifier) -> UICollectionViewCell? in
+           
+            switch layout {
+            case .list:
+                return collectionView.dequeueConfiguredReusableCell(using: self.listCellRegistration, for: indexPath, item: identifier)
+            case .grid:
+                return collectionView.dequeueConfiguredReusableCell(using: self.gridCellRegistration, for: indexPath, item: identifier)
+            }
+       }
+    }
+    
+}
+
+private extension ProductPageViewController {
+    
+    typealias OpenMarketDiffableDataSource = UICollectionViewDiffableDataSource<Int, Product>
+    typealias OpenMarketListCellRegistration = UICollectionView.CellRegistration<OpenMarketListCollectionViewCell, Product>
+    typealias OpenMarketGridCellRegistration = UICollectionView.CellRegistration<OpenMarketGridCollectionViewCell, Product>
     
 }

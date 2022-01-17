@@ -20,11 +20,9 @@ class DataManager {
     weak var delegate: DataRepresentable?
     
     func nextPage() {
-        guard let page = page else { return }
-        if page.hasNext {
-            itemsPerPage += 20
-            fetchPage()
-        }
+        guard let page = page, page.hasNext else { return }
+        itemsPerPage += 20
+        fetchPage()
     }
     
     @objc

@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		5C32796F486C950826FB7B63 /* Pods_OpenMarket.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D50541713180C77E69EBED66 /* Pods_OpenMarket.framework */; };
+		C12E744A2795481B000197A0 /* OpenMarketListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C12E74492795481B000197A0 /* OpenMarketListCollectionViewCell.swift */; };
+		C12E744C279548BC000197A0 /* OpenMarketGridCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C12E744B279548BC000197A0 /* OpenMarketGridCollectionViewCell.swift */; };
 		C13469E12786BF1E0044DFDB /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FDEA14278463FE00B12770 /* Currency.swift */; };
 		C13469E32786BF3F0044DFDB /* URLSessionProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13469E22786BF3F0044DFDB /* URLSessionProviderTests.swift */; };
 		C13469E42786BFBB0044DFDB /* OpenMarketService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FDEA192784670B00B12770 /* OpenMarketService.swift */; };
@@ -68,7 +70,7 @@
 		E9632473278B2D8000851348 /* DeleteProductResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9632461278B2B9E00851348 /* DeleteProductResponse.swift */; };
 		E9632476278B2D8500851348 /* ShowProductDetailResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9632465278B2BCD00851348 /* ShowProductDetailResponse.swift */; };
 		E9632479278B2D8900851348 /* ShowProductPageResposne.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9632469278B2C0200851348 /* ShowProductPageResposne.swift */; };
-		E963248A278D6AC800851348 /* CollectionViewLayoutCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9632488278D6AC800851348 /* CollectionViewLayoutCell.swift */; };
+		E963248A278D6AC800851348 /* OpenMarketCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9632488278D6AC800851348 /* OpenMarketCollectionViewCell.swift */; };
 		E998F88627915D8B008DD201 /* ProductPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E998F88527915D8B008DD201 /* ProductPageViewController.swift */; };
 		E998F88E279164BF008DD201 /* OpenMarketLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = E998F88D279164BF008DD201 /* OpenMarketLayout.swift */; };
 		E998F89427917370008DD201 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E998F89327917370008DD201 /* DataManager.swift */; };
@@ -100,6 +102,8 @@
 /* Begin PBXFileReference section */
 		01B773038AA12727A1AE8189 /* Pods-OpenMarket.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenMarket.debug.xcconfig"; path = "Target Support Files/Pods-OpenMarket/Pods-OpenMarket.debug.xcconfig"; sourceTree = "<group>"; };
 		40A8AED9FA2D0026389DF4B1 /* Pods-OpenMarket.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenMarket.release.xcconfig"; path = "Target Support Files/Pods-OpenMarket/Pods-OpenMarket.release.xcconfig"; sourceTree = "<group>"; };
+		C12E74492795481B000197A0 /* OpenMarketListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketListCollectionViewCell.swift; sourceTree = "<group>"; };
+		C12E744B279548BC000197A0 /* OpenMarketGridCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketGridCollectionViewCell.swift; sourceTree = "<group>"; };
 		C13469E22786BF3F0044DFDB /* URLSessionProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionProviderTests.swift; sourceTree = "<group>"; };
 		C13469E52786E32F0044DFDB /* ProductImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductImage.swift; sourceTree = "<group>"; };
 		C13469E82786E35C0044DFDB /* Vendor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vendor.swift; sourceTree = "<group>"; };
@@ -136,7 +140,7 @@
 		E9632461278B2B9E00851348 /* DeleteProductResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteProductResponse.swift; sourceTree = "<group>"; };
 		E9632465278B2BCD00851348 /* ShowProductDetailResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowProductDetailResponse.swift; sourceTree = "<group>"; };
 		E9632469278B2C0200851348 /* ShowProductPageResposne.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowProductPageResposne.swift; sourceTree = "<group>"; };
-		E9632488278D6AC800851348 /* CollectionViewLayoutCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewLayoutCell.swift; sourceTree = "<group>"; };
+		E9632488278D6AC800851348 /* OpenMarketCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketCollectionViewCell.swift; sourceTree = "<group>"; };
 		E998F88527915D8B008DD201 /* ProductPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductPageViewController.swift; sourceTree = "<group>"; };
 		E998F88D279164BF008DD201 /* OpenMarketLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketLayout.swift; sourceTree = "<group>"; };
 		E998F89327917370008DD201 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
@@ -354,7 +358,9 @@
 		E99FDE752782D3B40083D4D6 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				E9632488278D6AC800851348 /* CollectionViewLayoutCell.swift */,
+				E9632488278D6AC800851348 /* OpenMarketCollectionViewCell.swift */,
+				C12E744B279548BC000197A0 /* OpenMarketGridCollectionViewCell.swift */,
+				C12E74492795481B000197A0 /* OpenMarketListCollectionViewCell.swift */,
 				E998F88D279164BF008DD201 /* OpenMarketLayout.swift */,
 				C70FB10025BEF61C00C9924E /* Main.storyboard */,
 				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
@@ -586,14 +592,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C12E744C279548BC000197A0 /* OpenMarketGridCollectionViewCell.swift in Sources */,
 				C13469F1278710420044DFDB /* URLSessionProtocol.swift in Sources */,
-				E963248A278D6AC800851348 /* CollectionViewLayoutCell.swift in Sources */,
+				E963248A278D6AC800851348 /* OpenMarketCollectionViewCell.swift in Sources */,
 				C1A56967278B2098004E4B3C /* Extension+JSONDecoder.swift in Sources */,
 				E9632434278AEAA900851348 /* JSONRequest.swift in Sources */,
 				E9FDEAB52788695400B12770 /* ShowProductSecretRequest.swift in Sources */,
 				C1A5695E278B0598004E4B3C /* CreateProductRequestImage.swift in Sources */,
 				E9FDEA1A2784670B00B12770 /* OpenMarketService.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
+				C12E744A2795481B000197A0 /* OpenMarketListCollectionViewCell.swift in Sources */,
 				E9632462278B2B9E00851348 /* DeleteProductResponse.swift in Sources */,
 				E9FDEAA327885FE100B12770 /* HealthCheckerRequest.swift in Sources */,
 				E9632438278AEAB800851348 /* MultiPartRequest.swift in Sources */,
@@ -818,14 +826,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = MLY2NY4CXP;
 				INFOPLIST_FILE = OpenMarket/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = net.yagom.OpenMarket;
+				PRODUCT_BUNDLE_IDENTIFIER = net.yagom.OpenMarket.singularis7;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -839,13 +847,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = MLY2NY4CXP;
 				INFOPLIST_FILE = OpenMarket/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = net.yagom.OpenMarket;
+				PRODUCT_BUNDLE_IDENTIFIER = net.yagom.OpenMarket.singularis7;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
