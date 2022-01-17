@@ -11,13 +11,19 @@ class DataManager: NetworkManagerDelegate {
     
     private var networkManager: NetworkManager
     
-    var pageNumber: Int = 1
-    var itemsPerPage: Int = 20
-    var page: Page?
-    var products: [Product] = []
-    
-    var itemsCount: String {
+    private var pageNumber: Int = 1
+    private var itemsPerPage: Int = 10
+    private var page: Page? {
+        didSet {
+            NotificationCenter.dataManager.post(name: .dataDidChanged, object: nil)
+        }
+    }
+    private var itemsCount: String {
         return String(itemsPerPage)
+    }
+    
+    var products: [Product] {
+        return page?.pages ?? []
     }
     
     init() {
@@ -28,7 +34,7 @@ class DataManager: NetworkManagerDelegate {
     
     func requestNextPage() {
         guard let page = page, page.hasNext else { return }
-        itemsPerPage += 20
+        itemsPerPage += 4
         networkManager.fetchPage(itemsPerPage: String(itemsPerPage))
     }
     
@@ -38,7 +44,11 @@ class DataManager: NetworkManagerDelegate {
     
     func fetchRequest(data: Page) {
         self.page = data
-        self.products = data.pages
+    }
+    
+    func reset() {
+        itemsPerPage = 10
+        page = nil
         NotificationCenter.dataManager.post(name: .dataDidChanged, object: nil)
     }
     

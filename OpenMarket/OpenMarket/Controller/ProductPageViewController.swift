@@ -87,7 +87,6 @@ final class ProductPageViewController: UIViewController {
             self,
             selector: #selector(dataManagerDidChanged),
             name: .dataDidChanged,
-            
             object: nil
         )
         
@@ -110,6 +109,7 @@ private extension ProductPageViewController {
     
     @objc
     func refreshDidTrigger() {
+        dataManager.reset()
         dataManager.update()
         currentCollectionView?.refreshControl?.endRefreshing()
     }
