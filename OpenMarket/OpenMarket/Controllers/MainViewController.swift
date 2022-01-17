@@ -99,7 +99,8 @@ class MainViewController: UIViewController {
     }
     
     @objc private func presentProductRegisterView() {
-        let destination = ProductRegisterViewController()
+        let destination = UINavigationController(rootViewController: ProductRegisterViewController()) 
+        destination.modalPresentationStyle = .fullScreen
         self.present(destination, animated: true, completion: nil)
     }
     

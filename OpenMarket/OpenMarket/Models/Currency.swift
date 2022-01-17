@@ -8,3 +8,4 @@ enum Currency: String, Codable {
 }
 
 extension Currency: Hashable { }
+extension Currency: CaseIterable { }
