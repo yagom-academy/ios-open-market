@@ -75,11 +75,10 @@
                             <constraint firstItem="2X7-Xl-IWo" firstAttribute="leading" secondItem="WXP-UD-xNM" secondAttribute="trailing" constant="10" id="Cei-6P-kNk"/>
                             <constraint firstItem="WXP-UD-xNM" firstAttribute="leading" secondItem="dKL-lt-LYL" secondAttribute="leading" constant="10" id="L5A-w1-jW0"/>
                             <constraint firstAttribute="bottom" secondItem="WXP-UD-xNM" secondAttribute="bottom" constant="12.5" id="MSl-2M-E5x"/>
-                            <constraint firstItem="WXP-UD-xNM" firstAttribute="top" secondItem="dKL-lt-LYL" secondAttribute="top" constant="12.5" id="QkG-WY-Yto"/>
+                            <constraint firstItem="WXP-UD-xNM" firstAttribute="top" secondItem="dKL-lt-LYL" secondAttribute="top" priority="999" constant="12.5" id="QkG-WY-Yto"/>
                             <constraint firstItem="TQ5-yc-eYG" firstAttribute="bottom" secondItem="WXP-UD-xNM" secondAttribute="bottom" id="TuH-mu-ZCS"/>
                             <constraint firstItem="2X7-Xl-IWo" firstAttribute="top" secondItem="WXP-UD-xNM" secondAttribute="top" id="WHO-Ez-J2m"/>
                             <constraint firstAttribute="trailing" secondItem="2X7-Xl-IWo" secondAttribute="trailing" constant="10" id="bOI-cz-IGh"/>
-                            <constraint firstItem="WXP-UD-xNM" firstAttribute="centerY" secondItem="dKL-lt-LYL" secondAttribute="centerY" id="mMx-xw-R45"/>
                             <constraint firstItem="Eg9-cy-phW" firstAttribute="height" secondItem="dKL-lt-LYL" secondAttribute="height" multiplier="0.22" id="omb-no-d1w"/>
                             <constraint firstItem="WXP-UD-xNM" firstAttribute="width" secondItem="dKL-lt-LYL" secondAttribute="width" multiplier="0.15" id="qWc-ET-0tc"/>
                         </constraints>
