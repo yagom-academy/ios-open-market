@@ -2,18 +2,20 @@ import UIKit
 
 class MainViewController: UIViewController {
     private let loadingActivityIndicator = UIActivityIndicatorView()
-    private lazy var productsDataSource = ProductsDataSource(
-        stopActivityIndicator: {
-            self.loadingActivityIndicator.stopAnimating()
-        },
-        reloadData: {
-            let view = self.view as? ProductView
-            view?.reloadData()
-        },
-        showAlert: {
-            self.showAlert(title: $0, message: $1)
-        }
-    )
+    private var pageInformation: ProductsList?
+    private let jsonParser: JSONParser = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SS"
+        let jsonParser = JSONParser(
+            dateDecodingStrategy: .formatted(formatter),
+            keyDecodingStrategy: .convertFromSnakeCase,
+            keyEncodingStrategy: .convertToSnakeCase
+        )
+        return jsonParser
+    }()
+    private lazy var networkTask = NetworkTask(jsonParser: jsonParser)
+    private lazy var productsDataSource = ProductsDataSource(networkTask: networkTask)
+    
     @IBOutlet private weak var viewSegmentedControl: UISegmentedControl!
     
     override func viewDidLoad() {
@@ -21,7 +23,39 @@ class MainViewController: UIViewController {
         setupSegmentedControl()
         changeSubview()
         startActivityIndicator()
-        productsDataSource.loadProductsList(pageNumber: 1)
+        loadProductsList(pageNumber: 1)
+    }
+    
+    private func loadProductsList(pageNumber: Int) {
+        networkTask.requestProductList(pageNumber: pageNumber, itemsPerPage: 20) { result in
+            switch result {
+            case .success(let data):
+                guard let productsList: ProductsList = try? self.jsonParser.decode(
+                    from: data
+                ) else { return }
+                self.pageInformation = productsList
+                self.productsDataSource.append(contentsOf: productsList.pages)
+                DispatchQueue.main.async {
+                    self.loadingActivityIndicator.stopAnimating()
+                    let view = self.view as? ProductView
+                    view?.reloadData()
+                }
+            case .failure(let error):
+                self.showAlert(
+                    title: "Network error",
+                    message: "데이터를 불러오지 못했습니다.\n\(error.localizedDescription)"
+                )
+                self.loadingActivityIndicator.stopAnimating()
+            }
+        }
+    }
+    
+    private func loadNextPage(ifLastItemAt indexPath: IndexPath) {
+        if productsDataSource.isLastIndex(at: indexPath.item),
+           pageInformation?.hasNext == true,
+           let num = pageInformation?.pageNumber {
+            loadProductsList(pageNumber: num + 1)
+        }
     }
     
     private func startActivityIndicator() {
@@ -104,7 +138,7 @@ extension MainViewController: UITableViewDelegate {
         willDisplay cell: UITableViewCell,
         forRowAt indexPath: IndexPath
     ) {
-        productsDataSource.loadNextPage(ifLastItemAt: indexPath)
+        loadNextPage(ifLastItemAt: indexPath)
     }
 }
 
@@ -114,7 +148,7 @@ extension MainViewController: UICollectionViewDelegate {
         willDisplay cell: UICollectionViewCell,
         forItemAt indexPath: IndexPath
     ) {
-        productsDataSource.loadNextPage(ifLastItemAt: indexPath)
+        loadNextPage(ifLastItemAt: indexPath)
     }
 }
 

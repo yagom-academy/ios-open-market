@@ -20,8 +20,11 @@
                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="5QG-KW-hbC">
                         <rect key="frame" x="10" y="10" width="165" height="170"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="249" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="v75-JS-qI7">
-                                <rect key="frame" x="36.5" y="0.0" width="92.5" height="84.5"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="249" verticalHuggingPriority="249" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="v75-JS-qI7">
+                                <rect key="frame" x="40.5" y="0.0" width="84.5" height="84.5"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="v75-JS-qI7" secondAttribute="height" multiplier="1:1" id="ZRj-qa-wKR"/>
+                                </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="title" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZA1-HP-nNa">
                                 <rect key="frame" x="68.5" y="92.5" width="28.5" height="20.5"/>

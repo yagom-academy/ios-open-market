@@ -1,62 +1,20 @@
 import UIKit
 
 class ProductsDataSource: NSObject {
-    private var pageInformation: ProductsList?
     private var products = [Product]()
-    private let jsonParser: JSONParser = {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SS"
-        let jsonParser = JSONParser(
-            dateDecodingStrategy: .formatted(formatter),
-            keyDecodingStrategy: .convertFromSnakeCase,
-            keyEncodingStrategy: .convertToSnakeCase
-        )
-        return jsonParser
-    }()
-    private lazy var networkTask = NetworkTask(jsonParser: jsonParser)
-    private let stopActivityIndicator: (() -> Void)?
-    private let reloadData: (() -> Void)?
-    private let showAlert: ((String?, String?) -> Void)?
+    private var networkTask: NetworkTask?
     
-    init(
-        stopActivityIndicator: (() -> Void)?,
-        reloadData: (() -> Void)?,
-        showAlert: ((String?, String?) -> Void)?
-    ) {
-        self.stopActivityIndicator = stopActivityIndicator
-        self.reloadData = reloadData
-        self.showAlert = showAlert
+    convenience init(networkTask: NetworkTask) {
+        self.init()
+        self.networkTask = networkTask
     }
     
-    func loadProductsList(pageNumber: Int) {
-        networkTask.requestProductList(pageNumber: pageNumber, itemsPerPage: 20) { result in
-            switch result {
-            case .success(let data):
-                guard let productsList: ProductsList = try? self.jsonParser.decode(
-                    from: data
-                ) else { return }
-                self.pageInformation = productsList
-                self.products.append(contentsOf: productsList.pages)
-                DispatchQueue.main.async {
-                    self.stopActivityIndicator?()
-                    self.reloadData?()
-                }
-            case .failure(let error):
-                self.showAlert?(
-                    "Network error",
-                    "데이터를 불러오지 못했습니다.\n\(error.localizedDescription)"
-                )
-                self.stopActivityIndicator?()
-            }
-        }
+    func append(contentsOf products: [Product]) {
+        self.products.append(contentsOf: products)
     }
     
-    func loadNextPage(ifLastItemAt indexPath: IndexPath) {
-        if indexPath.item == products.count - 1,
-           pageInformation?.hasNext == true,
-           let num = pageInformation?.pageNumber {
-            loadProductsList(pageNumber: num + 1)
-        }
+    func isLastIndex(at index: Int) -> Bool {
+        return index == products.count - 1
     }
     
     private func setupCellImage(
@@ -66,7 +24,7 @@ class ProductsDataSource: NSObject {
         productView: ProductView
     ) {
         cell.setup(imageView: nil)
-        networkTask.downloadImage(from: url) { result in
+        networkTask?.downloadImage(from: url) { result in
             switch result {
             case .success(let data):
                 guard let image = UIImage(data: data) else { return }
@@ -74,11 +32,12 @@ class ProductsDataSource: NSObject {
                     guard indexPath == productView.indexPath(for: cell) else { return }
                     cell.setup(imageView: image)
                 }
-            case .failure(let error):
-                self.showAlert?(
-                    "Network error",
-                    "데이터를 불러오지 못했습니다.\n\(error.localizedDescription)"
-                )
+            case .failure:
+                let image = UIImage(systemName: "xmark.app")
+                DispatchQueue.main.async {
+                    guard indexPath == productView.indexPath(for: cell) else { return }
+                    cell.setup(imageView: image)
+                }
             }
         }
     }
