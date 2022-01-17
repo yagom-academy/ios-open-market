@@ -7,7 +7,7 @@
 
 import UIKit
 
-extension Int {
+extension Double {
     var fomattedString: String {
         let numberfommater = NumberFormatter()
         numberfommater.numberStyle = .decimal

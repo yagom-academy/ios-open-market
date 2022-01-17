@@ -24,23 +24,23 @@ class ProductCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        resetLabel()
+        productImageView.image = nil
         priceLabels = [priceLabel, discountPriceLabel, stockLabel]
     }
     
-    func configureProduct(of product: Product) {
-        let imageResult = imageData(url: product.thumbnail)
-        
-        switch imageResult {
-        case .success(let data):
-            productImageView.image = UIImage(data: data)
-        case .failure(let error):
-            print(error.localizedDescription)
-        }
-        productNameLabel.text = product.name
+    override func prepareForReuse() {
+        super.prepareForReuse()
         resetLabel()
-        priceConfigure(product: product)
-        discountPriceConfigure(product: product)
-        stockConfigure(product: product)
+        productImageView.image = nil
+    }
+    
+    func configureProduct(of product: Product) {
+        productNameLabel.text = product.name
+        setUpImage(url: product.thumbnail)
+        setUpPrice(product: product)
+        setUpDiscountPrice(product: product)
+        setUpStock(product: product)
     }
     
     func configureStyle(of identifier: String) {
@@ -55,7 +55,7 @@ class ProductCell: UICollectionViewCell {
         }
     }
     
-    private func priceConfigure(product: Product) {
+    private func setUpPrice(product: Product) {
         let formatedPrice = "\(product.currency.rawValue) \(product.price.fomattedString)"
         if product.discountedPrice == .zero {
             priceLabel.textColor = .systemGray
@@ -66,7 +66,7 @@ class ProductCell: UICollectionViewCell {
         }
     }
     
-    private func discountPriceConfigure(product: Product) {
+    private func setUpDiscountPrice(product: Product) {
         if product.discountedPrice == .zero {
             discountPriceLabel.isHidden = true
         } else {
@@ -76,7 +76,7 @@ class ProductCell: UICollectionViewCell {
         }
     }
     
-    private func stockConfigure(product: Product) {
+    private func setUpStock(product: Product) {
         if product.stock == .zero {
             stockLabel.textColor = .systemOrange
             stockLabel.text = "품절"
@@ -86,11 +86,15 @@ class ProductCell: UICollectionViewCell {
         }
     }
 
-    private func imageData(url: String) -> Result<Data, Error> {
-        guard let url = URL(string: url), let data = try? Data(contentsOf: url) else {
-            return .failure(OpenMarketError.badRequestURL)
+    private func setUpImage(url: String) {
+        if let cachedImage = ImageManager.shared.loadCachedData(for: url) {
+            productImageView.image = cachedImage
+        } else {
+            ImageManager.shared.downloadImage(with: url) { image in
+                ImageManager.shared.setCacheData(of: image, for: url)
+                self.productImageView.image = image
+            }
         }
-        return .success(data)
     }
     
     private func setupGridView() {

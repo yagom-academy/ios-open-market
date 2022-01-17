@@ -31,5 +31,4 @@ final class Network: Networkable {
             completion(.success(data))
         }.resume()
     }
-    
 }

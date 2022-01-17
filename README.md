@@ -31,6 +31,12 @@
     + [의문점](#2-2-의문점)
     + [Trouble Shooting](#2-3-Trouble-Shooting)
     + [배운 개념](#2-4-배운-개념)
+- [STEP Bouns : 로컬 캐시 구현](#STEP-Bonus--로컬-캐시-구현)
+    + [고민했던 것](#3-1-고민했던-것)
+    + [의문점](#3-2-의문점)
+    + [Trouble Shooting](#3-3-Trouble-Shooting)
+    + [배운 개념](#3-4-배운-개념)
+    + [PR 후 개선사항](#3-5-PR-후-개선사항)
 
 # 키워드
 
@@ -51,6 +57,8 @@
 - `UISegmentedControl`
 - `UIActivityIndicatorView`
 - `reloadData`
+- `UIScrollViewDelegate`
+- `NSCache`
 
 # STEP 1 : 네트워킹 타입 구현
 
@@ -154,7 +162,6 @@ class StubURLSessionDataTask: URLSessionDataTask {
 
 > 'init()' was deprecated in iOS 13.0: Please use -[NSURLSession dataTaskWithRequest:] or other NSURLSession methods to create instances
 > 
-- 을 만들어 DummyData를 URLSessionDataTask에 전달하는 방식으로 Test를 진행하는 과정에서 경고가 나타났습니다.
 - `이유` URLSessionDataTask `init()`이 IOS13 이후에 deprecatede되었기 때문이다. 해당 경고를 없애고 싶어서 구글링을 하다가 `URLProtocol`을 발견하게 되었다.
 - `해결` URLProtocol을 상속받은 MockURLProtocol을 만들어서 URLSession configuration을 구성하는 방법으로 문제를 해결하고 기존에 만들었던 StubURLSessionDataTask, DummyData, MockSession 타입은 더이상 사용하지 않게되어 모두 삭제해주었다.
     - `URLProtocol`이란?
@@ -210,7 +217,7 @@ class StubURLSessionDataTask: URLSessionDataTask {
 </details>
 
 
-## **1-4 배운 개념**
+## 1-4 배운 개념
 
 - `multipart/form-data`
 - API문서 읽는 방법
@@ -221,7 +228,7 @@ class StubURLSessionDataTask: URLSessionDataTask {
     - Testable한 네트워크 코드 작성하기
         - 네트워크 상황과 무관한 네트워킹 데이터 타입의 단위 테스트(Unit Test)
 
-## **1-5 PR 후 개선사항**
+## 1-5 PR 후 개선사항
 
 - 테스트 코드에 중복되는 부분을 개선
     - 빠진 주석 및 줄바꿈을 수정
@@ -235,7 +242,7 @@ class StubURLSessionDataTask: URLSessionDataTask {
 [![top](https://img.shields.io/badge/top-%23000000.svg?&amp;style=for-the-badge&amp;logo=Acclaim&amp;logoColor=white&amp;)](#오픈-마켓)
 
 
-# STEP 2 : **상품 목록 화면 구현**
+# STEP 2 : 상품 목록 화면 구현
 
 상품목록을 볼 수 있는 화면을 구현합니다.
 
@@ -315,5 +322,78 @@ class StubURLSessionDataTask: URLSessionDataTask {
 - `Xib File`
 - `UISegmentedControl`
 - `UIActivityIndicatorView`
+
+## 2-5 PR 후 개선사항
+
+- Asset에 등록되어있는 이미지 설정값 수정
+- 전반적인 네이밍 수정
+- 삼항연산자로 조건문 개선
+- 빠져있는 접근제어 추가
+- 동적으로 레이아웃을 잡을 수 있도록 **UICollectionViewDelegateFlowLayout**을 채택
+    - 가로모드, 세로모드에서도 레이아웃이 뭉개지지 않도록 개선
+
+
+[![top](https://img.shields.io/badge/top-%23000000.svg?&amp;style=for-the-badge&amp;logo=Acclaim&amp;logoColor=white&amp;)](#오픈-마켓)
+
+
+
+# STEP Bonus : 로컬 캐시 구현
+
+서버에서 받은 데이터를 로컬에 캐시합니다.
+
+## 3-1 고민했던 것
+
+- `Pagination`
+    - 스크롤이 하단에 가까워지면 다음 페이지를 로드하도록 구성
+    - `scrollViewDidScroll()`를 이용하여 구현
+- `Cache`
+    - 앱이 실행하는 동안 캐시를 가지고 있을 수 있도록 싱글톤 패턴으로 ImageManager 타입을 생성
+    - Cell에서 URL로 이미지를 가져오던 부분을 캐싱처리를 하도록 구성
+        
+        ```swift
+        if let cachedImage = ImageManager.shared.loadCachedData(for: url) {
+            productImageView.image = cachedImage
+        } else {
+            ImageManager.shared.downloadImage(with: url) { image in
+            ImageManager.shared.setCacheData(of: image, for: url)
+            self.productImageView.image = image
+            }
+        }
+        ```
+        
+
+## 3-2 의문점
+
+- 스크롤 시 yOffset을 비정상적으로 카운트가 되는 부분이 문제여서 아직 풀리지 않았는데, 해당 부분을 그냥 넘어가도 되는건지[?] 약간의 찝찝함이 남는다.
+
+## 3-3 Trouble Shooting
+
+### 1. 스크롤 하는 현재 위치가 비정상적으로 카운트되는 현상
+
+- 항상 뜨는 에러는 아니고, 간헐적으로 뜨는 에러다. 스크롤을 하단까지 했을 때 디코딩에 실패하는 경우가 있습니다. 디버깅을 해보니 결과는 아래와 같다.
+- ![](https://i.imgur.com/jotGTB4.png)
+- ![](https://i.imgur.com/YQuHS96.png)
+- ![](https://i.imgur.com/cm6J1vD.png)
+- 뷰컨트롤러 쪽에서 네트워크 매니저의 `fetch` 메소드를 사용하는 쪽에서 에러가 나는 것 같은데, 네트워크에서는 `success`로 데이터를 가져오긴 했으나 조회를 해보면 데이터가 비어있는 것을 확인할 수 있었다.
+- ![](https://i.imgur.com/rHL8Ebf.png)
+- Response를 확인해보면 `204`코드로 응답하고 있다.
+- ![](https://i.imgur.com/EiaoQJ1.png)
+- 스크롤 하는 부분에 중단점을 찍고 확인해보니 `currentPage`가 `104`가 되어있는 것도 확인되었다. 저 조건문이라면 104가 될 수가 없는데.. 어느순간 스크롤을 계산하는 부분(`yOffset`)에서 에러가 발생해서 비정상적으로 currentPage가 올라가는 것 같다.
+
+```swift
+if heightRemainBottomHeight < frameHeight ,
+   let page = page, page.hasNext, page.pageNumber == currentPage {
+    currentPage += 1
+    self.requestProducts()
+}
+```
+
+- 따라서 위와 같이 조건문을 하나 더 추가해서 안전하게 currentPage를 더해줄 수 있도록 임시방편으로 수정해주었다.
+
+## 3-4 배운 개념
+
+- `UIScrollViewDelegate`를 이용한 `pagination` 구현
+- `Cache`의 대한 개념
+    - `Caching`의 범위
 
 [![top](https://img.shields.io/badge/top-%23000000.svg?&amp;style=for-the-badge&amp;logo=Acclaim&amp;logoColor=white&amp;)](#오픈-마켓)
