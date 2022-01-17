@@ -1,7 +1,7 @@
 import UIKit
 
 class ProductsDataSource: NSObject {
-    private var products = [Product]()
+    var products = [Product]()
     private var networkTask: NetworkTask?
     
     convenience init(networkTask: NetworkTask) {
