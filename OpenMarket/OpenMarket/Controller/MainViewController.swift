@@ -170,9 +170,9 @@ extension MainViewController: UICollectionViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let contentHeight = scrollView.contentSize.height
         let yOffset = scrollView.contentOffset.y
-        let heightRemainBottomHeight = contentHeight - yOffset
+        let remainBottomHeight = contentHeight - yOffset
         let frameHeight = scrollView.frame.size.height
-        if heightRemainBottomHeight < frameHeight ,
+        if remainBottomHeight < frameHeight ,
            let products = products, products.hasNext, products.pageNumber == currentPage {
             currentPage += 1
             self.requestProducts()
