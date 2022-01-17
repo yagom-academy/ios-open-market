@@ -43,17 +43,17 @@ struct Product: Codable {
   let createdAt: String
   let issuedAt: String
   
-  var fixedPrice: String {
+  var formattedFixedPrice: String {
     let formattedPrice = PresentStyle.formatNumber(price)
     return "\(currency.rawValue) \(formattedPrice)"
   }
   
-  var getBargainPrice: String {
+  var formattedBargainPrice: String {
     let formattedBargainPrice = PresentStyle.formatNumber(bargainPrice)
     return "\(currency.rawValue) \(formattedBargainPrice)"
   }
   
-  var getStock: String {
+  var formattedStock: String {
     if stock == 0 {
       return "품절"
     }

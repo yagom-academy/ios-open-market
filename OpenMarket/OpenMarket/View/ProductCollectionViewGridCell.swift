@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ProductCollectionViewGridCell: UICollectionViewCell {
+class ProductCollectionViewGridCell: UICollectionViewCell, ReuseIdentifying, CollectionViewCell {
   
   @IBOutlet weak var productImageView: UIImageView!
   @IBOutlet weak var productNameLabel: UILabel!
@@ -20,20 +20,23 @@ class ProductCollectionViewGridCell: UICollectionViewCell {
     configureBorderStyle()
   }
   
-  func insertCellData(image: UIImage, name: String, fixedPrice: String, bargainPrice: String , stock: String) {
+  func setCellImage(image: UIImage?) {
     productImageView.image = image
-    productNameLabel.text = name
-    productFixedPriceLabel.attributedText = fixedPrice.strikeThrough(strikeTarget: fixedPrice)
-    if fixedPrice == bargainPrice {
+  }
+  
+  func setCellData(product: Product) {
+    productNameLabel.text = product.name
+    productFixedPriceLabel.attributedText = product.formattedFixedPrice.strikeThrough(strikeTarget: product.formattedFixedPrice)
+    productBargainPriceLabel.text = product.formattedBargainPrice
+    if product.formattedFixedPrice == product.formattedBargainPrice {
       productFixedPriceLabel.isHidden = true
     }
-    if stock == "품절" {
+    if product.formattedStock == "품절" {
       productStockLabel.textColor = .orange
     } else {
       productStockLabel.textColor = .darkGray
     }
-    productBargainPriceLabel.text = bargainPrice
-    productStockLabel.text = stock
+    productStockLabel.text = product.formattedStock
   }
   
   private func configureBorderStyle() {
