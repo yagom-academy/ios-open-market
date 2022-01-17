@@ -9,7 +9,11 @@ class ViewController: UIViewController {
     @IBOutlet weak var listCollectionView: UICollectionView!
     @IBOutlet weak var gridCollectionView: UICollectionView!
     
-    var productList = [ProductInformation]()
+    var productList = [ProductInformation](){
+        didSet {
+            applySnapShot()
+        }
+    }
     
     private var dataSource: UICollectionViewDiffableDataSource<Section, ProductInformation>?
     
@@ -17,6 +21,9 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         setSegmentedControl()
+        getData()
+        setUpCell()
+        applySnapShot(animatingDifferences: false)
     }
     
     func setSegmentedControl() {
@@ -50,18 +57,22 @@ class ViewController: UIViewController {
     }
     
     func setUpCell() {
-        listCollectionView.register(ListCollectionViewCell.self, forCellWithReuseIdentifier: "cell")
         dataSource = UICollectionViewDiffableDataSource<Section, ProductInformation>(collectionView: listCollectionView, cellProvider: { (collectionView, indexPath, product) -> ListCollectionViewCell in
             
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as? ListCollectionViewCell else {
                 return ListCollectionViewCell()
             }
             
+            cell.setUpImage(url: product.thumbnail)
+            
             return cell
         })
     }
-}
-
-extension ViewController {
     
+    func applySnapShot(animatingDifferences: Bool = true) {
+        var snapshot = NSDiffableDataSourceSnapshot<Section, ProductInformation>()
+        snapshot.appendSections(Section.allCases)
+        snapshot.appendItems(productList)
+        dataSource?.apply(snapshot, animatingDifferences: animatingDifferences)
+    }
 }
