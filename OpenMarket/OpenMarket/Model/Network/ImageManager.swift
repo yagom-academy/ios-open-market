@@ -23,8 +23,9 @@ class ImageManager {
         cache.setObject(image, forKey: itemURL)
     }
     
-    func downloadImage(with url: String,
-                       completion: @escaping (UIImage) -> Void
+    func downloadImage(
+        with url: String,
+        completion: @escaping (UIImage) -> Void
     ) {
         let network = Network()
         
