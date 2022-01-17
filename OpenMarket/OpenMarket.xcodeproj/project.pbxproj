@@ -19,6 +19,7 @@
 		53A8312A27871E7600448699 /* ProductImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB2CEAE32787188100DB75DF /* ProductImage.swift */; };
 		53A8312B27871E7800448699 /* Vendors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A83124278719F600448699 /* Vendors.swift */; };
 		53A8326B278C666200448699 /* ParserError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A8326A278C666200448699 /* ParserError.swift */; };
+		53A9B70A27959B3D009A466C /* ListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A9B70927959B3D009A466C /* ListCollectionViewCell.swift */; };
 		53DA6EDE278F1961005993D1 /* SegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53DA6EDD278F1961005993D1 /* SegmentedControl.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
 		C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */; };
@@ -56,6 +57,7 @@
 		53A83124278719F600448699 /* Vendors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vendors.swift; sourceTree = "<group>"; };
 		53A8312627871E6100448699 /* APIManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManagerTests.swift; sourceTree = "<group>"; };
 		53A8326A278C666200448699 /* ParserError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParserError.swift; sourceTree = "<group>"; };
+		53A9B70927959B3D009A466C /* ListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCollectionViewCell.swift; sourceTree = "<group>"; };
 		53DA6EDD278F1961005993D1 /* SegmentedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedControl.swift; sourceTree = "<group>"; };
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -106,6 +108,7 @@
 			isa = PBXGroup;
 			children = (
 				53DA6EDD278F1961005993D1 /* SegmentedControl.swift */,
+				53A9B70927959B3D009A466C /* ListCollectionViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -302,6 +305,7 @@
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
 				53661E69278D724B003BB6DA /* URLManager.swift in Sources */,
 				FB95741E278C119000B1E7D2 /* URLSessionError.swift in Sources */,
+				53A9B70A27959B3D009A466C /* ListCollectionViewCell.swift in Sources */,
 				FB2CEADE27840FB800DB75DF /* Parser.swift in Sources */,
 				FB2CEABC2783E54800DB75DF /* ProductList.swift in Sources */,
 				FB2CEAE22786D62800DB75DF /* HTTPMethod.swift in Sources */,
