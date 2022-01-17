@@ -7,7 +7,7 @@
 import UIKit
 
 class MainViewController: UIViewController {
-    private var page: Products?
+    private var products: Products?
     private var currentPage: UInt = 1
     private var productList: [Product] = []
     private var currentCellIdentifier = ProductCell.listIdentifier
@@ -50,7 +50,7 @@ class MainViewController: UIViewController {
     }
     
     private func setUpData(for products: Products) {
-        page = products
+        self.products = products
         productList.append(contentsOf: products.pages)
         currentPage == 1 ? collectionViewLoad() : collectionViewReload()
     }
@@ -173,7 +173,7 @@ extension MainViewController: UICollectionViewDelegate {
         let heightRemainBottomHeight = contentHeight - yOffset
         let frameHeight = scrollView.frame.size.height
         if heightRemainBottomHeight < frameHeight ,
-           let page = page, page.hasNext, page.pageNumber == currentPage {
+           let products = products, products.hasNext, products.pageNumber == currentPage {
             currentPage += 1
             self.requestProducts()
         }
