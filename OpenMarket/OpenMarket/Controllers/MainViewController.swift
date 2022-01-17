@@ -18,7 +18,6 @@ private enum Design {
     static let sectionEdgeInsets: NSDirectionalEdgeInsets = NSDirectionalEdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5)
     static let gridCellBorderWidth: CGFloat = 1
     static let gridCellCornerRadius: CGFloat = 10
-    
 }
 
 class MainViewController: UIViewController {
@@ -41,7 +40,6 @@ class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        configSegmentedControl()
         configUI()
         fetchProductData()
     }
@@ -55,7 +53,8 @@ class MainViewController: UIViewController {
             case .success(let data):
                 self.productData = data.pages
                 DispatchQueue.main.async {
-                    self.setupListCollectionView()
+                    self.configListDataSource()
+                    self.configGridDataSource()
                     self.activityIndicator.stopAnimating()
                 }
             case .failure(let error):
@@ -63,17 +62,8 @@ class MainViewController: UIViewController {
             }
         }
     }
-    
-    private func configSegmentedControl() {
-        layoutSegmentedControl = LayoutSegmentedControl(items: ["LIST", "GRID"])
-        layoutSegmentedControl.addTarget(self, action: #selector(switchCollectionViewLayout), for: .valueChanged)
-    }
-    
-    @objc private func switchCollectionViewLayout() {
-        if productGridCollectionView == nil {
-            setupGridCollectionView()
-        }
         
+    @objc private func switchCollectionViewLayout() {
         if layoutSegmentedControl.selectedSegmentIndex == 0 {
             productListCollectionView.isHidden = false
             productGridCollectionView.isHidden = true
@@ -84,9 +74,22 @@ class MainViewController: UIViewController {
     }
 
     private func configUI() {
+        configSegmentedControl()
+        setupListAndGridCollectionView()
+        configNavigationBar()
         view.backgroundColor = .white
         view.addSubview(activityIndicator)
-        configNavigationBar()
+    }
+    
+    private func configSegmentedControl() {
+        layoutSegmentedControl = LayoutSegmentedControl(items: ["LIST", "GRID"])
+        layoutSegmentedControl.addTarget(self, action: #selector(switchCollectionViewLayout), for: .valueChanged)
+    }
+
+    private func setupListAndGridCollectionView() {
+        configListCollectionView()
+        configGridCollectionView()
+        productGridCollectionView.isHidden = true
     }
 
     private func configNavigationBar() {
@@ -115,11 +118,6 @@ class MainViewController: UIViewController {
 // MARK: - Custom List CollectionView
 
 private extension MainViewController {
-    func setupListCollectionView() {
-        configListCollectionView()
-        configListDataSource()
-    }
-    
     func createListLayout() -> UICollectionViewLayout {
         let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
         return UICollectionViewCompositionalLayout.list(using: configuration)
@@ -151,11 +149,6 @@ private extension MainViewController {
 // MARK: - Custom Grid CollectionView
 
 private extension MainViewController {
-    func setupGridCollectionView() {
-        configGridCollectionView()
-        configGridDataSource()
-    }
-    
     func createItemLayout() -> NSCollectionLayoutItem {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
         
@@ -211,8 +204,4 @@ private extension MainViewController {
         snapshot.appendItems(productData)
         gridDataSource?.apply(snapshot)
     }
-}
-
-extension MainViewController {
-    
 }
