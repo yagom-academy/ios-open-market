@@ -65,14 +65,13 @@ extension ProductPageViewController: DataRepresentable {
 // MARK: - UICollectionViewDelegate Protocol RequireMents
 extension ProductPageViewController: UICollectionViewDelegate {
 
-    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint,
-                                   targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-        let endPoint = CGPoint(x: 0, y: scrollView.contentSize.height)
-        if targetContentOffset.pointee.y + scrollView.frame.height >= endPoint.y {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if scrollView.contentOffset.y + scrollView.frame.height >= scrollView.contentSize.height {
             datamanager.nextPage()
             applyDataToCurrentView()
         }
     }
+    
 }
 
 // MARK: - Updating Layout

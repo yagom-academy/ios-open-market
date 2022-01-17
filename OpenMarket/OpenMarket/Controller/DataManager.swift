@@ -22,7 +22,7 @@ class DataManager {
     func nextPage() {
         guard let page = page else { return }
         if page.hasNext {
-            itemsPerPage += 20
+            itemsPerPage += 5
             fetchPage()
         }
     }
