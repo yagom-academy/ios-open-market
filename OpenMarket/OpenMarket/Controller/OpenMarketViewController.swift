@@ -32,8 +32,8 @@ class OpenMarketViewController: UIViewController {
     }
     
     private func registerCollectionViewCell() {
-        listCollectionView.register(UINib(nibName: "ProductListCell", bundle: nil), forCellWithReuseIdentifier: ProductListCell.identifier)
-        gridCollectionView.register(UINib(nibName: "ProductGridCell", bundle: nil), forCellWithReuseIdentifier: ProductGridCell.identifier)
+        listCollectionView.register(UINib(nibName: String(describing: ProductListCell.self), bundle: nil), forCellWithReuseIdentifier: ProductListCell.identifier)
+        gridCollectionView.register(UINib(nibName: String(describing: ProductGridCell.self), bundle: nil), forCellWithReuseIdentifier: ProductGridCell.identifier)
     }
     
     private func setupListCollectionView() {
