@@ -101,3 +101,8 @@ extension GridCell {
         return attributeString
     }
 }
+
+//MARK: - IdentifiableView
+
+extension GridCell: IdentifiableView { }
+

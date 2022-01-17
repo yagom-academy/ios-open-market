@@ -7,14 +7,6 @@
 import UIKit
 
 final class MarketViewController: UIViewController {
-    //MARK: - Namespace
-    
-    private enum Identifier {
-        static let mainStoryBoard = "Main"
-        static let list = "ListViewController"
-        static let grid = "GridViewController"
-    }
-    
     //MARK: - IBOutlets
     
     @IBOutlet weak var segmentedControl: UISegmentedControl!
@@ -22,20 +14,21 @@ final class MarketViewController: UIViewController {
     
     //MARK: - Properties
     
-    private let apiService = MarketAPIService()
+    private let mainStoryboardName = "Main"
+    private var apiService: APIServicable?
     private var products: [Product] = []
     
     private lazy var listViewController: ListViewController = {
-        let storyboard = UIStoryboard(name: Identifier.mainStoryBoard, bundle: Bundle.main)
-        let viewController = storyboard.instantiateViewController(identifier: Identifier.list) { coder in
+        let storyboard = UIStoryboard(name: mainStoryboardName, bundle: Bundle.main)
+        let viewController = storyboard.instantiateViewController(identifier: ListViewController.identifier) { coder in
             ListViewController(products: self.products, coder: coder)
         }
         return viewController
     }()
     
     private lazy var gridViewController: GridViewController = {
-        let storyboard = UIStoryboard(name: Identifier.mainStoryBoard, bundle: Bundle.main)
-        let viewController = storyboard.instantiateViewController(identifier: Identifier.grid) { coder in
+        let storyboard = UIStoryboard(name: mainStoryboardName, bundle: Bundle.main)
+        let viewController = storyboard.instantiateViewController(identifier: GridViewController.identifier) { coder in
             GridViewController(products: self.products, coder: coder)
         }
         return viewController
@@ -60,6 +53,12 @@ final class MarketViewController: UIViewController {
         
         setupSegmentedControl()
         fetchPage(pageNumber: 1, itemsPerPage: 20)
+    }
+    
+    //MARK: - Dependency Injection Method
+    
+    func setAPIService(with apiService: APIServicable) {
+        self.apiService = apiService
     }
 }
 
@@ -121,7 +120,7 @@ extension MarketViewController {
     
     private func fetchPage(pageNumber: Int, itemsPerPage: Int) {
         startLoadingIndicator()
-        apiService.fetchPage(pageNumber: pageNumber, itemsPerPage: itemsPerPage) { [weak self] result in
+        apiService?.fetchPage(pageNumber: pageNumber, itemsPerPage: itemsPerPage) { [weak self] result in
             self?.stopLoadingIndicator()
             switch result {
             case .success(let data):
