@@ -51,7 +51,7 @@ final class ProductPageViewController: UIViewController {
         self.gridDataSource = OpenMarketDiffableDataSource(collectionView: self.gridCollectionView) { (collectionView, indexPath, identifier) -> UICollectionViewCell? in
             return collectionView.dequeueConfiguredReusableCell(using: self.gridCellRegistration, for: indexPath, item: identifier)
         }
-        self.listDataSource = OpenMarketDiffableDataSource(collectionView: self.gridCollectionView) { (collectionView, indexPath, identifier) -> UICollectionViewCell? in
+        self.listDataSource = OpenMarketDiffableDataSource(collectionView: self.listCollectionView) { (collectionView, indexPath, identifier) -> UICollectionViewCell? in
             return collectionView.dequeueConfiguredReusableCell(using: self.listCellRegistration, for: indexPath, item: identifier)
         }
         

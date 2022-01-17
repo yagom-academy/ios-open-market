@@ -75,7 +75,6 @@ class OpenMarketCollectionViewCell: UICollectionViewCell {
         stockLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         priceStackView.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         
-        
         priceLabel.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         discountedLabel.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         
