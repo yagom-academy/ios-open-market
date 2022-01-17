@@ -49,7 +49,7 @@ extension URLSessionProtocol {
                 completion(.failure(APIError.notProperStatusCode))
                 return
             }
-            
+         
             completion(.success(data))
         }
         task.resume()

@@ -4,7 +4,7 @@ struct ProductDeleteRequester: Requestable, JSONResponseDecodable {
     var url: URL? {
         return URL(string: "\(baseURLString)/\(productId)/\(productSecret)")
     }
-    var httpMethod: HTTPMethod = .POST
+    var httpMethod: HTTPMethod = .DELETE
     var httpBody: Data? = nil
     var headerFields: [String: String]? = nil
     

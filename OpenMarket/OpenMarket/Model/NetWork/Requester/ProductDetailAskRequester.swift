@@ -4,7 +4,7 @@ struct ProductDetailAskRequester: Requestable, JSONResponseDecodable {
     var url: URL? {
         return URL(string: "\(baseURLString)/\(productId)")
     }
-    var httpMethod: HTTPMethod = .POST
+    var httpMethod: HTTPMethod = .GET
     var httpBody: Data? = nil
     var headerFields: [String: String]? = nil
     
