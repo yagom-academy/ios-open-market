@@ -32,8 +32,9 @@ class ImageManager {
         guard let imageURL = URL(string: url) else {
             return
         }
+        let imageRequest = URLRequest(url: imageURL)
         
-        network.execute(url: imageURL) { result in
+        network.execute(request: imageRequest) { result in
             switch result {
             case .success(let data):
                 guard let data = data, let image = UIImage(data: data) else {

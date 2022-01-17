@@ -24,11 +24,18 @@ class ProductCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        resetLabel()
+        productImageView.image = nil
         priceLabels = [priceLabel, discountPriceLabel, stockLabel]
     }
     
-    func configureProduct(of product: Product) {
+    override func prepareForReuse() {
+        super.prepareForReuse()
         resetLabel()
+        productImageView.image = nil
+    }
+    
+    func configureProduct(of product: Product) {
         productNameLabel.text = product.name
         setUpImage(url: product.thumbnail)
         setUpPrice(product: product)

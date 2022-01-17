@@ -9,5 +9,4 @@ import Foundation
 
 protocol Networkable {
     func execute(request: URLRequest, completion: @escaping (Result<Data?, Error>) -> Void)
-    func execute(url: URL, completion: @escaping (Result<Data?, Error>) -> Void)
 }
