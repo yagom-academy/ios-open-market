@@ -5,9 +5,9 @@ enum ProductPost {
         struct Params: Encodable {
             let name: String
             let descriptions: String
-            let price: Int
+            let price: Double
             let currency: Currency
-            let discountedPrice: Int?
+            let discountedPrice: Double?
             let stock: Int?
             let secret: String
             
@@ -24,9 +24,9 @@ enum ProductPost {
         let name: String
         let thumbnail: String
         let currency: Currency
-        let price: Int
-        let bargainPrice: Int
-        let discountedPrice: Int
+        let price: Double
+        let bargainPrice: Double
+        let discountedPrice: Double
         let stock: Int
         let images: [Image]
         let vendors: Vendor

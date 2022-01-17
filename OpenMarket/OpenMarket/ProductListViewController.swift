@@ -1,6 +1,7 @@
 import UIKit
 
 class ProductListViewController: UIViewController {
+
     private enum Section: Hashable {
         case list
         case grid
@@ -16,30 +17,37 @@ class ProductListViewController: UIViewController {
     private let segmentedControl: UISegmentedControl = {
         let items: [String] = ["List","Grid"]
         var segmented = UISegmentedControl(items: items)
-         
-        segmented.layer.cornerRadius = 4
-        segmented.layer.borderWidth = 1
-        segmented.layer.borderColor = UIColor.systemBlue.cgColor
-        segmented.selectedSegmentTintColor = .white
-        segmented.backgroundColor = .systemBlue
-        let selectedAttribute: [NSAttributedString.Key : Any] = [.foregroundColor : UIColor.systemBlue]
+        segmented.layer.cornerRadius = SegmentedControl.cornerRadius
+        segmented.layer.borderWidth = SegmentedControl.borderWidth
+        segmented.layer.borderColor = SegmentedControl.borderColor
+        segmented.selectedSegmentTintColor = SegmentedControl.selectedSegmentTintColor
+        segmented.backgroundColor = SegmentedControl.backgroundColor
+        let selectedAttribute: [NSAttributedString.Key : Any] = [.foregroundColor : SegmentedControl.selectedColor]
         segmented.setTitleTextAttributes(selectedAttribute, for: .selected)
-        let normalAttribute: [NSAttributedString.Key : Any] = [.foregroundColor : UIColor.white]
+        let normalAttribute: [NSAttributedString.Key : Any] = [.foregroundColor : SegmentedControl.normalColor]
         segmented.setTitleTextAttributes(normalAttribute, for: .normal)
-        segmented.selectedSegmentIndex = 0
+        segmented.selectedSegmentIndex = SegmentedControl.defaultSelectedSegmentIndex
         return segmented
     }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureMainView()
+        configureCollectionView()
+    }
+    
+    private func configureMainView() {
         view.backgroundColor = .white
         configureNavigationItems()
-        view.addSubview(collectionView)
-        fetchProductList()
-        configureListDataSource()
         segmentedControl.addTarget(self, action: #selector(touchUpListButton), for: .valueChanged)
     }
     
+    private func configureCollectionView() {
+        view.addSubview(collectionView)
+        fetchProductList()
+        configureListDataSource()
+    }
+
     private func configureNavigationItems() {
         let bounds = CGRect(
             x: 0,
@@ -60,14 +68,17 @@ class ProductListViewController: UIViewController {
         
         let groupSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
-            heightDimension: .fractionalHeight(0.3)
+            heightDimension: .fractionalHeight(CollectionView.Grid.Group.fractionalHeight)
         )
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 2)
-        let spacing = 10.0
-        group.interItemSpacing = .fixed(spacing)
+        let group = NSCollectionLayoutGroup.horizontal(
+            layoutSize: groupSize,
+            subitem: item,
+            count: CollectionView.Grid.Group.itemsPerGroup
+        )
+        group.interItemSpacing = .fixed(CollectionView.Grid.Item.spacing)
         
         let section = NSCollectionLayoutSection(group: group)
-        section.interGroupSpacing = spacing
+        section.interGroupSpacing = CollectionView.Grid.Item.spacing
         
         let layout = UICollectionViewCompositionalLayout(section: section)
         return layout
@@ -105,9 +116,9 @@ class ProductListViewController: UIViewController {
     private func configureGridDataSource() {
         let cellRegistration = UICollectionView.CellRegistration<CollectionViewGridCell, ProductListAsk.Response.Page> {
             (cell, indexPath, item) in
-            cell.layer.borderColor = UIColor.systemGray.cgColor
-            cell.layer.borderWidth = 1
-            cell.layer.cornerRadius = 15
+            cell.layer.borderColor = CollectionView.Grid.Item.borderColor
+            cell.layer.borderWidth = CollectionView.Grid.Item.borderWidth
+            cell.layer.cornerRadius = CollectionView.Grid.Item.cornerRadius
         }
       
         dataSource = UICollectionViewDiffableDataSource<Section, ProductListAsk.Response.Page>(collectionView: collectionView) {
@@ -144,8 +155,10 @@ class ProductListViewController: UIViewController {
                     return
                 }
                 self.products = products
-                let section: Section = self.segmentedControl.selectedSegmentIndex == 0 ? .list : .grid
-                self.applySnapShot(section: section)
+                DispatchQueue.main.async {
+                    let section: Section = self.segmentedControl.selectedSegmentIndex == 0 ? .list : .grid
+                    self.applySnapShot(section: section)
+                }
             case .failure(let error):
                 print(error.localizedDescription)
             }
@@ -163,5 +176,33 @@ extension ProductListViewController {
             collectionView.collectionViewLayout = makeGridLayout()
             configureGridDataSource()
         }
+    }
+}
+
+//MARK: - Layout 상수
+extension ProductListViewController {
+    enum CollectionView {
+        enum Grid {
+            enum Group {
+                static let fractionalHeight = 0.3
+                static let itemsPerGroup = 2
+            }
+            enum Item {
+                static let spacing = 10.0
+                static let borderColor = UIColor.systemGray.cgColor
+                static let borderWidth = 1.0
+                static let cornerRadius = 15.0
+            }
+        }
+    }
+    enum SegmentedControl {
+        static let cornerRadius = 4.0
+        static let borderWidth = 1.0
+        static let borderColor = UIColor.systemBlue.cgColor
+        static let selectedSegmentTintColor = UIColor.white
+        static let backgroundColor = UIColor.systemBlue
+        static let selectedColor = UIColor.systemBlue
+        static let normalColor = UIColor.white
+        static let defaultSelectedSegmentIndex = 0
     }
 }

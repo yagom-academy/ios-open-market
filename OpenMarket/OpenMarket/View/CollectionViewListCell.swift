@@ -2,14 +2,13 @@ import UIKit
 
 class CollectionViewListCell: UICollectionViewListCell {
     
-    private let activityIndicator: UIActivityIndicatorView = {
+    private lazy var activityIndicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView()
         return indicator
     }()
     
     private let imageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(systemName: "pencil")
         return imageView
     }()
     
@@ -24,11 +23,9 @@ class CollectionViewListCell: UICollectionViewListCell {
     }()
     
     private lazy var labelStackView: UIStackView = {
-        let stackView = UIStackView()
+        let stackView = UIStackView(arrangedSubviews: [nameLabel, priceLabel])
         stackView.axis = .vertical
         stackView.distribution = .fillEqually
-        stackView.addArrangedSubview(nameLabel)
-        stackView.addArrangedSubview(priceLabel)
         return stackView
     }()
     
@@ -39,11 +36,8 @@ class CollectionViewListCell: UICollectionViewListCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        contentView.addSubview(imageView)
-        contentView.addSubview(activityIndicator)
-        contentView.addSubview(labelStackView)
-        contentView.addSubview(stockLabel)
         configureLayout()
+        activityIndicator.startAnimating()
     }
     
     required init?(coder: NSCoder) {
@@ -51,8 +45,19 @@ class CollectionViewListCell: UICollectionViewListCell {
     }
     
     func updateAllComponents(from item: ProductListAsk.Response.Page) {
-        imageView.image = ImageLoader.load(from: item.thumbnail)
-        activityIndicator.stopAnimating()
+        ImageLoader.load(from: item.thumbnail) { (result) in
+            switch result {
+            case .success(let data):
+                DispatchQueue.main.sync {
+                    self.imageView.image = UIImage(data: data)
+                    self.activityIndicator.stopAnimating()
+                    self.layoutIfNeeded()
+                }
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+        
         updateNameLabel(from: item)
         updatePriceLabel(from: item)
         updateStockLabel(from: item)
@@ -98,17 +103,29 @@ class CollectionViewListCell: UICollectionViewListCell {
     }
     
     private func configureLayout() {
-        activityIndicator.bounds = contentView.bounds
+        contentView.addSubview(activityIndicator)
+        contentView.addSubview(imageView)
+        contentView.addSubview(labelStackView)
+        contentView.addSubview(stockLabel)
+        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
         imageView.translatesAutoresizingMaskIntoConstraints = false
         labelStackView.translatesAutoresizingMaskIntoConstraints = false
         stockLabel.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            activityIndicator.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 5),
+            activityIndicator.trailingAnchor.constraint(equalTo: labelStackView.leadingAnchor, constant: -5),
+            activityIndicator.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
+            activityIndicator.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5),
+            activityIndicator.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 1/6),
+            activityIndicator.heightAnchor.constraint(equalTo: imageView.widthAnchor)
+        ])
         NSLayoutConstraint.activate([
             imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 5),
             imageView.trailingAnchor.constraint(equalTo: labelStackView.leadingAnchor, constant: -5),
             imageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
             imageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5),
             imageView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 1/6),
-            imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor)
+            imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor)
         ])
         NSLayoutConstraint.activate([
             labelStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
