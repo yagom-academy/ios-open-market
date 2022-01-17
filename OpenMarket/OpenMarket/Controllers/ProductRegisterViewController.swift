@@ -1,23 +1,45 @@
 import UIKit
 
 class ProductRegisterViewController: UIViewController {
-    let infoView = ProductInformationView()
+    let productRegistrationView = ProductInformationView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        configUI()
+    }
+    
+    private func configUI() {
         view.backgroundColor = .white
-        self.navigationItem.title = "테스트"
-        self.view.addSubview(infoView)
+        configNavigationBar()
+        configRegistrationView()
+    }
+    
+    private func configNavigationBar() {
+        self.navigationItem.title = "상품등록"
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "취소", style: .plain, target: self, action: #selector(didTapCancelButton))
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "완료", style: .done, target: self, action: #selector(didTapDoneButton))
+    }
+    
+    @objc private func didTapCancelButton() {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    @objc private func didTapDoneButton() {
+        print("등록") // TODO
+    }
+    
+    private func configRegistrationView() {
+        self.view.addSubview(productRegistrationView)
         
-        [infoView].forEach { view in
+        [productRegistrationView].forEach { view in
             view.translatesAutoresizingMaskIntoConstraints = false
         }
         
         NSLayoutConstraint.activate([
-            infoView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
-            infoView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-            infoView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-            infoView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
+            productRegistrationView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
+            productRegistrationView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            productRegistrationView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+            productRegistrationView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
         ])
     }
 }

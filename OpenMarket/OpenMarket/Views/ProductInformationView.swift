@@ -7,6 +7,17 @@ private enum Placeholder {
     static let stock = "재고수량"
 }
 
+private enum Design {
+    static let buttonEdgeInsetMargin: CGFloat = 50
+    static let textFieldStackViewTopMargin: CGFloat = 10
+    static let textFieldStackViewLeadingMargin: CGFloat = 15
+    static let textFieldStackViewTrailingMargin: CGFloat = -15
+    static let descriptionTextViewTopMargin: CGFloat = 10
+    static let imageScrollViewLeadingMargin: CGFloat = 20
+    static let imageScrollViewTrailingMargin: CGFloat = -20
+    static let imageScrollViewHeight: CGFloat = 150
+}
+
 class ProductInformationView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -23,10 +34,18 @@ class ProductInformationView: UIView {
     private let imageStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
-        stackView.distribution = .fillEqually
+        stackView.distribution = .equalSpacing
         stackView.alignment = .center
         stackView.spacing = 5
         return stackView
+    }()
+    
+    private let addImageButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "plus"), for: .normal)
+        button.backgroundColor = .lightGray.withAlphaComponent(0.5)
+        button.contentEdgeInsets = UIEdgeInsets(top: Design.buttonEdgeInsetMargin, left: Design.buttonEdgeInsetMargin, bottom: Design.buttonEdgeInsetMargin, right: Design.buttonEdgeInsetMargin)
+        return button
     }()
 
     private let textFieldStackView: UIStackView = {
@@ -81,18 +100,19 @@ class ProductInformationView: UIView {
         }
         
         NSLayoutConstraint.activate([
-            textFieldStackView.topAnchor.constraint(equalTo: imageScrollView.bottomAnchor, constant: 10),
-            textFieldStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
-            textFieldStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
+            textFieldStackView.topAnchor.constraint(equalTo: imageScrollView.bottomAnchor, constant: Design.textFieldStackViewTopMargin),
+            textFieldStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: Design.textFieldStackViewLeadingMargin),
+            textFieldStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: Design.textFieldStackViewTrailingMargin),
             
-            descriptionTextView.topAnchor.constraint(equalTo: textFieldStackView.bottomAnchor, constant: 10),
-            descriptionTextView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
-            descriptionTextView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
+            descriptionTextView.topAnchor.constraint(equalTo: textFieldStackView.bottomAnchor, constant: Design.descriptionTextViewTopMargin),
+            descriptionTextView.leadingAnchor.constraint(equalTo: textFieldStackView.leadingAnchor),
+            descriptionTextView.trailingAnchor.constraint(equalTo: textFieldStackView.trailingAnchor),
             descriptionTextView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
     
     private func configImageScrollView() {
+        imageStackView.addArrangedSubview(addImageButton)
         imageContentView.addSubview(imageStackView)
         imageScrollView.addSubview(imageContentView)
         self.addSubview(imageScrollView)
@@ -103,9 +123,9 @@ class ProductInformationView: UIView {
         
         NSLayoutConstraint.activate([
             imageScrollView.topAnchor.constraint(equalTo: self.topAnchor),
-            imageScrollView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            imageScrollView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            imageScrollView.heightAnchor.constraint(equalToConstant: 150),
+            imageScrollView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: Design.imageScrollViewLeadingMargin),
+            imageScrollView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: Design.imageScrollViewTrailingMargin),
+            imageScrollView.heightAnchor.constraint(equalToConstant: Design.imageScrollViewHeight),
             
             imageContentView.topAnchor.constraint(equalTo: imageScrollView.topAnchor),
             imageContentView.leadingAnchor.constraint(equalTo: imageScrollView.leadingAnchor),
