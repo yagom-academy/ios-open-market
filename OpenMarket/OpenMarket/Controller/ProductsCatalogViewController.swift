@@ -40,7 +40,7 @@ class ProductsCatalogViewController: UIViewController {
 
 extension ProductsCatalogViewController {
     private func configureNavigationBar() {
-        self.navigationItem.titleView = configureSegmentedControl()
+        navigationItem.titleView = configureSegmentedControl()
         guard let image = UIImage(systemName: "plus") else {
             return
         }
@@ -48,7 +48,7 @@ extension ProductsCatalogViewController {
             return
         }
         let resizedImage = UIImage(cgImage: cgImage, scale: 4, orientation: image.imageOrientation)
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
             image: resizedImage,
             style: .plain,
             target: nil,
@@ -57,7 +57,7 @@ extension ProductsCatalogViewController {
         navigationItem.rightBarButtonItem?.width = 0
         let appearance = UINavigationBarAppearance()
         appearance.configureWithDefaultBackground()
-        self.navigationController?.navigationBar.scrollEdgeAppearance = appearance
+        navigationController?.navigationBar.scrollEdgeAppearance = appearance
     }
 
     private func configureSegmentedControl() -> UISegmentedControl {
