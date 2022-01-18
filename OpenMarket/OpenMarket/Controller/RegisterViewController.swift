@@ -123,6 +123,10 @@ extension RegisterViewController: UIImagePickerControllerDelegate & UINavigation
     }
     
     @objc private func tappedAddButton() {
+        guard images.count != 5 else {
+            self.showAlert(message: "이미지는 최대 5개까지 첨부할 수 있어요")
+            return
+        }
         let imagePicker = UIImagePickerController()
         imagePicker.delegate = self
         imagePicker.allowsEditing = true
