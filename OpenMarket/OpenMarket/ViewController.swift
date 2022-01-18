@@ -1,5 +1,6 @@
 import UIKit
 
+@available(iOS 14.0, *)
 class ViewController: UIViewController {
     enum Section: CaseIterable {
         case main
@@ -57,11 +58,18 @@ class ViewController: UIViewController {
     }
     
     func setUpCell() {
+        let cellRegistration = UICollectionView.CellRegistration<ListCollectionViewCell, ProductInformation> { cell, indexpath, product in
+            
+            cell.productImageView.image = UIImage(data: try! Data(contentsOf: URL(string: product.thumbnail)!))
+            cell.productNameLabel.text = product.name
+            cell.stockLabel.text = String(product.stock)
+            cell.priceLabel.text = String(product.price)
+            cell.discountedPriceLabel.text = String(product.discountedPrice)
+        }
+        
         dataSource = UICollectionViewDiffableDataSource<Section, ProductInformation>(collectionView: listCollectionView, cellProvider: { (collectionView, indexPath, product) -> ListCollectionViewCell in
             
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as? ListCollectionViewCell else {
-                return ListCollectionViewCell()
-            }
+            let cell = collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: product)
             
             return cell
         })
