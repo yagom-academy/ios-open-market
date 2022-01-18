@@ -2,12 +2,12 @@ import UIKit
 
 class ProductRegisterViewController: UIViewController {
     private let productRegistrationView = ProductInformationView()
-    private let imagePickerController = UIImagePickerController()
+    private let imagePickerController = ImagePickerController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         productRegistrationView.delegate = self
-        imagePickerController.delegate = self
+        imagePickerController.pickerDelegate = self
         configUI()
     }
     
@@ -64,20 +64,8 @@ extension ProductRegisterViewController: PickerPresenter {
     }
 }
 
-extension ProductRegisterViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        self.dismiss(animated: true, completion: nil)
-    }
-    
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
-        defer {
-            self.dismiss(animated: true, completion: nil)
-        }
-        
-        guard let image = info[.editedImage] as? UIImage else {
-            return
-        }
-        
+extension ProductRegisterViewController: PickerDelegate {
+    func addImage(with image: UIImage) {
         if productRegistrationView.takeRegisteredImageCounts() < 5 {
             productRegistrationView.addImageToImageStackView(from: image)
         }
