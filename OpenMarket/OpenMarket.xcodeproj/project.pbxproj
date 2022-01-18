@@ -13,6 +13,8 @@
 		3A4FCD392791B8AA00B95E40 /* ProductView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A4FCD382791B8AA00B95E40 /* ProductView.swift */; };
 		3A4FCD3B2791B8DE00B95E40 /* UITableView+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A4FCD3A2791B8DE00B95E40 /* UITableView+extension.swift */; };
 		3A4FCD3D2791B90100B95E40 /* UICollectionView+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A4FCD3C2791B90100B95E40 /* UICollectionView+extension.swift */; };
+		3A7EA51B279695AF00328CFA /* ProductRegistration.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3A7EA51A279695AF00328CFA /* ProductRegistration.storyboard */; };
+		3A7EA51D279695F700328CFA /* ProductRegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A7EA51C279695F700328CFA /* ProductRegistrationViewController.swift */; };
 		3AA089892783E9CD002A0002 /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA089882783E9CD002A0002 /* Image.swift */; };
 		3AA0898B2783EAB3002A0002 /* Vendor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA0898A2783EAB3002A0002 /* Vendor.swift */; };
 		3AAA1E2C2786C2320022D36D /* JSONParsable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AAA1E2B2786C2320022D36D /* JSONParsable.swift */; };
@@ -54,6 +56,8 @@
 		3A4FCD382791B8AA00B95E40 /* ProductView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductView.swift; sourceTree = "<group>"; };
 		3A4FCD3A2791B8DE00B95E40 /* UITableView+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+extension.swift"; sourceTree = "<group>"; };
 		3A4FCD3C2791B90100B95E40 /* UICollectionView+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+extension.swift"; sourceTree = "<group>"; };
+		3A7EA51A279695AF00328CFA /* ProductRegistration.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ProductRegistration.storyboard; sourceTree = "<group>"; };
+		3A7EA51C279695F700328CFA /* ProductRegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductRegistrationViewController.swift; sourceTree = "<group>"; };
 		3AA089882783E9CD002A0002 /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
 		3AA0898A2783EAB3002A0002 /* Vendor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vendor.swift; sourceTree = "<group>"; };
 		3AAA1E2B2786C2320022D36D /* JSONParsable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONParsable.swift; sourceTree = "<group>"; };
@@ -115,6 +119,7 @@
 			children = (
 				DE6204A1278D574F009D5AE7 /* MainViewController.swift */,
 				DE4E23F22794039A005E6A40 /* ProductsDataSource.swift */,
+				3A7EA51C279695F700328CFA /* ProductRegistrationViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -128,6 +133,7 @@
 				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
 				3A4FCD322791A7E000B95E40 /* ProductsCollectionViewCell.xib */,
 				3A4FCD342791A83B00B95E40 /* ProductsTableViewCell.xib */,
+				3A7EA51A279695AF00328CFA /* ProductRegistration.storyboard */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -289,6 +295,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3A7EA51B279695AF00328CFA /* ProductRegistration.storyboard in Resources */,
 				DE00D5B72786EE0E0088795D /* .swiftlint.yml in Resources */,
 				C70FB10725BEF61D00C9924E /* LaunchScreen.storyboard in Resources */,
 				C70FB10425BEF61D00C9924E /* Assets.xcassets in Resources */,
@@ -351,6 +358,7 @@
 				DE310512278E9D1300BF1EA5 /* UIViewController+extension.swift in Sources */,
 				3A4FCD3D2791B90100B95E40 /* UICollectionView+extension.swift in Sources */,
 				3A4FCD372791AB2B00B95E40 /* ProductCell.swift in Sources */,
+				3A7EA51D279695F700328CFA /* ProductRegistrationViewController.swift in Sources */,
 				DEAE69642785A61F00F21D21 /* NetworkError.swift in Sources */,
 				3AABC1D52782D701005DDCE8 /* ProductsList.swift in Sources */,
 			);

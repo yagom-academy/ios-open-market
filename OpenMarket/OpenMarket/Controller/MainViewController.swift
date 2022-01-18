@@ -3,6 +3,8 @@ import UIKit
 class MainViewController: UIViewController {
     private let tableViewCellNibName = "ProductsTableViewCell"
     private let collectionViewCellNibName = "ProductsCollectionViewCell"
+    private let productRegistrationStoryboardName = "ProductRegistration"
+    private let productRegistrationViewControllerIdentity = "ProductRegistrationViewController"
     private let loadingActivityIndicator = UIActivityIndicatorView()
     private var pageInformation: ProductsList?
     private let jsonParser: JSONParser = {
@@ -97,6 +99,14 @@ class MainViewController: UIViewController {
     @IBAction private func segmentedControlChanged(_ sender: UISegmentedControl) {
         changeSubview()
     }
+    
+    @IBAction func touchAddProductButton(_ sender: UIBarButtonItem) {
+        let storyboard = UIStoryboard(name: productRegistrationStoryboardName, bundle: nil)
+        let viewController = storyboard.instantiateViewController(
+            withIdentifier: productRegistrationViewControllerIdentity
+        )
+        present(viewController, animated: true, completion: nil)
+    }
 }
 
 extension MainViewController {
@@ -130,6 +140,7 @@ extension MainViewController {
                 nibName,
                 forCellWithReuseIdentifier: ProductsCollectionViewCell.reuseIdentifier
             )
+            collectionView.backgroundColor = .systemBackground
             return collectionView
         }
     }
