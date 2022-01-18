@@ -55,28 +55,49 @@ class RegisterViewController: UIViewController {
         }
         let imageFiles = createImageFiles()
         requestRegistration(product: product, imageFiles: imageFiles)
-        self.dismiss(animated: true, completion: nil)
     }
     
-    func requestRegistration(product: ProductRegistration, imageFiles: [ImageFile]) {
+}
+
+extension RegisterViewController {
+    private func requestRegistration(product: ProductRegistration, imageFiles: [ImageFile]) {
+        guard let request = createRequest(params: product, images: imageFiles) else {
+            showAlert(message: Message.badRequest) {
+                self.dismiss(animated: true, completion: nil)
+            }
+            return
+        }
         let networkManager = NetworkManager()
-        let requestResult = networkManager.requestRegister(params: product, images: imageFiles)
-        switch requestResult {
-        case .success(let request):
-            networkManager.fetch(request: request, decodingType: Product.self) { result in
-                switch result {
-                case .success:
-                    self.showAlert(message: "상품이 등록되었습니다.")
-                case .failure(let error):
-                    print(error.localizedDescription)
+        networkManager.fetch(request: request, decodingType: Product.self) { result in
+            switch result {
+            case .success:
+                DispatchQueue.main.async {
+                    self.showAlert(message: "상품 등록이 완료되었습니다") {
+                        self.dismiss(animated: true, completion: nil)
+                    }
+                }
+            case .failure(let error):
+                DispatchQueue.main.async {
+                    self.showAlert(message: error.localizedDescription) {
+                        self.dismiss(animated: true, completion: nil)
+                    }
                 }
             }
-        case .failure(let error):
-            print(error.localizedDescription)
         }
     }
     
-    func createImageFiles() -> [ImageFile] {
+    private func createRequest<T: Encodable>(params: T, images: [ImageFile]) -> URLRequest? {
+        let networkManager = NetworkManager()
+        let requestResult = networkManager.requestRegister(params: params, images: images)
+        switch requestResult {
+        case .success(let request):
+            return request
+        case .failure:
+            return nil
+        }
+    }
+    
+    private func createImageFiles() -> [ImageFile] {
         var imageFiles = [ImageFile]()
         
         images.forEach { image in
