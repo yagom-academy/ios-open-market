@@ -243,3 +243,10 @@ fileprivate extension UISegmentedControl {
     }
     
 }
+
+extension ProductPageViewController {
+    
+    @IBAction func unwindToProductPageViewController(_ sender: UIStoryboardSegue) {
+    }
+    
+}

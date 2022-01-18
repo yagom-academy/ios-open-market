@@ -93,7 +93,6 @@ class OpenMarketCollectionViewCell: UICollectionViewCell {
     func configureContents(at indexPath: IndexPath, with item: Product) {
         
         URLSessionProvider(session: URLSession.shared).requestImage(from: item.thumbnail) { result in
-             
             DispatchQueue.main.async {
                 switch result {
                 case .success(let data):
@@ -103,8 +102,6 @@ class OpenMarketCollectionViewCell: UICollectionViewCell {
                 }
             }
         }
-        
-        // 리스트 뷰일 때 이미지 뷰 높이가 지정되어있는 것을 해제한다!
         
         productNameLabel.text = item.name
         productNameLabel.font = UIFont.boldSystemFont(ofSize: 17)
@@ -117,7 +114,6 @@ class OpenMarketCollectionViewCell: UICollectionViewCell {
             stockLabel.textColor = UIColor.systemOrange
             stockLabel.text = "품절"
         }
-        
         
         if item.discountedPrice != 0 {
             priceLabel.textColor = .systemRed

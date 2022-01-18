@@ -43,7 +43,11 @@
                                 <action selector="segmentedControlValueChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="48h-by-Ho8"/>
                             </connections>
                         </segmentedControl>
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="SLN-Rr-B58"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="SLN-Rr-B58">
+                            <connections>
+                                <segue destination="MSa-Zb-wfO" kind="presentation" modalPresentationStyle="fullScreen" id="UuV-rG-59g"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="activityIndicator" destination="Y3a-M4-mVk" id="Sxq-SN-YOl"/>
@@ -53,6 +57,29 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1047.8260869565217" y="124.55357142857142"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="B4G-4S-WtW">
+            <objects>
+                <viewController id="B9K-f5-Ghn" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="nUb-Ci-WE0">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="ebF-gb-Y2k"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="MtA-n3-Hvi">
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="Cj3-cW-Uf6">
+                            <connections>
+                                <segue destination="1FF-Gr-0yC" kind="unwind" unwindAction="unwindToProductPageViewController:" id="miO-VE-qaF"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="BfP-yd-VBp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="1FF-Gr-0yC" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="3214" y="125"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="hQW-B1-QBT">
@@ -78,6 +105,24 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NDo-O7-RqK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="137.68115942028987" y="124.55357142857142"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="HPa-HW-gFN">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="MSa-Zb-wfO" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="kls-8u-UFJ">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="B9K-f5-Ghn" kind="relationship" relationship="rootViewController" id="eYw-1L-dgd"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="6x8-jq-flo" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2341" y="125"/>
         </scene>
     </scenes>
     <resources>
