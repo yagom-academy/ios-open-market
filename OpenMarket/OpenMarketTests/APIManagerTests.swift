@@ -43,12 +43,45 @@ class APIManagerTests: XCTestCase {
     }
     let testImageFile = ImageFile(name: "qwe", data: image22, imageType: .png)
     let imageArray: [ImageFile] = [testImageFile]
-    let params =  RegisterProductRequest(name: "MacBook Pro", descriptions: "Intel MacBook Pro", price: 2690000, currency: .KRW, discountedPrice: 1000000, stock: 99, secret: "password")
+    let params =  ProductRegistrationRequest(name: "MacBook Pro", descriptions: "Intel MacBook Pro", price: 2690000, currency: .KRW, discountedPrice: 1000000, stock: 99, secret: "password")
     
     sutAPIManager.addProduct(params: params, images: imageArray) { result in
       // then
       switch result {
       case .success(let data):
+        XCTAssertNotNil(data)
+      case .failure:
+        XCTFail()
+      }
+      expectation.fulfill()
+    }
+    wait(for: [expectation], timeout: 10)
+  }
+  
+  func test_상품수정() {
+    let expectation = XCTestExpectation(description: "response")
+    let modificationProduct = ProductModificationRequest(name: "MACBook Ultra Pro", secret: "password")
+    sutAPIManager.modifyProduct(productId: 431, params: modificationProduct) { result in
+      // then
+      switch result {
+      case .success(let data):
+        XCTAssertNotNil(data)
+      case .failure:
+        XCTFail()
+      }
+      expectation.fulfill()
+    }
+    wait(for: [expectation], timeout: 10)
+  }
+  
+  func test_상품Secret조회() {
+    let expectation = XCTestExpectation(description: "response")
+    let secret = Secret(secret: "password")
+    sutAPIManager.getDeleteSecret(productId: 431, secret: secret) { result in
+      // then
+      switch result {
+      case .success(let data):
+        dump(data)
         XCTAssertNotNil(data)
       case .failure:
         XCTFail()
