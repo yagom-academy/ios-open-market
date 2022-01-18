@@ -63,8 +63,6 @@ class ViewController: UIViewController {
                 return ListCollectionViewCell()
             }
             
-            cell.setUpImage(url: product.thumbnail)
-            
             return cell
         })
     }
