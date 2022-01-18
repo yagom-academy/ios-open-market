@@ -44,6 +44,13 @@ class RegisterViewController: UIViewController {
     @IBAction func cancelButtonTapped(_ sender: UIButton) {
         self.dismiss(animated: true, completion: nil)
     }
+    
+    @IBAction func doneButtonTapped(_ sender: UIButton) {
+        guard images.count > .zero else {
+            showAlert(message: Message.minimumImageCount)
+            return
+        }
+    }
 }
 
 extension RegisterViewController: UICollectionViewDataSource {
@@ -124,7 +131,7 @@ extension RegisterViewController: UIImagePickerControllerDelegate & UINavigation
     
     @objc private func tappedAddButton() {
         guard images.count != 5 else {
-            self.showAlert(message: "이미지는 최대 5개까지 첨부할 수 있어요")
+            self.showAlert(message: Message.maximunImageCount)
             return
         }
         let imagePicker = UIImagePickerController()

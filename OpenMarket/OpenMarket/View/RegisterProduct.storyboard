@@ -104,9 +104,14 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="상품 등록" id="8MG-ic-AlL">
-                        <barButtonItem key="leftBarButtonItem" title="취소" id="WmJ-g1-cLi">
+                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="WmJ-g1-cLi">
                             <connections>
                                 <action selector="cancelButtonTapped:" destination="Y6W-OH-hqX" id="KLk-BM-dcz"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Done" id="H0P-1d-w7B">
+                            <connections>
+                                <action selector="doneButtonTapped:" destination="Y6W-OH-hqX" id="Lad-LX-11H"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
