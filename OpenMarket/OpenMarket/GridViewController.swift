@@ -24,7 +24,8 @@ final class GridViewController: UIViewController {
     }
 
     required init?(coder: NSCoder) {
-        fatalError("class does not support nscoder")
+        assertionFailure("init(coder:) has not been implemented")
+        return nil
     }
     
     //MARK: - Lifecycle

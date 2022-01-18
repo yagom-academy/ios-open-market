@@ -14,12 +14,11 @@ final class MarketViewController: UIViewController {
     
     //MARK: - Properties
     
-    private let mainStoryboardName = "Main"
     private var apiService: APIServicable?
     private var products: [Product] = []
     
     private lazy var listViewController: ListViewController = {
-        let storyboard = UIStoryboard(name: mainStoryboardName, bundle: Bundle.main)
+        let storyboard = UIStoryboard(name: StoryboardIdentifier.main, bundle: Bundle.main)
         let viewController = storyboard.instantiateViewController(identifier: ListViewController.identifier) { coder in
             ListViewController(products: self.products, coder: coder)
         }
@@ -27,7 +26,7 @@ final class MarketViewController: UIViewController {
     }()
     
     private lazy var gridViewController: GridViewController = {
-        let storyboard = UIStoryboard(name: mainStoryboardName, bundle: Bundle.main)
+        let storyboard = UIStoryboard(name: StoryboardIdentifier.main, bundle: Bundle.main)
         let viewController = storyboard.instantiateViewController(identifier: GridViewController.identifier) { coder in
             GridViewController(products: self.products, coder: coder)
         }
