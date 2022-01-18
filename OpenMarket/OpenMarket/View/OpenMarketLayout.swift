@@ -17,7 +17,6 @@ enum OpenMarketLayout {
             let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                                   heightDimension: .fractionalHeight(1.0))
             let item = NSCollectionLayoutItem(layoutSize: itemSize)
-//            item.contentInsets = NSDirectionalEdgeInsets(top: 3, leading: 3, bottom: 3, trailing: 3)
             
             let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                                    heightDimension: .fractionalHeight(0.1))
@@ -42,10 +41,8 @@ enum OpenMarketLayout {
             return layout
         }
     }
-    func createDataSource(for collectionView: UICollectionView) -> UICollectionViewDiffableDataSource<Int, Product> {
-        
-        let cellRegistration = UICollectionView.CellRegistration<CollectionViewLayoutCell, Product> { (cell, indexPath, item) in
-            cell.isGridLayout = self == .grid ? true : false
+    func createDataSource<CellType: CollectionViewLayoutCell>(for collectionView: UICollectionView, cellType: CellType.Type) -> UICollectionViewDiffableDataSource<Int, Product> {
+        let cellRegistration = UICollectionView.CellRegistration<CellType, Product> { (cell, indexPath, item) in
             cell.configureContents(imageURL: item.thumbnail,
                                    productName: item.name,
                                    price: item.price.description,
@@ -53,7 +50,7 @@ enum OpenMarketLayout {
                                    currency: item.currency,
                                    stock: String(item.stock))
             
-            if cell.isGridLayout {
+            if self == .grid {
                 cell.layer.cornerRadius = 10
                 cell.layer.masksToBounds = true
                 cell.layer.borderWidth = 1.0
@@ -63,10 +60,11 @@ enum OpenMarketLayout {
             
             cell.layer.borderColor = UIColor.systemGray.cgColor
         }
-        
-        return UICollectionViewDiffableDataSource(collectionView: collectionView) { (collectionView, indexPath, identifier) -> UICollectionViewCell? in
-            
+
+        let dataSource = UICollectionViewDiffableDataSource<Int, Product>(collectionView: collectionView) { (collectionView, indexPath, identifier) -> UICollectionViewCell? in
             collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: identifier)
         }
+
+        return dataSource
     }
 }

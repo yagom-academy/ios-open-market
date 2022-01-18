@@ -20,18 +20,16 @@ class CollectionViewLayoutCell: UICollectionViewCell {
     var stockLabel = UILabel()
     var accessoryImageView = UIImageView()
     
-    var isGridLayout: Bool = true
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
-        commonConfig()
+        configure()
     }
     
     required init?(coder: NSCoder) {
         fatalError()
     }
     
-    private func commonConfig() {
+    private func configure() {
         self.addSubview(stackView)
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
@@ -86,51 +84,14 @@ class CollectionViewLayoutCell: UICollectionViewCell {
         stockLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         priceStackView.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
     }
-    
-    private func configureCellLayout() {
-        
-        switch isGridLayout {
-        case true:
-            configureGridCellLayout()
-        case false:
-            configureListCellLayout()
-        }
-    }
-    
-    private func configureListCellLayout() {
-        stackView.axis = .horizontal
-        stackView.alignment = .top
-        stackView.distribution = .fill
-        stackView.addArrangedSubview(accessoryImageView)
-        accessoryImageView.image = UIImage(systemName: "chevron.right")
-        accessoryImageView.tintColor = .systemGray
-        
-        NSLayoutConstraint.activate([
-            imageView.widthAnchor.constraint(equalTo: stackView.widthAnchor, multiplier: 0.2)
-        ])
-        priceStackView.axis = .horizontal
-    }
-    
-    private func configureGridCellLayout() {
-        stackView.axis = .vertical
-        stackView.alignment = .center
-        stackView.distribution = .equalSpacing
-        
-        NSLayoutConstraint.activate([
-            imageView.widthAnchor.constraint(equalTo: stackView.widthAnchor, multiplier: 0.9)
-        ])
-        priceStackView.axis = .vertical
-    }
-    
+
     override func prepareForReuse() {
         discountedLabel.isHidden = true
     }
     
     func configureContents(imageURL: String, productName: String, price: String,
                            discountedPrice: String?, currency: Currency, stock: String) {
-        
-        configureCellLayout()
-        
+
         URLSessionProvider(session: URLSession.shared).requestImage(from: imageURL) { result in
             DispatchQueue.main.async {
                 switch result {
