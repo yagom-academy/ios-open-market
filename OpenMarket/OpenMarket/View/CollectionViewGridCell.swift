@@ -1,6 +1,8 @@
 import UIKit
 
 class CollectionViewGridCell: UICollectionViewCell {
+    
+    typealias Product = NetworkingAPI.ProductListQuery.Response.Page
 
     private lazy var activityIndicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView()
@@ -66,7 +68,7 @@ class CollectionViewGridCell: UICollectionViewCell {
         super.init(coder: coder)
     }
     
-    func updateAllComponents(from item: ProductListAsk.Response.Page) {
+    func updateAllComponents(from item: Product) {
         ImageLoader.load(from: item.thumbnail) { (result) in
             switch result {
             case .success(let data):
@@ -84,13 +86,13 @@ class CollectionViewGridCell: UICollectionViewCell {
         updateStockLabel(from: item)
     }
     
-    private func updateNameLabel(from item: ProductListAsk.Response.Page) {
+    private func updateNameLabel(from item: Product) {
         let nameText = item.name.boldFont
         nameText.addAttribute(.font, value: UIFont.preferredFont(forTextStyle: .title3), range: NSMakeRange(0, nameText.length))
         nameLabel.attributedText = nameText
     }
     
-    private func updateStockLabel(from item: ProductListAsk.Response.Page) {
+    private func updateStockLabel(from item: Product) {
         let stockText = NSMutableAttributedString(string: "")
         if item.stock == 0 {
             stockText.append("품절".yellowColor)
@@ -103,7 +105,7 @@ class CollectionViewGridCell: UICollectionViewCell {
         stockLabel.attributedText = stockText
     }
     
-    private func updatePriceLabel(from item: ProductListAsk.Response.Page) {
+    private func updatePriceLabel(from item: Product) {
         guard let bargainPrice = item.bargainPrice.description.decimal,
               let originalPrice = item.price.description.decimal else {
                   return

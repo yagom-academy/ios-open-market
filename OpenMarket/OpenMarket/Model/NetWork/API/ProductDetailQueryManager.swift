@@ -1,6 +1,29 @@
 import Foundation
 
-enum ProductDelete {
+enum ProductDetailQueryManager: JSONResponseDecodable {
+    static func request<T: URLSessionProtocol>(session: T,
+                                               productId: Int,
+                                               completion: @escaping (Result<Data, NetworkingError>) -> Void) {
+        
+        let httpMethod = "GET"
+        let baseURLString = "https://market-training.yagom-academy.kr/api/products"
+        let urlString = "\(baseURLString)/\(productId)"
+        
+        session.requestDataTask(urlString: urlString,
+                                          httpMethod: httpMethod,
+                                          httpBody: nil,
+                                          headerFields: nil,
+                                          completion: completion)
+    }
+}
+
+//MARK: - Parsing Type
+extension ProductDetailQueryManager {
+    enum Currency: String, Codable {
+        case KRW
+        case USD
+    }
+    
     struct Response: Decodable {
         let id: Int
         let vendorId: Int

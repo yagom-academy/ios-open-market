@@ -1,6 +1,44 @@
 import Foundation
 
-enum ProductModify {
+enum ProductModifyManager: JSONResponseDecodable {
+    static func request<T: URLSessionProtocol>(session: T,
+                                               identifier: String,
+                                               productId: Int,
+                                               name: String?,
+                                               description: String?,
+                                               thumbnailId: Int?,
+                                               price: Double?,
+                                               currency: Currency?,
+                                               discountedPrice: Double?,
+                                               stock: Int?,
+                                               secret: String,
+                                               completion: @escaping (Result<Data, NetworkingError>) -> Void) {
+
+        let httpMethod = "PATCH"
+        let baseURLString = "https://market-training.yagom-academy.kr/api/products"
+        let urlString = "\(baseURLString)/\(productId)"
+        
+        let request = Request(name: name,
+                              description: description,
+                              thumbnailId: thumbnailId,
+                              price: price,
+                              currency: currency,
+                              discountedPrice: discountedPrice,
+                              stock: stock,
+                              secret: secret)
+        
+        //TODO: - make HTTPBody
+        //TODO: - call dataTask
+    }
+}
+
+//MARK: - Parsing Type
+extension ProductModifyManager {
+    enum Currency: String, Codable {
+        case KRW
+        case USD
+    }
+    
     struct Request: Encodable {
         let name: String?
         let description: String?

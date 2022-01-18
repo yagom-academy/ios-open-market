@@ -1,24 +1,31 @@
 import Foundation
 
-enum ProductPost {
-    struct Request: Encodable {
-        struct Params: Encodable {
-            let name: String
-            let descriptions: String
-            let price: Double
-            let currency: Currency
-            let discountedPrice: Double?
-            let stock: Int?
-            let secret: String
-            
-            enum CodingKeys: String, CodingKey {
-                case name, descriptions, price, currency, stock, secret
-                case discountedPrice = "discounted_price"
-            }
-        }
+enum ProductDeleteManager: JSONResponseDecodable {
+    static func request<T: URLSessionProtocol>(session: T,
+                                               identifier: String,
+                                               productId: Int,
+                                               productSecret: String,
+                                               completion: @escaping (Result<Data, NetworkingError>) -> Void) {
+        let httpMethod = "DELETE"
+        let baseURLString = "https://market-training.yagom-academy.kr/api/products"
+        let urlString = "\(baseURLString)/\(productId)/\(productSecret)"
+        
+        session.requestDataTask(urlString: urlString,
+                                          httpMethod: httpMethod,
+                                          httpBody: nil,
+                                          headerFields: nil,
+                                          completion: completion)
     }
-    
+}
+
+//MARK: - Parsing Type
+extension ProductDeleteManager {
     struct Response: Decodable {
+        enum Currency: String, Codable {
+            case KRW
+            case USD
+        }
+        
         let id: Int
         let vendorId: Int
         let name: String
@@ -70,5 +77,3 @@ enum ProductPost {
         }
     }
 }
-
-

@@ -1,18 +1,20 @@
 import UIKit
 
 class ProductListViewController: UIViewController {
+    
+    typealias Product = NetworkingAPI.ProductListQuery.Response.Page
 
     private enum Section: Hashable {
         case list
         case grid
     }
     
-    private var products: ProductListAsk.Response?
+    private var products: [Product] = []
     private lazy var collectionView = UICollectionView(
         frame: view.bounds,
         collectionViewLayout: makeListLayout()
     )
-    private var dataSource: UICollectionViewDiffableDataSource<Section, ProductListAsk.Response.Page>!
+    private var dataSource: UICollectionViewDiffableDataSource<Section, Product>!
     
     private let segmentedControl: UISegmentedControl = {
         let items: [String] = ["List","Grid"]
@@ -94,11 +96,11 @@ class ProductListViewController: UIViewController {
     }
     
     private func configureListDataSource() {
-        let cellRegistration = UICollectionView.CellRegistration<CollectionViewListCell, ProductListAsk.Response.Page> {
+        let cellRegistration = UICollectionView.CellRegistration<CollectionViewListCell, Product> {
             (cell, indexPath, item) in
         }
       
-        dataSource = UICollectionViewDiffableDataSource<Section, ProductListAsk.Response.Page>(collectionView: collectionView) {
+        dataSource = UICollectionViewDiffableDataSource<Section, Product>(collectionView: collectionView) {
             (collectionView, indexPath, item) -> UICollectionViewCell? in
             let cell = collectionView.dequeueConfiguredReusableCell(
                 using: cellRegistration,
@@ -114,14 +116,14 @@ class ProductListViewController: UIViewController {
     }
     
     private func configureGridDataSource() {
-        let cellRegistration = UICollectionView.CellRegistration<CollectionViewGridCell, ProductListAsk.Response.Page> {
+        let cellRegistration = UICollectionView.CellRegistration<CollectionViewGridCell, Product> {
             (cell, indexPath, item) in
             cell.layer.borderColor = CollectionView.Grid.Item.borderColor
             cell.layer.borderWidth = CollectionView.Grid.Item.borderWidth
             cell.layer.cornerRadius = CollectionView.Grid.Item.cornerRadius
         }
       
-        dataSource = UICollectionViewDiffableDataSource<Section, ProductListAsk.Response.Page>(collectionView: collectionView) {
+        dataSource = UICollectionViewDiffableDataSource<Section, Product>(collectionView: collectionView) {
             (collectionView, indexPath, item) -> UICollectionViewCell? in
             let cell = collectionView.dequeueConfiguredReusableCell(
                 using: cellRegistration,
@@ -135,26 +137,29 @@ class ProductListViewController: UIViewController {
     }
     
     private func applySnapShot(section: Section) {
-        guard let products = products else {
+        guard products.isEmpty == false else {
             return
         }
 
-        var snapshot = NSDiffableDataSourceSnapshot<Section, ProductListAsk.Response.Page>()
+        var snapshot = NSDiffableDataSourceSnapshot<Section, Product>()
         snapshot.appendSections([section])
-        snapshot.appendItems(products.pages)
+        snapshot.appendItems(products)
         self.dataSource.apply(snapshot, animatingDifferences: false)
     }
 
     private func fetchProductList() {
-        let requester = ProductListAskRequester(pageNo: 1, itemsPerPage: 30)
-        URLSession.shared.request(requester: requester) { result in
+        NetworkingAPI.ProductListQuery.request(session: URLSession.shared,
+                                               pageNo: 1,
+                                               itemsPerPage: 30) { result in
+  
             switch result {
             case .success(let data):
-                guard let products = requester.decode(data: data) else {
-                    print(APIError.decodingFail.localizedDescription)
+                guard let response = NetworkingAPI.ProductListQuery.decode(data: data) else {
                     return
                 }
-                self.products = products
+                response.pages.forEach {
+                    self.products.append($0)
+                }
                 DispatchQueue.main.async {
                     let section: Section = self.segmentedControl.selectedSegmentIndex == 0 ? .list : .grid
                     self.applySnapShot(section: section)

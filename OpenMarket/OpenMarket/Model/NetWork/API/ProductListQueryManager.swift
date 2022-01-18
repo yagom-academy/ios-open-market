@@ -1,6 +1,30 @@
 import Foundation
 
-enum ProductListAsk {
+enum ProductListQueryManager: JSONResponseDecodable {
+    static func request<T: URLSessionProtocol>(session: T,
+                                               pageNo: Int,
+                                               itemsPerPage: Int,
+                                               completion: @escaping (Result<Data, NetworkingError>) -> Void) {
+        
+        let httpMethod = "GET"
+        let baseURLString = "https://market-training.yagom-academy.kr/api/products"
+        let urlString = "\(baseURLString)?page_no=\(pageNo)&items_per_page=\(itemsPerPage)"
+        
+        session.requestDataTask(urlString: urlString,
+                                          httpMethod: httpMethod,
+                                          httpBody: nil,
+                                          headerFields: nil,
+                                          completion: completion)
+    }
+}
+
+//MARK: - Parsing Type
+extension ProductListQueryManager {
+    enum Currency: String, Codable {
+        case KRW
+        case USD
+    }
+    
     struct Response: Decodable {
         let pageNo: Int
         let itemsPerPage: Int
