@@ -194,20 +194,26 @@ extension ProductsCatalogViewController {
                 cell.thumbnailImageView.image = UIImage(data: imageData)
                 cell.nameLabel.text = identifier.name
                 if identifier.discountedPrice != .zero {
-                    let formattedPrice = identifier.price.format()
+                    guard let formattedPrice = identifier.price.format() else {
+                        return
+                    }
                     let priceAttributedString =
                         "\(identifier.currency) \(formattedPrice)".eraseOriginalPrice()
                     cell.priceLabel.attributedText = priceAttributedString
                 } else {
                     cell.priceLabel.isHidden = true
                 }
-                let formattedBargainPrice = identifier.bargainPrice.format()
+                guard let formattedBargainPrice = identifier.bargainPrice.format() else {
+                    return
+                }
                 cell.bargainPriceLabel.text = "\(identifier.currency) \(formattedBargainPrice)"
                 if identifier.stock == .zero {
                     cell.stockLabel.text = "품절"
                     cell.stockLabel.textColor = .systemOrange
                 } else {
-                    let formattedStock = identifier.bargainPrice.format()
+                    guard let formattedStock = identifier.bargainPrice.format() else {
+                        return
+                    }
                     cell.stockLabel.text = "잔여수량 : \(formattedStock)"
                     cell.stockLabel.textColor = .systemGray
                 }

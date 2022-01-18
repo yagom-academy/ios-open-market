@@ -40,10 +40,16 @@ extension ListCell {
         content.secondaryTextProperties.font = .preferredFont(forTextStyle: .callout)
         content.secondaryTextProperties.color = .systemGray
 
+        guard let price = product.price.format() else {
+            return
+        }
         let priceAttributedString =
-            "\(product.currency) \(product.price.format())".eraseOriginalPrice()
+            "\(product.currency) \(price)".eraseOriginalPrice()
+        guard let bargainPrice = product.bargainPrice.format() else {
+            return
+        }
         let bargainPriceAttributedString = NSMutableAttributedString(
-            string: "\(product.currency) \(product.bargainPrice.format())"
+            string: "\(product.currency) \(bargainPrice)"
         )
 
         if product.discountedPrice != 0 {
@@ -64,7 +70,9 @@ extension ListCell {
             stockLabel.text = "품절"
             stockLabel.textColor = .systemOrange
         } else {
-            let formattedStock = product.stock.format()
+            guard let formattedStock = product.stock.format() else {
+                return
+            }
             stockLabel.text = "잔여수량 : \(formattedStock)"
             stockLabel.textColor = .systemGray
         }
