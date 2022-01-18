@@ -37,6 +37,8 @@
 		C995B24A27955A1400293651 /* ProductInformationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C995B24927955A1400293651 /* ProductInformationView.swift */; };
 		C995B24C2795684B00293651 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = C995B24B2795684B00293651 /* CustomTextField.swift */; };
 		C995B2532796ACB500293651 /* ProductImageCustomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C995B2522796ACB500293651 /* ProductImageCustomView.swift */; };
+		C995B2572796EC9900293651 /* ProductRegisterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C995B2562796EC9900293651 /* ProductRegisterManager.swift */; };
+		C995B2592796EF2F00293651 /* UIImage+resize.swift in Sources */ = {isa = PBXBuildFile; fileRef = C995B2582796EF2F00293651 /* UIImage+resize.swift */; };
 		C997D3242782DD0900FF3398 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = C997D3232782DD0800FF3398 /* .swiftlint.yml */; };
 		C9AC3E5B2786C5BE00177751 /* ImageData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AC3E5A2786C5BD00177751 /* ImageData.swift */; };
 		C9AC3E5E2786DAAD00177751 /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AC3E5D2786DAAD00177751 /* APIError.swift */; };
@@ -96,6 +98,8 @@
 		C995B24927955A1400293651 /* ProductInformationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductInformationView.swift; sourceTree = "<group>"; };
 		C995B24B2795684B00293651 /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		C995B2522796ACB500293651 /* ProductImageCustomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductImageCustomView.swift; sourceTree = "<group>"; };
+		C995B2562796EC9900293651 /* ProductRegisterManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductRegisterManager.swift; sourceTree = "<group>"; };
+		C995B2582796EF2F00293651 /* UIImage+resize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+resize.swift"; sourceTree = "<group>"; };
 		C997D3232782DD0800FF3398 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		C9AC3E5A2786C5BD00177751 /* ImageData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageData.swift; sourceTree = "<group>"; };
 		C9AC3E5D2786DAAD00177751 /* APIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
@@ -141,6 +145,7 @@
 			isa = PBXGroup;
 			children = (
 				C70FB0FE25BEF61C00C9924E /* MainViewController.swift */,
+				C995B2562796EC9900293651 /* ProductRegisterManager.swift */,
 				C985AA40278D878000D6B81B /* ProductRegisterViewController.swift */,
 				A6D008F12796DF4B002FAE56 /* ImagePickerController.swift */,
 			);
@@ -269,6 +274,7 @@
 				C9B5FAD22783F240001B6FDE /* URLRequest+httpmethod.swift */,
 				A6E6A5D7278D1CD500903BC1 /* NSMutableAttributedString+style.swift */,
 				C985AA3E278D78DC00D6B81B /* Double+format.swift */,
+				C995B2582796EF2F00293651 /* UIImage+resize.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -469,6 +475,7 @@
 				C995B24C2795684B00293651 /* CustomTextField.swift in Sources */,
 				A6D008F22796DF4B002FAE56 /* ImagePickerController.swift in Sources */,
 				A6A824552785BDE1006CE6DA /* URLCreator.swift in Sources */,
+				C995B2572796EC9900293651 /* ProductRegisterManager.swift in Sources */,
 				A6A824572785DDD8006CE6DA /* ProductRegisterInformation.swift in Sources */,
 				A6A824362782EA42006CE6DA /* ProductDetail.swift in Sources */,
 				A6E6A5D8278D1CD500903BC1 /* NSMutableAttributedString+style.swift in Sources */,
@@ -480,6 +487,7 @@
 				C9B5FAD02783DB00001B6FDE /* APIService.swift in Sources */,
 				C9AC3E5E2786DAAD00177751 /* APIError.swift in Sources */,
 				C985AA41278D878100D6B81B /* ProductRegisterViewController.swift in Sources */,
+				C995B2592796EF2F00293651 /* UIImage+resize.swift in Sources */,
 				C985AA3C278C5B3E00D6B81B /* ImageLoader.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 				A6A8248327871680006CE6DA /* URLRequest+httpmethod.swift in Sources */,

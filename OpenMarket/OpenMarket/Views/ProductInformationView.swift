@@ -18,10 +18,6 @@ private enum Design {
     static let imageScrollViewHeight: CGFloat = 150
 }
 
-protocol PickerPresenter: AnyObject {
-    func presentImagePickerView()
-}
-
 class ProductInformationView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -32,7 +28,6 @@ class ProductInformationView: UIView {
         super.init(coder: coder)
     }
     
-    weak var delegate: PickerPresenter?
     private let imageScrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.showsHorizontalScrollIndicator = false
@@ -41,7 +36,7 @@ class ProductInformationView: UIView {
     
     private let imageContentView = UIView()
     
-    private let imageStackView: UIStackView = {
+    let imageStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.distribution = .equalSpacing
@@ -51,19 +46,14 @@ class ProductInformationView: UIView {
         return stackView
     }()
     
-    private lazy var addImageButton: UIButton = {
+    lazy var addImageButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "plus"), for: .normal)
         button.backgroundColor = .lightGray.withAlphaComponent(0.5)
-        button.contentEdgeInsets = UIEdgeInsets(top: Design.buttonEdgeInsetMargin, left: Design.buttonEdgeInsetMargin, bottom: Design.buttonEdgeInsetMargin, right: Design.buttonEdgeInsetMargin)
-        button.addTarget(self, action: #selector(didTapAddImageButton), for: .touchUpInside)
+        button.contentEdgeInsets = UIEdgeInsets(top: Design.buttonEdgeInsetMargin, left: Design.buttonEdgeInsetMargin, bottom: Design.buttonEdgeInsetMargin, right: Design.buttonEdgeInsetMargin)        
         return button
     }()
     
-    @objc private func didTapAddImageButton() {
-        delegate?.presentImagePickerView()
-    }
-
     private let textFieldStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
@@ -73,7 +63,7 @@ class ProductInformationView: UIView {
         return stackView
     }()
     
-    private let priceStackView: UIStackView = {
+    let priceStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.distribution = .fill
@@ -82,14 +72,14 @@ class ProductInformationView: UIView {
         return stackView
     }()
     
-    private let nameTextField = CustomTextField(placeholder: Placeholder.name)
-    private let priceTextField = CustomTextField(placeholder: Placeholder.price)
-    private let discountedPriceTextField = CustomTextField(placeholder: Placeholder.discountedPrice)
-    private let stockTextField = CustomTextField(placeholder: Placeholder.stock)
+    let nameTextField = CustomTextField(placeholder: Placeholder.name)
+    let priceTextField = CustomTextField(placeholder: Placeholder.price)
+    let discountedPriceTextField = CustomTextField(placeholder: Placeholder.discountedPrice)
+    let stockTextField = CustomTextField(placeholder: Placeholder.stock)
     
-    private let currencySegmentedControl = LayoutSegmentedControl(items: Currency.allCases.map { $0.unit })
+    let currencySegmentedControl = LayoutSegmentedControl(items: Currency.allCases.map { $0.unit })
     
-    private let descriptionTextView: UITextView = {
+    let descriptionTextView: UITextView = {
         let textView = UITextView()
         textView.layer.borderColor = UIColor.gray.withAlphaComponent(0.2).cgColor
         textView.layer.borderWidth = 1
@@ -98,14 +88,6 @@ class ProductInformationView: UIView {
         textView.font = .preferredFont(forTextStyle: .footnote)
         return textView
     }()
-    
-    var isRegisteredImageEmpty: Bool {
-        return takeRegisteredImageCounts() == 0
-    }
-    
-    var isPriceTextFieldEmpty: Bool {
-        return priceTextField.text?.isEmpty ?? true
-    }
     
     private func configUI() {
         configImageScrollView()
@@ -162,46 +144,5 @@ class ProductInformationView: UIView {
             imageStackView.trailingAnchor.constraint(equalTo: imageContentView.trailingAnchor),
             imageStackView.bottomAnchor.constraint(equalTo: imageContentView.bottomAnchor)
         ])
-    }
-    
-    func addImageToImageStackView(from image: UIImage) {
-        guard let resizedImage = image.resizeImageTo(size: CGSize(width: addImageButton.frame.width, height: addImageButton.frame.height)) else {
-            return
-        }
-        
-        let productImageCustomView = ProductImageCustomView()
-        productImageCustomView.fetchImage(with: resizedImage)
-        imageStackView.addArrangedSubview(productImageCustomView)
-    }
-    
-    func takeRegisteredImageCounts() -> Int {
-        let images = imageStackView.arrangedSubviews.filter { view in
-            view is ProductImageCustomView
-        }
-        return images.count
-    }
-    
-    func setImageButtonHidden(state: Bool) {
-        addImageButton.isHidden = state
-    }
-    
-    func takeNameTextFieldLength() -> Int {
-        guard let text = nameTextField.text else {
-            return 0
-        }
-    
-        return text.count
-    }
-}
-
-extension UIImage {
-    func resizeImageTo(size: CGSize) -> UIImage? {
-        UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
-        self.draw(in: CGRect(origin: CGPoint.zero, size: size))
-        guard let resizedImage = UIGraphicsGetImageFromCurrentImageContext() else {
-            return nil
-        }
-        UIGraphicsEndImageContext()
-        return resizedImage
     }
 }

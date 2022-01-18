@@ -1,12 +1,12 @@
 import UIKit
 
 class ProductRegisterViewController: UIViewController {
-    private let productRegistrationView = ProductInformationView()
+    private let productRegisterManager = ProductRegisterManager()
     private let imagePickerController = ImagePickerController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        productRegistrationView.delegate = self
+        productRegisterManager.delegate = self
         imagePickerController.pickerDelegate = self
         configUI()
     }
@@ -28,12 +28,13 @@ class ProductRegisterViewController: UIViewController {
     }
     
     @objc private func didTapDoneButton() {
-        if productRegistrationView.isRegisteredImageEmpty {
+        if productRegisterManager.isRegisteredImageEmpty {
             presentAlert(title: "등록된 이미지가 없습니다.", message: "한 개 이상의 이미지를 필수로 등록해주세요.")
         } 
     }
     
     private func configRegistrationView() {
+        let productRegistrationView = productRegisterManager.productInformationView
         self.view.addSubview(productRegistrationView)
         
         [productRegistrationView].forEach { view in
@@ -66,12 +67,12 @@ extension ProductRegisterViewController: PickerPresenter {
 
 extension ProductRegisterViewController: PickerDelegate {
     func addImage(with image: UIImage) {
-        if productRegistrationView.takeRegisteredImageCounts() < 5 {
-            productRegistrationView.addImageToImageStackView(from: image)
+        if productRegisterManager.takeRegisteredImageCounts() < 5 {
+            productRegisterManager.addImageToImageStackView(from: image)
         }
         
-        if productRegistrationView.takeRegisteredImageCounts() == 5 {
-            productRegistrationView.setImageButtonHidden(state: true)
+        if productRegisterManager.takeRegisteredImageCounts() == 5 {
+            productRegisterManager.setImageButtonHidden(state: true)
         }
     }
 }
