@@ -13,8 +13,8 @@ class ProductsCatalogViewController: UIViewController {
     var presentView: ViewType = .list
     var pageNumber: Int = 1
 
-    private var listCollectionView: UICollectionView!
-    private var gridCollectionView: UICollectionView!
+    private var listCollectionView: UICollectionView! = nil
+    private var gridCollectionView: UICollectionView! = nil
     private let indicator = UIActivityIndicatorView()
     private var listDataSource: UICollectionViewDiffableDataSource<Section, Product>!
     private var gridDataSource: UICollectionViewDiffableDataSource<Section, Product>!
@@ -186,7 +186,11 @@ extension ProductsCatalogViewController {
     private func registerGridCell() -> UICollectionView.CellRegistration<GridCell, Product> {
         let cellRegistration =
             UICollectionView.CellRegistration<GridCell, Product> { cell, indexPath, identifier in
-                cell.configure(product: identifier)
+                DispatchQueue.main.async {
+                    if indexPath == self.gridCollectionView.indexPath(for: cell) {
+                        cell.configure(product: identifier)
+                    }
+                }
             }
         return cellRegistration
     }
@@ -194,7 +198,11 @@ extension ProductsCatalogViewController {
     private func registerListCell() -> UICollectionView.CellRegistration<ListCell, Product> {
         let cellRegistration =
             UICollectionView.CellRegistration<ListCell, Product> { cell, indexPath, identifier in
-                cell.configure(product: identifier)
+                DispatchQueue.main.async {
+                    if indexPath == self.listCollectionView.indexPath(for: cell) {
+                        cell.configure(product: identifier)
+                    }
+                }
             }
         return cellRegistration
     }
