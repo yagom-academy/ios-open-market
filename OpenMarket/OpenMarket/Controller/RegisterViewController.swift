@@ -47,26 +47,39 @@ class RegisterViewController: UIViewController {
     }
     
     @IBAction func doneButtonTapped(_ sender: UIButton) {
-        guard images.count > .zero else {
+        guard inputValidation() else {
+            return
+        }
+    }
+    
+    private func inputValidation() -> Bool {
+        let isValidImagesCount = images.count > .zero
+        let isValidNameCount = textFieldsStackView.nameTextField.text?.count ?? .zero >= 3
+        let isValidPriceCount = (textFieldsStackView.priceTextField.text?.count ?? .zero) > .zero
+        let isMaintainMiniMumDescriptionCount = textFieldsStackView.descriptionTextView.text.count >= 10
+        let isMaintainMaxiMumDescriptionCount = textFieldsStackView.descriptionTextView.text.count < 1000
+        
+        guard isValidImagesCount else {
             showAlert(message: Message.minimumImageCount)
-            return
+            return false
         }
-        guard textFieldsStackView.nameTextField.text?.count ?? .zero >= 3 else {
+        guard isValidNameCount else {
             showAlert(message: Message.minimumNameCount)
-            return
+            return false
         }
-        guard (textFieldsStackView.priceTextField.text?.count ?? .zero) > .zero else {
+        guard isValidPriceCount else {
             showAlert(message: Message.minimumPriceCount)
-            return
+            return false
         }
-        guard textFieldsStackView.descriptionTextView.text.count >= 10 else {
+        guard isMaintainMiniMumDescriptionCount else {
             showAlert(message: Message.minimumDescriptionCount)
-            return
+            return false
         }
-        guard textFieldsStackView.descriptionTextView.text.count < 1000 else {
+        guard isMaintainMaxiMumDescriptionCount else {
             showAlert(message: Message.maximumDescriptionCount)
-              return
+            return false
         }
+        return true
     }
 }
 
