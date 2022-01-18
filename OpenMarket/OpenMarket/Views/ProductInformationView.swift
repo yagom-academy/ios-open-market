@@ -46,7 +46,7 @@ class ProductInformationView: UIView {
         stackView.axis = .horizontal
         stackView.distribution = .equalSpacing
         stackView.alignment = .center
-        stackView.spacing = 5
+        stackView.spacing = 10
         stackView.semanticContentAttribute = .forceRightToLeft
         return stackView
     }()
@@ -165,14 +165,18 @@ class ProductInformationView: UIView {
     }
     
     func addImageToImageStackView(from image: UIImage) {
-        let image = UIImageView(image: image.resizeImageTo(size: CGSize(width: addImageButton.frame.width, height: addImageButton.frame.height)))
-        image.contentMode = .scaleAspectFit
-        imageStackView.addArrangedSubview(image)
+        guard let resizedImage = image.resizeImageTo(size: CGSize(width: addImageButton.frame.width, height: addImageButton.frame.height)) else {
+            return
+        }
+        
+        let productImageCustomView = ProductImageCustomView()
+        productImageCustomView.fetchImage(with: resizedImage)
+        imageStackView.addArrangedSubview(productImageCustomView)
     }
     
     func takeRegisteredImageCounts() -> Int {
         let images = imageStackView.arrangedSubviews.filter { view in
-            view is UIImageView
+            view is ProductImageCustomView
         }
         return images.count
     }

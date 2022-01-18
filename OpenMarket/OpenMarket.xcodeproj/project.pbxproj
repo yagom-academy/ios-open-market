@@ -35,6 +35,7 @@
 		C985AA41278D878100D6B81B /* ProductRegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C985AA40278D878000D6B81B /* ProductRegisterViewController.swift */; };
 		C995B24A27955A1400293651 /* ProductInformationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C995B24927955A1400293651 /* ProductInformationView.swift */; };
 		C995B24C2795684B00293651 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = C995B24B2795684B00293651 /* CustomTextField.swift */; };
+		C995B2532796ACB500293651 /* ProductImageCustomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C995B2522796ACB500293651 /* ProductImageCustomView.swift */; };
 		C997D3242782DD0900FF3398 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = C997D3232782DD0800FF3398 /* .swiftlint.yml */; };
 		C9AC3E5B2786C5BE00177751 /* ImageData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AC3E5A2786C5BD00177751 /* ImageData.swift */; };
 		C9AC3E5E2786DAAD00177751 /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AC3E5D2786DAAD00177751 /* APIError.swift */; };
@@ -92,6 +93,7 @@
 		C985AA40278D878000D6B81B /* ProductRegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductRegisterViewController.swift; sourceTree = "<group>"; };
 		C995B24927955A1400293651 /* ProductInformationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductInformationView.swift; sourceTree = "<group>"; };
 		C995B24B2795684B00293651 /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
+		C995B2522796ACB500293651 /* ProductImageCustomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductImageCustomView.swift; sourceTree = "<group>"; };
 		C997D3232782DD0800FF3398 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		C9AC3E5A2786C5BD00177751 /* ImageData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageData.swift; sourceTree = "<group>"; };
 		C9AC3E5D2786DAAD00177751 /* APIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
@@ -126,6 +128,7 @@
 			isa = PBXGroup;
 			children = (
 				A68C5BD527883C9F00A9A2C8 /* LayoutSegmentedControl.swift */,
+				C995B2522796ACB500293651 /* ProductImageCustomView.swift */,
 				C995B24927955A1400293651 /* ProductInformationView.swift */,
 				C995B24B2795684B00293651 /* CustomTextField.swift */,
 			);
@@ -469,6 +472,7 @@
 				C985AA3F278D78DC00D6B81B /* Double+format.swift in Sources */,
 				A6E6A5D6278D189F00903BC1 /* ProductGridLayoutCell.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
+				C995B2532796ACB500293651 /* ProductImageCustomView.swift in Sources */,
 				C9B5FAD02783DB00001B6FDE /* APIService.swift in Sources */,
 				C9AC3E5E2786DAAD00177751 /* APIError.swift in Sources */,
 				C985AA41278D878100D6B81B /* ProductRegisterViewController.swift in Sources */,
