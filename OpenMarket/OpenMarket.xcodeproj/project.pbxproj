@@ -12,7 +12,6 @@
 		188150AF278956F900EE236E /* ProductSecretAsk.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188150AE278956F900EE236E /* ProductSecretAsk.swift */; };
 		188150B12789713000EE236E /* Requestable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188150B02789713000EE236E /* Requestable.swift */; };
 		188150B3278971FC00EE236E /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188150B2278971FC00EE236E /* HTTPMethod.swift */; };
-		188150B7278972BB00EE236E /* APICaller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188150B6278972BB00EE236E /* APICaller.swift */; };
 		188150B92789751E00EE236E /* ProductModifyRequester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188150B82789751E00EE236E /* ProductModifyRequester.swift */; };
 		188150BD2789778900EE236E /* ProductPostRequester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188150BC2789778900EE236E /* ProductPostRequester.swift */; };
 		188150BF2789788200EE236E /* ProductSecretAskRequester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188150BE2789788200EE236E /* ProductSecretAskRequester.swift */; };
@@ -58,7 +57,6 @@
 		188150AE278956F900EE236E /* ProductSecretAsk.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductSecretAsk.swift; sourceTree = "<group>"; };
 		188150B02789713000EE236E /* Requestable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Requestable.swift; sourceTree = "<group>"; };
 		188150B2278971FC00EE236E /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
-		188150B6278972BB00EE236E /* APICaller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APICaller.swift; sourceTree = "<group>"; };
 		188150B82789751E00EE236E /* ProductModifyRequester.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductModifyRequester.swift; sourceTree = "<group>"; };
 		188150BC2789778900EE236E /* ProductPostRequester.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductPostRequester.swift; sourceTree = "<group>"; };
 		188150BE2789788200EE236E /* ProductSecretAskRequester.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductSecretAskRequester.swift; sourceTree = "<group>"; };
@@ -126,7 +124,6 @@
 		188150BA2789754400EE236E /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				188150B6278972BB00EE236E /* APICaller.swift */,
 				6082A5F527912C2100D26048 /* ImageLoader.swift */,
 				189C6B89278D57C800DE6D00 /* NetWork */,
 			);
@@ -387,7 +384,6 @@
 				18978544279141F800E62B0A /* String+Extension.swift in Sources */,
 				604E1F73278D629600FE6A83 /* JSONResponseDecodable.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
-				188150B7278972BB00EE236E /* APICaller.swift in Sources */,
 				188150C42789791600EE236E /* ProductDetailAskRequester.swift in Sources */,
 				188150C1278978C800EE236E /* ProductDeleteRequester.swift in Sources */,
 				188150C927897FE000EE236E /* HealthCheckerRequester.swift in Sources */,
