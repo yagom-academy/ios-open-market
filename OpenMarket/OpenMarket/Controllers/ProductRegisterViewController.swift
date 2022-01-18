@@ -28,7 +28,9 @@ class ProductRegisterViewController: UIViewController {
     }
     
     @objc private func didTapDoneButton() {
-        print("등록") // TODO
+        if productRegistrationView.isRegisteredImageEmpty {
+            presentAlert(title: "등록된 이미지가 없습니다.", message: "한 개 이상의 이미지를 필수로 등록해주세요.")
+        } 
     }
     
     private func configRegistrationView() {
@@ -44,6 +46,13 @@ class ProductRegisterViewController: UIViewController {
             productRegistrationView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
             productRegistrationView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
         ])
+    }
+    
+    func presentAlert(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let confirmAction = UIAlertAction(title: "확인", style: .default, handler: nil)
+        alert.addAction(confirmAction)
+        self.present(alert, animated: true, completion: nil)
     }
 }
 
@@ -61,10 +70,20 @@ extension ProductRegisterViewController: UIImagePickerControllerDelegate, UINavi
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
-        if let image = info[.editedImage] as? UIImage {
+        defer {
+            self.dismiss(animated: true, completion: nil)
+        }
+        
+        guard let image = info[.editedImage] as? UIImage else {
+            return
+        }
+        
+        if productRegistrationView.takeRegisteredImageCounts() < 5 {
             productRegistrationView.addImageToImageStackView(from: image)
         }
         
-        self.dismiss(animated: true, completion: nil)
+        if productRegistrationView.takeRegisteredImageCounts() == 5 {
+            productRegistrationView.setImageButtonHidden(state: true)
+        }
     }
 }

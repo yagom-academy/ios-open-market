@@ -60,7 +60,7 @@ class ProductInformationView: UIView {
         return button
     }()
     
-    @objc func didTapAddImageButton() {
+    @objc private func didTapAddImageButton() {
         delegate?.presentImagePickerView()
     }
 
@@ -98,6 +98,14 @@ class ProductInformationView: UIView {
         textView.font = .preferredFont(forTextStyle: .footnote)
         return textView
     }()
+    
+    var isRegisteredImageEmpty: Bool {
+        return takeRegisteredImageCounts() == 0
+    }
+    
+    var isPriceTextFieldEmpty: Bool {
+        return priceTextField.text?.isEmpty ?? true
+    }
     
     private func configUI() {
         configImageScrollView()
@@ -160,6 +168,25 @@ class ProductInformationView: UIView {
         let image = UIImageView(image: image.resizeImageTo(size: CGSize(width: addImageButton.frame.width, height: addImageButton.frame.height)))
         image.contentMode = .scaleAspectFit
         imageStackView.addArrangedSubview(image)
+    }
+    
+    func takeRegisteredImageCounts() -> Int {
+        let images = imageStackView.arrangedSubviews.filter { view in
+            view is UIImageView
+        }
+        return images.count
+    }
+    
+    func setImageButtonHidden(state: Bool) {
+        addImageButton.isHidden = state
+    }
+    
+    func takeNameTextFieldLength() -> Int {
+        guard let text = nameTextField.text else {
+            return 0
+        }
+    
+        return text.count
     }
 }
 
