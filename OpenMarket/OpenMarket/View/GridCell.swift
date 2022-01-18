@@ -1,13 +1,13 @@
 import UIKit
 
 class GridCell: UICollectionViewCell {
-    let itemStackView = UIStackView()
-    let thumbnailImageView = UIImageView()
-    let nameLabel = UILabel()
-    let priceStackView = UIStackView()
-    let priceLabel = UILabel()
-    let bargainPriceLabel = UILabel()
-    let stockLabel = UILabel()
+    private let itemStackView = UIStackView()
+    private let thumbnailImageView = UIImageView()
+    private let nameLabel = UILabel()
+    private let priceStackView = UIStackView()
+    private let priceLabel = UILabel()
+    private let bargainPriceLabel = UILabel()
+    private let stockLabel = UILabel()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
