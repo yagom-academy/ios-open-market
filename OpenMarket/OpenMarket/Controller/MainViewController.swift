@@ -10,6 +10,7 @@ class MainViewController: UIViewController {
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SS"
         let jsonParser = JSONParser(
             dateDecodingStrategy: .formatted(formatter),
+            dateEncodingStrategy: .formatted(formatter),
             keyDecodingStrategy: .convertFromSnakeCase,
             keyEncodingStrategy: .convertToSnakeCase
         )
