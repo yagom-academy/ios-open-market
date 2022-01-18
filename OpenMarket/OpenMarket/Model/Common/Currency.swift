@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum Currency: Codable {
+enum Currency: String, Codable {
     case USD
     case KRW
 }

@@ -8,7 +8,7 @@
 import Foundation
 
 enum RequestType {
-    static let apiHost = "https://market_training.yagom_academy.kr/"
+    static let apiHost = "https://market-training.yagom-academy.kr"
 
     case productRegistration
     case productModification(productID: Int)
@@ -37,12 +37,11 @@ enum GetType {
     func url(type: GetType) -> String {
         switch type {
         case .healthChecker:
-            return "\(RequestType.apiHost)\(self)"
-        
+            return "\(RequestType.apiHost)/\(self)"
         case .productDetail(let productID):
-            return "\(RequestType.apiHost)api/products/\(productID)"
+            return "\(RequestType.apiHost)/api/products/\(productID)"
         case .productList(let pageNo, let items):
-            return "\(RequestType.apiHost)api/products?page_no=\(pageNo)&items_per_page=\(items)/"
+            return "\(RequestType.apiHost)/api/products?page_no=\(pageNo)&items_per_page=\(items)"
         }
     }
     

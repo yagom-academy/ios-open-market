@@ -7,9 +7,9 @@
 import UIKit
 
 @available(iOS 14.0, *)
-class TableViewController<T>: UITableViewController {
+class TableViewController: UITableViewController {
     @IBOutlet var productListTableView: UITableView!
-    var productListData: T?
+    var productListData: ProductList?
     
     override func viewDidLoad() {
         super.viewDidLoad()

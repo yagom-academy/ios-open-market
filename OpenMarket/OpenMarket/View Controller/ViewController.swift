@@ -7,17 +7,15 @@
 import UIKit
 
 @available(iOS 14.0, *)
-class ViewController<T: Codable>: UIViewController {
+class ViewController: UIViewController {
     @IBOutlet weak var tableView: UIView!
     @IBOutlet weak var collectionView: UIView!
-    @IBOutlet weak var collectionContainerView: UIView!
-    @IBOutlet weak var tableContainerView: UIView!
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         collectionView.alpha = 0.0
-        // Do any additional setup after loading the view.
     }
+    
     @IBAction func switchView(_ sender: UISegmentedControl) {
         if sender.selectedSegmentIndex == 0 {
             tableView.alpha = 1.0
@@ -28,27 +26,27 @@ class ViewController<T: Codable>: UIViewController {
         }
     }
     
-    func getDecodedData(completionHandler: @escaping (Result<T, NetworkError>) -> Void) {
+    func getDecodedData(completionHandler: @escaping (Result<ProductList, NetworkError>) -> Void) {
         let decoder = Decoder()
         let urlSessionProvider = URLSessionProvider()
         
         urlSessionProvider.getData(requestType: .productList(pageNo: 1, items: 10)) { result in
             switch result {
             case .success(let data):
-                guard let parsedData: T = decoder.parsePageJSON(data: data) else {
+                guard let parsedData: ProductList = decoder.parsePageJSON(data: data) else {
                     return
                 }
-                return completionHandler(.success(parsedData))
+                completionHandler(.success(parsedData))
             case .failure(_):
                 return completionHandler(.failure(NetworkError.unknownFailed))
             }
         }
     }
-    
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "tableViewSegue" {
-            let destinationViewController = segue.destination as! TableViewController<T>
-            getDecodedData { result in
+            let destinationViewController = segue.destination as! TableViewController
+            getDecodedData { (result: Result<ProductList, NetworkError>) in
                 switch result {
                 case .success(let data):
                     destinationViewController.productListData = data
@@ -56,9 +54,9 @@ class ViewController<T: Codable>: UIViewController {
                     print(error)
                 }
             }
-        } else if segue.identifier == "collectionViewSegue" {
-            let destinationViewController = segue.destination as! CollectionViewController<T>
-            getDecodedData { result in
+       } else if segue.identifier == "collectionViewSegue" {
+            let destinationViewController = segue.destination as! CollectionViewController
+            getDecodedData { (result: Result<ProductList, NetworkError>) in
                 switch result {
                 case .success(let data):
                     destinationViewController.productListData = data

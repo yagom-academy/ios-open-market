@@ -9,8 +9,8 @@ import UIKit
 
 private let reuseIdentifier = "Cell"
 
-class CollectionViewController<T>: UICollectionViewController {
-    var productListData: T?
+class CollectionViewController: UICollectionViewController {
+    var productListData: ProductList?
     
     override func viewDidLoad() {
         super.viewDidLoad()

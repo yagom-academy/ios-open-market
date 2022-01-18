@@ -10,10 +10,10 @@ import UIKit
 struct Decoder {
     let decoder = JSONDecoder()
     
-    func parsePageJSON<T: Codable> (data: Data) -> T? {
+    func parsePageJSON (data: Data) -> ProductList? {
         do {
             let pageJSON: Data = data
-            let decodedPageJSON = try decoder.decode(T.self, from: pageJSON)
+            let decodedPageJSON = try decoder.decode(ProductList.self, from: pageJSON)
             return decodedPageJSON
         } catch {
             return nil

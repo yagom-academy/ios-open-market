@@ -14,10 +14,10 @@ class URLSessionProvider {
                       return completionHandler(.failure(.statusCodeError))
                   }
             
-            if let data = data {
-                completionHandler(.success(data))
+            guard let data = data else {
+               return completionHandler(.failure(.unknownFailed))
             }
-            completionHandler(.failure(.unknownFailed))
+            completionHandler(.success(data))
         }
         task.resume()
     }
