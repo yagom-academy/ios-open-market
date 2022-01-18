@@ -43,6 +43,7 @@
 		F33F506D27965C680073B84F /* ImageAddHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F33F506B27965C680073B84F /* ImageAddHeaderView.swift */; };
 		F33F506E27965C680073B84F /* ImageAddHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = F33F506C27965C680073B84F /* ImageAddHeaderView.xib */; };
 		F33F507027968BBB0073B84F /* Notification.Name+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F33F506F27968BBB0073B84F /* Notification.Name+extension.swift */; };
+		F33F50722796985C0073B84F /* TextFieldsStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F33F50712796985C0073B84F /* TextFieldsStackView.swift */; };
 		F35B1A392782EC300031A755 /* ParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F35B1A382782EC300031A755 /* ParserTests.swift */; };
 		F35B1A642783E6420031A755 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = F35B1A632783E6420031A755 /* Network.swift */; };
 		F35B1A662783E9D50031A755 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F35B1A652783E9D50031A755 /* NetworkError.swift */; };
@@ -111,6 +112,7 @@
 		F33F506B27965C680073B84F /* ImageAddHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageAddHeaderView.swift; sourceTree = "<group>"; };
 		F33F506C27965C680073B84F /* ImageAddHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ImageAddHeaderView.xib; sourceTree = "<group>"; };
 		F33F506F27968BBB0073B84F /* Notification.Name+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification.Name+extension.swift"; sourceTree = "<group>"; };
+		F33F50712796985C0073B84F /* TextFieldsStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldsStackView.swift; sourceTree = "<group>"; };
 		F35B1A362782EC300031A755 /* OpenMarketTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenMarketTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F35B1A382782EC300031A755 /* ParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParserTests.swift; sourceTree = "<group>"; };
 		F35B1A632783E6420031A755 /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
@@ -260,6 +262,7 @@
 				F3D3B607278D128100943720 /* ProductsCollectionView.swift */,
 				F33F506B27965C680073B84F /* ImageAddHeaderView.swift */,
 				F33F506C27965C680073B84F /* ImageAddHeaderView.xib */,
+				F33F50712796985C0073B84F /* TextFieldsStackView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -458,6 +461,7 @@
 				F35B1A6827840CA80031A755 /* NetworkManager.swift in Sources */,
 				9AAA3F4B27881F7700D6E407 /* ProductCell.swift in Sources */,
 				F33F506D27965C680073B84F /* ImageAddHeaderView.swift in Sources */,
+				F33F50722796985C0073B84F /* TextFieldsStackView.swift in Sources */,
 				F35B1A712784351B0031A755 /* ProductRegistration.swift in Sources */,
 				F39BD72A2782DFA000D4B32D /* Products.swift in Sources */,
 				9A134564278C260A00660291 /* String+extension.swift in Sources */,

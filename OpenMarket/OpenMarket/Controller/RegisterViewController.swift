@@ -11,6 +11,7 @@ class RegisterViewController: UIViewController {
 
     var images = [UIImage]()
     @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var textFieldsStackView: TextFieldsStackView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,6 +50,22 @@ class RegisterViewController: UIViewController {
         guard images.count > .zero else {
             showAlert(message: Message.minimumImageCount)
             return
+        }
+        guard textFieldsStackView.nameTextField.text?.count ?? .zero >= 3 else {
+            showAlert(message: Message.minimumNameCount)
+            return
+        }
+        guard (textFieldsStackView.priceTextField.text?.count ?? .zero) > .zero else {
+            showAlert(message: Message.minimumPriceCount)
+            return
+        }
+        guard textFieldsStackView.descriptionTextView.text.count >= 10 else {
+            showAlert(message: Message.minimumDescriptionCount)
+            return
+        }
+        guard textFieldsStackView.descriptionTextView.text.count < 1000 else {
+            showAlert(message: Message.maximumDescriptionCount)
+              return
         }
     }
 }
@@ -131,7 +148,7 @@ extension RegisterViewController: UIImagePickerControllerDelegate & UINavigation
     
     @objc private func tappedAddButton() {
         guard images.count != 5 else {
-            self.showAlert(message: Message.maximunImageCount)
+            self.showAlert(message: Message.maximumImageCount)
             return
         }
         let imagePicker = UIImagePickerController()

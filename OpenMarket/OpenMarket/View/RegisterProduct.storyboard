@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="K8S-VL-fLd">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="K8S-VL-fLd">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -34,7 +34,7 @@
                                         </collectionViewFlowLayout>
                                         <cells/>
                                     </collectionView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="0vB-nZ-7fX">
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="0vB-nZ-7fX" customClass="TextFieldsStackView" customModule="OpenMarket" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="136" width="398" height="638"/>
                                         <subviews>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Laf-8V-Pyw">
@@ -90,6 +90,14 @@
                                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                             </textView>
                                         </subviews>
+                                        <connections>
+                                            <outlet property="currency" destination="2XC-jE-m27" id="Yx6-t4-RjY"/>
+                                            <outlet property="descriptionTextView" destination="uNd-sN-wC2" id="hv8-zK-N89"/>
+                                            <outlet property="discountedPriceTextField" destination="OiE-BG-jus" id="xxZ-3z-E4h"/>
+                                            <outlet property="nameTextField" destination="Laf-8V-Pyw" id="b16-fi-uMw"/>
+                                            <outlet property="priceTextField" destination="hUz-td-uu1" id="Mxe-Ak-BpK"/>
+                                            <outlet property="stockTextField" destination="VsZ-2j-3kD" id="J19-i6-xUw"/>
+                                        </connections>
                                     </stackView>
                                 </subviews>
                             </stackView>
@@ -117,6 +125,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="collectionView" destination="bCH-8b-QxW" id="NMI-hf-OYA"/>
+                        <outlet property="textFieldsStackView" destination="0vB-nZ-7fX" id="h4b-QA-bKV"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
