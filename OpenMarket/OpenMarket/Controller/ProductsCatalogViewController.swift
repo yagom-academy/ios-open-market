@@ -13,9 +13,8 @@ class ProductsCatalogViewController: UIViewController {
     var presentView: ViewType = .list
     var pageNumber: Int = 1
 
-    private var switchSegmentedControl: UISegmentedControl!
-    private var listCollectionView: UICollectionView! = nil
-    private var gridCollectionView: UICollectionView! = nil
+    private var listCollectionView: UICollectionView!
+    private var gridCollectionView: UICollectionView!
     private let indicator = UIActivityIndicatorView()
     private var listDataSource: UICollectionViewDiffableDataSource<Section, Product>!
     private var gridDataSource: UICollectionViewDiffableDataSource<Section, Product>!
