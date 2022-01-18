@@ -81,6 +81,17 @@ extension RegisterViewController: UICollectionViewDataSource {
     }
 }
 
+extension RegisterViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        images.remove(at: indexPath.item)
+        collectionView.performBatchUpdates {
+            collectionView.deleteItems(at: [IndexPath(item: indexPath.item, section: 0)])
+        } completion: { _ in
+            NotificationCenter.default.post(name: .editImageCountLabel, object: self.images.count)
+        }
+    }
+}
+
 extension RegisterViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(
         _ collectionView: UICollectionView,
@@ -99,10 +110,6 @@ extension RegisterViewController: UICollectionViewDelegateFlowLayout {
         let width = collectionView.safeAreaLayoutGuide.layoutFrame.width / 3
         return CGSize(width: width, height: width)
     }
-}
-
-extension Notification.Name {
-    static let addButton = Notification.Name("addButton")
 }
 
 extension RegisterViewController: UIImagePickerControllerDelegate & UINavigationControllerDelegate {
@@ -132,11 +139,11 @@ extension RegisterViewController: UIImagePickerControllerDelegate & UINavigation
             return
         }
         images.append(selectedImage)
-        collectionView.performBatchUpdates({
+        collectionView.performBatchUpdates {
             collectionView.insertItems(at: [IndexPath(item: images.count - 1, section: 0)])
-        }, completion: nil)
-
+        } completion: { _ in
+            NotificationCenter.default.post(name: .editImageCountLabel, object: self.images.count)
+        }
         picker.dismiss(animated: true, completion: nil)
-        
     }
 }
