@@ -25,14 +25,9 @@ final class ProductPageViewController: UIViewController {
     private let listCellRegistration: OpenMarketListCellRegistration
     private let gridCellRegistration: OpenMarketGridCellRegistration
     
-    @objc
     func dataManagerDidChanged() {
         let snapshot = createSnapshot()
         updateUI(with: snapshot)
-    }
-    
-    deinit {
-        NotificationCenter.dataManager.removeObserver(self)
     }
     
     required init?(coder: NSCoder) {
@@ -83,12 +78,7 @@ final class ProductPageViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        NotificationCenter.dataManager.addObserver(
-            self,
-            selector: #selector(dataManagerDidChanged),
-            name: .dataDidChanged,
-            object: nil
-        )
+        self.dataManager.dataChangedHandler = dataManagerDidChanged
         
         configureActivityIndicator()
         configureSegmentedConrol()

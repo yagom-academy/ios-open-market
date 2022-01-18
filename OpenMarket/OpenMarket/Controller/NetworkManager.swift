@@ -11,10 +11,11 @@ class NetworkManager {
     
     private let urlSessionProvider: URLSessionProvider
     
-    weak var delegate: NetworkManagerDelegate?
+    var dataFetchHandler: ((Page) -> Void)?
     
-    init() {
+    init(handler: ((Page) -> Void)? = nil) {
         urlSessionProvider = URLSessionProvider(session: URLSession.shared)
+        self.dataFetchHandler = handler
     }
     
     func fetchPage(pageNumber: String = "1", itemsPerPage: String) {
@@ -23,7 +24,8 @@ class NetworkManager {
                 DispatchQueue.main.async {
                     switch result {
                     case .success(let data):
-                        self.delegate?.fetchRequest(data: data)
+                        self.dataFetchHandler?(data)
+                        
                     case .failure(let error):
                         print(error)
                     }

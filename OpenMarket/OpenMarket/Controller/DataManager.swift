@@ -7,7 +7,7 @@
 
 import Foundation
 
-class DataManager: NetworkManagerDelegate {
+class DataManager {
     
     private var networkManager: NetworkManager
     
@@ -15,7 +15,7 @@ class DataManager: NetworkManagerDelegate {
     private var itemsPerPage: Int = 10
     private var page: Page? {
         didSet {
-            NotificationCenter.dataManager.post(name: .dataDidChanged, object: nil)
+            dataChangedHandler?()
         }
     }
     private var itemsCount: String {
@@ -26,10 +26,13 @@ class DataManager: NetworkManagerDelegate {
         return page?.pages ?? []
     }
     
-    init() {
+    var dataChangedHandler: (() -> Void)?
+    
+    init(handler: (() -> Void)? = nil) {
         networkManager = NetworkManager()
-        networkManager.delegate = self
+        networkManager.dataFetchHandler = self.fetchRequest
         networkManager.fetchPage(itemsPerPage: itemsCount)
+        self.dataChangedHandler = handler
     }
     
     func requestNextPage() {
@@ -49,25 +52,6 @@ class DataManager: NetworkManagerDelegate {
     func reset() {
         itemsPerPage = 10
         page = nil
-        NotificationCenter.dataManager.post(name: .dataDidChanged, object: nil)
     }
-    
-}
-
-protocol NetworkManagerDelegate: AnyObject {
-    
-    func fetchRequest(data: Page)
-    
-}
-
-extension NotificationCenter {
-    
-    static let dataManager = NotificationCenter()
-    
-}
-
-extension Notification.Name {
-    
-    static let dataDidChanged = Notification.Name("dataDidChanged")
     
 }

@@ -75,16 +75,28 @@
                                         <rect key="frame" x="0.0" y="0.0" width="408" height="163.33333333333334"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="gxl-2d-cHY">
-                                                <rect key="frame" x="0.0" y="0.0" width="334.33333333333331" height="163.33333333333334"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="676.66666666666663" height="163.33333333333334"/>
                                                 <subviews>
-                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="macBook" translatesAutoresizingMaskIntoConstraints="NO" id="KUv-ER-cFT">
+                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="macBook" translatesAutoresizingMaskIntoConstraints="NO" id="gbO-Uz-oUq">
                                                         <rect key="frame" x="0.0" y="0.0" width="163.33333333333334" height="163.33333333333334"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" secondItem="gbO-Uz-oUq" secondAttribute="height" multiplier="1:1" id="Hgv-Bc-zfK"/>
+                                                        </constraints>
+                                                    </imageView>
+                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="macBook" translatesAutoresizingMaskIntoConstraints="NO" id="FTs-Ej-c4y">
+                                                        <rect key="frame" x="171.33333333333334" y="0.0" width="163.00000000000003" height="163.33333333333334"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" secondItem="FTs-Ej-c4y" secondAttribute="height" multiplier="1:1" id="C2v-ak-NHq"/>
+                                                        </constraints>
+                                                    </imageView>
+                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="macBook" translatesAutoresizingMaskIntoConstraints="NO" id="KUv-ER-cFT">
+                                                        <rect key="frame" x="342.33333333333331" y="0.0" width="163.33333333333331" height="163.33333333333334"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" secondItem="KUv-ER-cFT" secondAttribute="height" multiplier="1:1" id="yAm-hE-mn7"/>
                                                         </constraints>
                                                     </imageView>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SJU-FI-TkW">
-                                                        <rect key="frame" x="171.33333333333334" y="0.0" width="163.00000000000003" height="163.33333333333334"/>
+                                                        <rect key="frame" x="513.66666666666663" y="0.0" width="163" height="163.33333333333334"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" secondItem="SJU-FI-TkW" secondAttribute="height" multiplier="1:1" id="5DG-RF-P7I"/>
                                                         </constraints>
