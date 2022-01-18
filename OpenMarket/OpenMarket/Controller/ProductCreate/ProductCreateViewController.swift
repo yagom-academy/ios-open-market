@@ -9,9 +9,35 @@ import UIKit
 
 final class ProductCreateViewController: UIViewController {
     
-    private var images: [UIImage] = []
+    private var images: [UIImage] = [] {
+        didSet {
+            productImageStackView.subviews.forEach { view in
+                if let view = view as? UIImageView {
+                    productImageStackView.removeArrangedSubview(view)
+                    view.removeFromSuperview()
+                }
+            }
+            
+            images.forEach { image in
+                let imageView = UIImageView()
+                NSLayoutConstraint.activate([
+                    imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor)
+                ])
+                imageView.image = image
+                productImageStackView.insertArrangedSubview(imageView, at: 0)
+            }
+        }
+    }
     
-    let imagePicker = UIImagePickerController()
+    @IBOutlet private weak var productImageStackView: UIStackView!
+    @IBOutlet private weak var productNameTextField: UITextField!
+    @IBOutlet private weak var productPriceTextField: UITextField!
+    @IBOutlet private weak var currencySegmentedControl: UISegmentedControl!
+    @IBOutlet private weak var discountedPriceTextField: UITextField!
+    @IBOutlet private weak var productStockTextField: UITextField!
+    @IBOutlet private weak var descriptionTextView: UITextView!
+    
+    private let imagePicker = UIImagePickerController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,6 +47,18 @@ final class ProductCreateViewController: UIViewController {
     }
 
     @IBAction func imageAddbuttonClicked(_ sender: UIButton) {
+        
+        if images.count >= 5 {
+            let alert = UIAlertController(
+                title: "첨부할 수 있는 이미지가 초과되었습니다",
+                message: "새로운 이미지를 첨부하려면 기존의 이미지를 제거해주세요!",
+                preferredStyle: .alert
+            )
+            alert.addAction(title: "확인", style: .default)
+            present(alert, animated: true)
+            return
+        }
+        
         let alert = UIAlertController(
             title: "사진을 불러옵니다",
             message: "어디서 불러올까요?",
@@ -54,6 +92,13 @@ extension ProductCreateViewController: UIImagePickerControllerDelegate, UINaviga
         
         imagePicker.sourceType = .photoLibrary
         present(imagePicker, animated: true)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let image = info[.originalImage] as? UIImage, images.count < 5 {
+            self.images.append(image)
+        }
+        dismiss(animated: true)
     }
     
 }

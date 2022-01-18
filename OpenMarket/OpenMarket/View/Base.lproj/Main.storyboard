@@ -75,28 +75,10 @@
                                         <rect key="frame" x="0.0" y="0.0" width="408" height="163.33333333333334"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="gxl-2d-cHY">
-                                                <rect key="frame" x="0.0" y="0.0" width="676.66666666666663" height="163.33333333333334"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="163.33333333333334" height="163.33333333333334"/>
                                                 <subviews>
-                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="macBook" translatesAutoresizingMaskIntoConstraints="NO" id="gbO-Uz-oUq">
-                                                        <rect key="frame" x="0.0" y="0.0" width="163.33333333333334" height="163.33333333333334"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="width" secondItem="gbO-Uz-oUq" secondAttribute="height" multiplier="1:1" id="Hgv-Bc-zfK"/>
-                                                        </constraints>
-                                                    </imageView>
-                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="macBook" translatesAutoresizingMaskIntoConstraints="NO" id="FTs-Ej-c4y">
-                                                        <rect key="frame" x="171.33333333333334" y="0.0" width="163.00000000000003" height="163.33333333333334"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="width" secondItem="FTs-Ej-c4y" secondAttribute="height" multiplier="1:1" id="C2v-ak-NHq"/>
-                                                        </constraints>
-                                                    </imageView>
-                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="macBook" translatesAutoresizingMaskIntoConstraints="NO" id="KUv-ER-cFT">
-                                                        <rect key="frame" x="342.33333333333331" y="0.0" width="163.33333333333331" height="163.33333333333334"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="width" secondItem="KUv-ER-cFT" secondAttribute="height" multiplier="1:1" id="yAm-hE-mn7"/>
-                                                        </constraints>
-                                                    </imageView>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SJU-FI-TkW">
-                                                        <rect key="frame" x="513.66666666666663" y="0.0" width="163" height="163.33333333333334"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="163.33333333333334" height="163.33333333333334"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" secondItem="SJU-FI-TkW" secondAttribute="height" multiplier="1:1" id="5DG-RF-P7I"/>
                                                         </constraints>
@@ -188,6 +170,15 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" style="done" systemItem="done" id="2MO-la-4MX"/>
                     </navigationItem>
+                    <connections>
+                        <outlet property="currencySegmentedControl" destination="taY-nM-aUo" id="oC9-Pt-6Z3"/>
+                        <outlet property="descriptionTextView" destination="Xx3-Jh-SZP" id="gfj-mU-DPe"/>
+                        <outlet property="discountedPriceTextField" destination="53U-e6-SMW" id="eyx-dG-DEf"/>
+                        <outlet property="productImageStackView" destination="gxl-2d-cHY" id="LMN-jT-PFW"/>
+                        <outlet property="productNameTextField" destination="I3U-RP-C9h" id="CdW-J6-Koy"/>
+                        <outlet property="productPriceTextField" destination="NUI-Me-8Hg" id="6eJ-cx-u1n"/>
+                        <outlet property="productStockTextField" destination="Ew7-57-wY4" id="yVX-gC-gmH"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BfP-yd-VBp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="1FF-Gr-0yC" userLabel="Exit" sceneMemberID="exit"/>
@@ -239,7 +230,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="macBook" width="452" height="420"/>
         <image name="plus" catalog="system" width="128" height="113"/>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
