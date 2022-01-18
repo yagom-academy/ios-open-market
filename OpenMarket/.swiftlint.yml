@@ -1,0 +1,11 @@
+disabled_rules:
+- trailing_whitespace
+- xctfail_message
+
+included:
+excluded:
+- Pods
+- OpenMarket/AppDelegate.swift
+- OpenMarket/SceneDelegate.swift
+
+line_length: 99

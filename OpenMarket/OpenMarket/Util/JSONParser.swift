@@ -2,6 +2,7 @@ import Foundation
 
 struct JSONParser: JSONParsable {
     let dateDecodingStrategy: JSONDecoder.DateDecodingStrategy
+    let dateEncodingStrategy: JSONEncoder.DateEncodingStrategy
     let keyDecodingStrategy: JSONDecoder.KeyDecodingStrategy
     let keyEncodingStrategy: JSONEncoder.KeyEncodingStrategy
     
@@ -16,6 +17,7 @@ struct JSONParser: JSONParsable {
     
     func encode<Element: Encodable>(from element: Element) throws -> Data {
         let encoder = JSONEncoder()
+        encoder.dateEncodingStrategy = dateEncodingStrategy
         encoder.keyEncodingStrategy = keyEncodingStrategy
         let data = try encoder.encode(element)
         return data
@@ -23,10 +25,12 @@ struct JSONParser: JSONParsable {
     
     init(
         dateDecodingStrategy: JSONDecoder.DateDecodingStrategy = .deferredToDate,
+        dateEncodingStrategy: JSONEncoder.DateEncodingStrategy = .deferredToDate,
         keyDecodingStrategy: JSONDecoder.KeyDecodingStrategy = .useDefaultKeys,
         keyEncodingStrategy: JSONEncoder.KeyEncodingStrategy = .useDefaultKeys
     ) {
         self.dateDecodingStrategy = dateDecodingStrategy
+        self.dateEncodingStrategy = dateEncodingStrategy
         self.keyDecodingStrategy = keyDecodingStrategy
         self.keyEncodingStrategy = keyEncodingStrategy
     }
