@@ -67,8 +67,23 @@ extension MarketAPIService: APIServicable {
         
     }
     
-    func updateProduct(productID: Int, product: PatchProduct) {
+    func updateProduct(
+        productID: Int,
+        product: PatchProduct,
+        completionHandler: @escaping (Result<Product, APIError>) -> Void
+    ) {
+        guard let url = MarketAPI.patchProduct(id: productID).url,
+              let body = encode(with: product) else {
+            return
+        }
+        var request = URLRequest(url: url)
         
+        request.httpMethod = "PATCH"
+        request.setValue("cd706a3e-66db-11ec-9626-796401f2341a", forHTTPHeaderField: "identifier")
+        
+        request.httpBody = body
+        
+        performDataTask(request: request, completionHandler: completionHandler)
     }
     
     func getSecret(productID: Int, secret: String) {
