@@ -13,7 +13,7 @@ class ListCollectionViewController: UIViewController {
     
     private func createCollectionView() {
         collectionView = UICollectionView(frame: view.frame, collectionViewLayout: createdListLayout())
-        dataSource = createdDataSource()
+        dataSource = createdListDataSource()
     }
 }
 
@@ -26,8 +26,6 @@ extension ListCollectionViewController {
         collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         collectionView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-        
-        collectionView.collectionViewLayout = createdListLayout()
     }
     
     private func createdListLayout() -> UICollectionViewCompositionalLayout {
@@ -51,7 +49,7 @@ extension ListCollectionViewController {
         case main
     }
 
-    private func createdDataSource() -> UICollectionViewDiffableDataSource<Section, Product> {
+    private func createdListDataSource() -> UICollectionViewDiffableDataSource<Section, Product> {
         let cellRegistration = UICollectionView.CellRegistration<CollectionViewListCell, Product> {
             (cell, indexPath, item) in
         }

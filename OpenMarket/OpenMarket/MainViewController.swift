@@ -91,6 +91,7 @@ extension MainViewController {
                     return
                 }
                 self.listViewController.applySnapShot(products: products)
+                self.gridViewController.applySnapShot(products: products)
             case .failure(let error):
                 print(error.localizedDescription)
             }

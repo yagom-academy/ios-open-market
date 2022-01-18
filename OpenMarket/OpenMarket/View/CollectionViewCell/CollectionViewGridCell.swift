@@ -60,6 +60,7 @@ class CollectionViewGridCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        configureAttribute()
         configureLayout()
         activityIndicator.startAnimating()
     }
@@ -124,6 +125,13 @@ class CollectionViewGridCell: UICollectionViewCell {
         priceText.addAttribute(.font, value: UIFont.preferredFont(forTextStyle: .body), range: NSMakeRange(0, priceText.length))
         priceLabel.attributedText = priceText
     }
+    
+    private func configureAttribute() {
+        layer.borderColor = UIColor.systemGray.cgColor
+        layer.borderWidth = 1
+        layer.cornerRadius = 15
+    }
+    
     private func configureLayout() {
         addSubview(stackView)
         stackView.translatesAutoresizingMaskIntoConstraints = false
