@@ -23,10 +23,14 @@ final class ProductPageViewController: UIViewController {
     let gridDataSource: UICollectionViewDiffableDataSource<Int, Product>
     
     required init?(coder: NSCoder) {
-        self.listCollectionView = UICollectionView(frame: .zero, collectionViewLayout: OpenMarketLayout.list.layout)
-        self.gridCollectionView = UICollectionView(frame: .zero, collectionViewLayout: OpenMarketLayout.grid.layout)
-        self.gridDataSource = OpenMarketLayout.grid.createDataSource(for: gridCollectionView, cellType: GridCollectionViewCell.self)
-        self.listDataSource = OpenMarketLayout.list.createDataSource(for: listCollectionView, cellType: ListCollectionViewCell.self)
+        self.listCollectionView = UICollectionView(frame: .zero,
+                                                   collectionViewLayout: OpenMarketLayout.list.layout)
+        self.gridCollectionView = UICollectionView(frame: .zero,
+                                                   collectionViewLayout: OpenMarketLayout.grid.layout)
+        self.gridDataSource = OpenMarketLayout.grid.createDataSource(for: gridCollectionView,
+                                                                     cellType: GridCollectionViewCell.self)
+        self.listDataSource = OpenMarketLayout.list.createDataSource(for: listCollectionView,
+                                                                     cellType: ListCollectionViewCell.self)
         self.snapshot.appendSections([0])
         super.init(coder: coder)
         self.listCollectionView.delegate = self

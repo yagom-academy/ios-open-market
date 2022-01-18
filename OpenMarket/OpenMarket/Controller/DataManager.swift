@@ -5,12 +5,13 @@
 //  Created by Jae-hoon Sim on 2022/01/14.
 //
 
-import Foundation
+import UIKit
 
 class DataManager {
     
     var itemsPerPage: Int = 20
-    var page: Page?
+    var lastLoadedPage: Int = 1
+    var hasNextPage: Bool = true
     var products: [Product] = [] {
         didSet {
             delegate?.dataDidChange(data: products)
@@ -20,9 +21,8 @@ class DataManager {
     weak var delegate: DataRepresentable?
     
     func nextPage() {
-        guard let page = page else { return }
-        if page.hasNext {
-            itemsPerPage += 5
+        if hasNextPage {
+            lastLoadedPage += 1
             fetchPage()
         }
     }
@@ -34,11 +34,11 @@ class DataManager {
     
     private func fetchPage() {
         URLSessionProvider(session: URLSession.shared)
-            .request(.showProductPage(pageNumber: "1", itemsPerPage: String(itemsPerPage))) {  (result: Result<ShowProductPageResponse, URLSessionProviderError>) in
+            .request(.showProductPage(pageNumber: String(lastLoadedPage), itemsPerPage: String(itemsPerPage))) { (result: Result<ShowProductPageResponse, URLSessionProviderError>) in
                 switch result {
                 case .success(let data):
-                    self.page = data
-                    self.products = data.pages
+                    self.hasNextPage = data.hasNext
+                    self.delegate?.snapshot.appendItems(data.pages)
                 case .failure(let error):
                     print(error)
                 }
@@ -48,5 +48,6 @@ class DataManager {
 }
 
 protocol DataRepresentable: AnyObject {
+    var snapshot: NSDiffableDataSourceSnapshot<Int, Product> { get set }
     func dataDidChange(data: [Product])
 }
