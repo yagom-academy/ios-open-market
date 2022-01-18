@@ -4,6 +4,7 @@ class MainViewController: UIViewController {
     
     private let segmentedControl = CustomSegmentedControl()
     private let scrollView = UIScrollView()
+    private let pageControl = UIPageControl()
     private let listViewController = ListCollectionViewController()
     private let gridViewController = GridCollectionViewController()
     
@@ -64,10 +65,19 @@ extension MainViewController {
 }
 
 //MARK: - User Interaction
-extension MainViewController {
+extension MainViewController: UIScrollViewDelegate {
     func configureUserInteraction() {
-        scrollView.isUserInteractionEnabled = false
         segmentedControl.addTarget(self, action: #selector(touchUpListButton), for: .valueChanged)
+        scrollView.delegate = self
+        scrollView.isPagingEnabled = true
+    }
+
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        let pageNumber = Int(round(scrollView.contentOffset.x/scrollView.frame.width))
+        guard pageNumber < segmentedControl.numberOfSegments else {
+            return
+        }
+        segmentedControl.selectedSegmentIndex = pageNumber
     }
     
     @objc func touchUpListButton() {
