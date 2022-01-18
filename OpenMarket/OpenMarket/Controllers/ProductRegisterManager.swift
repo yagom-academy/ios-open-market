@@ -9,7 +9,12 @@ class ProductRegisterManager {
     let productInformationView = ProductInformationView()
     
     init() {
+        NotificationCenter.default.addObserver(self, selector: #selector(showAddImageButton), name: .imageRemoved, object: nil)
         productInformationView.addImageButton.addTarget(self, action: #selector(didTapAddImageButton), for: .touchUpInside)
+    }
+    
+    @objc private func showAddImageButton() {
+       setImageButtonHidden(state: false)
     }
     
     @objc private func didTapAddImageButton() {

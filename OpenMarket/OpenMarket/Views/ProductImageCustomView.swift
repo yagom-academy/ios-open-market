@@ -30,6 +30,7 @@ class ProductImageCustomView: UIView {
     
     @objc func removeProductImageView() {
         self.removeFromSuperview()
+        NotificationCenter.default.post(name: .imageRemoved, object: nil)
     }
     
     func fetchImage(with image: UIImage) {
