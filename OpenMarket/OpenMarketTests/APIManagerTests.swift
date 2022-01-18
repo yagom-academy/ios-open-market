@@ -19,7 +19,7 @@ class APIManagerTests: XCTestCase {
     sutProduct = NSDataAsset(name: AssetFileName.Product)!.data
     sutURL = URL(string: "testURL")
     sutSession = MockSession.session
-    sutAPIManager = APIManager(urlSession: sutSession)
+    sutAPIManager = APIManager(urlSession: sutSession, jsonParser: JSONParser())
   }
   
   override func tearDownWithError() throws {

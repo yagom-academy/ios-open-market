@@ -8,8 +8,7 @@
 import UIKit
 
 private enum Section: Hashable {
-  case productList
-  case productGrid
+  case products
 }
 
 enum CellType {
@@ -26,20 +25,22 @@ enum CellType {
   }
 }
 
-class CollectionViewController: UIViewController {
+class ProductCollectionViewController: UIViewController {
   @IBOutlet private weak var segmentControl: UISegmentedControl!
   @IBOutlet private weak var collectionView: UICollectionView!
   
   private var dataSource: UICollectionViewDiffableDataSource<Section, Product>? = nil
   private let api = APIManager(urlSession: URLSession(configuration: .default), jsonParser: JSONParser())
+  private var productsPage: ProductList?
   private var products: [Product] = []
+  private var currentPage = 1
   
   override func viewDidLoad() {
     super.viewDidLoad()
     collectionView.delegate = self
     LoadingIndicator.showLoading()
     registerNib()
-    fetchProducts()
+    fetchProducts(pageNumber: currentPage)
   }
   
   @IBAction private func touchUpPresentingSegment(_ sender: UISegmentedControl) {
@@ -60,11 +61,12 @@ class CollectionViewController: UIViewController {
     self.collectionView.register(productCollectionViewGridCellNib, forCellWithReuseIdentifier: ProductCollectionViewGridCell.reuseIdentifier)
   }
   
-  private func fetchProducts() {
-    api.productList(pageNumber: 1, itemsPerPage: 20) { [self] response in
+  private func fetchProducts(pageNumber: Int) {
+    api.productList(pageNumber: pageNumber, itemsPerPage: 20) { [self] response in
       switch response {
       case .success(let data):
-        products = data.pages
+        productsPage = data
+        products.append(contentsOf: data.pages)
         DispatchQueue.main.async {
           configureListViewDataSource(cellType: .list)
           LoadingIndicator.hideLoading()
@@ -79,7 +81,20 @@ class CollectionViewController: UIViewController {
   }
 }
 
-extension CollectionViewController {
+extension ProductCollectionViewController: UICollectionViewDelegate {
+  func collectionView(
+    _ collectionView: UICollectionView,
+    willDisplay cell: UICollectionViewCell,
+    forItemAt indexPath: IndexPath
+  ) {
+    if products.count - 1 == indexPath.item, productsPage?.hasNext == true {
+      currentPage += 1
+      fetchProducts(pageNumber: currentPage)
+    }
+  }
+}
+
+extension ProductCollectionViewController {
   private func configureListViewDataSource(cellType: CellType) {
     var currentIdentifier: String {
       switch cellType {
@@ -123,13 +138,13 @@ extension CollectionViewController {
       return cell
     }
     var snapshot = NSDiffableDataSourceSnapshot<Section, Product>()
-    snapshot.appendSections([.productList])
+    snapshot.appendSections([.products])
     snapshot.appendItems(products)
     dataSource?.apply(snapshot, animatingDifferences: false)
   }
 }
 
-extension CollectionViewController: UICollectionViewDelegateFlowLayout {
+extension ProductCollectionViewController: UICollectionViewDelegateFlowLayout {
   func collectionView(
     _ collectionView: UICollectionView,
     layout collectionViewLayout: UICollectionViewLayout,
