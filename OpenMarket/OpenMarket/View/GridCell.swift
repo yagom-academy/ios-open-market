@@ -11,7 +11,6 @@ class GridCell: UICollectionViewCell {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        configure()
     }
 
     required init?(coder: NSCoder) {
@@ -20,15 +19,7 @@ class GridCell: UICollectionViewCell {
 }
 
 extension GridCell {
-    private func configure() {
-        itemStackView.translatesAutoresizingMaskIntoConstraints = false
-        priceStackView.addArrangedSubview(priceLabel)
-        priceStackView.addArrangedSubview(bargainPriceLabel)
-        itemStackView.addArrangedSubview(thumbnailImageView)
-        itemStackView.addArrangedSubview(nameLabel)
-        itemStackView.addArrangedSubview(priceStackView)
-        itemStackView.addArrangedSubview(stockLabel)
-
+    func configure(product: Product) {
         self.layer.borderColor = UIColor.systemGray3.cgColor
         self.layer.borderWidth = 2
         self.layer.cornerRadius = 8
@@ -53,10 +44,22 @@ extension GridCell {
         bargainPriceLabel.textColor = .systemGray
         stockLabel.font = .preferredFont(forTextStyle: .callout)
 
+        configureViewHierarchy()
         configureConstraint()
+        configureContent(product: product)
+    }
+
+    private func configureViewHierarchy() {
+        priceStackView.addArrangedSubview(priceLabel)
+        priceStackView.addArrangedSubview(bargainPriceLabel)
+        itemStackView.addArrangedSubview(thumbnailImageView)
+        itemStackView.addArrangedSubview(nameLabel)
+        itemStackView.addArrangedSubview(priceStackView)
+        itemStackView.addArrangedSubview(stockLabel)
     }
 
     private func configureConstraint() {
+        itemStackView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             itemStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
             itemStackView.bottomAnchor.constraint(
@@ -78,5 +81,40 @@ extension GridCell {
             nameLabel.heightAnchor.constraint(equalToConstant: 15),
             stockLabel.heightAnchor.constraint(equalToConstant: 15)
         ])
+    }
+
+    private func configureContent(product: Product) {
+        guard let url = URL(string: product.thumbnail) else {
+            return
+        }
+        guard let imageData = try? Data(contentsOf: url) else {
+            return
+        }
+        thumbnailImageView.image = UIImage(data: imageData)
+        nameLabel.text = product.name
+        if product.discountedPrice != .zero {
+            guard let formattedPrice = product.price.format() else {
+                return
+            }
+            let priceAttributedString =
+                "\(formattedPrice)".eraseOriginalPrice()
+            priceLabel.attributedText = priceAttributedString
+        } else {
+            priceLabel.isHidden = true
+        }
+        guard let formattedBargainPrice = product.bargainPrice.format() else {
+            return
+        }
+        bargainPriceLabel.text = "\(product.currency) \(formattedBargainPrice)"
+        if product.stock == .zero {
+            stockLabel.text = "품절"
+            stockLabel.textColor = .systemOrange
+        } else {
+            guard let formattedStock = product.bargainPrice.format() else {
+                return
+            }
+            stockLabel.text = "잔여수량 : \(formattedStock)"
+            stockLabel.textColor = .systemGray
+        }
     }
 }

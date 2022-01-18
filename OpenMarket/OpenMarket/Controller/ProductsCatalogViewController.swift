@@ -185,38 +185,7 @@ extension ProductsCatalogViewController {
     private func registerGridCell() -> UICollectionView.CellRegistration<GridCell, Product> {
         let cellRegistration =
             UICollectionView.CellRegistration<GridCell, Product> { cell, indexPath, identifier in
-                guard let url = URL(string: identifier.thumbnail) else {
-                    return
-                }
-                guard let imageData = try? Data(contentsOf: url) else {
-                    return
-                }
-                cell.thumbnailImageView.image = UIImage(data: imageData)
-                cell.nameLabel.text = identifier.name
-                if identifier.discountedPrice != .zero {
-                    guard let formattedPrice = identifier.price.format() else {
-                        return
-                    }
-                    let priceAttributedString =
-                        "\(identifier.currency) \(formattedPrice)".eraseOriginalPrice()
-                    cell.priceLabel.attributedText = priceAttributedString
-                } else {
-                    cell.priceLabel.isHidden = true
-                }
-                guard let formattedBargainPrice = identifier.bargainPrice.format() else {
-                    return
-                }
-                cell.bargainPriceLabel.text = "\(identifier.currency) \(formattedBargainPrice)"
-                if identifier.stock == .zero {
-                    cell.stockLabel.text = "품절"
-                    cell.stockLabel.textColor = .systemOrange
-                } else {
-                    guard let formattedStock = identifier.bargainPrice.format() else {
-                        return
-                    }
-                    cell.stockLabel.text = "잔여수량 : \(formattedStock)"
-                    cell.stockLabel.textColor = .systemGray
-                }
+                cell.configure(product: identifier)
             }
         return cellRegistration
     }

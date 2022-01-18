@@ -17,6 +17,47 @@ class ListCell: UICollectionViewCell {
 
 extension ListCell {
     func configure(product: Product) {
+        stockStackView.axis = .horizontal
+        stockStackView.alignment = .center
+        stockStackView.distribution = .fill
+        stockStackView.spacing = 10
+        stockLabel.font = .preferredFont(forTextStyle: .callout)
+
+        disclosureImage.image = UIImage(systemName: "chevron.forward")
+        disclosureImage.tintColor = .systemGray
+
+        configureViewHierarchy()
+        configureConstraint()
+        configureContent(product: product)
+    }
+
+    private func configureViewHierarchy() {
+        contentView.addSubview(listContentView)
+        contentView.addSubview(stockStackView)
+        stockStackView.addArrangedSubview(stockLabel)
+        stockStackView.addArrangedSubview(disclosureImage)
+    }
+
+    private func configureConstraint() {
+        listContentView.translatesAutoresizingMaskIntoConstraints = false
+        stockStackView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            listContentView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            listContentView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            listContentView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            stockStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
+            stockStackView.heightAnchor.constraint(
+                equalTo: contentView.heightAnchor,
+                multiplier: 0.3
+            ),
+            stockStackView.trailingAnchor.constraint(
+                equalTo: contentView.trailingAnchor,
+                constant: -15
+            )
+        ])
+    }
+
+    private func configureContent(product: Product) {
         var content = UIListContentConfiguration.subtitleCell()
         content.imageProperties.maximumSize = CGSize(width: 40, height: 40)
         guard let url = URL(string: product.thumbnail) else {
@@ -61,11 +102,6 @@ extension ListCell {
 
         listContentView.configuration = content
 
-        stockStackView.axis = .horizontal
-        stockStackView.alignment = .center
-        stockStackView.distribution = .fill
-        stockStackView.spacing = 10
-        stockLabel.font = .preferredFont(forTextStyle: .callout)
         if product.stock == .zero {
             stockLabel.text = "품절"
             stockLabel.textColor = .systemOrange
@@ -76,37 +112,5 @@ extension ListCell {
             stockLabel.text = "잔여수량 : \(formattedStock)"
             stockLabel.textColor = .systemGray
         }
-
-        disclosureImage.image = UIImage(systemName: "chevron.forward")
-        disclosureImage.tintColor = .systemGray
-
-        configureViewHierarchy()
-        configureConstraint()
-    }
-
-    private func configureConstraint() {
-        listContentView.translatesAutoresizingMaskIntoConstraints = false
-        stockStackView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            listContentView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            listContentView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            listContentView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            stockStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
-            stockStackView.heightAnchor.constraint(
-                equalTo: contentView.heightAnchor,
-                multiplier: 0.3
-            ),
-            stockStackView.trailingAnchor.constraint(
-                equalTo: contentView.trailingAnchor,
-                constant: -15
-            )
-        ])
-    }
-
-    private func configureViewHierarchy() {
-        contentView.addSubview(listContentView)
-        contentView.addSubview(stockStackView)
-        stockStackView.addArrangedSubview(stockLabel)
-        stockStackView.addArrangedSubview(disclosureImage)
     }
 }
