@@ -9,11 +9,13 @@ import UIKit
 
 class RegisterViewController: UIViewController {
 
+    var images = [UIImage]()
     @IBOutlet weak var collectionView: UICollectionView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpCollectionView()
+        setNotificationCenter()
     }
     
     func setUpCollectionView() {
@@ -46,7 +48,7 @@ class RegisterViewController: UIViewController {
 
 extension RegisterViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5
+        return images.count
     }
     
     func collectionView(
@@ -59,6 +61,7 @@ extension RegisterViewController: UICollectionViewDataSource {
         ) as? ImageCell else {
             return UICollectionViewCell()
         }
+        cell.imageView.image = images[indexPath.item]
         return cell
     }
     
@@ -95,5 +98,45 @@ extension RegisterViewController: UICollectionViewDelegateFlowLayout {
     ) -> CGSize {
         let width = collectionView.safeAreaLayoutGuide.layoutFrame.width / 3
         return CGSize(width: width, height: width)
+    }
+}
+
+extension Notification.Name {
+    static let addButton = Notification.Name("addButton")
+}
+
+extension RegisterViewController: UIImagePickerControllerDelegate & UINavigationControllerDelegate {
+    
+    private func setNotificationCenter() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(tappedAddButton),
+            name: .addButton, object: nil
+        )
+    }
+    
+    @objc private func tappedAddButton() {
+        let imagePicker = UIImagePickerController()
+        imagePicker.delegate = self
+        imagePicker.allowsEditing = true
+        self.present(imagePicker, animated: true, completion: nil)
+    }
+    
+    func imagePickerController(
+        _ picker: UIImagePickerController,
+        didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]
+    ) {
+        let originalImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage
+        let editedImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage
+        guard let selectedImage = editedImage ?? originalImage else {
+            return
+        }
+        images.append(selectedImage)
+        collectionView.performBatchUpdates({
+            collectionView.insertItems(at: [IndexPath(item: images.count - 1, section: 0)])
+        }, completion: nil)
+
+        picker.dismiss(animated: true, completion: nil)
+        
     }
 }

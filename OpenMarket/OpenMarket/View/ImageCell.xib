@@ -19,33 +19,37 @@
                 <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
-                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="fill" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="osf-xY-9KF">
-                        <rect key="frame" x="108" y="0.0" width="20" height="20"/>
-                        <color key="tintColor" systemColor="labelColor"/>
-                        <state key="normal" title="Button"/>
-                        <buttonConfiguration key="configuration" style="plain" title=" ">
-                            <imageReference key="image" image="xmark.circle.fill" catalog="system" symbolScale="medium"/>
-                            <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="font">
-                                <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
-                            </preferredSymbolConfiguration>
-                        </buttonConfiguration>
-                    </button>
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="VjF-eu-mOd">
                         <rect key="frame" x="8" y="6" width="112" height="116"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <color key="tintColor" systemColor="systemGrayColor"/>
                         <imageReference key="image" image="photo.artframe" catalog="system" symbolScale="large"/>
                     </imageView>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rus-V3-RLm">
+                        <rect key="frame" x="116" y="0.0" width="12" height="16"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="16" id="Vvf-Gv-MEt"/>
+                            <constraint firstAttribute="width" constant="12" id="rbV-63-oUc"/>
+                        </constraints>
+                        <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <state key="normal" title="Button"/>
+                        <buttonConfiguration key="configuration" style="plain" title=" ">
+                            <imageReference key="image" image="xmark.circle.fill" catalog="system" symbolScale="small"/>
+                            <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="font">
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                            </preferredSymbolConfiguration>
+                        </buttonConfiguration>
+                    </button>
                 </subviews>
             </view>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="VjF-eu-mOd" secondAttribute="trailing" constant="8" id="4Ly-sh-2dc"/>
                 <constraint firstItem="VjF-eu-mOd" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="8" id="8HC-pS-Ycp"/>
-                <constraint firstAttribute="trailing" secondItem="osf-xY-9KF" secondAttribute="trailing" id="AMt-oO-pPO"/>
                 <constraint firstItem="VjF-eu-mOd" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="8" id="Aik-Xh-4hJ"/>
+                <constraint firstAttribute="trailing" secondItem="rus-V3-RLm" secondAttribute="trailing" id="IQ6-7z-mEW"/>
                 <constraint firstAttribute="bottom" secondItem="VjF-eu-mOd" secondAttribute="bottom" constant="8" id="NrY-E4-Vu0"/>
-                <constraint firstItem="osf-xY-9KF" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="hoK-gw-9vn"/>
+                <constraint firstItem="rus-V3-RLm" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="XUM-p1-ocr"/>
             </constraints>
             <connections>
                 <outlet property="imageView" destination="VjF-eu-mOd" id="Nr1-C9-9RP"/>
@@ -56,9 +60,6 @@
     <resources>
         <image name="photo.artframe" catalog="system" width="128" height="93"/>
         <image name="xmark.circle.fill" catalog="system" width="128" height="121"/>
-        <systemColor name="labelColor">
-            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
         <systemColor name="systemGrayColor">
             <color red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>

@@ -20,4 +20,7 @@ class ImageAddHeaderView: UICollectionReusableView {
         addButton.layer.borderWidth = 1
     }
     
+    @IBAction func tappedAddButton(_ sender: UIButton) {
+        NotificationCenter.default.post(name: .addButton, object: nil)
+    }
 }
