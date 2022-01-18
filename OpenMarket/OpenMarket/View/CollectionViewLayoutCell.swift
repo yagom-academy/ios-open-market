@@ -53,7 +53,6 @@ class CollectionViewLayoutCell: UICollectionViewCell {
         
         stackView.addArrangedSubview(productStackView)
         productStackView.axis = .vertical
-        productStackView.alignment = .leading
         productStackView.distribution = .equalSpacing
         productStackView.spacing = 2
         

@@ -28,6 +28,7 @@ final class ListCollectionViewCell: CollectionViewLayoutCell {
         NSLayoutConstraint.activate([
             imageView.widthAnchor.constraint(equalTo: stackView.widthAnchor, multiplier: 0.2)
         ])
+        productStackView.alignment = .leading
         priceStackView.axis = .horizontal
     }
 }

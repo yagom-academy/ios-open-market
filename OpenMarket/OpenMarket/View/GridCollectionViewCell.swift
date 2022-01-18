@@ -25,6 +25,7 @@ final class GridCollectionViewCell: CollectionViewLayoutCell {
         NSLayoutConstraint.activate([
             imageView.widthAnchor.constraint(equalTo: stackView.widthAnchor, multiplier: 0.9)
         ])
+        productStackView.alignment = .center
         priceStackView.axis = .vertical
     }
 }
