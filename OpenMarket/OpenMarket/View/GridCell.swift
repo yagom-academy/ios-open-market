@@ -20,7 +20,7 @@ class GridCell: UICollectionViewCell {
 }
 
 extension GridCell {
-    func configure() {
+    private func configure() {
         itemStackView.translatesAutoresizingMaskIntoConstraints = false
         priceStackView.addArrangedSubview(priceLabel)
         priceStackView.addArrangedSubview(bargainPriceLabel)
