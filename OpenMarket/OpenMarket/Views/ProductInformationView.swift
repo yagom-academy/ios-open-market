@@ -18,6 +18,10 @@ private enum Design {
     static let imageScrollViewHeight: CGFloat = 150
 }
 
+protocol PickerPresenter: AnyObject {
+    func presentImagePickerView()
+}
+
 class ProductInformationView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -28,7 +32,13 @@ class ProductInformationView: UIView {
         super.init(coder: coder)
     }
     
-    private let imageScrollView = UIScrollView()
+    weak var delegate: PickerPresenter?
+    private let imageScrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.showsHorizontalScrollIndicator = false
+        return scrollView
+    }()
+    
     private let imageContentView = UIView()
     
     private let imageStackView: UIStackView = {
@@ -37,16 +47,22 @@ class ProductInformationView: UIView {
         stackView.distribution = .equalSpacing
         stackView.alignment = .center
         stackView.spacing = 5
+        stackView.semanticContentAttribute = .forceRightToLeft
         return stackView
     }()
     
-    private let addImageButton: UIButton = {
+    private lazy var addImageButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "plus"), for: .normal)
         button.backgroundColor = .lightGray.withAlphaComponent(0.5)
         button.contentEdgeInsets = UIEdgeInsets(top: Design.buttonEdgeInsetMargin, left: Design.buttonEdgeInsetMargin, bottom: Design.buttonEdgeInsetMargin, right: Design.buttonEdgeInsetMargin)
+        button.addTarget(self, action: #selector(didTapAddImageButton), for: .touchUpInside)
         return button
     }()
+    
+    @objc func didTapAddImageButton() {
+        delegate?.presentImagePickerView()
+    }
 
     private let textFieldStackView: UIStackView = {
         let stackView = UIStackView()
@@ -141,8 +157,20 @@ class ProductInformationView: UIView {
     }
     
     func addImageToImageStackView(from image: UIImage) {
-        let image = UIImageView(image: image)
+        let image = UIImageView(image: image.resizeImageTo(size: CGSize(width: addImageButton.frame.width, height: addImageButton.frame.height)))
         image.contentMode = .scaleAspectFit
         imageStackView.addArrangedSubview(image)
+    }
+}
+
+extension UIImage {
+    func resizeImageTo(size: CGSize) -> UIImage? {
+        UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
+        self.draw(in: CGRect(origin: CGPoint.zero, size: size))
+        guard let resizedImage = UIGraphicsGetImageFromCurrentImageContext() else {
+            return nil
+        }
+        UIGraphicsEndImageContext()
+        return resizedImage
     }
 }
