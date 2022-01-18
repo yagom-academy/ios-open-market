@@ -11,7 +11,7 @@ struct JSONParser {
   private let decoder = JSONDecoder()
   private let encoder = JSONEncoder()
   
-  func decode<Element: Codable>(
+  func decode<Element: Decodable>(
     data: Data,
     type: Element.Type
   ) -> Result<Element, ResponseError> {
@@ -22,9 +22,8 @@ struct JSONParser {
     return .success(decodedData)
   }
   
-  func encode<Element: Codable>(
-    data: Element,
-    type: Element.Type
+  func encode<Element: Encodable>(
+    data: Element
   ) -> Result<Data, ResponseError> {
     guard let encodedData = try? encoder.encode(data) else {
       return .failure(.encodeFailed)

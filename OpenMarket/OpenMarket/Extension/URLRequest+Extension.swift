@@ -29,4 +29,10 @@ extension URLRequest {
       self.httpMethod = "PATCH"
     }
   }
+  
+  mutating func addHeader(values: [String: String]) {
+    for value in values{
+      self.addValue(value.value, forHTTPHeaderField: value.key)
+    }
+  }
 }

@@ -14,24 +14,26 @@ enum URLGenerator {
   
   static var host = URLComponents(string: "https://market-training.yagom-academy.kr")
   
-  static func productList(pageNumber: Int, itemsPerPage: Int) throws -> URL {
+  static func productList(pageNumber: Int, itemsPerPage: Int) -> URL? {
     let pageNumber = URLQueryItem(name: "page_no", value: "\(pageNumber)")
     let itemsPerPage = URLQueryItem(name: "items_per_page", value: "\(itemsPerPage)")
     host?.path = "/api/products"
     host?.queryItems = [pageNumber, itemsPerPage]
-    
-    guard let url = host?.url else {
-      throw error.urlGenerateFailed
-    }
+    let url = host?.url
     
     return url
   }
   
-  static func detailProduct(productId: Int) throws -> URL {
+  static func detailProduct(productId: Int) -> URL? {
     host?.path = "/api/products/\(productId)"
-    guard let url = host?.url else {
-      throw error.urlGenerateFailed
-    }
+    let url = host?.url
+    
+    return url
+  }
+  
+  static func addProduct() -> URL? {
+    host?.path = "/api/products"
+    let url = host?.url
     
     return url
   }

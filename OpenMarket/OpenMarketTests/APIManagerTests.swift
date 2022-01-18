@@ -11,15 +11,17 @@ class APIManagerTests: XCTestCase {
   var sutProductListData: Data!
   var sutProduct: Data!
   var sutURL: URL!
-  var sutAPIManager: APIManager!
   var sutSession: URLSession!
+  var realSession: URLSession!
+  var sutAPIManager: APIManager!
   
   override func setUpWithError() throws {
     sutProductListData = NSDataAsset(name: AssetFileName.products)!.data
     sutProduct = NSDataAsset(name: AssetFileName.Product)!.data
     sutURL = URL(string: "testURL")
     sutSession = MockSession.session
-    sutAPIManager = APIManager(urlSession: sutSession, jsonParser: JSONParser())
+    realSession = URLSession(configuration: .default)
+    sutAPIManager = APIManager(urlSession: realSession, jsonParser: JSONParser())
   }
   
   override func tearDownWithError() throws {
@@ -27,7 +29,33 @@ class APIManagerTests: XCTestCase {
     sutProduct = nil
     sutURL = nil
     sutSession = nil
+    realSession = nil
     sutAPIManager = nil
+  }
+  
+  func test_상품등록() {
+    //given
+    let expectation = XCTestExpectation(description: "response")
+    let image = UIImage(named: "testProduct22")
+    guard let image22 = image?.pngData() else {
+      XCTFail("이미지 로드 실패")
+      return
+    }
+    let testImageFile = ImageFile(name: "qwe", data: image22, imageType: .png)
+    let imageArray: [ImageFile] = [testImageFile]
+    let params =  RegisterProductRequest(name: "MacBook Pro", descriptions: "Intel MacBook Pro", price: 2690000, currency: .KRW, discountedPrice: 1000000, stock: 99, secret: "password")
+    
+    sutAPIManager.addProduct(params: params, images: imageArray) { result in
+      // then
+      switch result {
+      case .success(let data):
+        XCTAssertNotNil(data)
+      case .failure:
+        XCTFail()
+      }
+      expectation.fulfill()
+    }
+    wait(for: [expectation], timeout: 10)
   }
   
   func test_목록조회() {

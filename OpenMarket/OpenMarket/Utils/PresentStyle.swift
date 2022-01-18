@@ -15,6 +15,10 @@ struct PresentStyle {
     return formatter
   }()
   
+  static func formatNumber(_ number: Double) -> String {
+    return numberFormatter.string(for: number) ?? ""
+  }
+  
   static func formatNumber(_ number: Int) -> String {
     return numberFormatter.string(for: number) ?? ""
   }

@@ -29,11 +29,11 @@ struct Product: Codable {
   /// 상품의 거래 통화
   let currency: Currency
   /// 상품의 정가
-  var price: Int
+  var price: Double
   /// 상품의 할인 가격
-  let bargainPrice: Int
+  let bargainPrice: Double
   /// 할인된 가격
-  let discountedPrice: Int
+  let discountedPrice: Double
   /// 상품의 재고
   let stock: Int
   /// 상품의 이미지 URL의 배열
