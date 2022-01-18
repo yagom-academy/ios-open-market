@@ -2,39 +2,29 @@ import UIKit
 
 class MainViewController: UIViewController {
     
-    private let segmentedControl: CustomSegmentedControl = {
-        let items: [String] = ["List","Grid"]
-        var segmented = CustomSegmentedControl(items: items)
-        segmented.configureAttributes()
-        return segmented
-    }()
+    private let segmentedControl = CustomSegmentedControl()
+    private let scrollView = UIScrollView()
+    private let listViewController = ListCollectionViewController()
+    private let gridViewController = GridCollectionViewController()
     
-    private let scrollView: UIScrollView = {
-        let scrollView = UIScrollView()
-        scrollView.isUserInteractionEnabled = false
-        return scrollView
-    }()
-
-    private let listViewController: ListCollectionViewController = {
-        let vc = ListCollectionViewController()
-        vc.view.backgroundColor = .systemBlue
-        return vc
-    }()
-    private let gridViewController: GridCollectionViewController = {
-        let vc = GridCollectionViewController()
-        vc.view.backgroundColor = .systemYellow
-        return vc
-    }()
-    
-    override func loadView() {
-        super.loadView()
-        view.backgroundColor = .systemBackground
+    override init(nibName: String?, bundle: Bundle?) {
+        super.init(nibName: nibName, bundle: bundle)
     }
-
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureMainViewAttribute()
         configureLayout()
-        configureTargetAction()
+        configureUserInteraction()
+        fetchProductList()
+    }
+    
+    private func configureMainViewAttribute() {
+        view.backgroundColor = .systemBackground
     }
 }
 
@@ -50,7 +40,6 @@ extension MainViewController {
         scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
         scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         scrollView.contentSize.width = view.frame.width * 2
-        
         
         scrollView.addSubview(listViewController.view)
         listViewController.view.translatesAutoresizingMaskIntoConstraints = false
@@ -82,9 +71,10 @@ extension MainViewController {
     }
 }
 
-//MARK: - Segmented Control
+//MARK: - User Interaction
 extension MainViewController {
-    func configureTargetAction() {
+    func configureUserInteraction() {
+        scrollView.isUserInteractionEnabled = false
         segmentedControl.addTarget(self, action: #selector(touchUpListButton), for: .valueChanged)
     }
     
@@ -93,5 +83,25 @@ extension MainViewController {
         let destinationPoint = CGPoint(x: destinationX, y: 0)
         
         scrollView.setContentOffset(destinationPoint, animated: true)
+    }
+}
+
+//MARK: - Networking
+extension MainViewController {
+    private func fetchProductList() {
+        NetworkingAPI.ProductListQuery.request(session: URLSession.shared,
+                                               pageNo: 1,
+                                               itemsPerPage: 30) { result in
+  
+            switch result {
+            case .success(let data):
+                guard let products = NetworkingAPI.ProductListQuery.decode(data: data)?.pages else {
+                    return
+                }
+                self.listViewController.applySnapShot(products: products)
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
     }
 }
