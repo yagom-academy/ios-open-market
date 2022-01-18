@@ -118,7 +118,7 @@ extension MarketAPIService {
                       return
                   }
             guard successRange.contains(statusCode) else {
-                completionHandler(.failure(APIError.unsuccessfulStatusCode(statusCode: 410)))
+                completionHandler(.failure(APIError.unsuccessfulStatusCode(statusCode: statusCode)))
                 return
             }
             guard let data = data else {
