@@ -3,8 +3,6 @@ import UIKit
 class MainViewController: UIViewController {
     private let loadingActivityIndicator = UIActivityIndicatorView()
     private var pageInformation: ProductsList?
-    private var products = [Product]()
-    private var items = [ProductCellItem]()
     private let jsonParser: JSONParser = {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SS"
@@ -17,8 +15,6 @@ class MainViewController: UIViewController {
     }()
     private lazy var networkTask = NetworkTask(jsonParser: jsonParser)
     private lazy var productsDataSource = ProductsDataSource(networkTask: networkTask)
-    private var tableViewDataSource: UITableViewDiffableDataSource<Section, ProductCellItem>?
-    
     
     @IBOutlet private weak var viewSegmentedControl: UISegmentedControl!
     
@@ -39,23 +35,10 @@ class MainViewController: UIViewController {
                 ) else { return }
                 self.pageInformation = productsList
                 self.productsDataSource.append(contentsOf: productsList.pages)
-                productsList.pages.forEach { product in
-                    let item = ProductCellItem(
-                        title: product.attributedTitle,
-                        price: product.attributedPrice,
-                        stock: product.attributedStock,
-                        thumbnail: product.thumbnail
-                    )
-                    self.items.append(item)
-                }
                 DispatchQueue.main.async {
                     self.loadingActivityIndicator.stopAnimating()
-//                    let view = self.view as? ProductView
-//                    view?.reloadData()
-                    var snapshot = NSDiffableDataSourceSnapshot<Section, ProductCellItem>()
-                    snapshot.appendSections([.main])
-                    snapshot.appendItems(self.items, toSection: .main)
-                    self.tableViewDataSource?.apply(snapshot)
+                    let view = self.view as? ProductView
+                    view?.reloadData()
                 }
             case .failure(let error):
                 self.showAlert(
@@ -114,31 +97,9 @@ class MainViewController: UIViewController {
 }
 
 extension MainViewController {
-    enum Section {
-        case main
-    }
-    
     private enum Segement: Int {
         case list
         case grid
-    }
-    
-    private func setupItemImage(url: URL, item: ProductCellItem) {
-        item.image = nil
-        networkTask.downloadImage(from: url) { result in
-            let image: UIImage?
-            switch result {
-            case .success(let data):
-                image = UIImage(data: data)
-                item.image = image
-            case .failure:
-                image = UIImage(systemName: "xmark.app")
-                item.image = image
-            }
-            guard var updatedSnapshot = self.tableViewDataSource?.snapshot() else { return }
-            updatedSnapshot.reloadItems([item])
-            self.tableViewDataSource?.apply(updatedSnapshot)
-        }
     }
     
     private func loadView(from segment: Segement) -> UIView {
@@ -152,26 +113,6 @@ extension MainViewController {
                 nibName,
                 forCellReuseIdentifier: ProductsTableViewCell.reuseIdentifier
             )
-            tableViewDataSource = UITableViewDiffableDataSource<Section, ProductCellItem>(
-                tableView: tableView
-            ) { (tableView, indexPath, item) -> UITableViewCell? in
-                let reuseIdentifier = ProductsTableViewCell.reuseIdentifier
-                let cell = tableView.dequeueReusableCell(
-                    withIdentifier: reuseIdentifier,
-                    for: indexPath
-                )
-                guard let cell = cell as? ProductsTableViewCell,
-                      let url = URL(string: item.thumbnail) else {
-                          return cell
-                      }
-                cell.setup(titleLabel: item.title, priceLabel: item.price, stockLabel: item.stock)
-                self.setupItemImage(url: url, item: item)
-                return cell
-            }
-            var snapshot = NSDiffableDataSourceSnapshot<Section, ProductCellItem>()
-            snapshot.appendSections([.main])
-            snapshot.appendItems(items, toSection: .main)
-            tableViewDataSource?.apply(snapshot)
             return tableView
         case .grid:
             let nibName = UINib(nibName: "ProductsCollectionViewCell", bundle: nil)
