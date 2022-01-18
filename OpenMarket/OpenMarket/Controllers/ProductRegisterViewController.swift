@@ -30,7 +30,17 @@ class ProductRegisterViewController: UIViewController {
     @objc private func didTapDoneButton() {
         if productRegisterManager.isRegisteredImageEmpty {
             presentAlert(title: "등록된 이미지가 없습니다.", message: "한 개 이상의 이미지를 필수로 등록해주세요.")
-        } 
+            return
+        }
+        if productRegisterManager.takeNameTextFieldLength() < 3 {
+            presentAlert(title: "상품명을 더 길게 쓰세요", message: "상품명을 세 글자 이상 입력해주세요.")
+            return
+        }
+        if productRegisterManager.isPriceTextFieldEmpty {
+            presentAlert(title: "입력된 상품 가격이 없습니다.", message: "한 자리 이상의 상품 가격을 입력해주세요.")
+            return
+        }
+        self.dismiss(animated: true, completion: nil)
     }
     
     private func configRegistrationView() {
