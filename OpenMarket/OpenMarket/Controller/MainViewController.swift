@@ -1,6 +1,8 @@
 import UIKit
 
 class MainViewController: UIViewController {
+    private let tableViewCellNibName = "ProductsTableViewCell"
+    private let collectionViewCellNibName = "ProductsCollectionViewCell"
     private let loadingActivityIndicator = UIActivityIndicatorView()
     private var pageInformation: ProductsList?
     private let jsonParser: JSONParser = {
@@ -105,7 +107,7 @@ extension MainViewController {
     private func loadView(from segment: Segement) -> UIView {
         switch segment {
         case .list:
-            let nibName = UINib(nibName: "ProductsTableViewCell", bundle: nil)
+            let nibName = UINib(nibName: tableViewCellNibName, bundle: nil)
             let tableView = UITableView()
             tableView.dataSource = productsDataSource
             tableView.delegate = self
@@ -115,7 +117,7 @@ extension MainViewController {
             )
             return tableView
         case .grid:
-            let nibName = UINib(nibName: "ProductsCollectionViewCell", bundle: nil)
+            let nibName = UINib(nibName: collectionViewCellNibName, bundle: nil)
             let layout = UICollectionViewFlowLayout()
             layout.sectionInset = UIEdgeInsets(top: 0.0, left: 10.0, bottom: 0.0, right: 10.0)
             layout.sectionInsetReference = .fromSafeArea

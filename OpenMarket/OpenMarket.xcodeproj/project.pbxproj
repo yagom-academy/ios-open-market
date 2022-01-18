@@ -31,6 +31,7 @@
 		DE6204A2278D574F009D5AE7 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6204A1278D574F009D5AE7 /* MainViewController.swift */; };
 		DE65CFF927840F5500E1B619 /* NetworkTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE65CFF827840F5500E1B619 /* NetworkTask.swift */; };
 		DE65CFFB27840F6F00E1B619 /* JSONParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE65CFFA27840F6F00E1B619 /* JSONParser.swift */; };
+		DE6A81A627965BA000913772 /* ReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6A81A527965BA000913772 /* ReusableView.swift */; };
 		DE8317192782D1EF00FF2120 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE8317182782D1EF00FF2120 /* Product.swift */; };
 		DE83171B2782D51A00FF2120 /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE83171A2782D51A00FF2120 /* Currency.swift */; };
 		DE8317232782DFAC00FF2120 /* JSONParseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE8317222782DFAC00FF2120 /* JSONParseTests.swift */; };
@@ -75,6 +76,7 @@
 		DE6204A1278D574F009D5AE7 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		DE65CFF827840F5500E1B619 /* NetworkTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkTask.swift; sourceTree = "<group>"; };
 		DE65CFFA27840F6F00E1B619 /* JSONParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONParser.swift; sourceTree = "<group>"; };
+		DE6A81A527965BA000913772 /* ReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableView.swift; sourceTree = "<group>"; };
 		DE8317182782D1EF00FF2120 /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
 		DE83171A2782D51A00FF2120 /* Currency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
 		DE8317222782DFAC00FF2120 /* JSONParseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONParseTests.swift; sourceTree = "<group>"; };
@@ -105,6 +107,7 @@
 				3AAA1E2B2786C2320022D36D /* JSONParsable.swift */,
 				3A4FCD362791AB2B00B95E40 /* ProductCell.swift */,
 				3A4FCD382791B8AA00B95E40 /* ProductView.swift */,
+				DE6A81A527965BA000913772 /* ReusableView.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -347,6 +350,7 @@
 				DE65CFFB27840F6F00E1B619 /* JSONParser.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
+				DE6A81A627965BA000913772 /* ReusableView.swift in Sources */,
 				DE03A4EB27955DB4002096FF /* ProductCellItem.swift in Sources */,
 				DE310512278E9D1300BF1EA5 /* UIViewController+extension.swift in Sources */,
 				3A4FCD3D2791B90100B95E40 /* UICollectionView+extension.swift in Sources */,

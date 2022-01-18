@@ -22,7 +22,3 @@ extension ProductsTableViewCell: ProductCell {
         self.productImageView.image = imageView
     }
 }
-
-extension ProductsTableViewCell {
-    static let reuseIdentifier = "productsListCell"
-}

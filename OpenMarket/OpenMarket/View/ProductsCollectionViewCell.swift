@@ -29,7 +29,3 @@ extension ProductsCollectionViewCell: ProductCell {
         self.productImageView.image = imageView
     }
 }
-
-extension ProductsCollectionViewCell {
-    static let reuseIdentifier = "productCell"
-}
