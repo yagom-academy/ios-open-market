@@ -91,6 +91,9 @@
                                                         <buttonConfiguration key="configuration" style="gray">
                                                             <imageReference key="image" image="plus" catalog="system" symbolScale="default"/>
                                                         </buttonConfiguration>
+                                                        <connections>
+                                                            <action selector="imageAddbuttonClicked:" destination="B9K-f5-Ghn" eventType="touchUpInside" id="M2P-Vk-rzj"/>
+                                                        </connections>
                                                     </button>
                                                 </subviews>
                                             </stackView>
