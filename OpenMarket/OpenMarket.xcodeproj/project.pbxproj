@@ -24,12 +24,12 @@
 		25561999278459B000067096 /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25561997278459B000067096 /* APIManager.swift */; };
 		2580F2072786C6CC005FC50F /* URLGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2580F2062786C6CC005FC50F /* URLGenerator.swift */; };
 		2580F2082786C88D005FC50F /* URLGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2580F2062786C6CC005FC50F /* URLGenerator.swift */; };
-		2580F2172787D054005FC50F /* ResponseError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2580F2162787D054005FC50F /* ResponseError.swift */; };
+		2580F2172787D054005FC50F /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2580F2162787D054005FC50F /* NetworkError.swift */; };
 		2580F21E2787E9CB005FC50F /* MockURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2580F21D2787E9CB005FC50F /* MockURLSession.swift */; };
 		2580F2202787E9DC005FC50F /* MockURLProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2580F21F2787E9DC005FC50F /* MockURLProtocol.swift */; };
 		2580F2212787EA51005FC50F /* MockURLProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2580F21F2787E9DC005FC50F /* MockURLProtocol.swift */; };
 		2580F2222787EA54005FC50F /* MockURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2580F21D2787E9CB005FC50F /* MockURLSession.swift */; };
-		2580F2232787EAB5005FC50F /* ResponseError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2580F2162787D054005FC50F /* ResponseError.swift */; };
+		2580F2232787EAB5005FC50F /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2580F2162787D054005FC50F /* NetworkError.swift */; };
 		25D77E3B278C11D5003F328C /* URLRequest+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25D77E3A278C11D5003F328C /* URLRequest+Extension.swift */; };
 		25D77E3D278C11F5003F328C /* URLRequest+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25D77E3A278C11D5003F328C /* URLRequest+Extension.swift */; };
 		25F8D1FB27953BED005B9767 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2530792F278D7F1B004639B2 /* String+Extension.swift */; };
@@ -91,7 +91,7 @@
 		255619952784562B00067096 /* JSONParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONParser.swift; sourceTree = "<group>"; };
 		25561997278459B000067096 /* APIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
 		2580F2062786C6CC005FC50F /* URLGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLGenerator.swift; sourceTree = "<group>"; };
-		2580F2162787D054005FC50F /* ResponseError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseError.swift; sourceTree = "<group>"; };
+		2580F2162787D054005FC50F /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 		2580F21D2787E9CB005FC50F /* MockURLSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSession.swift; sourceTree = "<group>"; };
 		2580F21F2787E9DC005FC50F /* MockURLProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLProtocol.swift; sourceTree = "<group>"; };
 		25D77E3A278C11D5003F328C /* URLRequest+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLRequest+Extension.swift"; sourceTree = "<group>"; };
@@ -145,7 +145,7 @@
 		2580F2132787D02B005FC50F /* Error */ = {
 			isa = PBXGroup;
 			children = (
-				2580F2162787D054005FC50F /* ResponseError.swift */,
+				2580F2162787D054005FC50F /* NetworkError.swift */,
 			);
 			path = Error;
 			sourceTree = "<group>";
@@ -400,7 +400,7 @@
 				2580F2082786C88D005FC50F /* URLGenerator.swift in Sources */,
 				89376D152783BF3900364CB8 /* OpenMarketTests.swift in Sources */,
 				89376D1C2783BF6600364CB8 /* APIManagerTests.swift in Sources */,
-				2580F2232787EAB5005FC50F /* ResponseError.swift in Sources */,
+				2580F2232787EAB5005FC50F /* NetworkError.swift in Sources */,
 				25F8D205279599B7005B9767 /* UIViewController+Extension.swift in Sources */,
 				25F8D2192796AE63005B9767 /* PresentStyle.swift in Sources */,
 				25F8D2112796AAB8005B9767 /* Data+Extension.swift in Sources */,
@@ -419,7 +419,7 @@
 				2580F2222787EA54005FC50F /* MockURLSession.swift in Sources */,
 				25F8D1FD27958659005B9767 /* LayoutConstant.swift in Sources */,
 				2530793F27901928004639B2 /* PresentStyle.swift in Sources */,
-				2580F2172787D054005FC50F /* ResponseError.swift in Sources */,
+				2580F2172787D054005FC50F /* NetworkError.swift in Sources */,
 				255619962784562B00067096 /* JSONParser.swift in Sources */,
 				25F8D204279599B7005B9767 /* UIViewController+Extension.swift in Sources */,
 				89376D2327844F6200364CB8 /* Vendor.swift in Sources */,

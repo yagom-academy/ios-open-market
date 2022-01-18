@@ -7,6 +7,9 @@
 
 import Foundation
 
+/**
+ 상품 수정의 모델 타입 (Request)
+*/
 struct ProductModificationRequest: Encodable {
   let name: String?
   let descriptions: String?

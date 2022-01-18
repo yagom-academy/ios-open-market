@@ -12,7 +12,7 @@ protocol RestFulAPI {
 }
 
 extension RestFulAPI { 
-  func createBody(json: Result<Data, ResponseError>, images: [ImageFile], boundary: String) -> Data {
+  func createBody(json: Result<Data, NetworkError>, images: [ImageFile], boundary: String) -> Data {
     var body = Data()
     
     switch json {
@@ -43,8 +43,8 @@ extension RestFulAPI {
   func makeImageForm(image: ImageFile, boundary: String) -> Data{
     var data = Data()
     data.appendString("--\(boundary)\r\n")
-    data.appendString("Content-Disposition: form-data; name=\"images\"; filename=\"\(image.name)\(image.imageType.type)\"\r\n")
-    data.appendString("Content-Type: \(image.imageType.mimeType)\r\n\r\n")
+    data.appendString("Content-Disposition: form-data; name=\"images\"; filename=\"\(image.name)\(image.imageType.rawValue)\"\r\n")
+    data.appendString("Content-Type: \(image.imageType.mime)\r\n\r\n")
     data.append(image.data)
     data.appendString("\r\n")
     

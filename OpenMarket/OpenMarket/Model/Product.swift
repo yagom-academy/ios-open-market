@@ -15,7 +15,7 @@ enum Currency: String, Codable {
 extension Currency: Hashable { }
 
 /**
- 상품 정보의 모델타입입니다.
+ 상품 정보의 모델 타입 (Response)
 */
 struct Product: Codable {
   /// 상품 ID

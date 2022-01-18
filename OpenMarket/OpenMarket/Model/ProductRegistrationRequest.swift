@@ -7,6 +7,9 @@
 
 import Foundation
 
+/**
+ 상품 등록의 모델 타입 (Request)
+*/
 struct ProductRegistrationRequest: Encodable {
   let name: String
   let descriptions: String

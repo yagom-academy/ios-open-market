@@ -7,30 +7,20 @@
 
 import Foundation
 
-import Foundation
-
+/**
+ 이미지의 모델 타입 (Request)
+*/
 struct ImageFile {
   let name: String
   let data: Data
-  let imageType: ImageType
+  let imageType: contentsType
   
-  enum ImageType: String {
-    case jpg
-    case jpeg
-    case png
+  enum contentsType: String {
+    case jpg = ".jpg"
+    case jpeg = ".jpeg"
+    case png = ".png"
     
-    var type: String {
-      switch self {
-      case .jpg:
-        return ".jpg"
-      case .jpeg:
-        return ".jpeg"
-      case .png:
-        return ".png"
-      }
-    }
-    
-    var mimeType: String {
+    var mime: String {
       switch self {
       case .jpg:
         return "image/jpg"

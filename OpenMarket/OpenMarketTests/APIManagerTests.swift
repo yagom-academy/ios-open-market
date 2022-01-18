@@ -14,6 +14,7 @@ class APIManagerTests: XCTestCase {
   var sutSession: URLSession!
   var realSession: URLSession!
   var sutAPIManager: APIManager!
+  var identifier: String!
   
   override func setUpWithError() throws {
     sutProductListData = NSDataAsset(name: AssetFileName.products)!.data
@@ -22,6 +23,7 @@ class APIManagerTests: XCTestCase {
     sutSession = MockSession.session
     realSession = URLSession(configuration: .default)
     sutAPIManager = APIManager(urlSession: realSession, jsonParser: JSONParser())
+    identifier = "3be89f18-7200-11ec-abfa-25c2d8a6d606"
   }
   
   override func tearDownWithError() throws {
@@ -31,6 +33,7 @@ class APIManagerTests: XCTestCase {
     sutSession = nil
     realSession = nil
     sutAPIManager = nil
+    identifier = nil
   }
   
   func test_상품등록() {
@@ -45,7 +48,7 @@ class APIManagerTests: XCTestCase {
     let imageArray: [ImageFile] = [testImageFile]
     let params =  ProductRegistrationRequest(name: "MacBook Pro", descriptions: "Intel MacBook Pro", price: 2690000, currency: .KRW, discountedPrice: 1000000, stock: 99, secret: "password")
     
-    sutAPIManager.addProduct(params: params, images: imageArray) { result in
+    sutAPIManager.addProduct(params: params, images: imageArray, identifier: identifier) { result in
       // then
       switch result {
       case .success(let data):
@@ -61,7 +64,7 @@ class APIManagerTests: XCTestCase {
   func test_상품수정() {
     let expectation = XCTestExpectation(description: "response")
     let modificationProduct = ProductModificationRequest(name: "MACBook Ultra Pro", secret: "password")
-    sutAPIManager.modifyProduct(productId: 431, params: modificationProduct) { result in
+    sutAPIManager.modifyProduct(productId: 431, params: modificationProduct, identifier: <#String#>) { result in
       // then
       switch result {
       case .success(let data):
@@ -76,8 +79,8 @@ class APIManagerTests: XCTestCase {
   
   func test_상품Secret조회() {
     let expectation = XCTestExpectation(description: "response")
-    let secret = Secret(secret: "password")
-    sutAPIManager.getDeleteSecret(productId: 431, secret: secret) { result in
+    let secret = "password"
+    sutAPIManager.getDeleteSecret(productId: 431, secret: secret, identifier: identifier) { result in
       // then
       switch result {
       case .success(let data):
@@ -95,7 +98,7 @@ class APIManagerTests: XCTestCase {
     let expectation = XCTestExpectation(description: "response")
     let productSecret = "827c04d7-7838-11ec-abfa-55347a6e30e7"
     
-    sutAPIManager.deleteProduct(productId: 431, productSecret: productSecret) { result in
+    sutAPIManager.deleteProduct(productId: 431, productSecret: productSecret, identifier: identifier) { result in
       switch result {
       case .success(let data):
         dump(data)
