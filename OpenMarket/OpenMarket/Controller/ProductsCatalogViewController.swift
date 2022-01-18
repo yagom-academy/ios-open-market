@@ -31,10 +31,6 @@ class ProductsCatalogViewController: UIViewController {
         generateProductItems()
 
         configureIndicator()
-
-        gridCollectionView = configureHierarchy(type: .grid)
-        configureDataSource(for: .grid)
-        gridCollectionView.delegate = self
     }
 }
 
@@ -92,6 +88,11 @@ extension ProductsCatalogViewController {
             view = listCollectionView
             listDataSource.apply(snapshot, animatingDifferences: false, completion: nil)
         case .grid:
+            if gridCollectionView == nil {
+                gridCollectionView = configureHierarchy(type: .grid)
+                configureDataSource(for: .grid)
+                gridCollectionView.delegate = self
+            }
             view = gridCollectionView
             gridDataSource.apply(snapshot)
         }
