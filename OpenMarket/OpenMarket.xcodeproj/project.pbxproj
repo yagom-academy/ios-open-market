@@ -10,7 +10,7 @@
 		5C32796F486C950826FB7B63 /* Pods_OpenMarket.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D50541713180C77E69EBED66 /* Pods_OpenMarket.framework */; };
 		C12E744A2795481B000197A0 /* OpenMarketListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C12E74492795481B000197A0 /* OpenMarketListCollectionViewCell.swift */; };
 		C12E744C279548BC000197A0 /* OpenMarketGridCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C12E744B279548BC000197A0 /* OpenMarketGridCollectionViewCell.swift */; };
-		C12E744E2795957C000197A0 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C12E744D2795957B000197A0 /* NetworkManager.swift */; };
+		C12E744E2795957C000197A0 /* ProductPageNetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C12E744D2795957B000197A0 /* ProductPageNetworkManager.swift */; };
 		C13469E12786BF1E0044DFDB /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FDEA14278463FE00B12770 /* Currency.swift */; };
 		C13469E32786BF3F0044DFDB /* URLSessionProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13469E22786BF3F0044DFDB /* URLSessionProviderTests.swift */; };
 		C13469E42786BFBB0044DFDB /* OpenMarketService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FDEA192784670B00B12770 /* OpenMarketService.swift */; };
@@ -34,7 +34,7 @@
 		C1346A0C278894370044DFDB /* CreateProductRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1346A0527887E050044DFDB /* CreateProductRequest.swift */; };
 		C1346A0D278894390044DFDB /* UpdateProductRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E96323BC278888F900851348 /* UpdateProductRequest.swift */; };
 		C1346A0E2788943C0044DFDB /* APIRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13469F827885DB00044DFDB /* APIRequest.swift */; };
-		C170F18E279674A40036D1B4 /* ProductCreateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C170F18D279674A40036D1B4 /* ProductCreateViewController.swift */; };
+		C13BFD5B2796E015006E2440 /* ProductCreateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13BFD5A2796E015006E2440 /* ProductCreateViewController.swift */; };
 		C171F88027841135001D0B76 /* URLSessionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C171F87F27841135001D0B76 /* URLSessionProvider.swift */; };
 		C171F8812784236B001D0B76 /* URLSessionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C171F87F27841135001D0B76 /* URLSessionProvider.swift */; };
 		C17E063627846CF400D7F83D /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17E063527846CF400D7F83D /* Product.swift */; };
@@ -75,7 +75,7 @@
 		E963248A278D6AC800851348 /* OpenMarketCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9632488278D6AC800851348 /* OpenMarketCollectionViewCell.swift */; };
 		E998F88627915D8B008DD201 /* ProductPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E998F88527915D8B008DD201 /* ProductPageViewController.swift */; };
 		E998F88E279164BF008DD201 /* OpenMarketLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = E998F88D279164BF008DD201 /* OpenMarketLayout.swift */; };
-		E998F89427917370008DD201 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E998F89327917370008DD201 /* DataManager.swift */; };
+		E998F89427917370008DD201 /* ProductPageDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E998F89327917370008DD201 /* ProductPageDataManager.swift */; };
 		E99FDE782782D4C00083D4D6 /* Page.swift in Sources */ = {isa = PBXBuildFile; fileRef = E99FDE772782D4C00083D4D6 /* Page.swift */; };
 		E99FDE7F2782E9490083D4D6 /* StubURLSessionDataTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = E99FDE7E2782E9490083D4D6 /* StubURLSessionDataTask.swift */; };
 		E99FDE842782F3970083D4D6 /* Page.swift in Sources */ = {isa = PBXBuildFile; fileRef = E99FDE772782D4C00083D4D6 /* Page.swift */; };
@@ -106,7 +106,7 @@
 		40A8AED9FA2D0026389DF4B1 /* Pods-OpenMarket.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenMarket.release.xcconfig"; path = "Target Support Files/Pods-OpenMarket/Pods-OpenMarket.release.xcconfig"; sourceTree = "<group>"; };
 		C12E74492795481B000197A0 /* OpenMarketListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketListCollectionViewCell.swift; sourceTree = "<group>"; };
 		C12E744B279548BC000197A0 /* OpenMarketGridCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketGridCollectionViewCell.swift; sourceTree = "<group>"; };
-		C12E744D2795957B000197A0 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		C12E744D2795957B000197A0 /* ProductPageNetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductPageNetworkManager.swift; sourceTree = "<group>"; };
 		C13469E22786BF3F0044DFDB /* URLSessionProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionProviderTests.swift; sourceTree = "<group>"; };
 		C13469E52786E32F0044DFDB /* ProductImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductImage.swift; sourceTree = "<group>"; };
 		C13469E82786E35C0044DFDB /* Vendor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vendor.swift; sourceTree = "<group>"; };
@@ -115,7 +115,7 @@
 		C13469F827885DB00044DFDB /* APIRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIRequest.swift; sourceTree = "<group>"; };
 		C1346A02278867DA0044DFDB /* DeleteProductRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteProductRequest.swift; sourceTree = "<group>"; };
 		C1346A0527887E050044DFDB /* CreateProductRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateProductRequest.swift; sourceTree = "<group>"; };
-		C170F18D279674A40036D1B4 /* ProductCreateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ProductCreateViewController.swift; path = OpenMarket/Controller/ProductCreateViewController.swift; sourceTree = SOURCE_ROOT; };
+		C13BFD5A2796E015006E2440 /* ProductCreateViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductCreateViewController.swift; sourceTree = "<group>"; };
 		C171F87F27841135001D0B76 /* URLSessionProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionProvider.swift; sourceTree = "<group>"; };
 		C17E063527846CF400D7F83D /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
 		C1A5695D278B0598004E4B3C /* CreateProductRequestImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateProductRequestImage.swift; sourceTree = "<group>"; };
@@ -147,7 +147,7 @@
 		E9632488278D6AC800851348 /* OpenMarketCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketCollectionViewCell.swift; sourceTree = "<group>"; };
 		E998F88527915D8B008DD201 /* ProductPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductPageViewController.swift; sourceTree = "<group>"; };
 		E998F88D279164BF008DD201 /* OpenMarketLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketLayout.swift; sourceTree = "<group>"; };
-		E998F89327917370008DD201 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
+		E998F89327917370008DD201 /* ProductPageDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductPageDataManager.swift; sourceTree = "<group>"; };
 		E99FDE772782D4C00083D4D6 /* Page.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Page.swift; sourceTree = "<group>"; };
 		E99FDE7E2782E9490083D4D6 /* StubURLSessionDataTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubURLSessionDataTask.swift; sourceTree = "<group>"; };
 		E9FDEA14278463FE00B12770 /* Currency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
@@ -205,6 +205,44 @@
 				E9632437278AEAB800851348 /* MultiPartRequest.swift */,
 			);
 			path = APIRequest;
+			sourceTree = "<group>";
+		};
+		C13BFD572796DF0A006E2440 /* AppLifeCycle */ = {
+			isa = PBXGroup;
+			children = (
+				C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */,
+				C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */,
+			);
+			path = AppLifeCycle;
+			sourceTree = "<group>";
+		};
+		C13BFD582796DF5E006E2440 /* ProductPage */ = {
+			isa = PBXGroup;
+			children = (
+				E998F88527915D8B008DD201 /* ProductPageViewController.swift */,
+				E998F89327917370008DD201 /* ProductPageDataManager.swift */,
+				C12E744D2795957B000197A0 /* ProductPageNetworkManager.swift */,
+			);
+			path = ProductPage;
+			sourceTree = "<group>";
+		};
+		C13BFD592796DFB3006E2440 /* ProductCreate */ = {
+			isa = PBXGroup;
+			children = (
+				C13BFD5A2796E015006E2440 /* ProductCreateViewController.swift */,
+			);
+			path = ProductCreate;
+			sourceTree = "<group>";
+		};
+		C13BFD5C2796E046006E2440 /* ProductPage */ = {
+			isa = PBXGroup;
+			children = (
+				E9632488278D6AC800851348 /* OpenMarketCollectionViewCell.swift */,
+				C12E744B279548BC000197A0 /* OpenMarketGridCollectionViewCell.swift */,
+				C12E74492795481B000197A0 /* OpenMarketListCollectionViewCell.swift */,
+				E998F88D279164BF008DD201 /* OpenMarketLayout.swift */,
+			);
+			path = ProductPage;
 			sourceTree = "<group>";
 		};
 		C17E063827846D3400D7F83D /* Network */ = {
@@ -265,13 +303,14 @@
 		C70FB0F925BEF61C00C9924E /* OpenMarket */ = {
 			isa = PBXGroup;
 			children = (
-				E9FDEA652787058300B12770 /* Utility */,
-				C17E063827846D3400D7F83D /* Network */,
-				E99FDE762782D3EC0083D4D6 /* Controller */,
+				C13BFD572796DF0A006E2440 /* AppLifeCycle */,
 				E99FDE742782D3980083D4D6 /* Model */,
 				E99FDE752782D3B40083D4D6 /* View */,
-				C70FB10325BEF61D00C9924E /* Assets.xcassets */,
+				E99FDE762782D3EC0083D4D6 /* Controller */,
+				C17E063827846D3400D7F83D /* Network */,
+				E9FDEA652787058300B12770 /* Utility */,
 				C70FB10825BEF61D00C9924E /* Info.plist */,
+				C70FB10325BEF61D00C9924E /* Assets.xcassets */,
 			);
 			path = OpenMarket;
 			sourceTree = "<group>";
@@ -362,10 +401,7 @@
 		E99FDE752782D3B40083D4D6 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				E9632488278D6AC800851348 /* OpenMarketCollectionViewCell.swift */,
-				C12E744B279548BC000197A0 /* OpenMarketGridCollectionViewCell.swift */,
-				C12E74492795481B000197A0 /* OpenMarketListCollectionViewCell.swift */,
-				E998F88D279164BF008DD201 /* OpenMarketLayout.swift */,
+				C13BFD5C2796E046006E2440 /* ProductPage */,
 				C70FB10025BEF61C00C9924E /* Main.storyboard */,
 				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
 			);
@@ -375,12 +411,8 @@
 		E99FDE762782D3EC0083D4D6 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */,
-				C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */,
-				E998F88527915D8B008DD201 /* ProductPageViewController.swift */,
-				E998F89327917370008DD201 /* DataManager.swift */,
-				C170F18D279674A40036D1B4 /* ProductCreateViewController.swift */,
-				C12E744D2795957B000197A0 /* NetworkManager.swift */,
+				C13BFD582796DF5E006E2440 /* ProductPage */,
+				C13BFD592796DFB3006E2440 /* ProductCreate */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -601,7 +633,7 @@
 				C12E744C279548BC000197A0 /* OpenMarketGridCollectionViewCell.swift in Sources */,
 				C13469F1278710420044DFDB /* URLSessionProtocol.swift in Sources */,
 				E963248A278D6AC800851348 /* OpenMarketCollectionViewCell.swift in Sources */,
-				C12E744E2795957C000197A0 /* NetworkManager.swift in Sources */,
+				C12E744E2795957C000197A0 /* ProductPageNetworkManager.swift in Sources */,
 				C1A56967278B2098004E4B3C /* Extension+JSONDecoder.swift in Sources */,
 				E9632434278AEAA900851348 /* JSONRequest.swift in Sources */,
 				E9FDEAB52788695400B12770 /* ShowProductSecretRequest.swift in Sources */,
@@ -622,11 +654,11 @@
 				C17E063627846CF400D7F83D /* Product.swift in Sources */,
 				E99FDE782782D4C00083D4D6 /* Page.swift in Sources */,
 				E9FDEA67278705AD00B12770 /* Extension+NSMutableData.swift in Sources */,
-				C170F18E279674A40036D1B4 /* ProductCreateViewController.swift in Sources */,
+				C13BFD5B2796E015006E2440 /* ProductCreateViewController.swift in Sources */,
 				E9FDEA15278463FE00B12770 /* Currency.swift in Sources */,
 				E963245A278B2ABF00851348 /* UpdateProductResponse.swift in Sources */,
 				E9632443278B0CF100851348 /* OpenMarketRequest.swift in Sources */,
-				E998F89427917370008DD201 /* DataManager.swift in Sources */,
+				E998F89427917370008DD201 /* ProductPageDataManager.swift in Sources */,
 				C13469EB2786E3B00044DFDB /* UpdateProductRequestModel.swift in Sources */,
 				E998F88627915D8B008DD201 /* ProductPageViewController.swift in Sources */,
 				C1346A03278867DA0044DFDB /* DeleteProductRequest.swift in Sources */,

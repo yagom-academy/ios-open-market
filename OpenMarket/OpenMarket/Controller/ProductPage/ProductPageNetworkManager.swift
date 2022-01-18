@@ -7,7 +7,7 @@
 
 import Foundation
 
-class NetworkManager {
+class ProductPageNetworkManager {
     
     private let urlSessionProvider: URLSessionProvider
     

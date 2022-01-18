@@ -9,7 +9,7 @@ import UIKit
 
 final class ProductPageViewController: UIViewController {
     
-    var dataManager = DataManager()
+    var dataManager = ProductPageDataManager()
     
     @IBOutlet private weak var segmentedControl: UISegmentedControl?
     @IBOutlet private var activityIndicator: UIActivityIndicatorView?
