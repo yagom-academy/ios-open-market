@@ -138,7 +138,7 @@ extension RegisterViewController: UIImagePickerControllerDelegate & UINavigation
         guard let selectedImage = editedImage ?? originalImage else {
             return
         }
-        images.append(selectedImage)
+        images.append(selectedImage.compress())
         collectionView.performBatchUpdates {
             collectionView.insertItems(at: [IndexPath(item: images.count - 1, section: 0)])
         } completion: { _ in
