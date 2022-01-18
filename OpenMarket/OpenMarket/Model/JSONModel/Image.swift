@@ -1,6 +1,6 @@
 import Foundation
 
-struct Image: Codable {
+struct Image: Codable, Hashable {
     let id: Int
     let url, thumbnailURL: String
     let succeed: Bool
