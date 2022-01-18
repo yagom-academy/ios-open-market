@@ -28,6 +28,7 @@ class ListCollectionViewCell: UICollectionViewCell {
         setUpProductImageView()
         setUpNameStackView()
         setUpPriceStackView()
+        setUpAccessoryImageView()
     }
     
     func addSubviews() {
@@ -36,6 +37,7 @@ class ListCollectionViewCell: UICollectionViewCell {
         contentStackView.addArrangedSubview(labelStackView)
         labelStackView.addArrangedSubview(nameStackView)
         labelStackView.addArrangedSubview(priceStackView)
+        contentStackView.addArrangedSubview(accessoryImageView)
     }
     
     func setUpContentStackView() {
@@ -91,5 +93,17 @@ class ListCollectionViewCell: UICollectionViewCell {
         
         priceStackView.addArrangedSubview(priceLabel)
         priceStackView.addArrangedSubview(discountedPriceLabel)
+    }
+    
+    func setUpAccessoryImageView() {
+        accessoryImageView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            accessoryImageView.heightAnchor.constraint(equalTo: accessoryImageView.widthAnchor),
+            accessoryImageView.widthAnchor.constraint(equalTo: stockLabel.heightAnchor)
+        ])
+        
+        accessoryImageView.image = UIImage(systemName: "chevron.right")
+        accessoryImageView.tintColor = .systemGray4
     }
 }
