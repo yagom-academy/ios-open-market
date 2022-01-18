@@ -45,8 +45,15 @@ enum URLGenerator {
     return url
   }
   
-  static func getDeleteProductURL(productId: Int) -> URL? {
+  static func getDeleteProductSecretURL(productId: Int) -> URL? {
     host?.path = "/api/products/\(productId)/secret"
+    let url = host?.url
+    
+    return url
+  }
+  
+  static func getDeleteProductURL(productId: Int, productSecret: String) -> URL? {
+    host?.path = "/api/products/\(productId)/\(productSecret)"
     let url = host?.url
     
     return url

@@ -146,7 +146,7 @@ struct APIManager: RestFulAPI {
     secret: Secret,
     completion: @escaping (Result<String, Error>) -> Void
   ) {
-    guard let url = URLGenerator.getDeleteProductURL(productId: productId) else {
+    guard let url = URLGenerator.getDeleteProductSecretURL(productId: productId) else {
       return
     }
     var request = URLRequest(url: url, httpMethod: .post)
@@ -168,14 +168,37 @@ struct APIManager: RestFulAPI {
     let dataTask = urlSession.dataTask(request) { response in
       switch response {
       case .success(let data):
-        let jsonResult = jsonParser.decode(data: data, type: String.self)
-        switch jsonResult {
-        case .success(let password):
-          completion(.success(password))
-        case .failure(_):
-          completion(.failure(ResponseError.decodeFailed))
+        if let string = String(data: data, encoding: .utf8) {
+          dump(string)
+          completion(.success(string))
         }
-        //completion()
+      case .failure(_):
+        completion(.failure(ResponseError.responseFailed))
+      }
+    }
+    dataTask.resume()
+  }
+  
+  func deleteProduct(productId: Int, productSecret: String, completion: @escaping (Result<Product, Error>) -> Void) {
+    guard let url = URLGenerator.getDeleteProductURL(productId: productId, productSecret: productSecret) else {
+      return
+    }
+    var request = URLRequest(url: url, httpMethod: .delete)
+    request.addHeader(
+      values: [
+        "identifier": "cd706a3e-66db-11ec-9626-796401f2341a",
+      ]
+    )
+    let dataTask = urlSession.dataTask(request) { response in
+      switch response {
+      case .success(let data):
+        let result = jsonParser.decode(data: data, type: Product.self)
+        switch result {
+        case .success(let data):
+          completion(.success(data))
+        case .failure(_):
+          completion(.failure(ResponseError.responseFailed))
+        }
       case .failure(_):
         completion(.failure(ResponseError.responseFailed))
       }

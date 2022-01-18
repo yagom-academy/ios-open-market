@@ -91,6 +91,23 @@ class APIManagerTests: XCTestCase {
     wait(for: [expectation], timeout: 10)
   }
   
+  func test_상품삭제() {
+    let expectation = XCTestExpectation(description: "response")
+    let productSecret = "827c04d7-7838-11ec-abfa-55347a6e30e7"
+    
+    sutAPIManager.deleteProduct(productId: 431, productSecret: productSecret) { result in
+      switch result {
+      case .success(let data):
+        dump(data)
+        XCTAssertNotNil(data)
+      case .failure:
+        XCTFail()
+      }
+      expectation.fulfill()
+    }
+    wait(for: [expectation], timeout: 10)
+  }
+  
   func test_목록조회() {
     // given
     let response = HTTPURLResponse(url: sutURL, statusCode: 200, httpVersion: nil, headerFields: nil)
