@@ -1,6 +1,6 @@
 import UIKit
 
-class ViewController: UIViewController {
+class ProductsCatalogViewController: UIViewController {
     enum ViewType: Int {
         case list = 0
         case grid = 1
@@ -25,7 +25,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         configureNavigationBar()
 
-        listCollectionView = configureHierarchy(for: presentView)
+        listCollectionView = configureHierarchy(type: presentView)
         configureDataSource(for: presentView)
         listCollectionView.delegate = self
         view = listCollectionView
@@ -33,13 +33,13 @@ class ViewController: UIViewController {
 
         configureIndicator()
 
-        gridCollectionView = configureHierarchy(for: .grid)
+        gridCollectionView = configureHierarchy(type: .grid)
         configureDataSource(for: .grid)
         gridCollectionView.delegate = self
     }
 }
 
-extension ViewController {
+extension ProductsCatalogViewController {
     private func configureNavigationBar() {
         self.navigationItem.titleView = configureSegmentedControl()
         guard let image = UIImage(systemName: "plus") else {
@@ -110,17 +110,17 @@ extension ViewController {
     }
 }
 
-extension ViewController {
+extension ProductsCatalogViewController {
     private func createGridLayout() -> UICollectionViewLayout {
         let itemSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(0.5),
-            heightDimension: .fractionalHeight(1.0)
+            heightDimension: .fractionalHeight(1)
         )
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         item.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5)
 
         let groupSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1.0),
+            widthDimension: .fractionalWidth(1),
             heightDimension: .absolute(270)
         )
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
@@ -137,9 +137,9 @@ extension ViewController {
         return layout
     }
 
-    private func configureHierarchy(for viewType: ViewType) -> UICollectionView {
+    private func configureHierarchy(type: ViewType) -> UICollectionView {
         var layout: UICollectionViewLayout
-        switch viewType {
+        switch type {
         case .list:
             layout = createListLayout()
         case .grid:
@@ -153,7 +153,7 @@ extension ViewController {
     }
 }
 
-extension ViewController {
+extension ProductsCatalogViewController {
     private func configureDataSource(for viewType: ViewType) {
         switch viewType {
         case .list:
@@ -255,7 +255,7 @@ extension ViewController {
     }
 }
 
-extension ViewController: UICollectionViewDelegate {
+extension ProductsCatalogViewController: UICollectionViewDelegate {
     func scrollViewWillEndDragging(
         _ scrollView: UIScrollView,
         withVelocity velocity: CGPoint,
