@@ -125,12 +125,15 @@ extension APIService {
         guard let url = URLCreator.productRegister.url else {
             return
         }
-                
-        guard let body = createBody(productRegisterInformation: newProduct, images: images) else {
+        
+        let boundary = generateBoundary()
+        
+        guard let body = createBody(productRegisterInformation: newProduct, images: images, boundary: boundary) else {
             return
         }
         
-        let request = URLRequest(url: url, api: .productRegister(body: body, id: identifier))
+        var request = URLRequest(url: url, api: .productRegister(body: body, id: identifier))
+        request.addValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
         
         let task = dataTask(request: request, completion: completion)
         
@@ -170,49 +173,46 @@ extension APIService {
 
 private extension APIService {
     func generateBoundary() -> String {
-        return "Boundary-\(UUID().uuidString)"
+        return "\(UUID().uuidString)"
     }
     
-    func createBody(productRegisterInformation: ProductRegisterInformation, images: [ImageData]) -> Data? {
+    func createBody(productRegisterInformation: ProductRegisterInformation, images: [ImageData], boundary: String) -> Data? {
         var body: Data = Data()
-        let boundary = generateBoundary()
         
         guard let jsonData = try? JSONEncoder().encode(productRegisterInformation) else {
             return nil
         }
         
-        let parameters: [String: Any] = ["params": jsonData]
-        
-        parameters.forEach { (key, value) in
-            body.append(convertDataToMultiPartForm(name: key, value: value, boundary: boundary))
-        }
+        body.append(convertDataToMultiPartForm(value: jsonData, boundary: boundary))
         
         images.forEach { image in
             body.append(convertFileToMultiPartForm(imageData: image, boundary: boundary))
         }
         
+        body.appendString("--\(boundary)--\r\n")
         return body
     }
 
-    func convertDataToMultiPartForm(name: String, value: Any, boundary: String) -> Data {
+    func convertDataToMultiPartForm(value: Data, boundary: String) -> Data {
         var data: Data = Data()
-        let mimeType = "application/json"
-        
         data.appendString("--\(boundary)\r\n")
-        data.appendString("Content-Disposition: form-data; name=\"\(name)\"\r\n")
-        data.appendString("Content-Type: \(mimeType)\r\n\r\n")
-        data.appendString("\(value)\r\n")
-        
+        data.appendString("Content-Disposition: form-data; name=\"params\"\r\n")
+        data.appendString("Content-Type: application/json\r\n")
+        data.appendString("\r\n")
+        data.append(value)
+        data.appendString("\r\n")
+
         return data
     }
     
     func convertFileToMultiPartForm(imageData: ImageData, boundary: String) -> Data {
         var data: Data = Data()
-        
         data.appendString("--\(boundary)\r\n")
-        data.appendString("Content-Disposition: form-data; name=\"images\"; filename=\(imageData.fileName)\r\n")
-        data.appendString("Content-Type: image/\(imageData.type.description)\r\n\r\n")
-        data.appendString("\(imageData.data)\r\n")
+        data.appendString("Content-Disposition: form-data; name=\"images\"; filename=\"\(imageData.fileName)\"\r\n")
+        data.appendString("Content-Type: image/\(imageData.type.description)\r\n")
+        data.appendString("\r\n")
+        data.append(imageData.data)
+        data.appendString("\r\n")
         
         return data
     }

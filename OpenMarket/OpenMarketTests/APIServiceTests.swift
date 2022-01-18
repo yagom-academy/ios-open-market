@@ -12,7 +12,6 @@ class APIServiceTests: XCTestCase {
         let file = Bundle.main.path(forResource: "products", ofType: "json")
         let data = try! String(contentsOfFile: file!).data(using: .utf8)!
         
-        
         let decoder = JSONDecoder()
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SS"

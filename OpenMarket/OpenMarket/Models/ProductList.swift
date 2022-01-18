@@ -1,3 +1,5 @@
+import Foundation
+
 struct ProductList: Codable {
     let pageNo: Int
     let itemsPerPage: Int
@@ -9,6 +11,8 @@ struct ProductList: Codable {
     let hasNext: Bool
     let hasPrev: Bool
     
+    let identifier = UUID()
+    
     enum CodingKeys: String, CodingKey {
         case pageNo = "page_no"
         case itemsPerPage = "items_per_page"
@@ -19,3 +23,5 @@ struct ProductList: Codable {
         case offset, limit, pages
     }
 }
+
+extension ProductList: Hashable { }

@@ -13,3 +13,5 @@ struct ProductImage: Codable {
         case issuedAt = "issued_at"
     }
 }
+
+extension ProductImage: Hashable { }
