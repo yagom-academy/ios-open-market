@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class ProductPageViewController: UIViewController {
+final class ProductPageViewController: UIViewController, DataRepresentable {
     
     @IBOutlet weak var segmentedControl: UISegmentedControl!
     @IBOutlet var activityIndicator: UIActivityIndicatorView!
@@ -47,7 +47,7 @@ final class ProductPageViewController: UIViewController {
         configureRefreshControl()
         configureViewLayout()
         view.bringSubviewToFront(activityIndicator)
-        datamanager.update()
+        datamanager.update(completion: applyDataToCurrentView)
     }
     
     @IBAction func segmentedControlValueChanged(_ sender: UISegmentedControl) {
@@ -56,23 +56,12 @@ final class ProductPageViewController: UIViewController {
     }
 }
 
-// MARK: - DataRepresentable Protocol RequireMents
-extension ProductPageViewController: DataRepresentable {
-    
-    func dataDidChange(data: [Product]) {
-        snapshot.appendItems(data)
-        applyDataToCurrentView()
-    }
-    
-}
-
 // MARK: - UICollectionViewDelegate Protocol RequireMents
 extension ProductPageViewController: UICollectionViewDelegate {
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if scrollView.contentOffset.y + scrollView.frame.height >= scrollView.contentSize.height {
-            datamanager.nextPage()
-            applyDataToCurrentView()
+            datamanager.nextPage(completion: applyDataToCurrentView)
         }
     }
 

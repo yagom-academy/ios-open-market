@@ -9,39 +9,34 @@ import UIKit
 
 class DataManager {
     
-    var itemsPerPage: Int = 20
+    var itemsPerPage: Int = 15
     var lastLoadedPage: Int = 1
     var hasNextPage: Bool = true
-    var products: [Product] = [] {
-        didSet {
-            delegate?.dataDidChange(data: products)
-        }
-    }
-    
     weak var delegate: DataRepresentable?
-    
-    func nextPage() {
+
+    func nextPage(completion: @escaping () -> Void = {}) {
         if hasNextPage {
             lastLoadedPage += 1
-            fetchPage()
+            fetchPage(completion: completion)
         }
     }
-    
-    @objc
-    func update() {
-        fetchPage()
+
+    func update(completion: @escaping () -> Void = {}) {
+        fetchPage(completion: completion)
     }
-    
-    private func fetchPage() {
+
+    private func fetchPage(completion: @escaping () -> Void = {}) {
         URLSessionProvider(session: URLSession.shared)
             .request(.showProductPage(pageNumber: String(lastLoadedPage), itemsPerPage: String(itemsPerPage))) { (result: Result<ShowProductPageResponse, URLSessionProviderError>) in
                 switch result {
                 case .success(let data):
                     self.hasNextPage = data.hasNext
+                    self.itemsPerPage = 5
                     self.delegate?.snapshot.appendItems(data.pages)
                 case .failure(let error):
                     print(error)
                 }
+                completion()
             }
     }
     
@@ -49,5 +44,4 @@ class DataManager {
 
 protocol DataRepresentable: AnyObject {
     var snapshot: NSDiffableDataSourceSnapshot<Int, Product> { get set }
-    func dataDidChange(data: [Product])
 }
