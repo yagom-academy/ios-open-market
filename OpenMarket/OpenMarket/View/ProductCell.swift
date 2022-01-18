@@ -14,6 +14,7 @@ class ProductCell: UICollectionViewCell {
     @IBOutlet private var priceLabel: UILabel!
     @IBOutlet private var discountPriceLabel: UILabel!
     @IBOutlet private var stockLabel: UILabel!
+    @IBOutlet private var indicator: UIButton!
 
     static let listIdentifier = "ListView"
     static let gridIdentifier = "GridView"
@@ -24,6 +25,7 @@ class ProductCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        setUpAccessibility()
         resetLabel()
         productImageView.image = nil
         priceLabels = [priceLabel, discountPriceLabel, stockLabel]
@@ -33,6 +35,13 @@ class ProductCell: UICollectionViewCell {
         super.prepareForReuse()
         resetLabel()
         productImageView.image = nil
+    }
+    
+    private func setUpAccessibility() {
+        productNameLabel.adjustsFontForContentSizeCategory = true
+        priceLabel.adjustsFontForContentSizeCategory = true
+        discountPriceLabel.adjustsFontForContentSizeCategory = true
+        stockLabel.adjustsFontForContentSizeCategory = true
     }
     
     func configureProduct(of product: Product) {

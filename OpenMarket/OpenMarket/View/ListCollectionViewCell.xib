@@ -101,6 +101,7 @@
             <size key="customSize" width="388" height="82"/>
             <connections>
                 <outlet property="discountPriceLabel" destination="I58-aU-Ssv" id="gDQ-Ez-Nq7"/>
+                <outlet property="indicator" destination="Vps-te-09y" id="4Vt-06-weu"/>
                 <outlet property="priceLabel" destination="xcA-ur-CnH" id="60w-EO-xUZ"/>
                 <outlet property="productImageView" destination="EUv-nb-uvq" id="Oeb-S6-W6I"/>
                 <outlet property="productNameLabel" destination="fSc-Rn-zlZ" id="XsU-YK-5OT"/>
