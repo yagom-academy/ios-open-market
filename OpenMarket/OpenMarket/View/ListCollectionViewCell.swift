@@ -2,6 +2,7 @@ import UIKit
 
 class ListCollectionViewCell: UICollectionViewCell {
     let contentStackView = UIStackView()
+    let labelStackView = UIStackView()
     let nameStackView = UIStackView()
     let priceStackView = UIStackView()
     let productImageView = UIImageView()
@@ -23,11 +24,16 @@ class ListCollectionViewCell: UICollectionViewCell {
     func configUI() {
         addSubviews()
         setUpContentStackView()
+        setUpLabelStackView()
+        setUpProductImageView()
+        setUpNameStackView()
     }
     
     func addSubviews() {
         contentView.addSubview(contentStackView)
         contentStackView.addArrangedSubview(productImageView)
+        contentStackView.addArrangedSubview(labelStackView)
+        labelStackView.addArrangedSubview(nameStackView)
     }
     
     func setUpContentStackView() {
@@ -44,6 +50,20 @@ class ListCollectionViewCell: UICollectionViewCell {
         ])
     }
     
+    func setUpLabelStackView() {
+        labelStackView.axis = .vertical
+        labelStackView.alignment = .center
+        labelStackView.distribution = .fill
+        labelStackView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            labelStackView.topAnchor.constraint(equalTo: contentStackView.topAnchor),
+            labelStackView.bottomAnchor.constraint(equalTo: contentStackView.bottomAnchor),
+            labelStackView.leadingAnchor.constraint(equalTo: productImageView.trailingAnchor),
+            labelStackView.trailingAnchor.constraint(equalTo: contentStackView.trailingAnchor)
+        ])
+    }
+    
     func setUpProductImageView() {
         productImageView.translatesAutoresizingMaskIntoConstraints = false
         
@@ -51,5 +71,14 @@ class ListCollectionViewCell: UICollectionViewCell {
             productImageView.heightAnchor.constraint(equalTo: contentStackView.heightAnchor),
             productImageView.widthAnchor.constraint(equalTo: productImageView.heightAnchor)
         ])
+    }
+    
+    func setUpNameStackView() {
+        nameStackView.axis = .horizontal
+        nameStackView.alignment = .center
+        nameStackView.distribution = .fill
+        
+        nameStackView.addArrangedSubview(productNameLabel)
+        nameStackView.addArrangedSubview(stockLabel)
     }
 }
