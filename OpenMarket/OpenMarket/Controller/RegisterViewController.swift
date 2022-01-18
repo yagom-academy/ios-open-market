@@ -50,6 +50,44 @@ class RegisterViewController: UIViewController {
         guard inputValidation() else {
             return
         }
+        guard let product = textFieldsStackView.createRegistration() else {
+            return
+        }
+        let imageFiles = createImageFiles()
+        requestRegistration(product: product, imageFiles: imageFiles)
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    func requestRegistration(product: ProductRegistration, imageFiles: [ImageFile]) {
+        let networkManager = NetworkManager()
+        let requestResult = networkManager.requestRegister(params: product, images: imageFiles)
+        switch requestResult {
+        case .success(let request):
+            networkManager.fetch(request: request, decodingType: Product.self) { result in
+                switch result {
+                case .success:
+                    self.showAlert(message: "상품이 등록되었습니다.")
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
+            }
+        case .failure(let error):
+            print(error.localizedDescription)
+        }
+    }
+    
+    func createImageFiles() -> [ImageFile] {
+        var imageFiles = [ImageFile]()
+        
+        images.forEach { image in
+            guard let imageData = image.jpegData(compressionQuality: 1) else {
+                self.showAlert(message: "잘못된 이미지입니다.")
+                return
+            }
+            let imageFile = ImageFile(name: UUID().uuidString, data: imageData, type: .jpeg)
+            imageFiles.append(imageFile)
+        }
+        return imageFiles
     }
     
     private func inputValidation() -> Bool {

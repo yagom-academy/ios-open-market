@@ -30,6 +30,30 @@ class TextFieldsStackView: UIStackView {
         setUpPlaceHolder()
     }
     
+    func createRegistration() -> ProductRegistration? {
+        let secret = "DV!?dhTmSZkL625N"
+        guard let name = nameTextField.text,
+              let description = descriptionTextView.text,
+              let price = priceTextField.text,
+              let doublePrice = Double(price),
+              let segmentTitle = currency.titleForSegment(at: currency.selectedSegmentIndex),
+              let currency = Currency(rawValue: segmentTitle),
+              let discountedPrice = Double(discountedPriceTextField.text ?? "0"),
+              let stock = Int(stockTextField.text ?? "0") else {
+                  return nil
+              }
+        
+        return ProductRegistration(
+            name: name,
+            descriptions: description,
+            price: doublePrice,
+            currency: currency,
+            discountedPrice: discountedPrice,
+            stock: stock,
+            secret: secret
+        )
+    }
+    
     func setUpDescriptionText() {
         descriptionTextView.delegate = self
         descriptionTextView.text = Placeholder.description
