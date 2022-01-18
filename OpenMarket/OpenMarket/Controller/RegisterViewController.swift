@@ -16,7 +16,7 @@ class RegisterViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpCollectionView()
-        setNotificationCenter()
+        setUpNotificationCenter()
     }
     
     func setUpCollectionView() {
@@ -151,7 +151,7 @@ extension RegisterViewController: UICollectionViewDelegateFlowLayout {
 
 extension RegisterViewController: UIImagePickerControllerDelegate & UINavigationControllerDelegate {
     
-    private func setNotificationCenter() {
+    private func setUpNotificationCenter() {
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(tappedAddButton),

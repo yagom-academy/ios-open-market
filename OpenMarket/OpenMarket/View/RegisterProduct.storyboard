@@ -49,7 +49,7 @@
                                                 <rect key="frame" x="0.0" y="42" width="398" height="34"/>
                                                 <subviews>
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="hUz-td-uu1">
-                                                        <rect key="frame" x="0.0" y="0.0" width="259" height="34"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="293" height="34"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="34" id="Nar-0Q-Dxx"/>
                                                         </constraints>
@@ -57,10 +57,10 @@
                                                         <textInputTraits key="textInputTraits"/>
                                                     </textField>
                                                     <segmentedControl opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="2XC-jE-m27">
-                                                        <rect key="frame" x="267" y="0.0" width="131" height="35"/>
+                                                        <rect key="frame" x="301" y="0.0" width="97" height="35"/>
                                                         <segments>
-                                                            <segment title="First"/>
-                                                            <segment title="Second"/>
+                                                            <segment title="KRW"/>
+                                                            <segment title="USD"/>
                                                         </segments>
                                                     </segmentedControl>
                                                 </subviews>

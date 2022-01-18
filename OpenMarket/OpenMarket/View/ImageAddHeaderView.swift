@@ -20,7 +20,7 @@ class ImageAddHeaderView: UICollectionReusableView {
         addButton.layer.borderColor = UIColor.systemGray3.cgColor
         addButton.layer.borderWidth = 1
         
-        setNotificationCenter()
+        setUpNotificationCenter()
     }
     
     @IBAction func tappedAddButton(_ sender: UIButton) {
@@ -34,7 +34,7 @@ class ImageAddHeaderView: UICollectionReusableView {
         imageCountLabel.text = "\(imageCount) / 5"
     }
     
-    private func setNotificationCenter() {
+    private func setUpNotificationCenter() {
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(updateLabelText),
