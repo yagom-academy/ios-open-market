@@ -1,5 +1,6 @@
 import Foundation
 
-protocol DataStroable {
+protocol DataStorable {
     var storage: Decodable? { get set }
+//    var requester: Requestable? { get set }
 }
