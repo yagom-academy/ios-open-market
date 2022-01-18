@@ -7,14 +7,6 @@ class MainViewController: UIViewController {
     private let listViewController = ListCollectionViewController()
     private let gridViewController = GridCollectionViewController()
     
-    override init(nibName: String?, bundle: Bundle?) {
-        super.init(nibName: nibName, bundle: bundle)
-    }
-    
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureMainViewAttribute()
