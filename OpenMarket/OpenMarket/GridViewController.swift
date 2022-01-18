@@ -48,8 +48,8 @@ extension GridViewController {
     }
     
     private func setupCollectionViewCells() {
-        let gridNib = UINib(nibName: GridCell.identifier, bundle: .main)
-        collectionView.register(gridNib, forCellWithReuseIdentifier: GridCell.identifier)
+        let gridNib = UINib(nibName: NibIdentifier.grid, bundle: .main)
+        collectionView.register(gridNib, forCellWithReuseIdentifier: MarketCell.identifier)
     }
 }
 
@@ -62,12 +62,12 @@ extension GridViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: GridCell.identifier,
+            withReuseIdentifier: MarketCell.identifier,
             for: indexPath
-        ) as? GridCell else {
+        ) as? MarketCell else {
             return UICollectionViewCell()
         }
-        cell.configure(with: products[indexPath.row])
+        cell.configure(with: products[indexPath.row], cellType: .grid)
         
         return cell
     }

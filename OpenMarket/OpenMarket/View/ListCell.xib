@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -11,7 +10,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ListCell" id="gTV-IL-0wX" customClass="ListCell" customModule="OpenMarket" customModuleProvider="target">
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="MarketCell" id="gTV-IL-0wX" customClass="MarketCell" customModule="OpenMarket" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="420" height="88"/>
             <autoresizingMask key="autoresizingMask"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -94,11 +93,11 @@
             </constraints>
             <size key="customSize" width="420" height="88"/>
             <connections>
-                <outlet property="discountedPriceLabel" destination="GM3-GW-80n" id="qg3-NP-lVT"/>
-                <outlet property="imageView" destination="WXP-UD-xNM" id="eDh-sz-bDh"/>
-                <outlet property="priceLabel" destination="x6i-dq-ldD" id="pJb-Fz-JhC"/>
-                <outlet property="productNameLabel" destination="ckG-ue-9jL" id="Dfq-Zc-NEg"/>
-                <outlet property="stockLabel" destination="DQd-Ur-LOu" id="2wm-Qf-3jZ"/>
+                <outlet property="discountedPriceLabel" destination="GM3-GW-80n" id="oJS-tW-kki"/>
+                <outlet property="imageView" destination="WXP-UD-xNM" id="HK0-rH-eju"/>
+                <outlet property="priceLabel" destination="x6i-dq-ldD" id="X2S-1G-ZRh"/>
+                <outlet property="productNameLabel" destination="ckG-ue-9jL" id="7UV-hv-9kU"/>
+                <outlet property="stockLabel" destination="DQd-Ur-LOu" id="By1-MZ-CgV"/>
             </connections>
             <point key="canvasLocation" x="400.00000000000006" y="152.00892857142856"/>
         </collectionViewCell>

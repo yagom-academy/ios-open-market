@@ -48,8 +48,8 @@ extension ListViewController {
     }
     
     private func setupCollectionViewCells() {
-        let listNib = UINib(nibName: ListCell.identifier, bundle: .main)
-        collectionView.register(listNib, forCellWithReuseIdentifier: ListCell.identifier)
+        let listNib = UINib(nibName: NibIdentifier.list, bundle: .main)
+        collectionView.register(listNib, forCellWithReuseIdentifier: MarketCell.identifier)
     }
 }
 
@@ -62,12 +62,12 @@ extension ListViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: ListCell.identifier,
+            withReuseIdentifier: MarketCell.identifier,
             for: indexPath
-        ) as? ListCell else {
+        ) as? MarketCell else {
             return UICollectionViewCell()
         }
-        cell.configure(with: products[indexPath.row])
+        cell.configure(with: products[indexPath.row], cellType: .list)
         
         return cell
     }

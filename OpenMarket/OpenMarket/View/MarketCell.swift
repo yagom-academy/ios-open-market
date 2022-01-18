@@ -1,14 +1,21 @@
 //
-//  ListCell.swift
+//  MarketCell.swift
 //  OpenMarket
 //
-//  Created by 권나영 on 2022/01/11.
+//  Created by Jun Bang on 2022/01/18.
 //
 
 import UIKit
 
-final class ListCell: UICollectionViewCell {
-    //MARK: - IBOutlets
+final class MarketCell: UICollectionViewCell {
+    // MARK: - Nested Type
+    
+    enum CellType {
+        case list
+        case grid
+    }
+    
+    // MARK: - IBOutlets
     
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var productNameLabel: UILabel!
@@ -16,7 +23,15 @@ final class ListCell: UICollectionViewCell {
     @IBOutlet weak var discountedPriceLabel: UILabel!
     @IBOutlet weak var stockLabel: UILabel!
     
+    //MARK: - Properties
+    private var cellType: CellType?
+    
+    
     //MARK: - Configure Methods
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+    }
     
     override func prepareForReuse() {
         super.prepareForReuse()
@@ -25,7 +40,9 @@ final class ListCell: UICollectionViewCell {
         priceLabel.attributedText = nil
     }
     
-    func configure(with product: Product) {
+    func configure(with product: Product, cellType: CellType) {
+        self.cellType = cellType
+        setBorder()
         setImageView(with: product.thumbnailURL)
         setProductNameLabel(to: product.name)
         setPriceLabels(with: product.price, and: product.discountedPrice, currency: product.currency)
@@ -33,14 +50,22 @@ final class ListCell: UICollectionViewCell {
     }
 }
 
-//MARK: - Private Methods
+// MARK: - Private Methods
 
-extension ListCell {
+extension MarketCell {
+    private func setBorder() {
+        if cellType == .grid {
+            layer.borderWidth = 1
+            layer.borderColor = UIColor.lightGray.cgColor
+            layer.cornerRadius = 10
+        }
+    }
+    
     private func setImageView(with urlString: String) {
         guard let url = URL(string: urlString),
-              let data = try? Data(contentsOf: url)else {
-                  return
-              }
+              let data = try? Data(contentsOf: url) else {
+            return
+        }
         imageView.image = UIImage(data: data)
     }
     
@@ -50,7 +75,7 @@ extension ListCell {
     }
     
     private func setPriceLabels(with price: Int, and discountedPrice: Int, currency: String) {
-        let isNotDiscounted = discountedPrice == 0
+        let dontShowDiscounted = discountedPrice == 0
         guard let priceString = price.decimalFormat,
               let discountedPriceString = discountedPrice.decimalFormat else {
             return
@@ -58,7 +83,7 @@ extension ListCell {
         priceLabel.text = currency + CellString.space + priceString
         discountedPriceLabel.text = currency + CellString.space + discountedPriceString
         
-        if isNotDiscounted {
+        if dontShowDiscounted {
             discountedPriceLabel.isHidden = true
             priceLabel.textColor = .systemGray
         } else {
@@ -90,6 +115,6 @@ extension ListCell {
     }
 }
 
-//MARK: - IdentifiableView
+// MARK: - IdentifiableView
 
-extension ListCell: IdentifiableView { }
+extension MarketCell: IdentifiableView { }

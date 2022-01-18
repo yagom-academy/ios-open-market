@@ -10,9 +10,7 @@
 		3B0CB6EF2787F3A500390413 /* APIServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B0CB6EE2787F3A500390413 /* APIServiceTests.swift */; };
 		3B0CB6F22788151C00390413 /* StubRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B0CB6F12788151C00390413 /* StubRequest.swift */; };
 		3B141DDF27913A59004D3727 /* CellString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B141DDE27913A59004D3727 /* CellString.swift */; };
-		3B6E6C28278D30F20061EA49 /* ListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B6E6C26278D30F20061EA49 /* ListCell.swift */; };
 		3B6E6C29278D30F20061EA49 /* ListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3B6E6C27278D30F20061EA49 /* ListCell.xib */; };
-		3B6E6C2C278D72980061EA49 /* GridCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B6E6C2A278D72980061EA49 /* GridCell.swift */; };
 		3B6E6C2D278D72980061EA49 /* GridCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3B6E6C2B278D72980061EA49 /* GridCell.xib */; };
 		3B8144632795A9490042EF33 /* IdentifiableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8144622795A9490042EF33 /* IdentifiableView.swift */; };
 		3B971C5A2782E26400088872 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B971C592782E26400088872 /* Product.swift */; };
@@ -36,6 +34,8 @@
 		EDC4FD1F278570B500E0A775 /* ParsableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDC4FD1E278570B500E0A775 /* ParsableTests.swift */; };
 		EDC4FD282785729500E0A775 /* JSONParsable.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDC4FD272785729500E0A775 /* JSONParsable.swift */; };
 		EDC4FD2E2785CD4C00E0A775 /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDC4FD2D2785CD4C00E0A775 /* APIError.swift */; };
+		EDE728EC27966E58003C3607 /* MarketCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE728EB27966E58003C3607 /* MarketCell.swift */; };
+		EDE728EE27967081003C3607 /* NibIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE728ED27967081003C3607 /* NibIdentifier.swift */; };
 		EDF3685E278EBF9E006FF528 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF3685D278EBF9E006FF528 /* ListViewController.swift */; };
 		EDF36860278EBFA5006FF528 /* GridViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF3685F278EBFA5006FF528 /* GridViewController.swift */; };
 /* End PBXBuildFile section */
@@ -54,9 +54,7 @@
 		3B0CB6EE2787F3A500390413 /* APIServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIServiceTests.swift; sourceTree = "<group>"; };
 		3B0CB6F12788151C00390413 /* StubRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubRequest.swift; sourceTree = "<group>"; };
 		3B141DDE27913A59004D3727 /* CellString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellString.swift; sourceTree = "<group>"; };
-		3B6E6C26278D30F20061EA49 /* ListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCell.swift; sourceTree = "<group>"; };
 		3B6E6C27278D30F20061EA49 /* ListCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ListCell.xib; sourceTree = "<group>"; };
-		3B6E6C2A278D72980061EA49 /* GridCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridCell.swift; sourceTree = "<group>"; };
 		3B6E6C2B278D72980061EA49 /* GridCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GridCell.xib; sourceTree = "<group>"; };
 		3B8144622795A9490042EF33 /* IdentifiableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentifiableView.swift; sourceTree = "<group>"; };
 		3B971C592782E26400088872 /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
@@ -84,6 +82,8 @@
 		EDC4FD20278570B500E0A775 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EDC4FD272785729500E0A775 /* JSONParsable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONParsable.swift; sourceTree = "<group>"; };
 		EDC4FD2D2785CD4C00E0A775 /* APIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
+		EDE728EB27966E58003C3607 /* MarketCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketCell.swift; sourceTree = "<group>"; };
+		EDE728ED27967081003C3607 /* NibIdentifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NibIdentifier.swift; sourceTree = "<group>"; };
 		EDF3685D278EBF9E006FF528 /* ListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
 		EDF3685F278EBFA5006FF528 /* GridViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -119,6 +119,7 @@
 			isa = PBXGroup;
 			children = (
 				3B141DDE27913A59004D3727 /* CellString.swift */,
+				EDE728ED27967081003C3607 /* NibIdentifier.swift */,
 			);
 			path = Namespaces;
 			sourceTree = "<group>";
@@ -126,12 +127,11 @@
 		3B6E6C22278D2A7B0061EA49 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				3B6E6C26278D30F20061EA49 /* ListCell.swift */,
-				3B6E6C2A278D72980061EA49 /* GridCell.swift */,
 				3B6E6C2B278D72980061EA49 /* GridCell.xib */,
 				3B6E6C27278D30F20061EA49 /* ListCell.xib */,
 				C70FB10025BEF61C00C9924E /* Main.storyboard */,
 				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
+				EDE728EB27966E58003C3607 /* MarketCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -356,7 +356,7 @@
 				3B971C782783EFCB00088872 /* DataTaskProvidable.swift in Sources */,
 				ED85D52F278410A3007A23CF /* APIServicable.swift in Sources */,
 				3B971C92278573B600088872 /* MarketAPIService.swift in Sources */,
-				3B6E6C28278D30F20061EA49 /* ListCell.swift in Sources */,
+				EDE728EC27966E58003C3607 /* MarketCell.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* MarketViewController.swift in Sources */,
 				EDF36860278EBFA5006FF528 /* GridViewController.swift in Sources */,
 				ED85D53127842A2D007A23CF /* PostProduct.swift in Sources */,
@@ -365,13 +365,13 @@
 				EDC4FD282785729500E0A775 /* JSONParsable.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				ED85D53527842A51007A23CF /* PatchProduct.swift in Sources */,
+				EDE728EE27967081003C3607 /* NibIdentifier.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 				ED6EEFF927870D750042B6C2 /* Int+Extensions.swift in Sources */,
 				ED0157E52782E5C400BEE737 /* Page.swift in Sources */,
 				EDC4FD2E2785CD4C00E0A775 /* APIError.swift in Sources */,
 				EDF3685E278EBF9E006FF528 /* ListViewController.swift in Sources */,
 				3B8144632795A9490042EF33 /* IdentifiableView.swift in Sources */,
-				3B6E6C2C278D72980061EA49 /* GridCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
