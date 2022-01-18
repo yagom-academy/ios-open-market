@@ -27,6 +27,7 @@ class ListCollectionViewCell: UICollectionViewCell {
         setUpLabelStackView()
         setUpProductImageView()
         setUpNameStackView()
+        setUpPriceStackView()
     }
     
     func addSubviews() {
@@ -34,6 +35,7 @@ class ListCollectionViewCell: UICollectionViewCell {
         contentStackView.addArrangedSubview(productImageView)
         contentStackView.addArrangedSubview(labelStackView)
         labelStackView.addArrangedSubview(nameStackView)
+        labelStackView.addArrangedSubview(priceStackView)
     }
     
     func setUpContentStackView() {
@@ -80,5 +82,14 @@ class ListCollectionViewCell: UICollectionViewCell {
         
         nameStackView.addArrangedSubview(productNameLabel)
         nameStackView.addArrangedSubview(stockLabel)
+    }
+    
+    func setUpPriceStackView() {
+        priceStackView.axis = .horizontal
+        priceStackView.alignment = .center
+        priceStackView.distribution = .fill
+        
+        priceStackView.addArrangedSubview(priceLabel)
+        priceStackView.addArrangedSubview(discountedPriceLabel)
     }
 }
