@@ -33,7 +33,7 @@ final class ListViewController: UIViewController {
         super.viewDidLoad()
         
         setupCollectionViewCells()
-        configureCollectionViewList()
+        setupListLayout()
         collectionView.dataSource = self
     }
 }
@@ -41,7 +41,7 @@ final class ListViewController: UIViewController {
 //MARK: - Private Methods
 
 extension ListViewController {
-    private func configureCollectionViewList() {
+    private func setupListLayout() {
         let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
         let layout = UICollectionViewCompositionalLayout.list(using: configuration)
         collectionView.collectionViewLayout = layout
@@ -61,7 +61,10 @@ extension ListViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ListCell.identifier, for: indexPath) as? ListCell else {
+        guard let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: ListCell.identifier,
+            for: indexPath
+        ) as? ListCell else {
             return UICollectionViewCell()
         }
         cell.configure(with: products[indexPath.row])

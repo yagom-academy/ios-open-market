@@ -62,7 +62,7 @@ extension GridCell {
     }
     
     private func setPriceLabels(with price: Int, and discountedPrice: Int, currency: String) {
-        let dontShowDiscounted = discountedPrice == 0
+        let isDiscounted = discountedPrice != 0
         guard let priceString = price.decimalFormat,
               let discountedPriceString = discountedPrice.decimalFormat else {
                   return
@@ -70,13 +70,13 @@ extension GridCell {
         priceLabel.text = currency + CellString.space + priceString
         discountedPriceLabel.text = currency + CellString.space + discountedPriceString
         
-        if dontShowDiscounted {
-            discountedPriceLabel.isHidden = true
-            priceLabel.textColor = .systemGray
-        } else {
+        if isDiscounted {
             priceLabel.attributedText = convertToAttributedString(from: priceLabel)
             priceLabel.textColor = .red
             discountedPriceLabel.textColor = .systemGray
+        } else {
+            discountedPriceLabel.isHidden = true
+            priceLabel.textColor = .systemGray
         }
     }
     

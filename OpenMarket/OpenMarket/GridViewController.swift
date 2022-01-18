@@ -33,7 +33,7 @@ final class GridViewController: UIViewController {
         super.viewDidLoad()
         
         setupCollectionViewCells()
-        configureCollectionViewGrid()
+        setupGridLayout()
         collectionView.dataSource = self
         collectionView.delegate = self
     }
@@ -42,7 +42,7 @@ final class GridViewController: UIViewController {
 //MARK: - Private Methods
 
 extension GridViewController {
-    private func configureCollectionViewGrid() {
+    private func setupGridLayout() {
         let layout = UICollectionViewFlowLayout()
         collectionView.collectionViewLayout = layout
     }
@@ -61,7 +61,10 @@ extension GridViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: GridCell.identifier, for: indexPath) as? GridCell else {
+        guard let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: GridCell.identifier,
+            for: indexPath
+        ) as? GridCell else {
             return UICollectionViewCell()
         }
         cell.configure(with: products[indexPath.row])
@@ -87,7 +90,7 @@ extension GridViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width = collectionView.frame.width / 2 - 15
-        let height = UIScreen.main.bounds.height / 3
+        let height = collectionView.frame.height / 2.5
         let size = CGSize(width: width, height: height)
         
         return size
