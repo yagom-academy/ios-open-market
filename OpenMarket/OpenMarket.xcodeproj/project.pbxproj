@@ -100,12 +100,12 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
-		189785452791482C00E62B0A /* Extension */ = {
+		189785452791482C00E62B0A /* TextAttribute */ = {
 			isa = PBXGroup;
 			children = (
 				18978543279141F800E62B0A /* String+Extension.swift */,
 			);
-			path = Extension;
+			path = TextAttribute;
 			sourceTree = "<group>";
 		};
 		189C6B89278D57C800DE6D00 /* NetWork */ = {
@@ -147,20 +147,18 @@
 		604E1F5B278AE21000FE6A83 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				189785452791482C00E62B0A /* Extension */,
-				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
-				6019129127901DAE00A513C4 /* CollectionViewGridCell.swift */,
-				6019129327910A9B00A513C4 /* CollectionViewListCell.swift */,
+				189785452791482C00E62B0A /* TextAttribute */,
+				60B7C1F22796ABD80012215F /* CollectionViewCell */,
 			);
 			path = View;
 			sourceTree = "<group>";
 		};
-		604E1F5C278AE21500FE6A83 /* Controller */ = {
+		604E1F5C278AE21500FE6A83 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
 				C70FB0FE25BEF61C00C9924E /* ProductListViewController.swift */,
 			);
-			name = Controller;
+			name = ViewController;
 			sourceTree = "<group>";
 		};
 		60B7C1EE2796A69D0012215F /* ErrorType */ = {
@@ -196,6 +194,27 @@
 			path = Image;
 			sourceTree = "<group>";
 		};
+		60B7C1F22796ABD80012215F /* CollectionViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				6019129327910A9B00A513C4 /* CollectionViewListCell.swift */,
+				6019129127901DAE00A513C4 /* CollectionViewGridCell.swift */,
+			);
+			path = CollectionViewCell;
+			sourceTree = "<group>";
+		};
+		60B7C1F32796AC1C0012215F /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */,
+				C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */,
+				C70FB10325BEF61D00C9924E /* Assets.xcassets */,
+				C70FB10825BEF61D00C9924E /* Info.plist */,
+				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
+			);
+			path = Application;
+			sourceTree = "<group>";
+		};
 		C70FB0EE25BEF61C00C9924E = {
 			isa = PBXGroup;
 			children = (
@@ -217,13 +236,10 @@
 		C70FB0F925BEF61C00C9924E /* OpenMarket */ = {
 			isa = PBXGroup;
 			children = (
-				C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */,
-				C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */,
-				C70FB10325BEF61D00C9924E /* Assets.xcassets */,
-				C70FB10825BEF61D00C9924E /* Info.plist */,
+				60B7C1F32796AC1C0012215F /* Application */,
 				188150BA2789754400EE236E /* Model */,
 				604E1F5B278AE21000FE6A83 /* View */,
-				604E1F5C278AE21500FE6A83 /* Controller */,
+				604E1F5C278AE21500FE6A83 /* ViewController */,
 			);
 			path = OpenMarket;
 			sourceTree = "<group>";
@@ -551,7 +567,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = OpenMarket/Info.plist;
+				INFOPLIST_FILE = OpenMarket/Application/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -570,7 +586,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = OpenMarket/Info.plist;
+				INFOPLIST_FILE = OpenMarket/Application/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
