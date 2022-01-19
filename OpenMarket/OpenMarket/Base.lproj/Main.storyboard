@@ -90,10 +90,10 @@
             </objects>
             <point key="canvasLocation" x="69.565217391304358" y="114.50892857142857"/>
         </scene>
-        <!--Product Registration Modification View Controller22-->
+        <!--Product Registration Modification View Controller-->
         <scene sceneID="QtW-oA-ueM">
             <objects>
-                <viewController id="QM3-ah-oJL" customClass="ProductRegistrationModificationViewController22" customModule="OpenMarket" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="QM3-ah-oJL" customClass="ProductRegistrationModificationViewController" customModule="OpenMarket" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="loT-H2-2zC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -169,7 +169,7 @@
                                                             <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="commodo consequat. Duis aute ir" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="AeD-W2-NTR">
                                                                 <rect key="frame" x="0.0" y="0.0" width="293" height="34"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                                <textInputTraits key="textInputTraits"/>
+                                                                <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
                                                             </textField>
                                                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="6gX-zM-SPM">
                                                                 <rect key="frame" x="301" y="0.0" width="97" height="35"/>
@@ -183,12 +183,12 @@
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="commodo consequat. Duis aute irure dolor in " borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="thL-sf-aPJ">
                                                         <rect key="frame" x="0.0" y="68" width="398" height="34"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                        <textInputTraits key="textInputTraits"/>
+                                                        <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
                                                     </textField>
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="commodo consequat. Duis aute irure dolor in " borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="bqx-Lv-upZ">
                                                         <rect key="frame" x="0.0" y="102" width="398" height="34"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                        <textInputTraits key="textInputTraits"/>
+                                                        <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                                     </textField>
                                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="eOS-d6-9S2">
                                                         <rect key="frame" x="0.0" y="136" width="398" height="166.5"/>
