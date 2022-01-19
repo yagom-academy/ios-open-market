@@ -44,7 +44,6 @@ final class ProductPageViewController: UIViewController, DataRepresentable {
         activityIndicator.style = .large
         activityIndicator.startAnimating()
         configureSegmentedConrol()
-        configureRefreshControl()
         configureViewLayout()
         view.bringSubviewToFront(activityIndicator)
         datamanager.update(completion: applyDataToCurrentView)
@@ -80,29 +79,7 @@ extension ProductPageViewController {
         segmentedControl.layer.borderColor = UIColor.systemBlue.cgColor
         segmentedControl.layer.borderWidth = 2
     }
-    
-    private func configureRefreshControl() {
-        let refreshControl1 = UIRefreshControl()
-        let refreshControl2 = UIRefreshControl()
-        gridCollectionView.refreshControl = refreshControl1
-        listCollectionView.refreshControl = refreshControl2
-        refreshControl1.addTarget(self, action: #selector(refreshDidTrigger) , for: .valueChanged)
-        refreshControl2.addTarget(self, action: #selector(refreshDidTrigger) , for: .valueChanged)
-        gridCollectionView.addSubview(refreshControl1)
-        listCollectionView.addSubview(refreshControl2)
-    }
-    
-    @objc
-    private func refreshDidTrigger() {
-        datamanager.update()
-        DispatchQueue.global().async {
-            Thread.sleep(forTimeInterval: 1)
-            DispatchQueue.main.async {
-                self.currentCollectionView?.refreshControl?.endRefreshing()
-            }
-        }
-    }
-    
+
     private func configureViewLayout() {
         if currentCollectionView != nil {
             currentCollectionView?.removeFromSuperview()

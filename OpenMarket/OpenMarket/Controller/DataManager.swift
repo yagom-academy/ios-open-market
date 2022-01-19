@@ -9,9 +9,9 @@ import UIKit
 
 class DataManager {
     
-    private var itemsPerPage: Int = 15
-    private var lastLoadedPage: Int = 1
-    private var hasNextPage: Bool = true
+    var itemsPerPage: Int = 20
+    var lastLoadedPage: Int = 1
+    var hasNextPage: Bool = true
     weak var delegate: DataRepresentable?
 
     func nextPage(completion: @escaping () -> Void = {}) {
@@ -22,7 +22,9 @@ class DataManager {
     }
 
     func update(completion: @escaping () -> Void = {}) {
-        fetchPage(completion: completion)
+        fetchPage {
+            completion()
+        }
     }
 
     private func fetchPage(completion: @escaping () -> Void = {}) {
@@ -31,7 +33,6 @@ class DataManager {
                 switch result {
                 case .success(let data):
                     self.hasNextPage = data.hasNext
-                    self.itemsPerPage = 5
                     self.delegate?.snapshot.appendItems(data.pages)
                 case .failure(let error):
                     print(error)
