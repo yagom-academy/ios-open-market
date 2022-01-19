@@ -48,7 +48,7 @@ class GridCollectionViewCell: UICollectionViewCell {
         productImageView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            productImageView.topAnchor.constraint(equalTo: contentStackView.topAnchor),
+            productImageView.topAnchor.constraint(equalTo: contentStackView.topAnchor, constant: 10),
             productImageView.widthAnchor.constraint(equalTo: contentStackView.widthAnchor, multiplier: 0.8),
             productImageView.heightAnchor.constraint(equalTo: productImageView.widthAnchor)
         ])
