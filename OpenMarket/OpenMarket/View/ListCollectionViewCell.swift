@@ -158,13 +158,32 @@ class ListCollectionViewCell: UICollectionViewCell {
     
     func setUpPriceLabel(price: Double, discountedPrice: Double, currency: String) {
         if discountedPrice == 0 {
-            priceLabel.text = "\(currency) \(price)"
+            priceLabel.text = "\(currency) \(price.formattedPrice())"
             priceLabel.textColor = .systemGray
         } else {
-            priceLabel.text = "\(currency) \(price)"
+            priceLabel.text = "\(currency) \(price.formattedPrice())"
             priceLabel.textColor = .red
-            discountedPriceLabel.text = "\(currency) \(discountedPrice)"
+            priceLabel.attributedText = priceLabel.text?.strikeThrough()
+            discountedPriceLabel.text = "\(currency) \(discountedPrice.formattedPrice())"
             discountedPriceLabel.textColor = .systemGray
         }
+    }
+}
+
+extension String {
+    func strikeThrough() -> NSAttributedString {
+        let attributeString = NSMutableAttributedString(string: self)
+        attributeString.addAttribute(NSAttributedString.Key.strikethroughStyle, value: NSUnderlineStyle.single.rawValue, range: NSMakeRange(0, attributeString.length))
+        
+        return attributeString
+    }
+}
+
+extension Double {
+    func formattedPrice() -> String {
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .decimal
+        
+        return numberFormatter.string(for: self) ?? ""
     }
 }
