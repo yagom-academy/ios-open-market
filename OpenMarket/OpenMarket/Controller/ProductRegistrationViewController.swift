@@ -71,6 +71,10 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
         }
         return UIImage(cgImage: squareImage)
     }
+    
+    @IBAction func tapBackground(_ sender: UITapGestureRecognizer) {
+        view.endEditing(true)
+    }
 }
 
 extension ProductRegistrationViewController: UIImagePickerControllerDelegate {
