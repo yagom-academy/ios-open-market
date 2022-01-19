@@ -42,32 +42,28 @@ class ListCollectionViewCell: UICollectionViewCell {
     
     func setUpContentStackView() {
         contentStackView.axis = .horizontal
-        contentStackView.alignment = .top
+        contentStackView.alignment = .fill
         contentStackView.distribution = .fill
         contentStackView.translatesAutoresizingMaskIntoConstraints = false
         contentStackView.layoutMargins = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         contentStackView.isLayoutMarginsRelativeArrangement = true
         
         NSLayoutConstraint.activate([
-            contentStackView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            contentStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            contentStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            contentStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
+            contentStackView.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width),
+            contentStackView.heightAnchor.constraint(equalToConstant: contentView.bounds.height),
+            contentStackView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            contentStackView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
         ])
     }
     
     func setUpLabelStackView() {
         labelStackView.axis = .vertical
-        labelStackView.alignment = .center
+        labelStackView.alignment = .fill
         labelStackView.distribution = .fillEqually
         labelStackView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            labelStackView.topAnchor.constraint(equalTo: contentStackView.topAnchor),
-            labelStackView.bottomAnchor.constraint(equalTo: contentStackView.bottomAnchor),
-            labelStackView.leadingAnchor.constraint(equalTo: productImageView.trailingAnchor),
-            labelStackView.trailingAnchor.constraint(equalTo: contentStackView.trailingAnchor),
-            labelStackView.widthAnchor.constraint(equalToConstant: 300)
+            labelStackView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
         ])
     }
     
@@ -76,7 +72,6 @@ class ListCollectionViewCell: UICollectionViewCell {
         productImageView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            productImageView.widthAnchor.constraint(lessThanOrEqualToConstant: 100),
             productImageView.widthAnchor.constraint(equalTo: contentStackView.heightAnchor, multiplier: 0.8),
             productImageView.heightAnchor.constraint(equalTo: productImageView.widthAnchor),
             productImageView.centerYAnchor.constraint(equalTo: contentStackView.centerYAnchor)
@@ -87,28 +82,35 @@ class ListCollectionViewCell: UICollectionViewCell {
         nameStackView.axis = .horizontal
         nameStackView.alignment = .center
         nameStackView.distribution = .fill
+        nameStackView.translatesAutoresizingMaskIntoConstraints = false
+        
+        stockLabel.textAlignment = .right
         
         nameStackView.addArrangedSubview(productNameLabel)
+        productNameLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         nameStackView.addArrangedSubview(stockLabel)
-        
-        productNameLabel.widthAnchor.constraint(equalTo: nameStackView.widthAnchor, multiplier: 0.75).isActive = true
+        nameStackView.addArrangedSubview(accessoryImageView)
     }
     
     func setUpPriceStackView() {
         priceStackView.axis = .horizontal
-        priceStackView.alignment = .center
-        priceStackView.distribution = .fillEqually
+        priceStackView.alignment = .fill
+        priceStackView.distribution = .fill
+        priceStackView.spacing = 8
+        priceStackView.translatesAutoresizingMaskIntoConstraints = false
         
         priceStackView.addArrangedSubview(priceLabel)
+        priceLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         priceStackView.addArrangedSubview(discountedPriceLabel)
     }
     
     func setUpAccessoryImageView() {
         accessoryImageView.translatesAutoresizingMaskIntoConstraints = false
+        accessoryImageView.contentMode = .scaleAspectFit
         
         NSLayoutConstraint.activate([
-            accessoryImageView.widthAnchor.constraint(equalTo: stockLabel.heightAnchor),
-            accessoryImageView.heightAnchor.constraint(equalTo: accessoryImageView.widthAnchor)
+            accessoryImageView.heightAnchor.constraint(equalTo: stockLabel.heightAnchor),
+            accessoryImageView.widthAnchor.constraint(equalTo: accessoryImageView.heightAnchor)
         ])
         
         accessoryImageView.image = UIImage(systemName: "chevron.right")
