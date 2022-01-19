@@ -105,7 +105,9 @@ class MainViewController: UIViewController {
         let viewController = storyboard.instantiateViewController(
             withIdentifier: productRegistrationViewControllerIdentity
         )
-        present(viewController, animated: true, completion: nil)
+        let navigationController = UINavigationController(rootViewController: viewController)
+        navigationController.modalPresentationStyle = .fullScreen
+        present(navigationController, animated: true, completion: nil)
     }
 }
 

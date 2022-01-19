@@ -10,10 +10,29 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
         super.viewDidLoad()
         imagesCollectionView.dataSource = self
         setUpImagePicker()
+        setupNavigationBar()
+    }
+
+    @objc private func dismissProductRegistration() {
+        self.dismiss(animated: true, completion: nil)
     }
     
-    @objc func presentImagePicker() {
+    @objc private func presentImagePicker() {
         present(imagePickerController, animated: true, completion: nil)
+    }
+    
+    private func setupNavigationBar() {
+        navigationItem.leftBarButtonItem = UIBarButtonItem(
+            barButtonSystemItem: .cancel,
+            target: self,
+            action: #selector(dismissProductRegistration)
+        )
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            barButtonSystemItem: .done,
+            target: self,
+            action: nil
+        )
+        navigationItem.title = "상품등록"
     }
     
     private func setUpImagePicker() {
