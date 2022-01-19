@@ -100,6 +100,7 @@ final class ProductCreateViewController: UIViewController {
         )
         alert.addAction(title: "카메라", style: .default, handler: openCamera)
         alert.addAction(title: "앨범", style: .default, handler: openPhotoLibrary)
+        alert.addAction(title: "취소", style: .cancel)
         
         self.present(alert, animated: true, completion: nil)
     }
