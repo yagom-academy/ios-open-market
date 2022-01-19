@@ -183,7 +183,11 @@
                                 <segue destination="1FF-Gr-0yC" kind="unwind" unwindAction="unwindToProductPageViewController:" id="miO-VE-qaF"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" style="done" systemItem="done" id="2MO-la-4MX"/>
+                        <barButtonItem key="rightBarButtonItem" style="done" systemItem="done" id="2MO-la-4MX">
+                            <connections>
+                                <action selector="doneButtonClicked:" destination="B9K-f5-Ghn" id="Fgq-yY-FP3"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="containerScrollView" destination="3TB-zU-1Vr" id="9Yu-4l-CFC"/>

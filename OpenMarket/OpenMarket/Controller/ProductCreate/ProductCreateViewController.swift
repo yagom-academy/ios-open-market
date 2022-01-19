@@ -9,9 +9,7 @@ import UIKit
 
 final class ProductCreateViewController: UIViewController {
     
-    var images: [UIImage] = [] {
-        didSet { updateImageStackView() }
-    }
+    let model = ProductCreateModelManager()
     
     @IBOutlet private weak var containerScrollView: UIScrollView!
     @IBOutlet private weak var productImageStackView: UIStackView!
@@ -23,6 +21,17 @@ final class ProductCreateViewController: UIViewController {
     @IBOutlet private weak var descriptionTextView: UITextView!
     
     private let imagePicker = UIImagePickerController(allowsEditing: true)
+    private var forms: ProductCreateModelManager.Form {
+        let currencyIndex = currencySegmentedControl.selectedSegmentIndex
+        return ProductCreateModelManager.Form(
+            name: productNameTextField.text,
+            price: productPriceTextField.text,
+            currency: currencySegmentedControl.titleForSegment(at: currencyIndex),
+            discountedPrice: discountedPriceTextField.text,
+            stock: productStockTextField.text,
+            description: descriptionTextView.text
+        )
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,15 +40,21 @@ final class ProductCreateViewController: UIViewController {
         configureTextField()
     }
     
+    @IBAction func doneButtonClicked(_ sender: UIBarButtonItem) {
+        if model.process(forms) {
+            dismiss(animated: true)
+        } else {
+            let title = "필수 항목이 누락되었습니다"
+            let message = "할인가격, 재고수량을 제외한 나머지 항목은 필수적으로 입력되어야합니다."
+            presentAcceptAlert(with: title, description: message)
+        }
+    }
+    
     @IBAction private func imageAddbuttonClicked(_ sender: UIButton) {
-        if images.count >= 5 {
-            let alert = UIAlertController(
-                title: "첨부할 수 있는 이미지가 초과되었습니다",
-                message: "새로운 이미지를 첨부하려면 기존의 이미지를 제거해주세요!",
-                preferredStyle: .alert
-            )
-            alert.addAction(title: "확인", style: .default)
-            present(alert, animated: true)
+        guard model.canAddImage else {
+            let title = "첨부할 수 있는 이미지가 초과되었습니다"
+            let message = "새로운 이미지를 첨부하려면 기존의 이미지를 제거해주세요!"
+            presentAcceptAlert(with: title, description: message)
             return
         }
         
@@ -61,42 +76,36 @@ private extension ProductCreateViewController {
     
     func configureDelgate() {
         imagePicker.delegate = self
-        productNameTextField.delegate = self
-        productPriceTextField.delegate = self
-        discountedPriceTextField.delegate = self
-        productStockTextField.delegate = self
+        textEditors.forEach { if let view = $0 as? UITextField { view.delegate = self } }
+        model.imagesDidChangeHandler = self.updateImageStackView
     }
     
     func configureNotification() {
         let notificationCenter = NotificationCenter.default
-        
-        notificationCenter.addObserver(
-            self,
-            selector: #selector(keyboardWasShown),
-            name: UIResponder.keyboardDidShowNotification,
-            object: nil
-        )
-        
-        notificationCenter.addObserver(
-            self,
-            selector: #selector(keyboardWillBeHidden),
-            name: UIResponder.keyboardWillHideNotification,
-            object: nil
-        )
+        [
+            #selector(keyboardWasShown) : UIResponder.keyboardDidShowNotification,
+            #selector(keyboardWillBeHidden) : UIResponder.keyboardWillHideNotification
+        ]
+        .forEach { notificationCenter.addObserver(self, selector: $0, name: $1, object: nil) }
     }
     
     func configureTextField() {
-        let nextString = "Next"
-        let doneString = "Done"
-        productPriceTextField.addButtonToInputAccessoryView(title: nextString)
-        discountedPriceTextField.addButtonToInputAccessoryView(title: nextString)
-        productStockTextField.addButtonToInputAccessoryView(title: nextString)
-        descriptionTextView.addButtonToInputAccessoryView(title: doneString)
+        textEditors.forEach { $0.addButtonToInputAccessoryView(with: "Done") }
     }
     
     func updateImageStackView() {
         productImageStackView.subviews.forEach { $0.removed(from: productImageStackView, whenTypeIs: UIImageView.self) }
-        images.forEach { productImageStackView.insertArrangedSubview(UIImageView(with: $0), at: 0) }
+        model.images.forEach { productImageStackView.insertArrangedSubview(UIImageView(with: $0), at: 0) }
+    }
+    
+    func presentAcceptAlert(with title: String, description: String) {
+        let alert = UIAlertController(
+            title: title,
+            message: description,
+            preferredStyle: .alert
+        )
+        alert.addAction(title: "확인", style: .default)
+        present(alert, animated: true)
     }
     
 }
@@ -126,8 +135,8 @@ extension ProductCreateViewController: UIImagePickerControllerDelegate, UINaviga
     
     func imagePickerController(_ picker: UIImagePickerController,
                                didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        if let image = info[.editedImage] as? UIImage, images.count < 5 {
-            self.images.append(image)
+        if let image = info[.editedImage] as? UIImage {
+            model.append(image: image)
         }
         dismiss(animated: true)
     }
@@ -164,9 +173,8 @@ fileprivate extension UIView {
         self.resignFirstResponder()
     }
     
-    func addButtonToInputAccessoryView(title: String) {
+    func addButtonToInputAccessoryView(with title: String) {
         let toolbar = UIToolbar()
-        
         toolbar.items = [
             UIBarButtonItem(
                 barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace,
@@ -180,7 +188,6 @@ fileprivate extension UIView {
                 action: #selector(moveNextView)
             )
         ]
-        
         toolbar.sizeToFit()
         
         if let view = self as? UITextView {

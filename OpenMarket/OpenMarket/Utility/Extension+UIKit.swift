@@ -39,3 +39,12 @@ extension UIImagePickerController {
     }
     
 }
+
+extension UIToolbar {
+    
+    convenience init(with title: String, action: Selector?) {
+        self.init()
+        
+    }
+    
+}

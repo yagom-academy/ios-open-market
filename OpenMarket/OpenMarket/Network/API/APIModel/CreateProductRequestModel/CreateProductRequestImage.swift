@@ -17,4 +17,14 @@ struct Image {
         case png
     }
     
+    init(type: ImageType, data: Data) {
+        self.type = type
+        self.data = data
+    }
+    
+    init?(type: ImageType, data: Data?) {
+        guard let data = data else { return nil }
+        self.init(type: type, data: data)
+    }
+    
 }
