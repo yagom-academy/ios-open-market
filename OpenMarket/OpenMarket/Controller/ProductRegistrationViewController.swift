@@ -4,8 +4,11 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
     private let imagePickerController = UIImagePickerController()
     private var images = [UIImage]()
     
+    @IBOutlet weak var verticalStackView: UIStackView!
     @IBOutlet weak var imagesCollectionView: UICollectionView!
     @IBOutlet weak var descriptionTextView: UITextView!
+    @IBOutlet weak var currencySegmentedControl: UISegmentedControl!
+    @IBOutlet var textFields: [UITextField]!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -13,6 +16,21 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
         setUpImagePicker()
         setupNavigationBar()
         setupTextView()
+        textFields.forEach { textField in
+            textField.delegate = self
+        }
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillShow),
+            name: UIResponder.keyboardWillShowNotification,
+            object: nil
+        )
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillHide),
+            name: UIResponder.keyboardWillHideNotification,
+            object: nil
+        )
     }
     
     @objc private func dismissProductRegistration() {
@@ -21,6 +39,19 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
     
     @objc private func presentImagePicker() {
         present(imagePickerController, animated: true, completion: nil)
+    }
+    
+    @objc private func keyboardWillShow(_ sender: Notification) {
+        if let keyboardFrame = sender.userInfo?[UIResponder.keyboardFrameEndUserInfoKey]
+            as? NSValue {
+            let keyboardRectangle = keyboardFrame.cgRectValue
+            let keyboardHeight = keyboardRectangle.height
+            view.frame.origin.y = -keyboardHeight
+        }
+    }
+    
+    @objc private func keyboardWillHide(_ sender: Notification) {
+        view.frame.origin.y = 0
     }
     
     private func setupNavigationBar() {
@@ -171,3 +202,5 @@ extension ProductRegistrationViewController: UITextViewDelegate {
         }
     }
 }
+
+extension ProductRegistrationViewController: UITextFieldDelegate {}
