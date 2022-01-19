@@ -21,6 +21,7 @@ class NetworkTests: XCTestCase {
       case .success(let itemList):
         expectation.fulfill()
         XCTAssertEqual(itemList.items.count, 10)
+        XCTAssertNotEqual(itemList.items.count, 11)
       case .failure(let error):
         print(error)
         XCTFail()
@@ -38,6 +39,7 @@ class NetworkTests: XCTestCase {
       case .success(let itemInfo):
         expectation.fulfill()
         XCTAssertEqual(itemInfo.id, 223)
+        XCTAssertNotEqual(itemInfo.id, 224)
       case .failure(let error):
         print(error)
         XCTFail()
