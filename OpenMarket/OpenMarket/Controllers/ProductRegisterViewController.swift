@@ -12,6 +12,7 @@ class ProductRegisterViewController: UIViewController {
         productRegisterManager.delegate = self
         imagePickerController.pickerDelegate = self
         productRegisterManager.addDelegateToTextField(delegate: self)
+        productRegisterManager.addDelegateToTextView(delegate: self)
         configUI()
         tapBehindViewToEndEdit()
     }
@@ -154,9 +155,23 @@ extension ProductRegisterViewController: UITextFieldDelegate {
     
         let keyboardRect = keyboardFrame.cgRectValue
         productScrollView.contentInset.bottom = keyboardRect.height
+        
+        if let firstResponder = self.view.firstResponder,
+           let textView = firstResponder as? UITextView {
+            productScrollView.scrollRectToVisible(textView.frame, animated: true)
+        }
     }
     
     @objc private func keyboardWillHide(_ sender: Notification) {
         productScrollView.contentInset = .zero
+    }
+}
+
+extension ProductRegisterViewController: UITextViewDelegate {
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if range.length > 0 {
+            return true
+        }
+        return range.location < 10
     }
 }

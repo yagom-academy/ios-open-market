@@ -65,4 +65,8 @@ class ProductRegisterManager {
             textField.delegate = delegate
         }
     }
+    
+    func addDelegateToTextView(delegate: UITextViewDelegate) {
+        productInformationView.descriptionTextView.delegate = delegate
+    }
 }
