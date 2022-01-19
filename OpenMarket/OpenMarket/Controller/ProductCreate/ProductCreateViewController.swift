@@ -155,8 +155,6 @@ fileprivate extension UIView {
     func moveNextView() {
         let nextTag = self.tag + 1
         
-        print(nextTag)
-        
         if let nextResponder = self.superview?.viewWithTag(nextTag) {
             nextResponder.becomeFirstResponder()
             return
@@ -228,7 +226,6 @@ extension ProductCreateViewController {
         aRect.size.height -= keyboardSize.height
         guard let activateField = activatedTextEditors else { return }
         containerScrollView.scrollRectToVisible(activateField.frame, animated: true)
-        
     }
     
     @objc
@@ -238,18 +235,15 @@ extension ProductCreateViewController {
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        productNameTextField.resignFirstResponder()
-        productPriceTextField.resignFirstResponder()
-        discountedPriceTextField.resignFirstResponder()
-        productStockTextField.resignFirstResponder()
-        descriptionTextView.resignFirstResponder()
+        textEditors.forEach { $0.resignFirstResponder() }
     }
     
 }
 
-extension ProductCreateViewController {
+// MARK: - Finding TextEditors Utilities
+private extension ProductCreateViewController {
     
-    private var textEditors: [UIView] {
+    var textEditors: [UIView] {
         var answer: [UIView] = []
         var queue: [UIView] = [view]
         
