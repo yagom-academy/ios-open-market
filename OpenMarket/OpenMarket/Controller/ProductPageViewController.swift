@@ -9,18 +9,18 @@ import UIKit
 
 final class ProductPageViewController: UIViewController, DataRepresentable {
     
-    @IBOutlet weak var segmentedControl: UISegmentedControl!
-    @IBOutlet var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet private weak var segmentedControl: UISegmentedControl!
+    @IBOutlet private var activityIndicator: UIActivityIndicatorView!
     
-    let datamanager = DataManager()
+    private let datamanager = DataManager()
     var snapshot = NSDiffableDataSourceSnapshot<Int, Product>()
     
-    var currentCollectionView: UICollectionView?
+    private var currentCollectionView: UICollectionView?
     
-    let listCollectionView: UICollectionView
-    let gridCollectionView: UICollectionView
-    let listDataSource: UICollectionViewDiffableDataSource<Int, Product>
-    let gridDataSource: UICollectionViewDiffableDataSource<Int, Product>
+    private let listCollectionView: UICollectionView
+    private let gridCollectionView: UICollectionView
+    private let listDataSource: UICollectionViewDiffableDataSource<Int, Product>
+    private let gridDataSource: UICollectionViewDiffableDataSource<Int, Product>
     
     required init?(coder: NSCoder) {
         self.listCollectionView = UICollectionView(frame: .zero,
@@ -93,7 +93,7 @@ extension ProductPageViewController {
     }
     
     @objc
-    func refreshDidTrigger() {
+    private func refreshDidTrigger() {
         datamanager.update()
         DispatchQueue.global().async {
             Thread.sleep(forTimeInterval: 1)
@@ -103,7 +103,7 @@ extension ProductPageViewController {
         }
     }
     
-    func configureViewLayout() {
+    private func configureViewLayout() {
         if currentCollectionView != nil {
             currentCollectionView?.removeFromSuperview()
         }
@@ -128,7 +128,7 @@ extension ProductPageViewController {
         ])
     }
 
-    func applyDataToCurrentView() {
+    private func applyDataToCurrentView() {
         DispatchQueue.main.async {
             self.segmentedControl.selectedSegmentIndex == 0 ?
                 self.listDataSource.apply(self.snapshot)

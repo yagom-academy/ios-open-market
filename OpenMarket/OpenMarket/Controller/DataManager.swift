@@ -9,9 +9,9 @@ import UIKit
 
 class DataManager {
     
-    var itemsPerPage: Int = 15
-    var lastLoadedPage: Int = 1
-    var hasNextPage: Bool = true
+    private var itemsPerPage: Int = 15
+    private var lastLoadedPage: Int = 1
+    private var hasNextPage: Bool = true
     weak var delegate: DataRepresentable?
 
     func nextPage(completion: @escaping () -> Void = {}) {
