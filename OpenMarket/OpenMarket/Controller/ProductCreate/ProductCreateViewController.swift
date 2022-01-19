@@ -46,7 +46,7 @@ final class ProductCreateViewController: UIViewController {
         
     }
 
-    @IBAction func imageAddbuttonClicked(_ sender: UIButton) {
+    @IBAction private func imageAddbuttonClicked(_ sender: UIButton) {
         
         if images.count >= 5 {
             let alert = UIAlertController(
@@ -109,6 +109,18 @@ fileprivate extension UIAlertController {
     func addAction(title: String, style: UIAlertAction.Style, handler: ((UIAlertAction) -> Void)? = nil) {
         let action = UIAlertAction(title: title, style: style, handler: handler)
         self.addAction(action)
+    }
+    
+}
+
+extension ProductCreateViewController {
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        productNameTextField.resignFirstResponder()
+        productPriceTextField.resignFirstResponder()
+        discountedPriceTextField.resignFirstResponder()
+        productStockTextField.resignFirstResponder()
+        descriptionTextView.resignFirstResponder()
     }
     
 }
