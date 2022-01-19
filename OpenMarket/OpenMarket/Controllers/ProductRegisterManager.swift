@@ -69,4 +69,47 @@ class ProductRegisterManager {
     func addDelegateToTextView(delegate: UITextViewDelegate) {
         productInformationView.descriptionTextView.delegate = delegate
     }
+    
+    private func takeCurrentCurrency() -> Currency {
+        return productInformationView.currencySegmentedControl.selectedSegmentIndex == 0 ? .krw : .usd
+    }
+    
+    private func takeRegisteredImages() -> [ImageData] {
+        return productInformationView.imageStackView.arrangedSubviews
+            .filter { $0 is ProductImageCustomView }
+            .compactMap { $0 as? ProductImageCustomView }
+            .compactMap { $0.productImageView.image }
+            .compactMap { $0.pngData() }
+            .map { ImageData(fileName: "\(UUID().uuidString).png", data: $0, type: .png) }
+    }
+    
+    private func createProductRegisterInformation() -> ProductRegisterInformation {
+        let secret = "R_WGJGz8CV^aa_V!"
+        let name = productInformationView.nameTextField.text ?? ""
+        let descriptions = productInformationView.descriptionTextView.text ?? ""
+        let priceString = productInformationView.priceTextField.text ?? ""
+        let price = Double(priceString) ?? 0
+        let currency = takeCurrentCurrency()
+        let discountedPriceString = productInformationView.discountedPriceTextField.text ?? ""
+        let discountedPrice = Double(discountedPriceString) ?? 0
+        let stockString = productInformationView.stockTextField.text ?? ""
+        let stock = Int(stockString) ?? 0
+        
+        return ProductRegisterInformation(name: name, descriptions: descriptions, price: price, currency: currency, discountedPrice: discountedPrice, stock: stock, secret: secret)
+    }
+    
+    func register() {
+        let productRegisterInformation = createProductRegisterInformation()
+        let api = APIService()
+        let imagesDatas = takeRegisteredImages()
+        
+        api.registerProduct(newProduct: productRegisterInformation, images: imagesDatas) { result in
+            switch result {
+            case .failure(let error):
+                print(error)
+            default:
+                return
+            }
+        }
+    }
 }

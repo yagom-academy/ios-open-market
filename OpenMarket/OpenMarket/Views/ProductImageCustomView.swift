@@ -10,7 +10,7 @@ class ProductImageCustomView: UIView {
         super.init(coder: coder)
     }
     
-    private let productImageView: UIImageView = {
+    let productImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         return imageView
