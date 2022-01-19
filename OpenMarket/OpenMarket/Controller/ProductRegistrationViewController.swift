@@ -5,12 +5,14 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
     private var images = [UIImage]()
     
     @IBOutlet weak var imagesCollectionView: UICollectionView!
+    @IBOutlet weak var descriptionTextView: UITextView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         imagesCollectionView.dataSource = self
         setUpImagePicker()
         setupNavigationBar()
+        setupTextView()
     }
     
     @objc private func dismissProductRegistration() {
@@ -39,6 +41,20 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
         imagePickerController.sourceType = .photoLibrary
         imagePickerController.allowsEditing = true
         imagePickerController.delegate = self
+    }
+    
+    private func setupTextView() {
+        descriptionTextView.delegate = self
+        descriptionTextView.text = "상품설명"
+        descriptionTextView.textColor = .placeholderText
+        descriptionTextView.layer.borderWidth = 0.5
+        descriptionTextView.layer.cornerRadius = 5
+        descriptionTextView.layer.borderColor = CGColor(
+            srgbRed: 0.8,
+            green: 0.8,
+            blue: 0.8,
+            alpha: 1.0
+        )
     }
     
     private func cropSquare(_ image: UIImage) -> UIImage? {
@@ -133,5 +149,21 @@ extension ProductRegistrationViewController: UICollectionViewDataSource {
             NSLayoutConstraint.activate(constraints)
         }
         return cell
+    }
+}
+
+extension ProductRegistrationViewController: UITextViewDelegate {
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if textView.textColor == .placeholderText {
+            textView.text = nil
+            textView.textColor = .label
+        }
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if textView.text.isEmpty {
+            textView.text = "상품설명"
+            textView.textColor = .placeholderText
+        }
     }
 }
