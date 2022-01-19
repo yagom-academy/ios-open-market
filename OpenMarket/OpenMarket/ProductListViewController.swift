@@ -1,12 +1,12 @@
 import UIKit
 
-class ProductListViewController: UIViewController {
+class ProductListViewController: UIViewController, UICollectionViewDelegate {
 
     private enum Section: Hashable {
         case list
         case grid
     }
-    
+ 
     typealias page = ProductListAsk.Response.Page
     private var dataStorage: PageDataStorable = ListDataStorager()
     private lazy var listCollectionView = UICollectionView(
@@ -28,7 +28,8 @@ class ProductListViewController: UIViewController {
         configureMainView()
         configureDataSources()
         configureCollectionView()
-        
+        listCollectionView.delegate = self
+        gridCollectionView.delegate = self
     }
     
     private func configureMainView() {
@@ -56,14 +57,14 @@ class ProductListViewController: UIViewController {
     }
 
     private func fetchProductList() {
-    self.dataStorage.updateStorage {
-        DispatchQueue.main.async {
-        let section: Section = self.segmentedControl.selectedSegmentIndex == 0 ? .list : .grid
-        self.applyListSnapShot(section: section)
-        self.applyGridSnapShot(section: section)
-                }
+        self.dataStorage.updateStorage {
+            DispatchQueue.main.async {
+                let section: Section = self.segmentedControl.selectedSegmentIndex == 0 ? .list : .grid
+                self.applyListSnapShot(section: section)
+                self.applyGridSnapShot(section: section)
             }
-}
+        }
+    }
     private func configureNavigationItems() {
         let bounds = CGRect(
             x: 0,
@@ -232,6 +233,18 @@ extension ProductListViewController {
     }
 }
 
-//MARK: - paging
+//MARK: - Paging
 
+extension ProductListViewController: UIScrollViewDelegate {
+    public func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        var collectionView: UICollectionView = segmentedControl.selectedSegmentIndex == 0 ? listCollectionView : gridCollectionView
+            
+        let position = scrollView.contentOffset.y
+        if position > (collectionView.contentSize.height-100-scrollView.frame.height) {
+            print("call")
+//            fetchProductList()
+        }
+    }
+    
+}
 
