@@ -62,8 +62,6 @@ class ViewController: UIViewController {
         let cellRegistration = UICollectionView.CellRegistration<ListCollectionViewCell, ProductInformation> { cell, indexpath, product in
             
             cell.setUpLabelText(with: product)
-            print("\(product.price)")
-            print("\(product.discountedPrice)")
         }
         
         dataSource = UICollectionViewDiffableDataSource<Section, ProductInformation>(collectionView: listCollectionView, cellProvider: { (collectionView, indexPath, product) -> ListCollectionViewCell in

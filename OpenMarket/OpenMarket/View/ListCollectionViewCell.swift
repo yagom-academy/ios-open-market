@@ -21,6 +21,17 @@ class ListCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        productImageView.image = nil
+        accessoryImageView.image = nil
+        productNameLabel.text = nil
+        stockLabel.text = nil
+        priceLabel.text = nil
+        discountedPriceLabel.text = nil
+    }
+    
     func configUI() {
         addSubviews()
         setUpContentStackView()
