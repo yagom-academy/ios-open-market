@@ -8,21 +8,19 @@ import UIKit
 
 @available(iOS 14.0, *)
 class ViewController: UIViewController {
-    @IBOutlet weak var tableView: UIView!
-    @IBOutlet weak var collectionView: UIView!
-
+    @IBOutlet weak var collectionView: UICollectionView!
+    var productListData: ProductList?
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        collectionView.alpha = 0.0
-    }
-    
-    @IBAction func switchView(_ sender: UISegmentedControl) {
-        if sender.selectedSegmentIndex == 0 {
-            tableView.alpha = 1.0
-            collectionView.alpha = 0.0
-        } else {
-            tableView.alpha = 0.0
-            collectionView.alpha = 1.0
+        getDecodedData { (result: Result<ProductList, NetworkError>) in
+            switch result {
+            case .success(let data):
+                self.productListData = data
+            case .failure(let error):
+                print(error)
+            }
         }
     }
     
@@ -43,27 +41,5 @@ class ViewController: UIViewController {
         }
     }
 
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "tableViewSegue" {
-            let destinationViewController = segue.destination as! TableViewController
-            getDecodedData { (result: Result<ProductList, NetworkError>) in
-                switch result {
-                case .success(let data):
-                    destinationViewController.productListData = data
-                case .failure(let error):
-                    print(error)
-                }
-            }
-       } else if segue.identifier == "collectionViewSegue" {
-            let destinationViewController = segue.destination as! CollectionViewController
-            getDecodedData { (result: Result<ProductList, NetworkError>) in
-                switch result {
-                case .success(let data):
-                    destinationViewController.productListData = data
-                case .failure(let error):
-                    print(error)
-                }
-            }
-        }
-    }
+
 }
