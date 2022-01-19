@@ -137,11 +137,11 @@ extension MainViewController {
         productRegistrationButton = UIBarButtonItem(image: UIImage(systemName: "plus"),
                                    style: .plain,
                                    target: self,
-                                   action: #selector(presentProductRegistration))
+                                   action: #selector(presentProductRegistrationViewController))
         navigationItem.setRightBarButton(productRegistrationButton, animated: true)
     }
 
-    @objc private func presentProductRegistration() {
+    @objc private func presentProductRegistrationViewController() {
         let vc = ProductRegistrationViewController()
         vc.modalPresentationStyle = .fullScreen
         present(vc, animated: true)
