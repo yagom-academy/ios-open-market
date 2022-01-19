@@ -34,6 +34,15 @@ class MainViewController: UIViewController {
         setUpNotification()
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard let product = sender as? Product,
+              let nextViewController = segue.destination as? DetailViewController else {
+                  showAlert(message: Message.dataDeliveredFail, completion: nil)
+                  return
+              }
+        nextViewController.requestDetail(productId: UInt(product.id))
+    }
+    
     deinit {
         NotificationCenter.default.removeObserver(self, name: .updataMain, object: nil)
     }
@@ -197,7 +206,7 @@ extension MainViewController: UICollectionViewDelegate {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        performSegue(withIdentifier: "ProductDetailView", sender: nil)
+        performSegue(withIdentifier: "ProductDetailView", sender: productList[indexPath.item])
         collectionView.deselectItem(at: indexPath, animated: true)
     }
 }
