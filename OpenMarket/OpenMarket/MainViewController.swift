@@ -3,6 +3,7 @@ import UIKit
 class MainViewController: UIViewController {
     
     private let segmentedControl = CustomSegmentedControl()
+    private var productRegistrationButton: UIBarButtonItem!
     private let scrollView = UIScrollView()
     private let pageControl = UIPageControl()
     private let listViewController = ListCollectionViewController()
@@ -10,10 +11,15 @@ class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        createAllComponents()
         configureMainViewAttribute()
         configureLayout()
         configureUserInteraction()
         fetchProductList()
+    }
+    
+    private func createAllComponents() {
+        createProductRegistrationButton()
     }
     
     private func configureMainViewAttribute() {
@@ -121,5 +127,23 @@ extension MainViewController {
         // animated: true에서 버그발생
         // Grid 뷰에서 Landscape Left -> Portrait 변경 시 scrollview offset이 제대로 잡히지 않음
         scrollView.setContentOffset(destinationPoint, animated: false)
+    }
+}
+
+//MARK: - ProductRegistrationButton
+extension MainViewController {
+    
+    private func createProductRegistrationButton() {
+        productRegistrationButton = UIBarButtonItem(image: UIImage(systemName: "plus"),
+                                   style: .plain,
+                                   target: self,
+                                   action: #selector(presentProductRegistration))
+        navigationItem.setRightBarButton(productRegistrationButton, animated: true)
+    }
+
+    @objc private func presentProductRegistration() {
+        let vc = ProductRegistrationViewController()
+        vc.modalPresentationStyle = .fullScreen
+        present(vc, animated: true)
     }
 }
