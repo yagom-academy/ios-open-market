@@ -24,6 +24,7 @@
 		33E922D2278864DC0065DED8 /* RegisterProductRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33E922D02788646F0065DED8 /* RegisterProductRequest.swift */; };
 		33EEB1A32797ECBA0087C7C9 /* ProductRegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33EEB1A22797ECBA0087C7C9 /* ProductRegisterViewController.swift */; };
 		33EEB1A52797ED520087C7C9 /* ProductRegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33EEB1A42797ED520087C7C9 /* ProductRegisterView.swift */; };
+		33EEB1A927980D5F0087C7C9 /* ProductImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33EEB1A827980D5F0087C7C9 /* ProductImageCell.swift */; };
 		33EF318AEF75098A17305B3B /* Pods_OpenMarket.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5324C09C633C616227C7916E /* Pods_OpenMarket.framework */; };
 		8403B3142787DFD800C40679 /* NetworkingError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F7A4FE2787CE61000A56B1 /* NetworkingError.swift */; };
 		8403B3182787E0E200C40679 /* MockOpenMarketTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8403B3172787E0E200C40679 /* MockOpenMarketTest.swift */; };
@@ -80,6 +81,7 @@
 		33E922D02788646F0065DED8 /* RegisterProductRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterProductRequest.swift; sourceTree = "<group>"; };
 		33EEB1A22797ECBA0087C7C9 /* ProductRegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductRegisterViewController.swift; sourceTree = "<group>"; };
 		33EEB1A42797ED520087C7C9 /* ProductRegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductRegisterView.swift; sourceTree = "<group>"; };
+		33EEB1A827980D5F0087C7C9 /* ProductImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductImageCell.swift; sourceTree = "<group>"; };
 		5324C09C633C616227C7916E /* Pods_OpenMarket.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OpenMarket.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8403B3172787E0E200C40679 /* MockOpenMarketTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockOpenMarketTest.swift; sourceTree = "<group>"; };
 		8403B31D2788082B00C40679 /* UserDefaultUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultUtility.swift; sourceTree = "<group>"; };
@@ -177,6 +179,7 @@
 				C70FB10025BEF61C00C9924E /* Main.storyboard */,
 				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
 				33EEB1A42797ED520087C7C9 /* ProductRegisterView.swift */,
+				33EEB1A827980D5F0087C7C9 /* ProductImageCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -482,6 +485,7 @@
 				33A43A2927912EC800653458 /* ListCell.swift in Sources */,
 				33E922D12788646F0065DED8 /* RegisterProductRequest.swift in Sources */,
 				331C388B2789081B00A01A11 /* Data+Extension.swift in Sources */,
+				33EEB1A927980D5F0087C7C9 /* ProductImageCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
