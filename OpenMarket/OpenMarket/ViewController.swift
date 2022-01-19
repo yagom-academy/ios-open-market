@@ -107,6 +107,11 @@ class ViewController: UIViewController {
         let cellRegistration = UICollectionView.CellRegistration<GridCollectionViewCell, ProductInformation> { cell, indexpath, product in
             
             cell.productImageView.image = UIImage(data: try! Data(contentsOf: URL(string: product.thumbnail)!))
+            
+            cell.productNameLabel.text = product.name
+            cell.priceLabel.text = String(product.price)
+            cell.discountedPriceLabel.text = String(product.discountedPrice)
+            cell.stockLabel.text = String(product.stock)
         }
         
         gridDataSource = UICollectionViewDiffableDataSource<Section, ProductInformation>(collectionView: gridCollectionView, cellProvider: { (collectionView, indexPath, product) -> GridCollectionViewCell in
@@ -130,7 +135,7 @@ class ViewController: UIViewController {
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(view.frame.height / 3))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 2)
         let section = NSCollectionLayoutSection(group: group)
-        
+        section.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5)
         let layout = UICollectionViewCompositionalLayout(section: section)
         
         return layout

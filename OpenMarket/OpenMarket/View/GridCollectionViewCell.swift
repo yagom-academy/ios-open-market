@@ -32,6 +32,7 @@ class GridCollectionViewCell: UICollectionViewCell {
         addSubviews()
         setUpContentStackView()
         setUpProductImageView()
+        setUpLabelStackView()
     }
     
     func addSubviews() {
@@ -63,6 +64,22 @@ class GridCollectionViewCell: UICollectionViewCell {
             contentStackView.heightAnchor.constraint(equalToConstant: contentView.bounds.height),
             contentStackView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             contentStackView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
+        ])
+    }
+    
+    func setUpLabelStackView() {
+        labelStackView.axis = .vertical
+        labelStackView.alignment = .center
+        labelStackView.distribution = .fillEqually
+        labelStackView.translatesAutoresizingMaskIntoConstraints = false
+        
+        labelStackView.addArrangedSubview(productNameLabel)
+        labelStackView.addArrangedSubview(priceLabel)
+        labelStackView.addArrangedSubview(discountedPriceLabel)
+        labelStackView.addArrangedSubview(stockLabel)
+        
+        NSLayoutConstraint.activate([
+            labelStackView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor)
         ])
     }
 }
