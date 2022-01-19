@@ -7,10 +7,6 @@
 
 import Foundation
 
-enum Currency: Codable {
-  case KRW, USD
-}
-
 struct Item: Codable {
   let id: Int
   let vendorId: Int
