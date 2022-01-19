@@ -46,10 +46,6 @@ class OpenMarketCollectionViewCell: UICollectionViewCell {
         
         stackView.addArrangedSubview(imageView)
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            imageView.widthAnchor.constraint(equalTo: stackView.widthAnchor, multiplier: 0.2),
-            imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor)
-        ])
         
         stackView.addArrangedSubview(productStackView)
         productStackView.axis = .vertical

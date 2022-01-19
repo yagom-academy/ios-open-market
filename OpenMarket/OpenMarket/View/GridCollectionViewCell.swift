@@ -22,8 +22,10 @@ final class GridCollectionViewCell: OpenMarketCollectionViewCell {
         stackView.alignment = .center
         stackView.distribution = .equalSpacing
 
+        imageView.constraints.forEach { $0.isActive = false }
         NSLayoutConstraint.activate([
-            imageView.widthAnchor.constraint(equalTo: stackView.widthAnchor, multiplier: 0.9)
+            imageView.widthAnchor.constraint(equalTo: stackView.widthAnchor, multiplier: 0.9),
+            imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor)
         ])
         productStackView.alignment = .center
         priceStackView.axis = .vertical

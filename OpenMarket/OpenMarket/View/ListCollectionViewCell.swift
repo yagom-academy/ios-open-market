@@ -26,7 +26,8 @@ final class ListCollectionViewCell: OpenMarketCollectionViewCell {
         accessoryImageView.tintColor = .systemGray
 
         NSLayoutConstraint.activate([
-            imageView.widthAnchor.constraint(equalTo: stackView.widthAnchor, multiplier: 0.2)
+            imageView.heightAnchor.constraint(equalTo: stackView.heightAnchor),
+            imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor)
         ])
         productStackView.alignment = .leading
         priceStackView.axis = .horizontal
