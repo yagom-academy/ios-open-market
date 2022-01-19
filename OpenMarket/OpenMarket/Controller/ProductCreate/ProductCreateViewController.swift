@@ -29,6 +29,7 @@ final class ProductCreateViewController: UIViewController {
         }
     }
     
+    @IBOutlet private weak var containerScrollView: UIScrollView!
     @IBOutlet private weak var productImageStackView: UIStackView!
     @IBOutlet private weak var productNameTextField: UITextField!
     @IBOutlet private weak var productPriceTextField: UITextField!
@@ -42,6 +43,7 @@ final class ProductCreateViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        containerScrollView.delegate = self
         imagePicker.delegate = self
         
     }
@@ -113,7 +115,11 @@ fileprivate extension UIAlertController {
     
 }
 
-extension ProductCreateViewController {
+extension ProductCreateViewController: UIScrollViewDelegate {
+    
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        view.endEditing(true)
+    }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         productNameTextField.resignFirstResponder()

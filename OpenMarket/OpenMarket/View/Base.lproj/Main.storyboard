@@ -186,6 +186,7 @@
                         <barButtonItem key="rightBarButtonItem" style="done" systemItem="done" id="2MO-la-4MX"/>
                     </navigationItem>
                     <connections>
+                        <outlet property="containerScrollView" destination="3TB-zU-1Vr" id="9Yu-4l-CFC"/>
                         <outlet property="currencySegmentedControl" destination="taY-nM-aUo" id="oC9-Pt-6Z3"/>
                         <outlet property="descriptionTextView" destination="Xx3-Jh-SZP" id="gfj-mU-DPe"/>
                         <outlet property="discountedPriceTextField" destination="53U-e6-SMW" id="eyx-dG-DEf"/>
