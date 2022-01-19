@@ -1,164 +1,281 @@
 import UIKit
 
 class CollectionViewGridCell: UICollectionViewCell {
-    
-    typealias Product = NetworkingAPI.ProductListQuery.Response.Page
 
-    private lazy var activityIndicator: UIActivityIndicatorView = {
-        let indicator = UIActivityIndicatorView()
-        indicator.frame = imageView.frame
-        return indicator
-    }()
+    typealias Product = NetworkingAPI.ProductListQuery.Response.Page
     
-    private let imageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.isHidden = true
-        return imageView
-    }()
-    
-    private let nameLabel: UILabel = {
-        let label = UILabel()
-        label.numberOfLines = 0
-        label.textAlignment = .center
-        label.font = .preferredFont(forTextStyle: .title1)
-        label.text = "name"
-        return label
-    }()
-    
-    private let priceLabel: UILabel = {
-        let label = UILabel()
-        label.numberOfLines = 0
-        label.textAlignment = .center
-        label.text = "price"
-        return label
-    }()
-    
-    private let stockLabel: UILabel = {
-        let label = UILabel()
-        label.numberOfLines = 0
-        label.textAlignment = .center
-        label.text = "stock"
-        return label
-    }()
-    
-    private lazy var labelStackView: UIStackView = {
-        let stackView = UIStackView(
-            arrangedSubviews: [
-                nameLabel,
-                priceLabel,
-                stockLabel
-            ]
-        )
-        stackView.axis = .vertical
-        stackView.distribution = .equalSpacing
-        stackView.alignment = .center
-        stackView.spacing = 5
-        return stackView
-    }()
-    
+    enum CellAttribute {
+        static let borderColor: CGColor = UIColor.systemGray.cgColor
+        static let borderWidth: CGFloat = 1
+        static let cornerRadius: CGFloat = 15
+    }
+
+    private var activityIndicator: UIActivityIndicatorView!
+    private var imageView: UIImageView!
+    private var nameLabel: UILabel!
+    private var priceLabel: UILabel!
+    private var stockLabel: UILabel!
+    private var labelStackView: UIStackView!
+
     override init(frame: CGRect) {
         super.init(frame: frame)
-        configureAttribute()
+        createAllComponents()
+        configureCellAttribute()
         configureLayout()
-        activityIndicator.startAnimating()
     }
-    
+
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
     
-    func updateAllComponents(from item: Product) {
-        ImageLoader.load(from: item.thumbnail) { (result) in
-            switch result {
-            case .success(let data):
-                DispatchQueue.main.sync {
-                    self.activityIndicator.stopAnimating()
-                    self.imageView.isHidden = false
-                    self.imageView.image = UIImage(data: data)
-                }
-            case .failure(let error):
-                print(error.localizedDescription)
-            }
-        }
-
-        updateNameLabel(from: item)
-        updatePriceLabel(from: item)
-        updateStockLabel(from: item)
+    private func createAllComponents() {
+        createAcitivityIndicator()
+        createImageView()
+        createNameLabel()
+        createPriceLabel()
+        createStockLabel()
+        createLabelStackView()
     }
     
-    private func updateNameLabel(from item: Product) {
-        let nameText = item.name.boldFont
-        nameText.addAttribute(.font, value: UIFont.preferredFont(forTextStyle: .title3), range: NSMakeRange(0, nameText.length))
-        nameLabel.attributedText = nameText
-    }
-    
-    private func updateStockLabel(from item: Product) {
-        let stockText = NSMutableAttributedString(string: "")
-        if item.stock == 0 {
-            stockText.append("품절".yellowColor)
-        } else {
-            let description = "잔여수량: \(item.stock)"
-            stockText.append(description.grayColor)
-        }
-        
-        stockText.addAttribute(.font, value: UIFont.preferredFont(forTextStyle: .body), range: NSMakeRange(0, stockText.length))
-        stockLabel.attributedText = stockText
-    }
-    
-    private func updatePriceLabel(from item: Product) {
-        guard let bargainPrice = item.bargainPrice.description.decimal,
-              let originalPrice = item.price.description.decimal else {
-                  return
-              }
-        
-        let priceText = NSMutableAttributedString(string: "")
-        
-        if item.price != item.bargainPrice {
-            priceText.append("\(item.currency) \(originalPrice)".redStrikeThroughStyle)
-            priceText.append(NSAttributedString(string: "\n"))
-            priceText.append("\(item.currency) \(bargainPrice)".grayColor)
-        } else {
-            priceText.append("\(item.currency) \(originalPrice)".grayColor)
-        }
-        
-        priceText.addAttribute(.font, value: UIFont.preferredFont(forTextStyle: .body), range: NSMakeRange(0, priceText.length))
-        priceLabel.attributedText = priceText
-    }
-    
-    private func configureAttribute() {
-        layer.borderColor = UIColor.systemGray.cgColor
-        layer.borderWidth = 1
-        layer.cornerRadius = 15
+    private func configureCellAttribute() {
+        layer.borderColor = CellAttribute.borderColor
+        layer.borderWidth = CellAttribute.borderWidth
+        layer.cornerRadius = CellAttribute.cornerRadius
     }
     
     private func configureLayout() {
         addSubview(activityIndicator)
         addSubview(imageView)
         addSubview(labelStackView)
-        
+    
+        configureActivityIndicatorLayout()
+        configureImageViewLayout()
+        configureLabelStackViewLayout()
+    }
+
+    func updateAllComponents(from product: Product) {
+        updateImageView(from: product)
+        updateNameLabel(from: product)
+        updatePriceLabel(from: product)
+        updateStockLabel(from: product)
+    }
+}
+
+//MARK: - Activity Indicator
+extension CollectionViewGridCell {
+    
+    enum ActivityIndicatorAttribute {
+        static let spacing: CGFloat = 10
+        static let fractionalWidth: CGFloat = 0.7
+        static let aspectRatio: CGFloat = 1
+    }
+    
+    private func createAcitivityIndicator() {
+        activityIndicator = UIActivityIndicatorView()
+        activityIndicator.startAnimating()
+    }
+    
+    private func configureActivityIndicatorLayout() {
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        labelStackView.translatesAutoresizingMaskIntoConstraints = false
-        
         NSLayoutConstraint.activate([
-            activityIndicator.topAnchor.constraint(equalTo: topAnchor, constant: 10),
+            activityIndicator.topAnchor.constraint(equalTo: topAnchor,
+                                           constant: ActivityIndicatorAttribute.spacing),
             activityIndicator.centerXAnchor.constraint(equalTo: centerXAnchor),
-            activityIndicator.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.7),
-            activityIndicator.heightAnchor.constraint(equalTo: activityIndicator.widthAnchor)
+            activityIndicator.widthAnchor.constraint(equalTo: contentView.widthAnchor,
+                                             multiplier: ActivityIndicatorAttribute.fractionalWidth),
+            activityIndicator.heightAnchor.constraint(equalTo: activityIndicator.widthAnchor,
+                                              multiplier: ActivityIndicatorAttribute.aspectRatio)
         ])
+    }
+}
+
+//MARK: - ImageView
+extension CollectionViewGridCell {
+
+    enum ImageViewAttribute {
+        static let spacing: CGFloat = 10
+        static let fractionalWidth: CGFloat = 0.7
+        static let aspectRatio: CGFloat = 1
+    }
+    
+    private func createImageView() {
+        imageView = UIImageView()
+    }
+    
+    private func updateImageView(from product: Product) {
+        ImageLoader.load(from: product.thumbnail) { (result) in
+            switch result {
+            case .success(let data):
+                DispatchQueue.main.sync {
+                    self.imageView.image = UIImage(data: data)
+                    self.activityIndicator.stopAnimating()
+                }
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
+    private func configureImageViewLayout() {
+        imageView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            imageView.topAnchor.constraint(equalTo: topAnchor, constant: 10),
+            imageView.topAnchor.constraint(equalTo: topAnchor,
+                                           constant: ImageViewAttribute.spacing),
             imageView.centerXAnchor.constraint(equalTo: centerXAnchor),
-            imageView.widthAnchor.constraint(equalTo: labelStackView.widthAnchor, multiplier: 0.7),
-            imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor)
+            imageView.widthAnchor.constraint(equalTo: contentView.widthAnchor,
+                                             multiplier: ImageViewAttribute.fractionalWidth),
+            imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor,
+                                              multiplier: ImageViewAttribute.aspectRatio)
         ])
-        NSLayoutConstraint.activate([
-            labelStackView.topAnchor.constraint(equalTo: activityIndicator.bottomAnchor, constant: 10),
-            labelStackView.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 10),
-            labelStackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10),
-            labelStackView.centerXAnchor.constraint(equalTo: centerXAnchor),
-            labelStackView.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.95),
-        ])
+    }
+}
+
+//MARK: - Name Label
+extension CollectionViewGridCell {
+    
+    enum NameLabelAttribute {
+        static let textStyle: UIFont.TextStyle = .title3
+        static let fontColor: UIColor = .black
+    }
+
+    private func createNameLabel() {
+        nameLabel = UILabel()
+        nameLabel.textAlignment = .center
+        nameLabel.adjustsFontForContentSizeCategory = true
+    }
+    
+    private func updateNameLabel(from product: Product) {
+        let result = NSMutableAttributedString(string: product.name)
+        result.adjustBold()
+        result.changeColor(to: NameLabelAttribute.fontColor)
+        result.adjustDynamicType(textStyle: NameLabelAttribute.textStyle)
         
+        nameLabel.attributedText = result
+    }
+}
+
+//MARK: - Price Label
+extension CollectionViewGridCell {
+
+    enum PriceLabelAttribute {
+        static let textStyle: UIFont.TextStyle = .callout
+        static let originalPriceFontColor: UIColor = .red
+        static let bargainPriceFontColor: UIColor = .systemGray
+    }
+    
+    private func createPriceLabel() {
+        priceLabel = UILabel()
+        priceLabel.numberOfLines = 0
+        priceLabel.adjustsFontForContentSizeCategory = true
+    }
+    
+    private func updatePriceLabel(from product: Product) {
+        let blank = NSMutableAttributedString(string: " ")
+        let lineBreak = NSMutableAttributedString(string: "\n")
+        let currency = NSMutableAttributedString(string: product.currency.rawValue)
+        let originalPrice = NSMutableAttributedString(string: product.price.description)
+        originalPrice.adjustDecimal()
+        let bargainPrice = NSMutableAttributedString(string: product.bargainPrice.description)
+        bargainPrice.adjustDecimal()
+        
+        let result = NSMutableAttributedString(string: "")
+        if product.price != product.bargainPrice {
+            let originalPriceDescription = NSMutableAttributedString()
+            originalPriceDescription.append(currency)
+            originalPriceDescription.append(blank)
+            originalPriceDescription.append(originalPrice)
+            originalPriceDescription.adjustStrikeThrough()
+            originalPriceDescription.changeColor(to: PriceLabelAttribute.originalPriceFontColor)
+            
+            let bargainPriceDescription = NSMutableAttributedString()
+            bargainPriceDescription.append(currency)
+            bargainPriceDescription.append(blank)
+            bargainPriceDescription.append(bargainPrice)
+            bargainPriceDescription.changeColor(to: PriceLabelAttribute.bargainPriceFontColor)
+            
+            result.append(originalPriceDescription)
+            result.append(lineBreak)
+            result.append(bargainPriceDescription)
+        } else {
+            let bargainPriceDescription = NSMutableAttributedString()
+            bargainPriceDescription.append(currency)
+            bargainPriceDescription.append(blank)
+            bargainPriceDescription.append(bargainPrice)
+            bargainPriceDescription.changeColor(to: PriceLabelAttribute.bargainPriceFontColor)
+
+            result.append(bargainPriceDescription)
+        }
+        
+        result.adjustDynamicType(textStyle: PriceLabelAttribute.textStyle)
+        priceLabel.attributedText = result
+    }
+}
+
+//MARK: - Stock Label
+extension CollectionViewGridCell {
+    enum StockLabelAttribute {
+        static let spacing: CGFloat = 5
+        static let textStyle: UIFont.TextStyle = .callout
+        static let stockFontColor: UIColor = .systemGray
+        static let soldoutFontColor: UIColor = .orange
+    }
+    
+    private func createStockLabel() {
+        stockLabel = UILabel()
+        stockLabel.adjustsFontForContentSizeCategory = true
+    }
+    
+    private func updateStockLabel(from product: Product) {
+        let result = NSMutableAttributedString()
+        if product.stock == 0 {
+            result.append(NSAttributedString(string: "품절"))
+            result.changeColor(to: StockLabelAttribute.soldoutFontColor)
+        } else {
+            result.append(NSAttributedString(string: "잔여수량: \(product.stock)"))
+            result.changeColor(to: StockLabelAttribute.stockFontColor)
+        }
+        
+        result.adjustDynamicType(textStyle: StockLabelAttribute.textStyle)
+        stockLabel.attributedText = result
+    }
+}
+
+//MARK: - Label StackView
+extension CollectionViewGridCell {
+    
+    enum LableStackViewAttribute {
+        static let innerSpacing: CGFloat = 5
+        static let externalSpacing: CGFloat = 10
+        static let fractionalWidth: CGFloat = 0.95
+    }
+    
+    private func createLabelStackView() {
+        labelStackView = UIStackView(
+            arrangedSubviews: [
+                nameLabel,
+                priceLabel,
+                stockLabel
+            ]
+        )
+        labelStackView.axis = .vertical
+        labelStackView.distribution = .equalSpacing
+        labelStackView.alignment = .center
+        labelStackView.spacing = LableStackViewAttribute.innerSpacing
+    }
+    
+    private func configureLabelStackViewLayout() {
+        labelStackView.translatesAutoresizingMaskIntoConstraints = false
+
+        NSLayoutConstraint.activate([
+            labelStackView.topAnchor.constraint(equalTo: activityIndicator.bottomAnchor,
+                                                constant: LableStackViewAttribute.externalSpacing),
+            labelStackView.topAnchor.constraint(equalTo: imageView.bottomAnchor,
+                                                constant: LableStackViewAttribute.externalSpacing),
+            labelStackView.bottomAnchor.constraint(equalTo: bottomAnchor,
+                                                   constant: -1 * LableStackViewAttribute.externalSpacing),
+            labelStackView.centerXAnchor.constraint(equalTo: centerXAnchor),
+            labelStackView.widthAnchor.constraint(equalTo: widthAnchor,
+                                                  multiplier: LableStackViewAttribute.fractionalWidth),
+        ])
     }
 }
