@@ -43,13 +43,33 @@ final class ProductCreateViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        containerScrollView.delegate = self
+        configureDelgate()
+        configureNotification()
+    }
+    
+    private func configureDelgate() {
         imagePicker.delegate = self
+    }
+    
+    private func configureNotification() {
+        let notificationCenter = NotificationCenter.default
         
+        notificationCenter.addObserver(
+            self,
+            selector: #selector(keyboardWasShown),
+            name: UIResponder.keyboardDidShowNotification,
+            object: nil
+        )
+        
+        notificationCenter.addObserver(
+            self,
+            selector: #selector(keyboardWillBeHidden),
+            name: UIResponder.keyboardWillHideNotification,
+            object: nil
+        )
     }
 
     @IBAction private func imageAddbuttonClicked(_ sender: UIButton) {
-        
         if images.count >= 5 {
             let alert = UIAlertController(
                 title: "첨부할 수 있는 이미지가 초과되었습니다",
@@ -105,7 +125,7 @@ extension ProductCreateViewController: UIImagePickerControllerDelegate, UINaviga
     
 }
 
-// MARK: - AlertController Utilities
+// MARK: - UIAlertController Utilities
 fileprivate extension UIAlertController {
     
     func addAction(title: String, style: UIAlertAction.Style, handler: ((UIAlertAction) -> Void)? = nil) {
@@ -115,10 +135,32 @@ fileprivate extension UIAlertController {
     
 }
 
-extension ProductCreateViewController: UIScrollViewDelegate {
+// MARK: - Keyboard Control Utilities
+extension ProductCreateViewController {
     
-    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-        view.endEditing(true)
+    @objc
+    private func keyboardWasShown(_ notification: Notification) {
+        guard let info = notification.userInfo else { return }
+        guard let keyboardSize = info[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else {
+            return
+        }
+        
+        let contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardSize.height, right: 0)
+        containerScrollView.contentInset = contentInset
+        containerScrollView.verticalScrollIndicatorInsets = contentInset
+        
+        var aRect = self.view.frame
+        aRect.size.height -= keyboardSize.height
+        guard let activateField = activatedTextEditors else { return }
+        print("여기도 불렸다!")
+        containerScrollView.scrollRectToVisible(activateField.frame, animated: true)
+        
+    }
+    
+    @objc
+    private func keyboardWillBeHidden(_ notification: Notification) {
+        containerScrollView.contentInset = .zero
+        containerScrollView.verticalScrollIndicatorInsets = .zero
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -128,5 +170,28 @@ extension ProductCreateViewController: UIScrollViewDelegate {
         productStockTextField.resignFirstResponder()
         descriptionTextView.resignFirstResponder()
     }
+    
+}
+
+extension ProductCreateViewController {
+    
+    private var textEditors: [UIView] {
+        var answer: [UIView] = []
+        var queue: [UIView] = [view]
+        
+        while !queue.isEmpty {
+            let frontView = queue.removeFirst()
+            
+            if frontView is UITextView || frontView is UITextField {
+                answer.append(frontView)
+            }
+            
+            frontView.subviews.forEach { queue.append($0) }
+        }
+        
+        return answer
+    }
+    
+    var activatedTextEditors: UIView? { textEditors.filter { $0.isFirstResponder }.first }
     
 }
