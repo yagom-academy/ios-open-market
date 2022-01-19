@@ -169,21 +169,3 @@ class ListCollectionViewCell: UICollectionViewCell {
         }
     }
 }
-
-extension String {
-    func strikeThrough() -> NSAttributedString {
-        let attributeString = NSMutableAttributedString(string: self)
-        attributeString.addAttribute(NSAttributedString.Key.strikethroughStyle, value: NSUnderlineStyle.single.rawValue, range: NSMakeRange(0, attributeString.length))
-        
-        return attributeString
-    }
-}
-
-extension Double {
-    func formattedPrice() -> String {
-        let numberFormatter = NumberFormatter()
-        numberFormatter.numberStyle = .decimal
-        
-        return numberFormatter.string(for: self) ?? ""
-    }
-}

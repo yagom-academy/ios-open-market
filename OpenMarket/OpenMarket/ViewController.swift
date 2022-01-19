@@ -62,6 +62,8 @@ class ViewController: UIViewController {
         let cellRegistration = UICollectionView.CellRegistration<ListCollectionViewCell, ProductInformation> { cell, indexpath, product in
             
             cell.setUpLabelText(with: product)
+            cell.layer.addBorder([.bottom], color: UIColor.systemGray, width: 1)
+
         }
         
         dataSource = UICollectionViewDiffableDataSource<Section, ProductInformation>(collectionView: listCollectionView, cellProvider: { (collectionView, indexPath, product) -> ListCollectionViewCell in
