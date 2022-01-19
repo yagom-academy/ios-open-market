@@ -15,9 +15,16 @@ final class MarketAPIService {
     }
 }
 
-//MARK: - Namespace
+//MARK: - Nested Types
 
 extension MarketAPIService {
+    private enum HTTPMethod {
+        static let post = "POST"
+        static let get = "GET"
+        static let patch = "PATCH"
+        static let delete = "DELETE"
+    }
+    
     private enum MarketAPI {
         static let baseURL = "https://market-training.yagom-academy.kr"
         static let path = "/api/products/"
@@ -64,25 +71,20 @@ extension MarketAPIService: APIServicable {
         images: [ProductImage],
         completionHandler: @escaping (Result<Product, APIError>) -> Void
     ) {
-        guard let url = MarketAPI.postProduct.url else {
+        guard let url = MarketAPI.postProduct.url,
+              let jsonData = encode(with: product) else {
             return
         }
-        let boundary = "\(UUID().uuidString)"
-        var request = URLRequest(url: url)
-        
-        request.httpMethod = "POST"
-        
-        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
-        
-        request.setValue("cd706a3e-66db-11ec-9626-796401f2341a", forHTTPHeaderField: "identifier")
-        
-        
-        let body = makeBody(product: product, images: images, boundary: boundary)
-        request.httpBody = body
+        let boundary = UUID().uuidString
+        let headers: [String: String] = [
+            "Content-Type": "multipart/form-data; boundary=\(boundary)",
+            "identifier": "cd706a3e-66db-11ec-9626-796401f2341a"
+        ]
+        let body = makeBody(jsonData: jsonData, images: images, boundary: boundary)
+        let request = makeRequest(url: url, httpMethod: HTTPMethod.post, headers: headers, body: body)
         
         performDataTask(request: request, completionHandler: completionHandler)
     }
-    
     
     func updateProduct(
         productID: Int,
@@ -93,12 +95,8 @@ extension MarketAPIService: APIServicable {
               let body = encode(with: product) else {
                   return
               }
-        var request = URLRequest(url: url)
-        
-        request.httpMethod = "PATCH"
-        request.setValue("cd706a3e-66db-11ec-9626-796401f2341a", forHTTPHeaderField: "identifier")
-        
-        request.httpBody = body
+        let headers = ["identifier": "cd706a3e-66db-11ec-9626-796401f2341a"]
+        let request = makeRequest(url: url, httpMethod: HTTPMethod.patch, headers: headers, body: body)
         
         performDataTask(request: request, completionHandler: completionHandler)
     }
@@ -138,6 +136,42 @@ extension MarketAPIService: APIServicable {
 //MARK: - MarketAPIService 메서드
 
 extension MarketAPIService {
+    private func makeRequest(
+        url: URL,
+        httpMethod: String,
+        headers: [String: String],
+        body: Data?
+    ) -> URLRequest {
+        var request = URLRequest(url: url)
+        
+        request.httpMethod = httpMethod
+        headers.forEach { (key, value) in
+            request.setValue(value, forHTTPHeaderField: key)
+        }
+        request.httpBody = body
+        
+        return request
+    }
+    
+    private func makeBody(
+        jsonData: Data,
+        images: [ProductImage],
+        boundary: String
+    ) -> Data {
+        var body = Data()
+        
+        body.append(convertFormField(fieldName: "params", json: jsonData, using: boundary))
+        
+        for image in images {
+            let data =  convertFileData(fieldName: "images", fileName: image.name, mimeType: "image/\(image.type.description)", fileData: image.data!, using: boundary)
+            body.append(data)
+        }
+        
+        body.append("--\(boundary)--\r\n")
+        
+        return body
+    }
+    
     private func performDataTask<T: Decodable>(
         request: URLRequest,
         completionHandler: @escaping (Result<T, APIError>) -> Void
@@ -167,29 +201,11 @@ extension MarketAPIService {
         dataTask.resume()
     }
     
-    private func makeBody(product: PostProduct, images: [ProductImage], boundary: String) -> Data? {
-        
-        guard let jsonData = encode(with: product) else {
-            return nil
-        }
-        
-        var body = Data()
-        
-        body.append(convertFormField(fieldName: "params", json: jsonData, using: boundary))
-        
-        for image in images {
-            let data =  convertFileData(fieldName: "images", fileName: image.name, mimeType: "image/\(image.type.description)", fileData: image.data!, using: boundary)
-            body.append(data)
-        }
-        
-        body.append("--\(boundary)--\r\n")
-        
-        return body
-    }
-    
-    private func convertFormField(fieldName: String,
-                                  json: Data,
-                                  using boundary: String) -> Data {
+    private func convertFormField(
+        fieldName: String,
+        json: Data,
+        using boundary: String
+    ) -> Data {
         var data = Data()
         
         data.append("--\(boundary)\r\n")
@@ -202,11 +218,13 @@ extension MarketAPIService {
         return data
     }
     
-    private func convertFileData(fieldName: String,
-                                 fileName: String,
-                                 mimeType: String,
-                                 fileData: Data,
-                                 using boundary: String) -> Data {
+    private func convertFileData(
+        fieldName: String,
+        fileName: String,
+        mimeType: String,
+        fileData: Data,
+        using boundary: String
+    ) -> Data {
         var data = Data()
         
         data.append("--\(boundary)\r\n")
