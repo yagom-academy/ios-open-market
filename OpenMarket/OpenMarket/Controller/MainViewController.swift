@@ -4,7 +4,7 @@ class MainViewController: UIViewController {
     private let tableViewCellNibName = "ProductsTableViewCell"
     private let collectionViewCellNibName = "ProductsCollectionViewCell"
     private let productRegistrationStoryboardName = "ProductRegistration"
-    private let productRegistrationViewControllerIdentity = "ProductRegistrationViewController"
+    private let productRegistrationViewControllerIdentifier = "ProductRegistrationViewController"
     private let loadingActivityIndicator = UIActivityIndicatorView()
     private var pageInformation: ProductsList?
     private let jsonParser: JSONParser = {
@@ -103,7 +103,7 @@ class MainViewController: UIViewController {
     @IBAction func touchAddProductButton(_ sender: UIBarButtonItem) {
         let storyboard = UIStoryboard(name: productRegistrationStoryboardName, bundle: nil)
         let viewController = storyboard.instantiateViewController(
-            withIdentifier: productRegistrationViewControllerIdentity
+            withIdentifier: productRegistrationViewControllerIdentifier
         )
         let navigationController = UINavigationController(rootViewController: viewController)
         navigationController.modalPresentationStyle = .fullScreen
