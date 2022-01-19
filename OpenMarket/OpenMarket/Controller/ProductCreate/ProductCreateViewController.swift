@@ -40,15 +40,27 @@ final class ProductCreateViewController: UIViewController {
     
     private let imagePicker = UIImagePickerController()
     
+    private func configureTextField() {
+        productPriceTextField.addDoneButtonToInputAccessoryView()
+        discountedPriceTextField.addDoneButtonToInputAccessoryView()
+        productStockTextField.addDoneButtonToInputAccessoryView()
+        descriptionTextView.addDoneButtonToInputAccessoryView()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         configureDelgate()
         configureNotification()
+        configureTextField()
     }
     
     private func configureDelgate() {
         imagePicker.delegate = self
+        productNameTextField.delegate = self
+        productPriceTextField.delegate = self
+        discountedPriceTextField.delegate = self
+        productStockTextField.delegate = self
     }
     
     private func configureNotification() {
@@ -68,7 +80,7 @@ final class ProductCreateViewController: UIViewController {
             object: nil
         )
     }
-
+    
     @IBAction private func imageAddbuttonClicked(_ sender: UIButton) {
         if images.count >= 5 {
             let alert = UIAlertController(
@@ -116,11 +128,74 @@ extension ProductCreateViewController: UIImagePickerControllerDelegate, UINaviga
         present(imagePicker, animated: true)
     }
     
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+    func imagePickerController(_ picker: UIImagePickerController,
+                               didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let image = info[.originalImage] as? UIImage, images.count < 5 {
             self.images.append(image)
         }
         dismiss(animated: true)
+    }
+    
+}
+
+// MARK: - UITextField Delegate Implements
+extension ProductCreateViewController: UITextFieldDelegate {
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.moveNextView()
+        return true
+    }
+    
+}
+
+// MARK: - UIView Utilities
+fileprivate extension UIView {
+    
+    @objc
+    func moveNextView() {
+        let nextTag = self.tag + 1
+        
+        print(nextTag)
+        
+        if let nextResponder = self.superview?.viewWithTag(nextTag) {
+            nextResponder.becomeFirstResponder()
+            return
+        }
+        
+        if let nextResponder = self.superview?.superview?.viewWithTag(nextTag) {
+            nextResponder.becomeFirstResponder()
+            return
+        }
+        
+        self.resignFirstResponder()
+    }
+    
+    func addDoneButtonToInputAccessoryView() {
+        let keypadToolbar = UIToolbar()
+        
+        keypadToolbar.items = [
+            UIBarButtonItem(
+                barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace,
+                target: self,
+                action: nil
+            ),
+            UIBarButtonItem(
+                title: "Done",
+                style: .done,
+                target: self,
+                action: #selector(moveNextView)
+            )
+        ]
+        
+        keypadToolbar.sizeToFit()
+        
+        if let view = self as? UITextView {
+            view.inputAccessoryView = keypadToolbar
+        }
+        
+        if let view = self as? UITextField {
+            view.inputAccessoryView = keypadToolbar
+        }
     }
     
 }
@@ -152,7 +227,6 @@ extension ProductCreateViewController {
         var aRect = self.view.frame
         aRect.size.height -= keyboardSize.height
         guard let activateField = activatedTextEditors else { return }
-        print("여기도 불렸다!")
         containerScrollView.scrollRectToVisible(activateField.frame, animated: true)
         
     }
