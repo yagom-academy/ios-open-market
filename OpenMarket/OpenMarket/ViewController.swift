@@ -105,13 +105,8 @@ class ViewController: UIViewController {
     // MARK: - Grid Cell
     func setUpGridCell() {
         let cellRegistration = UICollectionView.CellRegistration<GridCollectionViewCell, ProductInformation> { cell, indexpath, product in
-            
-            cell.productImageView.image = UIImage(data: try! Data(contentsOf: URL(string: product.thumbnail)!))
-            
-            cell.productNameLabel.text = product.name
-            cell.priceLabel.text = String(product.price)
-            cell.discountedPriceLabel.text = String(product.discountedPrice)
-            cell.stockLabel.text = String(product.stock)
+      
+            cell.setUpLabelText(with: product)
         }
         
         gridDataSource = UICollectionViewDiffableDataSource<Section, ProductInformation>(collectionView: gridCollectionView, cellProvider: { (collectionView, indexPath, product) -> GridCollectionViewCell in
