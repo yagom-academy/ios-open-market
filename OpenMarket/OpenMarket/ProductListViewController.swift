@@ -6,8 +6,9 @@ class ProductListViewController: UIViewController {
         case list
         case grid
     }
- 
-    private var products: ProductListAsk.Response?
+    
+    typealias page = ProductListAsk.Response.Page
+    private var dataStorage: PageDataStorable = ListDataStorager()
     private lazy var listCollectionView = UICollectionView(
         frame: view.bounds,
         collectionViewLayout: makeListLayout()
@@ -16,29 +17,18 @@ class ProductListViewController: UIViewController {
         frame: view.bounds,
         collectionViewLayout: makeGridLayout()
     )
-
-    private var dataSource: UICollectionViewDiffableDataSource<Section, ProductListAsk.Response.Page>!
+    var collectionViews: [UICollectionView] = []
+    private var listDataSource: UICollectionViewDiffableDataSource<Section, page>?
+    private var gridDataSource: UICollectionViewDiffableDataSource<Section,page>?
+    private var dataSources: [UICollectionViewDiffableDataSource<Section,page>] = []
     
-    private let segmentedControl: UISegmentedControl = {
-        let items: [String] = ["List","Grid"]
-        var segmented = UISegmentedControl(items: items)
-        segmented.layer.cornerRadius = SegmentedControl.cornerRadius
-        segmented.layer.borderWidth = SegmentedControl.borderWidth
-        segmented.layer.borderColor = SegmentedControl.borderColor
-        segmented.selectedSegmentTintColor = SegmentedControl.selectedSegmentTintColor
-        segmented.backgroundColor = SegmentedControl.backgroundColor
-        let selectedAttribute: [NSAttributedString.Key : Any] = [.foregroundColor : SegmentedControl.selectedColor]
-        segmented.setTitleTextAttributes(selectedAttribute, for: .selected)
-        let normalAttribute: [NSAttributedString.Key : Any] = [.foregroundColor : SegmentedControl.normalColor]
-        segmented.setTitleTextAttributes(normalAttribute, for: .normal)
-        segmented.selectedSegmentIndex = SegmentedControl.defaultSelectedSegmentIndex
-        return segmented
-    }()
-
     override func viewDidLoad() {
         super.viewDidLoad()
+        fetchProductList()
         configureMainView()
+        configureDataSources()
         configureCollectionView()
+        
     }
     
     private func configureMainView() {
@@ -47,14 +37,33 @@ class ProductListViewController: UIViewController {
         segmentedControl.addTarget(self, action: #selector(touchUpListButton), for: .valueChanged)
     }
     
+    private func configureDataSources() {
+        configureListDataSource()
+        configureGridDataSource()
+        guard let listDataSource = listDataSource, let gridDataSource = gridDataSource else {
+            return
+        }
+        dataSources.append(listDataSource)
+        dataSources.append(gridDataSource)
+    }
+    
     private func configureCollectionView() {
+        collectionViews.append(listCollectionView)
+        collectionViews.append(gridCollectionView)
         view.addSubview(listCollectionView)
         view.addSubview(gridCollectionView)
         gridCollectionView.isHidden = true
-        fetchProductList()
-        configureListDataSource()
     }
 
+    private func fetchProductList() {
+    self.dataStorage.updateStorage {
+        DispatchQueue.main.async {
+        let section: Section = self.segmentedControl.selectedSegmentIndex == 0 ? .list : .grid
+        self.applyListSnapShot(section: section)
+        self.applyGridSnapShot(section: section)
+                }
+            }
+}
     private func configureNavigationItems() {
         let bounds = CGRect(
             x: 0,
@@ -101,11 +110,11 @@ class ProductListViewController: UIViewController {
     }
     
     private func configureListDataSource() {
-        let cellRegistration = UICollectionView.CellRegistration<CollectionViewListCell, ProductListAsk.Response.Page> {
+        let cellRegistration = UICollectionView.CellRegistration<CollectionViewListCell,page> {
             (cell, indexPath, item) in
         }
       
-        dataSource = UICollectionViewDiffableDataSource<Section, ProductListAsk.Response.Page>(collectionView: listCollectionView) {
+        listDataSource = UICollectionViewDiffableDataSource<Section, page>(collectionView: listCollectionView) {
             (collectionView, indexPath, item) -> UICollectionViewCell? in
             let cell = collectionView.dequeueConfiguredReusableCell(
                 using: cellRegistration,
@@ -117,18 +126,17 @@ class ProductListViewController: UIViewController {
             
             return cell
         }
-        applySnapShot(section: .list)
     }
     
     private func configureGridDataSource() {
-        let cellRegistration = UICollectionView.CellRegistration<CollectionViewGridCell, ProductListAsk.Response.Page> {
+        let cellRegistration = UICollectionView.CellRegistration<CollectionViewGridCell, page> {
             (cell, indexPath, item) in
             cell.layer.borderColor = CollectionView.Grid.Item.borderColor
             cell.layer.borderWidth = CollectionView.Grid.Item.borderWidth
             cell.layer.cornerRadius = CollectionView.Grid.Item.cornerRadius
         }
       
-        dataSource = UICollectionViewDiffableDataSource<Section, ProductListAsk.Response.Page>(collectionView: gridCollectionView) {
+        gridDataSource = UICollectionViewDiffableDataSource<Section, page>(collectionView: gridCollectionView) {
             (collectionView, indexPath, item) -> UICollectionViewCell? in
             let cell = collectionView.dequeueConfiguredReusableCell(
                 using: cellRegistration,
@@ -138,39 +146,47 @@ class ProductListViewController: UIViewController {
             cell.updateAllComponents(from: item)
             return cell 
         }
-        applySnapShot(section: .grid)
     }
     
-    private func applySnapShot(section: Section) {
-        guard let products = products else {
+    private func applyListSnapShot(section: Section) {
+        guard let storage = dataStorage.storage else {
+            return
+        }
+
+        var snapshot = NSDiffableDataSourceSnapshot<Section, page>()
+        snapshot.appendSections([section])
+        snapshot.appendItems(storage.pages)
+        self.listDataSource?.apply(snapshot, animatingDifferences: false)
+    }
+    
+    private func applyGridSnapShot(section: Section) {
+        guard let storage = dataStorage.storage else {
             return
         }
 
         var snapshot = NSDiffableDataSourceSnapshot<Section, ProductListAsk.Response.Page>()
         snapshot.appendSections([section])
-        snapshot.appendItems(products.pages)
-        self.dataSource.apply(snapshot, animatingDifferences: false)
+        snapshot.appendItems(storage.pages)
+        self.gridDataSource?.apply(snapshot, animatingDifferences: false)
     }
+    
+    private let segmentedControl: UISegmentedControl = {
+        let items: [String] = ["List","Grid"]
+        var segmented = UISegmentedControl(items: items)
+        segmented.layer.cornerRadius = SegmentedControl.cornerRadius
+        segmented.layer.borderWidth = SegmentedControl.borderWidth
+        segmented.layer.borderColor = SegmentedControl.borderColor
+        segmented.selectedSegmentTintColor = SegmentedControl.selectedSegmentTintColor
+        segmented.backgroundColor = SegmentedControl.backgroundColor
+        let selectedAttribute: [NSAttributedString.Key : Any] = [.foregroundColor : SegmentedControl.selectedColor]
+        segmented.setTitleTextAttributes(selectedAttribute, for: .selected)
+        let normalAttribute: [NSAttributedString.Key : Any] = [.foregroundColor : SegmentedControl.normalColor]
+        segmented.setTitleTextAttributes(normalAttribute, for: .normal)
+        segmented.selectedSegmentIndex = SegmentedControl.defaultSelectedSegmentIndex
+        return segmented
+    }()
+    
 
-    private func fetchProductList() {
-        let requester = ProductListAskRequester(pageNo: 1, itemsPerPage: 30)
-        URLSession.shared.request(requester: requester) { result in
-            switch result {
-            case .success(let data):
-                guard let products = requester.decode(data: data) else {
-                    print(APIError.decodingFail.localizedDescription)
-                    return
-                }
-                self.products = products
-                DispatchQueue.main.async {
-                    let section: Section = self.segmentedControl.selectedSegmentIndex == 0 ? .list : .grid
-                    self.applySnapShot(section: section)
-                }
-            case .failure(let error):
-                print(error.localizedDescription)
-            }
-        }
-    }
 }
 
 //MARK: - Segmented Control
@@ -180,12 +196,10 @@ extension ProductListViewController {
             listCollectionView.isHidden.toggle()
             gridCollectionView.isHidden.toggle()
             listCollectionView.becomeFirstResponder()
-            configureListDataSource()
         } else if segmentedControl.selectedSegmentIndex == 1 {
             listCollectionView.isHidden.toggle()
             gridCollectionView.isHidden.toggle()
             gridCollectionView.becomeFirstResponder()
-            configureGridDataSource()
         }
     }
 }
@@ -217,3 +231,7 @@ extension ProductListViewController {
         static let defaultSelectedSegmentIndex = 0
     }
 }
+
+//MARK: - paging
+
+

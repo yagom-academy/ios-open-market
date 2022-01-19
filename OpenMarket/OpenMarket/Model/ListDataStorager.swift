@@ -1,13 +1,13 @@
 import Foundation
 
-final class ListDataStorager: DataStorable {
+final class ListDataStorager: PageDataStorable {
     
-    var storage: Decodable?
+    var storage: ProductListAsk.Response?
     let requester = ProductListAskRequester(pageNo: 1, itemsPerPage: 30)
     // TODO: init plus 
-    static let cacheImage = NSCache<NSString,NSData>()
-    
-    func updateStorage() {
+    static let cachedImages = NSCache<NSString,NSData>()
+
+    func updateStorage(completion: @escaping () -> Void) {
         URLSession.shared.request(requester: requester) { (result) in
             switch result {
             case .success(let data):
@@ -15,6 +15,7 @@ final class ListDataStorager: DataStorable {
                     return
                 }
                 self.storage = data
+                completion()
             case .failure(let error):
                 print(error.localizedDescription)
             }

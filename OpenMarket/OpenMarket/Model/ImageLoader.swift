@@ -2,7 +2,7 @@ import UIKit
 
 enum ImageLoader {
     static func load(from urlString: String, completion: @escaping (Result<Data, APIError>) -> ()) {
-        if let imageData = ListDataStorager.cacheImage.object(forKey: urlString as NSString) {
+        if let imageData = ListDataStorager.cachedImages.object(forKey: urlString as NSString) {
             completion(.success(imageData as Data))
         }
                                                                  
@@ -26,7 +26,7 @@ enum ImageLoader {
                 return
             }
             
-            ListDataStorager.cacheImage.setObject(data as NSData, forKey: urlString as NSString)
+            ListDataStorager.cachedImages.setObject(data as NSData, forKey: urlString as NSString)
             completion(.success(data))
         }.resume()
     }
