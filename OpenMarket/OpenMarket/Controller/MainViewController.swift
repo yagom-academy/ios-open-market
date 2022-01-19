@@ -47,8 +47,8 @@ class MainViewController: UIViewController {
                 }
             case .failure(let error):
                 self.showAlert(
-                    title: "Network error",
-                    message: "데이터를 불러오지 못했습니다.\n\(error.localizedDescription)"
+                    title: "데이터를 불러오지 못했습니다",
+                    message: "\(error.localizedDescription)"
                 )
                 self.loadingActivityIndicator.stopAnimating()
             }
