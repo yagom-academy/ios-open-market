@@ -11,13 +11,7 @@ final class ProductCreateViewController: UIViewController {
     
     private var images: [UIImage] = [] {
         didSet {
-            productImageStackView.subviews.forEach { view in
-                if let view = view as? UIImageView {
-                    productImageStackView.removeArrangedSubview(view)
-                    view.removeFromSuperview()
-                }
-            }
-            
+            productImageStackView.subviews.forEach { $0.removed(from: productImageStackView, whenTypeIs: UIImageView.self) }
             images.forEach { productImageStackView.insertArrangedSubview(UIImageView(with: $0), at: 0) }
         }
     }
@@ -35,11 +29,38 @@ final class ProductCreateViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         configureDelgate()
         configureNotification()
         configureTextField()
     }
+    
+    @IBAction private func imageAddbuttonClicked(_ sender: UIButton) {
+        if images.count >= 5 {
+            let alert = UIAlertController(
+                title: "첨부할 수 있는 이미지가 초과되었습니다",
+                message: "새로운 이미지를 첨부하려면 기존의 이미지를 제거해주세요!",
+                preferredStyle: .alert
+            )
+            alert.addAction(title: "확인", style: .default)
+            present(alert, animated: true)
+            return
+        }
+        
+        let alert = UIAlertController(
+            title: "사진을 불러옵니다",
+            message: "어디서 불러올까요?",
+            preferredStyle: .actionSheet
+        )
+        alert.addAction(title: "카메라", style: .default, handler: openCamera)
+        alert.addAction(title: "앨범", style: .default, handler: openPhotoLibrary)
+        alert.addAction(title: "취소", style: .cancel)
+        
+        self.present(alert, animated: true, completion: nil)
+    }
+}
+
+// MARK: - Configure View Controller
+extension ProductCreateViewController {
     
     private func configureDelgate() {
         imagePicker.delegate = self
@@ -76,29 +97,6 @@ final class ProductCreateViewController: UIViewController {
         descriptionTextView.addButtonToInputAccessoryView(title: doneString)
     }
     
-    @IBAction private func imageAddbuttonClicked(_ sender: UIButton) {
-        if images.count >= 5 {
-            let alert = UIAlertController(
-                title: "첨부할 수 있는 이미지가 초과되었습니다",
-                message: "새로운 이미지를 첨부하려면 기존의 이미지를 제거해주세요!",
-                preferredStyle: .alert
-            )
-            alert.addAction(title: "확인", style: .default)
-            present(alert, animated: true)
-            return
-        }
-        
-        let alert = UIAlertController(
-            title: "사진을 불러옵니다",
-            message: "어디서 불러올까요?",
-            preferredStyle: .actionSheet
-        )
-        alert.addAction(title: "카메라", style: .default, handler: openCamera)
-        alert.addAction(title: "앨범", style: .default, handler: openPhotoLibrary)
-        alert.addAction(title: "취소", style: .cancel)
-        
-        self.present(alert, animated: true, completion: nil)
-    }
 }
 
 // MARK: - UIImagePicker Delegate Implements
@@ -189,6 +187,13 @@ fileprivate extension UIView {
         
         if let view = self as? UITextField {
             view.inputAccessoryView = toolbar
+        }
+    }
+    
+    func removed<T: UIView>(from stackView: UIStackView, whenTypeIs: T.Type) {
+        if let imageView = self as? T {
+            stackView.removeArrangedSubview(imageView)
+            imageView.removeFromSuperview()
         }
     }
     
