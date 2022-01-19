@@ -61,11 +61,28 @@ extension MarketAPIService {
 extension MarketAPIService: APIServicable {
     func registerProduct(
         product: PostProduct,
-        images: [Data],
-        completionHandler: @escaping (Result<Data, APIError>) -> Void
+        images: [ProductImage],
+        completionHandler: @escaping (Result<Product, APIError>) -> Void
     ) {
+        guard let url = MarketAPI.postProduct.url else {
+            return
+        }
+        let boundary = "\(UUID().uuidString)"
+        var request = URLRequest(url: url)
         
+        request.httpMethod = "POST"
+        
+        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        
+        request.setValue("cd706a3e-66db-11ec-9626-796401f2341a", forHTTPHeaderField: "identifier")
+        
+        
+        let body = makeBody(product: product, images: images, boundary: boundary)
+        request.httpBody = body
+        
+        performDataTask(request: request, completionHandler: completionHandler)
     }
+    
     
     func updateProduct(
         productID: Int,
@@ -74,8 +91,8 @@ extension MarketAPIService: APIServicable {
     ) {
         guard let url = MarketAPI.patchProduct(id: productID).url,
               let body = encode(with: product) else {
-            return
-        }
+                  return
+              }
         var request = URLRequest(url: url)
         
         request.httpMethod = "PATCH"
@@ -149,6 +166,58 @@ extension MarketAPIService {
         
         dataTask.resume()
     }
+    
+    private func makeBody(product: PostProduct, images: [ProductImage], boundary: String) -> Data? {
+        
+        guard let jsonData = encode(with: product) else {
+            return nil
+        }
+        
+        var body = Data()
+        
+        body.append(convertFormField(fieldName: "params", json: jsonData, using: boundary))
+        
+        for image in images {
+            let data =  convertFileData(fieldName: "images", fileName: image.name, mimeType: "image/\(image.type.description)", fileData: image.data!, using: boundary)
+            body.append(data)
+        }
+        
+        body.append("--\(boundary)--\r\n")
+        
+        return body
+    }
+    
+    private func convertFormField(fieldName: String,
+                                  json: Data,
+                                  using boundary: String) -> Data {
+        var data = Data()
+        
+        data.append("--\(boundary)\r\n")
+        data.append("Content-Disposition: form-data; name=\"\(fieldName)\"\r\n")
+        
+        data.append("Content-Type: application/json\r\n\r\n")
+        data.append(json)
+        data.append("\r\n")
+        
+        return data
+    }
+    
+    private func convertFileData(fieldName: String,
+                                 fileName: String,
+                                 mimeType: String,
+                                 fileData: Data,
+                                 using boundary: String) -> Data {
+        var data = Data()
+        
+        data.append("--\(boundary)\r\n")
+        data.append("Content-Disposition: form-data; name=\"images\"; filename=\"\(fileName)\"\r\n")
+        data.append("Content-Type: \(mimeType)\r\n\r\n")
+        data.append(fileData)
+        data.append("\r\n")
+        
+        return data
+    }
 }
+
 
 
