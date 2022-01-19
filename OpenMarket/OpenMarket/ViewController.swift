@@ -62,8 +62,10 @@ class ViewController: UIViewController {
         let cellRegistration = UICollectionView.CellRegistration<ListCollectionViewCell, ProductInformation> { cell, indexpath, product in
             
             cell.setUpLabelText(with: product)
-            cell.layer.addBorder([.bottom], color: UIColor.systemGray, width: 1)
-
+            let underline = cell.layer.addBorder([.bottom], color: UIColor.systemGray, width: 0.5)
+            underline.frame = CGRect(x: 18, y: cell.layer.frame.height, width: underline.frame.width - 1, height: underline.frame.height)
+            cell.layer.addSublayer(underline)
+            
         }
         
         dataSource = UICollectionViewDiffableDataSource<Section, ProductInformation>(collectionView: listCollectionView, cellProvider: { (collectionView, indexPath, product) -> ListCollectionViewCell in
@@ -85,7 +87,7 @@ class ViewController: UIViewController {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(view.frame.height * 0.1))
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])        
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         let section = NSCollectionLayoutSection(group: group)
         
         let layout = UICollectionViewCompositionalLayout(section: section)

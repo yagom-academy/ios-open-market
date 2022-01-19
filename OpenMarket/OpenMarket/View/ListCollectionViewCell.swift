@@ -59,7 +59,7 @@ class ListCollectionViewCell: UICollectionViewCell {
         contentStackView.isLayoutMarginsRelativeArrangement = true
         
         NSLayoutConstraint.activate([
-            contentStackView.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width),
+            contentStackView.widthAnchor.constraint(equalToConstant: contentView.bounds.width),
             contentStackView.heightAnchor.constraint(equalToConstant: contentView.bounds.height),
             contentStackView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             contentStackView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
