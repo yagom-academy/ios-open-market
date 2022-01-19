@@ -45,8 +45,8 @@ class TextFieldsStackView: UIStackView {
               let doublePrice = Double(price),
               let segmentTitle = currency.titleForSegment(at: currency.selectedSegmentIndex),
               let currency = Currency(rawValue: segmentTitle),
-              let discountedPrice = Double(discountedPriceTextField.text ?? "0"),
-              let stock = Int(stockTextField.text ?? "0") else {
+              let discountedPrice = discountedPriceTextField.text,
+              let stock = stockTextField.text else {
                   return nil
               }
         
@@ -55,8 +55,8 @@ class TextFieldsStackView: UIStackView {
             descriptions: description,
             price: doublePrice,
             currency: currency,
-            discountedPrice: discountedPrice,
-            stock: stock,
+            discountedPrice: Double(discountedPrice) ?? 0,
+            stock: Int(stock) ?? 0,
             secret: secret
         )
     }
