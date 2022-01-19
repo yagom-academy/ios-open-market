@@ -43,12 +43,7 @@ enum OpenMarketLayout {
     }
     func createDataSource<CellType: CollectionViewLayoutCell>(for collectionView: UICollectionView, cellType: CellType.Type) -> UICollectionViewDiffableDataSource<Int, Product> {
         let cellRegistration = UICollectionView.CellRegistration<CellType, Product> { (cell, indexPath, item) in
-            cell.configureContents(imageURL: item.thumbnail,
-                                   productName: item.name,
-                                   price: item.price.description,
-                                   discountedPrice: item.discountedPrice.description,
-                                   currency: item.currency,
-                                   stock: String(item.stock))
+            cell.configureContents(with: item)
             
             if self == .grid {
                 cell.layer.cornerRadius = 10

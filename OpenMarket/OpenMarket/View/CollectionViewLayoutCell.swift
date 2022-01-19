@@ -16,7 +16,7 @@ class CollectionViewLayoutCell: UICollectionViewCell {
     var productNameLabel = UILabel()
     var priceStackView = UIStackView()
     var priceLabel = UILabel()
-    var discountedLabel = UILabel()
+    var bargainPriceLabel = UILabel()
     var stockLabel = UILabel()
     var accessoryImageView = UIImageView()
     
@@ -57,11 +57,12 @@ class CollectionViewLayoutCell: UICollectionViewCell {
         productStackView.spacing = 2
         
         productStackView.addArrangedSubview(productNameLabel)
-        
+
         priceStackView.addArrangedSubview(priceLabel)
-        priceStackView.addArrangedSubview(discountedLabel)
+        priceStackView.addArrangedSubview(bargainPriceLabel)
+
         priceLabel.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
-        discountedLabel.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+        bargainPriceLabel.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         productStackView.addArrangedSubview(priceStackView)
         
         priceStackView.axis = .horizontal
@@ -75,7 +76,7 @@ class CollectionViewLayoutCell: UICollectionViewCell {
         
         
         priceLabel.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
-        discountedLabel.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+        bargainPriceLabel.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         
         stockLabel.textAlignment = .right
         stockLabel.numberOfLines = 0
@@ -85,38 +86,36 @@ class CollectionViewLayoutCell: UICollectionViewCell {
     }
 
     override func prepareForReuse() {
-        discountedLabel.isHidden = true
+        bargainPriceLabel.isHidden = true
     }
     
-    func configureContents(imageURL: String, productName: String, price: String,
-                           discountedPrice: String?, currency: Currency, stock: String) {
-
-        URLSessionProvider(session: URLSession.shared).requestImage(from: imageURL) { result in
+    func configureContents(with data: Product) {
+        URLSessionProvider(session: URLSession.shared).requestImage(from: data.thumbnail) { result in
             DispatchQueue.main.async {
                 switch result {
-                case .success(let data):
-                    self.imageView.image = data
+                case .success(let image):
+                    self.imageView.image = image
                 case .failure:
                     self.imageView.image = UIImage(named: "Image")
                 }
             }
         }
         
-        productNameLabel.text = productName
+        productNameLabel.text = data.name
         productNameLabel.font = UIFont.boldSystemFont(ofSize: 17)
         productNameLabel.adjustsFontForContentSizeCategory = true
         
-        if let intStock = Int(stock), intStock > 0 {
+        if data.stock > 0 {
             stockLabel.textColor = .systemGray
-            stockLabel.text = "잔여수량 : \(stock)"
+            stockLabel.text = "잔여수량 : \(data.stock)"
         } else {
             stockLabel.textColor = #colorLiteral(red: 0.9529411793, green: 0.6862745285, blue: 0.1333333403, alpha: 1)
             stockLabel.text = "품절"
         }
         
-        if let discounted = discountedPrice {
+        if data.discountedPrice != 0 {
             priceLabel.textColor = .systemRed
-            let attributeString = NSMutableAttributedString(string: "\(currency) \(price)")
+            let attributeString = NSMutableAttributedString(string: "\(data.currency) \(data.price)")
             attributeString.addAttribute(
                 NSAttributedString.Key.strikethroughStyle,
                 value: 2,
@@ -124,11 +123,12 @@ class CollectionViewLayoutCell: UICollectionViewCell {
             )
             priceLabel.attributedText = attributeString
             
-            discountedLabel.isHidden = false
-            discountedLabel.text = "\(currency) \(discounted)"
-            discountedLabel.textColor = .systemGray
+            bargainPriceLabel.isHidden = false
+            bargainPriceLabel.text = "\(data.currency) \(data.bargainPrice)"
+            bargainPriceLabel.textColor = .systemGray
         } else {
-            priceLabel.text = "\(currency) \(price)"
+            priceLabel.attributedText = .none
+            priceLabel.text = "\(data.currency) \(data.price)"
             priceLabel.textColor = .systemGray
         }
     }
