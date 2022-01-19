@@ -33,9 +33,20 @@ class GridCollectionViewCell: UICollectionViewCell {
         contentStackView.addArrangedSubview(labelStackView)
     }
     
+    func setUpProductImageView() {
+        productImageView.contentMode = .scaleAspectFit
+        productImageView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            productImageView.widthAnchor.constraint(equalTo: contentStackView.widthAnchor, multiplier: 0.8),
+            productImageView.heightAnchor.constraint(equalTo: productImageView.widthAnchor)
+        ])
+        
+    }
+    
     func setUpContentStackView() {
         contentStackView.axis = .vertical
-        contentStackView.alignment = .fill
+        contentStackView.alignment = .center
         contentStackView.distribution = .fill
         contentStackView.translatesAutoresizingMaskIntoConstraints = true
         
