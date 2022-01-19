@@ -171,6 +171,31 @@
 			name = "Test Doubles";
 			sourceTree = "<group>";
 		};
+		9A4F77F72797E40C00D9F854 /* Register */ = {
+			isa = PBXGroup;
+			children = (
+				9A13456B278C574800660291 /* RegisterProduct.storyboard */,
+				F33F506B27965C680073B84F /* ImageAddHeaderView.swift */,
+				F33F506C27965C680073B84F /* ImageAddHeaderView.xib */,
+				F33F50712796985C0073B84F /* TextFieldsStackView.swift */,
+				9AFB7B5B2796569C00E50813 /* ImageCell.swift */,
+				9AFB7B5C2796569C00E50813 /* ImageCell.xib */,
+			);
+			path = Register;
+			sourceTree = "<group>";
+		};
+		9A4F77F82797E42D00D9F854 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				C70FB10025BEF61C00C9924E /* Main.storyboard */,
+				9AAA3F4927881F7700D6E407 /* ProductCell.swift */,
+				9AAA3F4A27881F7700D6E407 /* GridCollectionViewCell.xib */,
+				F3D3B5D12788297C00943720 /* ListCollectionViewCell.xib */,
+				F3D3B607278D128100943720 /* ProductsCollectionView.swift */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
 		C70FB0EE25BEF61C00C9924E = {
 			isa = PBXGroup;
 			children = (
@@ -252,17 +277,8 @@
 		F35B1A622783E5B10031A755 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				C70FB10025BEF61C00C9924E /* Main.storyboard */,
-				9A13456B278C574800660291 /* RegisterProduct.storyboard */,
-				9AFB7B5B2796569C00E50813 /* ImageCell.swift */,
-				9AFB7B5C2796569C00E50813 /* ImageCell.xib */,
-				9AAA3F4927881F7700D6E407 /* ProductCell.swift */,
-				9AAA3F4A27881F7700D6E407 /* GridCollectionViewCell.xib */,
-				F3D3B5D12788297C00943720 /* ListCollectionViewCell.xib */,
-				F3D3B607278D128100943720 /* ProductsCollectionView.swift */,
-				F33F506B27965C680073B84F /* ImageAddHeaderView.swift */,
-				F33F506C27965C680073B84F /* ImageAddHeaderView.xib */,
-				F33F50712796985C0073B84F /* TextFieldsStackView.swift */,
+				9A4F77F82797E42D00D9F854 /* Main */,
+				9A4F77F72797E40C00D9F854 /* Register */,
 			);
 			path = View;
 			sourceTree = "<group>";
