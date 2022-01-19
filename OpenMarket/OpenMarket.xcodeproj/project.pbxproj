@@ -8,7 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		89703DED2797C5E700700F00 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89703DEC2797C5E700700F00 /* Item.swift */; };
+		89703DF22797DDF200700F00 /* ItemList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89703DF12797DDF200700F00 /* ItemList.swift */; };
 		89703DF42797F51600700F00 /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89703DF32797F51600700F00 /* Currency.swift */; };
+		89703DF6279803CB00700F00 /* ItemImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89703DF5279803CB00700F00 /* ItemImage.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
 		C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */; };
 		C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FE25BEF61C00C9924E /* ViewController.swift */; };
@@ -19,7 +21,10 @@
 
 /* Begin PBXFileReference section */
 		89703DEC2797C5E700700F00 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
+		89703DF12797DDF200700F00 /* ItemList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemList.swift; sourceTree = "<group>"; };
 		89703DF32797F51600700F00 /* Currency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
+		89703DF5279803CB00700F00 /* ItemImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemImage.swift; sourceTree = "<group>"; };
+		89703DF72798057B00700F00 /* VendorInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VendorInfo.swift; sourceTree = "<group>"; };
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -45,7 +50,9 @@
 			isa = PBXGroup;
 			children = (
 				89703DEC2797C5E700700F00 /* Item.swift */,
+				89703DF12797DDF200700F00 /* ItemList.swift */,
 				89703DF32797F51600700F00 /* Currency.swift */,
+				89703DF5279803CB00700F00 /* ItemImage.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
