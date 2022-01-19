@@ -9,3 +9,5 @@ excluded:
 - OpenMarket/SceneDelegate.swift
 
 line_length: 99
+identifier_name:
+    max_length: 45
