@@ -35,12 +35,14 @@ class MainViewController: UIViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard let product = sender as? Product,
-              let nextViewController = segue.destination as? DetailViewController else {
-                  showAlert(message: Message.dataDeliveredFail, completion: nil)
-                  return
-              }
-        nextViewController.requestDetail(productId: UInt(product.id))
+        if segue.destination is UINavigationController {
+            return
+        } else if let product = sender as? Product,
+                  let nextViewController = segue.destination as? DetailViewController {
+            nextViewController.requestDetail(productId: UInt(product.id))
+        } else {
+            showAlert(message: Message.dataDeliveredFail, completion: nil)
+        }
     }
     
     deinit {

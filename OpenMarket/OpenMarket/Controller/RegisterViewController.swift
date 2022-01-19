@@ -122,6 +122,7 @@ extension RegisterViewController {
         let isValidNameCount = textFieldsStackView.nameTextField.text?.count ?? .zero >= 3
         let isValidPriceCount = (textFieldsStackView.priceTextField.text?.count ?? .zero) > .zero
         let isMaintainMiniMumDescriptionCount = textFieldsStackView.descriptionTextView.text.count >= 10
+        &&  textFieldsStackView.descriptionTextView.text != Placeholder.description
         let isMaintainMaxiMumDescriptionCount = textFieldsStackView.descriptionTextView.text.count < 1000
         
         guard isValidImagesCount else {
