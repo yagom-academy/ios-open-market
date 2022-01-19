@@ -1,14 +1,14 @@
 import Foundation
 
-struct Product: Decodable {
+struct Product: Decodable, Hashable {
     var identification: Int
     var vendorIdentification: Int
     var name: String
     var thumbnail: String
     var currency: Currency
-    var price: Int
-    var bargainPrice: Int
-    var discountedPrice: Int
+    var price: Double
+    var bargainPrice: Double
+    var discountedPrice: Double
     var stock: Int
     var createdAt: Date
     var issuedAt: Date
@@ -32,12 +32,12 @@ struct Product: Decodable {
     }
 }
 
-enum Currency: String, Encodable, Decodable {
+enum Currency: String, Encodable, Decodable, Hashable {
     case KRW
     case USD
 }
 
-struct Image: Decodable {
+struct Image: Decodable, Hashable {
     var identification: Int
     var url: String
     var thumbnailUrl: String
@@ -53,7 +53,7 @@ struct Image: Decodable {
     }
 }
 
-struct Vendors: Decodable {
+struct Vendors: Decodable, Hashable {
     var name: String
     var identification: Int
     var createdAt: Date

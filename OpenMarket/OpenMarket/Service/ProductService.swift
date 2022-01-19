@@ -26,7 +26,7 @@ struct ProductService: APIService {
         var urlString = "\(HTTPUtility.baseURL)\(HTTPUtility.productPath)"
         if let pageNumber = pageNumber,
            let itemsPerPage = itemsPerPage {
-            urlString += "?page-no=\(pageNumber)&items-per-page=\(itemsPerPage)"
+            urlString += "?page_no=\(pageNumber)&items_per_page=\(itemsPerPage)"
         }
         guard let request = HTTPUtility.urlRequest(urlString: urlString) else {
             return
