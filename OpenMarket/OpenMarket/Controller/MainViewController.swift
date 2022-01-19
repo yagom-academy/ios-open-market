@@ -195,4 +195,9 @@ extension MainViewController: UICollectionViewDelegate {
             }
         }
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        performSegue(withIdentifier: "ProductDetailView", sender: nil)
+        collectionView.deselectItem(at: indexPath, animated: true)
+    }
 }

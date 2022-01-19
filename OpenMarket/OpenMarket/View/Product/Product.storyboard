@@ -1,34 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="gTz-py-HAL">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Detail View Controller-->
         <scene sceneID="s0d-6b-0kx">
             <objects>
-                <viewController id="Y6W-OH-hqX" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ProductDetail" id="Y6W-OH-hqX" customClass="DetailViewController" customModule="OpenMarket" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5EZ-qb-Rvc">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QwY-am-Qnq">
-                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
+                                <rect key="frame" x="0.0" y="88" width="414" height="808"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="VEJ-8s-sBG">
-                                        <rect key="frame" x="8" y="0.0" width="398" height="445"/>
+                                        <rect key="frame" x="8" y="0.0" width="398" height="478.5"/>
                                         <subviews>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="photo" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="boj-SZ-QVF">
-                                                <rect key="frame" x="0.0" y="1" width="398" height="307"/>
+                                                <rect key="frame" x="0.0" y="1" width="398" height="320.5"/>
                                                 <color key="tintColor" systemColor="systemGrayColor"/>
                                             </imageView>
-                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="hdg-Wg-OIL">
-                                                <rect key="frame" x="0.0" y="312.5" width="398" height="132.5"/>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="hdg-Wg-OIL">
+                                                <rect key="frame" x="0.0" y="326" width="398" height="152.5"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="상품명" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Db3-pT-sMC">
                                                         <rect key="frame" x="0.0" y="0.0" width="398" height="37"/>
@@ -37,31 +37,31 @@
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="USD 2,500" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="q1K-lP-3hO">
-                                                        <rect key="frame" x="0.0" y="37" width="398" height="20.5"/>
+                                                        <rect key="frame" x="0.0" y="41" width="398" height="20.5"/>
                                                         <fontDescription key="fontDescription" style="UICTFontTextStyleTitle3"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="USD 2,500" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UOr-GK-EHo">
-                                                        <rect key="frame" x="0.0" y="57.5" width="398" height="20.5"/>
+                                                        <rect key="frame" x="0.0" y="65.5" width="398" height="20.5"/>
                                                         <fontDescription key="fontDescription" style="UICTFontTextStyleTitle3"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="재고 : 10개" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gN9-yH-rMg">
-                                                        <rect key="frame" x="0.0" y="78" width="398" height="20.5"/>
+                                                        <rect key="frame" x="0.0" y="90" width="398" height="20.5"/>
                                                         <fontDescription key="fontDescription" style="UICTFontTextStyleTitle3"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="생성 날짜: 2022-12-27 " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yQZ-f7-Ws0">
-                                                        <rect key="frame" x="0.0" y="98.5" width="398" height="17"/>
+                                                        <rect key="frame" x="0.0" y="114.5" width="398" height="17"/>
                                                         <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="판매자 명: vender1" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c3n-hY-9ve">
-                                                        <rect key="frame" x="0.0" y="115.5" width="398" height="17"/>
+                                                        <rect key="frame" x="0.0" y="135.5" width="398" height="17"/>
                                                         <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
@@ -86,7 +86,7 @@
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstAttribute="bottomMargin" secondItem="QwY-am-Qnq" secondAttribute="bottom" id="3iO-7M-iOp"/>
+                            <constraint firstAttribute="bottom" secondItem="QwY-am-Qnq" secondAttribute="bottom" id="3iO-7M-iOp"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="QwY-am-Qnq" secondAttribute="trailing" id="HRf-1g-3rF"/>
                             <constraint firstItem="QwY-am-Qnq" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" id="PPe-ef-y2z"/>
                             <constraint firstItem="QwY-am-Qnq" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="cwD-kH-Iqy"/>
@@ -95,8 +95,20 @@
                     <navigationItem key="navigationItem" id="2PX-Qn-LDE">
                         <barButtonItem key="rightBarButtonItem" title="Edit" id="kP4-Cr-eOS">
                             <color key="tintColor" systemColor="labelColor"/>
+                            <connections>
+                                <action selector="tappedEditButton:" destination="Y6W-OH-hqX" id="A7e-MR-qqa"/>
+                            </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="bagainPriceLabel" destination="UOr-GK-EHo" id="vaU-Qp-xhN"/>
+                        <outlet property="createdAtLabel" destination="yQZ-f7-Ws0" id="02g-30-VcZ"/>
+                        <outlet property="imageView" destination="boj-SZ-QVF" id="PRe-fP-8p9"/>
+                        <outlet property="nameLabel" destination="Db3-pT-sMC" id="tdI-AH-nUK"/>
+                        <outlet property="priceLabel" destination="q1K-lP-3hO" id="xhh-lX-MrR"/>
+                        <outlet property="stockLabel" destination="gN9-yH-rMg" id="0WT-YT-sDR"/>
+                        <outlet property="vendorLabel" destination="c3n-hY-9ve" id="B7y-mw-7BG"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

@@ -25,6 +25,7 @@
 		9A1CFDCE27842E2E003BEC69 /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1CFDCD27842E2E003BEC69 /* Currency.swift */; };
 		9A1CFDD3278526B8003BEC69 /* NetworkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1CFDD2278526B8003BEC69 /* NetworkTests.swift */; };
 		9A1CFDD527852721003BEC69 /* MockSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1CFDD427852721003BEC69 /* MockSession.swift */; };
+		9A4F77FA2798014000D9F854 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4F77F92798014000D9F854 /* DetailViewController.swift */; };
 		9A96059A2790178800FA9E47 /* ImageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9605992790178800FA9E47 /* ImageManager.swift */; };
 		9AAA3EAE2785726A00D6E407 /* StubProducts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAA3EAD2785726A00D6E407 /* StubProducts.swift */; };
 		9AAA3EB02785812A00D6E407 /* MockURLProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAA3EAF2785812A00D6E407 /* MockURLProtocol.swift */; };
@@ -93,6 +94,7 @@
 		9A1CFDCD27842E2E003BEC69 /* Currency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
 		9A1CFDD2278526B8003BEC69 /* NetworkTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkTests.swift; sourceTree = "<group>"; };
 		9A1CFDD427852721003BEC69 /* MockSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MockSession.swift; path = "Test Doubles/MockSession.swift"; sourceTree = "<group>"; };
+		9A4F77F92798014000D9F854 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		9A9605992790178800FA9E47 /* ImageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageManager.swift; sourceTree = "<group>"; };
 		9AAA3EAD2785726A00D6E407 /* StubProducts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = StubProducts.swift; path = "Test Doubles/StubProducts.swift"; sourceTree = "<group>"; };
 		9AAA3EAF2785812A00D6E407 /* MockURLProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MockURLProtocol.swift; path = "Test Doubles/MockURLProtocol.swift"; sourceTree = "<group>"; };
@@ -272,6 +274,7 @@
 			children = (
 				C70FB0FE25BEF61C00C9924E /* MainViewController.swift */,
 				9A13456D278C576400660291 /* RegisterViewController.swift */,
+				9A4F77F92798014000D9F854 /* DetailViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -480,6 +483,7 @@
 				9A134562278C1C1F00660291 /* UIViewController+extension.swift in Sources */,
 				9A134570278D1A0E00660291 /* OpenMarketError.swift in Sources */,
 				F35B1A6B2784335B0031A755 /* Data+extension.swift in Sources */,
+				9A4F77FA2798014000D9F854 /* DetailViewController.swift in Sources */,
 				9A134572278D587F00660291 /* Message.swift in Sources */,
 				9A1CFDCA27841CD0003BEC69 /* ProductSecret.swift in Sources */,
 				9A1CFDC22783D6FA003BEC69 /* Image.swift in Sources */,
