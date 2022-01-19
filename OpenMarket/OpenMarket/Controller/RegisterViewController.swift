@@ -31,6 +31,12 @@ class RegisterViewController: UIViewController {
         collectionView.showsHorizontalScrollIndicator = false
     }
     
+    private func dismissAndUpdate() {
+        self.dismiss(animated: true) {
+            NotificationCenter.default.post(name: .updataMain, object: nil)
+        }
+    }
+    
     private func registerXib() {
         let cellNib = UINib(nibName: ImageCell.nibName, bundle: .main)
         collectionView.register(cellNib, forCellWithReuseIdentifier: ImageCell.identifier)
@@ -43,7 +49,7 @@ class RegisterViewController: UIViewController {
     }
     
     @IBAction func cancelButtonTapped(_ sender: UIButton) {
-        self.dismiss(animated: true, completion: nil)
+        self.dismiss(animated: true)
     }
     
     @IBAction func doneButtonTapped(_ sender: UIButton) {
@@ -63,7 +69,7 @@ extension RegisterViewController {
     private func requestRegistration(product: ProductRegistration, imageFiles: [ImageFile]) {
         guard let request = createRequest(params: product, images: imageFiles) else {
             showAlert(message: Message.badRequest) {
-                self.dismiss(animated: true, completion: nil)
+                self.dismiss(animated: true)
             }
             return
         }
@@ -73,13 +79,13 @@ extension RegisterViewController {
             case .success:
                 DispatchQueue.main.async {
                     self.showAlert(message: Message.completeProductRegistration) {
-                        self.dismiss(animated: true, completion: nil)
+                        self.dismissAndUpdate()
                     }
                 }
             case .failure(let error):
                 DispatchQueue.main.async {
                     self.showAlert(message: error.localizedDescription) {
-                        self.dismiss(animated: true, completion: nil)
+                        self.dismiss(animated: true)
                     }
                 }
             }

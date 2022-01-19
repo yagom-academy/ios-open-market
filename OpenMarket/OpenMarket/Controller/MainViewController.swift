@@ -28,10 +28,29 @@ class MainViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        requestProducts()
+        requestProducts {
+            self.collectionViewLoad()
+        }
+        setUpNotification()
     }
     
-    private func requestProducts() {
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: .updataMain, object: nil)
+    }
+    
+    private func setUpNotification() {
+        NotificationCenter.default.addObserver(self, selector: #selector(updateMain), name: .updataMain, object: nil)
+    }
+    
+    @objc private func updateMain() {
+        currentPage = 1
+        productList.removeAll()
+        requestProducts {
+            self.collectionViewReload()
+        }
+    }
+    
+    private func requestProducts(completion: @escaping () -> Void) {
         let networkManager: NetworkManager = NetworkManager()
         guard let request = networkManager.requestListSearch(page: currentPage, itemsPerPage: 20) else {
             showAlert(message: Message.badRequest)
@@ -40,19 +59,15 @@ class MainViewController: UIViewController {
         networkManager.fetch(request: request, decodingType: Products.self) { result in
             switch result {
             case .success(let products):
-                self.setUpData(for: products)
+                self.products = products
+                self.productList.append(contentsOf: products.pages)
+                completion()
             case .failure(let error):
                 DispatchQueue.main.async {
                     self.showAlert(message: error.localizedDescription)
                 }
             }
         }
-    }
-    
-    private func setUpData(for products: Products) {
-        self.products = products
-        productList.append(contentsOf: products.pages)
-        currentPage == 1 ? collectionViewLoad() : collectionViewReload()
     }
     
     private func collectionViewLoad() {
@@ -175,7 +190,9 @@ extension MainViewController: UICollectionViewDelegate {
         if remainBottomHeight < frameHeight ,
            let products = products, products.hasNext, products.pageNumber == currentPage {
             currentPage += 1
-            self.requestProducts()
+            self.requestProducts {
+                self.collectionViewReload()
+            }
         }
     }
 }
