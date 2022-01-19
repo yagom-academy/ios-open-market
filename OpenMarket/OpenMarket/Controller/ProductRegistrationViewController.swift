@@ -12,7 +12,7 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
         setUpImagePicker()
         setupNavigationBar()
     }
-
+    
     @objc private func dismissProductRegistration() {
         self.dismiss(animated: true, completion: nil)
     }
@@ -87,7 +87,10 @@ extension ProductRegistrationViewController: UICollectionViewDataSource {
         }
     }
     
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        numberOfItemsInSection section: Int
+    ) -> Int {
         if section == 0 {
             return images.count
         } else {
@@ -95,7 +98,10 @@ extension ProductRegistrationViewController: UICollectionViewDataSource {
         }
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        cellForItemAt indexPath: IndexPath
+    ) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: UICollectionViewCell.reuseIdentifier,
             for: indexPath
@@ -118,10 +124,13 @@ extension ProductRegistrationViewController: UICollectionViewDataSource {
             button.backgroundColor = .opaqueSeparator
             cell.contentView.addSubview(button)
             button.translatesAutoresizingMaskIntoConstraints = false
-            button.topAnchor.constraint(equalTo: cell.contentView.topAnchor).isActive = true
-            button.bottomAnchor.constraint(equalTo: cell.contentView.bottomAnchor).isActive = true
-            button.leadingAnchor.constraint(equalTo: cell.contentView.leadingAnchor).isActive = true
-            button.trailingAnchor.constraint(equalTo: cell.contentView.trailingAnchor).isActive = true
+            let constraints = [
+                button.topAnchor.constraint(equalTo: cell.contentView.topAnchor),
+                button.bottomAnchor.constraint(equalTo: cell.contentView.bottomAnchor),
+                button.leadingAnchor.constraint(equalTo: cell.contentView.leadingAnchor),
+                button.trailingAnchor.constraint(equalTo: cell.contentView.trailingAnchor)
+            ]
+            NSLayoutConstraint.activate(constraints)
         }
         return cell
     }
