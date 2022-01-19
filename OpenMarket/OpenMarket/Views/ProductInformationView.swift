@@ -72,10 +72,10 @@ class ProductInformationView: UIView {
         return stackView
     }()
     
-    let nameTextField = CustomTextField(placeholder: Placeholder.name)
-    let priceTextField = CustomTextField(placeholder: Placeholder.price)
-    let discountedPriceTextField = CustomTextField(placeholder: Placeholder.discountedPrice)
-    let stockTextField = CustomTextField(placeholder: Placeholder.stock)
+    let nameTextField = CustomTextField(placeholder: Placeholder.name, hasToolBar: false)
+    let priceTextField = CustomTextField(placeholder: Placeholder.price, keyboardType: .decimalPad, hasToolBar: true)
+    let discountedPriceTextField = CustomTextField(placeholder: Placeholder.discountedPrice, keyboardType: .decimalPad, hasToolBar: true)
+    let stockTextField = CustomTextField(placeholder: Placeholder.stock, keyboardType: .numberPad, hasToolBar: true)
     
     let currencySegmentedControl = LayoutSegmentedControl(items: Currency.allCases.map { $0.unit })
     
@@ -104,6 +104,10 @@ class ProductInformationView: UIView {
         [nameTextField, priceStackView, discountedPriceTextField, stockTextField].forEach { view in
             textFieldStackView.addArrangedSubview(view)
         }
+        
+        currencySegmentedControl.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+        currencySegmentedControl.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        priceTextField.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         
         NSLayoutConstraint.activate([
             textFieldStackView.topAnchor.constraint(equalTo: imageScrollView.bottomAnchor, constant: Design.textFieldStackViewTopMargin),

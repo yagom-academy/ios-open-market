@@ -8,7 +8,9 @@ class ProductRegisterViewController: UIViewController {
         super.viewDidLoad()
         productRegisterManager.delegate = self
         imagePickerController.pickerDelegate = self
+        productRegisterManager.addDelegateToTextField(delegate: self)
         configUI()
+        tapBehindViewToEndEdit()
     }
     
     private func configUI() {
@@ -65,6 +67,11 @@ class ProductRegisterViewController: UIViewController {
         alert.addAction(confirmAction)
         self.present(alert, animated: true, completion: nil)
     }
+    
+    func tapBehindViewToEndEdit() {
+        let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing))
+        view.addGestureRecognizer(tap)
+    }
 }
 
 extension ProductRegisterViewController: PickerPresenter {
@@ -84,5 +91,33 @@ extension ProductRegisterViewController: PickerDelegate {
         if productRegisterManager.takeRegisteredImageCounts() == 5 {
             productRegisterManager.setImageButtonHidden(state: true)
         }
+    }
+}
+
+extension ProductRegisterViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+    }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if textField.keyboardType == .default {
+            return true
+        }
+                
+        if range.location == 0 {
+            if string == "0" {
+                return false
+            }
+            
+            if string == "." {
+                textField.text = "0"
+            }
+        }
+            
+        if string == "." && textField.text?.contains(".") == true {
+            return false
+        }
+        
+        return true
     }
 }

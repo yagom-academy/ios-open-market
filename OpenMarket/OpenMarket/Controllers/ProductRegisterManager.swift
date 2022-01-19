@@ -59,4 +59,10 @@ class ProductRegisterManager {
         productImageCustomView.fetchImage(with: resizedImage)
         productInformationView.imageStackView.addArrangedSubview(productImageCustomView)
     }
+    
+    func addDelegateToTextField(delegate: UITextFieldDelegate) {
+        [productInformationView.nameTextField, productInformationView.priceTextField, productInformationView.discountedPriceTextField, productInformationView.stockTextField].forEach { textField in
+            textField.delegate = delegate
+        }
+    }
 }
