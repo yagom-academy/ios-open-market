@@ -96,7 +96,7 @@ extension ProductCollectionViewController: UICollectionViewDelegate {
 
 extension ProductCollectionViewController {
   private func configureListViewDataSource(cellType: CellType) {
-    var currentIdentifier: String {
+    var currentCellIdentifier: String {
       switch cellType {
       case .list:
         return ProductCollectionViewListCell.reuseIdentifier
@@ -111,7 +111,7 @@ extension ProductCollectionViewController {
         indexPath: IndexPath, item: Product
       ) -> UICollectionViewCell? in
       guard let cell = collectionView.dequeueReusableCell(
-        withReuseIdentifier: currentIdentifier,
+        withReuseIdentifier: currentCellIdentifier,
         for: indexPath
       ) as? ProductCollectionViewCell else {
         return UICollectionViewCell()
