@@ -53,6 +53,9 @@ extension ProductRegistrationViewController: UICollectionViewDataSource {
             withReuseIdentifier: UICollectionViewCell.reuseIdentifier,
             for: indexPath
         )
+        cell.contentView.subviews.forEach { view in
+            view.removeFromSuperview()
+        }
         if indexPath.section == 0 {
             let image = images[indexPath.item]
             let imageView = UIImageView(frame: cell.contentView.frame)
@@ -75,6 +78,4 @@ extension ProductRegistrationViewController: UICollectionViewDataSource {
         }
         return cell
     }
-    
-    
 }
