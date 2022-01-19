@@ -1,7 +1,11 @@
 import Foundation
+import UIKit
+
+typealias Parameters = [String: String]
 
 class APIManager {
     
+    let boundary = "Boundary-\(UUID().uuidString)"
     let urlSession: URLSessionProtocol
 
     init(urlSession: URLSessionProtocol = URLSession.shared) {
@@ -42,6 +46,44 @@ class APIManager {
         guard let url = URLManager.checkProductList(pageNumber: pageNumber, itemsPerPage: itemsPerPage).url else { return }
         let request = URLRequest(url: url, method: .get)
         createDataTask(with: request, completion: completion)
+    }
+    
+}
+
+extension APIManager {
+    
+    func createParams(with modelData: NewProduct) -> Parameters? {
+        guard let parameterBody = JSONParser.encodeToDataString(with: modelData) else { return nil }
+        let params: Parameters = ["params": parameterBody]
+        return params
+    }
+    
+    func createDataBody(withParameters params: Parameters?, images: [NewProductImage]?) -> Data {
+        
+        let lineBreak = "\r\n"
+        var body = Data()
+        
+        if let parameters = params {
+            for (key, value) in parameters {
+                body.append("--\(boundary + lineBreak)")
+                body.append("Content-Disposition: form-data; name=\"\(key)\"\(lineBreak + lineBreak)")
+                body.append("\(value)\(lineBreak)")
+            }
+        }
+
+        if let images = images {
+            for image in images {
+                body.append("--\(boundary + lineBreak)")
+                body.append("Content-Disposition: form-data; name=\"\(image.key)\"; filename=\"\(image.fileName)\"\(lineBreak)")
+                body.append("Content-Type: image/jpeg, image/jpg, image/png\(lineBreak + lineBreak)")
+                body.append(image.image)
+                body.append(lineBreak)
+            }
+        }
+        
+        body.append("--\(boundary)--\(lineBreak)")
+        
+        return body
     }
     
 }

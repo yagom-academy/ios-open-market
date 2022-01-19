@@ -12,4 +12,3 @@ enum Currency: String, Codable {
         return self.rawValue
     }
 }
-
