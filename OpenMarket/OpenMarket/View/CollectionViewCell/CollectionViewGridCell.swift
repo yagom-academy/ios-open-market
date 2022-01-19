@@ -245,7 +245,7 @@ extension CollectionViewGridCell {
     
     enum LableStackViewAttribute {
         static let innerSpacing: CGFloat = 5
-        static let externalSpacing: CGFloat = 10
+        static let outerSpacing: CGFloat = 10
         static let fractionalWidth: CGFloat = 0.95
     }
     
@@ -268,11 +268,11 @@ extension CollectionViewGridCell {
 
         NSLayoutConstraint.activate([
             labelStackView.topAnchor.constraint(equalTo: activityIndicator.bottomAnchor,
-                                                constant: LableStackViewAttribute.externalSpacing),
+                                                constant: LableStackViewAttribute.outerSpacing),
             labelStackView.topAnchor.constraint(equalTo: imageView.bottomAnchor,
-                                                constant: LableStackViewAttribute.externalSpacing),
+                                                constant: LableStackViewAttribute.outerSpacing),
             labelStackView.bottomAnchor.constraint(equalTo: bottomAnchor,
-                                                   constant: -1 * LableStackViewAttribute.externalSpacing),
+                                                   constant: -1 * LableStackViewAttribute.outerSpacing),
             labelStackView.centerXAnchor.constraint(equalTo: centerXAnchor),
             labelStackView.widthAnchor.constraint(equalTo: widthAnchor,
                                                   multiplier: LableStackViewAttribute.fractionalWidth),
