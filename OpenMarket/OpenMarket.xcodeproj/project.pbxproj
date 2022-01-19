@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		53661E69278D724B003BB6DA /* URLManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53661E68278D724B003BB6DA /* URLManager.swift */; };
+		537707E127985974008B6665 /* GridCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537707E027985974008B6665 /* GridCollectionViewCell.swift */; };
 		53A831182784161A00448699 /* ProductsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A831172784161A00448699 /* ProductsTests.swift */; };
 		53A8311F2784167F00448699 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB2CEADD27840FB800DB75DF /* Parser.swift */; };
 		53A831202784168200448699 /* ProductInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB2CEABE2783E6F200DB75DF /* ProductInformation.swift */; };
@@ -55,6 +56,7 @@
 
 /* Begin PBXFileReference section */
 		53661E68278D724B003BB6DA /* URLManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLManager.swift; sourceTree = "<group>"; };
+		537707E027985974008B6665 /* GridCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridCollectionViewCell.swift; sourceTree = "<group>"; };
 		53A831152784161900448699 /* ProductsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ProductsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		53A831172784161A00448699 /* ProductsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsTests.swift; sourceTree = "<group>"; };
 		53A831192784161A00448699 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -118,6 +120,7 @@
 				53DA6EDD278F1961005993D1 /* SegmentedControl.swift */,
 				FBF225E12796B33D00DA8161 /* ListCollectionViewCell.swift */,
 				FBF225E22796B33D00DA8161 /* ListCollectionViewCell.xib */,
+				537707E027985974008B6665 /* GridCollectionViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -333,6 +336,7 @@
 				FB2CEABC2783E54800DB75DF /* ProductList.swift in Sources */,
 				FB52A742279850FC00A8A126 /* CALayer+extension.swift in Sources */,
 				FB2CEAE22786D62800DB75DF /* HTTPMethod.swift in Sources */,
+				537707E127985974008B6665 /* GridCollectionViewCell.swift in Sources */,
 				53A8326B278C666200448699 /* ParserError.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
