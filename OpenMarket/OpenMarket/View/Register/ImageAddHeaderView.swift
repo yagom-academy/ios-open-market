@@ -7,15 +7,9 @@
 
 import UIKit
 
-protocol ImageAddHeaderViewDelegate: AnyObject {
-    func tappedAddButton()
-}
-
 class ImageAddHeaderView: UICollectionReusableView {
     static let identifier = "imageAddHeaderView"
     static let nibName = "ImageAddHeaderView"
-
-    weak var delegate: ImageAddHeaderViewDelegate?
     
     @IBOutlet weak var addButton: UIButton!
     @IBOutlet weak var imageCountLabel: UILabel!
@@ -25,13 +19,25 @@ class ImageAddHeaderView: UICollectionReusableView {
         addButton.layer.cornerRadius = 10
         addButton.layer.borderColor = UIColor.systemGray3.cgColor
         addButton.layer.borderWidth = 1
+        setUpNotificationCenter()
     }
     
     @IBAction func tappedAddButton(_ sender: UIButton) {
-        delegate?.tappedAddButton()
+        NotificationCenter.default.post(name: .addButton, object: nil)
     }
     
-    func updateLabelText(imageCount: Int) {
+    @objc func updateLabelText(_ notification: Notification) {
+        guard let imageCount = notification.object as? Int else {
+            return
+        }
         imageCountLabel.text = "\(imageCount) / 5"
+    }
+    
+    private func setUpNotificationCenter() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(updateLabelText),
+            name: .editImageCountLabel, object: nil
+        )
     }
 }

@@ -9,43 +9,34 @@ import UIKit
 
 class RegisterViewController: UIViewController {
 
-    var images = [UIImage]()
-    @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var collectionView: ImagesCollectionView!
     @IBOutlet weak var textFieldsStackView: TextFieldsStackView!
-    var addheaderView: ImageAddHeaderView?
+    
+    private var dataSource = RegisterDataSource()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpCollectionView()
+        setUpNotificationCenter()
+    }
+    
+    private func setUpNotificationCenter() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(tappedAddButton),
+            name: .addButton, object: nil
+        )
     }
     
     func setUpCollectionView() {
-        collectionView.dataSource = self
         collectionView.delegate = self
-        
-        registerXib()
-        
-        let flowLayout = UICollectionViewFlowLayout()
-        flowLayout.scrollDirection = .horizontal
-        collectionView.collectionViewLayout = flowLayout
-        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.dataSource = dataSource
     }
     
     private func dismissAndUpdate() {
         self.dismiss(animated: true) {
             NotificationCenter.default.post(name: .updataMain, object: nil)
         }
-    }
-    
-    private func registerXib() {
-        let cellNib = UINib(nibName: ImageCell.nibName, bundle: .main)
-        collectionView.register(cellNib, forCellWithReuseIdentifier: ImageCell.identifier)
-        
-        let headerNib = UINib(nibName: ImageAddHeaderView.nibName, bundle: .main)
-        collectionView.register(
-            headerNib,
-            forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
-            withReuseIdentifier: ImageAddHeaderView.identifier)
     }
     
     @IBAction func cancelButtonTapped(_ sender: UIButton) {
@@ -56,10 +47,11 @@ class RegisterViewController: UIViewController {
         guard inputValidation() else {
             return
         }
-        guard let product = textFieldsStackView.createRegistration() else {
+        guard let product = textFieldsStackView.createRegistration(),
+              let imageFiles = dataSource.createImageFiles() else {
+                  self.showAlert(message: Message.productError, completion: nil)
             return
         }
-        let imageFiles = createImageFiles()
         requestRegistration(product: product, imageFiles: imageFiles)
     }
     
@@ -103,22 +95,8 @@ extension RegisterViewController {
         }
     }
     
-    private func createImageFiles() -> [ImageFile] {
-        var imageFiles = [ImageFile]()
-        
-        images.forEach { image in
-            guard let imageData = image.jpegData(compressionQuality: 1) else {
-                self.showAlert(message: Message.unknownError)
-                return
-            }
-            let imageFile = ImageFile(name: UUID().uuidString, data: imageData, type: .jpeg)
-            imageFiles.append(imageFile)
-        }
-        return imageFiles
-    }
-    
     private func inputValidation() -> Bool {
-        let isValidImagesCount = images.count > .zero
+        let isValidImagesCount = dataSource.images.count > .zero
         let isValidNameCount = textFieldsStackView.nameTextField.text?.count ?? .zero >= 3
         let isValidPriceCount = (textFieldsStackView.priceTextField.text?.count ?? .zero) > .zero
         let isMaintainMiniMumDescriptionCount = textFieldsStackView.descriptionTextView.text.count >= 10
@@ -149,50 +127,13 @@ extension RegisterViewController {
     }
 }
 
-extension RegisterViewController: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return images.count
-    }
-    
-    func collectionView(
-        _ collectionView: UICollectionView,
-        cellForItemAt indexPath: IndexPath
-    ) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: ImageCell.identifier,
-            for: indexPath
-        ) as? ImageCell else {
-            return UICollectionViewCell()
-        }
-        cell.imageView.image = images[indexPath.item]
-        return cell
-    }
-    
-    func collectionView(
-        _ collectionView: UICollectionView,
-        viewForSupplementaryElementOfKind kind: String,
-        at indexPath: IndexPath
-    ) -> UICollectionReusableView {
-        guard let headerView = collectionView.dequeueReusableSupplementaryView(
-            ofKind: UICollectionView.elementKindSectionHeader,
-            withReuseIdentifier: ImageAddHeaderView.identifier,
-            for: indexPath
-        ) as? ImageAddHeaderView else {
-            return UICollectionReusableView()
-        }
-        headerView.delegate = self
-        addheaderView = headerView
-        return headerView
-    }
-}
-
 extension RegisterViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        images.remove(at: indexPath.item)
+        dataSource.images.remove(at: indexPath.item)
         collectionView.performBatchUpdates {
             collectionView.deleteItems(at: [IndexPath(item: indexPath.item, section: 0)])
         } completion: { _ in
-            self.addheaderView?.updateLabelText(imageCount: self.images.count)
+            NotificationCenter.default.post(name: .editImageCountLabel, object: self.dataSource.images.count)
         }
     }
 }
@@ -225,19 +166,19 @@ extension RegisterViewController: UIImagePickerControllerDelegate & UINavigation
         guard let selectedImage = editedImage ?? originalImage else {
             return
         }
-        images.append(selectedImage.compress())
+        dataSource.images.append(selectedImage.compress())
         collectionView.performBatchUpdates {
-            collectionView.insertItems(at: [IndexPath(item: images.count - 1, section: 0)])
+            collectionView.insertItems(at: [IndexPath(item: dataSource.images.count - 1, section: 0)])
         } completion: { _ in
-            self.addheaderView?.updateLabelText(imageCount: self.images.count)
+            NotificationCenter.default.post(name: .editImageCountLabel, object: self.dataSource.images.count)
         }
         picker.dismiss(animated: true, completion: nil)
     }
 }
 
-extension RegisterViewController: ImageAddHeaderViewDelegate {
-    func tappedAddButton() {
-        guard images.count != 5 else {
+extension RegisterViewController {
+    @objc func tappedAddButton() {
+        guard dataSource.images.count != 5 else {
             self.showAlert(message: Message.maximumImageCount)
             return
         }

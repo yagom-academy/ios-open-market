@@ -23,7 +23,7 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Pmj-8Q-wD4">
                                         <rect key="frame" x="8" y="0.0" width="398" height="808"/>
                                         <subviews>
-                                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="bCH-8b-QxW">
+                                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="bCH-8b-QxW" customClass="ImagesCollectionView" customModule="OpenMarket" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="0.0" width="398" height="128"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 <constraints>
@@ -144,7 +144,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="collectionView" destination="bCH-8b-QxW" id="NMI-hf-OYA"/>
+                        <outlet property="collectionView" destination="bCH-8b-QxW" id="oZA-2J-dkw"/>
                         <outlet property="textFieldsStackView" destination="0vB-nZ-7fX" id="h4b-QA-bKV"/>
                     </connections>
                 </viewController>
