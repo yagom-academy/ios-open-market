@@ -28,7 +28,7 @@ class ProductInformationView: UIView {
         super.init(coder: coder)
     }
     
-    private let imageScrollView: UIScrollView = {
+    let imageScrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.showsHorizontalScrollIndicator = false
         return scrollView
@@ -86,6 +86,7 @@ class ProductInformationView: UIView {
         textView.layer.masksToBounds = true
         textView.layer.cornerRadius = 10
         textView.font = .preferredFont(forTextStyle: .footnote)
+        textView.isScrollEnabled = false
         return textView
     }()
     

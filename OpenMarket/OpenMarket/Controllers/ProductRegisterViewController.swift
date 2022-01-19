@@ -3,9 +3,12 @@ import UIKit
 class ProductRegisterViewController: UIViewController {
     private let productRegisterManager = ProductRegisterManager()
     private let imagePickerController = ImagePickerController()
+    private let productScrollView = UIScrollView()
+    private let productContentView = UIView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        addKeyboardNotification()
         productRegisterManager.delegate = self
         imagePickerController.pickerDelegate = self
         productRegisterManager.addDelegateToTextField(delegate: self)
@@ -15,8 +18,8 @@ class ProductRegisterViewController: UIViewController {
     
     private func configUI() {
         view.backgroundColor = .white
-        configNavigationBar()
         configRegistrationView()
+        configNavigationBar()
     }
     
     private func configNavigationBar() {
@@ -47,17 +50,31 @@ class ProductRegisterViewController: UIViewController {
     
     private func configRegistrationView() {
         let productRegistrationView = productRegisterManager.productInformationView
-        self.view.addSubview(productRegistrationView)
         
-        [productRegistrationView].forEach { view in
+        self.view.addSubview(productScrollView)
+        productScrollView.addSubview(productContentView)
+        productContentView.addSubview(productRegistrationView)
+        
+        [productScrollView, productContentView, productRegistrationView].forEach { view in
             view.translatesAutoresizingMaskIntoConstraints = false
         }
         
         NSLayoutConstraint.activate([
-            productRegistrationView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
-            productRegistrationView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-            productRegistrationView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-            productRegistrationView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
+            productScrollView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
+            productScrollView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            productScrollView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+            productScrollView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
+            
+            productContentView.topAnchor.constraint(equalTo: productScrollView.topAnchor),
+            productContentView.leadingAnchor.constraint(equalTo: productScrollView.leadingAnchor),
+            productContentView.trailingAnchor.constraint(equalTo: productScrollView.trailingAnchor),
+            productContentView.bottomAnchor.constraint(equalTo: productScrollView.bottomAnchor),
+            productContentView.widthAnchor.constraint(equalTo: productScrollView.widthAnchor),
+            
+            productRegistrationView.topAnchor.constraint(equalTo: productContentView.topAnchor),
+            productRegistrationView.leadingAnchor.constraint(equalTo: productContentView.leadingAnchor),
+            productRegistrationView.trailingAnchor.constraint(equalTo: productContentView.trailingAnchor),
+            productRegistrationView.bottomAnchor.constraint(equalTo: productContentView.bottomAnchor)
         ])
     }
     
@@ -119,5 +136,27 @@ extension ProductRegisterViewController: UITextFieldDelegate {
         }
         
         return true
+    }
+    
+    private func addKeyboardNotification() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    @objc private func keyboardWillShow(_ sender: Notification) {
+        guard let info = sender.userInfo else {
+            return
+        }
+        let userInfo = info as NSDictionary
+        guard let keyboardFrame = userInfo.value(forKey: UIResponder.keyboardFrameEndUserInfoKey) as? NSValue else {
+            return
+        }
+    
+        let keyboardRect = keyboardFrame.cgRectValue
+        productScrollView.contentInset.bottom = keyboardRect.height
+    }
+    
+    @objc private func keyboardWillHide(_ sender: Notification) {
+        productScrollView.contentInset = .zero
     }
 }
