@@ -28,6 +28,13 @@ class TextFieldsStackView: UIStackView {
         super.awakeFromNib()
         setUpDescriptionText()
         setUpPlaceHolder()
+        setUpKeyboard()
+        setUpNotification()
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        self.endEditing(true)
     }
     
     func createRegistration() -> ProductRegistration? {
@@ -54,13 +61,57 @@ class TextFieldsStackView: UIStackView {
         )
     }
     
-    func setUpDescriptionText() {
+    private func setUpNotification() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillShow(_:)),
+            name: UIResponder.keyboardWillShowNotification,
+            object: nil
+        )
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillHide(_:)),
+            name: UIResponder.keyboardWillHideNotification,
+            object: nil
+        )
+    }
+    
+    @objc private func keyboardWillShow(_ notification: Notification) {
+        guard let userInfo = notification.userInfo as NSDictionary?,
+              var keyboardFrame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue,
+              let scrollView = self.superview?.superview as? UIScrollView,
+              let view = self.superview?.superview?.superview else {
+                  return
+              }
+        keyboardFrame = view.convert(keyboardFrame, from: nil)
+        var contentInset = scrollView.contentInset
+        contentInset.bottom = keyboardFrame.size.height
+        scrollView.contentInset = contentInset
+        scrollView.scrollIndicatorInsets = scrollView.contentInset
+    }
+
+    @objc private func keyboardWillHide(_ notification: NSNotification) {
+        guard let scrollView = self.superview?.superview as? UIScrollView else {
+            return
+        }
+        scrollView.contentInset = UIEdgeInsets.zero
+        scrollView.scrollIndicatorInsets = scrollView.contentInset
+    }
+    
+    private func setUpKeyboard() {
+        priceTextField.keyboardType = .decimalPad
+        discountedPriceTextField.keyboardType = .decimalPad
+        stockTextField.keyboardType = .numberPad
+        descriptionTextView.isScrollEnabled = false
+    }
+    
+    private func setUpDescriptionText() {
         descriptionTextView.delegate = self
         descriptionTextView.text = Placeholder.description
         descriptionTextView.textColor = .lightGray
     }
     
-    func setUpPlaceHolder() {
+    private func setUpPlaceHolder() {
         nameTextField.placeholder = Placeholder.name
         priceTextField.placeholder = Placeholder.price
         discountedPriceTextField.placeholder = Placeholder.discountedPrice
