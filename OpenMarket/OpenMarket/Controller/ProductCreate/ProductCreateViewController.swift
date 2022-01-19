@@ -18,14 +18,7 @@ final class ProductCreateViewController: UIViewController {
                 }
             }
             
-            images.forEach { image in
-                let imageView = UIImageView()
-                NSLayoutConstraint.activate([
-                    imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor)
-                ])
-                imageView.image = image
-                productImageStackView.insertArrangedSubview(imageView, at: 0)
-            }
+            images.forEach { productImageStackView.insertArrangedSubview(UIImageView(with: $0), at: 0) }
         }
     }
     
@@ -38,14 +31,7 @@ final class ProductCreateViewController: UIViewController {
     @IBOutlet private weak var productStockTextField: UITextField!
     @IBOutlet private weak var descriptionTextView: UITextView!
     
-    private let imagePicker = UIImagePickerController()
-    
-    private func configureTextField() {
-        productPriceTextField.addDoneButtonToInputAccessoryView()
-        discountedPriceTextField.addDoneButtonToInputAccessoryView()
-        productStockTextField.addDoneButtonToInputAccessoryView()
-        descriptionTextView.addDoneButtonToInputAccessoryView()
-    }
+    private let imagePicker = UIImagePickerController(allowsEditing: true)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -79,6 +65,15 @@ final class ProductCreateViewController: UIViewController {
             name: UIResponder.keyboardWillHideNotification,
             object: nil
         )
+    }
+    
+    private func configureTextField() {
+        let nextString = "Next"
+        let doneString = "Done"
+        productPriceTextField.addButtonToInputAccessoryView(title: nextString)
+        discountedPriceTextField.addButtonToInputAccessoryView(title: nextString)
+        productStockTextField.addButtonToInputAccessoryView(title: nextString)
+        descriptionTextView.addButtonToInputAccessoryView(title: doneString)
     }
     
     @IBAction private func imageAddbuttonClicked(_ sender: UIButton) {
@@ -131,7 +126,7 @@ extension ProductCreateViewController: UIImagePickerControllerDelegate, UINaviga
     
     func imagePickerController(_ picker: UIImagePickerController,
                                didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        if let image = info[.originalImage] as? UIImage, images.count < 5 {
+        if let image = info[.editedImage] as? UIImage, images.count < 5 {
             self.images.append(image)
         }
         dismiss(animated: true)
@@ -169,42 +164,32 @@ fileprivate extension UIView {
         self.resignFirstResponder()
     }
     
-    func addDoneButtonToInputAccessoryView() {
-        let keypadToolbar = UIToolbar()
+    func addButtonToInputAccessoryView(title: String) {
+        let toolbar = UIToolbar()
         
-        keypadToolbar.items = [
+        toolbar.items = [
             UIBarButtonItem(
                 barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace,
                 target: self,
                 action: nil
             ),
             UIBarButtonItem(
-                title: "Done",
+                title: title,
                 style: .done,
                 target: self,
                 action: #selector(moveNextView)
             )
         ]
         
-        keypadToolbar.sizeToFit()
+        toolbar.sizeToFit()
         
         if let view = self as? UITextView {
-            view.inputAccessoryView = keypadToolbar
+            view.inputAccessoryView = toolbar
         }
         
         if let view = self as? UITextField {
-            view.inputAccessoryView = keypadToolbar
+            view.inputAccessoryView = toolbar
         }
-    }
-    
-}
-
-// MARK: - UIAlertController Utilities
-fileprivate extension UIAlertController {
-    
-    func addAction(title: String, style: UIAlertAction.Style, handler: ((UIAlertAction) -> Void)? = nil) {
-        let action = UIAlertAction(title: title, style: style, handler: handler)
-        self.addAction(action)
     }
     
 }

@@ -35,6 +35,8 @@
 		C1346A0D278894390044DFDB /* UpdateProductRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E96323BC278888F900851348 /* UpdateProductRequest.swift */; };
 		C1346A0E2788943C0044DFDB /* APIRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13469F827885DB00044DFDB /* APIRequest.swift */; };
 		C13BFD5B2796E015006E2440 /* ProductCreateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13BFD5A2796E015006E2440 /* ProductCreateViewController.swift */; };
+		C163550427983D69004272DE /* ProductCreateNetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C163550327983D69004272DE /* ProductCreateNetworkManager.swift */; };
+		C16355062798421A004272DE /* Extension+UIKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = C163550527984219004272DE /* Extension+UIKit.swift */; };
 		C171F88027841135001D0B76 /* URLSessionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C171F87F27841135001D0B76 /* URLSessionProvider.swift */; };
 		C171F8812784236B001D0B76 /* URLSessionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C171F87F27841135001D0B76 /* URLSessionProvider.swift */; };
 		C17E063627846CF400D7F83D /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17E063527846CF400D7F83D /* Product.swift */; };
@@ -116,6 +118,8 @@
 		C1346A02278867DA0044DFDB /* DeleteProductRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteProductRequest.swift; sourceTree = "<group>"; };
 		C1346A0527887E050044DFDB /* CreateProductRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateProductRequest.swift; sourceTree = "<group>"; };
 		C13BFD5A2796E015006E2440 /* ProductCreateViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductCreateViewController.swift; sourceTree = "<group>"; };
+		C163550327983D69004272DE /* ProductCreateNetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductCreateNetworkManager.swift; sourceTree = "<group>"; };
+		C163550527984219004272DE /* Extension+UIKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+UIKit.swift"; sourceTree = "<group>"; };
 		C171F87F27841135001D0B76 /* URLSessionProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionProvider.swift; sourceTree = "<group>"; };
 		C17E063527846CF400D7F83D /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
 		C1A5695D278B0598004E4B3C /* CreateProductRequestImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateProductRequestImage.swift; sourceTree = "<group>"; };
@@ -230,6 +234,7 @@
 			isa = PBXGroup;
 			children = (
 				C13BFD5A2796E015006E2440 /* ProductCreateViewController.swift */,
+				C163550327983D69004272DE /* ProductCreateNetworkManager.swift */,
 			);
 			path = ProductCreate;
 			sourceTree = "<group>";
@@ -422,6 +427,7 @@
 			children = (
 				E9FDEA66278705AD00B12770 /* Extension+NSMutableData.swift */,
 				C1A56966278B2098004E4B3C /* Extension+JSONDecoder.swift */,
+				C163550527984219004272DE /* Extension+UIKit.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -630,6 +636,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C16355062798421A004272DE /* Extension+UIKit.swift in Sources */,
 				C12E744C279548BC000197A0 /* OpenMarketGridCollectionViewCell.swift in Sources */,
 				C13469F1278710420044DFDB /* URLSessionProtocol.swift in Sources */,
 				E963248A278D6AC800851348 /* OpenMarketCollectionViewCell.swift in Sources */,
@@ -645,6 +652,7 @@
 				E9FDEAA327885FE100B12770 /* HealthCheckerRequest.swift in Sources */,
 				E9632438278AEAB800851348 /* MultiPartRequest.swift in Sources */,
 				E96323BD278888F900851348 /* UpdateProductRequest.swift in Sources */,
+				C163550427983D69004272DE /* ProductCreateNetworkManager.swift in Sources */,
 				E998F88E279164BF008DD201 /* OpenMarketLayout.swift in Sources */,
 				C1346A0627887E050044DFDB /* CreateProductRequest.swift in Sources */,
 				E9632454278B2A7600851348 /* CreateProductResponse.swift in Sources */,
