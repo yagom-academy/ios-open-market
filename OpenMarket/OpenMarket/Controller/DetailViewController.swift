@@ -9,7 +9,7 @@ import UIKit
 
 class DetailViewController: UIViewController {
     private var images = [UIImage]()
-    
+    var data: Product?
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var priceLabel: UILabel!
@@ -20,6 +20,16 @@ class DetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard let navigationViewController = segue.destination as? UINavigationController,
+              let nextViewController = navigationViewController.topViewController as? RegisterViewController,
+              let product = sender as? Product else {
+                  return
+              }
+        nextViewController.setUpState()
+        nextViewController.setUpData(product)
     }
     
     func requestDetail(productId: UInt) {
@@ -41,6 +51,7 @@ class DetailViewController: UIViewController {
     }
     
     func setUpViews(product: Product) {
+        data = product
         DispatchQueue.main.async {
             self.nameLabel.text = product.name
             self.priceLabel.text = product.price.description
@@ -52,6 +63,16 @@ class DetailViewController: UIViewController {
     }
     
     @IBAction func tappedEditButton(_ sendor: UIButton) {
-
+        let modityAction = UIAlertAction(title: "수정", style: .default) { _ in
+            self.performSegue(withIdentifier: "ModifyView", sender: self.data)
+        }
+        let deleteAction = UIAlertAction(title: "삭제", style: .destructive)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        let alert = UIAlertController(title: nil, message: "상품을 편집하시겠습니까?", preferredStyle: .actionSheet)
+        alert.addAction(modityAction)
+        alert.addAction(deleteAction)
+        alert.addAction(cancelAction)
+        self.present(alert, animated: true)
+        
     }
 }

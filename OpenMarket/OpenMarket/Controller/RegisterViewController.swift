@@ -8,16 +8,43 @@
 import UIKit
 
 class RegisterViewController: UIViewController {
+    enum Mode {
+        case register
+        case modify
+    }
 
     @IBOutlet weak var collectionView: ImagesCollectionView!
     @IBOutlet weak var textFieldsStackView: TextFieldsStackView!
     
     private var dataSource = RegisterDataSource()
+    private var state = Mode.register
+    var data: Product?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpCollectionView()
         setUpNotificationCenter()
+        setUpView()
+    }
+    
+    private func setUpView() {
+        guard let product = data else {
+            return
+        }
+        textFieldsStackView.nameTextField.text = product.name
+        textFieldsStackView.priceTextField.text = product.price.description
+        textFieldsStackView.currency.selectedSegmentIndex = product.currency == .krw ? 0 : 1
+        textFieldsStackView.discountedPriceTextField.text = product.discountedPrice.description
+        textFieldsStackView.stockTextField.text = product.stock.description
+    }
+    
+    func setUpState() {
+        state = .modify
+        self.navigationItem.title = "상품 수정"
+    }
+    
+    func setUpData(_ product: Product) {
+        data = product
     }
     
     private func setUpNotificationCenter() {
@@ -129,6 +156,9 @@ extension RegisterViewController {
 
 extension RegisterViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard state != .modify else {
+            return
+        }
         dataSource.images.remove(at: indexPath.item)
         collectionView.performBatchUpdates {
             collectionView.deleteItems(at: [IndexPath(item: indexPath.item, section: 0)])
@@ -152,6 +182,9 @@ extension RegisterViewController: UICollectionViewDelegateFlowLayout {
         layout collectionViewLayout: UICollectionViewLayout,
         referenceSizeForHeaderInSection section: Int
     ) -> CGSize {
+        guard state != .modify else {
+            return CGSize()
+        }
         return CGSize(width: 128, height: 128)
     }
 }

@@ -108,6 +108,7 @@
                         <outlet property="priceLabel" destination="q1K-lP-3hO" id="xhh-lX-MrR"/>
                         <outlet property="stockLabel" destination="gN9-yH-rMg" id="0WT-YT-sDR"/>
                         <outlet property="vendorLabel" destination="c3n-hY-9ve" id="B7y-mw-7BG"/>
+                        <segue destination="6mj-Y4-ckL" kind="show" identifier="ModifyView" id="khl-Wz-8lb"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -131,6 +132,16 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qoW-oP-RbK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="457.97101449275368" y="62.946428571428569"/>
+        </scene>
+        <!--RegisterView-->
+        <scene sceneID="St3-fj-DqZ">
+            <objects>
+                <viewControllerPlaceholder storyboardName="RegisterProduct" referencedIdentifier="RegisterView" id="6mj-Y4-ckL" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="Zh8-Lc-joa"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="sBr-pa-wKr" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2097" y="63"/>
         </scene>
     </scenes>
     <resources>
