@@ -29,6 +29,7 @@ class ListCollectionViewCell: UICollectionViewCell {
         setUpPriceStackView()
         setUpLabelStackView()
         setUpAccessoryImageView()
+        
     }
     
     func addSubviews() {
@@ -114,6 +115,45 @@ class ListCollectionViewCell: UICollectionViewCell {
         ])
         
         accessoryImageView.image = UIImage(systemName: "chevron.right")
-        accessoryImageView.tintColor = .systemGray4
+        accessoryImageView.tintColor = .systemGray
+    }
+    
+    func setUpImage(url: String) {
+        guard let imageUrl = URL(string: url),
+              let data = try? Data(contentsOf: imageUrl) else {
+                  return
+              }
+        
+        productImageView.image = UIImage(data: data)
+    }
+    
+    func setUpLabelText(with data: ProductInformation) {
+        setUpImage(url: data.thumbnail)
+        productNameLabel.text = data.name
+        productNameLabel.font = .preferredFont(forTextStyle: .headline)
+        setUpStockLabel(with: data.stock)
+        setUpPriceLabel(price: data.price, discountedPrice: data.discountedPrice, currency: data.currency)
+    }
+    
+    func setUpStockLabel(with stock: Int) {
+        if stock == 0 {
+            stockLabel.text = "품절"
+            stockLabel.textColor = .systemYellow
+        } else {
+            stockLabel.text = "잔여수량 : \(stock)"
+            stockLabel.textColor = .systemGray
+        }
+    }
+    
+    func setUpPriceLabel(price: Double, discountedPrice: Double, currency: String) {
+        if discountedPrice == 0 {
+            priceLabel.text = "\(currency) \(price)"
+            priceLabel.textColor = .systemGray
+        } else {
+            priceLabel.text = "\(currency) \(price)"
+            priceLabel.textColor = .red
+            discountedPriceLabel.text = "\(currency) \(discountedPrice)"
+            discountedPriceLabel.textColor = .systemGray
+        }
     }
 }

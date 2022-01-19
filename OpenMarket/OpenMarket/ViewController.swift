@@ -61,11 +61,9 @@ class ViewController: UIViewController {
     func setUpCell() {
         let cellRegistration = UICollectionView.CellRegistration<ListCollectionViewCell, ProductInformation> { cell, indexpath, product in
             
-            cell.productImageView.image = UIImage(data: try! Data(contentsOf: URL(string: product.thumbnail)!))
-            cell.productNameLabel.text = product.name
-            cell.stockLabel.text = String(product.stock)
-            cell.priceLabel.text = String(product.price)
-            cell.discountedPriceLabel.text = String(product.discountedPrice)
+            cell.setUpLabelText(with: product)
+            print("\(product.price)")
+            print("\(product.discountedPrice)")
         }
         
         dataSource = UICollectionViewDiffableDataSource<Section, ProductInformation>(collectionView: listCollectionView, cellProvider: { (collectionView, indexPath, product) -> ListCollectionViewCell in
