@@ -9,10 +9,9 @@ import UIKit
 
 final class ProductCreateViewController: UIViewController {
     
-    private var images: [UIImage] = [] {
+    var images: [UIImage] = [] {
         didSet {
-            productImageStackView.subviews.forEach { $0.removed(from: productImageStackView, whenTypeIs: UIImageView.self) }
-            images.forEach { productImageStackView.insertArrangedSubview(UIImageView(with: $0), at: 0) }
+            updateImageStackView()
         }
     }
     
@@ -95,6 +94,11 @@ extension ProductCreateViewController {
         discountedPriceTextField.addButtonToInputAccessoryView(title: nextString)
         productStockTextField.addButtonToInputAccessoryView(title: nextString)
         descriptionTextView.addButtonToInputAccessoryView(title: doneString)
+    }
+    
+    private func updateImageStackView() {
+        productImageStackView.subviews.forEach { $0.removed(from: productImageStackView, whenTypeIs: UIImageView.self) }
+        images.forEach { productImageStackView.insertArrangedSubview(UIImageView(with: $0), at: 0) }
     }
     
 }
