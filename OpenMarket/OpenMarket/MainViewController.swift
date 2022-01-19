@@ -23,6 +23,7 @@ class MainViewController: UIViewController {
 
 //MARK: - Layout
 extension MainViewController {
+    
     func configureLayout() {
         configureSegmentedControlLayout()
         
@@ -66,6 +67,7 @@ extension MainViewController {
 
 //MARK: - User Interaction
 extension MainViewController: UIScrollViewDelegate {
+    
     func configureUserInteraction() {
         segmentedControl.addTarget(self, action: #selector(touchUpListButton), for: .valueChanged)
         scrollView.delegate = self
@@ -90,6 +92,7 @@ extension MainViewController: UIScrollViewDelegate {
 
 //MARK: - Networking
 extension MainViewController {
+    
     private func fetchProductList() {
         NetworkingAPI.ProductListQuery.request(session: URLSession.shared,
                                                pageNo: 1,
@@ -106,5 +109,17 @@ extension MainViewController {
                 print(error.localizedDescription)
             }
         }
+    }
+}
+
+extension MainViewController {
+    
+    override func viewDidLayoutSubviews() {
+        let destinationX: CGFloat = view.frame.width * CGFloat(segmentedControl.selectedSegmentIndex)
+        let destinationPoint = CGPoint(x: destinationX, y: 0)
+
+        // animated: true에서 버그발생
+        // Grid 뷰에서 Landscape Left -> Portrait 변경 시 scrollview offset이 제대로 잡히지 않음
+        scrollView.setContentOffset(destinationPoint, animated: false)
     }
 }

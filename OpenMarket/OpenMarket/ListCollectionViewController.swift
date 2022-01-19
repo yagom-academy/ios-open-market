@@ -62,7 +62,6 @@ extension ListCollectionViewController {
                 item: item
             )
             cell.updateAllComponents(from: item)
-            cell.accessories = [.disclosureIndicator()]
             
             return cell
         }

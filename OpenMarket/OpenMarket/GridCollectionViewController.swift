@@ -29,25 +29,29 @@ extension GridCollectionViewController {
     }
     
     private func createdGridLayout() -> UICollectionViewLayout {
+        let spacing: Double = 10
+        
         let itemSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
-            heightDimension: .fractionalHeight(1.0)
+            heightDimension: .estimated(230)
         )
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
         let groupSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
-            heightDimension: .fractionalHeight(0.3)
+            heightDimension: itemSize.heightDimension
         )
         let group = NSCollectionLayoutGroup.horizontal(
             layoutSize: groupSize,
             subitem: item,
             count: 2
         )
-        group.interItemSpacing = .fixed(10)
+        group.interItemSpacing = .fixed(spacing)
         
         let section = NSCollectionLayoutSection(group: group)
-        section.interGroupSpacing = 10
+        section.interGroupSpacing = spacing
+        section.contentInsets.leading = spacing/2
+        section.contentInsets.trailing = spacing/2
         
         let layout = UICollectionViewCompositionalLayout(section: section)
         return layout

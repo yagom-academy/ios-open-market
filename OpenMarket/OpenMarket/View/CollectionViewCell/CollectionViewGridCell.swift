@@ -12,6 +12,7 @@ class CollectionViewGridCell: UICollectionViewCell {
     
     private let imageView: UIImageView = {
         let imageView = UIImageView()
+        imageView.isHidden = true
         return imageView
     }()
     
@@ -28,7 +29,6 @@ class CollectionViewGridCell: UICollectionViewCell {
         let label = UILabel()
         label.numberOfLines = 0
         label.textAlignment = .center
-        label.font = .preferredFont(forTextStyle: .title1)
         label.text = "price"
         return label
     }()
@@ -37,16 +37,13 @@ class CollectionViewGridCell: UICollectionViewCell {
         let label = UILabel()
         label.numberOfLines = 0
         label.textAlignment = .center
-        label.font = .preferredFont(forTextStyle: .title1)
         label.text = "stock"
         return label
     }()
     
-    private lazy var stackView: UIStackView = {
+    private lazy var labelStackView: UIStackView = {
         let stackView = UIStackView(
             arrangedSubviews: [
-                activityIndicator,
-                imageView,
                 nameLabel,
                 priceLabel,
                 stockLabel
@@ -55,6 +52,7 @@ class CollectionViewGridCell: UICollectionViewCell {
         stackView.axis = .vertical
         stackView.distribution = .equalSpacing
         stackView.alignment = .center
+        stackView.spacing = 5
         return stackView
     }()
     
@@ -74,8 +72,9 @@ class CollectionViewGridCell: UICollectionViewCell {
             switch result {
             case .success(let data):
                 DispatchQueue.main.sync {
-                    self.imageView.image = UIImage(data: data)
                     self.activityIndicator.stopAnimating()
+                    self.imageView.isHidden = false
+                    self.imageView.image = UIImage(data: data)
                 }
             case .failure(let error):
                 print(error.localizedDescription)
@@ -133,21 +132,33 @@ class CollectionViewGridCell: UICollectionViewCell {
     }
     
     private func configureLayout() {
-        addSubview(stackView)
-        stackView.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(activityIndicator)
+        addSubview(imageView)
+        addSubview(labelStackView)
+        
+        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        labelStackView.translatesAutoresizingMaskIntoConstraints = false
+        
         NSLayoutConstraint.activate([
-            stackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
-            stackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10),
-            stackView.topAnchor.constraint(equalTo: topAnchor, constant: 10),
-            stackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10),
-        ])
-        NSLayoutConstraint.activate([
-            activityIndicator.widthAnchor.constraint(equalTo: stackView.widthAnchor, multiplier: 0.8),
+            activityIndicator.topAnchor.constraint(equalTo: topAnchor, constant: 10),
+            activityIndicator.centerXAnchor.constraint(equalTo: centerXAnchor),
+            activityIndicator.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.7),
             activityIndicator.heightAnchor.constraint(equalTo: activityIndicator.widthAnchor)
         ])
         NSLayoutConstraint.activate([
-            imageView.widthAnchor.constraint(equalTo: stackView.widthAnchor, multiplier: 0.6),
+            imageView.topAnchor.constraint(equalTo: topAnchor, constant: 10),
+            imageView.centerXAnchor.constraint(equalTo: centerXAnchor),
+            imageView.widthAnchor.constraint(equalTo: labelStackView.widthAnchor, multiplier: 0.7),
             imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor)
         ])
+        NSLayoutConstraint.activate([
+            labelStackView.topAnchor.constraint(equalTo: activityIndicator.bottomAnchor, constant: 10),
+            labelStackView.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 10),
+            labelStackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10),
+            labelStackView.centerXAnchor.constraint(equalTo: centerXAnchor),
+            labelStackView.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.95),
+        ])
+        
     }
 }
