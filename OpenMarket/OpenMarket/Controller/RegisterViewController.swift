@@ -72,7 +72,7 @@ extension RegisterViewController {
             switch result {
             case .success:
                 DispatchQueue.main.async {
-                    self.showAlert(message: "상품 등록이 완료되었습니다") {
+                    self.showAlert(message: Message.completeProductRegistration) {
                         self.dismiss(animated: true, completion: nil)
                     }
                 }
@@ -102,7 +102,7 @@ extension RegisterViewController {
         
         images.forEach { image in
             guard let imageData = image.jpegData(compressionQuality: 1) else {
-                self.showAlert(message: "잘못된 이미지입니다.")
+                self.showAlert(message: Message.unknownError)
                 return
             }
             let imageFile = ImageFile(name: UUID().uuidString, data: imageData, type: .jpeg)

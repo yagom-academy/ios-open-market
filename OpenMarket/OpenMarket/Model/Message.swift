@@ -16,4 +16,5 @@ enum Message {
     static let minimumPriceCount = "상품가격이 필수적으로 입력되어야 합니다."
     static let minimumDescriptionCount = "상품 내용이 최소 10글자 이상 입력되어야 합니다."
     static let maximumDescriptionCount = "상품 내용의 글자수가\n1000글자를 초과하였습니다."
+    static let completeProductRegistration = "상품 등록이 완료되었습니다"
 }
