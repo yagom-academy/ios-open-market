@@ -11,6 +11,7 @@ class GridCollectionViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        configUI()
     }
     
     required init?(coder: NSCoder) {
@@ -27,6 +28,12 @@ class GridCollectionViewCell: UICollectionViewCell {
         discountedPriceLabel.text = nil
     }
     
+    func configUI() {
+        addSubviews()
+        setUpContentStackView()
+        setUpProductImageView()
+    }
+    
     func addSubviews() {
         contentView.addSubview(contentStackView)
         contentStackView.addArrangedSubview(productImageView)
@@ -38,6 +45,7 @@ class GridCollectionViewCell: UICollectionViewCell {
         productImageView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
+            productImageView.topAnchor.constraint(equalTo: contentStackView.topAnchor),
             productImageView.widthAnchor.constraint(equalTo: contentStackView.widthAnchor, multiplier: 0.8),
             productImageView.heightAnchor.constraint(equalTo: productImageView.widthAnchor)
         ])
@@ -48,7 +56,7 @@ class GridCollectionViewCell: UICollectionViewCell {
         contentStackView.axis = .vertical
         contentStackView.alignment = .center
         contentStackView.distribution = .fill
-        contentStackView.translatesAutoresizingMaskIntoConstraints = true
+        contentStackView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             contentStackView.widthAnchor.constraint(equalToConstant: contentView.bounds.width),

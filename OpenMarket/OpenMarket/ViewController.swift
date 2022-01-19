@@ -12,20 +12,26 @@ class ViewController: UIViewController {
     
     var productList = [ProductInformation](){
         didSet {
-            applySnapShot()
+            applyListSnapShot()
+            applyGridSnapShot()
         }
     }
     
-    private var dataSource: UICollectionViewDiffableDataSource<Section, ProductInformation>?
+    private var listDataSource: UICollectionViewDiffableDataSource<Section, ProductInformation>?
+    private var gridDataSource: UICollectionViewDiffableDataSource<Section, ProductInformation>?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        listCollectionView.collectionViewLayout = setCollectionView()
+        listCollectionView.collectionViewLayout = setListCollectionView()
+        gridCollectionView.collectionViewLayout = setGridCollectionView()
+        
         setSegmentedControl()
         getData()
-        setUpCell()
-        applySnapShot(animatingDifferences: false)
+        setUpListCell()
+        setUpGridCell()
+        applyListSnapShot(animatingDifferences: false)
+        applyGridSnapShot(animatingDifferences: false)
     }
     
     func setSegmentedControl() {
@@ -58,7 +64,8 @@ class ViewController: UIViewController {
         }
     }
     
-    func setUpCell() {
+    // MARK: - List Cell
+    func setUpListCell() {
         let cellRegistration = UICollectionView.CellRegistration<ListCollectionViewCell, ProductInformation> { cell, indexpath, product in
             
             cell.setUpLabelText(with: product)
@@ -68,7 +75,7 @@ class ViewController: UIViewController {
             
         }
         
-        dataSource = UICollectionViewDiffableDataSource<Section, ProductInformation>(collectionView: listCollectionView, cellProvider: { (collectionView, indexPath, product) -> ListCollectionViewCell in
+        listDataSource = UICollectionViewDiffableDataSource<Section, ProductInformation>(collectionView: listCollectionView, cellProvider: { (collectionView, indexPath, product) -> ListCollectionViewCell in
             
             let cell = collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: product)
             
@@ -76,18 +83,52 @@ class ViewController: UIViewController {
         })
     }
     
-    func applySnapShot(animatingDifferences: Bool = true) {
+    func applyListSnapShot(animatingDifferences: Bool = true) {
         var snapshot = NSDiffableDataSourceSnapshot<Section, ProductInformation>()
         snapshot.appendSections(Section.allCases)
         snapshot.appendItems(productList)
-        dataSource?.apply(snapshot, animatingDifferences: animatingDifferences)
+        listDataSource?.apply(snapshot, animatingDifferences: animatingDifferences)
     }
     
-    func setCollectionView() -> UICollectionViewLayout {
+    func setListCollectionView() -> UICollectionViewLayout {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(view.frame.height * 0.1))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+        let section = NSCollectionLayoutSection(group: group)
+        
+        let layout = UICollectionViewCompositionalLayout(section: section)
+        
+        return layout
+    }
+    
+    // MARK: - Grid Cell
+    func setUpGridCell() {
+        let cellRegistration = UICollectionView.CellRegistration<GridCollectionViewCell, ProductInformation> { cell, indexpath, product in
+            
+            cell.productImageView.image = UIImage(data: try! Data(contentsOf: URL(string: product.thumbnail)!))
+        }
+        
+        gridDataSource = UICollectionViewDiffableDataSource<Section, ProductInformation>(collectionView: gridCollectionView, cellProvider: { (collectionView, indexPath, product) -> GridCollectionViewCell in
+            
+            let cell = collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: product)
+            
+            return cell
+        })
+    }
+    
+    func applyGridSnapShot(animatingDifferences: Bool = true) {
+        var snapshot = NSDiffableDataSourceSnapshot<Section, ProductInformation>()
+        snapshot.appendSections(Section.allCases)
+        snapshot.appendItems(productList)
+        gridDataSource?.apply(snapshot, animatingDifferences: animatingDifferences)
+    }
+    
+    func setGridCollectionView() -> UICollectionViewLayout {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(view.frame.height / 3))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 2)
         let section = NSCollectionLayoutSection(group: group)
         
         let layout = UICollectionViewCompositionalLayout(section: section)
