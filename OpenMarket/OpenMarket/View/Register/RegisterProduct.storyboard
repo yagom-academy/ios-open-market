@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="K8S-VL-fLd">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="K8S-VL-fLd">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -131,11 +131,13 @@
                     </view>
                     <navigationItem key="navigationItem" title="상품 등록" id="8MG-ic-AlL">
                         <barButtonItem key="leftBarButtonItem" title="Cancel" id="WmJ-g1-cLi">
+                            <color key="tintColor" systemColor="labelColor"/>
                             <connections>
                                 <action selector="cancelButtonTapped:" destination="Y6W-OH-hqX" id="KLk-BM-dcz"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Done" id="H0P-1d-w7B">
+                            <color key="tintColor" systemColor="labelColor"/>
                             <connections>
                                 <action selector="doneButtonTapped:" destination="Y6W-OH-hqX" id="Lad-LX-11H"/>
                             </connections>
