@@ -32,5 +32,4 @@ extension URLRequest {
     self.init(url: url)
     self.httpMethod = httpMethod.method
   }
-  
 }

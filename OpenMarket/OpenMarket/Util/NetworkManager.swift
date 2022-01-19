@@ -52,6 +52,4 @@ struct NetworkManager {
     
     dataTask.resume()
   }
-  
-  
 }
