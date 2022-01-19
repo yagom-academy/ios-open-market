@@ -25,7 +25,6 @@ class ListCollectionViewCell: UICollectionViewCell {
         super.prepareForReuse()
         
         productImageView.image = nil
-        accessoryImageView.image = nil
         productNameLabel.text = nil
         stockLabel.text = nil
         priceLabel.text = nil
@@ -40,7 +39,6 @@ class ListCollectionViewCell: UICollectionViewCell {
         setUpPriceStackView()
         setUpLabelStackView()
         setUpAccessoryImageView()
-        
     }
     
     func addSubviews() {
