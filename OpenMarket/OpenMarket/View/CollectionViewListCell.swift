@@ -48,7 +48,7 @@ class CollectionViewListCell: UICollectionViewListCell {
         ImageLoader.load(from: item.thumbnail) { (result) in
             switch result {
             case .success(let data):
-                DispatchQueue.main.sync {
+                DispatchQueue.main.async {
                     self.imageView.image = UIImage(data: data)
                     self.activityIndicator.stopAnimating()
                     self.layoutIfNeeded()

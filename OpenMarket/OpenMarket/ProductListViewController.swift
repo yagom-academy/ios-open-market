@@ -6,12 +6,17 @@ class ProductListViewController: UIViewController {
         case list
         case grid
     }
-    
+ 
     private var products: ProductListAsk.Response?
-    private lazy var collectionView = UICollectionView(
+    private lazy var listCollectionView = UICollectionView(
         frame: view.bounds,
         collectionViewLayout: makeListLayout()
     )
+    private lazy var gridCollectionView = UICollectionView(
+        frame: view.bounds,
+        collectionViewLayout: makeGridLayout()
+    )
+
     private var dataSource: UICollectionViewDiffableDataSource<Section, ProductListAsk.Response.Page>!
     
     private let segmentedControl: UISegmentedControl = {
@@ -43,7 +48,9 @@ class ProductListViewController: UIViewController {
     }
     
     private func configureCollectionView() {
-        view.addSubview(collectionView)
+        view.addSubview(listCollectionView)
+        view.addSubview(gridCollectionView)
+        gridCollectionView.isHidden = true
         fetchProductList()
         configureListDataSource()
     }
@@ -98,7 +105,7 @@ class ProductListViewController: UIViewController {
             (cell, indexPath, item) in
         }
       
-        dataSource = UICollectionViewDiffableDataSource<Section, ProductListAsk.Response.Page>(collectionView: collectionView) {
+        dataSource = UICollectionViewDiffableDataSource<Section, ProductListAsk.Response.Page>(collectionView: listCollectionView) {
             (collectionView, indexPath, item) -> UICollectionViewCell? in
             let cell = collectionView.dequeueConfiguredReusableCell(
                 using: cellRegistration,
@@ -121,7 +128,7 @@ class ProductListViewController: UIViewController {
             cell.layer.cornerRadius = CollectionView.Grid.Item.cornerRadius
         }
       
-        dataSource = UICollectionViewDiffableDataSource<Section, ProductListAsk.Response.Page>(collectionView: collectionView) {
+        dataSource = UICollectionViewDiffableDataSource<Section, ProductListAsk.Response.Page>(collectionView: gridCollectionView) {
             (collectionView, indexPath, item) -> UICollectionViewCell? in
             let cell = collectionView.dequeueConfiguredReusableCell(
                 using: cellRegistration,
@@ -170,10 +177,14 @@ class ProductListViewController: UIViewController {
 extension ProductListViewController {
     @objc func touchUpListButton() {
         if segmentedControl.selectedSegmentIndex == 0 {
-            collectionView.collectionViewLayout = makeListLayout()
+            listCollectionView.isHidden.toggle()
+            gridCollectionView.isHidden.toggle()
+            listCollectionView.becomeFirstResponder()
             configureListDataSource()
         } else if segmentedControl.selectedSegmentIndex == 1 {
-            collectionView.collectionViewLayout = makeGridLayout()
+            listCollectionView.isHidden.toggle()
+            gridCollectionView.isHidden.toggle()
+            gridCollectionView.becomeFirstResponder()
             configureGridDataSource()
         }
     }
