@@ -3,7 +3,7 @@ import UIKit
 
 class ProductRegisterView: UIStackView {
 
-    private lazy var imageCollectionView = UICollectionView()
+    //private lazy var imageCollectionView = UICollectionView()
     private lazy var nameTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "상품명"
@@ -19,6 +19,8 @@ class ProductRegisterView: UIStackView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
+        configureStackVeiw()
+        configureHierarchy()
     }
 
     required init(coder: NSCoder) {
@@ -34,13 +36,13 @@ extension ProductRegisterView {
     }
 
     func configureHierarchy() {
-        self.addArrangedSubview(imageCollectionView)
-        self.addSubview(nameTextField)
-        self.addSubview(priceStackView)
+        //self.addArrangedSubview(imageCollectionView)
+        self.addArrangedSubview(nameTextField)
+        self.addArrangedSubview(priceStackView)
         configurePriceStackView()
-        self.addSubview(discountTextField)
-        self.addSubview(stockTextField)
-        self.addSubview(descriptionTextView)
+        self.addArrangedSubview(discountTextField)
+        self.addArrangedSubview(stockTextField)
+        self.addArrangedSubview(descriptionTextView)
     }
 
     func configurePriceStackView() {
@@ -51,4 +53,6 @@ extension ProductRegisterView {
         priceStackView.addArrangedSubview(priceTextField)
         priceStackView.addArrangedSubview(currencySegmentedControl)
     }
+
+
 }

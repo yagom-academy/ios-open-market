@@ -238,6 +238,7 @@ extension ProductsCatalogViewController {
     }
 }
 
+// MARK: Collection View Delegate
 extension ProductsCatalogViewController: UICollectionViewDelegate {
     func scrollViewWillEndDragging(
         _ scrollView: UIScrollView,
@@ -250,5 +251,15 @@ extension ProductsCatalogViewController: UICollectionViewDelegate {
         if targetOffset > scrollViewHeight {
             generateProductItems()
         }
+    }
+
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let item = self.listDataSource.itemIdentifier(for: indexPath) else {
+            return
+        }
+
+        collectionView.deselectItem(at: indexPath, animated: true)
+
+        self.navigationController?.pushViewController(ProductRegisterViewController.init(), animated: true)
     }
 }
