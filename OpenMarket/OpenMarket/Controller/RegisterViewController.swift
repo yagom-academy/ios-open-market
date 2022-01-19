@@ -12,11 +12,11 @@ class RegisterViewController: UIViewController {
     var images = [UIImage]()
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var textFieldsStackView: TextFieldsStackView!
+    var addheaderView: ImageAddHeaderView?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpCollectionView()
-        setUpNotificationCenter()
     }
     
     func setUpCollectionView() {
@@ -173,6 +173,8 @@ extension RegisterViewController: UICollectionViewDataSource {
         ) as? ImageAddHeaderView else {
             return UICollectionReusableView()
         }
+        headerView.delegate = self
+        addheaderView = headerView
         return headerView
     }
 }
@@ -183,7 +185,7 @@ extension RegisterViewController: UICollectionViewDelegate {
         collectionView.performBatchUpdates {
             collectionView.deleteItems(at: [IndexPath(item: indexPath.item, section: 0)])
         } completion: { _ in
-            NotificationCenter.default.post(name: .editImageCountLabel, object: self.images.count)
+            self.addheaderView?.updateLabelText(imageCount: self.images.count)
         }
     }
 }
@@ -209,26 +211,6 @@ extension RegisterViewController: UICollectionViewDelegateFlowLayout {
 }
 
 extension RegisterViewController: UIImagePickerControllerDelegate & UINavigationControllerDelegate {
-    
-    private func setUpNotificationCenter() {
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(tappedAddButton),
-            name: .addButton, object: nil
-        )
-    }
-    
-    @objc private func tappedAddButton() {
-        guard images.count != 5 else {
-            self.showAlert(message: Message.maximumImageCount)
-            return
-        }
-        let imagePicker = UIImagePickerController()
-        imagePicker.delegate = self
-        imagePicker.allowsEditing = true
-        self.present(imagePicker, animated: true, completion: nil)
-    }
-    
     func imagePickerController(
         _ picker: UIImagePickerController,
         didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]
@@ -242,8 +224,21 @@ extension RegisterViewController: UIImagePickerControllerDelegate & UINavigation
         collectionView.performBatchUpdates {
             collectionView.insertItems(at: [IndexPath(item: images.count - 1, section: 0)])
         } completion: { _ in
-            NotificationCenter.default.post(name: .editImageCountLabel, object: self.images.count)
+            self.addheaderView?.updateLabelText(imageCount: self.images.count)
         }
         picker.dismiss(animated: true, completion: nil)
+    }
+}
+
+extension RegisterViewController: ImageAddHeaderViewDelegate {
+    func tappedAddButton() {
+        guard images.count != 5 else {
+            self.showAlert(message: Message.maximumImageCount)
+            return
+        }
+        let imagePicker = UIImagePickerController()
+        imagePicker.delegate = self
+        imagePicker.allowsEditing = true
+        self.present(imagePicker, animated: true, completion: nil)
     }
 }
