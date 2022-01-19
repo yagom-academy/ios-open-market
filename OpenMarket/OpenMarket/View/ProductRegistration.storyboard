@@ -19,10 +19,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="ZrB-Kj-swc">
-                                <rect key="frame" x="0.0" y="64" width="414" height="130"/>
+                                <rect key="frame" x="20" y="64" width="374" height="128"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="130" id="N8C-Wd-Jhs"/>
+                                    <constraint firstAttribute="height" constant="128" id="N8C-Wd-Jhs"/>
                                 </constraints>
                                 <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" sectionInsetReference="safeArea" id="6cb-Ju-gtu">
                                     <size key="itemSize" width="128" height="128"/>
@@ -32,7 +32,7 @@
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="UICollectionViewCell" id="T4E-Bv-YzE">
-                                        <rect key="frame" x="0.0" y="1" width="128" height="128"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="8fN-AW-6aa">
                                             <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
@@ -46,8 +46,8 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="ZrB-Kj-swc" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="20" id="AS9-ez-hVg"/>
-                            <constraint firstItem="ZrB-Kj-swc" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="Ltw-uM-zhE"/>
-                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="ZrB-Kj-swc" secondAttribute="trailing" id="OxT-vI-CVU"/>
+                            <constraint firstItem="ZrB-Kj-swc" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="20" id="Ltw-uM-zhE"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="ZrB-Kj-swc" secondAttribute="trailing" constant="20" id="OxT-vI-CVU"/>
                         </constraints>
                     </view>
                     <connections>

@@ -37,7 +37,23 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
     
     private func setUpImagePicker() {
         imagePickerController.sourceType = .photoLibrary
+        imagePickerController.allowsEditing = true
         imagePickerController.delegate = self
+    }
+    
+    private func cropSquare(_ image: UIImage) -> UIImage? {
+        let imageSize = image.size
+        let shortLength = imageSize.width < imageSize.height ? imageSize.width : imageSize.height
+        let origin = CGPoint(
+            x: imageSize.width / 2 - shortLength / 2,
+            y: imageSize.height / 2 - shortLength / 2
+        )
+        let size = CGSize(width: shortLength, height: shortLength)
+        let square = CGRect(origin: origin, size: size)
+        guard let squareImage = image.cgImage?.cropping(to: square) else {
+            return nil
+        }
+        return UIImage(cgImage: squareImage)
     }
 }
 
@@ -46,10 +62,18 @@ extension ProductRegistrationViewController: UIImagePickerControllerDelegate {
         _ picker: UIImagePickerController,
         didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
     ) {
-        if let newImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
-            images.append(newImage)
-            imagesCollectionView.reloadData()
+        guard var newImage = info[.editedImage] as? UIImage else {
+            picker.dismiss(animated: true, completion: nil)
+            return
         }
+        let isSquare = newImage.size.width == newImage.size.height
+        if isSquare == false {
+            if let squareImage = cropSquare(newImage) {
+                newImage = squareImage
+            }
+        }
+        images.append(newImage)
+        imagesCollectionView.reloadData()
         picker.dismiss(animated: true, completion: nil)
     }
 }
