@@ -196,8 +196,7 @@ extension RegisterViewController: UICollectionViewDelegateFlowLayout {
         layout collectionViewLayout: UICollectionViewLayout,
         sizeForItemAt indexPath: IndexPath
     ) -> CGSize {
-        let width = collectionView.safeAreaLayoutGuide.layoutFrame.width / 3
-        return CGSize(width: width, height: width)
+        return CGSize(width: 128, height: 128)
     }
     
     func collectionView(
@@ -205,8 +204,7 @@ extension RegisterViewController: UICollectionViewDelegateFlowLayout {
         layout collectionViewLayout: UICollectionViewLayout,
         referenceSizeForHeaderInSection section: Int
     ) -> CGSize {
-        let width = collectionView.safeAreaLayoutGuide.layoutFrame.width / 3
-        return CGSize(width: width, height: width)
+        return CGSize(width: 128, height: 128)
     }
 }
 
