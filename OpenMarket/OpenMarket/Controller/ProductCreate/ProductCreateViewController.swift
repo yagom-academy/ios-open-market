@@ -10,9 +10,7 @@ import UIKit
 final class ProductCreateViewController: UIViewController {
     
     var images: [UIImage] = [] {
-        didSet {
-            updateImageStackView()
-        }
+        didSet { updateImageStackView() }
     }
     
     @IBOutlet private weak var containerScrollView: UIScrollView!
@@ -59,9 +57,9 @@ final class ProductCreateViewController: UIViewController {
 }
 
 // MARK: - Configure View Controller
-extension ProductCreateViewController {
+private extension ProductCreateViewController {
     
-    private func configureDelgate() {
+    func configureDelgate() {
         imagePicker.delegate = self
         productNameTextField.delegate = self
         productPriceTextField.delegate = self
@@ -69,7 +67,7 @@ extension ProductCreateViewController {
         productStockTextField.delegate = self
     }
     
-    private func configureNotification() {
+    func configureNotification() {
         let notificationCenter = NotificationCenter.default
         
         notificationCenter.addObserver(
@@ -87,7 +85,7 @@ extension ProductCreateViewController {
         )
     }
     
-    private func configureTextField() {
+    func configureTextField() {
         let nextString = "Next"
         let doneString = "Done"
         productPriceTextField.addButtonToInputAccessoryView(title: nextString)
@@ -96,7 +94,7 @@ extension ProductCreateViewController {
         descriptionTextView.addButtonToInputAccessoryView(title: doneString)
     }
     
-    private func updateImageStackView() {
+    func updateImageStackView() {
         productImageStackView.subviews.forEach { $0.removed(from: productImageStackView, whenTypeIs: UIImageView.self) }
         images.forEach { productImageStackView.insertArrangedSubview(UIImageView(with: $0), at: 0) }
     }
@@ -106,7 +104,7 @@ extension ProductCreateViewController {
 // MARK: - UIImagePicker Delegate Implements
 extension ProductCreateViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
-    func openCamera(_ action: UIAlertAction) {
+    private func openCamera(_ action: UIAlertAction) {
         guard UIImagePickerController.isSourceTypeAvailable(.camera) else {
             print("Camera Not Available")
             return
@@ -116,7 +114,7 @@ extension ProductCreateViewController: UIImagePickerControllerDelegate, UINaviga
         present(imagePicker, animated: true)
     }
     
-    func openPhotoLibrary(_ action: UIAlertAction) {
+    private func openPhotoLibrary(_ action: UIAlertAction) {
         guard UIImagePickerController.isSourceTypeAvailable(.photoLibrary) else {
             print("photoLibrary Not Available")
             return
