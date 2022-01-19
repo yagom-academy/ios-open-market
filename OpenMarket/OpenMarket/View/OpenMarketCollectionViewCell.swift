@@ -1,5 +1,5 @@
 //
-//  CollectionViewLayoutCell.swift
+//  OpenMarketCollectionViewCell.swift
 //  OpenMarket
 //
 //  Created by Jae-hoon Sim on 2022/01/11.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CollectionViewLayoutCell: UICollectionViewCell {
+class OpenMarketCollectionViewCell: UICollectionViewCell {
     
     var containerStackView = UIStackView()
     var stackView = UIStackView()

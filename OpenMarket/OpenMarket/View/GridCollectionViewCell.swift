@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class GridCollectionViewCell: CollectionViewLayoutCell {
+final class GridCollectionViewCell: OpenMarketCollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         configure()

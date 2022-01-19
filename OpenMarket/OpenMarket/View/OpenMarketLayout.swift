@@ -41,7 +41,7 @@ enum OpenMarketLayout {
             return layout
         }
     }
-    func createDataSource<CellType: CollectionViewLayoutCell>(for collectionView: UICollectionView, cellType: CellType.Type) -> UICollectionViewDiffableDataSource<Int, Product> {
+    func createDataSource<CellType: OpenMarketCollectionViewCell>(for collectionView: UICollectionView, cellType: CellType.Type) -> UICollectionViewDiffableDataSource<Int, Product> {
         let cellRegistration = UICollectionView.CellRegistration<CellType, Product> { (cell, indexPath, item) in
             cell.configureContents(with: item)
             
