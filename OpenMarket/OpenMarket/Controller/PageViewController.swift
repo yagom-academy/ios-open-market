@@ -1,5 +1,5 @@
 //
-//  ProductPageViewController.swift
+//  PageViewController.swift
 //  OpenMarket
 //
 //  Created by Jae-hoon Sim on 2022/01/14.
@@ -7,11 +7,12 @@
 
 import UIKit
 
-final class ProductPageViewController: UIViewController, DataRepresentable {
+final class PageViewController: UIViewController, DataRepresentable {
     
     @IBOutlet private weak var segmentedControl: UISegmentedControl!
     @IBOutlet private var activityIndicator: UIActivityIndicatorView!
-    
+
+
     private let datamanager = DataManager()
     var snapshot = NSDiffableDataSourceSnapshot<Int, Product>()
     
@@ -48,7 +49,15 @@ final class ProductPageViewController: UIViewController, DataRepresentable {
         view.bringSubviewToFront(activityIndicator)
         datamanager.update(completion: applyDataToCurrentView)
     }
-    
+
+    @IBAction func addProductButtonDidTab(_ sender: UIBarButtonItem) {
+        let addProductVC = AddProductViewController()
+        let naviController = UINavigationController()
+        naviController.addChild(addProductVC)
+        naviController.modalPresentationStyle = .fullScreen
+        present(naviController, animated: true, completion: nil)
+    }
+
     @IBAction func segmentedControlValueChanged(_ sender: UISegmentedControl) {
         configureViewLayout()
         applyDataToCurrentView()
@@ -56,7 +65,7 @@ final class ProductPageViewController: UIViewController, DataRepresentable {
 }
 
 // MARK: - UICollectionViewDelegate Protocol RequireMents
-extension ProductPageViewController: UICollectionViewDelegate {
+extension PageViewController: UICollectionViewDelegate {
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if scrollView.contentOffset.y + scrollView.frame.height >= scrollView.contentSize.height {
@@ -64,10 +73,13 @@ extension ProductPageViewController: UICollectionViewDelegate {
         }
     }
 
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+
+    }
 }
 
 // MARK: - Updating Layout
-extension ProductPageViewController {
+extension PageViewController {
     
     private func configureSegmentedConrol() {
         segmentedControl.selectedSegmentTintColor = .systemBlue
