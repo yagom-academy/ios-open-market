@@ -15,15 +15,13 @@ class ViewController: UIViewController {
         self.collectionView.reloadData()
     }
     
-    
-    
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        view.addSubview(collectionView)
         self.collectionView.delegate = self
         self.collectionView.dataSource = self
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.isPagingEnabled = true
         let flowLayout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         collectionView.collectionViewLayout = flowLayout
                
@@ -64,67 +62,44 @@ extension ViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CollectionViewCell", for: indexPath)
-        guard let emptyCell = cell as? CollectionViewCell else {
+        guard let productListData = productListData else {
+            return UICollectionViewCell()
+        }
+        if switchLayoutController.selectedSegmentIndex == 0 {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ListCell", for: indexPath) as? ListCell else {
+                return ListCell()
+            }
+            cell.updateListCell(productData: productListData.productsInPage[indexPath.item])
+            return cell
+        } else {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "GridCell", for: indexPath) as? GridCell else {
+                return GridCell()
+            }
+            cell.updateGridCell(productData: productListData.productsInPage[indexPath.item])
             return cell
         }
-        
-        guard let productListData = productListData else {
-            return emptyCell
-        }
-        
-        if switchLayoutController.selectedSegmentIndex == 0 {
-
-        emptyCell.layer.cornerRadius = 10
-        emptyCell.layer.borderWidth = 2
-        emptyCell.layer.borderColor = UIColor.systemGray2.cgColor
-        emptyCell.updateGridCell(data: productListData, indexPathItem: indexPath.item)
-        
-        } else {
-            emptyCell.layer.cornerRadius = 0
-            emptyCell.layer.borderWidth = 0
-            emptyCell.layer.borderColor = .none
-            emptyCell.updateListCell(data: productListData, indexPathItem: indexPath.item)
-
-        }
-        
-        
-        return cell
     }
 }
 
 extension ViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if switchLayoutController.selectedSegmentIndex == 0 {
+            return CGSize(width: collectionView.frame.width, height: 65)
+        } else {
             let width = collectionView.frame.width
             let itemsPerRow: CGFloat = 2
             let cellWidth = (width - itemsPerRow * 7) / itemsPerRow
-
-            return CGSize(width: cellWidth, height: 270)
-        } else {
-            print("fsddfs")
-            let width = collectionView.frame.width
-
-            return CGSize(width: width, height: 50)
-        }
-        
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        if switchLayoutController.selectedSegmentIndex == 0 {
-            return 7
-        } else {
-            return 0
+            return CGSize(width: cellWidth, height: 300)
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         if switchLayoutController.selectedSegmentIndex == 0 {
-            return 10
+            return 3
         } else {
-            return 0
-        }    }
-    
+            return 10
+        }
+    }
 }
 
 extension ViewController: UICollectionViewDelegate {
