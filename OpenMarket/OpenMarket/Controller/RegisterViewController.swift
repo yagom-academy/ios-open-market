@@ -30,6 +30,8 @@ class RegisterViewController: UIViewController {
         textFieldsStackView.currency.selectedSegmentIndex = product.currency == .krw ? 0 : 1
         textFieldsStackView.discountedPriceTextField.text = product.discountedPrice.description
         textFieldsStackView.stockTextField.text = product.stock.description
+        textFieldsStackView.descriptionTextView.text = product.description ?? ""
+        textFieldsStackView.descriptionTextView.textColor = .black
     }
     
     func setUpModifyMode(product: Product, images: [UIImage]) {

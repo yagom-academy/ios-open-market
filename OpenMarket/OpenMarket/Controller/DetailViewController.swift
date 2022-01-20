@@ -17,6 +17,7 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var stockLabel: UILabel!
     @IBOutlet weak var createdAtLabel: UILabel!
     @IBOutlet weak var vendorLabel: UILabel!
+    @IBOutlet weak var descriptionLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -59,6 +60,7 @@ class DetailViewController: UIViewController {
             self.stockLabel.text = product.stock.description
             self.createdAtLabel.text = product.createdAt
             self.vendorLabel.text = product.createdAt
+            self.descriptionLabel.text = product.description
         }
     }
     
