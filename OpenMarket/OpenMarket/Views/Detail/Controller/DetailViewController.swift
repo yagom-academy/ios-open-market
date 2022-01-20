@@ -9,6 +9,7 @@ import UIKit
 
 class DetailViewController: UIViewController {
     var data: Product?
+    private var secret: String?
     private var images = [UIImage]()
     @IBOutlet private weak var imageView: UIImageView!
     @IBOutlet private weak var nameLabel: UILabel!
@@ -90,19 +91,23 @@ class DetailViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard let navigationViewController = segue.destination as? UINavigationController,
               let nextViewController = navigationViewController.topViewController as? EditViewController,
-              let product = sender as? Product else {
+              let (product, secret) = sender as? (Product, String) else {
                   return
               }
-        nextViewController.setUpModifyMode(product: product, images: images)
+        nextViewController.setUpModifyMode(product: product, secret: secret, images: self.images)
     }
     
     @IBAction func tappedEditButton(_ sendor: UIButton) {
-        let modityAction = UIAlertAction(title: AlertConstant.modify, style: .default) { _ in
+        alertActionSheet { _ in
             self.alertInputPassword { secret in
+                self.secret = secret
                 self.requestModification(secret: secret) { isSuccess in
                     if isSuccess {
                         DispatchQueue.main.async {
-                            self.performSegue(withIdentifier: SegueIdentifier.modifiyView, sender: self.data)
+                            self.performSegue(
+                                withIdentifier: SegueIdentifier.modifiyView,
+                                sender: (self.data, self.secret)
+                            )
                         }
                     } else {
                         DispatchQueue.main.async {
@@ -111,15 +116,7 @@ class DetailViewController: UIViewController {
                     }
                 }
             }
-            
         }
-        let deleteAction = UIAlertAction(title: AlertConstant.delete, style: .destructive)
-        let cancelAction = UIAlertAction(title: AlertConstant.cancle, style: .cancel)
-        let alert = UIAlertController(title: nil, message: AlertMessage.editProduct, preferredStyle: .actionSheet)
-        alert.addAction(modityAction)
-        alert.addAction(deleteAction)
-        alert.addAction(cancelAction)
-        self.present(alert, animated: true)
     }
     
     private func requestModification(secret: String, completion: @escaping (Bool) -> Void) {

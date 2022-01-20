@@ -13,6 +13,7 @@ class EditViewController: UIViewController {
     
     private var dataSource = EditDataSource(state: .register)
     var data: Product?
+    var secret: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,8 +23,9 @@ class EditViewController: UIViewController {
         self.navigationItem.title = dataSource.state.rawValue
     }
     
-    func setUpModifyMode(product: Product, images: [UIImage]) {
-        data = product
+    func setUpModifyMode(product: Product, secret: String, images: [UIImage]) {
+        self.data = product
+        self.secret = secret
         dataSource.setUpModify(images)
     }
     
@@ -80,7 +82,8 @@ class EditViewController: UIViewController {
             requestRegistration(product: product, imageFiles: imageFiles)
         } else if dataSource.state == .modify,
                   let data = data,
-                  let newProduct = textFieldsStackView.createModification(data) {
+                  let secret = secret,
+                  let newProduct = textFieldsStackView.createModification(data, secret: secret) {
             requestModification(product: newProduct)
         } else {
             self.showAlert(message: AlertMessage.productError, completion: nil)

@@ -61,8 +61,7 @@ class TextFieldsStackView: UIStackView {
         )
     }
     
-    func createModification(_ product: Product) -> ProductModification? {
-        let secret = "DV!?dhTmSZkL625N"
+    func createModification(_ product: Product, secret: String) -> ProductModification? {
         guard let name = nameTextField.text,
               let description = descriptionTextView.text,
               let price = priceTextField.text,

@@ -37,4 +37,19 @@ extension UIViewController {
         alert.addAction(cancelAction)
         self.present(alert, animated: true, completion: nil)
     }
+    
+    func alertActionSheet(
+        titles: (String, String) = (AlertConstant.modify, AlertConstant.delete),
+        message: String = AlertMessage.editProduct,
+        completion: @escaping (UIAlertAction) -> Void
+    ) {
+        let modityAction = UIAlertAction(title: titles.0, style: .default, handler: completion)
+        let deleteAction = UIAlertAction(title: titles.1, style: .destructive)
+        let cancelAction = UIAlertAction(title: AlertConstant.cancle, style: .cancel)
+        let alert = UIAlertController(title: nil, message: message, preferredStyle: .actionSheet)
+        alert.addAction(modityAction)
+        alert.addAction(deleteAction)
+        alert.addAction(cancelAction)
+        self.present(alert, animated: true)
+    }
 }
