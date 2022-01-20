@@ -7,12 +7,15 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var verticalStackView: UIStackView!
     @IBOutlet weak var imagesCollectionView: UICollectionView!
+    @IBOutlet weak var productNameTextField: UITextField!
+    @IBOutlet weak var productPriceTextField: UITextField!
     @IBOutlet weak var descriptionTextView: UITextView!
     @IBOutlet weak var currencySegmentedControl: UISegmentedControl!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         imagesCollectionView.dataSource = self
+        productNameTextField.delegate = self
         setUpImagePicker()
         setupNavigationBar()
         setupTextView()
@@ -197,5 +200,14 @@ extension ProductRegistrationViewController: UITextViewDelegate {
             textView.text = "상품설명"
             textView.textColor = .placeholderText
         }
+    }
+}
+
+extension ProductRegistrationViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if textField == productNameTextField {
+            productPriceTextField.becomeFirstResponder()
+        }
+        return false
     }
 }

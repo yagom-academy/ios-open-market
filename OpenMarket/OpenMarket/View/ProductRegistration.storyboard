@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
@@ -50,7 +50,7 @@
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="상품명" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="H9c-Oa-Jxk">
                                                 <rect key="frame" x="0.0" y="133" width="394" height="34"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                <textInputTraits key="textInputTraits"/>
+                                                <textInputTraits key="textInputTraits" returnKeyType="next"/>
                                             </textField>
                                             <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="bjx-VE-tHp">
                                                 <rect key="frame" x="0.0" y="172" width="394" height="34"/>
@@ -122,6 +122,8 @@
                         <outlet property="currencySegmentedControl" destination="qKi-jQ-m6O" id="o3K-7O-NJR"/>
                         <outlet property="descriptionTextView" destination="o62-V6-w3f" id="SNQ-fv-n7N"/>
                         <outlet property="imagesCollectionView" destination="ZrB-Kj-swc" id="CCw-Gl-27a"/>
+                        <outlet property="productNameTextField" destination="H9c-Oa-Jxk" id="LEk-9o-4yZ"/>
+                        <outlet property="productPriceTextField" destination="k8m-gd-TMC" id="t0w-rR-nDk"/>
                         <outlet property="scrollView" destination="sUH-76-23j" id="9Qg-CF-vmt"/>
                         <outlet property="verticalStackView" destination="feO-Qm-QpU" id="PnV-FH-K0I"/>
                     </connections>
