@@ -8,16 +8,10 @@
 import UIKit
 
 class RegisterViewController: UIViewController {
-    enum Mode {
-        case register
-        case modify
-    }
-
     @IBOutlet weak var collectionView: ImagesCollectionView!
     @IBOutlet weak var textFieldsStackView: TextFieldsStackView!
     
-    private var dataSource = RegisterDataSource()
-    private var state = Mode.register
+    private var dataSource = RegisterDataSource(state: .register)
     var data: Product?
     
     override func viewDidLoad() {
@@ -39,11 +33,9 @@ class RegisterViewController: UIViewController {
     }
     
     func setUpModifyMode(product: Product, images: [UIImage]) {
-        state = .modify
-        self.navigationItem.title = "상품 수정"
-        
         data = product
-        dataSource.images = images
+        dataSource.setUpModify(images)
+        self.navigationItem.title = "상품 수정"
     }
     
     private func setUpNotificationCenter() {
@@ -155,10 +147,10 @@ extension RegisterViewController {
 
 extension RegisterViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard state != .modify else {
+        guard dataSource.state != .modify else {
             return
         }
-        dataSource.images.remove(at: indexPath.item)
+        dataSource.imagesRemove(at: indexPath.item)
         collectionView.performBatchUpdates {
             collectionView.deleteItems(at: [IndexPath(item: indexPath.item, section: 0)])
         } completion: { _ in
@@ -181,7 +173,7 @@ extension RegisterViewController: UICollectionViewDelegateFlowLayout {
         layout collectionViewLayout: UICollectionViewLayout,
         referenceSizeForHeaderInSection section: Int
     ) -> CGSize {
-        guard state != .modify else {
+        guard dataSource.state != .modify else {
             return CGSize()
         }
         return CGSize(width: 128, height: 128)
@@ -198,7 +190,7 @@ extension RegisterViewController: UIImagePickerControllerDelegate & UINavigation
         guard let selectedImage = editedImage ?? originalImage else {
             return
         }
-        dataSource.images.append(selectedImage.compress())
+        dataSource.imagesAppend(selectedImage.compress())
         collectionView.performBatchUpdates {
             collectionView.insertItems(at: [IndexPath(item: dataSource.images.count - 1, section: 0)])
         } completion: { _ in

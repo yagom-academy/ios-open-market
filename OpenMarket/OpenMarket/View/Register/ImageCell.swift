@@ -12,6 +12,7 @@ class ImageCell: UICollectionViewCell {
     static let nibName = "ImageCell"
     
     @IBOutlet var imageView: UIImageView!
+    @IBOutlet var deleteButton: UIButton!
 
     override func awakeFromNib() {
         super.awakeFromNib()

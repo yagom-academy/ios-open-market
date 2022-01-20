@@ -8,7 +8,30 @@
 import UIKit
 
 class RegisterDataSource: NSObject {
-    var images = [UIImage]()
+    enum Mode {
+        case register
+        case modify
+    }
+
+    private(set) var images = [UIImage]()
+    private(set) var state: Mode
+    
+    init(state: Mode) {
+        self.state = state
+    }
+    
+    func setUpModify(_ images: [UIImage]) {
+        self.state = .modify
+        self.images = images
+    }
+    
+    func imagesRemove(at index: Int) {
+        images.remove(at: index)
+    }
+    
+    func imagesAppend(_ image: UIImage) {
+        images.append(image)
+    }
     
     func createImageFiles() -> [ImageFile]? {
         var imageFiles = [ImageFile]()
@@ -43,6 +66,11 @@ extension RegisterDataSource: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         cell.imageView.image = images[indexPath.item]
+        if state == .modify {
+            cell.deleteButton.isHidden = true
+        } else {
+            cell.deleteButton.isHidden = false
+        }
         return cell
     }
     

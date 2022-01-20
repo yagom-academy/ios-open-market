@@ -52,6 +52,7 @@
                 <constraint firstItem="rus-V3-RLm" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="XUM-p1-ocr"/>
             </constraints>
             <connections>
+                <outlet property="deleteButton" destination="rus-V3-RLm" id="tkj-x2-B8U"/>
                 <outlet property="imageView" destination="VjF-eu-mOd" id="Nr1-C9-9RP"/>
             </connections>
             <point key="canvasLocation" x="137.68115942028987" y="152.67857142857142"/>

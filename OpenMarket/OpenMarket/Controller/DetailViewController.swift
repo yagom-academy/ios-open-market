@@ -8,8 +8,8 @@
 import UIKit
 
 class DetailViewController: UIViewController {
-    private var images = [UIImage]()
     var data: Product?
+    private var images = [UIImage]()
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var priceLabel: UILabel!

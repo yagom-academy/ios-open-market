@@ -108,7 +108,7 @@
                         <outlet property="priceLabel" destination="q1K-lP-3hO" id="xhh-lX-MrR"/>
                         <outlet property="stockLabel" destination="gN9-yH-rMg" id="0WT-YT-sDR"/>
                         <outlet property="vendorLabel" destination="c3n-hY-9ve" id="B7y-mw-7BG"/>
-                        <segue destination="6mj-Y4-ckL" kind="show" identifier="ModifyView" id="khl-Wz-8lb"/>
+                        <segue destination="6mj-Y4-ckL" kind="presentation" identifier="ModifyView" modalPresentationStyle="fullScreen" id="khl-Wz-8lb"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
