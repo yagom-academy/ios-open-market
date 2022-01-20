@@ -9,6 +9,15 @@ import UIKit
 class ViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
     var productListData: ProductList?
+
+    @IBOutlet weak var switchLayoutController: UISegmentedControl!
+    @IBAction func switchLayout(_ sender: Any) {
+        self.collectionView.reloadData()
+    }
+    
+    
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -17,7 +26,7 @@ class ViewController: UIViewController {
         self.collectionView.dataSource = self
         let flowLayout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         collectionView.collectionViewLayout = flowLayout
-       
+               
         getDecodedData { (result: Result<ProductList, NetworkError>) in
             switch result {
             case .success(let data):
@@ -63,10 +72,22 @@ extension ViewController: UICollectionViewDataSource {
         guard let productListData = productListData else {
             return emptyCell
         }
+        
+        if switchLayoutController.selectedSegmentIndex == 0 {
+
         emptyCell.layer.cornerRadius = 10
         emptyCell.layer.borderWidth = 2
         emptyCell.layer.borderColor = UIColor.systemGray2.cgColor
-        emptyCell.updateCell(data: productListData, indexPathItem: indexPath.item)
+        emptyCell.updateGridCell(data: productListData, indexPathItem: indexPath.item)
+        
+        } else {
+            emptyCell.layer.cornerRadius = 0
+            emptyCell.layer.borderWidth = 0
+            emptyCell.layer.borderColor = .none
+            emptyCell.updateListCell(data: productListData, indexPathItem: indexPath.item)
+
+        }
+        
         
         return cell
     }
@@ -74,21 +95,35 @@ extension ViewController: UICollectionViewDataSource {
 
 extension ViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = collectionView.frame.width
-        let itemsPerRow: CGFloat = 2
-        let itemsPerColumn: CGFloat = 3
-        let cellWidth = (width - itemsPerRow * 7) / itemsPerRow
+        if switchLayoutController.selectedSegmentIndex == 0 {
+            let width = collectionView.frame.width
+            let itemsPerRow: CGFloat = 2
+            let cellWidth = (width - itemsPerRow * 7) / itemsPerRow
 
-        return CGSize(width: cellWidth, height: 270)
+            return CGSize(width: cellWidth, height: 270)
+        } else {
+            print("fsddfs")
+            let width = collectionView.frame.width
+
+            return CGSize(width: width, height: 50)
+        }
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 7
+        if switchLayoutController.selectedSegmentIndex == 0 {
+            return 7
+        } else {
+            return 0
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 10
-    }
+        if switchLayoutController.selectedSegmentIndex == 0 {
+            return 10
+        } else {
+            return 0
+        }    }
     
 }
 

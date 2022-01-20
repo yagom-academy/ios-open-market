@@ -95,6 +95,7 @@
                                                 <constraint firstItem="NC5-5Y-FNA" firstAttribute="height" secondItem="QT1-Cj-d4V" secondAttribute="height" constant="10" id="wbg-8B-jIO"/>
                                             </constraints>
                                         </collectionViewCellContentView>
+                                        <color key="backgroundColor" systemColor="systemGreenColor"/>
                                         <size key="customSize" width="159" height="214"/>
                                         <connections>
                                             <outlet property="discountedPrice" destination="UHw-Uy-09K" id="7p4-QL-nuN"/>
@@ -129,10 +130,14 @@
                                 <segment title="First"/>
                                 <segment title="Second"/>
                             </segments>
+                            <connections>
+                                <action selector="switchLayout:" destination="uzy-fi-xhL" eventType="valueChanged" id="rXA-a3-UNd"/>
+                            </connections>
                         </segmentedControl>
                     </navigationItem>
                     <connections>
                         <outlet property="collectionView" destination="e05-fh-pgO" id="sYf-pv-ZfY"/>
+                        <outlet property="switchLayoutController" destination="WbI-X3-SOy" id="XPy-io-erG"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5ng-ZC-7wy" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -161,6 +166,9 @@
     <resources>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemGreenColor">
+            <color red="0.20392156862745098" green="0.7803921568627451" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemRedColor">
             <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
