@@ -26,7 +26,7 @@ class DetailViewController: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard let navigationViewController = segue.destination as? UINavigationController,
-              let nextViewController = navigationViewController.topViewController as? RegisterViewController,
+              let nextViewController = navigationViewController.topViewController as? EditViewController,
               let product = sender as? Product else {
                   return
               }

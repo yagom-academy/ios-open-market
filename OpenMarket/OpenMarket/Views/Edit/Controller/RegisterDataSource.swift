@@ -7,7 +7,7 @@
 
 import UIKit
 
-class RegisterDataSource: NSObject {
+class EditDataSource: NSObject {
     enum Mode {
         case register
         case modify
@@ -50,7 +50,7 @@ class RegisterDataSource: NSObject {
     }
 }
 
-extension RegisterDataSource: UICollectionViewDataSource {
+extension EditDataSource: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return images.count
     }
