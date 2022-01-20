@@ -6,7 +6,8 @@ protocol PickerPresenter: AnyObject {
 
 class ProductRegisterManager {
     weak var delegate: PickerPresenter?
-    let productInformationView = ProductInformationView()
+    let productInformationScrollView = ProductInformationScrollView()
+    private lazy var productInformationView = productInformationScrollView.productInformationView
     
     init() {
         NotificationCenter.default.addObserver(self, selector: #selector(showAddImageButton), name: .imageRemoved, object: nil)

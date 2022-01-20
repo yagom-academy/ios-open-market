@@ -3,8 +3,7 @@ import UIKit
 class ProductRegisterViewController: UIViewController {
     private let productRegisterManager = ProductRegisterManager()
     private let imagePickerController = ImagePickerController()
-    private let productScrollView = UIScrollView()
-    private let productContentView = UIView()
+    private lazy var productScrollView = productRegisterManager.productInformationScrollView
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -57,32 +56,14 @@ class ProductRegisterViewController: UIViewController {
     }
     
     private func configRegistrationView() {
-        let productRegistrationView = productRegisterManager.productInformationView
-        
         self.view.addSubview(productScrollView)
-        productScrollView.addSubview(productContentView)
-        productContentView.addSubview(productRegistrationView)
-        
-        [productScrollView, productContentView, productRegistrationView].forEach { view in
-            view.translatesAutoresizingMaskIntoConstraints = false
-        }
-        
+        productScrollView.translatesAutoresizingMaskIntoConstraints = false
+    
         NSLayoutConstraint.activate([
             productScrollView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
             productScrollView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
             productScrollView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-            productScrollView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
-            
-            productContentView.topAnchor.constraint(equalTo: productScrollView.topAnchor),
-            productContentView.leadingAnchor.constraint(equalTo: productScrollView.leadingAnchor),
-            productContentView.trailingAnchor.constraint(equalTo: productScrollView.trailingAnchor),
-            productContentView.bottomAnchor.constraint(equalTo: productScrollView.bottomAnchor),
-            productContentView.widthAnchor.constraint(equalTo: productScrollView.widthAnchor),
-            
-            productRegistrationView.topAnchor.constraint(equalTo: productContentView.topAnchor),
-            productRegistrationView.leadingAnchor.constraint(equalTo: productContentView.leadingAnchor),
-            productRegistrationView.trailingAnchor.constraint(equalTo: productContentView.trailingAnchor),
-            productRegistrationView.bottomAnchor.constraint(equalTo: productContentView.bottomAnchor)
+            productScrollView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
         ])
     }
     

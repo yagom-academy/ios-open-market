@@ -43,6 +43,9 @@ class MainViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(fetchProductData), name: .updateProductData, object: nil)
         configUI()
         fetchProductData()
+        
+        productListCollectionView.delegate = self
+        productGridCollectionView.delegate = self
     }
 
     @objc private func fetchProductData() {
@@ -211,5 +214,12 @@ private extension MainViewController {
         snapshot.appendSections([.main])
         snapshot.appendItems(productData)
         dataSource?.apply(snapshot)
+    }
+}
+
+extension MainViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        collectionView.deselectItem(at: indexPath, animated: true)
     }
 }
