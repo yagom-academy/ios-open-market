@@ -5,11 +5,14 @@ class ProductRegisterView: UIStackView {
     private var dataSource: UICollectionViewDiffableDataSource<Int, UIImage>!
     private var snapshot = NSDiffableDataSourceSnapshot<Int, UIImage>()
     private var imageList: [UIImage] = []
-    private lazy var imageCollectionView = UICollectionView(
-        frame: .zero,
-        collectionViewLayout: createImageGridLayout()
-    )
-
+    private lazy var imageCollectionView: UICollectionView = {
+        let collectionView = UICollectionView(
+            frame: .zero,
+            collectionViewLayout: createImageGridLayout()
+            )
+        collectionView.delegate = self
+        return collectionView
+    }()
     private lazy var nameTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "상품명"
@@ -27,7 +30,7 @@ class ProductRegisterView: UIStackView {
         textField.placeholder = "상품가격"
         textField.borderStyle = .roundedRect
         textField.font = .preferredFont(forTextStyle: .subheadline)
-        textField.layer.borderColor = UIColor.systemGray.cgColor.
+        textField.layer.borderColor = UIColor.systemGray.cgColor
         textField.delegate = self
         return textField
     }()
@@ -167,9 +170,18 @@ extension ProductRegisterView {
     }
 }
 
+extension ProductRegisterView: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if indexPath.row == indexPath.count - 1 {
+            
+        }
+    }
+}
+
 extension ProductRegisterView: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
     }
 }
+
