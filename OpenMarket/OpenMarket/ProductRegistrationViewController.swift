@@ -16,12 +16,13 @@ class ProductRegistrationViewController: UIViewController {
     private let imagePickerController = UIImagePickerController()
     private let imageScrollView = UIScrollView()
     
-    private let nameTextField = UITextField()
-    private let priceTextField = UITextField()
-    private let currencySegmentedControl = UISegmentedControl()
-    private let bargainPriceTextField = UITextField()
-    private let stockTextField = UITextField()
     private let textFieldStackView = UIStackView()
+    private let nameTextField = CustomTextField()
+    private let priceStackView = UIStackView()
+    private let priceTextField = CustomTextField()
+    private let currencySegmentedControl = UISegmentedControl()
+    private let bargainPriceTextField = CustomTextField()
+    private let stockTextField = CustomTextField()
     
     private let descriptionTextView = UITextView()
 
@@ -45,6 +46,7 @@ class ProductRegistrationViewController: UIViewController {
         
         configureTextFieldStackViewAttribute()
         configureNameTextFieldAttribute()
+        configurePriceStackViewAttribute()
         configurePriceTextFieldAttribute()
         configureCurrencySegmentedControlAttribute()
         configureBargainPriceTextFieldAttribute()
@@ -54,20 +56,28 @@ class ProductRegistrationViewController: UIViewController {
     }
     
     private func configureLayout() {
-        view.addSubview(navigationStackView)
-        view.addSubview(imageScrollView)
-//        view.addSubview(textFieldStackView)
-//        view.addSubview(descriptionTextView)
-
+        configureMainViewLayout()
+        
         configureNavigationStackViewLayout()
         configureImageScrollViewLayout()
         configureImageStackViewLayout()
+        
+        configurePriceStackViewLayout()
+        configurePriceTextFieldLayout()
+        configureCurrencySegmentedControlLayout()
         configureTextFieldStackViewLayout()
         configureDescriptionTextViewLayout()
     }
     
     private func configureMainViewAttribute() {
         view.backgroundColor = .systemBackground
+    }
+    
+    private func configureMainViewLayout() {
+        view.addSubview(navigationStackView)
+        view.addSubview(imageScrollView)
+        view.addSubview(textFieldStackView)
+        view.addSubview(descriptionTextView)
     }
 }
 
@@ -248,11 +258,26 @@ extension ProductRegistrationViewController: UIImagePickerControllerDelegate, UI
 extension ProductRegistrationViewController {
 
     private func configureTextFieldStackViewAttribute() {
-    
+        textFieldStackView.axis = .vertical
+        textFieldStackView.spacing = Attribute.smallSpacing
     }
     
     private func configureTextFieldStackViewLayout() {
+        textFieldStackView.addArrangedSubview(nameTextField)
+        textFieldStackView.addArrangedSubview(priceStackView)
+        textFieldStackView.addArrangedSubview(bargainPriceTextField)
+        textFieldStackView.addArrangedSubview(stockTextField)
         
+        textFieldStackView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            textFieldStackView.topAnchor.constraint(equalTo: imageScrollView.bottomAnchor,
+                                                    constant: Attribute.largeSpacing),
+            textFieldStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor,
+                                                        constant: Attribute.largeSpacing),
+            textFieldStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor,
+                                                        constant: -1 * Attribute.largeSpacing)
+        ])
     }
 }
 
@@ -260,7 +285,21 @@ extension ProductRegistrationViewController {
 extension ProductRegistrationViewController {
 
     private func configureNameTextFieldAttribute() {
+        nameTextField.placeholder = "상품명"
+    }
+}
+
+//MARK: - PriceStackView
+extension ProductRegistrationViewController {
     
+    private func configurePriceStackViewAttribute() {
+        priceStackView.axis = .horizontal
+        priceStackView.spacing = Attribute.smallSpacing
+    }
+    
+    private func configurePriceStackViewLayout() {
+        priceStackView.addArrangedSubview(priceTextField)
+        priceStackView.addArrangedSubview(currencySegmentedControl)
     }
 }
 
@@ -268,7 +307,11 @@ extension ProductRegistrationViewController {
 extension ProductRegistrationViewController {
     
     private func configurePriceTextFieldAttribute() {
+        priceTextField.placeholder = "상품가격"
+    }
     
+    private func configurePriceTextFieldLayout() {
+        priceTextField.setContentHuggingPriority(.defaultLow, for: .horizontal)
     }
 }
 
@@ -276,7 +319,13 @@ extension ProductRegistrationViewController {
 extension ProductRegistrationViewController {
     
     private func configureCurrencySegmentedControlAttribute() {
+        currencySegmentedControl.insertSegment(withTitle: "KRW", at: 0, animated: false)
+        currencySegmentedControl.insertSegment(withTitle: "USD", at: 1, animated: false)
+        currencySegmentedControl.selectedSegmentIndex = 0
+    }
     
+    private func configureCurrencySegmentedControlLayout() {
+        currencySegmentedControl.setContentHuggingPriority(.defaultHigh, for: .horizontal)
     }
 }
 
@@ -284,7 +333,7 @@ extension ProductRegistrationViewController {
 extension ProductRegistrationViewController {
     
     private func configureBargainPriceTextFieldAttribute() {
-    
+        bargainPriceTextField.placeholder = "할인금액"
     }
 }
 
@@ -292,7 +341,7 @@ extension ProductRegistrationViewController {
 extension ProductRegistrationViewController {
     
     private func configureStockTextFieldAttribute() {
-    
+        stockTextField.placeholder = "재고수정"
     }
 }
 
@@ -300,10 +349,23 @@ extension ProductRegistrationViewController {
 extension ProductRegistrationViewController {
     
     private func configureDescriptionTextViewAttribute() {
-    
+        descriptionTextView.text = "설명"
+        descriptionTextView.font = .preferredFont(forTextStyle: .callout)
+        descriptionTextView.adjustsFontForContentSizeCategory = true
     }
     
     private func configureDescriptionTextViewLayout() {
+        descriptionTextView.translatesAutoresizingMaskIntoConstraints = false
         
+        NSLayoutConstraint.activate([
+            descriptionTextView.topAnchor.constraint(equalTo: textFieldStackView.bottomAnchor,
+                                                     constant: Attribute.largeSpacing),
+            descriptionTextView.leadingAnchor.constraint(equalTo: view.leadingAnchor,
+                                                         constant: Attribute.largeSpacing),
+            descriptionTextView.trailingAnchor.constraint(equalTo: view.trailingAnchor,
+                                                          constant: -1 * Attribute.largeSpacing),
+            descriptionTextView.bottomAnchor.constraint(equalTo: view.bottomAnchor,
+                                                        constant: -1 * Attribute.largeSpacing)
+        ])
     }
 }
