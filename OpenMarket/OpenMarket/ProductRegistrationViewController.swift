@@ -28,52 +28,36 @@ class ProductRegistrationViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureAttribute()
-        configureLayout()
+        configure()
     }
 
-    private func configureAttribute() {
-        configureMainViewAttribute()
+    private func configure() {
+        configureMainView()
         
-        configureNavigationStackViewAttribute()
-        configureCancelButtonAttribute()
-        configureTitleLabelAttribute()
-        configureDoneButtonAttribute()
+        configureNavigationStackView()
+        configureCancelButton()
+        configureTitleLabel()
+        configureDoneButton()
         
-        configureImageScrollViewAttribute()
-        configureImageStackViewAttribute()
-        configureImagePickerControllerAttribute()
+        configureImageScrollView()
+        configureImageStackView()
+        configureImagePickerController()
         
-        configureTextFieldStackViewAttribute()
-        configureNameTextFieldAttribute()
-        configurePriceStackViewAttribute()
-        configurePriceTextFieldAttribute()
-        configureCurrencySegmentedControlAttribute()
-        configureBargainPriceTextFieldAttribute()
-        configureStockTextFieldAttribute()
+        configureTextFieldStackView()
+        configureNameTextField()
+        configurePriceStackView()
+        configurePriceTextField()
+        configureCurrencySegmentedControl()
+        configureBargainPriceTextField()
+        configureStockTextField()
         
-        configureDescriptionTextViewAttribute()
+        configureDescriptionTextView()
     }
     
-    private func configureLayout() {
-        configureMainViewLayout()
-        
-        configureNavigationStackViewLayout()
-        configureImageScrollViewLayout()
-        configureImageStackViewLayout()
-        
-        configurePriceStackViewLayout()
-        configurePriceTextFieldLayout()
-        configureCurrencySegmentedControlLayout()
-        configureTextFieldStackViewLayout()
-        configureDescriptionTextViewLayout()
-    }
-    
-    private func configureMainViewAttribute() {
+    //MARK: - MainView
+    private func configureMainView() {
         view.backgroundColor = .systemBackground
-    }
-    
-    private func configureMainViewLayout() {
+        
         view.addSubview(navigationStackView)
         view.addSubview(imageScrollView)
         view.addSubview(textFieldStackView)
@@ -84,14 +68,12 @@ class ProductRegistrationViewController: UIViewController {
 //MARK: - NavigationStackView
 extension ProductRegistrationViewController {
     
-    private func configureNavigationStackViewAttribute() {
+    private func configureNavigationStackView() {
         navigationStackView.backgroundColor = .systemBackground
         navigationStackView.axis = .horizontal
         navigationStackView.distribution = .fill
         navigationStackView.alignment = .center
-    }
-    
-    private func configureNavigationStackViewLayout() {
+        
         navigationStackView.addArrangedSubview(cancelButton)
         navigationStackView.addArrangedSubview(titleLabel)
         navigationStackView.addArrangedSubview(doneButton)
@@ -109,12 +91,9 @@ extension ProductRegistrationViewController {
             navigationStackView.centerXAnchor.constraint(equalTo: titleLabel.centerXAnchor),
         ])
     }
-}
-
-//MARK: - CancelButton
-extension ProductRegistrationViewController {
-
-    private func configureCancelButtonAttribute() {
+    
+    //MARK: - CancelButton
+    private func configureCancelButton() {
         cancelButton.tintColor = .systemBlue
         cancelButton.titleLabel?.textAlignment = .left
         
@@ -131,12 +110,9 @@ extension ProductRegistrationViewController {
     @objc private func dismissModal() {
         dismiss(animated: true)
     }
-}
-
-//MARK: - TitleLabel
-extension ProductRegistrationViewController {
-
-    private func configureTitleLabelAttribute() {
+    
+    //MARK: - TitleLabel
+    private func configureTitleLabel() {
         titleLabel.textAlignment = .center
         
         let text = NSMutableAttributedString(string: "상품등록")
@@ -147,12 +123,9 @@ extension ProductRegistrationViewController {
         
         titleLabel.setContentHuggingPriority(.defaultLow, for: .horizontal)
     }
-}
-
-//MARK: - DoneButton
-extension ProductRegistrationViewController {
     
-    private func configureDoneButtonAttribute() {
+    //MARK: - DoneButton
+    private func configureDoneButton() {
         doneButton.tintColor = .systemBlue
         
         let text = NSMutableAttributedString(string: "Done")
@@ -165,13 +138,9 @@ extension ProductRegistrationViewController {
 }
 
 //MARK: - ImageScrollView
-extension ProductRegistrationViewController {
+extension ProductRegistrationViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
-    private func configureImageScrollViewAttribute() {
-        
-    }
-    
-    private func configureImageScrollViewLayout() {
+    private func configureImageScrollView() {
         imageScrollView.translatesAutoresizingMaskIntoConstraints = false
         imageScrollView.addSubview(imageStackView)
         
@@ -184,15 +153,23 @@ extension ProductRegistrationViewController {
             imageScrollView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.2),
         ])
     }
-}
-
-//MARK: - ImageStackView
-extension ProductRegistrationViewController {
-
-    private func configureImageStackViewAttribute() {
+    
+    //MARK: - ImageStackView
+    private func configureImageStackView() {
         imageStackView.axis = .horizontal
         imageStackView.spacing = Attribute.largeSpacing
         
+        createDefaultButton()
+        
+        imageStackView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            imageStackView.heightAnchor.constraint(equalTo: imageScrollView.heightAnchor),
+            imageStackView.leadingAnchor.constraint(equalTo: imageScrollView.leadingAnchor),
+            imageStackView.trailingAnchor.constraint(equalTo: imageScrollView.trailingAnchor)
+        ])
+    }
+    
+    private func createDefaultButton() {
         let defaultButton = UIButton()
         defaultButton.backgroundColor = .systemGray5
         defaultButton.setImage(UIImage(systemName: "plus"), for: .normal)
@@ -206,14 +183,23 @@ extension ProductRegistrationViewController {
         ])
     }
     
-    private func configureImageStackViewLayout() {
-        imageStackView.translatesAutoresizingMaskIntoConstraints = false
+    //MARK: - ImagePickerController
+    @objc private func presentImagePickerController() {
+        present(imagePickerController, animated: true, completion: nil)
+    }
+    
+    private func configureImagePickerController() {
+        imagePickerController.delegate = self
+    }
+
+    func imagePickerController(_ picker: UIImagePickerController,
+                               didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
-        NSLayoutConstraint.activate([
-            imageStackView.heightAnchor.constraint(equalTo: imageScrollView.heightAnchor),
-            imageStackView.leadingAnchor.constraint(equalTo: imageScrollView.leadingAnchor),
-            imageStackView.trailingAnchor.constraint(equalTo: imageScrollView.trailingAnchor)
-        ])
+        if let possibleImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+            addPickedImage(image: possibleImage)
+        }
+
+        picker.dismiss(animated: true, completion: nil)
     }
     
     private func addPickedImage(image: UIImage) {
@@ -228,41 +214,13 @@ extension ProductRegistrationViewController {
     }
 }
 
-//MARK: - ImagePickerController
-extension ProductRegistrationViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-
-    private func configureImagePickerControllerAttribute() {
-        imagePickerController.delegate = self
-    }
-    
-    private func configureImagePickerControllerLayout() {
-        
-    }
-    
-    @objc private func presentImagePickerController() {
-        present(imagePickerController, animated: true, completion: nil)
-    }
-    
-    func imagePickerController(_ picker: UIImagePickerController,
-                               didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        
-        if let possibleImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
-            addPickedImage(image: possibleImage)
-        }
-
-        picker.dismiss(animated: true, completion: nil)
-    }
-}
-
 //MARK: - TextFieldStackView
 extension ProductRegistrationViewController {
 
-    private func configureTextFieldStackViewAttribute() {
+    private func configureTextFieldStackView() {
         textFieldStackView.axis = .vertical
         textFieldStackView.spacing = Attribute.smallSpacing
-    }
-    
-    private func configureTextFieldStackViewLayout() {
+        
         textFieldStackView.addArrangedSubview(nameTextField)
         textFieldStackView.addArrangedSubview(priceStackView)
         textFieldStackView.addArrangedSubview(bargainPriceTextField)
@@ -279,68 +237,44 @@ extension ProductRegistrationViewController {
                                                         constant: -1 * Attribute.largeSpacing)
         ])
     }
-}
-
-//MARK: - NameTextField
-extension ProductRegistrationViewController {
-
-    private func configureNameTextFieldAttribute() {
+    
+    //MARK: - NameTextField
+    private func configureNameTextField() {
         nameTextField.placeholder = "상품명"
     }
-}
-
-//MARK: - PriceStackView
-extension ProductRegistrationViewController {
     
-    private func configurePriceStackViewAttribute() {
+    //MARK: - PriceStackView
+    private func configurePriceStackView() {
         priceStackView.axis = .horizontal
         priceStackView.spacing = Attribute.smallSpacing
-    }
-    
-    private func configurePriceStackViewLayout() {
+        
         priceStackView.addArrangedSubview(priceTextField)
         priceStackView.addArrangedSubview(currencySegmentedControl)
     }
-}
-
-//MARK: - PriceTextField
-extension ProductRegistrationViewController {
     
-    private func configurePriceTextFieldAttribute() {
+    //MARK: - PriceTextField
+    private func configurePriceTextField() {
         priceTextField.placeholder = "상품가격"
-    }
-    
-    private func configurePriceTextFieldLayout() {
+        
         priceTextField.setContentHuggingPriority(.defaultLow, for: .horizontal)
     }
-}
-
-//MARK: - CurrencySegmentedControl
-extension ProductRegistrationViewController {
     
-    private func configureCurrencySegmentedControlAttribute() {
+    //MARK: - CurrencySegmentedControl
+    private func configureCurrencySegmentedControl() {
         currencySegmentedControl.insertSegment(withTitle: "KRW", at: 0, animated: false)
         currencySegmentedControl.insertSegment(withTitle: "USD", at: 1, animated: false)
         currencySegmentedControl.selectedSegmentIndex = 0
-    }
-    
-    private func configureCurrencySegmentedControlLayout() {
+        
         currencySegmentedControl.setContentHuggingPriority(.defaultHigh, for: .horizontal)
     }
-}
-
-//MARK: - BargainPriceTextField
-extension ProductRegistrationViewController {
     
-    private func configureBargainPriceTextFieldAttribute() {
+    //MARK: - BargainPriceTextField
+    private func configureBargainPriceTextField() {
         bargainPriceTextField.placeholder = "할인금액"
     }
-}
-
-//MARK: - StockTextField
-extension ProductRegistrationViewController {
     
-    private func configureStockTextFieldAttribute() {
+    //MARK: - StockTextField
+    private func configureStockTextField() {
         stockTextField.placeholder = "재고수정"
     }
 }
@@ -348,13 +282,11 @@ extension ProductRegistrationViewController {
 //MARK: - configureDescriptionTextView
 extension ProductRegistrationViewController {
     
-    private func configureDescriptionTextViewAttribute() {
+    private func configureDescriptionTextView() {
         descriptionTextView.text = "설명"
         descriptionTextView.font = .preferredFont(forTextStyle: .callout)
         descriptionTextView.adjustsFontForContentSizeCategory = true
-    }
-    
-    private func configureDescriptionTextViewLayout() {
+        
         descriptionTextView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([

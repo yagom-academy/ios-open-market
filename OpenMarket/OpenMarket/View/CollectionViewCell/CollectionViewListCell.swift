@@ -19,41 +19,27 @@ class CollectionViewListCell: UICollectionViewListCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        configureAttribute()
-        configureLayout()
+        configure()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
     
-    func update(from product: Product) {
-        updateImageView(from: product)
-        updateNameLabel(from: product)
-        updatePriceLabel(from: product)
-        updateStockLabel(from: product)
-    }
     
-    private func configureAttribute() {
-        configureActivityIndicatorAttribute()
-        configureImageViewAttribute()
-        configureNameLabelAttribute()
-        configurePriceLabelAttribute()
-        configureLabelStackViewAttribute()
-        configureStockLabelAttribute()
+    
+    private func configure() {
+        configureMainView()
+        configureActivityIndicator()
+        configureImageView()
+        configureNameLabel()
+        configurePriceLabel()
+        configureLabelStackView()
+        configureStockLabel()
         configureChevronButton()
     }
 
-    private func configureLayout() {
-        configureMainViewLayout()
-        configureActivityIndicatorLayout()
-        configureImageViewLayout()
-        configureLabelStackViewLayout()
-        configureStockLabelLayout()
-        configureChevronButtonLayout()
-    }
-    
-    private func configureMainViewLayout() {
+    private func configureMainView() {
         contentView.addSubview(activityIndicator)
         contentView.addSubview(imageView)
         contentView.addSubview(labelStackView)
@@ -69,6 +55,17 @@ class CollectionViewListCell: UICollectionViewListCell {
     }
 }
 
+//MARK: - Open Method
+extension CollectionViewListCell {
+    
+    func update(from product: Product) {
+        updateImageView(from: product)
+        updateNameLabel(from: product)
+        updatePriceLabel(from: product)
+        updateStockLabel(from: product)
+    }
+}
+
 //MARK: - ActivityIndicator
 extension CollectionViewListCell {
     
@@ -78,11 +75,9 @@ extension CollectionViewListCell {
         static let aspectRatio: CGFloat = 1.0
     }
     
-    private func configureActivityIndicatorAttribute() {
+    private func configureActivityIndicator() {
         activityIndicator.startAnimating()
-    }
-    
-    private func configureActivityIndicatorLayout() {
+        
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             activityIndicator.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,
@@ -104,8 +99,17 @@ extension CollectionViewListCell {
         static let aspectRatio: CGFloat = 1.0
     }
     
-    private func configureImageViewAttribute() {
-        
+    private func configureImageView() {
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,
+                                                       constant: Attribute.largeSpacing),
+            imageView.widthAnchor.constraint(equalTo: contentView.widthAnchor,
+                                             multiplier: ImageViewAttribute.fractionalWidth),
+            imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor,
+                                              multiplier: ImageViewAttribute.aspectRatio),
+            imageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
+        ])
     }
     
     private func updateImageView(from product: Product) {
@@ -121,30 +125,38 @@ extension CollectionViewListCell {
             }
         }
     }
-    
-    private func configureImageViewLayout() {
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,
-                                                       constant: Attribute.largeSpacing),
-            imageView.widthAnchor.constraint(equalTo: contentView.widthAnchor,
-                                             multiplier: ImageViewAttribute.fractionalWidth),
-            imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor,
-                                              multiplier: ImageViewAttribute.aspectRatio),
-            imageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
-        ])
-    }
 }
 
-//MARK: - NameLabel
+//MARK: - LabelStackView
 extension CollectionViewListCell {
+
+    private func configureLabelStackView() {
+        labelStackView.axis = .vertical
+        labelStackView.distribution = .fillEqually
+        
+        labelStackView.addArrangedSubview(nameLabel)
+        labelStackView.addArrangedSubview(priceLabel)
+        labelStackView.translatesAutoresizingMaskIntoConstraints = false
+
+        NSLayoutConstraint.activate([
+            labelStackView.leadingAnchor.constraint(equalTo: activityIndicator.trailingAnchor,
+                                                    constant: Attribute.smallSpacing),
+            labelStackView.leadingAnchor.constraint(equalTo: imageView.trailingAnchor,
+                                                    constant: Attribute.smallSpacing),
+            labelStackView.topAnchor.constraint(equalTo: contentView.topAnchor,
+                                                constant: Attribute.largeSpacing),
+            labelStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,
+                                                constant: -1 * Attribute.largeSpacing)
+        ])
+    }
     
+    //MARK: - NameLabel
     enum NameLabelAttribute {
         static let textStyle: UIFont.TextStyle = .title3
         static let fontColor: UIColor = .black
     }
     
-    private func configureNameLabelAttribute() {
+    private func configureNameLabel() {
         nameLabel.adjustsFontForContentSizeCategory = true
     }
     
@@ -156,18 +168,15 @@ extension CollectionViewListCell {
         
         nameLabel.attributedText = result
     }
-}
-
-//MARK: - PriceLabel
-extension CollectionViewListCell {
     
+    //MARK: - PriceLabel
     enum PriceLabelAttribute {
         static let textStyle: UIFont.TextStyle = .callout
         static let originalPriceFontColor: UIColor = .red
         static let bargainPriceFontColor: UIColor = .systemGray
     }
     
-    private func configurePriceLabelAttribute() {
+    private func configurePriceLabel() {
         priceLabel.adjustsFontForContentSizeCategory = true
     }
     
@@ -212,32 +221,6 @@ extension CollectionViewListCell {
     }
 }
 
-//MARK: - LabelStackView
-extension CollectionViewListCell {
-
-    private func configureLabelStackViewAttribute() {
-        labelStackView.axis = .vertical
-        labelStackView.distribution = .fillEqually
-    }
-    
-    private func configureLabelStackViewLayout() {
-        labelStackView.addArrangedSubview(nameLabel)
-        labelStackView.addArrangedSubview(priceLabel)
-        labelStackView.translatesAutoresizingMaskIntoConstraints = false
-
-        NSLayoutConstraint.activate([
-            labelStackView.leadingAnchor.constraint(equalTo: activityIndicator.trailingAnchor,
-                                                    constant: Attribute.smallSpacing),
-            labelStackView.leadingAnchor.constraint(equalTo: imageView.trailingAnchor,
-                                                    constant: Attribute.smallSpacing),
-            labelStackView.topAnchor.constraint(equalTo: contentView.topAnchor,
-                                                constant: Attribute.largeSpacing),
-            labelStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,
-                                                constant: -1 * Attribute.largeSpacing)
-        ])
-    }
-}
-
 //MARK: - StockLabel
 extension CollectionViewListCell {
     
@@ -247,8 +230,17 @@ extension CollectionViewListCell {
         static let soldoutFontColor: UIColor = .orange
     }
     
-    private func configureStockLabelAttribute() {
+    private func configureStockLabel() {
         stockLabel.adjustsFontForContentSizeCategory = true
+        
+        stockLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            stockLabel.topAnchor.constraint(equalTo: contentView.topAnchor,
+                                            constant: Attribute.largeSpacing),
+            stockLabel.trailingAnchor.constraint(equalTo: chevronButton.leadingAnchor,
+                                                constant: -1 * Attribute.largeSpacing),
+        ])
     }
     
     private func updateStockLabel(from product: Product) {
@@ -264,17 +256,6 @@ extension CollectionViewListCell {
         result.adjustDynamicType(textStyle: StockLabelAttribute.textStyle)
         stockLabel.attributedText = result
     }
-    
-    private func configureStockLabelLayout() {
-        stockLabel.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            stockLabel.topAnchor.constraint(equalTo: contentView.topAnchor,
-                                            constant: Attribute.largeSpacing),
-            stockLabel.trailingAnchor.constraint(equalTo: chevronButton.leadingAnchor,
-                                                constant: -1 * Attribute.largeSpacing),
-        ])
-    }
 }
 
 //MARK: - ChevronButton
@@ -283,9 +264,7 @@ extension CollectionViewListCell {
     private func configureChevronButton() {
         chevronButton.setImage(UIImage(systemName: "chevron.right"), for: .normal)
         chevronButton.tintColor = .systemGray
-    }
-    
-    private func configureChevronButtonLayout() {
+        
         chevronButton.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([

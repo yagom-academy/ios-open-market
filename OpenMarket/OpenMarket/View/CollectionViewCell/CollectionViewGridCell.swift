@@ -21,43 +21,28 @@ class CollectionViewGridCell: UICollectionViewCell {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        configureAttribute()
-        configureLayout()
+        configure()
     }
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
-    
-    //MARK: - Opened Method
-    func update(from product: Product) {
-        updateImageView(from: product)
-        updateNameLabel(from: product)
-        updatePriceLabel(from: product)
-        updateStockLabel(from: product)
+
+    private func configure() {
+        configureMainView()
+        configureAcitivityIndicator()
+        configureImageView()
+        configureNameLabel()
+        configurePriceLabel()
+        configureStockLabel()
+        configureLabelStackView()
     }
     
-    private func configureAttribute() {
+    private func configureMainView() {
         layer.borderColor = Attribute.borderColor
         layer.borderWidth = Attribute.borderWidth
         layer.cornerRadius = Attribute.cornerRadius
         
-        configureAcitivityIndicatorAttribute()
-        configureImageViewAttribute()
-        configureNameLabelAttribute()
-        configurePriceLabelAttribute()
-        configureStockLabelAttribute()
-        configureLabelStackViewAttribute()
-    }
-    
-    private func configureLayout() {
-        configureMainViewLayout()
-        configureActivityIndicatorLayout()
-        configureImageViewLayout()
-        configureLabelStackViewLayout()
-    }
-    
-    private func configureMainViewLayout() {
         addSubview(activityIndicator)
         addSubview(imageView)
         addSubview(labelStackView)
@@ -65,6 +50,17 @@ class CollectionViewGridCell: UICollectionViewCell {
         NSLayoutConstraint.activate([
             heightAnchor.constraint(greaterThanOrEqualTo: imageView.heightAnchor, multiplier: 2.0)
         ])
+    }
+}
+
+//MARK: - Open Method
+extension CollectionViewGridCell {
+    
+    func update(from product: Product) {
+        updateImageView(from: product)
+        updateNameLabel(from: product)
+        updatePriceLabel(from: product)
+        updateStockLabel(from: product)
     }
 }
 
@@ -77,11 +73,9 @@ extension CollectionViewGridCell {
         static let aspectRatio: CGFloat = 1
     }
     
-    private func configureAcitivityIndicatorAttribute() {
+    private func configureAcitivityIndicator() {
         activityIndicator.startAnimating()
-    }
-    
-    private func configureActivityIndicatorLayout() {
+        
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             activityIndicator.topAnchor.constraint(equalTo: topAnchor,
@@ -104,8 +98,17 @@ extension CollectionViewGridCell {
         static let aspectRatio: CGFloat = 1
     }
     
-    private func configureImageViewAttribute() {
-
+    private func configureImageView() {
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            imageView.topAnchor.constraint(equalTo: topAnchor,
+                                           constant: ActivityIndicatorAttribute.spacing),
+            imageView.widthAnchor.constraint(equalTo: widthAnchor,
+                                             multiplier: ActivityIndicatorAttribute.fractionalWidth),
+            imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor,
+                                              multiplier: ActivityIndicatorAttribute.aspectRatio),
+            imageView.centerXAnchor.constraint(equalTo: centerXAnchor)
+        ])
     }
     
     private func updateImageView(from product: Product) {
@@ -121,30 +124,46 @@ extension CollectionViewGridCell {
             }
         }
     }
-    
-    private func configureImageViewLayout() {
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            imageView.topAnchor.constraint(equalTo: topAnchor,
-                                           constant: ActivityIndicatorAttribute.spacing),
-            imageView.widthAnchor.constraint(equalTo: widthAnchor,
-                                             multiplier: ActivityIndicatorAttribute.fractionalWidth),
-            imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor,
-                                              multiplier: ActivityIndicatorAttribute.aspectRatio),
-            imageView.centerXAnchor.constraint(equalTo: centerXAnchor)
-        ])
-    }
 }
 
-//MARK: - Name Label
+//MARK: - Label StackView
 extension CollectionViewGridCell {
     
+    enum LableStackViewAttribute {
+        static let fractionalWidth: CGFloat = 0.95
+    }
+    
+    private func configureLabelStackView() {
+        labelStackView.axis = .vertical
+        labelStackView.distribution = .equalSpacing
+        labelStackView.alignment = .center
+        
+        labelStackView.addArrangedSubview(nameLabel)
+        labelStackView.addArrangedSubview(priceLabel)
+        labelStackView.addArrangedSubview(stockLabel)
+        
+        labelStackView.translatesAutoresizingMaskIntoConstraints = false
+
+        NSLayoutConstraint.activate([
+            labelStackView.topAnchor.constraint(equalTo: activityIndicator.bottomAnchor,
+                                                constant: Attribute.largeSpacing),
+            labelStackView.topAnchor.constraint(equalTo: imageView.bottomAnchor,
+                                                constant: Attribute.largeSpacing),
+            labelStackView.widthAnchor.constraint(equalTo: widthAnchor,
+                                                  multiplier: LableStackViewAttribute.fractionalWidth),
+            labelStackView.centerXAnchor.constraint(equalTo: centerXAnchor),
+            labelStackView.bottomAnchor.constraint(equalTo: bottomAnchor,
+                                                   constant: -1 * Attribute.largeSpacing)
+        ])
+    }
+    
+    //MARK: - Name Label
     enum NameLabelAttribute {
         static let textStyle: UIFont.TextStyle = .title3
         static let fontColor: UIColor = .black
     }
 
-    private func configureNameLabelAttribute() {
+    private func configureNameLabel() {
         nameLabel.textAlignment = .center
         nameLabel.adjustsFontForContentSizeCategory = true
     }
@@ -157,18 +176,15 @@ extension CollectionViewGridCell {
         
         nameLabel.attributedText = result
     }
-}
-
-//MARK: - Price Label
-extension CollectionViewGridCell {
-
+    
+    //MARK: - Price Label
     enum PriceLabelAttribute {
         static let textStyle: UIFont.TextStyle = .callout
         static let originalPriceFontColor: UIColor = .red
         static let bargainPriceFontColor: UIColor = .systemGray
     }
     
-    private func configurePriceLabelAttribute() {
+    private func configurePriceLabel() {
         priceLabel.numberOfLines = 0
         priceLabel.adjustsFontForContentSizeCategory = true
     }
@@ -213,10 +229,8 @@ extension CollectionViewGridCell {
         result.adjustDynamicType(textStyle: PriceLabelAttribute.textStyle)
         priceLabel.attributedText = result
     }
-}
-
-//MARK: - Stock Label
-extension CollectionViewGridCell {
+    
+    //MARK: - Stock Label
     enum StockLabelAttribute {
         static let spacing: CGFloat = 5
         static let textStyle: UIFont.TextStyle = .callout
@@ -224,7 +238,7 @@ extension CollectionViewGridCell {
         static let soldoutFontColor: UIColor = .orange
     }
     
-    private func configureStockLabelAttribute() {
+    private func configureStockLabel() {
         stockLabel.adjustsFontForContentSizeCategory = true
     }
     
@@ -240,39 +254,5 @@ extension CollectionViewGridCell {
         
         result.adjustDynamicType(textStyle: StockLabelAttribute.textStyle)
         stockLabel.attributedText = result
-    }
-}
-
-//MARK: - Label StackView
-extension CollectionViewGridCell {
-    
-    enum LableStackViewAttribute {
-        static let fractionalWidth: CGFloat = 0.95
-    }
-    
-    private func configureLabelStackViewAttribute() {
-        labelStackView.axis = .vertical
-        labelStackView.distribution = .equalSpacing
-        labelStackView.alignment = .center
-    }
-    
-    private func configureLabelStackViewLayout() {
-        labelStackView.addArrangedSubview(nameLabel)
-        labelStackView.addArrangedSubview(priceLabel)
-        labelStackView.addArrangedSubview(stockLabel)
-        
-        labelStackView.translatesAutoresizingMaskIntoConstraints = false
-
-        NSLayoutConstraint.activate([
-            labelStackView.topAnchor.constraint(equalTo: activityIndicator.bottomAnchor,
-                                                constant: Attribute.largeSpacing),
-            labelStackView.topAnchor.constraint(equalTo: imageView.bottomAnchor,
-                                                constant: Attribute.largeSpacing),
-            labelStackView.widthAnchor.constraint(equalTo: widthAnchor,
-                                                  multiplier: LableStackViewAttribute.fractionalWidth),
-            labelStackView.centerXAnchor.constraint(equalTo: centerXAnchor),
-            labelStackView.bottomAnchor.constraint(equalTo: bottomAnchor,
-                                                   constant: -1 * Attribute.largeSpacing)
-        ])
     }
 }

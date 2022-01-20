@@ -11,8 +11,7 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         createAllComponents()
-        configureAttribute()
-        configureLayout()
+        configure()
         fetchProductList()
     }
     
@@ -20,30 +19,19 @@ class MainViewController: UIViewController {
         createProductRegistrationButtonItem()
     }
     
-    private func configureAttribute() {
-        configureMainViewAttribute()
-        configureSegmentedControlAttribute()
-        configureProductRegistrationButtonItemAttribute()
-        configureScrollViewAttribute()
-        configureListViewControllerAttribute()
-        configureGridViewControllerAttribute()
-    }
-    
-    private func configureLayout() {
-        configureMainViewLayout()
-        configureSegmentedControlLayout()
-        configureProductRegistrationButtonItemLayout()
-        configureScrollViewLayout()
-        configureListViewControllerLayout()
-        configureGridViewControllerLayout()
+    private func configure() {
+        configureMainView()
+        configureSegmentedControl()
+        configureProductRegistrationButtonItem()
+        configureScrollView()
+        configureListViewController()
+        configureGridViewController()
     }
     
     //MARK: - MainView
-    private func configureMainViewAttribute() {
+    private func configureMainView() {
         view.backgroundColor = .systemBackground
-    }
-    
-    private func configureMainViewLayout() {
+        
         view.addSubview(scrollView)
     }
 }
@@ -51,7 +39,7 @@ class MainViewController: UIViewController {
 //MARK: - Segmented Control
 extension MainViewController {
     
-    private func configureSegmentedControlAttribute() {
+    private func configureSegmentedControl() {
         segmentedControl.translatesAutoresizingMaskIntoConstraints = false
         let bounds = CGRect(
             x: 0,
@@ -63,10 +51,6 @@ extension MainViewController {
         navigationItem.titleView = segmentedControl
         
         segmentedControl.addTarget(self, action: #selector(touchUpListButton), for: .valueChanged)
-    }
-    
-    private func configureSegmentedControlLayout() {
-        
     }
 
     @objc func touchUpListButton() {
@@ -87,11 +71,7 @@ extension MainViewController {
                                                         action: #selector(presentProductRegistrationViewController))
     }
     
-    private func configureProductRegistrationButtonItemAttribute() {
-        
-    }
-    
-    private func configureProductRegistrationButtonItemLayout() {
+    private func configureProductRegistrationButtonItem() {
         navigationItem.setRightBarButton(productRegistrationButtonItem, animated: true)
     }
 
@@ -105,12 +85,10 @@ extension MainViewController {
 //MARK: - ScrollView
 extension MainViewController: UIScrollViewDelegate {
     
-    private func configureScrollViewAttribute() {
+    private func configureScrollView() {
         scrollView.delegate = self
         scrollView.isPagingEnabled = true
-    }
-    
-    private func configureScrollViewLayout() {
+        
         scrollView.addSubview(listViewController.view)
         scrollView.addSubview(gridViewController.view)
         
@@ -142,16 +120,9 @@ extension MainViewController: UIScrollViewDelegate {
         // Grid 뷰에서 Landscape Left -> Portrait 변경 시 scrollview offset이 제대로 잡히지 않음
         scrollView.setContentOffset(destinationPoint, animated: false)
     }
-}
-
-//MARK: - ListViewController
-extension MainViewController {
     
-    private func configureListViewControllerAttribute() {
-        
-    }
-    
-    private func configureListViewControllerLayout() {
+    //MARK: - ListViewController
+    private func configureListViewController() {
         listViewController.view.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
@@ -161,16 +132,9 @@ extension MainViewController {
             listViewController.view.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
-}
-
-//MARK: - GridViewController
-extension MainViewController {
     
-    private func configureGridViewControllerAttribute() {
-        
-    }
-    
-    private func configureGridViewControllerLayout() {
+    //MARK: - GridViewController
+    private func configureGridViewController() {
         gridViewController.view.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([

@@ -7,32 +7,26 @@ class GridCollectionViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        createAllComponents()
-        configureLayout()
-    }
-    
-    private func createAllComponents() {
-        collectionView = UICollectionView(frame: view.frame, collectionViewLayout: createdGridLayout())
-        dataSource = createdGridDataSource()
+        createCollectionView()
+        createDataSource()
+        configureCollectionView()
     }
 }
 
-//MARK: - Layout
+//MARK: - Open Method
+extension GridCollectionViewController {
+    func applySnapShot(products: [Product]) {
+        var snapshot = NSDiffableDataSourceSnapshot<Section, Product>()
+        snapshot.appendSections([.main])
+        snapshot.appendItems(products)
+        self.dataSource.apply(snapshot, animatingDifferences: false)
+    }
+}
+
+//MARK: - CollectionView
 extension GridCollectionViewController {
     
-    private func configureLayout() {
-        view.addSubview(collectionView)
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            collectionView.topAnchor.constraint(equalTo: view.topAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-        ])
-    }
-    
-    private func createdGridLayout() -> UICollectionViewLayout {
+    private func createCollectionView() {
         let spacing: CGFloat = 10
         let estimatedHeight: CGFloat = 220
         
@@ -59,24 +53,37 @@ extension GridCollectionViewController {
         section.contentInsets.trailing = spacing/2
         
         let layout = UICollectionViewCompositionalLayout(section: section)
-        return layout
+        
+        collectionView = UICollectionView(frame: view.frame, collectionViewLayout: layout)
+    }
+    
+    private func configureCollectionView() {
+        view.addSubview(collectionView)
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            collectionView.topAnchor.constraint(equalTo: view.topAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
     }
 }
 
-//MARK: - CollectionView Data Source
+//MARK: - DataSource
 extension GridCollectionViewController {
     typealias Product = NetworkingAPI.ProductListQuery.Response.Page
 
     private enum Section: Hashable {
         case main
     }
-    
-    private func createdGridDataSource() -> UICollectionViewDiffableDataSource<Section, Product> {
+
+    private func createDataSource() {
         let cellRegistration = UICollectionView.CellRegistration<CollectionViewGridCell, Product> {
             (cell, indexPath, item) in
         }
       
-        let dataSource = UICollectionViewDiffableDataSource<Section, Product>(collectionView: collectionView) {
+        dataSource = UICollectionViewDiffableDataSource<Section, Product>(collectionView: collectionView) {
             (collectionView, indexPath, item) -> UICollectionViewCell? in
             let cell = collectionView.dequeueConfiguredReusableCell(
                 using: cellRegistration,
@@ -87,14 +94,5 @@ extension GridCollectionViewController {
             
             return cell
         }
-        
-        return dataSource
-    }
-    
-    func applySnapShot(products: [Product]) {
-        var snapshot = NSDiffableDataSourceSnapshot<Section, Product>()
-        snapshot.appendSections([.main])
-        snapshot.appendItems(products)
-        self.dataSource.apply(snapshot, animatingDifferences: false)
     }
 }
