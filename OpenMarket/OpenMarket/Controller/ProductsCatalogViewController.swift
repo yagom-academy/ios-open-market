@@ -260,6 +260,10 @@ extension ProductsCatalogViewController: UICollectionViewDelegate {
 
         collectionView.deselectItem(at: indexPath, animated: true)
 
-        self.navigationController?.pushViewController(ProductRegisterViewController.init(productIdentification: item.identification), animated: true)
+        //self.navigationController?.pushViewController(ProductRegisterViewController.init(productIdentification: item.identification), animated: true)
+        let rootViewController = ProductRegisterViewController.init(productIdentification: item.identification)
+        let navigationController = UINavigationController(rootViewController: rootViewController)
+        navigationController.modalPresentationStyle = .fullScreen
+        self.present(navigationController, animated: true)
     }
 }

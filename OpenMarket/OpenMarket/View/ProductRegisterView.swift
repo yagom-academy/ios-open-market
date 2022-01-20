@@ -178,7 +178,6 @@ extension ProductRegisterView {
         imageList.append(UIImage(named: "robot")!)
         imageList.append(UIImage(systemName: "plus")!)
         snapshot.appendItems(imageList, toSection: 1)
-        print(11)
         self.dataSource.apply(snapshot)
     }
 

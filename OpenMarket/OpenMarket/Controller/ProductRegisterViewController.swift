@@ -4,7 +4,7 @@ class ProductRegisterViewController: UIViewController {
     private enum Task {
         case register, modify
     }
-    
+
     private var taskType: Task = .modify
     private var productIdentification: Int?
     private let productService = ProductService()
@@ -40,6 +40,7 @@ class ProductRegisterViewController: UIViewController {
     init(productIdentification: Int) {
         self.productIdentification = productIdentification
         super.init(nibName: nil, bundle: nil)
+        self.modalPresentationStyle = .fullScreen
         fetchProduct()
     }
 
@@ -53,6 +54,7 @@ class ProductRegisterViewController: UIViewController {
         self.view.addSubview(stackView)
         stackView.imageCollectionView.delegate = self
         configureConstraint()
+        configureNavigationBar()
     }
 }
 
@@ -75,6 +77,31 @@ extension ProductRegisterViewController {
                     return
                 }
             }
+    }
+}
+
+// MARK: Navigation Bar Configuration
+extension ProductRegisterViewController {
+    private func configureNavigationBar() {
+        switch taskType {
+        case .register:
+            self.navigationItem.title = "상품등록"
+        case .modify:
+            self.navigationItem.title = "상품취소"
+        }
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "완료", style: .done, target: self, action: nil)
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "취소", style: .plain, target: self, action: nil)
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithDefaultBackground()
+        self.navigationController?.navigationBar.scrollEdgeAppearance = appearance
+    }
+
+    @objc func touchUpDoneButton() {
+        self.dismiss(animated: true, completion: nil)
+    }
+
+    @objc func touchUpCancelButton() {
+        self.dismiss(animated: true, completion: nil)
     }
 }
 
@@ -126,10 +153,9 @@ extension ProductRegisterViewController {
 // MARK: Image Picker Controller Delegate
 extension ProductRegisterViewController: UIImagePickerControllerDelegate,
                                          UINavigationControllerDelegate {
-    func imagePickerController(_ picker: UIImagePickerController,
-                               didFinishPickingMediaWithInfo info: [
-                                UIImagePickerController.InfoKey: Any
-                               ]
+    func imagePickerController(
+        _ picker: UIImagePickerController,
+        didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
     ) {
         if let image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
             stackView.imageList.insert(image, at: 0)
