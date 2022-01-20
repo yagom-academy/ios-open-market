@@ -38,13 +38,12 @@ class RegisterViewController: UIViewController {
         textFieldsStackView.stockTextField.text = product.stock.description
     }
     
-    func setUpState() {
+    func setUpModifyMode(product: Product, images: [UIImage]) {
         state = .modify
         self.navigationItem.title = "상품 수정"
-    }
-    
-    func setUpData(_ product: Product) {
+        
         data = product
+        dataSource.images = images
     }
     
     private func setUpNotificationCenter() {

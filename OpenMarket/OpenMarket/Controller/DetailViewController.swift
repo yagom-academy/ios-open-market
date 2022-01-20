@@ -28,8 +28,7 @@ class DetailViewController: UIViewController {
               let product = sender as? Product else {
                   return
               }
-        nextViewController.setUpState()
-        nextViewController.setUpData(product)
+        nextViewController.setUpModifyMode(product: product, images: images)
     }
     
     func requestDetail(productId: UInt) {
