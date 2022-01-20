@@ -55,8 +55,7 @@ class MainViewController: UIViewController {
         api.retrieveProductList(pageNo: RequestInformation.pageNumber, itemsPerPage: RequestInformation.itemsPerPage) { result in
             switch result {
             case .success(let data):
-                self.productData = data.pages
-                print(self.productData)
+                self.productData = data.pages                
                 DispatchQueue.main.async {
                     self.configProductCollectionViewDataSource()
                 }
@@ -219,7 +218,11 @@ private extension MainViewController {
 
 extension MainViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let selectedProductData = productData[indexPath.item]
+        let productModifyViewController = UINavigationController(rootViewController: ProductModifyViewController(productDetail: selectedProductData))
+        productModifyViewController.modalPresentationStyle = .fullScreen
         
+        self.present(productModifyViewController, animated: true, completion: nil)
         collectionView.deselectItem(at: indexPath, animated: true)
     }
 }

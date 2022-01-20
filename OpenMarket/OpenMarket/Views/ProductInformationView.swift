@@ -8,7 +8,8 @@ private enum Placeholder {
 }
 
 private enum Design {
-    static let buttonEdgeInsetMargin: CGFloat = 50
+    static let buttonIconSize: CGFloat = 20
+    static let buttonEdgeInsetMargin: CGFloat = (RegisteredImageSize.width - buttonIconSize) / 2
     static let textFieldStackViewTopMargin: CGFloat = 10
     static let textFieldStackViewLeadingMargin: CGFloat = 15
     static let textFieldStackViewTrailingMargin: CGFloat = -15
@@ -48,9 +49,10 @@ class ProductInformationView: UIView {
     
     lazy var addImageButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(systemName: "plus"), for: .normal)
+        let icon = UIImage(systemName: "plus")?.resizeImageTo(size: CGSize(width: Design.buttonIconSize, height: Design.buttonIconSize))
+        button.setImage(icon, for: .normal)
         button.backgroundColor = .lightGray.withAlphaComponent(0.5)
-        button.contentEdgeInsets = UIEdgeInsets(top: Design.buttonEdgeInsetMargin, left: Design.buttonEdgeInsetMargin, bottom: Design.buttonEdgeInsetMargin, right: Design.buttonEdgeInsetMargin)        
+        button.contentEdgeInsets = UIEdgeInsets(top: Design.buttonEdgeInsetMargin, left: Design.buttonEdgeInsetMargin, bottom: Design.buttonEdgeInsetMargin, right: Design.buttonEdgeInsetMargin)
         return button
     }()
     

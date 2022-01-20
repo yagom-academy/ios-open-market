@@ -49,14 +49,19 @@ class ProductRegisterManager {
         return text.count
     }
     
-    func addImageToImageStackView(from image: UIImage) {
-        let width = productInformationView.addImageButton.frame.width
-        let height = productInformationView.addImageButton.frame.height
+    func addImageToImageStackView(from image: UIImage, hasDeleteButton: Bool) {
+        let width: CGFloat = RegisteredImageSize.width
+        let height: CGFloat = RegisteredImageSize.height
         guard let resizedImage = image.resizeImageTo(size: CGSize(width: width, height: height)) else {
             return
         }
         
         let productImageCustomView = ProductImageCustomView()
+        
+        if !hasDeleteButton {
+            productImageCustomView.setDeleteButtonHidden(state: true)
+        }
+        
         productImageCustomView.fetchImage(with: resizedImage)
         productInformationView.imageStackView.addArrangedSubview(productImageCustomView)
     }
@@ -97,6 +102,22 @@ class ProductRegisterManager {
         let stock = Int(stockString) ?? 0
         
         return ProductRegisterInformation(name: name, descriptions: descriptions, price: price, currency: currency, discountedPrice: discountedPrice, stock: stock, secret: secret)
+    }
+    
+    func fetchRegisteredProductDetail(from productDetail: ProductDetail) {
+        guard let image = ImageLoader.loadImage(from: productDetail.thumbnail) else {
+            return
+        }
+        addImageToImageStackView(from: image, hasDeleteButton: false)
+        
+        setImageButtonHidden(state: true)
+        
+        productInformationView.nameTextField.text = productDetail.name
+        productInformationView.descriptionTextView.text = productDetail.description
+        productInformationView.priceTextField.text = "\(productDetail.price)"
+        productInformationView.currencySegmentedControl.selectedSegmentIndex = productDetail.currency == .krw ? 0 : 1
+        productInformationView.discountedPriceTextField.text = "\(productDetail.discountedPrice)"
+        productInformationView.stockTextField.text = "\(productDetail.stock)"
     }
     
     func register() {
