@@ -14,6 +14,7 @@ class MainViewController: UIViewController {
     
     @IBOutlet private weak var collectionView: ProductsCollectionView!
     @IBOutlet private weak var indicator: UIActivityIndicatorView!
+    private var refreshControl: UIRefreshControl = UIRefreshControl()
     
     @IBOutlet private weak var segmentControl: UISegmentedControl! {
         didSet {
@@ -25,13 +26,14 @@ class MainViewController: UIViewController {
             segmentControl.backgroundColor = .black
         }
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         requestProducts {
             self.collectionViewLoad()
         }
         setUpNotification()
+        setUpRefreshControl()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -45,8 +47,9 @@ class MainViewController: UIViewController {
         }
     }
     
-    deinit {
-        NotificationCenter.default.removeObserver(self, name: .updataMain, object: nil)
+    private func setUpRefreshControl() {
+        collectionView.refreshControl = refreshControl
+        refreshControl.addTarget(self, action: #selector(updateMain), for: .valueChanged)
     }
     
     private func setUpNotification() {
@@ -94,6 +97,12 @@ class MainViewController: UIViewController {
     private func collectionViewReload() {
         DispatchQueue.main.async {
             self.collectionView.reloadData()
+            
+            if self.refreshControl.isRefreshing {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                    self.refreshControl.endRefreshing()
+                }
+            }
         }
     }
     
