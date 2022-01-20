@@ -9,7 +9,7 @@ import Foundation
 
 class ProductPageDataManager {
     
-    private var networkManager: ProductPageNetworkManager
+    private var networkManager: ProductNetworkManager<Page>
     
     private var pageNumber: Int = 1
     private var itemsPerPage: Int = 10
@@ -29,7 +29,7 @@ class ProductPageDataManager {
     var dataChangedHandler: (() -> Void)?
     
     init(handler: (() -> Void)? = nil) {
-        networkManager = ProductPageNetworkManager()
+        networkManager = ProductNetworkManager()
         networkManager.dataFetchHandler = self.fetchRequest
         networkManager.fetchPage(itemsPerPage: itemsCount)
         self.dataChangedHandler = handler

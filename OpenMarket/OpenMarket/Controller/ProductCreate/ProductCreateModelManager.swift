@@ -10,6 +10,8 @@ import UIKit.UIImage
 
 class ProductCreateModelManager {
     
+    let networkManager = ProductNetworkManager<CreateProductRequest>()
+    
     private(set) var images: [UIImage] = [] {
         didSet { imagesDidChangeHandler?() }
     }
@@ -48,17 +50,7 @@ class ProductCreateModelManager {
         )
         
         guard let json = try? JSONEncoder().encode(params) else { return false }
-        
-        let networkProvider = URLSessionProvider(session: URLSession.shared)
-        
-        networkProvider.request(.createProduct(sellerID: AppConfigure.venderIdentifier, params: json, images: parsedImages)) { (result: Result<CreateProductResponse, URLSessionProviderError>) in
-            switch result {
-            case .success(let data):
-                print(data)
-            case .failure(let error):
-                print(error)
-            }
-        }
+        networkManager.createProductRequest(data: json, images: parsedImages)
         
         return true
     }

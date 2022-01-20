@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class ProductCreateViewController: UIViewController {
+final class ProductUpdateViewController: UIViewController {
     
     let model = ProductCreateModelManager()
     
@@ -72,7 +72,7 @@ final class ProductCreateViewController: UIViewController {
 }
 
 // MARK: - Configure View Controller
-private extension ProductCreateViewController {
+private extension ProductUpdateViewController {
     
     func configureDelgate() {
         imagePicker.delegate = self
@@ -111,7 +111,7 @@ private extension ProductCreateViewController {
 }
 
 // MARK: - UIImagePicker Delegate Implements
-extension ProductCreateViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+extension ProductUpdateViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     private func openCamera(_ action: UIAlertAction) {
         guard UIImagePickerController.isSourceTypeAvailable(.camera) else {
@@ -144,7 +144,7 @@ extension ProductCreateViewController: UIImagePickerControllerDelegate, UINaviga
 }
 
 // MARK: - UITextField Delegate Implements
-extension ProductCreateViewController: UITextFieldDelegate {
+extension ProductUpdateViewController: UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.moveNextView()
@@ -209,7 +209,7 @@ fileprivate extension UIView {
 }
 
 // MARK: - Keyboard Control Utilities
-extension ProductCreateViewController {
+extension ProductUpdateViewController {
     
     @objc
     private func keyboardWasShown(_ notification: Notification) {
@@ -241,7 +241,7 @@ extension ProductCreateViewController {
 }
 
 // MARK: - Finding TextEditors Utilities
-private extension ProductCreateViewController {
+private extension ProductUpdateViewController {
     
     var textEditors: [UIView] {
         var answer: [UIView] = []
