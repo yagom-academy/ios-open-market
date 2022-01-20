@@ -238,6 +238,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="descriptionTextView" destination="K6l-69-CVn" id="srl-Gd-fnR"/>
+                        <outlet property="productImageStackView" destination="hhG-T7-Xba" id="NsD-SD-XGf"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W3x-ad-9Pa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

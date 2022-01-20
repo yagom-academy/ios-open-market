@@ -10,7 +10,10 @@ import UIKit
 class AddProductViewController: UIViewController {
 
     @IBOutlet weak var descriptionTextView: UITextView!
+    @IBOutlet weak var productImageStackView: UIStackView!
+    
     let imagePicker = UIImagePickerController()
+    var productImages: [NewProductImage] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,18 +32,7 @@ class AddProductViewController: UIViewController {
     }
     
     @IBAction func tapAddImageButton(_ sender: UIButton) {
-        let alert = UIAlertController(title: "상품사진 선택", message: nil, preferredStyle: .actionSheet)
-        let photoLibrary = UIAlertAction(title: "사진앨범", style: .default) { action in
-            self.openPhotoLibrary()
-        }
-        let camera = UIAlertAction(title: "카메라", style: .default) { action in
-            self.openCamera()
-        }
-        let cancel = UIAlertAction(title: "취소", style: .cancel, handler: nil)
-        
-        alert.addAction(photoLibrary)
-        alert.addAction(camera)
-        alert.addAction(cancel)
+        let alert = createAddImageAlert()
         present(alert, animated: true, completion: nil)
     }
 }
@@ -80,7 +72,25 @@ extension AddProductViewController: UITextViewDelegate {
         }
 }
 
-extension AddProductViewController: UIImagePickerControllerDelegate & UINavigationControllerDelegate {
+extension AddProductViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    func createAddImageAlert() -> UIAlertController {
+        let alert = UIAlertController(title: "상품사진 선택", message: nil, preferredStyle: .actionSheet)
+        let photoLibrary = UIAlertAction(title: "사진앨범", style: .default) { action in
+            self.openPhotoLibrary()
+        }
+        let camera = UIAlertAction(title: "카메라", style: .default) { action in
+            self.openCamera()
+        }
+        let cancel = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+        
+        alert.addAction(photoLibrary)
+        alert.addAction(camera)
+        alert.addAction(cancel)
+        
+        return alert
+    }
+    
     func openPhotoLibrary() {
         imagePicker.sourceType = .photoLibrary
         present(imagePicker, animated: false, completion: nil)
@@ -89,5 +99,26 @@ extension AddProductViewController: UIImagePickerControllerDelegate & UINavigati
     func openCamera() {
         imagePicker.sourceType = .camera
         present(imagePicker, animated: false, completion: nil)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
+        if let image = info[.originalImage] as? UIImage {
+            addToStackView(image: image)
+            addToProductImages(image: image)
+        }
+        dismiss(animated: true, completion: nil)
+    }
+    
+    func addToStackView(image: UIImage) {
+        let imageView = UIImageView()
+        imageView.image = image
+        let lastSubviewIndex = self.productImageStackView.subviews.count - 1
+        self.productImageStackView.insertArrangedSubview(imageView, at: lastSubviewIndex)
+    }
+    
+    func addToProductImages(image: UIImage) {
+        guard let imageData = image.jpegData(compressionQuality: 0.1) else { return }
+        let productImage = NewProductImage(image: imageData)
+        productImages.append(productImage)
     }
 }
