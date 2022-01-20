@@ -5,12 +5,11 @@ class ProductRegisterView: UIStackView {
     private var dataSource: UICollectionViewDiffableDataSource<Int, UIImage>!
     private var snapshot = NSDiffableDataSourceSnapshot<Int, UIImage>()
     private var imageList: [UIImage] = []
-    private lazy var imageCollectionView: UICollectionView = {
+    lazy var imageCollectionView: UICollectionView = {
         let collectionView = UICollectionView(
             frame: .zero,
             collectionViewLayout: createImageGridLayout()
             )
-        collectionView.delegate = self
         return collectionView
     }()
     private lazy var nameTextField: UITextField = {
@@ -170,18 +169,10 @@ extension ProductRegisterView {
     }
 }
 
-extension ProductRegisterView: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if indexPath.row == indexPath.count - 1 {
-            
-        }
-    }
-}
-
+// MARK: Text Field Delegate
 extension ProductRegisterView: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
     }
 }
-

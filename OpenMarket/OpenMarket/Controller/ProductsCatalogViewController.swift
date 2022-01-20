@@ -257,7 +257,7 @@ extension ProductsCatalogViewController: UICollectionViewDelegate {
         guard let item = self.listDataSource.itemIdentifier(for: indexPath) else {
             return
         }
-
+    
         collectionView.deselectItem(at: indexPath, animated: true)
 
         self.navigationController?.pushViewController(ProductRegisterViewController.init(), animated: true)
