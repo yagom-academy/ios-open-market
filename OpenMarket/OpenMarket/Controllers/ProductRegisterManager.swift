@@ -112,4 +112,8 @@ class ProductRegisterManager {
             }
         }
     }
+    
+    func updateProductData() {
+        NotificationCenter.default.post(name: .updateProductData, object: nil)
+    }
 }

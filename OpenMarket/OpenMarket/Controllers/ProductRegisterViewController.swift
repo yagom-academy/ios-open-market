@@ -50,7 +50,10 @@ class ProductRegisterViewController: UIViewController {
         }
                 
         productRegisterManager.register()
-        self.dismiss(animated: true, completion: nil)
+        
+        self.dismiss(animated: true) {
+            self.productRegisterManager.updateProductData()
+        }
     }
     
     private func configRegistrationView() {

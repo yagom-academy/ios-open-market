@@ -40,11 +40,12 @@ class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        NotificationCenter.default.addObserver(self, selector: #selector(fetchProductData), name: .updateProductData, object: nil)
         configUI()
         fetchProductData()
     }
 
-    private func fetchProductData() {
+    @objc private func fetchProductData() {
         activityIndicator.startAnimating()
         
         let api = APIService()
@@ -52,17 +53,26 @@ class MainViewController: UIViewController {
             switch result {
             case .success(let data):
                 self.productData = data.pages
+                print(self.productData)
                 DispatchQueue.main.async {
-                    self.configListDataSource()
-                    self.configGridDataSource()
-                    self.activityIndicator.stopAnimating()
+                    self.configProductCollectionViewDataSource()
                 }
             case .failure(let error):
                 print(error)
             }
         }
     }
-        
+    
+    private func configProductCollectionViewDataSource() {
+        if listDataSource == nil && gridDataSource == nil {
+            configListDataSource()
+            configGridDataSource()
+        }
+        configSnapShot(with: listDataSource)
+        configSnapShot(with: gridDataSource)
+        activityIndicator.stopAnimating()
+    }
+    
     @objc private func switchCollectionViewLayout() {
         if layoutSegmentedControl.selectedSegmentIndex == 0 {
             productListCollectionView.isHidden = false
@@ -139,11 +149,6 @@ private extension MainViewController {
         listDataSource = UICollectionViewDiffableDataSource<ProductSection, ProductDetail>(collectionView: productListCollectionView) { (collectionView, indexPath, product) -> UICollectionViewCell? in
             return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: product)
         }
-        
-        var snapshot = NSDiffableDataSourceSnapshot<ProductSection, ProductDetail>()
-        snapshot.appendSections([.main])
-        snapshot.appendItems(productData)
-        listDataSource?.apply(snapshot)
     }
 }
 
@@ -199,10 +204,12 @@ private extension MainViewController {
         gridDataSource = UICollectionViewDiffableDataSource<ProductSection, ProductDetail>(collectionView: productGridCollectionView) { (collectionView, indexPath, product) -> UICollectionViewCell? in
             return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: product)
         }
-        
+    }
+    
+    func configSnapShot(with dataSource: UICollectionViewDiffableDataSource<ProductSection, ProductDetail>?) {
         var snapshot = NSDiffableDataSourceSnapshot<ProductSection, ProductDetail>()
         snapshot.appendSections([.main])
         snapshot.appendItems(productData)
-        gridDataSource?.apply(snapshot)
+        dataSource?.apply(snapshot)
     }
 }
