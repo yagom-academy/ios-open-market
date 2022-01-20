@@ -4,7 +4,7 @@ enum ProductListQueryManager: JSONResponseDecodable {
     static func request<T: URLSessionProtocol>(session: T,
                                                pageNo: Int,
                                                itemsPerPage: Int,
-                                               completion: @escaping (Result<Data, NetworkingError>) -> Void) {
+                                               completion: @escaping (Result<Data, NetworkingAPIError>) -> Void) {
         
         let httpMethod = "GET"
         let baseURLString = "https://market-training.yagom-academy.kr/api/products"

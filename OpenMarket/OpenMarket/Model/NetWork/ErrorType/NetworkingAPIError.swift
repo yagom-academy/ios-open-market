@@ -1,8 +1,9 @@
 import Foundation
 
-enum NetworkingError: String, Error {
+enum NetworkingAPIError: String, Error {
     case URLRequestMakingFail
     case receivedInvalidData
     case receivedIinvalidResponse
     case receivedFailureStatusCode
+    case HTTPBodyMakingFail
 }

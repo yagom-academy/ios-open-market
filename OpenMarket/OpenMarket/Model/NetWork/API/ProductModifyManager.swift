@@ -12,7 +12,7 @@ enum ProductModifyManager: JSONResponseDecodable {
                                                discountedPrice: Double?,
                                                stock: Int?,
                                                secret: String,
-                                               completion: @escaping (Result<Data, NetworkingError>) -> Void) {
+                                               completion: @escaping (Result<Data, NetworkingAPIError>) -> Void) {
 
         let httpMethod = "PATCH"
         let baseURLString = "https://market-training.yagom-academy.kr/api/products"

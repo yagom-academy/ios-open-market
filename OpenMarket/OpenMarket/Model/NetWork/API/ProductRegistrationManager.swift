@@ -1,6 +1,9 @@
 import Foundation
 
 enum ProductRegistrationManager: JSONResponseDecodable {
+    
+    typealias Content = HTTPMessageMaker.Content
+    
     static func request<T: URLSessionProtocol>(session: T,
                                                identifier: String,
                                                name: String,
@@ -11,12 +14,12 @@ enum ProductRegistrationManager: JSONResponseDecodable {
                                                stock: Int?,
                                                secret: String,
                                                images: [Data],
-                                               completion: @escaping (Result<Data, NetworkingError>) -> Void) {
+                                               completion: @escaping (Result<Data, NetworkingAPIError>) -> Void) {
         
         let httpMethod = "POST"
         let urlString = "https://market-training.yagom-academy.kr/api/products"
         
-        let params = Request.Params(name: name,
+        let params = Request(name: name,
                                     descriptions: descriptions,
                                     price: price,
                                     currency: currency,
@@ -24,8 +27,44 @@ enum ProductRegistrationManager: JSONResponseDecodable {
                                     stock: stock,
                                     secret: secret)
         
-        //TODO: - make HTTPBody
-        //TODO: - call dataTask
+        guard let httpBody = httpBody(params: params, images: images) else {
+            completion(.failure(.HTTPBodyMakingFail))
+            return
+        }
+        
+        URLSession.shared.requestDataTask(urlString: urlString,
+                                          httpMethod: httpMethod,
+                                          httpBody: httpBody,
+                                          headerFields: ["identifier" : Vendor.identifier]) {
+            (result) in
+            
+            switch result {
+            case .success(let data):
+                completion(.success(data))
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
+    
+    private static func httpBody(params: Request, images: [Data]) -> Data? {
+        var contents: [Content] = []
+        
+        let paramsHeaders = ["Content-Disposition:form-data; name=\"params\"", "Content-Type: application/json"]
+        guard let paramsBody = try? JSONEncoder().encode(params) else {
+            return nil
+        }
+        let paramsContent = Content(headers: paramsHeaders, body: paramsBody)
+        contents.append(paramsContent)
+        
+        images.forEach {
+            let headers = ["Content-Disposition:form-data; name=\"images\"; filename=\"\(UUID().uuidString).jpeg\"",
+                           "Content-Type: image/jpeg"]
+            let image = Content(headers: headers, body: $0)
+            contents.append(image)
+        }
+        
+        return HTTPMessageMaker.createdMultipartBody(contents: contents)
     }
 }
 
@@ -37,19 +76,17 @@ extension ProductRegistrationManager {
     }
     
     struct Request: Encodable {
-        struct Params: Encodable {
-            let name: String
-            let descriptions: String
-            let price: Double
-            let currency: Currency
-            let discountedPrice: Double?
-            let stock: Int?
-            let secret: String
-            
-            enum CodingKeys: String, CodingKey {
-                case name, descriptions, price, currency, stock, secret
-                case discountedPrice = "discounted_price"
-            }
+        let name: String
+        let descriptions: String
+        let price: Double
+        let currency: Currency
+        let discountedPrice: Double?
+        let stock: Int?
+        let secret: String
+        
+        enum CodingKeys: String, CodingKey {
+            case name, descriptions, price, currency, stock, secret
+            case discountedPrice = "discounted_price"
         }
     }
     

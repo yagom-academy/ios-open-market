@@ -1,7 +1,7 @@
 import UIKit
 
 enum ImageLoader {
-    static func load(from urlString: String, completion: @escaping (Result<Data, NetworkingError>) -> ()) {
+    static func load(from urlString: String, completion: @escaping (Result<Data, NetworkingAPIError>) -> ()) {
         
         guard let url = URL(string: urlString) else {
             return
@@ -12,7 +12,7 @@ enum ImageLoader {
     
     static func load<T: URLSessionProtocol>(session: T,
                                             from urlString: String,
-                                            completion: @escaping (Result<Data, NetworkingError>) -> ()) {
+                                            completion: @escaping (Result<Data, NetworkingAPIError>) -> ()) {
         
         guard let url = URL(string: urlString) else {
             return
