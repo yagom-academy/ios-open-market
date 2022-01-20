@@ -1,14 +1,14 @@
 import UIKit
 
 class GridCollectionViewCell: UICollectionViewCell {
-    let contentStackView = UIStackView()
-    let productImageView = UIImageView()
-    let labelStackView = UIStackView()
-    let priceStackView = UIStackView()
-    let productNameLabel = UILabel()
-    let priceLabel = UILabel()
-    let discountedPriceLabel = UILabel()
-    let stockLabel = UILabel()
+    private let contentStackView = UIStackView()
+    private let productImageView = UIImageView()
+    private let labelStackView = UIStackView()
+    private let priceStackView = UIStackView()
+    private let productNameLabel = UILabel()
+    private let priceLabel = UILabel()
+    private let discountedPriceLabel = UILabel()
+    private let stockLabel = UILabel()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -29,7 +29,15 @@ class GridCollectionViewCell: UICollectionViewCell {
         discountedPriceLabel.text = nil
     }
     
-    func configUI() {
+    func configCell(with data: ProductInformation) {
+        setUpImage(url: data.thumbnail)
+        productNameLabel.text = data.name
+        productNameLabel.font = .preferredFont(forTextStyle: .headline)
+        setUpStockLabel(with: data.stock)
+        setUpPriceLabel(price: data.price, discountedPrice: data.discountedPrice, currency: data.currency)
+    }
+    
+    private func configUI() {
         addSubviews()
         setUpContentStackView()
         setUpProductImageView()
@@ -38,13 +46,13 @@ class GridCollectionViewCell: UICollectionViewCell {
         addBorder()
     }
     
-    func addSubviews() {
+    private func addSubviews() {
         contentView.addSubview(contentStackView)
         contentStackView.addArrangedSubview(productImageView)
         contentStackView.addArrangedSubview(labelStackView)
     }
     
-    func setUpContentStackView() {
+    private func setUpContentStackView() {
         contentStackView.axis = .vertical
         contentStackView.alignment = .center
         contentStackView.distribution = .fill
@@ -58,7 +66,7 @@ class GridCollectionViewCell: UICollectionViewCell {
         ])
     }
     
-    func setUpProductImageView() {
+    private func setUpProductImageView() {
         productImageView.contentMode = .scaleAspectFit
         productImageView.translatesAutoresizingMaskIntoConstraints = false
         
@@ -70,7 +78,7 @@ class GridCollectionViewCell: UICollectionViewCell {
         
     }
     
-    func setUpLabelStackView() {
+    private func setUpLabelStackView() {
         labelStackView.axis = .vertical
         labelStackView.alignment = .center
         labelStackView.distribution = .fillEqually
@@ -85,7 +93,7 @@ class GridCollectionViewCell: UICollectionViewCell {
         ])
     }
     
-    func setUpPriceStackView() {
+    private func setUpPriceStackView() {
         priceStackView.axis = .vertical
         priceStackView.alignment = .center
         priceStackView.distribution = .fillEqually
@@ -94,15 +102,7 @@ class GridCollectionViewCell: UICollectionViewCell {
         priceStackView.addArrangedSubview(discountedPriceLabel)
     }
     
-    func configCell(with data: ProductInformation) {
-        setUpImage(url: data.thumbnail)
-        productNameLabel.text = data.name
-        productNameLabel.font = .preferredFont(forTextStyle: .headline)
-        setUpStockLabel(with: data.stock)
-        setUpPriceLabel(price: data.price, discountedPrice: data.discountedPrice, currency: data.currency)
-    }
-    
-    func setUpImage(url: String) {
+    private func setUpImage(url: String) {
         guard let imageUrl = URL(string: url),
               let data = try? Data(contentsOf: imageUrl) else {
                   return
@@ -111,7 +111,7 @@ class GridCollectionViewCell: UICollectionViewCell {
         productImageView.image = UIImage(data: data)
     }
     
-    func setUpStockLabel(with stock: Int) {
+    private func setUpStockLabel(with stock: Int) {
         if stock == 0 {
             stockLabel.text = "품절"
             stockLabel.textColor = .systemYellow
@@ -121,7 +121,7 @@ class GridCollectionViewCell: UICollectionViewCell {
         }
     }
     
-    func setUpPriceLabel(price: Double, discountedPrice: Double, currency: String) {
+    private func setUpPriceLabel(price: Double, discountedPrice: Double, currency: String) {
         if discountedPrice == 0 {
             priceLabel.text = "\(currency) \(price.formattedPrice())"
             priceLabel.textColor = .systemGray
@@ -134,7 +134,7 @@ class GridCollectionViewCell: UICollectionViewCell {
         }
     }
     
-    func addBorder() {
+    private func addBorder() {
         layer.borderWidth = 1
         layer.borderColor = UIColor.systemGray.cgColor
         layer.cornerRadius = 10

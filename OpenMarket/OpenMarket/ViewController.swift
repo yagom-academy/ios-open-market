@@ -2,15 +2,15 @@ import UIKit
 
 @available(iOS 14.0, *)
 class ViewController: UIViewController {
-    enum Section: CaseIterable {
+    private enum Section: CaseIterable {
         case main
     }
-    
+    // MARK: - Properties
     @IBOutlet weak var segment: SegmentedControl!
     @IBOutlet weak var listCollectionView: UICollectionView!
     @IBOutlet weak var gridCollectionView: UICollectionView!
     
-    var productList = [ProductInformation](){
+    private var productList = [ProductInformation](){
         didSet {
             applyListSnapShot()
             applyGridSnapShot()
@@ -34,25 +34,12 @@ class ViewController: UIViewController {
         applyGridSnapShot(animatingDifferences: false)
     }
     
-    func setSegmentedControl() {
+    private func setSegmentedControl() {
         self.navigationItem.titleView = segment
         segment.setUpUI()
     }
     
-    @IBAction func changeView(_ sender: SegmentedControl) {
-        switch sender.selectedSegmentIndex {
-        case 0:
-            listCollectionView.isHidden = false
-            gridCollectionView.isHidden = true
-        case 1:
-            listCollectionView.isHidden = true
-            gridCollectionView.isHidden = false
-        default:
-            break
-        }
-    }
-    
-    func getData() {
+    private func getData() {
         let api = APIManager()
         api.requestProductList(pageNumber: 1, itemsPerPage: 20) { result in
             switch result {
@@ -65,7 +52,7 @@ class ViewController: UIViewController {
     }
     
     // MARK: - List Cell
-    func setUpListCell() {
+    private func setUpListCell() {
         let cellRegistration = UICollectionView.CellRegistration<ListCollectionViewCell, ProductInformation> { cell, indexpath, product in
             
             cell.configCell(with: product)
@@ -79,14 +66,14 @@ class ViewController: UIViewController {
         })
     }
     
-    func applyListSnapShot(animatingDifferences: Bool = true) {
+    private func applyListSnapShot(animatingDifferences: Bool = true) {
         var snapshot = NSDiffableDataSourceSnapshot<Section, ProductInformation>()
         snapshot.appendSections(Section.allCases)
         snapshot.appendItems(productList)
         listDataSource?.apply(snapshot, animatingDifferences: animatingDifferences)
     }
     
-    func setListCollectionView() -> UICollectionViewLayout {
+    private func setListCollectionView() -> UICollectionViewLayout {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(view.frame.height * 0.1))
@@ -99,7 +86,7 @@ class ViewController: UIViewController {
     }
     
     // MARK: - Grid Cell
-    func setUpGridCell() {
+    private func setUpGridCell() {
         let cellRegistration = UICollectionView.CellRegistration<GridCollectionViewCell, ProductInformation> { cell, indexpath, product in
       
             cell.configCell(with: product)
@@ -113,14 +100,14 @@ class ViewController: UIViewController {
         })
     }
     
-    func applyGridSnapShot(animatingDifferences: Bool = true) {
+    private func applyGridSnapShot(animatingDifferences: Bool = true) {
         var snapshot = NSDiffableDataSourceSnapshot<Section, ProductInformation>()
         snapshot.appendSections(Section.allCases)
         snapshot.appendItems(productList)
         gridDataSource?.apply(snapshot, animatingDifferences: animatingDifferences)
     }
     
-    func setGridCollectionView() -> UICollectionViewLayout {
+    private func setGridCollectionView() -> UICollectionViewLayout {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         item.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5)
@@ -135,5 +122,18 @@ class ViewController: UIViewController {
         let layout = UICollectionViewCompositionalLayout(section: section)
         
         return layout
+    }
+    // MARK: - IBAction Method
+    @IBAction func changeView(_ sender: SegmentedControl) {
+        switch sender.selectedSegmentIndex {
+        case 0:
+            listCollectionView.isHidden = false
+            gridCollectionView.isHidden = true
+        case 1:
+            listCollectionView.isHidden = true
+            gridCollectionView.isHidden = false
+        default:
+            break
+        }
     }
 }

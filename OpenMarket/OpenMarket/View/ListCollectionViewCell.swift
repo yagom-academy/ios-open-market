@@ -1,16 +1,16 @@
 import UIKit
 
 class ListCollectionViewCell: UICollectionViewCell {
-    let contentStackView = UIStackView()
-    let labelStackView = UIStackView()
-    let nameStackView = UIStackView()
-    let priceStackView = UIStackView()
-    let productImageView = UIImageView()
-    let accessoryImageView = UIImageView()
-    let productNameLabel = UILabel()
-    let priceLabel = UILabel()
-    let discountedPriceLabel = UILabel()
-    let stockLabel = UILabel()
+    private let contentStackView = UIStackView()
+    private let labelStackView = UIStackView()
+    private let nameStackView = UIStackView()
+    private let priceStackView = UIStackView()
+    private let productImageView = UIImageView()
+    private let accessoryImageView = UIImageView()
+    private let productNameLabel = UILabel()
+    private let priceLabel = UILabel()
+    private let discountedPriceLabel = UILabel()
+    private let stockLabel = UILabel()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -31,7 +31,15 @@ class ListCollectionViewCell: UICollectionViewCell {
         discountedPriceLabel.text = nil
     }
     
-    func configUI() {
+    func configCell(with data: ProductInformation) {
+        setUpImage(url: data.thumbnail)
+        productNameLabel.text = data.name
+        productNameLabel.font = .preferredFont(forTextStyle: .headline)
+        setUpStockLabel(with: data.stock)
+        setUpPriceLabel(price: data.price, discountedPrice: data.discountedPrice, currency: data.currency)
+    }
+    
+    private func configUI() {
         addSubviews()
         setUpContentStackView()
         setUpProductImageView()
@@ -42,7 +50,7 @@ class ListCollectionViewCell: UICollectionViewCell {
         addUnderLine()
     }
     
-    func addSubviews() {
+    private func addSubviews() {
         contentView.addSubview(contentStackView)
         contentStackView.addArrangedSubview(productImageView)
         contentStackView.addArrangedSubview(labelStackView)
@@ -51,7 +59,7 @@ class ListCollectionViewCell: UICollectionViewCell {
         contentStackView.addArrangedSubview(accessoryImageView)
     }
     
-    func setUpContentStackView() {
+    private func setUpContentStackView() {
         contentStackView.axis = .horizontal
         contentStackView.alignment = .fill
         contentStackView.distribution = .fill
@@ -67,7 +75,7 @@ class ListCollectionViewCell: UICollectionViewCell {
         ])
     }
     
-    func setUpLabelStackView() {
+    private func setUpLabelStackView() {
         labelStackView.axis = .vertical
         labelStackView.alignment = .fill
         labelStackView.distribution = .fillEqually
@@ -78,7 +86,7 @@ class ListCollectionViewCell: UICollectionViewCell {
         ])
     }
     
-    func setUpProductImageView() {
+    private func setUpProductImageView() {
         productImageView.contentMode = .scaleAspectFit
         productImageView.translatesAutoresizingMaskIntoConstraints = false
         
@@ -89,7 +97,7 @@ class ListCollectionViewCell: UICollectionViewCell {
         ])
     }
     
-    func setUpNameStackView() {
+    private func setUpNameStackView() {
         nameStackView.axis = .horizontal
         nameStackView.alignment = .center
         nameStackView.distribution = .fill
@@ -103,7 +111,7 @@ class ListCollectionViewCell: UICollectionViewCell {
         nameStackView.addArrangedSubview(accessoryImageView)
     }
     
-    func setUpPriceStackView() {
+    private func setUpPriceStackView() {
         priceStackView.axis = .horizontal
         priceStackView.alignment = .fill
         priceStackView.distribution = .fill
@@ -115,7 +123,7 @@ class ListCollectionViewCell: UICollectionViewCell {
         priceStackView.addArrangedSubview(discountedPriceLabel)
     }
     
-    func setUpAccessoryImageView() {
+    private func setUpAccessoryImageView() {
         accessoryImageView.translatesAutoresizingMaskIntoConstraints = false
         accessoryImageView.contentMode = .scaleAspectFit
         
@@ -127,16 +135,8 @@ class ListCollectionViewCell: UICollectionViewCell {
         accessoryImageView.image = UIImage(systemName: "chevron.right")
         accessoryImageView.tintColor = .systemGray
     }
-    
-    func configCell(with data: ProductInformation) {
-        setUpImage(url: data.thumbnail)
-        productNameLabel.text = data.name
-        productNameLabel.font = .preferredFont(forTextStyle: .headline)
-        setUpStockLabel(with: data.stock)
-        setUpPriceLabel(price: data.price, discountedPrice: data.discountedPrice, currency: data.currency)
-    }
-    
-    func setUpImage(url: String) {
+ 
+    private func setUpImage(url: String) {
         guard let imageUrl = URL(string: url),
               let data = try? Data(contentsOf: imageUrl) else {
                   return
@@ -145,7 +145,7 @@ class ListCollectionViewCell: UICollectionViewCell {
         productImageView.image = UIImage(data: data)
     }
     
-    func setUpStockLabel(with stock: Int) {
+    private func setUpStockLabel(with stock: Int) {
         if stock == 0 {
             stockLabel.text = "품절"
             stockLabel.textColor = .systemYellow
@@ -155,7 +155,7 @@ class ListCollectionViewCell: UICollectionViewCell {
         }
     }
     
-    func setUpPriceLabel(price: Double, discountedPrice: Double, currency: String) {
+    private func setUpPriceLabel(price: Double, discountedPrice: Double, currency: String) {
         if discountedPrice == 0 {
             priceLabel.text = "\(currency) \(price.formattedPrice())"
             priceLabel.textColor = .systemGray
@@ -168,7 +168,7 @@ class ListCollectionViewCell: UICollectionViewCell {
         }
     }
     
-    func addUnderLine() {
+    private func addUnderLine() {
         let underline = layer.addBorder([.bottom], color: UIColor.systemGray, width: 0.5)
         underline.frame = CGRect(x: 18, y: layer.frame.height, width: underline.frame.width - 1, height: underline.frame.height)
         layer.addSublayer(underline)
