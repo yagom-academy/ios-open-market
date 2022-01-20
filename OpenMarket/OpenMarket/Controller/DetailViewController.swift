@@ -21,6 +21,7 @@ class DetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setUpNotification()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -32,9 +33,20 @@ class DetailViewController: UIViewController {
         nextViewController.setUpModifyMode(product: product, images: images)
     }
     
+    private func setUpNotification() {
+        NotificationCenter.default.addObserver(self, selector: #selector(updateDetailView), name: .updateDetail, object: nil)
+    }
+    
+    @objc func updateDetailView() {
+        guard let data = data else {
+            return
+        }
+        requestDetail(productId: UInt(data.id))
+    }
+    
     func requestDetail(productId: UInt) {
         let networkManager: NetworkManager = NetworkManager()
-        guard let request = networkManager.requestDetailSearch(id: productId) else {
+        guard let request = networkManager.requestDetailSearch(id: UInt(productId)) else {
             showAlert(message: Message.badRequest)
             return
         }

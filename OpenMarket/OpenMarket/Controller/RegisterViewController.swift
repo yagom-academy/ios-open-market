@@ -53,8 +53,15 @@ class RegisterViewController: UIViewController {
         collectionView.dataSource = dataSource
     }
     
-    private func dismissAndUpdate() {
+    private func dismissAndUpdateMain() {
         self.dismiss(animated: true) {
+            NotificationCenter.default.post(name: .updataMain, object: nil)
+        }
+    }
+    
+    private func dismissAndUpdateDetail() {
+        self.dismiss(animated: true) {
+            NotificationCenter.default.post(name: .updateDetail, object: self.data)
             NotificationCenter.default.post(name: .updataMain, object: nil)
         }
     }
@@ -98,7 +105,7 @@ extension RegisterViewController {
             case .success:
                 DispatchQueue.main.async {
                     self.showAlert(message: Message.completeProductModification) {
-                        self.dismissAndUpdate()
+                        self.dismissAndUpdateDetail()
                     }
                 }
             case .failure(let error):
@@ -124,7 +131,7 @@ extension RegisterViewController {
             case .success:
                 DispatchQueue.main.async {
                     self.showAlert(message: Message.completeProductRegistration) {
-                        self.dismissAndUpdate()
+                        self.dismissAndUpdateMain()
                     }
                 }
             case .failure(let error):

@@ -49,14 +49,14 @@ class MainViewController: UIViewController {
     
     private func setUpRefreshControl() {
         collectionView.refreshControl = refreshControl
-        refreshControl.addTarget(self, action: #selector(updateMain), for: .valueChanged)
+        refreshControl.addTarget(self, action: #selector(updateMainView), for: .valueChanged)
     }
     
     private func setUpNotification() {
-        NotificationCenter.default.addObserver(self, selector: #selector(updateMain), name: .updataMain, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateMainView), name: .updataMain, object: nil)
     }
     
-    @objc private func updateMain() {
+    @objc private func updateMainView() {
         currentPage = 1
         productList.removeAll()
         requestProducts {
