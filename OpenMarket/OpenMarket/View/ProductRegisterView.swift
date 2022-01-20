@@ -16,6 +16,7 @@ class ProductRegisterView: UIStackView {
         textField.borderStyle = .roundedRect
         textField.font = .preferredFont(forTextStyle: .subheadline)
         textField.layer.borderColor = UIColor.systemGray.cgColor
+        textField.delegate = self
         return textField
     }()
 
@@ -26,7 +27,8 @@ class ProductRegisterView: UIStackView {
         textField.placeholder = "상품가격"
         textField.borderStyle = .roundedRect
         textField.font = .preferredFont(forTextStyle: .subheadline)
-        textField.layer.borderColor = UIColor.systemGray.cgColor
+        textField.layer.borderColor = UIColor.systemGray.cgColor.
+        textField.delegate = self
         return textField
     }()
 
@@ -51,6 +53,7 @@ class ProductRegisterView: UIStackView {
         textField.borderStyle = .roundedRect
         textField.font = .preferredFont(forTextStyle: .subheadline)
         textField.layer.borderColor = UIColor.systemGray.cgColor
+        textField.delegate = self
         return textField
     }()
 
@@ -68,6 +71,11 @@ class ProductRegisterView: UIStackView {
     required init(coder: NSCoder) {
         fatalError()
     }
+
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        self.endEditing(true)
+    }
 }
 
 extension ProductRegisterView {
@@ -76,7 +84,6 @@ extension ProductRegisterView {
         self.alignment = .fill
         self.distribution = .fill
         self.spacing = 8
-        print(safeAreaInsets)
     }
 
     private func configureHierarchy() {
@@ -146,9 +153,6 @@ extension ProductRegisterView {
         self.snapshot.appendSections([1])
         imageList.append(UIImage(named: "robot")!)
         imageList.append(UIImage(systemName: "plus")!)
-        imageList.append(UIImage(systemName: "minus")!)
-        imageList.append(UIImage(systemName: "star")!)
-        imageList.append(UIImage(systemName: "pin")!)
         self.snapshot.appendItems(imageList, toSection: 1)
         self.dataSource.apply(self.snapshot)
     }
@@ -160,5 +164,12 @@ extension ProductRegisterView {
             imageCollectionView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             imageCollectionView.trailingAnchor.constraint(equalTo: self.trailingAnchor)
         ])
+    }
+}
+
+extension ProductRegisterView: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
 }
