@@ -45,6 +45,7 @@
 		F33F506E27965C680073B84F /* ImageAddHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = F33F506C27965C680073B84F /* ImageAddHeaderView.xib */; };
 		F33F507027968BBB0073B84F /* Notification.Name+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F33F506F27968BBB0073B84F /* Notification.Name+extension.swift */; };
 		F33F50722796985C0073B84F /* TextFieldsStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F33F50712796985C0073B84F /* TextFieldsStackView.swift */; };
+		F34312842799781F0053A8DB /* MainDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = F34312832799781E0053A8DB /* MainDataSource.swift */; };
 		F35B1A392782EC300031A755 /* ParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F35B1A382782EC300031A755 /* ParserTests.swift */; };
 		F35B1A642783E6420031A755 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = F35B1A632783E6420031A755 /* Network.swift */; };
 		F35B1A662783E9D50031A755 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F35B1A652783E9D50031A755 /* NetworkError.swift */; };
@@ -64,7 +65,7 @@
 		F3D3B60A278D164800943720 /* UIScrollView+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D3B609278D164700943720 /* UIScrollView+extension.swift */; };
 		F3FAC3722797F4910096CFB0 /* Detail.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F3FAC3712797F4910096CFB0 /* Detail.storyboard */; };
 		F3FAC37427982B930096CFB0 /* ImagesCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3FAC37327982B930096CFB0 /* ImagesCollectionView.swift */; };
-		F3FAC37627982D860096CFB0 /* RegisterDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3FAC37527982D860096CFB0 /* RegisterDataSource.swift */; };
+		F3FAC37627982D860096CFB0 /* EditDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3FAC37527982D860096CFB0 /* EditDataSource.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -118,6 +119,7 @@
 		F33F506C27965C680073B84F /* ImageAddHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ImageAddHeaderView.xib; sourceTree = "<group>"; };
 		F33F506F27968BBB0073B84F /* Notification.Name+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification.Name+extension.swift"; sourceTree = "<group>"; };
 		F33F50712796985C0073B84F /* TextFieldsStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldsStackView.swift; sourceTree = "<group>"; };
+		F34312832799781E0053A8DB /* MainDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainDataSource.swift; sourceTree = "<group>"; };
 		F35B1A362782EC300031A755 /* OpenMarketTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenMarketTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F35B1A382782EC300031A755 /* ParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParserTests.swift; sourceTree = "<group>"; };
 		F35B1A632783E6420031A755 /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
@@ -138,7 +140,7 @@
 		F3D3B609278D164700943720 /* UIScrollView+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScrollView+extension.swift"; sourceTree = "<group>"; };
 		F3FAC3712797F4910096CFB0 /* Detail.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Detail.storyboard; sourceTree = "<group>"; };
 		F3FAC37327982B930096CFB0 /* ImagesCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesCollectionView.swift; sourceTree = "<group>"; };
-		F3FAC37527982D860096CFB0 /* RegisterDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterDataSource.swift; sourceTree = "<group>"; };
+		F3FAC37527982D860096CFB0 /* EditDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditDataSource.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -264,6 +266,7 @@
 			isa = PBXGroup;
 			children = (
 				C70FB0FE25BEF61C00C9924E /* MainViewController.swift */,
+				F34312832799781E0053A8DB /* MainDataSource.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -286,7 +289,7 @@
 			isa = PBXGroup;
 			children = (
 				9A13456D278C576400660291 /* EditViewController.swift */,
-				F3FAC37527982D860096CFB0 /* RegisterDataSource.swift */,
+				F3FAC37527982D860096CFB0 /* EditDataSource.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -536,6 +539,7 @@
 				F3D3B60A278D164800943720 /* UIScrollView+extension.swift in Sources */,
 				9A1CFDCE27842E2E003BEC69 /* Currency.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* MainViewController.swift in Sources */,
+				F34312842799781F0053A8DB /* MainDataSource.swift in Sources */,
 				F3FAC37427982B930096CFB0 /* ImagesCollectionView.swift in Sources */,
 				F35B1A6827840CA80031A755 /* NetworkManager.swift in Sources */,
 				9AAA3F4B27881F7700D6E407 /* ProductCell.swift in Sources */,
@@ -551,7 +555,7 @@
 				F35B1A892785380D0031A755 /* JSONParserable.swift in Sources */,
 				F3D3B5AF278732C700943720 /* ContentType.swift in Sources */,
 				9A1CFD7A2782E683003BEC69 /* JSONParser.swift in Sources */,
-				F3FAC37627982D860096CFB0 /* RegisterDataSource.swift in Sources */,
+				F3FAC37627982D860096CFB0 /* EditDataSource.swift in Sources */,
 				9A13456E278C576400660291 /* EditViewController.swift in Sources */,
 				9A1CFDC62783DD63003BEC69 /* Vendors.swift in Sources */,
 				9A1CFD7C2782EB88003BEC69 /* ParserError.swift in Sources */,
