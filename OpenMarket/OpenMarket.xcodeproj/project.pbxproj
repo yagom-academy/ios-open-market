@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		4708E5042797C5F5002BBCED /* NewProductImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4708E5032797C5F5002BBCED /* NewProductImage.swift */; };
 		4708E5092797CE05002BBCED /* Data+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4708E5082797CE05002BBCED /* Data+extension.swift */; };
-		4708E50B2797E21D002BBCED /* addProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4708E50A2797E21D002BBCED /* addProductViewController.swift */; };
+		4708E50B2797E21D002BBCED /* AddProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4708E50A2797E21D002BBCED /* AddProductViewController.swift */; };
 		470F81742782E8AC006B4734 /* ProductList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 470F81732782E8AC006B4734 /* ProductList.swift */; };
 		470F81762782F51A006B4734 /* JSONParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 470F81752782F51A006B4734 /* JSONParser.swift */; };
 		4713AACC27857F4700396E26 /* URLManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4713AACB27857F4700396E26 /* URLManager.swift */; };
@@ -72,7 +72,7 @@
 		40B3467047507D5D11B17F26 /* Pods-OpenMarket.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenMarket.release.xcconfig"; path = "Target Support Files/Pods-OpenMarket/Pods-OpenMarket.release.xcconfig"; sourceTree = "<group>"; };
 		4708E5032797C5F5002BBCED /* NewProductImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewProductImage.swift; sourceTree = "<group>"; };
 		4708E5082797CE05002BBCED /* Data+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+extension.swift"; sourceTree = "<group>"; };
-		4708E50A2797E21D002BBCED /* addProductViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = addProductViewController.swift; sourceTree = "<group>"; };
+		4708E50A2797E21D002BBCED /* AddProductViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddProductViewController.swift; sourceTree = "<group>"; };
 		470F81732782E8AC006B4734 /* ProductList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductList.swift; sourceTree = "<group>"; };
 		470F81752782F51A006B4734 /* JSONParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONParser.swift; sourceTree = "<group>"; };
 		4713AACB27857F4700396E26 /* URLManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLManager.swift; sourceTree = "<group>"; };
@@ -182,7 +182,7 @@
 			children = (
 				C70FB0FE25BEF61C00C9924E /* OpenMarketViewController.swift */,
 				EAC5F3BB278EBE9800AD2DA5 /* OpenMarketViewLayout.swift */,
-				4708E50A2797E21D002BBCED /* addProductViewController.swift */,
+				4708E50A2797E21D002BBCED /* AddProductViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -462,7 +462,7 @@
 				470F81762782F51A006B4734 /* JSONParser.swift in Sources */,
 				470F81742782E8AC006B4734 /* ProductList.swift in Sources */,
 				EAC5F3BC278EBE9800AD2DA5 /* OpenMarketViewLayout.swift in Sources */,
-				4708E50B2797E21D002BBCED /* addProductViewController.swift in Sources */,
+				4708E50B2797E21D002BBCED /* AddProductViewController.swift in Sources */,
 				EAB8FC182787DC290036A4E3 /* Vendors.swift in Sources */,
 				EA1043642797C03900745D64 /* Currency.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
