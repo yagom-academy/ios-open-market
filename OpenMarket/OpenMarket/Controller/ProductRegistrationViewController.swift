@@ -4,11 +4,11 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
     private let imagePickerController = UIImagePickerController()
     private var images = [UIImage]()
     
+    @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var verticalStackView: UIStackView!
     @IBOutlet weak var imagesCollectionView: UICollectionView!
     @IBOutlet weak var descriptionTextView: UITextView!
     @IBOutlet weak var currencySegmentedControl: UISegmentedControl!
-    @IBOutlet var textFields: [UITextField]!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -16,9 +16,6 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
         setUpImagePicker()
         setupNavigationBar()
         setupTextView()
-        textFields.forEach { textField in
-            textField.delegate = self
-        }
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(keyboardWillShow),
@@ -46,12 +43,12 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
             as? NSValue {
             let keyboardRectangle = keyboardFrame.cgRectValue
             let keyboardHeight = keyboardRectangle.height
-            view.frame.origin.y = -keyboardHeight
+            scrollView.contentInset.bottom = keyboardHeight
         }
     }
     
     @objc private func keyboardWillHide(_ sender: Notification) {
-        view.frame.origin.y = 0
+        scrollView.contentInset.bottom = 0
     }
     
     private func setupNavigationBar() {
@@ -202,5 +199,3 @@ extension ProductRegistrationViewController: UITextViewDelegate {
         }
     }
 }
-
-extension ProductRegistrationViewController: UITextFieldDelegate {}
