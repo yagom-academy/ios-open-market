@@ -151,6 +151,9 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
             at: selectedSegmentIndex
         ) ?? ""
         
+        guard images.isEmpty == false else {
+            return .failure(.emptyImage)
+        }
         guard let name = productNameTextField.text, name.isEmpty == false else {
             return .failure(.emptyName)
         }
