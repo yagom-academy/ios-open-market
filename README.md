@@ -37,6 +37,12 @@
     + [Trouble Shooting](#3-3-Trouble-Shooting)
     + [배운 개념](#3-4-배운-개념)
     + [PR 후 개선사항](#3-5-PR-후-개선사항)
+- [STEP 3 : 상품 등록/수정 화면 구현](#STEP-3--상품-등록/수정-화면-구현)
+    + [고민했던 것](#4-1-고민했던-것)
+    + [의문점](#4-2-의문점)
+    + [Trouble Shooting](#4-3-Trouble-Shooting)
+    + [배운 개념](#4-4-배운-개념)
+    + [PR 후 개선사항](#4-5-PR-후-개선사항)
 
 # 키워드
 
@@ -53,12 +59,18 @@
 - `Codable` `CodingKey`
 - `Async Test`
 - `UICollectionView` `UICollectionViewFlowLayout`
+    - `Supplyment` `UICollectionReusableView`
+    - `performBatchUpdates`
+    - `reloadData`
 - `Xib File`
 - `UISegmentedControl`
 - `UIActivityIndicatorView`
-- `reloadData`
 - `UIScrollViewDelegate`
 - `NSCache`
+- `UITextField` `UIAlertController`
+- `UIImagePicker`
+- `UIGraphicsImageRenderer`
+- `UIRefreshControl`
 
 # STEP 1 : 네트워킹 타입 구현
 
@@ -395,5 +407,102 @@ if heightRemainBottomHeight < frameHeight ,
 - `UIScrollViewDelegate`를 이용한 `pagination` 구현
 - `Cache`의 대한 개념
     - `Caching`의 범위
+
+## 3-5 PR 후 개선사항
+
+- 코딩 컨벤션에 맞추어 메소드의 줄바꿈을 수정
+- 사용하지 않는 타입을 삭제
+- 네이밍 개선
+- API 문서를 다시 검토하여 타입을 개선
+- 중복되는 코드를 제거하여 리팩토링
+
+[![top](https://img.shields.io/badge/top-%23000000.svg?&amp;style=for-the-badge&amp;logo=Acclaim&amp;logoColor=white&amp;)](#오픈-마켓)
+
+
+# STEP 3 : 상품 등록/수정 화면 구현
+
+상품등록, 상품수정 화면을 구현합니다.
+
+## 4-1 고민했던 것
+
+### 1. 상품등록 화면 구현시 이미지를 추가하는 기능
+
+- CollectionView의 Cell과 Header를 활용하여 View를 구성
+- 이미지가 5장이 채워졌을 때 경고얼럿을 띄우도록 구현
+- 사용자 입장에서 몇개의 이미지가 추가되었는지 시각적으로 확인할 수 있도록 Label 추가 구현
+- 이미지 파일 용량이 300KB 이상일 경우 `UIGraphicsImageRenderer`를 이용하여 20퍼센트씩 resize
+
+### 2. 입력 검증
+
+- 요구사항과 API 문서를 참고하여 사용자가 제대로 입력하지 않은 부분이 있다면 얼럿을 통해 어떤 부분이 잘못되었는지 알려줄 수 있도록 구현
+
+### 3. RegisterViewController을 재활용
+
+- 화면 전환 시 상품 등록, 상품 수정 flag를 전달하여 해당 flag에 대한 분기처리를 통해서 ViewController를 재활용
+
+### 4. DataSource를 ViewController와 분리
+
+- 점점 커져가는 ViewController를 다이어트 시키기 위해 DataSource를 따로 타입으로 빼두어 ViewController에 주입시키도록 구현
+
+### 5. 키보드가 콘텐츠를 가리는 현상 해결
+
+- ScrollView와 NotificationCenter 두가지를 활용
+- ScrollView의 `contentInset`을 `keyboardFrame 사이즈의 높이`만큼 버퍼를 추가하여 스크롤뷰를 확장하므로써 키보드 가림현상을 해결
+    - `scrollIndicatorInsets`도 같이 변경해주도록 하였음.
+- TextView에서 줄바꿈을 하면서 커서가 내려갈 때 따라갈 수 있도록, ScrollEnabled 기능을 false로 비활성화
+- 이후 오토레이아웃으로 TextView의 높이가 늘 고정되어있는 것이 아니라 늘어날 수도 있도록 `priority`를 조절.
+    - 텍스트뷰가 안에 Text가 길어질 수록 높이가 늘어나고, 그에 따라 스크롤도 자동으로 내려온다.
+
+### 6. View와 Controller간의 소통
+
+- ImageHeaderView와 RegisterViewController, 각각의 ViewController들 사이에 소통을 위해서 notification을 사용
+
+### 7. 데이터가 변화할 때 Update하는 기능
+
+- 상품 등록, 상품 수정 시 각 ViewController에 notification post하여 update 이벤트를 전달
+- 이벤트 전달 시 API에 `request`하여 데이터를 업데이트
+- MainViewController의 CollectionView를 아래로 쓸어내렸을 때 새 데이터를 받아오는 기능 추가 구현
+
+### 8. 상품을 수정할 때 비밀번호를 확인하는 작업
+
+- 상품 등록시에는 API 명세를 따르기 위해 비밀번호가 이미 세팅된 상태로 등록이 되지만, 상품 수정시에는 수정하기 전 비밀번호를 먼저 확인하고, 비밀번호가 맞다면 수정할 수 있도록 구현
+
+## 4-2 의문점
+
+- Delegate vs Notification
+    
+    `view`와 `Controller` 사이에 소통하는 방식으로 `delegate pattern`을 사용하였는데 `DataSource` 파일을 분리하면서 `DataSource`에서 `delegate` 객체를 이용하는 것에 한계를 느껴 `Notificationcenter`를 사용
+    
+- 키보드를 내리는 방법 중 `Recognizer`방법을 사용하면 CollectionView의 `Delegate` 메소드 호출이 먹통이 되는데 어떤 문제인지 모르겠다.
+    
+    ```swift
+    // Recognizer를 활용해서 뷰컨을 터치하면 키보드 사라지는 메소드
+    func hideKeyboard() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(UIViewController.dismissKeyboard))
+        view.addGestureRecognizer(tap)
+    }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
+    ```
+    
+- cell을 dequeueReusable 해주는 구간에서 productList를 통해 셀을 구성하고 있는데, MainViewController을 업데이트 할 때 간헐적으로 `out of range` 에러가 나는데, 정확한 에러 원인을 찾지 못했다.
+- 점점 비대해지는 ViewController를 어떻게 다이어트 시켜야하는지...
+
+## 4-3 Trouble Shooting
+
+- 작성중
+
+## 4-4 배운 개념
+
+- 사용자 친화적인 `UI/UX` 구현
+- `URLSession`을 활용한 multipart-form 요청 전송
+- `UIImagePickerController`를 활용하여 사용자 앨범에 접근하는 방법
+- `UIGraphicsImageRenderer` 를 이미지를 랜더링 하여 압축하는 방법
+- `UICollectionReusableView`를 사용하는 방법
+- `UIScrollView`를 활용하여 키보드가 컨텐츠를 가리는 부분을 해결하는 방법
+- `TextView`를 가지고 있는 `UIAlertController` 활용
+- `UIRefreshControl`를 활용하는 방법
 
 [![top](https://img.shields.io/badge/top-%23000000.svg?&amp;style=for-the-badge&amp;logo=Acclaim&amp;logoColor=white&amp;)](#오픈-마켓)
