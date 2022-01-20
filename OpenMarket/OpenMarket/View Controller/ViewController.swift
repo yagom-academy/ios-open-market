@@ -9,8 +9,8 @@ import UIKit
 class ViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
     var productListData: ProductList?
-
     @IBOutlet weak var switchLayoutController: UISegmentedControl!
+    
     @IBAction func switchLayout(_ sender: Any) {
         self.collectionView.reloadData()
     }
@@ -100,8 +100,4 @@ extension ViewController: UICollectionViewDelegateFlowLayout {
             return 10
         }
     }
-}
-
-extension ViewController: UICollectionViewDelegate {
-    
 }

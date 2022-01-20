@@ -14,10 +14,6 @@ class GridCell: UICollectionViewCell {
     @IBOutlet weak var discountedPrice: UILabel!
     @IBOutlet weak var stock: UILabel!
     
-    
-    
- //init시점,-codable, loadView시점, 스냅킷?
-
     override func awakeFromNib() {
         self.layer.cornerRadius = 10
         self.layer.borderWidth = 2
@@ -36,15 +32,9 @@ class GridCell: UICollectionViewCell {
             }
         }
         
-        
         name.text = productData.name
         stock.text = "잔여수량: \(productData.stock)"
         price.text = "\(productData.currency) \(productData.price)"
         discountedPrice.text = "\(productData.currency) \(productData.discountedPrice)"
-        
-       
     }
-    
-    
-    
 }
