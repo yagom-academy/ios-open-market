@@ -61,6 +61,31 @@ class TextFieldsStackView: UIStackView {
         )
     }
     
+    func createModification(_ product: Product) -> ProductModification? {
+        let secret = "DV!?dhTmSZkL625N"
+        guard let name = nameTextField.text,
+              let description = descriptionTextView.text,
+              let price = priceTextField.text,
+              let doublePrice = Double(price),
+              let segmentTitle = currency.titleForSegment(at: currency.selectedSegmentIndex),
+              let currency = Currency(rawValue: segmentTitle),
+              let discountedPrice = discountedPriceTextField.text,
+              let stock = stockTextField.text else {
+                  return nil
+              }
+        
+        return ProductModification(
+            secret: secret,
+            name: name,
+            descriptions: description,
+            thumbnailID: nil,
+            price: doublePrice,
+            currency: currency,
+            discountedPrice: Double(discountedPrice),
+            stock: Int(stock)
+        )
+    }
+    
     private func setUpNotification() {
         NotificationCenter.default.addObserver(
             self,

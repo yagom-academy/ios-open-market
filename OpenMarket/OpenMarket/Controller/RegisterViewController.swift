@@ -67,19 +67,52 @@ class RegisterViewController: UIViewController {
         guard inputValidation() else {
             return
         }
-        guard let product = textFieldsStackView.createRegistration(),
-              let imageFiles = dataSource.createImageFiles() else {
-                  self.showAlert(message: Message.productError, completion: nil)
+        guard let imageFiles = dataSource.createImageFiles() else {
             return
         }
-        requestRegistration(product: product, imageFiles: imageFiles)
+        if dataSource.state == .register,
+           let product = textFieldsStackView.createRegistration() {
+            requestRegistration(product: product, imageFiles: imageFiles)
+        } else if dataSource.state == .modify,
+                  let data = data,
+                  let newProduct = textFieldsStackView.createModification(data) {
+            requestModification(product: newProduct)
+        } else {
+            self.showAlert(message: Message.productError, completion: nil)
+        }
     }
     
 }
 
 extension RegisterViewController {
+    private func requestModification(product: ProductModification) {
+        guard let request = requestModify(params: product) else {
+            showAlert(message: Message.badRequest) {
+                self.dismiss(animated: true)
+            }
+            return
+        }
+        let networkManager = NetworkManager()
+        networkManager.fetch(request: request, decodingType: Product.self) { result in
+            switch result {
+            case .success:
+                DispatchQueue.main.async {
+                    self.showAlert(message: Message.completeProductModification) {
+                        self.dismissAndUpdate()
+                    }
+                }
+            case .failure(let error):
+                DispatchQueue.main.async {
+                    self.showAlert(message: error.localizedDescription) {
+                        self.dismiss(animated: true)
+                    }
+                }
+            }
+        }
+    }
+    
     private func requestRegistration(product: ProductRegistration, imageFiles: [ImageFile]) {
-        guard let request = createRequest(params: product, images: imageFiles) else {
+        guard let request = requestRegister(params: product, images: imageFiles) else {
             showAlert(message: Message.badRequest) {
                 self.dismiss(animated: true)
             }
@@ -104,9 +137,23 @@ extension RegisterViewController {
         }
     }
     
-    private func createRequest<T: Encodable>(params: T, images: [ImageFile]) -> URLRequest? {
+    private func requestRegister<T: Encodable>(params: T, images: [ImageFile]) -> URLRequest? {
         let networkManager = NetworkManager()
         let requestResult = networkManager.requestRegister(params: params, images: images)
+        switch requestResult {
+        case .success(let request):
+            return request
+        case .failure:
+            return nil
+        }
+    }
+    
+    private func requestModify<T: Encodable>(params: T) -> URLRequest? {
+        guard let data = data else {
+            return nil
+        }
+        let networkManager = NetworkManager()
+        let requestResult = networkManager.requestModify(data: params, id: UInt(data.id))
         switch requestResult {
         case .success(let request):
             return request
