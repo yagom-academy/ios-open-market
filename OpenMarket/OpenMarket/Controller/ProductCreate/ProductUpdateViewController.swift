@@ -9,7 +9,7 @@ import UIKit
 
 class ProductUpdateViewController: UIViewController {
     
-    let model = ProductCreateModelManager()
+    let model: ProductUpdateModelManager = ProductCreateModelManager()
     
     @IBOutlet private weak var containerScrollView: UIScrollView!
     @IBOutlet private weak var productImageStackView: UIStackView!
@@ -20,9 +20,9 @@ class ProductUpdateViewController: UIViewController {
     @IBOutlet private weak var productStockTextField: UITextField!
     @IBOutlet private weak var descriptionTextView: UITextView!
     
-    private var forms: ProductCreateModelManager.Form {
+    private var forms: Form {
         let currencyIndex = currencySegmentedControl.selectedSegmentIndex
-        return ProductCreateModelManager.Form(
+        return Form(
             name: productNameTextField.text,
             price: productPriceTextField.text,
             currency: currencySegmentedControl.titleForSegment(at: currencyIndex),
@@ -87,7 +87,7 @@ private extension ProductUpdateViewController {
     
     func updateImageStackView() {
         productImageStackView.subviews.forEach { $0.removed(from: productImageStackView, whenTypeIs: UIImageView.self) }
-        model.images.forEach { productImageStackView.insertArrangedSubview(UIImageView(with: $0), at: 0) }
+        model.currentImages.forEach { productImageStackView.insertArrangedSubview(UIImageView(with: $0), at: 0) }
     }
     
 }

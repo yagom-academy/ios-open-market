@@ -8,12 +8,16 @@
 import Foundation
 import UIKit.UIImage
 
-class ProductCreateModelManager {
+class ProductCreateModelManager: ProductUpdateModelManager {
     
     let networkManager = ProductNetworkManager<CreateProductRequest>()
     
-    private(set) var images: [UIImage] = [] {
+    private var images: [UIImage] = [] {
         didSet { imagesDidChangeHandler?() }
+    }
+    
+    var currentImages: [UIImage] {
+        images
     }
     
     private var parsedImages: [Image] {
@@ -53,15 +57,6 @@ class ProductCreateModelManager {
         networkManager.createProductRequest(data: json, images: parsedImages)
         
         return true
-    }
-    
-    struct Form {
-        let name: String?
-        let price: String?
-        let currency: String?
-        let discountedPrice: String?
-        let stock: String?
-        let description: String?
     }
     
 }
