@@ -61,9 +61,9 @@ class CollectionViewListCell: UICollectionViewListCell {
         contentView.addSubview(chevronButton)
         
         NSLayoutConstraint.activate([
-            heightAnchor.constraint(greaterThanOrEqualTo: activityIndicator.heightAnchor,
+            contentView.heightAnchor.constraint(greaterThanOrEqualTo: activityIndicator.heightAnchor,
                                                 constant: Attribute.largeSpacing * 2),
-            heightAnchor.constraint(greaterThanOrEqualTo: imageView.heightAnchor,
+            contentView.heightAnchor.constraint(greaterThanOrEqualTo: imageView.heightAnchor,
                                                 constant: Attribute.largeSpacing * 2)
         ])
     }
@@ -101,7 +101,6 @@ extension CollectionViewListCell {
 extension CollectionViewListCell {
     
     enum ImageViewAttribute {
-        static let spacing: CGFloat = 5
         static let fractionalWidth: CGFloat = 0.2
         static let aspectRatio: CGFloat = 1.0
     }
