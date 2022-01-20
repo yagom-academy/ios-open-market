@@ -18,6 +18,7 @@ class AddProductViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         imagePicker.delegate = self
+        imagePicker.allowsEditing = true
         self.navigationController?.navigationBar.topItem?.title = "상품등록"
         setupDescriptionTextView()
     }
@@ -102,7 +103,10 @@ extension AddProductViewController: UIImagePickerControllerDelegate, UINavigatio
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
-        if let image = info[.originalImage] as? UIImage {
+        if let image = info[.editedImage] as? UIImage {
+            addToStackView(image: image)
+            addToProductImages(image: image)
+        } else if let image = info[.originalImage] as? UIImage {
             addToStackView(image: image)
             addToProductImages(image: image)
         }
