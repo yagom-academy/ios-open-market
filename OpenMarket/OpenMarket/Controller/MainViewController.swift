@@ -96,6 +96,11 @@ class MainViewController: UIViewController {
         self.view = loadView(from: selectedSegment)
     }
     
+    private func reloadData() {
+        productsDataSource.removeAllProducts()
+        loadProductsList(pageNumber: 1)
+    }
+    
     @IBAction private func segmentedControlChanged(_ sender: UISegmentedControl) {
         changeSubview()
     }
@@ -111,6 +116,7 @@ class MainViewController: UIViewController {
                 jsonParser: self.jsonParser
             ) {
                 self.showAlert(title: "등록 성공", message: nil)
+                self.reloadData()
             }
             return productRegistrationViewController
         }

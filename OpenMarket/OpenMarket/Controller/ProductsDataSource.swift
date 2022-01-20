@@ -17,6 +17,10 @@ class ProductsDataSource: NSObject {
         return index == products.count - 1
     }
     
+    func removeAllProducts() {
+        products = [Product]()
+    }
+    
     private func setupCellImage(
         for cell: ProductCell,
         from url: URL,
