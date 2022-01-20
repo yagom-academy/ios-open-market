@@ -64,11 +64,17 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
         }
         
         var count = 0
+        var multiplier: CGFloat = 1.0
         var imageDatas = [String: Data]()
         for image in images {
             let fileName = "\(count).jpeg"
-            let imageData = image.jpegData(compressionQuality: 0.8)
+            var imageData = image.jpegData(compressionQuality: 0.8)
+            while let bytes = imageData?.count, bytes >= 300 * 1000 {
+                imageData = resize(image, multiplier: multiplier)?.jpegData(compressionQuality: 0.8)
+                multiplier -= 0.01
+            }
             imageDatas[fileName] = imageData
+            print(imageData!.count / 1000)
             count += 1
         }
         
@@ -189,6 +195,19 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
         let size = CGSize(width: shortLength, height: shortLength)
         let square = CGRect(origin: origin, size: size)
         guard let squareImage = image.cgImage?.cropping(to: square) else {
+            return nil
+        }
+        return UIImage(cgImage: squareImage)
+    }
+    
+    private func resize(_ image: UIImage, multiplier: CGFloat) -> UIImage? {
+        let origin = CGPoint(x: 0, y: 0)
+        let size = CGSize(
+            width: image.size.width * multiplier,
+            height: image.size.height * multiplier
+        )
+        let rectangle = CGRect(origin: origin, size: size)
+        guard let squareImage = image.cgImage?.cropping(to: rectangle) else {
             return nil
         }
         return UIImage(cgImage: squareImage)
