@@ -35,24 +35,13 @@ class GridCollectionViewCell: UICollectionViewCell {
         setUpProductImageView()
         setUpLabelStackView()
         setUpPriceStackView()
+        addBorder()
     }
     
     func addSubviews() {
         contentView.addSubview(contentStackView)
         contentStackView.addArrangedSubview(productImageView)
         contentStackView.addArrangedSubview(labelStackView)
-    }
-    
-    func setUpProductImageView() {
-        productImageView.contentMode = .scaleAspectFit
-        productImageView.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            productImageView.topAnchor.constraint(equalTo: contentStackView.topAnchor, constant: 10),
-            productImageView.widthAnchor.constraint(equalTo: contentStackView.widthAnchor, multiplier: 0.8),
-            productImageView.heightAnchor.constraint(equalTo: productImageView.widthAnchor)
-        ])
-        
     }
     
     func setUpContentStackView() {
@@ -67,6 +56,18 @@ class GridCollectionViewCell: UICollectionViewCell {
             contentStackView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             contentStackView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
         ])
+    }
+    
+    func setUpProductImageView() {
+        productImageView.contentMode = .scaleAspectFit
+        productImageView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            productImageView.topAnchor.constraint(equalTo: contentStackView.topAnchor, constant: 10),
+            productImageView.widthAnchor.constraint(equalTo: contentStackView.widthAnchor, multiplier: 0.8),
+            productImageView.heightAnchor.constraint(equalTo: productImageView.widthAnchor)
+        ])
+        
     }
     
     func setUpLabelStackView() {
@@ -93,7 +94,7 @@ class GridCollectionViewCell: UICollectionViewCell {
         priceStackView.addArrangedSubview(discountedPriceLabel)
     }
     
-    func setUpLabelText(with data: ProductInformation) {
+    func configCell(with data: ProductInformation) {
         setUpImage(url: data.thumbnail)
         productNameLabel.text = data.name
         productNameLabel.font = .preferredFont(forTextStyle: .headline)
@@ -131,5 +132,11 @@ class GridCollectionViewCell: UICollectionViewCell {
             discountedPriceLabel.text = "\(currency) \(discountedPrice.formattedPrice())"
             discountedPriceLabel.textColor = .systemGray
         }
+    }
+    
+    func addBorder() {
+        layer.borderWidth = 1
+        layer.borderColor = UIColor.systemGray.cgColor
+        layer.cornerRadius = 10
     }
 }

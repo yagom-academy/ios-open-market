@@ -39,6 +39,7 @@ class ListCollectionViewCell: UICollectionViewCell {
         setUpPriceStackView()
         setUpLabelStackView()
         setUpAccessoryImageView()
+        addUnderLine()
     }
     
     func addSubviews() {
@@ -127,6 +128,14 @@ class ListCollectionViewCell: UICollectionViewCell {
         accessoryImageView.tintColor = .systemGray
     }
     
+    func configCell(with data: ProductInformation) {
+        setUpImage(url: data.thumbnail)
+        productNameLabel.text = data.name
+        productNameLabel.font = .preferredFont(forTextStyle: .headline)
+        setUpStockLabel(with: data.stock)
+        setUpPriceLabel(price: data.price, discountedPrice: data.discountedPrice, currency: data.currency)
+    }
+    
     func setUpImage(url: String) {
         guard let imageUrl = URL(string: url),
               let data = try? Data(contentsOf: imageUrl) else {
@@ -134,14 +143,6 @@ class ListCollectionViewCell: UICollectionViewCell {
               }
         
         productImageView.image = UIImage(data: data)
-    }
-    
-    func setUpLabelText(with data: ProductInformation) {
-        setUpImage(url: data.thumbnail)
-        productNameLabel.text = data.name
-        productNameLabel.font = .preferredFont(forTextStyle: .headline)
-        setUpStockLabel(with: data.stock)
-        setUpPriceLabel(price: data.price, discountedPrice: data.discountedPrice, currency: data.currency)
     }
     
     func setUpStockLabel(with stock: Int) {
@@ -165,5 +166,11 @@ class ListCollectionViewCell: UICollectionViewCell {
             discountedPriceLabel.text = "\(currency) \(discountedPrice.formattedPrice())"
             discountedPriceLabel.textColor = .systemGray
         }
+    }
+    
+    func addUnderLine() {
+        let underline = layer.addBorder([.bottom], color: UIColor.systemGray, width: 0.5)
+        underline.frame = CGRect(x: 18, y: layer.frame.height, width: underline.frame.width - 1, height: underline.frame.height)
+        layer.addSublayer(underline)
     }
 }

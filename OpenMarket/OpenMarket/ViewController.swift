@@ -68,11 +68,7 @@ class ViewController: UIViewController {
     func setUpListCell() {
         let cellRegistration = UICollectionView.CellRegistration<ListCollectionViewCell, ProductInformation> { cell, indexpath, product in
             
-            cell.setUpLabelText(with: product)
-            let underline = cell.layer.addBorder([.bottom], color: UIColor.systemGray, width: 0.5)
-            underline.frame = CGRect(x: 18, y: cell.layer.frame.height, width: underline.frame.width - 1, height: underline.frame.height)
-            cell.layer.addSublayer(underline)
-            
+            cell.configCell(with: product)
         }
         
         listDataSource = UICollectionViewDiffableDataSource<Section, ProductInformation>(collectionView: listCollectionView, cellProvider: { (collectionView, indexPath, product) -> ListCollectionViewCell in
@@ -106,10 +102,7 @@ class ViewController: UIViewController {
     func setUpGridCell() {
         let cellRegistration = UICollectionView.CellRegistration<GridCollectionViewCell, ProductInformation> { cell, indexpath, product in
       
-            cell.setUpLabelText(with: product)
-            cell.layer.borderWidth = 1
-            cell.layer.borderColor = UIColor.systemGray.cgColor
-            cell.layer.cornerRadius = 10
+            cell.configCell(with: product)
         }
         
         gridDataSource = UICollectionViewDiffableDataSource<Section, ProductInformation>(collectionView: gridCollectionView, cellProvider: { (collectionView, indexPath, product) -> GridCollectionViewCell in
