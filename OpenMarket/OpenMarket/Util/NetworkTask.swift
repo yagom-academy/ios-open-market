@@ -237,9 +237,9 @@ extension NetworkTask {
     struct SalesInformation: Encodable {
         let name: String
         let descriptions: String
-        let price: Double
+        let price: Decimal
         let currency: Currency
-        let discountedPrice: Double?
+        let discountedPrice: Decimal?
         let stock: Int?
         let secret: String
     }
@@ -248,9 +248,9 @@ extension NetworkTask {
         let name: String?
         let descriptions: String?
         let thumbnailId: Int?
-        let price: Int?
+        let price: Decimal?
         let currency: Currency?
-        let discountedPrice: Double?
+        let discountedPrice: Decimal?
         let stock: Int?
         let secret: String
     }
