@@ -112,6 +112,9 @@
                                                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                                                         <state key="normal" image="plus" catalog="system"/>
                                                                         <buttonConfiguration key="configuration" style="gray" image="plus" catalog="system"/>
+                                                                        <connections>
+                                                                            <action selector="tapAddImageButton:" destination="0cc-2w-7Sp" eventType="touchUpInside" id="MiQ-VT-m0s"/>
+                                                                        </connections>
                                                                     </button>
                                                                 </subviews>
                                                                 <constraints>

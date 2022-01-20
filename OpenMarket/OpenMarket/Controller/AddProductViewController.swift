@@ -10,10 +10,11 @@ import UIKit
 class AddProductViewController: UIViewController {
 
     @IBOutlet weak var descriptionTextView: UITextView!
+    let imagePicker = UIImagePickerController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        imagePicker.delegate = self
         self.navigationController?.navigationBar.topItem?.title = "상품등록"
         setupDescriptionTextView()
     }
@@ -27,6 +28,21 @@ class AddProductViewController: UIViewController {
         setTextViewPlaceHolder()
     }
     
+    @IBAction func tapAddImageButton(_ sender: UIButton) {
+        let alert = UIAlertController(title: "상품사진 선택", message: nil, preferredStyle: .actionSheet)
+        let photoLibrary = UIAlertAction(title: "사진앨범", style: .default) { action in
+            self.openPhotoLibrary()
+        }
+        let camera = UIAlertAction(title: "카메라", style: .default) { action in
+            self.openCamera()
+        }
+        let cancel = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+        
+        alert.addAction(photoLibrary)
+        alert.addAction(camera)
+        alert.addAction(cancel)
+        present(alert, animated: true, completion: nil)
+    }
 }
 
 extension AddProductViewController: UITextViewDelegate {
@@ -62,4 +78,16 @@ extension AddProductViewController: UITextViewDelegate {
                 textView.textColor = UIColor.lightGray
             }
         }
+}
+
+extension AddProductViewController: UIImagePickerControllerDelegate & UINavigationControllerDelegate {
+    func openPhotoLibrary() {
+        imagePicker.sourceType = .photoLibrary
+        present(imagePicker, animated: false, completion: nil)
+    }
+    
+    func openCamera() {
+        imagePicker.sourceType = .camera
+        present(imagePicker, animated: false, completion: nil)
+    }
 }
