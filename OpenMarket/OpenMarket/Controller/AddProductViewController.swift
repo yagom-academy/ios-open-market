@@ -8,10 +8,54 @@
 import UIKit
 
 class AddProductViewController: UIViewController {
+    private typealias ImageID = Int
+    private lazy var imageCollectionView = makeCollectionView()
+    private lazy var dataSource = makeDatasource()
+    private lazy var snapShot = NSDiffableDataSourceSnapshot<Int, ImageID>()
+
+    private lazy var nameTextField = CornerCurvedTextField()
+    private lazy var priceStackView = UIStackView()
+    private lazy var priceTextField = CornerCurvedTextField()
+    private lazy var currencySegmentedControl = CornerCurvedSegmentedControl()
+    private lazy var discountTextField = CornerCurvedTextField()
+    private lazy var stockTextField = CornerCurvedTextField()
+    private lazy var descriptionTextView = UITextView()
+    private var images = [UIImage]()
+
+
+    required init?(coder: NSCoder) {
+        fatalError()
+    }
+    init() {
+        super.init(nibName: nil, bundle: nil)
+        imageCollectionView.dataSource = dataSource
+        snapShot.appendSections([0])
+        configure()
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        configure()
+//        images.append(UIImage(named: "macBook")!)
+//        images.append(UIImage(named: "macBook")!)
+//        images.append(UIImage(named: "macBook")!)
+//        images.append(UIImage(named: "macBook")!)
+//        images.append(UIImage(named: "macBook")!)
+        snapShot.appendItems(images.enumerated().map { $0.offset })
+        dataSource.apply(snapShot)
+    }
+
+    private func makeCollectionView() -> UICollectionView {
+        UICollectionView(frame: .zero, collectionViewLayout: configureLayout())
+    }
+
+    private func makeDatasource() -> UICollectionViewDiffableDataSource<Int, ImageID> {
+        let cellRegistration = UICollectionView.CellRegistration<ImageCollectionViewCell, ImageID> { (cell, indexPath, image) in
+            cell.imageView.image = self.images[indexPath.item]
+        }
+        dataSource = UICollectionViewDiffableDataSource<Int, ImageID>(collectionView: imageCollectionView) { (collectionView, indexPath, imageID) -> UICollectionViewCell? in
+            collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: imageID)
+        }
+        return dataSource
     }
 
     private func configure() {
@@ -25,6 +69,86 @@ class AddProductViewController: UIViewController {
 
         let doneButton = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(doneButtonDidTap))
         navigationItem.rightBarButtonItem = doneButton
+
+        navigationController?.navigationBar.backgroundColor = .opaqueSeparator
+
+        // Contents
+        let stackView = UIStackView()
+        view.addSubview(stackView)
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            stackView.topAnchor.constraint(equalTo: view.topAnchor),
+            stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
+            stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
+            stackView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+
+        stackView.axis = .vertical
+        stackView.alignment = .center
+        stackView.spacing = 5
+        stackView.backgroundColor = .systemTeal
+        
+        //  Collection view
+        stackView.addArrangedSubview(imageCollectionView)
+        imageCollectionView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+        imageCollectionView.widthAnchor.constraint(equalTo: stackView.widthAnchor),
+        imageCollectionView.heightAnchor.constraint(equalTo: imageCollectionView.widthAnchor, multiplier: 0.7)
+        ])
+        imageCollectionView.backgroundColor = .brown
+
+        //  Text Fields
+        stackView.addArrangedSubview(nameTextField)
+        nameTextField.translatesAutoresizingMaskIntoConstraints = false
+        nameTextField.widthAnchor.constraint(equalTo: stackView.widthAnchor).isActive = true
+        nameTextField.makeBeautiful()
+        nameTextField.placeholder = "상품명"
+
+        stackView.addArrangedSubview(priceStackView)
+        priceStackView.translatesAutoresizingMaskIntoConstraints = false
+        priceStackView.widthAnchor.constraint(equalTo: stackView.widthAnchor).isActive = true
+        priceStackView.axis = .horizontal
+        priceStackView.spacing = 5
+        priceStackView.addArrangedSubview(priceTextField)
+        priceStackView.addArrangedSubview(currencySegmentedControl)
+        priceTextField.makeBeautiful()
+        priceTextField.placeholder = "상품가격"
+        
+        currencySegmentedControl.makeBeautiful()
+        currencySegmentedControl.insertSegment(withTitle: "\(Currency.KRW)", at: 0, animated: false)
+        currencySegmentedControl.insertSegment(withTitle: "\(Currency.USD)", at: 1, animated: false)
+        currencySegmentedControl.selectedSegmentIndex = 0
+        currencySegmentedControl.backgroundColor = .systemGray5
+        //add seg Action
+        
+        stackView.addArrangedSubview(discountTextField)
+        discountTextField.translatesAutoresizingMaskIntoConstraints = false
+        discountTextField.widthAnchor.constraint(equalTo: stackView.widthAnchor).isActive = true
+        discountTextField.makeBeautiful()
+        discountTextField.placeholder = "할인금액"
+
+        stackView.addArrangedSubview(stockTextField)
+        stockTextField.translatesAutoresizingMaskIntoConstraints = false
+        stockTextField.widthAnchor.constraint(equalTo: stackView.widthAnchor).isActive = true
+        stockTextField.makeBeautiful()
+        stockTextField.placeholder = "재고수량"
+
+        let heightNorm = currencySegmentedControl.heightAnchor
+        NSLayoutConstraint.activate([
+            nameTextField.heightAnchor.constraint(equalTo: heightNorm),
+            discountTextField.heightAnchor.constraint(equalTo: heightNorm),
+            stockTextField.heightAnchor.constraint(equalTo: heightNorm)
+        ])
+        //  Text View
+        stackView.addArrangedSubview(descriptionTextView)
+        descriptionTextView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            descriptionTextView.widthAnchor.constraint(equalTo: stackView.widthAnchor)
+        ])
+
+        descriptionTextView.allowsEditingTextAttributes = true
+        descriptionTextView.isScrollEnabled = true
+        descriptionTextView.backgroundColor = .systemPink
     }
 
     @objc
@@ -38,4 +162,19 @@ class AddProductViewController: UIViewController {
         self.dismiss(animated: true, completion: nil)
     }
 
+
+
+    func configureLayout() -> UICollectionViewCompositionalLayout {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                              heightDimension: .fractionalHeight(1.0))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.3),
+                                               heightDimension: .fractionalHeight(1.0))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
+                                                       subitems: [item])
+        let section = NSCollectionLayoutSection(group: group)
+        let layout = UICollectionViewCompositionalLayout(section: section)
+        return layout
+    }
 }
