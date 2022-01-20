@@ -52,6 +52,7 @@ class DetailViewController: UIViewController {
     
     func setUpViews(product: Product) {
         data = product
+        setUpImages()
         DispatchQueue.main.async {
             self.nameLabel.text = product.name
             self.priceLabel.text = product.price.description
@@ -59,6 +60,22 @@ class DetailViewController: UIViewController {
             self.stockLabel.text = product.stock.description
             self.createdAtLabel.text = product.createdAt
             self.vendorLabel.text = product.createdAt
+        }
+    }
+    
+    private func setUpImages() {
+        guard let newImages = data?.images else {
+            return
+        }
+        newImages.forEach { newImage in
+            if let cachedImage = ImageManager.shared.loadCachedData(for: newImage.url) {
+                self.images.append(cachedImage)
+            } else {
+                ImageManager.shared.downloadImage(with: newImage.url) { image in
+                    ImageManager.shared.setCacheData(of: image, for: newImage.url)
+                    self.images.append(image)
+                }
+            }
         }
     }
     
