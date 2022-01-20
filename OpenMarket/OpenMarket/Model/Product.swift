@@ -86,7 +86,7 @@ extension Product {
         )
     }
     var attributedPrice: NSAttributedString {
-        if self.bargainPrice == 0.0 {
+        if self.discountedPrice == 0.0 {
             return formattedOriginalPrice
         }
 
