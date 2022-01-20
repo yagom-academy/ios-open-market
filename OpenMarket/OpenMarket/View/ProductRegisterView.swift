@@ -21,7 +21,7 @@ class ProductRegisterView: UIStackView {
         return collectionView
     }()
 
-    private lazy var nameTextField: UITextField = {
+    lazy var nameTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "상품명"
         textField.borderStyle = .roundedRect
@@ -33,7 +33,7 @@ class ProductRegisterView: UIStackView {
 
     private let priceStackView = UIStackView()
 
-    private lazy var priceTextField: UITextField = {
+    lazy var priceTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "상품가격"
         textField.borderStyle = .roundedRect
@@ -49,7 +49,7 @@ class ProductRegisterView: UIStackView {
         return segmentedControl
     }()
 
-    private lazy var discountTextField: UITextField = {
+    lazy var discountTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "할인금액"
         textField.borderStyle = .roundedRect
@@ -58,7 +58,7 @@ class ProductRegisterView: UIStackView {
         return textField
     }()
 
-    private lazy var stockTextField: UITextField = {
+    lazy var stockTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "재고수량"
         textField.borderStyle = .roundedRect
@@ -68,7 +68,7 @@ class ProductRegisterView: UIStackView {
         return textField
     }()
 
-    private lazy var descriptionTextView = UITextView()
+    lazy var descriptionTextView = UITextView()
 
     private let tapGestureRecognizer = UITapGestureRecognizer()
 

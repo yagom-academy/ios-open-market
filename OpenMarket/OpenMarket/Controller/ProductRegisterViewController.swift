@@ -1,7 +1,13 @@
 import UIKit
 
 class ProductRegisterViewController: UIViewController {
-
+    private enum Task {
+        case register, modify
+    }
+    
+    private var taskType: Task = .modify
+    private var productIdentification: Int?
+    private let productService = ProductService()
     private lazy var stackView: ProductRegisterView = {
         let view = ProductRegisterView()
         return view
@@ -31,12 +37,44 @@ class ProductRegisterViewController: UIViewController {
         return actionSheet
     }()
 
+    init(productIdentification: Int) {
+        self.productIdentification = productIdentification
+        super.init(nibName: nil, bundle: nil)
+        fetchProduct()
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
         self.view.addSubview(stackView)
         stackView.imageCollectionView.delegate = self
         configureConstraint()
+    }
+}
+
+// MARK: Networking
+extension ProductRegisterViewController {
+    func fetchProduct() {
+        guard let productIdentification = self.productIdentification else {
+            taskType = .register
+            return
+        }
+        productService.retrieveProduct(
+            productIdentification: productIdentification,
+            session: HTTPUtility.defaultSession) { result in
+                switch result {
+                case .success(let product):
+                    DispatchQueue.main.async {
+                        self.configureContent(product: product)
+                    }
+                case .failure:
+                    return
+                }
+            }
     }
 }
 
@@ -50,6 +88,14 @@ extension ProductRegisterViewController {
             stackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 15),
             stackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -15)
         ])
+    }
+
+    private func configureContent(product: Product) {
+        stackView.nameTextField.text = product.name
+        stackView.priceTextField.text = product.price.description
+        stackView.discountTextField.text = product.discountedPrice.description
+        stackView.stockTextField.text = product.stock.description
+        //stackView.descriptionTextView.text = product
     }
 }
 
