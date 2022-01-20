@@ -37,10 +37,10 @@ struct APIManager: RestFulAPI {
         case .success(let data):
           completion(.success(data))
         case .failure(_):
-          completion(.failure(NetworkError.decodeFailed))
+          completion(.failure(.decodeFailed))
         }
       case .failure(_):
-        completion(.failure(NetworkError.responseFailed))
+        completion(.failure(.responseFailed))
       }
     }
     dataTask.resume()
@@ -48,7 +48,7 @@ struct APIManager: RestFulAPI {
   
   func detailProduct(
     productId: Int,
-    completion: @escaping (Result<Product, Error>) -> Void
+    completion: @escaping (Result<Product, NetworkError>) -> Void
   ) {
     guard let url = URLGenerator.productDetailURL(productId: productId) else {
       return
@@ -66,7 +66,7 @@ struct APIManager: RestFulAPI {
           completion(.failure(error))
         }
       case .failure(_):
-        completion(.failure(NetworkError.responseFailed))
+        completion(.failure(.responseFailed))
       }
     }
     dataTask.resume()
@@ -76,7 +76,7 @@ struct APIManager: RestFulAPI {
     params: ProductRegistrationRequest,
     images: [ImageFile],
     identifier: String,
-    completion: @escaping (Result<Product, Error>) -> Void
+    completion: @escaping (Result<Product, NetworkError>) -> Void
   ) {
     guard let url = URLGenerator.productAdditionURL() else {
       return
@@ -100,10 +100,10 @@ struct APIManager: RestFulAPI {
         case .success(let data):
           completion(.success(data))
         case .failure(_):
-          completion(.failure(NetworkError.responseFailed))
+          completion(.failure(.responseFailed))
         }
       case .failure(_):
-        completion(.failure(NetworkError.responseFailed))
+        completion(.failure(.responseFailed))
       }
     }
     dataTask.resume()
@@ -113,7 +113,7 @@ struct APIManager: RestFulAPI {
     productId: Int,
     params: ProductModificationRequest,
     identifier: String,
-    completion: @escaping (Result<Product, Error>) -> Void
+    completion: @escaping (Result<Product, NetworkError>) -> Void
   ) {
     guard let url = URLGenerator.productModificationURL(productId: productId) else {
       return
@@ -129,7 +129,7 @@ struct APIManager: RestFulAPI {
     case .success(let data):
       request.httpBody = data
     case .failure(_):
-      completion(.failure(NetworkError.encodeFailed))
+      completion(.failure(.encodeFailed))
     }
     
     let dataTask = urlSession.dataTask(request) { response in
@@ -140,10 +140,10 @@ struct APIManager: RestFulAPI {
         case .success(let data):
           completion(.success(data))
         case .failure(_):
-          completion(.failure(NetworkError.responseFailed))
+          completion(.failure(.responseFailed))
         }
       case .failure(_):
-        completion(.failure(NetworkError.responseFailed))
+        completion(.failure(.responseFailed))
       }
     }
     dataTask.resume()
@@ -153,7 +153,7 @@ struct APIManager: RestFulAPI {
     productId: Int,
     secret: String,
     identifier: String,
-    completion: @escaping (Result<String, Error>) -> Void
+    completion: @escaping (Result<String, NetworkError>) -> Void
   ) {
     guard let url = URLGenerator.getDeleteProductSecretURL(productId: productId) else {
       return
@@ -182,7 +182,7 @@ struct APIManager: RestFulAPI {
           completion(.success(string))
         }
       case .failure(_):
-        completion(.failure(NetworkError.responseFailed))
+        completion(.failure(.responseFailed))
       }
     }
     dataTask.resume()
@@ -192,7 +192,7 @@ struct APIManager: RestFulAPI {
     productId: Int,
     productSecret: String,
     identifier: String,
-    completion: @escaping (Result<Product, Error>) -> Void
+    completion: @escaping (Result<Product, NetworkError>) -> Void
   ) {
     guard let url = URLGenerator.getDeleteProductURL(productId: productId, productSecret: productSecret) else {
       return
@@ -211,10 +211,10 @@ struct APIManager: RestFulAPI {
         case .success(let data):
           completion(.success(data))
         case .failure(_):
-          completion(.failure(NetworkError.responseFailed))
+          completion(.failure(.responseFailed))
         }
       case .failure(_):
-        completion(.failure(NetworkError.responseFailed))
+        completion(.failure(.responseFailed))
       }
     }
     dataTask.resume()
@@ -222,7 +222,7 @@ struct APIManager: RestFulAPI {
   
   func requestProductImage(
     url: String,
-    completion: @escaping (Result<Data, Error>) -> Void
+    completion: @escaping (Result<Data, NetworkError>) -> Void
   ) {
     guard let imageUrl = URL(string: url) else {
       return

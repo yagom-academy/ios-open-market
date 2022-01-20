@@ -40,6 +40,8 @@ struct Product: Codable {
   let images: [Image]?
   /// 판매자의 정보
   let vendor: Vendor?
+  /// 상품의 상세정보
+  let descriptions: String?
   let createdAt: String
   let issuedAt: String
   
@@ -62,7 +64,7 @@ struct Product: Codable {
   }
   
   enum CodingKeys: String, CodingKey {
-    case id, name, thumbnail, currency, price, stock, images
+    case id, name, thumbnail, currency, price, stock, images,descriptions
     case vendor = "vendors"
     case venderId = "vendor_id"
     case bargainPrice = "bargain_price"

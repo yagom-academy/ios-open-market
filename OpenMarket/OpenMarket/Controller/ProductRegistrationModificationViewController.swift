@@ -7,33 +7,50 @@
 
 import UIKit
 
-class ProductRegistrationModificationViewController: UIViewController, ImagePickerable {
-  @IBOutlet weak var mainScrollView: UIScrollView!
-  @IBOutlet weak var stackView: UIStackView!
-  @IBOutlet weak var nameTextField: UITextField!
-  @IBOutlet weak var fixedPriceTextField: UITextField!
-  @IBOutlet weak var bargainPriceTextField: UITextField!
-  @IBOutlet weak var stockTextField: UITextField!
-  @IBOutlet weak var descriptionTextView: UITextView!
-  @IBOutlet weak var currencySegmentControl: UISegmentedControl!
-  
-  private var images: [UIImage] = []
-  private var imageAddition: [UIImage] = []
-  
+enum ViewMode {
+  case registation
+  case modification
+}
+
+class ProductRegistrationModificationViewController: productRegister, ImagePickerable {
+
+  private let api = APIManager(urlSession: URLSession(configuration: .default), jsonParser: JSONParser())
+  var product: Product?
+  //화면전환할 때 등록인지 수정인지 viewMode에 저장
+  private var viewMode: ViewMode?
+  private var productImages: [UIImage] = []
+
   override func viewDidLoad() {
     super.viewDidLoad()
     keyboardNotification()
+    setNavigaionTitle(viewMode: viewMode)
+    fetchProductDetail(productId: product?.id)
   }
   
   @IBAction private func button(_ sender: Any) {
-    if images.count < 5 {
+    if productImages.count < 5 {
       actionSheetAlertForImage()
     } else {
       showAlert(message: "이미지는 5개까지 등록 가능합니다.")
     }
   }
   
-  private func appendImageView(image: UIImage) {
+  private func setNavigaionTitle(viewMode: ViewMode?) {
+    switch viewMode {
+    case .registation:
+      navigationItem.title = "상품등록"
+    case .modification:
+      navigationItem.title = "상품수정"
+    case .none:
+      return
+    }
+  }
+  
+  @IBAction func doneButtonDidTap(_ sender: Any) {
+    
+  }
+  
+  private func appendImageView(image: UIImage?) {
     let imageView = UIImageView(image: image)
     stackView.addArrangedSubview(imageView)
     imageView.heightAnchor.constraint(
@@ -44,63 +61,65 @@ class ProductRegistrationModificationViewController: UIViewController, ImagePick
 }
 
 extension ProductRegistrationModificationViewController {
-  private func keyboardNotification() {
-    self.view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(endEditing)))
-    NotificationCenter.default.addObserver(
-      self,
-      selector: #selector(keyboardWillShow(_:)),
-      name: UIResponder.keyboardWillShowNotification,
-      object: nil
-    )
-    NotificationCenter.default.addObserver(
-      self,
-      selector: #selector(keyboardWillHide(_:)),
-      name: UIResponder.keyboardWillHideNotification,
-      object: nil
-    )
-  }
-  
-  @objc private func endEditing(){
-    view.endEditing(true)
-  }
-  
-  @objc private func keyboardWillShow(_ sender: Notification) {
-    guard let userInfo = sender.userInfo,
-          let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else {
-            return
-          }
-    let keyboardHeight = keyboardFrame.size.height
-    let contentInset = UIEdgeInsets(
-      top: 0.0,
-      left: 0.0,
-      bottom: keyboardHeight,
-      right: 0.0
-    )
-    mainScrollView.contentInset = contentInset
-    mainScrollView.scrollIndicatorInsets = contentInset
-  }
-  
-  @objc private func keyboardWillHide(_ sender: Notification) {
-    let contentInset = UIEdgeInsets.zero
-    mainScrollView.contentInset = contentInset
-    mainScrollView.scrollIndicatorInsets = contentInset
-  }
-}
-
-extension ProductRegistrationModificationViewController {
   func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
     dismiss(animated: true, completion: nil)
   }
   
-  func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+  func imagePickerController(
+    _ picker: UIImagePickerController,
+    didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]
+  ) {
     guard let image = info[.editedImage] as? UIImage else {
       dismiss(animated: true, completion: nil)
       showAlert(message: "이미지를 불러오지 못했습니다.")
       return
     }
     let resizingImage = image.resize(maxBytes: 307200)
-    images.append(resizingImage)
+    productImages.append(resizingImage)
     appendImageView(image: resizingImage)
     dismiss(animated: true, completion: nil)
+  }
+}
+
+extension ProductRegistrationModificationViewController {
+  private func fetchProductDetail(productId: Int?) {
+    guard let productId = productId else {
+      return
+    }
+    api.detailProduct(productId: productId) { [self] response in
+      switch response {
+      case .success(let data):
+        guard let images = data.images else {
+          return
+        }
+        for image in images {
+          let imageURL = image.thumbnailURL
+          fetchImages(url: imageURL)
+        }
+        DispatchQueue.main.async {
+          setProductDetail(product: data)
+        }
+      case .failure(let error):
+        print(error)
+        DispatchQueue.main.async {
+          showAlert(message: error.errorDescription)
+        }
+      }
+    }
+  }
+  
+  
+  func fetchImages(url: String) {
+    api.requestProductImage(url: url) { [self] response in
+      switch response {
+      case .success(let data):
+        let image = UIImage(data: data)
+        DispatchQueue.main.async {
+          appendImageView(image: image)
+        }
+      case .failure(let error):
+        print(error.errorDescription)
+      }
+    }
   }
 }

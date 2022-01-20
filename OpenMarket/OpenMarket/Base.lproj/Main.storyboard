@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="bau-jO-SxG">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="QM3-ah-oJL">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -61,11 +61,16 @@
                                 <action selector="touchUpPresentingSegment:" destination="BYZ-38-t0r" eventType="valueChanged" id="49B-VW-NdZ"/>
                             </connections>
                         </segmentedControl>
-                        <barButtonItem key="rightBarButtonItem" style="plain" systemItem="add" id="LTF-EP-78w"/>
+                        <barButtonItem key="rightBarButtonItem" style="plain" systemItem="add" id="LTF-EP-78w">
+                            <connections>
+                                <segue destination="QM3-ah-oJL" kind="show" id="ZdZ-sy-6da"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="collectionView" destination="mlK-6u-tcA" id="eSs-OR-LzH"/>
                         <outlet property="segmentControl" destination="uyS-rh-GEx" id="4uv-YG-kU8"/>
+                        <segue destination="J2n-9B-OQY" kind="show" id="jME-ut-ntu"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -90,6 +95,25 @@
             </objects>
             <point key="canvasLocation" x="69.565217391304358" y="114.50892857142857"/>
         </scene>
+        <!--View Controller-->
+        <scene sceneID="nm9-x9-9Pd">
+            <objects>
+                <viewController id="J2n-9B-OQY" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="7Dt-Gl-eMJ">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="WGA-gY-hue"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="0Hj-Te-tkS"/>
+                    <connections>
+                        <segue destination="QM3-ah-oJL" kind="show" id="EbW-Wz-baS"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="qSy-kB-hjB" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2049" y="519"/>
+        </scene>
         <!--Product Registration Modification View Controller-->
         <scene sceneID="QtW-oA-ueM">
             <objects>
@@ -99,7 +123,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ehk-wC-r0Q">
-                                <rect key="frame" x="0.0" y="44" width="414" height="852"/>
+                                <rect key="frame" x="0.0" y="88" width="414" height="808"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7ev-AR-9Pf">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="636"/>
@@ -234,23 +258,32 @@
                             <constraint firstItem="Ehk-wC-r0Q" firstAttribute="top" secondItem="PmW-ej-Id8" secondAttribute="top" id="tpQ-Ak-V41"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="kGT-kc-G7A"/>
+                    <navigationItem key="navigationItem" id="kGT-kc-G7A">
+                        <barButtonItem key="rightBarButtonItem" title="Done" id="pX6-vz-mSs">
+                            <connections>
+                                <action selector="doneButtonDidTap:" destination="QM3-ah-oJL" id="8I4-YN-NXh"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
-                        <outlet property="bargainPriceTextField" destination="thL-sf-aPJ" id="rI2-Ns-0f3"/>
-                        <outlet property="currencySegmentControl" destination="6gX-zM-SPM" id="wZv-2Y-gPO"/>
-                        <outlet property="descriptionTextView" destination="eOS-d6-9S2" id="PYj-0B-asK"/>
-                        <outlet property="fixedPriceTextField" destination="AeD-W2-NTR" id="FxO-RM-ibX"/>
-                        <outlet property="mainScrollView" destination="Ehk-wC-r0Q" id="RsH-vb-LBk"/>
-                        <outlet property="nameTextField" destination="XiH-Al-6fG" id="64e-bK-eG4"/>
-                        <outlet property="stackView" destination="v0K-qo-SRy" id="EbH-RK-i3W"/>
-                        <outlet property="stockTextField" destination="bqx-Lv-upZ" id="o6f-rz-aho"/>
+                        <outlet property="bargainPriceTextField" destination="thL-sf-aPJ" id="YGW-la-KH2"/>
+                        <outlet property="currencySegmentControl" destination="6gX-zM-SPM" id="usR-q9-beO"/>
+                        <outlet property="descriptionTextView" destination="eOS-d6-9S2" id="s9j-GZ-wTX"/>
+                        <outlet property="fixedPriceTextField" destination="AeD-W2-NTR" id="gW5-Zr-Krv"/>
+                        <outlet property="mainScrollView" destination="Ehk-wC-r0Q" id="itN-Ue-szh"/>
+                        <outlet property="nameTextField" destination="XiH-Al-6fG" id="TDE-8Z-vL9"/>
+                        <outlet property="stackView" destination="v0K-qo-SRy" id="b2h-Vf-Zlw"/>
+                        <outlet property="stockTextField" destination="bqx-Lv-upZ" id="bpg-zk-Ryz"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cQS-Av-egR" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2457.971014492754" y="124.55357142857142"/>
+            <point key="canvasLocation" x="3309" y="115"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="EbW-Wz-baS"/>
+    </inferredMetricsTieBreakers>
     <resources>
         <image name="plus" catalog="system" width="128" height="113"/>
         <systemColor name="labelColor">

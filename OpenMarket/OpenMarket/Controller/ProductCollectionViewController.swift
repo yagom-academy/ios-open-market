@@ -33,6 +33,7 @@ class ProductCollectionViewController: UIViewController {
   private let api = APIManager(urlSession: URLSession(configuration: .default), jsonParser: JSONParser())
   private var productsPage: ProductList?
   private var products: [Product] = []
+  private var productImage: UIImage?
   private var currentPage = 1
   
   override func viewDidLoad() {
