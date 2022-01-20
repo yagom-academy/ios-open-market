@@ -18,23 +18,4 @@ class ProductCollectionViewListCell: UICollectionViewCell, ReuseIdentifying, Pro
   override func awakeFromNib() {
     super.awakeFromNib()
   }
-
-  func setCellImage(image: UIImage?) {
-    productImageView.image = image
-  }
-  
-  func setCellData(product: Product) {
-    productNameLabel.text = product.name
-    productFixedPriceLabel.attributedText = product.formattedFixedPrice.strikeThrough(strikeTarget: product.formattedFixedPrice)
-    productBargainPriceLabel.text = product.formattedBargainPrice
-    if product.formattedFixedPrice == product.formattedBargainPrice {
-      productFixedPriceLabel.isHidden = true
-    }
-    if product.formattedStock == "품절" {
-      productStockLabel.textColor = .orange
-    } else {
-      productStockLabel.textColor = .darkGray
-    }
-    productStockLabel.text = product.formattedStock
-  }
 }
