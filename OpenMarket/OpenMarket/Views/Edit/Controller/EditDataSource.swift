@@ -8,15 +8,10 @@
 import UIKit
 
 class EditDataSource: NSObject {
-    enum Mode {
-        case register
-        case modify
-    }
-
     private(set) var images = [UIImage]()
-    private(set) var state: Mode
+    private(set) var state: EditMode
     
-    init(state: Mode) {
+    init(state: EditMode) {
         self.state = state
     }
     

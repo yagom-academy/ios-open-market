@@ -19,12 +19,12 @@ class EditViewController: UIViewController {
         setUpCollectionView()
         setUpNotificationCenter()
         setUpView()
+        self.navigationItem.title = dataSource.state.rawValue
     }
     
     func setUpModifyMode(product: Product, images: [UIImage]) {
         data = product
         dataSource.setUpModify(images)
-        self.navigationItem.title = "상품 수정"
     }
     
     private func setUpCollectionView() {
@@ -42,7 +42,7 @@ class EditViewController: UIViewController {
     
     @objc private func tappedAddButton() {
         guard dataSource.images.count != 5 else {
-            self.showAlert(message: Message.maximumImageCount)
+            self.showAlert(message: AlertMessage.maximumImageCount)
             return
         }
         let imagePicker = UIImagePickerController()
@@ -83,7 +83,7 @@ class EditViewController: UIViewController {
                   let newProduct = textFieldsStackView.createModification(data) {
             requestModification(product: newProduct)
         } else {
-            self.showAlert(message: Message.productError, completion: nil)
+            self.showAlert(message: AlertMessage.productError, completion: nil)
         }
     }
     
@@ -96,23 +96,23 @@ class EditViewController: UIViewController {
         let isMaintainMaxiMumDescriptionCount = textFieldsStackView.descriptionTextView.text.count < 1000
         
         guard isValidImagesCount else {
-            showAlert(message: Message.minimumImageCount)
+            showAlert(message: AlertMessage.minimumImageCount)
             return false
         }
         guard isValidNameCount else {
-            showAlert(message: Message.minimumNameCount)
+            showAlert(message: AlertMessage.minimumNameCount)
             return false
         }
         guard isValidPriceCount else {
-            showAlert(message: Message.minimumPriceCount)
+            showAlert(message: AlertMessage.minimumPriceCount)
             return false
         }
         guard isMaintainMiniMumDescriptionCount else {
-            showAlert(message: Message.minimumDescriptionCount)
+            showAlert(message: AlertMessage.minimumDescriptionCount)
             return false
         }
         guard isMaintainMaxiMumDescriptionCount else {
-            showAlert(message: Message.maximumDescriptionCount)
+            showAlert(message: AlertMessage.maximumDescriptionCount)
             return false
         }
         return true
@@ -133,7 +133,7 @@ extension EditViewController {
             switch result {
             case .success:
                 DispatchQueue.main.async {
-                    self.showAlert(message: Message.completeProductRegistration) {
+                    self.showAlert(message: AlertMessage.completeProductRegistration) {
                         self.dismissAndUpdateMain()
                     }
                 }
@@ -159,7 +159,7 @@ extension EditViewController {
             switch result {
             case .success:
                 DispatchQueue.main.async {
-                    self.showAlert(message: Message.completeProductModification) {
+                    self.showAlert(message: AlertMessage.completeProductModification) {
                         self.dismissAndUpdateDetail()
                     }
                 }

@@ -182,7 +182,7 @@ extension MainViewController: UICollectionViewDelegate {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        performSegue(withIdentifier: "ProductDetailView", sender: dataSource.productList[indexPath.item])
+        performSegue(withIdentifier: SegueIdentifier.productDetailView, sender: dataSource.productList[indexPath.item])
         collectionView.deselectItem(at: indexPath, animated: true)
     }
     
@@ -193,7 +193,7 @@ extension MainViewController: UICollectionViewDelegate {
                   let nextViewController = segue.destination as? DetailViewController {
             nextViewController.requestDetail(productId: UInt(product.id))
         } else {
-            showAlert(message: Message.dataDeliveredFail, completion: nil)
+            showAlert(message: AlertMessage.dataDeliveredFail, completion: nil)
         }
     }
 }

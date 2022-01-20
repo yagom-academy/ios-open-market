@@ -97,25 +97,25 @@ class DetailViewController: UIViewController {
     }
     
     @IBAction func tappedEditButton(_ sendor: UIButton) {
-        let modityAction = UIAlertAction(title: "수정", style: .default) { _ in
+        let modityAction = UIAlertAction(title: AlertConstant.modify, style: .default) { _ in
             self.alertInputPassword { secret in
                 self.requestModification(secret: secret) { isSuccess in
                     if isSuccess {
                         DispatchQueue.main.async {
-                            self.performSegue(withIdentifier: "ModifyView", sender: self.data)
+                            self.performSegue(withIdentifier: SegueIdentifier.modifiyView, sender: self.data)
                         }
                     } else {
                         DispatchQueue.main.async {
-                            self.showAlert(message: "비밀번호가 맞지 않습니다. 다시 시도해주세요.")
+                            self.showAlert(message: AlertMessage.wrongPassword)
                         }
                     }
                 }
             }
             
         }
-        let deleteAction = UIAlertAction(title: "삭제", style: .destructive)
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
-        let alert = UIAlertController(title: nil, message: "상품을 편집하시겠습니까?", preferredStyle: .actionSheet)
+        let deleteAction = UIAlertAction(title: AlertConstant.delete, style: .destructive)
+        let cancelAction = UIAlertAction(title: AlertConstant.cancle, style: .cancel)
+        let alert = UIAlertController(title: nil, message: AlertMessage.editProduct, preferredStyle: .actionSheet)
         alert.addAction(modityAction)
         alert.addAction(deleteAction)
         alert.addAction(cancelAction)
