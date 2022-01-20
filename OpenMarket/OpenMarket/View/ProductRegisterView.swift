@@ -3,13 +3,16 @@ import UIKit
 
 class ProductRegisterView: UIStackView {
     private var dataSource: UICollectionViewDiffableDataSource<Int, UIImage>!
-    private var snapshot = NSDiffableDataSourceSnapshot<Int, UIImage>()
+
     var imageList: [UIImage] = [] {
         didSet {
-            self.snapshot.appendItems(imageList, toSection: 1)
-            self.dataSource.apply(self.snapshot)
+            var snapshot = NSDiffableDataSourceSnapshot<Int, UIImage>()
+            snapshot.appendSections([1])
+            snapshot.appendItems(imageList, toSection: 1)
+            self.dataSource.apply(snapshot)
         }
     }
+
     lazy var imageCollectionView: UICollectionView = {
         let collectionView = UICollectionView(
             frame: .zero,
@@ -17,6 +20,7 @@ class ProductRegisterView: UIStackView {
             )
         return collectionView
     }()
+
     private lazy var nameTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "상품명"
@@ -127,6 +131,7 @@ extension ProductRegisterView {
         configureCollectionViewConstraint()
     }
 }
+
 // MARK: Collection View Configuration
 extension ProductRegisterView {
     private func createImageGridLayout() -> UICollectionViewLayout {
@@ -168,11 +173,13 @@ extension ProductRegisterView {
             )
         }
 
-        self.snapshot.appendSections([1])
+        var snapshot = NSDiffableDataSourceSnapshot<Int, UIImage>()
+        snapshot.appendSections([1])
         imageList.append(UIImage(named: "robot")!)
         imageList.append(UIImage(systemName: "plus")!)
-        self.snapshot.appendItems(imageList, toSection: 1)
-        self.dataSource.apply(self.snapshot)
+        snapshot.appendItems(imageList, toSection: 1)
+        print(11)
+        self.dataSource.apply(snapshot)
     }
 
     private func configureCollectionViewConstraint() {
