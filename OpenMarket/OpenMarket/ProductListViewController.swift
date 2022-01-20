@@ -74,6 +74,17 @@ class ProductListViewController: UIViewController, UICollectionViewDelegate {
         )
         segmentedControl.bounds = bounds
         navigationItem.titleView = segmentedControl
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            barButtonSystemItem: .add,
+            target: self,
+            action: #selector(presentModalView)
+        )
+    }
+    
+    @objc func presentModalView() {
+        let secondVc = ProductAddScrollViewController()
+        secondVc.modalPresentationStyle = .fullScreen
+        present(secondVc, animated: true, completion: nil)
     }
     
     private func makeGridLayout() -> UICollectionViewLayout {

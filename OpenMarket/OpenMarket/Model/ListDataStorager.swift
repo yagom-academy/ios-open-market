@@ -3,7 +3,7 @@ import Foundation
 final class ListDataStorager: PageDataStorable {
     
     var storage: ProductListAsk.Response?
-    let requester = ProductListAskRequester(pageNo: 1, itemsPerPage: 30)
+    let requester = ProductListAskRequester(pageNo: 1, itemsPerPage: 50)
     // TODO: init plus 
     static let cachedImages = NSCache<NSString,NSData>()
 
