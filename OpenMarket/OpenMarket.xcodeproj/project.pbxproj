@@ -23,6 +23,7 @@
 		A6A824812786D271006CE6DA /* OpenMarketAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6A824802786D271006CE6DA /* OpenMarketAPI.swift */; };
 		A6A8248327871680006CE6DA /* URLRequest+httpmethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B5FAD22783F240001B6FDE /* URLRequest+httpmethod.swift */; };
 		A6BA9C802798472100C3AA72 /* UIView+firstResponder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6BA9C7F2798472100C3AA72 /* UIView+firstResponder.swift */; };
+		A6BA9C822799464300C3AA72 /* ProductManageable.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6BA9C812799464300C3AA72 /* ProductManageable.swift */; };
 		A6D008F22796DF4B002FAE56 /* ImagePickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6D008F12796DF4B002FAE56 /* ImagePickerController.swift */; };
 		A6E6A5D6278D189F00903BC1 /* ProductGridLayoutCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6E6A5D5278D189F00903BC1 /* ProductGridLayoutCell.swift */; };
 		A6E6A5D8278D1CD500903BC1 /* NSMutableAttributedString+style.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6E6A5D7278D1CD500903BC1 /* NSMutableAttributedString+style.swift */; };
@@ -85,6 +86,7 @@
 		A6A824582785DE3F006CE6DA /* Currency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
 		A6A824802786D271006CE6DA /* OpenMarketAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketAPI.swift; sourceTree = "<group>"; };
 		A6BA9C7F2798472100C3AA72 /* UIView+firstResponder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+firstResponder.swift"; sourceTree = "<group>"; };
+		A6BA9C812799464300C3AA72 /* ProductManageable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductManageable.swift; sourceTree = "<group>"; };
 		A6D008F12796DF4B002FAE56 /* ImagePickerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerController.swift; sourceTree = "<group>"; };
 		A6E6A5D5278D189F00903BC1 /* ProductGridLayoutCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductGridLayoutCell.swift; sourceTree = "<group>"; };
 		A6E6A5D7278D1CD500903BC1 /* NSMutableAttributedString+style.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSMutableAttributedString+style.swift"; sourceTree = "<group>"; };
@@ -226,6 +228,7 @@
 				C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */,
 				C70FB10325BEF61D00C9924E /* Assets.xcassets */,
 				C70FB10825BEF61D00C9924E /* Info.plist */,
+				A6BA9C812799464300C3AA72 /* ProductManageable.swift */,
 			);
 			path = OpenMarket;
 			sourceTree = "<group>";
@@ -503,6 +506,7 @@
 				C985AA3C278C5B3E00D6B81B /* ImageLoader.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 				A6A8248327871680006CE6DA /* URLRequest+httpmethod.swift in Sources */,
+				A6BA9C822799464300C3AA72 /* ProductManageable.swift in Sources */,
 				C9AC3E5B2786C5BE00177751 /* ImageData.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

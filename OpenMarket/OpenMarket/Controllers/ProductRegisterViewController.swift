@@ -1,7 +1,7 @@
 import UIKit
 
-class ProductRegisterViewController: UIViewController {
-    private let productRegisterManager = ProductRegisterManager()
+class ProductRegisterViewController: UIViewController, ProductManageable {
+    var productRegisterManager = ProductRegisterManager()
     private let imagePickerController = ImagePickerController()
     private lazy var productScrollView = productRegisterManager.productInformationScrollView
     
@@ -13,12 +13,12 @@ class ProductRegisterViewController: UIViewController {
         productRegisterManager.addDelegateToTextField(delegate: self)
         productRegisterManager.addDelegateToTextView(delegate: self)
         configUI()
-        tapBehindViewToEndEdit()
+        tapBehindViewToEndEdit(viewController: self)
     }
     
     private func configUI() {
         view.backgroundColor = .white
-        configRegistrationView()
+        configRegistrationView(viewController: self)
         configNavigationBar()
     }
     
@@ -34,17 +34,17 @@ class ProductRegisterViewController: UIViewController {
     
     @objc private func didTapDoneButton() {
         if productRegisterManager.isRegisteredImageEmpty {
-            presentAlert(title: "등록된 이미지가 없습니다.", message: "한 개 이상의 이미지를 필수로 등록해주세요.")
+            presentAlert(viewController: self, title: "등록된 이미지가 없습니다.", message: "한 개 이상의 이미지를 필수로 등록해주세요.")
             return
         }
         
         if productRegisterManager.takeNameTextFieldLength() < 3 {
-            presentAlert(title: "상품명을 더 길게 쓰세요", message: "상품명을 세 글자 이상 입력해주세요.")
+            presentAlert(viewController: self, title: "상품명을 더 길게 쓰세요", message: "상품명을 세 글자 이상 입력해주세요.")
             return
         }
         
         if productRegisterManager.isPriceTextFieldEmpty {
-            presentAlert(title: "입력된 상품 가격이 없습니다.", message: "한 자리 이상의 상품 가격을 입력해주세요.")
+            presentAlert(viewController: self, title: "입력된 상품 가격이 없습니다.", message: "한 자리 이상의 상품 가격을 입력해주세요.")
             return
         }
                 
@@ -53,30 +53,6 @@ class ProductRegisterViewController: UIViewController {
         self.dismiss(animated: true) {
             self.productRegisterManager.updateProductData()
         }
-    }
-    
-    private func configRegistrationView() {
-        self.view.addSubview(productScrollView)
-        productScrollView.translatesAutoresizingMaskIntoConstraints = false
-    
-        NSLayoutConstraint.activate([
-            productScrollView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
-            productScrollView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-            productScrollView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-            productScrollView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
-        ])
-    }
-    
-    func presentAlert(title: String, message: String) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let confirmAction = UIAlertAction(title: "확인", style: .default, handler: nil)
-        alert.addAction(confirmAction)
-        self.present(alert, animated: true, completion: nil)
-    }
-    
-    func tapBehindViewToEndEdit() {
-        let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing))
-        view.addGestureRecognizer(tap)
     }
 }
 
