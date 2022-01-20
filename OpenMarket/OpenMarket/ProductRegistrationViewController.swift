@@ -133,7 +133,71 @@ extension ProductRegistrationViewController {
         doneButton.setAttributedTitle(text, for: .normal)
         doneButton.titleLabel?.adjustsFontForContentSizeCategory = true
         
+        doneButton.addTarget(self, action: #selector(registerProduct), for: .touchUpInside)
+        
         doneButton.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+    }
+    
+    @objc private func registerProduct() {
+        let identifier = Vendor.identifier
+        guard let name = nameTextField.text else {
+            return
+        }
+        guard let description = descriptionTextView.text else {
+            return
+        }
+        guard let priceText = priceTextField.text,
+              let price = Double(priceText) else {
+                  return
+              }
+        guard let currency = currencySegmentedControl.titleForSegment(at: currencySegmentedControl.selectedSegmentIndex) else {
+                  return
+              }
+        guard let discountedPriceText = bargainPriceTextField.text,
+              let discountedPrice = Double(discountedPriceText) else {
+                  return
+              }
+        
+        guard let stockText = stockTextField.text else {
+            return
+        }
+        let stock: Int = Int(stockText) ?? 0
+        
+        let secret = Vendor.secret
+        let images: [Data] = {
+            var images: [Data] = []
+            imageStackView.arrangedSubviews.forEach {
+                guard let imageView = $0 as? UIImageView,
+                      let image = imageView.image?.jpegData(compressionQuality: 0.5) else {
+                    return
+                }
+                images.append(image)
+            }
+            return images
+        }()
+        
+        NetworkingAPI.ProductRegistration.request(session: URLSession.shared,
+                                                  identifier: identifier,
+                                                  name: name,
+                                                  descriptions: description,
+                                                  price: price,
+                                                  currency: currency,
+                                                  discountedPrice: discountedPrice,
+                                                  stock: stock,
+                                                  secret: secret,
+                                                  images: images) {
+
+            (result) in
+            
+            switch result {
+            case .success:
+                print("upload success")
+            case .failure(let error):
+                print(error)
+            }
+        }
+
+        dismiss(animated: true)
     }
 }
 

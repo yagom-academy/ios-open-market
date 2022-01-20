@@ -7,9 +7,7 @@ enum HTTPMessageMaker{
         let body: Data
     }
     
-    static func createdMultipartBody(contents: [Content]) -> Data {
-        let boundary = UUID().uuidString
-        
+    static func createdMultipartBody(boundary: String, contents: [Content]) -> Data {
         var body = Data()
         contents.forEach { (content) in
             body.append(string: "--\(boundary)\r\n")

@@ -6,4 +6,5 @@ enum NetworkingAPIError: String, Error {
     case receivedIinvalidResponse
     case receivedFailureStatusCode
     case HTTPBodyMakingFail
+    case typeConversionFail
 }

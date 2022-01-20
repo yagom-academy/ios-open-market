@@ -9,7 +9,7 @@ enum ProductRegistrationManager: JSONResponseDecodable {
                                                name: String,
                                                descriptions: String,
                                                price: Double,
-                                               currency: Currency,
+                                               currency: String,
                                                discountedPrice: Double?,
                                                stock: Int?,
                                                secret: String,
@@ -18,7 +18,14 @@ enum ProductRegistrationManager: JSONResponseDecodable {
         
         let httpMethod = "POST"
         let urlString = "https://market-training.yagom-academy.kr/api/products"
+        let boundary = UUID().uuidString
+        let headerFields: [String: String] = ["identifier" : Vendor.identifier,
+                                              "Content-Type" : "multipart/form-data; boundary=\(boundary)"]
         
+        guard let currency = Currency(rawValue: currency) else {
+            completion(.failure(.typeConversionFail))
+            return
+        }
         let params = Request(name: name,
                                     descriptions: descriptions,
                                     price: price,
@@ -27,7 +34,7 @@ enum ProductRegistrationManager: JSONResponseDecodable {
                                     stock: stock,
                                     secret: secret)
         
-        guard let httpBody = httpBody(params: params, images: images) else {
+        guard let httpBody = httpBody(boundary: boundary, params: params, images: images) else {
             completion(.failure(.HTTPBodyMakingFail))
             return
         }
@@ -35,7 +42,7 @@ enum ProductRegistrationManager: JSONResponseDecodable {
         URLSession.shared.requestDataTask(urlString: urlString,
                                           httpMethod: httpMethod,
                                           httpBody: httpBody,
-                                          headerFields: ["identifier" : Vendor.identifier]) {
+                                          headerFields: headerFields) {
             (result) in
             
             switch result {
@@ -47,7 +54,7 @@ enum ProductRegistrationManager: JSONResponseDecodable {
         }
     }
     
-    private static func httpBody(params: Request, images: [Data]) -> Data? {
+    private static func httpBody(boundary: String, params: Request, images: [Data]) -> Data? {
         var contents: [Content] = []
         
         let paramsHeaders = ["Content-Disposition:form-data; name=\"params\"", "Content-Type: application/json"]
@@ -64,7 +71,7 @@ enum ProductRegistrationManager: JSONResponseDecodable {
             contents.append(image)
         }
         
-        return HTTPMessageMaker.createdMultipartBody(contents: contents)
+        return HTTPMessageMaker.createdMultipartBody(boundary: boundary, contents: contents)
     }
 }
 
