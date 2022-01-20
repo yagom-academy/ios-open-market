@@ -9,17 +9,17 @@ class CollectionViewListCell: UICollectionViewListCell {
     
     typealias Product = NetworkingAPI.ProductListQuery.Response.Page
     
-    private var activityIndicator: UIActivityIndicatorView!
-    private var imageView: UIImageView!
-    private var nameLabel: UILabel!
-    private var priceLabel: UILabel!
-    private var labelStackView: UIStackView!
-    private var stockLabel: UILabel!
-    private var chevronButton: UIButton!
+    private let activityIndicator = UIActivityIndicatorView()
+    private let imageView = UIImageView()
+    private let nameLabel = UILabel()
+    private let priceLabel = UILabel()
+    private let labelStackView = UIStackView()
+    private let stockLabel = UILabel()
+    private let chevronButton = UIButton()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        createAllComponents()
+        configureAttribute()
         configureLayout()
     }
     
@@ -27,21 +27,21 @@ class CollectionViewListCell: UICollectionViewListCell {
         super.init(coder: coder)
     }
     
-    func updateAllComponents(from product: Product) {
+    func update(from product: Product) {
         updateImageView(from: product)
         updateNameLabel(from: product)
         updatePriceLabel(from: product)
         updateStockLabel(from: product)
     }
     
-    private func createAllComponents() {
-        createActivityIndicator()
-        createImageView()
-        createNameLabel()
-        createPriceLabel()
-        createLabelStackView()
-        createStockLabel()
-        createChevronButton()
+    private func configureAttribute() {
+        configureActivityIndicatorAttribute()
+        configureImageViewAttribute()
+        configureNameLabelAttribute()
+        configurePriceLabelAttribute()
+        configureLabelStackViewAttribute()
+        configureStockLabelAttribute()
+        configureChevronButton()
     }
 
     private func configureLayout() {
@@ -78,8 +78,7 @@ extension CollectionViewListCell {
         static let aspectRatio: CGFloat = 1.0
     }
     
-    private func createActivityIndicator() {
-        activityIndicator = UIActivityIndicatorView()
+    private func configureActivityIndicatorAttribute() {
         activityIndicator.startAnimating()
     }
     
@@ -105,8 +104,8 @@ extension CollectionViewListCell {
         static let aspectRatio: CGFloat = 1.0
     }
     
-    private func createImageView() {
-        imageView = UIImageView()
+    private func configureImageViewAttribute() {
+        
     }
     
     private func updateImageView(from product: Product) {
@@ -145,10 +144,10 @@ extension CollectionViewListCell {
         static let fontColor: UIColor = .black
     }
     
-    private func createNameLabel() {
-        nameLabel = UILabel()
+    private func configureNameLabelAttribute() {
         nameLabel.adjustsFontForContentSizeCategory = true
     }
+    
     private func updateNameLabel(from product: Product) {
         let result = NSMutableAttributedString(string: product.name)
         result.adjustBold()
@@ -168,8 +167,7 @@ extension CollectionViewListCell {
         static let bargainPriceFontColor: UIColor = .systemGray
     }
     
-    private func createPriceLabel() {
-        priceLabel = UILabel()
+    private func configurePriceLabelAttribute() {
         priceLabel.adjustsFontForContentSizeCategory = true
     }
     
@@ -217,8 +215,7 @@ extension CollectionViewListCell {
 //MARK: - LabelStackView
 extension CollectionViewListCell {
 
-    private func createLabelStackView() {
-        labelStackView = UIStackView()
+    private func configureLabelStackViewAttribute() {
         labelStackView.axis = .vertical
         labelStackView.distribution = .fillEqually
     }
@@ -250,8 +247,7 @@ extension CollectionViewListCell {
         static let soldoutFontColor: UIColor = .orange
     }
     
-    private func createStockLabel() {
-        stockLabel = UILabel()
+    private func configureStockLabelAttribute() {
         stockLabel.adjustsFontForContentSizeCategory = true
     }
     
@@ -284,8 +280,7 @@ extension CollectionViewListCell {
 //MARK: - ChevronButton
 extension CollectionViewListCell {
     
-    private func createChevronButton() {
-        chevronButton = UIButton()
+    private func configureChevronButton() {
         chevronButton.setImage(UIImage(systemName: "chevron.right"), for: .normal)
         chevronButton.tintColor = .systemGray
     }

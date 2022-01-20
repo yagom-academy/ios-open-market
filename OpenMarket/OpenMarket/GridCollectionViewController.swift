@@ -7,11 +7,11 @@ class GridCollectionViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        createCollectionView()
+        createAllComponents()
         configureLayout()
     }
     
-    private func createCollectionView() {
+    private func createAllComponents() {
         collectionView = UICollectionView(frame: view.frame, collectionViewLayout: createdGridLayout())
         dataSource = createdGridDataSource()
     }
@@ -19,27 +19,32 @@ class GridCollectionViewController: UIViewController {
 
 //MARK: - Layout
 extension GridCollectionViewController {
+    
     private func configureLayout() {
         view.addSubview(collectionView)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        collectionView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        
+        NSLayoutConstraint.activate([
+            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            collectionView.topAnchor.constraint(equalTo: view.topAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
     }
     
     private func createdGridLayout() -> UICollectionViewLayout {
-        let spacing: Double = 10
+        let spacing: CGFloat = 10
+        let estimatedHeight: CGFloat = 220
         
         let itemSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
-            heightDimension: .estimated(220)
+            heightDimension: .estimated(estimatedHeight)
         )
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
         let groupSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
-            heightDimension: .estimated(220)
+            heightDimension: .estimated(estimatedHeight)
         )
         let group = NSCollectionLayoutGroup.horizontal(
             layoutSize: groupSize,
@@ -78,7 +83,8 @@ extension GridCollectionViewController {
                 for: indexPath,
                 item: item
             )
-            cell.updateAllComponents(from: item)
+            cell.update(from: item)
+            
             return cell
         }
         
@@ -86,10 +92,6 @@ extension GridCollectionViewController {
     }
     
     func applySnapShot(products: [Product]) {
-        guard products.isEmpty == false else {
-            return
-        }
-
         var snapshot = NSDiffableDataSourceSnapshot<Section, Product>()
         snapshot.appendSections([.main])
         snapshot.appendItems(products)
