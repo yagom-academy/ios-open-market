@@ -37,7 +37,7 @@ final class ProductUpdateViewController: UIViewController {
         super.viewDidLoad()
         configureDelgate()
         configureNotification()
-        configureTextField()
+        configureTextEditors()
     }
     
     @IBAction func doneButtonClicked(_ sender: UIBarButtonItem) {
@@ -76,7 +76,10 @@ private extension ProductUpdateViewController {
     
     func configureDelgate() {
         imagePicker.delegate = self
-        textEditors.forEach { if let view = $0 as? UITextField { view.delegate = self } }
+        textEditors.forEach {
+            if let view = $0 as? UITextField { view.delegate = self }
+            if let view = $0 as? UITextView { view.delegate = self }
+        }
         model.imagesDidChangeHandler = self.updateImageStackView
     }
     
@@ -89,8 +92,10 @@ private extension ProductUpdateViewController {
         .forEach { notificationCenter.addObserver(self, selector: $0, name: $1, object: nil) }
     }
     
-    func configureTextField() {
+    func configureTextEditors() {
         textEditors.forEach { $0.addButtonToInputAccessoryView(with: "Done") }
+        descriptionTextView.text = "여기에 상품 상세 정보를 입력해주세요!"
+        descriptionTextView.textColor = .lightGray
     }
     
     func updateImageStackView() {
@@ -149,6 +154,25 @@ extension ProductUpdateViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.moveNextView()
         return true
+    }
+    
+}
+
+// MARK: - UITextField Delegate Implements
+extension ProductUpdateViewController: UITextViewDelegate {
+    
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if textView.textColor == .lightGray {
+            textView.text = nil
+            textView.textColor = .black
+        }
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if textView.text.isEmpty {
+            textView.text = "여기에 상품 상세 정보를 입력해주세요!"
+            textView.textColor = .lightGray
+        }
     }
     
 }
