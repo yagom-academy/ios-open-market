@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="QM3-ah-oJL">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="bau-jO-SxG">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -63,6 +63,7 @@
                         </segmentedControl>
                         <barButtonItem key="rightBarButtonItem" style="plain" systemItem="add" id="LTF-EP-78w">
                             <connections>
+                                <action selector="plusButtonDidTap:" destination="BYZ-38-t0r" id="Ysx-9y-ld3"/>
                                 <segue destination="QM3-ah-oJL" kind="show" id="ZdZ-sy-6da"/>
                             </connections>
                         </barButtonItem>
@@ -117,7 +118,7 @@
         <!--Product Registration Modification View Controller-->
         <scene sceneID="QtW-oA-ueM">
             <objects>
-                <viewController id="QM3-ah-oJL" customClass="ProductRegistrationModificationViewController" customModule="OpenMarket" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ProductRegistrationModificationViewController" id="QM3-ah-oJL" customClass="ProductRegistrationModificationViewController" customModule="OpenMarket" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="loT-H2-2zC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -266,9 +267,9 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="bargainPriceTextField" destination="thL-sf-aPJ" id="YGW-la-KH2"/>
                         <outlet property="currencySegmentControl" destination="6gX-zM-SPM" id="usR-q9-beO"/>
                         <outlet property="descriptionTextView" destination="eOS-d6-9S2" id="s9j-GZ-wTX"/>
+                        <outlet property="discountedPriceTextField" destination="thL-sf-aPJ" id="bSK-nW-ebb"/>
                         <outlet property="fixedPriceTextField" destination="AeD-W2-NTR" id="gW5-Zr-Krv"/>
                         <outlet property="mainScrollView" destination="Ehk-wC-r0Q" id="itN-Ue-szh"/>
                         <outlet property="nameTextField" destination="XiH-Al-6fG" id="TDE-8Z-vL9"/>
@@ -282,7 +283,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="EbW-Wz-baS"/>
+        <segue reference="ZdZ-sy-6da"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="plus" catalog="system" width="128" height="113"/>

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 struct APIManager: RestFulAPI {
   private let urlSession: URLSession
@@ -72,9 +73,9 @@ struct APIManager: RestFulAPI {
     dataTask.resume()
   }
   
-  func addProduct(
+  func registerProduct(
     params: ProductRegistrationRequest,
-    images: [ImageFile],
+    images: [UIImage],
     identifier: String,
     completion: @escaping (Result<Product, NetworkError>) -> Void
   ) {

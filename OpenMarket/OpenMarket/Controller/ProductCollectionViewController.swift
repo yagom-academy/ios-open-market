@@ -44,6 +44,14 @@ class ProductCollectionViewController: UIViewController {
     fetchProducts(pageNumber: currentPage)
   }
   
+  @IBAction func plusButtonDidTap(_ sender: Any) {
+    guard let presentViewController = self.storyboard?.instantiateViewController(withIdentifier: ProductRegistrationModificationViewController.reuseIdentifier) as? ProductRegistrationModificationViewController else {
+      return
+    }
+    presentViewController.viewMode = .registation
+    self.navigationController?.pushViewController(presentViewController, animated: true)
+  }
+  
   @IBAction private func touchUpPresentingSegment(_ sender: UISegmentedControl) {
     switch sender.selectedSegmentIndex {
     case CellType.list.segmentedControlIndex:

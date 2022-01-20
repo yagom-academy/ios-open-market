@@ -6,20 +6,24 @@
 //
 
 import Foundation
+import UIKit
 
 protocol RestFulAPI {
   
 }
 
 extension RestFulAPI { 
-  func createBody(json: Result<Data, NetworkError>, images: [ImageFile], boundary: String) -> Data {
+  func createBody(json: Result<Data, NetworkError>, images: [UIImage], boundary: String) -> Data? {
     var body = Data()
     
     switch json {
     case .success(let data):
       body.append(makeApplicationJsonForm(name: "params", value: data, boundary: boundary))
       for image in images {
-        body.append(makeImageForm(image: image, boundary: boundary))
+        guard let imageFile = makeImageFile(image: image) else {
+          return nil
+        }
+        body.append(makeImageForm(image: imageFile, boundary: boundary))
       }
       body.appendString("--\(boundary)--\r\n")
     case .failure(let error):
@@ -49,5 +53,13 @@ extension RestFulAPI {
     data.appendString("\r\n")
     
     return data
+  }
+  
+  func makeImageFile(image: UIImage) -> ImageFile? {
+    let name = UUID().uuidString
+    guard let imageData = image.jpegData(compressionQuality: 1) else {
+      return nil
+    }
+    return ImageFile(name: name, data: imageData, imageType: .jpeg)
   }
 }

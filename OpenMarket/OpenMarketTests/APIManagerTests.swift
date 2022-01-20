@@ -39,16 +39,13 @@ class APIManagerTests: XCTestCase {
   func test_상품등록() {
     //given
     let expectation = XCTestExpectation(description: "response")
-    let image = UIImage(named: "testProduct22")
-    guard let image22 = image?.pngData() else {
-      XCTFail("이미지 로드 실패")
+    guard let image = UIImage(named: "testProduct22") else {
       return
     }
-    let testImageFile = ImageFile(name: "qwe", data: image22, imageType: .png)
-    let imageArray: [ImageFile] = [testImageFile]
-    let params =  ProductRegistrationRequest(name: "MacBook Pro", descriptions: "Intel MacBook Pro", price: 2690000, currency: .KRW, discountedPrice: 1000000, stock: 99, secret: "password")
+    let imageArray: [UIImage] = [image]
+    let params =  ProductRegistrationRequest(name: "MacBook Pro", descriptions: "Intel MacBook Pro", price: 2690000, currency: .KRW, discountedPrice: 1000000, stock: 99, secret: "-7VPcqeCv=Xbu3&P")
     
-    sutAPIManager.addProduct(params: params, images: imageArray, identifier: identifier) { result in
+    sutAPIManager.registerProduct(params: params, images: imageArray, identifier: identifier) { result in
       // then
       switch result {
       case .success(let data):
@@ -64,7 +61,7 @@ class APIManagerTests: XCTestCase {
   func test_상품수정() {
     let expectation = XCTestExpectation(description: "response")
     let modificationProduct = ProductModificationRequest(name: "MACBook Ultra Pro", secret: "password")
-    sutAPIManager.modifyProduct(productId: 431, params: modificationProduct, identifier: <#String#>) { result in
+    sutAPIManager.modifyProduct(productId: 431, params: modificationProduct, identifier: identifier) { result in
       // then
       switch result {
       case .success(let data):

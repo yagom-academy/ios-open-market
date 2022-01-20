@@ -20,7 +20,6 @@ extension UIImage {
         context in self.draw(in: CGRect(origin: .zero, size: size))
       }
       newWidth /= 2
-      print(renderImage.jpegData(compressionQuality: 1)!)
     }
     return renderImage
   }

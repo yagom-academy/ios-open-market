@@ -44,7 +44,6 @@
 		25F8D205279599B7005B9767 /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25F8D203279599B7005B9767 /* UIViewController+Extension.swift */; };
 		25F8D2072795A43A005B9767 /* LoadingIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25F8D2062795A43A005B9767 /* LoadingIndicator.swift */; };
 		25F8D20A2795AD86005B9767 /* ProductCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25F8D2092795AD86005B9767 /* ProductCollectionViewCell.swift */; };
-		25F8D20B2795AD86005B9767 /* ProductCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25F8D2092795AD86005B9767 /* ProductCollectionViewCell.swift */; };
 		25F8D20D2796AA9C005B9767 /* ImageFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25F8D20C2796AA9C005B9767 /* ImageFile.swift */; };
 		25F8D20E2796AA9C005B9767 /* ImageFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25F8D20C2796AA9C005B9767 /* ImageFile.swift */; };
 		25F8D2102796AAB8005B9767 /* Data+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25F8D20F2796AAB8005B9767 /* Data+Extension.swift */; };
@@ -186,7 +185,6 @@
 				25F8D1FF279592F3005B9767 /* ReuseIdentifying.swift */,
 				25F8D2092795AD86005B9767 /* ProductCollectionViewCell.swift */,
 				25EEB0222798723B007E50D8 /* ImagePickerable.swift */,
-				25EEB02527998F46007E50D8 /* productRegistartionModification.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -245,6 +243,7 @@
 		895138292791161900D7480B /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				25EEB02527998F46007E50D8 /* productRegistartionModification.swift */,
 				2530792D278D2FBA004639B2 /* ProductCollectionViewController.swift */,
 				25EEB01C27981EAD007E50D8 /* ProductRegistrationModificationViewController.swift */,
 			);
@@ -394,7 +393,6 @@
 			files = (
 				2580F21E2787E9CB005FC50F /* MockURLSession.swift in Sources */,
 				25561999278459B000067096 /* APIManager.swift in Sources */,
-				25F8D20B2795AD86005B9767 /* ProductCollectionViewCell.swift in Sources */,
 				25561994278450EC00067096 /* Image.swift in Sources */,
 				25F8D2142796AAE2005B9767 /* ProductRegistrationRequest.swift in Sources */,
 				25561990278450B200067096 /* URLSession+Extension.swift in Sources */,
