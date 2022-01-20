@@ -34,7 +34,11 @@ class DetailViewController: UIViewController {
     }
     
     private func setUpNotification() {
-        NotificationCenter.default.addObserver(self, selector: #selector(updateDetailView), name: .updateDetail, object: nil)
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(updateDetailView),
+            name: .updateDetail,
+            object: nil)
     }
     
     @objc func updateDetailView() {
@@ -94,7 +98,20 @@ class DetailViewController: UIViewController {
     
     @IBAction func tappedEditButton(_ sendor: UIButton) {
         let modityAction = UIAlertAction(title: "수정", style: .default) { _ in
-            self.performSegue(withIdentifier: "ModifyView", sender: self.data)
+            self.alertInputPassword { secret in
+                self.requestModification(secret: secret) { isSuccess in
+                    if isSuccess {
+                        DispatchQueue.main.async {
+                            self.performSegue(withIdentifier: "ModifyView", sender: self.data)
+                        }
+                    } else {
+                        DispatchQueue.main.async {
+                            self.showAlert(message: "비밀번호가 맞지 않습니다. 다시 시도해주세요.")
+                        }
+                    }
+                }
+            }
+            
         }
         let deleteAction = UIAlertAction(title: "삭제", style: .destructive)
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
@@ -103,6 +120,38 @@ class DetailViewController: UIViewController {
         alert.addAction(deleteAction)
         alert.addAction(cancelAction)
         self.present(alert, animated: true)
-        
+    }
+    
+    private func requestModification(secret: String, completion: @escaping (Bool) -> Void) {
+        guard let request = requestModify(secert: secret) else {
+            showAlert(message: Message.badRequest) {
+                self.dismiss(animated: true)
+            }
+            return
+        }
+        let networkManager = NetworkManager()
+        networkManager.fetch(request: request, decodingType: Product.self) { result in
+            switch result {
+            case .success:
+                completion(true)
+            case .failure:
+                completion(false)
+            }
+        }
+    }
+    
+    private func requestModify(secert: String) -> URLRequest? {
+        guard let data = data else {
+            return nil
+        }
+        let parmas = ProductModification(secert: secert)
+        let networkManager = NetworkManager()
+        let requestResult = networkManager.requestModify(data: parmas, id: UInt(data.id))
+        switch requestResult {
+        case .success(let request):
+            return request
+        case .failure:
+            return nil
+        }
     }
 }

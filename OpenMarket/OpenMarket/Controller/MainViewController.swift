@@ -53,7 +53,12 @@ class MainViewController: UIViewController {
     }
     
     private func setUpNotification() {
-        NotificationCenter.default.addObserver(self, selector: #selector(updateMainView), name: .updataMain, object: nil)
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(updateMainView),
+            name: .updataMain,
+            object: nil
+        )
     }
     
     @objc private func updateMainView() {
