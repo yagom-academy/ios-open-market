@@ -3,14 +3,31 @@ import UIKit
 class ProductRegistrationViewController: UIViewController, UINavigationControllerDelegate {
     private let imagePickerController = UIImagePickerController()
     private var images = [UIImage]()
+    private var networkTask: NetworkTask?
+    private var jsonParser: JSONParser?
+    private var completionHandler: (() -> Void)?
     
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var verticalStackView: UIStackView!
     @IBOutlet weak var imagesCollectionView: UICollectionView!
     @IBOutlet weak var productNameTextField: UITextField!
     @IBOutlet weak var productPriceTextField: UITextField!
+    @IBOutlet weak var discountedPriceTextField: UITextField!
+    @IBOutlet weak var stockTextField: UITextField!
     @IBOutlet weak var descriptionTextView: UITextView!
     @IBOutlet weak var currencySegmentedControl: UISegmentedControl!
+    
+    convenience init?(
+        coder: NSCoder,
+        networkTask: NetworkTask,
+        jsonParser: JSONParser,
+        completionHandler: (() -> Void)?
+    ) {
+        self.init(coder: coder)
+        self.networkTask = networkTask
+        self.jsonParser = jsonParser
+        self.completionHandler = completionHandler
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,6 +48,44 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
             name: UIResponder.keyboardWillHideNotification,
             object: nil
         )
+    }
+    
+    @objc private func registerProduct() {
+        let identifier = "2836ea8c-7215-11ec-abfa-378889d9906f"
+        let secret = "-3CSKv$cyHsK_@Wk"
+        let writtenSalesInformation = makeSalesInformation(secret: secret)
+        let salesInformation: NetworkTask.SalesInformation
+        switch writtenSalesInformation {
+        case .success(let result):
+            salesInformation = result
+        case .failure(let error):
+            showAlert(title: "필수 항목이 입력되지 않았습니다", message: error.errorDescription)
+            return
+        }
+        
+        var count = 0
+        var imageDatas = [String: Data]()
+        for image in images {
+            let fileName = "\(count).jpeg"
+            let imageData = image.jpegData(compressionQuality: 0.8)
+            imageDatas[fileName] = imageData
+            count += 1
+        }
+        
+        networkTask?.requestProductRegistration(
+            identifier: identifier,
+            salesInformation: salesInformation,
+            images: imageDatas
+        ) { result in
+            switch result {
+            case .success:
+                DispatchQueue.main.async {
+                    self.dismiss(animated: true, completion: self.completionHandler)
+                }
+            case .failure(let error):
+                self.showAlert(title: "등록 실패", message: error.localizedDescription)
+            }
+        }
     }
     
     @objc private func dismissProductRegistration() {
@@ -63,7 +118,7 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
         navigationItem.rightBarButtonItem = UIBarButtonItem(
             barButtonSystemItem: .done,
             target: self,
-            action: nil
+            action: #selector(registerProduct)
         )
         navigationItem.title = "상품등록"
     }
@@ -86,6 +141,39 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
             blue: 0.8,
             alpha: 1.0
         )
+    }
+    
+    private func makeSalesInformation(
+        secret: String
+    ) -> Result<NetworkTask.SalesInformation, ProductRegistrationError> {
+        let selectedSegmentIndex = currencySegmentedControl.selectedSegmentIndex
+        let selectedSegmentTitle = currencySegmentedControl.titleForSegment(
+            at: selectedSegmentIndex
+        ) ?? ""
+        
+        guard let name = productNameTextField.text, name.isEmpty == false else {
+            return .failure(.emptyName)
+        }
+        guard let price = Decimal(string: productPriceTextField.text ?? "") else {
+            return .failure(.emptyPrice)
+        }
+        guard let currency = Currency(rawValue: selectedSegmentTitle) else {
+            return .failure(.emptyCurrency)
+        }
+        guard let descriptions = descriptionTextView.text, descriptions != "상품설명" else {
+            return .failure(.emptyDiscription)
+        }
+        let discountedPrice = Decimal(string: discountedPriceTextField.text ?? "")
+        let stock = UInt(stockTextField.text ?? "")
+        let product = NetworkTask.SalesInformation(
+            name: name,
+            descriptions: descriptions,
+            price: price,
+            currency: currency,
+            discountedPrice: discountedPrice,
+            stock: stock,
+            secret: secret)
+        return .success(product)
     }
     
     private func cropSquare(_ image: UIImage) -> UIImage? {

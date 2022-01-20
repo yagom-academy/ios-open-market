@@ -240,7 +240,7 @@ extension NetworkTask {
         let price: Decimal
         let currency: Currency
         let discountedPrice: Decimal?
-        let stock: Int?
+        let stock: UInt?
         let secret: String
     }
     
@@ -251,7 +251,7 @@ extension NetworkTask {
         let price: Decimal?
         let currency: Currency?
         let discountedPrice: Decimal?
-        let stock: Int?
+        let stock: UInt?
         let secret: String
     }
 }

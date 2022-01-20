@@ -103,8 +103,17 @@ class MainViewController: UIViewController {
     @IBAction func touchAddProductButton(_ sender: UIBarButtonItem) {
         let storyboard = UIStoryboard(name: productRegistrationStoryboardName, bundle: nil)
         let viewController = storyboard.instantiateViewController(
-            withIdentifier: productRegistrationViewControllerIdentifier
-        )
+            identifier: productRegistrationViewControllerIdentifier
+        ) { coder in
+            let productRegistrationViewController = ProductRegistrationViewController(
+                coder: coder,
+                networkTask: self.networkTask,
+                jsonParser: self.jsonParser
+            ) {
+                self.showAlert(title: "등록 성공", message: nil)
+            }
+            return productRegistrationViewController
+        }
         let navigationController = UINavigationController(rootViewController: viewController)
         navigationController.modalPresentationStyle = .fullScreen
         present(navigationController, animated: true, completion: nil)
