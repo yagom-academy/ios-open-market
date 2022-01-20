@@ -4,7 +4,9 @@ class CollectionViewGridCell: UICollectionViewCell {
 
     typealias Product = NetworkingAPI.ProductListQuery.Response.Page
     
-    enum CellAttribute {
+    enum Attribute {
+        static let largeSpacing: CGFloat = 10
+        static let smallSpacing: CGFloat = 5
         static let borderColor: CGColor = UIColor.systemGray.cgColor
         static let borderWidth: CGFloat = 1
         static let cornerRadius: CGFloat = 15
@@ -28,6 +30,14 @@ class CollectionViewGridCell: UICollectionViewCell {
         super.init(coder: coder)
     }
     
+    //MARK: - Opened Method
+    func updateAllComponents(from product: Product) {
+        updateImageView(from: product)
+        updateNameLabel(from: product)
+        updatePriceLabel(from: product)
+        updateStockLabel(from: product)
+    }
+    
     private func createAllComponents() {
         createAcitivityIndicator()
         createImageView()
@@ -38,26 +48,26 @@ class CollectionViewGridCell: UICollectionViewCell {
     }
     
     private func configureCellAttribute() {
-        layer.borderColor = CellAttribute.borderColor
-        layer.borderWidth = CellAttribute.borderWidth
-        layer.cornerRadius = CellAttribute.cornerRadius
+        layer.borderColor = Attribute.borderColor
+        layer.borderWidth = Attribute.borderWidth
+        layer.cornerRadius = Attribute.cornerRadius
     }
     
     private func configureLayout() {
-        addSubview(activityIndicator)
-        addSubview(imageView)
-        addSubview(labelStackView)
-    
+        configureMainViewLayout()
         configureActivityIndicatorLayout()
         configureImageViewLayout()
         configureLabelStackViewLayout()
     }
+    
+    private func configureMainViewLayout() {
+        addSubview(activityIndicator)
+        addSubview(imageView)
+        addSubview(labelStackView)
 
-    func updateAllComponents(from product: Product) {
-        updateImageView(from: product)
-        updateNameLabel(from: product)
-        updatePriceLabel(from: product)
-        updateStockLabel(from: product)
+        NSLayoutConstraint.activate([
+            heightAnchor.constraint(greaterThanOrEqualTo: imageView.heightAnchor, multiplier: 2.0)
+        ])
     }
 }
 
@@ -80,11 +90,11 @@ extension CollectionViewGridCell {
         NSLayoutConstraint.activate([
             activityIndicator.topAnchor.constraint(equalTo: topAnchor,
                                            constant: ActivityIndicatorAttribute.spacing),
-            activityIndicator.centerXAnchor.constraint(equalTo: centerXAnchor),
-            activityIndicator.widthAnchor.constraint(equalTo: contentView.widthAnchor,
+            activityIndicator.widthAnchor.constraint(equalTo: widthAnchor,
                                              multiplier: ActivityIndicatorAttribute.fractionalWidth),
             activityIndicator.heightAnchor.constraint(equalTo: activityIndicator.widthAnchor,
-                                              multiplier: ActivityIndicatorAttribute.aspectRatio)
+                                              multiplier: ActivityIndicatorAttribute.aspectRatio),
+            activityIndicator.centerXAnchor.constraint(equalTo: centerXAnchor)
         ])
     }
 }
@@ -120,12 +130,12 @@ extension CollectionViewGridCell {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             imageView.topAnchor.constraint(equalTo: topAnchor,
-                                           constant: ImageViewAttribute.spacing),
-            imageView.centerXAnchor.constraint(equalTo: centerXAnchor),
-            imageView.widthAnchor.constraint(equalTo: contentView.widthAnchor,
-                                             multiplier: ImageViewAttribute.fractionalWidth),
+                                           constant: ActivityIndicatorAttribute.spacing),
+            imageView.widthAnchor.constraint(equalTo: widthAnchor,
+                                             multiplier: ActivityIndicatorAttribute.fractionalWidth),
             imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor,
-                                              multiplier: ImageViewAttribute.aspectRatio)
+                                              multiplier: ActivityIndicatorAttribute.aspectRatio),
+            imageView.centerXAnchor.constraint(equalTo: centerXAnchor)
         ])
     }
 }
@@ -244,8 +254,6 @@ extension CollectionViewGridCell {
 extension CollectionViewGridCell {
     
     enum LableStackViewAttribute {
-        static let innerSpacing: CGFloat = 5
-        static let outerSpacing: CGFloat = 10
         static let fractionalWidth: CGFloat = 0.95
     }
     
@@ -260,7 +268,6 @@ extension CollectionViewGridCell {
         labelStackView.axis = .vertical
         labelStackView.distribution = .equalSpacing
         labelStackView.alignment = .center
-        labelStackView.spacing = LableStackViewAttribute.innerSpacing
     }
     
     private func configureLabelStackViewLayout() {
@@ -268,14 +275,14 @@ extension CollectionViewGridCell {
 
         NSLayoutConstraint.activate([
             labelStackView.topAnchor.constraint(equalTo: activityIndicator.bottomAnchor,
-                                                constant: LableStackViewAttribute.outerSpacing),
+                                                constant: Attribute.largeSpacing),
             labelStackView.topAnchor.constraint(equalTo: imageView.bottomAnchor,
-                                                constant: LableStackViewAttribute.outerSpacing),
-            labelStackView.bottomAnchor.constraint(equalTo: bottomAnchor,
-                                                   constant: -1 * LableStackViewAttribute.outerSpacing),
-            labelStackView.centerXAnchor.constraint(equalTo: centerXAnchor),
+                                                constant: Attribute.largeSpacing),
             labelStackView.widthAnchor.constraint(equalTo: widthAnchor,
                                                   multiplier: LableStackViewAttribute.fractionalWidth),
+            labelStackView.centerXAnchor.constraint(equalTo: centerXAnchor),
+            labelStackView.bottomAnchor.constraint(equalTo: bottomAnchor,
+                                                   constant: -1 * Attribute.largeSpacing)
         ])
     }
 }

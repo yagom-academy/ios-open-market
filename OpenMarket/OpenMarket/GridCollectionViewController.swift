@@ -33,13 +33,13 @@ extension GridCollectionViewController {
         
         let itemSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
-            heightDimension: .estimated(230)
+            heightDimension: .estimated(220)
         )
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
         let groupSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
-            heightDimension: itemSize.heightDimension
+            heightDimension: .estimated(220)
         )
         let group = NSCollectionLayoutGroup.horizontal(
             layoutSize: groupSize,

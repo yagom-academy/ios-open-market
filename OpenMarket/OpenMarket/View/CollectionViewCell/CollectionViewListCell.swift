@@ -27,6 +27,13 @@ class CollectionViewListCell: UICollectionViewListCell {
         super.init(coder: coder)
     }
     
+    func updateAllComponents(from product: Product) {
+        updateImageView(from: product)
+        updateNameLabel(from: product)
+        updatePriceLabel(from: product)
+        updateStockLabel(from: product)
+    }
+    
     private func createAllComponents() {
         createActivityIndicator()
         createImageView()
@@ -36,15 +43,17 @@ class CollectionViewListCell: UICollectionViewListCell {
         createStockLabel()
         createChevronButton()
     }
-    
-    func updateAllComponents(from product: Product) {
-        updateImageView(from: product)
-        updateNameLabel(from: product)
-        updatePriceLabel(from: product)
-        updateStockLabel(from: product)
-    }
 
     private func configureLayout() {
+        configureMainViewLayout()
+        configureActivityIndicatorLayout()
+        configureImageViewLayout()
+        configureLabelStackViewLayout()
+        configureStockLabelLayout()
+        configureChevronButtonLayout()
+    }
+    
+    private func configureMainViewLayout() {
         contentView.addSubview(activityIndicator)
         contentView.addSubview(imageView)
         contentView.addSubview(labelStackView)
@@ -52,17 +61,11 @@ class CollectionViewListCell: UICollectionViewListCell {
         contentView.addSubview(chevronButton)
         
         NSLayoutConstraint.activate([
-            contentView.heightAnchor.constraint(greaterThanOrEqualTo: activityIndicator.heightAnchor,
+            heightAnchor.constraint(greaterThanOrEqualTo: activityIndicator.heightAnchor,
                                                 constant: Attribute.largeSpacing * 2),
-            contentView.heightAnchor.constraint(greaterThanOrEqualTo: imageView.heightAnchor,
+            heightAnchor.constraint(greaterThanOrEqualTo: imageView.heightAnchor,
                                                 constant: Attribute.largeSpacing * 2)
         ])
-        
-        configureActivityIndicatorLayout()
-        configureImageViewLayout()
-        configureLabelStackViewLayout()
-        configureStockLabelLayout()
-        configureChevronButtonLayout()
     }
 }
 
