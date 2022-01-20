@@ -6,7 +6,6 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
-        <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -18,8 +17,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="PtY-Ty-Dpg">
+                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </tableView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="bfg-tl-KEx">
-                                <rect key="frame" x="0.0" y="88" width="414" height="808"/>
+                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Wp9-fT-wg4">
                                     <size key="itemSize" width="202" height="262"/>
@@ -27,41 +30,39 @@
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
-                                <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="CollectionViewCell" id="7QB-xs-zNh" customClass="CollectionViewCell" customModule="OpenMarket" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="202" height="262"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="VGK-Xa-9vY" customClass="CollectionViewCell" customModule="OpenMarket" customModuleProvider="target">
-                                            <rect key="frame" x="0.0" y="0.0" width="202" height="262"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </collectionViewCellContentView>
-                                        <size key="customSize" width="202" height="262"/>
-                                    </collectionViewCell>
-                                </cells>
+                                <cells/>
                             </collectionView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="opi-J7-vAf"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="bfg-tl-KEx" firstAttribute="top" secondItem="opi-J7-vAf" secondAttribute="top" id="72s-8P-x4Y"/>
-                            <constraint firstItem="bfg-tl-KEx" firstAttribute="bottom" secondItem="opi-J7-vAf" secondAttribute="bottom" constant="34" id="rdG-x4-ztG"/>
-                            <constraint firstItem="opi-J7-vAf" firstAttribute="trailing" secondItem="bfg-tl-KEx" secondAttribute="trailing" id="ujF-WT-QO0"/>
+                            <constraint firstItem="PtY-Ty-Dpg" firstAttribute="top" secondItem="opi-J7-vAf" secondAttribute="top" id="FRi-nc-HOr"/>
+                            <constraint firstItem="PtY-Ty-Dpg" firstAttribute="bottom" secondItem="opi-J7-vAf" secondAttribute="bottom" id="ULs-o3-ta9"/>
+                            <constraint firstItem="PtY-Ty-Dpg" firstAttribute="leading" secondItem="opi-J7-vAf" secondAttribute="leading" id="VnU-vP-gei"/>
+                            <constraint firstItem="PtY-Ty-Dpg" firstAttribute="trailing" secondItem="opi-J7-vAf" secondAttribute="trailing" id="aFS-0G-rOs"/>
+                            <constraint firstItem="bfg-tl-KEx" firstAttribute="bottom" secondItem="opi-J7-vAf" secondAttribute="bottom" id="rdG-x4-ztG"/>
+                            <constraint firstItem="bfg-tl-KEx" firstAttribute="trailing" secondItem="opi-J7-vAf" secondAttribute="trailing" id="ujF-WT-QO0"/>
                             <constraint firstItem="bfg-tl-KEx" firstAttribute="leading" secondItem="opi-J7-vAf" secondAttribute="leading" id="zdi-0s-N1x"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="XMC-WE-v0n">
                         <nil key="title"/>
                         <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="dvD-Xb-92X">
-                            <rect key="frame" x="141.5" y="6" width="131" height="32"/>
+                            <rect key="frame" x="60.5" y="5.5" width="293" height="33"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <segments>
-                                <segment title="First"/>
-                                <segment title="Second"/>
+                                <segment title="LIST"/>
+                                <segment title="GRID"/>
                             </segments>
+                            <connections>
+                                <action selector="layoutSwitch:" destination="j1J-qY-gyo" eventType="valueChanged" id="TuX-dv-lnx"/>
+                            </connections>
                         </segmentedControl>
                     </navigationItem>
                     <connections>
                         <outlet property="productCollectionView" destination="bfg-tl-KEx" id="I7R-GR-nwo"/>
+                        <outlet property="productTableView" destination="PtY-Ty-Dpg" id="Agb-ei-rGZ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jOk-UZ-Onq" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

@@ -8,15 +8,34 @@ import UIKit
 
 class ViewController: UIViewController {
     @IBOutlet weak var productCollectionView: UICollectionView!
+    @IBOutlet weak var productTableView: UITableView!
+    @IBAction func layoutSwitch(_ sender: UISegmentedControl) {
+        switch sender.selectedSegmentIndex  {
+        case 0:
+            productTableView.isHidden = false
+            productCollectionView.isHidden = true
+        case 1:
+            productTableView.isHidden = true
+            productCollectionView.isHidden = false
+        default: break
+        }
+    }
+    
     var productList: ProductList?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        productTableView.isHidden = false
+        productCollectionView.isHidden = true
+        
         self.productCollectionView.delegate = self
         self.productCollectionView.dataSource = self
+        self.productTableView.delegate = self
+        self.productTableView.dataSource = self
         
         self.productCollectionView.register(CollectionViewCell.self, forCellWithReuseIdentifier: "CollectionViewCell")
+        self.productTableView.register(TableViewCell.self, forCellReuseIdentifier: "TableViewCell")
         
         self.loadProductList()
     }
@@ -28,6 +47,7 @@ class ViewController: UIViewController {
                 self.productList = data
                 DispatchQueue.main.async {
                     self.productCollectionView.reloadData()
+                    self.productTableView.reloadData()
                 }
             case .failure(let error):
                 print(error)
@@ -54,34 +74,58 @@ class ViewController: UIViewController {
     }
 }
 
+extension ViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        view.frame.height / 11
+    }
+}
+
+extension ViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        productList?.productsInPage.count ?? 5
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = productTableView.dequeueReusableCell(withIdentifier: "TableViewCell")
+        
+        guard let typeCastedCell = cell as? TableViewCell else {
+            return cell!
+        }
+        
+        guard let productList = productList else {
+            return typeCastedCell
+        }
+        
+        typeCastedCell.updateCell(data: productList.productsInPage[indexPath.item])
+        
+        return typeCastedCell
+    }
+}
+
 extension ViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         3
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         3
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = (view.frame.width / 2 - 1) - 25
+        let width = (view.frame.width / 2 - 1) - 13
         let height = width * 1.7
         let size = CGSize(width: width, height: height)
-                          
+        
         return size
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        let pedding = CGFloat(10)
+        let pedding = CGFloat(5)
         return UIEdgeInsets(top: pedding, left: pedding, bottom: pedding, right: pedding)
     }
 }
 
-extension ViewController: UICollectionViewDelegate {
-    
-}
-
-extension ViewController: UICollectionViewDataSource {
+extension ViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         productList?.productsInPage.count ?? 5
     }
@@ -102,6 +146,7 @@ extension ViewController: UICollectionViewDataSource {
         cell.layer.borderColor = UIColor.systemGray3.cgColor
         cell.layer.borderWidth = 1.5
         cell.layer.cornerRadius = 5
+        
         let layout = productCollectionView.collectionViewLayout as! UICollectionViewFlowLayout
         layout.estimatedItemSize = .zero
         
