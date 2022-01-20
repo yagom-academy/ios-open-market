@@ -11,8 +11,11 @@ import UIKit.UIImage
 protocol ProductUpdateModelManager: AnyObject {
     
     func process(_ form: Form) -> Bool
+    func append(image: UIImage)
+    
     var imagesDidChangeHandler: (() -> Void)? { get set }
     var currentImages: [UIImage] { get }
+    var canAddImage: Bool { get }
 }
 
 struct Form {

@@ -9,7 +9,7 @@ import UIKit
 
 class ProductUpdateViewController: UIViewController {
     
-    let model: ProductUpdateModelManager = ProductCreateModelManager()
+    private(set) var model: ProductUpdateModelManager!
     
     @IBOutlet private weak var containerScrollView: UIScrollView!
     @IBOutlet private weak var productImageStackView: UIStackView!
@@ -48,6 +48,10 @@ class ProductUpdateViewController: UIViewController {
             let message = "할인가격, 재고수량을 제외한 나머지 항목은 필수적으로 입력되어야합니다."
             presentAcceptAlert(with: title, description: message)
         }
+    }
+    
+    func configure(model: ProductUpdateModelManager) {
+        self.model = model
     }
     
 }

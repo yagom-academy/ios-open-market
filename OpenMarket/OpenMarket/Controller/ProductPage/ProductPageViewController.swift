@@ -103,7 +103,12 @@ final class ProductPageViewController: UIViewController {
             return
         }
         
-        destination.topViewController?.navigationItem.title = "상품등록"
+        guard let topViewController = destination.topViewController as? ProductCreateViewController else {
+            return
+        }
+        
+        topViewController.navigationItem.title = "상품등록"
+        topViewController.configure(model: ProductCreateModelManager())
     }
     
 }

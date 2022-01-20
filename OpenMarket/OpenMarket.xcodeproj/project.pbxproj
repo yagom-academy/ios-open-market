@@ -43,7 +43,6 @@
 		C1763B64279931C900D6C159 /* ProductNetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1763B63279931C900D6C159 /* ProductNetworkManager.swift */; };
 		C1763B682799589700D6C159 /* ProductCreateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1763B672799589700D6C159 /* ProductCreateViewController.swift */; };
 		C1763B6B2799608600D6C159 /* ProductUpdateModelManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1763B6A2799608600D6C159 /* ProductUpdateModelManager.swift */; };
-		C1763B6C2799608600D6C159 /* ProductUpdateModelManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1763B6A2799608600D6C159 /* ProductUpdateModelManager.swift */; };
 		C17E063627846CF400D7F83D /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17E063527846CF400D7F83D /* Product.swift */; };
 		C1A5695B278B010A004E4B3C /* JSONRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9632433278AEAA900851348 /* JSONRequest.swift */; };
 		C1A5695C278B010E004E4B3C /* MultiPartRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9632437278AEAB800851348 /* MultiPartRequest.swift */; };
@@ -244,6 +243,7 @@
 				C13BFD5A2796E015006E2440 /* ProductUpdateViewController.swift */,
 				C1763B672799589700D6C159 /* ProductCreateViewController.swift */,
 				C163550727985783004272DE /* ProductCreateModelManager.swift */,
+				C1763B6A2799608600D6C159 /* ProductUpdateModelManager.swift */,
 			);
 			path = ProductCreate;
 			sourceTree = "<group>";
@@ -296,7 +296,6 @@
 		C70FB0EE25BEF61C00C9924E = {
 			isa = PBXGroup;
 			children = (
-				C1763B6A2799608600D6C159 /* ProductUpdateModelManager.swift */,
 				E93FA8942782F9A2003DC3E7 /* .swiftlint.yml */,
 				C70FB0F925BEF61C00C9924E /* OpenMarket */,
 				C1F964E92782E6D7006F6853 /* OpenMarketTests */,
@@ -607,7 +606,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				E9632476278B2D8500851348 /* ShowProductDetailResponse.swift in Sources */,
-				C1763B6C2799608600D6C159 /* ProductUpdateModelManager.swift in Sources */,
 				C13469F22787104E0044DFDB /* URLSessionProtocol.swift in Sources */,
 				C1A56965278B1B2D004E4B3C /* URLSessionProviderDecodingTests.swift in Sources */,
 				C1F964F42782EA88006F6853 /* StubURLSession.swift in Sources */,
