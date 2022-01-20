@@ -15,22 +15,37 @@ enum ViewMode {
 class ProductRegistrationModificationViewController: productRegister, ImagePickerable, ReuseIdentifying {
   private let api = APIManager(urlSession: URLSession(configuration: .default), jsonParser: JSONParser())
   var product: Product?
-  var viewMode: ViewMode?
+  var viewMode: ViewMode? = .modification
   private var productImages: [UIImage] = []
   
   let identifer = "3be89f18-7200-11ec-abfa-25c2d8a6d606"
   let secret = "-7VPcqeCv=Xbu3&P"
-
+  
   override func viewDidLoad() {
     super.viewDidLoad()
-    keyboardNotification()
-    setNavigaionTitle(viewMode: viewMode)
-    if viewMode == .modification {
+    addKeyboardNotification()
+    setView(mode: viewMode)
+  }
+  
+  func setView(mode: ViewMode?) {
+    switch mode {
+    case .registation:
+      navigationItem.title = "상품등록"
+      doneButton.target = self
+      doneButton.action = #selector(registerProduct)
+      addImageButton.addTarget(self, action: #selector(addImage), for: .touchUpInside)
+    case .modification:
+      navigationItem.title = "상품수정"
+      doneButton.target = self
+      doneButton.action = #selector(modifyProduct)
       fetchProductDetail(productId: product?.id)
+      addImageButton.isHidden = true
+    case .none:
+      return
     }
   }
   
-  @IBAction private func button(_ sender: Any) {
+  @objc func addImage() {
     if productImages.count < 5 {
       actionSheetAlertForImage()
     } else {
@@ -38,33 +53,12 @@ class ProductRegistrationModificationViewController: productRegister, ImagePicke
     }
   }
   
-  private func setNavigaionTitle(viewMode: ViewMode?) {
-    switch viewMode {
-    case .registation:
-      navigationItem.title = "상품등록"
-    case .modification:
-      navigationItem.title = "상품수정"
-    case .none:
-      return
-    }
-  }
-  
-  @IBAction func doneButtonDidTap(_ sender: Any) {
-    registerProduct()
-  }
-  
-  private func appendImageView(image: UIImage?) {
-    let imageView = UIImageView(image: image)
-    stackView.addArrangedSubview(imageView)
-    imageView.heightAnchor.constraint(
-      equalTo: imageView.widthAnchor,
-      multiplier: 1
-    ).isActive = true
-  }
-  
-  private func registerProduct() {
-    let productInformation = getInformaionForRestration(secret: secret)
-    api.registerProduct(params: productInformation, images: productImages, identifier: identifer) { [self] response in
+  @objc private func registerProduct() {
+    api.registerProduct(
+      params: getInformaionForRegistration(secret: secret),
+      images: productImages,
+      identifier: identifer
+    ) { [self] response in
       switch response {
       case .success(_):
         DispatchQueue.main.async {
@@ -78,7 +72,29 @@ class ProductRegistrationModificationViewController: productRegister, ImagePicke
     }
   }
   
-  func getInformaionForRestration(secret: String) -> ProductRegistrationRequest {
+  @objc private func modifyProduct() {
+    guard let productId = product?.id else {
+      return
+    }
+    api.modifyProduct(
+      productId: productId,
+      params: getInformationForModification(secret: secret),
+      identifier: identifer
+    ) { [self] response in
+      switch response {
+      case .success(_):
+        DispatchQueue.main.async {
+          navigationController?.popViewController(animated: true)
+        }
+      case .failure(_):
+        DispatchQueue.main.async {
+          showAlert(message: "상품등록에 실패 했습니다.\n다시 시도해 주세요")
+        }
+      }
+    }
+  }
+  
+  func getInformaionForRegistration(secret: String) -> ProductRegistrationRequest {
     let name = nameTextField.text ?? ""
     let fixedPrice = Double(fixedPriceTextField.text ?? "") ?? 0
     let discountedPrice = Double(discountedPriceTextField.text ?? "") ?? 0
@@ -87,6 +103,29 @@ class ProductRegistrationModificationViewController: productRegister, ImagePicke
     let curreny: Currency = currencySegmentControl.selectedSegmentIndex == 0 ? .KRW : .USD
     
     return ProductRegistrationRequest(name: name, descriptions: descriptions, price: fixedPrice, currency: curreny, discountedPrice: discountedPrice, stock: stock, secret: secret)
+  }
+  
+  func getInformationForModification(secret: String) -> ProductModificationRequest {
+    let name = nameTextField.text ?? ""
+    let fixedPrice = Double(fixedPriceTextField.text ?? "") ?? 0
+    let discountedPrice = Double(discountedPriceTextField.text ?? "") ?? 0
+    let stock = Int(stockTextField.text ?? "") ?? 0
+    let descriptions = descriptionTextView.text ?? ""
+    let curreny: Currency = currencySegmentControl.selectedSegmentIndex == 0 ? .KRW : .USD
+    
+    return ProductModificationRequest(name: name, descriptions: descriptions, price: fixedPrice, currency: curreny, discountedPrice: discountedPrice, stock: stock, secret: secret)
+  }
+}
+
+
+extension ProductRegistrationModificationViewController {
+  private func appendImageView(image: UIImage?) {
+    let imageView = UIImageView(image: image)
+    stackView.addArrangedSubview(imageView)
+    imageView.heightAnchor.constraint(
+      equalTo: imageView.widthAnchor,
+      multiplier: 1
+    ).isActive = true
   }
   
   func setProductDetail(product: Product) {

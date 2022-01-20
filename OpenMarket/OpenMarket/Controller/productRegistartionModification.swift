@@ -17,8 +17,10 @@ class productRegister: UIViewController {
   @IBOutlet weak var stockTextField: UITextField!
   @IBOutlet weak var descriptionTextView: UITextView!
   @IBOutlet weak var currencySegmentControl: UISegmentedControl!
+  @IBOutlet weak var addImageButton: UIButton!
+  @IBOutlet weak var doneButton: UIBarButtonItem!
   
-  func keyboardNotification() {
+  func addKeyboardNotification() {
     self.view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(endEditing)))
     NotificationCenter.default.addObserver(
       self,

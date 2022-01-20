@@ -152,9 +152,6 @@
                                                                 </constraints>
                                                                 <state key="normal" title="Button"/>
                                                                 <buttonConfiguration key="configuration" style="gray" image="plus" catalog="system" title=""/>
-                                                                <connections>
-                                                                    <action selector="button:" destination="QM3-ah-oJL" eventType="touchUpInside" id="t3a-82-Oyf"/>
-                                                                </connections>
                                                             </button>
                                                         </subviews>
                                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -260,16 +257,14 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="kGT-kc-G7A">
-                        <barButtonItem key="rightBarButtonItem" title="Done" id="pX6-vz-mSs">
-                            <connections>
-                                <action selector="doneButtonDidTap:" destination="QM3-ah-oJL" id="8I4-YN-NXh"/>
-                            </connections>
-                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Done" id="pX6-vz-mSs"/>
                     </navigationItem>
                     <connections>
+                        <outlet property="addImageButton" destination="sd2-S9-lRh" id="SW9-4N-dkt"/>
                         <outlet property="currencySegmentControl" destination="6gX-zM-SPM" id="usR-q9-beO"/>
                         <outlet property="descriptionTextView" destination="eOS-d6-9S2" id="s9j-GZ-wTX"/>
                         <outlet property="discountedPriceTextField" destination="thL-sf-aPJ" id="bSK-nW-ebb"/>
+                        <outlet property="doneButton" destination="pX6-vz-mSs" id="jFl-8G-fKG"/>
                         <outlet property="fixedPriceTextField" destination="AeD-W2-NTR" id="gW5-Zr-Krv"/>
                         <outlet property="mainScrollView" destination="Ehk-wC-r0Q" id="itN-Ue-szh"/>
                         <outlet property="nameTextField" destination="XiH-Al-6fG" id="TDE-8Z-vL9"/>
