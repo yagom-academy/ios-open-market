@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class ProductUpdateViewController: UIViewController {
+class ProductUpdateViewController: UIViewController {
     
     let model = ProductCreateModelManager()
     
@@ -20,7 +20,6 @@ final class ProductUpdateViewController: UIViewController {
     @IBOutlet private weak var productStockTextField: UITextField!
     @IBOutlet private weak var descriptionTextView: UITextView!
     
-    private let imagePicker = UIImagePickerController(allowsEditing: true)
     private var forms: ProductCreateModelManager.Form {
         let currencyIndex = currencySegmentedControl.selectedSegmentIndex
         return ProductCreateModelManager.Form(
@@ -38,6 +37,7 @@ final class ProductUpdateViewController: UIViewController {
         configureDelgate()
         configureNotification()
         configureTextEditors()
+        configureAccessibility()
     }
     
     @IBAction func doneButtonClicked(_ sender: UIBarButtonItem) {
@@ -50,32 +50,12 @@ final class ProductUpdateViewController: UIViewController {
         }
     }
     
-    @IBAction private func imageAddbuttonClicked(_ sender: UIButton) {
-        guard model.canAddImage else {
-            let title = "첨부할 수 있는 이미지가 초과되었습니다"
-            let message = "새로운 이미지를 첨부하려면 기존의 이미지를 제거해주세요!"
-            presentAcceptAlert(with: title, description: message)
-            return
-        }
-        
-        let alert = UIAlertController(
-            title: "사진을 불러옵니다",
-            message: "어디서 불러올까요?",
-            preferredStyle: .actionSheet
-        )
-        alert.addAction(title: "카메라", style: .default, handler: openCamera)
-        alert.addAction(title: "앨범", style: .default, handler: openPhotoLibrary)
-        alert.addAction(title: "취소", style: .cancel)
-        
-        self.present(alert, animated: true, completion: nil)
-    }
 }
 
 // MARK: - Configure View Controller
 private extension ProductUpdateViewController {
     
     func configureDelgate() {
-        imagePicker.delegate = self
         textEditors.forEach {
             if let view = $0 as? UITextField { view.delegate = self }
             if let view = $0 as? UITextView { view.delegate = self }
@@ -94,56 +74,20 @@ private extension ProductUpdateViewController {
     
     func configureTextEditors() {
         textEditors.forEach { $0.addButtonToInputAccessoryView(with: "Done") }
-        descriptionTextView.text = "여기에 상품 상세 정보를 입력해주세요!"
-        descriptionTextView.textColor = .lightGray
+        configurePlaceholder(to: descriptionTextView, with: "여기에 상품 상세 정보를 입력해주세요!")
+    }
+    
+    func configureAccessibility() {
+        productNameTextField.accessibilityLabel = "상품명"
+        productPriceTextField.accessibilityLabel = "상품가격"
+        discountedPriceTextField.accessibilityLabel = "할인가격"
+        productStockTextField.accessibilityLabel = "재고수량"
+        descriptionTextView.accessibilityLabel = "상품세부정보"
     }
     
     func updateImageStackView() {
         productImageStackView.subviews.forEach { $0.removed(from: productImageStackView, whenTypeIs: UIImageView.self) }
         model.images.forEach { productImageStackView.insertArrangedSubview(UIImageView(with: $0), at: 0) }
-    }
-    
-    func presentAcceptAlert(with title: String, description: String) {
-        let alert = UIAlertController(
-            title: title,
-            message: description,
-            preferredStyle: .alert
-        )
-        alert.addAction(title: "확인", style: .default)
-        present(alert, animated: true)
-    }
-    
-}
-
-// MARK: - UIImagePicker Delegate Implements
-extension ProductUpdateViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    
-    private func openCamera(_ action: UIAlertAction) {
-        guard UIImagePickerController.isSourceTypeAvailable(.camera) else {
-            print("Camera Not Available")
-            return
-        }
-        
-        imagePicker.sourceType = .camera
-        present(imagePicker, animated: true)
-    }
-    
-    private func openPhotoLibrary(_ action: UIAlertAction) {
-        guard UIImagePickerController.isSourceTypeAvailable(.photoLibrary) else {
-            print("photoLibrary Not Available")
-            return
-        }
-        
-        imagePicker.sourceType = .photoLibrary
-        present(imagePicker, animated: true)
-    }
-    
-    func imagePickerController(_ picker: UIImagePickerController,
-                               didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        if let image = info[.editedImage] as? UIImage {
-            model.append(image: image)
-        }
-        dismiss(animated: true)
     }
     
 }
@@ -162,16 +106,21 @@ extension ProductUpdateViewController: UITextFieldDelegate {
 extension ProductUpdateViewController: UITextViewDelegate {
     
     func textViewDidBeginEditing(_ textView: UITextView) {
-        if textView.textColor == .lightGray {
+        if textView.textColor == .systemGray {
             textView.text = nil
+            textView.accessibilityValue = nil
             textView.textColor = .black
         }
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
+        configurePlaceholder(to: textView, with: "여기에 상품 상세 정보를 입력해주세요!")
+    }
+    
+    private func configurePlaceholder(to textView: UITextView, with message: String) {
         if textView.text.isEmpty {
-            textView.text = "여기에 상품 상세 정보를 입력해주세요!"
-            textView.textColor = .lightGray
+            textView.text = message
+            textView.textColor = .systemGray
         }
     }
     

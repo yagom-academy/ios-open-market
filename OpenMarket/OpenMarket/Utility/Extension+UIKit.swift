@@ -40,11 +40,16 @@ extension UIImagePickerController {
     
 }
 
-extension UIToolbar {
+extension UIViewController {
     
-    convenience init(with title: String, action: Selector?) {
-        self.init()
-        
+    func presentAcceptAlert(with title: String, description: String) {
+        let alert = UIAlertController(
+            title: title,
+            message: description,
+            preferredStyle: .alert
+        )
+        alert.addAction(title: "확인", style: .default)
+        present(alert, animated: true)
     }
     
 }
