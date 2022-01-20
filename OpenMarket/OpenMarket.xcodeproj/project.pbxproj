@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0D7634EC279003AC001FFB05 /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D7634EB279003AC001FFB05 /* TableViewController.swift */; };
-		0D7634EE279003C7001FFB05 /* CollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D7634ED279003C7001FFB05 /* CollectionViewController.swift */; };
 		0D906D982796E79700B461ED /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D906D972796E79700B461ED /* CollectionViewCell.swift */; };
 		0DF58F6E2787FD320024602F /* Decoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DF58F6D2787FD320024602F /* Decoder.swift */; };
 		0DF58F71278816C10024602F /* URLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DF58F70278816C10024602F /* URLSession.swift */; };
@@ -57,8 +55,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		0D7634EB279003AC001FFB05 /* TableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
-		0D7634ED279003C7001FFB05 /* CollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewController.swift; sourceTree = "<group>"; };
 		0D906D972796E79700B461ED /* CollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
 		0DF58F6D2787FD320024602F /* Decoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Decoder.swift; sourceTree = "<group>"; };
 		0DF58F70278816C10024602F /* URLSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSession.swift; sourceTree = "<group>"; };
@@ -107,13 +103,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0D6C5D302799279B006C9955 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				C70FB10025BEF61C00C9924E /* Main.storyboard */,
+				0D906D972796E79700B461ED /* CollectionViewCell.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		0D7634EA278FFBE9001FFB05 /* View Controller */ = {
 			isa = PBXGroup;
 			children = (
 				C70FB0FE25BEF61C00C9924E /* ViewController.swift */,
-				0D906D972796E79700B461ED /* CollectionViewCell.swift */,
-				0D7634EB279003AC001FFB05 /* TableViewController.swift */,
-				0D7634ED279003C7001FFB05 /* CollectionViewController.swift */,
 			);
 			path = "View Controller";
 			sourceTree = "<group>";
@@ -132,6 +134,7 @@
 		0DF58F7A27888A6A0024602F /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				0DF58F6D2787FD320024602F /* Decoder.swift */,
 				48C6991D278C2061002EF7D1 /* Common */,
 				48C69919278C1EC6002EF7D1 /* ProductList */,
 				48C6990A278AE8DA002EF7D1 /* RegistProduct */,
@@ -230,10 +233,9 @@
 				C70FB10325BEF61D00C9924E /* Assets.xcassets */,
 				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
 				C70FB10825BEF61D00C9924E /* Info.plist */,
-				C70FB10025BEF61C00C9924E /* Main.storyboard */,
+				0D6C5D302799279B006C9955 /* View */,
 				0D7634EA278FFBE9001FFB05 /* View Controller */,
 				0DF58F7A27888A6A0024602F /* Model */,
-				0DF58F6D2787FD320024602F /* Decoder.swift */,
 				0DF58F72278816CE0024602F /* Network */,
 			);
 			path = OpenMarket;
@@ -358,7 +360,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
-				0D7634EC279003AC001FFB05 /* TableViewController.swift in Sources */,
 				0D906D982796E79700B461ED /* CollectionViewCell.swift in Sources */,
 				48C69912278AF0BE002EF7D1 /* SecretRequest.swift in Sources */,
 				48C69909278AE14D002EF7D1 /* Vendor.swift in Sources */,
@@ -368,7 +369,6 @@
 				48C6990E278AECD7002EF7D1 /* ProductPreview.swift in Sources */,
 				48AF118C2782FB6B00A2F6B6 /* ProductDetail.swift in Sources */,
 				48C69910278AEDD0002EF7D1 /* ModifyProduct.swift in Sources */,
-				0D7634EE279003C7001FFB05 /* CollectionViewController.swift in Sources */,
 				0DF58F6E2787FD320024602F /* Decoder.swift in Sources */,
 				48C69907278ADE3D002EF7D1 /* Image.swift in Sources */,
 				48AF118A2782FAC900A2F6B6 /* ProductList.swift in Sources */,

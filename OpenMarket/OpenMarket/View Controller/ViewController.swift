@@ -16,6 +16,8 @@ class ViewController: UIViewController {
         self.productCollectionView.delegate = self
         self.productCollectionView.dataSource = self
         
+        self.productCollectionView.register(CollectionViewCell.self, forCellWithReuseIdentifier: "CollectionViewCell")
+        
         self.loadProductList()
     }
     
@@ -52,6 +54,29 @@ class ViewController: UIViewController {
     }
 }
 
+extension ViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        3
+    }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        3
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let width = (view.frame.width / 2 - 1) - 25
+        let height = width * 1.7
+        let size = CGSize(width: width, height: height)
+                          
+        return size
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        let pedding = CGFloat(10)
+        return UIEdgeInsets(top: pedding, left: pedding, bottom: pedding, right: pedding)
+    }
+}
+
 extension ViewController: UICollectionViewDelegate {
     
 }
@@ -72,32 +97,13 @@ extension ViewController: UICollectionViewDataSource {
             return typeCastedCell
         }
         
-        guard let url = URL(string: productList.productsInPage[indexPath.item].thumbnail) else {
-            return typeCastedCell
-        }
+        typeCastedCell.updateCell(data: productList.productsInPage[indexPath.item])
         
-        DispatchQueue.global().async {
-            let data = try? Data(contentsOf: url)
-            
-            guard let data = data else {
-                return
-            }
-            
-            DispatchQueue.main.async {
-                typeCastedCell.imageview.image = UIImage(data: data)
-            }
-        }
-        
-        typeCastedCell.productNameLabel.text = productList.productsInPage[indexPath.item].name
-        typeCastedCell.bargainPriceLabel.text = String(productList.productsInPage[indexPath.item].bargainPrice)
-        typeCastedCell.priceLabel.text = String(productList.productsInPage[indexPath.item].price)
-
-        let stock = productList.productsInPage[indexPath.item].stock
-        if stock == 0 {
-            typeCastedCell.stockLabel.text = "품절"
-        } else {
-            typeCastedCell.stockLabel.text = "잔여수량: \(stock)"
-        }
+        cell.layer.borderColor = UIColor.systemGray3.cgColor
+        cell.layer.borderWidth = 1.5
+        cell.layer.cornerRadius = 5
+        let layout = productCollectionView.collectionViewLayout as! UICollectionViewFlowLayout
+        layout.estimatedItemSize = .zero
         
         return typeCastedCell
     }
