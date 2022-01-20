@@ -38,7 +38,7 @@ final class PageViewController: UIViewController, DataRepresentable {
         self.gridCollectionView.delegate = self
         self.datamanager.delegate = self
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         activityIndicator.hidesWhenStopped = true

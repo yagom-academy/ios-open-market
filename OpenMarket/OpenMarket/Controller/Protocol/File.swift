@@ -18,7 +18,7 @@ extension CornerCurvable {
 }
 class CornerCurvedTextField: UITextField, CornerCurvable {
     var insetX: CGFloat = 10
-    var insetY: CGFloat = 10
+    var insetY: CGFloat = 6
 
     override func textRect(forBounds bounds: CGRect) -> CGRect {
         return bounds.insetBy(dx: insetX, dy: insetY)

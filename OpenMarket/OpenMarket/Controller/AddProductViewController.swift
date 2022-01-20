@@ -13,6 +13,7 @@ class AddProductViewController: UIViewController {
     private lazy var dataSource = makeDatasource()
     private lazy var snapShot = NSDiffableDataSourceSnapshot<Int, ImageID>()
 
+    private lazy var textFieldStackView = UIStackView()
     private lazy var nameTextField = CornerCurvedTextField()
     private lazy var priceStackView = UIStackView()
     private lazy var priceTextField = CornerCurvedTextField()
@@ -35,13 +36,14 @@ class AddProductViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-//        images.append(UIImage(named: "macBook")!)
-//        images.append(UIImage(named: "macBook")!)
-//        images.append(UIImage(named: "macBook")!)
-//        images.append(UIImage(named: "macBook")!)
-//        images.append(UIImage(named: "macBook")!)
+        images.append(UIImage(named: "macBook")!)
+        images.append(UIImage(named: "macBook")!)
+        images.append(UIImage(named: "macBook")!)
+        images.append(UIImage(named: "macBook")!)
+        images.append(UIImage(named: "macBook")!)
         snapShot.appendItems(images.enumerated().map { $0.offset })
         dataSource.apply(snapShot)
+//        print(imageCollectionView.backgroundColor)
     }
 
     private func makeCollectionView() -> UICollectionView {
@@ -85,30 +87,34 @@ class AddProductViewController: UIViewController {
 
         stackView.axis = .vertical
         stackView.alignment = .center
-        stackView.spacing = 5
-        stackView.backgroundColor = .systemTeal
+        stackView.spacing = 10
         
         //  Collection view
         stackView.addArrangedSubview(imageCollectionView)
         imageCollectionView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
         imageCollectionView.widthAnchor.constraint(equalTo: stackView.widthAnchor),
-        imageCollectionView.heightAnchor.constraint(equalTo: imageCollectionView.widthAnchor, multiplier: 0.7)
+        imageCollectionView.heightAnchor.constraint(equalTo: imageCollectionView.widthAnchor, multiplier: 0.65)
         ])
-        imageCollectionView.backgroundColor = .brown
+        imageCollectionView.isScrollEnabled = false
+        imageCollectionView.backgroundColor = .white
 
         //  Text Fields
-        stackView.addArrangedSubview(nameTextField)
+        stackView.addArrangedSubview(textFieldStackView)
+        textFieldStackView.axis = .vertical
+        textFieldStackView.spacing = 7
+
+        textFieldStackView.addArrangedSubview(nameTextField)
         nameTextField.translatesAutoresizingMaskIntoConstraints = false
         nameTextField.widthAnchor.constraint(equalTo: stackView.widthAnchor).isActive = true
         nameTextField.makeBeautiful()
         nameTextField.placeholder = "상품명"
-
-        stackView.addArrangedSubview(priceStackView)
+        
+        textFieldStackView.addArrangedSubview(priceStackView)
         priceStackView.translatesAutoresizingMaskIntoConstraints = false
         priceStackView.widthAnchor.constraint(equalTo: stackView.widthAnchor).isActive = true
         priceStackView.axis = .horizontal
-        priceStackView.spacing = 5
+        priceStackView.spacing = 7
         priceStackView.addArrangedSubview(priceTextField)
         priceStackView.addArrangedSubview(currencySegmentedControl)
         priceTextField.makeBeautiful()
@@ -121,24 +127,18 @@ class AddProductViewController: UIViewController {
         currencySegmentedControl.backgroundColor = .systemGray5
         //add seg Action
         
-        stackView.addArrangedSubview(discountTextField)
+        textFieldStackView.addArrangedSubview(discountTextField)
         discountTextField.translatesAutoresizingMaskIntoConstraints = false
         discountTextField.widthAnchor.constraint(equalTo: stackView.widthAnchor).isActive = true
         discountTextField.makeBeautiful()
         discountTextField.placeholder = "할인금액"
 
-        stackView.addArrangedSubview(stockTextField)
+        textFieldStackView.addArrangedSubview(stockTextField)
         stockTextField.translatesAutoresizingMaskIntoConstraints = false
         stockTextField.widthAnchor.constraint(equalTo: stackView.widthAnchor).isActive = true
         stockTextField.makeBeautiful()
         stockTextField.placeholder = "재고수량"
 
-        let heightNorm = currencySegmentedControl.heightAnchor
-        NSLayoutConstraint.activate([
-            nameTextField.heightAnchor.constraint(equalTo: heightNorm),
-            discountTextField.heightAnchor.constraint(equalTo: heightNorm),
-            stockTextField.heightAnchor.constraint(equalTo: heightNorm)
-        ])
         //  Text View
         stackView.addArrangedSubview(descriptionTextView)
         descriptionTextView.translatesAutoresizingMaskIntoConstraints = false
@@ -148,7 +148,6 @@ class AddProductViewController: UIViewController {
 
         descriptionTextView.allowsEditingTextAttributes = true
         descriptionTextView.isScrollEnabled = true
-        descriptionTextView.backgroundColor = .systemPink
     }
 
     @objc
@@ -165,15 +164,14 @@ class AddProductViewController: UIViewController {
 
 
     func configureLayout() -> UICollectionViewCompositionalLayout {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.95),
                                               heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
-
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.3),
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.45),
                                                heightDimension: .fractionalHeight(1.0))
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
-                                                       subitems: [item])
+        let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
         let section = NSCollectionLayoutSection(group: group)
+        section.orthogonalScrollingBehavior = .continuous
         let layout = UICollectionViewCompositionalLayout(section: section)
         return layout
     }
