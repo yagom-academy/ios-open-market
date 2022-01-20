@@ -25,6 +25,7 @@ class GridCollectionViewCell: UICollectionViewCell {
         productImageView.image = nil
         productNameLabel.text = nil
         stockLabel.text = nil
+        priceLabel.attributedText = nil
         priceLabel.text = nil
         discountedPriceLabel.text = nil
     }
