@@ -182,13 +182,8 @@
 		9A4F77F72797E40C00D9F854 /* Register */ = {
 			isa = PBXGroup;
 			children = (
-				F3FAC37327982B930096CFB0 /* ImagesCollectionView.swift */,
-				9A13456B278C574800660291 /* RegisterProduct.storyboard */,
-				F33F506B27965C680073B84F /* ImageAddHeaderView.swift */,
-				F33F506C27965C680073B84F /* ImageAddHeaderView.xib */,
-				F33F50712796985C0073B84F /* TextFieldsStackView.swift */,
-				9AFB7B5B2796569C00E50813 /* ImageCell.swift */,
-				9AFB7B5C2796569C00E50813 /* ImageCell.xib */,
+				F343128227995FD30053A8DB /* Controller */,
+				F343128127995FC50053A8DB /* View */,
 			);
 			path = Register;
 			sourceTree = "<group>";
@@ -196,11 +191,8 @@
 		9A4F77F82797E42D00D9F854 /* Main */ = {
 			isa = PBXGroup;
 			children = (
-				C70FB10025BEF61C00C9924E /* Main.storyboard */,
-				9AAA3F4927881F7700D6E407 /* ProductCell.swift */,
-				9AAA3F4A27881F7700D6E407 /* GridCollectionViewCell.xib */,
-				F3D3B5D12788297C00943720 /* ListCollectionViewCell.xib */,
-				F3D3B607278D128100943720 /* ProductsCollectionView.swift */,
+				F343128027995FB20053A8DB /* Controller */,
+				F343127F27995FA90053A8DB /* View */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -226,19 +218,77 @@
 		C70FB0F925BEF61C00C9924E /* OpenMarket */ = {
 			isa = PBXGroup;
 			children = (
-				9A1CFDCF278469A6003BEC69 /* Protocol */,
 				C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */,
 				C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */,
+				9A1CFDCF278469A6003BEC69 /* Protocol */,
 				F35B1A69278433490031A755 /* Extension */,
 				F35B1A5F2783E5680031A755 /* Model */,
 				F35B1A602783E5750031A755 /* Error */,
-				F35B1A612783E5850031A755 /* Controller */,
-				F35B1A622783E5B10031A755 /* View */,
+				F35B1A622783E5B10031A755 /* Views */,
 				C70FB10325BEF61D00C9924E /* Assets.xcassets */,
 				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
 				C70FB10825BEF61D00C9924E /* Info.plist */,
 			);
 			path = OpenMarket;
+			sourceTree = "<group>";
+		};
+		F343127C27995F770053A8DB /* View */ = {
+			isa = PBXGroup;
+			children = (
+				F3FAC3712797F4910096CFB0 /* Detail.storyboard */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		F343127E27995F940053A8DB /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				9A4F77F92798014000D9F854 /* DetailViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		F343127F27995FA90053A8DB /* View */ = {
+			isa = PBXGroup;
+			children = (
+				C70FB10025BEF61C00C9924E /* Main.storyboard */,
+				9AAA3F4927881F7700D6E407 /* ProductCell.swift */,
+				9AAA3F4A27881F7700D6E407 /* GridCollectionViewCell.xib */,
+				F3D3B5D12788297C00943720 /* ListCollectionViewCell.xib */,
+				F3D3B607278D128100943720 /* ProductsCollectionView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		F343128027995FB20053A8DB /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				C70FB0FE25BEF61C00C9924E /* MainViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		F343128127995FC50053A8DB /* View */ = {
+			isa = PBXGroup;
+			children = (
+				F3FAC37327982B930096CFB0 /* ImagesCollectionView.swift */,
+				9A13456B278C574800660291 /* RegisterProduct.storyboard */,
+				F33F506B27965C680073B84F /* ImageAddHeaderView.swift */,
+				F33F506C27965C680073B84F /* ImageAddHeaderView.xib */,
+				F33F50712796985C0073B84F /* TextFieldsStackView.swift */,
+				9AFB7B5B2796569C00E50813 /* ImageCell.swift */,
+				9AFB7B5C2796569C00E50813 /* ImageCell.xib */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		F343128227995FD30053A8DB /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				9A13456D278C576400660291 /* RegisterViewController.swift */,
+				F3FAC37527982D860096CFB0 /* RegisterDataSource.swift */,
+			);
+			path = Controller;
 			sourceTree = "<group>";
 		};
 		F35B1A372782EC300031A755 /* OpenMarketTests */ = {
@@ -274,25 +324,14 @@
 			path = Error;
 			sourceTree = "<group>";
 		};
-		F35B1A612783E5850031A755 /* Controller */ = {
-			isa = PBXGroup;
-			children = (
-				C70FB0FE25BEF61C00C9924E /* MainViewController.swift */,
-				9A13456D278C576400660291 /* RegisterViewController.swift */,
-				9A4F77F92798014000D9F854 /* DetailViewController.swift */,
-				F3FAC37527982D860096CFB0 /* RegisterDataSource.swift */,
-			);
-			path = Controller;
-			sourceTree = "<group>";
-		};
-		F35B1A622783E5B10031A755 /* View */ = {
+		F35B1A622783E5B10031A755 /* Views */ = {
 			isa = PBXGroup;
 			children = (
 				F3FAC3702797F4080096CFB0 /* Detail */,
 				9A4F77F82797E42D00D9F854 /* Main */,
 				9A4F77F72797E40C00D9F854 /* Register */,
 			);
-			path = View;
+			path = Views;
 			sourceTree = "<group>";
 		};
 		F35B1A69278433490031A755 /* Extension */ = {
@@ -349,7 +388,8 @@
 		F3FAC3702797F4080096CFB0 /* Detail */ = {
 			isa = PBXGroup;
 			children = (
-				F3FAC3712797F4910096CFB0 /* Detail.storyboard */,
+				F343127E27995F940053A8DB /* Controller */,
+				F343127C27995F770053A8DB /* View */,
 			);
 			path = Detail;
 			sourceTree = "<group>";
