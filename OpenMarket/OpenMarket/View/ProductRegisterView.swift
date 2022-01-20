@@ -4,7 +4,12 @@ import UIKit
 class ProductRegisterView: UIStackView {
     private var dataSource: UICollectionViewDiffableDataSource<Int, UIImage>!
     private var snapshot = NSDiffableDataSourceSnapshot<Int, UIImage>()
-    private var imageList: [UIImage] = []
+    var imageList: [UIImage] = [] {
+        didSet {
+            self.snapshot.appendItems(imageList, toSection: 1)
+            self.dataSource.apply(self.snapshot)
+        }
+    }
     lazy var imageCollectionView: UICollectionView = {
         let collectionView = UICollectionView(
             frame: .zero,
@@ -61,6 +66,8 @@ class ProductRegisterView: UIStackView {
 
     private lazy var descriptionTextView = UITextView()
 
+    private let tapGestureRecognizer = UITapGestureRecognizer()
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureHierarchy()
@@ -68,14 +75,23 @@ class ProductRegisterView: UIStackView {
         configureDataSource()
         configureConstraint()
         imageCollectionView.isScrollEnabled = false
+        configureGestureRecognizer()
     }
 
     required init(coder: NSCoder) {
         fatalError()
     }
+}
 
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        super.touchesBegan(touches, with: event)
+// MARK: Gesture Recognizer
+extension ProductRegisterView {
+    private func configureGestureRecognizer() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyBoard))
+        tap.cancelsTouchesInView = false
+        self.addGestureRecognizer(tap)
+    }
+
+    @objc func dismissKeyBoard() {
         self.endEditing(true)
     }
 }

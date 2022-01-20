@@ -80,13 +80,22 @@ extension ProductRegisterViewController {
 // MARK: Image Picker Controller Delegate
 extension ProductRegisterViewController: UIImagePickerControllerDelegate,
                                          UINavigationControllerDelegate {
-
+    func imagePickerController(_ picker: UIImagePickerController,
+                               didFinishPickingMediaWithInfo info: [
+                                UIImagePickerController.InfoKey: Any
+                               ]
+    ) {
+        if let image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
+            stackView.imageList.insert(image, at: 0)
+        }
+        dismiss(animated: true, completion: nil)
+    }
 }
 
 // MARK: Collection View Delegate
 extension ProductRegisterViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if indexPath.row == indexPath.count - 1 {
+        if indexPath.item == stackView.imageList.count - 1 {
             showActionSheet()
         }
     }
