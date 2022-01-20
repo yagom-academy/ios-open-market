@@ -2,6 +2,11 @@ import UIKit
 
 class CollectionViewListCell: UICollectionViewListCell {
     
+    enum Attribute {
+        static let largeSpacing: CGFloat = 10
+        static let smallSpacing: CGFloat = 5
+    }
+    
     typealias Product = NetworkingAPI.ProductListQuery.Response.Page
     
     private var activityIndicator: UIActivityIndicatorView!
@@ -46,6 +51,13 @@ class CollectionViewListCell: UICollectionViewListCell {
         contentView.addSubview(stockLabel)
         contentView.addSubview(chevronButton)
         
+        NSLayoutConstraint.activate([
+            contentView.heightAnchor.constraint(greaterThanOrEqualTo: activityIndicator.heightAnchor,
+                                                constant: Attribute.largeSpacing * 2),
+            contentView.heightAnchor.constraint(greaterThanOrEqualTo: imageView.heightAnchor,
+                                                constant: Attribute.largeSpacing * 2)
+        ])
+        
         configureActivityIndicatorLayout()
         configureImageViewLayout()
         configureLabelStackViewLayout()
@@ -72,17 +84,12 @@ extension CollectionViewListCell {
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             activityIndicator.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,
-                                                       constant: AcitivityIndicatorAttribute.spacing),
-            activityIndicator.trailingAnchor.constraint(equalTo: labelStackView.leadingAnchor,
-                                                        constant: -1 * AcitivityIndicatorAttribute.spacing),
-            activityIndicator.topAnchor.constraint(equalTo: contentView.topAnchor,
-                                                   constant: AcitivityIndicatorAttribute.spacing),
-            activityIndicator.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,
-                                                      constant: -1 * AcitivityIndicatorAttribute.spacing),
+                                                       constant: Attribute.largeSpacing),
             activityIndicator.widthAnchor.constraint(equalTo: contentView.widthAnchor,
                                                      multiplier: AcitivityIndicatorAttribute.fractionalWidth),
-            activityIndicator.heightAnchor.constraint(equalTo: imageView.widthAnchor,
-                                                      multiplier: AcitivityIndicatorAttribute.aspectRatio)
+            activityIndicator.heightAnchor.constraint(equalTo: activityIndicator.widthAnchor,
+                                                      multiplier: AcitivityIndicatorAttribute.aspectRatio),
+            activityIndicator.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
         ])
     }
 }
@@ -118,17 +125,12 @@ extension CollectionViewListCell {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,
-                                               constant: ImageViewAttribute.spacing),
-            imageView.trailingAnchor.constraint(equalTo: labelStackView.leadingAnchor,
-                                                constant: -1 * ImageViewAttribute.spacing),
-            imageView.topAnchor.constraint(equalTo: contentView.topAnchor,
-                                           constant: ImageViewAttribute.spacing),
-            imageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,
-                                              constant: -1 * ImageViewAttribute.spacing),
+                                                       constant: Attribute.largeSpacing),
             imageView.widthAnchor.constraint(equalTo: contentView.widthAnchor,
                                              multiplier: ImageViewAttribute.fractionalWidth),
             imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor,
-                                              multiplier: ImageViewAttribute.aspectRatio)
+                                              multiplier: ImageViewAttribute.aspectRatio),
+            imageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
         ])
     }
 }
@@ -212,10 +214,7 @@ extension CollectionViewListCell {
 
 //MARK: - LabelStackView
 extension CollectionViewListCell {
-    
-    enum LabelStackViewAttribute {
-        static let spacing: CGFloat = 5
-    }
+
     private func createLabelStackView() {
         labelStackView = UIStackView()
         labelStackView.axis = .vertical
@@ -228,10 +227,14 @@ extension CollectionViewListCell {
         labelStackView.translatesAutoresizingMaskIntoConstraints = false
 
         NSLayoutConstraint.activate([
+            labelStackView.leadingAnchor.constraint(equalTo: activityIndicator.trailingAnchor,
+                                                    constant: Attribute.smallSpacing),
+            labelStackView.leadingAnchor.constraint(equalTo: imageView.trailingAnchor,
+                                                    constant: Attribute.smallSpacing),
             labelStackView.topAnchor.constraint(equalTo: contentView.topAnchor,
-                                                constant: LabelStackViewAttribute.spacing),
+                                                constant: Attribute.largeSpacing),
             labelStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,
-                                                   constant: -1 * LabelStackViewAttribute.spacing)
+                                                constant: -1 * Attribute.largeSpacing)
         ])
     }
 }
@@ -240,7 +243,6 @@ extension CollectionViewListCell {
 extension CollectionViewListCell {
     
     enum StockLabelAttribute {
-        static let spacing: CGFloat = 5
         static let textStyle: UIFont.TextStyle = .callout
         static let stockFontColor: UIColor = .systemGray
         static let soldoutFontColor: UIColor = .orange
@@ -269,19 +271,16 @@ extension CollectionViewListCell {
         stockLabel.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
+            stockLabel.topAnchor.constraint(equalTo: contentView.topAnchor,
+                                            constant: Attribute.largeSpacing),
             stockLabel.trailingAnchor.constraint(equalTo: chevronButton.leadingAnchor,
-                                                constant: -1 * StockLabelAttribute.spacing/2),
-            stockLabel.centerYAnchor.constraint(equalTo: chevronButton.centerYAnchor)
+                                                constant: -1 * Attribute.largeSpacing),
         ])
     }
 }
 
 //MARK: - ChevronButton
 extension CollectionViewListCell {
-    
-    enum ChevronButtonAttribute {
-        static let spacing: CGFloat = 10
-    }
     
     private func createChevronButton() {
         chevronButton = UIButton()
@@ -294,9 +293,8 @@ extension CollectionViewListCell {
         
         NSLayoutConstraint.activate([
             chevronButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,
-                                                   constant: -1 * ChevronButtonAttribute.spacing),
-            chevronButton.topAnchor.constraint(equalTo: contentView.topAnchor,
-                                              constant: ChevronButtonAttribute.spacing/2)
+                                                    constant: -1 * Attribute.largeSpacing),
+            chevronButton.centerYAnchor.constraint(equalTo: stockLabel.centerYAnchor)
         ])
     }
 }
