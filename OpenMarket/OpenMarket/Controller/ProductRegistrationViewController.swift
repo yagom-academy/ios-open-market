@@ -4,6 +4,7 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
     private let imagePickerController = UIImagePickerController()
     private var images = [UIImage]()
     private var isModifying: Bool?
+    private var productId: Int?
     private var networkTask: NetworkTask?
     private var jsonParser: JSONParser?
     private var completionHandler: (() -> Void)?
@@ -45,6 +46,7 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
         self.networkTask = networkTask
         self.jsonParser = jsonParser
         self.completionHandler = completionHandler
+        self.productId = productInformation.id
         loadProductInformation(from: productInformation)
     }
     
@@ -53,7 +55,7 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
         imagesCollectionView.dataSource = self
         productNameTextField.delegate = self
         setUpImagePicker()
-        setupRegistrationNavigationBar()
+        setupNavigationBar()
         setupTextView()
         NotificationCenter.default.addObserver(
             self,
@@ -118,6 +120,42 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
         }
     }
     
+    @objc private func modifyProduct() {
+        let identifier = "2836ea8c-7215-11ec-abfa-378889d9906f"
+        let secret = "-3CSKv$cyHsK_@Wk"
+        let writtenSalesInformation = modifiySalesInformation(
+            secret: secret,
+            maximumDescriptionsLimit: 1000,
+            minimumDescriptionsLimit: 10,
+            maximumNameLimit: 100,
+            minimumNameLimit: 3
+        )
+        let modificationInformation: NetworkTask.ModificationInformation
+        switch writtenSalesInformation {
+        case .success(let result):
+            modificationInformation = result
+        case .failure(let error):
+            showAlert(title: error.errorDescription, message: nil)
+            return
+        }
+        
+        guard let productId = productId else { return }
+        networkTask?.requestProductModification(
+            identifier: identifier,
+            productId: productId,
+            information: modificationInformation
+        ) { result in
+            switch result {
+            case .success:
+                DispatchQueue.main.async {
+                    self.dismiss(animated: true, completion: self.completionHandler)
+                }
+            case .failure(let error):
+                self.showAlert(title: "수정 실패", message: error.localizedDescription)
+            }
+        }
+    }
+    
     @objc private func dismissProductRegistration() {
         self.dismiss(animated: true, completion: nil)
     }
@@ -141,32 +179,28 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
         scrollView.verticalScrollIndicatorInsets.bottom = 0
     }
     
-    private func setupRegistrationNavigationBar() {
+    private func setupNavigationBar() {
         navigationItem.leftBarButtonItem = UIBarButtonItem(
             barButtonSystemItem: .cancel,
             target: self,
             action: #selector(dismissProductRegistration)
         )
-        navigationItem.rightBarButtonItem = UIBarButtonItem(
-            barButtonSystemItem: .done,
-            target: self,
-            action: #selector(registerProduct)
-        )
-        navigationItem.title = "상품등록"
-    }
-    
-    private func setupModificationNavigationBar() {
-        navigationItem.leftBarButtonItem = UIBarButtonItem(
-            barButtonSystemItem: .cancel,
-            target: self,
-            action: #selector(dismissProductRegistration)
-        )
-        navigationItem.rightBarButtonItem = UIBarButtonItem(
-            barButtonSystemItem: .done,
-            target: self,
-            action: #selector(modifyProduct)
-        )
-        navigationItem.title = "상품수정"
+        if isModifying == .some(true) {
+            navigationItem.rightBarButtonItem = UIBarButtonItem(
+                barButtonSystemItem: .done,
+                target: self,
+                action: #selector(modifyProduct)
+            )
+            navigationItem.title = "상품수정"
+        } else {
+            navigationItem.rightBarButtonItem = UIBarButtonItem(
+                barButtonSystemItem: .done,
+                target: self,
+                action: #selector(registerProduct)
+            )
+            navigationItem.title = "상품등록"
+        }
+        
     }
     
     private func loadProductInformation(from productInformation: Product) {
@@ -253,6 +287,58 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
         let product = NetworkTask.SalesInformation(
             name: name,
             descriptions: descriptions,
+            price: price,
+            currency: currency,
+            discountedPrice: discountedPrice,
+            stock: stock,
+            secret: secret)
+        return .success(product)
+    }
+    
+    private func modifiySalesInformation(
+        secret: String,
+        maximumDescriptionsLimit: Int?,
+        minimumDescriptionsLimit: Int?,
+        maximumNameLimit: Int?,
+        minimumNameLimit: Int?
+    ) -> Result<NetworkTask.ModificationInformation, ProductRegistrationError> {
+        let discountedPrice = Decimal(string: discountedPriceTextField.text ?? "")
+        let stock = UInt(stockTextField.text ?? "")
+        
+        let selectedSegmentIndex = currencySegmentedControl.selectedSegmentIndex
+        let selectedSegmentTitle = currencySegmentedControl.titleForSegment(
+            at: selectedSegmentIndex
+        ) ?? ""
+        guard let name = productNameTextField.text, name.isEmpty == false else {
+            return .failure(.emptyName)
+        }
+        guard let price = Decimal(string: productPriceTextField.text ?? "") else {
+            return .failure(.emptyPrice)
+        }
+        guard let currency = Currency(rawValue: selectedSegmentTitle) else {
+            return .failure(.emptyCurrency)
+        }
+        guard let descriptions = descriptionTextView.text, descriptions != "상품설명" else {
+            return .failure(.emptyDiscription)
+        }
+        
+        if let error = inspectInput(
+            price: price,
+            discountedPrice: discountedPrice,
+            nameCount: name.count,
+            descriptionsCount: descriptions.count,
+            maximumDescriptionsLimit: maximumDescriptionsLimit,
+            minimumDescriptionsLimit: minimumDescriptionsLimit,
+            maximumNameLimit: maximumNameLimit,
+            minimumNameLimit: minimumNameLimit
+        ) {
+            return .failure(error)
+        }
+        
+        let product = NetworkTask.ModificationInformation(
+            name: name,
+            descriptions: descriptions,
+            thumbnailId: nil,
             price: price,
             currency: currency,
             discountedPrice: discountedPrice,
