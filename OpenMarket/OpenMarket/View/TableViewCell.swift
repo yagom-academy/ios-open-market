@@ -18,7 +18,7 @@ class TableViewCell: UITableViewCell {
     var bargainPriceLabel = UILabel()
     var priceLabel = UILabel()
     var stockLabel = UILabel()
-    var showDescriptionButton = UIButton()
+    var descriptionButton = UIButton()
     
     let imageWidth = CGFloat(75)
     let infoStackWidth = CGFloat(178)
@@ -26,17 +26,28 @@ class TableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
     }
-
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
     
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-        setUpCell()
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        productImageView.image = nil
     }
     
-    func setUpCell() {
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        setUpCellLayout()
+    }
+    
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        setUpCellLayout()
+    }
+    
+    func setUpCellLayout() {
         contentView.addSubview(containerStackView)
         containerStackView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate( [
@@ -99,39 +110,39 @@ class TableViewCell: UITableViewCell {
         
         stockStackView.addArrangedSubview(stockLabel)
         
-        stockStackView.addArrangedSubview(showDescriptionButton)
-        showDescriptionButton.translatesAutoresizingMaskIntoConstraints = false
+        stockStackView.addArrangedSubview(descriptionButton)
+        descriptionButton.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate( [
-            showDescriptionButton.widthAnchor.constraint(equalToConstant: 18)
+            descriptionButton.widthAnchor.constraint(equalToConstant: 18)
         ] )
     }
     
-    func updateCell(data: ProductPreview) {
-        productNameLabel.text = data.name
+    func updateCellContent(withData: ProductPreview) {
+        productNameLabel.text = withData.name
         productNameLabel.font = UIFont.boldSystemFont(ofSize: 16)
         productNameLabel.textAlignment = .left
         
-        bargainPriceLabel.attributedText = ("\(data.currency) \(data.bargainPrice.addDemical())").strikeThroughStyle()
+        bargainPriceLabel.attributedText = ("\(withData.currency) \(withData.bargainPrice.addDemical())").strikeThroughStyle()
         bargainPriceLabel.textColor = .systemRed
         bargainPriceLabel.textAlignment = .left
         
-        priceLabel.text = "\(data.price.addDemical())"
+        priceLabel.text = "\(withData.currency) \(withData.price.addDemical())"
         priceLabel.textAlignment = .left
         
-        switch data.stock {
+        switch withData.stock {
         case 0:
             stockLabel.text = "품절"
             stockLabel.textColor = .systemOrange
             stockLabel.textAlignment = .right
         default:
-            stockLabel.text = "잔여 수량: \(data.stock)"
+            stockLabel.text = "잔여 수량: \(withData.stock)"
             stockLabel.textAlignment = .right
         }
         
-        showDescriptionButton.setImage(UIImage(systemName: "chevron.right"), for: .normal)
-        showDescriptionButton.titleLabel?.textAlignment = .right
+        descriptionButton.setImage(UIImage(systemName: "chevron.right"), for: .normal)
+        descriptionButton.titleLabel?.textAlignment = .right
         
-        guard let url = URL(string: data.thumbnail) else {
+        guard let url = URL(string: withData.thumbnail) else {
             return
         }
         
@@ -146,14 +157,5 @@ class TableViewCell: UITableViewCell {
                 self.productImageView.image = UIImage(data: data)
             }
         }
-    }
-    
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        setUpCell()
-    }
-    
-    override func prepareForReuse() {
-        
     }
 }

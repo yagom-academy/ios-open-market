@@ -97,7 +97,7 @@ extension ViewController: UITableViewDataSource {
             return typeCastedCell
         }
         
-        typeCastedCell.updateCell(data: productList.productsInPage[indexPath.item])
+        typeCastedCell.updateCellContent(withData: productList.productsInPage[indexPath.item])
         
         return typeCastedCell
     }
@@ -121,8 +121,8 @@ extension ViewController: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        let pedding = CGFloat(5)
-        return UIEdgeInsets(top: pedding, left: pedding, bottom: pedding, right: pedding)
+        let cellPedding = CGFloat(5)
+        return UIEdgeInsets(top: cellPedding, left: cellPedding, bottom: cellPedding, right: cellPedding)
     }
 }
 

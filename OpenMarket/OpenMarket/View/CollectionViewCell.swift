@@ -11,7 +11,7 @@ class CollectionViewCell: UICollectionViewCell {
     let containerStackView = UIStackView()
     let priceStackView = UIStackView()
     
-    var imageView = UIImageView()
+    var productImageView = UIImageView()
     var productNameLabel = UILabel()
     var bargainPriceLabel = UILabel()
     var priceLabel = UILabel()
@@ -22,6 +22,12 @@ class CollectionViewCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        productImageView.image = nil
     }
     
     required init?(coder: NSCoder) {
@@ -49,16 +55,16 @@ class CollectionViewCell: UICollectionViewCell {
         containerStackView.spacing = 6
         containerStackView.clipsToBounds = true
         
-        containerStackView.addArrangedSubview(imageView)
-        imageView.translatesAutoresizingMaskIntoConstraints = false
+        containerStackView.addArrangedSubview(productImageView)
+        productImageView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate( [
-            imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 5),
-            imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -5),
-            imageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
-            imageView.bottomAnchor.constraint(equalTo: contentView.topAnchor, constant: imageHeight + 5)
+            productImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 5),
+            productImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -5),
+            productImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
+            productImageView.bottomAnchor.constraint(equalTo: contentView.topAnchor, constant: imageHeight + 5)
         ] )
-        imageView.contentMode = .scaleAspectFill
-        imageView.clipsToBounds = true
+        productImageView.contentMode = .scaleAspectFill
+        productImageView.clipsToBounds = true
         
         containerStackView.addArrangedSubview(productNameLabel)
         productNameLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -104,7 +110,7 @@ class CollectionViewCell: UICollectionViewCell {
         bargainPriceLabel.textColor = .systemRed
         bargainPriceLabel.textAlignment = .center
 
-        priceLabel.text = "\(data.price.addDemical())"
+        priceLabel.text = "\(data.currency) \(data.price.addDemical())"
         priceLabel.textAlignment = .center
 
         switch data.stock {
@@ -129,7 +135,7 @@ class CollectionViewCell: UICollectionViewCell {
             }
             
             DispatchQueue.main.async {
-                self.imageView.image = UIImage(data: data)
+                self.productImageView.image = UIImage(data: data)
             }
         }
     }
