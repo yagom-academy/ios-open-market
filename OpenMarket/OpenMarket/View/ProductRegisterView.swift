@@ -3,7 +3,7 @@ import UIKit
 
 class ProductRegisterView: UIStackView {
     private var dataSource: UICollectionViewDiffableDataSource<Int, UIImage>!
-
+    
     var imageList: [UIImage] = [] {
         didSet {
             var snapshot = NSDiffableDataSourceSnapshot<Int, UIImage>()

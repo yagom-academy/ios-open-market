@@ -58,7 +58,7 @@ extension ListCell {
     }
 
     private func configure() {
-        
+
     }
 
     private func configureContent(product: Product) {

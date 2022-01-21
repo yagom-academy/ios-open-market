@@ -12,6 +12,7 @@ class ProductsCatalogViewController: UIViewController {
 
     var presentView: ViewType = .list
     var pageNumber: Int = 1
+    var isPagingable: Bool = true
 
     private var listCollectionView: UICollectionView! = nil
     private var gridCollectionView: UICollectionView! = nil
@@ -27,10 +28,10 @@ class ProductsCatalogViewController: UIViewController {
         UserDefaultUtility().setVendorPassword("grH5@Hy-p$5!6nzL")
         listCollectionView = configureHierarchy(type: presentView)
         configureDataSource(for: presentView)
-        listCollectionView.delegate = self
+
         view = listCollectionView
         generateProductItems()
-
+        listCollectionView.delegate = self
         configureIndicator()
     }
 }
@@ -229,6 +230,7 @@ extension ProductsCatalogViewController {
             switch result {
             case .success(let productList):
                 self.pageNumber += 1
+                self.isPagingable = true
                 let products = productList.pages
                 self.snapshot.appendItems(products)
                 DispatchQueue.main.async {
@@ -257,7 +259,8 @@ extension ProductsCatalogViewController: UICollectionViewDelegate {
         let targetOffset = scrollView.contentOffset.y + view.frame.height
         let scrollViewHeight = scrollView.contentSize.height
 
-        if targetOffset > scrollViewHeight - (view.frame.height * 0.2) {
+        if targetOffset > scrollViewHeight - (view.frame.height * 0.2), isPagingable {
+            isPagingable = false
             generateProductItems()
         }
     }
