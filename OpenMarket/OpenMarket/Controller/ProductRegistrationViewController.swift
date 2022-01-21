@@ -108,11 +108,13 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
             let keyboardRectangle = keyboardFrame.cgRectValue
             let keyboardHeight = keyboardRectangle.height
             scrollView.contentInset.bottom = keyboardHeight
+            scrollView.verticalScrollIndicatorInsets.bottom = keyboardHeight
         }
     }
     
     @objc private func keyboardWillHide(_ sender: Notification) {
         scrollView.contentInset.bottom = 0
+        scrollView.verticalScrollIndicatorInsets.bottom = 0
     }
     
     private func setupNavigationBar() {
