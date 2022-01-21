@@ -11,6 +11,15 @@ final class ProductDetailsViewController: UIViewController {
     // MARK: - IBOutlets
     
     @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var navigationBar: UINavigationBar!
+    @IBOutlet weak var productNameTextField: UITextField!
+    @IBOutlet weak var priceTextField: UITextField!
+    @IBOutlet weak var discountedPriceTextField: UITextField!
+    @IBOutlet weak var stockTextField: UITextField!
+    @IBOutlet weak var currencySegmentedControl: UISegmentedControl!
+    @IBOutlet weak var descriptionTextView: UITextView!
+    
+    
     
     // MARK: - Properties
     
@@ -22,13 +31,35 @@ final class ProductDetailsViewController: UIViewController {
     }()
     
     private var images: [UIImage] = []
+    private var keyHeight: CGFloat?
     
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         setupCollectionView()
         setupCollectionViewCells()
+        setNavigationBar()
+        setPlaceholders()
+        setSegmentedControlTitle()
+        setTextViewPlaceholder()
+        addTextViewObserver()
+    }
+}
+
+//MARK: - IBActions
+
+extension ProductDetailsViewController {
+    @IBAction func cancelButtonTapped(_ sender: Any) {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    @IBAction func doneButtonTapped(_ sender: Any) {
+        guard images.count > 0 else {
+            
+            return
+        }
     }
 }
 
@@ -41,6 +72,7 @@ extension ProductDetailsViewController {
         collectionView.collectionViewLayout = flowLayout
         collectionView.isPagingEnabled = true
         collectionView.decelerationRate = .fast
+        descriptionTextView.delegate = self
     }
     
     private func setupCollectionViewCells() {
@@ -49,6 +81,56 @@ extension ProductDetailsViewController {
         
         collectionView.register(imageCellNib, forCellWithReuseIdentifier: ImageCell.identifier)
         collectionView.register(addImageButtonCellNib, forCellWithReuseIdentifier: AddImageButtonCell.identifier)
+    }
+    
+    private func setNavigationBar() {
+        navigationBar.shadowImage = UIImage()
+        navigationBar.isTranslucent = false
+    }
+    
+    private func setPlaceholders() {
+        productNameTextField.placeholder = "상품명"
+        priceTextField.placeholder = "상품가격"
+        discountedPriceTextField.placeholder = "할인금액"
+        stockTextField.placeholder = "재고수량"
+    }
+    
+    private func setSegmentedControlTitle() {
+        currencySegmentedControl.setTitle("KRW", forSegmentAt: 0)
+        currencySegmentedControl.setTitle("USD", forSegmentAt: 1)
+    }
+    
+    private func setTextViewPlaceholder() {
+        descriptionTextView.text = "제품 설명을 입력하세요."
+        descriptionTextView.textColor = .lightGray
+    }
+    
+    private func addTextViewObserver() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillShow),
+            name: UIResponder.keyboardWillShowNotification,
+            object: nil)
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillHide),
+            name: UIResponder.keyboardWillShowNotification,
+            object: nil)
+    }
+    
+    @objc private func keyboardWillShow(_ sender: Notification) {
+        let userInfo:NSDictionary = sender.userInfo! as NSDictionary
+        let keyboardFrame:NSValue = userInfo.value(forKey: UIResponder.keyboardFrameEndUserInfoKey) as! NSValue
+        let keyboardRectangle = keyboardFrame.cgRectValue
+        let keyboardHeight = keyboardRectangle.height
+        keyHeight = keyboardHeight
+        
+        self.view.frame.size.height -= keyboardHeight
+        print("DD'")
+    }
+    
+    @objc private func keyboardWillHide() {
+        self.view.frame.size.height += keyHeight!
     }
 }
 
@@ -60,15 +142,15 @@ extension ProductDetailsViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if indexPath.row < images.count {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ImageCell.identifier, for: indexPath) as! ImageCell
-            
-            cell.configure(with: images[indexPath.row])
-            return cell
-        } else {
+        if indexPath.row == 0 {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AddImageButtonCell.identifier, for: indexPath) as! AddImageButtonCell
             
             cell.delegate = self
+            return cell
+        } else {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ImageCell.identifier, for: indexPath) as! ImageCell
+            
+            cell.configure(with: images[indexPath.row - 1])
             return cell
         }
     }
@@ -86,9 +168,8 @@ extension ProductDetailsViewController: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = collectionView.frame.width / 2
-        let height = collectionView.frame.height
-        let size = CGSize(width: width, height: height)
+        let sideLength = collectionView.frame.height
+        let size = CGSize(width: sideLength, height: sideLength)
         
         return size
     }
@@ -98,7 +179,16 @@ extension ProductDetailsViewController: UICollectionViewDelegateFlowLayout {
 
 extension ProductDetailsViewController: AddImageCellDelegate {
     func addImagePressed(by cell: AddImageButtonCell) {
-        images.insert(UIImage(named: "olaf")!, at: 0)
+        images.append(UIImage(named: "olaf")!)
         collectionView.reloadData()
+    }
+}
+
+//MARK: - UITextViewDelegate
+
+extension ProductDetailsViewController: UITextViewDelegate {
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        textView.text = nil
+        textView.textColor = .black
     }
 }
