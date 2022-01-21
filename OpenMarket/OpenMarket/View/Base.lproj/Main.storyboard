@@ -49,8 +49,9 @@
                     <navigationItem key="navigationItem" id="XMC-WE-v0n">
                         <nil key="title"/>
                         <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="dvD-Xb-92X">
-                            <rect key="frame" x="60.5" y="5.5" width="293" height="33"/>
+                            <rect key="frame" x="115.5" y="5.5" width="183" height="33"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" systemColor="linkColor"/>
                             <segments>
                                 <segment title="LIST"/>
                                 <segment title="GRID"/>
@@ -59,6 +60,11 @@
                                 <action selector="layoutSwitch:" destination="j1J-qY-gyo" eventType="valueChanged" id="TuX-dv-lnx"/>
                             </connections>
                         </segmentedControl>
+                        <barButtonItem key="rightBarButtonItem" title="Item" image="plus" catalog="system" id="VTZ-N6-0X4">
+                            <connections>
+                                <segue destination="Sce-T6-JfF" kind="modal" id="inW-Zy-QXe"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="productCollectionView" destination="bfg-tl-KEx" id="I7R-GR-nwo"/>
@@ -67,7 +73,26 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jOk-UZ-Onq" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1495.6521739130435" y="-80.357142857142847"/>
+            <point key="canvasLocation" x="1472" y="-80"/>
+        </scene>
+        <!--상품등록-->
+        <scene sceneID="wDQ-KM-7wE">
+            <objects>
+                <viewController modalPresentationStyle="fullScreen" id="zwp-KV-deC" customClass="PostViewController" customModule="OpenMarket" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="HX3-tt-JgD">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="TIl-lH-Bvz"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="상품등록" id="6mi-n2-iMm">
+                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="hgg-ZF-emB"/>
+                        <barButtonItem key="rightBarButtonItem" title="Done" id="zvR-GY-XCa"/>
+                    </navigationItem>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="QMp-cB-KZK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2972" y="-81"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="ZBu-FF-Wmh">
@@ -87,8 +112,30 @@
             </objects>
             <point key="canvasLocation" x="714.49275362318849" y="-80.357142857142847"/>
         </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="CNy-fd-bRQ">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" modalPresentationStyle="fullScreen" id="Sce-T6-JfF" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="WIV-TS-28Q">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="zwp-KV-deC" kind="relationship" relationship="rootViewController" id="FJ5-j0-vWe"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="VXq-Nf-no6" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2221.739130434783" y="-80.357142857142847"/>
+        </scene>
     </scenes>
     <resources>
+        <image name="plus" catalog="system" width="128" height="113"/>
+        <systemColor name="linkColor">
+            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

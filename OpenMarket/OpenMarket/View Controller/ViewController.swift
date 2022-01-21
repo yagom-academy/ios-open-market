@@ -34,7 +34,7 @@ class ViewController: UIViewController {
         self.productCollectionView.dataSource = self
         self.productTableView.delegate = self
         self.productTableView.dataSource = self
-        
+                
         self.productCollectionView.register(CollectionViewCell.self, forCellWithReuseIdentifier: "CollectionViewCell")
         self.productTableView.register(TableViewCell.self, forCellReuseIdentifier: "TableViewCell")
         
