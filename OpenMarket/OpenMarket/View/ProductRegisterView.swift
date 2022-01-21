@@ -40,6 +40,7 @@ class ProductRegisterView: UIStackView {
         textField.font = .preferredFont(forTextStyle: .subheadline)
         textField.layer.borderColor = UIColor.systemGray.cgColor
         textField.delegate = self
+        textField.keyboardType = .decimalPad
         return textField
     }()
 
@@ -56,6 +57,7 @@ class ProductRegisterView: UIStackView {
         textField.borderStyle = .roundedRect
         textField.font = .preferredFont(forTextStyle: .subheadline)
         textField.layer.borderColor = UIColor.systemGray.cgColor
+        textField.keyboardType = .decimalPad
         return textField
     }()
 
@@ -65,6 +67,7 @@ class ProductRegisterView: UIStackView {
         textField.borderStyle = .roundedRect
         textField.font = .preferredFont(forTextStyle: .subheadline)
         textField.layer.borderColor = UIColor.systemGray.cgColor
+        textField.keyboardType = .numberPad
         textField.delegate = self
         return textField
     }()
@@ -73,6 +76,7 @@ class ProductRegisterView: UIStackView {
         let textView = UITextView()
         textView.textColor = .systemGray
         textView.text = "상품설명을 작성해 주세요.(최대 1000글자)"
+        textView.font = .preferredFont(forTextStyle: .footnote)
         textView.delegate = self
         return textView
     }()
