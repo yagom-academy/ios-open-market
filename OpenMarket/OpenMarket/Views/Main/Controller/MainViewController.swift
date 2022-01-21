@@ -83,7 +83,7 @@ class MainViewController: UIViewController {
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(updateMainView),
-            name: .updataMain,
+            name: .updateMain,
             object: nil
         )
     }

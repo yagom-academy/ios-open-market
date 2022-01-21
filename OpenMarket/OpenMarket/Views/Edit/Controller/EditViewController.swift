@@ -178,14 +178,14 @@ extension EditViewController {
     
     private func dismissAndUpdateMain() {
         self.dismiss(animated: true) {
-            NotificationCenter.default.post(name: .updataMain, object: nil)
+            NotificationCenter.default.post(name: .updateMain, object: nil)
         }
     }
     
     private func dismissAndUpdateDetail() {
         self.dismiss(animated: true) {
             NotificationCenter.default.post(name: .updateDetail, object: self.data)
-            NotificationCenter.default.post(name: .updataMain, object: nil)
+            NotificationCenter.default.post(name: .updateMain, object: nil)
         }
     }
     

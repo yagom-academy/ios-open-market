@@ -10,6 +10,6 @@ import Foundation
 extension Notification.Name {
     static let addButton = Notification.Name("addButton")
     static let editImageCountLabel = Notification.Name("editImageCountLabel")
-    static let updataMain = Notification.Name("updateMain")
+    static let updateMain = Notification.Name("updateMain")
     static let updateDetail = Notification.Name("updateDetail")
 }
