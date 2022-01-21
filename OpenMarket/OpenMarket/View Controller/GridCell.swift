@@ -32,16 +32,19 @@ class GridCell: UICollectionViewCell {
             }
         }
         
+        let commaPrice = "\(productData.price)".insertComma()
+        let commaDiscountedPrice = "\(productData.discountedPrice)".insertComma()
         name.text = productData.name
-        stock.text = "잔여수량: \(productData.stock)"
-        price.text = "\(productData.currency) \(productData.price)"
-        discountedPrice.text = "\(productData.currency) \(productData.discountedPrice)"
-       
+        price.text = "\(productData.currency) \(commaPrice) "
+        discountedPrice.text = "\(productData.currency) \(commaDiscountedPrice)"
+        discountedPrice.textColor = .systemGray
+
         if productData.stock == 0 {
             stock.text = "품절"
             stock.textColor = .systemYellow
         } else {
             stock.text = "잔여수량: \(productData.stock)"
+            stock.textColor = .systemGray
         }
     }
 }
