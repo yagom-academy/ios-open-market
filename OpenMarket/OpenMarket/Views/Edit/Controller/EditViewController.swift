@@ -40,6 +40,11 @@ class EditViewController: UIViewController {
             selector: #selector(tappedAddButton),
             name: .addButton, object: nil
         )
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(tappedDeleteButton),
+            name: .deleteButton, object: nil
+        )
     }
     
     @objc private func tappedAddButton() {
@@ -51,6 +56,19 @@ class EditViewController: UIViewController {
         imagePicker.delegate = self
         imagePicker.allowsEditing = true
         self.present(imagePicker, animated: true, completion: nil)
+    }
+    
+    @objc private func tappedDeleteButton(_ notification: Notification) {
+        guard dataSource.state != .modify,
+              let indexPath = notification.object as? IndexPath else {
+            return
+        }
+        dataSource.imagesRemove(at: indexPath.item)
+        collectionView.performBatchUpdates {
+            collectionView.deleteItems(at: [IndexPath(item: indexPath.item, section: 0)])
+        } completion: { _ in
+            NotificationCenter.default.post(name: .editImageCountLabel, object: self.dataSource.images.count)
+        }
     }
     
     private func setUpView() {
@@ -214,21 +232,6 @@ extension EditViewController {
         }
     }
 }
-
-extension EditViewController: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard dataSource.state != .modify else {
-            return
-        }
-        dataSource.imagesRemove(at: indexPath.item)
-        collectionView.performBatchUpdates {
-            collectionView.deleteItems(at: [IndexPath(item: indexPath.item, section: 0)])
-        } completion: { _ in
-            NotificationCenter.default.post(name: .editImageCountLabel, object: self.dataSource.images.count)
-        }
-    }
-}
-
 extension EditViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(
         _ collectionView: UICollectionView,

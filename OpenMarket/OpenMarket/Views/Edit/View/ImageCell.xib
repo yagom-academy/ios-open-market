@@ -39,6 +39,9 @@
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                             </preferredSymbolConfiguration>
                         </buttonConfiguration>
+                        <connections>
+                            <action selector="tappedDeleteButton:" destination="gTV-IL-0wX" eventType="touchUpInside" id="rzy-BA-jEo"/>
+                        </connections>
                     </button>
                 </subviews>
             </view>

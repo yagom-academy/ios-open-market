@@ -18,4 +18,11 @@ class ImageCell: UICollectionViewCell {
         super.awakeFromNib()
         imageView.layer.cornerRadius = 10
     }
+    
+    @IBAction func tappedDeleteButton(_ sender: UIButton) {
+        guard let collectionView = self.superview as? ImagesCollectionView else {
+            return
+        }
+        NotificationCenter.default.post(name: .deleteButton, object: collectionView.indexPath(for: self))
+    }
 }

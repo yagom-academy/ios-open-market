@@ -12,4 +12,5 @@ extension Notification.Name {
     static let editImageCountLabel = Notification.Name("editImageCountLabel")
     static let updateMain = Notification.Name("updateMain")
     static let updateDetail = Notification.Name("updateDetail")
+    static let deleteButton = Notification.Name("deleteButton")
 }
