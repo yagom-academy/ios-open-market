@@ -138,7 +138,6 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
     
     private func setUpImagePicker() {
         imagePickerController.sourceType = .photoLibrary
-//        imagePickerController.allowsEditing = true
         imagePickerController.delegate = self
     }
     
