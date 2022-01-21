@@ -30,7 +30,6 @@ class ProductsCatalogViewController: UIViewController {
         configureDataSource(for: presentView)
 
         view = listCollectionView
-        generateProductItems()
         listCollectionView.delegate = self
         configureIndicator()
     }
@@ -210,7 +209,7 @@ extension ProductsCatalogViewController {
             UICollectionView.CellRegistration<ListCell, Product> { cell, indexPath, identifier in
                 DispatchQueue.main.async {
                     if indexPath == self.listCollectionView.indexPath(for: cell) {
-                        cell.configure(product: identifier)
+                        cell.configureContent(product: identifier)
                     }
                 }
             }
