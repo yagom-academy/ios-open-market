@@ -14,7 +14,7 @@
         <!--View Controller-->
         <scene sceneID="JV5-RX-sFY">
             <objects>
-                <viewController id="uzy-fi-xhL" customClass="ViewController" customModule="OpenMarket" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController modalPresentationStyle="fullScreen" id="uzy-fi-xhL" customClass="ViewController" customModule="OpenMarket" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="0ET-x8-due">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -228,6 +228,12 @@
                                 <action selector="switchLayout:" destination="uzy-fi-xhL" eventType="valueChanged" id="rXA-a3-UNd"/>
                             </connections>
                         </segmentedControl>
+                        <barButtonItem key="rightBarButtonItem" title="Item" id="IhJ-IY-ssd">
+                            <imageReference key="image" image="plus" catalog="system" symbolScale="small"/>
+                            <connections>
+                                <segue destination="tOa-OP-gav" kind="presentation" modalPresentationStyle="fullScreen" id="Qfy-CM-sBj"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="collectionView" destination="e05-fh-pgO" id="sYf-pv-ZfY"/>
@@ -237,6 +243,118 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5ng-ZC-7wy" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="921.73913043478262" y="12.723214285714285"/>
+        </scene>
+        <!--상품등록-->
+        <scene sceneID="Y3x-sS-OW1">
+            <objects>
+                <viewController id="bSo-iR-hiR" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="aJo-oh-IZa">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="EmB-rA-ao2" userLabel="Regist StackView">
+                                <rect key="frame" x="10" y="98" width="394" height="754"/>
+                                <subviews>
+                                    <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gYF-RW-2Pn" userLabel="Image ScrollView">
+                                        <rect key="frame" x="0.0" y="0.0" width="394" height="130"/>
+                                        <subviews>
+                                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Skb-MQ-X85" userLabel="Post Image List Stack View">
+                                                <rect key="frame" x="0.0" y="0.0" width="394" height="130"/>
+                                                <subviews>
+                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="6sR-WN-3EP">
+                                                        <rect key="frame" x="0.0" y="2" width="125" height="126"/>
+                                                        <color key="backgroundColor" systemColor="systemGray4Color"/>
+                                                        <imageReference key="image" image="plus" catalog="system" symbolScale="default"/>
+                                                        <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="default"/>
+                                                    </imageView>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" translatesAutoresizingMaskIntoConstraints="NO" id="Zdh-mQ-SXD" userLabel="Post Images StackView">
+                                                        <rect key="frame" x="125" y="0.0" width="269" height="130"/>
+                                                    </stackView>
+                                                </subviews>
+                                                <constraints>
+                                                    <constraint firstItem="6sR-WN-3EP" firstAttribute="trailing" secondItem="Skb-MQ-X85" secondAttribute="leading" constant="125" id="oB6-jg-hnH"/>
+                                                </constraints>
+                                            </stackView>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstItem="Skb-MQ-X85" firstAttribute="trailing" secondItem="gYF-RW-2Pn" secondAttribute="trailing" id="079-T0-3cT"/>
+                                            <constraint firstItem="Skb-MQ-X85" firstAttribute="leading" secondItem="gYF-RW-2Pn" secondAttribute="leading" id="AVZ-wi-Tfv"/>
+                                            <constraint firstItem="Skb-MQ-X85" firstAttribute="top" secondItem="gYF-RW-2Pn" secondAttribute="top" id="fg5-Ls-lvk"/>
+                                            <constraint firstItem="Skb-MQ-X85" firstAttribute="width" secondItem="1qR-Bk-26z" secondAttribute="width" id="hJb-Lg-OQd"/>
+                                            <constraint firstItem="Skb-MQ-X85" firstAttribute="bottom" secondItem="1qR-Bk-26z" secondAttribute="bottom" id="im5-p1-wNs"/>
+                                            <constraint firstItem="Zdh-mQ-SXD" firstAttribute="height" secondItem="gYF-RW-2Pn" secondAttribute="height" id="tv4-8Q-Pkb"/>
+                                            <constraint firstItem="Skb-MQ-X85" firstAttribute="bottom" secondItem="gYF-RW-2Pn" secondAttribute="bottom" id="zgh-yV-CpT"/>
+                                        </constraints>
+                                        <viewLayoutGuide key="contentLayoutGuide" id="cNf-ER-j6s"/>
+                                        <viewLayoutGuide key="frameLayoutGuide" id="1qR-Bk-26z"/>
+                                    </scrollView>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="b7M-gt-U7l" userLabel="Name">
+                                        <rect key="frame" x="0.0" y="140" width="394" height="40"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="p32-bo-2MD" userLabel="Price StackView">
+                                        <rect key="frame" x="0.0" y="190" width="394" height="40"/>
+                                        <subviews>
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="cY1-sL-bsT" userLabel="Price">
+                                                <rect key="frame" x="0.0" y="0.0" width="287" height="40"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits"/>
+                                            </textField>
+                                            <segmentedControl opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="bda-k4-KGn" userLabel="Currency">
+                                                <rect key="frame" x="297" y="0.0" width="97" height="41"/>
+                                                <segments>
+                                                    <segment title="KRW"/>
+                                                    <segment title="USD"/>
+                                                </segments>
+                                            </segmentedControl>
+                                        </subviews>
+                                    </stackView>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="7Uj-hl-NKN" userLabel="Discounted">
+                                        <rect key="frame" x="0.0" y="240" width="394" height="40"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="OAx-aY-Zxd" userLabel="Stock">
+                                        <rect key="frame" x="0.0" y="290" width="394" height="40"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="FzS-zH-mYY" userLabel="Description">
+                                        <rect key="frame" x="0.0" y="340" width="394" height="414"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                        <color key="textColor" systemColor="labelColor"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="b7M-gt-U7l" firstAttribute="bottom" secondItem="1qR-Bk-26z" secondAttribute="bottom" constant="50" id="3J7-Ck-ivx"/>
+                                    <constraint firstItem="OAx-aY-Zxd" firstAttribute="bottom" secondItem="7Uj-hl-NKN" secondAttribute="bottom" constant="50" id="CHM-t9-ygx"/>
+                                    <constraint firstItem="p32-bo-2MD" firstAttribute="bottom" secondItem="b7M-gt-U7l" secondAttribute="bottom" constant="50" id="e6I-7m-Sks"/>
+                                    <constraint firstItem="gYF-RW-2Pn" firstAttribute="bottom" secondItem="EmB-rA-ao2" secondAttribute="top" constant="130" id="eBS-5N-XzL"/>
+                                    <constraint firstItem="7Uj-hl-NKN" firstAttribute="bottom" secondItem="p32-bo-2MD" secondAttribute="bottom" constant="50" id="zCJ-JE-sYn"/>
+                                </constraints>
+                            </stackView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="zC4-qk-BjU"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="EmB-rA-ao2" firstAttribute="width" secondItem="zC4-qk-BjU" secondAttribute="width" constant="-20" id="2aa-S1-2Hu"/>
+                            <constraint firstItem="EmB-rA-ao2" firstAttribute="centerY" secondItem="zC4-qk-BjU" secondAttribute="centerY" id="QVQ-h9-cW1"/>
+                            <constraint firstItem="EmB-rA-ao2" firstAttribute="height" secondItem="zC4-qk-BjU" secondAttribute="height" constant="-20" id="TAi-D3-UwM"/>
+                            <constraint firstItem="EmB-rA-ao2" firstAttribute="centerX" secondItem="zC4-qk-BjU" secondAttribute="centerX" id="UUM-zW-xx9"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="상품등록" id="AY1-aU-Kan">
+                        <barButtonItem key="backBarButtonItem" title="Cancel" id="t3H-nS-OdT"/>
+                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="AfP-Mm-mzO"/>
+                        <barButtonItem key="rightBarButtonItem" title="Done" id="JDf-73-wOr"/>
+                    </navigationItem>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="t1G-E1-y1e" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2747.826086956522" y="12.723214285714285"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="eRG-8h-4ib">
@@ -256,9 +374,31 @@
             </objects>
             <point key="canvasLocation" x="11.594202898550726" y="12.723214285714285"/>
         </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="DYH-RA-Bqe">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="tOa-OP-gav" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="OF4-71-erJ">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="bSo-iR-hiR" kind="relationship" relationship="rootViewController" id="7JL-hI-E8V"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="83e-kw-Pyi" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1837.68115942029" y="12.723214285714285"/>
+        </scene>
     </scenes>
     <resources>
         <image name="chevron.right" catalog="system" width="96" height="128"/>
+        <image name="plus" catalog="system" width="128" height="113"/>
+        <systemColor name="labelColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
