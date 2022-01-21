@@ -21,6 +21,7 @@ extension UIViewController {
         var resultTextField = UITextField()
         let alert = UIAlertController(title: "비밀번호를 입력해주세요", message: nil, preferredStyle: .alert)
         alert.addTextField { userTextField in
+            userTextField.isSecureTextEntry = true
             resultTextField = userTextField
         }
         let okAcrion = UIAlertAction(title: "OK", style: .default) { _ in
@@ -41,10 +42,11 @@ extension UIViewController {
     func alertActionSheet(
         titles: (String, String) = (AlertConstant.modify, AlertConstant.delete),
         message: String = AlertMessage.editProduct,
-        completion: @escaping (UIAlertAction) -> Void
+        okHandler: @escaping (UIAlertAction) -> Void,
+        deleteHandler: ((UIAlertAction) -> Void)? = nil
     ) {
-        let modityAction = UIAlertAction(title: titles.0, style: .default, handler: completion)
-        let deleteAction = UIAlertAction(title: titles.1, style: .destructive)
+        let modityAction = UIAlertAction(title: titles.0, style: .default, handler: okHandler)
+        let deleteAction = UIAlertAction(title: titles.1, style: .destructive, handler: deleteHandler)
         let cancelAction = UIAlertAction(title: AlertConstant.cancle, style: .cancel)
         let alert = UIAlertController(title: nil, message: message, preferredStyle: .actionSheet)
         alert.addAction(modityAction)
