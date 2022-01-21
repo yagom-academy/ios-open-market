@@ -8,7 +8,7 @@
 import Foundation
 
 struct NetworkManager {
-  let session = URLSession(configuration: .default)
+  private let session = URLSession(configuration: .default)
   
   func getItemList(pageNo: Int,
                    itemsPerPage: Int,

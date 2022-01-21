@@ -8,8 +8,8 @@
 import Foundation
 
 enum URLMaker {
-  static let hostURL = "https://market-training.yagom-academy.kr"
-  static let hostPath = "/api/products"
+  private static let hostURL = "https://market-training.yagom-academy.kr"
+  private static let hostPath = "/api/products"
   
   static func itemListURL(pageNo: Int, itemsPerPage: Int) -> URL? {
     let address = hostURL + hostPath + "?page_no=" + "\(pageNo)" + "&items_per_page=" + "\(itemsPerPage)"
