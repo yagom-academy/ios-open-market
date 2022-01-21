@@ -16,7 +16,7 @@ class NetworkTests: XCTestCase {
     
     let expectation = XCTestExpectation(description: "response")
     
-    networkManager.getItemList(pageNo: 1, itmesPerPage: 10) { result in
+    networkManager.getItemList(pageNo: 1, itemsPerPage: 10) { result in
       switch result {
       case .success(let itemList):
         expectation.fulfill()
