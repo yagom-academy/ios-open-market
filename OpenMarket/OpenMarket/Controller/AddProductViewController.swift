@@ -50,6 +50,24 @@ class AddProductViewController: UIViewController {
         let alert = createSelectImageAlert()
         present(alert, animated: true, completion: nil)
     }
+    
+    func addToProductImages(image: UIImage) {
+        let lastTagNumber = productImageStackView.subviews.count - 1
+        guard lastTagNumber >= 1 else { return }
+        
+        for buttonTag in 1...productImageStackView.subviews.count - 1 {
+            getProductImageFromButton(with: buttonTag)
+        }
+    }
+    
+    func getProductImageFromButton(with tag: Int) {
+        let imageButton = view.viewWithTag(tag) as? UIButton
+        let image = imageButton?.imageView?.image
+        guard let imageData = image?.jpegData(compressionQuality: 0.1) else { return }
+
+        let productImage = NewProductImage(image: imageData)
+        productImages.append(productImage)
+    }
 }
 
 extension AddProductViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
@@ -117,11 +135,6 @@ extension AddProductViewController: UIImagePickerControllerDelegate, UINavigatio
         button.widthAnchor.constraint(equalTo: button.heightAnchor).isActive = true
     }
     
-    func addToProductImages(image: UIImage) {
-        guard let imageData = image.jpegData(compressionQuality: 0.1) else { return }
-        let productImage = NewProductImage(image: imageData)
-        productImages.append(productImage)
-    }
 }
 
 extension AddProductViewController: UITextViewDelegate {
