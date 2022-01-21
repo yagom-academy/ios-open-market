@@ -3,17 +3,23 @@ import UIKit
 
 class ProductRegisterView: UIStackView {
     enum Section: Int {
-        case image, holder
+        case image
     }
 
     private var dataSource: UICollectionViewDiffableDataSource<Section, UIImage>!
-    
+
     var imageList: [UIImage] = [] {
         didSet {
             var snapshot = NSDiffableDataSourceSnapshot<Section, UIImage>()
             snapshot.appendSections([.image])
             snapshot.appendItems(imageList, toSection: .image)
             self.dataSource.apply(snapshot)
+            guard let cell = imageCollectionView.cellForItem(
+                at: IndexPath(item: 0, section: 0)
+            ) as? ProductImageCell else {
+                return
+            }
+            cell.modifyCapacityLabel(for: imageList.count - 1)
         }
     }
 
@@ -176,6 +182,9 @@ extension ProductRegisterView {
         let cellRegistration =
             UICollectionView.CellRegistration<ProductImageCell, UIImage> { cell, indexPath, identifier in
                 cell.configure(image: identifier)
+                if indexPath.item == 0 {
+                    cell.configureFirstCell()
+                }
             }
         dataSource = UICollectionViewDiffableDataSource<Section, UIImage>(
             collectionView: imageCollectionView
@@ -189,10 +198,8 @@ extension ProductRegisterView {
         }
 
         var snapshot = NSDiffableDataSourceSnapshot<Section, UIImage>()
-        snapshot.appendSections([.image, .holder])
-        imageList.append(UIImage(named: "robot")!)
-
-        imageList.append(UIImage(systemName: "plus")!)
+        snapshot.appendSections([.image])
+        imageList.append(UIImage())
         snapshot.appendItems(imageList, toSection: .image)
         self.dataSource.apply(snapshot)
     }
@@ -223,7 +230,7 @@ extension ProductRegisterView: UITextViewDelegate {
             textView.text = "상품설명을 작성해 주세요. (최대 1000글자)"
         }
     }
-    
+
     func textViewDidBeginEditing(_ textView: UITextView) {
         if textView.textColor == .systemGray {
             textView.textColor = .black

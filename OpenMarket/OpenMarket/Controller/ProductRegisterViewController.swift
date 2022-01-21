@@ -37,6 +37,15 @@ class ProductRegisterViewController: UIViewController {
         return actionSheet
     }()
 
+    private let imageCapacityAlert: UIAlertController = {
+        let alert = UIAlertController(title: "이미지를 추가할 수 없습니다.",
+                                      message: "이미지는 최대 5개만 추가 가능합니다.",
+                                      preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "확인", style: .default)
+        alert.addAction(okAction)
+        return alert
+    }()
+
     init(productIdentification: Int?) {
         self.productIdentification = productIdentification
         super.init(nibName: nil, bundle: nil)
@@ -163,6 +172,10 @@ extension ProductRegisterViewController {
         present(imageActionSheet, animated: true, completion: nil)
     }
 
+    private func showImageCapacityAlert() {
+        present(imageCapacityAlert, animated: true)
+    }
+
     private func presentAlbum() {
         imagePickerController.sourceType = .photoLibrary
         imagePickerController.allowsEditing = true
@@ -188,7 +201,7 @@ extension ProductRegisterViewController: UIImagePickerControllerDelegate,
         didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
     ) {
         if let image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
-            stackView.imageList.insert(image, at: 0)
+            stackView.imageList.append(image)
         }
         dismiss(animated: true, completion: nil)
     }
@@ -197,8 +210,12 @@ extension ProductRegisterViewController: UIImagePickerControllerDelegate,
 // MARK: Collection View Delegate
 extension ProductRegisterViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if indexPath.item == stackView.imageList.count - 1 {
-            showActionSheet()
+        if indexPath.item == 0 {
+            if stackView.imageList.count < 6 {
+                showActionSheet()
+            } else {
+                showImageCapacityAlert()
+            }
         }
     }
 }
