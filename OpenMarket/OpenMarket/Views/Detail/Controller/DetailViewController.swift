@@ -25,6 +25,24 @@ class DetailViewController: UIViewController {
         setUpNotification()
     }
     
+    func requestDetail(productId: UInt) {
+        let networkManager: NetworkManager = NetworkManager()
+        guard let request = networkManager.requestDetailSearch(id: UInt(productId)) else {
+            showAlert(message: Message.badRequest)
+            return
+        }
+        networkManager.fetch(request: request, decodingType: Product.self) { result in
+            switch result {
+            case .success(let product):
+                self.setUpViews(product: product)
+            case .failure(let error):
+                DispatchQueue.main.async {
+                    self.showAlert(message: error.localizedDescription)
+                }
+            }
+        }
+    }
+    
     func setUpViews(product: Product) {
         data = product
         setUpImages()
@@ -50,24 +68,6 @@ class DetailViewController: UIViewController {
                 ImageManager.shared.downloadImage(with: newImage.url) { image in
                     ImageManager.shared.setCacheData(of: image, for: newImage.url)
                     self.images.append(image)
-                }
-            }
-        }
-    }
-    
-    func requestDetail(productId: UInt) {
-        let networkManager: NetworkManager = NetworkManager()
-        guard let request = networkManager.requestDetailSearch(id: UInt(productId)) else {
-            showAlert(message: Message.badRequest)
-            return
-        }
-        networkManager.fetch(request: request, decodingType: Product.self) { result in
-            switch result {
-            case .success(let product):
-                self.setUpViews(product: product)
-            case .failure(let error):
-                DispatchQueue.main.async {
-                    self.showAlert(message: error.localizedDescription)
                 }
             }
         }
