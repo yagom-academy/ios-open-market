@@ -49,7 +49,6 @@ extension MainDataSource: UICollectionViewDataSource {
         }
         cell.configureStyle(of: currentCellIdentifier)
         cell.configureProduct(of: productList[indexPath.row])
-        
         return cell
     }
 }

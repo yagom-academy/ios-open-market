@@ -89,10 +89,12 @@ class MainViewController: UIViewController {
     }
     
     @objc private func updateMainView() {
-        dataSource.resetCurrentPage()
-        dataSource.resetProductList()
-        requestProducts {
-            self.collectionViewReload()
+        DispatchQueue.global().async {
+            self.dataSource.resetCurrentPage()
+            self.dataSource.resetProductList()
+            self.requestProducts {
+                self.collectionViewReload()
+            }
         }
     }
 
