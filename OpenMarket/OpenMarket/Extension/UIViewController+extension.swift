@@ -40,14 +40,14 @@ extension UIViewController {
     }
     
     func alertActionSheet(
-        titles: (String, String) = (AlertConstant.modify, AlertConstant.delete),
+        titles: (String, String) = ("수정", "삭제"),
         message: String = AlertMessage.editProduct,
         okHandler: @escaping (UIAlertAction) -> Void,
         deleteHandler: ((UIAlertAction) -> Void)? = nil
     ) {
         let modityAction = UIAlertAction(title: titles.0, style: .default, handler: okHandler)
         let deleteAction = UIAlertAction(title: titles.1, style: .destructive, handler: deleteHandler)
-        let cancelAction = UIAlertAction(title: AlertConstant.cancle, style: .cancel)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
         let alert = UIAlertController(title: nil, message: message, preferredStyle: .actionSheet)
         alert.addAction(modityAction)
         alert.addAction(deleteAction)
