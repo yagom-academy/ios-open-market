@@ -21,7 +21,7 @@ class TableViewCell: UITableViewCell {
     var showDescriptionButton = UIButton()
     
     let imageWidth = CGFloat(75)
-    let stockWidth = CGFloat(120)
+    let infoStackWidth = CGFloat(178)
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -68,7 +68,7 @@ class TableViewCell: UITableViewCell {
             infoStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
             infoStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -7),
             infoStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: imageWidth + 10),
-            infoStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -(stockWidth + 5))
+            infoStackView.trailingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: imageWidth + infoStackWidth + 10)
         ] )
         infoStackView.clipsToBounds = true
         infoStackView.axis = .vertical
@@ -86,19 +86,24 @@ class TableViewCell: UITableViewCell {
         priceStackView.addArrangedSubview(priceLabel)
         
         containerStackView.addArrangedSubview(stockStackView)
-        stockStackView.axis = .horizontal
-        stockStackView.alignment = .top
-        stockStackView.spacing = 7
         stockStackView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate( [
             stockStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
-            stockStackView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            stockStackView.heightAnchor.constraint(equalToConstant: contentView.frame.height),
-            stockStackView.widthAnchor.constraint(equalToConstant: stockWidth)
+            stockStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
+            stockStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -7)
         ] )
+        stockStackView.axis = .horizontal
+        stockStackView.alignment = .top
+        stockStackView.distribution = .fill
+        stockStackView.spacing = 7
         
         stockStackView.addArrangedSubview(stockLabel)
+        
         stockStackView.addArrangedSubview(showDescriptionButton)
+        showDescriptionButton.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate( [
+            showDescriptionButton.widthAnchor.constraint(equalToConstant: 18)
+        ] )
     }
     
     func updateCell(data: ProductPreview) {
@@ -124,6 +129,7 @@ class TableViewCell: UITableViewCell {
         }
         
         showDescriptionButton.setImage(UIImage(systemName: "chevron.right"), for: .normal)
+        showDescriptionButton.titleLabel?.textAlignment = .right
         
         guard let url = URL(string: data.thumbnail) else {
             return
@@ -145,5 +151,9 @@ class TableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setUpCell()
+    }
+    
+    override func prepareForReuse() {
+        
     }
 }

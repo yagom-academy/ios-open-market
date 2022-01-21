@@ -9,6 +9,9 @@ import UIKit
 class ViewController: UIViewController {
     @IBOutlet weak var productCollectionView: UICollectionView!
     @IBOutlet weak var productTableView: UITableView!
+    
+    var productList: ProductList?
+    
     @IBAction func layoutSwitch(_ sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex  {
         case 0:
@@ -20,8 +23,6 @@ class ViewController: UIViewController {
         default: break
         }
     }
-    
-    var productList: ProductList?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -113,7 +114,7 @@ extension ViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width = (view.frame.width / 2 - 1) - 13
-        let height = width * 1.7
+        let height = width * 1.34
         let size = CGSize(width: width, height: height)
         
         return size
