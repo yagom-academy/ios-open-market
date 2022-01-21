@@ -112,7 +112,7 @@ class OpenMarketTests: XCTestCase {
             descriptions: "pasta",
             price: 200,
             currency: .KRW,
-            secret: "password")
+            secret: "grH5@Hy-p$5!6nzL")
         var images: [Data] = []
         let imageData = UIImage(named: "robot")!.pngData()!
 

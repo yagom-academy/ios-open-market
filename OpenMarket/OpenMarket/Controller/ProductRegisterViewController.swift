@@ -37,7 +37,7 @@ class ProductRegisterViewController: UIViewController {
         return actionSheet
     }()
 
-    init(productIdentification: Int) {
+    init(productIdentification: Int?) {
         self.productIdentification = productIdentification
         super.init(nibName: nil, bundle: nil)
         self.modalPresentationStyle = .fullScreen
@@ -78,6 +78,31 @@ extension ProductRegisterViewController {
                 }
             }
     }
+
+    func registerProduct() {
+        let registerProductRequest = RegisterProductRequest(
+            name: stackView.nameTextField.text!,
+            descriptions: stackView.descriptionTextView.text,
+            price: Int(stackView.priceTextField.text!)!,
+            currency: Currency.KRW,
+            secret: UserDefaultUtility().getVendorPassword()!)
+        let imageData = stackView.imageList.map {
+            $0.pngData()!
+        }
+
+        productService.registerProduct(
+            parameters: registerProductRequest,
+            session: HTTPUtility.defaultSession,
+            images: imageData) { result in
+                switch result {
+                case .success(let product):
+                    print(product)
+                case .failure:
+                    print("실패")
+                    return
+                }
+            }
+    }
 }
 
 // MARK: Navigation Bar Configuration
@@ -89,14 +114,15 @@ extension ProductRegisterViewController {
         case .modify:
             self.navigationItem.title = "상품취소"
         }
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "완료", style: .done, target: self, action: nil)
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "취소", style: .plain, target: self, action: nil)
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "완료", style: .done, target: self, action: #selector(touchUpDoneButton))
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "취소", style: .plain, target: self, action: #selector(touchUpCancelButton))
         let appearance = UINavigationBarAppearance()
         appearance.configureWithDefaultBackground()
         self.navigationController?.navigationBar.scrollEdgeAppearance = appearance
     }
 
     @objc func touchUpDoneButton() {
+        registerProduct()
         self.dismiss(animated: true, completion: nil)
     }
 
@@ -122,7 +148,7 @@ extension ProductRegisterViewController {
         stackView.priceTextField.text = product.price.description
         stackView.discountTextField.text = product.discountedPrice.description
         stackView.stockTextField.text = product.stock.description
-        //stackView.descriptionTextView.text = product
+        stackView.descriptionTextView.text = product.description
     }
 }
 

@@ -23,7 +23,8 @@ class ProductsCatalogViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureNavigationBar()
-
+        UserDefaultUtility().setVendorIdentification("c6d96ba0-7215-11ec-abfa-01fc209b5360")
+        UserDefaultUtility().setVendorPassword("grH5@Hy-p$5!6nzL")
         listCollectionView = configureHierarchy(type: presentView)
         configureDataSource(for: presentView)
         listCollectionView.delegate = self
@@ -47,13 +48,20 @@ extension ProductsCatalogViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(
             image: resizedImage,
             style: .plain,
-            target: nil,
-            action: nil
+            target: self,
+            action: #selector(touchUpRegisterButton)
         )
         navigationItem.rightBarButtonItem?.width = 0
         let appearance = UINavigationBarAppearance()
         appearance.configureWithDefaultBackground()
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
+    }
+
+    @objc func touchUpRegisterButton() {
+        let rootViewController = ProductRegisterViewController.init(productIdentification: nil)
+        let navigationController = UINavigationController(rootViewController: rootViewController)
+        navigationController.modalPresentationStyle = .fullScreen
+        self.present(navigationController, animated: true)
     }
 
     private func configureSegmentedControl() -> UISegmentedControl {
@@ -260,7 +268,6 @@ extension ProductsCatalogViewController: UICollectionViewDelegate {
 
         collectionView.deselectItem(at: indexPath, animated: true)
 
-        //self.navigationController?.pushViewController(ProductRegisterViewController.init(productIdentification: item.identification), animated: true)
         let rootViewController = ProductRegisterViewController.init(productIdentification: item.identification)
         let navigationController = UINavigationController(rootViewController: rootViewController)
         navigationController.modalPresentationStyle = .fullScreen

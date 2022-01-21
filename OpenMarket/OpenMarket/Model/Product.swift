@@ -4,6 +4,7 @@ struct Product: Decodable, Hashable {
     var identification: Int
     var vendorIdentification: Int
     var name: String
+    var description: String?
     var thumbnail: String
     var currency: Currency
     var price: Double
@@ -19,6 +20,7 @@ struct Product: Decodable, Hashable {
         case identification = "id"
         case vendorIdentification = "vendor_id"
         case name
+        case description
         case thumbnail
         case currency
         case price
