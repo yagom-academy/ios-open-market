@@ -17,7 +17,7 @@ extension UIViewController {
         self.present(alert, animated: true)
     }
     
-    func alertInputPassword(complection: @escaping (String) -> Void) {
+    func showAlertPasswordInput(complection: @escaping (String) -> Void) {
         var resultTextField = UITextField()
         let alert = UIAlertController(title: "비밀번호를 입력해주세요", message: nil, preferredStyle: .alert)
         alert.addTextField { userTextField in
@@ -39,17 +39,17 @@ extension UIViewController {
         self.present(alert, animated: true, completion: nil)
     }
     
-    func alertActionSheet(
+    func showActionSheet(
         titles: (String, String) = ("수정", "삭제"),
         message: String = AlertMessage.editProduct,
         okHandler: @escaping (UIAlertAction) -> Void,
         deleteHandler: ((UIAlertAction) -> Void)? = nil
     ) {
-        let modityAction = UIAlertAction(title: titles.0, style: .default, handler: okHandler)
+        let modifyAction = UIAlertAction(title: titles.0, style: .default, handler: okHandler)
         let deleteAction = UIAlertAction(title: titles.1, style: .destructive, handler: deleteHandler)
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
         let alert = UIAlertController(title: nil, message: message, preferredStyle: .actionSheet)
-        alert.addAction(modityAction)
+        alert.addAction(modifyAction)
         alert.addAction(deleteAction)
         alert.addAction(cancelAction)
         self.present(alert, animated: true)

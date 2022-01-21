@@ -98,8 +98,8 @@ class DetailViewController: UIViewController {
     }
     
     @IBAction func tappedEditButton(_ sendor: UIButton) {
-        alertActionSheet { _ in
-            self.alertInputPassword { secret in
+        showActionSheet { _ in
+            self.showAlertPasswordInput { secret in
                 self.secret = secret
                 self.requestModification(secret: secret) { isSuccess in
                     if isSuccess {
