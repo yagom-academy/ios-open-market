@@ -69,7 +69,13 @@ class ProductRegisterView: UIStackView {
         return textField
     }()
 
-    lazy var descriptionTextView = UITextView()
+    lazy var descriptionTextView: UITextView = {
+        let textView = UITextView()
+        textView.textColor = .systemGray
+        textView.text = "상품설명을 작성해 주세요.(최대 1000글자)"
+        textView.delegate = self
+        return textView
+    }()
 
     private let tapGestureRecognizer = UITapGestureRecognizer()
 
@@ -196,6 +202,29 @@ extension ProductRegisterView {
 extension ProductRegisterView: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
+        return true
+    }
+}
+
+// MARK: Text View Delegate
+extension ProductRegisterView: UITextViewDelegate {
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if textView.text.isEmpty {
+            textView.textColor = .systemGray
+            textView.text = "상품설명을 작성해 주세요. (최대 1000글자)"
+        }
+    }
+
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if textView.textColor == .systemGray {
+            textView.textColor = .black
+            textView.text = ""
+        }
+    }
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if textView.textStorage.length + text.count > 1000 {
+            return false
+        }
         return true
     }
 }

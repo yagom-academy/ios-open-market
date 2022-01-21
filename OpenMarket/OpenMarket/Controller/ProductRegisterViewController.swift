@@ -112,7 +112,7 @@ extension ProductRegisterViewController {
         case .register:
             self.navigationItem.title = "상품등록"
         case .modify:
-            self.navigationItem.title = "상품취소"
+            self.navigationItem.title = "상품수정"
         }
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "완료", style: .done, target: self, action: #selector(touchUpDoneButton))
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "취소", style: .plain, target: self, action: #selector(touchUpCancelButton))
