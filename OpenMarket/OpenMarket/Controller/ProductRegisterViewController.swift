@@ -83,9 +83,13 @@ extension ProductRegisterViewController {
         let registerProductRequest = RegisterProductRequest(
             name: stackView.nameTextField.text!,
             descriptions: stackView.descriptionTextView.text,
-            price: Int(stackView.priceTextField.text!)!,
+            price: Decimal(string: stackView.priceTextField.text!, locale: nil)!,
             currency: Currency.KRW,
-            secret: UserDefaultUtility().getVendorPassword()!)
+            discountedPrice: Decimal(string: stackView.discountTextField.text!, locale: nil),
+            stock: Int(stackView.stockTextField.text!)!,
+            secret: UserDefaultUtility().getVendorPassword()!
+        )
+
         let imageData = stackView.imageList.map {
             $0.pngData()!
         }

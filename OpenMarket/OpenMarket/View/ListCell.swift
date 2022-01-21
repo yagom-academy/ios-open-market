@@ -60,7 +60,8 @@ extension ListCell {
 
     func configureContent(product: Product) {
         var content = UIListContentConfiguration.subtitleCell()
-        content.imageProperties.maximumSize = CGSize(width: 40, height: 40)
+        content.imageProperties.maximumSize = CGSize(width: 45, height: 45)
+        content.imageProperties.reservedLayoutSize = CGSize(width: 40, height: 40)
         guard let url = URL(string: product.thumbnail) else {
             return
         }

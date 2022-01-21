@@ -2,13 +2,17 @@ import Foundation
 import UIKit
 
 class ProductRegisterView: UIStackView {
-    private var dataSource: UICollectionViewDiffableDataSource<Int, UIImage>!
+    enum Section: Int {
+        case image, holder
+    }
+
+    private var dataSource: UICollectionViewDiffableDataSource<Section, UIImage>!
     
     var imageList: [UIImage] = [] {
         didSet {
-            var snapshot = NSDiffableDataSourceSnapshot<Int, UIImage>()
-            snapshot.appendSections([1])
-            snapshot.appendItems(imageList, toSection: 1)
+            var snapshot = NSDiffableDataSourceSnapshot<Section, UIImage>()
+            snapshot.appendSections([.image])
+            snapshot.appendItems(imageList, toSection: .image)
             self.dataSource.apply(snapshot)
         }
     }
@@ -173,7 +177,7 @@ extension ProductRegisterView {
             UICollectionView.CellRegistration<ProductImageCell, UIImage> { cell, indexPath, identifier in
                 cell.configure(image: identifier)
             }
-        dataSource = UICollectionViewDiffableDataSource<Int, UIImage>(
+        dataSource = UICollectionViewDiffableDataSource<Section, UIImage>(
             collectionView: imageCollectionView
         ) { (collectionView: UICollectionView, indexPath: IndexPath, identifier: UIImage
         ) -> UICollectionViewCell? in
@@ -184,11 +188,13 @@ extension ProductRegisterView {
             )
         }
 
-        var snapshot = NSDiffableDataSourceSnapshot<Int, UIImage>()
-        snapshot.appendSections([1])
+        var snapshot = NSDiffableDataSourceSnapshot<Section, UIImage>()
+        snapshot.appendSections([.image, .holder])
         imageList.append(UIImage(named: "robot")!)
-        imageList.append(UIImage(systemName: "plus")!)
-        snapshot.appendItems(imageList, toSection: 1)
+        var plusList: [UIImage] = []
+        plusList.append(UIImage(systemName: "plus")!)
+        snapshot.appendItems(imageList, toSection: .image)
+        snapshot.appendItems(plusList, toSection: .holder)
         self.dataSource.apply(snapshot)
     }
 
@@ -218,7 +224,7 @@ extension ProductRegisterView: UITextViewDelegate {
             textView.text = "상품설명을 작성해 주세요. (최대 1000글자)"
         }
     }
-
+    
     func textViewDidBeginEditing(_ textView: UITextView) {
         if textView.textColor == .systemGray {
             textView.textColor = .black
