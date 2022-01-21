@@ -7,9 +7,9 @@
 
 import UIKit
 
-enum ViewMode {
-  case registation
-  case modification
+enum ViewMode: String {
+  case registation = "상품등록"
+  case modification = "상품수정"
 }
 
 class ProductRegistrationModificationViewController: productRegister, ImagePickerable, ReuseIdentifying {
@@ -30,12 +30,12 @@ class ProductRegistrationModificationViewController: productRegister, ImagePicke
   private func setView(mode: ViewMode?) {
     switch mode {
     case .registation:
-      navigationItem.title = "상품등록"
+      navigationItem.title = ViewMode.registation.rawValue
       doneButton.target = self
       doneButton.action = #selector(registerProduct)
       addImageButton.addTarget(self, action: #selector(addImage), for: .touchUpInside)
     case .modification:
-      navigationItem.title = "상품수정"
+      navigationItem.title = ViewMode.modification.rawValue
       doneButton.target = self
       doneButton.action = #selector(modifyProduct)
       fetchProductDetail(productId: 714)
@@ -49,7 +49,7 @@ class ProductRegistrationModificationViewController: productRegister, ImagePicke
     if productImages.count < 5 {
       actionSheetAlertForImage()
     } else {
-      showAlert(message: "이미지는 5개까지 등록 가능합니다.")
+      showAlert(message: .rangeOfImageCount)
     }
   }
   
@@ -57,23 +57,28 @@ class ProductRegistrationModificationViewController: productRegister, ImagePicke
     if verfiyImagesCount() == false {
       return
     }
-    api.registerProduct(
-      params: getProductInformaionForRegistration(secret: secret),
-      images: productImages,
-      identifier: identifer
-    ) { [self] response in
-      switch response {
-      case .success(_):
-        DispatchQueue.main.async {
-          navigationController?.popViewController(animated: true)
-        }
-      case .failure(_):
-        DispatchQueue.main.async {
-          showAlert(message: "상품등록에 실패 했습니다.\n다시 시도해 주세요")
+    do {
+      api.registerProduct(
+        params: try getProductInformaionForRegistration(secret: secret),
+        images: productImages,
+        identifier: identifer
+      ) { [self] response in
+        switch response {
+        case .success(_):
+          DispatchQueue.main.async {
+            navigationController?.popViewController(animated: true)
+          }
+        case .failure(let error):
+          DispatchQueue.main.async {
+            showAlert(message: error.localizedDescription)
+          }
         }
       }
+    }catch let error {
+      showAlert(message: error.localizedDescription)
     }
   }
+  
   
   @objc private func modifyProduct() {
     guard let productId = product?.id else {
@@ -89,9 +94,9 @@ class ProductRegistrationModificationViewController: productRegister, ImagePicke
         DispatchQueue.main.async {
           navigationController?.popViewController(animated: true)
         }
-      case .failure(_):
+      case .failure(let error):
         DispatchQueue.main.async {
-          showAlert(message: "상품등록에 실패 했습니다.\n다시 시도해 주세요")
+          showAlert(message: error.localizedDescription)
         }
       }
     }
@@ -99,27 +104,36 @@ class ProductRegistrationModificationViewController: productRegister, ImagePicke
   
   private func verfiyImagesCount() -> Bool {
     guard productImages.count > 0 else {
-      showAlert(message: "이미지를 1개 이상 등록해주세요.")
+      showAlert(message: .rangeOfImageCount)
       return false
     }
     return true
   }
   
-  private func getProductInformaionForRegistration(secret: String) -> ProductRequestForRegistration {
-    let name = nameTextField.text ?? ""
-    let fixedPrice = Double(fixedPriceTextField.text ?? "") ?? 0
-    let discountedPrice = Double(discountedPriceTextField.text ?? "") ?? 0
-    let stock = Int(stockTextField.text ?? "")
-    let descriptions = descriptionTextView.text ?? ""
+  private func getProductInformaionForRegistration(secret: String) throws -> ProductRequestForRegistration {
+    guard let name = nameTextField.text, name.count > 2 else {
+      throw InputError.invalidName
+    }
+    guard let descriptions = descriptionTextView.text else {
+      throw InputError.invalidDescription
+    }
+    guard let stringFixedPrice = fixedPriceTextField.text,
+          let fixedPrice = Double(stringFixedPrice)else {
+      throw InputError.invalidFixedPrice
+    }
+    guard let stringDiscountedPrice = discountedPriceTextField.text,
+          let stringStock = stockTextField.text else {
+            throw InputError.invalidOthers
+    }
     let curreny: Currency = currencySegmentControl.selectedSegmentIndex == 0 ? .KRW : .USD
-    
+
     return ProductRequestForRegistration(
       name: name,
       descriptions: descriptions,
       price: fixedPrice,
       currency: curreny,
-      discountedPrice: discountedPrice,
-      stock: stock,
+      discountedPrice: Double(stringDiscountedPrice),
+      stock: Int(stringStock),
       secret: secret
     )
   }
@@ -164,9 +178,8 @@ extension ProductRegistrationModificationViewController {
           setProductDetail(product: data)
         }
       case .failure(let error):
-        print(error)
         DispatchQueue.main.async {
-          showAlert(message: error.errorDescription)
+          showAlert(message: error.localizedDescription)
         }
       }
     }

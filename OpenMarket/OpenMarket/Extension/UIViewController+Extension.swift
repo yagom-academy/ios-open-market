@@ -7,10 +7,30 @@
 
 import UIKit
 
+enum AlertMessage {
+  case rangeOfImageCount
+}
+
+extension AlertMessage {
+  var description: String {
+    switch self {
+    case .rangeOfImageCount:
+      return "이미지는 1~5개만 등록 가능합니다."
+    }
+  }
+}
+
 extension UIViewController {
   func showAlert(message: String) {
     let okAction = UIAlertAction(title: "OK", style: .default)
     let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+    alert.addAction(okAction)
+    self.present(alert, animated: true)
+  }
+  
+  func showAlert(message: AlertMessage) {
+    let okAction = UIAlertAction(title: "OK", style: .default)
+    let alert = UIAlertController(title: nil, message: message.description, preferredStyle: .alert)
     alert.addAction(okAction)
     self.present(alert, animated: true)
   }
