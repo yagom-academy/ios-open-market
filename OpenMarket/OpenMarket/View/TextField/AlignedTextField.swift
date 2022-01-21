@@ -1,6 +1,6 @@
 import UIKit
 
-class CustomTextField: UITextField {
+class AlignedTextField: UITextField {
     
     private let inset = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
     

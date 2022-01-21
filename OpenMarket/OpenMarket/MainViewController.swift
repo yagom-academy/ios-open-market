@@ -15,6 +15,15 @@ class MainViewController: UIViewController {
         fetchProductList()
     }
     
+    override func viewDidLayoutSubviews() {
+        let destinationX: CGFloat = view.safeAreaLayoutGuide.layoutFrame.width * CGFloat(segmentedControl.selectedSegmentIndex)
+        let destinationPoint = CGPoint(x: destinationX, y: 0)
+
+        // animated: true에서 버그발생
+        // Grid 뷰에서 Landscape Left -> Portrait 변경 시 scrollview offset이 제대로 잡히지 않음
+        scrollView.setContentOffset(destinationPoint, animated: false)
+    }
+    
     private func createAllComponents() {
         createProductRegistrationButtonItem()
     }
@@ -54,7 +63,7 @@ extension MainViewController {
     }
 
     @objc func touchUpListButton() {
-        let destinationX: CGFloat = view.frame.width * CGFloat(segmentedControl.selectedSegmentIndex)
+        let destinationX: CGFloat = view.safeAreaLayoutGuide.layoutFrame.width * CGFloat(segmentedControl.selectedSegmentIndex)
         let destinationPoint = CGPoint(x: destinationX, y: 0)
         
         scrollView.setContentOffset(destinationPoint, animated: true)
@@ -95,10 +104,10 @@ extension MainViewController: UIScrollViewDelegate {
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
         ])
         
         scrollView.contentSize.width = view.frame.width * 2
@@ -112,24 +121,15 @@ extension MainViewController: UIScrollViewDelegate {
         segmentedControl.selectedSegmentIndex = pageNumber
     }
     
-    override func viewDidLayoutSubviews() {
-        let destinationX: CGFloat = view.frame.width * CGFloat(segmentedControl.selectedSegmentIndex)
-        let destinationPoint = CGPoint(x: destinationX, y: 0)
-
-        // animated: true에서 버그발생
-        // Grid 뷰에서 Landscape Left -> Portrait 변경 시 scrollview offset이 제대로 잡히지 않음
-        scrollView.setContentOffset(destinationPoint, animated: false)
-    }
-    
     //MARK: - ListViewController
     private func configureListViewController() {
         listViewController.view.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             listViewController.view.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
-            listViewController.view.widthAnchor.constraint(equalTo: view.widthAnchor),
+            listViewController.view.widthAnchor.constraint(equalTo: view.safeAreaLayoutGuide.widthAnchor),
             listViewController.view.topAnchor.constraint(equalTo: scrollView.topAnchor),
-            listViewController.view.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            listViewController.view.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
     

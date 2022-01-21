@@ -10,39 +10,63 @@ class ProductRegistrationViewController: UIViewController {
     private let cancelButton = UIButton(type: .system)
     private let titleLabel = UILabel()
     private let doneButton = UIButton(type: .system)
-    private let navigationStackView = UIStackView()
+    private let navigationView = UIView()
+    
+    private let wholeScreenScrollView = UIScrollView()
     
     private let imageStackView = UIStackView()
     private let imagePickerController = UIImagePickerController()
     private let imageScrollView = UIScrollView()
     
     private let textFieldStackView = UIStackView()
-    private let nameTextField = CustomTextField()
+    private let nameTextField = AlignedTextField()
     private let priceStackView = UIStackView()
-    private let priceTextField = CustomTextField()
+    private let priceTextField = AlignedTextField()
     private let currencySegmentedControl = UISegmentedControl()
-    private let bargainPriceTextField = CustomTextField()
-    private let stockTextField = CustomTextField()
+    private let bargainPriceTextField = AlignedTextField()
+    private let stockTextField = AlignedTextField()
     
     private let descriptionTextView = UITextView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureHierarchy()
         configure()
+    }
+    
+    private func configureHierarchy() {
+        view.addSubview(navigationView)
+        view.addSubview(wholeScreenScrollView)
+
+        navigationView.addSubview(cancelButton)
+        navigationView.addSubview(titleLabel)
+        navigationView.addSubview(doneButton)
+
+        wholeScreenScrollView.addSubview(imageScrollView)
+        wholeScreenScrollView.addSubview(textFieldStackView)
+        wholeScreenScrollView.addSubview(descriptionTextView)
+        
+        imageScrollView.addSubview(imageStackView)
+
+        textFieldStackView.addArrangedSubview(nameTextField)
+        textFieldStackView.addArrangedSubview(priceStackView)
+        textFieldStackView.addArrangedSubview(bargainPriceTextField)
+        textFieldStackView.addArrangedSubview(stockTextField)
     }
 
     private func configure() {
         configureMainView()
-        
-        configureNavigationStackView()
+
+        configureNavigationView()
         configureCancelButton()
         configureTitleLabel()
         configureDoneButton()
-        
+
+        configureWholeScreenScrollView()
         configureImageScrollView()
         configureImageStackView()
         configureImagePickerController()
-        
+
         configureTextFieldStackView()
         configureNameTextField()
         configurePriceStackView()
@@ -50,61 +74,54 @@ class ProductRegistrationViewController: UIViewController {
         configureCurrencySegmentedControl()
         configureBargainPriceTextField()
         configureStockTextField()
-        
+
         configureDescriptionTextView()
     }
     
     //MARK: - MainView
     private func configureMainView() {
         view.backgroundColor = .systemBackground
-        
-        view.addSubview(navigationStackView)
-        view.addSubview(imageScrollView)
-        view.addSubview(textFieldStackView)
-        view.addSubview(descriptionTextView)
     }
 }
 
-//MARK: - NavigationStackView
+//MARK: - NavigationView
 extension ProductRegistrationViewController {
     
-    private func configureNavigationStackView() {
-        navigationStackView.backgroundColor = .systemBackground
-        navigationStackView.axis = .horizontal
-        navigationStackView.distribution = .fill
-        navigationStackView.alignment = .center
-        
-        navigationStackView.addArrangedSubview(cancelButton)
-        navigationStackView.addArrangedSubview(titleLabel)
-        navigationStackView.addArrangedSubview(doneButton)
-        navigationStackView.translatesAutoresizingMaskIntoConstraints = false
+    private func configureNavigationView() {
+        navigationView.backgroundColor = .systemBackground
+  
+        navigationView.translatesAutoresizingMaskIntoConstraints = false
+        navigationView.setContentHuggingPriority(.defaultHigh, for: .vertical)
         NSLayoutConstraint.activate([
-            navigationStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor,
+            navigationView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,
                                                          constant: Attribute.largeSpacing),
-            navigationStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor,
+            navigationView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,
                                                           constant: -1 * Attribute.largeSpacing),
-            navigationStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            navigationStackView.topAnchor.constraint(equalTo: titleLabel.topAnchor,
-                                                    constant: -1 * Attribute.largeSpacing),
-            navigationStackView.bottomAnchor.constraint(equalTo: titleLabel.bottomAnchor,
-                                                    constant: Attribute.largeSpacing),
-            navigationStackView.centerXAnchor.constraint(equalTo: titleLabel.centerXAnchor),
+            navigationView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            navigationView.topAnchor.constraint(equalTo: titleLabel.topAnchor,
+                                                constant: -1 * Attribute.largeSpacing),
+            navigationView.bottomAnchor.constraint(equalTo: titleLabel.bottomAnchor,
+                                                constant: Attribute.largeSpacing),
         ])
     }
     
     //MARK: - CancelButton
     private func configureCancelButton() {
-        cancelButton.tintColor = .systemBlue
-        cancelButton.titleLabel?.textAlignment = .left
-        
         let text = NSMutableAttributedString(string: "Cancel")
         text.adjustDynamicType(textStyle: .body)
         cancelButton.setAttributedTitle(text, for: .normal)
+        cancelButton.tintColor = .systemBlue
+        cancelButton.titleLabel?.textAlignment = .left
         cancelButton.titleLabel?.adjustsFontForContentSizeCategory = true
+        cancelButton.titleLabel?.translatesAutoresizingMaskIntoConstraints = false
+
+        cancelButton.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            cancelButton.leadingAnchor.constraint(equalTo: navigationView.leadingAnchor),
+            cancelButton.centerYAnchor.constraint(equalTo: navigationView.centerYAnchor)
+        ])
         
         cancelButton.addTarget(self, action: #selector(dismissModal), for: .touchUpInside)
-        
-        cancelButton.setContentHuggingPriority(.defaultHigh, for: .horizontal)
     }
     
     @objc private func dismissModal() {
@@ -120,8 +137,13 @@ extension ProductRegistrationViewController {
         text.adjustDynamicType(textStyle: .body)
         titleLabel.attributedText = text
         titleLabel.adjustsFontForContentSizeCategory = true
+        titleLabel.setContentHuggingPriority(.defaultHigh, for: .vertical)
         
-        titleLabel.setContentHuggingPriority(.defaultLow, for: .horizontal)
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            titleLabel.centerXAnchor.constraint(equalTo: navigationView.centerXAnchor),
+            titleLabel.centerYAnchor.constraint(equalTo: navigationView.centerYAnchor)
+        ])
     }
     
     //MARK: - DoneButton
@@ -132,10 +154,15 @@ extension ProductRegistrationViewController {
         text.adjustDynamicType(textStyle: .body)
         doneButton.setAttributedTitle(text, for: .normal)
         doneButton.titleLabel?.adjustsFontForContentSizeCategory = true
+        doneButton.titleLabel?.translatesAutoresizingMaskIntoConstraints = false
         
         doneButton.addTarget(self, action: #selector(registerProduct), for: .touchUpInside)
         
-        doneButton.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        doneButton.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            doneButton.trailingAnchor.constraint(equalTo: navigationView.trailingAnchor),
+            doneButton.centerYAnchor.constraint(equalTo: navigationView.centerYAnchor)
+        ])
     }
     
     @objc private func registerProduct() {
@@ -201,19 +228,34 @@ extension ProductRegistrationViewController {
     }
 }
 
+//MARK: - WholeScreenScrollView
+extension ProductRegistrationViewController {
+    
+    private func configureWholeScreenScrollView() {
+        wholeScreenScrollView.translatesAutoresizingMaskIntoConstraints = false
+        wholeScreenScrollView.setContentHuggingPriority(.defaultLow, for: .vertical)
+        
+        NSLayoutConstraint.activate([
+            wholeScreenScrollView.topAnchor.constraint(equalTo: navigationView.bottomAnchor,
+                                                       constant: Attribute.largeSpacing),
+            wholeScreenScrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            wholeScreenScrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,
+                                                           constant: Attribute.largeSpacing),
+            wholeScreenScrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,
+                                                            constant: -1 * Attribute.largeSpacing)
+        ])
+    }
+}
+
 //MARK: - ImageScrollView
 extension ProductRegistrationViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
     private func configureImageScrollView() {
         imageScrollView.translatesAutoresizingMaskIntoConstraints = false
-        imageScrollView.addSubview(imageStackView)
         
         NSLayoutConstraint.activate([
-            imageScrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor,
-                                                         constant: Attribute.largeSpacing),
-            imageScrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor,
-                                                         constant: -1 * Attribute.largeSpacing),
-            imageScrollView.topAnchor.constraint(equalTo: navigationStackView.bottomAnchor),
+            imageScrollView.widthAnchor.constraint(equalTo: wholeScreenScrollView.widthAnchor),
+            imageScrollView.topAnchor.constraint(equalTo: wholeScreenScrollView.topAnchor),
             imageScrollView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.2),
         ])
     }
@@ -285,20 +327,12 @@ extension ProductRegistrationViewController {
         textFieldStackView.axis = .vertical
         textFieldStackView.spacing = Attribute.smallSpacing
         
-        textFieldStackView.addArrangedSubview(nameTextField)
-        textFieldStackView.addArrangedSubview(priceStackView)
-        textFieldStackView.addArrangedSubview(bargainPriceTextField)
-        textFieldStackView.addArrangedSubview(stockTextField)
-        
         textFieldStackView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             textFieldStackView.topAnchor.constraint(equalTo: imageScrollView.bottomAnchor,
                                                     constant: Attribute.largeSpacing),
-            textFieldStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor,
-                                                        constant: Attribute.largeSpacing),
-            textFieldStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor,
-                                                        constant: -1 * Attribute.largeSpacing)
+            textFieldStackView.widthAnchor.constraint(equalTo: wholeScreenScrollView.widthAnchor),
         ])
     }
     
@@ -310,7 +344,9 @@ extension ProductRegistrationViewController {
     //MARK: - PriceStackView
     private func configurePriceStackView() {
         priceStackView.axis = .horizontal
+        priceStackView.alignment = .center
         priceStackView.spacing = Attribute.smallSpacing
+        priceStackView.translatesAutoresizingMaskIntoConstraints = false
         
         priceStackView.addArrangedSubview(priceTextField)
         priceStackView.addArrangedSubview(currencySegmentedControl)
@@ -328,6 +364,7 @@ extension ProductRegistrationViewController {
         currencySegmentedControl.insertSegment(withTitle: "KRW", at: 0, animated: false)
         currencySegmentedControl.insertSegment(withTitle: "USD", at: 1, animated: false)
         currencySegmentedControl.selectedSegmentIndex = 0
+        currencySegmentedControl.translatesAutoresizingMaskIntoConstraints = false
         
         currencySegmentedControl.setContentHuggingPriority(.defaultHigh, for: .horizontal)
     }
@@ -350,18 +387,16 @@ extension ProductRegistrationViewController {
         descriptionTextView.text = "설명"
         descriptionTextView.font = .preferredFont(forTextStyle: .callout)
         descriptionTextView.adjustsFontForContentSizeCategory = true
+        descriptionTextView.isScrollEnabled = false
         
         descriptionTextView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             descriptionTextView.topAnchor.constraint(equalTo: textFieldStackView.bottomAnchor,
                                                      constant: Attribute.largeSpacing),
-            descriptionTextView.leadingAnchor.constraint(equalTo: view.leadingAnchor,
-                                                         constant: Attribute.largeSpacing),
-            descriptionTextView.trailingAnchor.constraint(equalTo: view.trailingAnchor,
-                                                          constant: -1 * Attribute.largeSpacing),
-            descriptionTextView.bottomAnchor.constraint(equalTo: view.bottomAnchor,
-                                                        constant: -1 * Attribute.largeSpacing)
+            descriptionTextView.bottomAnchor.constraint(equalTo: wholeScreenScrollView.bottomAnchor),
+            descriptionTextView.widthAnchor.constraint(equalTo: wholeScreenScrollView.widthAnchor),
+            descriptionTextView.heightAnchor.constraint(equalTo: view.heightAnchor),
         ])
     }
 }
