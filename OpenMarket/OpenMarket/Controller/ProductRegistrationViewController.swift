@@ -3,6 +3,8 @@ import UIKit
 class ProductRegistrationViewController: UIViewController, UINavigationControllerDelegate {
     private let imagePickerController = UIImagePickerController()
     private var images = [UIImage]()
+    private var isModifying: Bool?
+    private var productInformation: Product?
     private var networkTask: NetworkTask?
     private var jsonParser: JSONParser?
     private var completionHandler: (() -> Void)?
@@ -19,11 +21,29 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
     
     convenience init?(
         coder: NSCoder,
+        isModifying: Bool,
         networkTask: NetworkTask,
         jsonParser: JSONParser,
         completionHandler: (() -> Void)?
     ) {
         self.init(coder: coder)
+        self.isModifying = isModifying
+        self.networkTask = networkTask
+        self.jsonParser = jsonParser
+        self.completionHandler = completionHandler
+    }
+    
+    convenience init?(
+        coder: NSCoder,
+        isModifying: Bool,
+        productInformation: Product,
+        networkTask: NetworkTask,
+        jsonParser: JSONParser,
+        completionHandler: (() -> Void)?
+    ) {
+        self.init(coder: coder)
+        self.isModifying = isModifying
+        self.productInformation = productInformation
         self.networkTask = networkTask
         self.jsonParser = jsonParser
         self.completionHandler = completionHandler
@@ -34,7 +54,7 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
         imagesCollectionView.dataSource = self
         productNameTextField.delegate = self
         setUpImagePicker()
-        setupNavigationBar()
+        setupRegistrationNavigationBar()
         setupTextView()
         NotificationCenter.default.addObserver(
             self,
@@ -122,7 +142,7 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
         scrollView.verticalScrollIndicatorInsets.bottom = 0
     }
     
-    private func setupNavigationBar() {
+    private func setupRegistrationNavigationBar() {
         navigationItem.leftBarButtonItem = UIBarButtonItem(
             barButtonSystemItem: .cancel,
             target: self,
@@ -134,6 +154,20 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
             action: #selector(registerProduct)
         )
         navigationItem.title = "상품등록"
+    }
+    
+    private func setupModificationNavigationBar() {
+        navigationItem.leftBarButtonItem = UIBarButtonItem(
+            barButtonSystemItem: .cancel,
+            target: self,
+            action: #selector(dismissProductRegistration)
+        )
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            barButtonSystemItem: .done,
+            target: self,
+            action: #selector(modifyProduct)
+        )
+        navigationItem.title = "상품수정"
     }
     
     private func setUpImagePicker() {
@@ -289,7 +323,7 @@ extension ProductRegistrationViewController: UIImagePickerControllerDelegate {
 
 extension ProductRegistrationViewController: UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        if images.count < 5 {
+        if images.count < 5, isModifying == false {
             return 2
         } else {
             return 1

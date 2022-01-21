@@ -112,6 +112,7 @@ class MainViewController: UIViewController {
         ) { coder in
             let productRegistrationViewController = ProductRegistrationViewController(
                 coder: coder,
+                isModifying: false,
                 networkTask: self.networkTask,
                 jsonParser: self.jsonParser
             ) {
