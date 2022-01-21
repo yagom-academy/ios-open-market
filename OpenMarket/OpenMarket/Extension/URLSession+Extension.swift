@@ -28,10 +28,10 @@ extension URLSession {
         return
       }
       
-      guard let recievedData = data else {
+      guard let receivedData = data else {
         return
       }
-      completion(.success(recievedData))
+      completion(.success(receivedData))
     }
     return dataTask
   }

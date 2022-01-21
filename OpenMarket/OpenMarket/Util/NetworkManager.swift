@@ -11,10 +11,10 @@ struct NetworkManager {
   let session = URLSession(configuration: .default)
   
   func getItemList(pageNo: Int,
-                   itmesPerPage: Int,
+                   itemsPerPage: Int,
                    completion: @escaping (Result<ItemList, Error>) -> Void)
   {
-    let url = URLMaker.itemListURL(pageNo: pageNo, itmesPerPage: itmesPerPage)
+    let url = URLMaker.itemListURL(pageNo: pageNo, itemsPerPage: itemsPerPage)
     let request = URLRequest(url: url, httpMethod: .get)
     
     let dataTask = session.dataTask(request: request) { result in

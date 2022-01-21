@@ -10,7 +10,7 @@ import Foundation
 enum HttpMethod {
   case get
   case post
-  case petch
+  case patch
   case delete
   
   var method: String {
@@ -19,7 +19,7 @@ enum HttpMethod {
       return "GET"
     case .post:
       return "POST"
-    case .petch:
+    case .patch:
       return "PATCH"
     case .delete:
       return "DELETE"
