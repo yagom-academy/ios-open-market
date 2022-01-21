@@ -1,5 +1,5 @@
 //
-//  modifyProductRequest.swift
+//  RegisterProductRequest.swift
 //  OpenMarket
 //
 //  Created by 박병호 on 2022/01/18.
@@ -8,22 +8,31 @@
 import Foundation
 
 /**
- 상품 수정의 모델 타입 (Request)
+ 상품 등록의 모델 타입 (Request)
 */
-struct ProductModificationRequest: Encodable {
-  let name: String?
-  let descriptions: String?
-  let thumnailId: Int?
-  let price: Double?
-  let currency: Currency?
+struct ProductRequestForModification: Encodable {
+  let name: String
+  let descriptions: String
+  let thumbnailId: Int?
+  let price: Double
+  let currency: Currency
   let discountedPrice: Double?
   let stock: Int?
   let secret: String
   
-  init(name: String? = nil, descriptions: String? = nil, thumnailId: Int? = nil, price: Double? = nil, currency: Currency? = nil, discountedPrice: Double? = nil, stock: Int? = nil, secret: String) {
+  init(
+    name: String,
+    descriptions: String,
+    thumbnailId: Int?,
+    price: Double,
+    currency: Currency,
+    discountedPrice: Double?,
+    stock: Int?,
+    secret: String
+  ) {
     self.name = name
     self.descriptions = descriptions
-    self.thumnailId = thumnailId
+    self.thumbnailId = thumbnailId
     self.price = price
     self.currency = currency
     self.discountedPrice = discountedPrice
@@ -34,7 +43,6 @@ struct ProductModificationRequest: Encodable {
   enum CodingKeys: String, CodingKey {
     case name
     case descriptions
-    case thumnailId = "thumnail_id"
     case price
     case currency
     case discountedPrice = "discounted_price"

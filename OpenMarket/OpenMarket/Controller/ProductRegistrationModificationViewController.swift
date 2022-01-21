@@ -15,7 +15,7 @@ enum ViewMode {
 class ProductRegistrationModificationViewController: productRegister, ImagePickerable, ReuseIdentifying {
   private let api = APIManager(urlSession: URLSession(configuration: .default), jsonParser: JSONParser())
   var product: Product?
-  var viewMode: ViewMode? = .modification
+  var viewMode: ViewMode?
   private var productImages: [UIImage] = []
   
   private let identifer = "3be89f18-7200-11ec-abfa-25c2d8a6d606"
@@ -38,7 +38,7 @@ class ProductRegistrationModificationViewController: productRegister, ImagePicke
       navigationItem.title = "상품수정"
       doneButton.target = self
       doneButton.action = #selector(modifyProduct)
-      fetchProductDetail(productId: product?.id)
+      fetchProductDetail(productId: 714)
       addImageButton.isHidden = true
     case .none:
       return
@@ -54,8 +54,11 @@ class ProductRegistrationModificationViewController: productRegister, ImagePicke
   }
   
   @objc private func registerProduct() {
+    if verfiyImagesCount() == false {
+      return
+    }
     api.registerProduct(
-      params: getInformaionForRegistration(secret: secret),
+      params: getProductInformaionForRegistration(secret: secret),
       images: productImages,
       identifier: identifer
     ) { [self] response in
@@ -78,7 +81,7 @@ class ProductRegistrationModificationViewController: productRegister, ImagePicke
     }
     api.modifyProduct(
       productId: productId,
-      params: getInformationForModification(secret: secret),
+      params: getProductInformaionForModification(secret: secret),
       identifier: identifer
     ) { [self] response in
       switch response {
@@ -94,18 +97,34 @@ class ProductRegistrationModificationViewController: productRegister, ImagePicke
     }
   }
   
-  private func getInformaionForRegistration(secret: String) -> ProductRegistrationRequest {
-    let name = nameTextField.text ?? ""
-    let fixedPrice = Double(fixedPriceTextField.text ?? "") ?? 0
-    let discountedPrice = Double(discountedPriceTextField.text ?? "") ?? 0
-    let stock = Int(stockTextField.text ?? "") ?? 0
-    let descriptions = descriptionTextView.text ?? ""
-    let curreny: Currency = currencySegmentControl.selectedSegmentIndex == 0 ? .KRW : .USD
-    
-    return ProductRegistrationRequest(name: name, descriptions: descriptions, price: fixedPrice, currency: curreny, discountedPrice: discountedPrice, stock: stock, secret: secret)
+  private func verfiyImagesCount() -> Bool {
+    guard productImages.count > 0 else {
+      showAlert(message: "이미지를 1개 이상 등록해주세요.")
+      return false
+    }
+    return true
   }
   
-  private func getInformationForModification(secret: String) -> ProductModificationRequest {
+  private func getProductInformaionForRegistration(secret: String) -> ProductRequestForRegistration {
+    let name = nameTextField.text ?? ""
+    let fixedPrice = Double(fixedPriceTextField.text ?? "") ?? 0
+    let discountedPrice = Double(discountedPriceTextField.text ?? "") ?? 0
+    let stock = Int(stockTextField.text ?? "")
+    let descriptions = descriptionTextView.text ?? ""
+    let curreny: Currency = currencySegmentControl.selectedSegmentIndex == 0 ? .KRW : .USD
+    
+    return ProductRequestForRegistration(
+      name: name,
+      descriptions: descriptions,
+      price: fixedPrice,
+      currency: curreny,
+      discountedPrice: discountedPrice,
+      stock: stock,
+      secret: secret
+    )
+  }
+  
+  private func getProductInformaionForModification(secret: String) -> ProductRequestForModification {
     let name = nameTextField.text ?? ""
     let fixedPrice = Double(fixedPriceTextField.text ?? "") ?? 0
     let discountedPrice = Double(discountedPriceTextField.text ?? "") ?? 0
@@ -113,7 +132,16 @@ class ProductRegistrationModificationViewController: productRegister, ImagePicke
     let descriptions = descriptionTextView.text ?? ""
     let curreny: Currency = currencySegmentControl.selectedSegmentIndex == 0 ? .KRW : .USD
     
-    return ProductModificationRequest(name: name, descriptions: descriptions, price: fixedPrice, currency: curreny, discountedPrice: discountedPrice, stock: stock, secret: secret)
+    return ProductRequestForModification(
+      name: name,
+      descriptions: descriptions,
+      thumbnailId: nil,
+      price: fixedPrice,
+      currency: curreny,
+      discountedPrice: discountedPrice,
+      stock: stock,
+      secret: secret
+    )
   }
 }
 
@@ -161,9 +189,9 @@ extension ProductRegistrationModificationViewController {
   private func setProductDetail(product: Product) {
     nameTextField.text = product.name
     fixedPriceTextField.text = "\(product.price)"
-    discountedPriceTextField.text = "\(product.bargainPrice)"
+    discountedPriceTextField.text = "\(product.discountedPrice)"
     stockTextField.text = "\(product.stock)"
-    descriptionTextView.text = product.descriptions
+    descriptionTextView.text = product.description
     switch product.currency {
     case .KRW:
       currencySegmentControl.selectedSegmentIndex = 0

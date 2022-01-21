@@ -1,8 +1,8 @@
 //
-//  RegisterProductRequest.swift
+//  ProductForModification.swift
 //  OpenMarket
 //
-//  Created by 박병호 on 2022/01/18.
+//  Created by 박병호 on 2022/01/21.
 //
 
 import Foundation
@@ -10,7 +10,7 @@ import Foundation
 /**
  상품 등록의 모델 타입 (Request)
 */
-struct ProductRegistrationRequest: Encodable {
+struct ProductRequestForRegistration: Encodable {
   let name: String
   let descriptions: String
   let price: Double
@@ -19,13 +19,21 @@ struct ProductRegistrationRequest: Encodable {
   let stock: Int?
   let secret: String
   
-  init(name: String, descriptions: String, price: Double, currency: Currency, discountedPrice: Double? = 0, stock: Int? = 0, secret: String) {
+  init(
+    name: String,
+    descriptions: String,
+    price: Double,
+    currency: Currency,
+    discountedPrice: Double?,
+    stock: Int?,
+    secret: String
+  ) {
     self.name = name
     self.descriptions = descriptions
     self.price = price
     self.currency = currency
-    self.discountedPrice = discountedPrice
-    self.stock = stock
+    self.discountedPrice = discountedPrice ?? 0
+    self.stock = stock ?? 0
     self.secret = secret
   }
   
@@ -39,4 +47,3 @@ struct ProductRegistrationRequest: Encodable {
     case secret
   }
 }
-

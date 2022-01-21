@@ -64,7 +64,6 @@
                         <barButtonItem key="rightBarButtonItem" style="plain" systemItem="add" id="LTF-EP-78w">
                             <connections>
                                 <action selector="plusButtonDidTap:" destination="BYZ-38-t0r" id="Ysx-9y-ld3"/>
-                                <segue destination="QM3-ah-oJL" kind="show" id="ZdZ-sy-6da"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -277,9 +276,6 @@
             <point key="canvasLocation" x="3309" y="115"/>
         </scene>
     </scenes>
-    <inferredMetricsTieBreakers>
-        <segue reference="ZdZ-sy-6da"/>
-    </inferredMetricsTieBreakers>
     <resources>
         <image name="plus" catalog="system" width="128" height="113"/>
         <systemColor name="labelColor">

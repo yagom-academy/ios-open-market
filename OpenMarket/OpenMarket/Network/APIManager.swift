@@ -74,7 +74,7 @@ struct APIManager: RestFulAPI {
   }
   
   func registerProduct(
-    params: ProductRegistrationRequest,
+    params: ProductRequestForRegistration,
     images: [UIImage],
     identifier: String,
     completion: @escaping (Result<Product, NetworkError>) -> Void
@@ -112,7 +112,7 @@ struct APIManager: RestFulAPI {
   
   func modifyProduct(
     productId: Int,
-    params: ProductModificationRequest,
+    params: ProductRequestForModification,
     identifier: String,
     completion: @escaping (Result<Product, NetworkError>) -> Void
   ) {
