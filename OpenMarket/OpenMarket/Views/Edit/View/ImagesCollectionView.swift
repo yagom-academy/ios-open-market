@@ -21,13 +21,17 @@ class ImagesCollectionView: UICollectionView {
     
     private func registerXib() {
         let cellNib = UINib(nibName: ImageCell.nibName, bundle: .main)
-        register(cellNib, forCellWithReuseIdentifier: ImageCell.identifier)
+        register(
+            cellNib,
+            forCellWithReuseIdentifier: ImageCell.identifier
+        )
         
         let headerNib = UINib(nibName: ImageAddHeaderView.nibName, bundle: .main)
         register(
             headerNib,
             forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
-            withReuseIdentifier: ImageAddHeaderView.identifier)
+            withReuseIdentifier: ImageAddHeaderView.identifier
+        )
     }
     
     private func setUpLayout() {
