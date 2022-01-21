@@ -492,7 +492,39 @@ if heightRemainBottomHeight < frameHeight ,
 
 ## 4-3 Trouble Shooting
 
-- 작성중
+<details>
+<summary>키보드가 콘텐츠를 가리지 않도록 하는 방법</summary>
+<div markdown="1">
+
+### 1. 키보드가 콘텐츠를 가리지 않도록 하는 방법
+
+- `문제`  NotificationCenter를 활용하여 키보드프레임을 계산하고, 그에 맞게 ScrollView의 contentInset을 조정해주어 콘텐츠를 가리지 않도록 해결을 해보았다.
+    - 그러나 UITextField 경우에는 제대로 동작하였지만 `UITextView`의 경우에는 제대로 동작하지 않았다.
+    - ![https://i.imgur.com/4LOEfyc.gif](https://i.imgur.com/4LOEfyc.gif)
+- `이유`  구글링을 해본 결과 TextView의 경우 스크롤 기능을 없앤 후에 높이를 고정시켜야 이러한 문제를 해결할 수 있다고 나와있었다. 이해한 바로는 TextView의 높이가 계속 늘어날 수 있고, 스크롤이 기능이 가능한 상태에서는 바깥에 깔려있는 스크롤뷰 입장에서는 뷰의 높이가 변하지 않으니 스크롤의 좌표도 그대로인 것이라고 이해가 되었다.
+- `해결`  따라서 UITextView의 `스크롤 기능`을 비활성화한 후, 높이가 늘 고정되어있는 것이 아니라 내부의 Text에 따라 늘어날 수도 있도록 오토레이아웃 `우선순위`를 조정해주었다.
+
+
+</div>
+</details>
+
+
+<details>
+<summary>CollectionView를 Refreshing 할 때 발생되는 index out of range</summary>
+<div markdown="1">
+
+### 2. CollectionView를 Refreshing 할 때 발생되는 index out of range
+
+- `문제` cell을 dequeueReusable 해주는 구간에서 productList를 통해 셀을 구성하고 있는데, MainViewController에서 `UIRefreshControl`를 통해 업데이트 할 때 간헐적으로 `out of range` 에러가 나는데 디버깅을 해보았다.
+- `이유` dequeueReusable 해주는 구간과 `updataMainView()` 메소드 내부를 print를 해보면서 디버깅을 해본 결과, CollectionView의 cellForItemAt 메소드가 단순 드래그를 할 때도 호출하고 있었다.
+- 따라서 위에서 아래로 쓸어내리는 과정에서 `cellForItemAt`의 호출과 `updataMainView` 호출 시점이 간헐적으로 뒤바뀌는 시점이 생겨서 이러한 에러가 났던 것이라고 이해했다.
+- `해결` 동기적으로 메소드를 호출시키도록 해야하나 했었지만, 이 부분은 비동기적으로 처리하여 해결하였다.
+    - `updataMainView`가 호출될 때 DispatchQueue.global()로 작업을 보내도록 하였다. 이렇게 하면 메인쓰레드가 아닌 다른 쓰레드에서 `updataMainView`의 작업을 처리하고, 그 후에 CollectionView의 `cellForItemAt` 메소드를 호출하는 로직으로 변경된다.
+
+
+</div>
+</details>
+
 
 ## 4-4 배운 개념
 
