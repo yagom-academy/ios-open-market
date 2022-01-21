@@ -237,6 +237,7 @@
                         <barButtonItem key="rightBarButtonItem" title="Done" id="RbM-jg-hft"/>
                     </navigationItem>
                     <connections>
+                        <outlet property="addImageButton" destination="AB6-2b-lrB" id="YTD-NR-DyW"/>
                         <outlet property="descriptionTextView" destination="K6l-69-CVn" id="srl-Gd-fnR"/>
                         <outlet property="productImageStackView" destination="hhG-T7-Xba" id="NsD-SD-XGf"/>
                     </connections>

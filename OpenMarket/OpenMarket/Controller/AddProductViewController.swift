@@ -11,6 +11,7 @@ class AddProductViewController: UIViewController {
 
     @IBOutlet weak var descriptionTextView: UITextView!
     @IBOutlet weak var productImageStackView: UIStackView!
+    @IBOutlet weak var addImageButton: UIButton!
     
     let imagePicker = UIImagePickerController()
     var productImages: [NewProductImage] = []
@@ -36,24 +37,24 @@ class AddProductViewController: UIViewController {
     
     @IBAction func tapAddImageButton(_ sender: UIButton) {
         isButtonTapped = true
-        showAlert()
+        showSelectImageAlert()
     }
     
     @IBAction func tapProductImage(_ sender: UIButton) {
         isButtonTapped = false
         selectedIndex = sender.tag
-        showAlert()
+        showSelectImageAlert()
     }
     
-    func showAlert() {
-        let alert = createAddImageAlert()
+    func showSelectImageAlert() {
+        let alert = createSelectImageAlert()
         present(alert, animated: true, completion: nil)
     }
 }
 
 extension AddProductViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
-    func createAddImageAlert() -> UIAlertController {
+    func createSelectImageAlert() -> UIAlertController {
         let alert = UIAlertController(title: "상품사진 선택", message: nil, preferredStyle: .actionSheet)
         let photoLibrary = UIAlertAction(title: "사진앨범", style: .default) { action in
             self.openPhotoLibrary()
@@ -82,25 +83,38 @@ extension AddProductViewController: UIImagePickerControllerDelegate, UINavigatio
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
         if let image = info[.editedImage] as? UIImage {
-            addToStackView(image: image)
+            editProductImageStackView(with: image)
         } else if let image = info[.originalImage] as? UIImage {
-            addToStackView(image: image)
+            editProductImageStackView(with: image)
         }
         dismiss(animated: true, completion: nil)
     }
     
-    func addToStackView(image: UIImage) {
+    func editProductImageStackView(with image: UIImage) {
         guard isButtonTapped else {
-            let selectedImage = (productImageStackView.subviews[selectedIndex] as? UIButton)!
-            selectedImage.setImage(image, for: .normal)
+            changeProductImage(with: image)
             return
         }
+        addProductImage(with: image)
+        if productImageStackView.subviews.count == 6 {
+            self.addImageButton.isHidden = true
+        }
+    }
+    
+    func changeProductImage(with image: UIImage) {
+        guard let selectedImage = productImageStackView.subviews[selectedIndex] as? UIButton else { return }
+        selectedImage.setImage(image, for: .normal)
+    }
+    
+    func addProductImage(with image: UIImage) {
         let button = UIButton()
         button.setImage(image, for: .normal)
         button.tag = productImageStackView.subviews.count
         let lastSubviewIndex = self.productImageStackView.subviews.count - 1
         self.productImageStackView.insertArrangedSubview(button, at: lastSubviewIndex)
         button.addTarget(self, action: #selector(tapProductImage), for: .touchUpInside)
+        button.heightAnchor.constraint(equalTo: productImageStackView.heightAnchor).isActive = true
+        button.widthAnchor.constraint(equalTo: button.heightAnchor).isActive = true
     }
     
     func addToProductImages(image: UIImage) {
