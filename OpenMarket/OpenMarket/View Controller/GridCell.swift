@@ -36,5 +36,12 @@ class GridCell: UICollectionViewCell {
         stock.text = "잔여수량: \(productData.stock)"
         price.text = "\(productData.currency) \(productData.price)"
         discountedPrice.text = "\(productData.currency) \(productData.discountedPrice)"
+       
+        if productData.stock == 0 {
+            stock.text = "품절"
+            stock.textColor = .systemYellow
+        } else {
+            stock.text = "잔여수량: \(productData.stock)"
+        }
     }
 }

@@ -4,6 +4,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
@@ -42,33 +43,53 @@
                                                             <rect key="frame" x="0.0" y="0.0" width="70" height="79"/>
                                                         </imageView>
                                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="8sr-4V-CVX" userLabel="Product Info Stack View">
-                                                            <rect key="frame" x="70" y="0.0" width="187" height="79"/>
+                                                            <rect key="frame" x="70" y="0.0" width="307" height="79"/>
                                                             <subviews>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GwL-56-6DJ" userLabel="Name Label">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="187" height="39.5"/>
-                                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
-                                                                    <nil key="textColor"/>
-                                                                    <nil key="highlightedColor"/>
-                                                                </label>
-                                                                <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="6CK-Er-p8f">
-                                                                    <rect key="frame" x="0.0" y="39.5" width="187" height="39.5"/>
+                                                                <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pY1-RO-rVJ">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="307" height="39.5"/>
+                                                                    <subviews>
+                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GwL-56-6DJ" userLabel="Name Label">
+                                                                            <rect key="frame" x="0.0" y="0.0" width="255.5" height="39.5"/>
+                                                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                                                            <nil key="textColor"/>
+                                                                            <nil key="highlightedColor"/>
+                                                                        </label>
+                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aTc-wH-QK6" userLabel="Stock Label">
+                                                                            <rect key="frame" x="255.5" y="0.0" width="37.5" height="39.5"/>
+                                                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                                            <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                            <nil key="highlightedColor"/>
+                                                                        </label>
+                                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="252" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="9jz-YV-6nb">
+                                                                            <rect key="frame" x="293" y="2" width="14" height="35.5"/>
+                                                                            <color key="tintColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                            <imageReference key="image" image="hand.point.up" catalog="system" symbolScale="small"/>
+                                                                            <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="font">
+                                                                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle3"/>
+                                                                            </preferredSymbolConfiguration>
+                                                                        </imageView>
+                                                                    </subviews>
+                                                                </stackView>
+                                                                <stackView opaque="NO" contentMode="scaleToFill" alignment="center" baselineRelativeArrangement="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6CK-Er-p8f">
+                                                                    <rect key="frame" x="0.0" y="39.5" width="307" height="39.5"/>
                                                                     <subviews>
                                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3w3-RK-taK" userLabel="Price Label">
-                                                                            <rect key="frame" x="0.0" y="0.0" width="84" height="39.5"/>
+                                                                            <rect key="frame" x="0.0" y="12" width="31.5" height="16"/>
                                                                             <attributedString key="attributedText">
                                                                                 <fragment content="Label">
                                                                                     <attributes>
                                                                                         <color key="NSColor" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                                                        <font key="NSFont" size="14" name="AppleGothic"/>
+                                                                                        <font key="NSFont" size="13" name="AppleGothic"/>
+                                                                                        <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                                                         <integer key="NSStrikethrough" value="1"/>
                                                                                     </attributes>
                                                                                 </fragment>
                                                                             </attributedString>
                                                                             <nil key="highlightedColor"/>
                                                                         </label>
-                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I1D-YH-1xu" userLabel="Discounted Price Label">
-                                                                            <rect key="frame" x="84" y="0.0" width="103" height="39.5"/>
-                                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I1D-YH-1xu" userLabel="Discounted Price Label">
+                                                                            <rect key="frame" x="31.5" y="10" width="275.5" height="19.5"/>
+                                                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                                             <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                             <nil key="highlightedColor"/>
                                                                         </label>
@@ -76,12 +97,6 @@
                                                                 </stackView>
                                                             </subviews>
                                                         </stackView>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aTc-wH-QK6" userLabel="Stock Label">
-                                                            <rect key="frame" x="257" y="0.0" width="120" height="79"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                            <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
                                                     </subviews>
                                                     <constraints>
                                                         <constraint firstItem="JOL-pT-fgc" firstAttribute="trailing" secondItem="2SB-VL-H9q" secondAttribute="leading" constant="70" id="tND-Px-ug1"/>
@@ -93,7 +108,6 @@
                                                 <constraint firstItem="2SB-VL-H9q" firstAttribute="trailing" secondItem="FH8-oP-9Ee" secondAttribute="trailing" id="Acp-Cw-u8w"/>
                                                 <constraint firstItem="2SB-VL-H9q" firstAttribute="bottom" secondItem="FH8-oP-9Ee" secondAttribute="bottom" id="NKN-ma-6Cx"/>
                                                 <constraint firstItem="2SB-VL-H9q" firstAttribute="leading" secondItem="FH8-oP-9Ee" secondAttribute="leading" id="S2x-EV-vaM"/>
-                                                <constraint firstItem="aTc-wH-QK6" firstAttribute="leading" secondItem="FH8-oP-9Ee" secondAttribute="trailing" constant="-120" id="vaI-zZ-DCf"/>
                                             </constraints>
                                         </collectionViewCellContentView>
                                         <size key="customSize" width="377" height="79"/>
@@ -191,7 +205,7 @@
                     <navigationItem key="navigationItem" id="1qI-cK-3nR">
                         <nil key="title"/>
                         <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="WbI-X3-SOy">
-                            <rect key="frame" x="141.5" y="6" width="131" height="33"/>
+                            <rect key="frame" x="141.5" y="5.5" width="131" height="33"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <segments>
                                 <segment title="LIST"/>
@@ -231,6 +245,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="hand.point.up" catalog="system" width="111" height="128"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

@@ -32,10 +32,18 @@ class ListCell: UICollectionViewCell {
                 self.thumbnail.image = UIImage(data: imageData ?? Data())
             }
         }
+        
         name.text = productData.name
-        stock.text = "잔여수량: \(productData.stock)"
-        price.text = "\(productData.currency) \(productData.price)"
+        price.text = "\(productData.currency) \(productData.price) "
+        price.sizeToFit()
         discountedPrice.text = "\(productData.currency) \(productData.discountedPrice)"
+        
+        if productData.stock == 0 {
+            stock.text = "품절"
+            stock.textColor = .systemYellow
+        } else {
+            stock.text = "잔여수량: \(productData.stock)"
+        }
     }
     
 }
