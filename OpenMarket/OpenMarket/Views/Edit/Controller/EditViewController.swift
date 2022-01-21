@@ -104,7 +104,7 @@ class EditViewController: UIViewController {
                   let newProduct = textFieldsStackView.createModification(data, secret: secret) {
             requestModification(product: newProduct)
         } else {
-            self.showAlert(message: AlertMessage.productError, completion: nil)
+            self.showAlert(message: AlertMessage.fetchProductError, completion: nil)
         }
     }
     
@@ -125,7 +125,7 @@ class EditViewController: UIViewController {
             return false
         }
         guard isValidPriceCount else {
-            showAlert(message: AlertMessage.minimumPriceCount)
+            showAlert(message: AlertMessage.requiredPriceCount)
             return false
         }
         guard isMaintainMiniMumDescriptionCount else {
