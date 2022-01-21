@@ -179,14 +179,14 @@
 			path = Extension;
 			sourceTree = "<group>";
 		};
-		25F8D20227959336005B9767 /* Protocol */ = {
+		25EEB02A279A723C007E50D8 /* Network */ = {
 			isa = PBXGroup;
 			children = (
-				25F8D1FF279592F3005B9767 /* ReuseIdentifying.swift */,
-				25F8D2092795AD86005B9767 /* ProductCollectionViewCell.swift */,
-				25EEB0222798723B007E50D8 /* ImagePickerable.swift */,
+				2580F2132787D02B005FC50F /* Error */,
+				25561997278459B000067096 /* APIManager.swift */,
+				25F8D2152796AB16005B9767 /* RestFulAPI.swift */,
 			);
-			path = Protocol;
+			path = Network;
 			sourceTree = "<group>";
 		};
 		89376D132783BF3900364CB8 /* OpenMarketTests */ = {
@@ -220,6 +220,7 @@
 			children = (
 				25F8D1FC27958659005B9767 /* LayoutConstant.swift */,
 				25F8D2062795A43A005B9767 /* LoadingIndicator.swift */,
+				25F8D2092795AD86005B9767 /* ProductCollectionViewCell.swift */,
 				2530792B278D2BB5004639B2 /* ProductCollectionViewGridCell.swift */,
 				253079422790FCF2004639B2 /* ProductCollectionViewListCell.swift */,
 				89D4A620278D29D600A8CAAA /* ProductCollectionViewGridCell.xib */,
@@ -231,11 +232,11 @@
 		89513828279115FA00D7480B /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				25561997278459B000067096 /* APIManager.swift */,
-				25F8D2152796AB16005B9767 /* RestFulAPI.swift */,
 				255619952784562B00067096 /* JSONParser.swift */,
 				2580F2062786C6CC005FC50F /* URLGenerator.swift */,
 				2530793E27901928004639B2 /* PresentStyle.swift */,
+				25EEB0222798723B007E50D8 /* ImagePickerable.swift */,
+				25F8D1FF279592F3005B9767 /* ReuseIdentifying.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -271,11 +272,10 @@
 		C70FB0F925BEF61C00C9924E /* OpenMarket */ = {
 			isa = PBXGroup;
 			children = (
-				25F8D20227959336005B9767 /* Protocol */,
+				25EEB02A279A723C007E50D8 /* Network */,
 				895138292791161900D7480B /* Controller */,
 				89513828279115FA00D7480B /* Utils */,
 				89513827279115D000D7480B /* View */,
-				2580F2132787D02B005FC50F /* Error */,
 				89376D1F27844EAF00364CB8 /* Model */,
 				25D77E3C278C11E1003F328C /* Extension */,
 				C70FB10025BEF61C00C9924E /* Main.storyboard */,

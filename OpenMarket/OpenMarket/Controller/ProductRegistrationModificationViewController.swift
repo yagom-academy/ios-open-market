@@ -18,8 +18,8 @@ class ProductRegistrationModificationViewController: productRegister, ImagePicke
   var viewMode: ViewMode? = .modification
   private var productImages: [UIImage] = []
   
-  let identifer = "3be89f18-7200-11ec-abfa-25c2d8a6d606"
-  let secret = "-7VPcqeCv=Xbu3&P"
+  private let identifer = "3be89f18-7200-11ec-abfa-25c2d8a6d606"
+  private let secret = "-7VPcqeCv=Xbu3&P"
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -27,7 +27,7 @@ class ProductRegistrationModificationViewController: productRegister, ImagePicke
     setView(mode: viewMode)
   }
   
-  func setView(mode: ViewMode?) {
+  private func setView(mode: ViewMode?) {
     switch mode {
     case .registation:
       navigationItem.title = "상품등록"
@@ -45,7 +45,7 @@ class ProductRegistrationModificationViewController: productRegister, ImagePicke
     }
   }
   
-  @objc func addImage() {
+  @objc private func addImage() {
     if productImages.count < 5 {
       actionSheetAlertForImage()
     } else {
@@ -94,7 +94,7 @@ class ProductRegistrationModificationViewController: productRegister, ImagePicke
     }
   }
   
-  func getInformaionForRegistration(secret: String) -> ProductRegistrationRequest {
+  private func getInformaionForRegistration(secret: String) -> ProductRegistrationRequest {
     let name = nameTextField.text ?? ""
     let fixedPrice = Double(fixedPriceTextField.text ?? "") ?? 0
     let discountedPrice = Double(discountedPriceTextField.text ?? "") ?? 0
@@ -105,7 +105,7 @@ class ProductRegistrationModificationViewController: productRegister, ImagePicke
     return ProductRegistrationRequest(name: name, descriptions: descriptions, price: fixedPrice, currency: curreny, discountedPrice: discountedPrice, stock: stock, secret: secret)
   }
   
-  func getInformationForModification(secret: String) -> ProductModificationRequest {
+  private func getInformationForModification(secret: String) -> ProductModificationRequest {
     let name = nameTextField.text ?? ""
     let fixedPrice = Double(fixedPriceTextField.text ?? "") ?? 0
     let discountedPrice = Double(discountedPriceTextField.text ?? "") ?? 0
@@ -117,18 +117,48 @@ class ProductRegistrationModificationViewController: productRegister, ImagePicke
   }
 }
 
-
 extension ProductRegistrationModificationViewController {
-  private func appendImageView(image: UIImage?) {
-    let imageView = UIImageView(image: image)
-    stackView.addArrangedSubview(imageView)
-    imageView.heightAnchor.constraint(
-      equalTo: imageView.widthAnchor,
-      multiplier: 1
-    ).isActive = true
+  private func fetchProductDetail(productId: Int?) {
+    guard let productId = productId else {
+      return
+    }
+    api.detailProduct(productId: productId) { [self] response in
+      switch response {
+      case .success(let data):
+        guard let images = data.images else {
+          return
+        }
+        for image in images {
+          let imageURL = image.thumbnailURL
+          fetchImages(url: imageURL)
+        }
+        DispatchQueue.main.async {
+          setProductDetail(product: data)
+        }
+      case .failure(let error):
+        print(error)
+        DispatchQueue.main.async {
+          showAlert(message: error.errorDescription)
+        }
+      }
+    }
   }
   
-  func setProductDetail(product: Product) {
+  private func fetchImages(url: String) {
+    api.requestProductImage(url: url) { [self] response in
+      switch response {
+      case .success(let data):
+        let image = UIImage(data: data)
+        DispatchQueue.main.async {
+          appendImageView(image: image)
+        }
+      case .failure(let error):
+        print(error.errorDescription)
+      }
+    }
+  }
+  
+  private func setProductDetail(product: Product) {
     nameTextField.text = product.name
     fixedPriceTextField.text = "\(product.price)"
     discountedPriceTextField.text = "\(product.bargainPrice)"
@@ -162,46 +192,13 @@ extension ProductRegistrationModificationViewController {
     appendImageView(image: resizingImage)
     dismiss(animated: true, completion: nil)
   }
-}
-
-extension ProductRegistrationModificationViewController {
-  private func fetchProductDetail(productId: Int?) {
-    guard let productId = productId else {
-      return
-    }
-    api.detailProduct(productId: productId) { [self] response in
-      switch response {
-      case .success(let data):
-        guard let images = data.images else {
-          return
-        }
-        for image in images {
-          let imageURL = image.thumbnailURL
-          fetchImages(url: imageURL)
-        }
-        DispatchQueue.main.async {
-          setProductDetail(product: data)
-        }
-      case .failure(let error):
-        print(error)
-        DispatchQueue.main.async {
-          showAlert(message: error.errorDescription)
-        }
-      }
-    }
-  }
   
-  func fetchImages(url: String) {
-    api.requestProductImage(url: url) { [self] response in
-      switch response {
-      case .success(let data):
-        let image = UIImage(data: data)
-        DispatchQueue.main.async {
-          appendImageView(image: image)
-        }
-      case .failure(let error):
-        print(error.errorDescription)
-      }
-    }
+  private func appendImageView(image: UIImage?) {
+    let imageView = UIImageView(image: image)
+    stackView.addArrangedSubview(imageView)
+    imageView.heightAnchor.constraint(
+      equalTo: imageView.widthAnchor,
+      multiplier: 1
+    ).isActive = true
   }
 }
