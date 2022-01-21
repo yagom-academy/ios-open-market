@@ -11,6 +11,7 @@ class GridCell: UICollectionViewCell {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
+        self.configure()
     }
 
     required init?(coder: NSCoder) {
@@ -19,7 +20,7 @@ class GridCell: UICollectionViewCell {
 }
 
 extension GridCell {
-    func configure(product: Product) {
+    private func configure() {
         self.layer.borderColor = UIColor.systemGray3.cgColor
         self.layer.borderWidth = 2
         self.layer.cornerRadius = 8
@@ -46,7 +47,6 @@ extension GridCell {
 
         configureViewHierarchy()
         configureConstraint()
-        configureContent(product: product)
     }
 
     private func configureViewHierarchy() {
@@ -83,7 +83,7 @@ extension GridCell {
         ])
     }
 
-    private func configureContent(product: Product) {
+    func configureContent(product: Product) {
         guard let url = URL(string: product.thumbnail) else {
             return
         }

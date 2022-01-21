@@ -197,7 +197,7 @@ extension ProductsCatalogViewController {
             UICollectionView.CellRegistration<GridCell, Product> { cell, indexPath, identifier in
                 DispatchQueue.main.async {
                     if indexPath == self.gridCollectionView.indexPath(for: cell) {
-                        cell.configure(product: identifier)
+                        cell.configureContent(product: identifier)
                     }
                 }
             }

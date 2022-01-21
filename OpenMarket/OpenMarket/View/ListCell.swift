@@ -57,6 +57,10 @@ extension ListCell {
         ])
     }
 
+    private func configure() {
+        
+    }
+
     private func configureContent(product: Product) {
         var content = UIListContentConfiguration.subtitleCell()
         content.imageProperties.maximumSize = CGSize(width: 40, height: 40)
