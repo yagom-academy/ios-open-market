@@ -49,8 +49,8 @@ extension UIViewController {
         let deleteAction = UIAlertAction(title: titles.1, style: .destructive, handler: deleteHandler)
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
         let alert = UIAlertController(title: nil, message: message, preferredStyle: .actionSheet)
-        alert.addAction(modifyAction)
         alert.addAction(deleteAction)
+        alert.addAction(modifyAction)
         alert.addAction(cancelAction)
         self.present(alert, animated: true)
     }
