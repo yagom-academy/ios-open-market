@@ -26,6 +26,7 @@ class ProductCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         setUpAccessibility()
+        setUpSelectedView()
         resetLabel()
         productImageView.image = nil
         priceLabels = [priceLabel, discountPriceLabel, stockLabel]
@@ -35,6 +36,11 @@ class ProductCell: UICollectionViewCell {
         super.prepareForReuse()
         resetLabel()
         productImageView.image = nil
+    }
+    
+    func setUpSelectedView() {
+        selectedBackgroundView = UIView(frame: self.bounds)
+        selectedBackgroundView?.backgroundColor = .systemGray5
     }
     
     private func setUpAccessibility() {
