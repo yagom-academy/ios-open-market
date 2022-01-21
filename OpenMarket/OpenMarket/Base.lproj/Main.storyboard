@@ -130,6 +130,7 @@
                                             <outlet property="price" destination="3w3-RK-taK" id="OrC-TS-Mui"/>
                                             <outlet property="stock" destination="aTc-wH-QK6" id="oJV-xy-JSl"/>
                                             <outlet property="thumbnail" destination="JOL-pT-fgc" id="kNW-Cz-Agj"/>
+                                            <segue destination="VeB-qe-phQ" kind="show" id="Ith-jF-9GL"/>
                                         </connections>
                                     </collectionViewCell>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="GridCell" id="fnH-M4-fIZ" customClass="GridCell" customModule="OpenMarket" customModuleProvider="target">
@@ -197,6 +198,7 @@
                                             <outlet property="price" destination="Hcq-nR-FbC" id="ShM-Kj-0Ew"/>
                                             <outlet property="stock" destination="r59-wG-ixn" id="b5f-G3-AWv"/>
                                             <outlet property="thumbnail" destination="v1E-AX-bfZ" id="xns-EM-32g"/>
+                                            <segue destination="VeB-qe-phQ" kind="show" id="7oa-0v-BAz"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
@@ -231,7 +233,7 @@
                         <barButtonItem key="rightBarButtonItem" title="Item" id="IhJ-IY-ssd">
                             <imageReference key="image" image="plus" catalog="system" symbolScale="small"/>
                             <connections>
-                                <segue destination="tOa-OP-gav" kind="presentation" modalPresentationStyle="fullScreen" id="Qfy-CM-sBj"/>
+                                <segue destination="tOa-OP-gav" kind="presentation" modalPresentationStyle="fullScreen" id="NGL-go-pI8"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -350,7 +352,6 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="상품등록" id="AY1-aU-Kan">
-                        <barButtonItem key="backBarButtonItem" title="Cancel" id="t3H-nS-OdT"/>
                         <barButtonItem key="leftBarButtonItem" title="Cancel" id="AfP-Mm-mzO"/>
                         <barButtonItem key="rightBarButtonItem" title="Done" id="JDf-73-wOr"/>
                     </navigationItem>
@@ -366,7 +367,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="t1G-E1-y1e" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2747.826086956522" y="12.723214285714285"/>
+            <point key="canvasLocation" x="2384" y="783"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="eRG-8h-4ib">
@@ -389,7 +390,7 @@
         <!--Navigation Controller-->
         <scene sceneID="DYH-RA-Bqe">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="tOa-OP-gav" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" modalPresentationStyle="fullScreen" id="tOa-OP-gav" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="OF4-71-erJ">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
@@ -402,12 +403,102 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="83e-kw-Pyi" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1837.68115942029" y="12.723214285714285"/>
+            <point key="canvasLocation" x="1368" y="783"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="V6f-PH-4qz">
+            <objects>
+                <viewController id="VeB-qe-phQ" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Md5-EP-4tz">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="hkd-va-RsY" userLabel="Product Info StackView">
+                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="test" translatesAutoresizingMaskIntoConstraints="NO" id="kbx-Z7-rE0" userLabel="Product ImageView">
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="300"/>
+                                    </imageView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0po-SE-DeF" userLabel="ProductDetail StackView">
+                                        <rect key="frame" x="0.0" y="300" width="414" height="70"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d8s-Pg-r8Z">
+                                                <rect key="frame" x="0.0" y="0.0" width="288.5" height="70"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="IHf-Z3-mcj" userLabel="StockNPriceStackView">
+                                                <rect key="frame" x="288.5" y="0.0" width="125.5" height="70"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Stock" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G2n-Pj-beW">
+                                                        <rect key="frame" x="0.0" y="0.0" width="125.5" height="29"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Price" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zLG-gm-ydX">
+                                                        <rect key="frame" x="0.0" y="29" width="125.5" height="20.5"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="DiscountedPrice" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bzc-A4-dh4">
+                                                        <rect key="frame" x="0.0" y="49.5" width="125.5" height="20.5"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                </subviews>
+                                            </stackView>
+                                        </subviews>
+                                    </stackView>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="pcF-ga-iKx">
+                                        <rect key="frame" x="0.0" y="370" width="414" height="404"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                        <string key="text">상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명</string>
+                                        <color key="textColor" systemColor="labelColor"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="kbx-Z7-rE0" firstAttribute="bottom" secondItem="hkd-va-RsY" secondAttribute="top" constant="300" id="SMQ-vW-njR"/>
+                                    <constraint firstItem="0po-SE-DeF" firstAttribute="bottom" secondItem="kbx-Z7-rE0" secondAttribute="bottom" constant="70" id="Xr1-BI-6TY"/>
+                                </constraints>
+                            </stackView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="mIQ-Cr-utp"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="hkd-va-RsY" firstAttribute="top" secondItem="mIQ-Cr-utp" secondAttribute="top" id="Ct7-Hf-AwA"/>
+                            <constraint firstItem="hkd-va-RsY" firstAttribute="trailing" secondItem="mIQ-Cr-utp" secondAttribute="trailing" id="M6G-ZZ-ofO"/>
+                            <constraint firstItem="hkd-va-RsY" firstAttribute="leading" secondItem="mIQ-Cr-utp" secondAttribute="leading" id="Tbq-aZ-ziI"/>
+                            <constraint firstItem="hkd-va-RsY" firstAttribute="bottom" secondItem="mIQ-Cr-utp" secondAttribute="bottom" id="arl-Iv-Tvu"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="nPL-tb-kZD">
+                        <barButtonItem key="rightBarButtonItem" title="Item" image="square.and.pencil" catalog="system" id="ZfJ-IX-IJQ">
+                            <connections>
+                                <segue destination="tOa-OP-gav" kind="presentation" modalPresentationStyle="fullScreen" id="ZJ0-ON-a6u"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="6Da-dg-IaX" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1877" y="13"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="Ith-jF-9GL"/>
+        <segue reference="ZJ0-ON-a6u"/>
+    </inferredMetricsTieBreakers>
     <resources>
         <image name="chevron.right" catalog="system" width="96" height="128"/>
         <image name="plus" catalog="system" width="128" height="113"/>
+        <image name="square.and.pencil" catalog="system" width="128" height="115"/>
+        <image name="test" width="1024" height="680"/>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
