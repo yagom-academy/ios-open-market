@@ -248,15 +248,11 @@ extension ProductsCatalogViewController {
 
 // MARK: Collection View Delegate
 extension ProductsCatalogViewController: UICollectionViewDelegate {
-    func scrollViewWillEndDragging(
-        _ scrollView: UIScrollView,
-        withVelocity velocity: CGPoint,
-        targetContentOffset: UnsafeMutablePointer<CGPoint>
-    ) {
-        let targetOffset = targetContentOffset.pointee.y + view.frame.height
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let targetOffset = scrollView.contentOffset.y + view.frame.height
         let scrollViewHeight = scrollView.contentSize.height
 
-        if targetOffset > scrollViewHeight {
+        if targetOffset > scrollViewHeight - (view.frame.height * 0.2) {
             generateProductItems()
         }
     }
