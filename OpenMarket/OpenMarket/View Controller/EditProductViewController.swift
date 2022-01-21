@@ -7,7 +7,7 @@
 
 import UIKit
 
-class PostProductViewController: UIViewController, UITextFieldDelegate {
+class EditProductViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var postImageButton: UIButton!
     @IBOutlet weak var postImageListStackView: UIStackView!
@@ -16,12 +16,23 @@ class PostProductViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var currencySwitchController: UISegmentedControl!
     @IBOutlet weak var discountedPriceTextField: UITextField!
     @IBOutlet weak var productStockTextField: UITextField!
+   
     
     override func viewDidLoad() {
         super.viewDidLoad()
         placeholderSetting()
         
     }
+    
+    @IBAction func hitCancelButton(_ sender: Any) {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    
+    @IBAction func hitDoneButton(_ sender: Any) {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
     
     
     func placeholderSetting() {
@@ -35,5 +46,7 @@ class PostProductViewController: UIViewController, UITextFieldDelegate {
         discountedPriceTextField.placeholder = "할인금액"
         productStockTextField.placeholder = "재고수량"
     }
+    
+    
     
 }

@@ -249,7 +249,7 @@
         <!--상품등록-->
         <scene sceneID="Y3x-sS-OW1">
             <objects>
-                <viewController id="bSo-iR-hiR" customClass="PostProductViewController" customModule="OpenMarket" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="bSo-iR-hiR" customClass="EditProductViewController" customModule="OpenMarket" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="aJo-oh-IZa">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -352,8 +352,16 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="상품등록" id="AY1-aU-Kan">
-                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="AfP-Mm-mzO"/>
-                        <barButtonItem key="rightBarButtonItem" title="Done" id="JDf-73-wOr"/>
+                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="AfP-Mm-mzO">
+                            <connections>
+                                <action selector="hitCancelButton:" destination="bSo-iR-hiR" id="sMk-jp-sCy"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Done" id="JDf-73-wOr">
+                            <connections>
+                                <action selector="hitDoneButton:" destination="bSo-iR-hiR" id="BOC-YT-c6x"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="currencySwitchController" destination="bda-k4-KGn" id="N3O-Xo-kqN"/>
@@ -405,10 +413,10 @@
             </objects>
             <point key="canvasLocation" x="1368" y="783"/>
         </scene>
-        <!--View Controller-->
+        <!--Product Detail View Controller-->
         <scene sceneID="V6f-PH-4qz">
             <objects>
-                <viewController id="VeB-qe-phQ" sceneMemberID="viewController">
+                <viewController id="VeB-qe-phQ" customClass="ProductDetailViewController" customModule="OpenMarket" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Md5-EP-4tz">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -431,19 +439,19 @@
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="IHf-Z3-mcj" userLabel="StockNPriceStackView">
                                                 <rect key="frame" x="288.5" y="0.0" width="125.5" height="70"/>
                                                 <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Stock" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G2n-Pj-beW">
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Stock" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G2n-Pj-beW">
                                                         <rect key="frame" x="0.0" y="0.0" width="125.5" height="29"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Price" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zLG-gm-ydX">
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Price" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zLG-gm-ydX">
                                                         <rect key="frame" x="0.0" y="29" width="125.5" height="20.5"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="DiscountedPrice" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bzc-A4-dh4">
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="DiscountedPrice" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bzc-A4-dh4">
                                                         <rect key="frame" x="0.0" y="49.5" width="125.5" height="20.5"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                         <nil key="textColor"/>
