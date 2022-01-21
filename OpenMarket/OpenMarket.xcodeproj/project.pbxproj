@@ -177,11 +177,11 @@
 			isa = PBXGroup;
 			children = (
 				33EEB1A42797ED520087C7C9 /* ProductRegisterView.swift */,
+				33EEB1A827980D5F0087C7C9 /* ProductImageCell.swift */,
 				84A08690278FFEBA00CF2D18 /* GridCell.swift */,
 				33A43A2827912EC800653458 /* ListCell.swift */,
 				C70FB10025BEF61C00C9924E /* Main.storyboard */,
 				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
-				33EEB1A827980D5F0087C7C9 /* ProductImageCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";

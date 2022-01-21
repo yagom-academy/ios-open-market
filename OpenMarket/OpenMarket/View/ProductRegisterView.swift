@@ -191,10 +191,9 @@ extension ProductRegisterView {
         var snapshot = NSDiffableDataSourceSnapshot<Section, UIImage>()
         snapshot.appendSections([.image, .holder])
         imageList.append(UIImage(named: "robot")!)
-        var plusList: [UIImage] = []
-        plusList.append(UIImage(systemName: "plus")!)
+
+        imageList.append(UIImage(systemName: "plus")!)
         snapshot.appendItems(imageList, toSection: .image)
-        snapshot.appendItems(plusList, toSection: .holder)
         self.dataSource.apply(snapshot)
     }
 

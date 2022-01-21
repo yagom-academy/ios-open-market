@@ -19,8 +19,8 @@ class ProductImageCell: UICollectionViewCell {
         imageView.contentMode = .scaleAspectFill
         imageView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            //imageView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            //imageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            imageView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            imageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor)
