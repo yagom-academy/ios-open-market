@@ -4,7 +4,6 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
     private let imagePickerController = UIImagePickerController()
     private var images = [UIImage]()
     private var isModifying: Bool?
-    private var productInformation: Product?
     private var networkTask: NetworkTask?
     private var jsonParser: JSONParser?
     private var completionHandler: (() -> Void)?
@@ -43,10 +42,10 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
     ) {
         self.init(coder: coder)
         self.isModifying = isModifying
-        self.productInformation = productInformation
         self.networkTask = networkTask
         self.jsonParser = jsonParser
         self.completionHandler = completionHandler
+        loadProductInformation(from: productInformation)
     }
     
     override func viewDidLoad() {
@@ -168,6 +167,25 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
             action: #selector(modifyProduct)
         )
         navigationItem.title = "상품수정"
+    }
+    
+    private func loadProductInformation(from productInformation: Product) {
+        productNameTextField.text = productInformation.name
+        productPriceTextField.text = productInformation.price.description
+        discountedPriceTextField.text = productInformation.discountedPrice.description
+        stockTextField.text = productInformation.stock.description
+        descriptionTextView.text = productInformation.description
+        if productInformation.currency == .krw {
+            currencySegmentedControl.selectedSegmentIndex = 0
+        } else if productInformation.currency == .usd {
+            currencySegmentedControl.selectedSegmentIndex = 1
+        }
+        productInformation.images?.forEach { image in
+            guard let url = URL(string: image.url),
+                  let imageData = try? Data(contentsOf: url),
+                  let downloadedImage = UIImage(data: imageData) else { return }
+            images.append(downloadedImage)
+        }
     }
     
     private func setUpImagePicker() {
