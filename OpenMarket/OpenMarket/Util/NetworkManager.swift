@@ -39,7 +39,9 @@ struct NetworkManager {
   func getItemInfo(itemId: Int,
                    completion: @escaping (Result<Item, Error>) -> Void)
   {
-    let url = URLMaker.itemInfoURL(itemId: itemId)
+    guard let url = URLMaker.itemInfoURL(itemId: itemId) else {
+      return
+    }
     let request = URLRequest(url: url, httpMethod: .get)
     
     let dataTask = session.dataTask(request: request) { result in
