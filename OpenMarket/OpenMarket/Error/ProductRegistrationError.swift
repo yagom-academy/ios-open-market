@@ -6,6 +6,10 @@ enum ProductRegistrationError: Error {
     case emptyPrice
     case emptyCurrency
     case emptyImage
+    case maximumCharacterLimit(TextCategory, Int)
+    case minimumCharacterLimit(TextCategory, Int)
+    case negativePrice
+    case maximumDiscountedPrice(Decimal)
 }
 
 extension ProductRegistrationError: LocalizedError {
@@ -21,6 +25,30 @@ extension ProductRegistrationError: LocalizedError {
             return "통화가 선택되지 않았습니다"
         case .emptyImage:
             return "이미지를 추가해주세요"
+        case .maximumCharacterLimit(let category, let count):
+            return "\(category)을 \(count)글자 이하로 입력해주세요"
+        case .minimumCharacterLimit(let category, let count):
+            return "\(category)을 \(count)글자 이상 입력해주세요"
+        case .negativePrice:
+            return "금액을 양수로 입력해주세요"
+        case .maximumDiscountedPrice(let price):
+            return "할인금액을 \(price) 이하로 입력해주세요"
+        }
+    }
+}
+
+extension ProductRegistrationError {
+    enum TextCategory: CustomStringConvertible {
+        case name
+        case description
+        
+        var description: String {
+            switch self {
+            case .name:
+                return "상품명"
+            case .description:
+                return "상품설명"
+            }
         }
     }
 }

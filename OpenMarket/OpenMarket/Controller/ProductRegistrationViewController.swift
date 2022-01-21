@@ -53,13 +53,19 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
     @objc private func registerProduct() {
         let identifier = "2836ea8c-7215-11ec-abfa-378889d9906f"
         let secret = "-3CSKv$cyHsK_@Wk"
-        let writtenSalesInformation = makeSalesInformation(secret: secret)
+        let writtenSalesInformation = makeSalesInformation(
+            secret: secret,
+            maximumDescriptionsLimit: 1000,
+            minimumDescriptionsLimit: 10,
+            maximumNameLimit: 100,
+            minimumNameLimit: 3
+        )
         let salesInformation: NetworkTask.SalesInformation
         switch writtenSalesInformation {
         case .success(let result):
             salesInformation = result
         case .failure(let error):
-            showAlert(title: "필수 항목이 입력되지 않았습니다", message: error.errorDescription)
+            showAlert(title: error.errorDescription, message: nil)
             return
         }
         
@@ -152,14 +158,20 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
     }
     
     private func makeSalesInformation(
-        secret: String
+        secret: String,
+        maximumDescriptionsLimit: Int?,
+        minimumDescriptionsLimit: Int?,
+        maximumNameLimit: Int?,
+        minimumNameLimit: Int?
     ) -> Result<NetworkTask.SalesInformation, ProductRegistrationError> {
+        let discountedPrice = Decimal(string: discountedPriceTextField.text ?? "")
+        let stock = UInt(stockTextField.text ?? "")
+        
         let selectedSegmentIndex = currencySegmentedControl.selectedSegmentIndex
         let selectedSegmentTitle = currencySegmentedControl.titleForSegment(
             at: selectedSegmentIndex
         ) ?? ""
-        
-        guard images.isEmpty == false else {
+        if images.isEmpty {
             return .failure(.emptyImage)
         }
         guard let name = productNameTextField.text, name.isEmpty == false else {
@@ -174,8 +186,30 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
         guard let descriptions = descriptionTextView.text, descriptions != "상품설명" else {
             return .failure(.emptyDiscription)
         }
-        let discountedPrice = Decimal(string: discountedPriceTextField.text ?? "")
-        let stock = UInt(stockTextField.text ?? "")
+        
+        if price.isSignMinus || discountedPrice?.isSignMinus == .some(true) {
+            return .failure(.negativePrice)
+        }
+        if let discountedPrice = discountedPrice, discountedPrice > price {
+            return .failure(.maximumDiscountedPrice(price))
+        }
+        if let maximumDescriptionsLimit = maximumDescriptionsLimit,
+           descriptions.count > maximumDescriptionsLimit {
+            return .failure(.maximumCharacterLimit(.description, maximumDescriptionsLimit))
+        }
+        if let minimumDescriptionsLimit = minimumDescriptionsLimit,
+           descriptions.count < minimumDescriptionsLimit {
+            return .failure(.minimumCharacterLimit(.description, minimumDescriptionsLimit))
+        }
+        if let maximumNameLimit = maximumNameLimit,
+           name.count > maximumNameLimit {
+            return .failure(.maximumCharacterLimit(.name, maximumNameLimit))
+        }
+        if let minimumNameLimit = minimumNameLimit,
+           name.count < minimumNameLimit {
+            return .failure(.minimumCharacterLimit(.name, minimumNameLimit))
+        }
+        
         let product = NetworkTask.SalesInformation(
             name: name,
             descriptions: descriptions,
