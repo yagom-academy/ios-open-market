@@ -112,6 +112,7 @@ class CollectionViewCell: UICollectionViewCell {
 
         priceLabel.text = "\(data.currency) \(data.price.addDemical())"
         priceLabel.textAlignment = .center
+        priceLabel.textColor = .systemGray
 
         switch data.stock {
         case 0:
@@ -121,6 +122,7 @@ class CollectionViewCell: UICollectionViewCell {
         default:
             stockLabel.text = "잔여 수량: \(data.stock)"
             stockLabel.textAlignment = .center
+            stockLabel.textColor = .systemGray
         }
         
         guard let url = URL(string: data.thumbnail) else {

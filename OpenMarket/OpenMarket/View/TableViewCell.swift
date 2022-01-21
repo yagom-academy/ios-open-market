@@ -128,6 +128,7 @@ class TableViewCell: UITableViewCell {
         
         priceLabel.text = "\(withData.currency) \(withData.price.addDemical())"
         priceLabel.textAlignment = .left
+        priceLabel.textColor = .systemGray
         
         switch withData.stock {
         case 0:
@@ -137,10 +138,12 @@ class TableViewCell: UITableViewCell {
         default:
             stockLabel.text = "잔여 수량: \(withData.stock)"
             stockLabel.textAlignment = .right
+            stockLabel.textColor = .systemGray
         }
         
         descriptionButton.setImage(UIImage(systemName: "chevron.right"), for: .normal)
         descriptionButton.titleLabel?.textAlignment = .right
+        descriptionButton.titleLabel?.textColor = .systemGray
         
         guard let url = URL(string: withData.thumbnail) else {
             return
