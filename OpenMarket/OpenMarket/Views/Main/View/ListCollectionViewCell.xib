@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -20,8 +20,11 @@
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gnG-ua-BpZ">
-                        <rect key="frame" x="12" y="0.0" width="376" height="82"/>
+                        <rect key="frame" x="12" y="81" width="376" height="1"/>
                         <color key="backgroundColor" systemColor="systemGray5Color"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="1" id="2US-yu-PZe"/>
+                        </constraints>
                     </view>
                     <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="c9w-A2-fX1">
                         <rect key="frame" x="8" y="0.0" width="380" height="81"/>
@@ -83,13 +86,11 @@
                                 </buttonConfiguration>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </stackView>
                 </subviews>
             </view>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <constraints>
-                <constraint firstItem="gnG-ua-BpZ" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="AKd-4U-4sj"/>
                 <constraint firstItem="c9w-A2-fX1" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="Knv-x4-6WS"/>
                 <constraint firstItem="gnG-ua-BpZ" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="12" id="LCH-au-mMq"/>
                 <constraint firstItem="c9w-A2-fX1" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="8" id="NPt-eA-udS"/>
@@ -101,6 +102,7 @@
             <size key="customSize" width="388" height="82"/>
             <connections>
                 <outlet property="discountPriceLabel" destination="I58-aU-Ssv" id="gDQ-Ez-Nq7"/>
+                <outlet property="indicator" destination="Vps-te-09y" id="4Vt-06-weu"/>
                 <outlet property="priceLabel" destination="xcA-ur-CnH" id="60w-EO-xUZ"/>
                 <outlet property="productImageView" destination="EUv-nb-uvq" id="Oeb-S6-W6I"/>
                 <outlet property="productNameLabel" destination="fSc-Rn-zlZ" id="XsU-YK-5OT"/>

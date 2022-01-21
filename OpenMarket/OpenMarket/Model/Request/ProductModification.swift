@@ -23,3 +23,16 @@ struct ProductModification: Codable {
         case discountedPrice = "discounted_price"
     }
 }
+
+extension ProductModification {
+    init(secert: String) {
+        self.secret = secert
+        self.name = nil
+        self.descriptions = nil
+        self.thumbnailID = nil
+        self.price = nil
+        self.currency = nil
+        self.discountedPrice = nil
+        self.stock = nil
+    }
+}

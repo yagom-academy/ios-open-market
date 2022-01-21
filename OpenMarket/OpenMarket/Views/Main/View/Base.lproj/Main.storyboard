@@ -77,7 +77,7 @@
                             <imageReference key="image" image="plus" catalog="system" symbolScale="small"/>
                             <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <connections>
-                                <segue destination="P6W-oX-LDK" kind="show" id="T5v-fa-zYQ"/>
+                                <segue destination="P6W-oX-LDK" kind="modal" modalPresentationStyle="fullScreen" id="T5v-fa-zYQ"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -85,21 +85,32 @@
                         <outlet property="collectionView" destination="VN0-th-NLJ" id="wWa-sB-A7m"/>
                         <outlet property="indicator" destination="Ga0-sP-8qc" id="UMO-wm-Oyd"/>
                         <outlet property="segmentControl" destination="IK2-id-a0S" id="Rmo-MK-oYO"/>
+                        <segue destination="2Pe-DT-ooR" kind="show" identifier="ProductDetailView" id="hG8-Jg-BdJ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1jK-eg-El7" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="223" y="84"/>
         </scene>
-        <!--RegisterView-->
+        <!--ProductEdit-->
         <scene sceneID="7mB-0I-eeh">
             <objects>
-                <viewControllerPlaceholder storyboardName="RegisterProduct" referencedIdentifier="RegisterView" id="P6W-oX-LDK" sceneMemberID="viewController">
+                <viewControllerPlaceholder storyboardName="Edit" referencedIdentifier="ProductEdit" id="P6W-oX-LDK" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="OK4-EF-qPs"/>
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Fqw-oP-eL3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="884" y="84"/>
+            <point key="canvasLocation" x="770" y="4"/>
+        </scene>
+        <!--ProductDetail-->
+        <scene sceneID="LNF-no-kAw">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Detail" referencedIdentifier="ProductDetail" id="2Pe-DT-ooR" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="1Gu-gM-Jj5"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="PYO-qy-JOL" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="772" y="161"/>
         </scene>
     </scenes>
     <resources>

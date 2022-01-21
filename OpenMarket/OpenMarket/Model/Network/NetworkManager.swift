@@ -13,7 +13,7 @@ struct NetworkManager {
     private var baseBoundary: String {
         return UUID().uuidString
     }
-    private let identifier = "cd706a3e-66db-11ec-9626-796401f2341a"
+    private let identifier = "09e0ff33-7216-11ec-abfa-0f7334722ecd"
     
     init(network: Networkable = Network(), parser: JSONParserable = JSONParser()) {
         self.network = network
