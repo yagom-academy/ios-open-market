@@ -51,23 +51,23 @@ class APIManager {
 }
 
 extension APIManager {
-    func addProduct(product: NewProduct, image: NewProductImage, completion: @escaping (Result<ProductDetail, Error>) -> Void) {
-        guard let request = createPostURLRequest(product: product, image: image) else { return }
+    func addProduct(product: NewProduct, images: [NewProductImage], completion: @escaping (Result<ProductDetail, Error>) -> Void) {
+        guard let request = createPostURLRequest(product: product, images: images) else { return }
         createDataTask(with: request, completion: completion)
     }
     
-    func createPostURLRequest(product: NewProduct, image: NewProductImage) -> URLRequest? {
+    func createPostURLRequest(product: NewProduct, images: [NewProductImage]) -> URLRequest? {
         guard let url = URLManager.addNewProduct.url else { return nil }
         var request = URLRequest(url: url, method: .post)
         request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
         request.addValue("819efbc3-71fc-11ec-abfa-dd40b1881f4c", forHTTPHeaderField: "identifier")
-        request.httpBody = createRequestBody(product: product, image: image)
+        request.httpBody = createRequestBody(product: product, images: images)
         return request
     }
     
-    func createRequestBody(product: NewProduct, image: NewProductImage) -> Data {
+    func createRequestBody(product: NewProduct, images: [NewProductImage]) -> Data {
         let parameters = createParams(with: product)
-        let dataBody = createMultiPartFormData(withParameters: parameters, images: [image])
+        let dataBody = createMultiPartFormData(withParameters: parameters, images: images)
         return dataBody
     }
     

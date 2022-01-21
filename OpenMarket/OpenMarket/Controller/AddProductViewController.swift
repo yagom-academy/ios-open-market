@@ -8,13 +8,20 @@
 import UIKit
 
 class AddProductViewController: UIViewController {
-
+    
+    @IBOutlet weak var productNameTextField: UITextField!
+    @IBOutlet weak var productPriceTextField: UITextField!
+    @IBOutlet weak var currencySegmentedControl: UISegmentedControl!
+    @IBOutlet weak var discountedPriceTextField: UITextField!
+    @IBOutlet weak var productStockTextField: UITextField!
     @IBOutlet weak var descriptionTextView: UITextView!
     @IBOutlet weak var productImageStackView: UIStackView!
     @IBOutlet weak var addImageButton: UIButton!
     
+    let apiManager = APIManager()
     let imagePicker = UIImagePickerController()
     var productImages: [NewProductImage] = []
+    var newProduct: NewProduct?
     var isButtonTapped = true
     var selectedIndex = 0
     
@@ -51,7 +58,22 @@ class AddProductViewController: UIViewController {
         present(alert, animated: true, completion: nil)
     }
     
-    func addToProductImages(image: UIImage) {
+    @IBAction func tapDoneButton(_ sender: UIBarButtonItem) {
+        createNewProduct()
+        addToProductImages()
+        guard let product = newProduct else { return }
+        apiManager.addProduct(product: product, images: productImages) { result in
+            switch result {
+            case .success(let data):
+                print("\(data.name) post 성공")
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+        newProduct = nil
+    }
+    
+    func addToProductImages() {
         let lastTagNumber = productImageStackView.subviews.count - 1
         guard lastTagNumber >= 1 else { return }
         
@@ -67,6 +89,29 @@ class AddProductViewController: UIViewController {
 
         let productImage = NewProductImage(image: imageData)
         productImages.append(productImage)
+    }
+    
+    func createNewProduct() {
+        guard let name = productNameTextField.text,
+              let priceText = productPriceTextField.text,
+              let description = descriptionTextView.text else { return }
+        guard let price = Double(priceText) else { return }
+        let discountPriceText = discountedPriceTextField.text ?? "0.0"
+        guard let discountPrice = Double(discountPriceText) else { return }
+        let stockText = productStockTextField.text ?? "0"
+        guard let stock = Int(stockText) else { return }
+        
+        var currency = Currency.KRW
+        switch currencySegmentedControl.selectedSegmentIndex {
+        case 0:
+            currency = Currency.KRW
+        case 1:
+            currency = Currency.USD
+        default:
+            return
+        }
+        
+        newProduct = NewProduct(name: name, descriptions: description, price: price, discountedPrice: discountPrice, currency: currency, stock: stock)
     }
 }
 

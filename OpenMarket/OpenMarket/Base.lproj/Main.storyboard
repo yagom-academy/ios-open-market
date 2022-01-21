@@ -234,12 +234,21 @@
                                 <action selector="tapCancelButton:" destination="0cc-2w-7Sp" id="Nmw-SZ-JP1"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="Done" id="RbM-jg-hft"/>
+                        <barButtonItem key="rightBarButtonItem" title="Done" id="RbM-jg-hft">
+                            <connections>
+                                <action selector="tapDoneButton:" destination="0cc-2w-7Sp" id="b6a-mk-1s8"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="addImageButton" destination="AB6-2b-lrB" id="YTD-NR-DyW"/>
+                        <outlet property="currencySegmentedControl" destination="8le-ie-9hQ" id="egg-qj-umd"/>
                         <outlet property="descriptionTextView" destination="K6l-69-CVn" id="srl-Gd-fnR"/>
+                        <outlet property="discountedPriceTextField" destination="VFJ-Bp-s2j" id="PZn-vc-X75"/>
                         <outlet property="productImageStackView" destination="hhG-T7-Xba" id="NsD-SD-XGf"/>
+                        <outlet property="productNameTextField" destination="g15-Dm-Tt6" id="Pim-6Z-huM"/>
+                        <outlet property="productPriceTextField" destination="c6y-88-Jyq" id="FDG-U4-KPL"/>
+                        <outlet property="productStockTextField" destination="sJs-Ow-2hE" id="f1Y-Y9-JB0"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W3x-ad-9Pa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
