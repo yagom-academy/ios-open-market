@@ -2,45 +2,77 @@ import UIKit
 
 class ProductAddScrollViewController: UIViewController {
     
+    enum ImageSection: Hashable {
+        case main
+    }
+    
+    var imageDataSource: UICollectionViewDiffableDataSource<ImageSection,UIImage>?
+    var imageManager = ProductImageManager()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        layout()
+    }
+    
+    private func configureNavigationItem() {
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(dismissModal))
         layout()
         navigationItem.title = "재고수정"
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(dismissModal))
     }
-    
     @objc private func dismissModal() {
         self.dismiss(animated: true, completion: nil)
     }
     
     
-//    private lazy var imageCollectionView: UICollectionView = {
-//        let collectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: Int(view.frame.width * 0.25), height: Int(view.frame.width*0.25)), collectionViewLayout: makeImageHorizontalLayout())
-//
-//
-//        return collectionView
-//    }()
-//
-//    private func makeImageHorizontalLayout() -> UICollectionViewLayout {
-//        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
-//        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-//
-//        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.3), heightDimension: .fractionalHeight(1.0))
-//        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 5)
-//
-//        let section = NSCollectionLayoutSection(group: group)
-//
-//        let layout = UICollectionViewCompositionalLayout(section: section)
-//
-//        return layout
-//    }
+    private lazy var imageCollectionView: UICollectionView = {
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: makeImageHorizontalLayout())
+
+        return collectionView
+    }()
+
+    private func makeImageHorizontalLayout() -> UICollectionViewLayout {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.3), heightDimension: .fractionalHeight(1.0))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 5)
+        
+        let section = NSCollectionLayoutSection(group: group)
+        let layout = UICollectionViewCompositionalLayout(section: section)
+
+        return layout
+    }
     
+    private func configureCellDataSource() {
+        let cellRegistration = UICollectionView.CellRegistration<ImageCollectionViewCell, UIImage> {
+            (cell, indexPath, item) in
+        }
+      
+            imageDataSource = UICollectionViewDiffableDataSource<ImageSection, UIImage>(collectionView: imageCollectionView) {
+            (collectionView, indexPath, item) -> UICollectionViewCell? in
+            let cell = collectionView.dequeueConfiguredReusableCell(
+                using: cellRegistration,
+                for: indexPath,
+                item: item
+            )
+          
+            return cell
+        }
+    }
+    
+    private func applyImageSnapShot() {
+        var snapshot = NSDiffableDataSourceSnapshot<ImageSection, UIImage>()
+        snapshot.appendSections([.main])
+        snapshot.appendItems(imageManager.images)
+        self.imageDataSource?.apply(snapshot, animatingDifferences: false)
+    }
+
     lazy var productNameTextField: UITextField = {
         var textfield = UITextField()
         textfield.placeholder = "상품명"
         textfield.keyboardType = .default
+        textfield.borderStyle = .roundedRect
         textfield.backgroundColor = .white
         textfield.heightAnchor.constraint(equalToConstant: 50).isActive = true
         return textfield
@@ -50,6 +82,7 @@ class ProductAddScrollViewController: UIViewController {
         var textfield = UITextField()
         textfield.placeholder = "가격"
         textfield.keyboardType = .default
+        textfield.borderStyle = .roundedRect
         textfield.backgroundColor = .white
         textfield.heightAnchor.constraint(equalToConstant: 50).isActive = true
         return textfield
@@ -75,6 +108,7 @@ class ProductAddScrollViewController: UIViewController {
         var textfield = UITextField()
         textfield.placeholder = "할인"
         textfield.keyboardType = .default
+        textfield.borderStyle = .roundedRect
         textfield.backgroundColor = .white
         textfield.heightAnchor.constraint(equalToConstant: 50).isActive = true
         return textfield
@@ -84,6 +118,7 @@ class ProductAddScrollViewController: UIViewController {
         var textfield = UITextField()
         textfield.placeholder = "재고"
         textfield.keyboardType = .default
+        textfield.borderStyle = .roundedRect
         textfield.backgroundColor = .white
         textfield.heightAnchor.constraint(equalToConstant: 50).isActive = true
         return textfield
@@ -112,6 +147,7 @@ class ProductAddScrollViewController: UIViewController {
     }()
     
     private func layout() {
+        view.addSubview(imageCollectionView)
         view.addSubview(productPriceTextField)
         view.addSubview(segmentedControl)
         view.addSubview(productNameTextField)
@@ -155,4 +191,5 @@ class ProductAddScrollViewController: UIViewController {
     // 바텀과 트레일링에는 음수 constant 주기 
     
 }
+
 
