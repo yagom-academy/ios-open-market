@@ -14,8 +14,12 @@ struct NetworkManager {
                    itemsPerPage: Int,
                    completion: @escaping (Result<ItemList, Error>) -> Void)
   {
-    let url = URLMaker.itemListURL(pageNo: pageNo, itemsPerPage: itemsPerPage)
-    let request = URLRequest(url: url, httpMethod: .get)
+    guard let url = URLMaker.itemListURL(pageNo: pageNo, itemsPerPage: itemsPerPage) else {
+      return
+    }
+    
+    var request = URLRequest(url: url, httpMethod: .get)
+    request.timeoutInterval = 3
     
     let dataTask = session.dataTask(request: request) { result in
       switch result {
