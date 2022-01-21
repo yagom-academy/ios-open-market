@@ -234,7 +234,11 @@ extension ProductsCatalogViewController {
                 DispatchQueue.main.async {
                     switch self.presentView {
                     case .list:
-                        self.listDataSource.apply(self.snapshot)
+                        self.listDataSource.apply(
+                            self.snapshot,
+                            animatingDifferences: false,
+                            completion: nil
+                        )
                     case .grid:
                         self.gridDataSource.apply(self.snapshot)
                     }
