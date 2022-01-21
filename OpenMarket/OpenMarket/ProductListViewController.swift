@@ -83,8 +83,9 @@ class ProductListViewController: UIViewController, UICollectionViewDelegate {
     
     @objc func presentModalView() {
         let secondVc = ProductAddScrollViewController()
-        secondVc.modalPresentationStyle = .fullScreen
-        present(secondVc, animated: true, completion: nil)
+        let navi = UINavigationController(rootViewController: secondVc)
+        navi.modalPresentationStyle = .fullScreen
+        present(navi, animated: true, completion: nil)
     }
     
     private func makeGridLayout() -> UICollectionViewLayout {
