@@ -8,11 +8,11 @@ class ProductRegisterViewController: UIViewController {
     private var taskType: Task = .modify
     private var productIdentification: Int?
     private let productService = ProductService()
-    private lazy var stackView: ProductRegisterView = {
-        let view = ProductRegisterView()
-        return view
+    private let scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        return scrollView
     }()
-
+    private let stackView = ProductRegisterView()
     private lazy var imagePickerController: UIImagePickerController = {
         let picker = UIImagePickerController()
         picker.delegate = self
@@ -60,7 +60,7 @@ class ProductRegisterViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
-        self.view.addSubview(stackView)
+        configureHierarchy()
         stackView.imageCollectionView.delegate = self
         configureConstraint()
         configureNavigationBar()
@@ -146,14 +146,32 @@ extension ProductRegisterViewController {
 
 // MARK: Stack View Configuration
 extension ProductRegisterViewController {
+    func configureHierarchy() {
+        scrollView.addSubview(stackView)
+        self.view.addSubview(scrollView)
+    }
+}
+
+extension ProductRegisterViewController {
     private func configureConstraint() {
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
         stackView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.contentInset = UIEdgeInsets(top: 0, left: 30, bottom: 30, right: 30)
         NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            stackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            stackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 15),
-            stackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -15)
+            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
         ])
+        NSLayoutConstraint.activate([
+            stackView.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor),
+            stackView.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor),
+//            stackView.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor),
+//            stackView.trailingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.trailingAnchor),
+            stackView.leadingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.leadingAnchor, constant: 5),
+            stackView.trailingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.trailingAnchor, constant: -5)
+        ])
+
     }
 
     private func configureContent(product: Product) {
@@ -218,4 +236,8 @@ extension ProductRegisterViewController: UICollectionViewDelegate {
             }
         }
     }
+}
+
+extension ProductRegisterViewController: UITextFieldDelegate {
+
 }

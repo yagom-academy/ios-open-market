@@ -88,6 +88,7 @@ class ProductRegisterView: UIStackView {
         textView.text = "상품설명을 작성해 주세요.(최대 1000글자)"
         textView.font = .preferredFont(forTextStyle: .footnote)
         textView.delegate = self
+        textView.isScrollEnabled = false
         return textView
     }()
 
