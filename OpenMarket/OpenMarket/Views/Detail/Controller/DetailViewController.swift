@@ -14,7 +14,7 @@ class DetailViewController: UIViewController {
     @IBOutlet private weak var imageView: UIImageView!
     @IBOutlet private weak var nameLabel: UILabel!
     @IBOutlet private weak var priceLabel: UILabel!
-    @IBOutlet private weak var bagainPriceLabel: UILabel!
+    @IBOutlet private weak var bargainPriceLabel: UILabel!
     @IBOutlet private weak var stockLabel: UILabel!
     @IBOutlet private weak var createdAtLabel: UILabel!
     @IBOutlet private weak var vendorLabel: UILabel!
@@ -31,7 +31,7 @@ class DetailViewController: UIViewController {
         DispatchQueue.main.async {
             self.nameLabel.text = product.name
             self.priceLabel.text = product.price.description
-            self.bagainPriceLabel.text = product.bargainPrice.description
+            self.bargainPriceLabel.text = product.bargainPrice.description
             self.stockLabel.text = product.stock.description
             self.createdAtLabel.text = product.createdAt
             self.vendorLabel.text = product.createdAt
