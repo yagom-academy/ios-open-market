@@ -8,7 +8,8 @@
 import UIKit
 
 class ImageCollectionViewCell: UICollectionViewCell {
-    var imageView: UIImageView!
+    
+    var imageView = UIImageView()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -20,15 +21,14 @@ class ImageCollectionViewCell: UICollectionViewCell {
     }
 
     private func configure() {
-        imageView = UIImageView()
-        self.addSubview(imageView)
-        imageView?.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(imageView)
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        
         NSLayoutConstraint.activate([
-            imageView.widthAnchor.constraint(equalTo: self.widthAnchor),
-            imageView.heightAnchor.constraint(equalTo: self.heightAnchor),
-            imageView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-            imageView.centerYAnchor.constraint(equalTo: self.centerYAnchor)
+            imageView.topAnchor.constraint(equalTo: topAnchor),
+            imageView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            imageView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            imageView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
-        imageView.backgroundColor = .blue
     }
 }
