@@ -41,6 +41,7 @@ extension ProductsCatalogViewController {
         guard let image = UIImage(systemName: "plus") else {
             return
         }
+
         guard let cgImage = image.cgImage else {
             return
         }

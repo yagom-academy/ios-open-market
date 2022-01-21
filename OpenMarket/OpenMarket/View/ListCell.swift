@@ -63,12 +63,10 @@ extension ListCell {
         guard let url = URL(string: product.thumbnail) else {
             return
         }
-        DispatchQueue.global().async {
-            guard let imageData = try? Data(contentsOf: url) else {
-                return
-            }
+
+        CacheManager.fetchImage(imageURL: url) { image in
+            content.image = image
             DispatchQueue.main.async {
-                content.image = UIImage(data: imageData)
                 self.listContentView.configuration = content
             }
         }

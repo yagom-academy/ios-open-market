@@ -87,14 +87,13 @@ extension GridCell {
         guard let url = URL(string: product.thumbnail) else {
             return
         }
-        DispatchQueue.global().async {
-            guard let imageData = try? Data(contentsOf: url) else {
-                return
-            }
+
+        CacheManager.fetchImage(imageURL: url) { image in
             DispatchQueue.main.async {
-                self.thumbnailImageView.image = UIImage(data: imageData)
+                self.thumbnailImageView.image = image
             }
         }
+
         nameLabel.text = product.name
         if product.discountedPrice != .zero {
             guard let formattedPrice = product.price.format() else {
