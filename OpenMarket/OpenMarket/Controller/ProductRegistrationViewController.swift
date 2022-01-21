@@ -187,27 +187,17 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
             return .failure(.emptyDiscription)
         }
         
-        if price.isSignMinus || discountedPrice?.isSignMinus == .some(true) {
-            return .failure(.negativePrice)
-        }
-        if let discountedPrice = discountedPrice, discountedPrice > price {
-            return .failure(.maximumDiscountedPrice(price))
-        }
-        if let maximumDescriptionsLimit = maximumDescriptionsLimit,
-           descriptions.count > maximumDescriptionsLimit {
-            return .failure(.maximumCharacterLimit(.description, maximumDescriptionsLimit))
-        }
-        if let minimumDescriptionsLimit = minimumDescriptionsLimit,
-           descriptions.count < minimumDescriptionsLimit {
-            return .failure(.minimumCharacterLimit(.description, minimumDescriptionsLimit))
-        }
-        if let maximumNameLimit = maximumNameLimit,
-           name.count > maximumNameLimit {
-            return .failure(.maximumCharacterLimit(.name, maximumNameLimit))
-        }
-        if let minimumNameLimit = minimumNameLimit,
-           name.count < minimumNameLimit {
-            return .failure(.minimumCharacterLimit(.name, minimumNameLimit))
+        if let error = inspectInput(
+            price: price,
+            discountedPrice: discountedPrice,
+            nameCount: name.count,
+            descriptionsCount: descriptions.count,
+            maximumDescriptionsLimit: maximumDescriptionsLimit,
+            minimumDescriptionsLimit: minimumDescriptionsLimit,
+            maximumNameLimit: maximumNameLimit,
+            minimumNameLimit: minimumNameLimit
+        ) {
+            return .failure(error)
         }
         
         let product = NetworkTask.SalesInformation(
@@ -219,6 +209,41 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
             stock: stock,
             secret: secret)
         return .success(product)
+    }
+    
+    private func inspectInput(
+        price: Decimal,
+        discountedPrice: Decimal?,
+        nameCount: Int,
+        descriptionsCount: Int,
+        maximumDescriptionsLimit: Int?,
+        minimumDescriptionsLimit: Int?,
+        maximumNameLimit: Int?,
+        minimumNameLimit: Int?
+    ) -> ProductRegistrationError? {
+        if price.isSignMinus || discountedPrice?.isSignMinus == .some(true) {
+            return .negativePrice
+        }
+        if let discountedPrice = discountedPrice, discountedPrice > price {
+            return .maximumDiscountedPrice(price)
+        }
+        if let maximumDescriptionsLimit = maximumDescriptionsLimit,
+           descriptionsCount > maximumDescriptionsLimit {
+            return .maximumCharacterLimit(.description, maximumDescriptionsLimit)
+        }
+        if let minimumDescriptionsLimit = minimumDescriptionsLimit,
+           descriptionsCount < minimumDescriptionsLimit {
+            return .minimumCharacterLimit(.description, minimumDescriptionsLimit)
+        }
+        if let maximumNameLimit = maximumNameLimit,
+           nameCount > maximumNameLimit {
+            return .maximumCharacterLimit(.name, maximumNameLimit)
+        }
+        if let minimumNameLimit = minimumNameLimit,
+           nameCount < minimumNameLimit {
+            return .minimumCharacterLimit(.name, minimumNameLimit)
+        }
+        return nil
     }
     
     private func cropSquare(_ image: UIImage) -> UIImage? {
