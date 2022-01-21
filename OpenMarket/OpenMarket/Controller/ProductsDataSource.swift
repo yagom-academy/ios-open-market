@@ -21,6 +21,20 @@ class ProductsDataSource: NSObject {
         products = [Product]()
     }
     
+    func productId(at index: Int) -> Int? {
+        guard products.count > index else {
+            return nil
+        }
+        return products[index].id
+    }
+    
+    func vendorId(at index: Int) -> Int? {
+        guard products.count > index else {
+            return nil
+        }
+        return products[index].vendorId
+    }
+    
     private func setupCellImage(
         for cell: ProductCell,
         from url: URL,

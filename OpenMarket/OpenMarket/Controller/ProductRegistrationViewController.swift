@@ -4,7 +4,7 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
     private let imagePickerController = UIImagePickerController()
     private var images = [UIImage]()
     private var isModifying: Bool?
-    private var productId: Int?
+    private var productInformation: Product?
     private var networkTask: NetworkTask?
     private var jsonParser: JSONParser?
     private var completionHandler: (() -> Void)?
@@ -46,8 +46,7 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
         self.networkTask = networkTask
         self.jsonParser = jsonParser
         self.completionHandler = completionHandler
-        self.productId = productInformation.id
-        loadProductInformation(from: productInformation)
+        self.productInformation = productInformation
     }
     
     override func viewDidLoad() {
@@ -57,6 +56,7 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
         setUpImagePicker()
         setupNavigationBar()
         setupTextView()
+        loadProductInformation()
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(keyboardWillShow),
@@ -139,7 +139,7 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
             return
         }
         
-        guard let productId = productId else { return }
+        guard let productId = productInformation?.id else { return }
         networkTask?.requestProductModification(
             identifier: identifier,
             productId: productId,
@@ -200,15 +200,17 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
             )
             navigationItem.title = "상품등록"
         }
-        
     }
     
-    private func loadProductInformation(from productInformation: Product) {
+    private func loadProductInformation() {
+        guard let productInformation = productInformation else { return }
+        print(productInformation.id)
         productNameTextField.text = productInformation.name
         productPriceTextField.text = productInformation.price.description
         discountedPriceTextField.text = productInformation.discountedPrice.description
         stockTextField.text = productInformation.stock.description
         descriptionTextView.text = productInformation.description
+        descriptionTextView.textColor = .label
         if productInformation.currency == .krw {
             currencySegmentedControl.selectedSegmentIndex = 0
         } else if productInformation.currency == .usd {

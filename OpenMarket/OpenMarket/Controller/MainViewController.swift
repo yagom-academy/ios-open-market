@@ -48,7 +48,7 @@ class MainViewController: UIViewController {
             case .failure(let error):
                 self.showAlert(
                     title: "데이터를 불러오지 못했습니다",
-                    message: "\(error.localizedDescription)"
+                    message: error.localizedDescription
                 )
                 self.loadingActivityIndicator.stopAnimating()
             }
@@ -172,6 +172,57 @@ extension MainViewController: UITableViewDelegate {
     ) {
         loadNextPage(ifLastItemAt: indexPath)
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if let vendorId = productsDataSource.vendorId(at: indexPath.row),
+           vendorId != 16 {
+            showAlert(
+                title: "다른 사람의 상품입니다",
+                message: "Vedor Id: \(vendorId)"
+            )
+        }
+        
+        guard let productId = productsDataSource.productId(at: indexPath.row) else { return }
+        networkTask.requestProductDetail(productId: productId) { result in
+            switch result {
+            case .success(let data):
+                guard let product: Product = try? self.jsonParser.decode(from: data) else {
+                    return
+                }
+                let storyboard = UIStoryboard(
+                    name: self.productRegistrationStoryboardName,
+                    bundle: nil
+                )
+                DispatchQueue.main.async {
+                    let viewController = storyboard.instantiateViewController(
+                        identifier: self.productRegistrationViewControllerIdentifier
+                    ) { coder in
+                        let productRegistrationViewController = ProductRegistrationViewController(
+                            coder: coder,
+                            isModifying: true,
+                            productInformation: product,
+                            networkTask: self.networkTask,
+                            jsonParser: self.jsonParser
+                        ) {
+                            self.showAlert(title: "수정 성공", message: nil)
+                            self.reloadData()
+                        }
+                        return productRegistrationViewController
+                    }
+                    let navigationController = UINavigationController(
+                        rootViewController: viewController
+                    )
+                    navigationController.modalPresentationStyle = .fullScreen
+                    self.present(navigationController, animated: true, completion: nil)
+                }
+            case .failure(let error):
+                self.showAlert(
+                    title: "데이터를 불러오지 못했습니다",
+                    message: error.localizedDescription
+                )
+            }
+        }
+    }
 }
 
 extension MainViewController: UICollectionViewDelegate {
@@ -181,6 +232,49 @@ extension MainViewController: UICollectionViewDelegate {
         forItemAt indexPath: IndexPath
     ) {
         loadNextPage(ifLastItemAt: indexPath)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let productId = productsDataSource.productId(at: indexPath.item) else { return }
+        networkTask.requestProductDetail(productId: productId) { result in
+            switch result {
+            case .success(let data):
+                guard let product: Product = try? self.jsonParser.decode(from: data) else {
+                    return
+                }
+                let storyboard = UIStoryboard(
+                    name: self.productRegistrationStoryboardName,
+                    bundle: nil
+                )
+                DispatchQueue.main.async {
+                    let viewController = storyboard.instantiateViewController(
+                        identifier: self.productRegistrationViewControllerIdentifier
+                    ) { coder in
+                        let productRegistrationViewController = ProductRegistrationViewController(
+                            coder: coder,
+                            isModifying: true,
+                            productInformation: product,
+                            networkTask: self.networkTask,
+                            jsonParser: self.jsonParser
+                        ) {
+                            self.showAlert(title: "수정 성공", message: nil)
+                            self.reloadData()
+                        }
+                        return productRegistrationViewController
+                    }
+                    let navigationController = UINavigationController(
+                        rootViewController: viewController
+                    )
+                    navigationController.modalPresentationStyle = .fullScreen
+                    self.present(navigationController, animated: true, completion: nil)
+                }
+            case .failure(let error):
+                self.showAlert(
+                    title: "데이터를 불러오지 못했습니다",
+                    message: error.localizedDescription
+                )
+            }
+        }
     }
 }
 
