@@ -89,7 +89,7 @@ class EditViewController: UIViewController {
     }
     
     @IBAction private func doneButtonTapped(_ sender: UIButton) {
-        guard inputValidation() else {
+        guard verifyInputField() else {
             return
         }
         guard let imageFiles = dataSource.createImageFiles() else {
@@ -108,7 +108,7 @@ class EditViewController: UIViewController {
         }
     }
     
-    private func inputValidation() -> Bool {
+    private func verifyInputField() -> Bool {
         let isValidImagesCount = dataSource.images.count > .zero
         let isValidNameCount = textFieldsStackView.nameTextField.text?.count ?? .zero >= 3
         let isValidPriceCount = (textFieldsStackView.priceTextField.text?.count ?? .zero) > .zero
