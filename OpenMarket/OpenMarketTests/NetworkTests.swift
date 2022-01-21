@@ -47,8 +47,4 @@ class NetworkTests: XCTestCase {
     }
     wait(for: [expectation], timeout: 5)
   }
-
-
-  
-
 }
