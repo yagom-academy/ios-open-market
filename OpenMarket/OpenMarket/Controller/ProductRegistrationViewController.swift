@@ -76,12 +76,11 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
             let fileName = "\(count).jpeg"
             var imageData = image.jpegData(compressionQuality: 0.8)
             while let bytes = imageData?.count, bytes >= 300 * 1000 {
-                imageData = resize(image, multiplier: multiplier)?.jpegData(compressionQuality: 0.8)
-                multiplier -= 0.01
+                imageData = image.resize(multiplier: multiplier).jpegData(compressionQuality: 0.8)
+                multiplier -= 0.05
             }
-            imageDatas[fileName] = imageData
-            print(imageData!.count / 1000)
             count += 1
+            imageDatas[fileName] = imageData
         }
         
         networkTask?.requestProductRegistration(
@@ -139,7 +138,7 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
     
     private func setUpImagePicker() {
         imagePickerController.sourceType = .photoLibrary
-        imagePickerController.allowsEditing = true
+//        imagePickerController.allowsEditing = true
         imagePickerController.delegate = self
     }
     
@@ -261,19 +260,6 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
         return UIImage(cgImage: squareImage)
     }
     
-    private func resize(_ image: UIImage, multiplier: CGFloat) -> UIImage? {
-        let origin = CGPoint(x: 0, y: 0)
-        let size = CGSize(
-            width: image.size.width * multiplier,
-            height: image.size.height * multiplier
-        )
-        let rectangle = CGRect(origin: origin, size: size)
-        guard let squareImage = image.cgImage?.cropping(to: rectangle) else {
-            return nil
-        }
-        return UIImage(cgImage: squareImage)
-    }
-    
     @IBAction func tapBackground(_ sender: UITapGestureRecognizer) {
         view.endEditing(true)
     }
@@ -284,16 +270,18 @@ extension ProductRegistrationViewController: UIImagePickerControllerDelegate {
         _ picker: UIImagePickerController,
         didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
     ) {
-        guard var newImage = info[.editedImage] as? UIImage else {
+        guard var newImage = info[.originalImage] as? UIImage else {
             picker.dismiss(animated: true, completion: nil)
             return
         }
+        print(newImage.size)
         let isSquare = newImage.size.width == newImage.size.height
         if isSquare == false {
             if let squareImage = cropSquare(newImage) {
                 newImage = squareImage
             }
         }
+        print(newImage.size)
         images.append(newImage)
         imagesCollectionView.reloadData()
         picker.dismiss(animated: true, completion: nil)
