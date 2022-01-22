@@ -150,6 +150,11 @@ extension AddProductViewController {
         stackView.addArrangedSubview(descriptionTextView)
         descriptionTextView.allowsEditingTextAttributes = true
         descriptionTextView.isScrollEnabled = false
+        descriptionTextView.delegate = self
+        descriptionTextView.text = "여기에 상품 설명을 입력하세요!(글자 수 1000자 제한)"
+        descriptionTextView.textColor = .systemGray
+        descriptionTextView.font = .preferredFont(forTextStyle: .body, compatibleWith: .current)
+        
         descriptionTextView.translatesAutoresizingMaskIntoConstraints = false
 
         NSLayoutConstraint.activate([
@@ -296,5 +301,12 @@ extension AddProductViewController: UIImagePickerControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         guard let image = info[.editedImage] as? UIImage else { return }
         appendImage(image)
+    }
+}
+
+extension AddProductViewController: UITextViewDelegate {
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        textView.textColor = .black
+        textView.text = ""
     }
 }
