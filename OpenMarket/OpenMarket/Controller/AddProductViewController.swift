@@ -28,7 +28,7 @@ class AddProductViewController: UIViewController, UINavigationControllerDelegate
     private lazy var picker = UIImagePickerController()
     private var imageCount = 0
     private let defaultImage = UIImage(named: "addPhoto")!
-
+    
     required init?(coder: NSCoder) {
         fatalError()
     }
@@ -58,16 +58,18 @@ extension AddProductViewController {
 
     @objc
     func doneButtonDidTap() {
-        (print("POST")) //POST actions..+ reload collectionView(?)
-        self.dismiss(animated: true, completion: nil)
+        (print("POST"))
+        post {
+            DispatchQueue.main.async {
+                self.dismiss(animated: true, completion: nil)
+            }
+        }
     }
 }
 
 // MARK: - View Configuration
 extension AddProductViewController {
-    private func configureView() {
-        view.backgroundColor = .white
-        
+    fileprivate func configureScrollView() {
         view.addSubview(scrollView)
         
         scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -77,7 +79,12 @@ extension AddProductViewController {
             scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
-
+    }
+    
+    private func configureView() {
+        view.backgroundColor = .white
+        
+        configureScrollView()
         configureNavigationBar()
         configureStackView()
         configureImageCollectionView()
@@ -297,6 +304,60 @@ extension AddProductViewController {
         }
 
         present(alert, animated: true, completion: nil)
+    }
+    
+    func requestParamsForPost() -> CreateProductRequestParams? {
+        guard let name = nameTextField.text,
+              let priceInString = priceTextField.text,
+              let priceInDouble = Double(priceInString),
+              let stock = stockTextField.text else {
+                  return nil
+              }
+        let discountedPrice: Decimal? = {
+            guard let discountedPriceInString = discountTextField.text,
+                  let discountedPriceInDouble = Double(discountedPriceInString)
+            else {
+                return nil
+            }
+            return Decimal(discountedPriceInDouble)
+        }()
+        
+        return CreateProductRequestParams(name: name,
+                                   descriptions: descriptionTextView.text,
+                                   price: Decimal(priceInDouble),
+                                   currency: currencySegmentedControl.selectedSegmentIndex == 0 ?
+                                    .KRW : .USD,
+                                   discountedPrice: discountedPrice,
+                                   stock: Int(stock),
+                                   secret: "!QA4M%Lat9yF-?RW")
+    }
+    
+    func post(completion: @escaping () -> Void) {
+        let provider = URLSessionProvider(session: URLSession(configuration: .default))
+        
+        let encoder = JSONEncoder()
+        guard let params = try? encoder.encode(requestParamsForPost()) else { return }
+        var images = snapShot.itemIdentifiers.compactMap { image -> Image? in
+            guard let pngData = image.pngData() else { return nil }
+            return Image(type: .png, data: pngData)
+        }
+        images.removeLast()
+        provider.request(.createProduct(sellerID: "1c51912b-7215-11ec-abfa-13ae6fd5cdba", params: params, images: images)) { result in
+            switch result {
+            case .success:
+                completion()
+            case .failure:
+                DispatchQueue.main.async {
+                    self.showErrorAlert()
+                }
+            }
+        }
+    }
+    func showErrorAlert() {
+        let alertController = UIAlertController(title: nil, message: "상품 등록에 실패하였습니다", preferredStyle: .alert)
+        let confirmAction = UIAlertAction(title: "확인", style: .default, handler: nil)
+        alertController.addAction(confirmAction)
+        present(alertController, animated: true)
     }
 }
 
