@@ -309,4 +309,10 @@ extension AddProductViewController: UITextViewDelegate {
         textView.textColor = .black
         textView.text = ""
     }
+    func textViewDidChange(_ textView: UITextView) {
+        let textCount = textView.text.count
+        if textCount >= 1000 {
+            textView.text.removeLast(textCount - 1000)
+        }
+    }
 }
