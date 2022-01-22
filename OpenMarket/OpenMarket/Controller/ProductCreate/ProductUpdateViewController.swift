@@ -37,7 +37,6 @@ class ProductUpdateViewController: UIViewController {
         configureDelgate()
         configureNotification()
         configureTextEditors()
-        configureAccessibility()
     }
     
     @IBAction func doneButtonClicked(_ sender: UIBarButtonItem) {
@@ -79,14 +78,6 @@ private extension ProductUpdateViewController {
     func configureTextEditors() {
         textEditors.forEach { $0.addButtonToInputAccessoryView(with: "Done") }
         configurePlaceholder(to: descriptionTextView, with: "여기에 상품 상세 정보를 입력해주세요!")
-    }
-    
-    func configureAccessibility() {
-        productNameTextField.accessibilityLabel = "상품명"
-        productPriceTextField.accessibilityLabel = "상품가격"
-        discountedPriceTextField.accessibilityLabel = "할인가격"
-        productStockTextField.accessibilityLabel = "재고수량"
-        descriptionTextView.accessibilityLabel = "상품세부정보"
     }
     
     func updateImageStackView() {
