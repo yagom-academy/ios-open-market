@@ -167,7 +167,6 @@ extension AddProductViewController {
             zoomedImageView.heightAnchor.constraint(equalTo: view.widthAnchor)
         ])
         zoomedImageView.alpha = 0
-        zoomedImageView.isHidden = true
     }
 }
 
@@ -255,29 +254,29 @@ extension AddProductViewController {
 
     private func showImageReviseAlert(at index: Int) {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
         let replaceAction = UIAlertAction(title: "Replace", style: .default) { _ in
             self.showImageSelectionAlert {
-
                 self.zoomedImageView.alpha = 0
-                self.zoomedImageView.isHidden = true
-                self.zoomedImageView.isHidden = true
                 self.snapShot.deleteItems([self.snapShot.itemIdentifiers[index]])
                 self.imageCount -= 1
             }
         }
         let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
-
             self.zoomedImageView.alpha = 0
-            self.zoomedImageView.isHidden = true
             self.deleteImage(at: index)
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { _ in
+            UIView.animate(withDuration: 0.5) {
+                self.zoomedImageView.alpha = 0
+            }
         }
         alert.addAction(replaceAction)
         alert.addAction(deleteAction)
+        alert.addAction(cancelAction)
 
         zoomedImageView.image = snapShot.itemIdentifiers[index]
-
         UIView.animate(withDuration: 0.5) {
-            self.zoomedImageView.isHidden = false
             self.zoomedImageView.alpha = 1.0
         }
 
@@ -292,14 +291,10 @@ extension AddProductViewController: UICollectionViewDelegate {
             : showImageReviseAlert(at: indexPath.item)
     }
 }
+
 extension AddProductViewController: UIImagePickerControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         guard let image = info[.editedImage] as? UIImage else { return }
         appendImage(image)
     }
 }
-
-
-
-
-
