@@ -53,3 +53,44 @@ extension UIViewController {
     }
     
 }
+
+// MARK: - UISegmentedControl Utilities
+extension UISegmentedControl {
+    
+    var currentText: String {
+        let currencyIndex = self.selectedSegmentIndex
+        return self.titleForSegment(at: currencyIndex) ?? ""
+    }
+    
+}
+
+// MARK: - UIView Utilities
+extension UIView {
+    
+    func addButtonToInputAccessoryView(with title: String) {
+        let toolbar = UIToolbar()
+        toolbar.items = [
+            UIBarButtonItem(
+                barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace,
+                target: self,
+                action: nil
+            ),
+            UIBarButtonItem(
+                title: title,
+                style: .done,
+                target: self,
+                action: #selector(moveNextView)
+            )
+        ]
+        toolbar.sizeToFit()
+        
+        if let view = self as? UITextView {
+            view.inputAccessoryView = toolbar
+        }
+        
+        if let view = self as? UITextField {
+            view.inputAccessoryView = toolbar
+        }
+    }
+    
+}

@@ -21,11 +21,10 @@ class ProductUpdateViewController: UIViewController {
     @IBOutlet private weak var descriptionTextView: UITextView!
     
     private var forms: ProductRegisterForm {
-        let currencyIndex = currencySegmentedControl.selectedSegmentIndex
-        return ProductRegisterForm(
+        ProductRegisterForm(
             name: productNameTextField.text ?? "",
             price: productPriceTextField.text ?? "",
-            currency: currencySegmentedControl.titleForSegment(at: currencyIndex) ?? "",
+            currency: currencySegmentedControl.currentText,
             discountedPrice: discountedPriceTextField.text,
             stock: productStockTextField.text,
             description: descriptionTextView.text
@@ -122,7 +121,7 @@ extension ProductUpdateViewController: UITextViewDelegate {
 }
 
 // MARK: - UIView Utilities
-fileprivate extension UIView {
+extension UIView {
     
     @objc
     func moveNextView() {
@@ -139,32 +138,6 @@ fileprivate extension UIView {
         }
         
         self.resignFirstResponder()
-    }
-    
-    func addButtonToInputAccessoryView(with title: String) {
-        let toolbar = UIToolbar()
-        toolbar.items = [
-            UIBarButtonItem(
-                barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace,
-                target: self,
-                action: nil
-            ),
-            UIBarButtonItem(
-                title: title,
-                style: .done,
-                target: self,
-                action: #selector(moveNextView)
-            )
-        ]
-        toolbar.sizeToFit()
-        
-        if let view = self as? UITextView {
-            view.inputAccessoryView = toolbar
-        }
-        
-        if let view = self as? UITextField {
-            view.inputAccessoryView = toolbar
-        }
     }
     
     func removed<T: UIView>(from stackView: UIStackView, whenTypeIs: T.Type) {
