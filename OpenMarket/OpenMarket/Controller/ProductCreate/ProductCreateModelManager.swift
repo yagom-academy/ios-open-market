@@ -36,17 +36,14 @@ class ProductCreateModelManager: ProductUpdateModelManager {
         images.append(image)
     }
     
-    func process(_ form: Form) -> Bool {
-        guard let name = form.name, name.count >= 3 else { return false }
-        guard let price = form.price?.convertToDecimal() else { return false }
-        guard let currencyString = form.currency else { return false }
-        guard let currency = Currency(rawValue: currencyString) else { return false }
-        guard let description = form.description else { return false }
+    func process(_ form: ProductRegisterForm) -> Bool {
+        guard form.name.count >= 3 else { return false }
+        guard let currency = Currency(rawValue: form.currency) else { return false }
         
         let params = CreateProductRequestParams(
-            name: name,
-            descriptions: description,
-            price: price,
+            name: form.name,
+            descriptions: form.description,
+            price: form.price.convertToDecimal(),
             currency: currency,
             discountedPrice: form.discountedPrice?.convertToDecimal() ?? 0,
             stock: form.stock?.convertToInt() ?? 0,

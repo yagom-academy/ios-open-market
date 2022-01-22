@@ -10,19 +10,10 @@ import UIKit.UIImage
 
 protocol ProductUpdateModelManager: AnyObject {
     
-    func process(_ form: Form) -> Bool
+    func process(_ form: ProductRegisterForm) -> Bool
     func append(image: UIImage)
     
     var imagesDidChangeHandler: (() -> Void)? { get set }
     var currentImages: [UIImage] { get }
     var canAddImage: Bool { get }
-}
-
-struct Form {
-    let name: String?
-    let price: String?
-    let currency: String?
-    let discountedPrice: String?
-    let stock: String?
-    let description: String?
 }

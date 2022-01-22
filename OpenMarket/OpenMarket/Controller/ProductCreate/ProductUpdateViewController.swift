@@ -20,12 +20,12 @@ class ProductUpdateViewController: UIViewController {
     @IBOutlet private weak var productStockTextField: UITextField!
     @IBOutlet private weak var descriptionTextView: UITextView!
     
-    private var forms: Form {
+    private var forms: ProductRegisterForm {
         let currencyIndex = currencySegmentedControl.selectedSegmentIndex
-        return Form(
-            name: productNameTextField.text,
-            price: productPriceTextField.text,
-            currency: currencySegmentedControl.titleForSegment(at: currencyIndex),
+        return ProductRegisterForm(
+            name: productNameTextField.text ?? "",
+            price: productPriceTextField.text ?? "",
+            currency: currencySegmentedControl.titleForSegment(at: currencyIndex) ?? "",
             discountedPrice: discountedPriceTextField.text,
             stock: productStockTextField.text,
             description: descriptionTextView.text

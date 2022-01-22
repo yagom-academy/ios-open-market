@@ -55,6 +55,7 @@
 		C1A56967278B2098004E4B3C /* Extension+JSONDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1A56966278B2098004E4B3C /* Extension+JSONDecoder.swift */; };
 		C1A56968278B237A004E4B3C /* Extension+JSONDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1A56966278B2098004E4B3C /* Extension+JSONDecoder.swift */; };
 		C1A5696A278B30DA004E4B3C /* OpenMarketTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1F964EA2782E6D7006F6853 /* OpenMarketTests.swift */; };
+		C1E0C198279C233E0046E839 /* ProductRegisterForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1E0C197279C233E0046E839 /* ProductRegisterForm.swift */; };
 		C1F964F22782E777006F6853 /* DummyData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1F964F12782E777006F6853 /* DummyData.swift */; };
 		C1F964F42782EA88006F6853 /* StubURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1F964F32782EA88006F6853 /* StubURLSession.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
@@ -134,6 +135,7 @@
 		C1A56960278B1014004E4B3C /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
 		C1A56964278B1B2C004E4B3C /* URLSessionProviderDecodingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionProviderDecodingTests.swift; sourceTree = "<group>"; };
 		C1A56966278B2098004E4B3C /* Extension+JSONDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+JSONDecoder.swift"; sourceTree = "<group>"; };
+		C1E0C197279C233E0046E839 /* ProductRegisterForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductRegisterForm.swift; sourceTree = "<group>"; };
 		C1F964E82782E6D7006F6853 /* OpenMarketTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenMarketTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C1F964EA2782E6D7006F6853 /* OpenMarketTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketTests.swift; sourceTree = "<group>"; };
 		C1F964F12782E777006F6853 /* DummyData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyData.swift; sourceTree = "<group>"; };
@@ -244,6 +246,7 @@
 				C1763B672799589700D6C159 /* ProductCreateViewController.swift */,
 				C163550727985783004272DE /* ProductCreateModelManager.swift */,
 				C1763B6A2799608600D6C159 /* ProductUpdateModelManager.swift */,
+				C1E0C197279C233E0046E839 /* ProductRegisterForm.swift */,
 			);
 			path = ProductCreate;
 			sourceTree = "<group>";
@@ -673,6 +676,7 @@
 				C171F88027841135001D0B76 /* URLSessionProvider.swift in Sources */,
 				E9FDEAAB2788647A00B12770 /* ShowProductPageRequest.swift in Sources */,
 				E963246A278B2C0200851348 /* ShowProductPageResposne.swift in Sources */,
+				C1E0C198279C233E0046E839 /* ProductRegisterForm.swift in Sources */,
 				C17E063627846CF400D7F83D /* Product.swift in Sources */,
 				E99FDE782782D4C00083D4D6 /* Page.swift in Sources */,
 				E9FDEA67278705AD00B12770 /* Extension+NSMutableData.swift in Sources */,
