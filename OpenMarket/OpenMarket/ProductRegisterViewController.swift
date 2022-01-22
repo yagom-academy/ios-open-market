@@ -271,7 +271,7 @@ extension ProductRegisterViewController: UIImagePickerControllerDelegate, UINavi
            newImage = possibleImage
        }
            
-        images.append(newImage ?? UIImage(systemName: "circle")!)
+        images.append(newImage ?? UIImage())
         applyImageSnapShot()
         
         imagePicker.dismiss(animated: true, completion: nil)
