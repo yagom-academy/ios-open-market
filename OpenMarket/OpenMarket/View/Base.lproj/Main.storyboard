@@ -62,7 +62,7 @@
                         </segmentedControl>
                         <barButtonItem key="rightBarButtonItem" title="Item" image="plus" catalog="system" id="VTZ-N6-0X4">
                             <connections>
-                                <segue destination="Sce-T6-JfF" kind="modal" id="inW-Zy-QXe"/>
+                                <segue destination="Sce-T6-JfF" kind="modal" id="lxv-eX-ETU"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -82,17 +82,114 @@
                     <view key="view" contentMode="scaleToFill" id="HX3-tt-JgD">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="4bt-gj-xGz">
+                                <rect key="frame" x="15" y="103" width="384" height="744"/>
+                                <subviews>
+                                    <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yd0-SG-tyt">
+                                        <rect key="frame" x="0.0" y="0.0" width="384" height="180"/>
+                                        <subviews>
+                                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="a0S-9w-Sgs">
+                                                <rect key="frame" x="15" y="15" width="369" height="150"/>
+                                            </stackView>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstItem="a0S-9w-Sgs" firstAttribute="centerY" secondItem="Yd0-SG-tyt" secondAttribute="centerY" id="4sf-eu-6nK"/>
+                                            <constraint firstItem="baK-Xo-NZy" firstAttribute="trailing" secondItem="a0S-9w-Sgs" secondAttribute="trailing" id="BB5-h7-wQV"/>
+                                            <constraint firstItem="a0S-9w-Sgs" firstAttribute="top" secondItem="Yd0-SG-tyt" secondAttribute="top" constant="15" id="E1d-kl-2oo"/>
+                                            <constraint firstItem="a0S-9w-Sgs" firstAttribute="leading" secondItem="Yd0-SG-tyt" secondAttribute="leading" constant="15" id="fKY-LL-Oar"/>
+                                            <constraint firstItem="a0S-9w-Sgs" firstAttribute="trailing" secondItem="Yd0-SG-tyt" secondAttribute="trailing" constant="-15" id="kbz-dJ-Scp"/>
+                                            <constraint firstItem="a0S-9w-Sgs" firstAttribute="bottom" secondItem="Yd0-SG-tyt" secondAttribute="bottom" constant="-15" id="yhJ-1y-Wy0"/>
+                                        </constraints>
+                                        <viewLayoutGuide key="contentLayoutGuide" id="84Z-Cq-y4o"/>
+                                        <viewLayoutGuide key="frameLayoutGuide" id="baK-Xo-NZy"/>
+                                    </scrollView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" verticalHuggingPriority="249" horizontalCompressionResistancePriority="749" verticalCompressionResistancePriority="749" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="bTt-dn-6jk" userLabel="TextFieldStack View">
+                                        <rect key="frame" x="0.0" y="190" width="384" height="148"/>
+                                        <subviews>
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="상품명" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="mn9-GG-mgZ">
+                                                <rect key="frame" x="0.0" y="0.0" width="384" height="34"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits"/>
+                                            </textField>
+                                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UXP-HY-yUA">
+                                                <rect key="frame" x="0.0" y="39" width="384" height="31"/>
+                                                <subviews>
+                                                    <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="상품가격" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="C1U-eJ-YTK">
+                                                        <rect key="frame" x="0.0" y="0.0" width="287" height="31"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                        <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                                    </textField>
+                                                    <segmentedControl opaque="NO" contentMode="scaleToFill" showsMenuAsPrimaryAction="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="xOH-DW-Hd1">
+                                                        <rect key="frame" x="287" y="0.0" width="97" height="32"/>
+                                                        <segments>
+                                                            <segment title="KRW"/>
+                                                            <segment title="USD"/>
+                                                        </segments>
+                                                    </segmentedControl>
+                                                </subviews>
+                                            </stackView>
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="할인금액" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Q3O-Vw-3ic">
+                                                <rect key="frame" x="0.0" y="75" width="384" height="34"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                            </textField>
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="재고수량" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="BGX-Bn-o1V">
+                                                <rect key="frame" x="0.0" y="114" width="384" height="34"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                            </textField>
+                                        </subviews>
+                                    </stackView>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Z3P-J2-0WU">
+                                        <rect key="frame" x="0.0" y="348" width="384" height="396"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                        <mutableString key="text">아름답고 열정적인사람들이 모인 야곰 아카데미는 측정 불가한 가격이지만, 일단 오픈마켓에 내놓아 봅니다. 이 상품설명은 저 쪼 아래까지 연결될 가능성이 있으며, 다이나믹 타입에 완벽히 반응해야 합니다. 또, 1000글자 제한이 있습니다만, 누가 천글자를 쓰겠어요?
+
+또, 제목도 세 글자 이상 입력되어야 합니다. 위의 값 중 할인가격과 재고수량은 선택적 입력값입니다. 둘 다 기본값은 0이에요.
+
+할인 가격은 할인된 가격이 아니라 할인하고 싶은 만큼의 가격을 입력하면 됩니다. 100원에서 10원 할인하고 싶다면 할인 가격에 10을 입력하면 됩니다.
+
+모두모두 화이팅이에요 :D</mutableString>
+                                        <color key="textColor" systemColor="labelColor"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="Yd0-SG-tyt" firstAttribute="trailing" secondItem="4bt-gj-xGz" secondAttribute="trailing" id="76S-7C-Phs"/>
+                                    <constraint firstAttribute="bottom" secondItem="Z3P-J2-0WU" secondAttribute="bottom" id="8wx-S2-G6M"/>
+                                    <constraint firstItem="Yd0-SG-tyt" firstAttribute="top" secondItem="4bt-gj-xGz" secondAttribute="top" id="CYx-h5-zVs"/>
+                                    <constraint firstItem="Yd0-SG-tyt" firstAttribute="leading" secondItem="4bt-gj-xGz" secondAttribute="leading" id="EeH-4h-GJn"/>
+                                    <constraint firstItem="Yd0-SG-tyt" firstAttribute="bottom" secondItem="4bt-gj-xGz" secondAttribute="top" constant="180" id="fxY-yb-fwC"/>
+                                </constraints>
+                            </stackView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="TIl-lH-Bvz"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="4bt-gj-xGz" firstAttribute="top" secondItem="TIl-lH-Bvz" secondAttribute="top" constant="15" id="2Nx-Fa-Swz"/>
+                            <constraint firstItem="4bt-gj-xGz" firstAttribute="leading" secondItem="TIl-lH-Bvz" secondAttribute="leading" constant="15" id="EKf-UQ-z1K"/>
+                            <constraint firstItem="4bt-gj-xGz" firstAttribute="bottom" secondItem="TIl-lH-Bvz" secondAttribute="bottom" constant="-15" id="F0u-XP-U57"/>
+                            <constraint firstItem="4bt-gj-xGz" firstAttribute="trailing" secondItem="TIl-lH-Bvz" secondAttribute="trailing" constant="-15" id="sZI-YR-EDa"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="상품등록" id="6mi-n2-iMm">
                         <barButtonItem key="leftBarButtonItem" title="Cancel" id="hgg-ZF-emB"/>
                         <barButtonItem key="rightBarButtonItem" title="Done" id="zvR-GY-XCa"/>
                     </navigationItem>
+                    <connections>
+                        <outlet property="bargainPriceTextField" destination="Q3O-Vw-3ic" id="jlE-h7-ENp"/>
+                        <outlet property="currencySelectButton" destination="xOH-DW-Hd1" id="3vH-r7-w5A"/>
+                        <outlet property="imageStackView" destination="a0S-9w-Sgs" id="rZN-jN-ywT"/>
+                        <outlet property="priceTextField" destination="C1U-eJ-YTK" id="jns-VH-Eic"/>
+                        <outlet property="productNameTextField" destination="mn9-GG-mgZ" id="tjw-Fd-KcT"/>
+                        <outlet property="stockTextField" destination="BGX-Bn-o1V" id="qSZ-V1-Lyz"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QMp-cB-KZK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2972" y="-81"/>
+            <point key="canvasLocation" x="2971.0144927536235" y="-81.026785714285708"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="ZBu-FF-Wmh">
@@ -133,6 +230,9 @@
     </scenes>
     <resources>
         <image name="plus" catalog="system" width="128" height="113"/>
+        <systemColor name="labelColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
         <systemColor name="linkColor">
             <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
