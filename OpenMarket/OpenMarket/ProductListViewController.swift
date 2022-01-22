@@ -82,7 +82,7 @@ class ProductListViewController: UIViewController, UICollectionViewDelegate {
     }
     
     @objc func presentModalView() {
-        let secondVc = ProductAddScrollViewController()
+        let secondVc = ProductRegisterViewController()
         let navi = UINavigationController(rootViewController: secondVc)
         navi.modalPresentationStyle = .fullScreen
         present(navi, animated: true, completion: nil)
