@@ -16,11 +16,11 @@ struct ProductImage {
         var description: String {
             switch self {
             case .jpeg:
-                return "jpeg"
+                return ".jpeg"
             case .jpg:
-                return "jpg"
+                return ".jpg"
             case .png:
-                return "png"
+                return ".png"
             }
         }
     }
@@ -28,6 +28,10 @@ struct ProductImage {
     let name: String
     let type: ImageType
     let image: UIImage
+    
+    var fileName: String {
+        return name + type.description
+    }
     
     var data: Data? {
         return image.jpegData(compressionQuality: 0.5)

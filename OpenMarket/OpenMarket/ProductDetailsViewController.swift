@@ -36,6 +36,7 @@ final class ProductDetailsViewController: UIViewController {
     }()
     
     private var images: [UIImage] = []
+    private var productImages: [ProductImage] = []
     private var keyHeight: CGFloat?
     
     // MARK: - Lifecycle
@@ -64,6 +65,18 @@ extension ProductDetailsViewController {
         guard images.count > 0 else {
             AlertManager.presentNoImagesAlert(on: self)
             return
+        }
+        registerProduct { result in
+            switch result {
+            case .success(let _):
+                print("success")
+                AlertManager.presentSuccessfuleRegisterAlert(on: self)
+                self.dismiss(animated: true, completion: nil)
+                
+            case .failure(let error):
+                print("fail")
+                print(error)
+            }
         }
     }
 }
@@ -122,6 +135,59 @@ extension ProductDetailsViewController {
             selector: #selector(keyboardWillHide),
             name: UIResponder.keyboardWillHideNotification,
             object: nil)
+    }
+    
+    private func registerProduct(completion: @escaping (Result<ResponseProduct, APIError>) -> Void) {
+        let apiService = MarketAPIService()
+        guard let postProduct = makePostProduct() else {
+            return
+        }
+        
+        apiService.registerProduct(product: postProduct, images: productImages) { result in
+            switch result {
+            case .success(let data):
+                completion(.success(data))
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
+    private func makePostProduct() -> PostProduct? {
+        guard productNameTextField.text != "",
+              priceTextField.text != "",
+              descriptionTextView.text != "제품 설명을 입력하세요." else {
+                  return nil
+              }
+        guard let name = productNameTextField.text,
+              let descriptions = descriptionTextView.text,
+              let priceText = priceTextField.text,
+              let price = Double(priceText),
+              let currency = Currency(rawValue: currencySegmentedControl.selectedSegmentIndex) else {
+            return nil
+        }
+        
+        var discountedPrice: Double? = 0
+        var stock: Int? = 0
+        
+        if let discountedPriceString = discountedPriceTextField.text,
+           let stockString = stockTextField.text,
+           discountedPriceString != "",
+           stockString != "" {
+            discountedPrice = Double(discountedPriceString)
+            stock = Int(stockString)
+        }
+        
+        let product = PostProduct(
+            name: name,
+            descriptions: descriptions,
+            price: price,
+            currency: currency.description,
+            discountedPrice: discountedPrice,
+            stock: stock,
+            secret: "password"
+        )
+      
+        return product
     }
     
     @objc func keyboardWillShow(notification: NSNotification) {
@@ -203,11 +269,17 @@ extension ProductDetailsViewController: UITextViewDelegate {
 
 extension ProductDetailsViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        var newImage: UIImage? = nil
-        if let possibleImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
-            newImage = possibleImage
+        guard let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage else {
+            return
         }
-        images.append(newImage!)
+        let tmpPath = NSTemporaryDirectory() as String
+        let fileName = ProcessInfo.processInfo.globallyUniqueString
+        
+        let productImage = ProductImage(name: tmpPath + fileName, type: .jpeg, image: image)
+        
+        images.append(image)
+        productImages.append(productImage)
+        
         dismiss(animated: true, completion: nil)
         collectionView.reloadData()
     }

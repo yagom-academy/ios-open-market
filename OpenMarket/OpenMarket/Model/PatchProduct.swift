@@ -11,7 +11,7 @@ struct PatchProduct: Encodable {
     let name: String?
     let descriptions: String?
     let thumbnailID: Int?
-    let price: Int?
+    let price: Double?
     let currency: String?
     let discountedPrice: Int?
     let stock: Int?

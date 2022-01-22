@@ -23,4 +23,12 @@ struct AlertManager {
         
         viewController.present(alert, animated: true, completion: nil)
     }
+    
+    static func presentSuccessfuleRegisterAlert(on viewController: ProductDetailsViewController) {
+        let alert = UIAlertController(title: "제품등록 성공", message: "제품을 성공적으로 등록했습니다.", preferredStyle: .alert)
+        let ok = UIAlertAction(title: "확인", style: .default, handler: nil)
+        alert.addAction(ok)
+        
+        viewController.present(alert, animated: true, completion: nil)
+    }
 }

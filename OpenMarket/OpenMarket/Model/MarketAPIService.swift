@@ -69,7 +69,7 @@ extension MarketAPIService: APIServicable {
     func registerProduct(
         product: PostProduct,
         images: [ProductImage],
-        completionHandler: @escaping (Result<Product, APIError>) -> Void
+        completionHandler: @escaping (Result<ResponseProduct, APIError>) -> Void
     ) {
         guard let url = MarketAPI.postProduct.url,
               let jsonData = encode(with: product) else {
@@ -163,7 +163,7 @@ extension MarketAPIService {
         body.append(convertFormField(fieldName: "params", json: jsonData, using: boundary))
         
         for image in images {
-            let data =  convertFileData(fieldName: "images", fileName: image.name, mimeType: "image/\(image.type.description)", fileData: image.data!, using: boundary)
+            let data =  convertFileData(fieldName: "images", fileName: image.fileName, mimeType: "image/\(image.type.description)", fileData: image.data!, using: boundary)
             body.append(data)
         }
         
