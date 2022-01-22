@@ -19,8 +19,6 @@ final class ProductDetailsViewController: UIViewController {
     @IBOutlet weak var currencySegmentedControl: UISegmentedControl!
     @IBOutlet weak var descriptionTextView: UITextView!
     
-    
-    
     // MARK: - Properties
     
     private lazy var flowLayout: UICollectionViewFlowLayout = {
@@ -28,6 +26,13 @@ final class ProductDetailsViewController: UIViewController {
         flowLayout.scrollDirection = .horizontal
         
         return flowLayout
+    }()
+    
+    private lazy var imagePicker: UIImagePickerController = {
+        let imagePicker = UIImagePickerController()
+        imagePicker.sourceType = .photoLibrary
+        
+        return imagePicker
     }()
     
     private var images: [UIImage] = []
@@ -57,7 +62,7 @@ extension ProductDetailsViewController {
     
     @IBAction func doneButtonTapped(_ sender: Any) {
         guard images.count > 0 else {
-            
+            AlertManager.presentNoImagesAlert(on: self)
             return
         }
     }
@@ -73,6 +78,7 @@ extension ProductDetailsViewController {
         collectionView.isPagingEnabled = true
         collectionView.decelerationRate = .fast
         descriptionTextView.delegate = self
+        imagePicker.delegate = self
     }
     
     private func setupCollectionViewCells() {
@@ -114,23 +120,22 @@ extension ProductDetailsViewController {
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(keyboardWillHide),
-            name: UIResponder.keyboardWillShowNotification,
+            name: UIResponder.keyboardWillHideNotification,
             object: nil)
     }
     
-    @objc private func keyboardWillShow(_ sender: Notification) {
-        let userInfo:NSDictionary = sender.userInfo! as NSDictionary
-        let keyboardFrame:NSValue = userInfo.value(forKey: UIResponder.keyboardFrameEndUserInfoKey) as! NSValue
-        let keyboardRectangle = keyboardFrame.cgRectValue
-        let keyboardHeight = keyboardRectangle.height
-        keyHeight = keyboardHeight
-        
-        self.view.frame.size.height -= keyboardHeight
-        print("DD'")
+    @objc func keyboardWillShow(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+            if self.view.frame.origin.y == 0 {
+                self.view.frame.origin.y -= keyboardSize.height
+            }
+        }
     }
     
-    @objc private func keyboardWillHide() {
-        self.view.frame.size.height += keyHeight!
+    @objc func keyboardWillHide(notification: NSNotification) {
+        if self.view.frame.origin.y != 0 {
+            self.view.frame.origin.y = 0
+        }
     }
 }
 
@@ -179,8 +184,11 @@ extension ProductDetailsViewController: UICollectionViewDelegateFlowLayout {
 
 extension ProductDetailsViewController: AddImageCellDelegate {
     func addImagePressed(by cell: AddImageButtonCell) {
-        images.append(UIImage(named: "olaf")!)
-        collectionView.reloadData()
+        guard images.count < 5 else {
+            AlertManager.presentExcessImagesAlert(on: self)
+            return
+        }
+        self.present(self.imagePicker, animated: true, completion: nil)
     }
 }
 
@@ -190,5 +198,17 @@ extension ProductDetailsViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
         textView.text = nil
         textView.textColor = .black
+    }
+}
+
+extension ProductDetailsViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        var newImage: UIImage? = nil
+        if let possibleImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+            newImage = possibleImage
+        }
+        images.append(newImage!)
+        dismiss(animated: true, completion: nil)
+        collectionView.reloadData()
     }
 }
