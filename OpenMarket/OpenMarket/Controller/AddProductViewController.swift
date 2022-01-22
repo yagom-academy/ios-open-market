@@ -13,6 +13,7 @@ class AddProductViewController: UIViewController, UINavigationControllerDelegate
     private lazy var dataSource = makeDatasource()
     private lazy var snapShot = NSDiffableDataSourceSnapshot<Int, UIImage>()
 
+    private lazy var scrollView = UIScrollView()
     private lazy var stackView = UIStackView()
     private lazy var textFieldStackView = UIStackView()
     private lazy var nameTextField = UITextField()
@@ -66,6 +67,16 @@ extension AddProductViewController {
 extension AddProductViewController {
     private func configureView() {
         view.backgroundColor = .white
+        
+        view.addSubview(scrollView)
+        
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            scrollView.topAnchor.constraint(equalTo: view.topAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
 
         configureNavigationBar()
         configureStackView()
@@ -86,17 +97,17 @@ extension AddProductViewController {
     }
 
     private func configureStackView() {
-        view.addSubview(stackView)
+        scrollView.addSubview(stackView)
         stackView.axis = .vertical
-        stackView.alignment = .center
+        stackView.alignment = .fill
         stackView.spacing = 10
         stackView.translatesAutoresizingMaskIntoConstraints = false
 
         NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            stackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 10),
-            stackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -10),
-            stackView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            stackView.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor),
+            stackView.leadingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.leadingAnchor, constant: 10),
+            stackView.trailingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.trailingAnchor, constant: -10),
+            stackView.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor)
         ])
     }
 
