@@ -37,7 +37,7 @@ class ViewController: UIViewController {
         let decoder = Decoder()
         let urlSessionProvider = URLSessionProvider()
         
-        urlSessionProvider.getData(requestType: .productList(pageNo: 1, items: 10)) { result in
+        urlSessionProvider.getData(requestType: .productList(pageNo: 1, items: 20)) { result in
             switch result {
             case .success(let data):
                 guard let parsedData: ProductList = decoder.parsePageJSON(data: data) else {

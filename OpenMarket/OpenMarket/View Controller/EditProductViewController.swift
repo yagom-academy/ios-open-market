@@ -16,7 +16,7 @@ class EditProductViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var currencySwitchController: UISegmentedControl!
     @IBOutlet weak var discountedPriceTextField: UITextField!
     @IBOutlet weak var productStockTextField: UITextField!
-   
+    var postData: ProductParam?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,6 +31,11 @@ class EditProductViewController: UIViewController, UITextFieldDelegate {
     
     @IBAction func hitDoneButton(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
+//        postData?.name = productNameTextField.text
+//        postData?.price = productPriceTextField.text
+//        postData?.discountedPrice = discountedPriceTextField.text
+//        postData?.stock = productStockTextField.text
+        
     }
     
     
