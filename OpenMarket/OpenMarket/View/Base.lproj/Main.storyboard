@@ -84,6 +84,7 @@
                                                         <subviews>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SJU-FI-TkW">
                                                                 <rect key="frame" x="0.0" y="0.0" width="150" height="150"/>
+                                                                <accessibility key="accessibilityConfiguration" hint="이미지 추가 버튼" label="이미지 추가"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="width" secondItem="SJU-FI-TkW" secondAttribute="height" multiplier="1:1" id="5DG-RF-P7I"/>
                                                                 </constraints>
@@ -154,6 +155,7 @@
                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" tag="4" contentMode="scaleToFill" verticalHuggingPriority="249" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" textAlignment="justified" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Xx3-Jh-SZP">
                                                 <rect key="frame" x="0.0" y="326" width="394" height="38"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                <accessibility key="accessibilityConfiguration" hint="상품 상세정보 입력 필드" label="상품 상세정보"/>
                                                 <color key="textColor" systemColor="labelColor"/>
                                                 <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences" enablesReturnKeyAutomatically="YES"/>
