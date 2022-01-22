@@ -104,7 +104,7 @@ extension ProductUpdateViewController: UITextViewDelegate {
         if textView.textColor == .systemGray {
             textView.text = nil
             textView.accessibilityValue = nil
-            textView.textColor = .black
+            textView.textColor = .label
         }
     }
     
