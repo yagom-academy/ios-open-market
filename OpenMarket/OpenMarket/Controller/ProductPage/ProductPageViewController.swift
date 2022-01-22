@@ -25,9 +25,12 @@ final class ProductPageViewController: UIViewController {
     private let listCellRegistration: OpenMarketListCellRegistration
     private let gridCellRegistration: OpenMarketGridCellRegistration
     
-    func dataManagerDidChanged() {
-        let snapshot = createSnapshot()
-        updateUI(with: snapshot)
+    @objc
+    private func dataManagerDidChanged() {
+        DispatchQueue.main.async {
+            let snapshot = self.createSnapshot()
+            self.updateUI(with: snapshot)
+        }
     }
     
     required init?(coder: NSCoder) {
@@ -78,7 +81,7 @@ final class ProductPageViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.dataManager.dataChangedHandler = dataManagerDidChanged
+        configureNotificationCenter()
         
         configureActivityIndicator()
         configureSegmentedConrol()
@@ -86,6 +89,10 @@ final class ProductPageViewController: UIViewController {
         configureViewLayout()
         
         dataManager.update()
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
     
     @IBAction func segmentedControlValueChanged(_ sender: UISegmentedControl) {
@@ -132,7 +139,7 @@ extension ProductPageViewController: UICollectionViewDelegate {
         let bottomY = scrollView.contentSize.height - scrollView.bounds.size.height + scrollView.contentInset.bottom
         
         if scrollView.contentOffset.y > bottomY {
-            dataManager.requestNextPage()
+            dataManager.nextPage()
         }
     }
     
@@ -202,6 +209,15 @@ private extension ProductPageViewController {
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0)
         ])
+    }
+    
+    private func configureNotificationCenter() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(dataManagerDidChanged),
+            name: .modelDidChanged,
+            object: nil
+        )
     }
     
     func updateUI(with snapshot: OpenMarketSnapshot) {

@@ -7,33 +7,25 @@
 
 import Foundation
 
-class ProductNetworkManager<T> {
+class ProductNetworkManager {
     
-    private let urlSessionProvider: URLSessionProvider
+    private let urlSessionProvider = URLSessionProvider(session: URLSession.shared)
     
-    var dataFetchHandler: ((T) -> Void)?
-    
-    init() {
-        urlSessionProvider = URLSessionProvider(session: URLSession.shared)
-    }
-    
-    func fetchPage(pageNumber: String = "1", itemsPerPage: String) {
+    func fetchPage<T>(pageNumber: String, itemsPerPage: String, completionHandler: ((T) -> Void)? = nil) {
         urlSessionProvider.request(
             .showProductPage(
                 pageNumber: pageNumber,
                 itemsPerPage: itemsPerPage)
         ) { (result: Result<ShowProductPageResponse, URLSessionProviderError>) in
-                DispatchQueue.main.async {
-                    switch result {
-                    case .success(let data):
-                        guard let data = data as? T else { return }
-                        self.dataFetchHandler?(data)
-                        
-                    case .failure(let error):
-                        print(error)
-                    }
-                }
+            switch result {
+            case .success(let data):
+                guard let data = data as? T else { return }
+                completionHandler?(data)
+                
+            case .failure(let error):
+                print(error)
             }
+        }
     }
     
     func createProductRequest(data: Data, images: [Image]) {

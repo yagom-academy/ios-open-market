@@ -2,56 +2,74 @@
 //  DataManager.swift
 //  OpenMarket
 //
-//  Created by Jae-hoon Sim on 2022/01/14.
+//  Created by JeongTaek Han on 2022/01/14.
 //
 
 import Foundation
 
 class ProductPageDataManager {
     
-    private var networkManager: ProductNetworkManager<Page>
+    private var networkManager = ProductNetworkManager()
     
-    private var pageNumber: Int = 1
-    private var itemsPerPage: Int = 10
+    private var pageInfo: (currentPage: Int, itemsPerPage: Int) = (1, 10) {
+        didSet { update() }
+    }
+    
     private var page: Page? {
         didSet {
-            dataChangedHandler?()
+            NotificationCenter.default.post(name: .modelDidChanged, object: nil)
         }
     }
-    private var itemsCount: String {
-        return String(itemsPerPage)
+    
+    init() {
+        update()
+    }
+    
+    func nextPage() {
+        guard let page = page, page.hasNext else { return }
+        pageInfo.itemsPerPage += 4
+        update()
+    }
+    
+    func reset() {
+        pageInfo = (1, 10)
+        page = nil
+    }
+    
+    func update() {
+        networkManager.fetchPage(
+            pageNumber: pageNumberString,
+            itemsPerPage: itemsPerPageString,
+            completionHandler: update
+        )
+    }
+    
+    private func update(page: Page) {
+        self.page = page
+    }
+    
+}
+
+// MARK: - Property Type Convert Utilities
+extension ProductPageDataManager {
+    
+    private var pageNumberString: String {
+        String(pageInfo.currentPage)
+    }
+    
+    private var itemsPerPageString: String {
+        String(pageInfo.itemsPerPage)
     }
     
     var products: [Product] {
         return page?.pages ?? []
     }
     
-    var dataChangedHandler: (() -> Void)?
+}
+
+// MARK: - NotificationCenter Configure
+extension Notification.Name {
     
-    init(handler: (() -> Void)? = nil) {
-        networkManager = ProductNetworkManager()
-        networkManager.dataFetchHandler = self.fetchRequest
-        networkManager.fetchPage(itemsPerPage: itemsCount)
-        self.dataChangedHandler = handler
-    }
-    
-    func requestNextPage() {
-        guard let page = page, page.hasNext else { return }
-        itemsPerPage += 4
-        networkManager.fetchPage(itemsPerPage: String(itemsPerPage))
-    }
-    
-    func update() {
-        networkManager.fetchPage(itemsPerPage: itemsCount)
-    }
-    
-    func fetchRequest(data: Page) {
-        self.page = data
-    }
-    
-    func reset() {
-        itemsPerPage = 10
-        page = nil
-    }
+    static let modelDidChanged = Notification.Name(rawValue: "modelDidChanged")
     
 }

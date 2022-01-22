@@ -10,7 +10,7 @@ import UIKit.UIImage
 
 class ProductCreateModelManager: ProductUpdateModelManager {
     
-    let networkManager = ProductNetworkManager<CreateProductRequest>()
+    let networkManager = ProductNetworkManager()
     
     private var images: [UIImage] = [] {
         didSet { imagesDidChangeHandler?() }

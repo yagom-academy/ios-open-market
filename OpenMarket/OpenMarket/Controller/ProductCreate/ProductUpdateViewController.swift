@@ -141,9 +141,9 @@ extension UIView {
     }
     
     func removed<T: UIView>(from stackView: UIStackView, whenTypeIs: T.Type) {
-        if let imageView = self as? T {
-            stackView.removeArrangedSubview(imageView)
-            imageView.removeFromSuperview()
+        if let view = self as? T {
+            stackView.removeArrangedSubview(view)
+            view.removeFromSuperview()
         }
     }
     
