@@ -61,7 +61,7 @@ class ProductRegisterViewController: UIViewController {
         super.viewDidLoad()
         self.view.backgroundColor = .white
         configureHierarchy()
-        stackView.imageCollectionView.delegate = self
+        setDelegate()
         configureConstraint()
         configureNavigationBar()
     }
@@ -88,34 +88,34 @@ extension ProductRegisterViewController {
             }
     }
 
-    func registerProduct() {
-        let registerProductRequest = RegisterProductRequest(
-            name: stackView.nameTextField.text!,
-            descriptions: stackView.descriptionTextView.text,
-            price: Decimal(string: stackView.priceTextField.text!, locale: nil)!,
-            currency: Currency.KRW,
-            discountedPrice: Decimal(string: stackView.discountTextField.text!, locale: nil),
-            stock: Int(stackView.stockTextField.text!)!,
-            secret: UserDefaultUtility().getVendorPassword()!
-        )
-
-        let imageData = stackView.imageList.map {
-            $0.pngData()!
-        }
-
-        productService.registerProduct(
-            parameters: registerProductRequest,
-            session: HTTPUtility.defaultSession,
-            images: imageData) { result in
-                switch result {
-                case .success(let product):
-                    print(product)
-                case .failure:
-                    print("실패")
-                    return
-                }
-            }
-    }
+//    func registerProduct() {
+//        let registerProductRequest = RegisterProductRequest(
+//            name: stackView.nameTextField.text!,
+//            descriptions: stackView.descriptionTextView.text,
+//            price: Decimal(string: stackView.priceTextField.text!, locale: nil)!,
+//            currency: Currency.KRW,
+//            discountedPrice: Decimal(string: stackView.discountTextField.text!, locale: nil),
+//            stock: Int(stackView.stockTextField.text!)!,
+//            secret: UserDefaultUtility().getVendorPassword()!
+//        )
+//        stackView.imageList.remove(at: 0)
+//        let imageData = stackView.imageList.map {
+//            $0.jpegData(compressionQuality: 1)!
+//        }
+//
+//        productService.registerProduct(
+//            parameters: registerProductRequest,
+//            session: HTTPUtility.defaultSession,
+//            images: imageData) { result in
+//                switch result {
+//                case .success(let product):
+//                    print(product)
+//                case .failure:
+//                    print("실패")
+//                    return
+//                }
+//            }
+//    }
 }
 
 // MARK: Navigation Bar Configuration
@@ -135,7 +135,7 @@ extension ProductRegisterViewController {
     }
 
     @objc func touchUpDoneButton() {
-        registerProduct()
+        //registerProduct()
         self.dismiss(animated: true, completion: nil)
     }
 
@@ -149,6 +149,12 @@ extension ProductRegisterViewController {
     func configureHierarchy() {
         scrollView.addSubview(stackView)
         self.view.addSubview(scrollView)
+    }
+
+    private func setDelegate() {
+        stackView.setTextViewDelegate(delegate: self)
+        stackView.setTextFieldDelegate(delegate: self)
+        stackView.setCollectionViewDelegate(delegate: self)
     }
 }
 
@@ -171,15 +177,14 @@ extension ProductRegisterViewController {
             stackView.leadingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.leadingAnchor, constant: 5),
             stackView.trailingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.trailingAnchor, constant: -5)
         ])
-
     }
 
     private func configureContent(product: Product) {
-        stackView.nameTextField.text = product.name
-        stackView.priceTextField.text = product.price.description
-        stackView.discountTextField.text = product.discountedPrice.description
-        stackView.stockTextField.text = product.stock.description
-        stackView.descriptionTextView.text = product.description
+//        stackView.nameTextField.text = product.name
+//        stackView.priceTextField.text = product.price.description
+//        stackView.discountTextField.text = product.discountedPrice.description
+//        stackView.stockTextField.text = product.stock.description
+//        stackView.descriptionTextView.text = product.description
     }
 }
 
@@ -218,8 +223,16 @@ extension ProductRegisterViewController: UIImagePickerControllerDelegate,
         _ picker: UIImagePickerController,
         didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
     ) {
+        print(info)
         if let image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
-            stackView.imageList.append(image)
+
+            let data = image.jpegData(compressionQuality: 1)!
+            if data.count > 1024 * 300 {
+                let newImage = image.jpegData(compressionQuality: 0.5)!
+                //stackView.imageList.append(UIImage(data: newImage)!)
+            } else {
+            //stackView.imageList.append(image)
+            }
         }
         dismiss(animated: true, completion: nil)
     }
@@ -229,15 +242,42 @@ extension ProductRegisterViewController: UIImagePickerControllerDelegate,
 extension ProductRegisterViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if indexPath.item == 0 {
-            if stackView.imageList.count < 6 {
-                showActionSheet()
-            } else {
-                showImageCapacityAlert()
-            }
+//            if stackView.imageList.count < 6 {
+//                showActionSheet()
+//            } else {
+//                showImageCapacityAlert()
+//            }
         }
     }
 }
 
+// MARK: Text Field Delegate
 extension ProductRegisterViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+}
 
+// MARK: Text View Delegate
+extension ProductRegisterViewController: UITextViewDelegate {
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if textView.text.isEmpty {
+            textView.textColor = .systemGray
+            textView.text = "상품설명을 작성해 주세요. (최대 1000글자)"
+        }
+    }
+
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if textView.textColor == .systemGray {
+            textView.textColor = .black
+            textView.text = ""
+        }
+    }
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if textView.textStorage.length + text.count > 1000 {
+            return false
+        }
+        return true
+    }
 }

@@ -8,7 +8,7 @@ class ProductRegisterView: UIStackView {
 
     private var dataSource: UICollectionViewDiffableDataSource<Section, UIImage>!
 
-    var imageList: [UIImage] = [] {
+    private var imageList: [UIImage] = [] {
         didSet {
             var snapshot = NSDiffableDataSourceSnapshot<Section, UIImage>()
             snapshot.appendSections([.image])
@@ -23,7 +23,7 @@ class ProductRegisterView: UIStackView {
         }
     }
 
-    lazy var imageCollectionView: UICollectionView = {
+    private lazy var imageCollectionView: UICollectionView = {
         let collectionView = UICollectionView(
             frame: .zero,
             collectionViewLayout: createImageGridLayout()
@@ -31,13 +31,12 @@ class ProductRegisterView: UIStackView {
         return collectionView
     }()
 
-    lazy var nameTextField: UITextField = {
+    private lazy var nameTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "상품명"
         textField.borderStyle = .roundedRect
         textField.font = .preferredFont(forTextStyle: .subheadline)
         textField.layer.borderColor = UIColor.systemGray.cgColor
-        textField.delegate = self
         return textField
     }()
 
@@ -49,7 +48,6 @@ class ProductRegisterView: UIStackView {
         textField.borderStyle = .roundedRect
         textField.font = .preferredFont(forTextStyle: .subheadline)
         textField.layer.borderColor = UIColor.systemGray.cgColor
-        textField.delegate = self
         textField.keyboardType = .decimalPad
         return textField
     }()
@@ -61,7 +59,7 @@ class ProductRegisterView: UIStackView {
         return segmentedControl
     }()
 
-    lazy var discountTextField: UITextField = {
+    private lazy var discountTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "할인금액"
         textField.borderStyle = .roundedRect
@@ -71,23 +69,21 @@ class ProductRegisterView: UIStackView {
         return textField
     }()
 
-    lazy var stockTextField: UITextField = {
+    private lazy var stockTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "재고수량"
         textField.borderStyle = .roundedRect
         textField.font = .preferredFont(forTextStyle: .subheadline)
         textField.layer.borderColor = UIColor.systemGray.cgColor
         textField.keyboardType = .numberPad
-        textField.delegate = self
         return textField
     }()
 
-    lazy var descriptionTextView: UITextView = {
+    private lazy var descriptionTextView: UITextView = {
         let textView = UITextView()
         textView.textColor = .systemGray
         textView.text = "상품설명을 작성해 주세요.(최대 1000글자)"
         textView.font = .preferredFont(forTextStyle: .footnote)
-        textView.delegate = self
         textView.isScrollEnabled = false
         return textView
     }()
@@ -215,33 +211,20 @@ extension ProductRegisterView {
     }
 }
 
-// MARK: Text Field Delegate
-extension ProductRegisterView: UITextFieldDelegate {
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        return true
-    }
-}
-
-// MARK: Text View Delegate
-extension ProductRegisterView: UITextViewDelegate {
-    func textViewDidEndEditing(_ textView: UITextView) {
-        if textView.text.isEmpty {
-            textView.textColor = .systemGray
-            textView.text = "상품설명을 작성해 주세요. (최대 1000글자)"
-        }
+// MARK: Set Delegate
+extension ProductRegisterView {
+    func setCollectionViewDelegate(delegate: UICollectionViewDelegate) {
+        imageCollectionView.delegate = delegate
     }
 
-    func textViewDidBeginEditing(_ textView: UITextView) {
-        if textView.textColor == .systemGray {
-            textView.textColor = .black
-            textView.text = ""
-        }
+    func setTextFieldDelegate(delegate: UITextFieldDelegate) {
+        nameTextField.delegate = delegate
+        priceTextField.delegate = delegate
+        discountTextField.delegate = delegate
+        stockTextField.delegate = delegate
     }
-    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        if textView.textStorage.length + text.count > 1000 {
-            return false
-        }
-        return true
+
+    func setTextViewDelegate(delegate: UITextViewDelegate) {
+        descriptionTextView.delegate = delegate
     }
 }
