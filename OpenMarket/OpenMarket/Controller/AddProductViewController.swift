@@ -69,20 +69,9 @@ extension AddProductViewController {
 
 // MARK: - View Configuration
 extension AddProductViewController {
-    fileprivate func configureScrollView() {
-        view.addSubview(scrollView)
-        
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            scrollView.topAnchor.constraint(equalTo: view.topAnchor),
-            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-        ])
-    }
     
     private func configureView() {
-        view.backgroundColor = .white
+        view.backgroundColor = .systemBackground
         
         configureScrollView()
         configureNavigationBar()
@@ -103,6 +92,19 @@ extension AddProductViewController {
         navigationItem.rightBarButtonItem = doneButton
     }
 
+    private func configureScrollView() {
+        view.addSubview(scrollView)
+
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            scrollView.topAnchor.constraint(equalTo: view.topAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            scrollView.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            scrollView.contentLayoutGuide.heightAnchor.constraint(greaterThanOrEqualTo: scrollView.safeAreaLayoutGuide.heightAnchor)
+        ])
+        }
+    
     private func configureStackView() {
         scrollView.addSubview(stackView)
         stackView.axis = .vertical
@@ -121,7 +123,7 @@ extension AddProductViewController {
     private func configureImageCollectionView() {
         stackView.addArrangedSubview(imageCollectionView)
         imageCollectionView.isScrollEnabled = false
-        imageCollectionView.backgroundColor = .white
+        imageCollectionView.backgroundColor = .systemBackground
         imageCollectionView.translatesAutoresizingMaskIntoConstraints = false
 
         NSLayoutConstraint.activate([
@@ -170,9 +172,10 @@ extension AddProductViewController {
         descriptionTextView.isScrollEnabled = false
         descriptionTextView.delegate = self
         descriptionTextView.text = "여기에 상품 설명을 입력하세요!(글자 수 1000자 제한)"
-        descriptionTextView.textColor = .systemGray
+        descriptionTextView.textColor = .placeholderText
         descriptionTextView.font = .preferredFont(forTextStyle: .body, compatibleWith: .current)
-        
+
+        descriptionTextView.setContentHuggingPriority(.init(0), for: .vertical)
         descriptionTextView.translatesAutoresizingMaskIntoConstraints = false
 
         NSLayoutConstraint.activate([
@@ -409,7 +412,7 @@ extension AddProductViewController: UIImagePickerControllerDelegate {
 
 extension AddProductViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
-        textView.textColor = .black
+        textView.textColor = .label
         textView.text = ""
     }
     func textViewDidChange(_ textView: UITextView) {
