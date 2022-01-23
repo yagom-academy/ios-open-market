@@ -12,7 +12,7 @@ struct ProductListAskRequester: Requestable, JSONResponseDecodable {
 
     private var baseURLString: String = "https://market-training.yagom-academy.kr/api/products"
     private let pageNo: Int
-    private let itemsPerPage: Int
+    let itemsPerPage: Int
     
     init(pageNo: Int, itemsPerPage: Int) {
         self.pageNo = pageNo

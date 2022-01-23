@@ -38,8 +38,9 @@ class ProductRegisterViewController: UIViewController {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
 
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5), heightDimension: .fractionalHeight(1.0))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.75), heightDimension: .fractionalHeight(1.0))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+        group.interItemSpacing = .fixed(10.0)
         
         let section = NSCollectionLayoutSection(group: group)
         section.orthogonalScrollingBehavior = .continuous
@@ -206,12 +207,11 @@ class ProductRegisterViewController: UIViewController {
         imageCollectionView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            imageCollectionView.topAnchor.constraint(equalTo: mainScrollView.contentLayoutGuide.topAnchor),
+            imageCollectionView.topAnchor.constraint(equalTo: mainScrollView.contentLayoutGuide.topAnchor, constant: 10),
             imageCollectionView.leadingAnchor.constraint(equalTo: registerImage.trailingAnchor, constant: 5),
-            imageCollectionView.bottomAnchor.constraint(equalTo: textFieldStackView.topAnchor),
+            imageCollectionView.bottomAnchor.constraint(equalTo: textFieldStackView.topAnchor, constant: -20),
             imageCollectionView.trailingAnchor.constraint(equalTo: mainScrollView.frameLayoutGuide.trailingAnchor)
         ])
-        imageCollectionView.backgroundColor = .blue
     }
     
     private func layoutTextFieldStackView() {

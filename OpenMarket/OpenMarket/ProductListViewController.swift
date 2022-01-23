@@ -59,9 +59,7 @@ class ProductListViewController: UIViewController, UICollectionViewDelegate {
     private func fetchProductList() {
         self.dataStorage.updateStorage {
             DispatchQueue.main.async {
-                let section: Section = self.segmentedControl.selectedSegmentIndex == 0 ? .list : .grid
-                self.applyListSnapShot(section: section)
-                self.applyGridSnapShot(section: section)
+                self.segmentedControl.selectedSegmentIndex == 0 ?  self.applyListSnapShot() : self.applyGridSnapShot()
             }
         }
     }
@@ -161,24 +159,24 @@ class ProductListViewController: UIViewController, UICollectionViewDelegate {
         }
     }
     
-    private func applyListSnapShot(section: Section) {
+    private func applyListSnapShot() {
         guard let storage = dataStorage.storage else {
             return
         }
 
         var snapshot = NSDiffableDataSourceSnapshot<Section, page>()
-        snapshot.appendSections([section])
+        snapshot.appendSections([.list])
         snapshot.appendItems(storage.pages)
         self.listDataSource?.apply(snapshot, animatingDifferences: false)
     }
     
-    private func applyGridSnapShot(section: Section) {
+    private func applyGridSnapShot() {
         guard let storage = dataStorage.storage else {
             return
         }
 
         var snapshot = NSDiffableDataSourceSnapshot<Section, ProductListAsk.Response.Page>()
-        snapshot.appendSections([section])
+        snapshot.appendSections([.grid])
         snapshot.appendItems(storage.pages)
         self.gridDataSource?.apply(snapshot, animatingDifferences: false)
     }
@@ -253,8 +251,12 @@ extension ProductListViewController: UIScrollViewDelegate {
             
         let position = scrollView.contentOffset.y
         if position > (collectionView.contentSize.height-100-scrollView.frame.height) {
-            print("call")
-//            fetchProductList()
+            dataStorage.appendMoreItem()
+            dataStorage.updateStorage {
+                DispatchQueue.main.async {
+                    self.segmentedControl.selectedSegmentIndex == 0 ? self.applyListSnapShot() : self.applyGridSnapShot()
+                }
+            }
         }
     }
     

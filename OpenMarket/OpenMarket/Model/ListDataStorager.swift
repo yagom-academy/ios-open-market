@@ -3,9 +3,14 @@ import Foundation
 final class ListDataStorager: PageDataStorable {
     
     var storage: ProductListAsk.Response?
-    let requester = ProductListAskRequester(pageNo: 1, itemsPerPage: 50)
-    // TODO: init plus 
+    var requester = ProductListAskRequester(pageNo: 1, itemsPerPage: 50)
     static let cachedImages = NSCache<NSString,NSData>()
+    
+    func appendMoreItem() {
+        let appendItemAmount = 10
+        let changeRequester = ProductListAskRequester(pageNo: 1, itemsPerPage: (requester.itemsPerPage + appendItemAmount))
+        requester = changeRequester
+    }
 
     func updateStorage(completion: @escaping () -> Void) {
         URLSession.shared.request(requester: requester) { (result) in
