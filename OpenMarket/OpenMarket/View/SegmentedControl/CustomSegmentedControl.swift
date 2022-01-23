@@ -2,30 +2,40 @@ import UIKit
 
 class CustomSegmentedControl: UISegmentedControl {
     
-    override init(items: [Any]?) {
-        super.init(items: items)
+    enum LayoutAttribute {
+        static let cornerRadius: CGFloat = 4
+        static let borderWidth: CGFloat = 1
+        static let borderColor: CGColor = UIColor.systemBlue.cgColor
+        static let selectedSegmentTintColor: UIColor = .white
+        static let backgroundColor: UIColor = .systemBlue
     }
     
-    convenience init() {
-        let items: [String] = ["List","Grid"]
-        self.init(items: items)
-        configureAttributes()
+    override init(items: [Any]?) {
+        super.init(items: items)
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
     
-    func configureAttributes() {
-        self.layer.cornerRadius = 4.0
-        self.layer.borderWidth = 1.0
-        self.layer.borderColor = UIColor.systemBlue.cgColor
-        self.selectedSegmentTintColor = .white
-        self.backgroundColor = .systemBlue
+    convenience init() {
+        let items: [String] = ["List","Grid"]
+        self.init(items: items)
+        
+        configure()
+    }
+    
+    private func configure() {
         let selectedAttribute: [NSAttributedString.Key : UIColor] = [.foregroundColor : .systemBlue]
-        self.setTitleTextAttributes(selectedAttribute, for: .selected)
+        setTitleTextAttributes(selectedAttribute, for: .selected)
         let normalAttribute: [NSAttributedString.Key : UIColor] = [.foregroundColor : .white]
-        self.setTitleTextAttributes(normalAttribute, for: .normal)
-        self.selectedSegmentIndex = 0
+        setTitleTextAttributes(normalAttribute, for: .normal)
+        
+        layer.cornerRadius = LayoutAttribute.cornerRadius
+        layer.borderWidth = LayoutAttribute.borderWidth
+        layer.borderColor = LayoutAttribute.borderColor
+        selectedSegmentTintColor = LayoutAttribute.selectedSegmentTintColor
+        backgroundColor = LayoutAttribute.backgroundColor
+        selectedSegmentIndex = 0
     }
 }

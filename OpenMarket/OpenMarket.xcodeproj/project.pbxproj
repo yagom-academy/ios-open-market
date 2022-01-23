@@ -185,10 +185,8 @@
 		604E1F5C278AE21500FE6A83 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
-				60B7C1FE2796DEC20012215F /* MainViewController.swift */,
-				60B7C1F42796B2800012215F /* ListCollectionViewController.swift */,
-				60B7C1F62796B2980012215F /* GridCollectionViewController.swift */,
-				60D2102E279D3CE4004F4F45 /* ProductRegistrationViewController.swift */,
+				60D21032279D7587004F4F45 /* MainScene */,
+				60D21033279D7596004F4F45 /* ProductRegistrationScene */,
 			);
 			name = ViewController;
 			sourceTree = "<group>";
@@ -294,6 +292,24 @@
 				60D2102C279D3AF5004F4F45 /* CustomNavigationBar.swift */,
 			);
 			path = NavigationBar;
+			sourceTree = "<group>";
+		};
+		60D21032279D7587004F4F45 /* MainScene */ = {
+			isa = PBXGroup;
+			children = (
+				60B7C1FE2796DEC20012215F /* MainViewController.swift */,
+				60B7C1F42796B2800012215F /* ListCollectionViewController.swift */,
+				60B7C1F62796B2980012215F /* GridCollectionViewController.swift */,
+			);
+			name = MainScene;
+			sourceTree = "<group>";
+		};
+		60D21033279D7596004F4F45 /* ProductRegistrationScene */ = {
+			isa = PBXGroup;
+			children = (
+				60D2102E279D3CE4004F4F45 /* ProductRegistrationViewController.swift */,
+			);
+			name = ProductRegistrationScene;
 			sourceTree = "<group>";
 		};
 		C70FB0EE25BEF61C00C9924E = {

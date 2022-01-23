@@ -2,24 +2,38 @@ import UIKit
 
 class GridCollectionViewController: UIViewController {
     
+    enum LayoutAttribute {
+        static let estimatedHeight: CGFloat = 220
+        static let itemsPerGroup = 2
+        static let largeSpacing: CGFloat = 10
+        static let smallSpacing: CGFloat = 5
+    }
+    
     private var collectionView: UICollectionView!
     private var dataSource: UICollectionViewDiffableDataSource<Section, Product>!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        createCollectionView()
-        createDataSource()
+        
+        create()
+        organizeViewHierarchy()
         configureCollectionView()
     }
-}
-
-//MARK: - Open Method
-extension GridCollectionViewController {
+    
     func applySnapShot(products: [Product]) {
         var snapshot = NSDiffableDataSourceSnapshot<Section, Product>()
         snapshot.appendSections([.main])
         snapshot.appendItems(products)
         self.dataSource.apply(snapshot, animatingDifferences: false)
+    }
+    
+    private func create() {
+        createCollectionView()
+        createDataSource()
+    }
+    
+    private func organizeViewHierarchy() {
+        view.addSubview(collectionView)
     }
 }
 
@@ -27,30 +41,27 @@ extension GridCollectionViewController {
 extension GridCollectionViewController {
     
     private func createCollectionView() {
-        let spacing: CGFloat = 10
-        let estimatedHeight: CGFloat = 220
-        
         let itemSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
-            heightDimension: .estimated(estimatedHeight)
+            heightDimension: .estimated(LayoutAttribute.estimatedHeight)
         )
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
         let groupSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
-            heightDimension: .estimated(estimatedHeight)
+            heightDimension: .estimated(LayoutAttribute.estimatedHeight)
         )
         let group = NSCollectionLayoutGroup.horizontal(
             layoutSize: groupSize,
             subitem: item,
-            count: 2
+            count: LayoutAttribute.itemsPerGroup
         )
-        group.interItemSpacing = .fixed(spacing)
+        group.interItemSpacing = .fixed(LayoutAttribute.largeSpacing)
         
         let section = NSCollectionLayoutSection(group: group)
-        section.interGroupSpacing = spacing
-        section.contentInsets.leading = spacing/2
-        section.contentInsets.trailing = spacing/2
+        section.interGroupSpacing = LayoutAttribute.largeSpacing
+        section.contentInsets.leading = LayoutAttribute.smallSpacing
+        section.contentInsets.trailing = LayoutAttribute.smallSpacing
         
         let layout = UICollectionViewCompositionalLayout(section: section)
         
@@ -58,9 +69,7 @@ extension GridCollectionViewController {
     }
     
     private func configureCollectionView() {
-        view.addSubview(collectionView)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        
         NSLayoutConstraint.activate([
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
@@ -72,6 +81,7 @@ extension GridCollectionViewController {
 
 //MARK: - DataSource
 extension GridCollectionViewController {
+    
     typealias Product = NetworkingAPI.ProductListQuery.Response.Page
 
     private enum Section: Hashable {

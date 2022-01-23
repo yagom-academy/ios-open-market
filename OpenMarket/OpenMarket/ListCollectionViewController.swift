@@ -7,19 +7,29 @@ class ListCollectionViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        createCollectionView()
-        createDataSource()
-        configureCollectionView()
+        create()
+        organizeViewHierarchy()
+        configure()
     }
-}
-
-//MARK: - Open Method
-extension ListCollectionViewController {
+    
     func applySnapShot(products: [Product]) {
         var snapshot = NSDiffableDataSourceSnapshot<Section, Product>()
         snapshot.appendSections([.main])
         snapshot.appendItems(products)
         self.dataSource.apply(snapshot, animatingDifferences: false)
+    }
+    
+    private func create() {
+        createCollectionView()
+        createDataSource()
+    }
+    
+    private func configure() {
+        configureCollectionView()
+    }
+    
+    private func organizeViewHierarchy() {
+        view.addSubview(collectionView)
     }
 }
 
@@ -39,7 +49,6 @@ extension ListCollectionViewController {
     }
     
     private func configureCollectionView() {
-        view.addSubview(collectionView)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -52,6 +61,7 @@ extension ListCollectionViewController {
 
 //MARK: - DataSoruce
 extension ListCollectionViewController {
+    
     typealias Product = NetworkingAPI.ProductListQuery.Response.Page
 
     private enum Section: Hashable {

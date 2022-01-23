@@ -10,7 +10,8 @@ class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        createAllComponents()
+        create()
+        organizeViewHierarchy()
         configure()
         fetchProductList()
     }
@@ -24,14 +25,22 @@ class MainViewController: UIViewController {
         scrollView.setContentOffset(destinationPoint, animated: false)
     }
     
-    private func createAllComponents() {
+    private func create() {
         createProductRegistrationButtonItem()
+    }
+    
+    private func organizeViewHierarchy() {
+        navigationItem.titleView = segmentedControl
+        navigationItem.setRightBarButton(productRegistrationButtonItem, animated: true)
+        
+        view.addSubview(scrollView)
+        scrollView.addSubview(listViewController.view)
+        scrollView.addSubview(gridViewController.view)
     }
     
     private func configure() {
         configureMainView()
         configureSegmentedControl()
-        configureProductRegistrationButtonItem()
         configureScrollView()
         configureListViewController()
         configureGridViewController()
@@ -40,8 +49,6 @@ class MainViewController: UIViewController {
     //MARK: - MainView
     private func configureMainView() {
         view.backgroundColor = .systemBackground
-        
-        view.addSubview(scrollView)
     }
 }
 
@@ -57,7 +64,6 @@ extension MainViewController {
             height: segmentedControl.bounds.height
         )
         segmentedControl.bounds = bounds
-        navigationItem.titleView = segmentedControl
         
         segmentedControl.addTarget(self, action: #selector(touchUpListButton), for: .valueChanged)
     }
@@ -79,14 +85,9 @@ extension MainViewController {
                                                         target: self,
                                                         action: #selector(presentProductRegistrationViewController))
     }
-    
-    private func configureProductRegistrationButtonItem() {
-        navigationItem.setRightBarButton(productRegistrationButtonItem, animated: true)
-    }
 
     @objc private func presentProductRegistrationViewController() {
         let vc = ProductRegistrationViewController()
-//        let vc = ProductRegistrationViewController()
         vc.modalPresentationStyle = .fullScreen
         present(vc, animated: true)
     }
@@ -98,10 +99,6 @@ extension MainViewController: UIScrollViewDelegate {
     private func configureScrollView() {
         scrollView.delegate = self
         scrollView.isPagingEnabled = true
-        
-        scrollView.addSubview(listViewController.view)
-        scrollView.addSubview(gridViewController.view)
-        
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
@@ -121,8 +118,11 @@ extension MainViewController: UIScrollViewDelegate {
         }
         segmentedControl.selectedSegmentIndex = pageNumber
     }
+}
+
+//MARK: - ListViewController
+extension MainViewController {
     
-    //MARK: - ListViewController
     private func configureListViewController() {
         listViewController.view.translatesAutoresizingMaskIntoConstraints = false
         
@@ -133,8 +133,11 @@ extension MainViewController: UIScrollViewDelegate {
             listViewController.view.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
+}
+
+//MARK: - GridViewController
+extension MainViewController {
     
-    //MARK: - GridViewController
     private func configureGridViewController() {
         gridViewController.view.translatesAutoresizingMaskIntoConstraints = false
         

@@ -205,8 +205,11 @@ extension ProductRegistrationViewController: UIImagePickerControllerDelegate, UI
             imageScrollView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.2),
         ])
     }
-    
-    //MARK: - ImageStackView
+}
+
+//MARK: - ImageStackView
+extension ProductRegistrationViewController {
+
     private func configureImageStackView() {
         imageStackView.axis = .horizontal
         imageStackView.spacing = LayoutAttribute.largeSpacing
@@ -218,8 +221,11 @@ extension ProductRegistrationViewController: UIImagePickerControllerDelegate, UI
             imageStackView.trailingAnchor.constraint(equalTo: imageScrollView.trailingAnchor)
         ])
     }
+}
+
+//MARK: - ImageAddingButton
+extension ProductRegistrationViewController {
     
-    //MARK: - ImageAddingButton
     private func configureImageAddingButton() {
         imageAddingButton.backgroundColor = .systemGray5
         imageAddingButton.setImage(UIImage(systemName: "plus"), for: .normal)
@@ -244,8 +250,11 @@ extension ProductRegistrationViewController: UIImagePickerControllerDelegate, UI
     @objc private func presentImagePickerController() {
         present(imagePickerController, animated: true, completion: nil)
     }
+}
+
+//MARK: - ImagePickerController
+extension ProductRegistrationViewController {
     
-    //MARK: - ImagePickerController
     private func configureImagePickerController() {
         imagePickerController.delegate = self
         imagePickerController.allowsEditing = true
@@ -299,13 +308,19 @@ extension ProductRegistrationViewController {
             textFieldStackView.widthAnchor.constraint(equalTo: wholeScreenScrollView.widthAnchor),
         ])
     }
+}
+
+//MARK: - NameTextField
+extension ProductRegistrationViewController {
     
-    //MARK: - NameTextField
     private func configureNameTextField() {
         nameTextField.placeholder = "상품명"
     }
+}
+
+//MARK: - PriceStackView
+extension ProductRegistrationViewController {
     
-    //MARK: - PriceStackView
     private func configurePriceStackView() {
         priceStackView.axis = .horizontal
         priceStackView.alignment = .center
@@ -315,15 +330,21 @@ extension ProductRegistrationViewController {
         priceStackView.addArrangedSubview(priceTextField)
         priceStackView.addArrangedSubview(currencySegmentedControl)
     }
+}
+
+//MARK: - PriceTextField
+extension ProductRegistrationViewController {
     
-    //MARK: - PriceTextField
     private func configurePriceTextField() {
         priceTextField.placeholder = "상품가격"
         
         priceTextField.setContentHuggingPriority(.defaultLow, for: .horizontal)
     }
+}
+
+//MARK: - CurrencySegmentedControl
+extension ProductRegistrationViewController {
     
-    //MARK: - CurrencySegmentedControl
     private func configureCurrencySegmentedControl() {
         currencySegmentedControl.insertSegment(withTitle: "KRW", at: 0, animated: false)
         currencySegmentedControl.insertSegment(withTitle: "USD", at: 1, animated: false)
@@ -332,13 +353,19 @@ extension ProductRegistrationViewController {
         
         currencySegmentedControl.setContentHuggingPriority(.defaultHigh, for: .horizontal)
     }
+}
+
+//MARK: - BargainPriceTextField
+extension ProductRegistrationViewController {
     
-    //MARK: - BargainPriceTextField
     private func configureBargainPriceTextField() {
         bargainPriceTextField.placeholder = "할인금액"
     }
+}
+
+//MARK: - StockTextField
+extension ProductRegistrationViewController {
     
-    //MARK: - StockTextField
     private func configureStockTextField() {
         stockTextField.placeholder = "재고수정"
     }

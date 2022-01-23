@@ -2,7 +2,7 @@ import UIKit
 
 extension NSMutableAttributedString {
     
-    func adjustDecimal() {
+    func setDecimal() {
         guard let number = Double(self.string) else {
             return
         }
@@ -16,19 +16,19 @@ extension NSMutableAttributedString {
         self.setAttributedString(NSMutableAttributedString(string: string))
     }
 
-    func adjustStrikeThrough() {
+    func setStrikeThrough() {
         self.addAttribute(.strikethroughStyle,
                           value: NSUnderlineStyle.single.rawValue,
                           range: NSMakeRange(0, self.length))
     }
     
-    func changeColor(to color: UIColor) {
+    func setFontColor(to color: UIColor) {
         self.addAttribute(NSAttributedString.Key.foregroundColor,
                           value: color,
                           range: NSMakeRange(0, self.length))
     }
     
-    func adjustTextStyle(textStyle: UIFont.TextStyle) {
+    func setTextStyle(textStyle: UIFont.TextStyle) {
         let font = UIFont.preferredFont(forTextStyle: textStyle, compatibleWith: nil)
         self.addAttribute(.font, value: font, range: NSMakeRange(0, self.length))
     }
