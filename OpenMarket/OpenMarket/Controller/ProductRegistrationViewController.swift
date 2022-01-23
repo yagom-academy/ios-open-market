@@ -91,14 +91,16 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
         }
         
         var count = 0
-        var multiplier: CGFloat = 1.0
         var imageDatas = [String: Data]()
         for image in images {
+            let compressionQuality: CGFloat = 0.8
             let fileName = "\(count).jpeg"
-            var imageData = image.jpegData(compressionQuality: 0.8)
+            var originalImage = image
+            var imageData = originalImage.jpegData(compressionQuality: compressionQuality)
             while let bytes = imageData?.count, bytes >= 300 * 1000 {
-                imageData = image.resize(multiplier: multiplier).jpegData(compressionQuality: 0.8)
-                multiplier -= 0.05
+                let multiplier: CGFloat = 0.8
+                originalImage = originalImage.resize(multiplier: multiplier)
+                imageData = originalImage.jpegData(compressionQuality: compressionQuality)
             }
             count += 1
             imageDatas[fileName] = imageData
