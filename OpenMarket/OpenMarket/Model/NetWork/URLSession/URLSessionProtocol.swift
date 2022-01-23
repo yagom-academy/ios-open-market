@@ -13,7 +13,7 @@ extension URLSessionProtocol {
                          httpMethod: String,
                          httpBody: Data?,
                          headerFields: [String: String]?,
-                         completion: @escaping (Result<Data, NetworkingAPIError>) -> Void) {
+                         completion: @escaping (Result<Data, OpenMarketError>) -> Void) {
         
         guard let request = makeURLRequest(urlString: urlString,
                                            httpMethod: httpMethod,
@@ -45,7 +45,7 @@ extension URLSessionProtocol {
         }.resume()
     }
     
-    func requestDataTask(url: URL, completion: @escaping (Result<Data, NetworkingAPIError>) -> Void) {
+    func requestDataTask(url: URL, completion: @escaping (Result<Data, OpenMarketError>) -> Void) {
         dataTask(with: url) { (data, response, error) in
             guard let data = data else {
                 completion(.failure(.receivedInvalidData))

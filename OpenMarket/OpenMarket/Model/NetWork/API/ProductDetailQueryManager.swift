@@ -3,7 +3,7 @@ import Foundation
 enum ProductDetailQueryManager: JSONResponseDecodable {
     static func request<T: URLSessionProtocol>(session: T,
                                                productId: Int,
-                                               completion: @escaping (Result<Data, NetworkingAPIError>) -> Void) {
+                                               completion: @escaping (Result<Data, OpenMarketError>) -> Void) {
         
         let httpMethod = "GET"
         let baseURLString = "https://market-training.yagom-academy.kr/api/products"

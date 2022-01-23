@@ -199,10 +199,11 @@ extension CollectionViewGridCell {
         let blank = NSMutableAttributedString(string: " ")
         let lineBreak = NSMutableAttributedString(string: "\n")
         let currency = NSMutableAttributedString(string: product.currency.rawValue)
-        let originalPrice = NSMutableAttributedString(string: product.price.description)
-        originalPrice.setDecimal()
-        let bargainPrice = NSMutableAttributedString(string: product.bargainPrice.description)
-        bargainPrice.setDecimal()
+        guard let originalPrice = NSMutableAttributedString(string: product.price.description).toDecimal,
+              let bargainPrice = NSMutableAttributedString(string: product.bargainPrice.description).toDecimal else {
+                  print(OpenMarketError.conversionFail("basic NSMutableAttributedString", "decimal").description)
+                  return
+              }
         
         let result = NSMutableAttributedString(string: "")
         if product.price != product.bargainPrice {

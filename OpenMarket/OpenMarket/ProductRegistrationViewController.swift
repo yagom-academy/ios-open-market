@@ -15,7 +15,7 @@ class ProductRegistrationViewController: UIViewController {
         static let recommendedImageHeight: CGFloat = 500
     }
 
-    private var navigationBar: CustomNavigationBar!
+    private var navigationBar: PlainNavigationBar!
     
     private let wholeScreenScrollView = UIScrollView()
     
@@ -25,12 +25,12 @@ class ProductRegistrationViewController: UIViewController {
     private let imageScrollView = UIScrollView()
     
     private let textFieldStackView = UIStackView()
-    private let nameTextField = AlignedTextField()
+    private let nameTextField = CenterAlignedTextField()
     private let priceStackView = UIStackView()
-    private let priceTextField = AlignedTextField()
+    private let priceTextField = CenterAlignedTextField()
     private let currencySegmentedControl = UISegmentedControl()
-    private let bargainPriceTextField = AlignedTextField()
-    private let stockTextField = AlignedTextField()
+    private let bargainPriceTextField = CenterAlignedTextField()
+    private let stockTextField = CenterAlignedTextField()
     
     private let descriptionTextView = UITextView()
 
@@ -94,7 +94,7 @@ class ProductRegistrationViewController: UIViewController {
 extension ProductRegistrationViewController {
     
     private func createNavigationBar() {
-        navigationBar = CustomNavigationBar(leftButtonTitle: "Cancel", mainLabelTitle: "상품등록", rightButtonTitle: "Done")
+        navigationBar = PlainNavigationBar(leftButtonTitle: "Cancel", mainLabelTitle: "상품등록", rightButtonTitle: "Done")
     }
     
     private func configureNavigationBar() {
@@ -139,8 +139,9 @@ extension ProductRegistrationViewController {
             imageStackView.arrangedSubviews.forEach {
                 guard let imageView = $0 as? UIImageView,
                       let imageData = imageView.image?.jpegData(underBytes: ProductImageAttribute.maximumImageBytesSize) else {
-                    return
-                }
+                          print(OpenMarketError.conversionFail("UIImage", "JPEG Data").description)
+                          return
+                      }
                 images.append(imageData)
             }
             
@@ -264,9 +265,10 @@ extension ProductRegistrationViewController {
                                didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
         guard let editedImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage,
-                let squareImage = editedImage.croppedToSquareForm() else {
-            return
-        }
+              let squareImage = editedImage.croppedToSquareForm() else {
+                  print(OpenMarketError.conversionFail("basic UIImage", "cropped to square form").description)
+                  return
+              }
 
         if squareImage.size.width > ProductImageAttribute.recommendedImageWidth {
             let resizedImage = squareImage.resized(width: ProductImageAttribute.recommendedImageWidth,

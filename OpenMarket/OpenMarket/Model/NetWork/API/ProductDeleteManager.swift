@@ -5,7 +5,7 @@ enum ProductDeleteManager: JSONResponseDecodable {
                                                identifier: String,
                                                productId: Int,
                                                productSecret: String,
-                                               completion: @escaping (Result<Data, NetworkingAPIError>) -> Void) {
+                                               completion: @escaping (Result<Data, OpenMarketError>) -> Void) {
         let httpMethod = "DELETE"
         let baseURLString = "https://market-training.yagom-academy.kr/api/products"
         let urlString = "\(baseURLString)/\(productId)/\(productSecret)"

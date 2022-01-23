@@ -2,7 +2,7 @@ import UIKit
 
 class MainViewController: UIViewController {
     
-    private let segmentedControl = CustomSegmentedControl()
+    private let segmentedControl = BlueSegmentedControl()
     private var productRegistrationButtonItem: UIBarButtonItem!
     private let scrollView = UIScrollView()
     private let listViewController = ListCollectionViewController()
@@ -113,10 +113,12 @@ extension MainViewController: UIScrollViewDelegate {
 
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         let pageNumber = Int(round(scrollView.contentOffset.x/scrollView.frame.width))
-        guard pageNumber < segmentedControl.numberOfSegments else {
-            return
+        
+        if pageNumber > segmentedControl.numberOfSegments {
+            segmentedControl.selectedSegmentIndex = segmentedControl.numberOfSegments - 1
+        } else {
+            segmentedControl.selectedSegmentIndex = pageNumber
         }
-        segmentedControl.selectedSegmentIndex = pageNumber
     }
 }
 
@@ -162,12 +164,13 @@ extension MainViewController {
             switch result {
             case .success(let data):
                 guard let products = NetworkingAPI.ProductListQuery.decode(data: data)?.pages else {
+                    print(OpenMarketError.decodingFail("Data", "NetworkingAPI.ProductListQuery"))
                     return
                 }
                 self.listViewController.applySnapShot(products: products)
                 self.gridViewController.applySnapShot(products: products)
             case .failure(let error):
-                print(error.localizedDescription)
+                print(error)
             }
         }
     }

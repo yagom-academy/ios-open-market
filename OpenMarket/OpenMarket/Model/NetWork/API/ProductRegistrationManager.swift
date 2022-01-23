@@ -14,7 +14,7 @@ enum ProductRegistrationManager: JSONResponseDecodable {
                                                stock: Int?,
                                                secret: String,
                                                images: [Data],
-                                               completion: @escaping (Result<Data, NetworkingAPIError>) -> Void) {
+                                               completion: @escaping (Result<Data, OpenMarketError>) -> Void) {
         
         let httpMethod = "POST"
         let urlString = "https://market-training.yagom-academy.kr/api/products"
@@ -23,7 +23,7 @@ enum ProductRegistrationManager: JSONResponseDecodable {
                                               "Content-Type" : "multipart/form-data; boundary=\(boundary)"]
         
         guard let currency = Currency(rawValue: currency) else {
-            completion(.failure(.typeConversionFail))
+            completion(.failure(.conversionFail("String", "Currency")))
             return
         }
         let params = Request(name: name,
@@ -59,6 +59,7 @@ enum ProductRegistrationManager: JSONResponseDecodable {
         
         let paramsHeaders = ["Content-Disposition:form-data; name=\"params\"", "Content-Type: application/json"]
         guard let paramsBody = try? JSONEncoder().encode(params) else {
+            print(OpenMarketError.encodingFail("ProductRegistrationManager.Request", "Data").description)
             return nil
         }
         let paramsContent = Content(headers: paramsHeaders, body: paramsBody)

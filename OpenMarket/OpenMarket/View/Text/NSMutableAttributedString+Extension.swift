@@ -2,18 +2,18 @@ import UIKit
 
 extension NSMutableAttributedString {
     
-    func setDecimal() {
+    var toDecimal: NSMutableAttributedString? {
         guard let number = Double(self.string) else {
-            return
+            return nil
         }
         
         let numberformatter = NumberFormatter()
         numberformatter.numberStyle = .decimal
         guard let string = numberformatter.string(from: NSNumber(value: number)) else {
-            return
+            return nil
         }
         
-        self.setAttributedString(NSMutableAttributedString(string: string))
+        return NSMutableAttributedString(string: string)
     }
 
     func setStrikeThrough() {

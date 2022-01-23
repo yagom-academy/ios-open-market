@@ -1,6 +1,6 @@
 import UIKit
 
-class CustomSegmentedControl: UISegmentedControl {
+class BlueSegmentedControl: UISegmentedControl {
     
     enum LayoutAttribute {
         static let cornerRadius: CGFloat = 4

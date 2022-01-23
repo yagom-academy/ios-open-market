@@ -1,6 +1,6 @@
 import UIKit
 
-class CustomNavigationBar: UIView {
+class PlainNavigationBar: UIView {
     
     enum LayoutAttribute {
         static let navigationBarHeight: CGFloat = 50
@@ -84,7 +84,7 @@ class CustomNavigationBar: UIView {
 }
 
 //MARK: - LeftButton
-extension CustomNavigationBar {
+extension PlainNavigationBar {
     
     private func createLeftButton() {
         self.leftButton = UIButton(type: .system)
@@ -115,7 +115,7 @@ extension CustomNavigationBar {
 }
 
 //MARK: - MainLabel
-extension CustomNavigationBar {
+extension PlainNavigationBar {
     
     private func createMainLabel() {
         self.mainLabel = UILabel()
@@ -140,7 +140,7 @@ extension CustomNavigationBar {
 }
 
 //MARK: - RightButton
-extension CustomNavigationBar {
+extension PlainNavigationBar {
 
     private func createRightButton() {
         self.rightButton = UIButton(type: .system)

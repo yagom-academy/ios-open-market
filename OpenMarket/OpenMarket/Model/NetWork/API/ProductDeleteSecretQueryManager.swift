@@ -5,7 +5,7 @@ enum ProductDeleteSecretQueryManager {
                                                productId: Int,
                                                identifier: String,
                                                secret: String,
-                                               completion: @escaping (Result<Data, NetworkingAPIError>) -> Void) {
+                                               completion: @escaping (Result<Data, OpenMarketError>) -> Void) {
 
         let httpMethod = "POST"
         let baseURLString = "https://market-training.yagom-academy.kr/api/products"

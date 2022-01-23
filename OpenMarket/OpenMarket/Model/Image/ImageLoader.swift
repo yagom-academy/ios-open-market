@@ -1,9 +1,10 @@
 import UIKit
 
 enum ImageLoader {
-    static func load(from urlString: String, completion: @escaping (Result<Data, NetworkingAPIError>) -> ()) {
+    static func load(from urlString: String, completion: @escaping (Result<Data, OpenMarketError>) -> ()) {
         
         guard let url = URL(string: urlString) else {
+            print(OpenMarketError.conversionFail("string", "URL").description)
             return
         }
         
@@ -12,9 +13,10 @@ enum ImageLoader {
     
     static func load<T: URLSessionProtocol>(session: T,
                                             from urlString: String,
-                                            completion: @escaping (Result<Data, NetworkingAPIError>) -> ()) {
+                                            completion: @escaping (Result<Data, OpenMarketError>) -> ()) {
         
         guard let url = URL(string: urlString) else {
+            print(OpenMarketError.conversionFail("string", "URL").description)
             return
         }
         
