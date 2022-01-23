@@ -27,24 +27,6 @@ class ProductRegistrationModificationViewController: productRegister, ImagePicke
     setView(mode: viewMode)
   }
   
-  private func setView(mode: ViewMode?) {
-    switch mode {
-    case .registation:
-      navigationItem.title = ViewMode.registation.rawValue
-      doneButton.target = self
-      doneButton.action = #selector(registerProduct)
-      addImageButton.addTarget(self, action: #selector(addImage), for: .touchUpInside)
-    case .modification:
-      navigationItem.title = ViewMode.modification.rawValue
-      doneButton.target = self
-      doneButton.action = #selector(modifyProduct)
-      fetchProductDetail(productId: 714)
-      addImageButton.isHidden = true
-    case .none:
-      return
-    }
-  }
-  
   @objc private func addImage() {
     if productImages.count < 5 {
       actionSheetAlertForImage()
@@ -53,10 +35,23 @@ class ProductRegistrationModificationViewController: productRegister, ImagePicke
     }
   }
   
-  @objc private func registerProduct() {
-    if verfiyImagesCount() == false {
+  @objc private func registerProductButtonDidTap() {
+    registerImage()
+    guard verfiyImagesCount() == true else {
       return
     }
+    registerProduct()
+  }
+  
+  
+  @objc private func modifyProductButtonDidTap() {
+    guard let productId = product?.id else {
+      return
+    }
+    modifyProduct(id: productId)
+  }
+  
+  private func registerProduct() {
     do {
       api.registerProduct(
         params: try getProductInformaionForRegistration(secret: secret),
@@ -74,30 +69,39 @@ class ProductRegistrationModificationViewController: productRegister, ImagePicke
           }
         }
       }
-    }catch let error {
+    } catch let error {
       showAlert(message: error.localizedDescription)
     }
   }
   
-  
-  @objc private func modifyProduct() {
-    guard let productId = product?.id else {
-      return
+  private func modifyProduct(id: Int) {
+    do {
+      api.modifyProduct(
+        productId: id,
+        params: try getProductInformaionForModification(secret: secret),
+        identifier: identifer
+      ) { [self] response in
+        switch response {
+        case .success(_):
+          DispatchQueue.main.async {
+            navigationController?.popViewController(animated: true)
+          }
+        case .failure(let error):
+          DispatchQueue.main.async {
+            showAlert(message: error.localizedDescription)
+          }
+        }
+      }
+    } catch let error {
+      showAlert(message: error.localizedDescription)
     }
-    api.modifyProduct(
-      productId: productId,
-      params: getProductInformaionForModification(secret: secret),
-      identifier: identifer
-    ) { [self] response in
-      switch response {
-      case .success(_):
-        DispatchQueue.main.async {
-          navigationController?.popViewController(animated: true)
-        }
-      case .failure(let error):
-        DispatchQueue.main.async {
-          showAlert(message: error.localizedDescription)
-        }
+  }
+  
+  func registerImage() {
+    for subView in stackView.subviews {
+      if let imageView = subView as? UIImageView,
+         let image = imageView.image {
+      productImages.append(image)
       }
     }
   }
@@ -110,6 +114,34 @@ class ProductRegistrationModificationViewController: productRegister, ImagePicke
     return true
   }
   
+  private func setView(mode: ViewMode?) {
+    switch mode {
+    case .registation:
+      configureRegistrationMode()
+    case .modification:
+      configureModificationMode()
+    case .none:
+      return
+    }
+  }
+  
+  private func configureRegistrationMode() {
+    navigationItem.title = ViewMode.registation.rawValue
+    doneButton.target = self
+    doneButton.action = #selector(registerProductButtonDidTap)
+    addImageButton.addTarget(self, action: #selector(addImage), for: .touchUpInside)
+  }
+  
+  private func configureModificationMode() {
+    navigationItem.title = ViewMode.modification.rawValue
+    doneButton.target = self
+    doneButton.action = #selector(modifyProductButtonDidTap)
+    fetchProductDetail(productId: product?.id)
+    addImageButton.isHidden = true
+  }
+}
+
+extension ProductRegistrationModificationViewController {
   private func getProductInformaionForRegistration(secret: String) throws -> ProductRequestForRegistration {
     guard let name = nameTextField.text, name.count > 2 else {
       throw InputError.invalidName
@@ -138,12 +170,21 @@ class ProductRegistrationModificationViewController: productRegister, ImagePicke
     )
   }
   
-  private func getProductInformaionForModification(secret: String) -> ProductRequestForModification {
-    let name = nameTextField.text ?? ""
-    let fixedPrice = Double(fixedPriceTextField.text ?? "") ?? 0
-    let discountedPrice = Double(discountedPriceTextField.text ?? "") ?? 0
-    let stock = Int(stockTextField.text ?? "") ?? 0
-    let descriptions = descriptionTextView.text ?? ""
+  private func getProductInformaionForModification(secret: String) throws -> ProductRequestForModification {
+    guard let name = nameTextField.text, name.count > 2 else {
+      throw InputError.invalidName
+    }
+    guard let descriptions = descriptionTextView.text else {
+      throw InputError.invalidDescription
+    }
+    guard let stringFixedPrice = fixedPriceTextField.text,
+          let fixedPrice = Double(stringFixedPrice)else {
+      throw InputError.invalidFixedPrice
+    }
+    guard let stringDiscountedPrice = discountedPriceTextField.text,
+          let stringStock = stockTextField.text else {
+            throw InputError.invalidOthers
+    }
     let curreny: Currency = currencySegmentControl.selectedSegmentIndex == 0 ? .KRW : .USD
     
     return ProductRequestForModification(
@@ -152,8 +193,8 @@ class ProductRegistrationModificationViewController: productRegister, ImagePicke
       thumbnailId: nil,
       price: fixedPrice,
       currency: curreny,
-      discountedPrice: discountedPrice,
-      stock: stock,
+      discountedPrice: Double(stringDiscountedPrice),
+      stock: Int(stringStock),
       secret: secret
     )
   }
@@ -229,7 +270,7 @@ extension ProductRegistrationModificationViewController {
       return
     }
     let resizingImage = image.resize(maxBytes: 307200)
-    productImages.append(resizingImage)
+    //productImages.append(resizingImage)
     appendImageView(image: resizingImage)
     dismiss(animated: true, completion: nil)
   }
@@ -241,5 +282,22 @@ extension ProductRegistrationModificationViewController {
       equalTo: imageView.widthAnchor,
       multiplier: 1
     ).isActive = true
+    
+    let tapGesture = CustomGesture(target: self, action: #selector(removeImageView))
+    tapGesture.imageView = imageView
+    imageView.isUserInteractionEnabled = true
+    imageView.addGestureRecognizer(tapGesture)
   }
+  
+  @objc func removeImageView(_ sender: CustomGesture) {
+    for subView in stackView.subviews {
+      if sender.imageView == subView {
+        subView.removeFromSuperview()
+      }
+    }
+  }
+}
+
+class CustomGesture: UITapGestureRecognizer {
+  var imageView: UIImageView?
 }

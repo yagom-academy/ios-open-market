@@ -15,7 +15,7 @@ extension AlertMessage {
   var description: String {
     switch self {
     case .rangeOfImageCount:
-      return "이미지는 1~5개만 등록 가능합니다."
+      return "이미지는 최소 1개, 최대 5개까지 등록 가능합니다."
     }
   }
 }
