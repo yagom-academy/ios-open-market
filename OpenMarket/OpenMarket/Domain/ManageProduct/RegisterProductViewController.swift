@@ -1,6 +1,6 @@
 import UIKit
 
-class ProductRegisterViewController: UIViewController {
+class RegisterProductViewController: ManageProductViewController {
     private enum Task {
         case register, modify
     }
@@ -68,7 +68,7 @@ class ProductRegisterViewController: UIViewController {
 }
 
 // MARK: Networking
-extension ProductRegisterViewController {
+extension RegisterProductViewController {
     func fetchProduct() {
         guard let productIdentification = self.productIdentification else {
             taskType = .register
@@ -119,7 +119,7 @@ extension ProductRegisterViewController {
 }
 
 // MARK: Navigation Bar Configuration
-extension ProductRegisterViewController {
+extension RegisterProductViewController {
     private func configureNavigationBar() {
         switch taskType {
         case .register:
@@ -145,7 +145,7 @@ extension ProductRegisterViewController {
 }
 
 // MARK: Stack View Configuration
-extension ProductRegisterViewController {
+extension RegisterProductViewController {
     func configureHierarchy() {
         scrollView.addSubview(stackView)
         self.view.addSubview(scrollView)
@@ -158,7 +158,7 @@ extension ProductRegisterViewController {
     }
 }
 
-extension ProductRegisterViewController {
+extension RegisterProductViewController {
     private func configureConstraint() {
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -190,7 +190,7 @@ extension ProductRegisterViewController {
 
 // MARK: Image Picker Alert
 
-extension ProductRegisterViewController {
+extension RegisterProductViewController {
     private func showActionSheet() {
         present(imageActionSheet, animated: true, completion: nil)
     }
@@ -217,7 +217,7 @@ extension ProductRegisterViewController {
 }
 
 // MARK: Image Picker Controller Delegate
-extension ProductRegisterViewController: UIImagePickerControllerDelegate,
+extension RegisterProductViewController: UIImagePickerControllerDelegate,
                                          UINavigationControllerDelegate {
     func imagePickerController(
         _ picker: UIImagePickerController,
@@ -239,7 +239,7 @@ extension ProductRegisterViewController: UIImagePickerControllerDelegate,
 }
 
 // MARK: Collection View Delegate
-extension ProductRegisterViewController: UICollectionViewDelegate {
+extension RegisterProductViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if indexPath.item == 0 {
 //            if stackView.imageList.count < 6 {
@@ -252,7 +252,7 @@ extension ProductRegisterViewController: UICollectionViewDelegate {
 }
 
 // MARK: Text Field Delegate
-extension ProductRegisterViewController: UITextFieldDelegate {
+extension RegisterProductViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
@@ -260,7 +260,7 @@ extension ProductRegisterViewController: UITextFieldDelegate {
 }
 
 // MARK: Text View Delegate
-extension ProductRegisterViewController: UITextViewDelegate {
+extension RegisterProductViewController: UITextViewDelegate {
     func textViewDidEndEditing(_ textView: UITextView) {
         if textView.text.isEmpty {
             textView.textColor = .systemGray
