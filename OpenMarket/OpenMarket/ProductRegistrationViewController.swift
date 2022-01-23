@@ -5,6 +5,11 @@ class ProductRegistrationViewController: UIViewController {
     enum Attribute {
         static let largeSpacing: CGFloat = 10
         static let smallSpacing: CGFloat = 5
+        static let minimumPhotoCount = 1
+        static let maximumPhotoCount = 5
+        static let maximumPhotoBytesSize = 300 * 1024
+        static let recommendedPhotoWidth: CGFloat = 500
+        static let recommendedPhotoHeight: CGFloat = 500
     }
     
     private let cancelButton = UIButton(type: .system)
@@ -15,6 +20,7 @@ class ProductRegistrationViewController: UIViewController {
     private let wholeScreenScrollView = UIScrollView()
     
     private let imageStackView = UIStackView()
+    private let imageAddingButton = UIButton()
     private let imagePickerController = UIImagePickerController()
     private let imageScrollView = UIScrollView()
     
@@ -47,6 +53,7 @@ class ProductRegistrationViewController: UIViewController {
         wholeScreenScrollView.addSubview(descriptionTextView)
         
         imageScrollView.addSubview(imageStackView)
+        imageStackView.addArrangedSubview(imageAddingButton)
 
         textFieldStackView.addArrangedSubview(nameTextField)
         textFieldStackView.addArrangedSubview(priceStackView)
@@ -65,6 +72,7 @@ class ProductRegistrationViewController: UIViewController {
         configureWholeScreenScrollView()
         configureImageScrollView()
         configureImageStackView()
+        configureImageAddingButton()
         configureImagePickerController()
 
         configureTextFieldStackView()
@@ -193,13 +201,15 @@ extension ProductRegistrationViewController {
         let secret = Vendor.secret
         let images: [Data] = {
             var images: [Data] = []
+            
             imageStackView.arrangedSubviews.forEach {
                 guard let imageView = $0 as? UIImageView,
-                      let image = imageView.image?.jpegData(compressionQuality: 0.5) else {
+                      let imageData = imageView.image?.jpegData(underBytes: Attribute.maximumPhotoBytesSize) else {
                     return
                 }
-                images.append(image)
+                images.append(imageData)
             }
+            
             return images
         }()
         
@@ -212,9 +222,7 @@ extension ProductRegistrationViewController {
                                                   discountedPrice: discountedPrice,
                                                   stock: stock,
                                                   secret: secret,
-                                                  images: images) {
-
-            (result) in
+                                                  images: images) { result in
             
             switch result {
             case .success:
@@ -265,8 +273,6 @@ extension ProductRegistrationViewController: UIImagePickerControllerDelegate, UI
         imageStackView.axis = .horizontal
         imageStackView.spacing = Attribute.largeSpacing
         
-        createDefaultButton()
-        
         imageStackView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             imageStackView.heightAnchor.constraint(equalTo: imageScrollView.heightAnchor),
@@ -275,43 +281,63 @@ extension ProductRegistrationViewController: UIImagePickerControllerDelegate, UI
         ])
     }
     
-    private func createDefaultButton() {
-        let defaultButton = UIButton()
-        defaultButton.backgroundColor = .systemGray5
-        defaultButton.setImage(UIImage(systemName: "plus"), for: .normal)
-        defaultButton.addTarget(self, action: #selector(presentImagePickerController), for: .touchUpInside)
+    //MARK: - ImageAddingButton
+    private func configureImageAddingButton() {
+        imageAddingButton.backgroundColor = .systemGray5
+        imageAddingButton.setImage(UIImage(systemName: "plus"), for: .normal)
+        imageAddingButton.addTarget(self, action: #selector(presentImagePickerController), for: .touchUpInside)
         
-        imageStackView.addArrangedSubview(defaultButton)
-        imageStackView.translatesAutoresizingMaskIntoConstraints = false
+        imageAddingButton.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            defaultButton.heightAnchor.constraint(equalTo: imageStackView.heightAnchor),
-            defaultButton.widthAnchor.constraint(equalTo: defaultButton.heightAnchor)
+            imageAddingButton.heightAnchor.constraint(equalTo: imageStackView.heightAnchor),
+            imageAddingButton.widthAnchor.constraint(equalTo: imageAddingButton.heightAnchor)
         ])
     }
     
-    //MARK: - ImagePickerController
+    private func hideImageAddingButtonIfNeeded() {
+        let images = imageStackView.arrangedSubviews.compactMap {
+            $0 as? UIImageView
+        }
+        if images.count >= Attribute.maximumPhotoCount {
+            imageAddingButton.isHidden = true
+        }
+    }
+    
     @objc private func presentImagePickerController() {
         present(imagePickerController, animated: true, completion: nil)
     }
     
+    //MARK: - ImagePickerController
     private func configureImagePickerController() {
         imagePickerController.delegate = self
+        imagePickerController.allowsEditing = true
     }
 
     func imagePickerController(_ picker: UIImagePickerController,
                                didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
-        if let possibleImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
-            addPickedImage(image: possibleImage)
+        guard let editedImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage,
+                let squareImage = editedImage.croppedToSquareForm() else {
+            return
         }
 
+        if squareImage.size.width > Attribute.recommendedPhotoWidth {
+            let resizedImage = squareImage.resized(width: Attribute.recommendedPhotoWidth,
+                                            height: Attribute.recommendedPhotoHeight)
+            addToStack(image: resizedImage)
+        } else {
+            addToStack(image: squareImage)
+        }
+        
         picker.dismiss(animated: true, completion: nil)
+        hideImageAddingButtonIfNeeded()
     }
     
-    private func addPickedImage(image: UIImage) {
+    private func addToStack(image: UIImage) {
         let imageView = UIImageView()
         imageView.image = image
         imageView.translatesAutoresizingMaskIntoConstraints = false
+
         imageStackView.insertArrangedSubview(imageView, at: 0)
         NSLayoutConstraint.activate([
             imageView.heightAnchor.constraint(equalTo: imageStackView.heightAnchor),
