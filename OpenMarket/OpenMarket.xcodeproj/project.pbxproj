@@ -53,6 +53,10 @@
 		C70FB10725BEF61D00C9924E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */; };
 		E929F94D2798807A005A15A9 /* AddProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E929F94C2798807A005A15A9 /* AddProductViewController.swift */; };
 		E929F9552799555B005A15A9 /* ImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E929F9542799555B005A15A9 /* ImageCollectionViewCell.swift */; };
+		E929F972279DA238005A15A9 /* PostManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E929F971279DA238005A15A9 /* PostManager.swift */; };
+		E929F976279DA863005A15A9 /* UnboundDataForPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = E929F975279DA863005A15A9 /* UnboundDataForPost.swift */; };
+		E929F97A279DB318005A15A9 /* CreateProductError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E929F979279DB318005A15A9 /* CreateProductError.swift */; };
+		E929F97E279DB379005A15A9 /* PostResultRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E929F97D279DB379005A15A9 /* PostResultRepresentable.swift */; };
 		E960F9592795E5A900F83E90 /* GridCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E960F9582795E5A900F83E90 /* GridCollectionViewCell.swift */; };
 		E960F95D2795E5D400F83E90 /* ListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E960F95C2795E5D400F83E90 /* ListCollectionViewCell.swift */; };
 		E96323BD278888F900851348 /* UpdateProductRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E96323BC278888F900851348 /* UpdateProductRequest.swift */; };
@@ -126,6 +130,10 @@
 		C70FB10825BEF61D00C9924E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E929F94C2798807A005A15A9 /* AddProductViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddProductViewController.swift; sourceTree = "<group>"; };
 		E929F9542799555B005A15A9 /* ImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCollectionViewCell.swift; sourceTree = "<group>"; };
+		E929F971279DA238005A15A9 /* PostManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostManager.swift; sourceTree = "<group>"; };
+		E929F975279DA863005A15A9 /* UnboundDataForPost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnboundDataForPost.swift; sourceTree = "<group>"; };
+		E929F979279DB318005A15A9 /* CreateProductError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateProductError.swift; sourceTree = "<group>"; };
+		E929F97D279DB379005A15A9 /* PostResultRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostResultRepresentable.swift; sourceTree = "<group>"; };
 		E960F9582795E5A900F83E90 /* GridCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridCollectionViewCell.swift; sourceTree = "<group>"; };
 		E960F95C2795E5D400F83E90 /* ListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCollectionViewCell.swift; sourceTree = "<group>"; };
 		E96323BC278888F900851348 /* UpdateProductRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateProductRequest.swift; sourceTree = "<group>"; };
@@ -327,6 +335,7 @@
 				C13469E52786E32F0044DFDB /* ProductImage.swift */,
 				C13469E82786E35C0044DFDB /* Vendor.swift */,
 				E9FDEA14278463FE00B12770 /* Currency.swift */,
+				E929F975279DA863005A15A9 /* UnboundDataForPost.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -352,7 +361,10 @@
 				C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */,
 				E998F88527915D8B008DD201 /* PageViewController.swift */,
 				E929F94C2798807A005A15A9 /* AddProductViewController.swift */,
+				E929F971279DA238005A15A9 /* PostManager.swift */,
 				E998F89327917370008DD201 /* DataManager.swift */,
+				E929F979279DB318005A15A9 /* CreateProductError.swift */,
+				E929F97D279DB379005A15A9 /* PostResultRepresentable.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -531,7 +543,9 @@
 				E9FDEAB52788695400B12770 /* ShowProductSecretRequest.swift in Sources */,
 				C1A5695E278B0598004E4B3C /* CreateProductRequestImage.swift in Sources */,
 				E9FDEA1A2784670B00B12770 /* OpenMarketService.swift in Sources */,
+				E929F976279DA863005A15A9 /* UnboundDataForPost.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
+				E929F97E279DB379005A15A9 /* PostResultRepresentable.swift in Sources */,
 				E9632462278B2B9E00851348 /* DeleteProductResponse.swift in Sources */,
 				E9FDEAA327885FE100B12770 /* HealthCheckerRequest.swift in Sources */,
 				E9632438278AEAB800851348 /* MultiPartRequest.swift in Sources */,
@@ -564,6 +578,8 @@
 				C13469F927885DB00044DFDB /* APIRequest.swift in Sources */,
 				E9632466278B2BCD00851348 /* ShowProductDetailResponse.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
+				E929F97A279DB318005A15A9 /* CreateProductError.swift in Sources */,
+				E929F972279DA238005A15A9 /* PostManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
