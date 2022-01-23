@@ -306,58 +306,88 @@ extension AddProductViewController {
         present(alert, animated: true, completion: nil)
     }
     
-    func requestParamsForPost() -> CreateProductRequestParams? {
+    func requestParamsForPost() throws -> CreateProductRequestParams {
         guard let name = nameTextField.text,
-              let priceInString = priceTextField.text,
-              let priceInDouble = Double(priceInString),
-              let stock = stockTextField.text else {
-                  return nil
-              }
-        let discountedPrice: Decimal? = {
-            guard let discountedPriceInString = discountTextField.text,
-                  let discountedPriceInDouble = Double(discountedPriceInString)
-            else {
-                return nil
-            }
-            return Decimal(discountedPriceInDouble)
-        }()
-        
+              (3...100).contains(name.count) else {
+            throw CreateProductError.invalidProductName
+        }
+        guard let descriptions = descriptionTextView.text,
+              (10...1000).contains(descriptions.count) else {
+            throw CreateProductError.invalidDescription
+        }
+        guard let priceInString = priceTextField.text,
+              let priceInDecimal = Decimal(string: priceInString, locale: .none) else {
+            throw CreateProductError.invalidPrice
+        }
+        guard let discountedPriceInString = priceTextField.text,
+              let discountedPriceInDecimal = Decimal(string: discountedPriceInString, locale: .none) else {
+            throw CreateProductError.invalidDiscountedPrice
+        }
+        let discountedPrice = (0...priceInDecimal).contains(discountedPriceInDecimal) ? discountedPriceInDecimal : 0
+        let stockInString = stockTextField.text ?? "0"
+        let stockInInt = Int(stockInString) ?? 0
+        let secret = "!QA4M%Lat9yF-?RW"
+
         return CreateProductRequestParams(name: name,
-                                   descriptions: descriptionTextView.text,
-                                   price: Decimal(priceInDouble),
+                                   descriptions: descriptions,
+                                   price: priceInDecimal,
                                    currency: currencySegmentedControl.selectedSegmentIndex == 0 ?
                                     .KRW : .USD,
                                    discountedPrice: discountedPrice,
-                                   stock: Int(stock),
-                                   secret: "!QA4M%Lat9yF-?RW")
+                                   stock: stockInInt,
+                                   secret: secret)
     }
+
+    func createPostService() throws -> OpenMarketService {
+
+        let params: Data = try JSONEncoder().encode(requestParamsForPost())
+
+        let images: [Image] = {
+            var imageIdentifiers = snapShot.itemIdentifiers.compactMap { image -> Image? in
+                guard let pngData = image.pngData() else { return nil }
+                return Image(type: .png, data: pngData)
+            }
+            imageIdentifiers.removeLast()
+            return imageIdentifiers
+        }()
+
+        guard (1...5).contains(images.count) else {
+            throw CreateProductError.invalidImages
+        }
+
+        return OpenMarketService.createProduct(sellerID: "1c51912b-7215-11ec-abfa-13ae6fd5cdba", params: params, images: images)
+    }
+
+    func presentErrorAlert(error: CreateProductError) {
+        let alertController = UIAlertController(title: error.errorDescription,
+                                                message: error.recoverySuggestion,
+                                                preferredStyle: .alert)
+        let confirmAction = UIAlertAction(title: "확인", style: .default, handler: nil)
+        alertController.addAction(confirmAction)
+        present(alertController, animated: true, completion: nil)
+    }
+
+
     
     func post(completion: @escaping () -> Void) {
         let provider = URLSessionProvider(session: URLSession(configuration: .default))
-        
-        let encoder = JSONEncoder()
-        guard let params = try? encoder.encode(requestParamsForPost()) else { return }
-        var images = snapShot.itemIdentifiers.compactMap { image -> Image? in
-            guard let pngData = image.pngData() else { return nil }
-            return Image(type: .png, data: pngData)
-        }
-        images.removeLast()
-        provider.request(.createProduct(sellerID: "1c51912b-7215-11ec-abfa-13ae6fd5cdba", params: params, images: images)) { result in
-            switch result {
-            case .success:
-                completion()
-            case .failure:
-                DispatchQueue.main.async {
-                    self.showErrorAlert()
+
+        do {
+            provider.request(try createPostService()) { result in
+                switch result {
+                case .success:
+                    completion()
+                case .failure:
+                    DispatchQueue.main.async {
+                        self.presentErrorAlert(error: .createFailure)
+                    }
                 }
             }
+        } catch let error as CreateProductError {
+            presentErrorAlert(error: error)
+        } catch {
+            presentErrorAlert(error: .createFailure)
         }
-    }
-    func showErrorAlert() {
-        let alertController = UIAlertController(title: nil, message: "상품 등록에 실패하였습니다", preferredStyle: .alert)
-        let confirmAction = UIAlertAction(title: "확인", style: .default, handler: nil)
-        alertController.addAction(confirmAction)
-        present(alertController, animated: true)
     }
 }
 
@@ -386,6 +416,46 @@ extension AddProductViewController: UITextViewDelegate {
         let textCount = textView.text.count
         if textCount >= 1000 {
             textView.text.removeLast(textCount - 1000)
+        }
+    }
+}
+enum CreateProductError: Error {
+    case invalidProductName
+    case invalidDescription
+    case invalidPrice
+    case invalidDiscountedPrice
+    case invalidImages
+    case createFailure
+}
+extension CreateProductError: LocalizedError {
+    var errorDescription: String? {
+        switch self {
+        case .invalidProductName:
+            return "잘못된 상품명이에요"
+        case .invalidDescription:
+            return "잘못된 상품설명이에요"
+        case .invalidPrice:
+            return "가격 입력이 잘못되었습니다"
+        case .invalidDiscountedPrice:
+            return "할인가격 입력이 잘못되었습니다"
+        case .invalidImages:
+            return "사진을 등록에 문제가 있어요"
+        case .createFailure:
+            return "상품 등록에 실패하였습니다"
+        }
+    }
+    var recoverySuggestion: String? {
+        switch self {
+        case .invalidProductName:
+            return "상품명은 3자 이상 100자 이내로 작성하세요"
+        case .invalidDescription:
+            return "상품 설명은 최소 10자 최대 1000자로 작성해 주세요"
+        case .invalidPrice, .invalidDiscountedPrice:
+            return "혹시 숫자 이외의 값을 입력하셨나요?"
+        case .invalidImages:
+            return "상품 사진은 최소 1장, 최대 5장까지 등록할 수 있어요"
+        case .createFailure:
+            return nil
         }
     }
 }
