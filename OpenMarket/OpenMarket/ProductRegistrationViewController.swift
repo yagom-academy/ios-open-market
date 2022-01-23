@@ -2,20 +2,20 @@ import UIKit
 
 class ProductRegistrationViewController: UIViewController {
     
-    enum Attribute {
+    enum LayoutAttribute {
         static let largeSpacing: CGFloat = 10
         static let smallSpacing: CGFloat = 5
-        static let minimumPhotoCount = 1
-        static let maximumPhotoCount = 5
-        static let maximumPhotoBytesSize = 300 * 1024
-        static let recommendedPhotoWidth: CGFloat = 500
-        static let recommendedPhotoHeight: CGFloat = 500
     }
     
-    private let cancelButton = UIButton(type: .system)
-    private let titleLabel = UILabel()
-    private let doneButton = UIButton(type: .system)
-    private let navigationView = UIView()
+    enum ProductImageAttribute {
+        static let minimumImageCount = 1
+        static let maximumImageCount = 5
+        static let maximumImageBytesSize = 300 * 1024
+        static let recommendedImageWidth: CGFloat = 500
+        static let recommendedImageHeight: CGFloat = 500
+    }
+
+    private var navigationBar: CustomNavigationBar!
     
     private let wholeScreenScrollView = UIScrollView()
     
@@ -36,17 +36,18 @@ class ProductRegistrationViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureHierarchy()
+        create()
+        organizeViewHierarchy()
         configure()
     }
     
-    private func configureHierarchy() {
-        view.addSubview(navigationView)
+    private func create() {
+        createNavigationBar()
+    }
+    
+    private func organizeViewHierarchy() {
+        view.addSubview(navigationBar)
         view.addSubview(wholeScreenScrollView)
-
-        navigationView.addSubview(cancelButton)
-        navigationView.addSubview(titleLabel)
-        navigationView.addSubview(doneButton)
 
         wholeScreenScrollView.addSubview(imageScrollView)
         wholeScreenScrollView.addSubview(textFieldStackView)
@@ -64,10 +65,7 @@ class ProductRegistrationViewController: UIViewController {
     private func configure() {
         configureMainView()
 
-        configureNavigationView()
-        configureCancelButton()
-        configureTitleLabel()
-        configureDoneButton()
+        configureNavigationBar()
 
         configureWholeScreenScrollView()
         configureImageScrollView()
@@ -92,85 +90,32 @@ class ProductRegistrationViewController: UIViewController {
     }
 }
 
-//MARK: - NavigationView
+//MARK: - NavigationBar
 extension ProductRegistrationViewController {
     
-    private func configureNavigationView() {
-        navigationView.backgroundColor = .systemBackground
-  
-        navigationView.translatesAutoresizingMaskIntoConstraints = false
-        navigationView.setContentHuggingPriority(.defaultHigh, for: .vertical)
-        NSLayoutConstraint.activate([
-            navigationView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,
-                                                         constant: Attribute.largeSpacing),
-            navigationView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,
-                                                          constant: -1 * Attribute.largeSpacing),
-            navigationView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            navigationView.topAnchor.constraint(equalTo: titleLabel.topAnchor,
-                                                constant: -1 * Attribute.largeSpacing),
-            navigationView.bottomAnchor.constraint(equalTo: titleLabel.bottomAnchor,
-                                                constant: Attribute.largeSpacing),
-        ])
+    private func createNavigationBar() {
+        navigationBar = CustomNavigationBar(leftButtonTitle: "Cancel", mainLabelTitle: "상품등록", rightButtonTitle: "Done")
     }
     
-    //MARK: - CancelButton
-    private func configureCancelButton() {
-        let text = NSMutableAttributedString(string: "Cancel")
-        text.adjustDynamicType(textStyle: .body)
-        cancelButton.setAttributedTitle(text, for: .normal)
-        cancelButton.tintColor = .systemBlue
-        cancelButton.titleLabel?.textAlignment = .left
-        cancelButton.titleLabel?.adjustsFontForContentSizeCategory = true
-        cancelButton.titleLabel?.translatesAutoresizingMaskIntoConstraints = false
-
-        cancelButton.translatesAutoresizingMaskIntoConstraints = false
+    private func configureNavigationBar() {
+        navigationBar.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            cancelButton.leadingAnchor.constraint(equalTo: navigationView.leadingAnchor),
-            cancelButton.centerYAnchor.constraint(equalTo: navigationView.centerYAnchor)
+            navigationBar.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,
+                                                         constant: LayoutAttribute.largeSpacing),
+            navigationBar.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,
+                                                          constant: -1 * LayoutAttribute.largeSpacing),
+            navigationBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
         ])
         
-        cancelButton.addTarget(self, action: #selector(dismissModal), for: .touchUpInside)
+        navigationBar.setLeftButtonAction(action: #selector(dismissModal))
+        navigationBar.setRightButtonAction(action: #selector(registerProduct))
     }
     
     @objc private func dismissModal() {
-        dismiss(animated: true)
-    }
-    
-    //MARK: - TitleLabel
-    private func configureTitleLabel() {
-        titleLabel.textAlignment = .center
-        
-        let text = NSMutableAttributedString(string: "상품등록")
-        text.adjustBold()
-        text.adjustDynamicType(textStyle: .body)
-        titleLabel.attributedText = text
-        titleLabel.adjustsFontForContentSizeCategory = true
-        titleLabel.setContentHuggingPriority(.defaultHigh, for: .vertical)
-        
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            titleLabel.centerXAnchor.constraint(equalTo: navigationView.centerXAnchor),
-            titleLabel.centerYAnchor.constraint(equalTo: navigationView.centerYAnchor)
-        ])
-    }
-    
-    //MARK: - DoneButton
-    private func configureDoneButton() {
-        doneButton.tintColor = .systemBlue
-        
-        let text = NSMutableAttributedString(string: "Done")
-        text.adjustDynamicType(textStyle: .body)
-        doneButton.setAttributedTitle(text, for: .normal)
-        doneButton.titleLabel?.adjustsFontForContentSizeCategory = true
-        doneButton.titleLabel?.translatesAutoresizingMaskIntoConstraints = false
-        
-        doneButton.addTarget(self, action: #selector(registerProduct), for: .touchUpInside)
-        
-        doneButton.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            doneButton.trailingAnchor.constraint(equalTo: navigationView.trailingAnchor),
-            doneButton.centerYAnchor.constraint(equalTo: navigationView.centerYAnchor)
-        ])
+        //dismiss가 되긴 되는데, 이게 약한 참조로 작동할까..
+        { [weak self] in
+            self?.dismiss(animated: true)
+        }()
     }
     
     @objc private func registerProduct() {
@@ -204,7 +149,7 @@ extension ProductRegistrationViewController {
             
             imageStackView.arrangedSubviews.forEach {
                 guard let imageView = $0 as? UIImageView,
-                      let imageData = imageView.image?.jpegData(underBytes: Attribute.maximumPhotoBytesSize) else {
+                      let imageData = imageView.image?.jpegData(underBytes: ProductImageAttribute.maximumImageBytesSize) else {
                     return
                 }
                 images.append(imageData)
@@ -244,13 +189,13 @@ extension ProductRegistrationViewController {
         wholeScreenScrollView.setContentHuggingPriority(.defaultLow, for: .vertical)
         
         NSLayoutConstraint.activate([
-            wholeScreenScrollView.topAnchor.constraint(equalTo: navigationView.bottomAnchor,
-                                                       constant: Attribute.largeSpacing),
+            wholeScreenScrollView.topAnchor.constraint(equalTo: navigationBar.bottomAnchor,
+                                                       constant: LayoutAttribute.largeSpacing),
             wholeScreenScrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             wholeScreenScrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,
-                                                           constant: Attribute.largeSpacing),
+                                                           constant: LayoutAttribute.largeSpacing),
             wholeScreenScrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,
-                                                            constant: -1 * Attribute.largeSpacing)
+                                                            constant: -1 * LayoutAttribute.largeSpacing)
         ])
     }
 }
@@ -271,7 +216,7 @@ extension ProductRegistrationViewController: UIImagePickerControllerDelegate, UI
     //MARK: - ImageStackView
     private func configureImageStackView() {
         imageStackView.axis = .horizontal
-        imageStackView.spacing = Attribute.largeSpacing
+        imageStackView.spacing = LayoutAttribute.largeSpacing
         
         imageStackView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -298,7 +243,7 @@ extension ProductRegistrationViewController: UIImagePickerControllerDelegate, UI
         let images = imageStackView.arrangedSubviews.compactMap {
             $0 as? UIImageView
         }
-        if images.count >= Attribute.maximumPhotoCount {
+        if images.count >= ProductImageAttribute.maximumImageCount {
             imageAddingButton.isHidden = true
         }
     }
@@ -321,9 +266,9 @@ extension ProductRegistrationViewController: UIImagePickerControllerDelegate, UI
             return
         }
 
-        if squareImage.size.width > Attribute.recommendedPhotoWidth {
-            let resizedImage = squareImage.resized(width: Attribute.recommendedPhotoWidth,
-                                            height: Attribute.recommendedPhotoHeight)
+        if squareImage.size.width > ProductImageAttribute.recommendedImageWidth {
+            let resizedImage = squareImage.resized(width: ProductImageAttribute.recommendedImageWidth,
+                                            height: ProductImageAttribute.recommendedImageHeight)
             addToStack(image: resizedImage)
         } else {
             addToStack(image: squareImage)
@@ -351,13 +296,13 @@ extension ProductRegistrationViewController {
 
     private func configureTextFieldStackView() {
         textFieldStackView.axis = .vertical
-        textFieldStackView.spacing = Attribute.smallSpacing
+        textFieldStackView.spacing = LayoutAttribute.smallSpacing
         
         textFieldStackView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             textFieldStackView.topAnchor.constraint(equalTo: imageScrollView.bottomAnchor,
-                                                    constant: Attribute.largeSpacing),
+                                                    constant: LayoutAttribute.largeSpacing),
             textFieldStackView.widthAnchor.constraint(equalTo: wholeScreenScrollView.widthAnchor),
         ])
     }
@@ -371,7 +316,7 @@ extension ProductRegistrationViewController {
     private func configurePriceStackView() {
         priceStackView.axis = .horizontal
         priceStackView.alignment = .center
-        priceStackView.spacing = Attribute.smallSpacing
+        priceStackView.spacing = LayoutAttribute.smallSpacing
         priceStackView.translatesAutoresizingMaskIntoConstraints = false
         
         priceStackView.addArrangedSubview(priceTextField)
@@ -419,7 +364,7 @@ extension ProductRegistrationViewController {
         
         NSLayoutConstraint.activate([
             descriptionTextView.topAnchor.constraint(equalTo: textFieldStackView.bottomAnchor,
-                                                     constant: Attribute.largeSpacing),
+                                                     constant: LayoutAttribute.largeSpacing),
             descriptionTextView.bottomAnchor.constraint(equalTo: wholeScreenScrollView.bottomAnchor),
             descriptionTextView.widthAnchor.constraint(equalTo: wholeScreenScrollView.widthAnchor),
             descriptionTextView.heightAnchor.constraint(equalTo: view.heightAnchor),

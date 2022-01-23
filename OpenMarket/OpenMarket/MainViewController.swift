@@ -86,6 +86,7 @@ extension MainViewController {
 
     @objc private func presentProductRegistrationViewController() {
         let vc = ProductRegistrationViewController()
+//        let vc = ProductRegistrationViewController()
         vc.modalPresentationStyle = .fullScreen
         present(vc, animated: true)
     }

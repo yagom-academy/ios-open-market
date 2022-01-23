@@ -1,11 +1,6 @@
 import UIKit
 
 extension NSMutableAttributedString {
-    func adjustBold() {
-        self.addAttribute(.font,
-                          value: UIFont.boldSystemFont(ofSize: 1),
-                          range: NSMakeRange(0, self.length))
-    }
     
     func adjustDecimal() {
         guard let number = Double(self.string) else {
@@ -33,10 +28,8 @@ extension NSMutableAttributedString {
                           range: NSMakeRange(0, self.length))
     }
     
-    func adjustDynamicType(textStyle: UIFont.TextStyle) {
-        let dynamicFont = UIFont.preferredFont(forTextStyle: textStyle, compatibleWith: nil)
-        self.addAttribute(.font,
-                          value: dynamicFont,
-                          range: NSMakeRange(0, self.length))
+    func adjustTextStyle(textStyle: UIFont.TextStyle) {
+        let font = UIFont.preferredFont(forTextStyle: textStyle, compatibleWith: nil)
+        self.addAttribute(.font, value: font, range: NSMakeRange(0, self.length))
     }
 }

@@ -159,22 +159,18 @@ extension CollectionViewGridCell {
     
     //MARK: - Name Label
     enum NameLabelAttribute {
-        static let textStyle: UIFont.TextStyle = .title3
+        static let fontSize: CGFloat = 17
         static let fontColor: UIColor = .black
     }
 
     private func configureNameLabel() {
         nameLabel.textAlignment = .center
         nameLabel.adjustsFontForContentSizeCategory = true
+        nameLabel.font = UIFont.dynamicBoldSystemFont(ofSize: NameLabelAttribute.fontSize)
     }
     
     private func updateNameLabel(from product: Product) {
-        let result = NSMutableAttributedString(string: product.name)
-        result.adjustBold()
-        result.changeColor(to: NameLabelAttribute.fontColor)
-        result.adjustDynamicType(textStyle: NameLabelAttribute.textStyle)
-        
-        nameLabel.attributedText = result
+        nameLabel.text = product.name
     }
     
     //MARK: - Price Label
@@ -226,7 +222,7 @@ extension CollectionViewGridCell {
             result.append(bargainPriceDescription)
         }
         
-        result.adjustDynamicType(textStyle: PriceLabelAttribute.textStyle)
+        result.adjustTextStyle(textStyle: PriceLabelAttribute.textStyle)
         priceLabel.attributedText = result
     }
     
@@ -240,19 +236,16 @@ extension CollectionViewGridCell {
     
     private func configureStockLabel() {
         stockLabel.adjustsFontForContentSizeCategory = true
+        stockLabel.font = .preferredFont(forTextStyle: StockLabelAttribute.textStyle)
     }
     
     private func updateStockLabel(from product: Product) {
-        let result = NSMutableAttributedString()
         if product.stock == 0 {
-            result.append(NSAttributedString(string: "품절"))
-            result.changeColor(to: StockLabelAttribute.soldoutFontColor)
+            stockLabel.text = "품절"
+            stockLabel.textColor = StockLabelAttribute.soldoutFontColor
         } else {
-            result.append(NSAttributedString(string: "잔여수량: \(product.stock)"))
-            result.changeColor(to: StockLabelAttribute.stockFontColor)
+            stockLabel.text = "잔여수량: \(product.stock)"
+            stockLabel.textColor = StockLabelAttribute.stockFontColor
         }
-        
-        result.adjustDynamicType(textStyle: StockLabelAttribute.textStyle)
-        stockLabel.attributedText = result
     }
 }
