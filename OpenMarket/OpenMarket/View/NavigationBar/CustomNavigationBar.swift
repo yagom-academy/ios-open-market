@@ -87,7 +87,7 @@ class CustomNavigationBar: UIView {
 extension CustomNavigationBar {
     
     private func createLeftButton() {
-        self.leftButton = UIButton()
+        self.leftButton = UIButton(type: .system)
     }
     
     private func configureLeftButton(title: String) {
@@ -143,7 +143,7 @@ extension CustomNavigationBar {
 extension CustomNavigationBar {
 
     private func createRightButton() {
-        self.rightButton = UIButton()
+        self.rightButton = UIButton(type: .system)
     }
     
     private func configureRightButton(title: String) {

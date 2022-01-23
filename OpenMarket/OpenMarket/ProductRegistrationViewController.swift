@@ -119,30 +119,19 @@ extension ProductRegistrationViewController {
     }
     
     @objc private func registerProduct() {
+        guard let name = nameTextField.text,
+              let description = descriptionTextView.text,
+              let priceText = priceTextField.text,
+              let price = Double(priceText),
+              let currency = currencySegmentedControl.titleForSegment(at: currencySegmentedControl.selectedSegmentIndex),
+              let discountedPriceText = bargainPriceTextField.text,
+              let discountedPrice = Double(discountedPriceText),
+              let stockText = stockTextField.text else {
+                  return
+              }
+        
         let identifier = Vendor.identifier
-        guard let name = nameTextField.text else {
-            return
-        }
-        guard let description = descriptionTextView.text else {
-            return
-        }
-        guard let priceText = priceTextField.text,
-              let price = Double(priceText) else {
-                  return
-              }
-        guard let currency = currencySegmentedControl.titleForSegment(at: currencySegmentedControl.selectedSegmentIndex) else {
-                  return
-              }
-        guard let discountedPriceText = bargainPriceTextField.text,
-              let discountedPrice = Double(discountedPriceText) else {
-                  return
-              }
-        
-        guard let stockText = stockTextField.text else {
-            return
-        }
         let stock: Int = Int(stockText) ?? 0
-        
         let secret = Vendor.secret
         let images: [Data] = {
             var images: [Data] = []
@@ -157,6 +146,10 @@ extension ProductRegistrationViewController {
             
             return images
         }()
+        
+        guard (1...5).contains(images.count) else {
+            return
+        }
         
         NetworkingAPI.ProductRegistration.request(session: URLSession.shared,
                                                   identifier: identifier,
