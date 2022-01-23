@@ -46,9 +46,9 @@
                                 <action selector="segmentedControlValueChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="48h-by-Ho8"/>
                             </connections>
                         </segmentedControl>
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="SLN-Rr-B58">
+                        <barButtonItem key="rightBarButtonItem" style="done" systemItem="add" id="lQM-VB-6Kb">
                             <connections>
-                                <action selector="createButtonClicked:" destination="BYZ-38-t0r" id="bCk-9n-F2T"/>
+                                <action selector="createButtonClicked:" destination="BYZ-38-t0r" id="2ys-tp-NHf"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -212,7 +212,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BfP-yd-VBp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="1FF-Gr-0yC" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="3211.6822429906542" y="124.40604751619871"/>
+            <point key="canvasLocation" x="3175" y="125"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="hQW-B1-QBT">

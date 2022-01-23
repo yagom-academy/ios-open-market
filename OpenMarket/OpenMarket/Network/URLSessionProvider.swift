@@ -23,7 +23,7 @@ struct URLSessionProvider {
             return
         }
         
-        let task = session.dataTask(with: urlRequest) { data, response, _ in
+        let task = session.dataTask(with: urlRequest) { data, response, error in
             guard let httpRespose = response as? HTTPURLResponse,
                   (200...299).contains(httpRespose.statusCode) else {
                 return completionHandler(.failure(.statusError))

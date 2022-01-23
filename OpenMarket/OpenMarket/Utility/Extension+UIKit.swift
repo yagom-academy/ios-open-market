@@ -67,6 +67,23 @@ extension UISegmentedControl {
 // MARK: - UIView Utilities
 extension UIView {
     
+    @objc
+    func moveNextView() {
+        let nextTag = self.tag + 1
+        
+        if let nextResponder = self.superview?.viewWithTag(nextTag) {
+            nextResponder.becomeFirstResponder()
+            return
+        }
+        
+        if let nextResponder = self.superview?.superview?.viewWithTag(nextTag) {
+            nextResponder.becomeFirstResponder()
+            return
+        }
+        
+        self.resignFirstResponder()
+    }
+    
     func addButtonToInputAccessoryView(with title: String) {
         let toolbar = UIToolbar()
         toolbar.items = [
@@ -90,6 +107,25 @@ extension UIView {
         
         if let view = self as? UITextField {
             view.inputAccessoryView = toolbar
+        }
+    }
+    
+}
+
+extension UITextView {
+    
+    func configurePlaceholderText(with message: String) {
+        if self.text.isEmpty {
+            self.text = message
+            self.textColor = .systemGray
+        }
+    }
+    
+    func removePlaceholderText() {
+        if self.textColor == .systemGray {
+            self.text = nil
+            self.accessibilityValue = nil
+            self.textColor = .label
         }
     }
     

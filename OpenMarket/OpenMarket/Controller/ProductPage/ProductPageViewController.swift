@@ -115,7 +115,6 @@ final class ProductPageViewController: UIViewController {
         }
         
         topViewController.navigationItem.title = "상품등록"
-        topViewController.configure(model: ProductCreateModelManager())
     }
     
 }

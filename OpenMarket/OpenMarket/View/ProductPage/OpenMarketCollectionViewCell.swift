@@ -10,7 +10,17 @@ import UIKit
 class OpenMarketCollectionViewCell: UICollectionViewCell {
     
     var containerStackView = UIStackView()
-    var stackView = UIStackView()
+    var stackView: UIStackView = {
+        let stackView = UIStackView()
+        
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .horizontal
+        stackView.alignment = .top
+        stackView.distribution = .fill
+        stackView.spacing = 2
+        
+        return stackView
+    }()
     var imageView = UIImageView()
     var productStackView = UIStackView()
     var productNameLabel = UILabel()
@@ -32,11 +42,6 @@ class OpenMarketCollectionViewCell: UICollectionViewCell {
     
     private func commonConfig() {
         self.addSubview(stackView)
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.axis = .horizontal
-        stackView.alignment = .top
-        stackView.distribution = .fill
-        stackView.spacing = 2
         
         NSLayoutConstraint.activate([
             stackView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 10),

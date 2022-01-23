@@ -8,12 +8,14 @@
 import Foundation
 import UIKit.UIImage
 
-class ProductCreateModelManager: ProductUpdateModelManager {
+class ProductCreateModelManager {
     
     let networkManager = ProductNetworkManager()
     
     private var images: [UIImage] = [] {
-        didSet { imagesDidChangeHandler?() }
+        didSet {
+            NotificationCenter.default.post(name: .modelDidChanged, object: nil)
+        }
     }
     
     var currentImages: [UIImage] {
@@ -29,8 +31,6 @@ class ProductCreateModelManager: ProductUpdateModelManager {
     }
     
     let numberOfImagesRange = 0..<5
-    
-    var imagesDidChangeHandler: (() -> Void)?
     
     func append(image: UIImage) {
         images.append(image)

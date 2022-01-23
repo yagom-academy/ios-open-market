@@ -9,7 +9,10 @@ import UIKit
 
 class ProductUpdateViewController: UIViewController {
     
-    private(set) var model: ProductUpdateModelManager!
+    private(set) var model = ProductCreateModelManager()
+    
+    private let textFieldDelegator = ProductUpdateTextFieldDelegate()
+    private let textViewDelegator = ProductUpdateTextViewDelegate()
     
     @IBOutlet private weak var containerScrollView: UIScrollView!
     @IBOutlet private weak var productImageStackView: UIStackView!
@@ -48,10 +51,6 @@ class ProductUpdateViewController: UIViewController {
         }
     }
     
-    func configure(model: ProductUpdateModelManager) {
-        self.model = model
-    }
-    
 }
 
 // MARK: - Configure View Controller
@@ -59,26 +58,28 @@ private extension ProductUpdateViewController {
     
     func configureDelgate() {
         textEditors.forEach {
-            if let view = $0 as? UITextField { view.delegate = self }
-            if let view = $0 as? UITextView { view.delegate = self }
+            if let view = $0 as? UITextField { view.delegate = textFieldDelegator }
+            if let view = $0 as? UITextView { view.delegate = textViewDelegator }
         }
-        model.imagesDidChangeHandler = self.updateImageStackView
     }
     
     func configureNotification() {
         let notificationCenter = NotificationCenter.default
         [
             #selector(keyboardWasShown) : UIResponder.keyboardDidShowNotification,
-            #selector(keyboardWillBeHidden) : UIResponder.keyboardWillHideNotification
+            #selector(keyboardWillBeHidden) : UIResponder.keyboardWillHideNotification,
+            #selector(updateImageStackView) : Notification.Name.modelDidChanged
         ]
         .forEach { notificationCenter.addObserver(self, selector: $0, name: $1, object: nil) }
     }
     
     func configureTextEditors() {
+        let message = "여기에 상품 상세 정보를 입력해주세요!"
         textEditors.forEach { $0.addButtonToInputAccessoryView(with: "Done") }
-        configurePlaceholder(to: descriptionTextView, with: "여기에 상품 상세 정보를 입력해주세요!")
+        descriptionTextView.configurePlaceholderText(with: message)
     }
     
+    @objc
     func updateImageStackView() {
         productImageStackView.subviews.forEach { $0.removed(from: productImageStackView, whenTypeIs: UIImageView.self) }
         model.currentImages.forEach { productImageStackView.insertArrangedSubview(UIImageView(with: $0), at: 0) }
@@ -86,59 +87,8 @@ private extension ProductUpdateViewController {
     
 }
 
-// MARK: - UITextField Delegate Implements
-extension ProductUpdateViewController: UITextFieldDelegate {
-    
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.moveNextView()
-        return true
-    }
-    
-}
-
-// MARK: - UITextField Delegate Implements
-extension ProductUpdateViewController: UITextViewDelegate {
-    
-    func textViewDidBeginEditing(_ textView: UITextView) {
-        if textView.textColor == .systemGray {
-            textView.text = nil
-            textView.accessibilityValue = nil
-            textView.textColor = .label
-        }
-    }
-    
-    func textViewDidEndEditing(_ textView: UITextView) {
-        configurePlaceholder(to: textView, with: "여기에 상품 상세 정보를 입력해주세요!")
-    }
-    
-    private func configurePlaceholder(to textView: UITextView, with message: String) {
-        if textView.text.isEmpty {
-            textView.text = message
-            textView.textColor = .systemGray
-        }
-    }
-    
-}
-
 // MARK: - UIView Utilities
-extension UIView {
-    
-    @objc
-    func moveNextView() {
-        let nextTag = self.tag + 1
-        
-        if let nextResponder = self.superview?.viewWithTag(nextTag) {
-            nextResponder.becomeFirstResponder()
-            return
-        }
-        
-        if let nextResponder = self.superview?.superview?.viewWithTag(nextTag) {
-            nextResponder.becomeFirstResponder()
-            return
-        }
-        
-        self.resignFirstResponder()
-    }
+private extension UIView {
     
     func removed<T: UIView>(from stackView: UIStackView, whenTypeIs: T.Type) {
         if let view = self as? T {
