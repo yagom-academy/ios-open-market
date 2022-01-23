@@ -1,6 +1,8 @@
 import UIKit
 
 class ProductRegistrationViewController: UIViewController, UINavigationControllerDelegate {
+    private let identifier = "2836ea8c-7215-11ec-abfa-378889d9906f"
+    private let secret = "-3CSKv$cyHsK_@Wk"
     private let imagePickerController = UIImagePickerController()
     private var images = [UIImage]()
     private var isModifying: Bool?
@@ -72,8 +74,6 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
     }
     
     @objc private func registerProduct() {
-        let identifier = "2836ea8c-7215-11ec-abfa-378889d9906f"
-        let secret = "-3CSKv$cyHsK_@Wk"
         let writtenSalesInformation = makeSalesInformation(
             secret: secret,
             maximumDescriptionsLimit: 1000,
@@ -123,8 +123,6 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
     }
     
     @objc private func modifyProduct() {
-        let identifier = "2836ea8c-7215-11ec-abfa-378889d9906f"
-        let secret = "-3CSKv$cyHsK_@Wk"
         let writtenSalesInformation = modifiySalesInformation(
             secret: secret,
             maximumDescriptionsLimit: 1000,
