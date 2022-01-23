@@ -36,15 +36,20 @@ class ProductCollectionViewController: UIViewController {
   private var productImage: UIImage?
   private var currentPage = 1
   
+  private let refreshContol = UIRefreshControl()
+  
   override func viewDidLoad() {
     super.viewDidLoad()
-    collectionView.delegate = self
     LoadingIndicator.showLoading()
     registerNib()
-    fetchProducts(pageNumber: currentPage)
+    refreshAnimate()
   }
   
-  @IBAction func plusButtonDidTap(_ sender: Any) {
+  override func viewWillAppear(_ animated: Bool) {
+    refreshData(cellType: currentCellType())
+  }
+  
+  @IBAction private func plusButtonDidTap(_ sender: Any) {
     guard let presentViewController = self.storyboard?.instantiateViewController(withIdentifier: ProductRegistrationModificationViewController.reuseIdentifier) as? ProductRegistrationModificationViewController else {
       return
     }
@@ -53,31 +58,61 @@ class ProductCollectionViewController: UIViewController {
   }
   
   @IBAction private func touchUpPresentingSegment(_ sender: UISegmentedControl) {
-    switch sender.selectedSegmentIndex {
-    case CellType.list.segmentedControlIndex:
-      configureListViewDataSource(cellType: .list)
-    case CellType.grid.segmentedControlIndex:
-      configureListViewDataSource(cellType: .grid)
-    default:
-      return
-    }
+    configureListViewDataSource(cellType: currentCellType())
+  }
+  
+  @objc private func handleRefresh(sender: AnyObject) {
+    refreshData(cellType: currentCellType())
+    self.collectionView.refreshControl?.endRefreshing()
   }
   
   private func registerNib() {
-    let productCollectionViewListCellNib =  UINib(nibName: ProductCollectionViewListCell.nibName, bundle: nil)
-    self.collectionView.register(productCollectionViewListCellNib, forCellWithReuseIdentifier: ProductCollectionViewListCell.reuseIdentifier)
-    let productCollectionViewGridCellNib =  UINib(nibName: ProductCollectionViewGridCell.nibName, bundle: nil)
-    self.collectionView.register(productCollectionViewGridCellNib, forCellWithReuseIdentifier: ProductCollectionViewGridCell.reuseIdentifier)
+    let productCollectionViewListCellNib = UINib(
+      nibName: ProductCollectionViewListCell.nibName,
+      bundle: nil
+    )
+    let productCollectionViewGridCellNib = UINib(
+      nibName: ProductCollectionViewGridCell.nibName,
+      bundle: nil
+    )
+    self.collectionView.register(
+      productCollectionViewListCellNib,
+      forCellWithReuseIdentifier: ProductCollectionViewListCell.reuseIdentifier
+    )
+    self.collectionView.register(
+      productCollectionViewGridCellNib,
+      forCellWithReuseIdentifier: ProductCollectionViewGridCell.reuseIdentifier
+    )
   }
   
-  private func fetchProducts(pageNumber: Int) {
+  private func refreshAnimate() {
+    let refreshControl = UIRefreshControl()
+    refreshControl.tintColor = UIColor.darkGray
+    refreshControl.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
+    self.collectionView.refreshControl = refreshControl
+  }
+  
+  private func refreshData(cellType: CellType) {
+    products.removeAll()
+    fetchProducts(pageNumber: 1, cellType: cellType)
+  }
+  
+  private func currentCellType() -> CellType {
+    if segmentControl.selectedSegmentIndex == 0 {
+      return CellType.list
+    } else {
+      return CellType.grid
+    }
+  }
+  
+  private func fetchProducts(pageNumber: Int, cellType: CellType) {
     api.productList(pageNumber: pageNumber, itemsPerPage: 20) { [self] response in
       switch response {
       case .success(let data):
         productsPage = data
         products.append(contentsOf: data.pages)
         DispatchQueue.main.async {
-          configureListViewDataSource(cellType: .list)
+          configureListViewDataSource(cellType: cellType)
           LoadingIndicator.hideLoading()
         }
       case .failure(let error):
@@ -98,7 +133,7 @@ extension ProductCollectionViewController: UICollectionViewDelegate {
   ) {
     if products.count - 1 == indexPath.item, productsPage?.hasNext == true {
       currentPage += 1
-      fetchProducts(pageNumber: currentPage)
+      fetchProducts(pageNumber: currentPage, cellType: currentCellType())
     }
   }
 }
