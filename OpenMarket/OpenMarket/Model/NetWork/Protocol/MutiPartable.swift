@@ -1,11 +1,6 @@
 import Foundation
 
-protocol MultiPartable {
-    
-    var boundary: String { get }
-    
-   
-}
+protocol MultiPartable { }
 //헤더 -> 멀티파트폼데이터다 -> setvalue or addvalue
 // identifier => 저희 id vender identification 
 

@@ -8,7 +8,7 @@ protocol URLSessionProtocol {
 }
 
 extension URLSessionProtocol {
-    func createURLRequest(requester: Requestable) throws -> URLRequest {
+    func createURLRequest(requester: APIRequestable) throws -> URLRequest {
         guard let url = requester.url else {
             throw APIError.URLConversionFail
         }
@@ -28,7 +28,7 @@ extension URLSessionProtocol {
         return request
     }
     
-    func request(requester: Requestable, completion: @escaping (Result<Data, Error>) -> Void) {
+    func request(requester: APIRequestable, completion: @escaping (Result<Data, Error>) -> Void) {
         guard let urlRequest = try? createURLRequest(requester: requester) else {
             completion(.failure(APIError.URLConversionFail))
             return

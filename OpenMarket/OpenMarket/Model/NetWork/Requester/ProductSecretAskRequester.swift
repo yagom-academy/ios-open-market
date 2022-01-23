@@ -1,6 +1,6 @@
 import Foundation
 
-struct ProductSecretAskRequester: Requestable {
+struct ProductSecretAskRequester: APIRequestable {
     var url: URL? {
         return URL(string: "\(baseURLString)/\(productId)/secret")
     }

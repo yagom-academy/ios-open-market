@@ -1,6 +1,6 @@
 import Foundation
 
-struct ProductDetailAskRequester: Requestable, JSONResponseDecodable {
+struct ProductDetailAskRequester: APIRequestable, JSONResponseDecodable {
     var url: URL? {
         return URL(string: "\(baseURLString)/\(productId)")
     }

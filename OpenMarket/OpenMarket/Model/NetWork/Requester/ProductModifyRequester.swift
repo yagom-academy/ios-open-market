@@ -1,6 +1,6 @@
 import Foundation
 
-struct ProductModifyRequester: Requestable, JSONResponseDecodable {
+struct ProductModifyRequester: APIRequestable, JSONResponseDecodable {
     var url: URL? {
         return URL(string: "\(baseURLString)/\(productId)")
     }

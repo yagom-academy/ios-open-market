@@ -10,6 +10,6 @@ extension JSONResponseDecodable {
     }
 }
 
-protocol APIable: JSONResponseDecodable & Requestable {
+protocol APIAble: JSONResponseDecodable & APIRequestable {
     
 }

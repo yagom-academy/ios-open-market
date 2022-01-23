@@ -1,6 +1,6 @@
 import Foundation
 
-struct ProductDeleteRequester: Requestable, JSONResponseDecodable {
+struct ProductDeleteRequester: APIRequestable, JSONResponseDecodable {
     var url: URL? {
         return URL(string: "\(baseURLString)/\(productId)/\(productSecret)")
     }

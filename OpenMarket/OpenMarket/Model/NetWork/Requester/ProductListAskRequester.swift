@@ -1,6 +1,6 @@
 import Foundation
 
-struct ProductListAskRequester: Requestable, JSONResponseDecodable {
+struct ProductListAskRequester: APIRequestable, JSONResponseDecodable {
     var url: URL? {
         return URL(string: "\(baseURLString)?page_no=\(pageNo)&items_per_page=\(itemsPerPage)")
     }

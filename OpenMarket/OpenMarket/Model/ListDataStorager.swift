@@ -13,6 +13,9 @@ final class ListDataStorager: PageDataStorable {
     }
 
     func updateStorage(completion: @escaping () -> Void) {
+        guard let requester = requester as? APIRequestable else {
+            return
+        }
         URLSession.shared.request(requester: requester) { (result) in
             switch result {
             case .success(let data):

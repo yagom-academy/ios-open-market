@@ -1,6 +1,6 @@
 import Foundation
 
-struct ProductPostRequester: Requestable, JSONResponseDecodable {
+struct ProductPostRequester: APIRequestable, JSONResponseDecodable {
     var url: URL? {
         return URL(string: "https://market-training.yagom-academy.kr/api/products")
     }

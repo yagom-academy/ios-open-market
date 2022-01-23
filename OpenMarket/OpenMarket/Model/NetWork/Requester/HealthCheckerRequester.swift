@@ -1,6 +1,6 @@
 import Foundation
 
-struct HealthCheckerRequester: Requestable {
+struct HealthCheckerRequester: APIRequestable {
     var url: URL? {
         return URL(string: "https://market-training.yagom-academy.kr/healthChecker")
     }

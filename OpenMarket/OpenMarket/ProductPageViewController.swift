@@ -1,6 +1,6 @@
 import UIKit
 
-class ProductListViewController: UIViewController, UICollectionViewDelegate {
+class ProductPageViewController: UIViewController, UICollectionViewDelegate {
     //MARK: - property
     private enum Section: Hashable {
         case list
@@ -60,7 +60,9 @@ class ProductListViewController: UIViewController, UICollectionViewDelegate {
     private func fetchProductList() {
         self.dataStorage.updateStorage {
             DispatchQueue.main.async {
-                self.segmentedControl.selectedSegmentIndex == 0 ?  self.applyListSnapShot() : self.applyGridSnapShot()
+//                self.segmentedControl.selectedSegmentIndex == 0 ?
+                self.applyListSnapShot()
+                self.applyGridSnapShot()
             }
         }
     }
@@ -202,7 +204,7 @@ class ProductListViewController: UIViewController, UICollectionViewDelegate {
 }
 
 //MARK: - Segmented Control
-extension ProductListViewController {
+extension ProductPageViewController {
     @objc func touchUpListButton() {
         if segmentedControl.selectedSegmentIndex == 0 {
             listCollectionView.isHidden.toggle()
@@ -217,7 +219,7 @@ extension ProductListViewController {
 }
 
 //MARK: - Layout 상수
-extension ProductListViewController {
+extension ProductPageViewController {
     enum CollectionView {
         enum Grid {
             enum Group {
@@ -246,7 +248,7 @@ extension ProductListViewController {
 
 //MARK: - Pagination
 
-extension ProductListViewController: UIScrollViewDelegate {
+extension ProductPageViewController: UIScrollViewDelegate {
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
         var collectionView: UICollectionView = segmentedControl.selectedSegmentIndex == 0 ? listCollectionView : gridCollectionView
             
