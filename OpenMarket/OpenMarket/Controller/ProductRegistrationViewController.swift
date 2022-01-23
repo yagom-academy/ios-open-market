@@ -204,7 +204,6 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
     
     private func loadProductInformation() {
         guard let productInformation = productInformation else { return }
-        print(productInformation.id)
         productNameTextField.text = productInformation.name
         productPriceTextField.text = productInformation.price.description
         discountedPriceTextField.text = productInformation.discountedPrice.description
@@ -384,7 +383,7 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
         return nil
     }
     
-    private func cropSquare(_ image: UIImage) -> UIImage? {
+    private func cropSquare(_ image: UIImage) -> UIImage? { // extension으로 옮기기
         let imageSize = image.size
         let shortLength = imageSize.width < imageSize.height ? imageSize.width : imageSize.height
         let origin = CGPoint(
@@ -396,7 +395,7 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
         guard let squareImage = image.cgImage?.cropping(to: square) else {
             return nil
         }
-        return UIImage(cgImage: squareImage)
+        return UIImage(cgImage: squareImage, scale: 1.0, orientation: .up)
     }
     
     @IBAction func tapBackground(_ sender: UITapGestureRecognizer) {
@@ -413,14 +412,12 @@ extension ProductRegistrationViewController: UIImagePickerControllerDelegate {
             picker.dismiss(animated: true, completion: nil)
             return
         }
-        print(newImage.size)
         let isSquare = newImage.size.width == newImage.size.height
         if isSquare == false {
             if let squareImage = cropSquare(newImage) {
                 newImage = squareImage
             }
         }
-        print(newImage.size)
         images.append(newImage)
         imagesCollectionView.reloadData()
         picker.dismiss(animated: true, completion: nil)
