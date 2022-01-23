@@ -1,16 +1,7 @@
 import UIKit
 
 class RegisterImageView: UIView {
-
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-    }
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        layoutCollectionViewCell()
-    }
-    
+    //MARK: property
     lazy var addIndicaterButton: UIButton = {
         var button = UIButton(type: .contactAdd)
         return button
@@ -21,7 +12,16 @@ class RegisterImageView: UIView {
         imageView.backgroundColor = .systemGray
         return imageView
     }()
+    //MARK: Initalize
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+    }
     
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        layoutCollectionViewCell()
+    }
+    //MARK: Layout 
     private func layoutCollectionViewCell() {
         self.addSubview(productEnrollImageView)
         self.addSubview(addIndicaterButton)

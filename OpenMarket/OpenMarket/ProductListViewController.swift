@@ -1,7 +1,7 @@
 import UIKit
 
 class ProductListViewController: UIViewController, UICollectionViewDelegate {
-
+    //MARK: - property
     private enum Section: Hashable {
         case list
         case grid
@@ -22,6 +22,7 @@ class ProductListViewController: UIViewController, UICollectionViewDelegate {
     private var gridDataSource: UICollectionViewDiffableDataSource<Section,page>?
     private var dataSources: [UICollectionViewDiffableDataSource<Section,page>] = []
     
+    //MARK: View life Cycle Method
     override func viewDidLoad() {
         super.viewDidLoad()
         fetchProductList()
@@ -31,7 +32,7 @@ class ProductListViewController: UIViewController, UICollectionViewDelegate {
         listCollectionView.delegate = self
         gridCollectionView.delegate = self
     }
-    
+    //MARK: Method
     private func configureMainView() {
         view.backgroundColor = .white
         configureNavigationItems()
@@ -78,14 +79,14 @@ class ProductListViewController: UIViewController, UICollectionViewDelegate {
             action: #selector(presentModalView)
         )
     }
-    
+    //MARK: Action Method
     @objc func presentModalView() {
         let secondVc = ProductRegisterViewController()
         let navi = UINavigationController(rootViewController: secondVc)
         navi.modalPresentationStyle = .fullScreen
         present(navi, animated: true, completion: nil)
     }
-    
+    //MARK: Configure CollectionView
     private func makeGridLayout() -> UICollectionViewLayout {
         let itemSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
@@ -243,7 +244,7 @@ extension ProductListViewController {
     }
 }
 
-//MARK: - Paging
+//MARK: - Pagination
 
 extension ProductListViewController: UIScrollViewDelegate {
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {

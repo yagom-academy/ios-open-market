@@ -1,7 +1,7 @@
 import UIKit
 
 class CollectionViewListCell: UICollectionViewListCell {
-    
+    //MARK: Property
     private lazy var activityIndicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView()
         return indicator
@@ -33,7 +33,7 @@ class CollectionViewListCell: UICollectionViewListCell {
         let label = UILabel()
         return label
     }()
-    
+    //MARK: Initialize
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureLayout()
@@ -43,7 +43,7 @@ class CollectionViewListCell: UICollectionViewListCell {
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
-    
+    //MARK: Method
     func updateAllComponents(from item: ProductListAsk.Response.Page) {
         ImageLoader.load(from: item.thumbnail) { (result) in
             switch result {
@@ -101,7 +101,7 @@ class CollectionViewListCell: UICollectionViewListCell {
         priceText.addAttribute(.font, value: UIFont.preferredFont(forTextStyle: .caption2), range: NSMakeRange(0, priceText.length))
         priceLabel.attributedText = priceText
     }
-    
+    //MARK: Layout 
     private func configureLayout() {
         contentView.addSubview(activityIndicator)
         contentView.addSubview(imageView)

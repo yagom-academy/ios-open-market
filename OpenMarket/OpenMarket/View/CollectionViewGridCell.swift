@@ -1,7 +1,7 @@
 import UIKit
 
 class CollectionViewGridCell: UICollectionViewCell {
-
+    //MARK: Property
     private lazy var activityIndicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView()
         indicator.frame = imageView.frame
@@ -55,7 +55,7 @@ class CollectionViewGridCell: UICollectionViewCell {
         stackView.alignment = .center
         return stackView
     }()
-    
+    //MARK: Initialize 
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureLayout()
@@ -65,7 +65,7 @@ class CollectionViewGridCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
-    
+    //MARK: Method
     func updateAllComponents(from item: ProductListAsk.Response.Page) {
         ImageLoader.load(from: item.thumbnail) { (result) in
             switch result {
@@ -122,6 +122,7 @@ class CollectionViewGridCell: UICollectionViewCell {
         priceText.addAttribute(.font, value: UIFont.preferredFont(forTextStyle: .body), range: NSMakeRange(0, priceText.length))
         priceLabel.attributedText = priceText
     }
+    //MARK: Layout
     private func configureLayout() {
         addSubview(stackView)
         stackView.translatesAutoresizingMaskIntoConstraints = false

@@ -5,12 +5,12 @@ class ProductRegisterViewController: UIViewController {
     enum ImageSection: Hashable {
         case main
     }
-    
+    //MARK: Property
     var imageDataSource: UICollectionViewDiffableDataSource<ImageSection,UIImage>?
     var imagePicker = UIImagePickerController()
     var registerImage = RegisterImageView()
     var images: [UIImage] = []
-    
+    //MARK: View Life Cycle Method
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
@@ -22,14 +22,13 @@ class ProductRegisterViewController: UIViewController {
         layoutMainVerticalScrollView()
         touchUpRegisterImage()
     }
-
-    
+    //MARK: Method
     private func configureNavigationItem() {
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(dismissModal))
         navigationItem.title = "상품수정"
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(dismissModal))
     }
-    
+    //MARK: Action Method 
     @objc private func dismissModal() {
         self.dismiss(animated: true, completion: nil)
     }
@@ -260,7 +259,7 @@ class ProductRegisterViewController: UIViewController {
         ])
     }
 }
-
+    //MARK: -ImagePickerController Extension 
 extension ProductRegisterViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         var newImage: UIImage? = nil
