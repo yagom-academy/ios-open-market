@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ProductParam: Codable {
+struct ProductParams: Codable {
     let name: String
     let descriptions: String
     let price: Int

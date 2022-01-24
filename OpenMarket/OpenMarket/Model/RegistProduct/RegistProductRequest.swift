@@ -9,7 +9,7 @@ import Foundation
 
 struct RegistProductRequest: Codable {
     let vendorID: String
-    let productParam: ProductParam
+    let productParam: ProductParams
     let images: [Image]
     
     private enum CodingKeys: String, CodingKey {
