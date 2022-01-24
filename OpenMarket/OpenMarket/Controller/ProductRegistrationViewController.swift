@@ -145,18 +145,13 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
             if textView === descriptionTextView {
                 let count = textView.text.count
                 if count < minimumDescriptionsLimit || count > maximumDescriptionsLimit {
-                    descriptionCautionLabel.text = "글자를 \(minimumDescriptionsLimit)~\(maximumDescriptionsLimit)자로 입력해주세요"
-                    descriptionCautionLabel.isHidden = false
-                    textView.layer.borderColor = UIColor.systemRed.cgColor
-                    textView.layer.borderWidth = 0.5
-                } else {
-                    descriptionCautionLabel.isHidden = true
-                    textView.layer.borderColor = CGColor(
-                        srgbRed: 0.8,
-                        green: 0.8,
-                        blue: 0.8,
-                        alpha: 1.0
+                    showCaution(
+                        textView: textView,
+                        cautionLabel: descriptionCautionLabel,
+                        message: "글자를 \(minimumDescriptionsLimit)~\(maximumDescriptionsLimit)자로 입력해주세요"
                     )
+                } else {
+                    hideCaution(textView: textView, cautionLabel: descriptionCautionLabel)
                 }
             }
         }
@@ -306,9 +301,26 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
         textField.layer.borderWidth = 0.5
     }
     
+    private func showCaution(textView: UITextView, cautionLabel: UILabel, message: String?) {
+        cautionLabel.text = message
+        cautionLabel.isHidden = false
+        textView.layer.borderColor = UIColor.systemRed.cgColor
+        textView.layer.borderWidth = 0.5
+    }
+    
     private func hideCaution(textField: UITextField, cautionLabel: UILabel) {
         textField.layer.borderWidth = 0.0
         cautionLabel.isHidden = true
+    }
+    
+    private func hideCaution(textView: UITextView, cautionLabel: UILabel) {
+        cautionLabel.isHidden = true
+        textView.layer.borderColor = CGColor(
+            srgbRed: 0.8,
+            green: 0.8,
+            blue: 0.8,
+            alpha: 1.0
+        )
     }
     
     private func loadProductInformation() {
