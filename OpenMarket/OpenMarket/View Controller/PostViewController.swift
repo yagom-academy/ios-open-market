@@ -18,4 +18,24 @@ class PostViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
     }
+    
+    func setUpImageStack() {
+        let addImageButton = UIButton()
+        
+        imageStackView.axis = .horizontal
+        imageStackView.alignment = .leading
+        imageStackView.distribution = .equalCentering
+        imageStackView.spacing = 10
+        
+        imageStackView.addArrangedSubview(addImageButton)
+        addImageButton.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate( [
+            addImageButton.widthAnchor.constraint(equalToConstant: 170),
+            addImageButton.heightAnchor.constraint(equalToConstant: 170)
+        ] )
+        
+        addImageButton.setImage(UIImage(systemName: "plus"), for: .normal)
+        addImageButton.titleLabel?.textAlignment = .center
+        addImageButton.backgroundColor = .systemGray2
+    }
 }
