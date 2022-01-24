@@ -49,6 +49,7 @@ class AddProductViewController: UIViewController, UINavigationControllerDelegate
         imageCollectionView.dataSource = dataSource
         imageCollectionView.delegate = self
         snapShot.appendSections([0])
+        postManager.setDelegate(self)
         configureView()
     }
 
@@ -337,7 +338,9 @@ extension AddProductViewController: PostResultRepresentable {
     }
 
     func postManager(didFailPostingWithError error: CreateProductError) {
-        presentErrorAlert(error: error)
+        DispatchQueue.main.async {
+            self.presentErrorAlert(error: error)
+        }
     }
 }
 

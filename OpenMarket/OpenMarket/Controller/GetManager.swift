@@ -1,5 +1,5 @@
 //
-//  DataManager.swift
+//  GetManager.swift
 //  OpenMarket
 //
 //  Created by Jae-hoon Sim on 2022/01/14.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class DataManager {
+class GetManager {
     
     var itemsPerPage: Int = 20
     var lastLoadedPage: Int = 1

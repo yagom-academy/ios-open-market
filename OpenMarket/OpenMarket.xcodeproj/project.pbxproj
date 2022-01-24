@@ -76,7 +76,7 @@
 		E963248A278D6AC800851348 /* OpenMarketCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9632488278D6AC800851348 /* OpenMarketCollectionViewCell.swift */; };
 		E998F88627915D8B008DD201 /* PageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E998F88527915D8B008DD201 /* PageViewController.swift */; };
 		E998F88E279164BF008DD201 /* OpenMarketLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = E998F88D279164BF008DD201 /* OpenMarketLayout.swift */; };
-		E998F89427917370008DD201 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E998F89327917370008DD201 /* DataManager.swift */; };
+		E998F89427917370008DD201 /* GetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E998F89327917370008DD201 /* GetManager.swift */; };
 		E99FDE782782D4C00083D4D6 /* Page.swift in Sources */ = {isa = PBXBuildFile; fileRef = E99FDE772782D4C00083D4D6 /* Page.swift */; };
 		E99FDE7F2782E9490083D4D6 /* StubURLSessionDataTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = E99FDE7E2782E9490083D4D6 /* StubURLSessionDataTask.swift */; };
 		E99FDE842782F3970083D4D6 /* Page.swift in Sources */ = {isa = PBXBuildFile; fileRef = E99FDE772782D4C00083D4D6 /* Page.swift */; };
@@ -148,7 +148,7 @@
 		E9632488278D6AC800851348 /* OpenMarketCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketCollectionViewCell.swift; sourceTree = "<group>"; };
 		E998F88527915D8B008DD201 /* PageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageViewController.swift; sourceTree = "<group>"; };
 		E998F88D279164BF008DD201 /* OpenMarketLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketLayout.swift; sourceTree = "<group>"; };
-		E998F89327917370008DD201 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
+		E998F89327917370008DD201 /* GetManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetManager.swift; sourceTree = "<group>"; };
 		E99FDE772782D4C00083D4D6 /* Page.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Page.swift; sourceTree = "<group>"; };
 		E99FDE7E2782E9490083D4D6 /* StubURLSessionDataTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubURLSessionDataTask.swift; sourceTree = "<group>"; };
 		E9FDEA14278463FE00B12770 /* Currency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
@@ -362,7 +362,7 @@
 				E998F88527915D8B008DD201 /* PageViewController.swift */,
 				E929F94C2798807A005A15A9 /* AddProductViewController.swift */,
 				E929F971279DA238005A15A9 /* PostManager.swift */,
-				E998F89327917370008DD201 /* DataManager.swift */,
+				E998F89327917370008DD201 /* GetManager.swift */,
 				E929F979279DB318005A15A9 /* CreateProductError.swift */,
 				E929F97D279DB379005A15A9 /* PostResultRepresentable.swift */,
 			);
@@ -566,7 +566,7 @@
 				E963245A278B2ABF00851348 /* UpdateProductResponse.swift in Sources */,
 				E929F9552799555B005A15A9 /* ImageCollectionViewCell.swift in Sources */,
 				E9632443278B0CF100851348 /* OpenMarketRequest.swift in Sources */,
-				E998F89427917370008DD201 /* DataManager.swift in Sources */,
+				E998F89427917370008DD201 /* GetManager.swift in Sources */,
 				C13469EB2786E3B00044DFDB /* UpdateProductRequestModel.swift in Sources */,
 				E998F88627915D8B008DD201 /* PageViewController.swift in Sources */,
 				C1346A03278867DA0044DFDB /* DeleteProductRequest.swift in Sources */,

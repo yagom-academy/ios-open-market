@@ -13,7 +13,7 @@ final class PageViewController: UIViewController, DataRepresentable {
     @IBOutlet private var activityIndicator: UIActivityIndicatorView!
 
 
-    private let datamanager = DataManager()
+    private let datamanager = GetManager()
     var snapshot = NSDiffableDataSourceSnapshot<Int, Product>()
     
     private var currentCollectionView: UICollectionView?

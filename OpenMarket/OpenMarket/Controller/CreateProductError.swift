@@ -19,9 +19,9 @@ extension CreateProductError: LocalizedError {
     var errorDescription: String? {
         switch self {
         case .invalidProductName:
-            return "잘못된 상품명이에요"
+            return "잘못된 상품명입니다"
         case .invalidDescription:
-            return "잘못된 상품설명이에요"
+            return "잘못된 상품설명입니다"
         case .invalidPrice:
             return "가격 입력이 잘못되었습니다"
         case .invalidDiscountedPrice:
