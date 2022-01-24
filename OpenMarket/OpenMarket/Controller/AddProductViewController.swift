@@ -112,7 +112,7 @@ extension AddProductViewController {
             scrollView.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             scrollView.contentLayoutGuide.heightAnchor.constraint(greaterThanOrEqualTo: scrollView.safeAreaLayoutGuide.heightAnchor)
         ])
-        }
+    }
     
     private func configureStackView() {
         scrollView.addSubview(stackView)
@@ -169,10 +169,10 @@ extension AddProductViewController {
 
     private func configureSegmentControl() {
         priceStackView.addArrangedSubview(currencySegmentedControl)
-        currencySegmentedControl.selectedSegmentIndex = 0
         currencySegmentedControl.backgroundColor = .systemGray5
         currencySegmentedControl.insertSegment(withTitle: "\(Currency.KRW)", at: 0, animated: false)
         currencySegmentedControl.insertSegment(withTitle: "\(Currency.USD)", at: 1, animated: false)
+        currencySegmentedControl.selectedSegmentIndex = 0
     }
 
     private func configureTextView() {
@@ -180,7 +180,7 @@ extension AddProductViewController {
         descriptionTextView.allowsEditingTextAttributes = true
         descriptionTextView.isScrollEnabled = false
         descriptionTextView.delegate = self
-        descriptionTextView.text = "여기에 상품 설명을 입력하세요!(글자 수 1000자 제한)"
+        descriptionTextView.text = "여기에 상품 설명을 입력하세요. (1000글자 제한)"
         descriptionTextView.textColor = .placeholderText
         descriptionTextView.font = .preferredFont(forTextStyle: .body, compatibleWith: .current)
 
