@@ -42,9 +42,9 @@ class ProductImageCustomView: UIView {
     }
     
     private func configUI() {
-        [productImageView, deleteButton].forEach {
-            self.addSubview($0)
-            $0.translatesAutoresizingMaskIntoConstraints = false
+        [productImageView, deleteButton].forEach { view in
+            self.addSubview(view)
+            view.translatesAutoresizingMaskIntoConstraints = false
         }
         
         NSLayoutConstraint.activate([

@@ -77,12 +77,23 @@ class ProductRegisterManager {
     }
     
     private func takeRegisteredImages() -> [ImageData] {
-        return productInformationView.imageStackView.arrangedSubviews
-            .filter { $0 is ProductImageCustomView }
-            .compactMap { $0 as? ProductImageCustomView }
-            .compactMap { $0.productImageView.image }
-            .compactMap { $0.pngData() }
-            .map { ImageData(fileName: "\(UUID().uuidString).png", data: $0, type: .png) }
+        let productImageCustomView = productInformationView.imageStackView.arrangedSubviews
+            .filter { view in
+                view is ProductImageCustomView
+            }.compactMap { view in
+                view as? ProductImageCustomView
+            }
+        
+        let imageData = productImageCustomView
+            .compactMap { view in
+                view.productImageView.image
+            }.compactMap { image in
+                image.pngData()
+            }.map { data in
+                ImageData(fileName: "\(UUID().uuidString).png", data: data, type: .png)
+            }
+        
+        return imageData
     }
     
     private func createProductRegisterInformation() -> ProductRegisterInformation {
@@ -97,7 +108,9 @@ class ProductRegisterManager {
         let stockString = productInformationView.stockTextField.text ?? ""
         let stock = Int(stockString) ?? 0
         
-        return ProductRegisterInformation(name: name, descriptions: descriptions, price: price, currency: currency, discountedPrice: discountedPrice, stock: stock, secret: secret)
+        let productRegisterInformation = ProductRegisterInformation(name: name, descriptions: descriptions, price: price, currency: currency, discountedPrice: discountedPrice, stock: stock, secret: secret)
+        
+        return productRegisterInformation
     }
     
     func fetchRegisteredProductDetail(from productDetail: ProductDetail) {

@@ -79,7 +79,7 @@ class ProductInformationView: UIView {
     let discountedPriceTextField = CustomTextField(placeholder: Placeholder.discountedPrice, keyboardType: .decimalPad, hasToolBar: true)
     let stockTextField = CustomTextField(placeholder: Placeholder.stock, keyboardType: .numberPad, hasToolBar: true)
     
-    let currencySegmentedControl = LayoutSegmentedControl(items: Currency.allCases.map { $0.unit })
+    let currencySegmentedControl = LayoutSegmentedControl(items: Currency.allCases.map { currency in currency.unit })
     
     let descriptionTextView: UITextView = {
         let textView = UITextView()
