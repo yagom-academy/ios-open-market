@@ -37,6 +37,16 @@ final class ListViewController: UIViewController {
         setupListLayout()
         collectionView.dataSource = self
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        print("listView")
+    }
+    
+    func updateProducts(with products: [Product]) {
+        self.products = products
+        self.collectionView.reloadData()
+    }
 }
 
 //MARK: - Private Methods

@@ -73,6 +73,17 @@ extension MarketViewController {
             add(asChildViewController: gridViewController)
         }
     }
+    
+    @IBAction func addButtonTapped(_ sender: UIBarButtonItem) {
+        guard let destination = storyboard?.instantiateViewController(identifier: "ProductDetailsViewController", creator: { coder in
+            ProductDetailsViewController(delegate: self, coder: coder)
+        }) else {
+            fatalError("실패")
+        }
+        
+        destination.modalPresentationStyle = .fullScreen
+        present(destination, animated: true, completion: nil)
+    }
 }
 
 //MARK: - Private Methods
@@ -124,11 +135,18 @@ extension MarketViewController {
             switch result {
             case .success(let data):
                 self?.products = data.products
+//                self?.listViewController.updateProducts(with: data.products)
                 self?.showListViewController()
             case .failure(let error):
                 print(error)
             }
         }
+    }
+}
+
+extension MarketViewController: AddButtonPressedDelegate {
+    func addButtonPressed() {
+        fetchPage(pageNumber: 1, itemsPerPage: 20)
     }
 }
 

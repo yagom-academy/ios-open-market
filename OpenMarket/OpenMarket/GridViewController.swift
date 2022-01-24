@@ -38,6 +38,12 @@ final class GridViewController: UIViewController {
         collectionView.dataSource = self
         collectionView.delegate = self
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        print("gridView")
+        collectionView.reloadData()
+    }
 }
 
 //MARK: - Private Methods

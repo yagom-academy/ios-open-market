@@ -7,9 +7,14 @@
 
 import UIKit
 
+protocol AddButtonPressedDelegate {
+    func addButtonPressed()
+}
+
 final class ProductDetailsViewController: UIViewController {
     // MARK: - IBOutlets
     
+    @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var navigationBar: UINavigationBar!
     @IBOutlet weak var productNameTextField: UITextField!
@@ -38,6 +43,16 @@ final class ProductDetailsViewController: UIViewController {
     private var images: [UIImage] = []
     private var productImages: [ProductImage] = []
     private var keyHeight: CGFloat?
+    weak var delegate: MarketViewController?
+    
+    init?(delegate: MarketViewController, coder: NSCoder) {
+        self.delegate = delegate
+        super.init(coder: coder)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("실패")
+    }
     
     // MARK: - Lifecycle
     
@@ -51,6 +66,16 @@ final class ProductDetailsViewController: UIViewController {
         setSegmentedControlTitle()
         setTextViewPlaceholder()
         addTextViewObserver()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        productNameTextField.becomeFirstResponder()
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(UIResponder.keyboardWillShowNotification)
+        NotificationCenter.default.removeObserver(UIResponder.keyboardWillHideNotification)
     }
 }
 
@@ -66,18 +91,8 @@ extension ProductDetailsViewController {
             AlertManager.presentNoImagesAlert(on: self)
             return
         }
-        registerProduct { result in
-            switch result {
-            case .success(let _):
-                print("success")
-                AlertManager.presentSuccessfuleRegisterAlert(on: self)
-                self.dismiss(animated: true, completion: nil)
-                
-            case .failure(let error):
-                print("fail")
-                print(error)
-            }
-        }
+        registerProduct()
+        AlertManager.presentSuccessfulRegisterAlert(on: self)
     }
 }
 
@@ -105,6 +120,7 @@ extension ProductDetailsViewController {
     private func setNavigationBar() {
         navigationBar.shadowImage = UIImage()
         navigationBar.isTranslucent = false
+        navigationBar.topItem?.title = "상품등록"
     }
     
     private func setPlaceholders() {
@@ -137,7 +153,7 @@ extension ProductDetailsViewController {
             object: nil)
     }
     
-    private func registerProduct(completion: @escaping (Result<ResponseProduct, APIError>) -> Void) {
+    private func registerProduct() {
         let apiService = MarketAPIService()
         guard let postProduct = makePostProduct() else {
             return
@@ -146,9 +162,9 @@ extension ProductDetailsViewController {
         apiService.registerProduct(product: postProduct, images: productImages) { result in
             switch result {
             case .success(let data):
-                completion(.success(data))
+                print(data)
             case .failure(let error):
-                completion(.failure(error))
+                print(error)
             }
         }
     }
@@ -189,19 +205,22 @@ extension ProductDetailsViewController {
       
         return product
     }
-    
+    // https://stackoverflow.com/a/32583809
     @objc func keyboardWillShow(notification: NSNotification) {
-        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-            if self.view.frame.origin.y == 0 {
-                self.view.frame.origin.y -= keyboardSize.height
-            }
+        guard let userInfo = notification.userInfo else {
+            return
         }
+        var keyboardFrame: CGRect = (userInfo[UIResponder.keyboardFrameBeginUserInfoKey] as! NSValue).cgRectValue
+        keyboardFrame = self.view.convert(keyboardFrame, from: nil)
+        
+        var contentInset: UIEdgeInsets = self.scrollView.contentInset
+        contentInset.bottom = keyboardFrame.size.height + 20
+        scrollView.contentInset = contentInset
     }
     
     @objc func keyboardWillHide(notification: NSNotification) {
-        if self.view.frame.origin.y != 0 {
-            self.view.frame.origin.y = 0
-        }
+        let contentInset:UIEdgeInsets = UIEdgeInsets.zero
+        scrollView.contentInset = contentInset
     }
 }
 
@@ -266,6 +285,8 @@ extension ProductDetailsViewController: UITextViewDelegate {
         textView.textColor = .black
     }
 }
+
+// MARK: - UIImagePickerControllerDelegate
 
 extension ProductDetailsViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {

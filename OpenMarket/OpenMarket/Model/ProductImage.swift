@@ -34,6 +34,6 @@ struct ProductImage {
     }
     
     var data: Data? {
-        return image.jpegData(compressionQuality: 0.5)
+        return image.jpegData(compressionQuality: 0.1)
     }
 }
