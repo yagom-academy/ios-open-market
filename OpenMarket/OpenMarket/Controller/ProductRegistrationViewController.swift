@@ -65,7 +65,7 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
         productNameTextField.delegate = self
         setUpImagePicker()
         setupNavigationBar()
-        hideCautionLabel()
+        hideAllCautionLabel()
         setupTextView()
         loadProductInformation()
         NotificationCenter.default.addObserver(
@@ -90,26 +90,24 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
             if textField === productNameTextField {
                 if let count = textField.text?.count,
                    count < minimumNameLimit || count > maximumNameLimit {
-                    productNameCautionLabel.text = "글자를 \(minimumNameLimit)~\(maximumNameLimit)자로 입력해주세요"
-                    productNameCautionLabel.isHidden = false
-                    textField.layer.borderColor = UIColor.systemRed.cgColor
-                    textField.layer.cornerRadius = 5
-                    textField.layer.borderWidth = 0.5
+                    showCaution(
+                        textField: textField,
+                        cautionLabel: productNameCautionLabel,
+                        message: "글자를 \(minimumNameLimit)~\(maximumNameLimit)자로 입력해주세요"
+                    )
                 } else {
-                    productNameCautionLabel.isHidden = true
-                    textField.layer.borderWidth = 0.0
+                    hideCaution(textField: textField, cautionLabel: productNameCautionLabel)
                 }
             }
             if textField === productPriceTextField {
                 if let count = textField.text?.count, count == 0 {
-                    productPriceCautionLabel.text = "상품가격을 입력해주세요"
-                    productPriceCautionLabel.isHidden = false
-                    textField.layer.borderColor = UIColor.systemRed.cgColor
-                    textField.layer.cornerRadius = 5
-                    textField.layer.borderWidth = 0.5
+                    showCaution(
+                        textField: textField,
+                        cautionLabel: productPriceCautionLabel,
+                        message: "상품가격을 입력해주세요"
+                    )
                 } else {
-                    productPriceCautionLabel.isHidden = true
-                    textField.layer.borderWidth = 0.0
+                    hideCaution(textField: textField, cautionLabel: productPriceCautionLabel)
                 }
             }
             if textField === discountedPriceTextField {
@@ -119,14 +117,13 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
                     price: price,
                     discountedPrice: discountedPrice
                 ) {
-                    discountedPriceCautionLabel.text = error.errorDescription
-                    discountedPriceCautionLabel.isHidden = false
-                    textField.layer.borderColor = UIColor.systemRed.cgColor
-                    textField.layer.cornerRadius = 5
-                    textField.layer.borderWidth = 0.5
+                    showCaution(
+                        textField: textField,
+                        cautionLabel: discountedPriceCautionLabel,
+                        message: error.errorDescription
+                    )
                 } else {
-                    discountedPriceCautionLabel.isHidden = true
-                    textField.layer.borderWidth = 0.0
+                    hideCaution(textField: textField, cautionLabel: discountedPriceCautionLabel)
                 }
             }
         } else if let textView = sender as? UITextView {
@@ -279,11 +276,24 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
         }
     }
     
-    private func hideCautionLabel() {
+    private func hideAllCautionLabel() {
         productNameCautionLabel.isHidden = true
         productPriceCautionLabel.isHidden = true
         discountedPriceCautionLabel.isHidden = true
         descriptionCautionLabel.isHidden = true
+    }
+    
+    private func showCaution(textField: UITextField, cautionLabel: UILabel, message: String?) {
+        cautionLabel.text = message
+        cautionLabel.isHidden = false
+        textField.layer.borderColor = UIColor.systemRed.cgColor
+        textField.layer.cornerRadius = 5
+        textField.layer.borderWidth = 0.5
+    }
+    
+    private func hideCaution(textField: UITextField, cautionLabel: UILabel) {
+        textField.layer.borderWidth = 0.0
+        cautionLabel.isHidden = true
     }
     
     private func loadProductInformation() {
