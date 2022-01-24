@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <capability name="Image references" minToolsVersion="12.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="Stack View standard spacing" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ProductRegisterView" customModule="OpenMarket" customModuleProvider="target">
+            <connections>
+                <outlet property="containerScrollView" destination="OgA-X7-A9D" id="3S1-co-cAs"/>
+                <outlet property="currencySegmentedControl" destination="5aB-SK-Iwb" id="gqc-3V-xYS"/>
+                <outlet property="descriptionTextView" destination="pkU-b0-vns" id="r6o-uK-qp6"/>
+                <outlet property="discountedPriceTextField" destination="od8-p4-kl2" id="QIU-KN-ZfY"/>
+                <outlet property="productImageAddButton" destination="8Zj-X0-NUW" id="N3Z-Za-jAm"/>
+                <outlet property="productImageStackView" destination="kAx-bK-Yhq" id="yIi-tL-ZW5"/>
+                <outlet property="productNameTextField" destination="A9k-fz-hdf" id="AQ2-cs-vbn"/>
+                <outlet property="productPriceTextField" destination="6Hd-Go-IqX" id="0sY-BG-IBf"/>
+                <outlet property="productStockTextField" destination="JdG-vY-5ln" id="dPN-5n-vLm"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" keyboardDismissMode="interactive" translatesAutoresizingMaskIntoConstraints="NO" id="OgA-X7-A9D">
+                    <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                    <subviews>
+                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="bpP-lr-kIZ">
+                            <rect key="frame" x="10" y="0.0" width="394" height="361"/>
+                            <subviews>
+                                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pbN-g5-CLq">
+                                    <rect key="frame" x="0.0" y="0.0" width="394" height="150"/>
+                                    <subviews>
+                                        <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="kAx-bK-Yhq">
+                                            <rect key="frame" x="0.0" y="0.0" width="150" height="150"/>
+                                            <subviews>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8Zj-X0-NUW">
+                                                    <rect key="frame" x="0.0" y="0.0" width="150" height="150"/>
+                                                    <accessibility key="accessibilityConfiguration" hint="이미지 추가 버튼" label="이미지 추가"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" secondItem="8Zj-X0-NUW" secondAttribute="height" multiplier="1:1" id="5Po-tZ-2Su"/>
+                                                    </constraints>
+                                                    <buttonConfiguration key="configuration" style="gray">
+                                                        <imageReference key="image" image="plus" catalog="system" symbolScale="default"/>
+                                                    </buttonConfiguration>
+                                                </button>
+                                            </subviews>
+                                        </stackView>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="kAx-bK-Yhq" firstAttribute="leading" secondItem="pbN-g5-CLq" secondAttribute="leading" id="9lU-eF-cwE"/>
+                                        <constraint firstAttribute="height" constant="150" id="XpK-as-AH2"/>
+                                        <constraint firstItem="kAx-bK-Yhq" firstAttribute="height" secondItem="t68-P8-2ak" secondAttribute="height" id="ela-r5-1HN"/>
+                                        <constraint firstItem="kAx-bK-Yhq" firstAttribute="top" secondItem="PSJ-e7-VWQ" secondAttribute="top" id="jev-2S-f4T"/>
+                                        <constraint firstItem="PSJ-e7-VWQ" firstAttribute="bottom" secondItem="kAx-bK-Yhq" secondAttribute="bottom" id="lYd-sU-VNJ"/>
+                                        <constraint firstAttribute="trailing" secondItem="kAx-bK-Yhq" secondAttribute="trailing" constant="20" symbolic="YES" id="pJd-tp-e16"/>
+                                    </constraints>
+                                    <viewLayoutGuide key="contentLayoutGuide" id="t68-P8-2ak"/>
+                                    <viewLayoutGuide key="frameLayoutGuide" id="PSJ-e7-VWQ"/>
+                                </scrollView>
+                                <stackView opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="1000" axis="vertical" distribution="equalSpacing" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="gcx-gR-MxS">
+                                    <rect key="frame" x="0.0" y="158" width="394" height="160"/>
+                                    <subviews>
+                                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="상품명" textAlignment="natural" adjustsFontForContentSizeCategory="YES" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="A9k-fz-hdf">
+                                            <rect key="frame" x="0.0" y="0.0" width="394" height="34"/>
+                                            <accessibility key="accessibilityConfiguration" hint="상품명 입력필드" label="상품명">
+                                                <bool key="isElement" value="YES"/>
+                                            </accessibility>
+                                            <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                            <textInputTraits key="textInputTraits" enablesReturnKeyAutomatically="YES"/>
+                                        </textField>
+                                        <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="kcB-Ch-gbm">
+                                            <rect key="frame" x="0.0" y="42" width="394" height="34"/>
+                                            <subviews>
+                                                <textField opaque="NO" tag="1" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="상품가격" textAlignment="natural" adjustsFontForContentSizeCategory="YES" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="6Hd-Go-IqX">
+                                                    <rect key="frame" x="0.0" y="0.0" width="287" height="34"/>
+                                                    <accessibility key="accessibilityConfiguration" hint="상품가격 입력필드" label="상품가격"/>
+                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                                    <textInputTraits key="textInputTraits" keyboardType="decimalPad" enablesReturnKeyAutomatically="YES"/>
+                                                </textField>
+                                                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="5aB-SK-Iwb">
+                                                    <rect key="frame" x="297" y="0.0" width="97" height="35"/>
+                                                    <segments>
+                                                        <segment title="KRW"/>
+                                                        <segment title="USD"/>
+                                                    </segments>
+                                                </segmentedControl>
+                                            </subviews>
+                                        </stackView>
+                                        <textField opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="할인가격" textAlignment="natural" adjustsFontForContentSizeCategory="YES" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="od8-p4-kl2">
+                                            <rect key="frame" x="0.0" y="84" width="394" height="34"/>
+                                            <accessibility key="accessibilityConfiguration" hint="할인가격 입력필드" label="할인가격"/>
+                                            <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                            <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
+                                        </textField>
+                                        <textField opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="재고수량" textAlignment="natural" adjustsFontForContentSizeCategory="YES" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="JdG-vY-5ln">
+                                            <rect key="frame" x="0.0" y="126" width="394" height="34"/>
+                                            <accessibility key="accessibilityConfiguration" hint="재고수량 입력필드" label="재고수량"/>
+                                            <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                            <textInputTraits key="textInputTraits" keyboardType="numberPad" enablesReturnKeyAutomatically="YES"/>
+                                        </textField>
+                                    </subviews>
+                                </stackView>
+                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" tag="4" contentMode="scaleToFill" verticalHuggingPriority="249" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" textAlignment="justified" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pkU-b0-vns">
+                                    <rect key="frame" x="0.0" y="326" width="394" height="35"/>
+                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                    <accessibility key="accessibilityConfiguration" hint="상품 상세정보 입력 필드" label="상품 상세정보"/>
+                                    <color key="textColor" systemColor="labelColor"/>
+                                    <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences" enablesReturnKeyAutomatically="YES"/>
+                                </textView>
+                            </subviews>
+                            <constraints>
+                                <constraint firstItem="pbN-g5-CLq" firstAttribute="height" secondItem="bpP-lr-kIZ" secondAttribute="width" multiplier="0.4" priority="750" id="4fW-PN-Fe3"/>
+                            </constraints>
+                        </stackView>
+                    </subviews>
+                    <constraints>
+                        <constraint firstItem="bpP-lr-kIZ" firstAttribute="top" secondItem="mC8-lV-joe" secondAttribute="top" id="2x8-qI-M2Z"/>
+                        <constraint firstItem="bpP-lr-kIZ" firstAttribute="width" secondItem="mC8-lV-joe" secondAttribute="width" id="8NF-ex-aJ6"/>
+                        <constraint firstItem="bpP-lr-kIZ" firstAttribute="trailing" secondItem="Z8z-oL-V0p" secondAttribute="trailing" constant="-10" id="NSy-FP-OF7"/>
+                        <constraint firstItem="bpP-lr-kIZ" firstAttribute="bottom" secondItem="mC8-lV-joe" secondAttribute="bottom" id="V96-pS-Poc"/>
+                        <constraint firstItem="bpP-lr-kIZ" firstAttribute="leading" secondItem="Z8z-oL-V0p" secondAttribute="leading" constant="10" id="oFl-82-KOb"/>
+                    </constraints>
+                    <viewLayoutGuide key="contentLayoutGuide" id="mC8-lV-joe"/>
+                    <viewLayoutGuide key="frameLayoutGuide" id="Z8z-oL-V0p"/>
+                </scrollView>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <constraints>
+                <constraint firstItem="OgA-X7-A9D" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="NFK-Qn-UMj"/>
+                <constraint firstAttribute="bottom" secondItem="OgA-X7-A9D" secondAttribute="bottom" id="OmQ-xM-HMI"/>
+                <constraint firstItem="OgA-X7-A9D" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="dee-Rg-wrv"/>
+                <constraint firstItem="OgA-X7-A9D" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" id="udf-Fo-f98"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="139" y="114"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="plus" catalog="system" width="128" height="113"/>
+        <systemColor name="labelColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

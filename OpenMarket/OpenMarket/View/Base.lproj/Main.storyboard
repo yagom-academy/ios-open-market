@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="o2V-h5-5jd">
+    <device id="retina6_5" orientation="portrait" appearance="light"/>
+    <accessibilityOverrides dynamicTypePreference="0"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Product Page View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ProductPageViewController" customModule="OpenMarket" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="Y3a-M4-mVk">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                            </activityIndicatorView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="Y3a-M4-mVk" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="1gN-Rz-tAL"/>
+                            <constraint firstItem="Y3a-M4-mVk" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="70A-6H-zAc"/>
+                            <constraint firstAttribute="bottom" secondItem="Y3a-M4-mVk" secondAttribute="bottom" id="bgf-FW-9df"/>
+                            <constraint firstItem="Y3a-M4-mVk" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="bxI-0G-4jw"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="T9E-g4-OZG">
+                        <nil key="title"/>
+                        <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="26R-04-yGZ">
+                            <rect key="frame" x="141.66666666666666" y="5.6666666666666679" width="130.99999999999997" height="33"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <segments>
+                                <segment title="LIST"/>
+                                <segment title="GRID"/>
+                            </segments>
+                            <connections>
+                                <action selector="segmentedControlValueChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="48h-by-Ho8"/>
+                            </connections>
+                        </segmentedControl>
+                        <barButtonItem key="rightBarButtonItem" style="done" systemItem="add" id="lQM-VB-6Kb">
+                            <connections>
+                                <action selector="createButtonClicked:" destination="BYZ-38-t0r" id="dIZ-EY-qYu"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="activityIndicator" destination="Y3a-M4-mVk" id="Sxq-SN-YOl"/>
+                        <outlet property="segmentedControl" destination="26R-04-yGZ" id="Ojg-oR-KTj"/>
+                        <segue destination="MSa-Zb-wfO" kind="presentation" identifier="productCreateModifySeque" modalPresentationStyle="fullScreen" id="o2A-CM-Lue"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1047.8260869565217" y="124.55357142857142"/>
+        </scene>
+        <!--Product Create View Controller-->
+        <scene sceneID="B4G-4S-WtW">
+            <objects>
+                <viewController id="B9K-f5-Ghn" customClass="ProductCreateViewController" customModule="OpenMarket" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="nUb-Ci-WE0">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="6eB-Q6-6BE">
+                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
+                            </activityIndicatorView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="ebF-gb-Y2k"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="ebF-gb-Y2k" firstAttribute="bottom" secondItem="6eB-Q6-6BE" secondAttribute="bottom" id="92v-AL-ae5"/>
+                            <constraint firstItem="6eB-Q6-6BE" firstAttribute="top" secondItem="ebF-gb-Y2k" secondAttribute="top" id="OdQ-K8-ymM"/>
+                            <constraint firstItem="6eB-Q6-6BE" firstAttribute="leading" secondItem="ebF-gb-Y2k" secondAttribute="leading" id="aKZ-kc-Uab"/>
+                            <constraint firstItem="ebF-gb-Y2k" firstAttribute="trailing" secondItem="6eB-Q6-6BE" secondAttribute="trailing" id="mqz-kb-7fP"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="MtA-n3-Hvi">
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="Cj3-cW-Uf6">
+                            <connections>
+                                <segue destination="1FF-Gr-0yC" kind="unwind" unwindAction="unwindToProductPageViewController:" id="miO-VE-qaF"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" style="done" systemItem="done" id="2MO-la-4MX">
+                            <connections>
+                                <action selector="doneButtonClicked:" destination="B9K-f5-Ghn" id="Iq5-eN-pef"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="activityIndicator" destination="6eB-Q6-6BE" id="X1Z-V6-pwk"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="BfP-yd-VBp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="1FF-Gr-0yC" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="3173.913043478261" y="124.55357142857142"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="hQW-B1-QBT">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="o2V-h5-5jd" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Pe7-Wy-shb">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="barTintColor" systemColor="systemBackgroundColor"/>
+                        <navigationBarAppearance key="standardAppearance">
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </navigationBarAppearance>
+                        <navigationBarAppearance key="scrollEdgeAppearance">
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </navigationBarAppearance>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="tuW-DZ-ycs"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="NDo-O7-RqK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="137.68115942028987" y="124.55357142857142"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="HPa-HW-gFN">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="MSa-Zb-wfO" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" id="au7-Ai-HBM"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="kls-8u-UFJ">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="B9K-f5-Ghn" kind="relationship" relationship="rootViewController" id="eYw-1L-dgd"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="6x8-jq-flo" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2341" y="125"/>
+        </scene>
+    </scenes>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>
