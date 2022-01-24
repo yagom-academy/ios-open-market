@@ -2,7 +2,7 @@ import Foundation
 
 enum NetworkError: Error {
     case statusCodeError
-    case unknownFailed
+    case emptyValue
     case parsingFailed
     case wrongURL
 }
