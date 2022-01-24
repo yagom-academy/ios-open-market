@@ -50,7 +50,13 @@ class ProductCollectionViewController: UIViewController {
   }
   
   @IBAction private func plusButtonDidTap(_ sender: Any) {
-    guard let presentViewController = self.storyboard?.instantiateViewController(withIdentifier: ProductRegistrationModificationViewController.reuseIdentifier) as? ProductRegistrationModificationViewController else {
+    let presentStoryBoard = UIStoryboard(
+      name: ProductRegistrationModificationViewController.stroyBoardName,
+      bundle: nil
+    )
+    guard let presentViewController = presentStoryBoard.instantiateViewController(
+      withIdentifier: ProductRegistrationModificationViewController.reuseIdentifier
+    ) as? ProductRegistrationModificationViewController else {
       return
     }
     presentViewController.viewMode = .registation
