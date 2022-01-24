@@ -8,11 +8,11 @@
 import UIKit
 
 class ListCell: UICollectionViewCell {
-    @IBOutlet private weak var thumbnail: UIImageView!
-    @IBOutlet private weak var name: UILabel!
-    @IBOutlet private weak var price: UILabel!
-    @IBOutlet private weak var discountedPrice: UILabel!
-    @IBOutlet private weak var stock: UILabel!
+    @IBOutlet private weak var thumbnailImageView: UIImageView!
+    @IBOutlet private weak var nameLable: UILabel!
+    @IBOutlet private weak var priceLable: UILabel!
+    @IBOutlet private weak var discountedPriceLable: UILabel!
+    @IBOutlet private weak var stockLable: UILabel!
 
     override func awakeFromNib() {
         self.layer.cornerRadius = 0
@@ -28,23 +28,23 @@ class ListCell: UICollectionViewCell {
             let imageData = try? Data(contentsOf: imageURL)
             
             DispatchQueue.main.async { 
-                self.thumbnail.image = UIImage(data: imageData ?? Data())
+                self.thumbnailImageView.image = UIImage(data: imageData ?? Data())
             }
         }
         
         let commaPrice = "\(productData.price)".insertCommaInThousands()
         let commaDiscountedPrice = "\(productData.discountedPrice)".insertCommaInThousands()
-        name.text = productData.name
-        price.text = "\(productData.currency) \(commaPrice)  "
-        discountedPrice.text = "\(productData.currency) \(commaDiscountedPrice)"
-        discountedPrice.textColor = .systemGray
+        nameLable.text = productData.name
+        priceLable.text = "\(productData.currency) \(commaPrice)  "
+        discountedPriceLable.text = "\(productData.currency) \(commaDiscountedPrice)"
+        discountedPriceLable.textColor = .systemGray
 
         if productData.stock == 0 {
-            stock.text = "품절"
-            stock.textColor = .systemYellow
+            stockLable.text = "품절"
+            stockLable.textColor = .systemYellow
         } else {
-            stock.text = "잔여수량: \(productData.stock)"
-            stock.textColor = .systemGray
+            stockLable.text = "잔여수량: \(productData.stock)"
+            stockLable.textColor = .systemGray
         }
     }
 }

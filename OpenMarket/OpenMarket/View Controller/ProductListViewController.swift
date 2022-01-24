@@ -8,7 +8,7 @@ import UIKit
 
 class ProductListViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
-    @IBOutlet weak var switchLayoutController: UISegmentedControl!
+    @IBOutlet weak var switchLayoutSegmentedControl: UISegmentedControl!
     var productListData: ProductList?
 
     override func viewDidLoad() {
@@ -74,7 +74,7 @@ extension ProductListViewController: UICollectionViewDataSource {
         guard let productListData = productListData else {
             return UICollectionViewCell()
         }
-        if switchLayoutController.selectedSegmentIndex == 0 {
+        if switchLayoutSegmentedControl.selectedSegmentIndex == 0 {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ListCell", for: indexPath) as? ListCell else {
                 return ListCell()
             }
@@ -92,7 +92,7 @@ extension ProductListViewController: UICollectionViewDataSource {
 
 extension ProductListViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        if switchLayoutController.selectedSegmentIndex == 0 {
+        if switchLayoutSegmentedControl.selectedSegmentIndex == 0 {
             return CGSize(width: collectionView.frame.width, height: 65)
         } else {
             let width = collectionView.frame.width
@@ -103,7 +103,7 @@ extension ProductListViewController: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        if switchLayoutController.selectedSegmentIndex == 0 {
+        if switchLayoutSegmentedControl.selectedSegmentIndex == 0 {
             return 0
         } else {
             return 12
