@@ -57,7 +57,7 @@ private extension NSMutableData {
         self.append("\r\n")
     }
 
-    func appendImage(name:String, images: [Image], boundary: String) {
+    func appendImage(name: String, images: [Image], boundary: String) {
         for image in images {
             self.append("--\(boundary)\r\n")
             let fileName = "filename=\"\(UUID().uuidString).\(image.type)"
@@ -69,5 +69,5 @@ private extension NSMutableData {
             self.append("\r\n")
         }
     }
-    
+
 }
