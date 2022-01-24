@@ -27,6 +27,7 @@ class MainViewController: UIViewController {
     private var listDataSource: UICollectionViewDiffableDataSource<ProductSection, ProductDetail>?
     private var gridDataSource: UICollectionViewDiffableDataSource<ProductSection, ProductDetail>?
     private var productData: [ProductDetail] = []
+    private let api = APIService()
     
     private lazy var activityIndicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView()
@@ -50,14 +51,27 @@ class MainViewController: UIViewController {
 
     @objc private func fetchProductData() {
         activityIndicator.startAnimating()
-        
-        let api = APIService()
+                
         api.retrieveProductList(pageNo: RequestInformation.pageNumber, itemsPerPage: RequestInformation.itemsPerPage) { result in
             switch result {
             case .success(let data):
                 self.productData = data.pages                
                 DispatchQueue.main.async {
                     self.configProductCollectionViewDataSource()
+                }
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+    
+    private func showProductDetail(from id: Int) {
+        api.retrieveProductDetail(productId: id) { result in
+            switch result {
+            case .success(let productDetail):
+                DispatchQueue.main.async {
+                    let productDetailController = ProductDetailViewController(productDetail: productDetail)
+                    self.navigationController?.pushViewController(productDetailController, animated: true)
                 }
             case .failure(let error):
                 print(error)
@@ -218,11 +232,8 @@ private extension MainViewController {
 
 extension MainViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let selectedProductData = productData[indexPath.item]
-        let productModifyViewController = UINavigationController(rootViewController: ProductModifyViewController(productDetail: selectedProductData))
-        productModifyViewController.modalPresentationStyle = .fullScreen
-        
-        self.present(productModifyViewController, animated: true, completion: nil)
+        let selectedProductID = productData[indexPath.item].id
+        showProductDetail(from: selectedProductID)
         collectionView.deselectItem(at: indexPath, animated: true)
     }
 }

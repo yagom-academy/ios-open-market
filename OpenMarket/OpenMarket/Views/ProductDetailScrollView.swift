@@ -14,6 +14,7 @@ class ProductDetailScrollView: UIScrollView {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.distribution = .fill
+        stackView.spacing = 10
         return stackView
     }()
     
@@ -35,9 +36,10 @@ class ProductDetailScrollView: UIScrollView {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.distribution = .fill
+        stackView.alignment = .center
         return stackView
     }()
-    
+        
     let productNameLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .left
@@ -49,6 +51,7 @@ class ProductDetailScrollView: UIScrollView {
     let productStockLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
+        label.textAlignment = .right
         return label
     }()
     
@@ -60,12 +63,13 @@ class ProductDetailScrollView: UIScrollView {
         return stackView
     }()
     
-    let productDiscountedPriceLabel = UILabel()
+    let productBargainPriceLabel = UILabel()
     let productPriceLabel = UILabel()
     
     let productDescriptionTextView: UITextView = {
         let textView = UITextView()
         textView.textAlignment = .left
+        textView.font = .preferredFont(forTextStyle: .subheadline)
         textView.isScrollEnabled = false
         textView.showsVerticalScrollIndicator = false
         return textView
@@ -75,10 +79,11 @@ class ProductDetailScrollView: UIScrollView {
         [productNameLabel, productStockLabel].forEach { label in
             productNameAndStockStackView.addArrangedSubview(label)
         }
+        productStockLabel.setContentHuggingPriority(.required, for: .horizontal)
     }
     
     private func configProductPriceStackView() {
-        [productDiscountedPriceLabel, productPriceLabel].forEach { label in
+        [productPriceLabel, productBargainPriceLabel].forEach { label in
             productPriceStackView.addArrangedSubview(label)
         }
     }
@@ -86,13 +91,13 @@ class ProductDetailScrollView: UIScrollView {
     func configUI() {
         configProductNameAndStockStackView()
         configProductPriceStackView()
-        
         [productImageScrollView, productImagePageLabel, productNameAndStockStackView, productPriceStackView, productDescriptionTextView].forEach { view in
             productDetailStackView.addArrangedSubview(view)
         }
         
+        self.addSubview(productDetailStackView)
         productDetailStackView.translatesAutoresizingMaskIntoConstraints = false
-        
+
         NSLayoutConstraint.activate([
             productDetailStackView.topAnchor.constraint(equalTo: self.topAnchor),
             productDetailStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
