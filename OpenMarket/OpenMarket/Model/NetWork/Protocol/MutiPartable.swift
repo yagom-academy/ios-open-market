@@ -1,4 +1,5 @@
 import Foundation
+import UIKit
 
 protocol MultiPartable { }
 //헤더 -> 멀티파트폼데이터다 -> setvalue or addvalue
@@ -10,31 +11,54 @@ protocol MultiPartable { }
 
 extension MultiPartable {
     
-    func generateBoundaryString() -> String {
-          return "Boundary-\(UUID().uuidString)"
-      }
+//    var headerField: [String: String] {
+//        return ["Content-Type":"multipart/form-data; boundary=\(generateBoundaryString())"]
+//    }
+    func generateBoundary() -> String {
+        return "\(UUID().uuidString)"
+    }
     
-    func convertFormField(named name: String, value: String, using boundary: String) -> Data {
-        var data = Data()
+    func createBody(productRegisterInformation: ProductPost.Request.Params, images: [UIImage], boundary: String) -> Data? {
+        var body: Data = Data()
+        
+        guard let data = try? JSONEncoder().encode(productRegisterInformation) else {
+            return nil
+        }
+        
+        body.append(convertDataToMultiPartForm(value: data, boundary: boundary))
+        
+        images.forEach { image in
+            guard let data = image.pngData() else { return }
+            body.append(convertFileToMultiPartForm(fileName: "\(UUID().uuidString).png", fileData: data, using: boundary))
+        }
+        
+        body.appendString("--\(boundary)--\r\n")
+        return body
+    }
+
+    func convertDataToMultiPartForm(value: Data, boundary: String) -> Data {
+        var data: Data = Data()
         data.appendString("--\(boundary)\r\n")
-        data.appendString("Content-Disposition: form-data; name=\"\(name)\"\r\n")
+        data.appendString("Content-Disposition: form-data; name=\"params\"\r\n")
+        data.appendString("Content-Type: application/json\r\n")
         data.appendString("\r\n")
-        data.appendString("\(value)\r\n")  // encoding된 타입
+        data.append(value)
+        data.appendString("\r\n")
 
-      return data as Data
+        return data
     }
     
-    func convertFileData(fieldName: String, fileName: String, mimeType: String, fileData: Data, using boundary: String) -> Data {
-        var data = Data()
-
-      data.appendString("--\(boundary)\r\n")
-      data.appendString("Content-Disposition: form-data; name=\"\(fieldName)\"; filename=\"\(fileName)\"\r\n") // uuid 로 + 확장자
-      data.appendString("Content-Type: \(mimeType)\r\n\r\n") // .jpg .png
-      data.append(fileData) // 이미지 하나가 들어감
-      data.appendString("\r\n")
-
-      return data as Data
+    func convertFileToMultiPartForm(fileName: String, fileData: Data, using boundary: String) -> Data {
+        var data: Data = Data()
+        data.appendString("--\(boundary)\r\n")
+        data.appendString("Content-Disposition: form-data; name=\"images\"; filename=\"\(fileName)\"\r\n")
+        data.appendString("Content-Type: image/png\r\n")
+        data.appendString("\r\n")
+        data.append(fileData)
+        data.appendString("\r\n")
+        
+        return data
     }
-
-    
 }
+
+    

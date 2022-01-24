@@ -8,13 +8,16 @@ class ProductRegisterViewController: UIViewController {
     //MARK: Property
     var imageDataSource: UICollectionViewDiffableDataSource<ImageSection,UIImage>?
     var imagePicker = UIImagePickerController()
-    var registerImage = RegisterImageView()
     var images: [UIImage] = []
+    var registerImage = RegisterImageView()
+    let postManager = PostManager()
+    var params: ProductPost.Request.Params?
     //MARK: View Life Cycle Method
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         imagePicker.delegate = self
+        postManager.delegate = self
         configureCellDataSource()
         addSubviews()
         configureNavigationItem()
@@ -26,10 +29,17 @@ class ProductRegisterViewController: UIViewController {
     private func configureNavigationItem() {
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(dismissModal))
         navigationItem.title = "상품수정"
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(dismissModal))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(post))
     }
     //MARK: Action Method 
     @objc private func dismissModal() {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    @objc private func post() {
+        makeParams()
+        givePostComponents()
+        postManager.makeMultiPartFormData()
         self.dismiss(animated: true, completion: nil)
     }
     //MARK: Configure CollectionView
@@ -269,11 +279,48 @@ extension ProductRegisterViewController: UIImagePickerControllerDelegate, UINavi
        } else if let possibleImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
            newImage = possibleImage
        }
-           
-        images.append(newImage ?? UIImage())
+        let a = newImage?.jpegData(compressionQuality: 0.1)!
+        let b = UIImage(data: a!)
+        images.append(b ?? UIImage())
         applyImageSnapShot()
         
         imagePicker.dismiss(animated: true, completion: nil)
        }
 }
     
+extension ProductRegisterViewController: PostManagerDelegate {
+    func makeParams() {
+        let secretKey = "$4VptmhDPzSD3#zg"
+        
+        guard let price = Double(productPriceTextField.text ?? "0.0") else {
+            return
+        }
+        guard let name = productNameTextField.text else {
+            return
+        }
+        
+        let discountPrice: Double = Double(discountedProductTextField.text ?? "0.0") ?? 0.0
+        
+        guard let stock: Int = Int(productStockTextField.text ?? "0") else {
+            return
+        }
+        
+        guard let currency: Currency = currencySegmentedControl.selectedSegmentIndex == 0 ? .KRW : .USD else {
+            return
+        }
+        
+        guard let description = textView.text else {
+            return
+        }
+        
+        params = ProductPost.Request.Params(name: name, descriptions: description, price: price, currency: currency, discountedPrice: discountPrice, stock: stock, secret: secretKey)
+    }
+
+    
+    func givePostComponents() {
+        guard let params = params else {
+            return
+        }
+        postManager.loadComponents(images: images, params: params)
+    }
+}
