@@ -65,8 +65,6 @@ final class ProductFormViewController: UIViewController {
             descriptionTextView.isValid
     }
     
-    
-    
     private var images: [UIImage] = []
     private var productImages: [ProductImage] = []
     weak var delegate: AddButtonPressedDelegate?

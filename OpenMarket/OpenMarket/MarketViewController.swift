@@ -169,7 +169,10 @@ extension MarketViewController: AddButtonPressedDelegate {
                 return
             }
             self.listViewController.updateProducts(with: products)
-            self.gridViewController.updateProducts(with: products)
+            
+            DispatchQueue.main.async {
+                self.gridViewController.updateProducts(with: products)
+            }
         }
     }
 }
