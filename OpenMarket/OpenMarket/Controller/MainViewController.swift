@@ -1,14 +1,13 @@
 import UIKit
 
-@available(iOS 14.0, *)
 class MainViewController: UIViewController {
     private enum Section: CaseIterable {
         case product
     }
     // MARK: - Properties
-    @IBOutlet weak var segment: LayoutSegmentedControl!
-    @IBOutlet weak var listCollectionView: UICollectionView!
-    @IBOutlet weak var gridCollectionView: UICollectionView!
+    @IBOutlet private weak var segment: LayoutSegmentedControl!
+    @IBOutlet private weak var listCollectionView: UICollectionView!
+    @IBOutlet private weak var gridCollectionView: UICollectionView!
     
     private var productList = [ProductInformation]() {
         didSet {
@@ -124,7 +123,7 @@ class MainViewController: UIViewController {
         return layout
     }
     // MARK: - IBAction Method
-    @IBAction func changeView(_ sender: LayoutSegmentedControl) {
+    @IBAction private func changeView(_ sender: LayoutSegmentedControl) {
         switch sender.selectedSegmentIndex {
         case 0:
             listCollectionView.isHidden = false
