@@ -62,10 +62,7 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
     override func viewDidLoad() {
         super.viewDidLoad()
         imagesCollectionView.dataSource = self
-        productNameTextField.delegate = self
-        productPriceTextField.delegate = self
-        discountedPriceTextField.delegate = self
-        stockTextField.delegate = self
+        setupDelegate()
         setupImagePicker()
         setupNavigationBar()
         setupTextView()
@@ -286,6 +283,39 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
         }
     }
     
+    private func setupDelegate() {
+        productNameTextField.delegate = self
+        productPriceTextField.delegate = self
+        discountedPriceTextField.delegate = self
+        stockTextField.delegate = self
+    }
+    
+    private func setupImagePicker() {
+        imagePickerController.sourceType = .photoLibrary
+        imagePickerController.delegate = self
+    }
+    
+    private func setupTextView() {
+        descriptionTextView.delegate = self
+        descriptionTextView.text = "상품설명"
+        descriptionTextView.textColor = .placeholderText
+        descriptionTextView.layer.borderWidth = 0.5
+        descriptionTextView.layer.cornerRadius = 5
+        descriptionTextView.layer.borderColor = CGColor(
+            srgbRed: 0.8,
+            green: 0.8,
+            blue: 0.8,
+            alpha: 1.0
+        )
+    }
+    
+    private func setupTextFieldTarget() {
+        productNameTextField.addTarget(self, action: #selector(textInputDidChange(_:)), for: .editingChanged)
+        productPriceTextField.addTarget(self, action: #selector(textInputDidChange(_:)), for: .editingChanged)
+        discountedPriceTextField.addTarget(self, action: #selector(textInputDidChange(_:)), for: .editingChanged)
+    }
+    
+    
     private func hideAllCautionLabel() {
         productNameCautionLabel.isHidden = true
         productPriceCautionLabel.isHidden = true
@@ -342,31 +372,6 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
                   let downloadedImage = UIImage(data: imageData) else { return }
             images.append(downloadedImage)
         }
-    }
-    
-    private func setupImagePicker() {
-        imagePickerController.sourceType = .photoLibrary
-        imagePickerController.delegate = self
-    }
-    
-    private func setupTextView() {
-        descriptionTextView.delegate = self
-        descriptionTextView.text = "상품설명"
-        descriptionTextView.textColor = .placeholderText
-        descriptionTextView.layer.borderWidth = 0.5
-        descriptionTextView.layer.cornerRadius = 5
-        descriptionTextView.layer.borderColor = CGColor(
-            srgbRed: 0.8,
-            green: 0.8,
-            blue: 0.8,
-            alpha: 1.0
-        )
-    }
-    
-    private func setupTextFieldTarget() {
-        productNameTextField.addTarget(self, action: #selector(textInputDidChange(_:)), for: .editingChanged)
-        productPriceTextField.addTarget(self, action: #selector(textInputDidChange(_:)), for: .editingChanged)
-        discountedPriceTextField.addTarget(self, action: #selector(textInputDidChange(_:)), for: .editingChanged)
     }
     
     private func makeSalesInformation(
