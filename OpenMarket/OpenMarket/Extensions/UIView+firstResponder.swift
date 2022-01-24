@@ -2,7 +2,7 @@ import UIKit
 
 extension UIView {
     var firstResponder: UIView? {
-        guard !isFirstResponder else {
+        if !isFirstResponder {
             return self
         }
 
