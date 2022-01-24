@@ -1,6 +1,5 @@
 import UIKit
 
-
 class AddProductViewController: UIViewController {
     // MARK: - Property
     @IBOutlet weak var productNameTextField: UITextField!
@@ -64,15 +63,15 @@ class AddProductViewController: UIViewController {
         let lastTagNumber = productImageStackView.subviews.count - 1
         guard lastTagNumber >= 1 else { return }
         
-        for buttonTag in 1...productImageStackView.subviews.count - 1 {
+        for buttonTag in 1...lastTagNumber {
             getProductImageFromButton(with: buttonTag)
         }
     }
     
     func getProductImageFromButton(with tag: Int) {
-        let imageButton = view.viewWithTag(tag) as? UIButton
-        let image = imageButton?.imageView?.image
-        guard let imageData = image?.jpegData(compressionQuality: 0.1) else { return }
+        guard let imageButton = view.viewWithTag(tag) as? UIButton,
+              let image = imageButton?.imageView?.image,
+              let imageData = image?.jpegData(compressionQuality: 0.1) else { return }
 
         let productImage = NewProductImage(image: imageData)
         productImages.append(productImage)
@@ -89,13 +88,12 @@ class AddProductViewController: UIViewController {
         guard let stock = Int(stockText) else { return }
         
         var currency = Currency.KRW
-        switch currencySegmentedControl.selectedSegmentIndex {
-        case 0:
+        let selectedIndex = currencySegmentedControl.selectedSegmentIndex
+        guard let currentTitle = currencySegmentedControl.titleForSegment(at: selectedIndex) else { return }
+        if currentTitle == Currency.KRW.unit {
             currency = Currency.KRW
-        case 1:
+        } else if currentTitle == Currency.USD.unit {
             currency = Currency.USD
-        default:
-            return
         }
         
         newProduct = NewProduct(name: name, descriptions: description, price: price, discountedPrice: discountPrice, currency: currency, stock: stock)
