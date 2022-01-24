@@ -21,7 +21,7 @@ class productRegisterModification: UIViewController {
   @IBOutlet weak var addImageButton: UIButton!
   @IBOutlet weak var doneButton: UIBarButtonItem!
   
-  let textViewPlaceHolder = "상품의 상세정보를 입력해주세요."
+  private let textViewPlaceHolder = "상품의 상세정보를 입력해주세요."
   
   func setDescriptionTextView() {
     descriptionTextView.layer.borderWidth = 0.1
@@ -60,7 +60,7 @@ class productRegisterModification: UIViewController {
     let contentInset = UIEdgeInsets(
       top: 0.0,
       left: 0.0,
-      bottom: keyboardHeight + 16,
+      bottom: keyboardHeight + characterCountLabel.frame.height,
       right: 0.0
     )
     mainScrollView.contentInset = contentInset
@@ -135,18 +135,16 @@ extension productRegisterModification: UITextFieldDelegate {
     
     if string.isEmpty {
       if text.count > 1 {
-        guard let price = Int.init("\(text.prefix(text.count - 1))") else {
+        guard let price = Int("\(text.prefix(text.count - 1))") else {
           return true
         }
         let result = PresentStyle.formatNumber(price)
         textField.text = "\(result)"
-      }
-      else {
+      } else {
         textField.text = ""
       }
-    }
-    else {
-      guard let price = Int.init("\(text)\(string)") else {
+    } else {
+      guard let price = Int("\(text)\(string)") else {
         return true
       }
       let result = PresentStyle.formatNumber(price)

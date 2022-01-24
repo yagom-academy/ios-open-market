@@ -45,6 +45,8 @@
 		25EEB081279E6520007E50D8 /* ProductRegistrationModification.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 25EEB080279E6520007E50D8 /* ProductRegistrationModification.storyboard */; };
 		25EEB083279E68E1007E50D8 /* ProductDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25EEB082279E68E1007E50D8 /* ProductDetailViewController.swift */; };
 		25EEB086279E7F5A007E50D8 /* UILabel+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25EEB085279E7F5A007E50D8 /* UILabel+Extension.swift */; };
+		25EEB088279EB86E007E50D8 /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25EEB087279EB86E007E50D8 /* APIError.swift */; };
+		25EEB089279EB86E007E50D8 /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25EEB087279EB86E007E50D8 /* APIError.swift */; };
 		25F8D1FB27953BED005B9767 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2530792F278D7F1B004639B2 /* String+Extension.swift */; };
 		25F8D1FD27958659005B9767 /* LayoutConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25F8D1FC27958659005B9767 /* LayoutConstant.swift */; };
 		25F8D200279592F3005B9767 /* ReuseIdentifying.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25F8D1FF279592F3005B9767 /* ReuseIdentifying.swift */; };
@@ -116,6 +118,7 @@
 		25EEB080279E6520007E50D8 /* ProductRegistrationModification.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ProductRegistrationModification.storyboard; sourceTree = "<group>"; };
 		25EEB082279E68E1007E50D8 /* ProductDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetailViewController.swift; sourceTree = "<group>"; };
 		25EEB085279E7F5A007E50D8 /* UILabel+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Extension.swift"; sourceTree = "<group>"; };
+		25EEB087279EB86E007E50D8 /* APIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
 		25F8D1FC27958659005B9767 /* LayoutConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutConstant.swift; sourceTree = "<group>"; };
 		25F8D1FF279592F3005B9767 /* ReuseIdentifying.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReuseIdentifying.swift; sourceTree = "<group>"; };
 		25F8D203279599B7005B9767 /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
@@ -166,6 +169,7 @@
 			isa = PBXGroup;
 			children = (
 				2580F2162787D054005FC50F /* NetworkError.swift */,
+				25EEB087279EB86E007E50D8 /* APIError.swift */,
 			);
 			path = Error;
 			sourceTree = "<group>";
@@ -307,14 +311,14 @@
 		C70FB0F925BEF61C00C9924E /* OpenMarket */ = {
 			isa = PBXGroup;
 			children = (
+				89376D1F27844EAF00364CB8 /* Model */,
+				25EEB084279E6937007E50D8 /* StoryBoard */,
+				89513827279115D000D7480B /* View */,
+				895138292791161900D7480B /* Controller */,
 				25EEB02E279A8DF7007E50D8 /* Error */,
 				25EEB02A279A723C007E50D8 /* Network */,
-				895138292791161900D7480B /* Controller */,
 				89513828279115FA00D7480B /* Utils */,
-				89513827279115D000D7480B /* View */,
-				89376D1F27844EAF00364CB8 /* Model */,
 				25D77E3C278C11E1003F328C /* Extension */,
-				25EEB084279E6937007E50D8 /* StoryBoard */,
 				C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */,
 				C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */,
 				C70FB10325BEF61D00C9924E /* Assets.xcassets */,
@@ -437,6 +441,7 @@
 				25561991278450E600067096 /* Product.swift in Sources */,
 				89376D3027847D0400364CB8 /* JSONTests.swift in Sources */,
 				25561992278450E800067096 /* Vendor.swift in Sources */,
+				25EEB089279EB86E007E50D8 /* APIError.swift in Sources */,
 				2580F2202787E9DC005FC50F /* MockURLProtocol.swift in Sources */,
 				25F8D2172796AB16005B9767 /* RestFulAPI.swift in Sources */,
 				25D77E3D278C11F5003F328C /* URLRequest+Extension.swift in Sources */,
@@ -472,6 +477,7 @@
 				2580F2172787D054005FC50F /* NetworkError.swift in Sources */,
 				25EEB086279E7F5A007E50D8 /* UILabel+Extension.swift in Sources */,
 				255619962784562B00067096 /* JSONParser.swift in Sources */,
+				25EEB088279EB86E007E50D8 /* APIError.swift in Sources */,
 				25EEB02127986CCD007E50D8 /* UIImage+Extension.swift in Sources */,
 				25F8D204279599B7005B9767 /* UIViewController+Extension.swift in Sources */,
 				89376D2327844F6200364CB8 /* Vendor.swift in Sources */,

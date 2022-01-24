@@ -32,10 +32,10 @@ extension ProductDetailViewController {
     let delete = UIAlertAction(title: "삭제", style: .destructive) { [weak self] (_) in
       self?.deleteProduct()
     }
+    
     alertController.addAction(cancel)
     alertController.addAction(modification)
     alertController.addAction(delete)
-    
     present(alertController, animated: true, completion: nil)
   }
   

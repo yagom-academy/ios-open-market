@@ -44,7 +44,6 @@ class ProductRegistrationModificationViewController: productRegisterModification
     registerProduct()
   }
   
-  
   @objc private func modifyProductButtonDidTap() {
     guard let productId = product?.id else {
       return
@@ -114,7 +113,9 @@ class ProductRegistrationModificationViewController: productRegisterModification
     }
     return true
   }
-  
+}
+
+extension ProductRegistrationModificationViewController {
   private func setView(mode: ViewMode?) {
     switch mode {
     case .registation:
