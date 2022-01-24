@@ -19,7 +19,13 @@
                         <viewLayoutGuide key="safeArea" id="9Nc-6j-re0"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
-                    <navigationItem key="navigationItem" id="BOq-zn-Szz"/>
+                    <navigationItem key="navigationItem" id="BOq-zn-Szz">
+                        <barButtonItem key="rightBarButtonItem" image="ellipsis.circle" catalog="system" id="UZO-Ru-eP2">
+                            <connections>
+                                <action selector="etcButtonDidTap:" destination="Pys-MK-Pcs" id="44b-Hp-35f"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8qH-Ae-cOB" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -27,6 +33,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="ellipsis.circle" catalog="system" width="128" height="121"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

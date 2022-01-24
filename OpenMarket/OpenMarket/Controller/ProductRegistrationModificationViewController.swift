@@ -16,7 +16,7 @@ class ProductRegistrationModificationViewController: productRegister, ImagePicke
   private let api = APIManager(urlSession: URLSession(configuration: .default), jsonParser: JSONParser())
   var product: Product?
   var viewMode: ViewMode?
-  private var productImages: [UIImage] = []
+  var productImages: [UIImage] = []
   
   private let identifer = "3be89f18-7200-11ec-abfa-25c2d8a6d606"
   private let secret = "-7VPcqeCv=Xbu3&P"
