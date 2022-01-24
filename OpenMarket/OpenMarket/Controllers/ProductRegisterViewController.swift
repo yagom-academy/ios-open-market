@@ -50,9 +50,7 @@ class ProductRegisterViewController: UIViewController, ProductManageable {
                 
         productRegisterManager.register()
         
-        self.dismiss(animated: true) {
-            self.productRegisterManager.updateProductData()
-        }
+        self.dismiss(animated: true, completion: nil)
     }
 }
 

@@ -127,15 +127,17 @@ class ProductRegisterManager {
         
         api.registerProduct(newProduct: productRegisterInformation, images: imagesDatas) { result in
             switch result {
+            case .success(_):
+                DispatchQueue.main.async {
+                    self.updateProductData()
+                }
             case .failure(let error):
                 print(error)
-            default:
-                return
             }
         }
     }
     
-    func updateProductData() {
+    private func updateProductData() {
         NotificationCenter.default.post(name: .updateProductData, object: nil)
     }
 }
