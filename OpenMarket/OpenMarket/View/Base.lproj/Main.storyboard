@@ -87,41 +87,49 @@
                                 <rect key="frame" x="15" y="103" width="384" height="744"/>
                                 <subviews>
                                     <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yd0-SG-tyt">
-                                        <rect key="frame" x="0.0" y="0.0" width="384" height="180"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="384" height="170"/>
                                         <subviews>
-                                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="a0S-9w-Sgs">
-                                                <rect key="frame" x="15" y="15" width="369" height="150"/>
-                                            </stackView>
+                                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="i6F-vW-L19">
+                                                <rect key="frame" x="0.0" y="0.0" width="384" height="170"/>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="nqk-18-gYt">
+                                                    <size key="itemSize" width="128" height="128"/>
+                                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                </collectionViewFlowLayout>
+                                                <cells/>
+                                            </collectionView>
                                         </subviews>
                                         <constraints>
-                                            <constraint firstItem="a0S-9w-Sgs" firstAttribute="centerY" secondItem="Yd0-SG-tyt" secondAttribute="centerY" id="4sf-eu-6nK"/>
-                                            <constraint firstItem="baK-Xo-NZy" firstAttribute="trailing" secondItem="a0S-9w-Sgs" secondAttribute="trailing" id="BB5-h7-wQV"/>
-                                            <constraint firstItem="a0S-9w-Sgs" firstAttribute="top" secondItem="Yd0-SG-tyt" secondAttribute="top" constant="15" id="E1d-kl-2oo"/>
-                                            <constraint firstItem="a0S-9w-Sgs" firstAttribute="leading" secondItem="Yd0-SG-tyt" secondAttribute="leading" constant="15" id="fKY-LL-Oar"/>
-                                            <constraint firstItem="a0S-9w-Sgs" firstAttribute="trailing" secondItem="Yd0-SG-tyt" secondAttribute="trailing" constant="-15" id="kbz-dJ-Scp"/>
-                                            <constraint firstItem="a0S-9w-Sgs" firstAttribute="bottom" secondItem="Yd0-SG-tyt" secondAttribute="bottom" constant="-15" id="yhJ-1y-Wy0"/>
+                                            <constraint firstItem="i6F-vW-L19" firstAttribute="leading" secondItem="Yd0-SG-tyt" secondAttribute="leading" id="Fsz-WO-ZJ2"/>
+                                            <constraint firstItem="i6F-vW-L19" firstAttribute="width" secondItem="baK-Xo-NZy" secondAttribute="width" id="Hp2-4d-act"/>
+                                            <constraint firstItem="i6F-vW-L19" firstAttribute="bottom" secondItem="Yd0-SG-tyt" secondAttribute="bottomMargin" id="L0L-TI-uMd"/>
+                                            <constraint firstItem="i6F-vW-L19" firstAttribute="trailing" secondItem="Yd0-SG-tyt" secondAttribute="trailing" id="gRV-sd-fdX"/>
+                                            <constraint firstItem="i6F-vW-L19" firstAttribute="top" secondItem="Yd0-SG-tyt" secondAttribute="top" id="hac-XN-Prv"/>
+                                            <constraint firstItem="i6F-vW-L19" firstAttribute="height" secondItem="baK-Xo-NZy" secondAttribute="height" id="wo7-jx-XoI"/>
                                         </constraints>
                                         <viewLayoutGuide key="contentLayoutGuide" id="84Z-Cq-y4o"/>
                                         <viewLayoutGuide key="frameLayoutGuide" id="baK-Xo-NZy"/>
                                     </scrollView>
                                     <stackView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" verticalHuggingPriority="249" horizontalCompressionResistancePriority="749" verticalCompressionResistancePriority="749" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="bTt-dn-6jk" userLabel="TextFieldStack View">
-                                        <rect key="frame" x="0.0" y="190" width="384" height="148"/>
+                                        <rect key="frame" x="0.0" y="180" width="384" height="158"/>
                                         <subviews>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="상품명" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="mn9-GG-mgZ">
-                                                <rect key="frame" x="0.0" y="0.0" width="384" height="34"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="384" height="41"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits"/>
                                             </textField>
                                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UXP-HY-yUA">
-                                                <rect key="frame" x="0.0" y="39" width="384" height="31"/>
+                                                <rect key="frame" x="0.0" y="46" width="384" height="34"/>
                                                 <subviews>
                                                     <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="상품가격" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="C1U-eJ-YTK">
-                                                        <rect key="frame" x="0.0" y="0.0" width="287" height="31"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="287" height="34"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                                     </textField>
                                                     <segmentedControl opaque="NO" contentMode="scaleToFill" showsMenuAsPrimaryAction="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="xOH-DW-Hd1">
-                                                        <rect key="frame" x="287" y="0.0" width="97" height="32"/>
+                                                        <rect key="frame" x="287" y="0.0" width="97" height="35"/>
                                                         <segments>
                                                             <segment title="KRW"/>
                                                             <segment title="USD"/>
@@ -130,12 +138,12 @@
                                                 </subviews>
                                             </stackView>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="할인금액" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Q3O-Vw-3ic">
-                                                <rect key="frame" x="0.0" y="75" width="384" height="34"/>
+                                                <rect key="frame" x="0.0" y="85" width="384" height="34"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                             </textField>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="재고수량" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="BGX-Bn-o1V">
-                                                <rect key="frame" x="0.0" y="114" width="384" height="34"/>
+                                                <rect key="frame" x="0.0" y="124" width="384" height="34"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                             </textField>
@@ -161,7 +169,7 @@
                                     <constraint firstAttribute="bottom" secondItem="Z3P-J2-0WU" secondAttribute="bottom" id="8wx-S2-G6M"/>
                                     <constraint firstItem="Yd0-SG-tyt" firstAttribute="top" secondItem="4bt-gj-xGz" secondAttribute="top" id="CYx-h5-zVs"/>
                                     <constraint firstItem="Yd0-SG-tyt" firstAttribute="leading" secondItem="4bt-gj-xGz" secondAttribute="leading" id="EeH-4h-GJn"/>
-                                    <constraint firstItem="Yd0-SG-tyt" firstAttribute="bottom" secondItem="4bt-gj-xGz" secondAttribute="top" constant="180" id="fxY-yb-fwC"/>
+                                    <constraint firstItem="Yd0-SG-tyt" firstAttribute="bottom" secondItem="4bt-gj-xGz" secondAttribute="top" constant="170" id="fxY-yb-fwC"/>
                                 </constraints>
                             </stackView>
                         </subviews>
@@ -181,7 +189,7 @@
                     <connections>
                         <outlet property="bargainPriceTextField" destination="Q3O-Vw-3ic" id="jlE-h7-ENp"/>
                         <outlet property="currencySelectButton" destination="xOH-DW-Hd1" id="3vH-r7-w5A"/>
-                        <outlet property="imageStackView" destination="a0S-9w-Sgs" id="rZN-jN-ywT"/>
+                        <outlet property="imageCollectionView" destination="i6F-vW-L19" id="wzB-k2-vmW"/>
                         <outlet property="priceTextField" destination="C1U-eJ-YTK" id="jns-VH-Eic"/>
                         <outlet property="productNameTextField" destination="mn9-GG-mgZ" id="tjw-Fd-KcT"/>
                         <outlet property="stockTextField" destination="BGX-Bn-o1V" id="qSZ-V1-Lyz"/>
