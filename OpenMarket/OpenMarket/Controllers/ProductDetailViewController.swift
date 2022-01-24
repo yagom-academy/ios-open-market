@@ -1,11 +1,21 @@
-//
-//  ProductDetailViewController.swift
-//  OpenMarket
-//
-//  Created by 이차민 on 2022/01/24.
-//
-
 import UIKit
+
+private enum AlertAction {
+    case modify
+    case delete
+    case cancel
+    
+    var title: String {
+        switch self {
+        case .modify:
+            return "수정"
+        case .delete:
+            return "삭제"
+        case .cancel:
+            return "취소"
+        }
+    }
+}
 
 class ProductDetailViewController: UIViewController {
     private let productDetailView = ProductDetailScrollView()
@@ -27,6 +37,7 @@ class ProductDetailViewController: UIViewController {
     }
     
     func configUI() {
+        configNavigationBar()
         view.backgroundColor = .white
         self.view.addSubview(productDetailView)
         productDetailView.translatesAutoresizingMaskIntoConstraints = false
@@ -37,6 +48,25 @@ class ProductDetailViewController: UIViewController {
             productDetailView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -15),
             productDetailView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
         ])
+    }
+    
+    func configNavigationBar() {
+        self.navigationItem.title = productDetail.name
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(didTapManageButton))
+    }
+    
+    @objc func didTapManageButton() {
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        let modifyAction = UIAlertAction(title: AlertAction.modify.title, style: .default, handler: nil)
+        let deleteAction = UIAlertAction(title: AlertAction.delete.title, style: .destructive, handler: nil)
+        let cancelAction = UIAlertAction(title: AlertAction.cancel.title, style: .cancel, handler: nil)
+        
+        [modifyAction, deleteAction, cancelAction].forEach { action in
+            alert.addAction(action)
+        }
+        
+        self.present(alert, animated: true, completion: nil)
     }
     
     func fetchProductDetail() {

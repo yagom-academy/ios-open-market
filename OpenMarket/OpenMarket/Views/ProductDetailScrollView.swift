@@ -71,6 +71,7 @@ class ProductDetailScrollView: UIScrollView {
         textView.textAlignment = .left
         textView.font = .preferredFont(forTextStyle: .subheadline)
         textView.isScrollEnabled = false
+        textView.isEditable = false
         textView.showsVerticalScrollIndicator = false
         return textView
     }()
