@@ -20,7 +20,7 @@ class ViewController: UIViewController {
         let flowLayout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         collectionView.collectionViewLayout = flowLayout
                
-        getDecodedData { (result: Result<ProductList, NetworkError>) in
+        loadData { (result: Result<ProductList, NetworkError>) in
             switch result {
             case .success(let data):
                 self.productListData = data
@@ -33,14 +33,13 @@ class ViewController: UIViewController {
         }
     }
     
-    func getDecodedData(completionHandler: @escaping (Result<ProductList, NetworkError>) -> Void) {
-        let decoder = Decoder()
+    func loadData(completionHandler: @escaping (Result<ProductList, NetworkError>) -> Void) {
         let urlSessionProvider = URLSessionProvider()
         
         urlSessionProvider.getData(requestType: .productList(pageNo: 1, items: 20)) { result in
             switch result {
             case .success(let data):
-                guard let parsedData: ProductList = decoder.parsePageJSON(data: data) else {
+                guard let parsedData: ProductList = self.getParsedData(data: data) else {
                     return
                 }
                 completionHandler(.success(parsedData))
@@ -49,6 +48,21 @@ class ViewController: UIViewController {
             }
         }
     }
+    
+    func getParsedData(data: Data) -> ProductList? {
+        let decoder = Decoder()
+        var parsedData: ProductList? = nil
+
+        let result = decoder.parsePageJSON(data: data)
+        switch result {
+        case .success(let data):
+            parsedData = data
+        case .failure(let error):
+            print(error.localizedDescription)
+        }
+        return parsedData
+    }
+    
 }
 
 extension ViewController: UICollectionViewDataSource {

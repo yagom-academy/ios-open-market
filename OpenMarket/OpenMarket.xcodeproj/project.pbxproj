@@ -145,7 +145,6 @@
 				48C6991A278C1F5D002EF7D1 /* ModifyProduct */,
 				48C6991B278C1F93002EF7D1 /* Secret */,
 				48C6991C278C1FC8002EF7D1 /* DeleteProduct */,
-				48274D50279A8BE6008901B6 /* StringExtension.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -243,6 +242,7 @@
 				0D7634EA278FFBE9001FFB05 /* View Controller */,
 				0DF58F7A27888A6A0024602F /* Model */,
 				0DF58F6D2787FD320024602F /* Decoder.swift */,
+				48274D50279A8BE6008901B6 /* StringExtension.swift */,
 				0DF58F72278816CE0024602F /* Network */,
 			);
 			path = OpenMarket;
