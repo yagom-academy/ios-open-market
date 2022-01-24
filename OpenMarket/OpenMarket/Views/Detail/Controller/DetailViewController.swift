@@ -9,7 +9,6 @@ import UIKit
 
 class DetailViewController: UIViewController {
     var data: Product?
-    private var secret: String?
     private var images = [UIImage]()
     @IBOutlet private weak var nameLabel: UILabel!
     @IBOutlet private weak var priceLabel: UILabel!
@@ -149,13 +148,12 @@ class DetailViewController: UIViewController {
     @IBAction func tappedEditButton(_ sendor: UIButton) {
         showActionSheet { _ in
             self.showAlertPasswordInput { secret in
-                self.secret = secret
                 self.requestModification(secret: secret) { isSuccess in
                     if isSuccess {
                         DispatchQueue.main.async {
                             self.performSegue(
                                 withIdentifier: SegueIdentifier.modifiyView,
-                                sender: (self.data, self.secret)
+                                sender: (self.data, secret)
                             )
                         }
                     } else {
@@ -165,7 +163,84 @@ class DetailViewController: UIViewController {
                     }
                 }
             }
+        } deleteHandler: { _ in
+            self.showAlertPasswordInput { secret in
+                self.requestDelete(secret: secret) { isSuccess in
+                    if isSuccess {
+                        DispatchQueue.main.async {
+                            self.showAlert(message: "삭제처리가 완료되었습니다.") {
+                                NotificationCenter.default.post(name: .updateMain, object: nil)
+                                self.navigationController?.popViewController(animated: true)
+                            }
+                        }
+                    } else {
+                        DispatchQueue.main.async {
+                            self.showAlert(message: AlertMessage.wrongPassword)
+                        }
+                    }
+                }
+            }
         }
+    }
+    
+    private func requestDelete(secret: String, complection: @escaping (Bool) -> Void) {
+        guard let request = requestSecretSearch(secret: secret) else {
+            return
+        }
+        let network = Network()
+        network.execute(request: request) { result in
+            switch result {
+            case .success(let value):
+                guard let value = value,
+                      let password = String(data: value, encoding: .utf8) else {
+                    return
+                }
+                self.delete(password: password) { isSuccess in
+                    if isSuccess {
+                        complection(true)
+                    } else {
+                        complection(false)
+                    }
+                }
+            case .failure(let error):
+                print(error.localizedDescription)
+                complection(false)
+            }
+        }
+    }
+    
+    private func delete(password: String, complection: @escaping (Bool) -> Void) {
+        guard let data = self.data else {
+            return
+        }
+        let networkManager = NetworkManager()
+        guard let requestDelete = networkManager.requestDelete(id: UInt(data.id), secret: password) else {
+            return
+        }
+        networkManager.fetch(request: requestDelete, decodingType: Product.self) { result in
+            switch result {
+            case .success:
+                complection(true)
+            case .failure(let error):
+                print(error.localizedDescription)
+                complection(false)
+            }
+        }
+    }
+    
+    private func requestSecretSearch(secret: String) -> URLRequest? {
+        guard let data = data else {
+            return nil
+        }
+        let networkManager = NetworkManager()
+        let requestResult = networkManager.requestSecretSearch(data: ProductSecret(secret: secret), id: UInt(data.id))
+        switch requestResult {
+        case .success(let request):
+            return request
+        case .failure:
+            return nil
+        }
+        
     }
     
     private func requestModification(secret: String, completion: @escaping (Bool) -> Void) {

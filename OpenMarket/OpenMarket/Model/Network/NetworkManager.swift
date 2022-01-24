@@ -62,7 +62,7 @@ struct NetworkManager {
     }
     
     // POST - 상품 삭제 Secret 상세 조회
-    func requestSecretSearch<T: Encodable>(data: T, id: UInt, secret: String) -> Result<URLRequest, Error> {
+    func requestSecretSearch<T: Encodable>(data: T, id: UInt) -> Result<URLRequest, Error> {
         guard let url = APIAddress.secretSearch(id: id).url else {
             return .failure(NetworkError.notFoundURL)
         }
