@@ -27,6 +27,7 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         requestProducts {
+            self.dataSource.updateProductList()
             self.collectionViewLoad()
         }
         setUpNotification()
@@ -43,7 +44,6 @@ class MainViewController: UIViewController {
             switch result {
             case .success(let products):
                 self.dataSource.setUpProducts(products)
-                self.dataSource.appendProducts(products.pages)
                 completion()
             case .failure(let error):
                 DispatchQueue.main.async {
@@ -91,8 +91,8 @@ class MainViewController: UIViewController {
     @objc private func updateMainView() {
         DispatchQueue.global().async {
             self.dataSource.resetCurrentPage()
-            self.dataSource.resetProductList()
             self.requestProducts {
+                self.dataSource.updateProductList()
                 self.collectionViewReload()
             }
         }
@@ -178,6 +178,7 @@ extension MainViewController: UICollectionViewDelegate {
            let products = dataSource.products, products.hasNext, products.pageNumber == dataSource.currentPage {
             dataSource.currentPage += 1
             self.requestProducts {
+                self.dataSource.appendProducts(products.pages)
                 self.collectionViewReload()
             }
         }
