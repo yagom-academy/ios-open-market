@@ -11,6 +11,7 @@ class URLSessionProvider {
         let task = session.dataTask(with: request) { data, urlResponse, error in
             guard let httpResponse = urlResponse as? HTTPURLResponse,
                   (200...299).contains(httpResponse.statusCode) else {
+                      print("ERRORCODE: \(String(describing: urlResponse))")
                       return completionHandler(.failure(.statusCodeError))
                   }
             
