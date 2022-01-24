@@ -1,10 +1,3 @@
-//
-//  CustomTextField.swift
-//  OpenMarket
-//
-//  Created by 이차민 on 2022/01/17.
-//
-
 import UIKit
 
 class CustomTextField: UITextField {
@@ -18,7 +11,9 @@ class CustomTextField: UITextField {
         self.placeholder = placeholder
         self.keyboardType = keyboardType
         self.font = .preferredFont(forTextStyle: .subheadline)
-        self.inputAccessoryView = hasToolBar ? createToolBar() : nil
+        if hasToolBar {
+            self.inputAccessoryView = createToolBar()
+        }
     }
     
     required init?(coder: NSCoder) {
