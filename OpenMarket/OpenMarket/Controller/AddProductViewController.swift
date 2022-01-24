@@ -1,14 +1,8 @@
-//
-//  addProductViewController.swift
-//  OpenMarket
-//
-//  Created by Seul Mac on 2022/01/19.
-//
-
 import UIKit
 
+
 class AddProductViewController: UIViewController {
-    
+    // MARK: - Property
     @IBOutlet weak var productNameTextField: UITextField!
     @IBOutlet weak var productPriceTextField: UITextField!
     @IBOutlet weak var currencySegmentedControl: UISegmentedControl!
@@ -25,21 +19,18 @@ class AddProductViewController: UIViewController {
     var isButtonTapped = true
     var selectedIndex = 0
     
+    // MARK: - Life Cycle Method
     override func viewDidLoad() {
         super.viewDidLoad()
         imagePicker.delegate = self
         imagePicker.allowsEditing = true
-        self.navigationController?.navigationBar.topItem?.title = "상품등록"
+        navigationController?.navigationBar.topItem?.title = "상품등록"
         setupDescriptionTextView()
     }
     
+    // MARK: - IBAction Method
     @IBAction func tapCancelButton(_ sender: UIBarButtonItem) {
         dismiss(animated: true)
-    }
-    
-    func setupDescriptionTextView() {
-        setTextViewPlaceHolder()
-        setTextViewOutLine()
     }
     
     @IBAction func tapAddImageButton(_ sender: UIButton) {
@@ -51,11 +42,6 @@ class AddProductViewController: UIViewController {
         isButtonTapped = false
         selectedIndex = sender.tag
         showSelectImageAlert()
-    }
-    
-    func showSelectImageAlert() {
-        let alert = createSelectImageAlert()
-        present(alert, animated: true, completion: nil)
     }
     
     @IBAction func tapDoneButton(_ sender: UIBarButtonItem) {
@@ -73,6 +59,7 @@ class AddProductViewController: UIViewController {
         newProduct = nil
     }
     
+    // MARK: - Create Data To Post
     func addToProductImages() {
         let lastTagNumber = productImageStackView.subviews.count - 1
         guard lastTagNumber >= 1 else { return }
@@ -115,7 +102,12 @@ class AddProductViewController: UIViewController {
     }
 }
 
-extension AddProductViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+extension AddProductViewController {
+    // MARK: - Image Picker Alert Method
+    func showSelectImageAlert() {
+        let alert = createSelectImageAlert()
+        present(alert, animated: true, completion: nil)
+    }
     
     func createSelectImageAlert() -> UIAlertController {
         let alert = UIAlertController(title: "상품사진 선택", message: nil, preferredStyle: .actionSheet)
@@ -143,7 +135,10 @@ extension AddProductViewController: UIImagePickerControllerDelegate, UINavigatio
         imagePicker.sourceType = .camera
         present(imagePicker, animated: false, completion: nil)
     }
-    
+}
+
+extension AddProductViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    // MARK: - Image Picker Delegate Method
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
         if let image = info[.editedImage] as? UIImage {
             editProductImageStackView(with: image)
@@ -160,7 +155,7 @@ extension AddProductViewController: UIImagePickerControllerDelegate, UINavigatio
         }
         addProductImage(with: image)
         if productImageStackView.subviews.count == 6 {
-            self.addImageButton.isHidden = true
+            addImageButton.isHidden = true
         }
     }
     
@@ -174,15 +169,18 @@ extension AddProductViewController: UIImagePickerControllerDelegate, UINavigatio
         button.setImage(image, for: .normal)
         button.tag = productImageStackView.subviews.count
         let lastSubviewIndex = self.productImageStackView.subviews.count - 1
-        self.productImageStackView.insertArrangedSubview(button, at: lastSubviewIndex)
+        productImageStackView.insertArrangedSubview(button, at: lastSubviewIndex)
         button.addTarget(self, action: #selector(tapProductImage), for: .touchUpInside)
         button.heightAnchor.constraint(equalTo: productImageStackView.heightAnchor).isActive = true
         button.widthAnchor.constraint(equalTo: button.heightAnchor).isActive = true
     }
-    
 }
-
-extension AddProductViewController: UITextViewDelegate {
+extension AddProductViewController {
+    // MARK: - Text View Setup Method
+    func setupDescriptionTextView() {
+        setTextViewPlaceHolder()
+        setTextViewOutLine()
+    }
     
     func setTextViewOutLine() {
         descriptionTextView.layer.borderWidth = 0.5
@@ -195,7 +193,10 @@ extension AddProductViewController: UITextViewDelegate {
         descriptionTextView.text = "상품 설명(1,000자 이내)"
         descriptionTextView.textColor = .lightGray
     }
-    
+}
+
+extension AddProductViewController: UITextViewDelegate {
+    // MARK: - Text View Delegate Method
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         guard let cunrrentText = descriptionTextView.text else { return true }
         let newLength = cunrrentText.count + text.count - range.length
