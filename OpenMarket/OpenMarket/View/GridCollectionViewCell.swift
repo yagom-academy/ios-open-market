@@ -18,6 +18,10 @@ final class GridCollectionViewCell: OpenMarketCollectionViewCell {
     }
 
     private func configure() {
+        self.layer.cornerRadius = 10
+        self.layer.masksToBounds = true
+        self.layer.borderWidth = 1.0
+        
         stackView.axis = .vertical
         stackView.alignment = .center
         stackView.distribution = .equalSpacing

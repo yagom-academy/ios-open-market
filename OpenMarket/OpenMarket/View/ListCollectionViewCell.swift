@@ -18,6 +18,7 @@ final class ListCollectionViewCell: OpenMarketCollectionViewCell {
     }
 
     private func configure() {
+        self.layer.borderWidth = 0.16
         stackView.axis = .horizontal
         stackView.alignment = .top
         stackView.distribution = .fill

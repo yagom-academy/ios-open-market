@@ -44,16 +44,6 @@ enum OpenMarketLayout {
     func createDataSource<CellType: OpenMarketCollectionViewCell>(for collectionView: UICollectionView, cellType: CellType.Type) -> UICollectionViewDiffableDataSource<Int, Product> {
         let cellRegistration = UICollectionView.CellRegistration<CellType, Product> { (cell, indexPath, item) in
             cell.configureContents(with: item)
-            
-            if self == .grid {
-                cell.layer.cornerRadius = 10
-                cell.layer.masksToBounds = true
-                cell.layer.borderWidth = 1.0
-            } else {
-                cell.layer.borderWidth = 0.3
-            }
-            
-            cell.layer.borderColor = UIColor.systemGray.cgColor
         }
 
         let dataSource = UICollectionViewDiffableDataSource<Int, Product>(collectionView: collectionView) { (collectionView, indexPath, identifier) -> UICollectionViewCell? in

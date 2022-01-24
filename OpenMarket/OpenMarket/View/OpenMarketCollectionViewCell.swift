@@ -30,6 +30,7 @@ class OpenMarketCollectionViewCell: UICollectionViewCell {
     }
     
     private func configure() {
+        self.layer.borderColor = UIColor.systemGray.cgColor
         self.addSubview(stackView)
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
