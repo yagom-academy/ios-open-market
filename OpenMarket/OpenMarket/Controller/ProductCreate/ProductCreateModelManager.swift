@@ -23,7 +23,7 @@ class ProductCreateModelManager {
     }
     
     private var parsedImages: [Image] {
-        images.compactMap { Image(type: .jpeg, data: $0.jpegData(compressionQuality: 1.0)) }
+        images.compactMap { Image(type: .png, data: $0.resizeImage()?.jpegData(compressionQuality: 0.5)) }
     }
     
     var canAddImage: Bool {
