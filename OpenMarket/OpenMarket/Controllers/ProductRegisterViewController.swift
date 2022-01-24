@@ -34,17 +34,17 @@ class ProductRegisterViewController: UIViewController, ProductManageable {
     
     @objc private func didTapDoneButton() {
         if productRegisterManager.isRegisteredImageEmpty {
-            presentAlert(viewController: self, title: "등록된 이미지가 없습니다.", message: "한 개 이상의 이미지를 필수로 등록해주세요.")
+            presentAlert(viewController: self, title: AlertMessage.noProductImage.title, message: AlertMessage.noProductImage.message)
             return
         }
         
         if productRegisterManager.takeNameTextFieldLength() < 3 {
-            presentAlert(viewController: self, title: "상품명을 더 길게 쓰세요", message: "상품명을 세 글자 이상 입력해주세요.")
+            presentAlert(viewController: self, title: AlertMessage.notEnoughProductTitleLength.title, message: AlertMessage.notEnoughProductTitleLength.message)
             return
         }
         
         if productRegisterManager.isPriceTextFieldEmpty {
-            presentAlert(viewController: self, title: "입력된 상품 가격이 없습니다.", message: "한 자리 이상의 상품 가격을 입력해주세요.")
+            presentAlert(viewController: self, title: AlertMessage.noProductPrice.title, message: AlertMessage.noProductPrice.message)
             return
         }
                 
