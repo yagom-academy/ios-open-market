@@ -632,7 +632,8 @@ extension ProductRegistrationViewController: UICollectionViewDataSource {
 
 extension ProductRegistrationViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
-        if textView.textColor == .placeholderText {
+        let textViewIsEmpty = textView.textColor == .placeholderText
+        if textViewIsEmpty {
             textView.text = nil
             textView.textColor = .label
         }
