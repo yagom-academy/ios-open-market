@@ -1,9 +1,5 @@
 import UIKit
 
-protocol PickerPresenter: AnyObject {
-    func presentImagePickerView()
-}
-
 class ProductRegisterManager {
     weak var delegate: PickerPresenter?
     let productInformationScrollView = ProductInformationScrollView()

@@ -1,9 +1,5 @@
 import UIKit
 
-protocol PickerDelegate: AnyObject {
-    func addImage(with image: UIImage)
-}
-
 class ProductImagePickerController: UIImagePickerController {
     weak var pickerDelegate: PickerDelegate?
     
