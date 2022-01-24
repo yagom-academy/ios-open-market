@@ -66,6 +66,7 @@ class ProductCreateModelManager {
         guard currentImages.count <= 5 else { throw ProductCreateError.exceedImage }
         guard form.name.count >= 3 else { throw ProductCreateError.lackOfLetters }
         guard form.description.count <= 1000 else { throw ProductCreateError.exceedLetters }
+        guard form.price != "" else { throw ProductCreateError.priceNotEntered }
     }
     
     enum ProductCreateError: String, LocalizedError {
@@ -77,6 +78,7 @@ class ProductCreateModelManager {
         case unknownCurrency = "화폐 단위 변환에 실패하였습니다"
         case encodingError = "모델 타입으로 인코딩할 수 없습니다"
         case uploadError = "서버에 업로드할 수 없습니다"
+        case priceNotEntered = "가격 정보가 입력되지 않았습니다"
         
         var errorDescription: String? {
             self.rawValue
