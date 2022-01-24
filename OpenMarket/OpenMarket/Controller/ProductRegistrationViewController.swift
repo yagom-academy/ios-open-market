@@ -119,7 +119,10 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
                         message: error.errorDescription
                     )
                 } else {
-                    hideCaution(textField: discountedPriceTextField, cautionLabel: discountedPriceCautionLabel)
+                    hideCaution(
+                        textField: discountedPriceTextField,
+                        cautionLabel: discountedPriceCautionLabel
+                    )
                 }
             }
             if textField === discountedPriceTextField {
@@ -310,11 +313,22 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
     }
     
     private func setupTextFieldTarget() {
-        productNameTextField.addTarget(self, action: #selector(textInputDidChange(_:)), for: .editingChanged)
-        productPriceTextField.addTarget(self, action: #selector(textInputDidChange(_:)), for: .editingChanged)
-        discountedPriceTextField.addTarget(self, action: #selector(textInputDidChange(_:)), for: .editingChanged)
+        productNameTextField.addTarget(
+            self,
+            action: #selector(textInputDidChange(_:)),
+            for: .editingChanged
+        )
+        productPriceTextField.addTarget(
+            self,
+            action: #selector(textInputDidChange(_:)),
+            for: .editingChanged
+        )
+        discountedPriceTextField.addTarget(
+            self,
+            action: #selector(textInputDidChange(_:)),
+            for: .editingChanged
+        )
     }
-    
     
     private func hideAllCautionLabel() {
         productNameCautionLabel.isHidden = true

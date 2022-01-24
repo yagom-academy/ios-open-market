@@ -18,8 +18,8 @@ struct Product: Decodable {
     
     private enum CodingKeys: String, CodingKey {
         case vendor = "vendors"
-        case id, vendorId, name, description, thumbnail, currency, price, bargainPrice, discountedPrice, stock,
-             images, createdAt, issuedAt
+        case id, vendorId, name, description, thumbnail, currency, price, bargainPrice,
+             discountedPrice, stock, images, createdAt, issuedAt
     }
 }
 
@@ -90,7 +90,7 @@ extension Product {
         if self.discountedPrice == 0.0 {
             return formattedOriginalPrice
         }
-
+        
         let priceWithBargainPrice = NSMutableAttributedString()
         let blank = NSAttributedString(string: " ")
         
