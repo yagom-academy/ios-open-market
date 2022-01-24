@@ -1,20 +1,16 @@
 //
 //  OpenMarket - ViewController.swift
-//  Created by yagom. 
+//  Created by yagom.
 //  Copyright © yagom. All rights reserved.
-// 
+//
 
 import UIKit
 
-class ViewController: UIViewController {
+class ProductListViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
-    var productListData: ProductList?
     @IBOutlet weak var switchLayoutController: UISegmentedControl!
-    
-    @IBAction func switchLayout(_ sender: Any) {
-        self.collectionView.reloadData()
-    }
-    
+    var productListData: ProductList?
+
     override func viewDidLoad() {
         super.viewDidLoad()
         let flowLayout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
@@ -31,6 +27,10 @@ class ViewController: UIViewController {
                 print(error)
             }
         }
+    }
+    
+    @IBAction func switchLayout(_ sender: Any) {
+        self.collectionView.reloadData()
     }
     
     func loadData(completionHandler: @escaping (Result<ProductList, NetworkError>) -> Void) {
@@ -65,7 +65,7 @@ class ViewController: UIViewController {
     
 }
 
-extension ViewController: UICollectionViewDataSource {
+extension ProductListViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return productListData?.productsInPage.count ?? 0
     }
@@ -90,7 +90,7 @@ extension ViewController: UICollectionViewDataSource {
     }
 }
 
-extension ViewController: UICollectionViewDelegateFlowLayout {
+extension ProductListViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if switchLayoutController.selectedSegmentIndex == 0 {
             return CGSize(width: collectionView.frame.width, height: 65)
