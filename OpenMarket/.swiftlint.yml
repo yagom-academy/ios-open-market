@@ -1,6 +1,7 @@
 disabled_rules:
 - trailing_whitespace
 - xctfail_message
+- type_body_length
 
 included:
 excluded:
