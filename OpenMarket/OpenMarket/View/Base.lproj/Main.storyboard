@@ -46,21 +46,20 @@
                         </segmentedControl>
                         <barButtonItem key="rightBarButtonItem" style="done" systemItem="add" id="lQM-VB-6Kb">
                             <connections>
-                                <action selector="createButtonClicked:" destination="BYZ-38-t0r" id="dIZ-EY-qYu"/>
+                                <segue destination="MSa-Zb-wfO" kind="show" id="m9I-7G-A25"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="activityIndicator" destination="Y3a-M4-mVk" id="Sxq-SN-YOl"/>
                         <outlet property="segmentedControl" destination="26R-04-yGZ" id="Ojg-oR-KTj"/>
-                        <segue destination="MSa-Zb-wfO" kind="presentation" identifier="productCreateModifySeque" modalPresentationStyle="fullScreen" id="o2A-CM-Lue"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1047.8260869565217" y="124.55357142857142"/>
         </scene>
-        <!--Product Create View Controller-->
+        <!--상품등록-->
         <scene sceneID="B4G-4S-WtW">
             <objects>
                 <viewController id="B9K-f5-Ghn" customClass="ProductCreateViewController" customModule="OpenMarket" customModuleProvider="target" sceneMemberID="viewController">
@@ -81,7 +80,7 @@
                             <constraint firstItem="ebF-gb-Y2k" firstAttribute="trailing" secondItem="6eB-Q6-6BE" secondAttribute="trailing" id="mqz-kb-7fP"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="MtA-n3-Hvi">
+                    <navigationItem key="navigationItem" title="상품등록" id="MtA-n3-Hvi">
                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="Cj3-cW-Uf6">
                             <connections>
                                 <segue destination="1FF-Gr-0yC" kind="unwind" unwindAction="unwindToProductPageViewController:" id="miO-VE-qaF"/>

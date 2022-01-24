@@ -101,25 +101,6 @@ final class ProductPageViewController: UIViewController {
         dataManager.update()
         configureViewLayout()
     }
-    
-    @IBAction func createButtonClicked(_ sender: UIBarButtonItem) {
-        let createProductSegue = "productCreateModifySeque"
-        performSegue(withIdentifier: createProductSegue, sender: nil)
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard let destination = segue.destination as? UINavigationController else {
-            return
-        }
-        
-        guard let productCreateViewController = destination.topViewController as? ProductCreateViewController else {
-            return
-        }
-        
-        productCreateViewController.navigationItem.title = "상품등록"
-    }
-    
-}
 
 // MARK: - UIRefreshControl Action
 private extension ProductPageViewController {
