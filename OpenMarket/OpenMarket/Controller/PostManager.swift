@@ -5,9 +5,10 @@
 //  Created by Jae-hoon Sim on 2022/01/23.
 //
 
-import Foundation
+import UIKit
 
 class PostManager {
+    
     private var delegate: PostResultRepresentable?
 
     func setDelegate(_ delegate: PostResultRepresentable) {
@@ -34,29 +35,16 @@ class PostManager {
             self.delegate?.postManager(didFailPostingWithError: .createFailure)
         }
     }
-
+    
     private func createPostService(with data: UnboundDataForPost) throws -> OpenMarketService {
 
         let params: Data = try JSONEncoder().encode(requestParamsForPost(with: data))
 
-        guard let images: [Image] = {
-            var imageIdentifiers = data.images?.compactMap { image -> Image? in
-                guard let pngData = image.pngData() else { return nil }
-                return Image(type: .png, data: pngData)
-            }
-            imageIdentifiers?.removeLast()
-            return imageIdentifiers
-        }() else {
-            throw CreateProductError.invalidImages
-        }
-
-        guard (1...5).contains(images.count) else {
-            throw CreateProductError.invalidImages
-        }
+        let images: [Image] = try processedImages(data.images)
 
         return OpenMarketService.createProduct(sellerID: "1c51912b-7215-11ec-abfa-13ae6fd5cdba", params: params, images: images)
     }
-
+    
     private func requestParamsForPost(with data: UnboundDataForPost) throws -> CreateProductRequestParams {
         guard let name = data.name,
               (3...100).contains(name.count) else {
@@ -71,7 +59,8 @@ class PostManager {
             throw CreateProductError.invalidPrice
         }
         guard let discountedPriceInString = data.discountedPrice,
-              let discountedPriceInDecimal = Decimal(string: discountedPriceInString, locale: .none) else {
+              let discountedPriceInDecimal = discountedPriceInString == "" ? 0
+                : Decimal(string: discountedPriceInString, locale: .none) else {
             throw CreateProductError.invalidDiscountedPrice
         }
         let discountedPrice = (0...priceInDecimal).contains(discountedPriceInDecimal) ? discountedPriceInDecimal : 0
@@ -87,4 +76,33 @@ class PostManager {
                                           stock: stockInInt,
                                           secret: secret)
     }
+    
+    private func processedImages(_ images: [UIImage]?) throws -> [Image] {
+        guard let images: [Image] = try {
+            var imageIdentifiers = try images?.compactMap { image -> Image? in
+                guard let jpegData = try compressedImage(image) else { return nil }
+                return Image(type: .png, data: jpegData)
+            }
+            imageIdentifiers?.removeLast()
+            return imageIdentifiers
+        }() else {
+            throw CreateProductError.invalidImages
+        }
+        guard (1...5).contains(images.count) else {
+            throw CreateProductError.invalidImages
+        }
+
+        return images
+    }
+    
+    private func compressedImage(_ image: UIImage) throws -> Data? {
+        var quality: CGFloat = 1.0
+        while let size = image.jpegData(compressionQuality: quality)?.count,
+              size >= 307200 {
+            print(size)
+            quality -= 0.1
+        }
+        return image.jpegData(compressionQuality: quality)
+    }
+    
 }

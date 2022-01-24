@@ -360,11 +360,11 @@
 				C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */,
 				C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */,
 				E998F88527915D8B008DD201 /* PageViewController.swift */,
+				E998F89327917370008DD201 /* GetManager.swift */,
 				E929F94C2798807A005A15A9 /* AddProductViewController.swift */,
 				E929F971279DA238005A15A9 /* PostManager.swift */,
-				E998F89327917370008DD201 /* GetManager.swift */,
-				E929F979279DB318005A15A9 /* CreateProductError.swift */,
 				E929F97D279DB379005A15A9 /* PostResultRepresentable.swift */,
+				E929F979279DB318005A15A9 /* CreateProductError.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
