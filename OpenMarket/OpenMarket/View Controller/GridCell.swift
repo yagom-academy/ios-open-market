@@ -32,8 +32,8 @@ class GridCell: UICollectionViewCell {
             }
         }
         
-        let commaPrice = "\(productData.price)".insertComma()
-        let commaDiscountedPrice = "\(productData.discountedPrice)".insertComma()
+        let commaPrice = "\(productData.price)".insertCommaInThousands()
+        let commaDiscountedPrice = "\(productData.discountedPrice)".insertCommaInThousands()
         name.text = productData.name
         price.text = "\(productData.currency) \(commaPrice) "
         discountedPrice.text = "\(productData.currency) \(commaDiscountedPrice)"
