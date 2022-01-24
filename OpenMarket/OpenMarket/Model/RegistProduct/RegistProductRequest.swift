@@ -10,7 +10,7 @@ import Foundation
 struct RegistProductRequest: Codable {
     let vendorID: String
     let productParam: ProductParam
-    let images: [Image]
+    let images: [RegistImage]
     
     private enum CodingKeys: String, CodingKey {
         case vendorID = "identifier"
