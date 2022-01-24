@@ -194,6 +194,7 @@ extension MainViewController: UICollectionViewDelegate {
         } else if let product = sender as? Product,
                   let nextViewController = segue.destination as? DetailViewController {
             nextViewController.requestDetail(productId: UInt(product.id))
+            nextViewController.setUpTitle(product.name)
         } else {
             showAlert(message: AlertMessage.dataDeliveredFail, completion: nil)
         }

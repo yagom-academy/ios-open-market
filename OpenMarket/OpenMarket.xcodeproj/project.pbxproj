@@ -26,6 +26,8 @@
 		9A1CFDD3278526B8003BEC69 /* NetworkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1CFDD2278526B8003BEC69 /* NetworkTests.swift */; };
 		9A1CFDD527852721003BEC69 /* MockSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1CFDD427852721003BEC69 /* MockSession.swift */; };
 		9A4F77FA2798014000D9F854 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4F77F92798014000D9F854 /* DetailViewController.swift */; };
+		9A4F7841279B3ADB00D9F854 /* ImageDetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4F783F279B3ADB00D9F854 /* ImageDetailCell.swift */; };
+		9A4F7842279B3ADB00D9F854 /* ImageDetailCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9A4F7840279B3ADB00D9F854 /* ImageDetailCell.xib */; };
 		9A96059A2790178800FA9E47 /* ImageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9605992790178800FA9E47 /* ImageManager.swift */; };
 		9AAA3EAE2785726A00D6E407 /* StubProducts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAA3EAD2785726A00D6E407 /* StubProducts.swift */; };
 		9AAA3EB02785812A00D6E407 /* MockURLProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAA3EAF2785812A00D6E407 /* MockURLProtocol.swift */; };
@@ -101,6 +103,8 @@
 		9A1CFDD2278526B8003BEC69 /* NetworkTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkTests.swift; sourceTree = "<group>"; };
 		9A1CFDD427852721003BEC69 /* MockSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MockSession.swift; path = "Test Doubles/MockSession.swift"; sourceTree = "<group>"; };
 		9A4F77F92798014000D9F854 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		9A4F783F279B3ADB00D9F854 /* ImageDetailCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDetailCell.swift; sourceTree = "<group>"; };
+		9A4F7840279B3ADB00D9F854 /* ImageDetailCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ImageDetailCell.xib; sourceTree = "<group>"; };
 		9A9605992790178800FA9E47 /* ImageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageManager.swift; sourceTree = "<group>"; };
 		9AAA3EAD2785726A00D6E407 /* StubProducts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = StubProducts.swift; path = "Test Doubles/StubProducts.swift"; sourceTree = "<group>"; };
 		9AAA3EAF2785812A00D6E407 /* MockURLProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MockURLProtocol.swift; path = "Test Doubles/MockURLProtocol.swift"; sourceTree = "<group>"; };
@@ -244,6 +248,8 @@
 			isa = PBXGroup;
 			children = (
 				F3FAC3712797F4910096CFB0 /* Detail.storyboard */,
+				9A4F783F279B3ADB00D9F854 /* ImageDetailCell.swift */,
+				9A4F7840279B3ADB00D9F854 /* ImageDetailCell.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -503,6 +509,7 @@
 				C70FB10425BEF61D00C9924E /* Assets.xcassets in Resources */,
 				C70FB10225BEF61C00C9924E /* Main.storyboard in Resources */,
 				9A13456C278C574800660291 /* Edit.storyboard in Resources */,
+				9A4F7842279B3ADB00D9F854 /* ImageDetailCell.xib in Resources */,
 				F33F506E27965C680073B84F /* ImageAddHeaderView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -543,6 +550,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9A1CFDCC27842755003BEC69 /* ProductModification.swift in Sources */,
+				9A4F7841279B3ADB00D9F854 /* ImageDetailCell.swift in Sources */,
 				9A96059A2790178800FA9E47 /* ImageManager.swift in Sources */,
 				F35B1A642783E6420031A755 /* Network.swift in Sources */,
 				9A134566278C2BC300660291 /* Int+extension.swift in Sources */,

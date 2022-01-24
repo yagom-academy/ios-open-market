@@ -11,7 +11,6 @@ class DetailViewController: UIViewController {
     var data: Product?
     private var secret: String?
     private var images = [UIImage]()
-    @IBOutlet private weak var imageView: UIImageView!
     @IBOutlet private weak var nameLabel: UILabel!
     @IBOutlet private weak var priceLabel: UILabel!
     @IBOutlet private weak var bargainPriceLabel: UILabel!
@@ -20,9 +19,19 @@ class DetailViewController: UIViewController {
     @IBOutlet private weak var vendorLabel: UILabel!
     @IBOutlet private weak var descriptionLabel: UILabel!
     
+    @IBOutlet private weak var collectionView: UICollectionView!
+    @IBOutlet private weak var pageControl: UIPageControl!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpNotification()
+        setUpNavigationItem()
+        setUpPageControl()
+        setUpCollectionView()
+    }
+    
+    func setUpTitle(_ title: String) {
+        navigationItem.title = title
     }
     
     func requestDetail(productId: UInt) {
@@ -35,6 +44,7 @@ class DetailViewController: UIViewController {
             switch result {
             case .success(let product):
                 self.setUpViews(product: product)
+                self.setUpImages()
             case .failure(let error):
                 DispatchQueue.main.async {
                     self.showAlert(message: error.localizedDescription)
@@ -43,9 +53,8 @@ class DetailViewController: UIViewController {
         }
     }
     
-    func setUpViews(product: Product) {
+    private func setUpViews(product: Product) {
         data = product
-        setUpImages()
         DispatchQueue.main.async {
             self.nameLabel.text = product.name
             self.priceLabel.text = product.price.description
@@ -61,16 +70,52 @@ class DetailViewController: UIViewController {
         guard let newImages = data?.images else {
             return
         }
+        let dispatchGroup = DispatchGroup()
         newImages.forEach { newImage in
             if let cachedImage = ImageManager.shared.loadCachedData(for: newImage.url) {
                 self.images.append(cachedImage)
             } else {
+                dispatchGroup.enter()
                 ImageManager.shared.downloadImage(with: newImage.url) { image in
                     ImageManager.shared.setCacheData(of: image, for: newImage.url)
                     self.images.append(image)
+                    dispatchGroup.leave()
                 }
             }
         }
+        dispatchGroup.notify(queue: .main) {
+            DispatchQueue.main.async {
+                self.collectionView.dataSource = self
+                self.collectionView.delegate = self
+                self.pageControl.numberOfPages = self.images.count
+                self.pageControl.isHidden = false
+                self.pageControl.hidesForSinglePage = true
+            }
+        }
+    }
+    
+    
+    private func setUpNavigationItem() {
+        navigationController?.navigationBar.tintColor = .black
+        navigationController?.navigationBar.topItem?.title = ""
+    }
+    
+    private func setUpPageControl() {
+        pageControl.currentPage = 0
+        pageControl.pageIndicatorTintColor = .lightGray
+        pageControl.currentPageIndicatorTintColor = .black
+        pageControl.isHidden = true
+    }
+    
+    private func setUpCollectionView() {
+        let flowLayout = UICollectionViewFlowLayout()
+        flowLayout.scrollDirection = .horizontal
+        collectionView.collectionViewLayout = flowLayout
+        collectionView.isPagingEnabled = true
+        collectionView.showsHorizontalScrollIndicator = false
+        
+        let nibName = UINib(nibName: ImageDetailCell.nibName, bundle: .main)
+        collectionView.register(nibName, forCellWithReuseIdentifier: ImageDetailCell.identifier)
     }
     
     private func setUpNotification() {
@@ -151,4 +196,55 @@ class DetailViewController: UIViewController {
             return nil
         }
     }
+}
+
+extension DetailViewController: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return images.count
+    }
+    
+    func collectionView(
+        _ collectionView: UICollectionView,
+        cellForItemAt indexPath: IndexPath
+    ) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: ImageDetailCell.identifier,
+            for: indexPath
+        ) as? ImageDetailCell else {
+            return UICollectionViewCell()
+        }
+        
+        cell.imageView.image = images[indexPath.item]
+        return cell
+    }
+}
+
+extension DetailViewController: UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        sizeForItemAt indexPath: IndexPath
+    ) -> CGSize {
+        return CGSize(width: UIScreen.main.bounds.width, height: collectionView.frame.height)
+    }
+    
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        minimumLineSpacingForSectionAt section: Int
+    ) -> CGFloat {
+        return 0
+    }
+}
+
+extension DetailViewController: UICollectionViewDelegate {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        willDisplay cell: UICollectionViewCell,
+        forItemAt indexPath: IndexPath
+    ) {
+        pageControl.currentPage = indexPath.item
+    }
+    
 }
