@@ -44,6 +44,7 @@ class AddProductViewController: UIViewController {
     }
     
     @IBAction func tapDoneButton(_ sender: UIBarButtonItem) {
+        
         createNewProduct()
         addToProductImages()
         guard let information = newProductInformation else { return }
@@ -51,14 +52,117 @@ class AddProductViewController: UIViewController {
             switch result {
             case .success(let data):
                 print("\(data.name) post 성공")
+                DispatchQueue.main.async {
+                    self.dismiss(animated: true, completion: nil)
+                }
             case .failure(let error):
                 print(error.localizedDescription)
             }
         }
-        newProductInformation = nil
     }
     
+    func initializeProductInput() {
+        ProductInput.name = nil
+        ProductInput.descriptions = nil
+        ProductInput.price = nil
+        ProductInput.discountedPrice = 0
+        ProductInput.stock = 0
+    }
+}
+
+extension AddProductViewController {
     // MARK: - Create Data To Post
+    enum ProductInput {
+        static var name: String?
+        static var descriptions: String?
+        static var price: Double?
+        static var discountedPrice: Double? = 0
+        static var currency: Currency = Currency.KRW
+        static var stock: Int? = 0
+        static var secret: String = "EE5ud*rBT9Nu38_d"
+    }
+    
+    func createNewProduct() {
+        newProductInformation = nil
+        initializeProductInput()
+        checkInputs()
+        guard let name = ProductInput.name, let price = ProductInput.price, let description = ProductInput.descriptions, let discountedPrice = ProductInput.discountedPrice, let stock = ProductInput.stock else {
+            return
+        }
+        newProductInformation = NewProductInformation(name: name, descriptions: description, price: price, discountedPrice: discountedPrice, currency: ProductInput.currency, stock: stock, secret: ProductInput.secret)
+    }
+    
+    func checkInputs() {
+        checkProductName()
+        checkProductPrice()
+        checkCurrency()
+        checkDiscountPrice()
+        checkProductStock()
+        checkProductDescription()
+    }
+    
+    func checkProductName() {
+        guard let productName = productNameTextField.text, productName.count >= 3 else {
+            ProductInput.name = nil
+            print("상품명 3자리 입력")
+            return
+        } // 3자리이상입력
+        ProductInput.name = productName
+    }
+    
+    func checkProductPrice() {
+        guard let productPriceText = productPriceTextField.text, !productPriceText.isEmpty else {
+            ProductInput.price = nil
+            print("가격 필수 입력")
+            return
+        } // 필수입력
+        guard let productPrice = Double(productPriceText) else {
+            ProductInput.price = nil
+            print("가격 숫자만 입력")
+            return
+        } // 숫자만 입력
+        ProductInput.price = productPrice
+    }
+    
+    func checkCurrency() {
+        let selectedIndex = currencySegmentedControl.selectedSegmentIndex
+        guard let currentTitle = currencySegmentedControl.titleForSegment(at: selectedIndex),
+              let currency = Currency.init(unit: currentTitle)
+        else { return }
+        ProductInput.currency = currency
+    }
+    
+    func checkDiscountPrice() {
+        guard let discountPriceText = discountedPriceTextField.text, !discountPriceText.isEmpty else { return } // default 사용
+        
+        guard let discountPrice = Double(discountPriceText) else {
+            ProductInput.discountedPrice = nil
+            print("할인금액 숫자만 입력")
+            return
+        } // 숫자만 입력
+        ProductInput.discountedPrice = discountPrice
+    }
+    
+    func checkProductStock() {
+        guard let productStockText = productStockTextField.text, !productStockText.isEmpty else { return } // default 사용
+        guard let productStock = Int(productStockText) else {
+            ProductInput.stock = nil
+            print("재고 숫자만 입력")
+            return
+        } // 숫자만 입력
+        ProductInput.stock = productStock
+    }
+    
+    func checkProductDescription() {
+        guard let productDescription = descriptionTextView.text,
+              descriptionTextView.textColor == UIColor.black,
+              productDescription.count >= 10 else {
+                  print("10자 이상 입력")
+                  return
+              } // 필수입력 10자 이상
+        ProductInput.descriptions = productDescription
+    }
+    
     func addToProductImages() {
         let lastTagNumber = productImageStackView.subviews.count - 1
         guard lastTagNumber >= 1 else { return }
@@ -72,31 +176,9 @@ class AddProductViewController: UIViewController {
         guard let imageButton = view.viewWithTag(tag) as? UIButton,
               let image = imageButton.imageView?.image,
               let imageData = image.jpegData(compressionQuality: 0.1) else { return }
-
+        
         let productImage = NewProductImage(image: imageData)
         newProductImages.append(productImage)
-    }
-    
-    func createNewProduct() {
-        guard let name = productNameTextField.text,
-              let priceText = productPriceTextField.text,
-              let description = descriptionTextView.text else { return }
-        guard let price = Double(priceText) else { return }
-        let discountPriceText = discountedPriceTextField.text ?? "0.0"
-        guard let discountPrice = Double(discountPriceText) else { return }
-        let stockText = productStockTextField.text ?? "0"
-        guard let stock = Int(stockText) else { return }
-        
-        var currency = Currency.KRW
-        let selectedIndex = currencySegmentedControl.selectedSegmentIndex
-        guard let currentTitle = currencySegmentedControl.titleForSegment(at: selectedIndex) else { return }
-        if currentTitle == Currency.KRW.unit {
-            currency = Currency.KRW
-        } else if currentTitle == Currency.USD.unit {
-            currency = Currency.USD
-        }
-        
-        newProductInformation = NewProductInformation(name: name, descriptions: description, price: price, discountedPrice: discountPrice, currency: currency, stock: stock)
     }
 }
 

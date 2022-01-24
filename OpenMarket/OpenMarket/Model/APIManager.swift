@@ -61,7 +61,7 @@ extension APIManager {
         guard let url = URLManager.addNewProduct.url else { return nil }
         var request = URLRequest(url: url, method: .post)
         request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
-        request.addValue("a921bac5-71fc-11ec-abfa-b705b9fcd3ac", forHTTPHeaderField: "identifier")
+        request.addValue("819efbc3-71fc-11ec-abfa-dd40b1881f4c", forHTTPHeaderField: "identifier")
         request.httpBody = createRequestBody(product: product, images: images)
         return request
     }
