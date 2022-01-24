@@ -14,4 +14,4 @@ protocol DataTaskProvidable {
     ) -> URLSessionDataTask
 }
 
-extension URLSession: DataTaskProvidable { }
+extension URLSession: DataTaskProvidable {}

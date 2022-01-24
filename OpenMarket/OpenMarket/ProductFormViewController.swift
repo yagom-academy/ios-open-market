@@ -7,14 +7,28 @@
 
 import UIKit
 
+// MARK: - AddButtonPressedDelegate Protocol
+
 protocol AddButtonPressedDelegate: AnyObject {
     func addButtonPressed()
 }
 
-final class ProductDetailsViewController: UIViewController {
+final class ProductFormViewController: UIViewController {
+    
+    // MARK: - Nested Type
+    
     enum PageMode {
         case register
         case edit
+        
+        var description: String {
+            switch self {
+            case .register:
+                return "상품등록"
+            case .edit:
+                return "상품수정"
+            }
+        }
     }
     
     // MARK: - IBOutlets
@@ -44,21 +58,34 @@ final class ProductDetailsViewController: UIViewController {
         
         return imagePicker
     }()
+
+    private var isValidRequiredInputs: Bool {
+        return productNameTextField.isValid &&
+            priceTextField.isValid &&
+            descriptionTextView.isValid
+    }
+    
+    
     
     private var images: [UIImage] = []
     private var productImages: [ProductImage] = []
-    private var keyHeight: CGFloat?
     weak var delegate: AddButtonPressedDelegate?
     private var pageMode: PageMode
     
-    init?(delegate: AddButtonPressedDelegate, pageMode: PageMode, coder: NSCoder) {
+    // MARK: - Initializer
+    
+    init?(delegate: AddButtonPressedDelegate,
+          pageMode: PageMode,
+          coder: NSCoder
+    ) {
         self.delegate = delegate
         self.pageMode = pageMode
         super.init(coder: coder)
     }
     
     required init?(coder: NSCoder) {
-        fatalError("실패")
+        assertionFailure("init(coder: ) has not been implemented")
+        return nil
     }
     
     // MARK: - Lifecycle
@@ -78,6 +105,7 @@ final class ProductDetailsViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
+        
         productNameTextField.becomeFirstResponder()
     }
     
@@ -85,11 +113,17 @@ final class ProductDetailsViewController: UIViewController {
         NotificationCenter.default.removeObserver(UIResponder.keyboardWillShowNotification)
         NotificationCenter.default.removeObserver(UIResponder.keyboardWillHideNotification)
     }
+    
+    // MARK: - Internal Methods
+    
+    func triggerDelegateMethod() {
+        delegate?.addButtonPressed()
+    }
 }
 
 //MARK: - IBActions
 
-extension ProductDetailsViewController {
+extension ProductFormViewController {
     @IBAction func cancelButtonTapped(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }
@@ -106,7 +140,7 @@ extension ProductDetailsViewController {
 
 // MARK: - Private Methods
 
-extension ProductDetailsViewController {
+extension ProductFormViewController {
     private func setupCollectionView() {
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -131,19 +165,14 @@ extension ProductDetailsViewController {
     }
     
     private func setPageMode() {
-        switch pageMode {
-        case .register:
-            navigationBar.topItem?.title = "상품등록"
-        case .edit:
-            navigationBar.topItem?.title = "상품수정"
-        }
+        navigationBar.topItem?.title = pageMode.description
     }
     
     private func setTextFields() {
-        productNameTextField.placeholder = "상품명"
-        priceTextField.placeholder = "상품가격"
-        discountedPriceTextField.placeholder = "할인금액"
-        stockTextField.placeholder = "재고수량"
+        productNameTextField.placeholder = ProductUIString.productName
+        priceTextField.placeholder = ProductUIString.productPrice
+        discountedPriceTextField.placeholder = ProductUIString.discountedPrice
+        stockTextField.placeholder = ProductUIString.productStock
         productNameTextField.addDoneButton()
         priceTextField.addDoneButton()
         discountedPriceTextField.addDoneButton()
@@ -151,12 +180,12 @@ extension ProductDetailsViewController {
     }
     
     private func setSegmentedControlTitle() {
-        currencySegmentedControl.setTitle("KRW", forSegmentAt: 0)
-        currencySegmentedControl.setTitle("USD", forSegmentAt: 1)
+        currencySegmentedControl.setTitle(Currency.krw.description, forSegmentAt: 0)
+        currencySegmentedControl.setTitle(Currency.usd.description, forSegmentAt: 1)
     }
     
     private func setTextViewPlaceholder() {
-        descriptionTextView.text = "제품 설명을 입력하세요."
+        descriptionTextView.text = ProductUIString.defaultDescription
         descriptionTextView.textColor = .lightGray
     }
     
@@ -165,20 +194,22 @@ extension ProductDetailsViewController {
             self,
             selector: #selector(keyboardWillShow),
             name: UIResponder.keyboardWillShowNotification,
-            object: nil)
+            object: nil
+        )
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(keyboardWillHide),
             name: UIResponder.keyboardWillHideNotification,
-            object: nil)
+            object: nil
+        )
     }
     
     private func registerProduct() {
         let apiService = MarketAPIService()
         guard let postProduct = makePostProduct() else {
+            AlertManager.presentUnsuccessfulRegisterAlert(on: self)
             return
         }
-        
         apiService.registerProduct(product: postProduct, images: productImages) { result in
             switch result {
             case .success(let data):
@@ -188,12 +219,11 @@ extension ProductDetailsViewController {
             }
         }
     }
+    
     private func makePostProduct() -> PostProduct? {
-        guard productNameTextField.text != "",
-              priceTextField.text != "",
-              descriptionTextView.text != "제품 설명을 입력하세요." else {
-                  return nil
-              }
+        guard isValidRequiredInputs else {
+            return nil
+        }
         guard let name = productNameTextField.text,
               let descriptions = descriptionTextView.text,
               let priceText = priceTextField.text,
@@ -201,19 +231,10 @@ extension ProductDetailsViewController {
               let currency = Currency(rawValue: currencySegmentedControl.selectedSegmentIndex) else {
             return nil
         }
-        
-        var discountedPrice: Double? = 0
-        var stock: Int? = 0
-        
-        if let discountedPriceString = discountedPriceTextField.text,
-           let stockString = stockTextField.text,
-           discountedPriceString != "",
-           stockString != "" {
-            discountedPrice = Double(discountedPriceString)
-            stock = Int(stockString)
-        }
-        
-        let product = PostProduct(
+        let discountedPrice = convertDiscountedPrice(discountedPriceTextField)
+        let stock = convertStock(stockTextField)
+      
+        return .init(
             name: name,
             descriptions: descriptions,
             price: price,
@@ -222,43 +243,65 @@ extension ProductDetailsViewController {
             stock: stock,
             secret: "password"
         )
-      
-        return product
     }
-    // https://stackoverflow.com/a/32583809
+    
+    private func convertDiscountedPrice(_ textField: UITextField) -> Double? {
+        guard textField.isValid,
+              let text = textField.text else {
+            return nil
+        }
+        return Double(text)
+    }
+    
+    private func convertStock(_ textField: UITextField) -> Int? {
+        guard textField.isValid,
+              let text = textField.text else {
+            return nil
+        }
+        return Int(text)
+    }
+    
     @objc func keyboardWillShow(notification: NSNotification) {
         guard let userInfo = notification.userInfo else {
             return
         }
-        var keyboardFrame: CGRect = (userInfo[UIResponder.keyboardFrameBeginUserInfoKey] as! NSValue).cgRectValue
+        var keyboardFrame = (userInfo[UIResponder.keyboardFrameBeginUserInfoKey] as! NSValue).cgRectValue
         keyboardFrame = self.view.convert(keyboardFrame, from: nil)
         
-        var contentInset: UIEdgeInsets = self.scrollView.contentInset
+        var contentInset = self.scrollView.contentInset
         contentInset.bottom = keyboardFrame.size.height + 20
         scrollView.contentInset = contentInset
     }
     
     @objc func keyboardWillHide(notification: NSNotification) {
-        let contentInset:UIEdgeInsets = UIEdgeInsets.zero
+        let contentInset = UIEdgeInsets.zero
         scrollView.contentInset = contentInset
     }
 }
 
 // MARK: - UICollectionViewDataSource
 
-extension ProductDetailsViewController: UICollectionViewDataSource {
+extension ProductFormViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return images.count + 1
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView,
+                        cellForItemAt indexPath: IndexPath
+    ) -> UICollectionViewCell {
         if indexPath.row == 0 {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AddImageButtonCell.identifier, for: indexPath) as! AddImageButtonCell
+            let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: AddImageButtonCell.identifier,
+                for: indexPath
+            ) as! AddImageButtonCell
             
             cell.setDelegate(delegate: self)
             return cell
         } else {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ImageCell.identifier, for: indexPath) as! ImageCell
+            let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: ImageCell.identifier,
+                for: indexPath
+            ) as! ImageCell
             
             cell.configure(with: images[indexPath.row - 1])
             return cell
@@ -268,16 +311,18 @@ extension ProductDetailsViewController: UICollectionViewDataSource {
 
 // MARK: - UICollectionViewDelegateFlowLayout
 
-extension ProductDetailsViewController: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 10
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+extension ProductFormViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        minimumLineSpacingForSectionAt section: Int
+    ) -> CGFloat {
         return 0
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath
+    ) -> CGSize {
         let sideLength = collectionView.frame.height
         let size = CGSize(width: sideLength, height: sideLength)
         
@@ -287,7 +332,7 @@ extension ProductDetailsViewController: UICollectionViewDelegateFlowLayout {
 
 // MARK: - AddImageCellDelegate
 
-extension ProductDetailsViewController: AddImageCellDelegate {
+extension ProductFormViewController: AddImageCellDelegate {
     func addImagePressed() {
         guard images.count < 5 else {
             AlertManager.presentExcessImagesAlert(on: self)
@@ -299,7 +344,7 @@ extension ProductDetailsViewController: AddImageCellDelegate {
 
 //MARK: - UITextViewDelegate
 
-extension ProductDetailsViewController: UITextViewDelegate {
+extension ProductFormViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
         textView.text = nil
         textView.textColor = .black
@@ -308,20 +353,44 @@ extension ProductDetailsViewController: UITextViewDelegate {
 
 // MARK: - UIImagePickerControllerDelegate
 
-extension ProductDetailsViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+extension ProductFormViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController,
+                               didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]
+    ) {
         guard let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage else {
             return
         }
-        let tmpPath = NSTemporaryDirectory() as String
+        let temporaryDirectoryPath = NSTemporaryDirectory() as String
         let fileName = ProcessInfo.processInfo.globallyUniqueString
-        
-        let productImage = ProductImage(name: tmpPath + fileName, type: .jpeg, image: image)
+        let productImage = ProductImage(
+            name: temporaryDirectoryPath + fileName,
+            type: .jpeg,
+            image: image
+        )
         
         images.append(image)
         productImages.append(productImage)
-        
         dismiss(animated: true, completion: nil)
         collectionView.reloadData()
+    }
+}
+
+// MARK: - IdentifiableView
+
+extension ProductFormViewController: IdentifiableView {}
+
+// MARK: - UITextField Extension
+
+fileprivate extension UITextField {
+    var isValid: Bool {
+        return self.text?.isEmpty == false
+    }
+}
+
+//MARK: - UITextView Extension
+
+fileprivate extension UITextView {
+    var isValid: Bool {
+        return self.text != ProductUIString.defaultDescription
     }
 }

@@ -38,6 +38,8 @@ final class ListViewController: UIViewController {
         collectionView.dataSource = self
     }
     
+    // MARK: - Internal Methods
+    
     func updateProducts(with products: [Product]) {
         self.products = products
         
@@ -65,11 +67,15 @@ extension ListViewController {
 //MARK: - UICollectionViewDataSource
 
 extension ListViewController: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView,
+                        numberOfItemsInSection section: Int
+    ) -> Int {
         return products.count
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView,
+                        cellForItemAt indexPath: IndexPath
+    ) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: MarketCell.identifier,
             for: indexPath
@@ -84,4 +90,4 @@ extension ListViewController: UICollectionViewDataSource {
 
 //MARK: - IdentifiableView
 
-extension ListViewController: IdentifiableView { }
+extension ListViewController: IdentifiableView {}

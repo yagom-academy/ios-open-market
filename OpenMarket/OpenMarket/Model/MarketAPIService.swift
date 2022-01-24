@@ -69,7 +69,7 @@ extension MarketAPIService: APIServicable {
     func registerProduct(
         product: PostProduct,
         images: [ProductImage],
-        completionHandler: @escaping (Result<ResponseProduct, APIError>) -> Void
+        completionHandler: @escaping (Result<Product, APIError>) -> Void
     ) {
         guard let url = MarketAPI.postProduct.url,
               let jsonData = encode(with: product) else {

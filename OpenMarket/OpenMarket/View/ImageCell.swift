@@ -8,7 +8,11 @@
 import UIKit
 
 final class ImageCell: UICollectionViewCell {
+    // MARK: - IBOutlets
+    
     @IBOutlet weak var imageView: UIImageView!
+    
+    // MARK: - Configure Methods
     
     override class func awakeFromNib() {
         super.awakeFromNib()
@@ -18,5 +22,7 @@ final class ImageCell: UICollectionViewCell {
         self.imageView.image = image
     }
 }
+
+// MARK: - IdentifiableView
 
 extension ImageCell: IdentifiableView {}

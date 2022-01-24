@@ -117,4 +117,4 @@ extension MarketCell {
 
 // MARK: - IdentifiableView
 
-extension MarketCell: IdentifiableView { }
+extension MarketCell: IdentifiableView {}

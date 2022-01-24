@@ -19,7 +19,9 @@ final class MarketViewController: UIViewController {
     
     private lazy var listViewController: ListViewController = {
         let storyboard = UIStoryboard(name: StoryboardIdentifier.main, bundle: Bundle.main)
-        let viewController = storyboard.instantiateViewController(identifier: ListViewController.identifier) { coder in
+        let viewController = storyboard.instantiateViewController(
+            identifier: ListViewController.identifier
+        ) { coder in
             ListViewController(products: self.products, coder: coder)
         }
         return viewController
@@ -27,7 +29,9 @@ final class MarketViewController: UIViewController {
     
     private lazy var gridViewController: GridViewController = {
         let storyboard = UIStoryboard(name: StoryboardIdentifier.main, bundle: Bundle.main)
-        let viewController = storyboard.instantiateViewController(identifier: GridViewController.identifier) { coder in
+        let viewController = storyboard.instantiateViewController(
+            identifier: GridViewController.identifier
+        ) { coder in
             GridViewController(products: self.products, coder: coder)
         }
         return viewController
@@ -59,7 +63,7 @@ final class MarketViewController: UIViewController {
         }
     }
     
-    //MARK: - Dependency Injection Method
+    // MARK: - Internal Methods
     
     func setAPIService(with apiService: APIServicable) {
         self.apiService = apiService
@@ -80,9 +84,12 @@ extension MarketViewController {
     }
     
     @IBAction func addButtonTapped(_ sender: UIBarButtonItem) {
-        guard let destination = storyboard?.instantiateViewController(identifier: "ProductDetailsViewController", creator: { coder in
-            ProductDetailsViewController(delegate: self, pageMode: .register, coder: coder)
-        }) else {
+        guard let destination = storyboard?.instantiateViewController(
+            identifier: ProductFormViewController.identifier,
+            creator: { coder in
+                ProductFormViewController(delegate: self, pageMode: .register, coder: coder)
+            }
+        ) else {
             fatalError("실패")
         }
         
@@ -135,11 +142,15 @@ extension MarketViewController {
     
     private func fetchPage(pageNumber: Int, itemsPerPage: Int, completion: @escaping (_ products: [Product]?) -> ()) {
         startLoadingIndicator()
-        apiService?.fetchPage(pageNumber: pageNumber, itemsPerPage: itemsPerPage) { [weak self] result in
-            self?.stopLoadingIndicator()
+        apiService?.fetchPage(pageNumber: pageNumber,
+                              itemsPerPage: itemsPerPage) { [weak self] result in
+            guard let self = self else {
+                return
+            }
+            self.stopLoadingIndicator()
             switch result {
             case .success(let data):
-                self?.products = data.products
+                self.products = data.products
                 completion(data.products)
             case .failure(let error):
                 print(error)
@@ -147,6 +158,8 @@ extension MarketViewController {
         }
     }
 }
+
+// MARK: - AddButtonPressedDelegate
 
 extension MarketViewController: AddButtonPressedDelegate {
     func addButtonPressed() {
