@@ -101,6 +101,14 @@ class MainViewController: UIViewController {
         loadProductsList(pageNumber: 1)
     }
     
+    @objc private func handleRefrashControl() {
+        reloadData()
+        let scrollView = view as? UIScrollView
+        DispatchQueue.main.async {
+            scrollView?.refreshControl?.endRefreshing()
+        }
+    }
+    
     @IBAction private func segmentedControlChanged(_ sender: UISegmentedControl) {
         changeSubview()
     }
@@ -144,6 +152,12 @@ extension MainViewController {
                 nibName,
                 forCellReuseIdentifier: ProductsTableViewCell.reuseIdentifier
             )
+            tableView.refreshControl = UIRefreshControl()
+            tableView.refreshControl?.addTarget(
+                self,
+                action: #selector(handleRefrashControl),
+                for: .valueChanged
+            )
             return tableView
         case .grid:
             let nibName = UINib(nibName: collectionViewCellNibName, bundle: nil)
@@ -159,6 +173,12 @@ extension MainViewController {
                 forCellWithReuseIdentifier: ProductsCollectionViewCell.reuseIdentifier
             )
             collectionView.backgroundColor = .systemBackground
+            collectionView.refreshControl = UIRefreshControl()
+            collectionView.refreshControl?.addTarget(
+                self,
+                action: #selector(handleRefrashControl),
+                for: .valueChanged
+            )
             return collectionView
         }
     }
