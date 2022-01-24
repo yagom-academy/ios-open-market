@@ -19,6 +19,7 @@
 		3B971C5A2782E26400088872 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B971C592782E26400088872 /* Product.swift */; };
 		3B971C782783EFCB00088872 /* DataTaskProvidable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B971C772783EFCB00088872 /* DataTaskProvidable.swift */; };
 		3B971C92278573B600088872 /* MarketAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B971C91278573B600088872 /* MarketAPIService.swift */; };
+		3B9794C0279E8AF4008B89A7 /* UITextField+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9794BF279E8AF4008B89A7 /* UITextField+Extensions.swift */; };
 		3BBCC251278C156000B21E12 /* APIError+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBCC250278C156000B21E12 /* APIError+Extensions.swift */; };
 		3BD7DD8B279C3C890068F500 /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BD7DD8A279C3C890068F500 /* Currency.swift */; };
 		3BD7DD8F279C507A0068F500 /* ReponseProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BD7DD8E279C507A0068F500 /* ReponseProduct.swift */; };
@@ -75,6 +76,7 @@
 		3B971C592782E26400088872 /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
 		3B971C772783EFCB00088872 /* DataTaskProvidable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataTaskProvidable.swift; sourceTree = "<group>"; };
 		3B971C91278573B600088872 /* MarketAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketAPIService.swift; sourceTree = "<group>"; };
+		3B9794BF279E8AF4008B89A7 /* UITextField+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+Extensions.swift"; sourceTree = "<group>"; };
 		3BBCC250278C156000B21E12 /* APIError+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "APIError+Extensions.swift"; sourceTree = "<group>"; };
 		3BD7DD8A279C3C890068F500 /* Currency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
 		3BD7DD8E279C507A0068F500 /* ReponseProduct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReponseProduct.swift; sourceTree = "<group>"; };
@@ -234,6 +236,7 @@
 				ED6EEFF827870D750042B6C2 /* Int+Extensions.swift */,
 				3B81446C2797DCD70042EF33 /* Data+Extensions.swift */,
 				EDD54E812799796800CD7B36 /* Double+Extensions.swift */,
+				3B9794BF279E8AF4008B89A7 /* UITextField+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -394,6 +397,7 @@
 				3B971C782783EFCB00088872 /* DataTaskProvidable.swift in Sources */,
 				ED85D52F278410A3007A23CF /* APIServicable.swift in Sources */,
 				3B971C92278573B600088872 /* MarketAPIService.swift in Sources */,
+				3B9794C0279E8AF4008B89A7 /* UITextField+Extensions.swift in Sources */,
 				EDE728EC27966E58003C3607 /* MarketCell.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* MarketViewController.swift in Sources */,
 				EDD54E862799AA4500CD7B36 /* ImageCell.swift in Sources */,

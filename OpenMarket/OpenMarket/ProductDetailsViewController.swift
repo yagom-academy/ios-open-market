@@ -7,11 +7,16 @@
 
 import UIKit
 
-protocol AddButtonPressedDelegate {
+protocol AddButtonPressedDelegate: AnyObject {
     func addButtonPressed()
 }
 
 final class ProductDetailsViewController: UIViewController {
+    enum PageMode {
+        case register
+        case edit
+    }
+    
     // MARK: - IBOutlets
     
     @IBOutlet weak var scrollView: UIScrollView!
@@ -43,10 +48,12 @@ final class ProductDetailsViewController: UIViewController {
     private var images: [UIImage] = []
     private var productImages: [ProductImage] = []
     private var keyHeight: CGFloat?
-    weak var delegate: MarketViewController?
+    weak var delegate: AddButtonPressedDelegate?
+    private var pageMode: PageMode
     
-    init?(delegate: MarketViewController, coder: NSCoder) {
+    init?(delegate: AddButtonPressedDelegate, pageMode: PageMode, coder: NSCoder) {
         self.delegate = delegate
+        self.pageMode = pageMode
         super.init(coder: coder)
     }
     
@@ -62,7 +69,8 @@ final class ProductDetailsViewController: UIViewController {
         setupCollectionView()
         setupCollectionViewCells()
         setNavigationBar()
-        setPlaceholders()
+        setPageMode()
+        setTextFields()
         setSegmentedControlTitle()
         setTextViewPlaceholder()
         addTextViewObserver()
@@ -120,14 +128,26 @@ extension ProductDetailsViewController {
     private func setNavigationBar() {
         navigationBar.shadowImage = UIImage()
         navigationBar.isTranslucent = false
-        navigationBar.topItem?.title = "상품등록"
     }
     
-    private func setPlaceholders() {
+    private func setPageMode() {
+        switch pageMode {
+        case .register:
+            navigationBar.topItem?.title = "상품등록"
+        case .edit:
+            navigationBar.topItem?.title = "상품수정"
+        }
+    }
+    
+    private func setTextFields() {
         productNameTextField.placeholder = "상품명"
         priceTextField.placeholder = "상품가격"
         discountedPriceTextField.placeholder = "할인금액"
         stockTextField.placeholder = "재고수량"
+        productNameTextField.addDoneButton()
+        priceTextField.addDoneButton()
+        discountedPriceTextField.addDoneButton()
+        stockTextField.addDoneButton()
     }
     
     private func setSegmentedControlTitle() {
@@ -235,7 +255,7 @@ extension ProductDetailsViewController: UICollectionViewDataSource {
         if indexPath.row == 0 {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AddImageButtonCell.identifier, for: indexPath) as! AddImageButtonCell
             
-            cell.delegate = self
+            cell.setDelegate(delegate: self)
             return cell
         } else {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ImageCell.identifier, for: indexPath) as! ImageCell
@@ -268,7 +288,7 @@ extension ProductDetailsViewController: UICollectionViewDelegateFlowLayout {
 // MARK: - AddImageCellDelegate
 
 extension ProductDetailsViewController: AddImageCellDelegate {
-    func addImagePressed(by cell: AddImageButtonCell) {
+    func addImagePressed() {
         guard images.count < 5 else {
             AlertManager.presentExcessImagesAlert(on: self)
             return

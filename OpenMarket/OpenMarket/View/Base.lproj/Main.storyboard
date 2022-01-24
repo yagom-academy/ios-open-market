@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="MfS-Ts-Ghk">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="MfS-Ts-Ghk">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -156,107 +157,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hfp-JR-eso" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="832" y="684"/>
-        </scene>
-        <!--Product Details View Controller-->
-        <scene sceneID="tbW-si-Tem">
-            <objects>
-                <viewController modalPresentationStyle="fullScreen" id="7Mi-4Y-wrO" customClass="ProductDetailsViewController" customModule="OpenMarket" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="MPX-L3-Z5S">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="22" translatesAutoresizingMaskIntoConstraints="NO" id="y7L-6E-p0r">
-                                <rect key="frame" x="10" y="252.5" width="394" height="202"/>
-                                <subviews>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="wmj-7Q-ICj">
-                                        <rect key="frame" x="0.0" y="0.0" width="394" height="34"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits"/>
-                                    </textField>
-                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="7" translatesAutoresizingMaskIntoConstraints="NO" id="s91-eM-dGk">
-                                        <rect key="frame" x="0.0" y="56" width="394" height="34"/>
-                                        <subviews>
-                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="mT0-ay-fIi">
-                                                <rect key="frame" x="0.0" y="0.0" width="276" height="34"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
-                                            </textField>
-                                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="pmJ-8j-jHT">
-                                                <rect key="frame" x="283" y="0.0" width="111" height="35"/>
-                                                <segments>
-                                                    <segment title="First"/>
-                                                    <segment title="Second"/>
-                                                </segments>
-                                            </segmentedControl>
-                                        </subviews>
-                                        <constraints>
-                                            <constraint firstItem="mT0-ay-fIi" firstAttribute="width" secondItem="s91-eM-dGk" secondAttribute="width" multiplier="0.7" id="pSl-CC-Xt3"/>
-                                        </constraints>
-                                    </stackView>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="01G-vP-lOx">
-                                        <rect key="frame" x="0.0" y="112" width="394" height="34"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
-                                    </textField>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="lhF-CU-5wz">
-                                        <rect key="frame" x="0.0" y="168" width="394" height="34"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
-                                    </textField>
-                                </subviews>
-                            </stackView>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="esx-tp-Jlz">
-                                <rect key="frame" x="10" y="464.5" width="394" height="387.5"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
-                                <color key="textColor" systemColor="labelColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="3Pq-EV-o8V">
-                                <rect key="frame" x="10" y="108" width="394" height="134.5"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="MQj-Mg-p7N">
-                                    <size key="itemSize" width="128" height="128"/>
-                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                </collectionViewFlowLayout>
-                                <cells/>
-                            </collectionView>
-                            <navigationBar contentMode="scaleToFill" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EbC-15-dMy">
-                                <rect key="frame" x="0.0" y="54" width="414" height="44"/>
-                                <items>
-                                    <navigationItem title="Title" id="L9D-Ab-oM7">
-                                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="7th-zx-JQA"/>
-                                        <barButtonItem key="rightBarButtonItem" title="Done" id="HLk-wp-F8m"/>
-                                    </navigationItem>
-                                </items>
-                            </navigationBar>
-                        </subviews>
-                        <viewLayoutGuide key="safeArea" id="TcM-yi-wIE"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <constraints>
-                            <constraint firstItem="y7L-6E-p0r" firstAttribute="top" secondItem="3Pq-EV-o8V" secondAttribute="bottom" constant="10" id="3Cc-Kp-6SO"/>
-                            <constraint firstItem="esx-tp-Jlz" firstAttribute="leading" secondItem="TcM-yi-wIE" secondAttribute="leading" constant="10" id="3NV-c9-h5S"/>
-                            <constraint firstItem="EbC-15-dMy" firstAttribute="trailing" secondItem="TcM-yi-wIE" secondAttribute="trailing" id="4XC-bR-bs1"/>
-                            <constraint firstItem="esx-tp-Jlz" firstAttribute="top" secondItem="y7L-6E-p0r" secondAttribute="bottom" constant="10" id="JB8-Kr-80e"/>
-                            <constraint firstItem="3Pq-EV-o8V" firstAttribute="top" secondItem="EbC-15-dMy" secondAttribute="bottom" constant="10" id="LYu-JI-rvK"/>
-                            <constraint firstItem="3Pq-EV-o8V" firstAttribute="height" secondItem="MPX-L3-Z5S" secondAttribute="height" multiplier="0.15" id="NyV-hm-XfL"/>
-                            <constraint firstItem="EbC-15-dMy" firstAttribute="top" secondItem="TcM-yi-wIE" secondAttribute="top" constant="10" id="PFP-if-o0t"/>
-                            <constraint firstItem="y7L-6E-p0r" firstAttribute="leading" secondItem="TcM-yi-wIE" secondAttribute="leading" constant="10" id="QjC-8y-jLB"/>
-                            <constraint firstItem="TcM-yi-wIE" firstAttribute="trailing" secondItem="y7L-6E-p0r" secondAttribute="trailing" constant="10" id="RvV-Q2-2qU"/>
-                            <constraint firstItem="3Pq-EV-o8V" firstAttribute="leading" secondItem="TcM-yi-wIE" secondAttribute="leading" constant="10" id="dkI-kC-G1q"/>
-                            <constraint firstItem="TcM-yi-wIE" firstAttribute="trailing" secondItem="3Pq-EV-o8V" secondAttribute="trailing" constant="10" id="ijx-ZW-YnI"/>
-                            <constraint firstItem="TcM-yi-wIE" firstAttribute="trailing" secondItem="esx-tp-Jlz" secondAttribute="trailing" constant="10" id="wzB-jd-srS"/>
-                            <constraint firstItem="TcM-yi-wIE" firstAttribute="bottom" secondItem="esx-tp-Jlz" secondAttribute="bottom" constant="10" id="xMH-cQ-xdw"/>
-                            <constraint firstItem="EbC-15-dMy" firstAttribute="leading" secondItem="TcM-yi-wIE" secondAttribute="leading" id="xum-F0-OH7"/>
-                        </constraints>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="kei-So-KgC" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2287" y="122"/>
         </scene>
         <!--Product Details View Controller-->
         <scene sceneID="fP4-VC-cji">

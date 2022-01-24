@@ -51,7 +51,12 @@ final class MarketViewController: UIViewController {
         super.viewDidLoad()
         
         setupSegmentedControl()
-        fetchPage(pageNumber: 1, itemsPerPage: 20)
+        fetchPage(pageNumber: 1, itemsPerPage: 20) { [weak self] _ in
+            guard let self = self else {
+                return
+            }
+            self.showListViewController()
+        }
     }
     
     //MARK: - Dependency Injection Method
@@ -76,7 +81,7 @@ extension MarketViewController {
     
     @IBAction func addButtonTapped(_ sender: UIBarButtonItem) {
         guard let destination = storyboard?.instantiateViewController(identifier: "ProductDetailsViewController", creator: { coder in
-            ProductDetailsViewController(delegate: self, coder: coder)
+            ProductDetailsViewController(delegate: self, pageMode: .register, coder: coder)
         }) else {
             fatalError("실패")
         }
@@ -128,15 +133,14 @@ extension MarketViewController {
         viewController.removeFromParent()
     }
     
-    private func fetchPage(pageNumber: Int, itemsPerPage: Int) {
+    private func fetchPage(pageNumber: Int, itemsPerPage: Int, completion: @escaping (_ products: [Product]?) -> ()) {
         startLoadingIndicator()
         apiService?.fetchPage(pageNumber: pageNumber, itemsPerPage: itemsPerPage) { [weak self] result in
             self?.stopLoadingIndicator()
             switch result {
             case .success(let data):
                 self?.products = data.products
-//                self?.listViewController.updateProducts(with: data.products)
-                self?.showListViewController()
+                completion(data.products)
             case .failure(let error):
                 print(error)
             }
@@ -146,7 +150,14 @@ extension MarketViewController {
 
 extension MarketViewController: AddButtonPressedDelegate {
     func addButtonPressed() {
-        fetchPage(pageNumber: 1, itemsPerPage: 20)
+        fetchPage(pageNumber: 1, itemsPerPage: 20) { [weak self] products in
+            guard let products = products,
+                  let self = self else {
+                return
+            }
+            self.listViewController.updateProducts(with: products)
+            self.gridViewController.updateProducts(with: products)
+        }
     }
 }
 

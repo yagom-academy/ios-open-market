@@ -38,11 +38,13 @@ final class GridViewController: UIViewController {
         collectionView.dataSource = self
         collectionView.delegate = self
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
-        print("gridView")
-        collectionView.reloadData()
+ 
+    func updateProducts(with products: [Product]) {
+        self.products = products
+        
+        DispatchQueue.main.async {
+            self.collectionView.reloadData()
+        }
     }
 }
 
