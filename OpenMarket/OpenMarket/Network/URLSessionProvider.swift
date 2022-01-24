@@ -7,20 +7,22 @@ class URLSessionProvider {
         self.session = session
     }
     
-    func dataTask(request: URLRequest, completionHandler: @escaping (Result<Data, NetworkError>) -> Void) {
+    @discardableResult
+    func dataTask(request: URLRequest, completionHandler: @escaping (Result<Data, NetworkError>) -> Void) -> URLSessionDataTask {
         let task = session.dataTask(with: request) { data, urlResponse, error in
             guard let httpResponse = urlResponse as? HTTPURLResponse,
                   (200...299).contains(httpResponse.statusCode) else {
-                      print("ERRORCODE: \(String(describing: urlResponse))")
+                      print("ERRORCODE:\(String(describing: urlResponse))")
                       return completionHandler(.failure(.statusCodeError))
                   }
             
             guard let data = data else {
-                return completionHandler(.failure(.emptyValue))
+               return completionHandler(.failure(.emptyValue))
             }
             completionHandler(.success(data))
         }
         task.resume()
+        return task
     }
     
     func getData(requestType: GetType, completionHandler: @escaping (Result<Data, NetworkError>) -> Void)  {
