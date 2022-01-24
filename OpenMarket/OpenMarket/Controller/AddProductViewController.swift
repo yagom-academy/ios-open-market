@@ -159,16 +159,19 @@ extension AddProductViewController {
         priceTextField.borderStyle = .roundedRect
         priceTextField.placeholder = "상품가격"
         priceTextField.adjustsFontForContentSizeCategory = true
+        priceTextField.keyboardType = .decimalPad
 
         textFieldStackView.addArrangedSubview(discountTextField)
         discountTextField.borderStyle = .roundedRect
         discountTextField.placeholder = "할인금액"
         discountTextField.adjustsFontForContentSizeCategory = true
+        discountTextField.keyboardType = .decimalPad
 
         textFieldStackView.addArrangedSubview(stockTextField)
         stockTextField.borderStyle = .roundedRect
         stockTextField.placeholder = "재고수량"
         stockTextField.adjustsFontForContentSizeCategory = true
+        stockTextField.keyboardType = .numberPad
     }
 
     private func configureSegmentControl() {
