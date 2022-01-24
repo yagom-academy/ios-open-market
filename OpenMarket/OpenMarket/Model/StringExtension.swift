@@ -18,11 +18,9 @@ extension String {
     func insertCommaInThousands() -> String {
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .decimal
-        guard let doubleValue = Double(self),
-              let insertedCommaDouble = numberFormatter.string(from: NSNumber(value: floor(doubleValue))) else {
-         return  ""
-        }
-            return insertedCommaDouble
+        let doubleValue = Double(self) ?? 0
+        let insertedCommaDouble = numberFormatter.string(from: NSNumber(value: floor(doubleValue))) ?? ""
+        return insertedCommaDouble
     }
     
 }
