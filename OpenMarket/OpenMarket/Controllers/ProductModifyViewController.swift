@@ -1,19 +1,27 @@
 import UIKit
 
-class ProductRegisterViewController: UIViewController, ProductManageable {
+class ProductModifyViewController: UIViewController, ProductManageable {
     var productRegisterManager = ProductRegisterManager()
-    private let productImagePickerController = ProductImagePickerController()
     private lazy var productScrollView = productRegisterManager.productInformationScrollView
+    var productDetail: ProductDetail
+    
+    init(productDetail: ProductDetail) {
+        self.productDetail = productDetail
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("스토리보드 안써서 fatalError를 줬습니다.")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         addKeyboardNotification()
-        productRegisterManager.delegate = self
-        productImagePickerController.pickerDelegate = self
         productRegisterManager.addDelegateToTextField(delegate: self)
         productRegisterManager.addDelegateToTextView(delegate: self)
         configUI()
         tapBehindViewToEndEdit(viewController: self)
+        productRegisterManager.fetchRegisteredProductDetail(from: productDetail)
     }
     
     private func configUI() {
@@ -23,58 +31,17 @@ class ProductRegisterViewController: UIViewController, ProductManageable {
     }
     
     private func configNavigationBar() {
-        self.navigationItem.title = "상품등록"
+        self.navigationItem.title = "상품수정"
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "취소", style: .plain, target: self, action: #selector(didTapCancelButton))
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "완료", style: .done, target: self, action: #selector(didTapDoneButton))
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "완료", style: .done, target: self, action: nil)
     }
     
     @objc private func didTapCancelButton() {
         self.dismiss(animated: true, completion: nil)
     }
-    
-    @objc private func didTapDoneButton() {
-        if productRegisterManager.isRegisteredImageEmpty {
-            presentAlert(viewController: self, title: AlertMessage.noProductImage.title, message: AlertMessage.noProductImage.message)
-            return
-        }
-        
-        if productRegisterManager.takeNameTextFieldLength() < 3 {
-            presentAlert(viewController: self, title: AlertMessage.notEnoughProductTitleLength.title, message: AlertMessage.notEnoughProductTitleLength.message)
-            return
-        }
-        
-        if productRegisterManager.isPriceTextFieldEmpty {
-            presentAlert(viewController: self, title: AlertMessage.noProductPrice.title, message: AlertMessage.noProductPrice.message)
-            return
-        }
-                
-        productRegisterManager.register()
-        
-        self.dismiss(animated: true, completion: nil)
-    }
 }
 
-extension ProductRegisterViewController: PickerPresenter {
-    func presentImagePickerView() {
-        productImagePickerController.sourceType = .photoLibrary
-        productImagePickerController.allowsEditing = true
-        self.present(productImagePickerController, animated: true, completion: nil)
-    }
-}
-
-extension ProductRegisterViewController: PickerDelegate {
-    func addImage(with image: UIImage) {
-        if productRegisterManager.takeRegisteredImageCounts() < 5 {
-            productRegisterManager.addImageToImageStackView(from: image, hasDeleteButton: true)
-        }
-        
-        if productRegisterManager.takeRegisteredImageCounts() == 5 {
-            productRegisterManager.setImageButtonHidden(state: true)
-        }
-    }
-}
-
-extension ProductRegisterViewController: UITextFieldDelegate {
+extension ProductModifyViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
     }
@@ -129,7 +96,7 @@ extension ProductRegisterViewController: UITextFieldDelegate {
     }
 }
 
-extension ProductRegisterViewController: UITextViewDelegate {
+extension ProductModifyViewController: UITextViewDelegate {
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         if range.length > 0 {
             return true

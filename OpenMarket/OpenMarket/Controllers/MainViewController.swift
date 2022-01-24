@@ -18,7 +18,6 @@ private enum Design {
     static let sectionEdgeInsets: NSDirectionalEdgeInsets = NSDirectionalEdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5)
     static let gridCellBorderWidth: CGFloat = 1
     static let gridCellCornerRadius: CGFloat = 10
-    
 }
 
 class MainViewController: UIViewController {
@@ -41,22 +40,24 @@ class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        configSegmentedControl()
+        NotificationCenter.default.addObserver(self, selector: #selector(fetchProductData), name: .updateProductData, object: nil)
         configUI()
         fetchProductData()
+        
+        productListCollectionView.delegate = self
+        productGridCollectionView.delegate = self
     }
 
-    private func fetchProductData() {
+    @objc private func fetchProductData() {
         activityIndicator.startAnimating()
         
         let api = APIService()
         api.retrieveProductList(pageNo: RequestInformation.pageNumber, itemsPerPage: RequestInformation.itemsPerPage) { result in
             switch result {
             case .success(let data):
-                self.productData = data.pages
+                self.productData = data.pages                
                 DispatchQueue.main.async {
-                    self.setupListCollectionView()
-                    self.activityIndicator.stopAnimating()
+                    self.configProductCollectionViewDataSource()
                 }
             case .failure(let error):
                 print(error)
@@ -64,16 +65,17 @@ class MainViewController: UIViewController {
         }
     }
     
-    private func configSegmentedControl() {
-        layoutSegmentedControl = LayoutSegmentedControl(items: ["LIST", "GRID"])
-        layoutSegmentedControl.addTarget(self, action: #selector(switchCollectionViewLayout), for: .valueChanged)
+    private func configProductCollectionViewDataSource() {
+        if listDataSource == nil && gridDataSource == nil {
+            configListDataSource()
+            configGridDataSource()
+        }
+        configSnapShot(with: listDataSource)
+        configSnapShot(with: gridDataSource)
+        activityIndicator.stopAnimating()
     }
     
     @objc private func switchCollectionViewLayout() {
-        if productGridCollectionView == nil {
-            setupGridCollectionView()
-        }
-        
         if layoutSegmentedControl.selectedSegmentIndex == 0 {
             productListCollectionView.isHidden = false
             productGridCollectionView.isHidden = true
@@ -84,9 +86,22 @@ class MainViewController: UIViewController {
     }
 
     private func configUI() {
+        configSegmentedControl()
+        setupListAndGridCollectionView()
+        configNavigationBar()
         view.backgroundColor = .white
         view.addSubview(activityIndicator)
-        configNavigationBar()
+    }
+    
+    private func configSegmentedControl() {
+        layoutSegmentedControl = LayoutSegmentedControl(items: ["LIST", "GRID"])
+        layoutSegmentedControl.addTarget(self, action: #selector(switchCollectionViewLayout), for: .valueChanged)
+    }
+
+    private func setupListAndGridCollectionView() {
+        configListCollectionView()
+        configGridCollectionView()
+        productGridCollectionView.isHidden = true
     }
 
     private func configNavigationBar() {
@@ -96,7 +111,8 @@ class MainViewController: UIViewController {
     }
     
     @objc private func presentProductRegisterView() {
-        let destination = ProductRegisterViewController()
+        let destination = UINavigationController(rootViewController: ProductRegisterViewController()) 
+        destination.modalPresentationStyle = .fullScreen
         self.present(destination, animated: true, completion: nil)
     }
     
@@ -115,11 +131,6 @@ class MainViewController: UIViewController {
 // MARK: - Custom List CollectionView
 
 private extension MainViewController {
-    func setupListCollectionView() {
-        configListCollectionView()
-        configListDataSource()
-    }
-    
     func createListLayout() -> UICollectionViewLayout {
         let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
         return UICollectionViewCompositionalLayout.list(using: configuration)
@@ -140,22 +151,12 @@ private extension MainViewController {
         listDataSource = UICollectionViewDiffableDataSource<ProductSection, ProductDetail>(collectionView: productListCollectionView) { (collectionView, indexPath, product) -> UICollectionViewCell? in
             return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: product)
         }
-        
-        var snapshot = NSDiffableDataSourceSnapshot<ProductSection, ProductDetail>()
-        snapshot.appendSections([.main])
-        snapshot.appendItems(productData)
-        listDataSource?.apply(snapshot)
     }
 }
 
 // MARK: - Custom Grid CollectionView
 
 private extension MainViewController {
-    func setupGridCollectionView() {
-        configGridCollectionView()
-        configGridDataSource()
-    }
-    
     func createItemLayout() -> NSCollectionLayoutItem {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
         
@@ -205,14 +206,23 @@ private extension MainViewController {
         gridDataSource = UICollectionViewDiffableDataSource<ProductSection, ProductDetail>(collectionView: productGridCollectionView) { (collectionView, indexPath, product) -> UICollectionViewCell? in
             return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: product)
         }
-        
+    }
+    
+    func configSnapShot(with dataSource: UICollectionViewDiffableDataSource<ProductSection, ProductDetail>?) {
         var snapshot = NSDiffableDataSourceSnapshot<ProductSection, ProductDetail>()
         snapshot.appendSections([.main])
         snapshot.appendItems(productData)
-        gridDataSource?.apply(snapshot)
+        dataSource?.apply(snapshot)
     }
 }
 
-extension MainViewController {
-    
+extension MainViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let selectedProductData = productData[indexPath.item]
+        let productModifyViewController = UINavigationController(rootViewController: ProductModifyViewController(productDetail: selectedProductData))
+        productModifyViewController.modalPresentationStyle = .fullScreen
+        
+        self.present(productModifyViewController, animated: true, completion: nil)
+        collectionView.deselectItem(at: indexPath, animated: true)
+    }
 }
