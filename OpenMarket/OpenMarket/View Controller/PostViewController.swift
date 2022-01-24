@@ -14,6 +14,7 @@ class PostViewController: UIViewController {
     @IBOutlet weak var currencySelectButton: UISegmentedControl!
     @IBOutlet weak var bargainPriceTextField: UITextField!
     @IBOutlet weak var stockTextField: UITextField!
+    @IBOutlet weak var descriptionTextView: UITextView!
     
     let picker = UIImagePickerController()
     var images = [UIImage]()
@@ -27,6 +28,10 @@ class PostViewController: UIViewController {
         self.imageCollectionView.delegate = self
         self.imageCollectionView.dataSource = self
         self.imageCollectionView.register(PostCollectionViewCell.self, forCellWithReuseIdentifier: "PostCollectionViewCell")
+        
+        descriptionTextView.delegate = self
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
         
         picker.delegate = self
     }
@@ -94,6 +99,7 @@ extension PostViewController: UICollectionViewDelegateFlowLayout {
     }
 }
 
+// MARK: Collection View Data Source, Delegation
 extension PostViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         images.count
@@ -123,6 +129,7 @@ extension PostViewController: UICollectionViewDataSource, UICollectionViewDelega
     }
 }
 
+// MARK: Image Picker Controller Delegation
 extension PostViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
@@ -137,5 +144,107 @@ extension PostViewController: UIImagePickerControllerDelegate, UINavigationContr
         }
         
         dismiss(animated: true, completion: nil)
+    }
+}
+
+// MARK: Bar Button Action(Cancel, Post)
+extension PostViewController {
+    @IBAction func backToListView(_ sender: Any) {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    @IBAction func postProduct(_ sender: Any) {
+        let checkValidate: Result<ProductParams, ViewControllerError> = checkValidData()
+        let urlSessionProvider = URLSessionProvider()
+        
+        switch checkValidate {
+        case .success(let data):
+            urlSessionProvider.postData(requestType: .productRegistration, params: ["params": data], images: self.images) { (result: Result<Data, NetworkError>) in
+                switch result {
+                case .success(_):
+                    DispatchQueue.main.async {
+                        self.dismiss(animated: true, completion: nil)
+                    }
+                case .failure(let error):
+                    print(error)
+                }
+            }
+        case .failure(let error):
+            print(error)
+        }
+    }
+    
+    func checkValidData() -> Result<ProductParams, ViewControllerError> {
+        guard let name = productNameTextField.text else {
+            return .failure(.invalidInput)
+        }
+        
+        guard name.count >= 3 else {
+            return .failure(.invalidInput)
+        }
+        
+        guard let priceTextfieldText = priceTextField.text else {
+            return .failure(.invalidInput)
+        }
+        
+        guard let price = Double(priceTextfieldText) else {
+            return .failure(.invalidInput)
+        }
+        
+        var currency = Currency.KRW
+        let currencyIndex = currencySelectButton.selectedSegmentIndex
+        switch currencyIndex {
+        case 0:
+            currency = Currency.KRW
+        case 1:
+            currency = Currency.USD
+        default:
+            return .failure(.invalidInput)
+        }
+        
+        guard let discount = Double(bargainPriceTextField.text ?? "0") else {
+            return .failure(.invalidInput)
+        }
+        
+        let bargainPrice = price - discount
+        
+        guard let stock = Int(stockTextField.text ?? "0") else {
+            return .failure(.invalidInput)
+        }
+        
+        guard let description = descriptionTextView.text else {
+            return .failure(.invalidInput)
+        }
+        
+        return .success(ProductParams(name: name,
+                                      descriptions: description,
+                                      price: price,
+                                      currency: currency,
+                                      discountedPrice: bargainPrice,
+                                      stock: stock,
+                                      secret: "c8%MC*3wjXJ?Wf+g"))
+    }
+}
+
+extension PostViewController: UITextViewDelegate {
+    @objc
+    func keyboardWillShow(_ sender: Notification) {
+        self.view.frame.origin.y = -150
+    }
+    
+    @objc
+    func keyboardWillHide(_ sender: Notification) {
+        self.view.frame.origin.y = 0
+    }
+    
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        let currentText = textView.text ?? ""
+        guard let stringRange = Range(range, in: currentText) else {
+            return false
+        }
+        
+        let changedText = currentText.replacingCharacters(in: stringRange, with: text)
+        
+        return changedText.count <= 1000
     }
 }

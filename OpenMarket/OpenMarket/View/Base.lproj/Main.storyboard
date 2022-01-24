@@ -86,32 +86,20 @@
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="4bt-gj-xGz">
                                 <rect key="frame" x="15" y="103" width="384" height="744"/>
                                 <subviews>
-                                    <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yd0-SG-tyt">
+                                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="i6F-vW-L19">
                                         <rect key="frame" x="0.0" y="0.0" width="384" height="170"/>
-                                        <subviews>
-                                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="i6F-vW-L19">
-                                                <rect key="frame" x="0.0" y="0.0" width="384" height="170"/>
-                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                                <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="nqk-18-gYt">
-                                                    <size key="itemSize" width="128" height="128"/>
-                                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                                </collectionViewFlowLayout>
-                                                <cells/>
-                                            </collectionView>
-                                        </subviews>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <constraints>
-                                            <constraint firstItem="i6F-vW-L19" firstAttribute="leading" secondItem="Yd0-SG-tyt" secondAttribute="leading" id="Fsz-WO-ZJ2"/>
-                                            <constraint firstItem="i6F-vW-L19" firstAttribute="width" secondItem="baK-Xo-NZy" secondAttribute="width" id="Hp2-4d-act"/>
-                                            <constraint firstItem="i6F-vW-L19" firstAttribute="bottom" secondItem="Yd0-SG-tyt" secondAttribute="bottomMargin" id="L0L-TI-uMd"/>
-                                            <constraint firstItem="i6F-vW-L19" firstAttribute="trailing" secondItem="Yd0-SG-tyt" secondAttribute="trailing" id="gRV-sd-fdX"/>
-                                            <constraint firstItem="i6F-vW-L19" firstAttribute="top" secondItem="Yd0-SG-tyt" secondAttribute="top" id="hac-XN-Prv"/>
-                                            <constraint firstItem="i6F-vW-L19" firstAttribute="height" secondItem="baK-Xo-NZy" secondAttribute="height" id="wo7-jx-XoI"/>
+                                            <constraint firstAttribute="height" constant="170" id="Ncy-8i-wdA"/>
                                         </constraints>
-                                        <viewLayoutGuide key="contentLayoutGuide" id="84Z-Cq-y4o"/>
-                                        <viewLayoutGuide key="frameLayoutGuide" id="baK-Xo-NZy"/>
-                                    </scrollView>
+                                        <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="nqk-18-gYt">
+                                            <size key="itemSize" width="128" height="128"/>
+                                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                        </collectionViewFlowLayout>
+                                        <cells/>
+                                    </collectionView>
                                     <stackView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" verticalHuggingPriority="249" horizontalCompressionResistancePriority="749" verticalCompressionResistancePriority="749" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="bTt-dn-6jk" userLabel="TextFieldStack View">
                                         <rect key="frame" x="0.0" y="180" width="384" height="158"/>
                                         <subviews>
@@ -165,11 +153,9 @@
                                     </textView>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstItem="Yd0-SG-tyt" firstAttribute="trailing" secondItem="4bt-gj-xGz" secondAttribute="trailing" id="76S-7C-Phs"/>
+                                    <constraint firstItem="i6F-vW-L19" firstAttribute="leading" secondItem="4bt-gj-xGz" secondAttribute="leading" id="4I1-w7-8Ab"/>
                                     <constraint firstAttribute="bottom" secondItem="Z3P-J2-0WU" secondAttribute="bottom" id="8wx-S2-G6M"/>
-                                    <constraint firstItem="Yd0-SG-tyt" firstAttribute="top" secondItem="4bt-gj-xGz" secondAttribute="top" id="CYx-h5-zVs"/>
-                                    <constraint firstItem="Yd0-SG-tyt" firstAttribute="leading" secondItem="4bt-gj-xGz" secondAttribute="leading" id="EeH-4h-GJn"/>
-                                    <constraint firstItem="Yd0-SG-tyt" firstAttribute="bottom" secondItem="4bt-gj-xGz" secondAttribute="top" constant="170" id="fxY-yb-fwC"/>
+                                    <constraint firstItem="i6F-vW-L19" firstAttribute="trailing" secondItem="4bt-gj-xGz" secondAttribute="trailing" id="I6z-8o-uiV"/>
                                 </constraints>
                             </stackView>
                         </subviews>
@@ -183,12 +169,21 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="상품등록" id="6mi-n2-iMm">
-                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="hgg-ZF-emB"/>
-                        <barButtonItem key="rightBarButtonItem" title="Done" id="zvR-GY-XCa"/>
+                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="hgg-ZF-emB">
+                            <connections>
+                                <action selector="backToListView:" destination="zwp-KV-deC" id="r5D-s3-0h8"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Done" id="zvR-GY-XCa">
+                            <connections>
+                                <action selector="postProduct:" destination="zwp-KV-deC" id="o6I-LJ-Xrh"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="bargainPriceTextField" destination="Q3O-Vw-3ic" id="jlE-h7-ENp"/>
                         <outlet property="currencySelectButton" destination="xOH-DW-Hd1" id="3vH-r7-w5A"/>
+                        <outlet property="descriptionTextView" destination="Z3P-J2-0WU" id="5pG-hp-BOy"/>
                         <outlet property="imageCollectionView" destination="i6F-vW-L19" id="wzB-k2-vmW"/>
                         <outlet property="priceTextField" destination="C1U-eJ-YTK" id="jns-VH-Eic"/>
                         <outlet property="productNameTextField" destination="mn9-GG-mgZ" id="tjw-Fd-KcT"/>
