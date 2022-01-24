@@ -35,7 +35,6 @@ class MainViewController: UIViewController {
     
     private func setSegmentedControl() {
         navigationItem.titleView = segment
-        segment.setUpUI()
     }
     
     private func getProductData() {

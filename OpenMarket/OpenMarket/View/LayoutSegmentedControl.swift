@@ -1,6 +1,11 @@
 import UIKit
 
 class LayoutSegmentedControl: UISegmentedControl {
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        setUpUI()
+    }
+    
     func setUpUI() {
         let items = ["LIST","GRID"]
         
