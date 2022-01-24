@@ -270,7 +270,6 @@ extension ProductRegistrationModificationViewController {
       return
     }
     let resizingImage = image.resize(maxBytes: 307200)
-    //productImages.append(resizingImage)
     appendImageView(image: resizingImage)
     dismiss(animated: true, completion: nil)
   }

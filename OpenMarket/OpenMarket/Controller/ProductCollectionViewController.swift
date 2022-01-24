@@ -142,6 +142,20 @@ extension ProductCollectionViewController: UICollectionViewDelegate {
       fetchProducts(pageNumber: currentPage, cellType: currentCellType())
     }
   }
+  
+  func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    let presentStoryBoard = UIStoryboard(
+      name: ProductDetailViewController.stroyBoardName,
+      bundle: nil
+    )
+    guard let presentViewController = presentStoryBoard.instantiateViewController(
+      withIdentifier: ProductDetailViewController.reuseIdentifier
+    ) as? ProductDetailViewController else {
+      return
+    }
+    presentViewController.product = products[indexPath.row]
+    self.navigationController?.pushViewController(presentViewController, animated: true)
+  }
 }
 
 extension ProductCollectionViewController {
