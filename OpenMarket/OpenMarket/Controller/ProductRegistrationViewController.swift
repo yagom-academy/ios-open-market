@@ -106,6 +106,12 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
                         cautionLabel: productPriceCautionLabel,
                         message: "상품가격을 입력해주세요"
                     )
+                } else if let price = Decimal(string: textField.text ?? ""),
+                    let error = inspectSign(price: price, discountedPrice: nil) {
+                    showCaution(
+                        textField: textField,
+                        cautionLabel: productPriceCautionLabel,
+                        message: error.errorDescription)
                 } else {
                     hideCaution(textField: textField, cautionLabel: productPriceCautionLabel)
                 }
@@ -117,6 +123,12 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
                     price: price,
                     discountedPrice: discountedPrice
                 ) {
+                    showCaution(
+                        textField: textField,
+                        cautionLabel: discountedPriceCautionLabel,
+                        message: error.errorDescription
+                    )
+                } else if let error = inspectSign(price: price, discountedPrice: discountedPrice) {
                     showCaution(
                         textField: textField,
                         cautionLabel: discountedPriceCautionLabel,
