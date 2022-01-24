@@ -8,11 +8,11 @@
 import UIKit
 
 class GridCell: UICollectionViewCell {
-    @IBOutlet weak var thumbnail: UIImageView!
-    @IBOutlet weak var name: UILabel!
-    @IBOutlet weak var price: UILabel!
-    @IBOutlet weak var discountedPrice: UILabel!
-    @IBOutlet weak var stock: UILabel!
+    @IBOutlet private weak var thumbnail: UIImageView!
+    @IBOutlet private weak var name: UILabel!
+    @IBOutlet private weak var price: UILabel!
+    @IBOutlet private weak var discountedPrice: UILabel!
+    @IBOutlet private weak var stock: UILabel!
     
     override func awakeFromNib() {
         self.layer.cornerRadius = 10
