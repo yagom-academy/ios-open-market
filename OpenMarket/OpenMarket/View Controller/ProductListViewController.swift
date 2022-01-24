@@ -7,9 +7,9 @@
 import UIKit
 
 class ProductListViewController: UIViewController {
-    @IBOutlet weak var collectionView: UICollectionView!
-    @IBOutlet weak var switchLayoutSegmentedControl: UISegmentedControl!
-    var productListData: ProductList?
+    @IBOutlet private weak var collectionView: UICollectionView!
+    @IBOutlet private weak var switchLayoutSegmentedControl: UISegmentedControl!
+    private var productListData: ProductList?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,11 +29,11 @@ class ProductListViewController: UIViewController {
         }
     }
     
-    @IBAction func switchLayout(_ sender: Any) {
+    @IBAction private func switchLayout(_ sender: Any) {
         self.collectionView.reloadData()
     }
     
-    func loadData(completionHandler: @escaping (Result<ProductList, NetworkError>) -> Void) {
+    private func loadData(completionHandler: @escaping (Result<ProductList, NetworkError>) -> Void) {
         let urlSessionProvider = URLSessionProvider()
         
         urlSessionProvider.getData(requestType: .productList(pageNo: 1, items: 20)) { result in
@@ -49,7 +49,7 @@ class ProductListViewController: UIViewController {
         }
     }
     
-    func getParsedData(data: Data) -> ProductList? {
+    private func getParsedData(data: Data) -> ProductList? {
         let decoder = Decoder()
         var parsedData: ProductList? = nil
 
