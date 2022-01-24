@@ -536,21 +536,6 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
         return nil
     }
     
-    private func cropSquare(_ image: UIImage) -> UIImage? { // extension으로 옮기기
-        let imageSize = image.size
-        let shortLength = imageSize.width < imageSize.height ? imageSize.width : imageSize.height
-        let origin = CGPoint(
-            x: imageSize.width / 2 - shortLength / 2,
-            y: imageSize.height / 2 - shortLength / 2
-        )
-        let size = CGSize(width: shortLength, height: shortLength)
-        let square = CGRect(origin: origin, size: size)
-        guard let squareImage = image.cgImage?.cropping(to: square) else {
-            return nil
-        }
-        return UIImage(cgImage: squareImage, scale: 1.0, orientation: .up)
-    }
-    
     @IBAction func tapBackground(_ sender: UITapGestureRecognizer) {
         view.endEditing(true)
     }
@@ -567,7 +552,7 @@ extension ProductRegistrationViewController: UIImagePickerControllerDelegate {
         }
         let isSquare = newImage.size.width == newImage.size.height
         if isSquare == false {
-            if let squareImage = cropSquare(newImage) {
+            if let squareImage = newImage.cropSquare() {
                 newImage = squareImage
             }
         }
