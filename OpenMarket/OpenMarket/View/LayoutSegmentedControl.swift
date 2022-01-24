@@ -1,6 +1,6 @@
 import UIKit
 
-class SegmentedControl: UISegmentedControl {
+class LayoutSegmentedControl: UISegmentedControl {
     func setUpUI() {
         let items = ["LIST","GRID"]
         

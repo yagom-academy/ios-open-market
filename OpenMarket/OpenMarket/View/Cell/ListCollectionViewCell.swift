@@ -14,7 +14,7 @@ class ListCollectionViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        configUI()
+        configureUI()
     }
     
     required init?(coder: NSCoder) {
@@ -32,7 +32,7 @@ class ListCollectionViewCell: UICollectionViewCell {
         discountedPriceLabel.text = nil
     }
     
-    func configCell(with data: ProductInformation) {
+    func configureCell(with data: ProductInformation) {
         setUpImage(url: data.thumbnail)
         productNameLabel.text = data.name
         productNameLabel.font = .preferredFont(forTextStyle: .headline)
@@ -40,7 +40,7 @@ class ListCollectionViewCell: UICollectionViewCell {
         setUpPriceLabel(price: data.price, discountedPrice: data.discountedPrice, currency: data.currency)
     }
     
-    private func configUI() {
+    private func configureUI() {
         addSubviews()
         setUpContentStackView()
         setUpProductImageView()
@@ -158,13 +158,13 @@ class ListCollectionViewCell: UICollectionViewCell {
     
     private func setUpPriceLabel(price: Double, discountedPrice: Double, currency: String) {
         if discountedPrice == 0 {
-            priceLabel.text = "\(currency) \(price.formattedPrice())"
+            priceLabel.text = "\(currency) \(price.formattedNumber())"
             priceLabel.textColor = .systemGray
         } else {
-            priceLabel.text = "\(currency) \(price.formattedPrice())"
+            priceLabel.text = "\(currency) \(price.formattedNumber())"
             priceLabel.textColor = .red
             priceLabel.attributedText = priceLabel.text?.strikeThrough()
-            discountedPriceLabel.text = "\(currency) \(discountedPrice.formattedPrice())"
+            discountedPriceLabel.text = "\(currency) \(discountedPrice.formattedNumber())"
             discountedPriceLabel.textColor = .systemGray
         }
     }

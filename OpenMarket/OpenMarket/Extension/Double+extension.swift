@@ -1,7 +1,7 @@
 import Foundation
 
 extension Double {
-    func formattedPrice() -> String {
+    func formattedNumber() -> String {
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .decimal
         

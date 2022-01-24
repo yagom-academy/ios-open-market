@@ -1,16 +1,16 @@
 import UIKit
 
 @available(iOS 14.0, *)
-class ViewController: UIViewController {
+class MainViewController: UIViewController {
     private enum Section: CaseIterable {
-        case main
+        case product
     }
     // MARK: - Properties
-    @IBOutlet weak var segment: SegmentedControl!
+    @IBOutlet weak var segment: LayoutSegmentedControl!
     @IBOutlet weak var listCollectionView: UICollectionView!
     @IBOutlet weak var gridCollectionView: UICollectionView!
     
-    private var productList = [ProductInformation](){
+    private var productList = [ProductInformation]() {
         didSet {
             applyListSnapShot()
             applyGridSnapShot()
@@ -23,11 +23,11 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        listCollectionView.collectionViewLayout = setListCollectionView()
-        gridCollectionView.collectionViewLayout = setGridCollectionView()
+        listCollectionView.collectionViewLayout = setListCollectionViewLayout()
+        gridCollectionView.collectionViewLayout = setGridCollectionViewLayout()
         
         setSegmentedControl()
-        getData()
+        getProductData()
         setUpListCell()
         setUpGridCell()
         applyListSnapShot(animatingDifferences: false)
@@ -39,7 +39,7 @@ class ViewController: UIViewController {
         segment.setUpUI()
     }
     
-    private func getData() {
+    private func getProductData() {
         let api = APIManager()
         api.requestProductList(pageNumber: 1, itemsPerPage: 20) { result in
             switch result {
@@ -55,7 +55,7 @@ class ViewController: UIViewController {
     private func setUpListCell() {
         let cellRegistration = UICollectionView.CellRegistration<ListCollectionViewCell, ProductInformation> { cell, indexpath, product in
             
-            cell.configCell(with: product)
+            cell.configureCell(with: product)
         }
         
         listDataSource = UICollectionViewDiffableDataSource<Section, ProductInformation>(collectionView: listCollectionView, cellProvider: { (collectionView, indexPath, product) -> ListCollectionViewCell in
@@ -73,7 +73,7 @@ class ViewController: UIViewController {
         listDataSource?.apply(snapshot, animatingDifferences: animatingDifferences)
     }
     
-    private func setListCollectionView() -> UICollectionViewLayout {
+    private func setListCollectionViewLayout() -> UICollectionViewLayout {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(view.frame.height * 0.1))
@@ -89,7 +89,7 @@ class ViewController: UIViewController {
     private func setUpGridCell() {
         let cellRegistration = UICollectionView.CellRegistration<GridCollectionViewCell, ProductInformation> { cell, indexpath, product in
       
-            cell.configCell(with: product)
+            cell.configureCell(with: product)
         }
         
         gridDataSource = UICollectionViewDiffableDataSource<Section, ProductInformation>(collectionView: gridCollectionView, cellProvider: { (collectionView, indexPath, product) -> GridCollectionViewCell in
@@ -107,7 +107,7 @@ class ViewController: UIViewController {
         gridDataSource?.apply(snapshot, animatingDifferences: animatingDifferences)
     }
     
-    private func setGridCollectionView() -> UICollectionViewLayout {
+    private func setGridCollectionViewLayout() -> UICollectionViewLayout {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         item.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5)
@@ -124,7 +124,7 @@ class ViewController: UIViewController {
         return layout
     }
     // MARK: - IBAction Method
-    @IBAction func changeView(_ sender: SegmentedControl) {
+    @IBAction func changeView(_ sender: LayoutSegmentedControl) {
         switch sender.selectedSegmentIndex {
         case 0:
             listCollectionView.isHidden = false
