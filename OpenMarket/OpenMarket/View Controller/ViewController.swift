@@ -44,7 +44,7 @@ class ViewController: UIViewController {
                 }
                 completionHandler(.success(parsedData))
             case .failure(_):
-                return completionHandler(.failure(NetworkError.unknownFailed))
+                return completionHandler(.failure(NetworkError.emptyValue))
             }
         }
     }

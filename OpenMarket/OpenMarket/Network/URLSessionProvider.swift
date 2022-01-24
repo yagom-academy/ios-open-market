@@ -16,7 +16,7 @@ class URLSessionProvider {
                   }
             
             guard let data = data else {
-                return completionHandler(.failure(.unknownFailed))
+                return completionHandler(.failure(.emptyValue))
             }
             completionHandler(.success(data))
         }
