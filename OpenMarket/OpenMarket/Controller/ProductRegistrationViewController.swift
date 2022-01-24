@@ -110,14 +110,28 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
                 } else {
                     hideCaution(textField: textField, cautionLabel: productPriceCautionLabel)
                 }
-            }
-            if textField === discountedPriceTextField {
-                let discountedPrice = Decimal(string: textField.text ?? "")
-                guard let price = Decimal(string: productPriceTextField.text ?? "") else { return }
-                if let error = inspectMaximumDiscountedPrice(
+                if let price = Decimal(string: textField.text ?? ""),
+                   let discountedPrice = Decimal(string: discountedPriceTextField.text ?? ""),
+                   let error = inspectMaximumDiscountedPrice(
                     price: price,
                     discountedPrice: discountedPrice
-                ) {
+                   ) {
+                    showCaution(
+                        textField: discountedPriceTextField,
+                        cautionLabel: discountedPriceCautionLabel,
+                        message: error.errorDescription
+                    )
+                } else {
+                    hideCaution(textField: discountedPriceTextField, cautionLabel: discountedPriceCautionLabel)
+                }
+            }
+            if textField === discountedPriceTextField {
+                if let price = Decimal(string: productPriceTextField.text ?? ""),
+                   let discountedPrice = Decimal(string: textField.text ?? ""),
+                   let error = inspectMaximumDiscountedPrice(
+                    price: price,
+                    discountedPrice: discountedPrice
+                   ) {
                     showCaution(
                         textField: textField,
                         cautionLabel: discountedPriceCautionLabel,
