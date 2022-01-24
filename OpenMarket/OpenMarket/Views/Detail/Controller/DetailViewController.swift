@@ -34,6 +34,11 @@ class DetailViewController: UIViewController {
         navigationItem.title = title
     }
     
+    @IBAction func tappedPageControl(_ sender: UIPageControl) {
+        let indexPath = IndexPath(item: sender.currentPage, section: 0)
+        collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+    }
+
     func requestDetail(productId: UInt) {
         let networkManager: NetworkManager = NetworkManager()
         guard let request = networkManager.requestDetailSearch(id: UInt(productId)) else {
@@ -93,7 +98,6 @@ class DetailViewController: UIViewController {
             }
         }
     }
-    
     
     private func setUpNavigationItem() {
         navigationController?.navigationBar.tintColor = .black
