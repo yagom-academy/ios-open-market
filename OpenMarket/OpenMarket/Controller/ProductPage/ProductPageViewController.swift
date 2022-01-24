@@ -101,6 +101,8 @@ final class ProductPageViewController: UIViewController {
         dataManager.update()
         configureViewLayout()
     }
+    
+}
 
 // MARK: - UIRefreshControl Action
 private extension ProductPageViewController {
