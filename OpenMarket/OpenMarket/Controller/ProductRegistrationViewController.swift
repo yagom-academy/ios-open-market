@@ -66,10 +66,11 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
         productPriceTextField.delegate = self
         discountedPriceTextField.delegate = self
         stockTextField.delegate = self
-        setUpImagePicker()
+        setupImagePicker()
         setupNavigationBar()
-        hideAllCautionLabel()
         setupTextView()
+        setupTextFieldTarget()
+        hideAllCautionLabel()
         loadProductInformation()
         NotificationCenter.default.addObserver(
             self,
@@ -83,9 +84,6 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
             name: UIResponder.keyboardWillHideNotification,
             object: nil
         )
-        productNameTextField.addTarget(self, action: #selector(textInputDidChange(_:)), for: .editingChanged)
-        productPriceTextField.addTarget(self, action: #selector(textInputDidChange(_:)), for: .editingChanged)
-        discountedPriceTextField.addTarget(self, action: #selector(textInputDidChange(_:)), for: .editingChanged)
     }
     
     @objc private func textInputDidChange(_ sender: Any?) {
@@ -320,7 +318,7 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
         }
     }
     
-    private func setUpImagePicker() {
+    private func setupImagePicker() {
         imagePickerController.sourceType = .photoLibrary
         imagePickerController.delegate = self
     }
@@ -337,6 +335,12 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
             blue: 0.8,
             alpha: 1.0
         )
+    }
+    
+    private func setupTextFieldTarget() {
+        productNameTextField.addTarget(self, action: #selector(textInputDidChange(_:)), for: .editingChanged)
+        productPriceTextField.addTarget(self, action: #selector(textInputDidChange(_:)), for: .editingChanged)
+        discountedPriceTextField.addTarget(self, action: #selector(textInputDidChange(_:)), for: .editingChanged)
     }
     
     private func makeSalesInformation(
