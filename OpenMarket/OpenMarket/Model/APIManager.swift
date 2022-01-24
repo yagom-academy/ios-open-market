@@ -4,7 +4,7 @@ import UIKit
 typealias Parameters = [String: String]
 
 class APIManager {
-    
+    static let shared = APIManager()
     let boundary = "Boundary-\(UUID().uuidString)"
     let urlSession: URLSessionProtocol
 

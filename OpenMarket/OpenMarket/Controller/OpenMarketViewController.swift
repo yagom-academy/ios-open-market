@@ -7,7 +7,7 @@ class OpenMarketViewController: UIViewController {
     }
     
     @IBOutlet weak var segmentedControl: UISegmentedControl!
-    private let apiManager = APIManager()
+    private let apiManager = APIManager.shared
     private let listCollectionView = UICollectionView(frame: .zero, collectionViewLayout: OpenMarketViewLayout.list)
     private let gridCollectionView = UICollectionView(frame: .zero, collectionViewLayout: OpenMarketViewLayout.grid)
     private var listDataSource: UICollectionViewDiffableDataSource<Section, ProductDetail>?

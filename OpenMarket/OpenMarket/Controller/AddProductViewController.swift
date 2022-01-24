@@ -11,7 +11,7 @@ class AddProductViewController: UIViewController {
     @IBOutlet weak var productImageStackView: UIStackView!
     @IBOutlet weak var addImageButton: UIButton!
     
-    let apiManager = APIManager()
+    lazy var apiManager = APIManager.shared
     let imagePicker = UIImagePickerController()
     var productImages: [NewProductImage] = []
     var newProduct: NewProduct?
@@ -70,8 +70,8 @@ class AddProductViewController: UIViewController {
     
     func getProductImageFromButton(with tag: Int) {
         guard let imageButton = view.viewWithTag(tag) as? UIButton,
-              let image = imageButton?.imageView?.image,
-              let imageData = image?.jpegData(compressionQuality: 0.1) else { return }
+              let image = imageButton.imageView?.image,
+              let imageData = image.jpegData(compressionQuality: 0.1) else { return }
 
         let productImage = NewProductImage(image: imageData)
         productImages.append(productImage)
