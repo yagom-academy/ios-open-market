@@ -5,7 +5,6 @@
 //  Created by 박병호 on 2022/01/04.
 //
 
-import Foundation
 import UIKit
 
 struct APIManager: RestFulAPI {

@@ -90,7 +90,11 @@ extension productRegisterModification: UITextViewDelegate {
     }
   }
   
-  func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+  func textView(
+    _ textView: UITextView,
+    shouldChangeTextIn range: NSRange,
+    replacementText text: String
+  ) -> Bool {
     let inputString = text.trimmingCharacters(in: .whitespacesAndNewlines)
     guard let oldString = textView.text,
           let newRange = Range(range, in: oldString) else {
@@ -111,7 +115,10 @@ extension productRegisterModification: UITextViewDelegate {
   
   private func updateCountLabel(characterCount: Int) {
     characterCountLabel.text = "\(characterCount) / 1000"
-    characterCountLabel.asColor(targetString: "\(characterCount)", color: characterCount < 800 ? .darkGray : .red)
+    characterCountLabel.changeColor(
+      targetString: "\(characterCount)",
+      color: characterCount < 800 ? .darkGray : .red
+    )
   }
 }
 
