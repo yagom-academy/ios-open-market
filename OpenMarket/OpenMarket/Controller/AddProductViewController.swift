@@ -51,6 +51,16 @@ class AddProductViewController: UIViewController, UINavigationControllerDelegate
         snapShot.appendSections([0])
         postManager.setDelegate(self)
         configureView()
+
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidHide), name: UIResponder.keyboardDidHideNotification, object: nil)
+
+        hideKeyboard()
+    }
+
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardDidHideNotification, object: nil)
     }
 
     override func viewDidLoad() {
@@ -73,6 +83,27 @@ extension AddProductViewController {
         postManager.post(data: inputData) {
             self.postManagerDidSuccessPosting()
         }
+    }
+
+    @objc
+    private func keyboardWillShow(_ notification: NSNotification) {
+        if let keyboardHeight = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue.height {
+                scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardHeight, right: 0)
+        }
+    }
+
+    @objc
+    private func keyboardDidHide(_ notification: NSNotification) {
+        scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+    }
+
+    func hideKeyboard() {
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self,
+                                                                 action: #selector(self.dismissKeyboard))
+        view.addGestureRecognizer(tap)
+    }
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
     }
 }
 
@@ -370,8 +401,16 @@ extension AddProductViewController: UIImagePickerControllerDelegate {
 
 extension AddProductViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
-        textView.textColor = .label
-        textView.text = ""
+        if textView.textColor != .label {
+            textView.textColor = .label
+            textView.text = ""
+        }
+    }
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if textView.text == "" {
+            textView.text = "여기에 상품 설명을 입력하세요. (1000글자 제한)"
+            textView.textColor = .placeholderText
+        }
     }
     func textViewDidChange(_ textView: UITextView) {
         let textCount = textView.text.count
