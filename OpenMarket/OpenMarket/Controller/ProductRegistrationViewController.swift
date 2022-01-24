@@ -63,6 +63,9 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
         super.viewDidLoad()
         imagesCollectionView.dataSource = self
         productNameTextField.delegate = self
+        productPriceTextField.delegate = self
+        discountedPriceTextField.delegate = self
+        stockTextField.delegate = self
         setUpImagePicker()
         setupNavigationBar()
         hideAllCautionLabel()
@@ -106,12 +109,6 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
                         cautionLabel: productPriceCautionLabel,
                         message: "상품가격을 입력해주세요"
                     )
-                } else if let price = Decimal(string: textField.text ?? ""),
-                    let error = inspectSign(price: price, discountedPrice: nil) {
-                    showCaution(
-                        textField: textField,
-                        cautionLabel: productPriceCautionLabel,
-                        message: error.errorDescription)
                 } else {
                     hideCaution(textField: textField, cautionLabel: productPriceCautionLabel)
                 }
@@ -123,12 +120,6 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
                     price: price,
                     discountedPrice: discountedPrice
                 ) {
-                    showCaution(
-                        textField: textField,
-                        cautionLabel: discountedPriceCautionLabel,
-                        message: error.errorDescription
-                    )
-                } else if let error = inspectSign(price: price, discountedPrice: discountedPrice) {
                     showCaution(
                         textField: textField,
                         cautionLabel: discountedPriceCautionLabel,
@@ -464,9 +455,6 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
         maximumNameLimit: Int?,
         minimumNameLimit: Int?
     ) -> ProductRegistrationError? {
-        if let error = inspectSign(price: price, discountedPrice: discountedPrice) {
-            return error
-        }
         if let error = inspectMaximumDiscountedPrice(
             price: price,
             discountedPrice: discountedPrice
@@ -490,16 +478,6 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
             limit: maximumDescriptionsLimit
         ) {
             return error
-        }
-        return nil
-    }
-    
-    private func inspectSign(
-        price: Decimal,
-        discountedPrice: Decimal?
-    ) -> ProductRegistrationError? {
-        if price.isSignMinus || discountedPrice?.isSignMinus == .some(true) {
-            return .negativePrice
         }
         return nil
     }
@@ -666,5 +644,24 @@ extension ProductRegistrationViewController: UITextFieldDelegate {
             productPriceTextField.becomeFirstResponder()
         }
         return false
+    }
+    
+    func textField(
+        _ textField: UITextField,
+        shouldChangeCharactersIn range: NSRange,
+        replacementString string: String
+    ) -> Bool {
+        if textField === productPriceTextField ||
+            textField === discountedPriceTextField ||
+            textField === stockTextField {
+            if string.isEmpty {
+                return true
+            }
+            let numberCharacterSet = CharacterSet.decimalDigits
+            let inputCharacterSet = CharacterSet(charactersIn: string)
+            let isValid = numberCharacterSet.isSuperset(of: inputCharacterSet)
+            return isValid
+        }
+        return true
     }
 }

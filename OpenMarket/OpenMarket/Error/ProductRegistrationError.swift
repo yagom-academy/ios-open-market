@@ -8,7 +8,6 @@ enum ProductRegistrationError: Error {
     case emptyImage
     case maximumCharacterLimit(TextCategory, Int)
     case minimumCharacterLimit(TextCategory, Int)
-    case negativePrice
     case maximumDiscountedPrice(Decimal)
 }
 
@@ -29,8 +28,6 @@ extension ProductRegistrationError: LocalizedError {
             return "\(category)을 \(count)글자 이하로 입력해주세요"
         case .minimumCharacterLimit(let category, let count):
             return "\(category)을 \(count)글자 이상 입력해주세요"
-        case .negativePrice:
-            return "금액을 양수로 입력해주세요"
         case .maximumDiscountedPrice(let price):
             return "할인금액을 \(price) 이하로 입력해주세요"
         }
