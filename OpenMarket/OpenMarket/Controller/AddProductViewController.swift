@@ -149,6 +149,7 @@ extension AddProductViewController {
         textFieldStackView.addArrangedSubview(nameTextField)
         nameTextField.borderStyle = .roundedRect
         nameTextField.placeholder = "상품명"
+        nameTextField.adjustsFontForContentSizeCategory = true
 
         textFieldStackView.addArrangedSubview(priceStackView)
         priceStackView.axis = .horizontal
@@ -157,14 +158,17 @@ extension AddProductViewController {
         priceStackView.addArrangedSubview(priceTextField)
         priceTextField.borderStyle = .roundedRect
         priceTextField.placeholder = "상품가격"
+        priceTextField.adjustsFontForContentSizeCategory = true
 
         textFieldStackView.addArrangedSubview(discountTextField)
         discountTextField.borderStyle = .roundedRect
         discountTextField.placeholder = "할인금액"
+        discountTextField.adjustsFontForContentSizeCategory = true
 
         textFieldStackView.addArrangedSubview(stockTextField)
         stockTextField.borderStyle = .roundedRect
         stockTextField.placeholder = "재고수량"
+        stockTextField.adjustsFontForContentSizeCategory = true
     }
 
     private func configureSegmentControl() {
@@ -183,6 +187,7 @@ extension AddProductViewController {
         descriptionTextView.text = "여기에 상품 설명을 입력하세요. (1000글자 제한)"
         descriptionTextView.textColor = .placeholderText
         descriptionTextView.font = .preferredFont(forTextStyle: .body, compatibleWith: .current)
+        descriptionTextView.adjustsFontForContentSizeCategory = true
 
         descriptionTextView.setContentHuggingPriority(.init(0), for: .vertical)
         descriptionTextView.translatesAutoresizingMaskIntoConstraints = false
