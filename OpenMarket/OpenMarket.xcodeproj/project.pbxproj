@@ -44,6 +44,7 @@
 		25EEB07F279E6501007E50D8 /* ProductDetail.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 25EEB07E279E6501007E50D8 /* ProductDetail.storyboard */; };
 		25EEB081279E6520007E50D8 /* ProductRegistrationModification.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 25EEB080279E6520007E50D8 /* ProductRegistrationModification.storyboard */; };
 		25EEB083279E68E1007E50D8 /* ProductDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25EEB082279E68E1007E50D8 /* ProductDetailViewController.swift */; };
+		25EEB086279E7F5A007E50D8 /* UILabel+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25EEB085279E7F5A007E50D8 /* UILabel+Extension.swift */; };
 		25F8D1FB27953BED005B9767 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2530792F278D7F1B004639B2 /* String+Extension.swift */; };
 		25F8D1FD27958659005B9767 /* LayoutConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25F8D1FC27958659005B9767 /* LayoutConstant.swift */; };
 		25F8D200279592F3005B9767 /* ReuseIdentifying.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25F8D1FF279592F3005B9767 /* ReuseIdentifying.swift */; };
@@ -114,6 +115,7 @@
 		25EEB07E279E6501007E50D8 /* ProductDetail.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ProductDetail.storyboard; sourceTree = "<group>"; };
 		25EEB080279E6520007E50D8 /* ProductRegistrationModification.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ProductRegistrationModification.storyboard; sourceTree = "<group>"; };
 		25EEB082279E68E1007E50D8 /* ProductDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetailViewController.swift; sourceTree = "<group>"; };
+		25EEB085279E7F5A007E50D8 /* UILabel+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Extension.swift"; sourceTree = "<group>"; };
 		25F8D1FC27958659005B9767 /* LayoutConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutConstant.swift; sourceTree = "<group>"; };
 		25F8D1FF279592F3005B9767 /* ReuseIdentifying.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReuseIdentifying.swift; sourceTree = "<group>"; };
 		25F8D203279599B7005B9767 /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
@@ -186,6 +188,7 @@
 				25F8D203279599B7005B9767 /* UIViewController+Extension.swift */,
 				25F8D20F2796AAB8005B9767 /* Data+Extension.swift */,
 				25EEB02027986CCD007E50D8 /* UIImage+Extension.swift */,
+				25EEB085279E7F5A007E50D8 /* UILabel+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -467,6 +470,7 @@
 				25EEB01D27981EAD007E50D8 /* ProductRegistrationModificationViewController.swift in Sources */,
 				2530793F27901928004639B2 /* PresentStyle.swift in Sources */,
 				2580F2172787D054005FC50F /* NetworkError.swift in Sources */,
+				25EEB086279E7F5A007E50D8 /* UILabel+Extension.swift in Sources */,
 				255619962784562B00067096 /* JSONParser.swift in Sources */,
 				25EEB02127986CCD007E50D8 /* UIImage+Extension.swift in Sources */,
 				25F8D204279599B7005B9767 /* UIViewController+Extension.swift in Sources */,

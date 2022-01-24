@@ -9,6 +9,7 @@ import UIKit
 
 enum AlertMessage {
   case rangeOfImageCount
+  case imageLoadingFailed
 }
 
 extension AlertMessage {
@@ -16,6 +17,8 @@ extension AlertMessage {
     switch self {
     case .rangeOfImageCount:
       return "이미지는 최소 1개, 최대 5개까지 등록 가능합니다."
+    case .imageLoadingFailed:
+      return "이미지를 불러오지 못했습니다."
     }
   }
 }

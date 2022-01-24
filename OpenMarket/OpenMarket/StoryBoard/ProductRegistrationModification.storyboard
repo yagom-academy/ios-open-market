@@ -21,7 +21,7 @@
                                 <rect key="frame" x="0.0" y="44" width="414" height="852"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OFo-Ml-gjf">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="385.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="387"/>
                                         <subviews>
                                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jQ2-g3-Hgh">
                                                 <rect key="frame" x="0.0" y="8" width="414" height="135"/>
@@ -72,9 +72,9 @@
                                                 <viewLayoutGuide key="frameLayoutGuide" id="E31-Dh-jEu"/>
                                             </scrollView>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="kbw-Mm-Iwj">
-                                                <rect key="frame" x="8" y="151" width="398" height="234.5"/>
+                                                <rect key="frame" x="8" y="159" width="398" height="228"/>
                                                 <subviews>
-                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="*상품명" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="JFW-MY-9nW">
+                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="*상품명" textAlignment="natural" adjustsFontForContentSizeCategory="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="JFW-MY-9nW">
                                                         <rect key="frame" x="0.0" y="0.0" width="398" height="34"/>
                                                         <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
@@ -83,10 +83,13 @@
                                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="D5x-lj-6xz">
                                                         <rect key="frame" x="0.0" y="42" width="398" height="34"/>
                                                         <subviews>
-                                                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="*상품가격" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="FaB-O6-9PK">
+                                                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="*상품가격" textAlignment="natural" adjustsFontForContentSizeCategory="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="FaB-O6-9PK">
                                                                 <rect key="frame" x="0.0" y="0.0" width="293" height="34"/>
-                                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                                <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                                 <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
+                                                                <connections>
+                                                                    <outlet property="delegate" destination="xh3-xY-wlT" id="JMF-7U-pcS"/>
+                                                                </connections>
                                                             </textField>
                                                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="dSO-gP-jtJ">
                                                                 <rect key="frame" x="301" y="0.0" width="97" height="35"/>
@@ -97,23 +100,38 @@
                                                             </segmentedControl>
                                                         </subviews>
                                                     </stackView>
-                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="할인금액" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="60w-BF-cE4">
+                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="할인금액" textAlignment="natural" adjustsFontForContentSizeCategory="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="60w-BF-cE4">
                                                         <rect key="frame" x="0.0" y="84" width="398" height="34"/>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                        <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                         <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
+                                                        <connections>
+                                                            <outlet property="delegate" destination="xh3-xY-wlT" id="edp-B4-fUN"/>
+                                                        </connections>
                                                     </textField>
-                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="재고수량" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="keE-Br-3k9">
+                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="재고수량" textAlignment="natural" adjustsFontForContentSizeCategory="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="keE-Br-3k9">
                                                         <rect key="frame" x="0.0" y="126" width="398" height="34"/>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                        <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                         <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                                        <connections>
+                                                            <outlet property="delegate" destination="xh3-xY-wlT" id="XTd-97-4j0"/>
+                                                        </connections>
                                                     </textField>
-                                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" text="Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore " textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="34v-0c-VGa">
-                                                        <rect key="frame" x="0.0" y="168" width="398" height="66.5"/>
+                                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" textAlignment="natural" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="34v-0c-VGa">
+                                                        <rect key="frame" x="0.0" y="168" width="398" height="35"/>
                                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                         <color key="textColor" systemColor="labelColor"/>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                        <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                                        <connections>
+                                                            <outlet property="delegate" destination="xh3-xY-wlT" id="yQy-DY-wZI"/>
+                                                        </connections>
                                                     </textView>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0 / 1000" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BOX-Yi-20n">
+                                                        <rect key="frame" x="0.0" y="211" width="398" height="17"/>
+                                                        <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                                        <color key="textColor" red="0.33333334329999997" green="0.33333334329999997" blue="0.33333334329999997" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
                                                 </subviews>
                                             </stackView>
                                         </subviews>
@@ -125,7 +143,7 @@
                                             <constraint firstAttribute="trailing" secondItem="jQ2-g3-Hgh" secondAttribute="trailing" id="ZuQ-L0-ZAr"/>
                                             <constraint firstItem="kbw-Mm-Iwj" firstAttribute="leading" secondItem="OFo-Ml-gjf" secondAttribute="leading" constant="8" id="ejc-bj-8T8"/>
                                             <constraint firstAttribute="trailing" secondItem="kbw-Mm-Iwj" secondAttribute="trailing" constant="8" id="sdf-Rw-VN6"/>
-                                            <constraint firstItem="kbw-Mm-Iwj" firstAttribute="top" secondItem="jQ2-g3-Hgh" secondAttribute="bottom" constant="8" id="slY-q9-z7j"/>
+                                            <constraint firstItem="kbw-Mm-Iwj" firstAttribute="top" secondItem="jQ2-g3-Hgh" secondAttribute="bottom" constant="16" id="slY-q9-z7j"/>
                                         </constraints>
                                     </view>
                                 </subviews>
@@ -154,14 +172,15 @@
                     </navigationItem>
                     <connections>
                         <outlet property="addImageButton" destination="2XL-ix-Xaz" id="cCM-7k-t1M"/>
+                        <outlet property="characterCountLabel" destination="BOX-Yi-20n" id="Gx7-05-uf1"/>
                         <outlet property="currencySegmentControl" destination="dSO-gP-jtJ" id="T3a-j0-YW1"/>
                         <outlet property="descriptionTextView" destination="34v-0c-VGa" id="AXW-Yo-k8I"/>
                         <outlet property="discountedPriceTextField" destination="60w-BF-cE4" id="CZk-g4-aiA"/>
                         <outlet property="doneButton" destination="BAl-xl-hsn" id="hnd-1x-bY3"/>
                         <outlet property="fixedPriceTextField" destination="FaB-O6-9PK" id="xqa-91-WNQ"/>
+                        <outlet property="imageStackView" destination="jed-rx-pM2" id="iXd-Bv-sxc"/>
                         <outlet property="mainScrollView" destination="j1a-hN-KCo" id="3dk-pc-B0s"/>
                         <outlet property="nameTextField" destination="JFW-MY-9nW" id="D5v-Pe-GQd"/>
-                        <outlet property="stackView" destination="jed-rx-pM2" id="S3c-Ur-31s"/>
                         <outlet property="stockTextField" destination="keE-Br-3k9" id="npk-t5-GKo"/>
                     </connections>
                 </viewController>

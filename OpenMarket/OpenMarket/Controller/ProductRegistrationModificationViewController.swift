@@ -25,14 +25,15 @@ class ProductRegistrationModificationViewController: productRegisterModification
     super.viewDidLoad()
     addKeyboardNotification()
     setView(mode: viewMode)
+    setDescriptionTextView()
   }
   
   @objc private func addImage() {
-    if productImages.count < 5 {
-      actionSheetAlertForImage()
-    } else {
+    guard imageStackView.subviews.count < 6 else {
       showAlert(message: .rangeOfImageCount)
+      return
     }
+    actionSheetAlertForImage()
   }
   
   @objc private func registerProductButtonDidTap() {
@@ -98,7 +99,7 @@ class ProductRegistrationModificationViewController: productRegisterModification
   }
   
   func registerImage() {
-    for subView in stackView.subviews {
+    for subView in imageStackView.subviews {
       if let imageView = subView as? UIImageView,
          let image = imageView.image {
       productImages.append(image)
@@ -150,11 +151,16 @@ extension ProductRegistrationModificationViewController {
       throw InputError.invalidDescription
     }
     guard let stringFixedPrice = fixedPriceTextField.text,
-          let fixedPrice = Double(stringFixedPrice)else {
+          let numberFixedPrice = PresentStyle.numberFormatter.number(from: stringFixedPrice),
+          let fixedPrice = Double(exactly: numberFixedPrice) else {
       throw InputError.invalidFixedPrice
     }
     guard let stringDiscountedPrice = discountedPriceTextField.text,
-          let stringStock = stockTextField.text else {
+          let numberDiscountedPrice = PresentStyle.numberFormatter.number(from: stringDiscountedPrice) else {
+            throw InputError.invalidOthers
+    }
+    guard let stringStock = stockTextField.text,
+          let numberStock = PresentStyle.numberFormatter.number(from: stringStock) else {
             throw InputError.invalidOthers
     }
     let curreny: Currency = currencySegmentControl.selectedSegmentIndex == 0 ? .KRW : .USD
@@ -164,8 +170,8 @@ extension ProductRegistrationModificationViewController {
       descriptions: descriptions,
       price: fixedPrice,
       currency: curreny,
-      discountedPrice: Double(stringDiscountedPrice),
-      stock: Int(stringStock),
+      discountedPrice: Double(exactly: numberDiscountedPrice),
+      stock: Int(exactly: numberStock),
       secret: secret
     )
   }
@@ -178,11 +184,16 @@ extension ProductRegistrationModificationViewController {
       throw InputError.invalidDescription
     }
     guard let stringFixedPrice = fixedPriceTextField.text,
-          let fixedPrice = Double(stringFixedPrice)else {
+          let numberFixedPrice = PresentStyle.numberFormatter.number(from: stringFixedPrice),
+          let fixedPrice = Double(exactly: numberFixedPrice) else {
       throw InputError.invalidFixedPrice
     }
     guard let stringDiscountedPrice = discountedPriceTextField.text,
-          let stringStock = stockTextField.text else {
+          let numberDiscountedPrice = PresentStyle.numberFormatter.number(from: stringDiscountedPrice) else {
+            throw InputError.invalidOthers
+    }
+    guard let stringStock = stockTextField.text,
+          let numberStock = PresentStyle.numberFormatter.number(from: stringStock) else {
             throw InputError.invalidOthers
     }
     let curreny: Currency = currencySegmentControl.selectedSegmentIndex == 0 ? .KRW : .USD
@@ -193,8 +204,8 @@ extension ProductRegistrationModificationViewController {
       thumbnailId: nil,
       price: fixedPrice,
       currency: curreny,
-      discountedPrice: Double(stringDiscountedPrice),
-      stock: Int(stringStock),
+      discountedPrice: Double(exactly: numberDiscountedPrice),
+      stock: Int(exactly: numberStock),
       secret: secret
     )
   }
@@ -242,15 +253,17 @@ extension ProductRegistrationModificationViewController {
   
   private func setProductDetail(product: Product) {
     nameTextField.text = product.name
-    fixedPriceTextField.text = "\(product.price)"
-    discountedPriceTextField.text = "\(product.discountedPrice)"
-    stockTextField.text = "\(product.stock)"
+    stockTextField.text = "\(PresentStyle.formatNumber(product.stock))"
     descriptionTextView.text = product.description
     switch product.currency {
     case .KRW:
       currencySegmentControl.selectedSegmentIndex = 0
+      fixedPriceTextField.text = "\(PresentStyle.formatNumber(Int(product.price)))"
+      discountedPriceTextField.text = "\(PresentStyle.formatNumber(Int(product.discountedPrice)))"
     case .USD:
       currencySegmentControl.selectedSegmentIndex = 1
+      fixedPriceTextField.text = "\(product.price)"
+      discountedPriceTextField.text = "\(product.discountedPrice)"
     }
   }
 }
@@ -266,7 +279,7 @@ extension ProductRegistrationModificationViewController {
   ) {
     guard let image = info[.editedImage] as? UIImage else {
       dismiss(animated: true, completion: nil)
-      showAlert(message: "이미지를 불러오지 못했습니다.")
+      showAlert(message: AlertMessage.imageLoadingFailed.description)
       return
     }
     let resizingImage = image.resize(maxBytes: 307200)
@@ -278,7 +291,7 @@ extension ProductRegistrationModificationViewController {
   @discardableResult
   private func appendImageView(image: UIImage?) -> UIImageView {
     let imageView = UIImageView(image: image)
-    stackView.addArrangedSubview(imageView)
+    imageStackView.addArrangedSubview(imageView)
     imageView.heightAnchor.constraint(
       equalTo: imageView.widthAnchor,
       multiplier: 1
@@ -295,7 +308,7 @@ extension ProductRegistrationModificationViewController {
   }
   
   @objc func removeImageView(_ sender: CustomGesture) {
-    for subView in stackView.subviews {
+    for subView in imageStackView.subviews {
       if sender.imageView == subView {
         subView.removeFromSuperview()
       }

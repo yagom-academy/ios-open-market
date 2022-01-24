@@ -29,6 +29,8 @@ extension ProductCollectionViewCell {
     productBargainPriceLabel.text = product.formattedBargainPrice
     if product.formattedFixedPrice == product.formattedBargainPrice {
       productFixedPriceLabel.isHidden = true
+    } else {
+      productFixedPriceLabel.isHidden = false
     }
     if product.formattedStock == "품절" {
       productStockLabel.textColor = .orange

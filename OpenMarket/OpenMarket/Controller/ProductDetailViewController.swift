@@ -48,6 +48,7 @@ extension ProductDetailViewController {
     ) as? ProductRegistrationModificationViewController else {
       return
     }
+    
     presentViewController.product = product
     presentViewController.productImages = productImages
     presentViewController.viewMode = .modification
@@ -55,6 +56,6 @@ extension ProductDetailViewController {
   }
   
   func deleteProduct() {
-    
+    // STEP2 구현 예정
   }
 }
