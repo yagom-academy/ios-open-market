@@ -2,14 +2,14 @@ import UIKit
 
 class ProductRegisterViewController: UIViewController, ProductManageable {
     var productRegisterManager = ProductRegisterManager()
-    private let imagePickerController = ImagePickerController()
+    private let productImagePickerController = ProductImagePickerController()
     private lazy var productScrollView = productRegisterManager.productInformationScrollView
     
     override func viewDidLoad() {
         super.viewDidLoad()
         addKeyboardNotification()
         productRegisterManager.delegate = self
-        imagePickerController.pickerDelegate = self
+        productImagePickerController.pickerDelegate = self
         productRegisterManager.addDelegateToTextField(delegate: self)
         productRegisterManager.addDelegateToTextView(delegate: self)
         configUI()
@@ -56,9 +56,9 @@ class ProductRegisterViewController: UIViewController, ProductManageable {
 
 extension ProductRegisterViewController: PickerPresenter {
     func presentImagePickerView() {
-        imagePickerController.sourceType = .photoLibrary
-        imagePickerController.allowsEditing = true
-        self.present(imagePickerController, animated: true, completion: nil)
+        productImagePickerController.sourceType = .photoLibrary
+        productImagePickerController.allowsEditing = true
+        self.present(productImagePickerController, animated: true, completion: nil)
     }
 }
 

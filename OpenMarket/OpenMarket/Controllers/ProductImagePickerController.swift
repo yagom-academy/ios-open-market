@@ -4,7 +4,7 @@ protocol PickerDelegate: AnyObject {
     func addImage(with image: UIImage)
 }
 
-class ImagePickerController: UIImagePickerController {
+class ProductImagePickerController: UIImagePickerController {
     weak var pickerDelegate: PickerDelegate?
     
     override func viewDidLoad() {
@@ -13,7 +13,7 @@ class ImagePickerController: UIImagePickerController {
     }
 }
 
-extension ImagePickerController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+extension ProductImagePickerController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         self.dismiss(animated: true, completion: nil)
     }

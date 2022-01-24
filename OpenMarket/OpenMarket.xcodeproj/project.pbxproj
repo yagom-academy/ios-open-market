@@ -24,7 +24,7 @@
 		A6A8248327871680006CE6DA /* URLRequest+httpmethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B5FAD22783F240001B6FDE /* URLRequest+httpmethod.swift */; };
 		A6BA9C802798472100C3AA72 /* UIView+firstResponder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6BA9C7F2798472100C3AA72 /* UIView+firstResponder.swift */; };
 		A6BA9C822799464300C3AA72 /* ProductManageable.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6BA9C812799464300C3AA72 /* ProductManageable.swift */; };
-		A6D008F22796DF4B002FAE56 /* ImagePickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6D008F12796DF4B002FAE56 /* ImagePickerController.swift */; };
+		A6D008F22796DF4B002FAE56 /* ProductImagePickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6D008F12796DF4B002FAE56 /* ProductImagePickerController.swift */; };
 		A6E6A5D6278D189F00903BC1 /* ProductGridLayoutCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6E6A5D5278D189F00903BC1 /* ProductGridLayoutCell.swift */; };
 		A6E6A5D8278D1CD500903BC1 /* NSMutableAttributedString+style.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6E6A5D7278D1CD500903BC1 /* NSMutableAttributedString+style.swift */; };
 		A6E6A5DC278D287400903BC1 /* AttributedTextCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6E6A5DB278D287400903BC1 /* AttributedTextCreator.swift */; };
@@ -89,7 +89,7 @@
 		A6A824802786D271006CE6DA /* OpenMarketAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketAPI.swift; sourceTree = "<group>"; };
 		A6BA9C7F2798472100C3AA72 /* UIView+firstResponder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+firstResponder.swift"; sourceTree = "<group>"; };
 		A6BA9C812799464300C3AA72 /* ProductManageable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductManageable.swift; sourceTree = "<group>"; };
-		A6D008F12796DF4B002FAE56 /* ImagePickerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerController.swift; sourceTree = "<group>"; };
+		A6D008F12796DF4B002FAE56 /* ProductImagePickerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductImagePickerController.swift; sourceTree = "<group>"; };
 		A6E6A5D5278D189F00903BC1 /* ProductGridLayoutCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductGridLayoutCell.swift; sourceTree = "<group>"; };
 		A6E6A5D7278D1CD500903BC1 /* NSMutableAttributedString+style.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSMutableAttributedString+style.swift"; sourceTree = "<group>"; };
 		A6E6A5DB278D287400903BC1 /* AttributedTextCreator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttributedTextCreator.swift; sourceTree = "<group>"; };
@@ -162,7 +162,7 @@
 				C70FB0FE25BEF61C00C9924E /* MainViewController.swift */,
 				C9AC97DA279958E700E5E10C /* ProductModifyViewController.swift */,
 				C985AA40278D878000D6B81B /* ProductRegisterViewController.swift */,
-				A6D008F12796DF4B002FAE56 /* ImagePickerController.swift */,
+				A6D008F12796DF4B002FAE56 /* ProductImagePickerController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -501,7 +501,7 @@
 				A6BA9C802798472100C3AA72 /* UIView+firstResponder.swift in Sources */,
 				A6A824812786D271006CE6DA /* OpenMarketAPI.swift in Sources */,
 				C995B24C2795684B00293651 /* CustomTextField.swift in Sources */,
-				A6D008F22796DF4B002FAE56 /* ImagePickerController.swift in Sources */,
+				A6D008F22796DF4B002FAE56 /* ProductImagePickerController.swift in Sources */,
 				A6A824552785BDE1006CE6DA /* URLCreator.swift in Sources */,
 				C995B2572796EC9900293651 /* ProductRegisterManager.swift in Sources */,
 				C995B25B279703EE00293651 /* Notification+name.swift in Sources */,
@@ -711,7 +711,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = RL265827ML;
+				DEVELOPMENT_TEAM = 8D58C3D89B;
 				INFOPLIST_FILE = OpenMarket/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -732,7 +732,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = RL265827ML;
+				DEVELOPMENT_TEAM = 8D58C3D89B;
 				INFOPLIST_FILE = OpenMarket/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
