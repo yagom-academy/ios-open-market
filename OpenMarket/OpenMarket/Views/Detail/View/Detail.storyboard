@@ -43,57 +43,58 @@
                                             <action selector="tappedPageControl:" destination="Y6W-OH-hqX" eventType="valueChanged" id="sXd-ha-8jm"/>
                                         </connections>
                                     </pageControl>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="VEJ-8s-sBG">
-                                        <rect key="frame" x="8" y="422" width="398" height="177"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="VEJ-8s-sBG" customClass="ProductInfoStackView" customModule="OpenMarket" customModuleProvider="target">
+                                        <rect key="frame" x="12" y="422" width="390" height="92.5"/>
                                         <subviews>
-                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="hdg-Wg-OIL">
-                                                <rect key="frame" x="0.0" y="0.0" width="398" height="177"/>
+                                            <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="r2v-28-Q9H">
+                                                <rect key="frame" x="0.0" y="0.0" width="390" height="23"/>
                                                 <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="상품명" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Db3-pT-sMC">
-                                                        <rect key="frame" x="0.0" y="0.0" width="398" height="37"/>
-                                                        <fontDescription key="fontDescription" style="UICTFontTextStyleTitle0"/>
-                                                        <nil key="textColor"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="USD 2,500" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="q1K-lP-3hO">
-                                                        <rect key="frame" x="0.0" y="41" width="398" height="20.5"/>
-                                                        <fontDescription key="fontDescription" style="UICTFontTextStyleTitle3"/>
-                                                        <nil key="textColor"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="USD 2,500" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UOr-GK-EHo">
-                                                        <rect key="frame" x="0.0" y="65.5" width="398" height="20.5"/>
-                                                        <fontDescription key="fontDescription" style="UICTFontTextStyleTitle3"/>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="상품명" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Db3-pT-sMC">
+                                                        <rect key="frame" x="0.0" y="0.0" width="298" height="23"/>
+                                                        <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="17"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="재고 : 10개" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gN9-yH-rMg">
-                                                        <rect key="frame" x="0.0" y="90" width="398" height="20.5"/>
-                                                        <fontDescription key="fontDescription" style="UICTFontTextStyleTitle3"/>
-                                                        <nil key="textColor"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="생성 날짜: 2022-12-27 " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yQZ-f7-Ws0">
-                                                        <rect key="frame" x="0.0" y="114.5" width="398" height="17"/>
-                                                        <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
-                                                        <nil key="textColor"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="판매자 명: vender1" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c3n-hY-9ve">
-                                                        <rect key="frame" x="0.0" y="135.5" width="398" height="17"/>
-                                                        <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
-                                                        <nil key="textColor"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IjY-4Q-wYB">
-                                                        <rect key="frame" x="0.0" y="156.5" width="398" height="20.5"/>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <rect key="frame" x="306" y="0.0" width="84" height="23"/>
+                                                        <fontDescription key="fontDescription" style="UICTFontTextStyleTitle2"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                 </subviews>
                                             </stackView>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="hvK-He-eig">
+                                                <rect key="frame" x="0.0" y="27" width="390" height="41"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="USD 2,500" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="q1K-lP-3hO">
+                                                        <rect key="frame" x="0.0" y="0.0" width="390" height="20.5"/>
+                                                        <fontDescription key="fontDescription" style="UICTFontTextStyleTitle3"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="USD 2,500" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UOr-GK-EHo">
+                                                        <rect key="frame" x="0.0" y="20.5" width="390" height="20.5"/>
+                                                        <fontDescription key="fontDescription" style="UICTFontTextStyleTitle3"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                </subviews>
+                                            </stackView>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AzX-kS-nTW">
+                                                <rect key="frame" x="0.0" y="72" width="390" height="20.5"/>
+                                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle3"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
                                         </subviews>
+                                        <connections>
+                                            <outlet property="bargainPriceLabel" destination="UOr-GK-EHo" id="Zja-cT-i8V"/>
+                                            <outlet property="descriptionLabel" destination="AzX-kS-nTW" id="JwN-5i-TOt"/>
+                                            <outlet property="nameLabel" destination="Db3-pT-sMC" id="2Bv-uO-UoZ"/>
+                                            <outlet property="priceLabel" destination="q1K-lP-3hO" id="MUj-ma-QY1"/>
+                                            <outlet property="priceStackView" destination="hvK-He-eig" id="mfu-ft-Sbc"/>
+                                            <outlet property="stockLabel" destination="gN9-yH-rMg" id="WJg-NN-mbL"/>
+                                        </connections>
                                     </stackView>
                                 </subviews>
                                 <constraints>
@@ -101,10 +102,10 @@
                                     <constraint firstItem="qZL-3V-Caq" firstAttribute="trailing" secondItem="VfA-Us-gYs" secondAttribute="trailing" id="FbQ-nM-qEZ"/>
                                     <constraint firstItem="fiN-xu-DsA" firstAttribute="leading" secondItem="qZL-3V-Caq" secondAttribute="leading" id="LqT-dG-FQ6"/>
                                     <constraint firstItem="VfA-Us-gYs" firstAttribute="leading" secondItem="qZL-3V-Caq" secondAttribute="leading" id="RcY-wy-Dbl"/>
-                                    <constraint firstItem="VEJ-8s-sBG" firstAttribute="leading" secondItem="2fv-6i-9U3" secondAttribute="leading" constant="8" id="X1F-n7-Eme"/>
+                                    <constraint firstItem="VEJ-8s-sBG" firstAttribute="leading" secondItem="2fv-6i-9U3" secondAttribute="leading" constant="12" id="X1F-n7-Eme"/>
                                     <constraint firstItem="VEJ-8s-sBG" firstAttribute="trailing" secondItem="2fv-6i-9U3" secondAttribute="trailing" id="YEZ-i6-b6M"/>
                                     <constraint firstItem="VEJ-8s-sBG" firstAttribute="bottom" secondItem="2fv-6i-9U3" secondAttribute="bottom" id="a5j-1B-S2o"/>
-                                    <constraint firstItem="VEJ-8s-sBG" firstAttribute="width" secondItem="qZL-3V-Caq" secondAttribute="width" constant="-16" id="fvK-qg-fWH"/>
+                                    <constraint firstItem="VEJ-8s-sBG" firstAttribute="width" secondItem="qZL-3V-Caq" secondAttribute="width" constant="-24" id="fvK-qg-fWH"/>
                                     <constraint firstItem="fiN-xu-DsA" firstAttribute="bottom" secondItem="VEJ-8s-sBG" secondAttribute="top" constant="-8" id="mob-Ei-86w"/>
                                     <constraint firstItem="VfA-Us-gYs" firstAttribute="top" secondItem="fiN-xu-DsA" secondAttribute="bottom" constant="-20" id="rgt-tj-q82"/>
                                     <constraint firstItem="fiN-xu-DsA" firstAttribute="top" secondItem="2fv-6i-9U3" secondAttribute="top" id="z3v-n4-9SZ"/>
@@ -131,15 +132,9 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="bargainPriceLabel" destination="UOr-GK-EHo" id="vaU-Qp-xhN"/>
                         <outlet property="collectionView" destination="fiN-xu-DsA" id="Yuo-Ks-8fA"/>
-                        <outlet property="createdAtLabel" destination="yQZ-f7-Ws0" id="02g-30-VcZ"/>
-                        <outlet property="descriptionLabel" destination="IjY-4Q-wYB" id="Ntg-DL-BFA"/>
-                        <outlet property="nameLabel" destination="Db3-pT-sMC" id="tdI-AH-nUK"/>
                         <outlet property="pageControl" destination="VfA-Us-gYs" id="OnP-qJ-4cZ"/>
-                        <outlet property="priceLabel" destination="q1K-lP-3hO" id="xhh-lX-MrR"/>
-                        <outlet property="stockLabel" destination="gN9-yH-rMg" id="0WT-YT-sDR"/>
-                        <outlet property="vendorLabel" destination="c3n-hY-9ve" id="B7y-mw-7BG"/>
+                        <outlet property="productInfoStackView" destination="VEJ-8s-sBG" id="hfY-9n-CZS"/>
                         <segue destination="6mj-Y4-ckL" kind="presentation" identifier="ModifyView" modalPresentationStyle="fullScreen" id="khl-Wz-8lb"/>
                     </connections>
                 </viewController>

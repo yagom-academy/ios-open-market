@@ -51,6 +51,8 @@
 		F3431287279983720053A8DB /* AlertMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3431286279983720053A8DB /* AlertMessage.swift */; };
 		F343128E2799848D0053A8DB /* SegueIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = F343128D2799848D0053A8DB /* SegueIdentifier.swift */; };
 		F3431292279986890053A8DB /* EditMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3431291279986890053A8DB /* EditMode.swift */; };
+		F343133C279E8D6A0053A8DB /* ProductInfoStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F343133B279E8D6A0053A8DB /* ProductInfoStackView.swift */; };
+		F343133E279E94810053A8DB /* UIFont+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F343133D279E94810053A8DB /* UIFont+extension.swift */; };
 		F35B1A392782EC300031A755 /* ParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F35B1A382782EC300031A755 /* ParserTests.swift */; };
 		F35B1A642783E6420031A755 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = F35B1A632783E6420031A755 /* Network.swift */; };
 		F35B1A662783E9D50031A755 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F35B1A652783E9D50031A755 /* NetworkError.swift */; };
@@ -130,6 +132,8 @@
 		F3431286279983720053A8DB /* AlertMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertMessage.swift; sourceTree = "<group>"; };
 		F343128D2799848D0053A8DB /* SegueIdentifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegueIdentifier.swift; sourceTree = "<group>"; };
 		F3431291279986890053A8DB /* EditMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditMode.swift; sourceTree = "<group>"; };
+		F343133B279E8D6A0053A8DB /* ProductInfoStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductInfoStackView.swift; sourceTree = "<group>"; };
+		F343133D279E94810053A8DB /* UIFont+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+extension.swift"; sourceTree = "<group>"; };
 		F35B1A362782EC300031A755 /* OpenMarketTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenMarketTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F35B1A382782EC300031A755 /* ParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParserTests.swift; sourceTree = "<group>"; };
 		F35B1A632783E6420031A755 /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
@@ -250,6 +254,7 @@
 				F3FAC3712797F4910096CFB0 /* Detail.storyboard */,
 				9A4F783F279B3ADB00D9F854 /* ImageDetailCell.swift */,
 				9A4F7840279B3ADB00D9F854 /* ImageDetailCell.xib */,
+				F343133B279E8D6A0053A8DB /* ProductInfoStackView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -370,6 +375,7 @@
 				F3D3B609278D164700943720 /* UIScrollView+extension.swift */,
 				F33F506F27968BBB0073B84F /* Notification.Name+extension.swift */,
 				9AFB7B5F2796918B00E50813 /* UIImage+extension.swift */,
+				F343133D279E94810053A8DB /* UIFont+extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -552,6 +558,7 @@
 				9A1CFDCC27842755003BEC69 /* ProductModification.swift in Sources */,
 				9A4F7841279B3ADB00D9F854 /* ImageDetailCell.swift in Sources */,
 				9A96059A2790178800FA9E47 /* ImageManager.swift in Sources */,
+				F343133C279E8D6A0053A8DB /* ProductInfoStackView.swift in Sources */,
 				F35B1A642783E6420031A755 /* Network.swift in Sources */,
 				9A134566278C2BC300660291 /* Int+extension.swift in Sources */,
 				9A134562278C1C1F00660291 /* UIViewController+extension.swift in Sources */,
@@ -585,6 +592,7 @@
 				F3FAC37627982D860096CFB0 /* EditDataSource.swift in Sources */,
 				9A13456E278C576400660291 /* EditViewController.swift in Sources */,
 				9A1CFDC62783DD63003BEC69 /* Vendors.swift in Sources */,
+				F343133E279E94810053A8DB /* UIFont+extension.swift in Sources */,
 				9A1CFD7C2782EB88003BEC69 /* ParserError.swift in Sources */,
 				9A1CFD782782E341003BEC69 /* Product.swift in Sources */,
 				F35B1A87278537BD0031A755 /* Networkable.swift in Sources */,

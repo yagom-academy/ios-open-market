@@ -8,18 +8,12 @@
 import UIKit
 
 class DetailViewController: UIViewController {
-    var data: Product?
-    private var images = [UIImage]()
-    @IBOutlet private weak var nameLabel: UILabel!
-    @IBOutlet private weak var priceLabel: UILabel!
-    @IBOutlet private weak var bargainPriceLabel: UILabel!
-    @IBOutlet private weak var stockLabel: UILabel!
-    @IBOutlet private weak var createdAtLabel: UILabel!
-    @IBOutlet private weak var vendorLabel: UILabel!
-    @IBOutlet private weak var descriptionLabel: UILabel!
-    
     @IBOutlet private weak var collectionView: UICollectionView!
     @IBOutlet private weak var pageControl: UIPageControl!
+    @IBOutlet private weak var productInfoStackView: ProductInfoStackView!
+    
+    private var images = [UIImage]()
+    private var data: Product?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,13 +54,7 @@ class DetailViewController: UIViewController {
     private func setUpViews(product: Product) {
         data = product
         DispatchQueue.main.async {
-            self.nameLabel.text = product.name
-            self.priceLabel.text = product.price.description
-            self.bargainPriceLabel.text = product.bargainPrice.description
-            self.stockLabel.text = product.stock.description
-            self.createdAtLabel.text = product.createdAt
-            self.vendorLabel.text = product.createdAt
-            self.descriptionLabel.text = product.description
+            self.productInfoStackView.configureProductInfo(product: product)
         }
     }
     
