@@ -32,8 +32,8 @@ struct ProductRequestForRegistration: Encodable {
     self.descriptions = descriptions
     self.price = price
     self.currency = currency
-    self.discountedPrice = discountedPrice ?? 0
-    self.stock = stock ?? 0
+    self.discountedPrice = discountedPrice
+    self.stock = stock
     self.secret = secret
   }
   

@@ -211,6 +211,7 @@
 		25EEB084279E6937007E50D8 /* StoryBoard */ = {
 			isa = PBXGroup;
 			children = (
+				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
 				C70FB10025BEF61C00C9924E /* Main.storyboard */,
 				25EEB07C279E6376007E50D8 /* ProductsCollection.storyboard */,
 				25EEB080279E6520007E50D8 /* ProductRegistrationModification.storyboard */,
@@ -314,7 +315,6 @@
 				C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */,
 				C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */,
 				C70FB10325BEF61D00C9924E /* Assets.xcassets */,
-				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
 				C70FB10825BEF61D00C9924E /* Info.plist */,
 			);
 			path = OpenMarket;

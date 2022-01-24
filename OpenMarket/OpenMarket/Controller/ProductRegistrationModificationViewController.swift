@@ -12,7 +12,7 @@ enum ViewMode: String {
   case modification = "상품수정"
 }
 
-class ProductRegistrationModificationViewController: productRegister, ImagePickerable, ReuseIdentifying {
+class ProductRegistrationModificationViewController: productRegisterModification, ImagePickerable, ReuseIdentifying {
   private let api = APIManager(urlSession: URLSession(configuration: .default), jsonParser: JSONParser())
   var product: Product?
   var viewMode: ViewMode?
@@ -270,11 +270,13 @@ extension ProductRegistrationModificationViewController {
       return
     }
     let resizingImage = image.resize(maxBytes: 307200)
-    appendImageView(image: resizingImage)
+    let imageView = appendImageView(image: resizingImage)
+    addRemoveGesture(at: imageView)
     dismiss(animated: true, completion: nil)
   }
   
-  private func appendImageView(image: UIImage?) {
+  @discardableResult
+  private func appendImageView(image: UIImage?) -> UIImageView {
     let imageView = UIImageView(image: image)
     stackView.addArrangedSubview(imageView)
     imageView.heightAnchor.constraint(
@@ -282,6 +284,10 @@ extension ProductRegistrationModificationViewController {
       multiplier: 1
     ).isActive = true
     
+    return imageView
+  }
+  
+  private func addRemoveGesture(at imageView: UIImageView) {
     let tapGesture = CustomGesture(target: self, action: #selector(removeImageView))
     tapGesture.imageView = imageView
     imageView.isUserInteractionEnabled = true

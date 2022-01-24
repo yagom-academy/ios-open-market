@@ -7,7 +7,7 @@
 
 import UIKit
 
-class productRegister: UIViewController {
+class productRegisterModification: UIViewController {
   
   @IBOutlet weak var mainScrollView: UIScrollView!
   @IBOutlet weak var stackView: UIStackView!
