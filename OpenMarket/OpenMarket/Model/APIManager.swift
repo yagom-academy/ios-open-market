@@ -52,12 +52,12 @@ class APIManager {
 
 extension APIManager {
     
-    func addProduct(product: NewProduct, images: [NewProductImage], completion: @escaping (Result<ProductDetail, Error>) -> Void) {
-        guard let request = createPostURLRequest(product: product, images: images) else { return }
+    func addProduct(information: NewProductInformation, images: [NewProductImage], completion: @escaping (Result<ProductDetail, Error>) -> Void) {
+        guard let request = createPostURLRequest(product: information, images: images) else { return }
         createDataTask(with: request, completion: completion)
     }
     
-    func createPostURLRequest(product: NewProduct, images: [NewProductImage]) -> URLRequest? {
+    func createPostURLRequest(product: NewProductInformation, images: [NewProductImage]) -> URLRequest? {
         guard let url = URLManager.addNewProduct.url else { return nil }
         var request = URLRequest(url: url, method: .post)
         request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
@@ -66,19 +66,19 @@ extension APIManager {
         return request
     }
     
-    func createRequestBody(product: NewProduct, images: [NewProductImage]) -> Data {
+    func createRequestBody(product: NewProductInformation, images: [NewProductImage]) -> Data {
         let parameters = createParams(with: product)
-        let dataBody = createMultiPartFormData(withParameters: parameters, images: images)
+        let dataBody = createMultiPartFormData(with: parameters, images: images)
         return dataBody
     }
     
-    func createParams(with modelData: NewProduct) -> Parameters? {
+    func createParams(with modelData: NewProductInformation) -> Parameters? {
         guard let parameterBody = JSONParser.encodeToDataString(with: modelData) else { return nil }
         let params: Parameters = ["params": parameterBody]
         return params
     }
     
-    func createMultiPartFormData(withParameters params: Parameters?, images: [NewProductImage]?) -> Data {
+    func createMultiPartFormData(with params: Parameters?, images: [NewProductImage]?) -> Data {
         let lineBreak = "\r\n"
         var body = Data()
         

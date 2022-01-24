@@ -1,6 +1,6 @@
 import Foundation
 
-struct NewProduct: Codable {
+struct NewProductInformation: Codable {
     let name: String
     let descriptions: String
     let price: Double

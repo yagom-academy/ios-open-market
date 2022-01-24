@@ -13,8 +13,8 @@ class AddProductViewController: UIViewController {
     
     lazy var apiManager = APIManager.shared
     let imagePicker = UIImagePickerController()
-    var productImages: [NewProductImage] = []
-    var newProduct: NewProduct?
+    var newProductImages: [NewProductImage] = []
+    var newProductInformation: NewProductInformation?
     var isButtonTapped = true
     var selectedIndex = 0
     
@@ -46,8 +46,8 @@ class AddProductViewController: UIViewController {
     @IBAction func tapDoneButton(_ sender: UIBarButtonItem) {
         createNewProduct()
         addToProductImages()
-        guard let product = newProduct else { return }
-        apiManager.addProduct(product: product, images: productImages) { result in
+        guard let information = newProductInformation else { return }
+        apiManager.addProduct(information: information, images: newProductImages) { result in
             switch result {
             case .success(let data):
                 print("\(data.name) post 성공")
@@ -55,7 +55,7 @@ class AddProductViewController: UIViewController {
                 print(error.localizedDescription)
             }
         }
-        newProduct = nil
+        newProductInformation = nil
     }
     
     // MARK: - Create Data To Post
@@ -74,7 +74,7 @@ class AddProductViewController: UIViewController {
               let imageData = image.jpegData(compressionQuality: 0.1) else { return }
 
         let productImage = NewProductImage(image: imageData)
-        productImages.append(productImage)
+        newProductImages.append(productImage)
     }
     
     func createNewProduct() {
@@ -96,7 +96,7 @@ class AddProductViewController: UIViewController {
             currency = Currency.USD
         }
         
-        newProduct = NewProduct(name: name, descriptions: description, price: price, discountedPrice: discountPrice, currency: currency, stock: stock)
+        newProductInformation = NewProductInformation(name: name, descriptions: description, price: price, discountedPrice: discountPrice, currency: currency, stock: stock)
     }
 }
 
