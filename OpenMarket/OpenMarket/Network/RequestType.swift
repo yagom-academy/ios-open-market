@@ -15,8 +15,8 @@ enum RequestType {
     case searchSecretIDForDelete(productID: Int)
     case productDelete(productID: Int, productSecretKey: Int)
 
-    func url(type: RequestType) -> String {
-        switch type {
+    func url() -> String {
+        switch self {
         case .productRegistration:
             return "\(RequestType.apiHost)/api/products"
         case .productModification(let productID):
