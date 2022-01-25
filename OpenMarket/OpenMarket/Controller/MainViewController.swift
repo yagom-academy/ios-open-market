@@ -5,6 +5,11 @@ class MainViewController: UIViewController {
         case product
     }
     
+    private enum ViewMode {
+        static let list = 0
+        static let grid = 1
+    }
+    
     let api: APIManageable = APIManager()
     
     // MARK: - Properties
@@ -123,10 +128,10 @@ class MainViewController: UIViewController {
     // MARK: - IBAction Method
     @IBAction private func changeView(_ sender: LayoutSegmentedControl) {
         switch sender.selectedSegmentIndex {
-        case 0:
+        case ViewMode.list:
             listCollectionView.isHidden = false
             gridCollectionView.isHidden = true
-        case 1:
+        case ViewMode.grid:
             listCollectionView.isHidden = true
             gridCollectionView.isHidden = false
         default:
