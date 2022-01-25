@@ -121,8 +121,8 @@
 				C70FB0FE25BEF61C00C9924E /* ProductListViewController.swift */,
 				48C78F6F2797FB20002D0E6A /* GridCell.swift */,
 				48D6C1AC2799AB2E00A59513 /* ListCell.swift */,
-				481F2531279AD91C002412AF /* EditProductViewController.swift */,
 				481F2533279AF9C8002412AF /* ProductDetailViewController.swift */,
+				481F2531279AD91C002412AF /* EditProductViewController.swift */,
 			);
 			path = "View Controller";
 			sourceTree = "<group>";

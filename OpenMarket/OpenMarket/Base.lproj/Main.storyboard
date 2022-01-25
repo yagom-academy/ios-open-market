@@ -249,7 +249,7 @@
         <!--Edit Product View Controller-->
         <scene sceneID="Y3x-sS-OW1">
             <objects>
-                <viewController modalPresentationStyle="fullScreen" id="bSo-iR-hiR" customClass="EditProductViewController" customModule="OpenMarket" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="bSo-iR-hiR" customClass="EditProductViewController" customModule="OpenMarket" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="aJo-oh-IZa">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -385,7 +385,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="t1G-E1-y1e" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2384" y="783"/>
+            <point key="canvasLocation" x="1430" y="867"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="eRG-8h-4ib">
@@ -421,7 +421,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="83e-kw-Pyi" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1368" y="783"/>
+            <point key="canvasLocation" x="414" y="867"/>
         </scene>
         <!--Product Detail View Controller-->
         <scene sceneID="V6f-PH-4qz">
@@ -523,7 +523,7 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="Ith-jF-9GL"/>
-        <segue reference="tHF-LI-kfw"/>
+        <segue reference="i8I-MP-1ja"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="chevron.right" catalog="system" width="96" height="128"/>

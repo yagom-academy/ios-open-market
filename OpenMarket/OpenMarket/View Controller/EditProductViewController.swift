@@ -26,13 +26,13 @@ class EditProductViewController: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func hitCancelButton(_ sender: Any) {
-        self.dismiss(animated: true, completion: nil)
+        self.navigationController?.popViewController(animated: true)
     }
     
     
     @IBAction func hitDoneButton(_ sender: Any) {
-        self.dismiss(animated: true, completion: nil)
-//        postData?.name = productNameTextField.text
+        self.navigationController?.popViewController(animated: true)
+        //        postData?.name = productNameTextField.text
 //        postData?.price = productPriceTextField.text
 //        postData?.discountedPrice = discountedPriceTextField.text
 //        postData?.stock = productStockTextField.text
