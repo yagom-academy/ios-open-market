@@ -157,7 +157,7 @@
                                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="상품가격" textAlignment="natural" adjustsFontForContentSizeCategory="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="c6y-88-Jyq">
                                                                 <rect key="frame" x="0.0" y="0.0" width="288" height="34"/>
                                                                 <fontDescription key="fontDescription" style="UICTFontTextStyleCallout"/>
-                                                                <textInputTraits key="textInputTraits"/>
+                                                                <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
                                                             </textField>
                                                             <segmentedControl opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="8le-ie-9hQ">
                                                                 <rect key="frame" x="297" y="0.0" width="97" height="35"/>
@@ -171,12 +171,12 @@
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="할인금액" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="VFJ-Bp-s2j">
                                                         <rect key="frame" x="0.0" y="88" width="394" height="34"/>
                                                         <fontDescription key="fontDescription" style="UICTFontTextStyleCallout"/>
-                                                        <textInputTraits key="textInputTraits"/>
+                                                        <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
                                                     </textField>
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="재고수량" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="sJs-Ow-2hE">
                                                         <rect key="frame" x="0.0" y="132" width="394" height="34"/>
                                                         <fontDescription key="fontDescription" style="UICTFontTextStyleCallout"/>
-                                                        <textInputTraits key="textInputTraits"/>
+                                                        <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                                     </textField>
                                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" keyboardDismissMode="interactive" textAlignment="natural" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="K6l-69-CVn">
                                                         <rect key="frame" x="1" y="176" width="392" height="34"/>
@@ -249,6 +249,7 @@
                         <outlet property="productNameTextField" destination="g15-Dm-Tt6" id="Pim-6Z-huM"/>
                         <outlet property="productPriceTextField" destination="c6y-88-Jyq" id="FDG-U4-KPL"/>
                         <outlet property="productStockTextField" destination="sJs-Ow-2hE" id="f1Y-Y9-JB0"/>
+                        <outlet property="scrollView" destination="3Yh-1S-91Y" id="pyi-Xp-T7U"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W3x-ad-9Pa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

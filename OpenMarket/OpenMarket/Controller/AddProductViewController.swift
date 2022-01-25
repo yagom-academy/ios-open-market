@@ -2,6 +2,7 @@ import UIKit
 
 class AddProductViewController: UIViewController {
     // MARK: - Property
+    @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var productNameTextField: UITextField!
     @IBOutlet weak var productPriceTextField: UITextField!
     @IBOutlet weak var currencySegmentedControl: UISegmentedControl!
@@ -21,10 +22,11 @@ class AddProductViewController: UIViewController {
     // MARK: - Life Cycle Method
     override func viewDidLoad() {
         super.viewDidLoad()
-        imagePicker.delegate = self
-        imagePicker.allowsEditing = true
         navigationController?.navigationBar.topItem?.title = "상품등록"
+        setupImagePrickerController()
         setupDescriptionTextView()
+        setupKeyboardNotification()
+        hideKeyboard()
     }
     
     // MARK: - IBAction Method
@@ -219,6 +221,11 @@ extension AddProductViewController {
 
 extension AddProductViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     // MARK: - Image Picker Delegate Method
+    func setupImagePrickerController() {
+        imagePicker.delegate = self
+        imagePicker.allowsEditing = true
+    }
+    
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
         if let image = info[.editedImage] as? UIImage {
             editProductImageStackView(with: image)
@@ -296,4 +303,36 @@ extension AddProductViewController: UITextViewDelegate {
             textView.textColor = UIColor.lightGray
         }
     }
+}
+
+extension AddProductViewController {
+    
+    func setupKeyboardNotification() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    func hideKeyboard() {
+        let tapEmptySpace = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(tapEmptySpace)
+    }
+    
+    @objc func keyboardWillShow(_ sender: Notification) {
+        let userInfo: NSDictionary = sender.userInfo! as NSDictionary
+        guard let keyboardFrame: NSValue = userInfo.value(forKey: UIResponder.keyboardFrameEndUserInfoKey) as? NSValue else { return }
+
+        let keyboardRect = keyboardFrame.cgRectValue
+        scrollView.contentInset.bottom = keyboardRect.height
+        scrollView.scrollIndicatorInsets = scrollView.contentInset
+    }
+
+    @objc func keyboardWillHide(_ sender: Notification) {
+        scrollView.contentInset = .zero
+        scrollView.scrollIndicatorInsets = .zero
+    }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
+    
 }
