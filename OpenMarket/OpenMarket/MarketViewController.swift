@@ -90,7 +90,8 @@ extension MarketViewController {
                 ProductFormViewController(delegate: self, pageMode: .register, coder: coder)
             }
         ) else {
-            fatalError("실패")
+            assertionFailure("init(coder:) has not been implemented")
+            return
         }
         
         destination.modalPresentationStyle = .fullScreen

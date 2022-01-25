@@ -160,13 +160,23 @@ extension MarketAPIService {
     ) -> Data {
         var body = Data()
         
-        body.append(convertFormField(fieldName: "params", json: jsonData, using: boundary))
+        let formData = convertFormField(
+            fieldName: "params",
+            json: jsonData,
+            using: boundary
+        )
+        body.append(formData)
         
-        for image in images {
-            let data =  convertFileData(fieldName: "images", fileName: image.fileName, mimeType: "image/\(image.type.description)", fileData: image.data!, using: boundary)
+        images.forEach { image in
+            guard let data =  convertFileData(
+                fieldName: "images",
+                image: image,
+                using: boundary
+            ) else {
+                return
+            }
             body.append(data)
         }
-        
         body.append("--\(boundary)--\r\n")
         
         return body
@@ -220,11 +230,14 @@ extension MarketAPIService {
     
     private func convertFileData(
         fieldName: String,
-        fileName: String,
-        mimeType: String,
-        fileData: Data,
+        image: ProductImage,
         using boundary: String
-    ) -> Data {
+    ) -> Data? {
+        guard let fileData = image.data else {
+            return nil
+        }
+        let fileName = image.fileName
+        let mimeType = "image/\(image.type.description)"
         var data = Data()
         
         data.append("--\(boundary)\r\n")

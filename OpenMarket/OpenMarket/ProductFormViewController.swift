@@ -55,6 +55,7 @@ final class ProductFormViewController: UIViewController {
     private lazy var imagePicker: UIImagePickerController = {
         let imagePicker = UIImagePickerController()
         imagePicker.sourceType = .photoLibrary
+        imagePicker.delegate = self
         
         return imagePicker
     }()
@@ -129,11 +130,20 @@ extension ProductFormViewController {
     
     @IBAction func doneButtonTapped(_ sender: Any) {
         guard images.count > 0 else {
-            AlertManager.presentNoImagesAlert(on: self)
+            presentAlert(alertTitle: "이미지를 추가해주세요.", alertMessage: "이미지를 최소 1개 등록해주세요.", handler: nil)
             return
         }
         registerProduct()
-        AlertManager.presentSuccessfulRegisterAlert(on: self)
+        presentAlert(
+            alertTitle: "제품등록 성공",
+            alertMessage: "제품이 성공적으로 등록됐습니다!"
+        ) { [weak self] _ in
+            guard let self = self else {
+                return
+            }
+            self.delegate?.registerButtonTapped()
+            self.dismiss(animated: true, completion: nil)
+        }
     }
 }
 
@@ -146,8 +156,6 @@ extension ProductFormViewController {
         collectionView.collectionViewLayout = flowLayout
         collectionView.isPagingEnabled = true
         collectionView.decelerationRate = .fast
-        descriptionTextView.delegate = self
-        imagePicker.delegate = self
     }
     
     private func setupCollectionViewCells() {
@@ -187,6 +195,7 @@ extension ProductFormViewController {
         
         descriptionTextView.addDoneButton()
         descriptionTextView.tag = 4
+        descriptionTextView.delegate = self
     }
     
     private func setSegmentedControlTitle() {
@@ -217,7 +226,11 @@ extension ProductFormViewController {
     private func registerProduct() {
         let apiService = MarketAPIService()
         guard let postProduct = makePostProduct() else {
-            AlertManager.presentUnsuccessfulRegisterAlert(on: self)
+            presentAlert(
+                alertTitle: "제품등록 실패",
+                alertMessage: "입력란들을 다시 작성해주세요",
+                handler: nil
+            )
             return
         }
         apiService.registerProduct(product: postProduct, images: productImages) { result in
@@ -350,7 +363,11 @@ extension ProductFormViewController: UICollectionViewDelegateFlowLayout {
 extension ProductFormViewController: AddImageCellDelegate {
     func addImageButtonTapped() {
         guard images.count < 5 else {
-            AlertManager.presentExcessImagesAlert(on: self)
+            presentAlert(
+                alertTitle: "이미지 개수 초과",
+                alertMessage: "이미지는 최대 5개까지 등록 가능합니다.",
+                handler: nil
+            )
             return
         }
         self.present(self.imagePicker, animated: true, completion: nil)
@@ -397,7 +414,8 @@ extension ProductFormViewController: UIImagePickerControllerDelegate, UINavigati
         _ picker: UIImagePickerController,
         didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]
     ) {
-        guard let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage else {
+        guard let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage,
+              let resizedImage = image.resizeImage(to: CGSize(width: 100, height: 100)) else {
             return
         }
         let temporaryDirectoryPath = NSTemporaryDirectory() as String
@@ -405,10 +423,10 @@ extension ProductFormViewController: UIImagePickerControllerDelegate, UINavigati
         let productImage = ProductImage(
             name: temporaryDirectoryPath + fileName,
             type: .jpeg,
-            image: image
+            image: resizedImage
         )
         
-        images.append(image)
+        images.append(resizedImage)
         productImages.append(productImage)
         dismiss(animated: true, completion: nil)
         collectionView.reloadData()
