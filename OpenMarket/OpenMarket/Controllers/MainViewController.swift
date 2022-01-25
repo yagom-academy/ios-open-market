@@ -44,7 +44,6 @@ class MainViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(fetchProductData), name: .updateProductData, object: nil)
         configUI()
         fetchProductData()
-        
         productListCollectionView.delegate = self
         productGridCollectionView.delegate = self
     }

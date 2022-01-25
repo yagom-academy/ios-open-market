@@ -8,7 +8,6 @@ extension URLSession: URLSessionProtocol {}
 
 class APIService {
     private let session: URLSessionProtocol
-    private let identifier = "dd0f9bb2-7215-11ec-abfa-0b4adeed0178"
     
     private let decoder: JSONDecoder = {
         let decoder = JSONDecoder()
@@ -105,7 +104,7 @@ extension APIService {
             return
         }
         
-        let request = URLRequest(url: url, api: .productSecret(body: body, id: identifier))
+        let request = URLRequest(url: url, api: .productSecret(body: body, id: UserInformation.vendorId))
         
         let task = dataTask(request: request) { result in
             switch result {
@@ -132,7 +131,7 @@ extension APIService {
             return
         }
         
-        var request = URLRequest(url: url, api: .productRegister(body: body, id: identifier))
+        var request = URLRequest(url: url, api: .productRegister(body: body, id: UserInformation.vendorId))
         request.addValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
         
         let task = dataTask(request: request, completion: completion)
@@ -140,7 +139,7 @@ extension APIService {
         task.resume()
     }
     
-    func updateProduct(productId: Int, modifiedProduct: ProductRegisterInformation, completion: @escaping (Result<Data, APIError>) -> Void) {
+    func updateProduct(productId: Int, modifiedProduct: ProductRegisterInformation, completion: @escaping (Result<ProductDetail, APIError>) -> Void) {
         guard let url = URLCreator.productUpdate(id: productId).url else {
             return
         }
@@ -149,9 +148,19 @@ extension APIService {
             return
         }
         
-        let request = URLRequest(url: url, api: .productUpdate(body: body, id: identifier))
+        let request = URLRequest(url: url, api: .productUpdate(body: body, id: UserInformation.vendorId))
         
-        let task = dataTask(request: request, completion: completion)
+        let task = dataTask(request: request) { result in
+            switch result {
+            case .success(let data):
+                guard let productDetail = try? self.decoder.decode(ProductDetail.self, from: data) else {
+                    return
+                }
+                completion(.success(productDetail))
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
         
         task.resume()
     }
@@ -161,7 +170,7 @@ extension APIService {
             return
         }
         
-        let request = URLRequest(url: url, api: .deleteProduct(id: identifier))
+        let request = URLRequest(url: url, api: .deleteProduct(id: UserInformation.vendorId))
         
         let task = dataTask(request: request, completion: completion)
         

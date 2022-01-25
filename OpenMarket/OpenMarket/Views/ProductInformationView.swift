@@ -43,11 +43,10 @@ class ProductInformationView: UIView {
         stackView.distribution = .equalSpacing
         stackView.alignment = .center
         stackView.spacing = 10
-        stackView.semanticContentAttribute = .forceRightToLeft
         return stackView
     }()
     
-    lazy var addImageButton: UIButton = {
+    let addImageButton: UIButton = {
         let button = UIButton()
         let icon = UIImage(systemName: "plus")?.resizeImageTo(size: CGSize(width: Design.buttonIconSize, height: Design.buttonIconSize))
         button.setImage(icon, for: .normal)

@@ -4,7 +4,7 @@ class ProductRegisterManager {
     weak var delegate: PickerPresenter?
     let productInformationScrollView = ProductInformationScrollView()
     private lazy var productInformationView = productInformationScrollView.productInformationView
-    
+    private let api = APIService()
     init() {
         NotificationCenter.default.addObserver(self, selector: #selector(showAddImageButton), name: .imageRemoved, object: nil)
         productInformationView.addImageButton.addTarget(self, action: #selector(didTapAddImageButton), for: .touchUpInside)
@@ -97,7 +97,6 @@ class ProductRegisterManager {
     }
     
     private func createProductRegisterInformation() -> ProductRegisterInformation {
-        let secret = "R_WGJGz8CV^aa_V!"
         let name = productInformationView.nameTextField.text ?? ""
         let descriptions = productInformationView.descriptionTextView.text ?? ""
         let priceString = productInformationView.priceTextField.text ?? ""
@@ -108,16 +107,20 @@ class ProductRegisterManager {
         let stockString = productInformationView.stockTextField.text ?? ""
         let stock = Int(stockString) ?? 0
         
-        let productRegisterInformation = ProductRegisterInformation(name: name, descriptions: descriptions, price: price, currency: currency, discountedPrice: discountedPrice, stock: stock, secret: secret)
+        let productRegisterInformation = ProductRegisterInformation(name: name, descriptions: descriptions, price: price, currency: currency, discountedPrice: discountedPrice, stock: stock, secret: UserInformation.secret)
         
         return productRegisterInformation
     }
     
     func fetchRegisteredProductDetail(from productDetail: ProductDetail) {
-        guard let image = ImageLoader.loadImage(from: productDetail.thumbnail) else {
-            return
+        if let productImages = productDetail.images {
+            productImages.forEach { productImage in
+                guard let image = ImageLoader.loadImage(from: productImage.url) else {
+                    return
+                }
+                addImageToImageStackView(from: image, hasDeleteButton: false)
+            }
         }
-        addImageToImageStackView(from: image, hasDeleteButton: false)
         
         setImageButtonHidden(state: true)
         
@@ -131,7 +134,6 @@ class ProductRegisterManager {
     
     func register() {
         let productRegisterInformation = createProductRegisterInformation()
-        let api = APIService()
         let imagesDatas = takeRegisteredImages()
         
         api.registerProduct(newProduct: productRegisterInformation, images: imagesDatas) { result in
@@ -146,7 +148,27 @@ class ProductRegisterManager {
         }
     }
     
+    func update(productId: Int) {
+        let productRegisterInformation = createProductRegisterInformation()
+        
+        api.updateProduct(productId: productId, modifiedProduct: productRegisterInformation) { result in
+            switch result {
+            case .success(let modifiedData):
+                DispatchQueue.main.async {
+                    self.updateProductDetail(with: modifiedData)
+                    self.updateProductData()
+                }
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+    
     private func updateProductData() {
         NotificationCenter.default.post(name: .updateProductData, object: nil)
+    }
+    
+    private func updateProductDetail(with data: ProductDetail) {
+        NotificationCenter.default.post(name: .modifyProductDetail, object: nil, userInfo: [NotificationKey.detail: data])
     }
 }

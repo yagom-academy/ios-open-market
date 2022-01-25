@@ -33,10 +33,15 @@ class ProductModifyViewController: UIViewController, ProductManageable {
     private func configNavigationBar() {
         self.navigationItem.title = "상품수정"
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "취소", style: .plain, target: self, action: #selector(didTapCancelButton))
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "완료", style: .done, target: self, action: nil)
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "완료", style: .done, target: self, action: #selector(didTapDoneButton))
     }
     
     @objc private func didTapCancelButton() {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    @objc private func didTapDoneButton() {
+        productRegisterManager.update(productId: productDetail.id)
         self.dismiss(animated: true, completion: nil)
     }
 }

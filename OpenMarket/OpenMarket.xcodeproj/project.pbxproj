@@ -12,6 +12,8 @@
 		A62056C9279E7C3D00A0D967 /* PickerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A62056C8279E7C3D00A0D967 /* PickerDelegate.swift */; };
 		A62056CB279E80D300A0D967 /* AlertMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A62056CA279E80D300A0D967 /* AlertMessage.swift */; };
 		A62056CD279EAB3B00A0D967 /* ProductDetailScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A62056CC279EAB3B00A0D967 /* ProductDetailScrollView.swift */; };
+		A62056CF279FCEFE00A0D967 /* UserInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A62056CE279FCEFE00A0D967 /* UserInformation.swift */; };
+		A62056D1279FEAB600A0D967 /* NotificationKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = A62056D0279FEAB600A0D967 /* NotificationKey.swift */; };
 		A68C5BD627883C9F00A9A2C8 /* LayoutSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = A68C5BD527883C9F00A9A2C8 /* LayoutSegmentedControl.swift */; };
 		A6A824342782EA2C006CE6DA /* ProductList.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6A824332782EA2C006CE6DA /* ProductList.swift */; };
 		A6A824362782EA42006CE6DA /* ProductDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6A824352782EA41006CE6DA /* ProductDetail.swift */; };
@@ -85,6 +87,8 @@
 		A62056C8279E7C3D00A0D967 /* PickerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerDelegate.swift; sourceTree = "<group>"; };
 		A62056CA279E80D300A0D967 /* AlertMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertMessage.swift; sourceTree = "<group>"; };
 		A62056CC279EAB3B00A0D967 /* ProductDetailScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetailScrollView.swift; sourceTree = "<group>"; };
+		A62056CE279FCEFE00A0D967 /* UserInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInformation.swift; sourceTree = "<group>"; };
+		A62056D0279FEAB600A0D967 /* NotificationKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationKey.swift; sourceTree = "<group>"; };
 		A68C5BD527883C9F00A9A2C8 /* LayoutSegmentedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutSegmentedControl.swift; sourceTree = "<group>"; };
 		A6A824332782EA2C006CE6DA /* ProductList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductList.swift; sourceTree = "<group>"; };
 		A6A824352782EA41006CE6DA /* ProductDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetail.swift; sourceTree = "<group>"; };
@@ -189,6 +193,8 @@
 				C9B5FADD2784362E001B6FDE /* Vendor.swift */,
 				A6A824582785DE3F006CE6DA /* Currency.swift */,
 				A62056CA279E80D300A0D967 /* AlertMessage.swift */,
+				A62056CE279FCEFE00A0D967 /* UserInformation.swift */,
+				A62056D0279FEAB600A0D967 /* NotificationKey.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -522,6 +528,7 @@
 				A6D008F22796DF4B002FAE56 /* ProductImagePickerController.swift in Sources */,
 				A6A824552785BDE1006CE6DA /* URLCreator.swift in Sources */,
 				C995B2572796EC9900293651 /* ProductRegisterManager.swift in Sources */,
+				A62056CF279FCEFE00A0D967 /* UserInformation.swift in Sources */,
 				C995B25B279703EE00293651 /* Notification+name.swift in Sources */,
 				A6A824572785DDD8006CE6DA /* ProductRegisterInformation.swift in Sources */,
 				A6A824362782EA42006CE6DA /* ProductDetail.swift in Sources */,
@@ -535,6 +542,7 @@
 				C995B2532796ACB500293651 /* ProductImageCustomView.swift in Sources */,
 				C9B5FAD02783DB00001B6FDE /* APIService.swift in Sources */,
 				C9AC97DD279974CB00E5E10C /* RegisteredImageSize.swift in Sources */,
+				A62056D1279FEAB600A0D967 /* NotificationKey.swift in Sources */,
 				C9AC3E5E2786DAAD00177751 /* APIError.swift in Sources */,
 				C985AA41278D878100D6B81B /* ProductRegisterViewController.swift in Sources */,
 				C995B2592796EF2F00293651 /* UIImage+resize.swift in Sources */,

@@ -34,7 +34,8 @@ class ProductDetailViewController: UIViewController {
         super.viewDidLoad()
         productDetailScrollView.productImageScrollView.delegate = self
         configUI()
-        fetchProductDetail()
+        fetchProductDetail(with: productDetail)
+        addUpdatedDetailNotification()
     }
     
     func configUI() {
@@ -53,14 +54,21 @@ class ProductDetailViewController: UIViewController {
     }
     
     func configNavigationBar() {
-        self.navigationItem.title = productDetail.name
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(didTapManageButton))
+        let manageButton = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(didTapManageButton))
+        
+        if UserInformation.name == productDetail.vendors?.name {
+            self.navigationItem.setRightBarButton(manageButton, animated: true)
+            return
+        }
+        self.navigationItem.setRightBarButton(nil, animated: true)
     }
     
     @objc func didTapManageButton() {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
-        let modifyAction = UIAlertAction(title: AlertAction.modify.title, style: .default, handler: nil)
+        let modifyAction = UIAlertAction(title: AlertAction.modify.title, style: .default) { _ in
+            self.presentModifyView()
+        }
         let deleteAction = UIAlertAction(title: AlertAction.delete.title, style: .destructive, handler: nil)
         let cancelAction = UIAlertAction(title: AlertAction.cancel.title, style: .cancel, handler: nil)
         
@@ -71,7 +79,25 @@ class ProductDetailViewController: UIViewController {
         self.present(alert, animated: true, completion: nil)
     }
     
-    func fetchProductDetail() {
+    private func presentModifyView() {
+        let productModifyViewController = UINavigationController(rootViewController: ProductModifyViewController(productDetail: productDetail))
+        productModifyViewController.modalPresentationStyle = .fullScreen
+        self.present(productModifyViewController, animated: true, completion: nil)
+    }
+    
+    private func addUpdatedDetailNotification() {
+        NotificationCenter.default.addObserver(self, selector: #selector(receiveModifiedProductDetail), name: .modifyProductDetail, object: nil)
+    }
+    
+    @objc private func receiveModifiedProductDetail(_ notification: Notification) {
+        if let modifiedProductDetail = notification.userInfo?[NotificationKey.detail] as? ProductDetail {
+            fetchProductDetail(with: modifiedProductDetail)
+            productDetail = modifiedProductDetail
+        }
+    }
+    
+    func fetchProductDetail(with productDetail: ProductDetail) {
+        self.navigationItem.title = productDetail.name
         productDetailScrollView.productNameLabel.text = productDetail.name
         productDetailScrollView.productStockLabel.attributedText = AttributedTextCreator.createStockText(product: productDetail)
         
