@@ -112,7 +112,7 @@ class ProductRegisterViewController: UIViewController {
     lazy var productPriceTextField: UITextField = {
         var textfield = UITextField()
         textfield.placeholder = "가격"
-        textfield.keyboardType = .default
+        textfield.keyboardType = .numberPad
         textfield.borderStyle = .roundedRect
         textfield.backgroundColor = .white
         textfield.heightAnchor.constraint(equalToConstant: 50).isActive = true
@@ -122,6 +122,7 @@ class ProductRegisterViewController: UIViewController {
     lazy var currencySegmentedControl: UISegmentedControl = {
         let items: [String] = ["KRW","USD"]
         var segmentedControl = UISegmentedControl(items: items)
+        segmentedControl.selectedSegmentIndex = 0
         return segmentedControl
     }()
     
@@ -138,7 +139,7 @@ class ProductRegisterViewController: UIViewController {
     lazy var discountedProductTextField: UITextField = {
         var textfield = UITextField()
         textfield.placeholder = "할인"
-        textfield.keyboardType = .default
+        textfield.keyboardType = .numberPad
         textfield.borderStyle = .roundedRect
         textfield.backgroundColor = .white
         textfield.heightAnchor.constraint(equalToConstant: 50).isActive = true
@@ -148,7 +149,7 @@ class ProductRegisterViewController: UIViewController {
     lazy var productStockTextField: UITextField = {
         var textfield = UITextField()
         textfield.placeholder = "재고"
-        textfield.keyboardType = .default
+        textfield.keyboardType = .numberPad
         textfield.borderStyle = .roundedRect
         textfield.backgroundColor = .white
         textfield.heightAnchor.constraint(equalToConstant: 50).isActive = true
@@ -279,9 +280,13 @@ extension ProductRegisterViewController: UIImagePickerControllerDelegate, UINavi
        } else if let possibleImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
            newImage = possibleImage
        }
-        let a = newImage?.jpegData(compressionQuality: 0.1)!
-        let b = UIImage(data: a!)
-        images.append(b ?? UIImage())
+        guard let resizedImage = newImage?.jpegData(compressionQuality: 0.01) else {
+            return
+        }
+        guard let image = UIImage(data: resizedImage) else {
+            return
+        }
+        images.append(image)
         applyImageSnapShot()
         
         imagePicker.dismiss(animated: true, completion: nil)
