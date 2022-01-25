@@ -1,15 +1,15 @@
 //
-//  UITextField+Extensions.swift
+//  UITextView+Extensions.swift
 //  OpenMarket
 //
-//  Created by 권나영 on 2022/01/24.
+//  Created by 권나영 on 2022/01/25.
 //
 
 import UIKit
 
-extension UITextField {
+extension UITextView {
     var isValid: Bool {
-        return self.text?.isEmpty == false
+        return self.text != ProductUIString.defaultDescription
     }
     
     func addDoneButton() {
@@ -35,16 +35,6 @@ extension UITextField {
     
     @objc
     private func dismissKeyboard() {
-        let nextTag = tag + 1
-        
-        if let nextResponder = superview?.viewWithTag(nextTag) {
-            nextResponder.becomeFirstResponder()
-        } else if nextTag == 2 || nextTag == 4 {
-            if let nextResponder = superview?.superview?.viewWithTag(nextTag) {
-                nextResponder.becomeFirstResponder()
-            }
-        } else {
-            resignFirstResponder()
-        }
+        resignFirstResponder()
     }
 }

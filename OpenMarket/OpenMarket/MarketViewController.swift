@@ -142,8 +142,10 @@ extension MarketViewController {
     
     private func fetchPage(pageNumber: Int, itemsPerPage: Int, completion: @escaping (_ products: [Product]?) -> ()) {
         startLoadingIndicator()
-        apiService?.fetchPage(pageNumber: pageNumber,
-                              itemsPerPage: itemsPerPage) { [weak self] result in
+        apiService?.fetchPage(
+            pageNumber: pageNumber,
+            itemsPerPage: itemsPerPage
+        ) { [weak self] result in
             guard let self = self else {
                 return
             }

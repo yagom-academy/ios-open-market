@@ -99,6 +99,7 @@ final class ProductFormViewController: UIViewController {
         setSegmentedControlTitle()
         setTextViewPlaceholder()
         addTextViewObserver()
+        hideKeyboardOnTap()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -168,13 +169,24 @@ extension ProductFormViewController {
     
     private func setTextFields() {
         productNameTextField.placeholder = ProductUIString.productName
-        priceTextField.placeholder = ProductUIString.productPrice
-        discountedPriceTextField.placeholder = ProductUIString.discountedPrice
-        stockTextField.placeholder = ProductUIString.productStock
         productNameTextField.addDoneButton()
+        productNameTextField.tag = 0
+        productNameTextField.delegate = self
+        
+        priceTextField.placeholder = ProductUIString.productPrice
         priceTextField.addDoneButton()
+        priceTextField.tag = 1
+        
+        discountedPriceTextField.placeholder = ProductUIString.discountedPrice
         discountedPriceTextField.addDoneButton()
+        discountedPriceTextField.tag = 2
+        
+        stockTextField.placeholder = ProductUIString.productStock
         stockTextField.addDoneButton()
+        stockTextField.tag = 3
+        
+        descriptionTextView.addDoneButton()
+        descriptionTextView.tag = 4
     }
     
     private func setSegmentedControlTitle() {
@@ -280,7 +292,10 @@ extension ProductFormViewController {
 // MARK: - UICollectionViewDataSource
 
 extension ProductFormViewController: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        numberOfItemsInSection section: Int
+    ) -> Int {
         return images.count + 1
     }
     
@@ -310,16 +325,18 @@ extension ProductFormViewController: UICollectionViewDataSource {
 // MARK: - UICollectionViewDelegateFlowLayout
 
 extension ProductFormViewController: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        minimumLineSpacingForSectionAt section: Int
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        minimumLineSpacingForSectionAt section: Int
     ) -> CGFloat {
         return 0
     }
     
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        sizeForItemAt indexPath: IndexPath
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        sizeForItemAt indexPath: IndexPath
     ) -> CGSize {
         let sideLength = collectionView.frame.height
         let size = CGSize(width: sideLength, height: sideLength)
@@ -358,11 +375,27 @@ extension ProductFormViewController: UITextViewDelegate {
     }
 }
 
+//MARK: - UITextFieldDelegate
+
+extension ProductFormViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        let nextTag = textField.tag + 1
+        
+        if let nextResponder = textField.superview?.viewWithTag(nextTag) {
+            nextResponder.becomeFirstResponder()
+        } else {
+            textField.resignFirstResponder()
+        }
+        return true
+    }
+}
+
 // MARK: - UIImagePickerControllerDelegate
 
 extension ProductFormViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    func imagePickerController(_ picker: UIImagePickerController,
-                               didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]
+    func imagePickerController(
+        _ picker: UIImagePickerController,
+        didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]
     ) {
         guard let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage else {
             return
@@ -385,19 +418,3 @@ extension ProductFormViewController: UIImagePickerControllerDelegate, UINavigati
 // MARK: - IdentifiableView
 
 extension ProductFormViewController: IdentifiableView {}
-
-// MARK: - UITextField Extension
-
-fileprivate extension UITextField {
-    var isValid: Bool {
-        return self.text?.isEmpty == false
-    }
-}
-
-//MARK: - UITextView Extension
-
-fileprivate extension UITextView {
-    var isValid: Bool {
-        return self.text != ProductUIString.defaultDescription
-    }
-}

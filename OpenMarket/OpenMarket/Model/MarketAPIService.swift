@@ -236,6 +236,3 @@ extension MarketAPIService {
         return data
     }
 }
-
-
-

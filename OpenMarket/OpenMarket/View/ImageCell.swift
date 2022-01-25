@@ -43,7 +43,11 @@ protocol RemoveImageDelegate: AnyObject {
     }
     
     private func setupDeleteButton() {
-        self.deleteButton.addTarget(self, action: #selector(deleteImage), for: .touchUpInside)
+        self.deleteButton.addTarget(
+            self,
+            action: #selector(deleteImage),
+            for: .touchUpInside
+        )
     }
     
     // MARK: - Selector Method
