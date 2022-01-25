@@ -5,16 +5,7 @@ class MainViewController: UIViewController {
         case product
     }
     
-    let api: APIManageable
-    
-    init(api: APIManageable) {
-        self.api = api
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+    let api: APIManageable = APIManager()
     
     // MARK: - Properties
     @IBOutlet private weak var segment: LayoutSegmentedControl!
@@ -62,13 +53,13 @@ class MainViewController: UIViewController {
     
     // MARK: - List Cell
     private func setUpListCell() {
-        let cellRegistration = UICollectionView.CellRegistration<ListCollectionViewCell, ProductInformation> { cell, indexpath, product in
-            
-            cell.configureCell(with: product)
-        }
+        listCollectionView.register(ListCollectionViewCell.self, forCellWithReuseIdentifier: "ListCollectionViewCell")
         
         listDataSource = UICollectionViewDiffableDataSource<Section, ProductInformation>(collectionView: listCollectionView, cellProvider: { (collectionView, indexPath, product) -> ListCollectionViewCell in
-            let cell = collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: product)
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ListCollectionViewCell", for: indexPath) as? ListCollectionViewCell else {
+                return ListCollectionViewCell()
+            }
+            cell.configureCell(with: product)
             
             return cell
         })
@@ -95,15 +86,13 @@ class MainViewController: UIViewController {
     
     // MARK: - Grid Cell
     private func setUpGridCell() {
-        let cellRegistration = UICollectionView.CellRegistration<GridCollectionViewCell, ProductInformation> { cell, indexpath, product in
-      
-            cell.configureCell(with: product)
-        }
+        gridCollectionView.register(GridCollectionViewCell.self, forCellWithReuseIdentifier: "GridCollectionViewCell")
         
         gridDataSource = UICollectionViewDiffableDataSource<Section, ProductInformation>(collectionView: gridCollectionView, cellProvider: { (collectionView, indexPath, product) -> GridCollectionViewCell in
-            
-            let cell = collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: product)
-            
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "GridCollectionViewCell", for: indexPath) as? GridCollectionViewCell else {
+                return GridCollectionViewCell()
+            }
+            cell.configureCell(with: product)
             return cell
         })
     }
@@ -123,7 +112,7 @@ class MainViewController: UIViewController {
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(view.frame.height / 3))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 2)
         group.interItemSpacing = NSCollectionLayoutSpacing.fixed(15)
-
+        
         let section = NSCollectionLayoutSection(group: group)
         section.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5)
         
