@@ -22,6 +22,10 @@ class GetManager {
     }
 
     func update(completion: @escaping () -> Void = {}) {
+        itemsPerPage = 20
+        lastLoadedPage = 1
+        delegate?.snapshot = NSDiffableDataSourceSnapshot()
+        delegate?.snapshot.appendSections([0])
         fetchPage {
             completion()
         }

@@ -51,11 +51,7 @@ class AddProductViewController: UIViewController, UINavigationControllerDelegate
         snapShot.appendSections([0])
         postManager.setDelegate(self)
         configureView()
-
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidHide), name: UIResponder.keyboardDidHideNotification, object: nil)
-
-        hideKeyboard()
+        configureKeyboard()
     }
 
     deinit {
@@ -97,12 +93,6 @@ extension AddProductViewController {
         scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
     }
 
-    func hideKeyboard() {
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self,
-                                                                 action: #selector(self.dismissKeyboard))
-        tap.cancelsTouchesInView = false
-        view.addGestureRecognizer(tap)
-    }
     @objc func dismissKeyboard() {
         view.endEditing(true)
     }
@@ -121,8 +111,7 @@ extension AddProductViewController {
         configureTextFields()
         configureSegmentControl()
         configureTextView()
-        configureZoomedImageView()
-    }
+        configureZoomedImageView()    }
     private func configureNavigationBar() {
         title = "상품등록"
 
@@ -243,6 +232,17 @@ extension AddProductViewController {
         ])
         zoomedImageView.alpha = 0
     }
+
+    private func configureKeyboard() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidHide), name: UIResponder.keyboardDidHideNotification, object: nil)
+
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self,
+                                                                 action: #selector(self.dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+    
 }
 
 // MARK: - ImageCollectionView Configuration

@@ -12,8 +12,7 @@ final class PageViewController: UIViewController, DataRepresentable {
     @IBOutlet private weak var segmentedControl: UISegmentedControl!
     @IBOutlet private var activityIndicator: UIActivityIndicatorView!
 
-
-    private let datamanager = GetManager()
+    private let getManager = GetManager()
     var snapshot = NSDiffableDataSourceSnapshot<Int, Product>()
     
     private var currentCollectionView: UICollectionView?
@@ -36,7 +35,7 @@ final class PageViewController: UIViewController, DataRepresentable {
         super.init(coder: coder)
         self.listCollectionView.delegate = self
         self.gridCollectionView.delegate = self
-        self.datamanager.delegate = self
+        self.getManager.delegate = self
     }
 
     override func viewDidLoad() {
@@ -47,7 +46,20 @@ final class PageViewController: UIViewController, DataRepresentable {
         configureSegmentedConrol()
         configureViewLayout()
         view.bringSubviewToFront(activityIndicator)
-        datamanager.update(completion: applyDataToCurrentView)
+        getManager.update(completion: applyDataToCurrentView)
+    }
+
+    private func configureRefreshControl(_ refreshControl: UIRefreshControl?) {
+        refreshControl?	.addTarget(self, action: #selector(refreshControlDidActivate), for: .valueChanged)
+    }
+    
+    @objc private func refreshControlDidActivate(_ sender: UIRefreshControl) {
+        getManager.update {
+            DispatchQueue.main.async {
+                self.applyDataToCurrentView()
+                sender.endRefreshing()
+            }
+        }
     }
 
     @IBAction func addProductButtonDidTab(_ sender: UIBarButtonItem) {
@@ -69,7 +81,7 @@ extension PageViewController: UICollectionViewDelegate {
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if scrollView.contentOffset.y + scrollView.frame.height >= scrollView.contentSize.height {
-            datamanager.nextPage(completion: applyDataToCurrentView)
+            getManager.nextPage(completion: applyDataToCurrentView)
         }
     }
 
@@ -106,6 +118,8 @@ extension PageViewController {
         
         guard let collectionView = currentCollectionView else { return }
         view.addSubview(collectionView)
+        collectionView.refreshControl = UIRefreshControl()
+        configureRefreshControl(collectionView.refreshControl)
         collectionView.backgroundColor = .systemBackground
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         
@@ -120,8 +134,8 @@ extension PageViewController {
     private func applyDataToCurrentView() {
         DispatchQueue.main.async {
             self.segmentedControl.selectedSegmentIndex == 0 ?
-                self.listDataSource.apply(self.snapshot)
-                : self.gridDataSource.apply(self.snapshot)
+                self.listDataSource.apply(self.snapshot, animatingDifferences: true)
+                : self.gridDataSource.apply(self.snapshot, animatingDifferences: true)
             
             self.activityIndicator.stopAnimating()
         }
