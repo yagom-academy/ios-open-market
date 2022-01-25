@@ -234,9 +234,7 @@ final class ProductRegisterViewController: UIViewController {
         
         if readyToPost ?? false {
             postManager.makeMultiPartFormData()
-            alertSucess(state: .post) {
-            self.dismiss(animated: true, completion: nil)
-            }
+            alertSucess(state: .post)
         }
     }
    
@@ -384,7 +382,7 @@ extension ProductRegisterViewController {
         self.present(alert, animated: true, completion: nil)
     }
     
-    func alertSucess(state: PostMessage.Suceess, completion: @escaping () -> Void) {
+    func alertSucess(state: PostMessage.Suceess) {
         let alert = UIAlertController(title: "상품등록 성공", message: state.description, preferredStyle: .alert)
         let action = UIAlertAction(title: "OK", style: .default) { action in
             self.dismiss(animated: false)
