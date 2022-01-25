@@ -60,7 +60,6 @@ class ProductPageViewController: UIViewController, UICollectionViewDelegate {
     private func fetchProductList() {
         self.dataStorage.updateStorage {
             DispatchQueue.main.async {
-//                self.segmentedControl.selectedSegmentIndex == 0 ?
                 self.applyListSnapShot()
                 self.applyGridSnapShot()
             }

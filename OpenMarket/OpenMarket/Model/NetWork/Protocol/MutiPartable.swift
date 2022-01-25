@@ -2,18 +2,9 @@ import Foundation
 import UIKit
 
 protocol MultiPartable { }
-//헤더 -> 멀티파트폼데이터다 -> setvalue or addvalue
-// identifier => 저희 id vender identification 
-
-//바디 1
-//바디 2
-//이미지
 
 extension MultiPartable {
     
-//    var headerField: [String: String] {
-//        return ["Content-Type":"multipart/form-data; boundary=\(generateBoundaryString())"]
-//    }
     func generateBoundary() -> String {
         return "\(UUID().uuidString)"
     }

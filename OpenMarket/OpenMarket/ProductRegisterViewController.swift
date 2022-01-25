@@ -33,22 +33,7 @@ class ProductRegisterViewController: UIViewController {
         navigationItem.title = "상품수정"
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(post))
     }
-    //MARK: Action Method 
-    @objc private func dismissModal() {
-        self.dismiss(animated: true, completion: nil)
-    }
     
-    @objc private func post() {
-        makeParams()
-        givePostComponents()
-        checkReadyToPost()
-        if readyToPost ?? false {
-            postManager.makeMultiPartFormData()
-            alertSucess(state: .post) {
-            self.dismiss(animated: true, completion: nil)
-            }
-        }
-    }
     func checkReadyToPost() {
         if productNameTextField.text?.count ?? .zero < 4 {
             alertFailure(state: .lessWord)
@@ -76,6 +61,23 @@ class ProductRegisterViewController: UIViewController {
         }
         readyToPost = true
     }
+    //MARK: Action Method 
+    @objc private func dismissModal() {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    @objc private func post() {
+        makeParams()
+        givePostComponents()
+        checkReadyToPost()
+        if readyToPost ?? false {
+            postManager.makeMultiPartFormData()
+            alertSucess(state: .post) {
+            self.dismiss(animated: true, completion: nil)
+            }
+        }
+    }
+   
     //MARK: Configure CollectionView
     private func makeImageHorizontalLayout() -> UICollectionViewLayout {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
@@ -219,7 +221,9 @@ class ProductRegisterViewController: UIViewController {
     @objc private func updateImage() {
         self.imagePicker.sourceType = .photoLibrary
         self.imagePicker.allowsEditing = true
-        self.present(self.imagePicker, animated: true, completion: nil)
+        if images.count < 5 {
+            self.present(self.imagePicker, animated: true, completion: nil)
+        }
     }
     //MARK: AutoLayout
     private func addSubviews() {
@@ -272,7 +276,10 @@ class ProductRegisterViewController: UIViewController {
             productPriceTextField.trailingAnchor.constraint(equalTo: currencySegmentedControl.leadingAnchor, constant: -10),
         ])
         NSLayoutConstraint.activate([
-            currencySegmentedControl.trailingAnchor.constraint(equalTo: mainScrollView.frameLayoutGuide.trailingAnchor, constant: -10),
+            currencySegmentedControl.trailingAnchor.constraint(
+                equalTo: mainScrollView.frameLayoutGuide.trailingAnchor,
+                constant: -10
+            ),
         ])
         NSLayoutConstraint.activate([
             textFieldStackView.topAnchor.constraint(equalTo: registerImage.bottomAnchor, constant: 20),
@@ -314,13 +321,12 @@ extension ProductRegisterViewController: UIImagePickerControllerDelegate, UINavi
        } else if let possibleImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
            newImage = possibleImage
        }
-        guard let resizedImage = newImage?.jpegData(compressionQuality: 0.000) else {
+        guard let image = newImage?.resizing(size: CGSize(width: 50, height: 80)) else {
             return
         }
-        guard let image = UIImage(data: resizedImage) else {
-            return
-        }
+        
         images.append(image)
+        
         applyImageSnapShot()
         
         imagePicker.dismiss(animated: true, completion: nil)
@@ -362,11 +368,12 @@ extension ProductRegisterViewController {
         alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .default))
         self.present(alert, animated: true, completion: nil)
     }
+    
     func alertSucess(state: PostMessage.Suceess, completion: @escaping () -> Void) {
-        let alert = UIAlertController(title: "상품등록 실패", message: state.description, preferredStyle: .alert)
+        let alert = UIAlertController(title: "상품등록 성공", message: state.description, preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .default))
             self.present(alert, animated: true, completion: nil)
-}
+    }
 }
     
 extension ProductRegisterViewController: PostManagerDelegate {
@@ -394,7 +401,15 @@ extension ProductRegisterViewController: PostManagerDelegate {
             return
         }
         
-        params = ProductPost.Request.Params(name: name, descriptions: description, price: price, currency: currency, discountedPrice: discountPrice, stock: stock, secret: secretKey)
+        params = ProductPost.Request.Params(
+            name: name,
+            descriptions: description,
+            price: price,
+            currency: currency,
+            discountedPrice: discountPrice,
+            stock: stock,
+            secret: secretKey
+        )
     }
 
     

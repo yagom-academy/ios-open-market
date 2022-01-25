@@ -35,10 +35,6 @@ extension URLSessionProtocol {
         }
 
         let task = dataTask(with: urlRequest) { (data, response, error) in
-            print("찾기")
-            print("\(String(data: data!, encoding: .utf8))")
-            print("\(response)")
-            print("\(error)")
             guard let data = data else {
                 completion(.failure(APIError.invalidData))
                 return
