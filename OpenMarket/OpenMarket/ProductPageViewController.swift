@@ -21,7 +21,6 @@ class ProductPageViewController: UIViewController, UICollectionViewDelegate {
     private var listDataSource: UICollectionViewDiffableDataSource<Section, page>?
     private var gridDataSource: UICollectionViewDiffableDataSource<Section,page>?
     private var dataSources: [UICollectionViewDiffableDataSource<Section,page>] = []
-    
     //MARK: View life Cycle Method
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -65,6 +64,7 @@ class ProductPageViewController: UIViewController, UICollectionViewDelegate {
             }
         }
     }
+    
     private func configureNavigationItems() {
         let bounds = CGRect(
             x: 0,
@@ -225,6 +225,7 @@ extension ProductPageViewController {
                 static let fractionalHeight = 0.3
                 static let itemsPerGroup = 2
             }
+            
             enum Item {
                 static let spacing = 10.0
                 static let borderColor = UIColor.systemGray.cgColor
@@ -233,6 +234,7 @@ extension ProductPageViewController {
             }
         }
     }
+    
     enum SegmentedControl {
         static let cornerRadius = 4.0
         static let borderWidth = 1.0
@@ -250,8 +252,8 @@ extension ProductPageViewController {
 extension ProductPageViewController: UIScrollViewDelegate {
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
         var collectionView: UICollectionView = segmentedControl.selectedSegmentIndex == 0 ? listCollectionView : gridCollectionView
-            
         let position = scrollView.contentOffset.y
+        
         if position > (collectionView.contentSize.height-100-scrollView.frame.height) {
             dataStorage.appendMoreItem()
             dataStorage.updateStorage {

@@ -7,6 +7,7 @@ class PostManager {
     
     var postParams: ProductPost.Request.Params?
     var postImages: [UIImage]?
+    
     func loadComponents(images: [UIImage], params: ProductPost.Request.Params) {
         postImages = images
         postParams = params
@@ -16,9 +17,11 @@ class PostManager {
         guard let postImages = postImages else {
             return
         }
+        
         guard let postParams = postParams else {
             return
         }
+        
         var requester = ProductPostRequester(params: postParams, images: postImages)
         
         let body = requester.createBody(productRegisterInformation: postParams, images: postImages, boundary: requester.boundary ?? "")

@@ -31,7 +31,11 @@ class ProductRegisterViewController: UIViewController {
     private func configureNavigationItem() {
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(dismissModal))
         navigationItem.title = "상품수정"
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(post))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            barButtonSystemItem: .add,
+            target: self,
+            action: #selector(post)
+        )
     }
     
     func checkReadyToPost() {
@@ -70,6 +74,7 @@ class ProductRegisterViewController: UIViewController {
         makeParams()
         givePostComponents()
         checkReadyToPost()
+        
         if readyToPost ?? false {
             postManager.makeMultiPartFormData()
             alertSucess(state: .post) {
@@ -326,9 +331,7 @@ extension ProductRegisterViewController: UIImagePickerControllerDelegate, UINavi
         }
         
         images.append(image)
-        
         applyImageSnapShot()
-        
         imagePicker.dismiss(animated: true, completion: nil)
        }
 }
@@ -352,6 +355,7 @@ extension ProductRegisterViewController {
                 }
             }
         }
+        
         enum Suceess {
             case post
             
@@ -363,6 +367,7 @@ extension ProductRegisterViewController {
             }
         }
 }
+    
     func alertFailure(state: PostMessage.Failure) {
         let alert = UIAlertController(title: "상품등록 실패", message: state.description, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .default))
@@ -383,6 +388,7 @@ extension ProductRegisterViewController: PostManagerDelegate {
         guard let price = Double(productPriceTextField.text ?? "0.0") else {
             return
         }
+        
         guard let name = productNameTextField.text else {
             return
         }
