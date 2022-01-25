@@ -8,4 +8,10 @@ extension String {
         attributeString.addAttribute(.foregroundColor, value: UIColor.systemOrange, range: totalRange)
         return attributeString
     }
+    
+    mutating func appendWithLineBreak(contentsOf string: String) {
+        self.append(contentsOf: "\n")
+        self.append(contentsOf: string)
+    }
 }
+

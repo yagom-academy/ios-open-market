@@ -34,6 +34,7 @@ enum JSONParser {
     
     static func encodeToDataString<T: Encodable>(with modelData: T) -> String? {
         let encoder = JSONEncoder()
+        encoder.keyEncodingStrategy = .convertToSnakeCase
         
         var dataString: String?
         do {

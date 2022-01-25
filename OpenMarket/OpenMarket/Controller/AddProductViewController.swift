@@ -1,6 +1,27 @@
 import UIKit
 
 class AddProductViewController: UIViewController {
+    enum ProductInput {
+        static var name: String?
+        static var descriptions: String?
+        static var price: Double?
+        static var discountedPrice: Double? = 0
+        static var currency: Currency = Currency.KRW
+        static var stock: Int? = 0
+        static var secret: String = "EE5ud*rBT9Nu38_d"
+    }
+    
+    enum AlertMessage {
+        static let title = "⚠️ 등록 정보 확인 ⚠️"
+        static let invalidNameLength = "상품명 3자리 입력"
+        static let priceMissed = "가격 필수 입력"
+        static let invalidPriceType = "가격 숫자만 입력"
+        static let invalidDiscountPriceType = "할인금액 숫자만 입력"
+        static let invalidStockType = "재고 숫자만 입력"
+        static let invalidDescriptionLength = "상품 상세설명 10자 이상 입력"
+        static let imageMissed = "이미지 1장 이상 등록"
+    }
+    
     // MARK: - Property
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var productNameTextField: UITextField!
@@ -18,6 +39,7 @@ class AddProductViewController: UIViewController {
     var newProductInformation: NewProductInformation?
     var isButtonTapped = true
     var selectedIndex = 0
+    var alertText = AlertMessage.title
     
     // MARK: - Life Cycle Method
     override func viewDidLoad() {
@@ -46,10 +68,14 @@ class AddProductViewController: UIViewController {
     }
     
     @IBAction func tapDoneButton(_ sender: UIBarButtonItem) {
-        
         createNewProduct()
         addToProductImages()
-        guard let information = newProductInformation else { return }
+        guard let information = newProductInformation else {
+            self.invalidInputAlert(with: alertText)
+            alertText = AlertMessage.title
+            return
+        }
+
         apiManager.addProduct(information: information, images: newProductImages) { result in
             switch result {
             case .success(let data):
@@ -74,16 +100,6 @@ class AddProductViewController: UIViewController {
 
 extension AddProductViewController {
     // MARK: - Create Data To Post
-    enum ProductInput {
-        static var name: String?
-        static var descriptions: String?
-        static var price: Double?
-        static var discountedPrice: Double? = 0
-        static var currency: Currency = Currency.KRW
-        static var stock: Int? = 0
-        static var secret: String = "EE5ud*rBT9Nu38_d"
-    }
-    
     func createNewProduct() {
         newProductInformation = nil
         initializeProductInput()
@@ -106,7 +122,7 @@ extension AddProductViewController {
     func checkProductName() {
         guard let productName = productNameTextField.text, productName.count >= 3 else {
             ProductInput.name = nil
-            print("상품명 3자리 입력")
+            alertText.appendWithLineBreak(contentsOf: AlertMessage.invalidNameLength)
             return
         } // 3자리이상입력
         ProductInput.name = productName
@@ -115,12 +131,12 @@ extension AddProductViewController {
     func checkProductPrice() {
         guard let productPriceText = productPriceTextField.text, !productPriceText.isEmpty else {
             ProductInput.price = nil
-            print("가격 필수 입력")
+            alertText.appendWithLineBreak(contentsOf: AlertMessage.priceMissed)
             return
         } // 필수입력
         guard let productPrice = Double(productPriceText) else {
             ProductInput.price = nil
-            print("가격 숫자만 입력")
+            alertText.appendWithLineBreak(contentsOf: AlertMessage.invalidPriceType)
             return
         } // 숫자만 입력
         ProductInput.price = productPrice
@@ -139,7 +155,7 @@ extension AddProductViewController {
         
         guard let discountPrice = Double(discountPriceText) else {
             ProductInput.discountedPrice = nil
-            print("할인금액 숫자만 입력")
+            alertText.appendWithLineBreak(contentsOf: AlertMessage.invalidDiscountPriceType)
             return
         } // 숫자만 입력
         ProductInput.discountedPrice = discountPrice
@@ -149,7 +165,7 @@ extension AddProductViewController {
         guard let productStockText = productStockTextField.text, !productStockText.isEmpty else { return } // default 사용
         guard let productStock = Int(productStockText) else {
             ProductInput.stock = nil
-            print("재고 숫자만 입력")
+            alertText.appendWithLineBreak(contentsOf: AlertMessage.invalidStockType)
             return
         } // 숫자만 입력
         ProductInput.stock = productStock
@@ -159,7 +175,7 @@ extension AddProductViewController {
         guard let productDescription = descriptionTextView.text,
               descriptionTextView.textColor == UIColor.black,
               productDescription.count >= 10 else {
-                  print("10자 이상 입력")
+                  alertText.appendWithLineBreak(contentsOf: AlertMessage.invalidDescriptionLength)
                   return
               } // 필수입력 10자 이상
         ProductInput.descriptions = productDescription
@@ -167,11 +183,15 @@ extension AddProductViewController {
     
     func addToProductImages() {
         let lastTagNumber = productImageStackView.subviews.count - 1
-        guard lastTagNumber >= 1 else { return }
+        guard lastTagNumber >= 1 else {
+            alertText.appendWithLineBreak(contentsOf: AlertMessage.imageMissed)
+            return
+        }
         
         for buttonTag in 1...lastTagNumber {
             getProductImageFromButton(with: buttonTag)
         }
+
     }
     
     func getProductImageFromButton(with tag: Int) {
@@ -306,7 +326,7 @@ extension AddProductViewController: UITextViewDelegate {
 }
 
 extension AddProductViewController {
-    
+    // MARK: - Keyboard Notification Setup Method
     func setupKeyboardNotification() {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
@@ -334,5 +354,14 @@ extension AddProductViewController {
     @objc func dismissKeyboard() {
         view.endEditing(true)
     }
-    
+}
+
+extension AddProductViewController {
+    // MARK: - Invalid Input Alert Method
+    func invalidInputAlert(with message: String) {
+        let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+        let close = UIAlertAction(title: "닫기", style: .cancel, handler: nil)
+        alert.addAction(close)
+        present(alert, animated: true)
+    }
 }
