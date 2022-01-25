@@ -1,18 +1,6 @@
 import UIKit
 
 class RegisterProductViewController: ManageProductViewController {
-    private enum Task {
-        case register, modify
-    }
-
-    private var taskType: Task = .modify
-    private var productIdentification: Int?
-    private let productService = ProductService()
-    private let scrollView: UIScrollView = {
-        let scrollView = UIScrollView()
-        return scrollView
-    }()
-    private let stackView = ProductRegisterView()
     private lazy var imagePickerController: UIImagePickerController = {
         let picker = UIImagePickerController()
         picker.delegate = self
@@ -46,11 +34,9 @@ class RegisterProductViewController: ManageProductViewController {
         return alert
     }()
 
-    init(productIdentification: Int?) {
-        self.productIdentification = productIdentification
+    init() {
         super.init(nibName: nil, bundle: nil)
         self.modalPresentationStyle = .fullScreen
-        fetchProduct()
     }
 
     required init?(coder: NSCoder) {
@@ -59,36 +45,42 @@ class RegisterProductViewController: ManageProductViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .white
-        configureHierarchy()
-        setDelegate()
-        configureConstraint()
-        configureNavigationBar()
     }
+
+    override func setDelegate() {
+        super.setDelegate()
+        stackView.setCollectionViewDelegate(delegate: self)
+
+    }
+    // MARK: Navigation Bar Configuration
+    override func configureNavigationBar() {
+        super.configureNavigationBar()
+        self.navigationItem.title = "상품 등록"
+    }
+
+    @objc override func touchUpDoneButton() {
+        //registerProduct()
+        super.touchUpDoneButton()
+    }
+
+    override func configureHierarchy() {
+        super.configureHierarchy()
+
+    }
+
+    @objc func addImage() {
+        if stackView.imageList.count < 5 {
+            showActionSheet()
+        } else {
+            showImageCapacityAlert()
+        }
+    }
+
 }
 
 // MARK: Networking
 extension RegisterProductViewController {
-    func fetchProduct() {
-        guard let productIdentification = self.productIdentification else {
-            taskType = .register
-            return
-        }
-        productService.retrieveProduct(
-            productIdentification: productIdentification,
-            session: HTTPUtility.defaultSession) { result in
-                switch result {
-                case .success(let product):
-                    DispatchQueue.main.async {
-                        self.configureContent(product: product)
-                    }
-                case .failure:
-                    return
-                }
-            }
-    }
-
-//    func registerProduct() {
+    func registerProduct() {
 //        let registerProductRequest = RegisterProductRequest(
 //            name: stackView.nameTextField.text!,
 //            descriptions: stackView.descriptionTextView.text,
@@ -115,76 +107,6 @@ extension RegisterProductViewController {
 //                    return
 //                }
 //            }
-//    }
-}
-
-// MARK: Navigation Bar Configuration
-extension RegisterProductViewController {
-    private func configureNavigationBar() {
-        switch taskType {
-        case .register:
-            self.navigationItem.title = "상품등록"
-        case .modify:
-            self.navigationItem.title = "상품수정"
-        }
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "완료", style: .done, target: self, action: #selector(touchUpDoneButton))
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "취소", style: .plain, target: self, action: #selector(touchUpCancelButton))
-        let appearance = UINavigationBarAppearance()
-        appearance.configureWithDefaultBackground()
-        self.navigationController?.navigationBar.scrollEdgeAppearance = appearance
-    }
-
-    @objc func touchUpDoneButton() {
-        //registerProduct()
-        self.dismiss(animated: true, completion: nil)
-    }
-
-    @objc func touchUpCancelButton() {
-        self.dismiss(animated: true, completion: nil)
-    }
-}
-
-// MARK: Stack View Configuration
-extension RegisterProductViewController {
-    func configureHierarchy() {
-        scrollView.addSubview(stackView)
-        self.view.addSubview(scrollView)
-    }
-
-    private func setDelegate() {
-        stackView.setTextViewDelegate(delegate: self)
-        stackView.setTextFieldDelegate(delegate: self)
-        stackView.setCollectionViewDelegate(delegate: self)
-    }
-}
-
-extension RegisterProductViewController {
-    private func configureConstraint() {
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        scrollView.contentInset = UIEdgeInsets(top: 0, left: 30, bottom: 30, right: 30)
-        NSLayoutConstraint.activate([
-            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
-        ])
-        NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor),
-            stackView.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor),
-//            stackView.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor),
-//            stackView.trailingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.trailingAnchor),
-            stackView.leadingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.leadingAnchor, constant: 5),
-            stackView.trailingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.trailingAnchor, constant: -5)
-        ])
-    }
-
-    private func configureContent(product: Product) {
-//        stackView.nameTextField.text = product.name
-//        stackView.priceTextField.text = product.price.description
-//        stackView.discountTextField.text = product.discountedPrice.description
-//        stackView.stockTextField.text = product.stock.description
-//        stackView.descriptionTextView.text = product.description
     }
 }
 
@@ -223,61 +145,25 @@ extension RegisterProductViewController: UIImagePickerControllerDelegate,
         _ picker: UIImagePickerController,
         didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
     ) {
-        print(info)
         if let image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
 
             let data = image.jpegData(compressionQuality: 1)!
             if data.count > 1024 * 300 {
                 let newImage = image.jpegData(compressionQuality: 0.5)!
-                //stackView.imageList.append(UIImage(data: newImage)!)
+                stackView.imageList.append(UIImage(data: newImage)!)
             } else {
-            //stackView.imageList.append(image)
+            stackView.imageList.append(image)
             }
         }
         dismiss(animated: true, completion: nil)
     }
 }
 
-// MARK: Collection View Delegate
 extension RegisterProductViewController: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if indexPath.item == 0 {
-//            if stackView.imageList.count < 6 {
-//                showActionSheet()
-//            } else {
-//                showImageCapacityAlert()
-//            }
+    func collectionView(_ collectionView: UICollectionView, willDisplaySupplementaryView view: UICollectionReusableView, forElementKind elementKind: String, at indexPath: IndexPath) {
+        guard let headerView = view as? AddImageHeaderView else {
+            return
         }
-    }
-}
-
-// MARK: Text Field Delegate
-extension RegisterProductViewController: UITextFieldDelegate {
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        return true
-    }
-}
-
-// MARK: Text View Delegate
-extension RegisterProductViewController: UITextViewDelegate {
-    func textViewDidEndEditing(_ textView: UITextView) {
-        if textView.text.isEmpty {
-            textView.textColor = .systemGray
-            textView.text = "상품설명을 작성해 주세요. (최대 1000글자)"
-        }
-    }
-
-    func textViewDidBeginEditing(_ textView: UITextView) {
-        if textView.textColor == .systemGray {
-            textView.textColor = .black
-            textView.text = ""
-        }
-    }
-    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        if textView.textStorage.length + text.count > 1000 {
-            return false
-        }
-        return true
+        headerView.addTargetToButton(selector: #selector(addImage))
     }
 }

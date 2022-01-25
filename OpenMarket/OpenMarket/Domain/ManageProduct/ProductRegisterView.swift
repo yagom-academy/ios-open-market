@@ -8,18 +8,20 @@ class ProductRegisterView: UIStackView {
 
     private var dataSource: UICollectionViewDiffableDataSource<Section, UIImage>!
 
-    private var imageList: [UIImage] = [] {
+    var imageList: [UIImage] = [] {
         didSet {
             var snapshot = NSDiffableDataSourceSnapshot<Section, UIImage>()
             snapshot.appendSections([.image])
             snapshot.appendItems(imageList, toSection: .image)
             self.dataSource.apply(snapshot)
-            guard let cell = imageCollectionView.cellForItem(
+            guard let headerView = imageCollectionView.supplementaryView(
+                forElementKind: "header",
                 at: IndexPath(item: 0, section: 0)
-            ) as? ProductImageCell else {
+            ) as? AddImageHeaderView else {
+                print("찾기 실패")
                 return
             }
-            cell.modifyCapacityLabel(for: imageList.count - 1)
+            headerView.modifyButtonTitle(for: imageList.count)
         }
     }
 
@@ -96,7 +98,6 @@ class ProductRegisterView: UIStackView {
         configureStackView()
         configureDataSource()
         configureConstraint()
-        imageCollectionView.isScrollEnabled = false
         configureGestureRecognizer()
     }
 
@@ -147,6 +148,7 @@ extension ProductRegisterView {
 
     private func configureConstraint() {
         configureCollectionViewConstraint()
+        self.descriptionTextView.setContentHuggingPriority(.init(rawValue: 0), for: .vertical)
     }
 }
 
@@ -155,34 +157,57 @@ extension ProductRegisterView {
     private func createImageGridLayout() -> UICollectionViewLayout {
 
         let itemSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1.0),
+            widthDimension: .fractionalWidth(0.35),
             heightDimension: .fractionalHeight(1.0)
         )
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        item.contentInsets = NSDirectionalEdgeInsets(top: 5.0, leading: 5.0, bottom: 5.0, trailing: 5.0)
 
         let groupSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(0.38),
+            widthDimension: .fractionalWidth(0.35),
             heightDimension: .fractionalHeight(1.0)
         )
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-        let section = NSCollectionLayoutSection(group: group)
-        section.interGroupSpacing = 5
-        section.orthogonalScrollingBehavior = .continuous
 
-        let layout = UICollectionViewCompositionalLayout(section: section)
+        let group = NSCollectionLayoutGroup.horizontal(
+            layoutSize: groupSize,
+            subitem: item,
+            count: 1)
+
+        let section = NSCollectionLayoutSection(group: group)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 130, bottom: 0, trailing: 0)
+        section.interGroupSpacing = 10
+        let headerSize = NSCollectionLayoutSize(
+            widthDimension: .absolute(120),
+            heightDimension: .absolute(120)
+        )
+        let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
+            layoutSize: headerSize,
+            elementKind: "header", alignment: .leading
+        )
+
+        sectionHeader.extendsBoundary = false
+        sectionHeader.pinToVisibleBounds = false
+        section.supplementariesFollowContentInsets = false
+        section.boundarySupplementaryItems = [sectionHeader]
+
+        let configuration = UICollectionViewCompositionalLayoutConfiguration()
+        configuration.scrollDirection = .horizontal
+        let layout = UICollectionViewCompositionalLayout(section: section, configuration: configuration)
 
         return layout
     }
 
     private func configureDataSource() {
-        let cellRegistration =
-            UICollectionView.CellRegistration<ProductImageCell, UIImage> { cell, indexPath, identifier in
+        let cellRegistration = UICollectionView
+            .CellRegistration<ProductImageCell, UIImage> { cell, indexPath, identifier in
                 cell.configure(image: identifier)
-                if indexPath.item == 0 {
-                    cell.configureFirstCell()
-                }
             }
+
+        let headerRegistration = UICollectionView
+            .SupplementaryRegistration<AddImageHeaderView>(
+                elementKind: "header"
+            ) { supplementaryView, elementKind, indexPath in
+        }
+
         dataSource = UICollectionViewDiffableDataSource<Section, UIImage>(
             collectionView: imageCollectionView
         ) { (collectionView: UICollectionView, indexPath: IndexPath, identifier: UIImage
@@ -194,11 +219,17 @@ extension ProductRegisterView {
             )
         }
 
+        dataSource.supplementaryViewProvider = { (view, kind, index) in
+            return self.imageCollectionView.dequeueConfiguredReusableSupplementary(
+                using: headerRegistration,
+                for: index
+            )
+        }
+
         var snapshot = NSDiffableDataSourceSnapshot<Section, UIImage>()
         snapshot.appendSections([.image])
-        imageList.append(UIImage())
         snapshot.appendItems(imageList, toSection: .image)
-        self.dataSource.apply(snapshot)
+        self.dataSource.apply(snapshot, animatingDifferences: false)
     }
 
     private func configureCollectionViewConstraint() {
