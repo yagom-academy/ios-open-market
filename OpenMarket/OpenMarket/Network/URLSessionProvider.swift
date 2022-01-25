@@ -17,7 +17,7 @@ class URLSessionProvider {
                   }
             
             guard let data = data else {
-               return completionHandler(.failure(.emptyValue))
+                return completionHandler(.failure(.emptyValue))
             }
             completionHandler(.success(data))
         }
@@ -38,49 +38,45 @@ class URLSessionProvider {
         dataTask(request: request, completionHandler: completionHandler)
     }
     
-//    func postData(paramaeters: [String: Any], completionHandler: @escaping (Result<Data, NetworkError>) -> Void) {
-//        let boundary = "Boundary-\(UUID().uuidString)"
-//        guard let url = URL(string: RequestType.url(.productRegistration)) else {
-//            return completionHandler(.failure(NetworkError.wrongURL))
-//        }
-//
-//            var request = URLRequest(url: url)
-//            request.httpMethod = "POST"
-//
-//        request.setValue("multipart/form-data; boundary\(boundary)", forHTTPHeaderField: "Content-Type")
-//
-//        request.httpBody = createBody(paramaeters: p, boundary: <#T##String#>, images: <#T##[RegistImage]?#>)
-//
-//            dataTask(request: request, completionHandler: completionHandler)
-//
-//    }
-//
-//    func createBody(paramaeters: [String: Any], boundary: String, images: [RegistImage]?) -> Data {
-//        var body = Data()
-//        let boundaryPrefix = "--\(boundary)\r\n"
-//
-//        for (key, value) in paramaeters {
-//            body.append(boundaryPrefix.data(using: .utf8)!)
-//            body.append("Content-Disposition: form-data; name=\"\(key)\"\r\n\r\n".data(using: .utf8)!)
-//            body.append("\(value)\r\n".data(using: .utf8)!)
-//
-//        }
-//        if let images = images {
-//               for image in images {
-//                 body.append(boundaryPrefix.data(using: .utf8)!)
-//                 body.append("Content-Disposition: form-data; name=\"images[]\"; filename=\"\(image.key)\"\r\n".data(using: .utf8)!)
-//                 body.append("Content-Type: image/\(image.src)\r\n\r\n".data(using: .utf8)!)
-//                   body.append(image.type.data(using: .utf8))
-//                 body.append("\r\n".data(using: .utf8)!)
-//             }
-//           }
-//
-//           body.append(boundaryPrefix.data(using: .utf8)!)
-//        return body
-//    }
+    func postData(paramaeters: [String: Any], registImages: [RegistImage],
+                  completionHandler: @escaping (Result<Data, NetworkError>) -> Void) {
+        let boundary = "Boundary-\(UUID().uuidString)"
+        guard let url = URL(string: RequestType.productRegistration.url()) else {
+            return completionHandler(.failure(NetworkError.wrongURL))
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        
+        request.setValue("multipart/form-data; boundary\(boundary)", forHTTPHeaderField: "Content-Type")
+        
+        request.httpBody = createBody(paramaeters: paramaeters, boundary: boundary, images: registImages)
+        
+        dataTask(request: request, completionHandler: completionHandler)
+        
+    }
     
-//    [pram1: Any타입데이터]   //pram1은 ProductParams타입의 객체
-    //Any타입데이터는 {"상품명": "맥북", "가격": "price ...}
-    
-    
+    func createBody(paramaeters: [String: Any], boundary: String, images: [RegistImage]) -> Data {
+        var body = Data()
+        let boundaryPrefix = "--\(boundary)\r\n"
+        
+        for (key, value) in paramaeters {
+            body.append(boundaryPrefix.data(using: .utf8)!)
+            body.append("Content-Disposition: form-data; name=\"\(key)\"\r\n\r\n".data(using: .utf8)!)
+            body.append("\(value)\r\n".data(using: .utf8)!)
+            
+        }
+        
+        for image in images {
+            body.append(boundaryPrefix.data(using: .utf8)!)
+            body.append("Content-Disposition: form-data; name=\"images[]\"; filename=\"\(image.key)\"\r\n".data(using: .utf8)!)
+            body.append("Content-Type: image/\(image.src)\r\n\r\n".data(using: .utf8)!)
+            body.append(image.type.data(using: .utf8)!)
+            body.append("\r\n".data(using: .utf8)!)
+        }
+        
+        
+        body.append(boundaryPrefix.data(using: .utf8)!)
+        return body
+    }
 }
