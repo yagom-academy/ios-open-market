@@ -21,14 +21,12 @@ class ListCell: UICollectionViewCell {
     }
     
     func updateListCell(productData: ProductPreview) {
-        DispatchQueue.global().async {
-            guard let imageURL = URL(string: "\(productData.thumbnail)") else {
-                return
-            }
-            let imageData = try? Data(contentsOf: imageURL)
-            
-            DispatchQueue.main.async { 
-                self.thumbnailImageView.image = UIImage(data: imageData ?? Data())
+        guard let imageURL = URL(string: "\(productData.thumbnail)") else {
+            return
+        }
+        loadImage(url: imageURL) { image in
+            DispatchQueue.main.async {
+                self.thumbnailImageView.image = image
             }
         }
         
@@ -46,5 +44,17 @@ class ListCell: UICollectionViewCell {
             stockLable.text = "잔여수량: \(productData.stock)"
             stockLable.textColor = .systemGray
         }
+    }
+    
+    func loadImage(url: URL, completion: @escaping (UIImage?) -> Void) {
+        let task = URLSession.shared.dataTask(with: url) { data, _, _ in
+            guard let data = data else {
+                completion(nil)
+                return
+            }
+            let image = UIImage(data: data)
+            completion(image)
+        }
+        task.resume()
     }
 }
