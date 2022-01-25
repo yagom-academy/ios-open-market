@@ -387,8 +387,12 @@ extension ProductRegisterViewController {
     
     func alertSucess(state: PostMessage.Suceess, completion: @escaping () -> Void) {
         let alert = UIAlertController(title: "상품등록 성공", message: state.description, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .default))
-            self.present(alert, animated: true, completion: nil)
+        let action = UIAlertAction(title: "OK", style: .default) { action in
+            self.dismiss(animated: false)
+        }
+        
+        alert.addAction(action)
+        self.present(alert, animated: true, completion: nil)
     }
 }
     

@@ -31,6 +31,11 @@ class ProductPageViewController: UIViewController, UICollectionViewDelegate {
         listCollectionView.delegate = self
         gridCollectionView.delegate = self
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        fetchProductList()
+    }
     //MARK: Method
     private func configureMainView() {
         view.backgroundColor = .white
