@@ -21,6 +21,7 @@ class ProductPageViewController: UIViewController, UICollectionViewDelegate {
     private var listDataSource: UICollectionViewDiffableDataSource<Section, page>?
     private var gridDataSource: UICollectionViewDiffableDataSource<Section,page>?
     private var dataSources: [UICollectionViewDiffableDataSource<Section,page>] = []
+    private var isPaging: Bool = true
     //MARK: View life Cycle Method
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -259,9 +260,11 @@ extension ProductPageViewController: UIScrollViewDelegate {
         var collectionView: UICollectionView = segmentedControl.selectedSegmentIndex == 0 ? listCollectionView : gridCollectionView
         let position = scrollView.contentOffset.y
         
-        if position > (collectionView.contentSize.height-100-scrollView.frame.height) {
+        if position > (collectionView.contentSize.height-100-scrollView.frame.height), isPaging {
+            isPaging = false
             dataStorage.appendMoreItem()
             dataStorage.updateStorage {
+                self.isPaging = true
                 DispatchQueue.main.async {
                     self.segmentedControl.selectedSegmentIndex == 0 ? self.applyListSnapShot() : self.applyGridSnapShot()
                 }
