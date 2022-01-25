@@ -14,7 +14,6 @@ class GridCollectionViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         create()
         organizeViewHierarchy()
         configureCollectionView()

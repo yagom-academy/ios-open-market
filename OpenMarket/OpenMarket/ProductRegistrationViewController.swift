@@ -133,20 +133,7 @@ extension ProductRegistrationViewController {
         let identifier = Vendor.identifier
         let stock: Int = Int(stockText) ?? 0
         let secret = Vendor.secret
-        let images: [Data] = {
-            var images: [Data] = []
-            
-            imageStackView.arrangedSubviews.forEach {
-                guard let imageView = $0 as? UIImageView,
-                      let imageData = imageView.image?.jpegData(underBytes: ProductImageAttribute.maximumImageBytesSize) else {
-                          print(OpenMarketError.conversionFail("UIImage", "JPEG Data").description)
-                          return
-                      }
-                images.append(imageData)
-            }
-            
-            return images
-        }()
+        let images: [Data] = extractedImageDataFromStackView()
         
         guard (1...5).contains(images.count) else {
             return
@@ -172,6 +159,21 @@ extension ProductRegistrationViewController {
         }
 
         dismiss(animated: true)
+    }
+    
+    private func extractedImageDataFromStackView() -> [Data] {
+        var images: [Data] = []
+        
+        imageStackView.arrangedSubviews.forEach {
+            guard let imageView = $0 as? UIImageView,
+                  let imageData = imageView.image?.jpegData(underBytes: ProductImageAttribute.maximumImageBytesSize) else {
+                      print(OpenMarketError.conversionFail("UIImage", "JPEG Data").description)
+                      return
+                  }
+            images.append(imageData)
+        }
+        
+        return images
     }
 }
 
