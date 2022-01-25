@@ -10,39 +10,86 @@ import UIKit
 class OpenMarketCollectionViewCell: UICollectionViewCell {
     
     var containerStackView = UIStackView()
+    var productNameLabel = UILabel()
+    var priceLabel = UILabel()
+    var discountedLabel = UILabel()
+    var accessoryImageView = UIImageView()
+    
     var stackView: UIStackView = {
         let stackView = UIStackView()
-        
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
         stackView.alignment = .top
         stackView.distribution = .fill
         stackView.spacing = 2
-        
         return stackView
     }()
-    var imageView = UIImageView()
-    var productStackView = UIStackView()
-    var productNameLabel = UILabel()
-    var priceStackView = UIStackView()
-    var priceLabel = UILabel()
-    var discountedLabel = UILabel()
-    var stockLabel = UILabel()
-    var accessoryImageView = UIImageView()
+    
+    var imageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }()
+    
+    var productStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.alignment = .leading
+        stackView.distribution = .equalSpacing
+        stackView.spacing = 2
+        return stackView
+    }()
+    
+    var priceStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.alignment = .center
+        stackView.distribution = .equalSpacing
+        return stackView
+    }()
+    
+    var stockLabel: UILabel = {
+        let label = UILabel()
+        label.textAlignment = .right
+        label.numberOfLines = 0
+        return label
+    }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        commonConfig()
+        configureCellLayout()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        commonConfig()
+        configureCellLayout()
     }
     
-    private func commonConfig() {
+    private func configureCellLayout() {
+        configureViewHirarchy()
+        configureAutoLayout()
+        self.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+    }
+    
+    override func prepareForReuse() {
+        discountedLabel.isHidden = true
+    }
+    
+    private func configureViewHirarchy() {
         self.addSubview(stackView)
         
+        stackView.addArrangedSubview(imageView)
+        stackView.addArrangedSubview(productStackView)
+        stackView.addArrangedSubview(stockLabel)
+        
+        productStackView.addArrangedSubview(productNameLabel)
+        productStackView.addArrangedSubview(priceStackView)
+        
+        priceStackView.addArrangedSubview(priceLabel)
+        priceStackView.addArrangedSubview(discountedLabel)
+    }
+    
+    private func configureAutoLayout() {
         NSLayoutConstraint.activate([
             stackView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 10),
             stackView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 10),
@@ -50,51 +97,22 @@ class OpenMarketCollectionViewCell: UICollectionViewCell {
             stackView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor, constant: -10)
         ])
         
-        stackView.addArrangedSubview(imageView)
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        // 높이에다가 제약을 걸어준다!
         NSLayoutConstraint.activate([
             imageView.widthAnchor.constraint(equalTo: stackView.widthAnchor, multiplier: 0.2),
             imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor)
         ])
         
-        stackView.addArrangedSubview(productStackView)
-        productStackView.axis = .vertical
-        productStackView.alignment = .leading
-        productStackView.distribution = .equalSpacing
-        productStackView.spacing = 2
-        
-        productStackView.addArrangedSubview(productNameLabel)
-        
-        priceStackView.addArrangedSubview(priceLabel)
-        priceStackView.addArrangedSubview(discountedLabel)
         priceLabel.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         discountedLabel.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
-        productStackView.addArrangedSubview(priceStackView)
         
-        priceStackView.axis = .horizontal
-        priceStackView.alignment = .center
-        priceStackView.distribution = .equalSpacing
-        stockLabel.textAlignment = .right
-        stockLabel.numberOfLines = 0
-        stackView.addArrangedSubview(stockLabel)
         stockLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         priceStackView.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         
         priceLabel.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         discountedLabel.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         
-        stockLabel.textAlignment = .right
-        stockLabel.numberOfLines = 0
-        
         stockLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         priceStackView.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
-        
-        self.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-    }
-    
-    override func prepareForReuse() {
-        discountedLabel.isHidden = true
     }
     
     func configureContents(at indexPath: IndexPath, with item: Product) {

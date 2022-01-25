@@ -101,6 +101,12 @@ final class ProductPageViewController: UIViewController {
         configureViewLayout()
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let detailVC = segue.destination as? ProductDetailViewController {
+            
+        }
+    }
+    
 }
 
 // MARK: - UIRefreshControl Action
@@ -127,6 +133,12 @@ extension ProductPageViewController: UICollectionViewDelegate {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let cell = collectionView.cellForItem(at: indexPath)
+        
+        guard let listCell = cell as? OpenMarketCollectionViewCell else  { return }
+        
+        
+        
         performSegue(withIdentifier: "productDetailSegue", sender: nil)
     }
     

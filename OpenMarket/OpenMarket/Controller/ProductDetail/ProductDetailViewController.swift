@@ -11,7 +11,7 @@ class ProductDetailViewController: UIViewController {
     
     let images = [#imageLiteral(resourceName: "Image"), #imageLiteral(resourceName: "macBook")]
 
-    @IBOutlet weak var imageSlider: ImageSlider!
+    @IBOutlet private weak var imageSlider: ImageSlider!
     
     override func viewDidLoad() {
         super.viewDidLoad()
