@@ -47,13 +47,13 @@ extension ProductsCatalogViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(
             image: resizedImage,
             style: .plain,
-            target: nil,
-            action: nil
+            target: self,
+            action: #selector(plusImageDidTap)
         )
         navigationItem.rightBarButtonItem?.width = 0
         let appearance = UINavigationBarAppearance()
         appearance.configureWithDefaultBackground()
-        navigationController?.navigationBar.scrollEdgeAppearance = appearance
+//        navigationController?.navigationBar.scrollEdgeAppearance = appearance
     }
 
     private func configureSegmentedControl() -> UISegmentedControl {
@@ -97,6 +97,13 @@ extension ProductsCatalogViewController {
             gridDataSource.apply(snapshot)
         }
         presentView = viewType
+    }
+
+    @objc func plusImageDidTap() {
+        let registerAndEditViewController = ItemRegisterAndEditViewController()
+        let navigationController = UINavigationController(rootViewController: registerAndEditViewController)
+        navigationController.modalPresentationStyle = .fullScreen
+        self.present(navigationController, animated: true)
     }
 
     private func configureIndicator() {
