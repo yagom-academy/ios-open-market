@@ -9,6 +9,7 @@ import UIKit
 class ProductListViewController: UIViewController {
     @IBOutlet private weak var collectionView: UICollectionView!
     @IBOutlet private weak var switchLayoutSegmentedControl: UISegmentedControl!
+    private var dataManager = DataManager()
     private var productListData: ProductList?
 
     override func viewDidLoad() {
@@ -16,7 +17,7 @@ class ProductListViewController: UIViewController {
         let flowLayout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         collectionView.collectionViewLayout = flowLayout
                
-        loadData { [weak self](result: Result<ProductList, NetworkError>) in
+        dataManager.loadData { [weak self](result: Result<ProductList, NetworkError>) in
             switch result {
             case .success(let data):
                 self?.productListData = data
@@ -32,37 +33,6 @@ class ProductListViewController: UIViewController {
     @IBAction private func switchLayout(_ sender: Any) {
         self.collectionView.reloadData()
     }
-    
-    private func loadData(completionHandler: @escaping (Result<ProductList, NetworkError>) -> Void) {
-        let urlSessionProvider = URLSessionProvider()
-        
-        urlSessionProvider.getData(requestType: .productList(pageNo: 1, items: 20)) { result in
-            switch result {
-            case .success(let data):
-                guard let parsedData: ProductList = self.getParsedData(data: data) else {
-                    return
-                }
-                completionHandler(.success(parsedData))
-            case .failure(_):
-                return completionHandler(.failure(NetworkError.emptyValue))
-            }
-        }
-    }
-    
-    private func getParsedData(data: Data) -> ProductList? {
-        let decoder = Decoder()
-        var parsedData: ProductList? = nil
-
-        let result = decoder.parsePageJSON(data: data)
-        switch result {
-        case .success(let data):
-            parsedData = data
-        case .failure(let error):
-            print(error.localizedDescription)
-        }
-        return parsedData
-    }
-    
 }
 
 extension ProductListViewController: UICollectionViewDataSource {
