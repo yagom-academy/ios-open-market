@@ -14,7 +14,6 @@ final class ProductRegisterViewController: UIViewController {
     private var params: ProductPost.Request.Params?
     private var readyToPost: Bool?
    //MARK: View Life Cycle Method
-    //cancleTouchs
     override func viewDidLoad() {
         readyToPost = false
         super.viewDidLoad()
@@ -133,7 +132,7 @@ final class ProductRegisterViewController: UIViewController {
         return collectionView
     }()
 
-    lazy var productNameTextField: UITextField = {
+    private lazy var productNameTextField: UITextField = {
         var textfield = UITextField()
         textfield.placeholder = "상품명"
         textfield.keyboardType = .default
@@ -143,7 +142,7 @@ final class ProductRegisterViewController: UIViewController {
         return textfield
     }()
     
-    lazy var productPriceTextField: UITextField = {
+    private lazy var productPriceTextField: UITextField = {
         var textfield = UITextField()
         textfield.placeholder = "가격"
         textfield.keyboardType = .numberPad
@@ -153,14 +152,14 @@ final class ProductRegisterViewController: UIViewController {
         return textfield
     }()
     
-    lazy var currencySegmentedControl: UISegmentedControl = {
+    private lazy var currencySegmentedControl: UISegmentedControl = {
         let items: [String] = ["KRW","USD"]
         var segmentedControl = UISegmentedControl(items: items)
         segmentedControl.selectedSegmentIndex = 0
         return segmentedControl
     }()
     
-    lazy var priceSegmentedStackview: UIStackView = {
+    private lazy var priceSegmentedStackview: UIStackView = {
        let stackView = UIStackView(arrangedSubviews: [
        productPriceTextField,
        currencySegmentedControl
@@ -170,7 +169,7 @@ final class ProductRegisterViewController: UIViewController {
         return stackView
     }()
     
-    lazy var discountedProductTextField: UITextField = {
+    private lazy var discountedProductTextField: UITextField = {
         var textfield = UITextField()
         textfield.placeholder = "할인"
         textfield.keyboardType = .numberPad
@@ -180,7 +179,7 @@ final class ProductRegisterViewController: UIViewController {
         return textfield
     }()
     
-    lazy var productStockTextField: UITextField = {
+    private lazy var productStockTextField: UITextField = {
         var textfield = UITextField()
         textfield.placeholder = "재고"
         textfield.keyboardType = .numberPad
@@ -190,7 +189,7 @@ final class ProductRegisterViewController: UIViewController {
         return textfield
     }()
     
-    lazy var textFieldStackView: UIStackView = {
+    private lazy var textFieldStackView: UIStackView = {
        var stackView = UIStackView(
         arrangedSubviews:[
         productNameTextField,

@@ -20,7 +20,6 @@ class ImageCollectionViewCell: UICollectionViewCell {
     
     func updateImage(to newImage: UIImage) {
         self.imageView.image = newImage
-        print("이미지 업데이트")
     }
     
     func layoutImageView() {
