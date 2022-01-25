@@ -59,7 +59,7 @@ extension ProductsCatalogViewController {
     }
 
     @objc func touchUpRegisterButton() {
-        let rootViewController = RegisterProductViewController.init(productIdentification: nil)
+        let rootViewController = RegisterProductViewController.init()
         let navigationController = UINavigationController(rootViewController: rootViewController)
         navigationController.modalPresentationStyle = .fullScreen
         self.present(navigationController, animated: true)
@@ -271,7 +271,7 @@ extension ProductsCatalogViewController: UICollectionViewDelegate {
 
         collectionView.deselectItem(at: indexPath, animated: true)
 
-        let rootViewController = RegisterProductViewController.init(productIdentification: item.identification)
+        let rootViewController = ModifyProductViewController.init(productIdentification: item.identification)
         let navigationController = UINavigationController(rootViewController: rootViewController)
         navigationController.modalPresentationStyle = .fullScreen
         self.present(navigationController, animated: true)
