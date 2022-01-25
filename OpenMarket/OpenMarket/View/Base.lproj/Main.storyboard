@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="1VN-jc-Ozh">
-    <device id="retina6_5" orientation="portrait" appearance="light"/>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="DQ9-xy-wdF">
+    <device id="retina6_0" orientation="portrait" appearance="light"/>
     <accessibilityOverrides dynamicTypePreference="0"/>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="Stack View standard spacing" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -15,11 +16,11 @@
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="ProductPageViewController" customModule="OpenMarket" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="Y3a-M4-mVk">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                             </activityIndicatorView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
@@ -34,7 +35,7 @@
                     <navigationItem key="navigationItem" id="T9E-g4-OZG">
                         <nil key="title"/>
                         <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="26R-04-yGZ">
-                            <rect key="frame" x="141.66666666666666" y="5.6666666666666679" width="130.99999999999997" height="33"/>
+                            <rect key="frame" x="129.66666666666666" y="6" width="130.99999999999997" height="32"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <segments>
                                 <segment title="LIST"/>
@@ -53,7 +54,6 @@
                     <connections>
                         <outlet property="activityIndicator" destination="Y3a-M4-mVk" id="Sxq-SN-YOl"/>
                         <outlet property="segmentedControl" destination="26R-04-yGZ" id="Ojg-oR-KTj"/>
-                        <segue destination="1VN-jc-Ozh" kind="show" identifier="productDetailSegue" id="Gm8-Dw-whL"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -65,37 +65,111 @@
             <objects>
                 <viewController id="1VN-jc-Ozh" customClass="ProductDetailViewController" customModule="OpenMarket" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="afo-zK-YGv">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Jb1-wM-buX" customClass="ImageSlider" customModule="OpenMarket" customModuleProvider="target">
-                                <rect key="frame" x="20" y="196.66666666666663" width="374" height="503"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" systemColor="systemGray3Color"/>
-                            </view>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dRK-1h-659">
+                                <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="XYZ-yr-dua">
+                                        <rect key="frame" x="10" y="0.0" width="370" height="646.33333333333337"/>
+                                        <subviews>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Jb1-wM-buX" customClass="ImageSlider" customModule="OpenMarket" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="0.0" width="370" height="370"/>
+                                                <color key="backgroundColor" systemColor="systemGray3Color"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" secondItem="Jb1-wM-buX" secondAttribute="height" multiplier="1:1" id="3fI-On-LHH"/>
+                                                </constraints>
+                                            </view>
+                                            <stackView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" verticalCompressionResistancePriority="1000" alignment="top" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="THV-Qi-Yfy">
+                                                <rect key="frame" x="0.0" y="378" width="370" height="77"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MacBook Pro" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1RE-s0-B7H">
+                                                        <rect key="frame" x="0.0" y="0.0" width="241.66666666666666" height="20.333333333333332"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="hj0-XJ-9oM">
+                                                        <rect key="frame" x="249.66666666666671" y="0.0" width="120.33333333333334" height="77"/>
+                                                        <subviews>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="남은 수량 : 182" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SHB-sZ-Q2A">
+                                                                <rect key="frame" x="0.0" y="0.0" width="120.33333333333333" height="20.333333333333332"/>
+                                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                                <nil key="textColor"/>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="KRW 2,300,000" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xM7-hf-HGT">
+                                                                <rect key="frame" x="0.0" y="28.333333333333314" width="120.33333333333333" height="20.333333333333329"/>
+                                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                                <color key="textColor" systemColor="systemRedColor"/>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="KRW 2,130,000" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZmC-bd-sCy">
+                                                                <rect key="frame" x="0.0" y="56.666666666666693" width="120.33333333333333" height="20.333333333333336"/>
+                                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                                <nil key="textColor"/>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
+                                                        </subviews>
+                                                    </stackView>
+                                                </subviews>
+                                            </stackView>
+                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="KaG-ME-UJJ">
+                                                <rect key="frame" x="0.0" y="462.99999999999994" width="370" height="183.33333333333331"/>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                                <color key="textColor" systemColor="labelColor"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                            </textView>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstItem="Jb1-wM-buX" firstAttribute="width" relation="lessThanOrEqual" secondItem="XYZ-yr-dua" secondAttribute="width" priority="750" id="wpd-VX-hgc"/>
+                                        </constraints>
+                                    </stackView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="XYZ-yr-dua" firstAttribute="width" secondItem="i1A-GF-r3Z" secondAttribute="width" id="6wR-4r-bL0"/>
+                                    <constraint firstItem="XYZ-yr-dua" firstAttribute="bottom" secondItem="i1A-GF-r3Z" secondAttribute="bottom" id="ESM-na-UF2"/>
+                                    <constraint firstItem="XYZ-yr-dua" firstAttribute="top" secondItem="i1A-GF-r3Z" secondAttribute="top" id="To0-7h-0vK"/>
+                                    <constraint firstItem="XYZ-yr-dua" firstAttribute="leading" secondItem="RMD-DJ-lkE" secondAttribute="leading" constant="10" id="Z4w-te-Iz1"/>
+                                    <constraint firstItem="RMD-DJ-lkE" firstAttribute="trailing" secondItem="XYZ-yr-dua" secondAttribute="trailing" constant="10" id="hjN-ne-Dfg"/>
+                                </constraints>
+                                <viewLayoutGuide key="contentLayoutGuide" id="i1A-GF-r3Z"/>
+                                <viewLayoutGuide key="frameLayoutGuide" id="RMD-DJ-lkE"/>
+                            </scrollView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="hhk-fe-EXy"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="dRK-1h-659" firstAttribute="leading" secondItem="hhk-fe-EXy" secondAttribute="leading" id="03k-FV-n5u"/>
+                            <constraint firstItem="dRK-1h-659" firstAttribute="top" secondItem="afo-zK-YGv" secondAttribute="top" id="8oc-ps-ean"/>
+                            <constraint firstItem="dRK-1h-659" firstAttribute="trailing" secondItem="hhk-fe-EXy" secondAttribute="trailing" id="X6y-aK-t7s"/>
+                            <constraint firstAttribute="bottom" secondItem="dRK-1h-659" secondAttribute="bottom" id="n7e-W7-PEJ"/>
+                        </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="3ue-I5-Qfh"/>
+                    <navigationItem key="navigationItem" id="3ue-I5-Qfh">
+                        <barButtonItem key="rightBarButtonItem" systemItem="action" id="NnY-ik-7k5"/>
+                    </navigationItem>
                     <connections>
                         <outlet property="imageSlider" destination="Jb1-wM-buX" id="iVW-z2-dtF"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GHG-z7-NTz" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1047.8260869565217" y="912.72321428571422"/>
+            <point key="canvasLocation" x="1976.9230769230769" y="912.08530805687201"/>
         </scene>
         <!--상품등록-->
         <scene sceneID="B4G-4S-WtW">
             <objects>
                 <viewController id="B9K-f5-Ghn" customClass="ProductCreateViewController" customModule="OpenMarket" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="nUb-Ci-WE0">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="6eB-Q6-6BE">
-                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
+                                <rect key="frame" x="0.0" y="88" width="390" height="722"/>
                             </activityIndicatorView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="ebF-gb-Y2k"/>
@@ -134,7 +208,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="o2V-h5-5jd" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Pe7-Wy-shb">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <rect key="frame" x="0.0" y="44" width="390" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" systemColor="systemBackgroundColor"/>
                         <navigationBarAppearance key="standardAppearance">
@@ -160,7 +234,7 @@
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="au7-Ai-HBM"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="kls-8u-UFJ">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <rect key="frame" x="0.0" y="44" width="390" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -172,13 +246,37 @@
             </objects>
             <point key="canvasLocation" x="2341" y="125"/>
         </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="D0L-OZ-Z38">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="DQ9-xy-wdF" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="G24-LG-h6E">
+                        <rect key="frame" x="0.0" y="44" width="390" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="1VN-jc-Ozh" kind="relationship" relationship="rootViewController" id="uc0-DV-OxL"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="OiH-aY-or8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1047.6923076923076" y="912.08530805687201"/>
+        </scene>
     </scenes>
     <resources>
+        <systemColor name="labelColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemGray3Color">
             <color red="0.7803921568627451" green="0.7803921568627451" blue="0.80000000000000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemRedColor">
+            <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>
