@@ -98,10 +98,6 @@ extension ImageDetailViewController: UICollectionViewDelegate {
     ) {
         pageControl.currentPage = indexPath.item
     }
-    
-    func indexPathForPreferredFocusedView(in collectionView: UICollectionView) -> IndexPath? {
-        return IndexPath(item: currentPage, section: 0)
-    }
 }
 
 extension ImageDetailViewController: UICollectionViewDelegateFlowLayout {
