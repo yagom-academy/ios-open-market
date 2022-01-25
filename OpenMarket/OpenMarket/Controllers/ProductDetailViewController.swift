@@ -20,6 +20,7 @@ private enum AlertAction {
 class ProductDetailViewController: UIViewController {
     private let productDetailScrollView = ProductDetailScrollView()
     private var productDetail: ProductDetail
+    private let api = APIService()
     
     init(productDetail: ProductDetail) {
         self.productDetail = productDetail
@@ -69,7 +70,9 @@ class ProductDetailViewController: UIViewController {
         let modifyAction = UIAlertAction(title: AlertAction.modify.title, style: .default) { _ in
             self.presentModifyView()
         }
-        let deleteAction = UIAlertAction(title: AlertAction.delete.title, style: .destructive, handler: nil)
+        let deleteAction = UIAlertAction(title: AlertAction.delete.title, style: .destructive) { _ in
+            self.presentDeleteAlert()
+        }
         let cancelAction = UIAlertAction(title: AlertAction.cancel.title, style: .cancel, handler: nil)
         
         [modifyAction, deleteAction, cancelAction].forEach { action in
@@ -83,6 +86,74 @@ class ProductDetailViewController: UIViewController {
         let productModifyViewController = UINavigationController(rootViewController: ProductModifyViewController(productDetail: productDetail))
         productModifyViewController.modalPresentationStyle = .fullScreen
         self.present(productModifyViewController, animated: true, completion: nil)
+    }
+    
+    private func presentDeleteAlert() {
+        let alert = UIAlertController(title: AlertMessage.deleteProduct.title, message: AlertMessage.deleteProduct.message, preferredStyle: .alert)
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+        let confirmAction = UIAlertAction(title: "확인", style: .default) { _ in
+            self.checkSecret(secret: alert.textFields?.first?.text)
+        }
+        alert.addTextField { textField in
+            textField.isSecureTextEntry = true
+            textField.placeholder = "비밀번호를 입력해주세요."
+        }
+        alert.addAction(cancelAction)
+        alert.addAction(confirmAction)
+        
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    private func checkSecret(secret: String?) {
+        guard let secret = secret else {
+            return
+        }
+        let productSecret = ProductSecret(secret: UserInformation.secret)
+        api.retrieveProductSecret(productId: productDetail.id, secret: productSecret) { result in
+            switch result {
+            case .success(let password):
+                DispatchQueue.main.async {
+                    if password == secret {
+                        self.deleteProduct(productId: self.productDetail.id, secret: password)
+                        return
+                    }
+                    self.presentDeleteResultAlert(isSuccess: false)
+                }
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+    
+    private func deleteProduct(productId: Int, secret: String) {
+        api.deleteProduct(productId: productId, secret: secret) { result in
+            switch result {
+            case .success(_):
+                DispatchQueue.main.async {
+                    self.presentDeleteResultAlert(isSuccess: true)
+                    NotificationCenter.default.post(name: .updateProductData, object: nil)
+                }
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+    
+    private func presentDeleteResultAlert(isSuccess: Bool) {
+        var alert: UIAlertController
+        var confirmAction: UIAlertAction
+        if isSuccess {
+            alert = UIAlertController(title: AlertMessage.deleteSuccess.title, message: AlertMessage.deleteSuccess.message, preferredStyle: .alert)
+            confirmAction = UIAlertAction(title: "확인", style: .default) { _ in
+                self.navigationController?.popViewController(animated: true)
+            }
+        } else {
+            alert = UIAlertController(title: AlertMessage.deleteFailure.title, message: AlertMessage.deleteFailure.message, preferredStyle: .alert)
+            confirmAction = UIAlertAction(title: "확인", style: .default, handler: nil)
+        }
+        
+        alert.addAction(confirmAction)
+        self.present(alert, animated: true, completion: nil)
     }
     
     private func addUpdatedDetailNotification() {

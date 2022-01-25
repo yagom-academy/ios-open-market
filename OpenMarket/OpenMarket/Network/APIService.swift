@@ -95,7 +95,7 @@ extension APIService {
         task.resume()
     }
     
-    func retrieveProductSecret(productId: Int, secret: String, completion: @escaping (Result<String, APIError>) -> Void) {
+    func retrieveProductSecret(productId: Int, secret: ProductSecret, completion: @escaping (Result<String, APIError>) -> Void) {
         guard let url = URLCreator.productSecret(id: productId).url else {
             return
         }
@@ -104,7 +104,8 @@ extension APIService {
             return
         }
         
-        let request = URLRequest(url: url, api: .productSecret(body: body, id: UserInformation.vendorId))
+        var request = URLRequest(url: url, api: .productSecret(body: body, id: UserInformation.vendorId))
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         
         let task = dataTask(request: request) { result in
             switch result {
