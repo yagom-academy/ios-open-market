@@ -21,10 +21,7 @@ class ListCell: UICollectionViewCell {
     }
     
     func updateListCell(productData: ProductPreview) {
-        guard let imageURL = URL(string: "\(productData.thumbnail)") else {
-            return
-        }
-        loadImage(url: imageURL) { image in
+        loadImage(url: productData.thumbnail) { image in
             DispatchQueue.main.async {
                 self.thumbnailImageView.image = image
             }
@@ -46,14 +43,24 @@ class ListCell: UICollectionViewCell {
         }
     }
     
-    func loadImage(url: URL, completion: @escaping (UIImage?) -> Void) {
-        let task = URLSession.shared.dataTask(with: url) { data, _, _ in
+    func loadImage(url: String, completion: @escaping (UIImage?) -> Void) {
+        guard let imageURL = URL(string: url) else {
+            return
+        }
+        let thumbnailCache = NSCache<NSString, UIImage>()
+
+        let task = URLSession.shared.dataTask(with: imageURL) { data, _, _ in
             guard let data = data else {
                 completion(nil)
                 return
             }
-            let image = UIImage(data: data)
-            completion(image)
+            if let thumbnailCacheImage = thumbnailCache.object(forKey: url as NSString) {
+                completion(thumbnailCacheImage)
+            } else {
+                let image = UIImage(data: data)
+                thumbnailCache.setObject(image ?? UIImage(), forKey: url as NSString)
+                completion(image)
+            }
         }
         task.resume()
     }
