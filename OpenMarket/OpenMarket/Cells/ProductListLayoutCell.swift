@@ -27,7 +27,12 @@ private extension UIConfigurationState {
 class ProductListLayoutCell: UICollectionViewListCell {
     private var productItem: ProductDetail?
     private lazy var listContentView = UIListContentView(configuration: defaultConfiguration())
-    private var stockLabel = UILabel()
+    private var stockLabel: UILabel = {
+        let label = UILabel()
+        label.numberOfLines = 0
+        return label
+    }()
+    
     private var stockLabelLayouts: [NSLayoutConstraint]?
     
     private func defaultConfiguration() -> UIListContentConfiguration {
@@ -60,12 +65,13 @@ class ProductListLayoutCell: UICollectionViewListCell {
             view.translatesAutoresizingMaskIntoConstraints = false
         }
         
-        listContentView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        stockLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
         
         let stockConstraints = [
             stockLabel.leadingAnchor.constraint(greaterThanOrEqualTo: listContentView.trailingAnchor),
             stockLabel.centerYAnchor.constraint(equalTo: listContentView.centerYAnchor),
-            stockLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: Design.stockTrailingMargin)
+            stockLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: Design.stockTrailingMargin),
+            stockLabel.widthAnchor.constraint(lessThanOrEqualToConstant: contentView.frame.width / 4)
         ]
         
         NSLayoutConstraint.activate([

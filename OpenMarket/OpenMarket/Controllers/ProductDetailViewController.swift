@@ -18,7 +18,7 @@ private enum AlertAction {
 }
 
 class ProductDetailViewController: UIViewController {
-    private let productDetailView = ProductDetailScrollView()
+    private let productDetailScrollView = ProductDetailScrollView()
     private var productDetail: ProductDetail
     
     init(productDetail: ProductDetail) {
@@ -32,6 +32,7 @@ class ProductDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        productDetailScrollView.productImageScrollView.delegate = self
         configUI()
         fetchProductDetail()
     }
@@ -39,14 +40,15 @@ class ProductDetailViewController: UIViewController {
     func configUI() {
         configNavigationBar()
         view.backgroundColor = .white
-        self.view.addSubview(productDetailView)
-        productDetailView.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(productDetailScrollView)
+        productDetailScrollView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            productDetailView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
-            productDetailView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 15),
-            productDetailView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -15),
-            productDetailView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
+            productDetailScrollView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
+            productDetailScrollView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            productDetailScrollView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+            productDetailScrollView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
+            productDetailScrollView.widthAnchor.constraint(equalTo: self.view.widthAnchor)
         ])
     }
     
@@ -70,8 +72,8 @@ class ProductDetailViewController: UIViewController {
     }
     
     func fetchProductDetail() {
-        productDetailView.productNameLabel.text = productDetail.name
-        productDetailView.productStockLabel.attributedText = AttributedTextCreator.createStockText(product: productDetail)
+        productDetailScrollView.productNameLabel.text = productDetail.name
+        productDetailScrollView.productStockLabel.attributedText = AttributedTextCreator.createStockText(product: productDetail)
         
         guard let price = productDetail.price.formattedToDecimal,
               let bargainPrice = productDetail.bargainPrice.formattedToDecimal else {
@@ -79,13 +81,45 @@ class ProductDetailViewController: UIViewController {
         }
         
         if productDetail.discountedPrice == 0 {
-            productDetailView.productPriceLabel.isHidden = true
+            productDetailScrollView.productPriceLabel.isHidden = true
         } else {
-            productDetailView.productPriceLabel.isHidden = false
-            productDetailView.productPriceLabel.attributedText = NSMutableAttributedString.strikeThroughStyle(string: "\(productDetail.currency.unit) \(price)")
+            productDetailScrollView.productPriceLabel.isHidden = false
+            productDetailScrollView.productPriceLabel.attributedText = NSMutableAttributedString.strikeThroughStyle(string: "\(productDetail.currency.unit) \(price)")
         }
         
-        productDetailView.productBargainPriceLabel.attributedText = NSMutableAttributedString.normalStyle(string: "\(productDetail.currency.unit) \(bargainPrice)")
-        productDetailView.productDescriptionTextView.text = productDetail.description
+        productDetailScrollView.productBargainPriceLabel.attributedText = NSMutableAttributedString.normalStyle(string: "\(productDetail.currency.unit) \(bargainPrice)")
+        productDetailScrollView.productDescriptionTextView.text = productDetail.description
+        addProductImageView(from: productDetail.images)
+    }
+    
+    func addProductImageView(from images: [ProductImage]?) {
+        guard let images = images else {
+            return
+        }
+        
+        let imageWidth: CGFloat = view.frame.width
+        
+        for index in 0..<images.count {
+            let imageView = UIImageView()
+            let xPosition = imageWidth * CGFloat(index)
+            imageView.image = ImageLoader.loadImage(from: images[index].url)
+            imageView.frame = CGRect(x: xPosition, y: 0, width: imageWidth, height: view.frame.height * 0.4)
+            imageView.contentMode = .scaleAspectFill
+            productDetailScrollView.productImageScrollView.addSubview(imageView)
+        }
+        
+        productDetailScrollView.productImageScrollView.contentSize.width = CGFloat(images.count) * imageWidth
+        productDetailScrollView.productImagePageLabel.text = "1/\(Int(productDetailScrollView.productImageScrollView.contentSize.width / imageWidth))"
+    }
+}
+
+extension ProductDetailViewController: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let contentMaxWidth = Int(productDetailScrollView.productImageScrollView.contentSize.width)
+        let imageWidth = Int(view.frame.width)
+        let currentXPosition = Int(productDetailScrollView.productImageScrollView.contentOffset.x)
+        let currentPage = (currentXPosition / imageWidth) + 1
+        let totalPage = Int(contentMaxWidth / imageWidth)
+        productDetailScrollView.productImagePageLabel.text = "\(currentPage)/\(totalPage)"
     }
 }

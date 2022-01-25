@@ -15,6 +15,8 @@ class ProductDetailScrollView: UIScrollView {
         stackView.axis = .vertical
         stackView.distribution = .fill
         stackView.spacing = 10
+        stackView.isLayoutMarginsRelativeArrangement = true
+        stackView.layoutMargins = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 15)
         return stackView
     }()
     
@@ -22,6 +24,7 @@ class ProductDetailScrollView: UIScrollView {
         let scrollView = UIScrollView()
         scrollView.isPagingEnabled = true
         scrollView.showsHorizontalScrollIndicator = false
+        scrollView.bounces = false
         return scrollView
     }()
     
@@ -92,18 +95,25 @@ class ProductDetailScrollView: UIScrollView {
     func configUI() {
         configProductNameAndStockStackView()
         configProductPriceStackView()
-        [productImageScrollView, productImagePageLabel, productNameAndStockStackView, productPriceStackView, productDescriptionTextView].forEach { view in
+        [productImagePageLabel, productNameAndStockStackView, productPriceStackView, productDescriptionTextView].forEach { view in
             productDetailStackView.addArrangedSubview(view)
         }
         
+        self.addSubview(productImageScrollView)
         self.addSubview(productDetailStackView)
+        productImageScrollView.translatesAutoresizingMaskIntoConstraints = false
         productDetailStackView.translatesAutoresizingMaskIntoConstraints = false
-
+        
         NSLayoutConstraint.activate([
-            productDetailStackView.topAnchor.constraint(equalTo: self.topAnchor),
+            productImageScrollView.topAnchor.constraint(equalTo: self.topAnchor),
+            productImageScrollView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            productImageScrollView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            productImageScrollView.heightAnchor.constraint(equalToConstant: 300),
+            
+            productDetailStackView.topAnchor.constraint(equalTo: productImageScrollView.bottomAnchor),
             productDetailStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            productDetailStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
             productDetailStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            productDetailStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
             productDetailStackView.widthAnchor.constraint(equalTo: self.widthAnchor)
         ])
     }
