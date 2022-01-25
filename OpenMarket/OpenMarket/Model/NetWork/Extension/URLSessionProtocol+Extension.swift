@@ -12,6 +12,7 @@ extension URLSessionProtocol {
         guard let url = requester.url else {
             throw APIError.URLConversionFail
         }
+        
         var request = URLRequest(url: url)
         request.httpMethod = requester.httpMethod.rawValue
         

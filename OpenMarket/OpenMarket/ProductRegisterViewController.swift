@@ -1,35 +1,42 @@
 import UIKit
 
-class ProductRegisterViewController: UIViewController {
+final class ProductRegisterViewController: UIViewController {
     
-    enum ImageSection: Hashable {
+    @frozen enum ImageSection: Hashable {
         case main
     }
     //MARK: Property
-    var imageDataSource: UICollectionViewDiffableDataSource<ImageSection,UIImage>?
-    var imagePicker = UIImagePickerController()
-    var images: [UIImage] = []
-    var registerImage = RegisterImageView()
-    let postManager = PostManager()
-    var params: ProductPost.Request.Params?
-    var readyToPost: Bool?
-    //MARK: View Life Cycle Method
+    private var imageDataSource: UICollectionViewDiffableDataSource<ImageSection,UIImage>?
+    private var imagePicker = UIImagePickerController()
+    private var images: [UIImage] = []
+    private var registerImage = RegisterImageView()
+    private let postManager = PostManager()
+    private var params: ProductPost.Request.Params?
+    private var readyToPost: Bool?
+   //MARK: View Life Cycle Method
+    //cancleTouchs
     override func viewDidLoad() {
         readyToPost = false
         super.viewDidLoad()
         view.backgroundColor = .white
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(dismissKey))
+        view.addGestureRecognizer(gesture)
+        gesture.cancelsTouchesInView = true
         imagePicker.delegate = self
         postManager.delegate = self
+        
         configureCellDataSource()
+        
         addSubviews()
         configureNavigationItem()
         configureUIItemLayouts()
         layoutMainVerticalScrollView()
-        touchUpRegisterImage()
+        
+        addTargetToRegisterImage()
     }
     //MARK: Method
     private func configureNavigationItem() {
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(dismissModal))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(dismissRegisterView))
         navigationItem.title = "상품수정"
         navigationItem.rightBarButtonItem = UIBarButtonItem(
             barButtonSystemItem: .add,
@@ -38,7 +45,11 @@ class ProductRegisterViewController: UIViewController {
         )
     }
     
-    func checkReadyToPost() {
+    private func addTargetToRegisterImage() {
+        registerImage.addIndicaterButton.addTarget(nil, action: #selector(updateImage), for: .touchUpInside)
+    }
+    
+    private func checkReadyToPost() {
         if productNameTextField.text?.count ?? .zero < 4 {
             alertFailure(state: .lessWord)
             return
@@ -65,24 +76,6 @@ class ProductRegisterViewController: UIViewController {
         }
         readyToPost = true
     }
-    //MARK: Action Method 
-    @objc private func dismissModal() {
-        self.dismiss(animated: true, completion: nil)
-    }
-    
-    @objc private func post() {
-        makeParams()
-        givePostComponents()
-        checkReadyToPost()
-        
-        if readyToPost ?? false {
-            postManager.makeMultiPartFormData()
-            alertSucess(state: .post) {
-            self.dismiss(animated: true, completion: nil)
-            }
-        }
-    }
-   
     //MARK: Configure CollectionView
     private func makeImageHorizontalLayout() -> UICollectionViewLayout {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
@@ -212,15 +205,15 @@ class ProductRegisterViewController: UIViewController {
         return stackView
     }()
     
-    let textView: UITextView = {
+    private let textView: UITextView = {
         var textView = UITextView(frame: .zero)
         textView.backgroundColor = .white
         textView.insertText("상품의 정보를 입력하세요", alternatives: [""], style: .none)
         return textView
     }()
     //MARK: Action Method
-    func touchUpRegisterImage() {
-        registerImage.addIndicaterButton.addTarget(nil, action: #selector(updateImage), for: .touchUpInside)
+    @objc private func dismissKey() {
+        self.mainScrollView.endEditing(true)
     }
     
     @objc private func updateImage() {
@@ -230,6 +223,24 @@ class ProductRegisterViewController: UIViewController {
             self.present(self.imagePicker, animated: true, completion: nil)
         }
     }
+    
+    @objc private func dismissRegisterView() {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    @objc private func post() {
+        makeParams()
+        givePostComponents()
+        checkReadyToPost()
+        
+        if readyToPost ?? false {
+            postManager.makeMultiPartFormData()
+            alertSucess(state: .post) {
+            self.dismiss(animated: true, completion: nil)
+            }
+        }
+    }
+   
     //MARK: AutoLayout
     private func addSubviews() {
         view.addSubview(mainScrollView)
@@ -418,7 +429,6 @@ extension ProductRegisterViewController: PostManagerDelegate {
         )
     }
 
-    
     func givePostComponents() {
         guard let params = params else {
             return

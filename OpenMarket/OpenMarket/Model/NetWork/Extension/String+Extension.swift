@@ -35,8 +35,10 @@ extension String {
         guard let number = Double(self) else {
             return nil
         }
+        
         let numberformatter = NumberFormatter()
         numberformatter.numberStyle = .decimal
+        
         return numberformatter.string(from: NSNumber(value: number))
     }
 }

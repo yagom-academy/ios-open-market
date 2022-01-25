@@ -4,7 +4,6 @@ import UIKit
 class PostManager {
     
     var delegate: PostManagerDelegate?
-    
     var postParams: ProductPost.Request.Params?
     var postImages: [UIImage]?
     
@@ -23,15 +22,16 @@ class PostManager {
         }
         
         var requester = ProductPostRequester(params: postParams, images: postImages)
-        
         let body = requester.createBody(productRegisterInformation: postParams, images: postImages, boundary: requester.boundary ?? "")
         requester.httpBody = body
         
         URLSession.shared.request(requester: requester) { result in
             switch result {
             case .success(let data):
+            //TODO: - storage를 업데이트 시켜주고 Page화면에 Alert
                 print("성공")
             case .failure(let error):
+            //TODO: - Register화면에 통신이 실패했다고 Alert
                 print("실패")
             }
         }
@@ -39,6 +39,5 @@ class PostManager {
 }
 
 protocol PostManagerDelegate {
-//    var images: [UIImage] { get set }
-    //서로 소통하는 메서드들이 있다
+
 }

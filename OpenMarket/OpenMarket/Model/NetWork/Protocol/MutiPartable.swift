@@ -4,7 +4,6 @@ import UIKit
 protocol MultiPartable { }
 
 extension MultiPartable {
-    
     func generateBoundary() -> String {
         return "\(UUID().uuidString)"
     }
@@ -19,8 +18,10 @@ extension MultiPartable {
         body.append(convertDataToMultiPartForm(value: data, boundary: boundary))
         
         images.forEach { image in
-            guard let data = image.pngData() else { return }
-            body.append(convertFileToMultiPartForm(fileName: "\(UUID().uuidString).png", fileData: data, using: boundary))
+            guard let data = image.pngData() else {
+                return
+            }
+            body.append(convertImageToMultiPartForm(fileName: "\(UUID().uuidString).png", fileData: data, using: boundary))
         }
         
         body.appendString("--\(boundary)--\r\n")
@@ -39,7 +40,7 @@ extension MultiPartable {
         return data
     }
     
-    func convertFileToMultiPartForm(fileName: String, fileData: Data, using boundary: String) -> Data {
+    func convertImageToMultiPartForm(fileName: String, fileData: Data, using boundary: String) -> Data {
         var data: Data = Data()
         data.appendString("--\(boundary)\r\n")
         data.appendString("Content-Disposition: form-data; name=\"images\"; filename=\"\(fileName)\"\r\n")
