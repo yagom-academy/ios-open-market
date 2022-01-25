@@ -12,8 +12,10 @@ class ProductRegisterViewController: UIViewController {
     var registerImage = RegisterImageView()
     let postManager = PostManager()
     var params: ProductPost.Request.Params?
+    var readyToPost: Bool?
     //MARK: View Life Cycle Method
     override func viewDidLoad() {
+        readyToPost = false
         super.viewDidLoad()
         view.backgroundColor = .white
         imagePicker.delegate = self
@@ -39,8 +41,40 @@ class ProductRegisterViewController: UIViewController {
     @objc private func post() {
         makeParams()
         givePostComponents()
-        postManager.makeMultiPartFormData()
-        self.dismiss(animated: true, completion: nil)
+        checkReadyToPost()
+        if readyToPost ?? false {
+            postManager.makeMultiPartFormData()
+            alertSucess(state: .post) {
+            self.dismiss(animated: true, completion: nil)
+            }
+        }
+    }
+    func checkReadyToPost() {
+        if productNameTextField.text?.count ?? .zero < 4 {
+            alertFailure(state: .lessWord)
+            return
+        }
+        
+        if productStockTextField.text == nil {
+            alertFailure(state: .lessWord)
+            return
+        }
+        
+        if textView.text.count < 11 {
+            alertFailure(state: .lessWord)
+            return
+        }
+        
+        if images.isEmpty {
+            alertFailure(state: .NoImage)
+            return
+        }
+        
+        if params == nil {
+            alertFailure(state: .NoParams)
+            return
+        }
+        readyToPost = true
     }
     //MARK: Configure CollectionView
     private func makeImageHorizontalLayout() -> UICollectionViewLayout {
@@ -280,7 +314,7 @@ extension ProductRegisterViewController: UIImagePickerControllerDelegate, UINavi
        } else if let possibleImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
            newImage = possibleImage
        }
-        guard let resizedImage = newImage?.jpegData(compressionQuality: 0.01) else {
+        guard let resizedImage = newImage?.jpegData(compressionQuality: 0.000) else {
             return
         }
         guard let image = UIImage(data: resizedImage) else {
@@ -291,6 +325,48 @@ extension ProductRegisterViewController: UIImagePickerControllerDelegate, UINavi
         
         imagePicker.dismiss(animated: true, completion: nil)
        }
+}
+    //MARK: - Alert
+extension ProductRegisterViewController {
+    
+    enum PostMessage {
+        enum Failure {
+            case lessWord
+            case NoImage
+            case NoParams
+            
+            var description: String {
+                switch self {
+                case .lessWord:
+                    return "글자수를 확인하세요."
+                case .NoImage:
+                    return "이미지를 1개 이상 등록해주세요."
+                case .NoParams:
+                    return "이미지를 1개 이상 등록해주세요."
+                }
+            }
+        }
+        enum Suceess {
+            case post
+            
+            var description: String {
+                switch self {
+                case .post:
+                    return "상품이 등록되었습니다."
+                }
+            }
+        }
+}
+    func alertFailure(state: PostMessage.Failure) {
+        let alert = UIAlertController(title: "상품등록 실패", message: state.description, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .default))
+        self.present(alert, animated: true, completion: nil)
+    }
+    func alertSucess(state: PostMessage.Suceess, completion: @escaping () -> Void) {
+        let alert = UIAlertController(title: "상품등록 실패", message: state.description, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .default))
+            self.present(alert, animated: true, completion: nil)
+}
 }
     
 extension ProductRegisterViewController: PostManagerDelegate {
