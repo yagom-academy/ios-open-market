@@ -135,39 +135,47 @@ class DetailViewController: UIViewController {
         }
     }
     
-    @IBAction func tappedEditButton(_ sendor: UIButton) {
+    @IBAction private func tappedEditButton(_ sendor: UIButton) {
         showActionSheet { _ in
             self.showAlertPasswordInput { secret in
-                self.requestModification(secret: secret) { isSuccess in
-                    if isSuccess {
-                        DispatchQueue.main.async {
-                            self.performSegue(
-                                withIdentifier: SegueIdentifier.modifiyView,
-                                sender: (self.data, secret)
-                            )
-                        }
-                    } else {
-                        DispatchQueue.main.async {
-                            self.showAlert(message: AlertMessage.wrongPassword)
-                        }
-                    }
-                }
+                self.modifyAction(secret)
             }
         } deleteHandler: { _ in
             self.showAlertPasswordInput { secret in
-                self.requestDelete(secret: secret) { isSuccess in
-                    if isSuccess {
-                        DispatchQueue.main.async {
-                            self.showAlert(message: "삭제처리가 완료되었습니다.") {
-                                NotificationCenter.default.post(name: .updateMain, object: nil)
-                                self.navigationController?.popViewController(animated: true)
-                            }
-                        }
-                    } else {
-                        DispatchQueue.main.async {
-                            self.showAlert(message: AlertMessage.wrongPassword)
-                        }
+                self.deleteAction(secret)
+            }
+        }
+    }
+    
+    private func modifyAction(_ secret: String) {
+        self.requestModification(secret: secret) { isSuccess in
+            if isSuccess {
+                DispatchQueue.main.async {
+                    self.performSegue(
+                        withIdentifier: SegueIdentifier.modifiyView,
+                        sender: (self.data, secret)
+                    )
+                }
+            } else {
+                DispatchQueue.main.async {
+                    self.showAlert(message: AlertMessage.wrongPassword)
+                }
+            }
+        }
+    }
+    
+    private func deleteAction(_ secret: String) {
+        self.requestDelete(secret: secret) { isSuccess in
+            if isSuccess {
+                DispatchQueue.main.async {
+                    self.showAlert(message: AlertMessage.CompleteProductdelete) {
+                        NotificationCenter.default.post(name: .updateMain, object: nil)
+                        self.navigationController?.popViewController(animated: true)
                     }
+                }
+            } else {
+                DispatchQueue.main.async {
+                    self.showAlert(message: AlertMessage.wrongPassword)
                 }
             }
         }
@@ -289,7 +297,6 @@ extension DetailViewController: UICollectionViewDataSource {
 }
 
 extension DetailViewController: UICollectionViewDelegateFlowLayout {
-    
     func collectionView(
         _ collectionView: UICollectionView,
         layout collectionViewLayout: UICollectionViewLayout,

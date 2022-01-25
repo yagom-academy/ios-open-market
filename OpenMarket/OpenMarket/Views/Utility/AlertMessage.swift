@@ -20,4 +20,5 @@ enum AlertMessage {
     static let maximumDescriptionCount = "상품 내용의 글자수가\n1000글자를 초과하였습니다."
     static let completeProductRegistration = "상품 등록이 완료되었습니다"
     static let completeProductModification = "상품 수정이 완료되었습니다"
+    static let CompleteProductdelete = "삭제처리가 완료되었습니다."
 }
