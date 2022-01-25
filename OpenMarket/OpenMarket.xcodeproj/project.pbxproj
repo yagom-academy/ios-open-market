@@ -41,6 +41,7 @@
 		FB73D902278D7E4D0063E15A /* URLManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53661E68278D724B003BB6DA /* URLManager.swift */; };
 		FB95741E278C119000B1E7D2 /* URLSessionError.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB95741D278C119000B1E7D2 /* URLSessionError.swift */; };
 		FBF225E32796B33D00DA8161 /* ListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBF225E12796B33D00DA8161 /* ListCollectionViewCell.swift */; };
+		FBFB49F8279FC70100759706 /* APIManageable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBFB49F7279FC70100759706 /* APIManageable.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -82,6 +83,7 @@
 		FB52A741279850FB00A8A126 /* CALayer+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CALayer+extension.swift"; sourceTree = "<group>"; };
 		FB95741D278C119000B1E7D2 /* URLSessionError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionError.swift; sourceTree = "<group>"; };
 		FBF225E12796B33D00DA8161 /* ListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCollectionViewCell.swift; sourceTree = "<group>"; };
+		FBFB49F7279FC70100759706 /* APIManageable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManageable.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -161,6 +163,7 @@
 			children = (
 				FB2CEABD2783E5F200DB75DF /* Model */,
 				53DA6EDF278F1967005993D1 /* View */,
+				FBFB49F9279FC70E00759706 /* Protocol */,
 				5310A06427994D2A00E93FC5 /* Controller */,
 				FB52A73E2798509600A8A126 /* Extension */,
 				FB95741F278C119500B1E7D2 /* Error */,
@@ -214,6 +217,14 @@
 				53A8326A278C666200448699 /* ParserError.swift */,
 			);
 			path = Error;
+			sourceTree = "<group>";
+		};
+		FBFB49F9279FC70E00759706 /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				FBFB49F7279FC70100759706 /* APIManageable.swift */,
+			);
+			path = Protocol;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -348,6 +359,7 @@
 				FB2CEABC2783E54800DB75DF /* ProductList.swift in Sources */,
 				FB52A742279850FC00A8A126 /* CALayer+extension.swift in Sources */,
 				FB2CEAE22786D62800DB75DF /* HTTPMethod.swift in Sources */,
+				FBFB49F8279FC70100759706 /* APIManageable.swift in Sources */,
 				537707E127985974008B6665 /* GridCollectionViewCell.swift in Sources */,
 				53A8326B278C666200448699 /* ParserError.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,

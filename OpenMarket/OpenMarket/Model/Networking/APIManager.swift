@@ -1,9 +1,9 @@
 import Foundation
 
-class APIManager {
+class APIManager: APIManageable {
     let successRange = 200..<300
     
-    private func request(_ url: URL, _ httpMethod: String) -> URLRequest {
+    func request(_ url: URL, _ httpMethod: String) -> URLRequest {
         var request = URLRequest(url: url)
         request.httpMethod = httpMethod
         
@@ -17,7 +17,7 @@ class APIManager {
         }
         
         let request = request(url, HTTPMethod.get)
- 
+        
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             guard error == nil else {
                 completionHandler(.failure(.requestFail))
@@ -59,6 +59,22 @@ class APIManager {
         performDataTask(with: request, completionHandler)
     }
 }
+
+
+
+//class Toni: APIManageable {
+//    var shouldFail: Bool = false
+//
+//    func requestProductList(pageNumber: Int, itemsPerPage: Int, completionHandler: @escaping (Result<ProductList, Error>) -> Void) {
+//        if shouldFail {
+//
+//        } else {
+//
+//        }
+//    }
+//
+//
+//}
 
 extension APIManager {
     func performDataTask<Element: Decodable>(with request: URLRequest, _ completionHandler: @escaping (Result<Element, Error>) -> Void) {

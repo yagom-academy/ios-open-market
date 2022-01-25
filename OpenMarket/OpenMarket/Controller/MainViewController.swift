@@ -4,6 +4,18 @@ class MainViewController: UIViewController {
     private enum Section: CaseIterable {
         case product
     }
+    
+    let api: APIManageable
+    
+    init(api: APIManageable) {
+        self.api = api
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     // MARK: - Properties
     @IBOutlet private weak var segment: LayoutSegmentedControl!
     @IBOutlet private weak var listCollectionView: UICollectionView!
@@ -38,7 +50,6 @@ class MainViewController: UIViewController {
     }
     
     private func getProductData() {
-        let api = APIManager()
         api.requestProductList(pageNumber: 1, itemsPerPage: 20) { result in
             switch result {
             case .success(let data):
@@ -57,7 +68,6 @@ class MainViewController: UIViewController {
         }
         
         listDataSource = UICollectionViewDiffableDataSource<Section, ProductInformation>(collectionView: listCollectionView, cellProvider: { (collectionView, indexPath, product) -> ListCollectionViewCell in
-            
             let cell = collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: product)
             
             return cell
