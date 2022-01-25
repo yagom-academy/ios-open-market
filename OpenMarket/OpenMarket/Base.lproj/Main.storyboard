@@ -260,43 +260,55 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="EmB-rA-ao2" userLabel="Regist StackView">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="812"/>
                                         <subviews>
-                                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gYF-RW-2Pn" userLabel="Image ScrollView">
+                                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Skb-MQ-X85" userLabel="Post Image List Stack View">
                                                 <rect key="frame" x="0.0" y="0.0" width="414" height="125"/>
                                                 <subviews>
-                                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Skb-MQ-X85" userLabel="Post Image List Stack View">
-                                                        <rect key="frame" x="0.0" y="0.0" width="414" height="125"/>
-                                                        <subviews>
-                                                            <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mSG-jm-5lP">
-                                                                <rect key="frame" x="0.0" y="0.0" width="125" height="125"/>
-                                                                <color key="backgroundColor" systemColor="systemGray5Color"/>
-                                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                                                <state key="normal" title=" ">
-                                                                    <imageReference key="image" image="plus" catalog="system" symbolScale="large"/>
-                                                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" weight="bold"/>
-                                                                </state>
-                                                            </button>
-                                                            <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" translatesAutoresizingMaskIntoConstraints="NO" id="Zdh-mQ-SXD" userLabel="Post Images StackView">
-                                                                <rect key="frame" x="125" y="0.0" width="289" height="125"/>
-                                                            </stackView>
-                                                        </subviews>
-                                                        <constraints>
-                                                            <constraint firstItem="mSG-jm-5lP" firstAttribute="trailing" secondItem="Skb-MQ-X85" secondAttribute="leading" constant="125" id="V4o-Tx-ATm"/>
-                                                        </constraints>
-                                                    </stackView>
+                                                    <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mSG-jm-5lP">
+                                                        <rect key="frame" x="0.0" y="0.0" width="125" height="125"/>
+                                                        <color key="backgroundColor" systemColor="systemGray5Color"/>
+                                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                        <state key="normal" title=" ">
+                                                            <imageReference key="image" image="plus" catalog="system" symbolScale="large"/>
+                                                            <preferredSymbolConfiguration key="preferredSymbolConfiguration" weight="bold"/>
+                                                        </state>
+                                                        <connections>
+                                                            <action selector="hitPostImageButton:" destination="bSo-iR-hiR" eventType="touchUpInside" id="cIA-l6-YfO"/>
+                                                        </connections>
+                                                    </button>
+                                                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Yv0-NP-CzZ">
+                                                        <rect key="frame" x="125" y="0.0" width="289" height="125"/>
+                                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                        <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="R4V-NQ-Zx3">
+                                                            <size key="itemSize" width="128" height="128"/>
+                                                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                        </collectionViewFlowLayout>
+                                                        <cells>
+                                                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ProductImageCell" id="y3E-fo-0fM" customClass="ProductImageCell" customModule="OpenMarket" customModuleProvider="target">
+                                                                <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="b7T-uk-0Vu">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                                                    <autoresizingMask key="autoresizingMask"/>
+                                                                    <subviews>
+                                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="s1u-MC-OSL">
+                                                                            <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                        </imageView>
+                                                                    </subviews>
+                                                                </collectionViewCellContentView>
+                                                                <connections>
+                                                                    <outlet property="previewImageView" destination="s1u-MC-OSL" id="E9G-wr-kaf"/>
+                                                                </connections>
+                                                            </collectionViewCell>
+                                                        </cells>
+                                                    </collectionView>
                                                 </subviews>
                                                 <constraints>
-                                                    <constraint firstItem="Skb-MQ-X85" firstAttribute="trailing" secondItem="gYF-RW-2Pn" secondAttribute="trailing" id="079-T0-3cT"/>
-                                                    <constraint firstItem="Skb-MQ-X85" firstAttribute="leading" secondItem="gYF-RW-2Pn" secondAttribute="leading" id="AVZ-wi-Tfv"/>
-                                                    <constraint firstAttribute="height" constant="125" id="XvN-7I-bfW"/>
-                                                    <constraint firstItem="Skb-MQ-X85" firstAttribute="top" secondItem="gYF-RW-2Pn" secondAttribute="top" id="fg5-Ls-lvk"/>
-                                                    <constraint firstItem="Skb-MQ-X85" firstAttribute="width" secondItem="1qR-Bk-26z" secondAttribute="width" id="hJb-Lg-OQd"/>
-                                                    <constraint firstItem="Skb-MQ-X85" firstAttribute="bottom" secondItem="1qR-Bk-26z" secondAttribute="bottom" id="im5-p1-wNs"/>
-                                                    <constraint firstItem="Zdh-mQ-SXD" firstAttribute="height" secondItem="gYF-RW-2Pn" secondAttribute="height" id="tv4-8Q-Pkb"/>
-                                                    <constraint firstItem="Skb-MQ-X85" firstAttribute="bottom" secondItem="gYF-RW-2Pn" secondAttribute="bottom" id="zgh-yV-CpT"/>
+                                                    <constraint firstItem="mSG-jm-5lP" firstAttribute="trailing" secondItem="Skb-MQ-X85" secondAttribute="leading" constant="125" id="kPI-Of-eVq"/>
                                                 </constraints>
-                                                <viewLayoutGuide key="contentLayoutGuide" id="cNf-ER-j6s"/>
-                                                <viewLayoutGuide key="frameLayoutGuide" id="1qR-Bk-26z"/>
-                                            </scrollView>
+                                            </stackView>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="b7M-gt-U7l" userLabel="Name">
                                                 <rect key="frame" x="0.0" y="135" width="414" height="34"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -338,13 +350,16 @@
                                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                             </textView>
                                         </subviews>
+                                        <constraints>
+                                            <constraint firstItem="Skb-MQ-X85" firstAttribute="bottom" secondItem="EmB-rA-ao2" secondAttribute="top" constant="125" id="JK3-6d-Q0P"/>
+                                        </constraints>
                                     </stackView>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="EmB-rA-ao2" firstAttribute="top" secondItem="Rlh-SA-k5J" secondAttribute="top" id="CbV-Xz-Ibp"/>
                                     <constraint firstItem="EmB-rA-ao2" firstAttribute="trailing" secondItem="qv3-7E-bpe" secondAttribute="trailing" id="Vpg-e7-a2J"/>
                                     <constraint firstItem="EmB-rA-ao2" firstAttribute="bottom" secondItem="Rlh-SA-k5J" secondAttribute="bottom" id="dLC-tu-a5n"/>
-                                    <constraint firstItem="EmB-rA-ao2" firstAttribute="width" secondItem="Rlh-SA-k5J" secondAttribute="width" multiplier="27.4034" id="hNB-Dw-ulL"/>
+                                    <constraint firstItem="EmB-rA-ao2" firstAttribute="width" secondItem="Rlh-SA-k5J" secondAttribute="width" id="hNB-Dw-ulL"/>
                                     <constraint firstItem="EmB-rA-ao2" firstAttribute="leading" secondItem="qv3-7E-bpe" secondAttribute="leading" id="lN1-Do-78A"/>
                                 </constraints>
                                 <viewLayoutGuide key="contentLayoutGuide" id="Rlh-SA-k5J"/>
@@ -376,7 +391,7 @@
                         <outlet property="currencySwitchController" destination="bda-k4-KGn" id="N3O-Xo-kqN"/>
                         <outlet property="discountedPriceTextField" destination="7Uj-hl-NKN" id="jg4-Oe-zu8"/>
                         <outlet property="postImageButton" destination="mSG-jm-5lP" id="FsS-IX-BXx"/>
-                        <outlet property="postImageListStackView" destination="Zdh-mQ-SXD" id="hwP-Rm-k77"/>
+                        <outlet property="postImageListCollectionView" destination="Yv0-NP-CzZ" id="4iG-Or-NMf"/>
                         <outlet property="productNameTextField" destination="b7M-gt-U7l" id="09U-9v-MrX"/>
                         <outlet property="productNavigationBar" destination="AY1-aU-Kan" id="IeC-M7-bw5"/>
                         <outlet property="productPriceTextField" destination="cY1-sL-bsT" id="6ao-jO-Ai6"/>
@@ -385,7 +400,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="t1G-E1-y1e" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1430" y="867"/>
+            <point key="canvasLocation" x="1428.985507246377" y="866.51785714285711"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="eRG-8h-4ib">
@@ -523,7 +538,7 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="Ith-jF-9GL"/>
-        <segue reference="i8I-MP-1ja"/>
+        <segue reference="7JL-hI-E8V"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="chevron.right" catalog="system" width="96" height="128"/>

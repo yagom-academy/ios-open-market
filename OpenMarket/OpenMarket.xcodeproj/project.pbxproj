@@ -34,6 +34,7 @@
 		48C69916278AF410002EF7D1 /* ProductListRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48C69915278AF410002EF7D1 /* ProductListRequest.swift */; };
 		48C69918278C1B83002EF7D1 /* RegistProductRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48C69917278C1B83002EF7D1 /* RegistProductRequest.swift */; };
 		48C78F702797FB20002D0E6A /* GridCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48C78F6F2797FB20002D0E6A /* GridCell.swift */; };
+		48C8522427A011B600D5511F /* ProductImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48C8522327A011B600D5511F /* ProductImageCell.swift */; };
 		48D6C1AD2799AB2E00A59513 /* ListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48D6C1AC2799AB2E00A59513 /* ListCell.swift */; };
 		48F3585A2788103100224BFC /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48F358592788103100224BFC /* NetworkError.swift */; };
 		48F358722788192900224BFC /* MockURLSessionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48F358712788192900224BFC /* MockURLSessionTests.swift */; };
@@ -83,6 +84,7 @@
 		48C69915278AF410002EF7D1 /* ProductListRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductListRequest.swift; sourceTree = "<group>"; };
 		48C69917278C1B83002EF7D1 /* RegistProductRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistProductRequest.swift; sourceTree = "<group>"; };
 		48C78F6F2797FB20002D0E6A /* GridCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridCell.swift; sourceTree = "<group>"; };
+		48C8522327A011B600D5511F /* ProductImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductImageCell.swift; sourceTree = "<group>"; };
 		48D6C1AC2799AB2E00A59513 /* ListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCell.swift; sourceTree = "<group>"; };
 		48F358592788103100224BFC /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 		48F3586F2788192900224BFC /* OpenMarketTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenMarketTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -123,6 +125,7 @@
 				48D6C1AC2799AB2E00A59513 /* ListCell.swift */,
 				481F2533279AF9C8002412AF /* ProductDetailViewController.swift */,
 				481F2531279AD91C002412AF /* EditProductViewController.swift */,
+				48C8522327A011B600D5511F /* ProductImageCell.swift */,
 			);
 			path = "View Controller";
 			sourceTree = "<group>";
@@ -370,6 +373,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				481F2532279AD91C002412AF /* EditProductViewController.swift in Sources */,
+				48C8522427A011B600D5511F /* ProductImageCell.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ProductListViewController.swift in Sources */,
 				48C69912278AF0BE002EF7D1 /* SecretRequest.swift in Sources */,
 				48B0E7F7279BEA7C00820166 /* RegistImage.swift in Sources */,
