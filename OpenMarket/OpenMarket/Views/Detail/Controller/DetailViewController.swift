@@ -215,7 +215,8 @@ class DetailViewController: UIViewController {
         switch requestResult {
         case .success(let request):
             return request
-        case .failure:
+        case .failure(let error):
+            print(error.localizedDescription)
             return nil
         }
         
@@ -223,9 +224,7 @@ class DetailViewController: UIViewController {
     
     private func requestModification(secret: String, completion: @escaping (Bool) -> Void) {
         guard let request = requestModify(secert: secret) else {
-            showAlert(message: Message.badRequest) {
-                self.dismiss(animated: true)
-            }
+            self.dismiss(animated: true)
             return
         }
         let networkManager = NetworkManager()
@@ -249,7 +248,8 @@ class DetailViewController: UIViewController {
         switch requestResult {
         case .success(let request):
             return request
-        case .failure:
+        case .failure(let error):
+            print(error.localizedDescription)
             return nil
         }
     }

@@ -144,9 +144,7 @@ class EditViewController: UIViewController {
 extension EditViewController {
     private func requestRegistration(product: ProductRegistration, imageFiles: [ImageFile]) {
         guard let request = requestRegister(params: product, images: imageFiles) else {
-            showAlert(message: Message.badRequest) {
-                self.dismiss(animated: true)
-            }
+            self.dismiss(animated: true)
             return
         }
         let networkManager = NetworkManager()
@@ -159,10 +157,9 @@ extension EditViewController {
                     }
                 }
             case .failure(let error):
+                print(error.localizedDescription)
                 DispatchQueue.main.async {
-                    self.showAlert(message: error.localizedDescription) {
-                        self.dismiss(animated: true)
-                    }
+                    self.dismiss(animated: true)
                 }
             }
         }
@@ -170,9 +167,7 @@ extension EditViewController {
     
     private func requestModification(product: ProductModification) {
         guard let request = requestModify(params: product) else {
-            showAlert(message: Message.badRequest) {
-                self.dismiss(animated: true)
-            }
+            self.dismiss(animated: true)
             return
         }
         let networkManager = NetworkManager()
@@ -185,10 +180,9 @@ extension EditViewController {
                     }
                 }
             case .failure(let error):
+                print(error.localizedDescription)
                 DispatchQueue.main.async {
-                    self.showAlert(message: error.localizedDescription) {
-                        self.dismiss(animated: true)
-                    }
+                    self.dismiss(animated: true)
                 }
             }
         }
@@ -213,7 +207,8 @@ extension EditViewController {
         switch requestResult {
         case .success(let request):
             return request
-        case .failure:
+        case .failure(let error):
+            print(error.localizedDescription)
             return nil
         }
     }
@@ -227,7 +222,8 @@ extension EditViewController {
         switch requestResult {
         case .success(let request):
             return request
-        case .failure:
+        case .failure(let error):
+            print(error.localizedDescription)
             return nil
         }
     }

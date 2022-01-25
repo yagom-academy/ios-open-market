@@ -37,7 +37,7 @@ class MainViewController: UIViewController {
     private func requestProducts(completion: @escaping () -> Void) {
         let networkManager: NetworkManager = NetworkManager()
         guard let request = networkManager.requestListSearch(page: dataSource.currentPage, itemsPerPage: 20) else {
-            showAlert(message: Message.badRequest)
+            print(Message.badRequest)
             return
         }
         networkManager.fetch(request: request, decodingType: Products.self) { result in
@@ -46,9 +46,7 @@ class MainViewController: UIViewController {
                 self.dataSource.setUpProducts(products)
                 completion()
             case .failure(let error):
-                DispatchQueue.main.async {
-                    self.showAlert(message: error.localizedDescription)
-                }
+                print(error.localizedDescription)
             }
         }
     }
