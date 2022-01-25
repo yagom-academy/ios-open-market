@@ -8,77 +8,55 @@
 import UIKit
 
 class ImageDetailViewController: UIViewController {
-    @IBOutlet private weak var scrollView: UIScrollView!
-    @IBOutlet private weak var imageView: UIImageView!
+    @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet private weak var pageControl: ImagePageControl!
     @IBOutlet weak var closeButton: UIButton!
     
     var images: [UIImage] = []
     var currentPage = 0
     
-    lazy var zoomingTap: UITapGestureRecognizer = {
-        let tap = UITapGestureRecognizer(target: self, action: #selector(handleZoomingTap))
-        tap.numberOfTapsRequired = 2
-        return tap
-    }()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .black
-        setUpScrollView()
-        setUpImageView()
+
         setUpButton()
-    }
-    
-    @objc private func handleZoomingTap(_ sender: UITapGestureRecognizer) {
-        let location = sender.location(in: sender.view)
-        zoom(point: location, animated: true)
-    }
-    
-    private func zoom(point: CGPoint, animated: Bool) {
-        let currectScale = scrollView.zoomScale
-        let minScale = scrollView.minimumZoomScale
-        let maxScale = scrollView.maximumZoomScale
+        registerXib()
+        setUpCollectionView()
+        setUpPageControl()
         
-        if minScale == maxScale, minScale > 1 {
-            return
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.01) {
+            let indexPath = IndexPath(item: self.currentPage, section: 0)
+            self.collectionView.scrollToItem(
+                at: indexPath,
+                at: [.centeredHorizontally, .centeredVertically],
+                animated: false
+            )
         }
-        
-        let toScale = maxScale
-        let finalScale = currectScale == minScale ? toScale : minScale
-        let zoomRect = zoomRect(scale: finalScale, center: point)
-        scrollView.zoom(to: zoomRect, animated: animated)
     }
     
-    private func zoomRect(scale: CGFloat, center: CGPoint) -> CGRect {
-        var zoomRect = CGRect.zero
-        let bounds = scrollView.bounds
-        
-        zoomRect.size.width = bounds.size.width / scale
-        zoomRect.size.height = bounds.size.height / scale
-        
-        zoomRect.origin.x = center.x - (zoomRect.size.width / 2)
-        zoomRect.origin.y = center.y - (zoomRect.size.height / 2)
-        return zoomRect
+    private func setUpPageControl() {
+        pageControl.numberOfPages = images.count
+        pageControl.isHidden = false
+        pageControl.hidesForSinglePage = true
+        pageControl.currentPage = currentPage
+    }
+    
+    private func setUpCollectionView() {
+        let flowLayout = UICollectionViewFlowLayout()
+        flowLayout.scrollDirection = .horizontal
+        collectionView.collectionViewLayout = flowLayout
+        collectionView.dataSource = self
+        collectionView.delegate = self
+        collectionView.isPagingEnabled = true
+    }
+    
+    func registerXib() {
+        let nibName = UINib(nibName: ImageDetailCell.nibName, bundle: .main)
+        collectionView.register(nibName, forCellWithReuseIdentifier: ImageDetailCell.identifier)
     }
     
     func setUpButton() {
         closeButton.setTitle("", for: .normal)
-    }
-    
-    private func setUpScrollView() {
-        scrollView.delegate = self
-        scrollView.zoomScale = 1.0
-        scrollView.maximumZoomScale = 2.0
-        scrollView.minimumZoomScale = 1.0
-        scrollView.showsVerticalScrollIndicator = false
-        scrollView.showsHorizontalScrollIndicator = false
-        scrollView.decelerationRate = .fast
-    }
-    
-    private func setUpImageView() {
-        imageView.image = images[currentPage]
-        imageView.addGestureRecognizer(zoomingTap)
-        imageView.isUserInteractionEnabled = true
     }
     
     func setUpImage(_ images: [UIImage], currentPage: Int) {
@@ -91,8 +69,55 @@ class ImageDetailViewController: UIViewController {
     }
 }
 
-extension ImageDetailViewController: UIScrollViewDelegate {
-    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
-        return self.imageView
+extension ImageDetailViewController: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return images.count
+    }
+    
+    func collectionView(
+        _ collectionView: UICollectionView,
+        cellForItemAt indexPath: IndexPath
+    ) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: ImageDetailCell.identifier,
+            for: indexPath
+        ) as? ImageDetailCell else {
+            return UICollectionViewCell()
+        }
+        
+        cell.imageView.image = images[indexPath.item]
+        return cell
+    }
+}
+
+extension ImageDetailViewController: UICollectionViewDelegate {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        willDisplay cell: UICollectionViewCell,
+        forItemAt indexPath: IndexPath
+    ) {
+        pageControl.currentPage = indexPath.item
+    }
+    
+    func indexPathForPreferredFocusedView(in collectionView: UICollectionView) -> IndexPath? {
+        return IndexPath(item: currentPage, section: 0)
+    }
+}
+
+extension ImageDetailViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        sizeForItemAt indexPath: IndexPath
+    ) -> CGSize {
+        return CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+    }
+    
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        minimumLineSpacingForSectionAt section: Int
+    ) -> CGFloat {
+        return 0
     }
 }

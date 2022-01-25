@@ -265,9 +265,9 @@ extension DetailViewController: UICollectionViewDataSource {
         cellForItemAt indexPath: IndexPath
     ) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: ImageDetailCell.identifier,
+            withReuseIdentifier: ImageViewCell.identifier,
             for: indexPath
-        ) as? ImageDetailCell else {
+        ) as? ImageViewCell else {
             return UICollectionViewCell()
         }
         

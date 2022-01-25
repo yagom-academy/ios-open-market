@@ -25,8 +25,8 @@ class ImageDetailCollectionView: UICollectionView {
     }
     
     func registerXib() {
-        let nibName = UINib(nibName: ImageDetailCell.nibName, bundle: .main)
-        register(nibName, forCellWithReuseIdentifier: ImageDetailCell.identifier)
+        let nibName = UINib(nibName: ImageViewCell.nibName, bundle: .main)
+        register(nibName, forCellWithReuseIdentifier: ImageViewCell.identifier)
     }
     
     private func setUpCollectionView() {
