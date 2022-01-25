@@ -1,6 +1,6 @@
 # 오픈 마켓
 
-1. 프로젝트 기간: 2022.01.03 - 2022.01.14
+1. 프로젝트 기간: 2022.01.03 - 2022.01.28
 2. Ground Rules
     1. 시간
         - 시작시간 10시
@@ -37,40 +37,38 @@
     + [Trouble Shooting](#3-3-Trouble-Shooting)
     + [배운 개념](#3-4-배운-개념)
     + [PR 후 개선사항](#3-5-PR-후-개선사항)
-- [STEP 3 : 상품 등록/수정 화면 구현](#STEP-3--상품-등록/수정-화면-구현)
+- [STEP 3 : 상품 등록/수정 화면 구현](#STEP-3--상품-등록수정-화면-구현)
     + [고민했던 것](#4-1-고민했던-것)
     + [의문점](#4-2-의문점)
     + [Trouble Shooting](#4-3-Trouble-Shooting)
     + [배운 개념](#4-4-배운-개념)
     + [PR 후 개선사항](#4-5-PR-후-개선사항)
+- [STEP 4 : 상품 상세화면 구현](#STEP-4--상품-상세화면-구현)
+    + [고민했던 것](#5-1-고민했던-것)
+    + [의문점](#5-2-의문점)
+    + [Trouble Shooting](#5-3-Trouble-Shooting)
+    + [배운 개념](#5-4-배운-개념)
+    + [PR 후 개선사항](#5-5-PR-후-개선사항)
 
 # 키워드
 
-- `의존성 주입(DI)`
-- `URLSession`
-    - `URLProtocol`
-    - `URLRequest`
-- `API`
-- `HTTP` `TCP/IP`
-    - `MIME-Type`
-        - `multipart/form-data`
-        - `application/json`
-- `Result`
-- `Codable` `CodingKey`
-- `Async Test`
-- `UICollectionView` `UICollectionViewFlowLayout`
-    - `Supplyment` `UICollectionReusableView`
-    - `performBatchUpdates`
-    - `reloadData`
-- `Xib File`
-- `UISegmentedControl`
-- `UIActivityIndicatorView`
-- `UIScrollViewDelegate`
-- `NSCache`
-- `UITextField` `UIAlertController`
-- `UIImagePicker`
-- `UIGraphicsImageRenderer`
-- `UIRefreshControl`
+- STEP1
+    - `의존성 주입(DI)` `URLSession`  `URLProtocol` `URLRequest`
+    - `API` `HTTP` `TCP/IP` `MIME-Type` `multipart/form-data`
+    - `application/json` `Result` `Codable` `CodingKey` `Async Test`
+- STEP2
+    - `UICollectionView` `UICollectionViewFlowLayout`
+    - `Supplyment` `UICollectionReusableView` `performBatchUpdates`
+    - `reloadData` `Xib File` `UISegmentedControl`
+- STEP Bonus
+    - `NSCache` `UIActivityIndicatorView`
+- STEP3
+    - `UIRefreshControl` `UIGraphicsImageRenderer` `UIImagePicker`
+    - `UIScrollViewDelegate` `UITextField` `UIAlertController`
+- STEP4
+    - `UIPageControl` `GestureRecognizer` `UIFontMetrics`
+    - `UIScrollView`  `zoomScale` `Dynamic Type` `UICollectionView` `Paging`
+    - `UIAlertController` `UITextFlied`
 
 # STEP 1 : 네트워킹 타입 구현
 
@@ -534,7 +532,143 @@ if heightRemainBottomHeight < frameHeight ,
 - `UIGraphicsImageRenderer` 를 이미지를 랜더링 하여 압축하는 방법
 - `UICollectionReusableView`를 사용하는 방법
 - `UIScrollView`를 활용하여 키보드가 컨텐츠를 가리는 부분을 해결하는 방법
-- `TextView`를 가지고 있는 `UIAlertController` 활용
+- `UITextField`를 가지고 있는 `UIAlertController` 활용
 - `UIRefreshControl`를 활용하는 방법
+
+## 4-5 PR 후 개선사항
+
+- AlertConstant를 `제거`하고 `UIViewController+extension` 부분 전체적으로 개선
+- CollectionView에서 `refreshing`할 때 `index out of range` 에러나는 부분 비동기적으로 처리하여 해결
+- 네이밍 부분 전체적으로 개선
+- 앨범에 접근할 때 보여지는 description을 수정하여 개선
+- HIG를 참고하여 alert, ActionSheet의 `버튼 순서를 변경`하여 개선
+- DetailViewController `메소드 순서`를 개선
+- 이미지 삭제시 'x'버튼을 클릭했을 때 삭제되도록 수정하여 개선
+- 셀을 선택했을 때 변화가 발생하도록 `selectedBackgroundView` 설정
+
+[![top](https://img.shields.io/badge/top-%23000000.svg?&amp;style=for-the-badge&amp;logo=Acclaim&amp;logoColor=white&amp;)](#오픈-마켓)
+
+# STEP 4 : 상품 상세화면 구현
+
+상품의 상세내용을 확인할 수 있는 화면을 구현합니다
+
+## 5-1 고민했던 것
+
+### 1. 에러처리
+
+- 사용자가 볼 필요가 없는 에러의 경우(네트워크 에러) 얼럿을 띄우는 대신 print를 호출하도록 하여, 에러처리를 해주었다.
+
+### 2. Custom Font에도 Dynamic Type을 적용
+
+- UIFont가 제공하는 preferredFont를 사용하면 따로 굵기를 지정할 수 없고, 지정된 font만 사용해야한다. 반대로 systemFont를 사용한다면 Dynamic Type이 동작하지 않는다.
+    - extension을 통해서 굵기를 지정해도 Dynamic Type을 지원하는 메소드를 구현하여 이 문제를 해결.
+
+### 3. 이미지 상세보기 시 보고있던 이미지가 그대로 넘어가도록 구현
+
+- 다른 마켓앱을 살펴보면 상세보기로 넘어갈 때 보고있던 이미지를 그대로 넘겨서 상세보기 화면으로 전환되는 것을 확인할 수 있다. 사용자 입장에서도 보고있던 이미지를 그대로 상세보기로 보는 것이 바람직하다고 판단되어 해당 기능을 구현하였다.
+    
+    ```swift
+    DispatchQueue.main.asyncAfter(deadline: .now() + 0.01) {
+        let indexPath = IndexPath(item: self.currentPage, section: 0)
+        self.collectionView.scrollToItem(
+            at: indexPath,
+            at: [.centeredHorizontally, .centeredVertically],
+            animated: false
+         )
+    }
+    ```
+    
+
+### 4. HIG를 참고하여 Action Sheet를 설계
+
+> **Make destructive choices prominent.** Use red for buttons that perform destructive or dangerous actions, and display these buttons at the top of an action sheet.
+> 
+- 이 부분을 참고하여, 요구사항처럼 삭제 버튼을 아래에 위치해있는게 아니라 상단에 위치하도록 개선하였다.
+
+### 5. CollectionView, PageControl을 이용한 이미지 Paging
+
+- 상세페이지화면에서 이미지를 표시할 때 CollectionView의 isPaging과 가로 스크롤을 통해서 paging을 구현하였다.
+- pageControl을 이용하여 현재 페이지의 위치를 나타내고 PageControl의 dot을 탭하여도 페이지가 전환되는 기능을 구현하였다.
+
+## 5-2 의문점
+
+- `DetailViewController` → `ImageDetailViewController` 로 전환할 때 viewDidLoad에서 collectionView.`scrollToItem`을 호출 시 제대로 적용되지 않아서 DispatchQueue.main.`asyncAfter`를 활용했는데, 적절한지 잘 모르겠다.
+- 네트워킹 하는 부분이 마치 산맥..처럼 공포의 들여쓰기가 생겨났는데, 이러한 부분을 어떻게 더 개선할 수 있을지 더이상 떠오르지가 않는다.
+- CollectionView에 FlowLayout을 따로 코드로 대입해주지 않으면, UICollectionViewDelegateFlowLayout를 채택하여 레이아웃을 설정해주어도 레이아웃이 적용되지 않는데, 왜그런걸까?
+- ScrollView를 활용해서 Zoom을 구현하였지만, 디바이스 전체 크기에 맞춰서 Scale을 설정하는 방법을 모르겠다.
+    - 이미지가 디바이스 크기보다 커지지 않도록 하고싶다...
+
+## 5-3 Trouble Shooting
+
+### 1. 상세페이지로 넘어갈때 이미지가 나타나지 않는 문제
+
+- `문제` 메인페이지에서 상세페이지로 넘어갈때 이미지가 보이지 않는 현상이 나타났다.
+- `이유` 이미지를 네트워킹하는 속도보다 화면이 전환되는 시점이 빨라서 나타나는 문제였다.
+- `해결` DispatchGroup을 이용하여 네트워킹하는 코드 내 completion 탈출 클로저가 모두 끝난 시점에 View를 띄워주도록 하였다.
+    
+    ```swift
+    dispatchGroup.enter()
+    ImageManager.shared.downloadImage(with: newImage.url) { image in
+        ImageManager.shared.setCacheData(of: image, for: newImage.url)
+        self.images.append(image)
+        dispatchGroup.leave()
+    }
+    
+    dispatchGroup.notify(queue: .main) {
+        DispatchQueue.main.async {
+            // view 
+            ...
+        }
+    }
+    ```
+    
+
+### 2. CollectionView로 Paging시 cell이 밀리는 문제
+
+- `문제`  CollectionView의 isPagingEnabled을 true로 주면 아래 예시와 같이 스크롤 했을 때 cell이 조금씩 밀리는 현상이 나타났다.
+    
+    ![Untitled](https://camo.githubusercontent.com/a807e6deef77c57e0664311f0f555c6f68ead4d7c87523ff92dc05c65c30b3dd/68747470733a2f2f692e696d6775722e636f6d2f7459304e4434632e676966)
+    
+- `이유` CollectionView의 경우 minimumLineSpacing이 기본적으로 값(10.0)이 들어가있다. 해당 값 때문에 스크롤 시 밀림현상이 있었던 것이였다.
+- `해결` minimumLineSpacing을 0으로 설정해주니 스크롤 시 cell이 조금씩 밀리던 현상이 해결되었다.
+    
+    ![Untitled](https://camo.githubusercontent.com/5f5f51383232167e5cde9f87bddc632f9260f8d64031a9175a3328afe17967d9/68747470733a2f2f692e696d6775722e636f6d2f77737a624a31492e676966)
+    
+
+### 3. Cell이 선택되었다는 표시가 안나는 문제
+
+- `문제` UITableView같은 경우에는 기본적으로 seleted 했을 때, 회색 배경이 사라지지 않아서 delegate 메소드를 활용하여 deselect를 해주어야 배경색이 다시 원래대로 돌아왔었다.
+- `이유` 하지만 UICollectionView 같은 경우에는 아무것도 설정되어있지 않기 때문에 이 부분을 직접 설정을 해주어야 한다.
+- `해결`  셀을 초기화할 때 selectedBackgroundView를 지정해주고, backgroundColor를 입혀준다.
+    
+    ```swift
+    cell.selectedBackgroundView = UIView(frame: self.bounds)
+    cell.selectedBackgroundView?.backgroundColor = .systemGray5
+    ```
+    
+    ![https://camo.githubusercontent.com/025483b76ced080acf668db52a4b733a66eafafdf1faacd13e4989ccdfe7c207/68747470733a2f2f692e696d6775722e636f6d2f6a67736c7062672e676966](https://camo.githubusercontent.com/025483b76ced080acf668db52a4b733a66eafafdf1faacd13e4989ccdfe7c207/68747470733a2f2f692e696d6775722e636f6d2f6a67736c7062672e676966)
+    
+- 하지만 위와 같이 배경색이 바뀐 채로 남아있다. 따라서 Delegate 메소드 중 didSelectItemAt를 구현하여 deselectItem를 호출해서 셀 선택을 해제시켜주어야 한다.
+    
+    ```swift
+    // UICollectionViewDelegate...
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        collectionView.deselectItem(at: indexPath, animated: true)
+    }
+    ```
+    
+    ![https://camo.githubusercontent.com/6f1c32140bce0c850ef827cbfc8a2659e9f36f24764b853cedf99fc84d08d67c/68747470733a2f2f692e696d6775722e636f6d2f333169746748432e676966](https://camo.githubusercontent.com/6f1c32140bce0c850ef827cbfc8a2659e9f36f24764b853cedf99fc84d08d67c/68747470733a2f2f692e696d6775722e636f6d2f333169746748432e676966)
+    
+    - 이렇게 하면 정상적으로 셀을 선택했을 때, 선택되었다는 효과가 일어나면서 화면전환이 되는 것을 확인할 수 있다.
+
+## 5-4 배운 개념
+
+- UIPageControl을 활용하는 방법
+- GestureRecognizer를 통해 특정 터치이벤트를 처리하는 방법
+- UIScrollView의 Zoom 기능을 활용하는 방법
+- UIFontMetrics를 활용하여 Custom Font에도 Dynamic Type을 적용해보는 방법
+- UICollectionView를 활용해서 Paging을 구현하는 방법
+- UIAlertController의 텍스트 필드를 추가하여 활용하는 방법
+    - Handler 활용
 
 [![top](https://img.shields.io/badge/top-%23000000.svg?&amp;style=for-the-badge&amp;logo=Acclaim&amp;logoColor=white&amp;)](#오픈-마켓)
