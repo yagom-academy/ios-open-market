@@ -7,10 +7,10 @@
 
 import UIKit
 
-// MARK: - AddButtonPressedDelegate Protocol
+// MARK: - AddButtonTappedDelegate Protocol
 
-protocol AddButtonPressedDelegate: AnyObject {
-    func addButtonPressed()
+protocol AddButtonTappedDelegate: AnyObject {
+    func registerButtonTapped()
 }
 
 final class ProductFormViewController: UIViewController {
@@ -67,12 +67,12 @@ final class ProductFormViewController: UIViewController {
     
     private var images: [UIImage] = []
     private var productImages: [ProductImage] = []
-    weak var delegate: AddButtonPressedDelegate?
+    weak var delegate: AddButtonTappedDelegate?
     private var pageMode: PageMode
     
     // MARK: - Initializer
     
-    init?(delegate: AddButtonPressedDelegate,
+    init?(delegate: AddButtonTappedDelegate,
           pageMode: PageMode,
           coder: NSCoder
     ) {
@@ -115,7 +115,7 @@ final class ProductFormViewController: UIViewController {
     // MARK: - Internal Methods
     
     func triggerDelegateMethod() {
-        delegate?.addButtonPressed()
+        delegate?.registerButtonTapped()
     }
 }
 
@@ -293,7 +293,7 @@ extension ProductFormViewController: UICollectionViewDataSource {
                 for: indexPath
             ) as! AddImageButtonCell
             
-            cell.setDelegate(delegate: self)
+            cell.setup(delegate: self)
             return cell
         } else {
             let cell = collectionView.dequeueReusableCell(
@@ -301,7 +301,7 @@ extension ProductFormViewController: UICollectionViewDataSource {
                 for: indexPath
             ) as! ImageCell
             
-            cell.configure(with: images[indexPath.row - 1])
+            cell.configure(with: images[indexPath.row - 1], index: indexPath.row - 1, delegate: self)
             return cell
         }
     }
@@ -331,12 +331,21 @@ extension ProductFormViewController: UICollectionViewDelegateFlowLayout {
 // MARK: - AddImageCellDelegate
 
 extension ProductFormViewController: AddImageCellDelegate {
-    func addImagePressed() {
+    func addImageButtonTapped() {
         guard images.count < 5 else {
             AlertManager.presentExcessImagesAlert(on: self)
             return
         }
         self.present(self.imagePicker, animated: true, completion: nil)
+    }
+}
+
+// MARK: - RemoveImageDelegate
+
+extension ProductFormViewController: RemoveImageDelegate {
+    func removeFromCollectionView(at index: Int) {
+        self.collectionView.deleteItems(at: [IndexPath.init(row: index + 1, section: 0)])
+        self.images.remove(at: index)
     }
 }
 

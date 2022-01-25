@@ -7,16 +7,17 @@
 
 import UIKit
 
-// MARK: - AddButtonPressedDelegate Protocol
+// MARK: - AddImageCellDelegate Protocol
 
 protocol AddImageCellDelegate: AnyObject {
-    func addImagePressed()
+    func addImageButtonTapped()
 }
 
 final class AddImageButtonCell: UICollectionViewCell {
     // MARK: - Properties
     
     weak var delegate: AddImageCellDelegate?
+    @IBOutlet weak var addButton: UIButton!
     
     // MARK: - Configure Methods
     
@@ -26,14 +27,19 @@ final class AddImageButtonCell: UICollectionViewCell {
     
     // MARK: - IBActions
     
-    @IBAction func addButtonWasPressed(_ sender: UIButton) {
-        delegate?.addImagePressed()
+    @IBAction func addButtonTapped(_ sender: UIButton) {
+        delegate?.addImageButtonTapped()
     }
     
     // MARK: - Setup Methods
     
-    func setDelegate(delegate: AddImageCellDelegate) {
+    func setup(delegate: AddImageCellDelegate) {
         self.delegate = delegate
+        setupAddButton()
+    }
+    
+    private func setupAddButton() {
+        addButton.layer.cornerRadius = 10
     }
 }
 

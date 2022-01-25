@@ -159,10 +159,10 @@ extension MarketViewController {
     }
 }
 
-// MARK: - AddButtonPressedDelegate
+// MARK: - AddButtonTappedDelegate
 
-extension MarketViewController: AddButtonPressedDelegate {
-    func addButtonPressed() {
+extension MarketViewController: AddButtonTappedDelegate {
+    func registerButtonTapped() {
         fetchPage(pageNumber: 1, itemsPerPage: 20) { [weak self] products in
             guard let products = products,
                   let self = self else {
