@@ -8,8 +8,8 @@
 import UIKit
 
 class DetailViewController: UIViewController {
-    @IBOutlet private weak var collectionView: UICollectionView!
-    @IBOutlet private weak var pageControl: UIPageControl!
+    @IBOutlet private weak var collectionView: ImageDetailCollectionView!
+    @IBOutlet private weak var pageControl: ImagePageControl!
     @IBOutlet private weak var productInfoStackView: ProductInfoStackView!
     
     private var images = [UIImage]()
@@ -19,8 +19,6 @@ class DetailViewController: UIViewController {
         super.viewDidLoad()
         setUpNotification()
         setUpNavigationItem()
-        setUpPageControl()
-        setUpCollectionView()
     }
     
     func setUpTitle(_ title: String) {
@@ -89,24 +87,6 @@ class DetailViewController: UIViewController {
     private func setUpNavigationItem() {
         navigationController?.navigationBar.tintColor = .black
         navigationController?.navigationBar.topItem?.title = ""
-    }
-    
-    private func setUpPageControl() {
-        pageControl.currentPage = 0
-        pageControl.pageIndicatorTintColor = .lightGray
-        pageControl.currentPageIndicatorTintColor = .black
-        pageControl.isHidden = true
-    }
-    
-    private func setUpCollectionView() {
-        let flowLayout = UICollectionViewFlowLayout()
-        flowLayout.scrollDirection = .horizontal
-        collectionView.collectionViewLayout = flowLayout
-        collectionView.isPagingEnabled = true
-        collectionView.showsHorizontalScrollIndicator = false
-        
-        let nibName = UINib(nibName: ImageDetailCell.nibName, bundle: .main)
-        collectionView.register(nibName, forCellWithReuseIdentifier: ImageDetailCell.identifier)
     }
     
     private func setUpNotification() {

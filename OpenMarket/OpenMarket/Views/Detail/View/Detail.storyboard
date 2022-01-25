@@ -20,7 +20,7 @@
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QwY-am-Qnq">
                                 <rect key="frame" x="0.0" y="88" width="414" height="808"/>
                                 <subviews>
-                                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="fiN-xu-DsA">
+                                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="fiN-xu-DsA" customClass="ImageDetailCollectionView" customModule="OpenMarket" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="414"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <constraints>
@@ -34,7 +34,7 @@
                                         </collectionViewFlowLayout>
                                         <cells/>
                                     </collectionView>
-                                    <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="VfA-Us-gYs">
+                                    <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="VfA-Us-gYs" customClass="ImagePageControl" customModule="OpenMarket" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="394" width="414" height="16"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="16" id="Lig-41-okK"/>
@@ -132,8 +132,8 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="collectionView" destination="fiN-xu-DsA" id="Yuo-Ks-8fA"/>
-                        <outlet property="pageControl" destination="VfA-Us-gYs" id="OnP-qJ-4cZ"/>
+                        <outlet property="collectionView" destination="fiN-xu-DsA" id="aJn-9Q-uwr"/>
+                        <outlet property="pageControl" destination="VfA-Us-gYs" id="d7d-xd-97V"/>
                         <outlet property="productInfoStackView" destination="VEJ-8s-sBG" id="hfY-9n-CZS"/>
                         <segue destination="6mj-Y4-ckL" kind="presentation" identifier="ModifyView" modalPresentationStyle="fullScreen" id="khl-Wz-8lb"/>
                         <segue destination="nff-BZ-mdk" kind="presentation" identifier="ImageDetailView" modalPresentationStyle="fullScreen" modalTransitionStyle="crossDissolve" id="BmH-4T-9m8"/>
