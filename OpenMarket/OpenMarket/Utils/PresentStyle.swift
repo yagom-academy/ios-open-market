@@ -22,4 +22,11 @@ struct PresentStyle {
   static func formatNumber(_ number: Int) -> String {
     return numberFormatter.string(for: number) ?? ""
   }
+  
+  static func formatString(_ string: String) -> Double? {
+    guard let number = numberFormatter.number(from: string) else {
+      return 0
+    }
+    return Double(exactly: number)
+  }
 }

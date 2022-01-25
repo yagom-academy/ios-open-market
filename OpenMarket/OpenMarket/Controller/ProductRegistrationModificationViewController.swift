@@ -157,11 +157,11 @@ extension ProductRegistrationModificationViewController {
       throw InputError.invalidFixedPrice
     }
     guard let stringDiscountedPrice = discountedPriceTextField.text,
-          let numberDiscountedPrice = PresentStyle.numberFormatter.number(from: stringDiscountedPrice) else {
+          let numberDiscountedPrice = PresentStyle.formatString(stringDiscountedPrice) else {
             throw InputError.invalidOthers
     }
     guard let stringStock = stockTextField.text,
-          let numberStock = PresentStyle.numberFormatter.number(from: stringStock) else {
+          let numberStock = PresentStyle.formatString(stringStock) else {
             throw InputError.invalidOthers
     }
     let curreny: Currency = currencySegmentControl.selectedSegmentIndex == 0 ? .KRW : .USD
@@ -171,8 +171,8 @@ extension ProductRegistrationModificationViewController {
       descriptions: descriptions,
       price: fixedPrice,
       currency: curreny,
-      discountedPrice: Double(exactly: numberDiscountedPrice),
-      stock: Int(exactly: numberStock),
+      discountedPrice: numberDiscountedPrice,
+      stock: Int(numberStock),
       secret: secret
     )
   }
@@ -190,11 +190,11 @@ extension ProductRegistrationModificationViewController {
       throw InputError.invalidFixedPrice
     }
     guard let stringDiscountedPrice = discountedPriceTextField.text,
-          let numberDiscountedPrice = PresentStyle.numberFormatter.number(from: stringDiscountedPrice) else {
+          let numberDiscountedPrice = PresentStyle.formatString(stringDiscountedPrice) else {
             throw InputError.invalidOthers
     }
     guard let stringStock = stockTextField.text,
-          let numberStock = PresentStyle.numberFormatter.number(from: stringStock) else {
+          let numberStock = PresentStyle.formatString(stringStock) else {
             throw InputError.invalidOthers
     }
     let curreny: Currency = currencySegmentControl.selectedSegmentIndex == 0 ? .KRW : .USD
@@ -205,8 +205,8 @@ extension ProductRegistrationModificationViewController {
       thumbnailId: nil,
       price: fixedPrice,
       currency: curreny,
-      discountedPrice: Double(exactly: numberDiscountedPrice),
-      stock: Int(exactly: numberStock),
+      discountedPrice: numberDiscountedPrice,
+      stock: Int(numberStock),
       secret: secret
     )
   }
