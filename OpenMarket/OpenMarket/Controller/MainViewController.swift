@@ -50,10 +50,10 @@ class MainViewController: UIViewController {
     }
     
     private func getProductData() {
-        api.requestProductList(pageNumber: 1, itemsPerPage: 20) { result in
+        api.requestProductList(pageNumber: 1, itemsPerPage: 20) { [weak self] result in
             switch result {
             case .success(let data):
-                self.productList = data.pages
+                self?.productList = data.pages
             case .failure(let error):
                 print(error)
             }
