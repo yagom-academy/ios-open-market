@@ -16,12 +16,12 @@ class ProductListViewController: UIViewController {
         let flowLayout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         collectionView.collectionViewLayout = flowLayout
                
-        loadData { (result: Result<ProductList, NetworkError>) in
+        loadData { [weak self](result: Result<ProductList, NetworkError>) in
             switch result {
             case .success(let data):
-                self.productListData = data
+                self?.productListData = data
                 DispatchQueue.main.async {
-                    self.collectionView.reloadData()
+                    self?.collectionView.reloadData()
                 }
             case .failure(let error):
                 print(error)
