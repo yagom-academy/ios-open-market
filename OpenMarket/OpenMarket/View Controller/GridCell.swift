@@ -21,14 +21,12 @@ class GridCell: UICollectionViewCell {
     }
     
     func updateGridCell(productData: ProductPreview) {
-        DispatchQueue.global().async {
-            guard let imageURL = URL(string: "\(productData.thumbnail)") else {
-                return
-            }
-            let imageData = try? Data(contentsOf: imageURL)
-            
+        guard let imageURL = URL(string: "\(productData.thumbnail)") else {
+            return
+        }
+        loadImage(url: imageURL) { image in
             DispatchQueue.main.async {
-                self.thumbnailImageView.image = UIImage(data: imageData ?? Data())
+                self.thumbnailImageView.image = image
             }
         }
         
@@ -38,7 +36,7 @@ class GridCell: UICollectionViewCell {
         priceLabel.text = "\(productData.currency) \(commaPrice) "
         discountedPriceLabel.text = "\(productData.currency) \(commaDiscountedPrice)"
         discountedPriceLabel.textColor = .systemGray
-
+        
         if productData.stock == 0 {
             stockLabel.text = "품절"
             stockLabel.textColor = .systemYellow
@@ -46,5 +44,17 @@ class GridCell: UICollectionViewCell {
             stockLabel.text = "잔여수량: \(productData.stock)"
             stockLabel.textColor = .systemGray
         }
+    }
+    
+    func loadImage(url: URL, completion: @escaping (UIImage?) -> Void) {
+        let task = URLSession.shared.dataTask(with: url) { data, _, _ in
+            guard let data = data else {
+                completion(nil)
+                return
+            }
+            let image = UIImage(data: data)
+            completion(image)
+        }
+        task.resume()
     }
 }
