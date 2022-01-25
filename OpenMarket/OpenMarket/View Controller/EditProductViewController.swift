@@ -16,6 +16,7 @@ class EditProductViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var currencySwitchController: UISegmentedControl!
     @IBOutlet weak var discountedPriceTextField: UITextField!
     @IBOutlet weak var productStockTextField: UITextField!
+    @IBOutlet weak var productNavigationBar: UINavigationItem!
     var postData: ProductParam?
     
     override func viewDidLoad() {
@@ -38,8 +39,6 @@ class EditProductViewController: UIViewController, UITextFieldDelegate {
         
     }
     
-    
-    
     func placeholderSetting() {
         productNameTextField.delegate = self
         productPriceTextField.delegate = self
@@ -52,6 +51,9 @@ class EditProductViewController: UIViewController, UITextFieldDelegate {
         productStockTextField.placeholder = "재고수량"
     }
     
-    
-    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let editProductView = segue.destination as? EditProductViewController {
+            editProductView.productNavigationBar.title = "상품수정"
+        }
+    }
 }

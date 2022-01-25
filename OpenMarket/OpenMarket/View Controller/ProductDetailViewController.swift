@@ -14,4 +14,9 @@ class ProductDetailViewController: UIViewController {
 
     }
 
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let editProductView = segue.destination as? EditProductViewController {
+            editProductView.productNavigationBar.title = "상품수정"
+        }
+    }
 }

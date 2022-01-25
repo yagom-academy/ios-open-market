@@ -233,7 +233,7 @@
                         <barButtonItem key="rightBarButtonItem" title="Item" id="IhJ-IY-ssd">
                             <imageReference key="image" image="plus" catalog="system" symbolScale="small"/>
                             <connections>
-                                <segue destination="tOa-OP-gav" kind="presentation" modalPresentationStyle="fullScreen" id="NGL-go-pI8"/>
+                                <segue destination="bSo-iR-hiR" kind="show" id="i8I-MP-1ja"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -246,10 +246,10 @@
             </objects>
             <point key="canvasLocation" x="921.73913043478262" y="12.723214285714285"/>
         </scene>
-        <!--상품등록-->
+        <!--Edit Product View Controller-->
         <scene sceneID="Y3x-sS-OW1">
             <objects>
-                <viewController id="bSo-iR-hiR" customClass="EditProductViewController" customModule="OpenMarket" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController modalPresentationStyle="fullScreen" id="bSo-iR-hiR" customClass="EditProductViewController" customModule="OpenMarket" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="aJo-oh-IZa">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -360,7 +360,7 @@
                             <constraint firstItem="zC4-qk-BjU" firstAttribute="bottom" secondItem="ZKX-Yz-lOc" secondAttribute="bottom" id="Z0P-JG-KeE"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="상품등록" id="AY1-aU-Kan">
+                    <navigationItem key="navigationItem" id="AY1-aU-Kan">
                         <barButtonItem key="leftBarButtonItem" title="Cancel" id="AfP-Mm-mzO">
                             <connections>
                                 <action selector="hitCancelButton:" destination="bSo-iR-hiR" id="sMk-jp-sCy"/>
@@ -378,6 +378,7 @@
                         <outlet property="postImageButton" destination="mSG-jm-5lP" id="FsS-IX-BXx"/>
                         <outlet property="postImageListStackView" destination="Zdh-mQ-SXD" id="hwP-Rm-k77"/>
                         <outlet property="productNameTextField" destination="b7M-gt-U7l" id="09U-9v-MrX"/>
+                        <outlet property="productNavigationBar" destination="AY1-aU-Kan" id="IeC-M7-bw5"/>
                         <outlet property="productPriceTextField" destination="cY1-sL-bsT" id="6ao-jO-Ai6"/>
                         <outlet property="productStockTextField" destination="OAx-aY-Zxd" id="ggU-Ne-1aa"/>
                     </connections>
@@ -510,7 +511,7 @@
                     <navigationItem key="navigationItem" id="nPL-tb-kZD">
                         <barButtonItem key="rightBarButtonItem" title="Item" image="square.and.pencil" catalog="system" id="ZfJ-IX-IJQ">
                             <connections>
-                                <segue destination="tOa-OP-gav" kind="presentation" modalPresentationStyle="fullScreen" id="ZJ0-ON-a6u"/>
+                                <segue destination="bSo-iR-hiR" kind="show" id="tHF-LI-kfw"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -522,7 +523,7 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="Ith-jF-9GL"/>
-        <segue reference="NGL-go-pI8"/>
+        <segue reference="tHF-LI-kfw"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="chevron.right" catalog="system" width="96" height="128"/>

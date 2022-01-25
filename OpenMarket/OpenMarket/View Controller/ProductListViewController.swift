@@ -33,6 +33,12 @@ class ProductListViewController: UIViewController {
     @IBAction private func switchLayout(_ sender: Any) {
         self.collectionView.reloadData()
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let postProductView = segue.destination as? EditProductViewController {
+            postProductView.productNavigationBar.title = "상품등록"
+        }
+    }
 }
 
 extension ProductListViewController: UICollectionViewDataSource {
