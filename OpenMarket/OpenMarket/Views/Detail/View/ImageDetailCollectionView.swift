@@ -24,7 +24,7 @@ class ImageDetailCollectionView: UICollectionView {
         showsHorizontalScrollIndicator = false
     }
     
-    func registerXib() {
+    private func registerXib() {
         let nibName = UINib(nibName: ImageViewCell.nibName, bundle: .main)
         register(nibName, forCellWithReuseIdentifier: ImageViewCell.identifier)
     }

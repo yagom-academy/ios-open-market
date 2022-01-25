@@ -15,10 +15,18 @@ class ProductInfoStackView: UIStackView {
     @IBOutlet private weak var stockLabel: UILabel!
     @IBOutlet private weak var descriptionLabel: UILabel!
     @IBOutlet private weak var priceStackView: UIStackView!
+    @IBOutlet private var labels: [UILabel]!
     
     override func awakeFromNib() {
         super.awakeFromNib()
         setUpSpacing()
+        setUpAccessibility()
+    }
+    
+    func setUpAccessibility() {
+        labels.forEach { label in
+            label.adjustsFontForContentSizeCategory = true
+        }
     }
 
     func configureProductInfo(product: Product) {
@@ -29,7 +37,7 @@ class ProductInfoStackView: UIStackView {
         descriptionLabel.text = product.description
     }
     
-    func setUpName(product: Product) {
+    private func setUpName(product: Product) {
         nameLabel.font = .preferredFont(for: .title1, weight: .bold)
         nameLabel.text = product.name
     }

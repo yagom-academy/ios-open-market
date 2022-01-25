@@ -37,7 +37,7 @@ class ImageDetailCell: UICollectionViewCell {
         scrollView.decelerationRate = .fast
     }
     
-    lazy var zoomingTap: UITapGestureRecognizer = {
+    private lazy var zoomingTap: UITapGestureRecognizer = {
         let tap = UITapGestureRecognizer(target: self, action: #selector(handleZoomingTap))
         tap.numberOfTapsRequired = 2
         return tap

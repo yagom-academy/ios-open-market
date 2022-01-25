@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="gTz-py-HAL">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="gTz-py-HAL">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -94,6 +94,11 @@
                                             <outlet property="priceLabel" destination="q1K-lP-3hO" id="MUj-ma-QY1"/>
                                             <outlet property="priceStackView" destination="hvK-He-eig" id="mfu-ft-Sbc"/>
                                             <outlet property="stockLabel" destination="gN9-yH-rMg" id="WJg-NN-mbL"/>
+                                            <outletCollection property="labels" destination="Db3-pT-sMC" collectionClass="NSMutableArray" id="vZx-7p-e0W"/>
+                                            <outletCollection property="labels" destination="gN9-yH-rMg" collectionClass="NSMutableArray" id="Fyd-uG-tfB"/>
+                                            <outletCollection property="labels" destination="q1K-lP-3hO" collectionClass="NSMutableArray" id="v0S-hz-PFf"/>
+                                            <outletCollection property="labels" destination="UOr-GK-EHo" collectionClass="NSMutableArray" id="k0I-za-VMB"/>
+                                            <outletCollection property="labels" destination="AzX-kS-nTW" collectionClass="NSMutableArray" id="oId-NV-77P"/>
                                         </connections>
                                     </stackView>
                                 </subviews>
@@ -191,7 +196,7 @@
                                 <cells/>
                             </collectionView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="27Q-kV-swR">
-                                <rect key="frame" x="372" y="56" width="42" height="31"/>
+                                <rect key="frame" x="373" y="56" width="41" height="31"/>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" image="xmark" catalog="system"/>
@@ -200,7 +205,7 @@
                                 </connections>
                             </button>
                             <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="MOB-DZ-ntW" customClass="ImagePageControl" customModule="OpenMarket" customModuleProvider="target">
-                                <rect key="frame" x="149" y="806" width="116" height="26"/>
+                                <rect key="frame" x="129.5" y="806" width="155.5" height="26"/>
                             </pageControl>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="zOB-cl-gUw"/>

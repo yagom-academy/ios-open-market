@@ -8,12 +8,12 @@
 import UIKit
 
 class ImageDetailViewController: UIViewController {
-    @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet private weak var pageControl: ImagePageControl!
-    @IBOutlet weak var closeButton: UIButton!
+    @IBOutlet private weak var closeButton: UIButton!
+    @IBOutlet weak var collectionView: UICollectionView!
     
-    var images: [UIImage] = []
-    var currentPage = 0
+    private var images: [UIImage] = []
+    private var currentPage = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,6 +34,11 @@ class ImageDetailViewController: UIViewController {
         }
     }
     
+    func setUpImage(_ images: [UIImage], currentPage: Int) {
+        self.images = images
+        self.currentPage = currentPage
+    }
+    
     private func setUpPageControl() {
         pageControl.numberOfPages = images.count
         pageControl.isHidden = false
@@ -50,18 +55,13 @@ class ImageDetailViewController: UIViewController {
         collectionView.isPagingEnabled = true
     }
     
-    func registerXib() {
+    private func registerXib() {
         let nibName = UINib(nibName: ImageDetailCell.nibName, bundle: .main)
         collectionView.register(nibName, forCellWithReuseIdentifier: ImageDetailCell.identifier)
     }
     
-    func setUpButton() {
+    private func setUpButton() {
         closeButton.setTitle("", for: .normal)
-    }
-    
-    func setUpImage(_ images: [UIImage], currentPage: Int) {
-        self.images = images
-        self.currentPage = currentPage
     }
     
     @IBAction func tappedCloseButton(_ sender: UIButton) {
