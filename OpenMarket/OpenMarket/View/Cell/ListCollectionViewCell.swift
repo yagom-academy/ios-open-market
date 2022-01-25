@@ -170,7 +170,7 @@ class ListCollectionViewCell: UICollectionViewCell {
     }
     
     private func addUnderLine() {
-        let underline = layer.addBorder([.bottom], color: UIColor.systemGray, width: 0.5)
+        let underline = layer.makeBorder([.bottom], color: UIColor.systemGray, width: 0.5)
         underline.frame = CGRect(x: 18, y: layer.frame.height, width: underline.frame.width - 1, height: underline.frame.height)
         layer.addSublayer(underline)
     }
