@@ -3,10 +3,10 @@ import Foundation
 class APIManager: APIManageable {
     let successRange = 200..<300
     
-    func createRequest(_ url: URL, _ httpMethod: String) -> URLRequest {
+    func createRequest(_ url: URL, _ httpMethod: HTTPMethod) -> URLRequest {
         var request = URLRequest(url: url)
-        request.httpMethod = httpMethod
-        
+        request.httpMethod = httpMethod.description
+
         return request
     }
     
@@ -16,7 +16,7 @@ class APIManager: APIManageable {
             return
         }
         
-        let request = createRequest(url, HTTPMethod.get)
+        let request = createRequest(url, .get)
         
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             guard error == nil else {
@@ -45,7 +45,7 @@ class APIManager: APIManageable {
             return
         }
         
-        let request = createRequest(url, HTTPMethod.get)
+        let request = createRequest(url, .get)
         performDataTask(with: request, completionHandler)
     }
     
@@ -55,7 +55,7 @@ class APIManager: APIManageable {
             return
         }
         
-        let request = createRequest(url, HTTPMethod.get)
+        let request = createRequest(url, .get)
         performDataTask(with: request, completionHandler)
     }
 }
