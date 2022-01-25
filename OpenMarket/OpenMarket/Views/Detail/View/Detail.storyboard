@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="gTz-py-HAL">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="gTz-py-HAL">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -136,11 +136,69 @@
                         <outlet property="pageControl" destination="VfA-Us-gYs" id="OnP-qJ-4cZ"/>
                         <outlet property="productInfoStackView" destination="VEJ-8s-sBG" id="hfY-9n-CZS"/>
                         <segue destination="6mj-Y4-ckL" kind="presentation" identifier="ModifyView" modalPresentationStyle="fullScreen" id="khl-Wz-8lb"/>
+                        <segue destination="nff-BZ-mdk" kind="presentation" identifier="ImageDetailView" modalPresentationStyle="fullScreen" modalTransitionStyle="crossDissolve" id="BmH-4T-9m8"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1369.5652173913045" y="62.946428571428569"/>
+        </scene>
+        <!--Image Detail View Controller-->
+        <scene sceneID="dSr-XE-DGp">
+            <objects>
+                <viewController id="nff-BZ-mdk" customClass="ImageDetailViewController" customModule="OpenMarket" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="fXv-BH-saL">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MW1-nC-3yj">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ENr-qG-qVh">
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                    </imageView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="ENr-qG-qVh" firstAttribute="top" secondItem="Dn0-Le-XsL" secondAttribute="top" id="6Vt-UE-1j2"/>
+                                    <constraint firstItem="ENr-qG-qVh" firstAttribute="bottom" secondItem="Dn0-Le-XsL" secondAttribute="bottom" id="Is2-q8-Tm4"/>
+                                    <constraint firstItem="ENr-qG-qVh" firstAttribute="leading" secondItem="Dn0-Le-XsL" secondAttribute="leading" id="K9g-Yg-934"/>
+                                    <constraint firstItem="ENr-qG-qVh" firstAttribute="height" secondItem="x07-MC-YBH" secondAttribute="height" id="MVL-2r-AJE"/>
+                                    <constraint firstItem="ENr-qG-qVh" firstAttribute="width" secondItem="x07-MC-YBH" secondAttribute="width" id="Tbp-vc-KOu"/>
+                                    <constraint firstItem="ENr-qG-qVh" firstAttribute="trailing" secondItem="Dn0-Le-XsL" secondAttribute="trailing" id="UUS-xs-9Dy"/>
+                                </constraints>
+                                <viewLayoutGuide key="contentLayoutGuide" id="Dn0-Le-XsL"/>
+                                <viewLayoutGuide key="frameLayoutGuide" id="x07-MC-YBH"/>
+                            </scrollView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g3T-dZ-UY4">
+                                <rect key="frame" x="373" y="56" width="41" height="31"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" image="xmark" catalog="system"/>
+                                <connections>
+                                    <action selector="tappedCloseButton:" destination="nff-BZ-mdk" eventType="touchUpInside" id="fWe-XG-SOp"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="ImA-uM-YmF"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="ImA-uM-YmF" firstAttribute="trailing" secondItem="g3T-dZ-UY4" secondAttribute="trailing" id="6q0-dk-Htd"/>
+                            <constraint firstItem="g3T-dZ-UY4" firstAttribute="top" secondItem="ImA-uM-YmF" secondAttribute="top" constant="12" id="LVJ-zI-iIG"/>
+                            <constraint firstItem="MW1-nC-3yj" firstAttribute="top" secondItem="fXv-BH-saL" secondAttribute="top" id="VsC-FN-PfQ"/>
+                            <constraint firstAttribute="right" secondItem="MW1-nC-3yj" secondAttribute="right" id="WWX-m2-6em"/>
+                            <constraint firstItem="MW1-nC-3yj" firstAttribute="left" secondItem="fXv-BH-saL" secondAttribute="left" id="rco-fd-GlG"/>
+                            <constraint firstAttribute="bottom" secondItem="MW1-nC-3yj" secondAttribute="bottom" id="sei-t5-0VA"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="closeButton" destination="g3T-dZ-UY4" id="1Oq-hW-Ev3"/>
+                        <outlet property="imageView" destination="ENr-qG-qVh" id="jSY-io-d4k"/>
+                        <outlet property="scrollView" destination="MW1-nC-3yj" id="w6g-2u-af2"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="igG-iM-dBF" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2260.8695652173915" y="350.89285714285711"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Wl8-Cu-dF3">
@@ -168,11 +226,12 @@
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sBr-pa-wKr" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2097" y="63"/>
+            <point key="canvasLocation" x="2100" y="-177"/>
         </scene>
     </scenes>
     <resources>
         <image name="square.and.arrow.up" catalog="system" width="115" height="128"/>
+        <image name="xmark" catalog="system" width="128" height="113"/>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

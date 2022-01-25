@@ -125,12 +125,14 @@ class DetailViewController: UIViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard let navigationViewController = segue.destination as? UINavigationController,
+        if let navigationViewController = segue.destination as? UINavigationController,
               let nextViewController = navigationViewController.topViewController as? EditViewController,
-              let (product, secret) = sender as? (Product, String) else {
-                  return
-              }
-        nextViewController.setUpModifyMode(product: product, secret: secret, images: self.images)
+              let (product, secret) = sender as? (Product, String) {
+            nextViewController.setUpModifyMode(product: product, secret: secret, images: self.images)
+        } else if let nextViewController = segue.destination as? ImageDetailViewController,
+                  let index = sender as? Int {
+            nextViewController.setUpImage(images, currentPage: index)
+        }
     }
     
     @IBAction func tappedEditButton(_ sendor: UIButton) {
@@ -314,4 +316,7 @@ extension DetailViewController: UICollectionViewDelegate {
         pageControl.currentPage = indexPath.item
     }
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        self.performSegue(withIdentifier: SegueIdentifier.imageDetailView, sender: indexPath.item)
+    }
 }

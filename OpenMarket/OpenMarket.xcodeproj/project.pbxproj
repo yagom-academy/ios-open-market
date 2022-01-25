@@ -53,6 +53,7 @@
 		F3431292279986890053A8DB /* EditMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3431291279986890053A8DB /* EditMode.swift */; };
 		F343133C279E8D6A0053A8DB /* ProductInfoStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F343133B279E8D6A0053A8DB /* ProductInfoStackView.swift */; };
 		F343133E279E94810053A8DB /* UIFont+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F343133D279E94810053A8DB /* UIFont+extension.swift */; };
+		F3431354279F8D720053A8DB /* ImageDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3431353279F8D720053A8DB /* ImageDetailViewController.swift */; };
 		F35B1A392782EC300031A755 /* ParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F35B1A382782EC300031A755 /* ParserTests.swift */; };
 		F35B1A642783E6420031A755 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = F35B1A632783E6420031A755 /* Network.swift */; };
 		F35B1A662783E9D50031A755 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F35B1A652783E9D50031A755 /* NetworkError.swift */; };
@@ -134,6 +135,7 @@
 		F3431291279986890053A8DB /* EditMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditMode.swift; sourceTree = "<group>"; };
 		F343133B279E8D6A0053A8DB /* ProductInfoStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductInfoStackView.swift; sourceTree = "<group>"; };
 		F343133D279E94810053A8DB /* UIFont+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+extension.swift"; sourceTree = "<group>"; };
+		F3431353279F8D720053A8DB /* ImageDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDetailViewController.swift; sourceTree = "<group>"; };
 		F35B1A362782EC300031A755 /* OpenMarketTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenMarketTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F35B1A382782EC300031A755 /* ParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParserTests.swift; sourceTree = "<group>"; };
 		F35B1A632783E6420031A755 /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
@@ -263,6 +265,7 @@
 			isa = PBXGroup;
 			children = (
 				9A4F77F92798014000D9F854 /* DetailViewController.swift */,
+				F3431353279F8D720053A8DB /* ImageDetailViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -594,6 +597,7 @@
 				9A1CFDC62783DD63003BEC69 /* Vendors.swift in Sources */,
 				F343133E279E94810053A8DB /* UIFont+extension.swift in Sources */,
 				9A1CFD7C2782EB88003BEC69 /* ParserError.swift in Sources */,
+				F3431354279F8D720053A8DB /* ImageDetailViewController.swift in Sources */,
 				9A1CFD782782E341003BEC69 /* Product.swift in Sources */,
 				F35B1A87278537BD0031A755 /* Networkable.swift in Sources */,
 				F3D3B608278D128100943720 /* ProductsCollectionView.swift in Sources */,
