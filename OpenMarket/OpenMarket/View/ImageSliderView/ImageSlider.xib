@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ImageSlider" customModule="OpenMarket" customModuleProvider="target">
+            <connections>
+                <outlet property="pageControl" destination="uM1-YF-7Qh" id="jbs-gU-ntR"/>
+                <outlet property="scrollView" destination="L7J-sD-ATt" id="Adu-AW-DDv"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="603" height="360"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L7J-sD-ATt">
+                    <rect key="frame" x="0.0" y="0.0" width="603" height="360"/>
+                    <viewLayoutGuide key="contentLayoutGuide" id="5nt-Wh-zAD"/>
+                    <viewLayoutGuide key="frameLayoutGuide" id="goT-wK-Rrc"/>
+                </scrollView>
+                <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="uM1-YF-7Qh">
+                    <rect key="frame" x="10" y="300" width="583" height="26"/>
+                </pageControl>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <constraints>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="uM1-YF-7Qh" secondAttribute="bottom" id="0GJ-Q8-rCv"/>
+                <constraint firstItem="L7J-sD-ATt" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="PMg-Wf-WJ3"/>
+                <constraint firstItem="L7J-sD-ATt" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" id="TFk-bS-YBX"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="uM1-YF-7Qh" secondAttribute="trailing" constant="10" id="TKR-zu-im9"/>
+                <constraint firstAttribute="bottom" secondItem="L7J-sD-ATt" secondAttribute="bottom" id="cUB-oR-gUl"/>
+                <constraint firstItem="L7J-sD-ATt" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="nnb-Kk-tkk"/>
+                <constraint firstItem="uM1-YF-7Qh" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="10" id="wOx-Ya-k7R"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="438.40579710144931" y="-186.16071428571428"/>
+        </view>
+    </objects>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

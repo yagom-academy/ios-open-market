@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		5C32796F486C950826FB7B63 /* Pods_OpenMarket.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D50541713180C77E69EBED66 /* Pods_OpenMarket.framework */; };
+		C123DF94279F9C42003F5101 /* ImageSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C123DF93279F9C42003F5101 /* ImageSlider.swift */; };
+		C123DF96279F9C56003F5101 /* ImageSlider.xib in Resources */ = {isa = PBXBuildFile; fileRef = C123DF95279F9C56003F5101 /* ImageSlider.xib */; };
+		C123DF9A279FB4D4003F5101 /* ProductDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C123DF99279FB4D4003F5101 /* ProductDetailViewController.swift */; };
 		C12E744A2795481B000197A0 /* OpenMarketListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C12E74492795481B000197A0 /* OpenMarketListCollectionViewCell.swift */; };
 		C12E744C279548BC000197A0 /* OpenMarketGridCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C12E744B279548BC000197A0 /* OpenMarketGridCollectionViewCell.swift */; };
 		C13469E12786BF1E0044DFDB /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FDEA14278463FE00B12770 /* Currency.swift */; };
@@ -114,6 +117,9 @@
 /* Begin PBXFileReference section */
 		01B773038AA12727A1AE8189 /* Pods-OpenMarket.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenMarket.debug.xcconfig"; path = "Target Support Files/Pods-OpenMarket/Pods-OpenMarket.debug.xcconfig"; sourceTree = "<group>"; };
 		40A8AED9FA2D0026389DF4B1 /* Pods-OpenMarket.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenMarket.release.xcconfig"; path = "Target Support Files/Pods-OpenMarket/Pods-OpenMarket.release.xcconfig"; sourceTree = "<group>"; };
+		C123DF93279F9C42003F5101 /* ImageSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSlider.swift; sourceTree = "<group>"; };
+		C123DF95279F9C56003F5101 /* ImageSlider.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ImageSlider.xib; sourceTree = "<group>"; };
+		C123DF99279FB4D4003F5101 /* ProductDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductDetailViewController.swift; sourceTree = "<group>"; };
 		C12E74492795481B000197A0 /* OpenMarketListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketListCollectionViewCell.swift; sourceTree = "<group>"; };
 		C12E744B279548BC000197A0 /* OpenMarketGridCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketGridCollectionViewCell.swift; sourceTree = "<group>"; };
 		C13469E22786BF3F0044DFDB /* URLSessionProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionProviderTests.swift; sourceTree = "<group>"; };
@@ -214,6 +220,23 @@
 				40A8AED9FA2D0026389DF4B1 /* Pods-OpenMarket.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		C123DF97279F9C5D003F5101 /* ImageSliderView */ = {
+			isa = PBXGroup;
+			children = (
+				C123DF93279F9C42003F5101 /* ImageSlider.swift */,
+				C123DF95279F9C56003F5101 /* ImageSlider.xib */,
+			);
+			path = ImageSliderView;
+			sourceTree = "<group>";
+		};
+		C123DF98279FB4A9003F5101 /* ProductDetail */ = {
+			isa = PBXGroup;
+			children = (
+				C123DF99279FB4D4003F5101 /* ProductDetailViewController.swift */,
+			);
+			path = ProductDetail;
 			sourceTree = "<group>";
 		};
 		C13469F727885D950044DFDB /* APIRequest */ = {
@@ -445,6 +468,7 @@
 			children = (
 				C13BFD5C2796E046006E2440 /* ProductPage */,
 				C1A9BEA5279DC34F005D6679 /* ProductCreate */,
+				C123DF97279F9C5D003F5101 /* ImageSliderView */,
 				C70FB10025BEF61C00C9924E /* Main.storyboard */,
 				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
 			);
@@ -454,6 +478,7 @@
 		E99FDE762782D3EC0083D4D6 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				C123DF98279FB4A9003F5101 /* ProductDetail */,
 				C13BFD582796DF5E006E2440 /* ProductPage */,
 				C13BFD592796DFB3006E2440 /* ProductCreate */,
 				C1763B63279931C900D6C159 /* ProductNetworkManager.swift */,
@@ -579,6 +604,7 @@
 			files = (
 				E93FA8952782F9A2003DC3E7 /* .swiftlint.yml in Resources */,
 				C70FB10725BEF61D00C9924E /* LaunchScreen.storyboard in Resources */,
+				C123DF96279F9C56003F5101 /* ImageSlider.xib in Resources */,
 				C1A9BEA4279DB550005D6679 /* ProductRegisterView.xib in Resources */,
 				C70FB10425BEF61D00C9924E /* Assets.xcassets in Resources */,
 				C70FB10225BEF61C00C9924E /* Main.storyboard in Resources */,
@@ -688,6 +714,7 @@
 				C13469F1278710420044DFDB /* URLSessionProtocol.swift in Sources */,
 				E963248A278D6AC800851348 /* OpenMarketCollectionViewCell.swift in Sources */,
 				C1A56967278B2098004E4B3C /* Extension+JSONDecoder.swift in Sources */,
+				C123DF94279F9C42003F5101 /* ImageSlider.swift in Sources */,
 				E9632434278AEAA900851348 /* JSONRequest.swift in Sources */,
 				E9FDEAB52788695400B12770 /* ShowProductSecretRequest.swift in Sources */,
 				C1A5695E278B0598004E4B3C /* CreateProductRequestImage.swift in Sources */,
@@ -720,6 +747,7 @@
 				C1346A03278867DA0044DFDB /* DeleteProductRequest.swift in Sources */,
 				E9FDEAAF2788668200B12770 /* ShowProductDetailRequest.swift in Sources */,
 				E9FDEA202784677100B12770 /* CreateProductRequestParams.swift in Sources */,
+				C123DF9A279FB4D4003F5101 /* ProductDetailViewController.swift in Sources */,
 				C13469E92786E35C0044DFDB /* Vendor.swift in Sources */,
 				C1A56961278B1014004E4B3C /* HTTPMethod.swift in Sources */,
 				C13469E62786E32F0044DFDB /* ProductImage.swift in Sources */,
