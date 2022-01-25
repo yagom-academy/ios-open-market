@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="biG-Ng-ABB">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -14,11 +16,11 @@
             <objects>
                 <viewController modalPresentationStyle="fullScreen" id="uzy-fi-xhL" customClass="ProductListViewController" customModule="OpenMarket" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="0ET-x8-due">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="e05-fh-pgO">
-                                <rect key="frame" x="10" y="54" width="580" height="556"/>
+                                <rect key="frame" x="10" y="98" width="394" height="774"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="vV5-5X-krc">
                                     <size key="itemSize" width="159" height="214"/>
@@ -28,7 +30,7 @@
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ListCell" id="oJP-9s-PbT" customClass="ListCell" customModule="OpenMarket" customModuleProvider="target">
-                                        <rect key="frame" x="101.5" y="0.0" width="377" height="79"/>
+                                        <rect key="frame" x="8.5" y="0.0" width="377" height="79"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="FH8-oP-9Ee">
                                             <rect key="frame" x="0.0" y="0.0" width="377" height="79"/>
@@ -123,16 +125,16 @@
                                         </collectionViewCellContentView>
                                         <size key="customSize" width="377" height="79"/>
                                         <connections>
-                                            <outlet property="discountedPrice" destination="I1D-YH-1xu" id="y0m-x7-s3P"/>
-                                            <outlet property="name" destination="GwL-56-6DJ" id="sCh-Fb-e4c"/>
-                                            <outlet property="price" destination="3w3-RK-taK" id="OrC-TS-Mui"/>
-                                            <outlet property="stock" destination="aTc-wH-QK6" id="oJV-xy-JSl"/>
-                                            <outlet property="thumbnail" destination="JOL-pT-fgc" id="kNW-Cz-Agj"/>
+                                            <outlet property="discountedPriceLabel" destination="I1D-YH-1xu" id="dwP-Dv-Qg1"/>
+                                            <outlet property="nameLabel" destination="GwL-56-6DJ" id="QNL-Qy-vbE"/>
+                                            <outlet property="priceLabel" destination="3w3-RK-taK" id="EKz-UV-rvk"/>
+                                            <outlet property="stockLabel" destination="aTc-wH-QK6" id="lM0-1o-UMg"/>
+                                            <outlet property="thumbnailImageView" destination="JOL-pT-fgc" id="rgd-nx-Zkg"/>
                                             <segue destination="VeB-qe-phQ" kind="show" id="Ith-jF-9GL"/>
                                         </connections>
                                     </collectionViewCell>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="GridCell" id="fnH-M4-fIZ" customClass="GridCell" customModule="OpenMarket" customModuleProvider="target">
-                                        <rect key="frame" x="192" y="89" width="196" height="260"/>
+                                        <rect key="frame" x="99" y="89" width="196" height="260"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="e2e-9C-Ofg">
                                             <rect key="frame" x="0.0" y="0.0" width="196" height="260"/>
@@ -191,11 +193,11 @@
                                         </collectionViewCellContentView>
                                         <size key="customSize" width="196" height="260"/>
                                         <connections>
-                                            <outlet property="discountedPrice" destination="P2R-pL-eba" id="R4A-XD-jUE"/>
-                                            <outlet property="name" destination="Ho2-LC-gbR" id="RbV-L1-xqE"/>
-                                            <outlet property="price" destination="Hcq-nR-FbC" id="ShM-Kj-0Ew"/>
-                                            <outlet property="stock" destination="r59-wG-ixn" id="b5f-G3-AWv"/>
-                                            <outlet property="thumbnail" destination="v1E-AX-bfZ" id="xns-EM-32g"/>
+                                            <outlet property="discountedPriceLabel" destination="P2R-pL-eba" id="WUm-l4-pYK"/>
+                                            <outlet property="nameLable" destination="Ho2-LC-gbR" id="WoZ-Pe-xGm"/>
+                                            <outlet property="priceLabel" destination="Hcq-nR-FbC" id="HII-1V-Y0v"/>
+                                            <outlet property="stockLabel" destination="r59-wG-ixn" id="ji1-Rf-CXu"/>
+                                            <outlet property="thumbnailImageView" destination="v1E-AX-bfZ" id="ScY-yz-W8w"/>
                                             <segue destination="VeB-qe-phQ" kind="show" id="7oa-0v-BAz"/>
                                         </connections>
                                     </collectionViewCell>
@@ -249,20 +251,20 @@
             <objects>
                 <viewController id="bSo-iR-hiR" customClass="EditProductViewController" customModule="OpenMarket" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="aJo-oh-IZa">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZKX-Yz-lOc">
-                                <rect key="frame" x="0.0" y="44" width="600" height="556"/>
+                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="EmB-rA-ao2" userLabel="Regist StackView">
-                                        <rect key="frame" x="0.0" y="0.0" width="600" height="661.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="812"/>
                                         <subviews>
                                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gYF-RW-2Pn" userLabel="Image ScrollView">
-                                                <rect key="frame" x="0.0" y="0.0" width="600" height="125"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="414" height="125"/>
                                                 <subviews>
                                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Skb-MQ-X85" userLabel="Post Image List Stack View">
-                                                        <rect key="frame" x="0.0" y="0.0" width="600" height="125"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="414" height="125"/>
                                                         <subviews>
                                                             <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mSG-jm-5lP">
                                                                 <rect key="frame" x="0.0" y="0.0" width="125" height="125"/>
@@ -274,7 +276,7 @@
                                                                 </state>
                                                             </button>
                                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" translatesAutoresizingMaskIntoConstraints="NO" id="Zdh-mQ-SXD" userLabel="Post Images StackView">
-                                                                <rect key="frame" x="125" y="0.0" width="475" height="125"/>
+                                                                <rect key="frame" x="125" y="0.0" width="289" height="125"/>
                                                             </stackView>
                                                         </subviews>
                                                         <constraints>
@@ -296,20 +298,20 @@
                                                 <viewLayoutGuide key="frameLayoutGuide" id="1qR-Bk-26z"/>
                                             </scrollView>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="b7M-gt-U7l" userLabel="Name">
-                                                <rect key="frame" x="0.0" y="135" width="600" height="34"/>
+                                                <rect key="frame" x="0.0" y="135" width="414" height="34"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits"/>
                                             </textField>
                                             <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="p32-bo-2MD" userLabel="Price StackView">
-                                                <rect key="frame" x="0.0" y="179" width="600" height="34"/>
+                                                <rect key="frame" x="0.0" y="179" width="414" height="34"/>
                                                 <subviews>
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="cY1-sL-bsT" userLabel="Price">
-                                                        <rect key="frame" x="0.0" y="0.0" width="493" height="34"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="307" height="34"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits"/>
                                                     </textField>
                                                     <segmentedControl opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="bda-k4-KGn" userLabel="Currency">
-                                                        <rect key="frame" x="503" y="0.0" width="97" height="35"/>
+                                                        <rect key="frame" x="317" y="0.0" width="97" height="35"/>
                                                         <segments>
                                                             <segment title="KRW"/>
                                                             <segment title="USD"/>
@@ -318,17 +320,17 @@
                                                 </subviews>
                                             </stackView>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="7Uj-hl-NKN" userLabel="Discounted">
-                                                <rect key="frame" x="0.0" y="223" width="600" height="34"/>
+                                                <rect key="frame" x="0.0" y="223" width="414" height="34"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits"/>
                                             </textField>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="OAx-aY-Zxd" userLabel="Stock">
-                                                <rect key="frame" x="0.0" y="267" width="600" height="34"/>
+                                                <rect key="frame" x="0.0" y="267" width="414" height="34"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits"/>
                                             </textField>
                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="FzS-zH-mYY" userLabel="Description">
-                                                <rect key="frame" x="0.0" y="311" width="600" height="350.5"/>
+                                                <rect key="frame" x="0.0" y="311" width="414" height="501"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 <string key="text">상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명</string>
                                                 <color key="textColor" systemColor="labelColor"/>
@@ -425,32 +427,32 @@
             <objects>
                 <viewController id="VeB-qe-phQ" customClass="ProductDetailViewController" customModule="OpenMarket" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Md5-EP-4tz">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sTK-ou-dUe">
-                                <rect key="frame" x="0.0" y="44" width="600" height="556"/>
+                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="hkd-va-RsY" userLabel="Product Info StackView">
-                                        <rect key="frame" x="0.0" y="0.0" width="600" height="712"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="862.5"/>
                                         <subviews>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="test" translatesAutoresizingMaskIntoConstraints="NO" id="kbx-Z7-rE0" userLabel="Product ImageView">
-                                                <rect key="frame" x="0.0" y="0.0" width="600" height="300"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="414" height="300"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="300" id="u3q-9W-AOW"/>
                                                 </constraints>
                                             </imageView>
                                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0po-SE-DeF" userLabel="ProductDetail StackView">
-                                                <rect key="frame" x="0.0" y="300" width="600" height="61.5"/>
+                                                <rect key="frame" x="0.0" y="300" width="414" height="61.5"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d8s-Pg-r8Z">
-                                                        <rect key="frame" x="0.0" y="0.0" width="474.5" height="61.5"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="288.5" height="61.5"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="IHf-Z3-mcj" userLabel="StockNPriceStackView">
-                                                        <rect key="frame" x="474.5" y="0.0" width="125.5" height="61.5"/>
+                                                        <rect key="frame" x="288.5" y="0.0" width="125.5" height="61.5"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Stock" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G2n-Pj-beW">
                                                                 <rect key="frame" x="0.0" y="0.0" width="125.5" height="20.5"/>
@@ -475,7 +477,7 @@
                                                 </subviews>
                                             </stackView>
                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="pcF-ga-iKx">
-                                                <rect key="frame" x="0.0" y="361.5" width="600" height="350.5"/>
+                                                <rect key="frame" x="0.0" y="361.5" width="414" height="501"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 <string key="text">상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명</string>
                                                 <color key="textColor" systemColor="labelColor"/>
@@ -520,7 +522,7 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="Ith-jF-9GL"/>
-        <segue reference="ZJ0-ON-a6u"/>
+        <segue reference="NGL-go-pI8"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="chevron.right" catalog="system" width="96" height="128"/>
