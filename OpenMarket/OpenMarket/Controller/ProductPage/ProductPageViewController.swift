@@ -82,7 +82,6 @@ final class ProductPageViewController: UIViewController {
         super.viewDidLoad()
         
         configureNotificationCenter()
-        
         configureActivityIndicator()
         configureSegmentedConrol()
         configureRefreshControl()
@@ -125,6 +124,10 @@ extension ProductPageViewController: UICollectionViewDelegate {
         if scrollView.contentOffset.y > bottomY {
             dataManager.nextPage()
         }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        performSegue(withIdentifier: "productDetailSegue", sender: nil)
     }
     
 }
@@ -255,7 +258,6 @@ fileprivate extension UISegmentedControl {
 
 extension ProductPageViewController {
     
-    @IBAction func unwindToProductPageViewController(_ sender: UIStoryboardSegue) {
-    }
+    @IBAction func unwindToProductPageViewController(_ sender: UIStoryboardSegue) { }
     
 }
