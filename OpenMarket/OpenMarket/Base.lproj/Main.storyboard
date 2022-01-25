@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="biG-Ng-ABB">
-    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -16,11 +14,11 @@
             <objects>
                 <viewController id="uzy-fi-xhL" customClass="ProductListViewController" customModule="OpenMarket" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="0ET-x8-due">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="e05-fh-pgO">
-                                <rect key="frame" x="10" y="98" width="394" height="774"/>
+                                <rect key="frame" x="10" y="54" width="580" height="556"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="vV5-5X-krc">
                                     <size key="itemSize" width="159" height="214"/>
@@ -30,7 +28,7 @@
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ListCell" id="oJP-9s-PbT" customClass="ListCell" customModule="OpenMarket" customModuleProvider="target">
-                                        <rect key="frame" x="8.5" y="0.0" width="377" height="79"/>
+                                        <rect key="frame" x="101.5" y="0.0" width="377" height="79"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="FH8-oP-9Ee">
                                             <rect key="frame" x="0.0" y="0.0" width="377" height="79"/>
@@ -125,15 +123,15 @@
                                         </collectionViewCellContentView>
                                         <size key="customSize" width="377" height="79"/>
                                         <connections>
-                                            <outlet property="discountedPriceLable" destination="I1D-YH-1xu" id="y0m-x7-s3P"/>
-                                            <outlet property="nameLable" destination="GwL-56-6DJ" id="sCh-Fb-e4c"/>
-                                            <outlet property="priceLable" destination="3w3-RK-taK" id="OrC-TS-Mui"/>
-                                            <outlet property="stockLable" destination="aTc-wH-QK6" id="oJV-xy-JSl"/>
+                                            <outlet property="discountedPriceLabel" destination="I1D-YH-1xu" id="y0m-x7-s3P"/>
+                                            <outlet property="nameLabel" destination="GwL-56-6DJ" id="sCh-Fb-e4c"/>
+                                            <outlet property="priceLabel" destination="3w3-RK-taK" id="OrC-TS-Mui"/>
+                                            <outlet property="stockLabel" destination="aTc-wH-QK6" id="oJV-xy-JSl"/>
                                             <outlet property="thumbnailImageView" destination="JOL-pT-fgc" id="kNW-Cz-Agj"/>
                                         </connections>
                                     </collectionViewCell>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="GridCell" id="fnH-M4-fIZ" customClass="GridCell" customModule="OpenMarket" customModuleProvider="target">
-                                        <rect key="frame" x="99" y="89" width="196" height="260"/>
+                                        <rect key="frame" x="192" y="89" width="196" height="260"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="e2e-9C-Ofg">
                                             <rect key="frame" x="0.0" y="0.0" width="196" height="260"/>
@@ -192,10 +190,10 @@
                                         </collectionViewCellContentView>
                                         <size key="customSize" width="196" height="260"/>
                                         <connections>
-                                            <outlet property="discountedPriceLable" destination="P2R-pL-eba" id="R4A-XD-jUE"/>
-                                            <outlet property="nameLable" destination="Ho2-LC-gbR" id="RbV-L1-xqE"/>
-                                            <outlet property="priceLable" destination="Hcq-nR-FbC" id="ShM-Kj-0Ew"/>
-                                            <outlet property="stockLable" destination="r59-wG-ixn" id="b5f-G3-AWv"/>
+                                            <outlet property="discountedPriceLabel" destination="P2R-pL-eba" id="R4A-XD-jUE"/>
+                                            <outlet property="nameLabel" destination="Ho2-LC-gbR" id="RbV-L1-xqE"/>
+                                            <outlet property="priceLabel" destination="Hcq-nR-FbC" id="ShM-Kj-0Ew"/>
+                                            <outlet property="stockLabel" destination="r59-wG-ixn" id="b5f-G3-AWv"/>
                                             <outlet property="thumbnailImageView" destination="v1E-AX-bfZ" id="xns-EM-32g"/>
                                         </connections>
                                     </collectionViewCell>

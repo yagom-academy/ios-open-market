@@ -9,10 +9,10 @@ import UIKit
 
 class GridCell: UICollectionViewCell {
     @IBOutlet private weak var thumbnailImageView: UIImageView!
-    @IBOutlet private weak var nameLable: UILabel!
-    @IBOutlet private weak var priceLable: UILabel!
-    @IBOutlet private weak var discountedPriceLable: UILabel!
-    @IBOutlet private weak var stockLable: UILabel!
+    @IBOutlet private weak var nameLabel: UILabel!
+    @IBOutlet private weak var priceLabel: UILabel!
+    @IBOutlet private weak var discountedPriceLabel: UILabel!
+    @IBOutlet private weak var stockLabel: UILabel!
     
     override func awakeFromNib() {
         self.layer.cornerRadius = 10
@@ -32,17 +32,17 @@ class GridCell: UICollectionViewCell {
         
         let commaPrice = "\(productData.price)".insertCommaInThousands()
         let commaDiscountedPrice = "\(productData.discountedPrice)".insertCommaInThousands()
-        nameLable.text = productData.name
-        priceLable.text = "\(productData.currency) \(commaPrice) "
-        discountedPriceLable.text = "\(productData.currency) \(commaDiscountedPrice)"
-        discountedPriceLable.textColor = .systemGray
+        nameLabel.text = productData.name
+        priceLabel.text = "\(productData.currency) \(commaPrice) "
+        discountedPriceLabel.text = "\(productData.currency) \(commaDiscountedPrice)"
+        discountedPriceLabel.textColor = .systemGray
         
         if productData.stock == 0 {
-            stockLable.text = "품절"
-            stockLable.textColor = .systemYellow
+            stockLabel.text = "품절"
+            stockLabel.textColor = .systemYellow
         } else {
-            stockLable.text = "잔여수량: \(productData.stock)"
-            stockLable.textColor = .systemGray
+            stockLabel.text = "잔여수량: \(productData.stock)"
+            stockLabel.textColor = .systemGray
         }
     }
     
