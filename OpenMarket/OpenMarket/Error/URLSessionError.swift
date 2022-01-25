@@ -2,7 +2,7 @@ import Foundation
 
 enum URLSessionError: LocalizedError {
     case requestFail
-    case statusCodeError
+    case statusCodeError(Int)
     case invalidData
     case urlIsNil
 }
@@ -12,8 +12,8 @@ extension URLSessionError {
         switch self {
         case .requestFail:
             return "Request has been failed"
-        case .statusCodeError:
-            return "Http status code error"
+        case .statusCodeError(let statusCode):
+            return "Http status code error : \(statusCode)"
         case .invalidData:
             return "Invalid data"
         case .urlIsNil:

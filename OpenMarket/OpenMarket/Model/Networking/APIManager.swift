@@ -24,9 +24,9 @@ class APIManager: APIManageable {
                 return
             }
             
-            guard let statusCode = (response as? HTTPURLResponse)?.statusCode, self.successRange.contains(statusCode) else {
-                completionHandler(.failure(.statusCodeError))
-                return
+            if let statusCode = (response as? HTTPURLResponse)?.statusCode,
+               !self.successRange.contains(statusCode) {
+                completionHandler(.failure(.statusCodeError(statusCode)))
             }
             
             guard let data = data else {
@@ -60,22 +60,6 @@ class APIManager: APIManageable {
     }
 }
 
-
-
-//class Toni: APIManageable {
-//    var shouldFail: Bool = false
-//
-//    func requestProductList(pageNumber: Int, itemsPerPage: Int, completionHandler: @escaping (Result<ProductList, Error>) -> Void) {
-//        if shouldFail {
-//
-//        } else {
-//
-//        }
-//    }
-//
-//
-//}
-
 extension APIManager {
     func performDataTask<Element: Decodable>(with request: URLRequest, _ completionHandler: @escaping (Result<Element, Error>) -> Void) {
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
@@ -84,9 +68,9 @@ extension APIManager {
                 return
             }
             
-            guard let statusCode = (response as? HTTPURLResponse)?.statusCode, self.successRange.contains(statusCode) else {
-                completionHandler(.failure(URLSessionError.statusCodeError))
-                return
+            if let statusCode = (response as? HTTPURLResponse)?.statusCode,
+               !self.successRange.contains(statusCode) {
+                completionHandler(.failure(URLSessionError.statusCodeError(statusCode)))
             }
             
             guard let data = data else {
