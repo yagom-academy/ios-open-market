@@ -21,8 +21,8 @@
 		48AF118A2782FAC900A2F6B6 /* ProductList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48AF11892782FAC900A2F6B6 /* ProductList.swift */; };
 		48AF118C2782FB6B00A2F6B6 /* ProductDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48AF118B2782FB6B00A2F6B6 /* ProductDetail.swift */; };
 		48B0E7F7279BEA7C00820166 /* RegistImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B0E7F6279BEA7C00820166 /* RegistImage.swift */; };
-		48C69904278ADCD4002EF7D1 /* ProductParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48C69903278ADCD4002EF7D1 /* ProductParams.swift */; };
-		48C69905278ADDF6002EF7D1 /* ProductParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48C69903278ADCD4002EF7D1 /* ProductParams.swift */; };
+		48C69904278ADCD4002EF7D1 /* ProductParam.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48C69903278ADCD4002EF7D1 /* ProductParam.swift */; };
+		48C69905278ADDF6002EF7D1 /* ProductParam.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48C69903278ADCD4002EF7D1 /* ProductParam.swift */; };
 		48C69907278ADE3D002EF7D1 /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48C69906278ADE3D002EF7D1 /* Image.swift */; };
 		48C69909278AE14D002EF7D1 /* Vendor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48C69908278AE14D002EF7D1 /* Vendor.swift */; };
 		48C6990B278AE952002EF7D1 /* Vendor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48C69908278AE14D002EF7D1 /* Vendor.swift */; };
@@ -74,7 +74,7 @@
 		48AF11892782FAC900A2F6B6 /* ProductList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductList.swift; sourceTree = "<group>"; };
 		48AF118B2782FB6B00A2F6B6 /* ProductDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetail.swift; sourceTree = "<group>"; };
 		48B0E7F6279BEA7C00820166 /* RegistImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistImage.swift; sourceTree = "<group>"; };
-		48C69903278ADCD4002EF7D1 /* ProductParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductParams.swift; sourceTree = "<group>"; };
+		48C69903278ADCD4002EF7D1 /* ProductParam.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductParam.swift; sourceTree = "<group>"; };
 		48C69906278ADE3D002EF7D1 /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
 		48C69908278AE14D002EF7D1 /* Vendor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vendor.swift; sourceTree = "<group>"; };
 		48C6990D278AECD7002EF7D1 /* ProductPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductPreview.swift; sourceTree = "<group>"; };
@@ -158,7 +158,7 @@
 			isa = PBXGroup;
 			children = (
 				48C69917278C1B83002EF7D1 /* RegistProductRequest.swift */,
-				48C69903278ADCD4002EF7D1 /* ProductParams.swift */,
+				48C69903278ADCD4002EF7D1 /* ProductParam.swift */,
 				48B0E7F6279BEA7C00820166 /* RegistImage.swift */,
 			);
 			path = RegistProduct;
@@ -359,7 +359,7 @@
 				48F358792788196200224BFC /* MockURLSession.swift in Sources */,
 				48F358782788195F00224BFC /* URLSessionProvider.swift in Sources */,
 				0DF58F79278878290024602F /* RequestType.swift in Sources */,
-				48C69905278ADDF6002EF7D1 /* ProductParams.swift in Sources */,
+				48C69905278ADDF6002EF7D1 /* ProductParam.swift in Sources */,
 				48F3587B278819CA00224BFC /* Decoder.swift in Sources */,
 				48C6990B278AE952002EF7D1 /* Vendor.swift in Sources */,
 				48F358722788192900224BFC /* MockURLSessionTests.swift in Sources */,
@@ -389,7 +389,7 @@
 				48AF118A2782FAC900A2F6B6 /* ProductList.swift in Sources */,
 				48C69914278AF174002EF7D1 /* DeleteProductRequest.swift in Sources */,
 				48C69918278C1B83002EF7D1 /* RegistProductRequest.swift in Sources */,
-				48C69904278ADCD4002EF7D1 /* ProductParams.swift in Sources */,
+				48C69904278ADCD4002EF7D1 /* ProductParam.swift in Sources */,
 				0DF58F762788708F0024602F /* Currency.swift in Sources */,
 				0DF58F74278817B50024602F /* MockURLSession.swift in Sources */,
 				48D6C1AD2799AB2E00A59513 /* ListCell.swift in Sources */,

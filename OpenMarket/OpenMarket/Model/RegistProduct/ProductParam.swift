@@ -8,13 +8,13 @@
 import Foundation
 
 struct ProductParam: Codable {
-    let name: String
-    let descriptions: String
-    let price: Int
-    let currency: Currency
-    let discountedPrice: Int
-    let stock: Int
-    let secret: String
+    var name: String
+    var descriptions: String
+    var price: Int
+    var currency: Currency
+    var discountedPrice: Int
+    var stock: Int
+    var secret: String
     
     private enum CodingKeys: String, CodingKey {
         case name

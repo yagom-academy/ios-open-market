@@ -260,7 +260,7 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="EmB-rA-ao2" userLabel="Regist StackView">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="812"/>
                                         <subviews>
-                                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Skb-MQ-X85" userLabel="Post Image List Stack View">
+                                            <stackView opaque="NO" contentMode="scaleToFill" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="Skb-MQ-X85" userLabel="Post Image List Stack View">
                                                 <rect key="frame" x="0.0" y="0.0" width="414" height="125"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mSG-jm-5lP">
@@ -276,7 +276,7 @@
                                                         </connections>
                                                     </button>
                                                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Yv0-NP-CzZ">
-                                                        <rect key="frame" x="125" y="0.0" width="289" height="125"/>
+                                                        <rect key="frame" x="127" y="0.0" width="287" height="125"/>
                                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                         <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="R4V-NQ-Zx3">
                                                             <size key="itemSize" width="128" height="128"/>
@@ -383,7 +383,7 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Done" id="JDf-73-wOr">
                             <connections>
-                                <action selector="hitDoneButton:" destination="bSo-iR-hiR" id="BOC-YT-c6x"/>
+                                <action selector="hitDoneButton:" destination="bSo-iR-hiR" id="fWS-Ay-Bhb"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>

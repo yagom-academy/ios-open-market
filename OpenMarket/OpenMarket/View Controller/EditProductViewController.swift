@@ -19,8 +19,8 @@ class EditProductViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var productNavigationBar: UINavigationItem!
     let imagePickerController = UIImagePickerController()
     let alertController = UIAlertController(title: "사진 추가", message: nil, preferredStyle: .actionSheet)
-    var postData: ProductParam?
-    var postImage: [UIImage] = []
+//    var postData: ProductParam
+    var tempPostImage: [UIImage] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,20 +41,17 @@ class EditProductViewController: UIViewController, UITextFieldDelegate {
         self.navigationController?.popViewController(animated: true)
     }
     
-    
     @IBAction func hitDoneButton(_ sender: Any) {
-        self.navigationController?.popViewController(animated: true)
-        //        postData?.name = productNameTextField.text
-        //        postData?.price = productPriceTextField.text
-        //        postData?.discountedPrice = discountedPriceTextField.text
-        //        postData?.stock = productStockTextField.text
-        
+//        postData.name = productNameTextField.text
+//        postData.price = productPriceTextField.text
+//        postData.discountedPrice = discountedPriceTextField.text
+//        postData.stock = productStockTextField.text
+//        self.navigationController?.popViewController(animated: true)
     }
     
     @IBAction func hitPostImageButton(_ sender: Any) {
         self.present(alertController, animated: true, completion: nil)
     }
-    
     
     func placeholderSetting() {
         productNameTextField.delegate = self
@@ -78,6 +75,7 @@ class EditProductViewController: UIViewController, UITextFieldDelegate {
     
     func openAlbum() {
         self.imagePickerController.sourceType = .photoLibrary
+        self.imagePickerController.allowsEditing = true
         present(self.imagePickerController, animated: false, completion: nil)
     }
     
@@ -91,10 +89,13 @@ class EditProductViewController: UIViewController, UITextFieldDelegate {
 
 extension EditProductViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        guard let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage else {
-            return
+        var newImage: UIImage? = nil
+        if let image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
+            newImage = image
+        } else if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+            newImage = image
         }
-        postImage.append(image)
+        tempPostImage.append(newImage ?? UIImage())
         postImageListCollectionView.reloadData()
         self.dismiss(animated: true, completion: nil)
     }
@@ -102,7 +103,7 @@ extension EditProductViewController: UIImagePickerControllerDelegate, UINavigati
 
 extension EditProductViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return postImage.count
+        return tempPostImage.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -110,11 +111,10 @@ extension EditProductViewController: UICollectionViewDataSource {
             return ProductImageCell()
         }
         
-        cell.previewImageView.image = postImage[indexPath.item]
+        cell.previewImageView.image = tempPostImage[indexPath.item]
         
             return cell
     }
-    
 }
 
 extension EditProductViewController: UICollectionViewDelegateFlowLayout {
