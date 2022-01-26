@@ -560,6 +560,13 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
     }
 }
 
+extension ProductRegistrationViewController {
+    private enum Section: Int {
+        case imagesSection
+        case buttonSection
+    }
+}
+
 extension ProductRegistrationViewController: UIImagePickerControllerDelegate {
     func imagePickerController(
         _ picker: UIImagePickerController,
@@ -594,7 +601,15 @@ extension ProductRegistrationViewController: UICollectionViewDataSource {
         _ collectionView: UICollectionView,
         numberOfItemsInSection section: Int
     ) -> Int {
-        return section == 0 ? images.count : 1
+        guard let section = Section(rawValue: section) else {
+            return 0
+        }
+        switch section {
+        case .imagesSection:
+            return images.count
+        case .buttonSection:
+            return 1
+        }
     }
     
     func collectionView(
@@ -608,13 +623,17 @@ extension ProductRegistrationViewController: UICollectionViewDataSource {
         cell.contentView.subviews.forEach { view in
             view.removeFromSuperview()
         }
-        if indexPath.section == 0 {
+        guard let section = Section(rawValue: indexPath.section) else {
+            return cell
+        }
+        switch section {
+        case .imagesSection:
             let image = images[indexPath.item]
             let imageView = UIImageView(frame: cell.contentView.frame)
             imageView.image = image
             imageView.contentMode = .scaleAspectFit
             cell.contentView.addSubview(imageView)
-        } else {
+        case .buttonSection:
             let button = UIButton(type: .system)
             let image = UIImage(systemName: "plus")
             button.setTitle(nil, for: .normal)
