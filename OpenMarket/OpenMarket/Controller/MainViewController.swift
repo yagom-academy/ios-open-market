@@ -27,6 +27,14 @@ class MainViewController: UIViewController {
         loadProductsList(pageNumber: 1)
     }
     
+    @objc private func handleRefrashControl() {
+        reloadData()
+        let scrollView = view as? UIScrollView
+        DispatchQueue.main.async {
+            scrollView?.refreshControl?.endRefreshing()
+        }
+    }
+    
     private func loadProductsList(pageNumber: Int) {
         networkTask.requestProductList(pageNumber: pageNumber, itemsPerPage: 20) { result in
             switch result {
@@ -97,11 +105,53 @@ class MainViewController: UIViewController {
         loadProductsList(pageNumber: 1)
     }
     
-    @objc private func handleRefrashControl() {
-        reloadData()
-        let scrollView = view as? UIScrollView
-        DispatchQueue.main.async {
-            scrollView?.refreshControl?.endRefreshing()
+    private func tryPresentingEditView(at index: Int) {
+        if let vendorId = productsDataSource.vendorId(at: index),
+           vendorId != 16 {
+            showAlert(
+                title: "다른 사람의 상품입니다",
+                message: "Vedor Id: \(vendorId)"
+            )
+        }
+        guard let productId = productsDataSource.productId(at: index) else { return }
+        networkTask.requestProductDetail(productId: productId) { result in
+            switch result {
+            case .success(let data):
+                guard let product: Product = try? self.jsonParser.decode(from: data) else {
+                    return
+                }
+                let storyboard = UIStoryboard(
+                    name: ProductRegistrationViewController.storyboardName,
+                    bundle: nil
+                )
+                DispatchQueue.main.async {
+                    let viewController = storyboard.instantiateViewController(
+                        identifier: ProductRegistrationViewController.identifier
+                    ) { coder in
+                        let productRegistrationViewController = ProductRegistrationViewController(
+                            coder: coder,
+                            isModifying: true,
+                            productInformation: product,
+                            networkTask: self.networkTask,
+                            jsonParser: self.jsonParser
+                        ) {
+                            self.showAlert(title: "수정 성공", message: nil)
+                            self.reloadData()
+                        }
+                        return productRegistrationViewController
+                    }
+                    let navigationController = UINavigationController(
+                        rootViewController: viewController
+                    )
+                    navigationController.modalPresentationStyle = .fullScreen
+                    self.present(navigationController, animated: true, completion: nil)
+                }
+            case .failure(let error):
+                self.showAlert(
+                    title: "데이터를 불러오지 못했습니다",
+                    message: error.localizedDescription
+                )
+            }
         }
     }
     
@@ -193,54 +243,7 @@ extension MainViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if let vendorId = productsDataSource.vendorId(at: indexPath.row),
-           vendorId != 16 {
-            showAlert(
-                title: "다른 사람의 상품입니다",
-                message: "Vedor Id: \(vendorId)"
-            )
-        }
-        
-        guard let productId = productsDataSource.productId(at: indexPath.row) else { return }
-        networkTask.requestProductDetail(productId: productId) { result in
-            switch result {
-            case .success(let data):
-                guard let product: Product = try? self.jsonParser.decode(from: data) else {
-                    return
-                }
-                let storyboard = UIStoryboard(
-                    name: ProductRegistrationViewController.storyboardName,
-                    bundle: nil
-                )
-                DispatchQueue.main.async {
-                    let viewController = storyboard.instantiateViewController(
-                        identifier: ProductRegistrationViewController.identifier
-                    ) { coder in
-                        let productRegistrationViewController = ProductRegistrationViewController(
-                            coder: coder,
-                            isModifying: true,
-                            productInformation: product,
-                            networkTask: self.networkTask,
-                            jsonParser: self.jsonParser
-                        ) {
-                            self.showAlert(title: "수정 성공", message: nil)
-                            self.reloadData()
-                        }
-                        return productRegistrationViewController
-                    }
-                    let navigationController = UINavigationController(
-                        rootViewController: viewController
-                    )
-                    navigationController.modalPresentationStyle = .fullScreen
-                    self.present(navigationController, animated: true, completion: nil)
-                }
-            case .failure(let error):
-                self.showAlert(
-                    title: "데이터를 불러오지 못했습니다",
-                    message: error.localizedDescription
-                )
-            }
-        }
+        tryPresentingEditView(at: indexPath.row)
     }
 }
 
@@ -254,46 +257,7 @@ extension MainViewController: UICollectionViewDelegate {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let productId = productsDataSource.productId(at: indexPath.item) else { return }
-        networkTask.requestProductDetail(productId: productId) { result in
-            switch result {
-            case .success(let data):
-                guard let product: Product = try? self.jsonParser.decode(from: data) else {
-                    return
-                }
-                let storyboard = UIStoryboard(
-                    name: ProductRegistrationViewController.storyboardName,
-                    bundle: nil
-                )
-                DispatchQueue.main.async {
-                    let viewController = storyboard.instantiateViewController(
-                        identifier: ProductRegistrationViewController.identifier
-                    ) { coder in
-                        let productRegistrationViewController = ProductRegistrationViewController(
-                            coder: coder,
-                            isModifying: true,
-                            productInformation: product,
-                            networkTask: self.networkTask,
-                            jsonParser: self.jsonParser
-                        ) {
-                            self.showAlert(title: "수정 성공", message: nil)
-                            self.reloadData()
-                        }
-                        return productRegistrationViewController
-                    }
-                    let navigationController = UINavigationController(
-                        rootViewController: viewController
-                    )
-                    navigationController.modalPresentationStyle = .fullScreen
-                    self.present(navigationController, animated: true, completion: nil)
-                }
-            case .failure(let error):
-                self.showAlert(
-                    title: "데이터를 불러오지 못했습니다",
-                    message: error.localizedDescription
-                )
-            }
-        }
+        tryPresentingEditView(at: indexPath.item)
     }
 }
 
