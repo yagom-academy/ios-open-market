@@ -14,5 +14,5 @@ struct UnboundDataForPost {
     var currency: Currency
     var discountedPrice: String?
     var stock: String?
-    var images: [UIImage]?
+    var images: [UIImage]
 }

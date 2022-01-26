@@ -50,7 +50,7 @@ final class PageViewController: UIViewController, DataRepresentable {
     }
 
     private func configureRefreshControl(_ refreshControl: UIRefreshControl?) {
-        refreshControl?	.addTarget(self, action: #selector(refreshControlDidActivate), for: .valueChanged)
+        refreshControl?.addTarget(self, action: #selector(refreshControlDidActivate), for: .valueChanged)
     }
     
     @objc private func refreshControlDidActivate(_ sender: UIRefreshControl) {

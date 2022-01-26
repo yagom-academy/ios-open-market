@@ -77,22 +77,18 @@ class PostManager {
                                           secret: secret)
     }
     
-    private func processedImages(_ images: [UIImage]?) throws -> [Image] {
-        guard let images: [Image] = try {
-            var imageIdentifiers = try images?.compactMap { image -> Image? in
-                guard let jpegData = try compressedImage(image) else { return nil }
-                return Image(type: .png, data: jpegData)
-            }
-            imageIdentifiers?.removeLast()
-            return imageIdentifiers
-        }() else {
-            throw CreateProductError.invalidImages
+    private func processedImages(_ images: [UIImage]) throws -> [Image] {
+        var imageIdentifiers = try images.compactMap { image -> Image? in
+            guard let jpegData = try compressedImage(image) else { return nil }
+            return Image(type: .png, data: jpegData)
         }
+        imageIdentifiers.removeLast()
+        
         guard (1...5).contains(images.count) else {
             throw CreateProductError.invalidImages
         }
 
-        return images
+        return imageIdentifiers
     }
     
     private func compressedImage(_ image: UIImage) throws -> Data? {

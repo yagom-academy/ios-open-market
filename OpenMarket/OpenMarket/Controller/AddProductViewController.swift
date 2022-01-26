@@ -254,7 +254,6 @@ extension AddProductViewController {
     private func makeDatasource() -> UICollectionViewDiffableDataSource<Int, UIImage> {
         let cellRegistration = UICollectionView.CellRegistration<ImageCollectionViewCell, UIImage> { (cell, indexPath, image) in
             cell.imageView.image = image
-            cell.imageView.contentMode = .scaleAspectFit
         }
         dataSource = UICollectionViewDiffableDataSource<Int, UIImage>(collectionView: imageCollectionView) { (collectionView, indexPath, image) -> UICollectionViewCell? in
             collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: image)
