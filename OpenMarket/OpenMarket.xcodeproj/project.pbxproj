@@ -22,6 +22,10 @@
 		255619962784562B00067096 /* JSONParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 255619952784562B00067096 /* JSONParser.swift */; };
 		25561998278459B000067096 /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25561997278459B000067096 /* APIManager.swift */; };
 		25561999278459B000067096 /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25561997278459B000067096 /* APIManager.swift */; };
+		2563E86927A13458003CD2CC /* UIImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2563E86827A13458003CD2CC /* UIImageView+Extension.swift */; };
+		2563E86A27A13458003CD2CC /* UIImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2563E86827A13458003CD2CC /* UIImageView+Extension.swift */; };
+		2563E86C27A164F1003CD2CC /* ImageCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2563E86B27A164F1003CD2CC /* ImageCacheManager.swift */; };
+		2563E86D27A164F1003CD2CC /* ImageCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2563E86B27A164F1003CD2CC /* ImageCacheManager.swift */; };
 		2580F2072786C6CC005FC50F /* URLGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2580F2062786C6CC005FC50F /* URLGenerator.swift */; };
 		2580F2082786C88D005FC50F /* URLGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2580F2062786C6CC005FC50F /* URLGenerator.swift */; };
 		2580F2172787D054005FC50F /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2580F2162787D054005FC50F /* NetworkError.swift */; };
@@ -102,6 +106,8 @@
 		253079422790FCF2004639B2 /* ProductCollectionViewListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductCollectionViewListCell.swift; sourceTree = "<group>"; };
 		255619952784562B00067096 /* JSONParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONParser.swift; sourceTree = "<group>"; };
 		25561997278459B000067096 /* APIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
+		2563E86827A13458003CD2CC /* UIImageView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extension.swift"; sourceTree = "<group>"; };
+		2563E86B27A164F1003CD2CC /* ImageCacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCacheManager.swift; sourceTree = "<group>"; };
 		2580F2062786C6CC005FC50F /* URLGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLGenerator.swift; sourceTree = "<group>"; };
 		2580F2162787D054005FC50F /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 		2580F21D2787E9CB005FC50F /* MockURLSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSession.swift; sourceTree = "<group>"; };
@@ -193,6 +199,7 @@
 				25F8D20F2796AAB8005B9767 /* Data+Extension.swift */,
 				25EEB02027986CCD007E50D8 /* UIImage+Extension.swift */,
 				25EEB085279E7F5A007E50D8 /* UILabel+Extension.swift */,
+				2563E86827A13458003CD2CC /* UIImageView+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -275,6 +282,7 @@
 				2530793E27901928004639B2 /* PresentStyle.swift */,
 				25EEB0222798723B007E50D8 /* ImagePickerable.swift */,
 				25F8D1FF279592F3005B9767 /* ReuseIdentifying.swift */,
+				2563E86B27A164F1003CD2CC /* ImageCacheManager.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -435,6 +443,7 @@
 			files = (
 				2580F21E2787E9CB005FC50F /* MockURLSession.swift in Sources */,
 				25561999278459B000067096 /* APIManager.swift in Sources */,
+				2563E86A27A13458003CD2CC /* UIImageView+Extension.swift in Sources */,
 				25561994278450EC00067096 /* Image.swift in Sources */,
 				25F8D2142796AAE2005B9767 /* ProductRequestForModification.swift in Sources */,
 				25561990278450B200067096 /* URLSession+Extension.swift in Sources */,
@@ -451,6 +460,7 @@
 				25EEB02D279A8520007E50D8 /* ProductRequestForRegistration.swift in Sources */,
 				25561993278450EA00067096 /* ProductList.swift in Sources */,
 				2580F2082786C88D005FC50F /* URLGenerator.swift in Sources */,
+				2563E86D27A164F1003CD2CC /* ImageCacheManager.swift in Sources */,
 				89376D152783BF3900364CB8 /* OpenMarketTests.swift in Sources */,
 				89376D1C2783BF6600364CB8 /* APIManagerTests.swift in Sources */,
 				2580F2232787EAB5005FC50F /* NetworkError.swift in Sources */,
@@ -472,6 +482,7 @@
 				25EEB083279E68E1007E50D8 /* ProductDetailViewController.swift in Sources */,
 				2580F2222787EA54005FC50F /* MockURLSession.swift in Sources */,
 				25F8D1FD27958659005B9767 /* LayoutConstant.swift in Sources */,
+				2563E86C27A164F1003CD2CC /* ImageCacheManager.swift in Sources */,
 				25EEB01D27981EAD007E50D8 /* ProductRegistrationModificationViewController.swift in Sources */,
 				2530793F27901928004639B2 /* PresentStyle.swift in Sources */,
 				2580F2172787D054005FC50F /* NetworkError.swift in Sources */,
@@ -483,6 +494,7 @@
 				89376D2327844F6200364CB8 /* Vendor.swift in Sources */,
 				25F8D20D2796AA9C005B9767 /* ImageFile.swift in Sources */,
 				2525ED3A2782E55600D90CE7 /* Product.swift in Sources */,
+				2563E86927A13458003CD2CC /* UIImageView+Extension.swift in Sources */,
 				25F8D20A2795AD86005B9767 /* ProductCollectionViewCell.swift in Sources */,
 				2580F2212787EA51005FC50F /* MockURLProtocol.swift in Sources */,
 				25F8D2102796AAB8005B9767 /* Data+Extension.swift in Sources */,

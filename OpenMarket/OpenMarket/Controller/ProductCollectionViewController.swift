@@ -169,7 +169,7 @@ extension ProductCollectionViewController {
       }
     }
     
-    dataSource = UICollectionViewDiffableDataSource<Section, Product>(collectionView: collectionView) { [self]
+    dataSource = UICollectionViewDiffableDataSource<Section, Product>(collectionView: collectionView) {
       (
         collectionView: UICollectionView,
         indexPath: IndexPath, item: Product
@@ -181,22 +181,7 @@ extension ProductCollectionViewController {
         return UICollectionViewCell()
       }
       
-      api.requestProductImage(url: item.thumbnail) { response in
-        switch response {
-        case .success(let data):
-          let image = UIImage(data: data)
-          DispatchQueue.main.async {
-            if indexPath == collectionView.indexPath(for: cell) {
-              cell.setCellImage(image: image)
-            }
-          }
-        case .failure(_):
-          let image = UIImage(named: "nosign")
-          DispatchQueue.main.async {
-            cell.setCellImage(image: image)
-          }
-        }
-      }
+      cell.setCellImage(url: item.thumbnail)
       cell.setCellData(product: item)
       
       return cell

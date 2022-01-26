@@ -14,13 +14,13 @@ protocol ProductCollectionViewCell: UICollectionViewCell {
   var productStockLabel: UILabel! { get set }
   var productFixedPriceLabel: UILabel! { get set }
   
-  func setCellImage(image: UIImage?)
+  func setCellImage(url: String)
   func setCellData(product: Product)
 }
 
 extension ProductCollectionViewCell {
-  func setCellImage(image: UIImage?) {
-    productImageView.image = image
+  func setCellImage(url: String) {
+    productImageView.setImage(url: url)
   }
   
   func setCellData(product: Product) {

@@ -223,11 +223,8 @@ extension ProductRegistrationModificationViewController {
         guard let images = data.images else {
           return
         }
-        for image in images {
-          let imageURL = image.thumbnailURL
-          fetchImages(url: imageURL)
-        }
         DispatchQueue.main.async {
+          fetchImages(images: images)
           setProductDetail(product: data)
         }
       case .failure(let error):
@@ -238,17 +235,10 @@ extension ProductRegistrationModificationViewController {
     }
   }
   
-  private func fetchImages(url: String) {
-    api.requestProductImage(url: url) { [self] response in
-      switch response {
-      case .success(let data):
-        let image = UIImage(data: data)
-        DispatchQueue.main.async {
-          appendImageView(image: image)
-        }
-      case .failure(let error):
-        print(error.errorDescription)
-      }
+  private func fetchImages(images: [Image]) {
+    for image in images {
+      let imageURL = image.thumbnailURL
+      appendImageView(url: imageURL)
     }
   }
   
@@ -287,6 +277,19 @@ extension ProductRegistrationModificationViewController {
     let imageView = appendImageView(image: resizingImage)
     addRemoveGesture(at: imageView)
     dismiss(animated: true, completion: nil)
+  }
+  
+  @discardableResult
+  private func appendImageView(url: String) -> UIImageView {
+    let imageView = UIImageView()
+    imageView.setImage(url: url)
+    imageStackView.addArrangedSubview(imageView)
+    imageView.heightAnchor.constraint(
+      equalTo: imageView.widthAnchor,
+      multiplier: 1
+    ).isActive = true
+    
+    return imageView
   }
   
   @discardableResult
