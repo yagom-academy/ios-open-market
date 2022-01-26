@@ -102,8 +102,9 @@ final class ProductPageViewController: UIViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let detailVC = segue.destination as? ProductDetailViewController {
-            
+        if let detailVC = segue.destination as? ProductDetailViewController,
+           let product = sender as? Product {
+            detailVC.product = product
         }
     }
     
@@ -133,13 +134,14 @@ extension ProductPageViewController: UICollectionViewDelegate {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let cell = collectionView.cellForItem(at: indexPath)
+        guard let segmentedControl = segmentedControl else { return }
+        let dataSource = segmentedControl.isListLayout ? listDataSource : gridDataSource
         
-        guard let listCell = cell as? OpenMarketCollectionViewCell else  { return }
+        let item = dataSource?.snapshot().itemIdentifiers(inSection: 0)
+        let index = indexPath.item
+        guard let product = item?[index] else { return }
         
-        
-        
-        performSegue(withIdentifier: "productDetailSegue", sender: nil)
+        performSegue(withIdentifier: "productDetailSegue", sender: product)
     }
     
 }

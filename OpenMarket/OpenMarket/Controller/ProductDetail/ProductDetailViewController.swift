@@ -9,7 +9,9 @@ import UIKit
 
 class ProductDetailViewController: UIViewController {
     
-    let images = [#imageLiteral(resourceName: "Image"), #imageLiteral(resourceName: "macBook")]
+    private let images = [#imageLiteral(resourceName: "Image"), #imageLiteral(resourceName: "macBook")]
+    
+    var product: Product?
 
     @IBOutlet private weak var imageSlider: ImageSlider!
     
@@ -17,6 +19,7 @@ class ProductDetailViewController: UIViewController {
         super.viewDidLoad()
         imageSlider.delegate = self
         imageSlider.reloadData()
+        print(product)
     }
 
 }
