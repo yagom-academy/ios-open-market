@@ -29,7 +29,6 @@ extension ListCell {
 
         configureViewHierarchy()
         configureConstraint()
-        //configureContent(product: product)
     }
 
     private func configureViewHierarchy() {

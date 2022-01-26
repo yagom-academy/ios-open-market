@@ -2,6 +2,12 @@ import UIKit
 
 class ManageProductViewController: UIViewController {
     private var keyboardHeight: CGFloat?
+    let manageProductManger = ManageProductManager()
+    var images: [UIImage] = [] {
+        didSet {
+            stackView.setImages(images: images)
+        }
+    }
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         return scrollView
@@ -11,6 +17,14 @@ class ManageProductViewController: UIViewController {
         let initialHeight = UIScreen.main.bounds.height -
             self.view.safeAreaLayoutGuide.layoutFrame.origin.y
         return initialHeight
+    }()
+    let manageProductFormAlert: UIAlertController = {
+        let alert = UIAlertController(title: "필수입력 항목을 확인 해 주세요",
+                                      message: nil,
+                                      preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "확인", style: .default)
+        alert.addAction(okAction)
+        return alert
     }()
     private lazy var frameLayoutHeight: NSLayoutConstraint = NSLayoutConstraint(
         item: self.scrollView.frameLayoutGuide,
@@ -28,15 +42,7 @@ class ManageProductViewController: UIViewController {
         setDelegate()
         configureConstraint()
         configureNavigationBar()
-        NotificationCenter.default.addObserver(
-            self, selector: #selector(keyboardAppear),
-            name: UIResponder.keyboardWillShowNotification, object: nil
-        )
-        NotificationCenter.default.addObserver(
-            self, selector: #selector(keyboardDisappear),
-            name: UIResponder.keyboardWillHideNotification,
-            object: nil
-        )
+        configureNotification()
     }
 
 // MARK: View Configuration
@@ -97,7 +103,6 @@ class ManageProductViewController: UIViewController {
 
 // MARK: Target Method
     @objc func touchUpDoneButton() {
-        self.dismiss(animated: true, completion: nil)
     }
 
     @objc func touchUpCancelButton() {
@@ -183,5 +188,22 @@ extension ManageProductViewController: UITextViewDelegate {
 
     @objc func keyboardDisappear() {
         increaseFrameLayoutGuide()
+    }
+}
+
+// MARK: Configure Notification
+extension ManageProductViewController {
+    func configureNotification() {
+        let notificationToAdd: [Selector: Notification.Name] = [
+            #selector(keyboardAppear): UIResponder.keyboardWillShowNotification,
+            #selector(keyboardDisappear): UIResponder.keyboardWillHideNotification
+        ]
+
+        notificationToAdd.forEach { selector, notificationName in
+            NotificationCenter.default.addObserver(
+                self, selector: selector,
+                name: notificationName,
+                object: nil)
+        }
     }
 }

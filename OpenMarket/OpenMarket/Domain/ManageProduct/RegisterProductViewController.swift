@@ -34,6 +34,33 @@ class RegisterProductViewController: ManageProductViewController {
         return alert
     }()
 
+    private let noImageAlert: UIAlertController = {
+        let alert = UIAlertController(title: "상품 이미지 등록은 필수입니다.",
+                                      message: "이미지는 최소 1개 최대 5개까지 추가 가능합니다.",
+                                      preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "확인", style: .default)
+        alert.addAction(okAction)
+        return alert
+    }()
+
+    private let registerSuccessAlert: UIAlertController = {
+        let alert = UIAlertController(title: "상품등록에 성공하였습니다.",
+                                      message: nil,
+                                      preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "확인", style: .default)
+        alert.addAction(okAction)
+        return alert
+    }()
+
+    private let registerFailureAlert: UIAlertController = {
+        let alert = UIAlertController(title: "상품등록에 실패하였습니다.",
+                                      message: "잠시 뒤 다시 시도 해 주세요.",
+                                      preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "확인", style: .default)
+        alert.addAction(okAction)
+        return alert
+    }()
+
     init() {
         super.init(nibName: nil, bundle: nil)
         self.modalPresentationStyle = .fullScreen
@@ -41,10 +68,6 @@ class RegisterProductViewController: ManageProductViewController {
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
     }
 
     override func setDelegate() {
@@ -59,8 +82,7 @@ class RegisterProductViewController: ManageProductViewController {
     }
 
     @objc override func touchUpDoneButton() {
-        //registerProduct()
-        super.touchUpDoneButton()
+        registerProduct()
     }
 
     override func configureHierarchy() {
@@ -69,49 +91,67 @@ class RegisterProductViewController: ManageProductViewController {
     }
 
     @objc func addImage() {
-        if stackView.imageList.count < 5 {
+        if self.images.count < 5 {
             showActionSheet()
         } else {
             showImageCapacityAlert()
         }
     }
-
 }
 
 // MARK: Networking
 extension RegisterProductViewController {
     func registerProduct() {
-//        let registerProductRequest = RegisterProductRequest(
-//            name: stackView.nameTextField.text!,
-//            descriptions: stackView.descriptionTextView.text,
-//            price: Decimal(string: stackView.priceTextField.text!, locale: nil)!,
-//            currency: Currency.KRW,
-//            discountedPrice: Decimal(string: stackView.discountTextField.text!, locale: nil),
-//            stock: Int(stackView.stockTextField.text!)!,
-//            secret: UserDefaultUtility().getVendorPassword()!
-//        )
-//        stackView.imageList.remove(at: 0)
-//        let imageData = stackView.imageList.map {
-//            $0.jpegData(compressionQuality: 1)!
-//        }
-//
-//        productService.registerProduct(
-//            parameters: registerProductRequest,
-//            session: HTTPUtility.defaultSession,
-//            images: imageData) { result in
-//                switch result {
-//                case .success(let product):
-//                    print(product)
-//                case .failure:
-//                    print("실패")
-//                    return
-//                }
-//            }
+        let form = ManageProductForm(
+            name: stackView.nameTextField.text,
+            price: stackView.priceTextField.text,
+            currency: stackView.currencySegmentedControl.titleForSegment(
+                at: stackView.currencySegmentedControl.selectedSegmentIndex),
+            discountedPrice: stackView.discountTextField.text,
+            stock: stackView.stockTextField.text,
+            descriptions: stackView.descriptionTextView.text
+            )
+
+        guard images.count > 0 else {
+            self.present(noImageAlert, animated: true, completion: nil)
+            return
+        }
+
+        let imagesData = images.compactMap { image in
+            image.jpegData(compressionQuality: 1)
+        }
+
+        do { let result = try manageProductManger.isAppropriateToRegister(form: form)
+            switch result {
+            case .success(let result):
+                manageProductManger.productService.registerProduct(
+                    parameters: result,
+                    session: HTTPUtility.defaultSession,
+                    images: imagesData) { result in
+                        switch result {
+                        case .success:
+                            self.present(self.registerSuccessAlert, animated: true, completion: nil)
+                            self.dismiss(animated: true, completion: nil)
+                        case .failure:
+                            self.present(self.registerFailureAlert, animated: true, completion: nil)
+                        }
+                    }
+            case .failure(let inAppropriates):
+                var message: String = ""
+                inAppropriates.forEach { inappropriate in
+                    message += inappropriate.description
+                    message += " "
+                }
+                manageProductFormAlert.message = message
+                present(manageProductFormAlert, animated: true, completion: nil)
+            }
+        } catch {
+            return
+        }
     }
 }
 
 // MARK: Image Picker Alert
-
 extension RegisterProductViewController {
     private func showActionSheet() {
         present(imageActionSheet, animated: true, completion: nil)
@@ -146,14 +186,11 @@ extension RegisterProductViewController: UIImagePickerControllerDelegate,
         didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
     ) {
         if let image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
-
-            let data = image.jpegData(compressionQuality: 1)!
-            if data.count > 1024 * 300 {
-                let newImage = image.jpegData(compressionQuality: 0.5)!
-                stackView.imageList.append(UIImage(data: newImage)!)
-            } else {
-            stackView.imageList.append(image)
+            let compressedImageData = manageProductManger.comperess(image: image, to: 300)
+            guard let compressedImage = UIImage(data: compressedImageData) else {
+                return
             }
+            self.images.append(compressedImage)
         }
         dismiss(animated: true, completion: nil)
     }

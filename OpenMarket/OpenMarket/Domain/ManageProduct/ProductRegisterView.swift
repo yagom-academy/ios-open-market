@@ -8,21 +8,18 @@ class ProductRegisterView: UIStackView {
 
     private var dataSource: UICollectionViewDiffableDataSource<Section, UIImage>!
 
-    var imageList: [UIImage] = [] {
-        didSet {
-            var snapshot = NSDiffableDataSourceSnapshot<Section, UIImage>()
-            snapshot.appendSections([.image])
-            snapshot.appendItems(imageList, toSection: .image)
-            self.dataSource.apply(snapshot)
-            guard let headerView = imageCollectionView.supplementaryView(
-                forElementKind: "header",
-                at: IndexPath(item: 0, section: 0)
-            ) as? AddImageHeaderView else {
-                print("찾기 실패")
-                return
-            }
-            headerView.modifyButtonTitle(for: imageList.count)
+    func setImages(images: [UIImage]) {
+        var snapshot = NSDiffableDataSourceSnapshot<Section, UIImage>()
+        snapshot.appendSections([.image])
+        snapshot.appendItems(images, toSection: .image)
+        self.dataSource.apply(snapshot)
+        guard let headerView = imageCollectionView.supplementaryView(
+            forElementKind: "header",
+            at: IndexPath(item: 0, section: 0)
+        ) as? AddImageHeaderView else {
+            return
         }
+        headerView.modifyButtonTitle(for: images.count)
     }
 
     private lazy var imageCollectionView: UICollectionView = {
@@ -33,7 +30,7 @@ class ProductRegisterView: UIStackView {
         return collectionView
     }()
 
-    private lazy var nameTextField: UITextField = {
+    lazy var nameTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "상품명"
         textField.borderStyle = .roundedRect
@@ -54,14 +51,14 @@ class ProductRegisterView: UIStackView {
         return textField
     }()
 
-    private lazy var currencySegmentedControl: UISegmentedControl = {
+    lazy var currencySegmentedControl: UISegmentedControl = {
         let segmentedControl = UISegmentedControl(
             items: [Currency.KRW.rawValue, Currency.USD.rawValue])
         segmentedControl.selectedSegmentIndex = 0
         return segmentedControl
     }()
 
-    private lazy var discountTextField: UITextField = {
+    lazy var discountTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "할인금액"
         textField.borderStyle = .roundedRect
@@ -71,7 +68,7 @@ class ProductRegisterView: UIStackView {
         return textField
     }()
 
-    private lazy var stockTextField: UITextField = {
+    lazy var stockTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "재고수량"
         textField.borderStyle = .roundedRect
@@ -81,7 +78,7 @@ class ProductRegisterView: UIStackView {
         return textField
     }()
 
-    private lazy var descriptionTextView: UITextView = {
+    lazy var descriptionTextView: UITextView = {
         let textView = UITextView()
         textView.textColor = .systemGray
         textView.text = "상품설명을 작성해 주세요.(최대 1000글자)"
@@ -119,6 +116,7 @@ extension ProductRegisterView {
     }
 }
 
+// MARK: Stack View Configuration
 extension ProductRegisterView {
     private func configureStackView() {
         self.axis = .vertical
@@ -228,7 +226,6 @@ extension ProductRegisterView {
 
         var snapshot = NSDiffableDataSourceSnapshot<Section, UIImage>()
         snapshot.appendSections([.image])
-        snapshot.appendItems(imageList, toSection: .image)
         self.dataSource.apply(snapshot, animatingDifferences: false)
     }
 

@@ -34,7 +34,7 @@ struct Product: Decodable, Hashable {
     }
 }
 
-enum Currency: String, Encodable, Decodable, Hashable {
+enum Currency: String, Encodable, Decodable, Hashable, CaseIterable {
     case KRW
     case USD
 }

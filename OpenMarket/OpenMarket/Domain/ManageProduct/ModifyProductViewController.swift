@@ -19,14 +19,6 @@ class ModifyProductViewController: ManageProductViewController {
         super.viewDidLoad()
     }
 
-    private func configureContent(product: Product) {
-//        stackView.nameTextField.text = product.name
-//        stackView.priceTextField.text = product.price.description
-//        stackView.discountTextField.text = product.discountedPrice.description
-//        stackView.stockTextField.text = product.stock.description
-//        stackView.descriptionTextView.text = product.description
-    }
-
     // MARK: Navigation Bar Configuration
     override func configureNavigationBar() {
         super.configureNavigationBar()
@@ -34,8 +26,6 @@ class ModifyProductViewController: ManageProductViewController {
     }
 
     @objc override func touchUpDoneButton() {
-        //modifyProduct()
-        super.touchUpDoneButton()
     }
 
 }
