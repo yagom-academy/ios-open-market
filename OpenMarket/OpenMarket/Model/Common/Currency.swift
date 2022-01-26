@@ -8,6 +8,6 @@
 import Foundation
 
 enum Currency: String, Codable {
-    case USD
     case KRW
+    case USD
 }

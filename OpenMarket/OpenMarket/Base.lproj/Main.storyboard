@@ -130,7 +130,7 @@
                                             <outlet property="priceLabel" destination="3w3-RK-taK" id="EKz-UV-rvk"/>
                                             <outlet property="stockLabel" destination="aTc-wH-QK6" id="lM0-1o-UMg"/>
                                             <outlet property="thumbnailImageView" destination="JOL-pT-fgc" id="rgd-nx-Zkg"/>
-                                            <segue destination="VeB-qe-phQ" kind="show" id="Ith-jF-9GL"/>
+                                            <segue destination="VeB-qe-phQ" kind="show" identifier="ProductDetailViewController" id="Ith-jF-9GL"/>
                                         </connections>
                                     </collectionViewCell>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="GridCell" id="fnH-M4-fIZ" customClass="GridCell" customModule="OpenMarket" customModuleProvider="target">
@@ -198,7 +198,7 @@
                                             <outlet property="priceLabel" destination="Hcq-nR-FbC" id="HII-1V-Y0v"/>
                                             <outlet property="stockLabel" destination="r59-wG-ixn" id="ji1-Rf-CXu"/>
                                             <outlet property="thumbnailImageView" destination="v1E-AX-bfZ" id="ScY-yz-W8w"/>
-                                            <segue destination="VeB-qe-phQ" kind="show" id="7oa-0v-BAz"/>
+                                            <segue destination="VeB-qe-phQ" kind="show" identifier="ProductDetailViewController" id="7oa-0v-BAz"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
@@ -258,10 +258,10 @@
                                 <rect key="frame" x="0.0" y="88" width="414" height="774"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="EmB-rA-ao2" userLabel="Regist StackView">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="812"/>
+                                        <rect key="frame" x="10" y="10" width="394" height="344"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="Skb-MQ-X85" userLabel="Post Image List Stack View">
-                                                <rect key="frame" x="0.0" y="0.0" width="414" height="125"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="394" height="125"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mSG-jm-5lP">
                                                         <rect key="frame" x="0.0" y="0.0" width="125" height="125"/>
@@ -276,7 +276,7 @@
                                                         </connections>
                                                     </button>
                                                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Yv0-NP-CzZ">
-                                                        <rect key="frame" x="127" y="0.0" width="287" height="125"/>
+                                                        <rect key="frame" x="127" y="0.0" width="267" height="125"/>
                                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                         <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="R4V-NQ-Zx3">
                                                             <size key="itemSize" width="128" height="128"/>
@@ -310,20 +310,20 @@
                                                 </constraints>
                                             </stackView>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="b7M-gt-U7l" userLabel="Name">
-                                                <rect key="frame" x="0.0" y="135" width="414" height="34"/>
+                                                <rect key="frame" x="0.0" y="135" width="394" height="34"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits"/>
                                             </textField>
                                             <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="p32-bo-2MD" userLabel="Price StackView">
-                                                <rect key="frame" x="0.0" y="179" width="414" height="34"/>
+                                                <rect key="frame" x="0.0" y="179" width="394" height="34"/>
                                                 <subviews>
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="cY1-sL-bsT" userLabel="Price">
-                                                        <rect key="frame" x="0.0" y="0.0" width="307" height="34"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="287" height="34"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits"/>
                                                     </textField>
                                                     <segmentedControl opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="bda-k4-KGn" userLabel="Currency">
-                                                        <rect key="frame" x="317" y="0.0" width="97" height="35"/>
+                                                        <rect key="frame" x="297" y="0.0" width="97" height="35"/>
                                                         <segments>
                                                             <segment title="KRW"/>
                                                             <segment title="USD"/>
@@ -332,19 +332,17 @@
                                                 </subviews>
                                             </stackView>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="7Uj-hl-NKN" userLabel="Discounted">
-                                                <rect key="frame" x="0.0" y="223" width="414" height="34"/>
+                                                <rect key="frame" x="0.0" y="223" width="394" height="34"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits"/>
                                             </textField>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="OAx-aY-Zxd" userLabel="Stock">
-                                                <rect key="frame" x="0.0" y="267" width="414" height="34"/>
+                                                <rect key="frame" x="0.0" y="267" width="394" height="34"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits"/>
                                             </textField>
                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="FzS-zH-mYY" userLabel="Description">
-                                                <rect key="frame" x="0.0" y="311" width="414" height="501"/>
-                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                                <string key="text">상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명</string>
+                                                <rect key="frame" x="0.0" y="311" width="394" height="33"/>
                                                 <color key="textColor" systemColor="labelColor"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -352,15 +350,16 @@
                                         </subviews>
                                         <constraints>
                                             <constraint firstItem="Skb-MQ-X85" firstAttribute="bottom" secondItem="EmB-rA-ao2" secondAttribute="top" constant="125" id="JK3-6d-Q0P"/>
+                                            <constraint firstItem="FzS-zH-mYY" firstAttribute="bottom" secondItem="EmB-rA-ao2" secondAttribute="bottom" id="kKG-ob-sm1"/>
                                         </constraints>
                                     </stackView>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstItem="EmB-rA-ao2" firstAttribute="top" secondItem="Rlh-SA-k5J" secondAttribute="top" id="CbV-Xz-Ibp"/>
-                                    <constraint firstItem="EmB-rA-ao2" firstAttribute="trailing" secondItem="qv3-7E-bpe" secondAttribute="trailing" id="Vpg-e7-a2J"/>
+                                    <constraint firstItem="EmB-rA-ao2" firstAttribute="top" secondItem="Rlh-SA-k5J" secondAttribute="top" constant="10" id="CbV-Xz-Ibp"/>
+                                    <constraint firstItem="EmB-rA-ao2" firstAttribute="trailing" secondItem="qv3-7E-bpe" secondAttribute="trailing" constant="-10" id="Vpg-e7-a2J"/>
                                     <constraint firstItem="EmB-rA-ao2" firstAttribute="bottom" secondItem="Rlh-SA-k5J" secondAttribute="bottom" id="dLC-tu-a5n"/>
-                                    <constraint firstItem="EmB-rA-ao2" firstAttribute="width" secondItem="Rlh-SA-k5J" secondAttribute="width" id="hNB-Dw-ulL"/>
-                                    <constraint firstItem="EmB-rA-ao2" firstAttribute="leading" secondItem="qv3-7E-bpe" secondAttribute="leading" id="lN1-Do-78A"/>
+                                    <constraint firstItem="EmB-rA-ao2" firstAttribute="width" secondItem="Rlh-SA-k5J" secondAttribute="width" constant="20" id="hNB-Dw-ulL"/>
+                                    <constraint firstItem="EmB-rA-ao2" firstAttribute="leading" secondItem="qv3-7E-bpe" secondAttribute="leading" constant="10" id="lN1-Do-78A"/>
                                 </constraints>
                                 <viewLayoutGuide key="contentLayoutGuide" id="Rlh-SA-k5J"/>
                                 <viewLayoutGuide key="frameLayoutGuide" id="qv3-7E-bpe"/>
@@ -496,7 +495,7 @@
                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="pcF-ga-iKx">
                                                 <rect key="frame" x="0.0" y="361.5" width="414" height="501"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                                <string key="text">상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명</string>
+                                                <mutableString key="text">상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명</mutableString>
                                                 <color key="textColor" systemColor="labelColor"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -538,8 +537,8 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="Ith-jF-9GL"/>
-        <segue reference="7JL-hI-E8V"/>
+        <segue reference="7oa-0v-BAz"/>
+        <segue reference="tHF-LI-kfw"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="chevron.right" catalog="system" width="96" height="128"/>

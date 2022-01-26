@@ -10,10 +10,10 @@ import Foundation
 struct ProductParam: Codable {
     var name: String
     var descriptions: String
-    var price: Int
+    var price: Double
     var currency: Currency
-    var discountedPrice: Int
-    var stock: Int
+    var discountedPrice: Double?
+    var stock: Int?
     var secret: String
     
     private enum CodingKeys: String, CodingKey {
@@ -24,21 +24,5 @@ struct ProductParam: Codable {
         case discountedPrice = "discounted_price"
         case stock
         case secret
-    }
-    
-    init(name: String,
-         descriptions: String,
-         price: Int,
-         currency: Currency,
-         discountedPrice: Int,
-         stock: Int,
-         secret: String) {
-        self.name = name
-        self.descriptions = descriptions
-        self.price = price
-        self.currency = currency
-        self.discountedPrice = discountedPrice
-        self.stock = stock
-        self.secret = secret
     }
 }

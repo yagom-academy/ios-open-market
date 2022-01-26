@@ -7,7 +7,7 @@
 
 import UIKit
 
-class EditProductViewController: UIViewController, UITextFieldDelegate {
+class EditProductViewController: UIViewController, UITextFieldDelegate, UITextViewDelegate {
     @IBOutlet weak var postImageListCollectionView: UICollectionView!
     @IBOutlet weak var postImageButton: UIButton!
     @IBOutlet weak var productNameTextField: UITextField!
@@ -58,25 +58,30 @@ class EditProductViewController: UIViewController, UITextFieldDelegate {
         
         let postData = ProductParam(name: name,
                                     descriptions: description,
-                                    price: Int(price) ?? 0,
+                                    price: Double(price) ?? 0.0,
                                     currency: currency,
-                                    discountedPrice: Int(discountedPrice) ?? 0,
+                                    discountedPrice: Double(discountedPrice) ?? 0.0,
                                     stock: Int(stock) ?? 0,
                                     secret: "K!Nx@Jdb9HZBg?WA")
-        
         self.navigationController?.popViewController(animated: true)
         
         tempPostImage.forEach {
-            guard let image = $0.jpegData(compressionQuality: 1) else {
+            guard let image = $0.jpegData(compressionQuality: 0.001) else {
                 return
             }
             images.append(image)
         }
         
         let urlSessionProvider = URLSessionProvider()
-        urlSessionProvider.postData(parameters: postData, registImages: images) { result in
-            //            switch result {
-            
+        urlSessionProvider.postData(parameters: postData, registImages: images) { ( result: Result<Data, NetworkError>) in
+            switch result {
+            case .success(_):
+                DispatchQueue.main.async {
+                    print("아성공성공")
+                }
+            case .failure(_):
+                print(NetworkError.statusCodeError)
+            }
         }
     }
     
@@ -147,6 +152,7 @@ extension EditProductViewController: UICollectionViewDataSource {
         
         return cell
     }
+
 }
 
 extension EditProductViewController: UICollectionViewDelegateFlowLayout {

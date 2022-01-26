@@ -40,7 +40,7 @@ class URLSessionProvider {
     
     func postData(parameters: ProductParam, registImages: [Data],
                   completionHandler: @escaping (Result<Data, NetworkError>) -> Void) {
-        let boundary = "Boundary-\(UUID().uuidString)"
+        let boundary = "\(UUID().uuidString)"
         guard let url = URL(string: RequestType.productRegistration.url()) else {
             return completionHandler(.failure(NetworkError.wrongURL))
         }
@@ -48,8 +48,8 @@ class URLSessionProvider {
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         
-        request.setValue("multipart/form-data; boundary\(boundary)", forHTTPHeaderField: "Content-Type")
-        
+        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        request.addValue("f4363f92-71e8-11ec-abfa-17aac326b73f", forHTTPHeaderField: "identifier")
         request.httpBody = createBody(parameters: parameters, boundary: boundary, images: registImages)
         
         print(request)
@@ -59,25 +59,29 @@ class URLSessionProvider {
     
     func createBody(parameters: ProductParam, boundary: String, images: [Data]) -> Data {
         var body = Data()
+        guard let value = try? JSONEncoder().encode(parameters) else {
+            return Data()
+        }
         let boundaryPrefix = "--\(boundary)\r\n"
         
-      
-            body.append(boundaryPrefix.data(using: .utf8)!)
-            body.append("Content-Disposition: form-data; name=\"params\"\r\n\r\n".data(using: .utf8)!)
-            body.append("\(parameters)\r\n".data(using: .utf8)!)
-            
+        body.append(string: boundaryPrefix)
+        body.append(string: "Content-Disposition: form-data; name=\"params\"\r\n")
+        body.append(string: "Content-Type: application/json\r\n")
+        body.append(string: "\r\n")
+        body.append(value)
+        body.append(string: "\r\n")
+        
         
         
         for image in images {
-            body.append(boundaryPrefix.data(using: .utf8)!)
-            body.append(string: "Content-Disposition: form-data; name=\"images\"; filename=\"\(UUID().uuidString).jpeg\"")
-            body.append(string: "Content-Type: image/jpeg)\r\n\r\n")
-//            body.append(image.type.data(using: .utf8)!)
-            body.append("\r\n".data(using: .utf8)!)
+            body.append(string: boundaryPrefix)
+            body.append(string: "Content-Disposition: form-data; name=\"images\"; filename=\"\(UUID().uuidString).jpeg\"\r\n")
+            body.append(string: "Content-Type: image/jpeg)\r\n")
+            body.append(string: "\r\n")
+            body.append(image)
+            body.append(string: "\r\n")
         }
-        
-        
-        body.append("--\(boundary)--\r\n".data(using: .utf8)!)
+        body.append(string: "--\(boundary)--\r\n")
         return body
     }
 }
