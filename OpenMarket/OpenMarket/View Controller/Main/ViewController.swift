@@ -10,6 +10,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var productCollectionView: UICollectionView!
     @IBOutlet weak var productTableView: UITableView!
     
+    let collectionViewCellSpacing: CGFloat = 3
+    
     var productList: ProductList?
     
     override func viewDidLoad() {
