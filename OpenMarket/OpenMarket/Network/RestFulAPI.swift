@@ -11,7 +11,7 @@ protocol RestFulAPI {
   
 }
 
-extension RestFulAPI { 
+extension RestFulAPI {
   func createBody(json: Result<Data, NetworkError>, images: [UIImage], boundary: String) -> Data? {
     var body = Data()
     

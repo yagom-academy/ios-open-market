@@ -82,8 +82,9 @@ class ProductRegistrationModificationViewController: productRegisterModification
         identifier: identifer
       ) { [self] response in
         switch response {
-        case .success(_):
+        case .success(let data):
           DispatchQueue.main.async {
+            
             navigationController?.popViewController(animated: true)
           }
         case .failure(let error):

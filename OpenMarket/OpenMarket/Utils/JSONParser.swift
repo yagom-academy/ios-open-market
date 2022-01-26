@@ -12,10 +12,9 @@ struct JSONParser {
   private let encoder = JSONEncoder()
   
   func decode<Element: Decodable>(
-    data: Data,
-    type: Element.Type
+    data: Data
   ) -> Result<Element, NetworkError> {
-    guard let decodedData = try? decoder.decode(Element.self, from: data) else {
+    guard let decodedData: Element = try? decoder.decode(Element.self, from: data) else {
       return .failure(.decodeFailed)
     }
     

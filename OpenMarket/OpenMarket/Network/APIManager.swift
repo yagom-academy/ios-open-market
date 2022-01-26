@@ -8,6 +8,7 @@
 import UIKit
 
 struct APIManager: RestFulAPI {
+
   private let urlSession: URLSession
   private let jsonParser: JSONParser
   
@@ -16,10 +17,31 @@ struct APIManager: RestFulAPI {
     self.jsonParser = jsonParser
   }
   
+  func dataTask<DecodeType: Decodable>(
+    request: URLRequest,
+    completion:  @escaping (Result<DecodeType, Error>
+    ) -> Void) {
+    let dataTask = urlSession.dataTask(request) { response in
+      switch response {
+      case .success(let data):
+        let result: Result<DecodeType, NetworkError> = jsonParser.decode(data: data)
+        switch result {
+        case .success(let data):
+          completion(.success(data))
+        case .failure(let error):
+          completion(.failure(error))
+        }
+      case .failure(let error):
+        completion(.failure(error))
+      }
+    }
+    dataTask.resume()
+  }
+  
   func productList(
     pageNumber: Int,
     itemsPerPage: Int,
-    completion: @escaping (Result<ProductList, APIError>) -> Void
+    completion: @escaping (Result<ProductList, Error>) -> Void
   ) {
     guard let url = URLGenerator.productListURL(
       pageNumber: pageNumber,
@@ -28,55 +50,30 @@ struct APIManager: RestFulAPI {
       return
     }
     let request = URLRequest(url: url, httpMethod: .get)
-    
-    let dataTask = urlSession.dataTask(request) { response in
-      switch response {
-      case .success(let data):
-        let result = jsonParser.decode(data: data, type: ProductList.self)
-        switch result {
-        case .success(let data):
-          completion(.success(data))
-        case .failure(_):
-          completion(.failure(.getProductFailed))
-        }
-      case .failure(_):
-        completion(.failure(.getProductFailed))
-      }
+    dataTask(request: request) { result in
+      completion(result)
     }
-    dataTask.resume()
   }
   
   func detailProduct(
     productId: Int,
-    completion: @escaping (Result<Product, APIError>) -> Void
+    completion: @escaping (Result<Product, Error>) -> Void
   ) {
     guard let url = URLGenerator.productDetailURL(productId: productId) else {
       return
     }
     let request = URLRequest(url: url, httpMethod: .get)
     
-    let dataTask = urlSession.dataTask(request) { response in
-      switch response {
-      case .success(let data):
-        let result = jsonParser.decode(data: data, type: Product.self)
-        switch result {
-        case .success(let data):
-          completion(.success(data))
-        case .failure(_):
-          completion(.failure(.getProductFailed))
-        }
-      case .failure(_):
-        completion(.failure(.getProductFailed))
-      }
+    dataTask(request: request) { result in
+      completion(result)
     }
-    dataTask.resume()
   }
   
   func registerProduct(
     params: ProductRequestForRegistration,
     images: [UIImage],
     identifier: String,
-    completion: @escaping (Result<Product, APIError>) -> Void
+    completion: @escaping (Result<Product, Error>) -> Void
   ) {
     guard let url = URLGenerator.productAdditionURL() else {
       return
@@ -92,28 +89,16 @@ struct APIManager: RestFulAPI {
     )
     request.httpBody = createBody(json: json, images: images, boundary: boundary)
     
-    let dataTask = urlSession.dataTask(request) { response in
-      switch response {
-      case .success(let data):
-        let result = jsonParser.decode(data: data, type: Product.self)
-        switch result {
-        case .success(let data):
-          completion(.success(data))
-        case .failure(_):
-          completion(.failure(.productRegistrationFailed))
-        }
-      case .failure(_):
-        completion(.failure(.productRegistrationFailed))
-      }
+    dataTask(request: request) { result in
+      completion(result)
     }
-    dataTask.resume()
   }
   
   func modifyProduct(
     productId: Int,
     params: ProductRequestForModification,
     identifier: String,
-    completion: @escaping (Result<Product, APIError>) -> Void
+    completion: @escaping (Result<Product, Error>) -> Void
   ) {
     guard let url = URLGenerator.productModificationURL(productId: productId) else {
       return
@@ -129,24 +114,12 @@ struct APIManager: RestFulAPI {
     case .success(let data):
       request.httpBody = data
     case .failure(_):
-      completion(.failure(.productModificationFailed))
+      completion(.failure(APIError.productModificationFailed))
     }
     
-    let dataTask = urlSession.dataTask(request) { response in
-      switch response {
-      case .success(let data):
-        let result = jsonParser.decode(data: data, type: Product.self)
-        switch result {
-        case .success(let data):
-          completion(.success(data))
-        case .failure(_):
-          completion(.failure(.productModificationFailed))
-        }
-      case .failure(_):
-        completion(.failure(.productModificationFailed))
-      }
+    dataTask(request: request) { result in
+      completion(result)
     }
-    dataTask.resume()
   }
   
   func getDeleteSecret(
@@ -168,7 +141,6 @@ struct APIManager: RestFulAPI {
     let json = jsonParser.encode(data: secret)
     switch json {
     case .success(let data):
-      dump(data)
       request.httpBody = data
     case .failure(_):
       completion(.failure(.productDeleteFailed))
@@ -192,7 +164,7 @@ struct APIManager: RestFulAPI {
     productId: Int,
     productSecret: String,
     identifier: String,
-    completion: @escaping (Result<Product, APIError>) -> Void
+    completion: @escaping (Result<Product, Error>) -> Void
   ) {
     guard let url = URLGenerator.getDeleteProductURL(productId: productId, productSecret: productSecret) else {
       return
@@ -203,21 +175,9 @@ struct APIManager: RestFulAPI {
         "identifier": "\(identifier)",
       ]
     )
-    let dataTask = urlSession.dataTask(request) { response in
-      switch response {
-      case .success(let data):
-        let result = jsonParser.decode(data: data, type: Product.self)
-        switch result {
-        case .success(let data):
-          completion(.success(data))
-        case .failure(_):
-          completion(.failure(.productDeleteFailed))
-        }
-      case .failure(_):
-        completion(.failure(.productDeleteFailed))
-      }
+    dataTask(request: request) { result in
+      completion(result)
     }
-    dataTask.resume()
   }
   
   func requestProductImage(
