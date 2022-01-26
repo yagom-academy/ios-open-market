@@ -586,9 +586,8 @@ extension ProductRegistrationViewController: UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         if images.count < 5, isModifying == false {
             return 2
-        } else {
-            return 1
         }
+        return 1
     }
     
     func collectionView(
