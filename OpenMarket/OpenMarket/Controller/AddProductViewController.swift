@@ -1,7 +1,7 @@
 import UIKit
 
 class AddProductViewController: UIViewController {
-    enum ProductInput {
+    private enum ProductInput {
         static var name: String?
         static var descriptions: String?
         static var price: Double?
@@ -11,7 +11,7 @@ class AddProductViewController: UIViewController {
         static var secret: String = "EE5ud*rBT9Nu38_d"
     }
     
-    enum AlertMessage {
+    private enum AlertMessage {
         static let title = "⚠️ 등록 정보 확인 ⚠️"
         static let invalidNameLength = "상품명 3자리 입력"
         static let priceMissed = "가격 필수 입력"
@@ -33,13 +33,13 @@ class AddProductViewController: UIViewController {
     @IBOutlet weak var productImageStackView: UIStackView!
     @IBOutlet weak var addImageButton: UIButton!
     
-    lazy var apiManager = APIManager.shared
-    let imagePicker = UIImagePickerController()
-    var newProductImages: [NewProductImage] = []
-    var newProductInformation: NewProductInformation?
-    var isButtonTapped = true
-    var selectedIndex = 0
-    var alertText = AlertMessage.title
+    private lazy var apiManager = APIManager.shared
+    private let imagePicker = UIImagePickerController()
+    private var newProductImages: [NewProductImage] = []
+    private var newProductInformation: NewProductInformation?
+    private var isButtonTapped = true
+    private var selectedIndex = 0
+    private var alertText = AlertMessage.title
     
     // MARK: - Life Cycle Method
     override func viewDidLoad() {
@@ -89,7 +89,7 @@ class AddProductViewController: UIViewController {
         }
     }
     
-    func initializeProductInput() {
+    private func initializeProductInput() {
         ProductInput.name = nil
         ProductInput.descriptions = nil
         ProductInput.price = nil
@@ -100,7 +100,7 @@ class AddProductViewController: UIViewController {
 
 extension AddProductViewController {
     // MARK: - Create Data To Post
-    func createNewProduct() {
+    private func createNewProduct() {
         newProductInformation = nil
         initializeProductInput()
         checkInputs()
@@ -110,7 +110,7 @@ extension AddProductViewController {
         newProductInformation = NewProductInformation(name: name, descriptions: description, price: price, discountedPrice: discountedPrice, currency: ProductInput.currency, stock: stock, secret: ProductInput.secret)
     }
     
-    func checkInputs() {
+    private func checkInputs() {
         checkProductName()
         checkProductPrice()
         checkCurrency()
@@ -119,7 +119,7 @@ extension AddProductViewController {
         checkProductDescription()
     }
     
-    func checkProductName() {
+    private func checkProductName() {
         guard let productName = productNameTextField.text, productName.count >= 3 else {
             ProductInput.name = nil
             alertText.appendWithLineBreak(contentsOf: AlertMessage.invalidNameLength)
@@ -128,7 +128,7 @@ extension AddProductViewController {
         ProductInput.name = productName
     }
     
-    func checkProductPrice() {
+    private func checkProductPrice() {
         guard let productPriceText = productPriceTextField.text, !productPriceText.isEmpty else {
             ProductInput.price = nil
             alertText.appendWithLineBreak(contentsOf: AlertMessage.priceMissed)
@@ -142,7 +142,7 @@ extension AddProductViewController {
         ProductInput.price = productPrice
     }
     
-    func checkCurrency() {
+    private func checkCurrency() {
         let selectedIndex = currencySegmentedControl.selectedSegmentIndex
         guard let currentTitle = currencySegmentedControl.titleForSegment(at: selectedIndex),
               let currency = Currency.init(unit: currentTitle)
@@ -150,7 +150,7 @@ extension AddProductViewController {
         ProductInput.currency = currency
     }
     
-    func checkDiscountPrice() {
+    private func checkDiscountPrice() {
         guard let discountPriceText = discountedPriceTextField.text, !discountPriceText.isEmpty else { return } // default 사용
         
         guard let discountPrice = Double(discountPriceText) else {
@@ -161,7 +161,7 @@ extension AddProductViewController {
         ProductInput.discountedPrice = discountPrice
     }
     
-    func checkProductStock() {
+    private func checkProductStock() {
         guard let productStockText = productStockTextField.text, !productStockText.isEmpty else { return } // default 사용
         guard let productStock = Int(productStockText) else {
             ProductInput.stock = nil
@@ -171,7 +171,7 @@ extension AddProductViewController {
         ProductInput.stock = productStock
     }
     
-    func checkProductDescription() {
+    private func checkProductDescription() {
         guard let productDescription = descriptionTextView.text,
               descriptionTextView.textColor == UIColor.black,
               productDescription.count >= 10 else {
@@ -181,7 +181,7 @@ extension AddProductViewController {
         ProductInput.descriptions = productDescription
     }
     
-    func addToProductImages() {
+    private func addToProductImages() {
         let lastTagNumber = productImageStackView.subviews.count - 1
         guard lastTagNumber >= 1 else {
             alertText.appendWithLineBreak(contentsOf: AlertMessage.imageMissed)
@@ -194,7 +194,7 @@ extension AddProductViewController {
 
     }
     
-    func getProductImageFromButton(with tag: Int) {
+    private func getProductImageFromButton(with tag: Int) {
         guard let imageButton = view.viewWithTag(tag) as? UIButton,
               let image = imageButton.imageView?.image,
               let imageData = image.jpegData(compressionQuality: 0.1) else { return }
@@ -206,12 +206,12 @@ extension AddProductViewController {
 
 extension AddProductViewController {
     // MARK: - Image Picker Alert Method
-    func showSelectImageAlert() {
+    private func showSelectImageAlert() {
         let alert = createSelectImageAlert()
         present(alert, animated: true, completion: nil)
     }
     
-    func createSelectImageAlert() -> UIAlertController {
+    private func createSelectImageAlert() -> UIAlertController {
         let alert = UIAlertController(title: "상품사진 선택", message: nil, preferredStyle: .actionSheet)
         let photoLibrary = UIAlertAction(title: "사진앨범", style: .default) { action in
             self.openPhotoLibrary()
@@ -228,12 +228,12 @@ extension AddProductViewController {
         return alert
     }
     
-    func openPhotoLibrary() {
+    private func openPhotoLibrary() {
         imagePicker.sourceType = .photoLibrary
         present(imagePicker, animated: false, completion: nil)
     }
     
-    func openCamera() {
+    private func openCamera() {
         imagePicker.sourceType = .camera
         present(imagePicker, animated: false, completion: nil)
     }
@@ -241,7 +241,7 @@ extension AddProductViewController {
 
 extension AddProductViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     // MARK: - Image Picker Delegate Method
-    func setupImagePrickerController() {
+    private func setupImagePrickerController() {
         imagePicker.delegate = self
         imagePicker.allowsEditing = true
     }
@@ -255,7 +255,7 @@ extension AddProductViewController: UIImagePickerControllerDelegate, UINavigatio
         dismiss(animated: true, completion: nil)
     }
     
-    func editProductImageStackView(with image: UIImage) {
+    private func editProductImageStackView(with image: UIImage) {
         guard isButtonTapped else {
             changeProductImage(with: image)
             return
@@ -266,12 +266,12 @@ extension AddProductViewController: UIImagePickerControllerDelegate, UINavigatio
         }
     }
     
-    func changeProductImage(with image: UIImage) {
+    private func changeProductImage(with image: UIImage) {
         guard let selectedImage = productImageStackView.subviews[selectedIndex] as? UIButton else { return }
         selectedImage.setImage(image, for: .normal)
     }
     
-    func addProductImage(with image: UIImage) {
+    private func addProductImage(with image: UIImage) {
         let button = UIButton()
         button.setImage(image, for: .normal)
         button.tag = productImageStackView.subviews.count
@@ -284,18 +284,18 @@ extension AddProductViewController: UIImagePickerControllerDelegate, UINavigatio
 }
 extension AddProductViewController {
     // MARK: - Text View Setup Method
-    func setupDescriptionTextView() {
+    private func setupDescriptionTextView() {
         setTextViewPlaceHolder()
         setTextViewOutLine()
     }
     
-    func setTextViewOutLine() {
+    private func setTextViewOutLine() {
         descriptionTextView.layer.borderWidth = 0.5
         descriptionTextView.layer.borderColor = UIColor.systemGray4.cgColor
         descriptionTextView.layer.cornerRadius = 5
     }
     
-    func setTextViewPlaceHolder() {
+    private func setTextViewPlaceHolder() {
         descriptionTextView.delegate = self
         descriptionTextView.text = "상품 설명(1,000자 이내)"
         descriptionTextView.textColor = .lightGray
@@ -327,17 +327,17 @@ extension AddProductViewController: UITextViewDelegate {
 
 extension AddProductViewController {
     // MARK: - Keyboard Notification Setup Method
-    func setupKeyboardNotification() {
+    private func setupKeyboardNotification() {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
-    func hideKeyboard() {
+    private func hideKeyboard() {
         let tapEmptySpace = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(tapEmptySpace)
     }
     
-    @objc func keyboardWillShow(_ sender: Notification) {
+    @objc private func keyboardWillShow(_ sender: Notification) {
         let userInfo: NSDictionary = sender.userInfo! as NSDictionary
         guard let keyboardFrame: NSValue = userInfo.value(forKey: UIResponder.keyboardFrameEndUserInfoKey) as? NSValue else { return }
 
@@ -346,19 +346,19 @@ extension AddProductViewController {
         scrollView.scrollIndicatorInsets = scrollView.contentInset
     }
 
-    @objc func keyboardWillHide(_ sender: Notification) {
+    @objc private func keyboardWillHide(_ sender: Notification) {
         scrollView.contentInset = .zero
         scrollView.scrollIndicatorInsets = .zero
     }
     
-    @objc func dismissKeyboard() {
+    @objc private func dismissKeyboard() {
         view.endEditing(true)
     }
 }
 
 extension AddProductViewController {
     // MARK: - Invalid Input Alert Method
-    func invalidInputAlert(with message: String) {
+    private func invalidInputAlert(with message: String) {
         let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
         let close = UIAlertAction(title: "닫기", style: .cancel, handler: nil)
         alert.addAction(close)
