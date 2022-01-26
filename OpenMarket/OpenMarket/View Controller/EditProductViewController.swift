@@ -42,13 +42,24 @@ class EditProductViewController: UIViewController, UITextFieldDelegate, UITextVi
     }
     
     @IBAction func hitDoneButton(_ sender: Any) {
-        guard let name = productNameTextField.text,
-            let price = productPriceTextField.text,
-            let discountedPrice = discountedPriceTextField.text,
-            let stock = productStockTextField.text,
-            let description = productDescription.text else {
+        tempPostImage.forEach {
+            guard let image = $0.jpegData(compressionQuality: 0.001) else {
+                return
+            }
+            images.append(image)
+        }
+        if images.isEmpty {
+            nilImageAlert()
             return
         }
+        
+        guard let name = productNameTextField.text,
+              let price = productPriceTextField.text,
+              let discountedPrice = discountedPriceTextField.text,
+              let stock = productStockTextField.text,
+              let description = productDescription.text else {
+                  return
+              }
         let currency: Currency
         if currencySwitchController.selectedSegmentIndex == 0 {
             currency = .KRW
@@ -65,12 +76,7 @@ class EditProductViewController: UIViewController, UITextFieldDelegate, UITextVi
                                     secret: "K!Nx@Jdb9HZBg?WA")
         self.navigationController?.popViewController(animated: true)
         
-        tempPostImage.forEach {
-            guard let image = $0.jpegData(compressionQuality: 0.001) else {
-                return
-            }
-            images.append(image)
-        }
+        
         
         let urlSessionProvider = URLSessionProvider()
         urlSessionProvider.postData(parameters: postData, registImages: images) { ( result: Result<Data, NetworkError>) in
@@ -99,6 +105,14 @@ class EditProductViewController: UIViewController, UITextFieldDelegate, UITextVi
         productPriceTextField.placeholder = "상품가격"
         discountedPriceTextField.placeholder = "할인금액"
         productStockTextField.placeholder = "재고수량"
+    }
+    
+    func nilImageAlert() {
+        let nilImageAlert = UIAlertController(title: "사진이 첨부되지 않았습니다.", message: "1장이상 5장이하의 사진을 추가해주세요.", preferredStyle: UIAlertController.Style.alert)
+        let okAction = UIAlertAction(title: "확인", style: .default)
+        nilImageAlert.addAction(okAction)
+        present(nilImageAlert, animated: false, completion: nil)
+        
     }
     
     func addImageAlert() {
@@ -152,7 +166,7 @@ extension EditProductViewController: UICollectionViewDataSource {
         
         return cell
     }
-
+    
 }
 
 extension EditProductViewController: UICollectionViewDelegateFlowLayout {

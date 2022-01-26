@@ -16,6 +16,8 @@ class ProductListViewController: UIViewController {
         super.viewDidLoad()
         let flowLayout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         collectionView.collectionViewLayout = flowLayout
+        collectionView.refreshControl = UIRefreshControl()
+        collectionView.refreshControl?.addTarget(self, action: #selector(pullToRefresh(_:)), for: .valueChanged)
         
         dataManager.loadData { [weak self](result: Result<ProductList, NetworkError>) in
             switch result {
@@ -28,6 +30,10 @@ class ProductListViewController: UIViewController {
                 print(error)
             }
         }
+    }
+    
+    @objc func pullToRefresh(_ sender: Any) {
+        viewDidLoad()
     }
     
     @IBAction private func switchLayout(_ sender: Any) {
