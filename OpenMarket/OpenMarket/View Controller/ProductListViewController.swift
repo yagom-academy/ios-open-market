@@ -9,7 +9,7 @@ import UIKit
 class ProductListViewController: UIViewController {
     @IBOutlet private weak var collectionView: UICollectionView!
     @IBOutlet private weak var switchLayoutController: UISegmentedControl!
-    private let dataManager = DataManager()
+    private let dataManager = GetDataManager()
     private var productListData: ProductList?
     
     override func viewDidLoad() {

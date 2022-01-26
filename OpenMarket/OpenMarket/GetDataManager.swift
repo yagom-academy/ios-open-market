@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct DataManager {
+struct GetDataManager {
     func loadData(completionHandler: @escaping (Result<ProductList, NetworkError>) -> Void) {
         let urlSessionProvider = URLSessionProvider()
         

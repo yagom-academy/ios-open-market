@@ -20,7 +20,6 @@ class EditProductViewController: UIViewController, UITextFieldDelegate, UITextVi
     let imagePickerController = UIImagePickerController()
     let alertController = UIAlertController(title: "사진 추가", message: nil, preferredStyle: .actionSheet)
     var tempPostImage: [UIImage] = []
-    var images: [Data] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,55 +41,25 @@ class EditProductViewController: UIViewController, UITextFieldDelegate, UITextVi
     }
     
     @IBAction func hitDoneButton(_ sender: Any) {
-        tempPostImage.forEach {
-            guard let image = $0.jpegData(compressionQuality: 0.001) else {
-                return
-            }
-            images.append(image)
-        }
-        if images.isEmpty {
+        let paramData: [String:String] = ["name" : productNameTextField.text ?? "",
+                                          "price" : productPriceTextField.text ?? "",
+                                          "discountedPrice" : discountedPriceTextField.text ?? "0",
+                                          "stock" : productStockTextField.text ?? "0",
+                                          "description" : productDescription.text ?? ""]
+        
+        var postDataManager = PostDataManager(segmentedControllerIndex: currencySwitchController.selectedSegmentIndex,
+                                              postPramData: paramData,
+                                              tempPostImage: tempPostImage)
+        postDataManager.saveImages()
+        if postDataManager.imagesIsEmpty {
             nilImageAlert()
             return
         }
+        postDataManager.saveData()
+        postDataManager.requestData()
         
-        guard let name = productNameTextField.text,
-              let price = productPriceTextField.text,
-              let discountedPrice = discountedPriceTextField.text,
-              let stock = productStockTextField.text,
-              let description = productDescription.text else {
-                  return
-              }
-        let currency: Currency
-        if currencySwitchController.selectedSegmentIndex == 0 {
-            currency = .KRW
-        } else {
-            currency = .USD
-        }
-        
-        let postData = ProductParam(name: name,
-                                    descriptions: description,
-                                    price: Double(price) ?? 0.0,
-                                    currency: currency,
-                                    discountedPrice: Double(discountedPrice) ?? 0.0,
-                                    stock: Int(stock) ?? 0,
-                                    secret: "K!Nx@Jdb9HZBg?WA")
         self.navigationController?.popViewController(animated: true)
-        
-        
-        
-        let urlSessionProvider = URLSessionProvider()
-        urlSessionProvider.postData(parameters: postData, registImages: images) { ( result: Result<Data, NetworkError>) in
-            switch result {
-            case .success(_):
-                DispatchQueue.main.async {
-                    print("아성공성공")
-                }
-            case .failure(_):
-                print(NetworkError.statusCodeError)
-            }
-        }
     }
-    
     
     @IBAction func hitPostImageButton(_ sender: Any) {
         self.present(alertController, animated: true, completion: nil)
@@ -105,14 +74,6 @@ class EditProductViewController: UIViewController, UITextFieldDelegate, UITextVi
         productPriceTextField.placeholder = "상품가격"
         discountedPriceTextField.placeholder = "할인금액"
         productStockTextField.placeholder = "재고수량"
-    }
-    
-    func nilImageAlert() {
-        let nilImageAlert = UIAlertController(title: "사진이 첨부되지 않았습니다.", message: "1장이상 5장이하의 사진을 추가해주세요.", preferredStyle: UIAlertController.Style.alert)
-        let okAction = UIAlertAction(title: "확인", style: .default)
-        nilImageAlert.addAction(okAction)
-        present(nilImageAlert, animated: false, completion: nil)
-        
     }
     
     func addImageAlert() {
@@ -130,13 +91,19 @@ class EditProductViewController: UIViewController, UITextFieldDelegate, UITextVi
         present(self.imagePickerController, animated: false, completion: nil)
     }
     
+    func nilImageAlert() {
+        let nilImageAlert = UIAlertController(title: "사진이 첨부되지 않았습니다.", message: "1장이상 5장이하의 사진을 추가해주세요.", preferredStyle: UIAlertController.Style.alert)
+        let okAction = UIAlertAction(title: "확인", style: .default)
+        nilImageAlert.addAction(okAction)
+        present(nilImageAlert, animated: false, completion: nil)
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let editProductView = segue.destination as? EditProductViewController {
             editProductView.productNavigationBar.title = "상품수정"
         }
     }
 }
-
 
 extension EditProductViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
