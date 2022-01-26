@@ -70,6 +70,7 @@ class ViewController: UIViewController {
             switch result {
             case .success(let data):
                 guard let parsedData: ProductList = decoder.parseJSON(data: data) else {
+                    print(NetworkError.parsingFailed)
                     return
                 }
                 
