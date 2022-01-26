@@ -106,7 +106,7 @@
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="상품명" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="mn9-GG-mgZ">
                                                 <rect key="frame" x="0.0" y="0.0" width="384" height="41"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                <textInputTraits key="textInputTraits"/>
+                                                <textInputTraits key="textInputTraits" autocorrectionType="no" smartDashesType="no" smartInsertDeleteType="no" smartQuotesType="no"/>
                                             </textField>
                                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UXP-HY-yUA">
                                                 <rect key="frame" x="0.0" y="46" width="384" height="34"/>
@@ -114,7 +114,7 @@
                                                     <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="상품가격" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="C1U-eJ-YTK">
                                                         <rect key="frame" x="0.0" y="0.0" width="287" height="34"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                        <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                                        <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="numberPad" smartDashesType="no" smartInsertDeleteType="no" smartQuotesType="no"/>
                                                     </textField>
                                                     <segmentedControl opaque="NO" contentMode="scaleToFill" showsMenuAsPrimaryAction="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="xOH-DW-Hd1">
                                                         <rect key="frame" x="287" y="0.0" width="97" height="35"/>
@@ -128,28 +128,21 @@
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="할인금액" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Q3O-Vw-3ic">
                                                 <rect key="frame" x="0.0" y="85" width="384" height="34"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="numberPad" smartDashesType="no" smartInsertDeleteType="no" smartQuotesType="no"/>
                                             </textField>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="재고수량" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="BGX-Bn-o1V">
                                                 <rect key="frame" x="0.0" y="124" width="384" height="34"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="numberPad" smartDashesType="no" smartInsertDeleteType="no" smartQuotesType="no"/>
                                             </textField>
                                         </subviews>
                                     </stackView>
-                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Z3P-J2-0WU">
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="등록하실 제품의 상세정보를 입력해주세요" textAlignment="natural" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Z3P-J2-0WU">
                                         <rect key="frame" x="0.0" y="348" width="384" height="396"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                        <mutableString key="text">아름답고 열정적인사람들이 모인 야곰 아카데미는 측정 불가한 가격이지만, 일단 오픈마켓에 내놓아 봅니다. 이 상품설명은 저 쪼 아래까지 연결될 가능성이 있으며, 다이나믹 타입에 완벽히 반응해야 합니다. 또, 1000글자 제한이 있습니다만, 누가 천글자를 쓰겠어요?
-
-또, 제목도 세 글자 이상 입력되어야 합니다. 위의 값 중 할인가격과 재고수량은 선택적 입력값입니다. 둘 다 기본값은 0이에요.
-
-할인 가격은 할인된 가격이 아니라 할인하고 싶은 만큼의 가격을 입력하면 됩니다. 100원에서 10원 할인하고 싶다면 할인 가격에 10을 입력하면 됩니다.
-
-모두모두 화이팅이에요 :D</mutableString>
-                                        <color key="textColor" systemColor="labelColor"/>
+                                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences" autocorrectionType="no" spellCheckingType="no" smartDashesType="no" smartInsertDeleteType="no" smartQuotesType="no"/>
                                     </textView>
                                 </subviews>
                                 <constraints>
@@ -233,9 +226,6 @@
     </scenes>
     <resources>
         <image name="plus" catalog="system" width="128" height="113"/>
-        <systemColor name="labelColor">
-            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
         <systemColor name="linkColor">
             <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>

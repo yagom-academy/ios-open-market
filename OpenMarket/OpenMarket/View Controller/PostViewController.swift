@@ -251,6 +251,24 @@ extension PostViewController: UITextViewDelegate {
         self.view.frame.origin.y = 0
     }
     
+    func textViewDidEndEditing(_ textView: UITextView) {
+        let textViewPlaceHolder = "등록하실 제품의 상세정보를 입력해주세요"
+        
+        if self.descriptionTextView.text.isEmpty {
+            descriptionTextView.text = textViewPlaceHolder
+            descriptionTextView.textColor = .lightGray
+        }
+    }
+    
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        let textViewPlaceHolder = "등록하실 제품의 상세정보를 입력해주세요"
+        
+        if self.descriptionTextView.text == textViewPlaceHolder {
+            descriptionTextView.text = nil
+            descriptionTextView.textColor = .black
+        }
+    }
+    
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         let currentText = textView.text ?? ""
         guard let stringRange = Range(range, in: currentText) else {
