@@ -555,6 +555,23 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
         return nil
     }
     
+    private func makeImageView(with image: UIImage, frame: CGRect) -> UIImageView {
+        let imageView = UIImageView(frame: frame)
+        imageView.image = image
+        imageView.contentMode = .scaleAspectFit
+        return imageView
+    }
+    
+    private func makeButton(systemName: String) -> UIButton {
+        let button = UIButton(type: .system)
+        let image = UIImage(systemName: systemName)
+        button.setTitle(nil, for: .normal)
+        button.setImage(image, for: .normal)
+        button.addTarget(self, action: #selector(presentImagePicker), for: .touchUpInside)
+        button.backgroundColor = .opaqueSeparator
+        return button
+    }
+    
     @IBAction func tapBackground(_ sender: UITapGestureRecognizer) {
         view.endEditing(true)
     }
@@ -627,17 +644,10 @@ extension ProductRegistrationViewController: UICollectionViewDataSource {
         switch section {
         case .imagesSection:
             let image = images[indexPath.item]
-            let imageView = UIImageView(frame: cell.contentView.frame)
-            imageView.image = image
-            imageView.contentMode = .scaleAspectFit
+            let imageView = makeImageView(with: image, frame: cell.contentView.frame)
             cell.contentView.addSubview(imageView)
         case .buttonSection:
-            let button = UIButton(type: .system)
-            let image = UIImage(systemName: "plus")
-            button.setTitle(nil, for: .normal)
-            button.setImage(image, for: .normal)
-            button.addTarget(self, action: #selector(presentImagePicker), for: .touchUpInside)
-            button.backgroundColor = .opaqueSeparator
+            let button = makeButton(systemName: "plus")
             cell.contentView.addSubview(button)
             button.translatesAutoresizingMaskIntoConstraints = false
             let constraints = [
