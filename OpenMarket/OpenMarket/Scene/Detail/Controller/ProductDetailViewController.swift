@@ -107,13 +107,13 @@ private extension ProductDetailViewController {
     @objc func didTapManageButton() {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
-        let modifyAction = UIAlertAction(title: AlertAction.modify.title, style: .default) { _ in
+        let modifyAction = UIAlertAction(title: AlertActionMessage.modify.title, style: .default) { _ in
             self.presentModifyView()
         }
-        let deleteAction = UIAlertAction(title: AlertAction.delete.title, style: .destructive) { _ in
+        let deleteAction = UIAlertAction(title: AlertActionMessage.delete.title, style: .destructive) { _ in
             self.presentReceivePasswordAlert()
         }
-        let cancelAction = UIAlertAction(title: AlertAction.cancel.title, style: .cancel, handler: nil)
+        let cancelAction = UIAlertAction(title: AlertActionMessage.cancel.title, style: .cancel, handler: nil)
         
         [modifyAction, deleteAction, cancelAction].forEach { action in
             alert.addAction(action)
@@ -130,8 +130,8 @@ private extension ProductDetailViewController {
     
     func presentReceivePasswordAlert() {
         let alert = UIAlertController(title: AlertMessage.deleteProduct.title, message: AlertMessage.deleteProduct.message, preferredStyle: .alert)
-        let cancelAction = UIAlertAction(title: AlertAction.cancel.title, style: .cancel, handler: nil)
-        let confirmAction = UIAlertAction(title: AlertAction.done.title, style: .default) { _ in
+        let cancelAction = UIAlertAction(title: AlertActionMessage.cancel.title, style: .cancel, handler: nil)
+        let confirmAction = UIAlertAction(title: AlertActionMessage.done.title, style: .default) { _ in
             self.checkSecret(secret: alert.textFields?.first?.text)
         }
         alert.addTextField { textField in
@@ -188,12 +188,12 @@ extension ProductDetailViewController {
         var confirmAction: UIAlertAction
         if isSuccess {
             alert = UIAlertController(title: AlertMessage.deleteSuccess.title, message: AlertMessage.deleteSuccess.message, preferredStyle: .alert)
-            confirmAction = UIAlertAction(title: AlertAction.done.title, style: .default) { _ in
+            confirmAction = UIAlertAction(title: AlertActionMessage.done.title, style: .default) { _ in
                 self.navigationController?.popViewController(animated: true)
             }
         } else {
             alert = UIAlertController(title: AlertMessage.deleteFailure.title, message: AlertMessage.deleteFailure.message, preferredStyle: .alert)
-            confirmAction = UIAlertAction(title: AlertAction.done.title, style: .default, handler: nil)
+            confirmAction = UIAlertAction(title: AlertActionMessage.done.title, style: .default, handler: nil)
         }
         
         alert.addAction(confirmAction)

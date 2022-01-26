@@ -1,6 +1,6 @@
 import Foundation
 
-enum AlertAction {
+enum AlertActionMessage {
     case modify
     case delete
     case cancel

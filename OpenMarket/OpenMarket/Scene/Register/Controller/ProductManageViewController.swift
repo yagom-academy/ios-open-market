@@ -66,7 +66,7 @@ class ProductManageViewController: UIViewController {
     
     func presentAlert(title: String, message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let confirmAction = UIAlertAction(title: AlertAction.done.title, style: .default, handler: nil)
+        let confirmAction = UIAlertAction(title: AlertActionMessage.done.title, style: .default, handler: nil)
         alert.addAction(confirmAction)
         self.present(alert, animated: true, completion: nil)
     }

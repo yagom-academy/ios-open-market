@@ -23,7 +23,7 @@ private enum Design {
 class MainViewController: UIViewController {
     private var productListCollectionView: UICollectionView!
     private var productGridCollectionView: UICollectionView!
-    private var layoutSegmentedControl: LayoutSegmentedControl!
+    private var layoutSegmentedControl: CustomSegmentedControl!
     private var listDataSource: UICollectionViewDiffableDataSource<ProductSection, ProductDetail>?
     private var gridDataSource: UICollectionViewDiffableDataSource<ProductSection, ProductDetail>?
     private var productData: [ProductDetail] = []
@@ -107,7 +107,7 @@ class MainViewController: UIViewController {
     }
     
     private func configSegmentedControl() {
-        layoutSegmentedControl = LayoutSegmentedControl(items: ["LIST", "GRID"])
+        layoutSegmentedControl = CustomSegmentedControl(items: ["LIST", "GRID"])
         layoutSegmentedControl.addTarget(self, action: #selector(switchCollectionViewLayout), for: .valueChanged)
     }
 

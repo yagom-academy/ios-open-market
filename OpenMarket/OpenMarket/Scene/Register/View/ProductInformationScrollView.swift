@@ -1,10 +1,3 @@
-//
-//  ProductInformationScrollView.swift
-//  OpenMarket
-//
-//  Created by 이차민 on 2022/01/20.
-//
-
 import UIKit
 
 class ProductInformationScrollView: UIScrollView {
