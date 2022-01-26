@@ -564,10 +564,11 @@ extension ProductRegistrationViewController: UIImagePickerControllerDelegate {
         _ picker: UIImagePickerController,
         didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
     ) {
-        guard var newImage = info[.originalImage] as? UIImage else {
-            picker.dismiss(animated: true, completion: nil)
-            return
-        }
+        guard picker.isBeingDismissed == false,
+              var newImage = info[.originalImage] as? UIImage else {
+                  picker.dismiss(animated: true, completion: nil)
+                  return
+              }
         let isSquare = newImage.size.width == newImage.size.height
         if isSquare == false {
             if let squareImage = newImage.cropSquare() {
