@@ -36,6 +36,7 @@ final class ListViewController: UIViewController {
         setupCollectionViewCells()
         setupListLayout()
         collectionView.dataSource = self
+        collectionView.delegate = self
     }
     
     // MARK: - Internal Methods
@@ -87,6 +88,16 @@ extension ListViewController: UICollectionViewDataSource {
         cell.configure(with: products[indexPath.row], cellType: .list)
         
         return cell
+    }
+    
+}
+
+extension ListViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let controller = storyboard?.instantiateViewController(withIdentifier: "ProductDetailsViewController") else {
+            return
+        }
+        navigationController?.pushViewController(controller, animated: true)
     }
 }
 
