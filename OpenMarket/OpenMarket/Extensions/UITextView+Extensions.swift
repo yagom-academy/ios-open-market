@@ -8,6 +8,13 @@
 import UIKit
 
 extension UITextView {
+    var isEmpty: Bool {
+        guard let text = self.text else {
+            return false
+        }
+        return text.isEmpty
+    }
+    
     var isValid: Bool {
         return self.text != ProductUIString.defaultDescription
     }

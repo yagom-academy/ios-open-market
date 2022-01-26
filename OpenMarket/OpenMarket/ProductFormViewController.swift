@@ -61,8 +61,8 @@ final class ProductFormViewController: UIViewController {
     }()
 
     private var isValidRequiredInputs: Bool {
-        return productNameTextField.isValid &&
-            priceTextField.isValid &&
+        return productNameTextField.isValidText &&
+            priceTextField.isValidText &&
             descriptionTextView.isValid
     }
     
@@ -100,6 +100,7 @@ final class ProductFormViewController: UIViewController {
         setSegmentedControlTitle()
         setTextViewPlaceholder()
         addTextViewObserver()
+        addTextFieldTarget()
         hideKeyboardOnTap()
     }
     
@@ -184,14 +185,17 @@ extension ProductFormViewController {
         priceTextField.placeholder = ProductUIString.productPrice
         priceTextField.addDoneButton()
         priceTextField.tag = 1
+        priceTextField.delegate = self
         
         discountedPriceTextField.placeholder = ProductUIString.discountedPrice
         discountedPriceTextField.addDoneButton()
         discountedPriceTextField.tag = 2
+        discountedPriceTextField.delegate = self
         
         stockTextField.placeholder = ProductUIString.productStock
         stockTextField.addDoneButton()
         stockTextField.tag = 3
+        stockTextField.delegate = self
         
         descriptionTextView.addDoneButton()
         descriptionTextView.tag = 4
@@ -220,6 +224,29 @@ extension ProductFormViewController {
             selector: #selector(keyboardWillHide),
             name: UIResponder.keyboardWillHideNotification,
             object: nil
+        )
+    }
+    
+    private func addTextFieldTarget() {
+        productNameTextField.addTarget(
+            self,
+            action: #selector(changeTextFieldBorder(textField:)),
+            for: .editingChanged
+        )
+        priceTextField.addTarget(
+            self,
+            action: #selector(changeTextFieldBorder(textField:)),
+            for: .editingChanged
+        )
+        discountedPriceTextField.addTarget(
+            self,
+            action: #selector(changeTextFieldBorder(textField:)),
+            for: .editingChanged
+        )
+        stockTextField.addTarget(
+            self,
+            action: #selector(changeTextFieldBorder(textField:)),
+            for: .editingChanged
         )
     }
     
@@ -269,7 +296,7 @@ extension ProductFormViewController {
     }
     
     private func convertDiscountedPrice(_ textField: UITextField) -> Double? {
-        guard textField.isValid,
+        guard textField.isValidText,
               let text = textField.text else {
             return nil
         }
@@ -277,7 +304,7 @@ extension ProductFormViewController {
     }
     
     private func convertStock(_ textField: UITextField) -> Int? {
-        guard textField.isValid,
+        guard textField.isValidText,
               let text = textField.text else {
             return nil
         }
@@ -299,6 +326,27 @@ extension ProductFormViewController {
     @objc func keyboardWillHide(notification: NSNotification) {
         let contentInset = UIEdgeInsets.zero
         scrollView.contentInset = contentInset
+    }
+    
+    @objc func changeTextFieldBorder(textField: UITextField) {
+        var color: CGColor?
+        
+        switch textField.tag {
+        case 0:
+            color = textField.isEmpty ? UIColor.red.cgColor : UIColor.green.cgColor
+        case 1:
+            color = textField.isValidNumber ? UIColor.green.cgColor : UIColor.red.cgColor
+        case 2:
+            color = textField.isValidNumber ? UIColor.green.cgColor : UIColor.red.cgColor
+        case 3:
+            color = textField.isEmpty ? UIColor.red.cgColor : UIColor.green.cgColor
+        default:
+            color = textField.isEmpty ? UIColor.red.cgColor : UIColor.green.cgColor
+        }
+        
+        textField.layer.borderColor = color
+        textField.layer.borderWidth = 1
+        textField.layer.cornerRadius = 5
     }
 }
 
@@ -390,6 +438,14 @@ extension ProductFormViewController: UITextViewDelegate {
         textView.text = nil
         textView.textColor = .black
     }
+    
+    func textViewDidChange(_ textView: UITextView) {
+        let color = textView.isEmpty ? UIColor.red.cgColor : UIColor.green.cgColor
+        
+        textView.layer.borderColor = color
+        textView.layer.borderWidth = 1
+        textView.layer.cornerRadius = 5
+    }
 }
 
 //MARK: - UITextFieldDelegate
@@ -404,6 +460,17 @@ extension ProductFormViewController: UITextFieldDelegate {
             textField.resignFirstResponder()
         }
         return true
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        guard [2, 3].contains(textField.tag),
+              textField.layer.borderColor == UIColor.red.cgColor else {
+                  return
+              }
+        textField.text = "0"
+        textField.layer.borderColor = UIColor.green.cgColor
+        textField.layer.borderWidth = 1
+        textField.layer.cornerRadius = 5
     }
 }
 

@@ -8,8 +8,23 @@
 import UIKit
 
 extension UITextField {
-    var isValid: Bool {
+    var isEmpty: Bool {
+        guard let text = text else {
+            return false
+        }
+        return text.isEmpty
+    }
+    
+    var isValidText: Bool {
         return self.text?.isEmpty == false
+    }
+    
+    var isValidNumber: Bool {
+        guard let text = self.text,
+                let _ = Double(text) else {
+            return false
+        }
+        return true
     }
     
     func addDoneButton() {
