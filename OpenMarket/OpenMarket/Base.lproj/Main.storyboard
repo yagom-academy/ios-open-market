@@ -272,6 +272,7 @@
                                                             <preferredSymbolConfiguration key="preferredSymbolConfiguration" weight="bold"/>
                                                         </state>
                                                         <connections>
+                                                            <action selector="hitAddImageButton:" destination="bSo-iR-hiR" eventType="touchUpInside" id="lYw-hN-mAg"/>
                                                             <action selector="hitPostImageButton:" destination="bSo-iR-hiR" eventType="touchUpInside" id="cIA-l6-YfO"/>
                                                         </connections>
                                                     </button>

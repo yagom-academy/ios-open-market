@@ -18,15 +18,10 @@ class EditProductViewController: UIViewController, UITextFieldDelegate, UITextVi
     @IBOutlet weak var productNavigationBar: UINavigationItem!
     @IBOutlet weak var productDescription: UITextView!
     let imagePickerController = UIImagePickerController()
-    let alertController = UIAlertController(title: "사진 추가", message: nil, preferredStyle: .actionSheet)
     var tempPostImage: [UIImage] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.imagePickerController.delegate = self
-        placeholderSetting()
-        addImageAlert()
-        
         postImageListCollectionView.delegate = self
         postImageListCollectionView.dataSource = self
         let flowLayout = UICollectionViewFlowLayout()
@@ -34,10 +29,20 @@ class EditProductViewController: UIViewController, UITextFieldDelegate, UITextVi
         flowLayout.minimumLineSpacing = 0
         postImageListCollectionView.collectionViewLayout = flowLayout
         postImageListCollectionView.isPagingEnabled = true
+        
+        imagePickerController.delegate = self
+        placeholderSetting()
     }
     
-    @IBAction func hitCancelButton(_ sender: Any) {
-        self.navigationController?.popViewController(animated: true)
+    func placeholderSetting() {
+        productNameTextField.delegate = self
+        productPriceTextField.delegate = self
+        discountedPriceTextField.delegate = self
+        productStockTextField.delegate = self
+        productNameTextField.placeholder = "상품명"
+        productPriceTextField.placeholder = "상품가격"
+        discountedPriceTextField.placeholder = "할인금액"
+        productStockTextField.placeholder = "재고수량"
     }
     
     @IBAction func hitDoneButton(_ sender: Any) {
@@ -61,28 +66,23 @@ class EditProductViewController: UIViewController, UITextFieldDelegate, UITextVi
         self.navigationController?.popViewController(animated: true)
     }
     
+    @IBAction func hitCancelButton(_ sender: Any) {
+        self.navigationController?.popViewController(animated: true)
+    }
+    
     @IBAction func hitPostImageButton(_ sender: Any) {
+        let alertController = UIAlertController(title: "사진 추가", message: nil, preferredStyle: .actionSheet)
+        addImageAlert(alertController: alertController)
         self.present(alertController, animated: true, completion: nil)
     }
     
-    func placeholderSetting() {
-        productNameTextField.delegate = self
-        productPriceTextField.delegate = self
-        discountedPriceTextField.delegate = self
-        productStockTextField.delegate = self
-        productNameTextField.placeholder = "상품명"
-        productPriceTextField.placeholder = "상품가격"
-        discountedPriceTextField.placeholder = "할인금액"
-        productStockTextField.placeholder = "재고수량"
-    }
-    
-    func addImageAlert() {
+    func addImageAlert(alertController: UIAlertController) {
         let photoLibraryAlert = UIAlertAction(title: "사진앨범", style: .default) { _ in
             self.openAlbum()
         }
         let cancelAlert = UIAlertAction(title: "취소", style: .cancel, handler: nil)
-        self.alertController.addAction(photoLibraryAlert)
-        self.alertController.addAction(cancelAlert)
+        alertController.addAction(photoLibraryAlert)
+        alertController.addAction(cancelAlert)
     }
     
     func openAlbum() {

@@ -2,7 +2,6 @@ import Foundation
 
 class URLSessionProvider {
     let session: URLSession
-    
     init(session: URLSession = URLSession.shared) {
         self.session = session
     }
@@ -15,7 +14,6 @@ class URLSessionProvider {
                       print("ERRORCODE:\(String(describing: urlResponse))")
                       return completionHandler(.failure(.statusCodeError))
                   }
-            
             guard let data = data else {
                 return completionHandler(.failure(.emptyValue))
             }
@@ -29,9 +27,7 @@ class URLSessionProvider {
         guard let url = URL(string: requestType.url(type: requestType)) else {
             return completionHandler(.failure(NetworkError.wrongURL))
         }
-        
         var request: URLRequest
-        
         request = URLRequest(url: url)
         request.httpMethod = "GET"
         
@@ -44,17 +40,13 @@ class URLSessionProvider {
         guard let url = URL(string: RequestType.productRegistration.url()) else {
             return completionHandler(.failure(NetworkError.wrongURL))
         }
-        
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
-        
         request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
         request.addValue("f4363f92-71e8-11ec-abfa-17aac326b73f", forHTTPHeaderField: "identifier")
         request.httpBody = createBody(parameters: parameters, boundary: boundary, images: registImages)
         
-        print(request)
         dataTask(request: request, completionHandler: completionHandler)
-        
     }
     
     func createBody(parameters: ProductParam, boundary: String, images: [Data]) -> Data {
@@ -70,9 +62,6 @@ class URLSessionProvider {
         body.append(string: "\r\n")
         body.append(value)
         body.append(string: "\r\n")
-        
-        
-        
         for image in images {
             body.append(string: boundaryPrefix)
             body.append(string: "Content-Disposition: form-data; name=\"images\"; filename=\"\(UUID().uuidString).jpeg\"\r\n")
