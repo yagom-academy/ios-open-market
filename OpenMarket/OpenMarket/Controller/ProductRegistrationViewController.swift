@@ -17,19 +17,19 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
     private var jsonParser: JSONParser?
     private var completionHandler: (() -> Void)?
     
-    @IBOutlet weak var scrollView: UIScrollView!
-    @IBOutlet weak var verticalStackView: UIStackView!
-    @IBOutlet weak var imagesCollectionView: UICollectionView!
-    @IBOutlet weak var productNameTextField: UITextField!
-    @IBOutlet weak var productPriceTextField: UITextField!
-    @IBOutlet weak var discountedPriceTextField: UITextField!
-    @IBOutlet weak var stockTextField: UITextField!
-    @IBOutlet weak var descriptionTextView: UITextView!
-    @IBOutlet weak var currencySegmentedControl: UISegmentedControl!
-    @IBOutlet weak var productNameCautionLabel: UILabel!
-    @IBOutlet weak var productPriceCautionLabel: UILabel!
-    @IBOutlet weak var discountedPriceCautionLabel: UILabel!
-    @IBOutlet weak var descriptionCautionLabel: UILabel!
+    @IBOutlet private weak var scrollView: UIScrollView!
+    @IBOutlet private weak var verticalStackView: UIStackView!
+    @IBOutlet private weak var imagesCollectionView: UICollectionView!
+    @IBOutlet private weak var productNameTextField: UITextField!
+    @IBOutlet private weak var productPriceTextField: UITextField!
+    @IBOutlet private weak var discountedPriceTextField: UITextField!
+    @IBOutlet private weak var stockTextField: UITextField!
+    @IBOutlet private weak var descriptionTextView: UITextView!
+    @IBOutlet private weak var currencySegmentedControl: UISegmentedControl!
+    @IBOutlet private weak var productNameCautionLabel: UILabel!
+    @IBOutlet private weak var productPriceCautionLabel: UILabel!
+    @IBOutlet private weak var discountedPriceCautionLabel: UILabel!
+    @IBOutlet private weak var descriptionCautionLabel: UILabel!
     
     convenience init?(
         coder: NSCoder,
@@ -314,51 +314,32 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
         maximumNameLimit: Int?,
         minimumNameLimit: Int?
     ) -> Result<NetworkTask.SalesInformation, ProductRegistrationError> {
-        let discountedPrice = Decimal(string: discountedPriceTextField.text ?? "")
-        let stock = UInt(stockTextField.text ?? "")
-        
         let selectedSegmentIndex = currencySegmentedControl.selectedSegmentIndex
         let selectedSegmentTitle = currencySegmentedControl.titleForSegment(
             at: selectedSegmentIndex
         ) ?? ""
-        if images.isEmpty {
-            return .failure(.emptyImage)
-        }
-        guard let name = productNameTextField.text, name.isEmpty == false else {
-            return .failure(.emptyName)
-        }
-        guard let price = Decimal(string: productPriceTextField.text ?? "") else {
-            return .failure(.emptyPrice)
-        }
-        guard let currency = Currency(rawValue: selectedSegmentTitle) else {
-            return .failure(.emptyCurrency)
-        }
-        guard let descriptions = descriptionTextView.text, descriptions != "상품설명" else {
-            return .failure(.emptyDiscription)
-        }
-        
-        if let error = inspectInput(
-            price: price,
-            discountedPrice: discountedPrice,
-            nameCount: name.count,
-            descriptionsCount: descriptions.count,
-            maximumDescriptionsLimit: maximumDescriptionsLimit,
-            minimumDescriptionsLimit: minimumDescriptionsLimit,
-            maximumNameLimit: maximumNameLimit,
-            minimumNameLimit: minimumNameLimit
-        ) {
+        let result = inspectInput(
+            name: productNameTextField.text,
+            price: productPriceTextField.text,
+            discountedPrice: discountedPriceTextField.text,
+            currencyTitle: selectedSegmentTitle,
+            stock: stockTextField.text,
+            descriptions: descriptionTextView.text
+        )
+        switch result {
+        case .success(let productRegistration):
+            let product = NetworkTask.SalesInformation(
+                name: productRegistration.name,
+                descriptions: productRegistration.descriptions,
+                price: productRegistration.price,
+                currency: productRegistration.currency,
+                discountedPrice: productRegistration.discountedPrice,
+                stock: productRegistration.stock,
+                secret: secret)
+            return .success(product)
+        case .failure(let error):
             return .failure(error)
         }
-        
-        let product = NetworkTask.SalesInformation(
-            name: name,
-            descriptions: descriptions,
-            price: price,
-            currency: currency,
-            discountedPrice: discountedPrice,
-            stock: stock,
-            secret: secret)
-        return .success(product)
     }
     
     private func modifiySalesInformation(
@@ -368,49 +349,33 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
         maximumNameLimit: Int?,
         minimumNameLimit: Int?
     ) -> Result<NetworkTask.ModificationInformation, ProductRegistrationError> {
-        let discountedPrice = Decimal(string: discountedPriceTextField.text ?? "")
-        let stock = UInt(stockTextField.text ?? "")
-        
         let selectedSegmentIndex = currencySegmentedControl.selectedSegmentIndex
         let selectedSegmentTitle = currencySegmentedControl.titleForSegment(
             at: selectedSegmentIndex
         ) ?? ""
-        guard let name = productNameTextField.text, name.isEmpty == false else {
-            return .failure(.emptyName)
-        }
-        guard let price = Decimal(string: productPriceTextField.text ?? "") else {
-            return .failure(.emptyPrice)
-        }
-        guard let currency = Currency(rawValue: selectedSegmentTitle) else {
-            return .failure(.emptyCurrency)
-        }
-        guard let descriptions = descriptionTextView.text, descriptions != "상품설명" else {
-            return .failure(.emptyDiscription)
-        }
-        
-        if let error = inspectInput(
-            price: price,
-            discountedPrice: discountedPrice,
-            nameCount: name.count,
-            descriptionsCount: descriptions.count,
-            maximumDescriptionsLimit: maximumDescriptionsLimit,
-            minimumDescriptionsLimit: minimumDescriptionsLimit,
-            maximumNameLimit: maximumNameLimit,
-            minimumNameLimit: minimumNameLimit
-        ) {
+        let result = inspectInput(
+            name: productNameTextField.text,
+            price: productPriceTextField.text,
+            discountedPrice: discountedPriceTextField.text,
+            currencyTitle: selectedSegmentTitle,
+            stock: stockTextField.text,
+            descriptions: descriptionTextView.text
+        )
+        switch result {
+        case .success(let productRegistration):
+            let product = NetworkTask.ModificationInformation(
+                name: productRegistration.name,
+                descriptions: productRegistration.descriptions,
+                thumbnailId: nil,
+                price: productRegistration.price,
+                currency: productRegistration.currency,
+                discountedPrice: productRegistration.discountedPrice,
+                stock: productRegistration.stock,
+                secret: secret)
+            return .success(product)
+        case .failure(let error):
             return .failure(error)
         }
-        
-        let product = NetworkTask.ModificationInformation(
-            name: name,
-            descriptions: descriptions,
-            thumbnailId: nil,
-            price: price,
-            currency: currency,
-            discountedPrice: discountedPrice,
-            stock: stock,
-            secret: secret)
-        return .success(product)
     }
     
     private func textInputDidChange(_ sender: Any, textLength: Int) {
@@ -485,7 +450,7 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
         }
     }
     
-    private func inspectInput(
+    private func inspectFilledInput(
         price: Decimal,
         discountedPrice: Decimal?,
         nameCount: Int,
@@ -520,6 +485,53 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
             return error
         }
         return nil
+    }
+    
+    private func inspectInput(
+        name: String?,
+        price: String?,
+        discountedPrice: String?,
+        currencyTitle: String,
+        stock: String?,
+        descriptions: String?
+    ) -> Result<ProductRegistration, ProductRegistrationError> {
+        let discountedPrice = Decimal(string: discountedPrice ?? "")
+        let stock = UInt(stock ?? "")
+        
+        guard let name = name, name.isEmpty == false else {
+            return .failure(.emptyName)
+        }
+        guard let price = Decimal(string: price ?? "") else {
+            return .failure(.emptyPrice)
+        }
+        guard let currency = Currency(rawValue: currencyTitle) else {
+            return .failure(.emptyCurrency)
+        }
+        guard let descriptions = descriptions, descriptions != "상품설명" else {
+            return .failure(.emptyDiscription)
+        }
+        
+        if let error = inspectFilledInput(
+            price: price,
+            discountedPrice: discountedPrice,
+            nameCount: name.count,
+            descriptionsCount: descriptions.count,
+            maximumDescriptionsLimit: maximumDescriptionsLimit,
+            minimumDescriptionsLimit: minimumDescriptionsLimit,
+            maximumNameLimit: maximumNameLimit,
+            minimumNameLimit: minimumNameLimit
+        ) {
+            return .failure(error)
+        }
+        let result = ProductRegistration(
+            name: name,
+            price: price,
+            discountedPrice: discountedPrice,
+            currency: currency,
+            stock: stock,
+            descriptions: descriptions
+        )
+        return .success(result)
     }
     
     private func inspectMaximumDiscountedPrice(
@@ -608,7 +620,7 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
         return imageData
     }
     
-    @IBAction func tapBackground(_ sender: UITapGestureRecognizer) {
+    @IBAction private func tapBackground(_ sender: UITapGestureRecognizer) {
         view.endEditing(true)
     }
 }
@@ -617,6 +629,15 @@ extension ProductRegistrationViewController {
     private enum Section: Int {
         case imagesSection
         case buttonSection
+    }
+    
+    private struct ProductRegistration {
+        let name: String
+        let price: Decimal
+        let discountedPrice: Decimal?
+        let currency: Currency
+        let stock: UInt?
+        let descriptions: String
     }
 }
 
