@@ -35,12 +35,12 @@ class ProductGridCell: UICollectionViewCell {
     }
     
     private func setupPriceLabel(with product: ProductDetail) {
-        let currentPriceText = product.currency + StringSeparator.blank + String(product.price.addComma())
+        let currentPriceText = product.currency.unit + StringSeparator.blank + String(product.price.addComma())
         if product.discountedPrice == 0 {
             gridPriceLabel.attributedText = NSAttributedString(string: currentPriceText)
         } else {
             let previousPrice = currentPriceText.strikeThrough()
-            let bargainPriceText = StringSeparator.newLine + product.currency + StringSeparator.blank + String(product.bargainPrice.addComma())
+            let bargainPriceText = StringSeparator.newLine + product.currency.unit + StringSeparator.blank + String(product.bargainPrice.addComma())
             let bargainPrice = NSAttributedString(string: bargainPriceText)
             
             let priceLabelText = NSMutableAttributedString()

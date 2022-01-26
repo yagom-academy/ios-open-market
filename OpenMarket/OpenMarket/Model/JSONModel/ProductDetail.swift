@@ -4,7 +4,7 @@ struct ProductDetail: Codable, Hashable {
     let id, vendorID: Int
     let name: String
     let thumbnail: Data
-    let currency: String
+    let currency: Currency
     let price, bargainPrice, discountedPrice: Double
     let stock: Int
     let createdAt, issuedAt: String

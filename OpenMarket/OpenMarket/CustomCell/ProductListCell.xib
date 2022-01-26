@@ -55,6 +55,7 @@
             </view>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <constraints>
+                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="Q7l-3o-gqU" secondAttribute="bottom" constant="5" id="1Rx-dN-zh7"/>
                 <constraint firstItem="NiG-wx-g3B" firstAttribute="top" secondItem="u4r-ib-4lH" secondAttribute="top" id="1g9-vN-XXe"/>
                 <constraint firstAttribute="trailing" secondItem="NiG-wx-g3B" secondAttribute="trailing" constant="10" id="619-Dq-Eu6"/>
                 <constraint firstItem="WSk-0y-wS2" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="10" id="7VO-Cs-z9A"/>

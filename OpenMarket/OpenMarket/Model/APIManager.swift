@@ -1,7 +1,11 @@
 import Foundation
+import UIKit
+
+typealias Parameters = [String: String]
 
 class APIManager {
-    
+    static let shared = APIManager()
+    let boundary = "Boundary-\(UUID().uuidString)"
     let urlSession: URLSessionProtocol
 
     init(urlSession: URLSessionProtocol = URLSession.shared) {
@@ -42,6 +46,63 @@ class APIManager {
         guard let url = URLManager.checkProductList(pageNumber: pageNumber, itemsPerPage: itemsPerPage).url else { return }
         let request = URLRequest(url: url, method: .get)
         createDataTask(with: request, completion: completion)
+    }
+    
+}
+
+extension APIManager {
+    
+    func addProduct(information: NewProductInformation, images: [NewProductImage], completion: @escaping (Result<ProductDetail, Error>) -> Void) {
+        guard let request = createPostURLRequest(product: information, images: images) else { return }
+        createDataTask(with: request, completion: completion)
+    }
+    
+    func createPostURLRequest(product: NewProductInformation, images: [NewProductImage]) -> URLRequest? {
+        guard let url = URLManager.addNewProduct.url else { return nil }
+        var request = URLRequest(url: url, method: .post)
+        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        request.addValue("819efbc3-71fc-11ec-abfa-dd40b1881f4c", forHTTPHeaderField: "identifier")
+        request.httpBody = createRequestBody(product: product, images: images)
+        return request
+    }
+    
+    func createRequestBody(product: NewProductInformation, images: [NewProductImage]) -> Data {
+        let parameters = createParams(with: product)
+        let dataBody = createMultiPartFormData(with: parameters, images: images)
+        return dataBody
+    }
+    
+    func createParams(with modelData: NewProductInformation) -> Parameters? {
+        guard let parameterBody = JSONParser.encodeToDataString(with: modelData) else { return nil }
+        let params: Parameters = ["params": parameterBody]
+        return params
+    }
+    
+    func createMultiPartFormData(with params: Parameters?, images: [NewProductImage]?) -> Data {
+        let lineBreak = "\r\n"
+        var body = Data()
+        
+        if let parameters = params {
+            for (key, value) in parameters {
+                body.append("--\(boundary + lineBreak)")
+                body.append("Content-Disposition: form-data; name=\"\(key)\"\(lineBreak + lineBreak)")
+                body.append("\(value)\(lineBreak)")
+            }
+        }
+
+        if let images = images {
+            for image in images {
+                body.append("--\(boundary + lineBreak)")
+                body.append("Content-Disposition: form-data; name=\"\(image.key)\"; filename=\"\(image.fileName)\"\(lineBreak)")
+                body.append("Content-Type: image/jpeg, image/jpg, image/png\(lineBreak + lineBreak)")
+                body.append(image.image)
+                body.append(lineBreak)
+            }
+        }
+        
+        body.append("--\(boundary)--\(lineBreak)")
+        
+        return body
     }
     
 }

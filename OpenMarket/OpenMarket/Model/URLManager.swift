@@ -6,6 +6,7 @@ enum URLManager {
     case healthChecker
     case checkProductDetail(id: Int)
     case checkProductList(pageNumber: Int, itemsPerPage: Int)
+    case addNewProduct
     
     var url: URL? {
         switch self {
@@ -19,6 +20,8 @@ enum URLManager {
             let items = URLQueryItem(name: "items_per_page", value: "\(itemsPerPage)")
             components?.queryItems = [number, items]
             return components?.url
+        case .addNewProduct:
+            return URL(string: URLManager.apiHost + "api/products")
         }
     }
     

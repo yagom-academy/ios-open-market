@@ -31,5 +31,20 @@ enum JSONParser {
         
         return imageData
     }
+    
+    static func encodeToDataString<T: Encodable>(with modelData: T) -> String? {
+        let encoder = JSONEncoder()
+        encoder.keyEncodingStrategy = .convertToSnakeCase
+        
+        var dataString: String?
+        do {
+            let encodedData = try encoder.encode(modelData)
+            dataString = String(data: encodedData, encoding: .utf8)
+        } catch let error as NSError {
+            NSLog("Error in read(from:ofType:) domain= \(error.domain), description= \(error.localizedDescription)")
+        }
+
+        return dataString
+    }
 
 }

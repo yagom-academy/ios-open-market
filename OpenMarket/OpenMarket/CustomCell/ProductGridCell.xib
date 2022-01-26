@@ -22,6 +22,7 @@
                         <rect key="frame" x="20" y="15" width="200" height="200"/>
                         <constraints>
                             <constraint firstAttribute="width" relation="lessThanOrEqual" constant="200" id="OMN-M9-FJ2"/>
+                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="100" id="WbA-b3-aRl"/>
                             <constraint firstAttribute="width" secondItem="EON-6i-i1p" secondAttribute="height" multiplier="1:1" id="X5K-eP-QiA"/>
                         </constraints>
                     </imageView>
