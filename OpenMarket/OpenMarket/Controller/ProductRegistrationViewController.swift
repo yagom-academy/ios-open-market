@@ -69,18 +69,7 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
         setupTextView()
         hideAllCautionLabel()
         loadProductInformation()
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(keyboardWillShow),
-            name: UIResponder.keyboardWillShowNotification,
-            object: nil
-        )
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(keyboardWillHide),
-            name: UIResponder.keyboardWillHideNotification,
-            object: nil
-        )
+        addKeyboardObserver()
     }
     
     @objc private func registerProduct() {
@@ -231,6 +220,21 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
         descriptionTextView.layer.borderWidth = 0.5
         descriptionTextView.layer.cornerRadius = 5
         descriptionTextView.layer.borderColor = UIColor.separator.cgColor
+    }
+    
+    private func addKeyboardObserver() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillShow),
+            name: UIResponder.keyboardWillShowNotification,
+            object: nil
+        )
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillHide),
+            name: UIResponder.keyboardWillHideNotification,
+            object: nil
+        )
     }
     
     private func hideAllCautionLabel() {
