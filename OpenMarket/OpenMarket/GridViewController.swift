@@ -24,7 +24,8 @@ final class GridViewController: UIViewController {
     }
 
     required init?(coder: NSCoder) {
-        fatalError("class does not support nscoder")
+        assertionFailure("init(coder:) has not been implemented")
+        return nil
     }
     
     //MARK: - Lifecycle
@@ -36,6 +37,17 @@ final class GridViewController: UIViewController {
         setupGridLayout()
         collectionView.dataSource = self
         collectionView.delegate = self
+    }
+    
+    // MARK: - Internal Methods
+ 
+    func updateProducts(with products: [Product]) {
+        self.products = products
+        
+        DispatchQueue.main.async {
+            self.loadViewIfNeeded()
+            self.collectionView.reloadData()
+        }
     }
 }
 
@@ -56,11 +68,17 @@ extension GridViewController {
 //MARK: - UICollectionViewDataSource
 
 extension GridViewController: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        numberOfItemsInSection section: Int
+    ) -> Int {
         return products.count
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        cellForItemAt indexPath: IndexPath
+    ) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: MarketCell.identifier,
             for: indexPath
@@ -76,19 +94,35 @@ extension GridViewController: UICollectionViewDataSource {
 //MARK: - UICollectionViewDelegateFlowLayout
 
 extension GridViewController: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        minimumLineSpacingForSectionAt section: Int
+    ) -> CGFloat {
         return 10
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        minimumInteritemSpacingForSectionAt section: Int
+    ) -> CGFloat {
         return 10
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        insetForSectionAt section: Int
+    ) -> UIEdgeInsets {
         return UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        sizeForItemAt indexPath: IndexPath
+    ) -> CGSize {
         let width = collectionView.frame.width / 2 - 15
         let height = collectionView.frame.height / 2.5
         let size = CGSize(width: width, height: height)
@@ -99,4 +133,4 @@ extension GridViewController: UICollectionViewDelegateFlowLayout {
 
 //MARK: - IdentifiableView
 
-extension GridViewController: IdentifiableView { }
+extension GridViewController: IdentifiableView {}

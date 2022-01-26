@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="MfS-Ts-Ghk">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="MfS-Ts-Ghk">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -51,7 +50,11 @@
                                 <action selector="segmentedControlTapped:" destination="BYZ-38-t0r" eventType="valueChanged" id="3nn-bm-qLV"/>
                             </connections>
                         </segmentedControl>
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="paV-NC-dDI"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="paV-NC-dDI">
+                            <connections>
+                                <action selector="addButtonTapped:" destination="BYZ-38-t0r" id="1RH-jd-mfq"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="collectionView" destination="aZ5-na-LvG" id="07a-Ey-McD"/>
@@ -154,8 +157,158 @@
             </objects>
             <point key="canvasLocation" x="832" y="684"/>
         </scene>
+        <!--Product Form View Controller-->
+        <scene sceneID="fP4-VC-cji">
+            <objects>
+                <viewController storyboardIdentifier="ProductFormViewController" modalPresentationStyle="fullScreen" id="Ddj-Nh-8IV" customClass="ProductFormViewController" customModule="OpenMarket" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="vOs-RB-03v">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sjh-AP-5K9">
+                                <rect key="frame" x="0.0" y="54" width="414" height="44"/>
+                                <items>
+                                    <navigationItem title="Title" id="xTz-Ga-1Yb">
+                                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="uZf-Pz-Okp">
+                                            <connections>
+                                                <action selector="cancelButtonTapped:" destination="Ddj-Nh-8IV" id="76a-d7-xbi"/>
+                                            </connections>
+                                        </barButtonItem>
+                                        <barButtonItem key="rightBarButtonItem" title="Done" id="6j7-9L-l8q">
+                                            <connections>
+                                                <action selector="doneButtonTapped:" destination="Ddj-Nh-8IV" id="sn7-io-IGC"/>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rjR-K2-9NR">
+                                <rect key="frame" x="0.0" y="108" width="414" height="788"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zO8-t8-9r2" userLabel="contentView">
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="807"/>
+                                        <subviews>
+                                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="gAV-Pb-xsK">
+                                                <rect key="frame" x="10" y="0.0" width="394" height="118"/>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="wWJ-mv-1Fw">
+                                                    <size key="itemSize" width="128" height="128"/>
+                                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                </collectionViewFlowLayout>
+                                                <cells/>
+                                            </collectionView>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="22" translatesAutoresizingMaskIntoConstraints="NO" id="avm-9S-EpX">
+                                                <rect key="frame" x="10" y="128" width="394" height="202"/>
+                                                <subviews>
+                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="acm-OU-FJh">
+                                                        <rect key="frame" x="0.0" y="0.0" width="394" height="34"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                        <textInputTraits key="textInputTraits"/>
+                                                    </textField>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="7" translatesAutoresizingMaskIntoConstraints="NO" id="fZ2-z4-c71">
+                                                        <rect key="frame" x="0.0" y="56" width="394" height="34"/>
+                                                        <subviews>
+                                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="o0R-PP-LXc">
+                                                                <rect key="frame" x="0.0" y="0.0" width="276" height="34"/>
+                                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                                <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
+                                                            </textField>
+                                                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="gf7-dd-MBM">
+                                                                <rect key="frame" x="283" y="0.0" width="111" height="35"/>
+                                                                <segments>
+                                                                    <segment title="KRW"/>
+                                                                    <segment title="USD"/>
+                                                                </segments>
+                                                            </segmentedControl>
+                                                        </subviews>
+                                                        <constraints>
+                                                            <constraint firstItem="o0R-PP-LXc" firstAttribute="width" secondItem="fZ2-z4-c71" secondAttribute="width" multiplier="0.7" id="zbj-ub-6Pl"/>
+                                                        </constraints>
+                                                    </stackView>
+                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="sog-cm-FVK">
+                                                        <rect key="frame" x="0.0" y="112" width="394" height="34"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                        <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
+                                                    </textField>
+                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="DyP-sN-WmV">
+                                                        <rect key="frame" x="0.0" y="168" width="394" height="34"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                        <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                                    </textField>
+                                                </subviews>
+                                            </stackView>
+                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" verticalHuggingPriority="249" scrollEnabled="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="FC9-FZ-IDm">
+                                                <rect key="frame" x="10" y="340" width="394" height="438"/>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                                <color key="textColor" systemColor="labelColor"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                            </textView>
+                                        </subviews>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                        <constraints>
+                                            <constraint firstItem="FC9-FZ-IDm" firstAttribute="top" secondItem="avm-9S-EpX" secondAttribute="bottom" constant="10" id="PeR-l3-CL9"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="zO8-t8-9r2" firstAttribute="trailing" secondItem="Azr-cA-oTT" secondAttribute="trailing" id="5cT-lt-frn"/>
+                                    <constraint firstItem="zO8-t8-9r2" firstAttribute="leading" secondItem="Azr-cA-oTT" secondAttribute="leading" id="8AV-sb-Tjo"/>
+                                    <constraint firstItem="gAV-Pb-xsK" firstAttribute="top" secondItem="4Od-0f-IK0" secondAttribute="top" id="BgT-jK-VX0"/>
+                                    <constraint firstItem="4Od-0f-IK0" firstAttribute="trailing" secondItem="avm-9S-EpX" secondAttribute="trailing" constant="10" id="Ehf-2X-eTW"/>
+                                    <constraint firstItem="4Od-0f-IK0" firstAttribute="trailing" secondItem="gAV-Pb-xsK" secondAttribute="trailing" constant="10" id="KqA-my-pQt"/>
+                                    <constraint firstItem="FC9-FZ-IDm" firstAttribute="leading" secondItem="4Od-0f-IK0" secondAttribute="leading" constant="10" id="RuB-iN-RAm"/>
+                                    <constraint firstItem="gAV-Pb-xsK" firstAttribute="height" secondItem="4Od-0f-IK0" secondAttribute="height" multiplier="0.15" id="Ylv-Pe-XKn"/>
+                                    <constraint firstItem="gAV-Pb-xsK" firstAttribute="leading" secondItem="4Od-0f-IK0" secondAttribute="leading" constant="10" id="azx-Tc-uf0"/>
+                                    <constraint firstItem="avm-9S-EpX" firstAttribute="top" secondItem="gAV-Pb-xsK" secondAttribute="bottom" constant="10" id="cJX-iJ-naE"/>
+                                    <constraint firstItem="zO8-t8-9r2" firstAttribute="width" secondItem="4Od-0f-IK0" secondAttribute="width" id="dtm-3A-Aq3"/>
+                                    <constraint firstItem="zO8-t8-9r2" firstAttribute="bottom" secondItem="Azr-cA-oTT" secondAttribute="bottom" id="gIq-6I-eYK"/>
+                                    <constraint firstItem="zO8-t8-9r2" firstAttribute="height" secondItem="4Od-0f-IK0" secondAttribute="height" multiplier="1.02411" id="gjZ-RF-uk0"/>
+                                    <constraint firstItem="zO8-t8-9r2" firstAttribute="top" secondItem="Azr-cA-oTT" secondAttribute="top" id="mgP-Gc-cfh"/>
+                                    <constraint firstItem="4Od-0f-IK0" firstAttribute="trailing" secondItem="FC9-FZ-IDm" secondAttribute="trailing" constant="10" id="r7D-QF-Mpt"/>
+                                    <constraint firstItem="avm-9S-EpX" firstAttribute="leading" secondItem="4Od-0f-IK0" secondAttribute="leading" constant="10" id="rii-dG-0X9"/>
+                                    <constraint firstItem="4Od-0f-IK0" firstAttribute="bottom" secondItem="FC9-FZ-IDm" secondAttribute="bottom" constant="10" id="yYq-Ki-Iug"/>
+                                </constraints>
+                                <viewLayoutGuide key="contentLayoutGuide" id="Azr-cA-oTT"/>
+                                <viewLayoutGuide key="frameLayoutGuide" id="4Od-0f-IK0"/>
+                            </scrollView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="Eaq-dk-QOI"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="rjR-K2-9NR" firstAttribute="centerX" secondItem="Eaq-dk-QOI" secondAttribute="centerX" id="5c9-Go-CxS"/>
+                            <constraint firstItem="rjR-K2-9NR" firstAttribute="height" secondItem="vOs-RB-03v" secondAttribute="height" multiplier="0.879464" id="UUT-8r-bbj"/>
+                            <constraint firstItem="sjh-AP-5K9" firstAttribute="top" secondItem="Eaq-dk-QOI" secondAttribute="top" constant="10" id="X1c-Dc-lXX"/>
+                            <constraint firstItem="sjh-AP-5K9" firstAttribute="leading" secondItem="Eaq-dk-QOI" secondAttribute="leading" id="hOB-ab-hHJ"/>
+                            <constraint firstItem="4Od-0f-IK0" firstAttribute="top" secondItem="sjh-AP-5K9" secondAttribute="bottom" constant="10" id="puv-fx-2v8"/>
+                            <constraint firstItem="sjh-AP-5K9" firstAttribute="trailing" secondItem="Eaq-dk-QOI" secondAttribute="trailing" id="uMb-KT-qSt"/>
+                            <constraint firstItem="rjR-K2-9NR" firstAttribute="width" secondItem="vOs-RB-03v" secondAttribute="width" id="ySC-TY-bOK"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="collectionView" destination="gAV-Pb-xsK" id="yN4-yk-rga"/>
+                        <outlet property="currencySegmentedControl" destination="gf7-dd-MBM" id="tXb-84-4bA"/>
+                        <outlet property="descriptionTextView" destination="FC9-FZ-IDm" id="Jmy-zU-V8V"/>
+                        <outlet property="discountedPriceTextField" destination="sog-cm-FVK" id="nKT-eY-qIN"/>
+                        <outlet property="navigationBar" destination="sjh-AP-5K9" id="5Bk-mI-KwK"/>
+                        <outlet property="priceTextField" destination="o0R-PP-LXc" id="vJf-8a-OmG"/>
+                        <outlet property="productNameTextField" destination="acm-OU-FJh" id="Qbd-Yk-E7c"/>
+                        <outlet property="scrollView" destination="rjR-K2-9NR" id="tXY-R5-xyp"/>
+                        <outlet property="stockTextField" destination="DyP-sN-WmV" id="eML-6J-l6V"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="QAt-p9-GAA" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1621.7391304347827" y="121.875"/>
+        </scene>
     </scenes>
     <resources>
+        <systemColor name="labelColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

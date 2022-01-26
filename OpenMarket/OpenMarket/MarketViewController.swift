@@ -14,21 +14,24 @@ final class MarketViewController: UIViewController {
     
     //MARK: - Properties
     
-    private let mainStoryboardName = "Main"
     private var apiService: APIServicable?
     private var products: [Product] = []
     
     private lazy var listViewController: ListViewController = {
-        let storyboard = UIStoryboard(name: mainStoryboardName, bundle: Bundle.main)
-        let viewController = storyboard.instantiateViewController(identifier: ListViewController.identifier) { coder in
+        let storyboard = UIStoryboard(name: StoryboardIdentifier.main, bundle: Bundle.main)
+        let viewController = storyboard.instantiateViewController(
+            identifier: ListViewController.identifier
+        ) { coder in
             ListViewController(products: self.products, coder: coder)
         }
         return viewController
     }()
     
     private lazy var gridViewController: GridViewController = {
-        let storyboard = UIStoryboard(name: mainStoryboardName, bundle: Bundle.main)
-        let viewController = storyboard.instantiateViewController(identifier: GridViewController.identifier) { coder in
+        let storyboard = UIStoryboard(name: StoryboardIdentifier.main, bundle: Bundle.main)
+        let viewController = storyboard.instantiateViewController(
+            identifier: GridViewController.identifier
+        ) { coder in
             GridViewController(products: self.products, coder: coder)
         }
         return viewController
@@ -52,10 +55,15 @@ final class MarketViewController: UIViewController {
         super.viewDidLoad()
         
         setupSegmentedControl()
-        fetchPage(pageNumber: 1, itemsPerPage: 20)
+        fetchPage(pageNumber: 1, itemsPerPage: 20) { [weak self] _ in
+            guard let self = self else {
+                return
+            }
+            self.showListViewController()
+        }
     }
     
-    //MARK: - Dependency Injection Method
+    // MARK: - Internal Methods
     
     func setAPIService(with apiService: APIServicable) {
         self.apiService = apiService
@@ -73,6 +81,21 @@ extension MarketViewController {
             remove(asChildViewController: listViewController)
             add(asChildViewController: gridViewController)
         }
+    }
+    
+    @IBAction func addButtonTapped(_ sender: UIBarButtonItem) {
+        guard let destination = storyboard?.instantiateViewController(
+            identifier: ProductFormViewController.identifier,
+            creator: { coder in
+                ProductFormViewController(delegate: self, pageMode: .register, coder: coder)
+            }
+        ) else {
+            assertionFailure("init(coder:) has not been implemented")
+            return
+        }
+        
+        destination.modalPresentationStyle = .fullScreen
+        present(destination, animated: true, completion: nil)
     }
 }
 
@@ -118,16 +141,40 @@ extension MarketViewController {
         viewController.removeFromParent()
     }
     
-    private func fetchPage(pageNumber: Int, itemsPerPage: Int) {
+    private func fetchPage(pageNumber: Int, itemsPerPage: Int, completion: @escaping (_ products: [Product]?) -> ()) {
         startLoadingIndicator()
-        apiService?.fetchPage(pageNumber: pageNumber, itemsPerPage: itemsPerPage) { [weak self] result in
-            self?.stopLoadingIndicator()
+        apiService?.fetchPage(
+            pageNumber: pageNumber,
+            itemsPerPage: itemsPerPage
+        ) { [weak self] result in
+            guard let self = self else {
+                return
+            }
+            self.stopLoadingIndicator()
             switch result {
             case .success(let data):
-                self?.products = data.products
-                self?.showListViewController()
+                self.products = data.products
+                completion(data.products)
             case .failure(let error):
                 print(error)
+            }
+        }
+    }
+}
+
+// MARK: - AddButtonTappedDelegate
+
+extension MarketViewController: AddButtonTappedDelegate {
+    func registerButtonTapped() {
+        fetchPage(pageNumber: 1, itemsPerPage: 20) { [weak self] products in
+            guard let products = products,
+                  let self = self else {
+                return
+            }
+            self.listViewController.updateProducts(with: products)
+            
+            DispatchQueue.main.async {
+                self.gridViewController.updateProducts(with: products)
             }
         }
     }

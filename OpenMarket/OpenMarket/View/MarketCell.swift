@@ -24,8 +24,8 @@ final class MarketCell: UICollectionViewCell {
     @IBOutlet weak var stockLabel: UILabel!
     
     //MARK: - Properties
-    private var cellType: CellType?
     
+    private var cellType: CellType?
     
     //MARK: - Configure Methods
     
@@ -74,7 +74,7 @@ extension MarketCell {
         productNameLabel.font = UIFont.boldSystemFont(ofSize: 18)
     }
     
-    private func setPriceLabels(with price: Int, and discountedPrice: Int, currency: String) {
+    private func setPriceLabels(with price: Double, and discountedPrice: Double, currency: String) {
         let dontShowDiscounted = discountedPrice == 0
         guard let priceString = price.decimalFormat,
               let discountedPriceString = discountedPrice.decimalFormat else {
@@ -117,4 +117,4 @@ extension MarketCell {
 
 // MARK: - IdentifiableView
 
-extension MarketCell: IdentifiableView { }
+extension MarketCell: IdentifiableView {}

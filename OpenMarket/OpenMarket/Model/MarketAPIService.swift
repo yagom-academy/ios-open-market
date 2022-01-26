@@ -15,9 +15,16 @@ final class MarketAPIService {
     }
 }
 
-//MARK: - Namespace
+//MARK: - Nested Types
 
 extension MarketAPIService {
+    private enum HTTPMethod {
+        static let post = "POST"
+        static let get = "GET"
+        static let patch = "PATCH"
+        static let delete = "DELETE"
+    }
+    
     private enum MarketAPI {
         static let baseURL = "https://market-training.yagom-academy.kr"
         static let path = "/api/products/"
@@ -61,14 +68,37 @@ extension MarketAPIService {
 extension MarketAPIService: APIServicable {
     func registerProduct(
         product: PostProduct,
-        images: [Data],
-        completionHandler: @escaping (Result<Data, APIError>) -> Void
+        images: [ProductImage],
+        completionHandler: @escaping (Result<Product, APIError>) -> Void
     ) {
+        guard let url = MarketAPI.postProduct.url,
+              let jsonData = encode(with: product) else {
+            return
+        }
+        let boundary = UUID().uuidString
+        let headers: [String: String] = [
+            "Content-Type": "multipart/form-data; boundary=\(boundary)",
+            "identifier": "cd706a3e-66db-11ec-9626-796401f2341a"
+        ]
+        let body = makeBody(jsonData: jsonData, images: images, boundary: boundary)
+        let request = makeRequest(url: url, httpMethod: HTTPMethod.post, headers: headers, body: body)
         
+        performDataTask(request: request, completionHandler: completionHandler)
     }
     
-    func updateProduct(productID: Int, product: PatchProduct) {
+    func updateProduct(
+        productID: Int,
+        product: PatchProduct,
+        completionHandler: @escaping (Result<Product, APIError>) -> Void
+    ) {
+        guard let url = MarketAPI.patchProduct(id: productID).url,
+              let body = encode(with: product) else {
+                  return
+              }
+        let headers = ["identifier": "cd706a3e-66db-11ec-9626-796401f2341a"]
+        let request = makeRequest(url: url, httpMethod: HTTPMethod.patch, headers: headers, body: body)
         
+        performDataTask(request: request, completionHandler: completionHandler)
     }
     
     func getSecret(productID: Int, secret: String) {
@@ -106,6 +136,52 @@ extension MarketAPIService: APIServicable {
 //MARK: - MarketAPIService 메서드
 
 extension MarketAPIService {
+    private func makeRequest(
+        url: URL,
+        httpMethod: String,
+        headers: [String: String],
+        body: Data?
+    ) -> URLRequest {
+        var request = URLRequest(url: url)
+        
+        request.httpMethod = httpMethod
+        headers.forEach { (key, value) in
+            request.setValue(value, forHTTPHeaderField: key)
+        }
+        request.httpBody = body
+        
+        return request
+    }
+    
+    private func makeBody(
+        jsonData: Data,
+        images: [ProductImage],
+        boundary: String
+    ) -> Data {
+        var body = Data()
+        
+        let formData = convertFormField(
+            fieldName: "params",
+            json: jsonData,
+            using: boundary
+        )
+        body.append(formData)
+        
+        images.forEach { image in
+            guard let data =  convertFileData(
+                fieldName: "images",
+                image: image,
+                using: boundary
+            ) else {
+                return
+            }
+            body.append(data)
+        }
+        body.append("--\(boundary)--\r\n")
+        
+        return body
+    }
+    
     private func performDataTask<T: Decodable>(
         request: URLRequest,
         completionHandler: @escaping (Result<T, APIError>) -> Void
@@ -134,6 +210,42 @@ extension MarketAPIService {
         
         dataTask.resume()
     }
+    
+    private func convertFormField(
+        fieldName: String,
+        json: Data,
+        using boundary: String
+    ) -> Data {
+        var data = Data()
+        
+        data.append("--\(boundary)\r\n")
+        data.append("Content-Disposition: form-data; name=\"\(fieldName)\"\r\n")
+        
+        data.append("Content-Type: application/json\r\n\r\n")
+        data.append(json)
+        data.append("\r\n")
+        
+        return data
+    }
+    
+    private func convertFileData(
+        fieldName: String,
+        image: ProductImage,
+        using boundary: String
+    ) -> Data? {
+        guard let fileData = image.data else {
+            return nil
+        }
+        let fileName = image.fileName
+        let mimeType = "image/\(image.type.description)"
+        var data = Data()
+        
+        data.append("--\(boundary)\r\n")
+        data.append("Content-Disposition: form-data; name=\"images\"; filename=\"\(fileName)\"\r\n")
+        data.append("Content-Type: \(mimeType)\r\n\r\n")
+        data.append(fileData)
+        data.append("\r\n")
+        
+        return data
+    }
 }
-
-

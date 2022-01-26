@@ -24,7 +24,8 @@ final class ListViewController: UIViewController {
     }
 
     required init?(coder: NSCoder) {
-        fatalError("class does not support nscoder")
+        assertionFailure("init(coder:) has not been implemented")
+        return nil
     }
     
     //MARK: - Lifecycle
@@ -35,6 +36,16 @@ final class ListViewController: UIViewController {
         setupCollectionViewCells()
         setupListLayout()
         collectionView.dataSource = self
+    }
+    
+    // MARK: - Internal Methods
+    
+    func updateProducts(with products: [Product]) {
+        self.products = products
+        
+        DispatchQueue.main.async {
+            self.collectionView.reloadData()
+        }
     }
 }
 
@@ -56,11 +67,17 @@ extension ListViewController {
 //MARK: - UICollectionViewDataSource
 
 extension ListViewController: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        numberOfItemsInSection section: Int
+    ) -> Int {
         return products.count
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        cellForItemAt indexPath: IndexPath
+    ) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: MarketCell.identifier,
             for: indexPath
@@ -75,4 +92,4 @@ extension ListViewController: UICollectionViewDataSource {
 
 //MARK: - IdentifiableView
 
-extension ListViewController: IdentifiableView { }
+extension ListViewController: IdentifiableView {}
