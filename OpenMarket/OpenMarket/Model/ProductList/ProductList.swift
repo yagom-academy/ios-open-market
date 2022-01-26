@@ -24,7 +24,7 @@ struct ProductList: Codable {
         case totalItemCount = "total_count"
         case offset
         case limit
-        case lastPage = "lastPage"
+        case lastPage = "last_page"
         case hasNext = "has_next"
         case hasPreview = "has_prev"
         case productsInPage = "pages"
