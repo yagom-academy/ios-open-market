@@ -23,4 +23,25 @@ extension UIImage {
         
         return scaledImage
     }
+    
+    func cropAsSquare() -> UIImage {
+        let convertedCGImage = self.cgImage!
+        let width = convertedCGImage.width
+        let height = convertedCGImage.height
+        
+        let newSizeValue = min(width, height)
+        
+        var centerRect = CGRect()
+        
+        centerRect = CGRect(x: (width - newSizeValue) / 2,
+                            y: (height - newSizeValue) / 2,
+                            width: newSizeValue,
+                            height: newSizeValue)
+        
+        guard let croppedImage = convertedCGImage.cropping(to: centerRect) else {
+            return UIImage()
+        }
+        
+        return UIImage(cgImage: croppedImage)
+    }
 }

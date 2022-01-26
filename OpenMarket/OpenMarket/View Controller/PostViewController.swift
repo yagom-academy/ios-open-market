@@ -66,13 +66,15 @@ class PostViewController: UIViewController {
     
     func openImageLibrary() {
         picker.sourceType = .photoLibrary
-        present(picker, animated: false, completion: nil)
+        picker.allowsEditing = true
+        present(picker, animated: true, completion: nil)
     }
     
     func openCamera() {
         if UIImagePickerController.isSourceTypeAvailable(.camera) {
             picker.sourceType = .camera
-            present(picker, animated: false, completion: nil)
+            picker.allowsEditing = true
+            present(picker, animated: true, completion: nil)
         } else {
             let alert = UIAlertController(title: "카메라 접근 실패", message: "해당 기기로는 접근할 수 없습니다", preferredStyle: .alert)
             let cancel = UIAlertAction(title: "취소", style: .cancel, handler: nil)
@@ -132,25 +134,26 @@ extension PostViewController: UICollectionViewDataSource, UICollectionViewDelega
 // MARK: Image Picker Controller Delegation
 extension PostViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
-            
-            // check if it exceed 300KB
+        var convertedImage = UIImage()
+        
+        if let image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
             if image.size.width * image.size.height > 75000 {
-                let compressedImage = image.compressedImage(targetSize: CGSize(width: 270, height: 270))
-                images.insert(compressedImage, at: (images.count - 1))
+                let croppedImage = image.cropAsSquare()
+                convertedImage = croppedImage.compressedImage(targetSize: CGSize(width: 270, height: 270))
             } else {
-                images.insert(image, at: (images.count - 1))
+                convertedImage = image.cropAsSquare()
             }
-            
-            tryAddImageCount += 1
-            
-            if images.count > 5 {
-                images.removeLast()
-            }
-            
-            self.imageCollectionView.reloadData()
         }
         
+        images.insert(convertedImage, at: (images.count - 1))
+        
+        tryAddImageCount += 1
+        
+        if images.count > 5 {
+            images.removeLast()
+        }
+        
+        self.imageCollectionView.reloadData()
         dismiss(animated: true, completion: nil)
     }
 }
