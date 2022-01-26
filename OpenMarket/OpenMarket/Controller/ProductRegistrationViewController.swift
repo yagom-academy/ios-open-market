@@ -66,7 +66,6 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
         setupImagePicker()
         setupNavigationBar()
         setupTextView()
-        setupTextFieldTarget()
         hideAllCautionLabel()
         loadProductInformation()
         NotificationCenter.default.addObserver(
@@ -81,80 +80,6 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
             name: UIResponder.keyboardWillHideNotification,
             object: nil
         )
-    }
-    
-    @objc private func textInputDidChange(_ sender: Any?) {
-        if let textField = sender as? UITextField {
-            if textField === productNameTextField {
-                if let count = textField.text?.count,
-                   count < minimumNameLimit || count > maximumNameLimit {
-                    showCaution(
-                        textField: textField,
-                        cautionLabel: productNameCautionLabel,
-                        message: "글자를 \(minimumNameLimit)~\(maximumNameLimit)자로 입력해주세요"
-                    )
-                } else {
-                    hideCaution(textField: textField, cautionLabel: productNameCautionLabel)
-                }
-            }
-            if textField === productPriceTextField {
-                if let count = textField.text?.count, count == 0 {
-                    showCaution(
-                        textField: textField,
-                        cautionLabel: productPriceCautionLabel,
-                        message: "상품가격을 입력해주세요"
-                    )
-                } else {
-                    hideCaution(textField: textField, cautionLabel: productPriceCautionLabel)
-                }
-                if let price = Decimal(string: textField.text ?? ""),
-                   let discountedPrice = Decimal(string: discountedPriceTextField.text ?? ""),
-                   let error = inspectMaximumDiscountedPrice(
-                    price: price,
-                    discountedPrice: discountedPrice
-                   ) {
-                    showCaution(
-                        textField: discountedPriceTextField,
-                        cautionLabel: discountedPriceCautionLabel,
-                        message: error.errorDescription
-                    )
-                } else {
-                    hideCaution(
-                        textField: discountedPriceTextField,
-                        cautionLabel: discountedPriceCautionLabel
-                    )
-                }
-            }
-            if textField === discountedPriceTextField {
-                if let price = Decimal(string: productPriceTextField.text ?? ""),
-                   let discountedPrice = Decimal(string: textField.text ?? ""),
-                   let error = inspectMaximumDiscountedPrice(
-                    price: price,
-                    discountedPrice: discountedPrice
-                   ) {
-                    showCaution(
-                        textField: textField,
-                        cautionLabel: discountedPriceCautionLabel,
-                        message: error.errorDescription
-                    )
-                } else {
-                    hideCaution(textField: textField, cautionLabel: discountedPriceCautionLabel)
-                }
-            }
-        } else if let textView = sender as? UITextView {
-            if textView === descriptionTextView {
-                let count = textView.text.count
-                if count < minimumDescriptionsLimit || count > maximumDescriptionsLimit {
-                    showCaution(
-                        textView: textView,
-                        cautionLabel: descriptionCautionLabel,
-                        message: "글자를 \(minimumDescriptionsLimit)~\(maximumDescriptionsLimit)자로 입력해주세요"
-                    )
-                } else {
-                    hideCaution(textView: textView, cautionLabel: descriptionCautionLabel)
-                }
-            }
-        }
     }
     
     @objc private func registerProduct() {
@@ -304,30 +229,7 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
         descriptionTextView.textColor = .placeholderText
         descriptionTextView.layer.borderWidth = 0.5
         descriptionTextView.layer.cornerRadius = 5
-        descriptionTextView.layer.borderColor = CGColor(
-            srgbRed: 0.8,
-            green: 0.8,
-            blue: 0.8,
-            alpha: 1.0
-        )
-    }
-    
-    private func setupTextFieldTarget() {
-        productNameTextField.addTarget(
-            self,
-            action: #selector(textInputDidChange(_:)),
-            for: .editingChanged
-        )
-        productPriceTextField.addTarget(
-            self,
-            action: #selector(textInputDidChange(_:)),
-            for: .editingChanged
-        )
-        discountedPriceTextField.addTarget(
-            self,
-            action: #selector(textInputDidChange(_:)),
-            for: .editingChanged
-        )
+        descriptionTextView.layer.borderColor = UIColor.separator.cgColor
     }
     
     private func hideAllCautionLabel() {
@@ -359,12 +261,7 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
     
     private func hideCaution(textView: UITextView, cautionLabel: UILabel) {
         cautionLabel.isHidden = true
-        textView.layer.borderColor = CGColor(
-            srgbRed: 0.8,
-            green: 0.8,
-            blue: 0.8,
-            alpha: 1.0
-        )
+        textView.layer.borderColor = UIColor.separator.cgColor
     }
     
     private func loadProductInformation() {
@@ -492,6 +389,78 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
             stock: stock,
             secret: secret)
         return .success(product)
+    }
+    
+    private func textInputDidChange(_ sender: Any, textLength: Int) {
+        if let textField = sender as? UITextField {
+            if productNameTextField.isFirstResponder {
+                if textLength < minimumNameLimit || textLength > maximumNameLimit {
+                    showCaution(
+                        textField: textField,
+                        cautionLabel: productNameCautionLabel,
+                        message: "글자를 \(minimumNameLimit)~\(maximumNameLimit)자로 입력해주세요"
+                    )
+                } else {
+                    hideCaution(textField: textField, cautionLabel: productNameCautionLabel)
+                }
+            }
+            if productPriceTextField.isFirstResponder {
+                if textLength == 0 {
+                    showCaution(
+                        textField: textField,
+                        cautionLabel: productPriceCautionLabel,
+                        message: "상품가격을 입력해주세요"
+                    )
+                } else {
+                    hideCaution(textField: textField, cautionLabel: productPriceCautionLabel)
+                }
+                if let price = Decimal(string: textField.text ?? ""),
+                   let discountedPrice = Decimal(string: discountedPriceTextField.text ?? ""),
+                   let error = inspectMaximumDiscountedPrice(
+                    price: price,
+                    discountedPrice: discountedPrice
+                   ) {
+                    showCaution(
+                        textField: discountedPriceTextField,
+                        cautionLabel: discountedPriceCautionLabel,
+                        message: error.errorDescription
+                    )
+                } else {
+                    hideCaution(
+                        textField: discountedPriceTextField,
+                        cautionLabel: discountedPriceCautionLabel
+                    )
+                }
+            }
+            if discountedPriceTextField.isFirstResponder {
+                if let price = Decimal(string: productPriceTextField.text ?? ""),
+                   let discountedPrice = Decimal(string: textField.text ?? ""),
+                   let error = inspectMaximumDiscountedPrice(
+                    price: price,
+                    discountedPrice: discountedPrice
+                   ) {
+                    showCaution(
+                        textField: textField,
+                        cautionLabel: discountedPriceCautionLabel,
+                        message: error.errorDescription
+                    )
+                } else {
+                    hideCaution(textField: textField, cautionLabel: discountedPriceCautionLabel)
+                }
+            }
+        } else if let textView = sender as? UITextView {
+            if descriptionTextView.isFirstResponder {
+                if textLength < minimumDescriptionsLimit || textLength > maximumDescriptionsLimit {
+                    showCaution(
+                        textView: textView,
+                        cautionLabel: descriptionCautionLabel,
+                        message: "글자를 \(minimumDescriptionsLimit)~\(maximumDescriptionsLimit)자로 입력해주세요"
+                    )
+                } else {
+                    hideCaution(textView: textView, cautionLabel: descriptionCautionLabel)
+                }
+            }
+        }
     }
     
     private func inspectInput(
@@ -678,8 +647,15 @@ extension ProductRegistrationViewController: UITextViewDelegate {
         }
     }
     
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if let count = textView.text?.count {
+            let textLength = count - range.length + text.count
+            textInputDidChange(textView, textLength: textLength)
+        }
+        return true
+    }
+    
     func textViewDidEndEditing(_ textView: UITextView) {
-        textInputDidChange(textView)
         if textView.text.isEmpty {
             textView.text = "상품설명"
             textView.textColor = .placeholderText
@@ -711,6 +687,15 @@ extension ProductRegistrationViewController: UITextFieldDelegate {
             let isValid = numberCharacterSet.isSuperset(of: inputCharacterSet)
             return isValid
         }
+        if let count = textField.text?.count {
+            let textLength = count - range.length + string.count
+            textInputDidChange(textField, textLength: textLength)
+        }
+        return true
+    }
+    
+    func textFieldShouldClear(_ textField: UITextField) -> Bool {
+        textInputDidChange(textField, textLength: 0)
         return true
     }
 }
