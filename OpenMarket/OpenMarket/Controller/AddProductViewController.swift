@@ -306,6 +306,14 @@ extension AddProductViewController {
         imageCount += 1
     }
 
+    private func deleteImage(at index: Int) {
+        guard imageCount != 0 else { return }
+        snapShot.deleteItems([snapShot.itemIdentifiers[index]])
+        if imageCount == 5 { snapShot.appendItems([defaultImage]) }
+        dataSource.apply(snapShot)
+        imageCount -= 1
+    }
+    
     private func showImageSelectionAlert(completion: (() -> Void)?) {
         let alert = UIAlertController(title: "상품 사진 등록", message: nil, preferredStyle: .actionSheet)
         let photo = UIAlertAction(title: "카메라", style: .default) { _ in
@@ -317,13 +325,6 @@ extension AddProductViewController {
         alert.addAction(photo)
         alert.addAction(gallery)
         present(alert, animated: true, completion: completion)
-    }
-
-    private func deleteImage(at index: Int) {
-        guard imageCount != 0 else { return }
-        snapShot.deleteItems([snapShot.itemIdentifiers[index]])
-        dataSource.apply(snapShot)
-        imageCount -= 1
     }
 
     private func showImageReviseAlert(at index: Int) {
