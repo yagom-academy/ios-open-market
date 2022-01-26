@@ -18,12 +18,12 @@ class ProductCreateModelManager {
         }
     }
     
-    var currentImages: [UIImage] {
-        images
-    }
-    
     private var parsedImages: [Image] {
         images.compactMap { Image(type: .png, data: $0.resizeImage()?.jpegData(compressionQuality: 0.5)) }
+    }
+    
+    var currentImages: [UIImage] {
+        images
     }
     
     var canAddImage: Bool {
@@ -34,7 +34,8 @@ class ProductCreateModelManager {
         images.append(image)
     }
     
-    func process(_ form: ProductRegisterForm, completionHandler: ((Result<CreateProductResponse, URLSessionProviderError>) -> Void)? = nil) throws {
+    func process(_ form: ProductRegisterForm,
+                 completionHandler: ((Result<CreateProductResponse, URLSessionProviderError>) -> Void)? = nil) throws {
         try validate(form: form)
         
         guard let currency = Currency(rawValue: form.currency) else { throw ProductCreateError.unknownCurrency }
@@ -92,7 +93,6 @@ class ProductCreateModelManager {
     
     private enum MagicNumber {
         
-        static let imageValidatieRange = imageMinimumCount..<imageMinimumCount
         static let imageMaximumCount = 5
         static let imageMinimumCount = 1
         static let productNameMinimumLength = 3
