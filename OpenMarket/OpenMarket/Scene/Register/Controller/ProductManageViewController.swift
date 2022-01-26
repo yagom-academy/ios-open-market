@@ -15,7 +15,14 @@ class ProductManageViewController: UIViewController {
     
     func configUI() {
         view.backgroundColor = .white
-        configRegistrationView()
+        configRegistrationView()        
+    }
+    
+    func setDescriptionTextViewPlaceholder() {
+        if productScrollView.productInformationView.descriptionTextView.text.isEmpty {
+            productScrollView.productInformationView.descriptionTextView.text = "상품 설명(10 ~ 1000자)"
+            productScrollView.productInformationView.descriptionTextView.textColor = .lightGray
+        }
     }
     
     func checkValidInput() -> Bool {
@@ -143,5 +150,18 @@ extension ProductManageViewController: UITextViewDelegate {
             return true
         }
         return range.location < 1000
+    }
+    
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if textView.textColor == .lightGray {
+            textView.text = nil
+            textView.textColor = .black
+        }
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if textView.text.isEmpty {
+            setDescriptionTextViewPlaceholder()
+        }
     }
 }

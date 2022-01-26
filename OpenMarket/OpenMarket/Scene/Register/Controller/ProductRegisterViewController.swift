@@ -8,6 +8,7 @@ class ProductRegisterViewController: ProductManageViewController {
         productRegisterManager.pickerPresenterDelegate = self
         productImagePickerController.pickerDelegate = self
         configNavigationBar()
+        setDescriptionTextViewPlaceholder()
     }
         
     private func configNavigationBar() {

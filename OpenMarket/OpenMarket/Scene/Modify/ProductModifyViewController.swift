@@ -15,7 +15,7 @@ class ProductModifyViewController: ProductManageViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configNavigationBar()
-        productRegisterManager.fetchRegisteredProductDetail(from: productDetail)
+        productRegisterManager.fetchRegisteredProductDetail(from: productDetail)        
     }
     
     private func configNavigationBar() {

@@ -212,8 +212,8 @@
 			children = (
 				C995B2562796EC9900293651 /* ProductRegisterManager.swift */,
 				C99CF05127A113D900E5CDB4 /* ProductManageViewController.swift */,
-				A6D008F12796DF4B002FAE56 /* ProductImagePickerController.swift */,
 				C985AA40278D878000D6B81B /* ProductRegisterViewController.swift */,
+				A6D008F12796DF4B002FAE56 /* ProductImagePickerController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
