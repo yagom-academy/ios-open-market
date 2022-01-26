@@ -14,4 +14,3 @@ extension String {
         self.append(contentsOf: string)
     }
 }
-
