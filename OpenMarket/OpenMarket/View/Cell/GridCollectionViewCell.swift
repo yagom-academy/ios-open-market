@@ -105,12 +105,16 @@ class GridCollectionViewCell: UICollectionViewCell {
     }
     
     private func setUpImage(url: String) {
-        guard let imageUrl = URL(string: url),
-              let data = try? Data(contentsOf: imageUrl) else {
-                  return
-              }
-        
-        productImageView.image = UIImage(data: data)
+        DispatchQueue.global().async {
+            guard let imageUrl = URL(string: url),
+                  let data = try? Data(contentsOf: imageUrl) else {
+                return
+            }
+            
+            DispatchQueue.main.async {
+                self.productImageView.image = UIImage(data: data)
+            }
+        }
     }
     
     private func setUpStockLabel(with stock: Int) {
