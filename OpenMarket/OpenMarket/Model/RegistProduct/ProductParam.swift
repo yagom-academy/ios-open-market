@@ -25,4 +25,20 @@ struct ProductParam: Codable {
         case stock
         case secret
     }
+    
+    init(name: String,
+         descriptions: String,
+         price: Int,
+         currency: Currency,
+         discountedPrice: Int,
+         stock: Int,
+         secret: String) {
+        self.name = name
+        self.descriptions = descriptions
+        self.price = price
+        self.currency = currency
+        self.discountedPrice = discountedPrice
+        self.stock = stock
+        self.secret = secret
+    }
 }

@@ -392,6 +392,7 @@
                         <outlet property="discountedPriceTextField" destination="7Uj-hl-NKN" id="jg4-Oe-zu8"/>
                         <outlet property="postImageButton" destination="mSG-jm-5lP" id="FsS-IX-BXx"/>
                         <outlet property="postImageListCollectionView" destination="Yv0-NP-CzZ" id="4iG-Or-NMf"/>
+                        <outlet property="productDescription" destination="FzS-zH-mYY" id="KaJ-la-jA5"/>
                         <outlet property="productNameTextField" destination="b7M-gt-U7l" id="09U-9v-MrX"/>
                         <outlet property="productNavigationBar" destination="AY1-aU-Kan" id="IeC-M7-bw5"/>
                         <outlet property="productPriceTextField" destination="cY1-sL-bsT" id="6ao-jO-Ai6"/>

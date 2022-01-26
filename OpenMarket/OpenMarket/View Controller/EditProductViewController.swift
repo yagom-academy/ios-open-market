@@ -10,17 +10,17 @@ import UIKit
 class EditProductViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var postImageListCollectionView: UICollectionView!
     @IBOutlet weak var postImageButton: UIButton!
-    @IBOutlet weak var postImageListStackView: UIStackView!
     @IBOutlet weak var productNameTextField: UITextField!
     @IBOutlet weak var productPriceTextField: UITextField!
     @IBOutlet weak var currencySwitchController: UISegmentedControl!
     @IBOutlet weak var discountedPriceTextField: UITextField!
     @IBOutlet weak var productStockTextField: UITextField!
     @IBOutlet weak var productNavigationBar: UINavigationItem!
+    @IBOutlet weak var productDescription: UITextView!
     let imagePickerController = UIImagePickerController()
     let alertController = UIAlertController(title: "사진 추가", message: nil, preferredStyle: .actionSheet)
-//    var postData: ProductParam
     var tempPostImage: [UIImage] = []
+    var images: [Data] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,12 +42,44 @@ class EditProductViewController: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func hitDoneButton(_ sender: Any) {
-//        postData.name = productNameTextField.text
-//        postData.price = productPriceTextField.text
-//        postData.discountedPrice = discountedPriceTextField.text
-//        postData.stock = productStockTextField.text
-//        self.navigationController?.popViewController(animated: true)
+        guard let name = productNameTextField.text,
+            let price = productPriceTextField.text,
+            let discountedPrice = discountedPriceTextField.text,
+            let stock = productStockTextField.text,
+            let description = productDescription.text else {
+            return
+        }
+        let currency: Currency
+        if currencySwitchController.selectedSegmentIndex == 0 {
+            currency = .KRW
+        } else {
+            currency = .USD
+        }
+        
+        let postData = ProductParam(name: name,
+                                    descriptions: description,
+                                    price: Int(price) ?? 0,
+                                    currency: currency,
+                                    discountedPrice: Int(discountedPrice) ?? 0,
+                                    stock: Int(stock) ?? 0,
+                                    secret: "K!Nx@Jdb9HZBg?WA")
+        
+        self.navigationController?.popViewController(animated: true)
+        
+        tempPostImage.forEach {
+            guard let image = $0.jpegData(compressionQuality: 1) else {
+                return
+            }
+            images.append(image)
+        }
+        
+        let urlSessionProvider = URLSessionProvider()
+        urlSessionProvider.postData(parameters: postData, registImages: images) { result in
+            //            switch result {
+            
+        }
     }
+    
     
     @IBAction func hitPostImageButton(_ sender: Any) {
         self.present(alertController, animated: true, completion: nil)
@@ -113,7 +145,7 @@ extension EditProductViewController: UICollectionViewDataSource {
         
         cell.previewImageView.image = tempPostImage[indexPath.item]
         
-            return cell
+        return cell
     }
 }
 
@@ -125,6 +157,5 @@ extension EditProductViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 2
-        
     }
 }
