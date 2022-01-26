@@ -92,17 +92,14 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
         var count = 0
         var imageDatas = [String: Data]()
         for image in images {
-            let compressionQuality: CGFloat = 0.8
             let fileName = "\(count).jpeg"
-            var originalImage = image
-            var imageData = originalImage.jpegData(compressionQuality: compressionQuality)
-            while let bytes = imageData?.count, bytes >= 300 * 1000 {
-                let multiplier: CGFloat = 0.8
-                originalImage = originalImage.resize(multiplier: multiplier)
-                imageData = originalImage.jpegData(compressionQuality: compressionQuality)
-            }
-            count += 1
+            let imageData = convertJPEG(
+                from: image,
+                finalByte: 300 * 1000,
+                compressionQuality: 0.8
+            )
             imageDatas[fileName] = imageData
+            count += 1
         }
         
         networkTask?.requestProductRegistration(
@@ -574,6 +571,21 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
         button.addTarget(self, action: #selector(presentImagePicker), for: .touchUpInside)
         button.backgroundColor = .opaqueSeparator
         return button
+    }
+    
+    private func convertJPEG(
+        from image: UIImage,
+        finalByte: Int,
+        compressionQuality: CGFloat
+    ) -> Data? {
+        var originalImage = image
+        var imageData = image.jpegData(compressionQuality: compressionQuality)
+        while let bytes = imageData?.count, bytes > finalByte {
+            let multiplier: CGFloat = 0.8
+            originalImage = originalImage.resize(multiplier: multiplier)
+            imageData = originalImage.jpegData(compressionQuality: compressionQuality)
+        }
+        return imageData
     }
     
     @IBAction func tapBackground(_ sender: UITapGestureRecognizer) {
