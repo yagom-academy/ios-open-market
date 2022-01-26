@@ -109,7 +109,7 @@ class ProductDetailScrollView: UIScrollView {
             productImageScrollView.topAnchor.constraint(equalTo: self.topAnchor),
             productImageScrollView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             productImageScrollView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            productImageScrollView.heightAnchor.constraint(equalToConstant: 300),
+            productImageScrollView.heightAnchor.constraint(equalToConstant: ProductDetailImageSize.height),
             
             productDetailStackView.topAnchor.constraint(equalTo: productImageScrollView.bottomAnchor),
             productDetailStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor),

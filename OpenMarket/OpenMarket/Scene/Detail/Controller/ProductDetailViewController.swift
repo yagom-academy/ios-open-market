@@ -80,9 +80,11 @@ final class ProductDetailViewController: UIViewController {
         for index in 0..<images.count {
             let imageView = UIImageView()
             let xPosition = imageWidth * CGFloat(index)
-            imageView.image = ImageLoader.loadImage(from: images[index].url)
-            imageView.frame = CGRect(x: xPosition, y: 0, width: imageWidth, height: view.frame.height * 0.4)
-            imageView.contentMode = .scaleAspectFill
+            let image = ImageLoader.loadImage(from: images[index].url)
+            let resizedImage = image?.resizeImageTo(size: CGSize(width: imageWidth, height: ProductDetailImageSize.height))
+            imageView.image = resizedImage
+            imageView.frame = CGRect(x: xPosition, y: 0, width: imageWidth, height: ProductDetailImageSize.height)
+            imageView.contentMode = .scaleAspectFit
             productDetailScrollView.productImageScrollView.addSubview(imageView)
         }
         
