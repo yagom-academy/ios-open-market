@@ -42,6 +42,7 @@
 		FB95741E278C119000B1E7D2 /* URLSessionError.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB95741D278C119000B1E7D2 /* URLSessionError.swift */; };
 		FBF225E32796B33D00DA8161 /* ListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBF225E12796B33D00DA8161 /* ListCollectionViewCell.swift */; };
 		FBFB49F8279FC70100759706 /* APIManageable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBFB49F7279FC70100759706 /* APIManageable.swift */; };
+		FBFB49FB27A13C2B00759706 /* AccessoryImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBFB49FA27A13C2B00759706 /* AccessoryImage.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -84,6 +85,7 @@
 		FB95741D278C119000B1E7D2 /* URLSessionError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionError.swift; sourceTree = "<group>"; };
 		FBF225E12796B33D00DA8161 /* ListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCollectionViewCell.swift; sourceTree = "<group>"; };
 		FBFB49F7279FC70100759706 /* APIManageable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManageable.swift; sourceTree = "<group>"; };
+		FBFB49FA27A13C2B00759706 /* AccessoryImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessoryImage.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -136,6 +138,7 @@
 			children = (
 				5310A06327994D1700E93FC5 /* Cell */,
 				53DA6EDD278F1961005993D1 /* LayoutSegmentedControl.swift */,
+				FBFB49FA27A13C2B00759706 /* AccessoryImage.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -348,6 +351,7 @@
 			files = (
 				FB52A73D2798508D00A8A126 /* String+extension.swift in Sources */,
 				FB52A740279850D100A8A126 /* Double+extension.swift in Sources */,
+				FBFB49FB27A13C2B00759706 /* AccessoryImage.swift in Sources */,
 				FB2CEABF2783E6F200DB75DF /* ProductInformation.swift in Sources */,
 				53A83125278719F600448699 /* Vendors.swift in Sources */,
 				53DA6EDE278F1961005993D1 /* LayoutSegmentedControl.swift in Sources */,
@@ -561,13 +565,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = GV9S799884;
 				INFOPLIST_FILE = OpenMarket/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = net.yagom.OpenMarket;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yagom.OpenMarket;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -580,13 +585,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = GV9S799884;
 				INFOPLIST_FILE = OpenMarket/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = net.yagom.OpenMarket;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yagom.OpenMarket;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

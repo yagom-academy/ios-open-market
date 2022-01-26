@@ -134,7 +134,7 @@ class ListCollectionViewCell: UICollectionViewCell {
             accessoryImageView.widthAnchor.constraint(equalTo: accessoryImageView.heightAnchor)
         ])
         
-        accessoryImageView.image = UIImage(systemName: "chevron.right")
+        accessoryImageView.image = AccessoryImage.chevron
         accessoryImageView.tintColor = .systemGray
     }
  
