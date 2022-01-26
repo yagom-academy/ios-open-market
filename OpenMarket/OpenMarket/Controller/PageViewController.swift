@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class PageViewController: UIViewController, DataRepresentable {
+final class PageViewController: UIViewController, GetResultRepresentable {
     
     @IBOutlet private weak var segmentedControl: UISegmentedControl!
     @IBOutlet private var activityIndicator: UIActivityIndicatorView!

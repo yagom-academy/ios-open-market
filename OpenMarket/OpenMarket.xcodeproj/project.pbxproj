@@ -57,6 +57,7 @@
 		E929F976279DA863005A15A9 /* UnboundDataForPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = E929F975279DA863005A15A9 /* UnboundDataForPost.swift */; };
 		E929F97A279DB318005A15A9 /* CreateProductError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E929F979279DB318005A15A9 /* CreateProductError.swift */; };
 		E929F97E279DB379005A15A9 /* PostResultRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E929F97D279DB379005A15A9 /* PostResultRepresentable.swift */; };
+		E92AB12927A16B7600517208 /* GetResultRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E92AB12827A16B7600517208 /* GetResultRepresentable.swift */; };
 		E960F9592795E5A900F83E90 /* GridCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E960F9582795E5A900F83E90 /* GridCollectionViewCell.swift */; };
 		E960F95D2795E5D400F83E90 /* ListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E960F95C2795E5D400F83E90 /* ListCollectionViewCell.swift */; };
 		E96323BD278888F900851348 /* UpdateProductRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E96323BC278888F900851348 /* UpdateProductRequest.swift */; };
@@ -134,6 +135,7 @@
 		E929F975279DA863005A15A9 /* UnboundDataForPost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnboundDataForPost.swift; sourceTree = "<group>"; };
 		E929F979279DB318005A15A9 /* CreateProductError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateProductError.swift; sourceTree = "<group>"; };
 		E929F97D279DB379005A15A9 /* PostResultRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostResultRepresentable.swift; sourceTree = "<group>"; };
+		E92AB12827A16B7600517208 /* GetResultRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetResultRepresentable.swift; sourceTree = "<group>"; };
 		E960F9582795E5A900F83E90 /* GridCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridCollectionViewCell.swift; sourceTree = "<group>"; };
 		E960F95C2795E5D400F83E90 /* ListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCollectionViewCell.swift; sourceTree = "<group>"; };
 		E96323BC278888F900851348 /* UpdateProductRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateProductRequest.swift; sourceTree = "<group>"; };
@@ -361,6 +363,7 @@
 				C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */,
 				E998F88527915D8B008DD201 /* PageViewController.swift */,
 				E998F89327917370008DD201 /* GetManager.swift */,
+				E92AB12827A16B7600517208 /* GetResultRepresentable.swift */,
 				E929F94C2798807A005A15A9 /* AddProductViewController.swift */,
 				E929F971279DA238005A15A9 /* PostManager.swift */,
 				E929F97D279DB379005A15A9 /* PostResultRepresentable.swift */,
@@ -561,6 +564,7 @@
 				E963246A278B2C0200851348 /* ShowProductPageResposne.swift in Sources */,
 				C17E063627846CF400D7F83D /* Product.swift in Sources */,
 				E99FDE782782D4C00083D4D6 /* Page.swift in Sources */,
+				E92AB12927A16B7600517208 /* GetResultRepresentable.swift in Sources */,
 				E9FDEA67278705AD00B12770 /* Extension+NSMutableData.swift in Sources */,
 				E9FDEA15278463FE00B12770 /* Currency.swift in Sources */,
 				E963245A278B2ABF00851348 /* UpdateProductResponse.swift in Sources */,

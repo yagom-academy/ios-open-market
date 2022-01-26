@@ -10,6 +10,8 @@ import UIKit
 class PostManager {
     
     private var delegate: PostResultRepresentable?
+    private let sellerID = UserDefaults.standard.value(forKey: "sellerID") as? String
+    private let secret = UserDefaults.standard.value(forKey: "secret") as? String
 
     func setDelegate(_ delegate: PostResultRepresentable) {
         self.delegate = delegate
@@ -42,7 +44,10 @@ class PostManager {
 
         let images: [Image] = try processedImages(data.images)
 
-        return OpenMarketService.createProduct(sellerID: "1c51912b-7215-11ec-abfa-13ae6fd5cdba", params: params, images: images)
+        guard let sellerID = self.sellerID else {
+            throw CreateProductError.userInfoError
+        }
+        return OpenMarketService.createProduct(sellerID: sellerID, params: params, images: images)
     }
     
     private func requestParamsForPost(with data: UnboundDataForPost) throws -> CreateProductRequestParams {
@@ -66,7 +71,9 @@ class PostManager {
         let discountedPrice = (0...priceInDecimal).contains(discountedPriceInDecimal) ? discountedPriceInDecimal : 0
         let stockInString = data.stock ?? "0"
         let stockInInt = Int(stockInString) ?? 0
-        let secret = "!QA4M%Lat9yF-?RW"
+        guard let secret = self.secret else {
+            throw CreateProductError.userInfoError
+        }
 
         return CreateProductRequestParams(name: name,
                                           descriptions: descriptions,

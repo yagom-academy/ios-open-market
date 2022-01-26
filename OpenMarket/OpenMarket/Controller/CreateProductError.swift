@@ -14,6 +14,7 @@ enum CreateProductError: Error {
     case invalidDiscountedPrice
     case invalidImages
     case createFailure
+    case userInfoError
 }
 extension CreateProductError: LocalizedError {
     var errorDescription: String? {
@@ -30,6 +31,8 @@ extension CreateProductError: LocalizedError {
             return "사진을 등록에 문제가 있어요"
         case .createFailure:
             return "상품 등록에 실패하였습니다"
+        case .userInfoError:
+            return "유저 정보가 잘못되었습니다"
         }
     }
     var recoverySuggestion: String? {
@@ -42,7 +45,7 @@ extension CreateProductError: LocalizedError {
             return "혹시 숫자 이외의 값을 입력하셨나요?"
         case .invalidImages:
             return "상품 사진은 최소 1장, 최대 5장까지 등록할 수 있어요"
-        case .createFailure:
+        case .createFailure, .userInfoError:
             return nil
         }
     }

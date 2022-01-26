@@ -12,7 +12,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+
+        UserDefaults.standard.set("4namu", forKey: "accessId")
+        UserDefaults.standard.set("!QA4M%Lat9yF-?RW", forKey: "secret")
+        UserDefaults.standard.set("1c51912b-7215-11ec-abfa-13ae6fd5cdba", forKey: "sellerID")
+
         return true
     }
 

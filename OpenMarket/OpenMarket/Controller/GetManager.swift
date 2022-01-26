@@ -12,7 +12,7 @@ class GetManager {
     var itemsPerPage: Int = 20
     var lastLoadedPage: Int = 1
     var hasNextPage: Bool = true
-    weak var delegate: DataRepresentable?
+    weak var delegate: GetResultRepresentable?
 
     func nextPage(completion: @escaping () -> Void = {}) {
         if hasNextPage {
@@ -45,8 +45,4 @@ class GetManager {
             }
     }
     
-}
-
-protocol DataRepresentable: AnyObject {
-    var snapshot: NSDiffableDataSourceSnapshot<Int, Product> { get set }
 }

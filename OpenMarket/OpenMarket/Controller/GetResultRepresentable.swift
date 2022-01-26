@@ -1,0 +1,13 @@
+//
+//  GetResultRepresentable.swift
+//  OpenMarket
+//
+//  Created by Jae-hoon Sim on 2022/01/26.
+//
+
+import Foundation
+import UIKit.NSDiffableDataSourceSectionSnapshot
+
+protocol GetResultRepresentable: AnyObject {
+    var snapshot: NSDiffableDataSourceSnapshot<Int, Product> { get set }
+}
