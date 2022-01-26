@@ -3,6 +3,7 @@ import Foundation
 struct ProductDetail: Codable, Hashable {
     let id, vendorID: Int
     let name: String
+    let description: String?
     let thumbnail: Data
     let currency: Currency
     let price, bargainPrice, discountedPrice: Double
@@ -14,7 +15,7 @@ struct ProductDetail: Codable, Hashable {
     enum CodingKeys: String, CodingKey {
         case id
         case vendorID = "vendor_id"
-        case name, thumbnail, currency, price
+        case name, description, thumbnail, currency, price
         case bargainPrice = "bargain_price"
         case discountedPrice = "discounted_price"
         case stock

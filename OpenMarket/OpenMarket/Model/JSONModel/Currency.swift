@@ -1,8 +1,8 @@
 import Foundation
 
 enum Currency: String, Codable {
-    case KRW
-    case USD
+    case krw = "KRW"
+    case usd = "USD"
     
     init?(unit: String) {
         self.init(rawValue: unit)

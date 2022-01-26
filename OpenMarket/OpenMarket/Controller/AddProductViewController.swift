@@ -6,7 +6,7 @@ class AddProductViewController: UIViewController {
         static var descriptions: String?
         static var price: Double?
         static var discountedPrice: Double? = 0
-        static var currency: Currency = Currency.KRW
+        static var currency: Currency = Currency.krw
         static var stock: Int? = 0
         static var secret: String = "EE5ud*rBT9Nu38_d"
     }
