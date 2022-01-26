@@ -22,17 +22,11 @@ class ProductsDataSource: NSObject {
     }
     
     func productId(at index: Int) -> Int? {
-        guard products.count > index else {
-            return nil
-        }
-        return products[index].id
+        return products[safe: index]?.id
     }
     
     func vendorId(at index: Int) -> Int? {
-        guard products.count > index else {
-            return nil
-        }
-        return products[index].vendorId
+        return products[safe: index]?.vendorId
     }
     
     private func setupCellImage(
