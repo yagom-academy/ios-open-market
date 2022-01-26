@@ -59,6 +59,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="segmentedControl" destination="rCg-aM-Opf" id="KNB-LU-v8Z"/>
+                        <segue destination="qSw-HC-sTu" kind="show" identifier="ShowProductDetail" id="kua-vC-jKb"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -255,6 +256,22 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W3x-ad-9Pa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2471.0144927536235" y="116.51785714285714"/>
+        </scene>
+        <!--Product Detail View Controller-->
+        <scene sceneID="9l2-1A-TgD">
+            <objects>
+                <viewController id="qSw-HC-sTu" customClass="ProductDetailViewController" customModule="OpenMarket" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="5go-8d-3mB">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="bvd-zM-7Yo"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="92j-v6-kpb"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="LXL-lL-3ui" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="993" y="840"/>
         </scene>
     </scenes>
     <resources>

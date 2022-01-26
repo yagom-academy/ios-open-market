@@ -8,6 +8,7 @@ class ProductGridCell: UICollectionViewCell {
     @IBOutlet weak var gridStockLabel: UILabel!
     
     static let identifier = "GridCell"
+    var productID: Int?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -20,6 +21,7 @@ class ProductGridCell: UICollectionViewCell {
     }
     
     func setup(with product: ProductDetail) {
+        productID = product.id
         setupImage(with: product)
         setupNameLabel(with: product)
         setupPriceLabel(with: product)

@@ -8,12 +8,14 @@ class ProductListCell: UICollectionViewListCell {
     @IBOutlet var stockLabel: UILabel!
     
     static let identifier = "ListCell"
+    var productID: Int?
     
     override func awakeFromNib() {
         super.awakeFromNib()
     }
     
     func setup(with product: ProductDetail) {
+        productID = product.id
         setupImage(with: product)
         setupNameLabel(with: product)
         setupPriceLabel(with: product)

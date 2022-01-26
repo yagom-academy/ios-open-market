@@ -19,6 +19,8 @@ class OpenMarketViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        listCollectionView.delegate = self
+        gridCollectionView.delegate = self
         setupSegmentedControl()
         registerCollectionViewCell()
         setupListCollectionView()
@@ -88,4 +90,21 @@ class OpenMarketViewController: UIViewController {
         }
     }
     
+}
+
+extension OpenMarketViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let cell = collectionView.cellForItem(at: indexPath) else { return }
+        performSegue(withIdentifier: "ShowProductDetail", sender: cell)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard let destination = segue.destination as? ProductDetailViewController else { return }
+        if let senderCell = sender as? ProductListCell {
+            destination.productID = senderCell.productID
+        }
+        if let senderCell = sender as? ProductGridCell {
+            destination.productID = senderCell.productID
+        }
+    }
 }
