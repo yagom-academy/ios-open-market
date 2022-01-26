@@ -1,7 +1,7 @@
 import UIKit
 
 class ProductRegisterManager {
-    weak var delegate: PickerPresenter?
+    weak var pickerPresenterDelegate: PickerPresenter?
     let productInformationScrollView = ProductInformationScrollView()
     private lazy var productInformationView = productInformationScrollView.productInformationView
     private let api = APIService()
@@ -15,7 +15,7 @@ class ProductRegisterManager {
     }
     
     @objc private func didTapAddImageButton() {
-        delegate?.presentImagePickerView()
+        pickerPresenterDelegate?.presentImagePickerView()
     }
     
     var isRegisteredImageEmpty: Bool {
@@ -43,6 +43,26 @@ class ProductRegisterManager {
         }
     
         return text.count
+    }
+    
+    func taksdescriptionTextLength() -> Int {
+        guard let text = productInformationView.descriptionTextView.text else {
+            return 0
+        }
+        
+        return text.count
+    }
+    
+    func checkValidDiscount() -> Bool {
+        guard let priceText = productInformationView.priceTextField.text,
+              let price = Double(priceText) else {
+            return false
+        }
+        
+        let discountedPriceText = productInformationView.discountedPriceTextField.text ?? "0"
+        let discountedPrice = Double(discountedPriceText) ?? 0
+        
+        return price >= discountedPrice
     }
     
     func addImageToImageStackView(from image: UIImage, hasDeleteButton: Bool) {
