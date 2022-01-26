@@ -61,7 +61,8 @@ class APIManager: APIManageable {
 }
 
 extension APIManager {
-    func performDataTask<Element: Decodable>(with request: URLRequest, _ completionHandler: @escaping (Result<Element, Error>) -> Void) {
+    @discardableResult
+    func performDataTask<Element: Decodable>(with request: URLRequest, _ completionHandler: @escaping (Result<Element, Error>) -> Void) -> URLSessionDataTask {
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             guard error == nil else {
                 completionHandler(.failure(URLSessionError.requestFail))
@@ -85,5 +86,7 @@ extension APIManager {
             completionHandler(.success(parsedData))
         }
         task.resume()
+        
+        return task
     }
 }
