@@ -19,6 +19,7 @@ class PostViewController: UIViewController {
     let picker = UIImagePickerController()
     var images = [UIImage]()
     var tryAddImageCount = 0
+    let textViewPlaceHolder = "등록하실 제품의 상세정보를 입력해주세요"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -81,15 +82,13 @@ extension PostViewController {
             urlSessionProvider.postData(requestType: .productRegistration, params: data, images: self.images) { (result: Result<Data, NetworkError>) in
                 switch result {
                 case .success(_):
-                    DispatchQueue.main.async {
-                        self.dismiss(animated: true, completion: nil)
-                    }
+                    self.goToPreviousView(title: "업로드 성공", "제품 리스트 화면으로 이동합니다")
                 case .failure(let error):
-                    print(error)
+                    self.alertError(error)
                 }
             }
         case .failure(let error):
-            print(error)
+            self.alertError(error)
         }
     }
     
@@ -158,8 +157,6 @@ extension PostViewController: UITextViewDelegate {
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
-        let textViewPlaceHolder = "등록하실 제품의 상세정보를 입력해주세요"
-        
         if self.descriptionTextView.text.isEmpty {
             descriptionTextView.text = textViewPlaceHolder
             descriptionTextView.textColor = .lightGray
@@ -167,8 +164,6 @@ extension PostViewController: UITextViewDelegate {
     }
     
     func textViewDidBeginEditing(_ textView: UITextView) {
-        let textViewPlaceHolder = "등록하실 제품의 상세정보를 입력해주세요"
-        
         if self.descriptionTextView.text == textViewPlaceHolder {
             descriptionTextView.text = nil
             descriptionTextView.textColor = .black

@@ -12,23 +12,10 @@ class ViewController: UIViewController {
     
     var productList: ProductList?
     
-    @IBAction func layoutSwitch(_ sender: UISegmentedControl) {
-        switch sender.selectedSegmentIndex  {
-        case 0:
-            productTableView.isHidden = false
-            productCollectionView.isHidden = true
-        case 1:
-            productTableView.isHidden = true
-            productCollectionView.isHidden = false
-        default: break
-        }
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        productTableView.isHidden = false
-        productCollectionView.isHidden = true
+        showTableViewFirst()
         
         self.productCollectionView.delegate = self
         self.productCollectionView.dataSource = self
@@ -47,17 +34,34 @@ class ViewController: UIViewController {
         loadProductList()
     }
     
+    func showTableViewFirst() {
+        productTableView.isHidden = false
+        productCollectionView.isHidden = true
+    }
+    
+    @IBAction func layoutSwitch(_ sender: UISegmentedControl) {
+        switch sender.selectedSegmentIndex  {
+        case 0:
+            productTableView.isHidden = false
+            productCollectionView.isHidden = true
+        case 1:
+            productTableView.isHidden = true
+            productCollectionView.isHidden = false
+        default: break
+        }
+    }
+    
     func loadProductList() {
         getDecodedData { (result: Result<ProductList, NetworkError>) in
             switch result {
             case .success(let data):
                 self.productList = data
                 DispatchQueue.main.async {
-                    self.productCollectionView.reloadData()
                     self.productTableView.reloadData()
+                    self.productCollectionView.reloadData()
                 }
             case .failure(let error):
-                print(error)
+                self.alertError(error)
             }
         }
     }
@@ -70,7 +74,7 @@ class ViewController: UIViewController {
             switch result {
             case .success(let data):
                 guard let parsedData: ProductList = decoder.parseJSON(data: data) else {
-                    print(NetworkError.parsingFailed)
+                    self.alertError(NetworkError.parsingFailed)
                     return
                 }
                 

@@ -73,7 +73,10 @@ extension PostViewController: UIImagePickerControllerDelegate, UINavigationContr
             images.removeLast()
         }
         
-        self.imageCollectionView.reloadData()
+        DispatchQueue.main.async {
+            self.imageCollectionView.reloadData()
+        }
+
         dismiss(animated: true, completion: nil)
     }
 }
