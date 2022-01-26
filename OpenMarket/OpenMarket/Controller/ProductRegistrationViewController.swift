@@ -8,6 +8,7 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
     private let minimumDescriptionsLimit = 10
     private let maximumNameLimit = 100
     private let minimumNameLimit = 3
+    private let loadingActivityIndicator = UIActivityIndicatorView()
     private let imagePickerController = UIImagePickerController()
     private var images = [UIImage]()
     private var isModifying: Bool?
@@ -73,81 +74,88 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
     }
     
     @objc private func registerProduct() {
-        let writtenSalesInformation = makeSalesInformation(
-            secret: secret,
-            maximumDescriptionsLimit: 1000,
-            minimumDescriptionsLimit: 10,
-            maximumNameLimit: 100,
-            minimumNameLimit: 3
-        )
-        let salesInformation: NetworkTask.SalesInformation
-        switch writtenSalesInformation {
-        case .success(let result):
-            salesInformation = result
-        case .failure(let error):
-            showAlert(title: error.errorDescription, message: nil)
-            return
-        }
-        
-        var count = 0
-        var imageDatas = [String: Data]()
-        for image in images {
-            let fileName = "\(count).jpeg"
-            let imageData = convertJPEG(
-                from: image,
-                finalByte: 300 * 1000,
-                compressionQuality: 0.8
+        startActivityIndicator()
+        DispatchQueue.global().async {
+            let writtenSalesInformation = self.makeSalesInformation(
+                secret: self.secret,
+                maximumDescriptionsLimit: 1000,
+                minimumDescriptionsLimit: 10,
+                maximumNameLimit: 100,
+                minimumNameLimit: 3
             )
-            imageDatas[fileName] = imageData
-            count += 1
-        }
-        
-        networkTask?.requestProductRegistration(
-            identifier: identifier,
-            salesInformation: salesInformation,
-            images: imageDatas
-        ) { result in
-            switch result {
-            case .success:
-                DispatchQueue.main.async {
-                    self.dismiss(animated: true, completion: self.completionHandler)
-                }
+            let salesInformation: NetworkTask.SalesInformation
+            switch writtenSalesInformation {
+            case .success(let result):
+                salesInformation = result
             case .failure(let error):
-                self.showAlert(title: "등록 실패", message: error.localizedDescription)
+                self.showAlert(title: error.errorDescription, message: nil)
+                return
+            }
+            
+            var count = 0
+            var imageDatas = [String: Data]()
+            for image in self.images {
+                let fileName = "\(count).jpeg"
+                let imageData = self.convertJPEG(
+                    from: image,
+                    finalByte: 300 * 1000,
+                    compressionQuality: 0.8
+                )
+                imageDatas[fileName] = imageData
+                count += 1
+            }
+            
+            self.networkTask?.requestProductRegistration(
+                identifier: self.identifier,
+                salesInformation: salesInformation,
+                images: imageDatas
+            ) { result in
+                switch result {
+                case .success:
+                    DispatchQueue.main.async {
+                        self.dismiss(animated: true, completion: self.completionHandler)
+                    }
+                case .failure(let error):
+                    self.loadingActivityIndicator.removeFromSuperview()
+                    self.showAlert(title: "등록 실패", message: error.localizedDescription)
+                }
             }
         }
     }
     
     @objc private func modifyProduct() {
-        let writtenSalesInformation = modifiySalesInformation(
-            secret: secret,
-            maximumDescriptionsLimit: 1000,
-            minimumDescriptionsLimit: 10,
-            maximumNameLimit: 100,
-            minimumNameLimit: 3
-        )
-        let modificationInformation: NetworkTask.ModificationInformation
-        switch writtenSalesInformation {
-        case .success(let result):
-            modificationInformation = result
-        case .failure(let error):
-            showAlert(title: error.errorDescription, message: nil)
-            return
-        }
-        
-        guard let productId = productInformation?.id else { return }
-        networkTask?.requestProductModification(
-            identifier: identifier,
-            productId: productId,
-            information: modificationInformation
-        ) { result in
-            switch result {
-            case .success:
-                DispatchQueue.main.async {
-                    self.dismiss(animated: true, completion: self.completionHandler)
-                }
+        startActivityIndicator()
+        DispatchQueue.global().async {
+            let writtenSalesInformation = self.modifiySalesInformation(
+                secret: self.secret,
+                maximumDescriptionsLimit: 1000,
+                minimumDescriptionsLimit: 10,
+                maximumNameLimit: 100,
+                minimumNameLimit: 3
+            )
+            let modificationInformation: NetworkTask.ModificationInformation
+            switch writtenSalesInformation {
+            case .success(let result):
+                modificationInformation = result
             case .failure(let error):
-                self.showAlert(title: "수정 실패", message: error.localizedDescription)
+                self.showAlert(title: error.errorDescription, message: nil)
+                return
+            }
+            
+            guard let productId = self.productInformation?.id else { return }
+            self.networkTask?.requestProductModification(
+                identifier: self.identifier,
+                productId: productId,
+                information: modificationInformation
+            ) { result in
+                switch result {
+                case .success:
+                    DispatchQueue.main.async {
+                        self.dismiss(animated: true, completion: self.completionHandler)
+                    }
+                case .failure(let error):
+                    self.showAlert(title: "수정 실패", message: error.localizedDescription)
+                }
             }
         }
     }
@@ -217,6 +225,18 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
         descriptionTextView.layer.borderWidth = 0.5
         descriptionTextView.layer.cornerRadius = 5
         descriptionTextView.layer.borderColor = UIColor.separator.cgColor
+    }
+    
+    private func startActivityIndicator() {
+        view.addSubview(loadingActivityIndicator)
+        loadingActivityIndicator.translatesAutoresizingMaskIntoConstraints = false
+        loadingActivityIndicator.centerYAnchor.constraint(
+            equalTo: view.centerYAnchor
+        ).isActive = true
+        loadingActivityIndicator.centerXAnchor.constraint(
+            equalTo: view.centerXAnchor
+        ).isActive = true
+        loadingActivityIndicator.startAnimating()
     }
     
     private func addKeyboardObserver() {
