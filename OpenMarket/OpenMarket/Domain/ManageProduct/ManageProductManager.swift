@@ -86,10 +86,10 @@ struct ManageProductForm {
     }
 
     var priceIsAppropriate: Bool {
-        if price != nil {
-            return true
+        if price == "" {
+            return false
         }
-        return false
+        return true
     }
 
     var discountedPriceIsAppropriate: Bool {
@@ -102,14 +102,14 @@ struct ManageProductForm {
     }
 
     var stockIsAppropriate: Bool {
-        if stock != nil {
+        if stock == "" {
             return false
         }
         return true
     }
 
     var descriptionIsAppropriate: Bool {
-        if descriptions != nil {
+        if descriptions == "" {
             return false
         }
         return true

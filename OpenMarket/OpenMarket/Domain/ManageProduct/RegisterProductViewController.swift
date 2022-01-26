@@ -43,11 +43,13 @@ class RegisterProductViewController: ManageProductViewController {
         return alert
     }()
 
-    private let registerSuccessAlert: UIAlertController = {
+    private lazy var registerSuccessAlert: UIAlertController = {
         let alert = UIAlertController(title: "상품등록에 성공하였습니다.",
                                       message: nil,
                                       preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "확인", style: .default)
+        let okAction = UIAlertAction(title: "확인", style: .default) { [weak self] _ in
+            self?.dismiss(animated: true, completion: nil)
+        }
         alert.addAction(okAction)
         return alert
     }()
@@ -130,10 +132,13 @@ extension RegisterProductViewController {
                     images: imagesData) { result in
                         switch result {
                         case .success:
-                            self.present(self.registerSuccessAlert, animated: true, completion: nil)
-                            self.dismiss(animated: true, completion: nil)
+                            DispatchQueue.main.sync {
+                                self.present(self.registerSuccessAlert, animated: false)
+                            }
                         case .failure:
-                            self.present(self.registerFailureAlert, animated: true, completion: nil)
+                            DispatchQueue.main.async {
+                                self.present(self.registerFailureAlert, animated: true, completion: nil)
+                            }
                         }
                     }
             case .failure(let inAppropriates):

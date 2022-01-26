@@ -22,12 +22,14 @@ class ModifyProductViewController: ManageProductViewController {
     // MARK: Navigation Bar Configuration
     override func configureNavigationBar() {
         super.configureNavigationBar()
-        self.navigationItem.title = "상품 등록"
+        self.navigationItem.title = "상품 수정"
     }
 
     @objc override func touchUpDoneButton() {
     }
 
+    func configureContent(product: Product) {
+    }
 }
 
 // MARK: Networking

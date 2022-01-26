@@ -33,6 +33,12 @@ class ProductsCatalogViewController: UIViewController {
         listCollectionView.delegate = self
         configureIndicator()
     }
+
+    override func viewWillAppear(_ animated: Bool) {
+        snapshot = NSDiffableDataSourceSnapshot<Section, Product>()
+        pageNumber = 1
+        generateProductItems()
+    }
 }
 
 extension ProductsCatalogViewController {
