@@ -16,19 +16,19 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
     private var jsonParser: JSONParser?
     private var completionHandler: (() -> Void)?
     
-    @IBOutlet weak var scrollView: UIScrollView!
-    @IBOutlet weak var verticalStackView: UIStackView!
-    @IBOutlet weak var imagesCollectionView: UICollectionView!
-    @IBOutlet weak var productNameTextField: UITextField!
-    @IBOutlet weak var productPriceTextField: UITextField!
-    @IBOutlet weak var discountedPriceTextField: UITextField!
-    @IBOutlet weak var stockTextField: UITextField!
-    @IBOutlet weak var descriptionTextView: UITextView!
-    @IBOutlet weak var currencySegmentedControl: UISegmentedControl!
-    @IBOutlet weak var productNameCautionLabel: UILabel!
-    @IBOutlet weak var productPriceCautionLabel: UILabel!
-    @IBOutlet weak var discountedPriceCautionLabel: UILabel!
-    @IBOutlet weak var descriptionCautionLabel: UILabel!
+    @IBOutlet private weak var scrollView: UIScrollView!
+    @IBOutlet private weak var verticalStackView: UIStackView!
+    @IBOutlet private weak var imagesCollectionView: UICollectionView!
+    @IBOutlet private weak var productNameTextField: UITextField!
+    @IBOutlet private weak var productPriceTextField: UITextField!
+    @IBOutlet private weak var discountedPriceTextField: UITextField!
+    @IBOutlet private weak var stockTextField: UITextField!
+    @IBOutlet private weak var descriptionTextView: UITextView!
+    @IBOutlet private weak var currencySegmentedControl: UISegmentedControl!
+    @IBOutlet private weak var productNameCautionLabel: UILabel!
+    @IBOutlet private weak var productPriceCautionLabel: UILabel!
+    @IBOutlet private weak var discountedPriceCautionLabel: UILabel!
+    @IBOutlet private weak var descriptionCautionLabel: UILabel!
     
     convenience init?(
         coder: NSCoder,
@@ -588,7 +588,7 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
         return imageData
     }
     
-    @IBAction func tapBackground(_ sender: UITapGestureRecognizer) {
+    @IBAction private func tapBackground(_ sender: UITapGestureRecognizer) {
         view.endEditing(true)
     }
 }

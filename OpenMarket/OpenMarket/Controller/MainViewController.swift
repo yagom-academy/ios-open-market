@@ -159,7 +159,7 @@ class MainViewController: UIViewController {
         changeSubview()
     }
     
-    @IBAction func touchAddProductButton(_ sender: UIBarButtonItem) {
+    @IBAction private func touchAddProductButton(_ sender: UIBarButtonItem) {
         let storyboard = UIStoryboard(
             name: ProductRegistrationViewController.storyboardName,
             bundle: nil
