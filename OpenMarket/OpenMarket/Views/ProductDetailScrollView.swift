@@ -84,6 +84,7 @@ class ProductDetailScrollView: UIScrollView {
             productNameAndStockStackView.addArrangedSubview(label)
         }
         productStockLabel.setContentHuggingPriority(.required, for: .horizontal)
+        productStockLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
     }
     
     private func configProductPriceStackView() {
@@ -92,7 +93,7 @@ class ProductDetailScrollView: UIScrollView {
         }
     }
     
-    func configUI() {
+    private func configUI() {
         configProductNameAndStockStackView()
         configProductPriceStackView()
         [productImagePageLabel, productNameAndStockStackView, productPriceStackView, productDescriptionTextView].forEach { view in

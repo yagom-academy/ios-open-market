@@ -19,7 +19,7 @@ class ProductInformationScrollView: UIScrollView {
     
     let productInformationView = ProductInformationView()
     
-    func configUI() {
+    private func configUI() {
         self.addSubview(productInformationView)
         productInformationView.translatesAutoresizingMaskIntoConstraints = false
         

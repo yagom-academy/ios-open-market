@@ -17,10 +17,10 @@ class CustomTextField: UITextField {
     }
     
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        fatalError("스토리보드 안써서 fatalError를 줬습니다.")
     }
     
-    func createToolBar() -> UIToolbar {
+    private func createToolBar() -> UIToolbar {
         let toolBar = UIToolbar()
         let leftSpcae = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         let doneButton = UIBarButtonItem(title: "완료", style: .done, target: self, action: #selector(didTapDoneButton))

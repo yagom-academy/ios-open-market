@@ -3,7 +3,7 @@ import UIKit
 class ProductModifyViewController: UIViewController, ProductManageable {
     var productRegisterManager = ProductRegisterManager()
     private lazy var productScrollView = productRegisterManager.productInformationScrollView
-    var productDetail: ProductDetail
+    private var productDetail: ProductDetail
     
     init(productDetail: ProductDetail) {
         self.productDetail = productDetail

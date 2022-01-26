@@ -14,7 +14,7 @@ class LayoutSegmentedControl: UISegmentedControl {
         configUI(with: items)
     }
     
-    func configUI(with items: [String]) {
+    private func configUI(with items: [String]) {
         items.enumerated().forEach { (index, item) in
             insertSegment(withTitle: item, at: index, animated: true)
         }
