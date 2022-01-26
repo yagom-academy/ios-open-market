@@ -10,10 +10,6 @@ class URLSessionProvider {
     
     func dataTask(request: URLRequest, completionHandler: @escaping (Result<Data, NetworkError>) -> Void) {
         let task = session.dataTask(with: request) { data, urlResponse, error in
-            // 확인용
-            print("data: \(String(data: data!, encoding: .utf8))")
-            print("error: \(error)")
-            print((urlResponse as! HTTPURLResponse).statusCode)
             
             guard let httpResponse = urlResponse as? HTTPURLResponse else {
                 return completionHandler(.failure(.urlResponseError))
@@ -70,9 +66,6 @@ extension URLSessionProvider {
         request.addValue("multipart/form-data; boundary=\"\(boundary)\"",
                          forHTTPHeaderField: "Content-Type")
         
-        // 확인용
-        print("httpBody: \(request.httpBody ?? Data())")
-        
         dataTask(request: request, completionHandler: completionHandler)
     }
     
@@ -87,17 +80,12 @@ extension URLSessionProvider {
             print(error)
         }
         
-        // 테스트용
-        print("JSON: \(String(data: encodedData, encoding: .utf8))")
-        
         body.append(string: "--\(boundary)\r\n")
         body.append(string: "Content-Disposition: form-data; name=\"params\"\r\n")
         body.append(string: "Content-Type: application/json\r\n\r\n")
         body.append(encodedData)
         body.append(string: "\r\n")
-        
-        //        body.append("--\(boundary)\r\n".data(using: .utf8)!)
-        
+                
         for image in images {
             body.append(string: "--\(boundary)\r\n")
             body.append(string: "Content-Disposition: form-data; name=\"images\"; filename=\"\(image.fileName)\"\r\n")
