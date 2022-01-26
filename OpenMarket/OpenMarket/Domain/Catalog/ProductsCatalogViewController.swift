@@ -30,8 +30,6 @@ class ProductsCatalogViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureNavigationBar()
-        UserDefaultUtility().setVendorIdentification("c6d96ba0-7215-11ec-abfa-01fc209b5360")
-        UserDefaultUtility().setVendorPassword("grH5@Hy-p$5!6nzL")
         listCollectionView = configureHierarchy(type: presentView)
         configureDataSource(for: presentView)
 
