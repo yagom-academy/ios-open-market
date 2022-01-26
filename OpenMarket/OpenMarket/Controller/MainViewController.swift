@@ -1,10 +1,6 @@
 import UIKit
 
 class MainViewController: UIViewController {
-    private let tableViewCellNibName = "ProductsTableViewCell"
-    private let collectionViewCellNibName = "ProductsCollectionViewCell"
-    private let productRegistrationStoryboardName = "ProductRegistration"
-    private let productRegistrationViewControllerIdentifier = "ProductRegistrationViewController"
     private let loadingActivityIndicator = UIActivityIndicatorView()
     private var pageInformation: ProductsList?
     private let jsonParser: JSONParser = {
@@ -114,9 +110,12 @@ class MainViewController: UIViewController {
     }
     
     @IBAction func touchAddProductButton(_ sender: UIBarButtonItem) {
-        let storyboard = UIStoryboard(name: productRegistrationStoryboardName, bundle: nil)
+        let storyboard = UIStoryboard(
+            name: ProductRegistrationViewController.storyboardName,
+            bundle: nil
+        )
         let viewController = storyboard.instantiateViewController(
-            identifier: productRegistrationViewControllerIdentifier
+            identifier: ProductRegistrationViewController.identifier
         ) { coder in
             let productRegistrationViewController = ProductRegistrationViewController(
                 coder: coder,
@@ -144,13 +143,13 @@ extension MainViewController {
     private func loadView(from segment: Segement) -> UIView {
         switch segment {
         case .list:
-            let nibName = UINib(nibName: tableViewCellNibName, bundle: nil)
+            let nibName = UINib(nibName: ProductsTableViewCell.identifier, bundle: nil)
             let tableView = UITableView()
             tableView.dataSource = productsDataSource
             tableView.delegate = self
             tableView.register(
                 nibName,
-                forCellReuseIdentifier: ProductsTableViewCell.reuseIdentifier
+                forCellReuseIdentifier: ProductsTableViewCell.identifier
             )
             tableView.refreshControl = UIRefreshControl()
             tableView.refreshControl?.addTarget(
@@ -160,7 +159,7 @@ extension MainViewController {
             )
             return tableView
         case .grid:
-            let nibName = UINib(nibName: collectionViewCellNibName, bundle: nil)
+            let nibName = UINib(nibName: ProductsCollectionViewCell.identifier, bundle: nil)
             let layout = UICollectionViewFlowLayout()
             layout.sectionInset = UIEdgeInsets(top: 0.0, left: 10.0, bottom: 0.0, right: 10.0)
             layout.sectionInsetReference = .fromSafeArea
@@ -170,7 +169,7 @@ extension MainViewController {
             collectionView.delegate = self
             collectionView.register(
                 nibName,
-                forCellWithReuseIdentifier: ProductsCollectionViewCell.reuseIdentifier
+                forCellWithReuseIdentifier: ProductsCollectionViewCell.identifier
             )
             collectionView.backgroundColor = .systemBackground
             collectionView.refreshControl = UIRefreshControl()
@@ -210,12 +209,12 @@ extension MainViewController: UITableViewDelegate {
                     return
                 }
                 let storyboard = UIStoryboard(
-                    name: self.productRegistrationStoryboardName,
+                    name: ProductRegistrationViewController.storyboardName,
                     bundle: nil
                 )
                 DispatchQueue.main.async {
                     let viewController = storyboard.instantiateViewController(
-                        identifier: self.productRegistrationViewControllerIdentifier
+                        identifier: ProductRegistrationViewController.identifier
                     ) { coder in
                         let productRegistrationViewController = ProductRegistrationViewController(
                             coder: coder,
@@ -263,12 +262,12 @@ extension MainViewController: UICollectionViewDelegate {
                     return
                 }
                 let storyboard = UIStoryboard(
-                    name: self.productRegistrationStoryboardName,
+                    name: ProductRegistrationViewController.storyboardName,
                     bundle: nil
                 )
                 DispatchQueue.main.async {
                     let viewController = storyboard.instantiateViewController(
-                        identifier: self.productRegistrationViewControllerIdentifier
+                        identifier: ProductRegistrationViewController.identifier
                     ) { coder in
                         let productRegistrationViewController = ProductRegistrationViewController(
                             coder: coder,

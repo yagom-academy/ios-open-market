@@ -1,6 +1,7 @@
 import UIKit
 
 class ProductRegistrationViewController: UIViewController, UINavigationControllerDelegate {
+    static let storyboardName = "ProductRegistration"
     private let identifier = "2836ea8c-7215-11ec-abfa-378889d9906f"
     private let secret = "-3CSKv$cyHsK_@Wk"
     private let maximumDescriptionsLimit = 1000
@@ -606,7 +607,7 @@ extension ProductRegistrationViewController: UICollectionViewDataSource {
         cellForItemAt indexPath: IndexPath
     ) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: UICollectionViewCell.reuseIdentifier,
+            withReuseIdentifier: UICollectionViewCell.identifier,
             for: indexPath
         )
         cell.contentView.subviews.forEach { view in

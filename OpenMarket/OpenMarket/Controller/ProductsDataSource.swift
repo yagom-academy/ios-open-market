@@ -75,7 +75,7 @@ extension ProductsDataSource: UITableViewDataSource {
         cellForRowAt indexPath: IndexPath
     ) -> UITableViewCell {
         let product = products[indexPath.row]
-        let reuseIdentifier = ProductsTableViewCell.reuseIdentifier
+        let reuseIdentifier = ProductsTableViewCell.identifier
         let cell = tableView.dequeueReusableCell(
             withIdentifier: reuseIdentifier,
             for: indexPath
@@ -111,7 +111,7 @@ extension ProductsDataSource: UICollectionViewDataSource {
         cellForItemAt indexPath: IndexPath
     ) -> UICollectionViewCell {
         let product = products[indexPath.item]
-        let reuseIdentifier = ProductsCollectionViewCell.reuseIdentifier
+        let reuseIdentifier = ProductsCollectionViewCell.identifier
         let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: reuseIdentifier,
             for: indexPath
