@@ -1,4 +1,3 @@
-import Foundation
 import UIKit
 
 class URLSessionProvider {
@@ -14,6 +13,9 @@ class URLSessionProvider {
             guard let httpResponse = urlResponse as? HTTPURLResponse else {
                 return completionHandler(.failure(.urlResponseError))
             }
+            
+            // 확인용...
+            print(httpResponse.statusCode)
             
             guard (200...299).contains(httpResponse.statusCode) else {
                 return completionHandler(.failure(.statusCodeError))
@@ -85,7 +87,7 @@ extension URLSessionProvider {
         body.append(string: "Content-Type: application/json\r\n\r\n")
         body.append(encodedData)
         body.append(string: "\r\n")
-                
+        
         for image in images {
             body.append(string: "--\(boundary)\r\n")
             body.append(string: "Content-Disposition: form-data; name=\"images\"; filename=\"\(image.fileName)\"\r\n")

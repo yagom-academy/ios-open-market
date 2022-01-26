@@ -133,7 +133,15 @@ extension PostViewController: UICollectionViewDataSource, UICollectionViewDelega
 extension PostViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
-            images.insert(image, at: (images.count - 1))
+            
+            // check if it exceed 300KB
+            if image.size.width * image.size.height > 75000 {
+                let compressedImage = image.compressedImage(targetSize: CGSize(width: 270, height: 270))
+                images.insert(compressedImage, at: (images.count - 1))
+            } else {
+                images.insert(image, at: (images.count - 1))
+            }
+            
             tryAddImageCount += 1
             
             if images.count > 5 {
@@ -231,6 +239,7 @@ extension PostViewController {
     }
 }
 
+// MARK: Text View Delegate
 extension PostViewController: UITextViewDelegate {
     @objc
     func keyboardWillShow(_ sender: Notification) {
