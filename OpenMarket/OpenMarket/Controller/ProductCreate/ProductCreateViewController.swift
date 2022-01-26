@@ -9,6 +9,8 @@ import UIKit
 
 final class ProductCreateViewController: ProductUpdateViewController {
     
+    private var observation: NSKeyValueObservation?
+    
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     private let imagePicker = UIImagePickerController(allowsEditing: true)
     
@@ -16,6 +18,7 @@ final class ProductCreateViewController: ProductUpdateViewController {
         super.viewDidLoad()
         configureImagePicker()
         configureTargetAction()
+        configureKVO()
     }
     
     private func imageAddbuttonClicked(_ sender: Any) {
@@ -78,6 +81,12 @@ private extension ProductCreateViewController {
     func configureTargetAction() {
         productRegisterView.productImageAddButton.addAction(
             UIAction(handler: imageAddbuttonClicked), for: .touchUpInside)
+    }
+    
+    func configureKVO() {
+        observation = model.observe(\.images, options: []) { (_, _) in
+            self.updateImageStackView()
+        }
     }
     
 }

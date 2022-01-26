@@ -8,22 +8,14 @@
 import Foundation
 import UIKit.UIImage
 
-class ProductCreateModelManager {
+class ProductCreateModelManager: NSObject {
     
     private let networkManager = ProductNetworkManager()
     
-    private var images: [UIImage] = [] {
-        didSet {
-            NotificationCenter.default.post(name: .modelDidChanged, object: nil)
-        }
-    }
+    @objc dynamic private(set) var images: [UIImage] = []
     
     private var parsedImages: [Image] {
         images.compactMap { Image(type: .png, data: $0.resizeImage()?.jpegData(compressionQuality: 0.5)) }
-    }
-    
-    var currentImages: [UIImage] {
-        images
     }
     
     var canAddImage: Bool {
@@ -34,35 +26,19 @@ class ProductCreateModelManager {
         images.append(image)
     }
     
-    func process(_ form: ProductRegisterForm,
-                 completionHandler: ((Result<CreateProductResponse, URLSessionProviderError>) -> Void)? = nil) throws {
+    func process(_ form: ProductRegisterForm, completionHandler: ((CreateProductResult) -> Void)? = nil) throws {
         try validate(form: form)
-        
-        guard let currency = Currency(rawValue: form.currency) else { throw ProductCreateError.unknownCurrency }
-        
-        let params = CreateProductRequestParams(
-            name: form.name,
-            descriptions: form.description,
-            price: form.price.convertToDecimal(),
-            currency: currency,
-            discountedPrice: form.discountedPrice?.convertToDecimal() ?? 0,
-            stock: form.stock?.convertToInt() ?? 0,
-            secret: AppConfigure.venderSecret
-        )
+        let params = try form.convertedToCreateProductRequestParams()
         
         guard let json = try? JSONEncoder().encode(params) else { throw ProductCreateError.encodingError }
-        networkManager.createProductRequest(
-            data: json,
-            images: parsedImages,
-            completionHandler: completionHandler
-        )
+        networkManager.createProductRequest(data: json, images: parsedImages, completionHandler: completionHandler)
     }
     
     private func validate(form: ProductRegisterForm) throws {
-        guard currentImages.count >= MagicNumber.imageMinimumCount else {
+        guard images.count >= MagicNumber.imageMinimumCount else {
             throw ProductCreateError.lackOfImage
         }
-        guard currentImages.count <= MagicNumber.imageMaximumCount else {
+        guard images.count <= MagicNumber.imageMaximumCount else {
             throw ProductCreateError.exceedImage
         }
         guard form.name.count >= MagicNumber.productNameMinimumLength else {
@@ -73,6 +49,20 @@ class ProductCreateModelManager {
         }
         guard form.price != "" else { throw ProductCreateError.priceNotEntered }
     }
+    
+    private enum MagicNumber {
+        
+        static let imageMaximumCount = 5
+        static let imageMinimumCount = 1
+        static let productNameMinimumLength = 3
+        static let productDescriptionMaximumLength = 1_000
+        
+    }
+    
+}
+
+// MARK: - ProductCreateModelManager Definition
+extension ProductCreateModelManager {
     
     enum ProductCreateError: String, LocalizedError {
         
@@ -91,13 +81,29 @@ class ProductCreateModelManager {
         
     }
     
-    private enum MagicNumber {
+    typealias CreateProductResult = Result<CreateProductResponse, URLSessionProviderError>
+    
+}
+
+// MARK: - ProductRegisterForm Utilities
+fileprivate extension ProductRegisterForm {
+    
+    func convertedToCreateProductRequestParams() throws -> CreateProductRequestParams {
+        guard let currency = Currency(rawValue: self.currency) else {
+            throw ProductCreateModelManager.ProductCreateError.unknownCurrency
+        }
         
-        static let imageMaximumCount = 5
-        static let imageMinimumCount = 1
-        static let productNameMinimumLength = 3
-        static let productDescriptionMaximumLength = 1_000
+        let params = CreateProductRequestParams(
+            name: self.name,
+            descriptions: self.description,
+            price: self.price.convertToDecimal(),
+            currency: currency,
+            discountedPrice: self.discountedPrice?.convertToDecimal() ?? 0,
+            stock: self.stock?.convertToInt() ?? 0,
+            secret: AppConfigure.venderSecret
+        )
         
+        return params
     }
     
 }

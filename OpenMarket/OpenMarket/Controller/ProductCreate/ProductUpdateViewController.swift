@@ -9,7 +9,7 @@ import UIKit
 
 class ProductUpdateViewController: UIViewController {
     
-    private(set) var model = ProductCreateModelManager()
+    @objc private(set) var model = ProductCreateModelManager()
     private(set) var productRegisterView = ProductRegisterView()
     
     private let textFieldDelegator = ProductUpdateTextFieldDelegate()
@@ -34,6 +34,17 @@ class ProductUpdateViewController: UIViewController {
         configureTextEditors()
     }
     
+    @objc
+    func updateImageStackView() {
+        DispatchQueue.main.async {
+            self.productRegisterView.productImageStackView.subviews.forEach {
+                $0.removed(from: self.productRegisterView.productImageStackView, whenTypeIs: UIImageView.self)
+            }
+            self.model.images.forEach {
+                self.productRegisterView.productImageStackView.insertArrangedSubview(UIImageView(with: $0), at: 0)
+            }
+        }
+    }
 }
 
 // MARK: - Configure View Controller
@@ -66,7 +77,6 @@ private extension ProductUpdateViewController {
         [
             #selector(keyboardWasShown) : UIResponder.keyboardDidShowNotification,
             #selector(keyboardWillBeHidden) : UIResponder.keyboardWillHideNotification,
-            #selector(updateImageStackView) : Notification.Name.modelDidChanged
         ]
         .forEach { notificationCenter.addObserver(self, selector: $0, name: $1, object: nil) }
     }
@@ -75,18 +85,6 @@ private extension ProductUpdateViewController {
         let message = "여기에 상품 상세 정보를 입력해주세요!"
         textEditors.forEach { $0.addButtonToInputAccessoryView(with: "Done") }
         productRegisterView.descriptionTextView.configurePlaceholderText(with: message)
-    }
-    
-    @objc
-    func updateImageStackView() {
-        DispatchQueue.main.async {
-            self.productRegisterView.productImageStackView.subviews.forEach {
-                $0.removed(from: self.productRegisterView.productImageStackView, whenTypeIs: UIImageView.self)
-            }
-            self.model.currentImages.forEach {
-                self.productRegisterView.productImageStackView.insertArrangedSubview(UIImageView(with: $0), at: 0)
-            }
-        }
     }
     
 }
