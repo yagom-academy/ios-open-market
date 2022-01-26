@@ -18,10 +18,13 @@ class ProductsCatalogViewController: UIViewController {
         frame: .zero,
         collectionViewLayout: createListLayout()
     )
-    private lazy var gridCollectionView = UICollectionView(
-        frame: .zero,
-        collectionViewLayout: createGridLayout()
-    )
+    private lazy var gridCollectionView: UICollectionView = {
+        let gridCollectionView = UICollectionView(frame: .zero, collectionViewLayout: createGridLayout())
+        gridCollectionView.delegate = self
+        configureDataSource(for: .grid, collectionView: gridCollectionView)
+        return gridCollectionView
+    }()
+
     private let indicator = UIActivityIndicatorView()
     private var listDataSource: UICollectionViewDiffableDataSource<Section, Product>!
     private var gridDataSource: UICollectionViewDiffableDataSource<Section, Product>!
@@ -31,7 +34,7 @@ class ProductsCatalogViewController: UIViewController {
         super.viewDidLoad()
         configureNavigationBar()
         listCollectionView = configureHierarchy(type: presentView)
-        configureDataSource(for: presentView)
+        configureDataSource(for: presentView, collectionView: listCollectionView)
 
         view = listCollectionView
         listCollectionView.delegate = self
@@ -108,12 +111,8 @@ extension ProductsCatalogViewController {
             view = listCollectionView
             listDataSource.apply(snapshot, animatingDifferences: false, completion: nil)
         case .grid:
-            if gridCollectionView == nil {
-                gridCollectionView = configureHierarchy(type: .grid)
-                configureDataSource(for: .grid)
-                gridCollectionView.delegate = self
-            }
-            view = gridCollectionView
+            let grid = gridCollectionView
+            view = grid
             gridDataSource.apply(snapshot)
         }
         presentView = viewType
@@ -166,15 +165,16 @@ extension ProductsCatalogViewController {
             layout = createGridLayout()
         }
         let collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: layout)
-        collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        collectionView.backgroundColor = .white
+//        collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+//        collectionView.backgroundColor = .white
 
         return collectionView
     }
 }
 
 extension ProductsCatalogViewController {
-    private func configureDataSource(for viewType: ViewType) {
+    private func configureDataSource(for viewType: ViewType,
+                                     collectionView: UICollectionView) {
         switch viewType {
         case .list:
             let listCellRegistration = registerListCell()
@@ -191,7 +191,7 @@ extension ProductsCatalogViewController {
         case .grid:
             let gridCellRegistration = registerGridCell()
             gridDataSource = UICollectionViewDiffableDataSource<Section, Product>(
-                collectionView: gridCollectionView
+                collectionView: collectionView
             ) { (collectionView: UICollectionView, indexPath: IndexPath, identifier: Product
             ) -> UICollectionViewCell? in
                 return collectionView.dequeueConfiguredReusableCell(

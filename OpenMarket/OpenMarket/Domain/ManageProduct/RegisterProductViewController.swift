@@ -142,6 +142,7 @@ extension RegisterProductViewController {
                             }
                         }
                     }
+
             case .failure(let inAppropriates):
                 var message: String = ""
                 inAppropriates.forEach { inappropriate in
