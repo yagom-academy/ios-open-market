@@ -69,7 +69,7 @@ class ViewController: UIViewController {
         urlSessionProvider.getData(requestType: .productList(pageNo: 1, items: 10)) { result in
             switch result {
             case .success(let data):
-                guard let parsedData: ProductList = decoder.parsePageJSON(data: data) else {
+                guard let parsedData: ProductList = decoder.parseJSON(data: data) else {
                     return
                 }
                 

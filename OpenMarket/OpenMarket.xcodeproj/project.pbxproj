@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		0D06738C279AFAF700646841 /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D06738B279AFAF700646841 /* PostViewController.swift */; };
+		0D11492F27A16B68006961FE /* Encoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D11492E27A16B68006961FE /* Encoder.swift */; };
+		0D11493327A16E97006961FE /* PostViewController+ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D11493227A16E97006961FE /* PostViewController+ImagePicker.swift */; };
 		0D6C5D3227992B1F006C9955 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D6C5D3127992B1F006C9955 /* String+Extension.swift */; };
 		0D6C5D3527992EF9006C9955 /* Double+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D6C5D3427992EF9006C9955 /* Double+Extension.swift */; };
 		0D6C5D3927995F77006C9955 /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D6C5D3827995F76006C9955 /* TableViewCell.swift */; };
@@ -66,6 +68,8 @@
 
 /* Begin PBXFileReference section */
 		0D06738B279AFAF700646841 /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
+		0D11492E27A16B68006961FE /* Encoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Encoder.swift; sourceTree = "<group>"; };
+		0D11493227A16E97006961FE /* PostViewController+ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PostViewController+ImagePicker.swift"; sourceTree = "<group>"; };
 		0D6C5D3127992B1F006C9955 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		0D6C5D3427992EF9006C9955 /* Double+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+Extension.swift"; sourceTree = "<group>"; };
 		0D6C5D3827995F76006C9955 /* TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
@@ -124,6 +128,28 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0D11493027A16D47006961FE /* NetworkModel */ = {
+			isa = PBXGroup;
+			children = (
+				48C6991D278C2061002EF7D1 /* Common */,
+				48C69919278C1EC6002EF7D1 /* ProductList */,
+				48C6990A278AE8DA002EF7D1 /* RegistProduct */,
+				48C6991A278C1F5D002EF7D1 /* ModifyProduct */,
+				48C6991C278C1FC8002EF7D1 /* DeleteProduct */,
+				48C6991B278C1F93002EF7D1 /* Secret */,
+			);
+			path = NetworkModel;
+			sourceTree = "<group>";
+		};
+		0D11493127A16E3D006961FE /* Post */ = {
+			isa = PBXGroup;
+			children = (
+				0D06738B279AFAF700646841 /* PostViewController.swift */,
+				0D11493227A16E97006961FE /* PostViewController+ImagePicker.swift */,
+			);
+			path = Post;
+			sourceTree = "<group>";
+		};
 		0D6C5D302799279B006C9955 /* View */ = {
 			isa = PBXGroup;
 			children = (
@@ -149,8 +175,8 @@
 		0D7634EA278FFBE9001FFB05 /* View Controller */ = {
 			isa = PBXGroup;
 			children = (
+				0D11493127A16E3D006961FE /* Post */,
 				C70FB0FE25BEF61C00C9924E /* ViewController.swift */,
-				0D06738B279AFAF700646841 /* PostViewController.swift */,
 				0D90CB9B279F085B003A94BE /* ViewControllerError.swift */,
 			);
 			path = "View Controller";
@@ -181,12 +207,8 @@
 			isa = PBXGroup;
 			children = (
 				0DF58F6D2787FD320024602F /* Decoder.swift */,
-				48C6991D278C2061002EF7D1 /* Common */,
-				48C69919278C1EC6002EF7D1 /* ProductList */,
-				48C6990A278AE8DA002EF7D1 /* RegistProduct */,
-				48C6991A278C1F5D002EF7D1 /* ModifyProduct */,
-				48C6991B278C1F93002EF7D1 /* Secret */,
-				48C6991C278C1FC8002EF7D1 /* DeleteProduct */,
+				0D11492E27A16B68006961FE /* Encoder.swift */,
+				0D11493027A16D47006961FE /* NetworkModel */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -426,7 +448,9 @@
 				48AF118A2782FAC900A2F6B6 /* ProductList.swift in Sources */,
 				48C69914278AF174002EF7D1 /* DeleteProductRequest.swift in Sources */,
 				0D6C5D3527992EF9006C9955 /* Double+Extension.swift in Sources */,
+				0D11492F27A16B68006961FE /* Encoder.swift in Sources */,
 				48C69918278C1B83002EF7D1 /* RegistProductRequest.swift in Sources */,
+				0D11493327A16E97006961FE /* PostViewController+ImagePicker.swift in Sources */,
 				48C69904278ADCD4002EF7D1 /* ProductParams.swift in Sources */,
 				0DF58F762788708F0024602F /* Currency.swift in Sources */,
 				0D6C5D3927995F77006C9955 /* TableViewCell.swift in Sources */,

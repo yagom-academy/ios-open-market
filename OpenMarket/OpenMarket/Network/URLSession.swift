@@ -14,9 +14,6 @@ class URLSessionProvider {
                 return completionHandler(.failure(.urlResponseError))
             }
             
-            // 확인용...
-            print(httpResponse.statusCode)
-            
             guard (200...299).contains(httpResponse.statusCode) else {
                 return completionHandler(.failure(.statusCodeError))
             }
@@ -74,8 +71,9 @@ extension URLSessionProvider {
     func createBody(params: ProductParams, boundary: String, images: [ImageFile]) -> Data {
         var body = Data()
         var encodedData = Data()
+        let encoder = Encoder()
         
-        switch jsonEncoder(data: params) {
+        switch encoder.encodeToJSON(data: params) {
         case .success(let data):
             encodedData = data
         case .failure(let error):
@@ -117,15 +115,5 @@ extension URLSessionProvider {
         }
         
         return imageFiles
-    }
-    
-    func jsonEncoder(data: ProductParams) -> Result<Data, NetworkError> {
-        let encoder = JSONEncoder()
-        
-        guard let data = try? encoder.encode(data) else {
-            return .failure(.parsingFailed)
-        }
-        
-        return .success(data)
     }
 }

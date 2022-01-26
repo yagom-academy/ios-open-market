@@ -28,11 +28,6 @@ class PostViewController: UIViewController {
         self.imageCollectionView.delegate = self
         self.imageCollectionView.dataSource = self
         self.imageCollectionView.register(PostCollectionViewCell.self, forCellWithReuseIdentifier: "PostCollectionViewCell")
-        
-        descriptionTextView.delegate = self
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
-        
         picker.delegate = self
     }
     
@@ -44,45 +39,10 @@ class PostViewController: UIViewController {
         images.append(image)
     }
     
-    @objc func pickImage(_ sender: Any) {
-        let alert = UIAlertController(title: "사진 불러오기", message: "아무래도 사진앨범이지?", preferredStyle: .actionSheet)
-        
-        let imageLibrary = UIAlertAction(title: "사진앨범", style: .default) { UIAlertAction in
-            self.openImageLibrary()
-        }
-        
-        let camera = UIAlertAction(title: "카메라", style: .default) { UIAlertAction in
-            self.openCamera()
-        }
-        
-        let cancel = UIAlertAction(title: "취소", style: .cancel, handler: nil)
-        
-        alert.addAction(imageLibrary)
-        alert.addAction(camera)
-        alert.addAction(cancel)
-        
-        present(alert, animated: true, completion: nil)
-    }
-    
-    func openImageLibrary() {
-        picker.sourceType = .photoLibrary
-        picker.allowsEditing = true
-        present(picker, animated: true, completion: nil)
-    }
-    
-    func openCamera() {
-        if UIImagePickerController.isSourceTypeAvailable(.camera) {
-            picker.sourceType = .camera
-            picker.allowsEditing = true
-            present(picker, animated: true, completion: nil)
-        } else {
-            let alert = UIAlertController(title: "카메라 접근 실패", message: "해당 기기로는 접근할 수 없습니다", preferredStyle: .alert)
-            let cancel = UIAlertAction(title: "취소", style: .cancel, handler: nil)
-            
-            alert.addAction(cancel)
-            
-            present(alert, animated: true, completion: nil)
-        }
+    func addPlaceHolderToTextView() {
+        descriptionTextView.delegate = self
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
 }
 
@@ -98,63 +58,6 @@ extension PostViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
         CGSize(width: imageCollectionView.frame.height, height: imageCollectionView.frame.height)
-    }
-}
-
-// MARK: Collection View Data Source, Delegation
-extension PostViewController: UICollectionViewDataSource, UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        images.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = imageCollectionView.dequeueReusableCell(withReuseIdentifier: "PostCollectionViewCell", for: indexPath)
-        
-        guard let typeCastedCell = cell as? PostCollectionViewCell else {
-            return cell
-        }
-        
-        cell.layer.borderColor = UIColor.systemGray3.cgColor
-        cell.layer.borderWidth = 1.5
-        
-        typeCastedCell.image.image = images[indexPath.item]
-        if tryAddImageCount < 5 {
-            let tapToAddImage = UITapGestureRecognizer(target: self, action: #selector(self.pickImage(_:)))
-            typeCastedCell.addGestureRecognizer(tapToAddImage)
-        }
-        
-        let layout = imageCollectionView.collectionViewLayout as! UICollectionViewFlowLayout
-        layout.estimatedItemSize = .zero
-        layout.scrollDirection = .horizontal
-        
-        return cell
-    }
-}
-
-// MARK: Image Picker Controller Delegation
-extension PostViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        var convertedImage = UIImage()
-        
-        if let image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
-            if image.size.width * image.size.height > 75000 {
-                let croppedImage = image.cropAsSquare()
-                convertedImage = croppedImage.compressedImage(targetSize: CGSize(width: 270, height: 270))
-            } else {
-                convertedImage = image.cropAsSquare()
-            }
-        }
-        
-        images.insert(convertedImage, at: (images.count - 1))
-        
-        tryAddImageCount += 1
-        
-        if images.count > 5 {
-            images.removeLast()
-        }
-        
-        self.imageCollectionView.reloadData()
-        dismiss(animated: true, completion: nil)
     }
 }
 
@@ -281,5 +184,35 @@ extension PostViewController: UITextViewDelegate {
         let changedText = currentText.replacingCharacters(in: stringRange, with: text)
         
         return changedText.count <= 1000
+    }
+}
+
+// MARK: Collection View Data Source, Delegation
+extension PostViewController: UICollectionViewDataSource, UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        images.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = imageCollectionView.dequeueReusableCell(withReuseIdentifier: "PostCollectionViewCell", for: indexPath)
+        
+        guard let typeCastedCell = cell as? PostCollectionViewCell else {
+            return cell
+        }
+        
+        cell.layer.borderColor = UIColor.systemGray3.cgColor
+        cell.layer.borderWidth = 1.5
+        
+        typeCastedCell.image.image = images[indexPath.item]
+        if tryAddImageCount < 5 {
+            let tapToAddImage = UITapGestureRecognizer(target: self, action: #selector(self.pickImage(_:)))
+            typeCastedCell.addGestureRecognizer(tapToAddImage)
+        }
+        
+        let layout = imageCollectionView.collectionViewLayout as! UICollectionViewFlowLayout
+        layout.estimatedItemSize = .zero
+        layout.scrollDirection = .horizontal
+        
+        return cell
     }
 }
