@@ -29,20 +29,14 @@ class ProductNetworkManager {
     }
     
     func createProductRequest(data: Data, images: [Image],
-                              completionHandler: (() -> Void)? = nil,
-                              failureHandler: ((Error) -> Void)? = nil) {
+                              completionHandler: ((Result<CreateProductResponse, URLSessionProviderError>) -> Void)? = nil) {
         urlSessionProvider.request(
             .createProduct(
                 sellerID: AppConfigure.venderIdentifier,
                 params: data,
                 images: images)
         ) { (result: Result<CreateProductResponse, URLSessionProviderError>) in
-            switch result {
-            case .success(_):
-                completionHandler?()
-            case .failure(let error):
-                failureHandler?(error)
-            }
+            completionHandler?(result)
         }
         
     }

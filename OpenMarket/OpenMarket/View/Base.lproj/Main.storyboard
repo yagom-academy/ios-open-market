@@ -47,7 +47,7 @@
                         </segmentedControl>
                         <barButtonItem key="rightBarButtonItem" style="done" systemItem="add" id="lQM-VB-6Kb">
                             <connections>
-                                <segue destination="MSa-Zb-wfO" kind="show" id="m9I-7G-A25"/>
+                                <segue destination="MSa-Zb-wfO" kind="presentation" modalPresentationStyle="fullScreen" id="m9I-7G-A25"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>

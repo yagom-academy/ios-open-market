@@ -36,8 +36,7 @@ class ProductCreateModelManager {
         images.append(image)
     }
     
-    func process(_ form: ProductRegisterForm, completionHandler: (() -> Void)? = nil,
-                 failureHandler: ((Error) -> Void)? = nil) throws {
+    func process(_ form: ProductRegisterForm, completionHandler: ((Result<CreateProductResponse, URLSessionProviderError>) -> Void)? = nil) throws {
         try validate(form: form)
         
         guard let currency = Currency(rawValue: form.currency) else { throw ProductCreateError.unknownCurrency }
@@ -56,8 +55,7 @@ class ProductCreateModelManager {
         networkManager.createProductRequest(
             data: json,
             images: parsedImages,
-            completionHandler: completionHandler,
-            failureHandler: failureHandler
+            completionHandler: completionHandler
         )
     }
     

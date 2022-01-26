@@ -41,26 +41,29 @@ final class ProductCreateViewController: ProductUpdateViewController {
     @IBAction func doneButtonClicked(_ sender: UIBarButtonItem) {
         activityIndicator.startAnimating()
         do {
-            try model.process(forms, completionHandler: completionHandler, failureHandler: failureHandler)
+            try model.process(forms, completionHandler: completionHandler)
         } catch {
             failureHandler(error: error)
         }
     }
     
-    private func completionHandler() {
+    private func completionHandler(_ result: Result<CreateProductResponse, URLSessionProviderError>) {
         DispatchQueue.main.async {
-            self.activityIndicator.stopAnimating()
-            self.dismiss(animated: true)
+            switch result {
+            case.success(_):
+                self.activityIndicator.stopAnimating()
+                self.dismiss(animated: true)
+            case .failure(let error):
+                self.failureHandler(error: error)
+            }
         }
     }
     
     private func failureHandler(error: Error) {
-        DispatchQueue.main.async {
-            let title = "오류"
-            let message = error.localizedDescription
-            self.activityIndicator.stopAnimating()
-            self.presentAcceptAlert(with: title, description: message)
-        }
+        let title = "오류"
+        let message = error.localizedDescription
+        self.activityIndicator.stopAnimating()
+        self.presentAcceptAlert(with: title, description: message)
     }
     
 }
