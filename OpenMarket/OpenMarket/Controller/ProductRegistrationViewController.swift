@@ -601,14 +601,14 @@ extension ProductRegistrationViewController: UICollectionViewDataSource {
         _ collectionView: UICollectionView,
         numberOfItemsInSection section: Int
     ) -> Int {
-        guard let section = Section(rawValue: section) else {
-            return 0
-        }
+        let section = Section(rawValue: section)
         switch section {
         case .imagesSection:
             return images.count
         case .buttonSection:
             return 1
+        case .none:
+            return 0
         }
     }
     
@@ -623,9 +623,7 @@ extension ProductRegistrationViewController: UICollectionViewDataSource {
         cell.contentView.subviews.forEach { view in
             view.removeFromSuperview()
         }
-        guard let section = Section(rawValue: indexPath.section) else {
-            return cell
-        }
+        let section = Section(rawValue: indexPath.section)
         switch section {
         case .imagesSection:
             let image = images[indexPath.item]
@@ -649,6 +647,7 @@ extension ProductRegistrationViewController: UICollectionViewDataSource {
                 button.trailingAnchor.constraint(equalTo: cell.contentView.trailingAnchor)
             ]
             NSLayoutConstraint.activate(constraints)
+        case .none: break
         }
         return cell
     }
