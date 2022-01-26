@@ -12,7 +12,6 @@
 		332C500F279A449500510572 /* CacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 332C500E279A449500510572 /* CacheManager.swift */; };
 		33313DFB279E9613008A8F34 /* RegisterProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33313DFA279E9613008A8F34 /* RegisterProductViewController.swift */; };
 		33313DFD279EAAA9008A8F34 /* AddImageHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33313DFC279EAAA9008A8F34 /* AddImageHeaderView.swift */; };
-		3343FA8527A03EDD00EAFE7A /* ManageProductDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3343FA8427A03EDD00EAFE7A /* ManageProductDelegate.swift */; };
 		3343FA8727A03EFE00EAFE7A /* ManageProductManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3343FA8627A03EFE00EAFE7A /* ManageProductManager.swift */; };
 		334998CF278D7146008A642E /* UserError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8467238E278D204700EA88B1 /* UserError.swift */; };
 		3368D5D7278448ED007D5760 /* ProductList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3368D5D6278448ED007D5760 /* ProductList.swift */; };
@@ -79,7 +78,6 @@
 		332C500E279A449500510572 /* CacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheManager.swift; sourceTree = "<group>"; };
 		33313DFA279E9613008A8F34 /* RegisterProductViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterProductViewController.swift; sourceTree = "<group>"; };
 		33313DFC279EAAA9008A8F34 /* AddImageHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddImageHeaderView.swift; sourceTree = "<group>"; };
-		3343FA8427A03EDD00EAFE7A /* ManageProductDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageProductDelegate.swift; sourceTree = "<group>"; };
 		3343FA8627A03EFE00EAFE7A /* ManageProductManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageProductManager.swift; sourceTree = "<group>"; };
 		3368D5D6278448ED007D5760 /* ProductList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductList.swift; sourceTree = "<group>"; };
 		3368D5D827844A68007D5760 /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
@@ -187,7 +185,6 @@
 				33313DFA279E9613008A8F34 /* RegisterProductViewController.swift */,
 				33EEB1A22797ECBA0087C7C9 /* ModifyProductViewController.swift */,
 				3343FA8627A03EFE00EAFE7A /* ManageProductManager.swift */,
-				3343FA8427A03EDD00EAFE7A /* ManageProductDelegate.swift */,
 				33EEB1A42797ED520087C7C9 /* ProductRegisterView.swift */,
 				33EEB1A827980D5F0087C7C9 /* ProductImageCell.swift */,
 				33313DFC279EAAA9008A8F34 /* AddImageHeaderView.swift */,
@@ -504,7 +501,6 @@
 				8403B32227881EB300C40679 /* SecretOfProductRequest.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 				33A43A2927912EC800653458 /* ListCell.swift in Sources */,
-				3343FA8527A03EDD00EAFE7A /* ManageProductDelegate.swift in Sources */,
 				33E922D12788646F0065DED8 /* RegisterProductRequest.swift in Sources */,
 				331C388B2789081B00A01A11 /* Data+Extension.swift in Sources */,
 				33313DFB279E9613008A8F34 /* RegisterProductViewController.swift in Sources */,

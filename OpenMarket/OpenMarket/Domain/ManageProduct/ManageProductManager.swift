@@ -26,6 +26,7 @@ class ManageProductManager {
         if !form.descriptionIsAppropriate {
             inappropriates.append(.description)
         }
+
         guard inappropriates.count == 0,
               let name = form.name,
               let price = form.price,

@@ -109,8 +109,9 @@ extension RegisterProductViewController {
             price: stackView.priceTextField.text,
             currency: stackView.currencySegmentedControl.titleForSegment(
                 at: stackView.currencySegmentedControl.selectedSegmentIndex),
-            discountedPrice: stackView.discountTextField.text,
-            stock: stackView.stockTextField.text,
+            discountedPrice: stackView.discountTextField.text ==
+                "" ? "0" : stackView.discountTextField.text,
+            stock: stackView.stockTextField.text == "" ? "0" : stackView.stockTextField.text,
             descriptions: stackView.descriptionTextView.text
             )
 
@@ -132,7 +133,7 @@ extension RegisterProductViewController {
                     images: imagesData) { result in
                         switch result {
                         case .success:
-                            DispatchQueue.main.sync {
+                            DispatchQueue.main.async {
                                 self.present(self.registerSuccessAlert, animated: false)
                             }
                         case .failure:
@@ -202,7 +203,12 @@ extension RegisterProductViewController: UIImagePickerControllerDelegate,
 }
 
 extension RegisterProductViewController: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, willDisplaySupplementaryView view: UICollectionReusableView, forElementKind elementKind: String, at indexPath: IndexPath) {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        willDisplaySupplementaryView view: UICollectionReusableView,
+        forElementKind elementKind: String,
+        at indexPath: IndexPath
+    ) {
         guard let headerView = view as? AddImageHeaderView else {
             return
         }

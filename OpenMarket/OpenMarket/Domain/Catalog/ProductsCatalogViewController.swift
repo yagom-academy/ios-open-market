@@ -14,8 +14,14 @@ class ProductsCatalogViewController: UIViewController {
     var pageNumber: Int = 1
     var isPagingable: Bool = true
 
-    private var listCollectionView: UICollectionView! = nil
-    private var gridCollectionView: UICollectionView! = nil
+    private lazy var listCollectionView = UICollectionView(
+        frame: .zero,
+        collectionViewLayout: createListLayout()
+    )
+    private lazy var gridCollectionView = UICollectionView(
+        frame: .zero,
+        collectionViewLayout: createGridLayout()
+    )
     private let indicator = UIActivityIndicatorView()
     private var listDataSource: UICollectionViewDiffableDataSource<Section, Product>!
     private var gridDataSource: UICollectionViewDiffableDataSource<Section, Product>!
@@ -35,6 +41,7 @@ class ProductsCatalogViewController: UIViewController {
     }
 
     override func viewWillAppear(_ animated: Bool) {
+        indicator.startAnimating()
         snapshot = NSDiffableDataSourceSnapshot<Section, Product>()
         pageNumber = 1
         generateProductItems()
