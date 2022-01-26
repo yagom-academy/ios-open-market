@@ -273,8 +273,8 @@
 			children = (
 				C13BFD5A2796E015006E2440 /* ProductUpdateViewController.swift */,
 				C1763B672799589700D6C159 /* ProductCreateViewController.swift */,
-				C1E0C197279C233E0046E839 /* ProductRegisterForm.swift */,
 				C163550727985783004272DE /* ProductCreateModelManager.swift */,
+				C1E0C197279C233E0046E839 /* ProductRegisterForm.swift */,
 				C1A9BEA0279D9767005D6679 /* Delegate */,
 			);
 			path = ProductCreate;

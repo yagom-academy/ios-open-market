@@ -10,7 +10,7 @@ import UIKit.UIImage
 
 class ProductCreateModelManager {
     
-    let networkManager = ProductNetworkManager()
+    private let networkManager = ProductNetworkManager()
     
     private var images: [UIImage] = [] {
         didSet {
@@ -27,10 +27,8 @@ class ProductCreateModelManager {
     }
     
     var canAddImage: Bool {
-        numberOfImagesRange.contains(images.count)
+        images.count < MagicNumber.imageMaximumCount
     }
-    
-    let numberOfImagesRange = 0..<5
     
     func append(image: UIImage) {
         images.append(image)
@@ -60,10 +58,18 @@ class ProductCreateModelManager {
     }
     
     private func validate(form: ProductRegisterForm) throws {
-        guard currentImages.count >= 1 else { throw ProductCreateError.lackOfImage }
-        guard currentImages.count <= 5 else { throw ProductCreateError.exceedImage }
-        guard form.name.count >= 3 else { throw ProductCreateError.lackOfLetters }
-        guard form.description.count <= 1000 else { throw ProductCreateError.exceedLetters }
+        guard currentImages.count >= MagicNumber.imageMinimumCount else {
+            throw ProductCreateError.lackOfImage
+        }
+        guard currentImages.count <= MagicNumber.imageMaximumCount else {
+            throw ProductCreateError.exceedImage
+        }
+        guard form.name.count >= MagicNumber.productNameMinimumLength else {
+            throw ProductCreateError.lackOfLetters
+        }
+        guard form.description.count <= MagicNumber.productDescriptionMaximumLength else {
+            throw ProductCreateError.exceedLetters
+        }
         guard form.price != "" else { throw ProductCreateError.priceNotEntered }
     }
     
@@ -81,6 +87,16 @@ class ProductCreateModelManager {
         var errorDescription: String? {
             self.rawValue
         }
+        
+    }
+    
+    private enum MagicNumber {
+        
+        static let imageValidatieRange = imageMinimumCount..<imageMinimumCount
+        static let imageMaximumCount = 5
+        static let imageMinimumCount = 1
+        static let productNameMinimumLength = 3
+        static let productDescriptionMaximumLength = 1_000
         
     }
     
