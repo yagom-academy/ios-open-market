@@ -18,7 +18,7 @@ class PostViewController: UIViewController {
     
     let picker = UIImagePickerController()
     var images = [UIImage]()
-    var tryAddCount = 0
+    var tryAddImageCount = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -116,7 +116,7 @@ extension PostViewController: UICollectionViewDataSource, UICollectionViewDelega
         cell.layer.borderWidth = 1.5
         
         typeCastedCell.image.image = images[indexPath.item]
-        if tryAddCount < 5 {
+        if tryAddImageCount < 5 {
             let tapToAddImage = UITapGestureRecognizer(target: self, action: #selector(self.pickImage(_:)))
             typeCastedCell.addGestureRecognizer(tapToAddImage)
         }
@@ -134,7 +134,7 @@ extension PostViewController: UIImagePickerControllerDelegate, UINavigationContr
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
             images.insert(image, at: (images.count - 1))
-            tryAddCount += 1
+            tryAddImageCount += 1
             
             if images.count > 5 {
                 images.removeLast()
@@ -157,9 +157,14 @@ extension PostViewController {
         let checkValidate: Result<ProductParams, ViewControllerError> = checkValidData()
         let urlSessionProvider = URLSessionProvider()
         
+        // remove PlusButtonImage
+        if tryAddImageCount < 5 {
+            images.removeLast()
+        }
+        
         switch checkValidate {
         case .success(let data):
-            urlSessionProvider.postData(requestType: .productRegistration, params: ["params": data], images: self.images) { (result: Result<Data, NetworkError>) in
+            urlSessionProvider.postData(requestType: .productRegistration, params: data, images: self.images) { (result: Result<Data, NetworkError>) in
                 switch result {
                 case .success(_):
                     DispatchQueue.main.async {

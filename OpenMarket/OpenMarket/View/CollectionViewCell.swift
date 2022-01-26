@@ -13,7 +13,7 @@ class CollectionViewCell: UICollectionViewCell {
     
     var productImageView = UIImageView()
     var productNameLabel = UILabel()
-    var bargainPriceLabel = UILabel()
+    var originalPriceLabel = UILabel()
     var priceLabel = UILabel()
     var stockLabel = UILabel()
     
@@ -88,7 +88,7 @@ class CollectionViewCell: UICollectionViewCell {
         priceStackView.distribution = .fill
         priceStackView.spacing = 3
         
-        priceStackView.addArrangedSubview(bargainPriceLabel)
+        priceStackView.addArrangedSubview(originalPriceLabel)
         priceStackView.addArrangedSubview(priceLabel)
         
         containerStackView.addArrangedSubview(stockLabel)
@@ -106,11 +106,11 @@ class CollectionViewCell: UICollectionViewCell {
         productNameLabel.font = UIFont.boldSystemFont(ofSize: 16)
         productNameLabel.textAlignment = .center
         
-        bargainPriceLabel.attributedText = ("\(data.currency) \(data.bargainPrice.addDemical())").strikeThroughStyle()
-        bargainPriceLabel.textColor = .systemRed
-        bargainPriceLabel.textAlignment = .center
+        originalPriceLabel.attributedText = ("\(data.currency) \(data.price.addDemical())").strikeThroughStyle()
+        originalPriceLabel.textColor = .systemRed
+        originalPriceLabel.textAlignment = .center
 
-        priceLabel.text = "\(data.currency) \(data.price.addDemical())"
+        priceLabel.text = "\(data.currency) \((data.price - data.bargainPrice).addDemical())"
         priceLabel.textAlignment = .center
         priceLabel.textColor = .systemGray
 

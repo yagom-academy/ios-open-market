@@ -38,7 +38,13 @@ class ViewController: UIViewController {
         self.productCollectionView.register(CollectionViewCell.self, forCellWithReuseIdentifier: "CollectionViewCell")
         self.productTableView.register(TableViewCell.self, forCellReuseIdentifier: "TableViewCell")
         
-        self.loadProductList()
+        loadProductList()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        loadProductList()
     }
     
     func loadProductList() {

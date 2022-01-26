@@ -1,4 +1,5 @@
 import Foundation
+
 extension Double {
     func addDemical() -> String {
         let numberFormatter = NumberFormatter()

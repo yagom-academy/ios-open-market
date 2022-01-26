@@ -1,5 +1,5 @@
-import Foundation
 import UIKit
+
 extension String {
     func strikeThroughStyle() -> NSAttributedString {
         let attributeString = NSMutableAttributedString(string: self)

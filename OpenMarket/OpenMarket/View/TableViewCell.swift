@@ -15,7 +15,7 @@ class TableViewCell: UITableViewCell {
     
     var productImageView = UIImageView()
     var productNameLabel = UILabel()
-    var bargainPriceLabel = UILabel()
+    var originalPriceLabel = UILabel()
     var priceLabel = UILabel()
     var stockLabel = UILabel()
     var descriptionButton = UIButton()
@@ -93,7 +93,7 @@ class TableViewCell: UITableViewCell {
         priceStackView.axis = .horizontal
         priceStackView.spacing = 5
         
-        priceStackView.addArrangedSubview(bargainPriceLabel)
+        priceStackView.addArrangedSubview(originalPriceLabel)
         priceStackView.addArrangedSubview(priceLabel)
         
         containerStackView.addArrangedSubview(stockStackView)
@@ -122,11 +122,11 @@ class TableViewCell: UITableViewCell {
         productNameLabel.font = UIFont.boldSystemFont(ofSize: 16)
         productNameLabel.textAlignment = .left
         
-        bargainPriceLabel.attributedText = ("\(withData.currency) \(withData.bargainPrice.addDemical())").strikeThroughStyle()
-        bargainPriceLabel.textColor = .systemRed
-        bargainPriceLabel.textAlignment = .left
+        originalPriceLabel.attributedText = ("\(withData.currency) \(withData.price.addDemical())").strikeThroughStyle()
+        originalPriceLabel.textColor = .systemRed
+        originalPriceLabel.textAlignment = .left
         
-        priceLabel.text = "\(withData.currency) \(withData.price.addDemical())"
+        priceLabel.text = "\(withData.currency) \((withData.price-withData.bargainPrice).addDemical())"
         priceLabel.textAlignment = .left
         priceLabel.textColor = .systemGray
         

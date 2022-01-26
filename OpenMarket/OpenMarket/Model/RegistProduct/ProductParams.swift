@@ -12,8 +12,8 @@ struct ProductParams: Codable {
     let descriptions: String
     let price: Double
     let currency: Currency
-    let discountedPrice: Double
-    let stock: Int
+    let discountedPrice: Double?
+    let stock: Int?
     let secret: String
     
     private enum CodingKeys: String, CodingKey {

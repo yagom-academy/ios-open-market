@@ -10,11 +10,18 @@ class URLSessionProvider {
     
     func dataTask(request: URLRequest, completionHandler: @escaping (Result<Data, NetworkError>) -> Void) {
         let task = session.dataTask(with: request) { data, urlResponse, error in
-            print(String(data: data!, encoding: .utf8))
-            guard let httpResponse = urlResponse as? HTTPURLResponse,
-                  (200...299).contains(httpResponse.statusCode) else {
-                      return completionHandler(.failure(.statusCodeError))
-                  }
+            // 확인용
+            print("data: \(String(data: data!, encoding: .utf8))")
+            print("error: \(error)")
+            print((urlResponse as! HTTPURLResponse).statusCode)
+            
+            guard let httpResponse = urlResponse as? HTTPURLResponse else {
+                return completionHandler(.failure(.urlResponseError))
+            }
+            
+            guard (200...299).contains(httpResponse.statusCode) else {
+                return completionHandler(.failure(.statusCodeError))
+            }
             
             guard let data = data else {
                 return completionHandler(.failure(.unknownFailed))
@@ -45,7 +52,7 @@ extension URLSessionProvider {
 
 // MARK: httpMethod "POST"
 extension URLSessionProvider {
-    func postData(requestType: PostType, params: [String: ProductParams], images: [UIImage], completionHandler: @escaping (Result<Data, NetworkError>) -> Void)  {
+    func postData(requestType: PostType, params: ProductParams, images: [UIImage], completionHandler: @escaping (Result<Data, NetworkError>) -> Void)  {
         guard let url = URL(string: requestType.url(type: requestType)) else {
             return completionHandler(.failure(NetworkError.wrongURL))
         }
@@ -53,55 +60,82 @@ extension URLSessionProvider {
         let imageFiles = convertImagesToFiles(with: images)
         
         var request: URLRequest
-        let boundary = "Boundary-\(UUID().uuidString)"
+        let boundary = "\(UUID().uuidString)"
         
         request = URLRequest(url: url)
         request.httpMethod = "POST"
-        request.addValue("multipart/form-data; boundary=\(boundary)",
-                         forHTTPHeaderField: "Content-Type")
-        request.addValue("cd706a3e-66db-11ec-9626-796401f2341a",
-                         forHTTPHeaderField: "identifier")
         request.httpBody = createBody(params: params, boundary: boundary, images: imageFiles)
-                
+        request.addValue("bd4fb57f-7215-11ec-abfa-957fdcf7de42",
+                         forHTTPHeaderField: "identifier")
+        request.addValue("multipart/form-data; boundary=\"\(boundary)\"",
+                         forHTTPHeaderField: "Content-Type")
+        
+        // 확인용
+        print("httpBody: \(request.httpBody ?? Data())")
+        
         dataTask(request: request, completionHandler: completionHandler)
     }
     
-    func createBody(params: [String: ProductParams], boundary: String, images: [ImageFile]) -> Data {
+    func createBody(params: ProductParams, boundary: String, images: [ImageFile]) -> Data {
         var body = Data()
-        let boundaryPrefix = "--\(boundary)\r\n"
+        var encodedData = Data()
         
-        for (key, value) in params {
-            body.append(boundaryPrefix.data(using: .utf8)!)
-            body.append("Content-Disposition: form-data; name=\"\(key)\"\r\n\r\n".data(using: .utf8)!)
-            body.append("\(value)\r\n".data(using: .utf8)!)
+        switch jsonEncoder(data: params) {
+        case .success(let data):
+            encodedData = data
+        case .failure(let error):
+            print(error)
         }
-        body.append(boundaryPrefix.data(using: .utf8)!)
+        
+        // 테스트용
+        print("JSON: \(String(data: encodedData, encoding: .utf8))")
+        
+        body.append(string: "--\(boundary)\r\n")
+        body.append(string: "Content-Disposition: form-data; name=\"params\"\r\n")
+        body.append(string: "Content-Type: application/json\r\n\r\n")
+        body.append(encodedData)
+        body.append(string: "\r\n")
+        
+        //        body.append("--\(boundary)\r\n".data(using: .utf8)!)
         
         for image in images {
-            body.append(boundaryPrefix.data(using: .utf8)!)
-            body.append("Content-Disposition: form-data; name=\"images\"; filename=\"\(image.fileName)\"\r\n".data(using: .utf8)!)
-            body.append("Content-Type: image/\(image.type)\r\n\r\n".data(using: .utf8)!)
+            body.append(string: "--\(boundary)\r\n")
+            body.append(string: "Content-Disposition: form-data; name=\"images\"; filename=\"\(image.fileName)\"\r\n")
+            body.append(string: "Content-Type: image/png\r\n\r\n")
             body.append(image.data)
-            body.append("\r\n".data(using: .utf8)!)
+            body.append(string: "\r\n")
         }
-        body.append(boundaryPrefix.data(using: .utf8)!)
-        body.append("--\r\n".data(using: .utf8)!)
+        
+        body.append(string: "--\(boundary)--\r\n")
         
         return body
     }
     
     func convertImagesToFiles(with images: [UIImage]) -> [ImageFile] {
         var imageFiles = [ImageFile]()
+        let imageType = "png"
         
-        images.enumerated().forEach { (index, image) in
+        images.forEach { image in
             guard let imagePNG = image.pngData() else {
                 return
             }
             
-            let imageFile = ImageFile(fileName: "\(index).png", data: imagePNG, type: "png")
+            let fileName = UUID().uuidString
+            let imageFile = ImageFile(fileName: "\(fileName).\(imageType)", data: imagePNG, type: imageType)
+            
             imageFiles.append(imageFile)
         }
         
         return imageFiles
+    }
+    
+    func jsonEncoder(data: ProductParams) -> Result<Data, NetworkError> {
+        let encoder = JSONEncoder()
+        
+        guard let data = try? encoder.encode(data) else {
+            return .failure(.parsingFailed)
+        }
+        
+        return .success(data)
     }
 }
