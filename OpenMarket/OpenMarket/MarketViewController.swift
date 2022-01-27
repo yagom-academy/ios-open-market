@@ -14,7 +14,7 @@ final class MarketViewController: UIViewController {
     
     //MARK: - Properties
     
-    private var apiService: APIServicable?
+//    private var apiService: APIServicable?
     private var products: [Product] = []
     
     private lazy var listViewController: ListViewController = {
@@ -40,12 +40,12 @@ final class MarketViewController: UIViewController {
     private lazy var loadingIndicator: UIActivityIndicatorView = {
         let loadingIndicator = UIActivityIndicatorView(style: .large)
         loadingIndicator.isHidden = false
-        
+
         self.view.addSubview(loadingIndicator)
         loadingIndicator.translatesAutoresizingMaskIntoConstraints = false
         loadingIndicator.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         loadingIndicator.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
-        
+
         return loadingIndicator
     }()
     
@@ -65,9 +65,9 @@ final class MarketViewController: UIViewController {
     
     // MARK: - Internal Methods
     
-    func setAPIService(with apiService: APIServicable) {
-        self.apiService = apiService
-    }
+//    func setAPIService(with apiService: APIServicable) {
+//        self.apiService = apiService
+//    }
 }
 
 //MARK: - IBActions
@@ -142,8 +142,9 @@ extension MarketViewController {
     }
     
     private func fetchPage(pageNumber: Int, itemsPerPage: Int, completion: @escaping (_ products: [Product]?) -> ()) {
+        let apiService = MarketAPIService()
         startLoadingIndicator()
-        apiService?.fetchPage(
+        apiService.fetchPage(
             pageNumber: pageNumber,
             itemsPerPage: itemsPerPage
         ) { [weak self] result in

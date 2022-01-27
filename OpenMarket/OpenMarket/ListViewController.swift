@@ -14,6 +14,18 @@ final class ListViewController: UIViewController {
     
     //MARK: - Properties
     
+    private lazy var loadingIndicator: UIActivityIndicatorView = {
+        let loadingIndicator = UIActivityIndicatorView(style: .large)
+        loadingIndicator.isHidden = false
+
+        self.view.addSubview(loadingIndicator)
+        loadingIndicator.translatesAutoresizingMaskIntoConstraints = false
+        loadingIndicator.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        loadingIndicator.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
+
+        return loadingIndicator
+    }()
+    
     private var products: [Product]
     
     //MARK: - Initializer
@@ -63,6 +75,16 @@ extension ListViewController {
         let listNib = UINib(nibName: NibIdentifier.list, bundle: .main)
         collectionView.register(listNib, forCellWithReuseIdentifier: MarketCell.identifier)
     }
+    
+    private func startLoadingIndicator() {
+        loadingIndicator.startAnimating()
+    }
+    
+    private func stopLoadingIndicator() {
+        DispatchQueue.main.async {
+            self.loadingIndicator.stopAnimating()
+        }
+    }
 }
 
 //MARK: - UICollectionViewDataSource
@@ -94,10 +116,36 @@ extension ListViewController: UICollectionViewDataSource {
 
 extension ListViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let controller = storyboard?.instantiateViewController(withIdentifier: "ProductDetailsViewController") else {
-            return
+        let apiService = MarketAPIService()
+        let productID = products[indexPath.row].id
+        
+        startLoadingIndicator()
+        apiService.fetchProduct(productID: productID) { [weak self] result in
+            guard let self = self else {
+                return
+            }
+            self.stopLoadingIndicator()
+            switch result {
+            case .success(let product):
+                DispatchQueue.main.async {
+                    guard let controller = self.storyboard?.instantiateViewController(
+                            identifier: ProductDetailsViewController.identifier,
+                            creator: { coder in
+                        ProductDetailsViewController(product: product, coder: coder
+                        )
+                    }) else {
+                        assertionFailure("init(coder:) has not been implemented")
+                        return
+                    }
+                    self.navigationController?.pushViewController(controller, animated: true)
+                }
+            case .failure(_ ):
+                DispatchQueue.main.async {
+                    self.presentAlert(alertTitle: "데이터를 가져오지 못했습니다", alertMessage: "죄송해요", handler: nil)
+                }
+                
+            }
         }
-        navigationController?.pushViewController(controller, animated: true)
     }
 }
 

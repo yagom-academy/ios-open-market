@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class MarketAPIService {
+struct MarketAPIService {
     private let session: DataTaskProvidable
     
     init(session: DataTaskProvidable = URLSession.shared) {
@@ -111,7 +111,7 @@ extension MarketAPIService: APIServicable {
     
     func fetchProduct(
         productID: Int,
-        completionHandler: @escaping (Result<Product, APIError>) -> Void
+        completionHandler: @escaping (Result<ProductDetails, APIError>) -> Void
     ) {
         guard let url = MarketAPI.getProduct(id: productID).url else {
             return
@@ -187,7 +187,7 @@ extension MarketAPIService {
         completionHandler: @escaping (Result<T, APIError>) -> Void
     ) {
         let successRange = 200..<300
-        let dataTask = session.dataTask(with: request) { [weak self] data, response, error in
+        let dataTask = session.dataTask(with: request) { data, response, error in
             guard error == nil,
                   let statusCode = (response as? HTTPURLResponse)?.statusCode else {
                       completionHandler(.failure(APIError.invalidResponse))
@@ -201,7 +201,8 @@ extension MarketAPIService {
                 completionHandler(.failure(APIError.noData))
                 return
             }
-            guard let parsedData = self?.parse(with: data, type: T.self) else {
+            guard let parsedData = parse(with: data, type: T.self) else {
+                completionHandler(.failure(APIError.noData))
                 return
             }
             
