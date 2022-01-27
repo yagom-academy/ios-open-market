@@ -11,6 +11,8 @@ class ProductImageCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var productImageView: UIImageView!
     
+    static let identifier = "ProductImageCell"
+    
     func setupImage(with productImage: Image) {
         guard let imageURL = URL(string: productImage.url) else { return }
         URLSession.shared.dataTask(with: imageURL) { data, _, _ in

@@ -1,10 +1,7 @@
 import UIKit
 
 class ProductDetailViewController: UIViewController {
-
-    let apiManager = APIManager.shared
-    var productID: Int?
-    
+    // MARK: - Property
     @IBOutlet weak var imageCollectionView: UICollectionView!
     @IBOutlet weak var currentPageLabel: UILabel!
     @IBOutlet weak var totalPageLabel: UILabel!
@@ -13,51 +10,36 @@ class ProductDetailViewController: UIViewController {
     @IBOutlet weak var previousPriceLabel: UILabel!
     @IBOutlet weak var priceLabel: UILabel!
     @IBOutlet weak var descriptionTextView: UITextView!
+    
+    
+    let apiManager = APIManager.shared
     private var imageDataSource: UICollectionViewDiffableDataSource<Section, Image>?
+    var productID: Int?
 
+    // MARK: - Life Cycle Method
     override func viewDidLoad() {
         super.viewDidLoad()
-        getProductDetail()
-        setupImageCollectionViewLayout()
         setupImageCollectionView()
+        getProductDetail()
+    }
+    
+    // MARK: - Setup CollectionView Method
+    func setupImageCollectionView() {
+        imageCollectionView.collectionViewLayout = OpenMarketViewLayout.productImages
         imageCollectionView.delegate = self
         imageCollectionView.decelerationRate = .fast
         imageCollectionView.isPagingEnabled = true
+        setupImageCollectionViewDataSource()
     }
     
-    func setupImageCollectionViewLayout() {
-        let layout = UICollectionViewFlowLayout()
-        layout.minimumLineSpacing = 0
-        layout.minimumInteritemSpacing = 0
-        layout.scrollDirection = .horizontal
-        imageCollectionView.collectionViewLayout = layout
-    }
-    
-    func setupImageCollectionView() {
+    func setupImageCollectionViewDataSource() {
         imageDataSource = UICollectionViewDiffableDataSource<Section, Image>(collectionView: imageCollectionView) { collectionView, indexPath, product in
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProductImageCell", for: indexPath) as? ProductImageCollectionViewCell else {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProductImageCollectionViewCell.identifier, for: indexPath) as? ProductImageCollectionViewCell else {
                 return UICollectionViewCell()
             }
             
             cell.setupImage(with: product)
             return cell
-        }
-    }
-    
-    private func getProductDetail() {
-        guard let productID = productID else { return }
-        apiManager.checkProductDetail(id: productID) { result in
-            switch result {
-            case .success(let product):
-                let productImages = product.images ?? []
-                DispatchQueue.main.async {
-                    self.setup(with: product)
-                    self.populate(with: productImages)
-                    self.totalPageLabel.text = String(productImages.count)
-                }
-            case .failure(let error):
-                print(error.localizedDescription)
-            }
         }
     }
     
@@ -68,11 +50,34 @@ class ProductDetailViewController: UIViewController {
         imageDataSource?.apply(snapshot)
     }
     
+    // MARK: - Setup ProductDetailView Method
+    private func getProductDetail() {
+        guard let productID = productID else { return }
+        apiManager.checkProductDetail(id: productID) { result in
+            switch result {
+            case .success(let product):
+                DispatchQueue.main.async {
+                    self.setup(with: product)
+                }
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
     private func setup(with product: ProductDetail) {
+        let productImages = product.images ?? []
+        setupTotalPageLabel(with: productImages)
         setupNameLabel(with: product)
         setupStockLabel(with: product)
         setupPriceLabel(with: product)
         setupDescriptionTextView(with: product)
+        populate(with: productImages)
+    
+    }
+    
+    private func setupTotalPageLabel(with productImages: [Image]) {
+        totalPageLabel.text = String(productImages.count)
     }
     
     private func setupNameLabel(with product: ProductDetail) {
@@ -109,16 +114,16 @@ class ProductDetailViewController: UIViewController {
 }
 
 extension ProductDetailViewController: UICollectionViewDelegateFlowLayout {
+    // MARK: - Setup CollectionViewFlowLayout Method
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: collectionView.bounds.width, height: collectionView.bounds.height)
     }
 }
 
 extension ProductDetailViewController: UICollectionViewDelegate {
+    // MARK: - Calculate Page Method
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        let nowPage = Int(scrollView.contentOffset.x) / Int(scrollView.frame.width) + 1
-        currentPageLabel.text = String(nowPage)
-        print(scrollView.contentOffset)
-        print(scrollView.frame.width)
+        let currentPage = Int(scrollView.contentOffset.x) / Int(scrollView.frame.width) + 1
+        currentPageLabel.text = String(currentPage)
     }
 }

@@ -162,10 +162,10 @@
 			isa = PBXGroup;
 			children = (
 				EAC5F3B7278EA60400AD2DA5 /* ProductListCell.swift */,
-				EA8BE5E427A27653006A51CD /* ProductImageCollectionViewCell.swift */,
 				EAC5F3B8278EA60400AD2DA5 /* ProductListCell.xib */,
 				47321081278FF5E90052EEB1 /* ProductGridCell.swift */,
 				47321082278FF5E90052EEB1 /* ProductGridCell.xib */,
+				EA8BE5E427A27653006A51CD /* ProductImageCollectionViewCell.swift */,
 				47321085278FF69F0052EEB1 /* NameSpace.swift */,
 			);
 			path = CustomCell;

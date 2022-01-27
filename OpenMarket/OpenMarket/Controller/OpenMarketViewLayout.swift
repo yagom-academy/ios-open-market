@@ -18,5 +18,13 @@ struct OpenMarketViewLayout {
         return layout
     }()
     
+    static let productImages: UICollectionViewFlowLayout = {
+        let layout = UICollectionViewFlowLayout()
+        layout.minimumLineSpacing = 0
+        layout.minimumInteritemSpacing = 0
+        layout.scrollDirection = .horizontal
+        return layout
+    }()
+    
 
 }
