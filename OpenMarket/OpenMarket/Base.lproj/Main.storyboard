@@ -231,7 +231,7 @@
                             </connections>
                         </segmentedControl>
                         <barButtonItem key="rightBarButtonItem" title="Item" id="IhJ-IY-ssd">
-                            <imageReference key="image" image="plus" catalog="system" symbolScale="small"/>
+                            <imageReference key="image" image="plus" catalog="system" symbolScale="large"/>
                             <connections>
                                 <segue destination="bSo-iR-hiR" kind="show" id="i8I-MP-1ja"/>
                             </connections>
@@ -272,7 +272,6 @@
                                                             <preferredSymbolConfiguration key="preferredSymbolConfiguration" weight="bold"/>
                                                         </state>
                                                         <connections>
-                                                            <action selector="hitAddImageButton:" destination="bSo-iR-hiR" eventType="touchUpInside" id="lYw-hN-mAg"/>
                                                             <action selector="hitPostImageButton:" destination="bSo-iR-hiR" eventType="touchUpInside" id="cIA-l6-YfO"/>
                                                         </connections>
                                                     </button>
@@ -321,7 +320,7 @@
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="cY1-sL-bsT" userLabel="Price">
                                                         <rect key="frame" x="0.0" y="0.0" width="287" height="34"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                        <textInputTraits key="textInputTraits"/>
+                                                        <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                                     </textField>
                                                     <segmentedControl opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="bda-k4-KGn" userLabel="Currency">
                                                         <rect key="frame" x="297" y="0.0" width="97" height="35"/>
@@ -335,12 +334,12 @@
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="7Uj-hl-NKN" userLabel="Discounted">
                                                 <rect key="frame" x="0.0" y="223" width="394" height="34"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                <textInputTraits key="textInputTraits"/>
+                                                <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                             </textField>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="OAx-aY-Zxd" userLabel="Stock">
                                                 <rect key="frame" x="0.0" y="267" width="394" height="34"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                <textInputTraits key="textInputTraits"/>
+                                                <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                             </textField>
                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="FzS-zH-mYY" userLabel="Description">
                                                 <rect key="frame" x="0.0" y="311" width="394" height="33"/>
@@ -539,7 +538,7 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="7oa-0v-BAz"/>
-        <segue reference="tHF-LI-kfw"/>
+        <segue reference="i8I-MP-1ja"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="chevron.right" catalog="system" width="96" height="128"/>

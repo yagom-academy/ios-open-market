@@ -34,6 +34,25 @@ class EditProductViewController: UIViewController, UITextFieldDelegate, UITextVi
         placeholderSetting()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        self.productNameTextField.becomeFirstResponder()
+        self.productPriceTextField.becomeFirstResponder()
+        self.discountedPriceTextField.becomeFirstResponder()
+        self.productStockTextField.becomeFirstResponder()
+        self.productDescription.becomeFirstResponder()
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        self.productNameTextField.resignFirstResponder()
+        self.productPriceTextField.resignFirstResponder()
+        self.discountedPriceTextField.resignFirstResponder()
+        self.productStockTextField.resignFirstResponder()
+        self.productDescription.resignFirstResponder()
+
+        self.dismiss(animated: true, completion: nil)
+        return true
+    }
+    
     func placeholderSetting() {
         productNameTextField.delegate = self
         productPriceTextField.delegate = self
@@ -71,18 +90,21 @@ class EditProductViewController: UIViewController, UITextFieldDelegate, UITextVi
     }
     
     @IBAction func hitPostImageButton(_ sender: Any) {
-        let alertController = UIAlertController(title: "사진 추가", message: nil, preferredStyle: .actionSheet)
-        addImageAlert(alertController: alertController)
-        self.present(alertController, animated: true, completion: nil)
+        if tempPostImage.count == 5 {
+            maximumImageCountAlert()
+        }
+        addImage()
     }
     
-    func addImageAlert(alertController: UIAlertController) {
-        let photoLibraryAlert = UIAlertAction(title: "사진앨범", style: .default) { _ in
+    func addImage() {
+        let addImageAlertController = UIAlertController(title: "사진 추가", message: nil, preferredStyle: .actionSheet)
+        let photoLibraryAlertAction = UIAlertAction(title: "사진앨범", style: .default) { _ in
             self.openAlbum()
         }
-        let cancelAlert = UIAlertAction(title: "취소", style: .cancel, handler: nil)
-        alertController.addAction(photoLibraryAlert)
-        alertController.addAction(cancelAlert)
+        let cancelAlertAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+        addImageAlertController.addAction(photoLibraryAlertAction)
+        addImageAlertController.addAction(cancelAlertAction)
+        self.present(addImageAlertController, animated: true, completion: nil)
     }
     
     func openAlbum() {
@@ -92,10 +114,17 @@ class EditProductViewController: UIViewController, UITextFieldDelegate, UITextVi
     }
     
     func nilImageAlert() {
-        let nilImageAlert = UIAlertController(title: "사진이 첨부되지 않았습니다.", message: "1장이상 5장이하의 사진을 추가해주세요.", preferredStyle: UIAlertController.Style.alert)
+        let nilImageAlertController = UIAlertController(title: "사진이 등록되지 않았습니다.", message: "1장이상 5장이하의 사진을 추가해주세요.", preferredStyle: UIAlertController.Style.alert)
         let okAction = UIAlertAction(title: "확인", style: .default)
-        nilImageAlert.addAction(okAction)
-        present(nilImageAlert, animated: false, completion: nil)
+        nilImageAlertController.addAction(okAction)
+        present(nilImageAlertController, animated: false, completion: nil)
+    }
+    
+    func maximumImageCountAlert() {
+        let maximumImageCountAlertController = UIAlertController(title: "사진은 5장까지 첨부 가능합니다.", message: "기존 사진을 삭제 후 추가해주세요.", preferredStyle: UIAlertController.Style.alert)
+        let okAction = UIAlertAction(title: "확인", style: .default)
+        maximumImageCountAlertController.addAction(okAction)
+        present(maximumImageCountAlertController, animated: false, completion: nil)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
