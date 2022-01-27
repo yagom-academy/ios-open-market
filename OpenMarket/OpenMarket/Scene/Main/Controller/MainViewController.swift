@@ -28,6 +28,8 @@ class MainViewController: UIViewController {
     private var gridDataSource: UICollectionViewDiffableDataSource<ProductSection, ProductDetail>?
     private var productData: [ProductDetail] = []
     private let apiService = APIService()
+    private var refreshTimer: Timer?
+    private var refreshTime = 0
     
     private lazy var activityIndicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView()
@@ -39,6 +41,22 @@ class MainViewController: UIViewController {
         return indicator
     }()
     
+    private lazy var refreshButton: UIButton = {
+        let button = UIButton(frame: CGRect(x: UIScreen.main.bounds.midX - 40, y: 0, width: 80, height: 30))
+        button.setTitle("새 게시글", for: .normal)
+        button.setTitleColor(.black, for: .normal)
+        button.titleLabel?.font = .preferredFont(forTextStyle: .subheadline)
+        button.backgroundColor = .white
+        button.layer.shadowColor = UIColor.gray.cgColor
+        button.layer.shadowOffset = .zero
+        button.layer.shadowOpacity = 0.5
+        button.layer.masksToBounds = false
+        button.layer.cornerRadius = 10
+        button.contentEdgeInsets = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
+        button.addTarget(self, action: #selector(didTapRefreshButton), for: .touchUpInside)
+        return button
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         NotificationCenter.default.addObserver(self, selector: #selector(fetchProductData), name: .updateProductData, object: nil)
@@ -48,7 +66,80 @@ class MainViewController: UIViewController {
         productListCollectionView.delegate = self
         productGridCollectionView.delegate = self
     }
-
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        startRefreshTimer(initialTime: 3)
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        resetRefreshButton()
+    }
+    
+    private func startRefreshTimer(initialTime: Int) {
+        refreshTime = initialTime
+        refreshTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timeRefresh), userInfo: nil, repeats: true)
+    }
+    
+    private func resetRefreshButton() {
+        self.refreshButton.alpha = 0
+        self.refreshButton.frame.origin.y = 0
+    }
+    
+    @objc func timeRefresh() {
+        if refreshTime == 0 {
+            updateProductDataPeriodically()
+            refreshTimer?.invalidate()
+            return
+        }
+        
+        refreshTime -= 1
+    }
+    
+    private func updateProductDataPeriodically() {
+        apiService.retrieveProductList(pageNo: RequestInformation.pageNumber, itemsPerPage: RequestInformation.itemsPerPage) { result in
+            switch result {
+            case .success(let data):
+                guard let previousProductData = self.productData.first,
+                      let currentProductData = data.pages.first else {
+                    return
+                }
+                
+                if previousProductData.id < currentProductData.id {
+                    DispatchQueue.main.async {
+                        self.productData = data.pages
+                        self.showRefreshButton()
+                    }
+                    return
+                }
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+    
+    private func showRefreshButton() {
+        self.view.addSubview(refreshButton)
+        self.refreshButton.alpha = 0
+        
+        UIView.animate(withDuration: 0.2, delay: 0, options: [.curveEaseInOut]) {
+            self.refreshButton.alpha = 1
+            self.refreshButton.frame.origin.y += self.navigationController?.navigationBar.frame.maxY ?? 0
+        }
+    }
+    
+    @objc func didTapRefreshButton() {
+        self.configProductCollectionViewDataSource()
+    
+        UIView.animate(withDuration: 0.2, delay: 0, options: [.curveEaseInOut]) {
+            self.resetRefreshButton()
+        }
+        
+        self.productListCollectionView.setContentOffset(.zero, animated: true)
+        self.productGridCollectionView.setContentOffset(.zero, animated: true)
+    }
+    
     func configRefreshControl() {
         [productListCollectionView, productGridCollectionView].forEach { collectionView in
             collectionView?.refreshControl = UIRefreshControl()
