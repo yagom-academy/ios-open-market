@@ -9,7 +9,3 @@ extension JSONResponseDecodable {
         return try? JSONDecoder().decode(DecodingType.self, from: data)
     }
 }
-
-protocol APIAble: JSONResponseDecodable & APIRequestable {
-    
-}

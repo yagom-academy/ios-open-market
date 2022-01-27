@@ -22,5 +22,5 @@ struct ProductPostRequester: APIRequestable, MultiPartable {
         self.headerFields = ["Content-Type":"multipart/form-data; boundary=\(boundary)", "identifier": "\(identifier)"]
     }
 }
-// "multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+
  

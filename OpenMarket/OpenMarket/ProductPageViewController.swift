@@ -1,13 +1,15 @@
 import UIKit
 
 class ProductPageViewController: UIViewController, UICollectionViewDelegate {
-    //MARK: - property
-    private enum Section: Hashable {
+    //MARK: - Inner Type
+    enum Section: Hashable {
         case list
         case grid
     }
- 
+    //MARK: - Typelias
+    typealias collectionViewDataSource = UICollectionViewDiffableDataSource<Section, page>
     typealias page = ProductListAsk.Response.Page
+    //MARK: - Properties
     private var dataStorage: PageDataStorable = ListDataStorager()
     private lazy var listCollectionView = UICollectionView(
         frame: view.bounds,
@@ -17,10 +19,8 @@ class ProductPageViewController: UIViewController, UICollectionViewDelegate {
         frame: view.bounds,
         collectionViewLayout: makeGridLayout()
     )
-    var collectionViews: [UICollectionView] = []
-    private var listDataSource: UICollectionViewDiffableDataSource<Section, page>?
-    private var gridDataSource: UICollectionViewDiffableDataSource<Section,page>?
-    private var dataSources: [UICollectionViewDiffableDataSource<Section,page>] = []
+    private var listDataSource: collectionViewDataSource?
+    private var gridDataSource: collectionViewDataSource?
     private var isPaging: Bool = true
     //MARK: View life Cycle Method
     override func viewDidLoad() {
@@ -29,8 +29,6 @@ class ProductPageViewController: UIViewController, UICollectionViewDelegate {
         configureMainView()
         configureDataSources()
         configureCollectionView()
-        listCollectionView.delegate = self
-        gridCollectionView.delegate = self
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -50,16 +48,14 @@ class ProductPageViewController: UIViewController, UICollectionViewDelegate {
         guard let listDataSource = listDataSource, let gridDataSource = gridDataSource else {
             return
         }
-        dataSources.append(listDataSource)
-        dataSources.append(gridDataSource)
     }
     
     private func configureCollectionView() {
-        collectionViews.append(listCollectionView)
-        collectionViews.append(gridCollectionView)
         view.addSubview(listCollectionView)
         view.addSubview(gridCollectionView)
         gridCollectionView.isHidden = true
+        listCollectionView.delegate = self
+        gridCollectionView.delegate = self
     }
 
     private func fetchProductList() {
@@ -133,7 +129,7 @@ class ProductPageViewController: UIViewController, UICollectionViewDelegate {
             (cell, indexPath, item) in
         }
       
-        listDataSource = UICollectionViewDiffableDataSource<Section, page>(collectionView: listCollectionView) {
+        listDataSource = collectionViewDataSource(collectionView: listCollectionView) {
             (collectionView, indexPath, item) -> UICollectionViewCell? in
             let cell = collectionView.dequeueConfiguredReusableCell(
                 using: cellRegistration,
@@ -155,7 +151,7 @@ class ProductPageViewController: UIViewController, UICollectionViewDelegate {
             cell.layer.cornerRadius = CollectionView.Grid.Item.cornerRadius
         }
       
-        gridDataSource = UICollectionViewDiffableDataSource<Section, page>(collectionView: gridCollectionView) {
+        gridDataSource = collectionViewDataSource(collectionView: gridCollectionView) {
             (collectionView, indexPath, item) -> UICollectionViewCell? in
             let cell = collectionView.dequeueConfiguredReusableCell(
                 using: cellRegistration,

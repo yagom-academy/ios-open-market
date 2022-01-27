@@ -1,12 +1,14 @@
 import UIKit
 
 final class ProductRegisterViewController: UIViewController {
-    
-    @frozen enum ImageSection: Hashable {
+    //MARK: - Inner Type
+    enum ImageSection: Hashable {
         case main
     }
-    //MARK: Property
-    private var imageDataSource: UICollectionViewDiffableDataSource<ImageSection,UIImage>?
+    //MARK: - Typelias
+    typealias collectionViewDataSource = UICollectionViewDiffableDataSource<ImageSection,UIImage>
+    //MARK: - Property
+    private var imageDataSource: collectionViewDataSource?
     private var imagePicker = UIImagePickerController()
     private var images: [UIImage] = []
     private var registerImage = RegisterImageView()
@@ -79,12 +81,13 @@ final class ProductRegisterViewController: UIViewController {
     private func makeImageHorizontalLayout() -> UICollectionViewLayout {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
-
+        
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.75), heightDimension: .fractionalHeight(1.0))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-        group.interItemSpacing = .fixed(10.0)
+        group.interItemSpacing = .flexible(10.0)
         
         let section = NSCollectionLayoutSection(group: group)
+        section.interGroupSpacing = 10
         section.orthogonalScrollingBehavior = .continuous
         let layout = UICollectionViewCompositionalLayout(section: section)
 
@@ -96,7 +99,7 @@ final class ProductRegisterViewController: UIViewController {
             (cell, indexPath, item) in
         }
         
-        imageDataSource = UICollectionViewDiffableDataSource<ImageSection, UIImage>(collectionView: imageCollectionView) {
+        imageDataSource = collectionViewDataSource(collectionView: imageCollectionView) {
             (collectionView, indexPath, item) -> UICollectionViewCell? in
             let cell = collectionView.dequeueConfiguredReusableCell(
                 using: cellRegistration,
