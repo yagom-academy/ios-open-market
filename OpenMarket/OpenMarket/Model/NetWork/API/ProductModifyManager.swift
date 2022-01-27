@@ -26,9 +26,24 @@ enum ProductModifyManager: JSONResponseDecodable {
                               discountedPrice: discountedPrice,
                               stock: stock,
                               secret: secret)
+        guard let httpBody = try? JSONEncoder().encode(request) else {
+            completion(.failure(.encodingFail("ProductModifyManager.Request", "Data")))
+            return
+        }
         
-        //TODO: - make HTTPBody
-        //TODO: - call dataTask
+        URLSession.shared.requestDataTask(urlString: urlString,
+                                          httpMethod: httpMethod,
+                                          httpBody: httpBody,
+                                          headerFields: nil) {
+            (result) in
+            
+            switch result {
+            case .success(let data):
+                completion(.success(data))
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
     }
 }
 
