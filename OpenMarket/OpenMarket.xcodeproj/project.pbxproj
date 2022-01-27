@@ -205,12 +205,12 @@
 				C70FB0FE25BEF61C00C9924E /* MarketItemListViewController.swift */,
 				33A43A2827912EC800653458 /* ListCell.swift */,
 				84A08690278FFEBA00CF2D18 /* GridCell.swift */,
-				84A0425427A27BDC0042C60C /* ItemRegisterAndModifyManager.swift */,
 				84A0424F27A27B1F0042C60C /* MarketItemRegistrationViewController.swift */,
-				84A0424B27A271200042C60C /* ItemInformationTextField.swift */,
-				84A0424727A26A830042C60C /* MarketItemFormView.swift */,
 				84A0426027A280670042C60C /* ImageCollectionViewCell.swift */,
 				84A0426C27A281200042C60C /* AddImageCollectionViewCell.swift */,
+				84A0425427A27BDC0042C60C /* ItemRegisterAndModifyManager.swift */,
+				84A0424B27A271200042C60C /* ItemInformationTextField.swift */,
+				84A0424727A26A830042C60C /* MarketItemFormView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
