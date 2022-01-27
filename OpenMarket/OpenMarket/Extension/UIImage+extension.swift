@@ -24,6 +24,6 @@ extension UIImage {
         guard let squareImage = self.cgImage?.cropping(to: square) else {
             return nil
         }
-        return UIImage(cgImage: squareImage)
+        return UIImage(cgImage: squareImage, scale: 1.0, orientation: self.imageOrientation)
     }
 }
