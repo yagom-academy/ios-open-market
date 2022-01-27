@@ -59,11 +59,6 @@ class MarketItemFormView: UIView {
         let defaultText = [NSAttributedString.Key.foregroundColor: UIColor.black]
         segmentedControl.apportionsSegmentWidthsByContent = true
         segmentedControl.selectedSegmentIndex = 0
-        segmentedControl.addTarget(
-            self,
-            action: #selector(submitForm),
-            for: .valueChanged
-        )
         return segmentedControl
     }()
 
@@ -96,4 +91,45 @@ class MarketItemFormView: UIView {
         textView.isScrollEnabled = false
         return textView
     }()
+
+    func formViewDidLoad() {
+        setupViews()
+        setupConstraints()
+    }
+
+    private func setupViews() {
+        priceStackView.addArrangedSubview(priceInputTextField)
+        priceStackView.addArrangedSubview(currencySegmentedControl)
+        contentView.addArrangedSubview(photoCollectionView)
+        contentView.addArrangedSubview(nameInputTextField)
+        contentView.addArrangedSubview(priceStackView)
+        contentView.addArrangedSubview(discountedPriceInputTextField)
+        contentView.addArrangedSubview(stockInputTextField)
+        contentView.addArrangedSubview(descriptionInputTextView)
+        scrollView.addSubview(contentView)
+        self.addSubview(scrollView)
+    }
+
+    private func setupConstraints() {
+        NSLayoutConstraint.activate([
+            scrollView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 15),
+            scrollView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -15),
+
+            contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            contentView.heightAnchor.constraint(greaterThanOrEqualToConstant: 0),
+            contentView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+
+            photoCollectionView.heightAnchor.constraint(equalToConstant: 130),
+            nameInputTextField.heightAnchor.constraint(equalToConstant: 31),
+            priceStackView.heightAnchor.constraint(equalToConstant: 31),
+            discountedPriceInputTextField.heightAnchor.constraint(equalToConstant: 31),
+            stockInputTextField.heightAnchor.constraint(equalToConstant: 31),
+            descriptionInputTextView.heightAnchor.constraint(greaterThanOrEqualToConstant: 150)
+        ])
+    }
 }
