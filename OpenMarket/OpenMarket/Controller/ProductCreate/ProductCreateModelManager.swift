@@ -50,15 +50,6 @@ class ProductCreateModelManager: NSObject {
         guard form.price != "" else { throw ProductCreateError.priceNotEntered }
     }
     
-    private enum MagicNumber {
-        
-        static let imageMaximumCount = 5
-        static let imageMinimumCount = 1
-        static let productNameMinimumLength = 3
-        static let productDescriptionMaximumLength = 1_000
-        
-    }
-    
 }
 
 // MARK: - ProductCreateModelManager Definition
@@ -78,6 +69,15 @@ extension ProductCreateModelManager {
         var errorDescription: String? {
             self.rawValue
         }
+        
+    }
+    
+    private enum MagicNumber {
+        
+        static let imageMaximumCount = 5
+        static let imageMinimumCount = 1
+        static let productNameMinimumLength = 3
+        static let productDescriptionMaximumLength = 1_000
         
     }
     

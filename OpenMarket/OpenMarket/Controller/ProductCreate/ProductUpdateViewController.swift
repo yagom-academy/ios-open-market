@@ -76,7 +76,7 @@ private extension ProductUpdateViewController {
         let notificationCenter = NotificationCenter.default
         [
             #selector(keyboardWasShown) : UIResponder.keyboardDidShowNotification,
-            #selector(keyboardWillBeHidden) : UIResponder.keyboardWillHideNotification,
+            #selector(keyboardWillBeHidden) : UIResponder.keyboardWillHideNotification
         ]
         .forEach { notificationCenter.addObserver(self, selector: $0, name: $1, object: nil) }
     }

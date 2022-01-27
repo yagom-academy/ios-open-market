@@ -9,29 +9,33 @@ import UIKit
 
 class ProductDetailViewController: UIViewController {
     
-    private let images = [#imageLiteral(resourceName: "Image"), #imageLiteral(resourceName: "macBook")]
-    
-    var product: Product?
+    private(set) lazy var viewModel = ProductDetailViewModel(id: self.id, viewHandler: self.updateUI)
+    var id: Int = 0
 
     @IBOutlet private weak var imageSlider: ImageSlider!
+    @IBOutlet private weak var productNameLabel: UILabel!
+    @IBOutlet private weak var productStockLabel: UILabel!
+    @IBOutlet private weak var productDiscountedPriceLabel: UILabel!
+    @IBOutlet private weak var productPriceLabel: UILabel!
+    @IBOutlet private weak var productDescriptionTextField: UITextView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        imageSlider.delegate = self
-        imageSlider.reloadData()
-        print(product)
+        imageSlider.delegate = viewModel
+        viewModel.viewDidLoad()
+        updateUI()
+    }
+    
+    private func updateUI() {
+        DispatchQueue.main.async {
+            let viewModel = self.viewModel
+            self.productNameLabel.text = viewModel.productNameText
+            self.productStockLabel.text = viewModel.productStockText
+            self.productDiscountedPriceLabel.text = viewModel.productDiscountedText
+            self.productPriceLabel.text = viewModel.productPriceText
+            self.productDescriptionTextField.text = viewModel.productDescriptionText
+            self.imageSlider.reloadData()
+        }
     }
 
-}
-
-extension ProductDetailViewController: ImageSliderDataSource {
-    
-    func numberOfImages(in imageSlider: ImageSlider) -> Int {
-        images.count
-    }
-    
-    func imageSlider(_ imageSlider: ImageSlider, imageForPageAt page: Int) -> UIImage {
-        images[page]
-    }
-    
 }

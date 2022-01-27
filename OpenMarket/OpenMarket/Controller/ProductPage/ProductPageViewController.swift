@@ -104,7 +104,8 @@ final class ProductPageViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let detailVC = segue.destination as? ProductDetailViewController,
            let product = sender as? Product {
-            detailVC.product = product
+            detailVC.id = product.id
+            detailVC.navigationItem.title = product.name
         }
     }
     

@@ -155,6 +155,11 @@
                     </navigationItem>
                     <connections>
                         <outlet property="imageSlider" destination="Jb1-wM-buX" id="iVW-z2-dtF"/>
+                        <outlet property="productDescriptionTextField" destination="KaG-ME-UJJ" id="5z0-2a-xuh"/>
+                        <outlet property="productDiscountedPriceLabel" destination="xM7-hf-HGT" id="9Ix-CK-Dv2"/>
+                        <outlet property="productNameLabel" destination="1RE-s0-B7H" id="U4T-5N-SaF"/>
+                        <outlet property="productPriceLabel" destination="ZmC-bd-sCy" id="ADS-81-heT"/>
+                        <outlet property="productStockLabel" destination="SHB-sZ-Q2A" id="7Tc-9a-Nrq"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GHG-z7-NTz" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

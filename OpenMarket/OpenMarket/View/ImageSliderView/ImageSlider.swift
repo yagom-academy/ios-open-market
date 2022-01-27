@@ -42,7 +42,7 @@ class ImageSlider: UIView {
     private func updateUI() {
         guard let count = delegate?.numberOfImages(in: self) else { return }
         
-//        scrollView.frame = self.frame
+        scrollView.frame = self.frame
         scrollView.contentSize.width = scrollView.frame.width * CGFloat(count)
         
         (0..<count).forEach { index in

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit.UIImage
 
 class ProductNetworkManager {
     
@@ -29,15 +30,34 @@ class ProductNetworkManager {
     }
     
     func createProductRequest(data: Data, images: [Image],
-                              completionHandler: ((Result<CreateProductResponse, URLSessionProviderError>) -> Void)? = nil) {
+                              completionHandler: ((CreateProductResult) -> Void)? = nil) {
         urlSessionProvider.request(
             .createProduct(
-                sellerID: AppConfigure.venderIdentifier,
-                params: data,
-                images: images)
-        ) { (result: Result<CreateProductResponse, URLSessionProviderError>) in
+                sellerID: AppConfigure.venderIdentifier, params: data,images: images
+            )) { (result: CreateProductResult) in
             completionHandler?(result)
         }
         
     }
+    
+    func detailProductRequest(id: Int, completionHandler: ((DetailProductResult) -> Void)? = nil) {
+        urlSessionProvider.request(.showProductDetail(productID: String(id))) { (result: DetailProductResult) in
+            completionHandler?(result)
+        }
+    }
+    
+    func fetchImages(url: String,
+                     completionHandler: ((ProductImageResult) -> Void)? = nil) {
+        urlSessionProvider.requestImage(from: url) { result in
+            completionHandler?(result)
+        }
+    }
+}
+
+extension ProductNetworkManager {
+    
+    typealias CreateProductResult = Result<CreateProductResponse, URLSessionProviderError>
+    typealias DetailProductResult = Result<ShowProductDetailResponse, URLSessionProviderError>
+    typealias ProductImageResult = Result<UIImage, URLSessionProviderError>
+    
 }

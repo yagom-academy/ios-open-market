@@ -14,9 +14,10 @@ struct Product: Decodable, Hashable {
     let name: String
     let thumbnail: String
     let currency: Currency
-    let price: Decimal
-    let bargainPrice: Decimal
-    let discountedPrice: Decimal
+    let price: Double
+    let bargainPrice: Double
+    let discountedPrice: Double
+    let descriptions: String?
     let stock: Int
     let images: [ProductImage]?
     let vendors: Vendor?
@@ -37,6 +38,7 @@ struct Product: Decodable, Hashable {
         case vendors
         case createdAt = "created_at"
         case issuedAt = "issued_at"
+        case descriptions = "description"
     }
     
 }
