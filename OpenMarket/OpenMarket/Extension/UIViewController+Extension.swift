@@ -10,6 +10,9 @@ import UIKit
 enum AlertMessage {
   case rangeOfImageCount
   case imageLoadingFailed
+  case invalidPassword
+  case productDeleteFailed
+  case productDeleteSucceed(productName: String)
 }
 
 extension AlertMessage {
@@ -19,6 +22,12 @@ extension AlertMessage {
       return "이미지는 최소 1개, 최대 5개까지 등록 가능합니다."
     case .imageLoadingFailed:
       return "이미지를 불러오지 못했습니다."
+    case .invalidPassword:
+      return "비밀번호가 일치하지 않습니다."
+    case .productDeleteFailed:
+      return "상품을 삭제하는데 실패했습니다.\n 다시 시도해주세요"
+    case .productDeleteSucceed(let productName):
+      return "상품 \(productName)를 삭제 하였습니다."
     }
   }
 }
