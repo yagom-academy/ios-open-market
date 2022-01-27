@@ -9,26 +9,25 @@ import Foundation
 
 class ProductPageDataManager {
     
-    private var networkManager = ProductNetworkManager()
+    private let networkManager = ProductNetworkManager()
     
     private var pageInfo: (currentPage: Int, itemsPerPage: Int) = (1, 10) {
         didSet { update() }
     }
     
     private var page: Page? {
-        didSet {
-            NotificationCenter.default.post(name: .modelDidChanged, object: nil)
-        }
+        didSet { modelHandler() }
     }
     
-    init() {
-        update()
+    private let modelHandler: () -> Void
+    
+    init(modelHandler: @escaping () -> Void) {
+        self.modelHandler = modelHandler
     }
     
     func nextPage() {
         guard let page = page, page.hasNext else { return }
         pageInfo.itemsPerPage += 4
-        update()
     }
     
     func reset() {
@@ -64,12 +63,5 @@ extension ProductPageDataManager {
     var products: [Product] {
         return page?.pages ?? []
     }
-    
-}
-
-// MARK: - NotificationCenter Configure
-extension Notification.Name {
-    
-    static let modelDidChanged = Notification.Name(rawValue: "modelDidChanged")
     
 }

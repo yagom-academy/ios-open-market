@@ -40,6 +40,8 @@
 		C1346A0E2788943C0044DFDB /* APIRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13469F827885DB00044DFDB /* APIRequest.swift */; };
 		C13BFD5B2796E015006E2440 /* ProductUpdateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13BFD5A2796E015006E2440 /* ProductUpdateViewController.swift */; };
 		C150A58127A2D0EF00A6A68E /* ProductCreateViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C150A58027A2D0EF00A6A68E /* ProductCreateViewModel.swift */; };
+		C150A58427A2E96700A6A68E /* ProductPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C150A58327A2E96700A6A68E /* ProductPageViewModel.swift */; };
+		C150A58627A2EDE600A6A68E /* ProductPageTypeAlias.swift in Sources */ = {isa = PBXBuildFile; fileRef = C150A58527A2EDE600A6A68E /* ProductPageTypeAlias.swift */; };
 		C16355062798421A004272DE /* Extension+UIKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = C163550527984219004272DE /* Extension+UIKit.swift */; };
 		C163550A2798790A004272DE /* Extension+Foundation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C16355092798790A004272DE /* Extension+Foundation.swift */; };
 		C163550C27987B03004272DE /* AppConfigure.swift in Sources */ = {isa = PBXBuildFile; fileRef = C163550B27987B03004272DE /* AppConfigure.swift */; };
@@ -138,6 +140,8 @@
 		C1346A0527887E050044DFDB /* CreateProductRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateProductRequest.swift; sourceTree = "<group>"; };
 		C13BFD5A2796E015006E2440 /* ProductUpdateViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductUpdateViewController.swift; sourceTree = "<group>"; };
 		C150A58027A2D0EF00A6A68E /* ProductCreateViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductCreateViewModel.swift; sourceTree = "<group>"; };
+		C150A58327A2E96700A6A68E /* ProductPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductPageViewModel.swift; sourceTree = "<group>"; };
+		C150A58527A2EDE600A6A68E /* ProductPageTypeAlias.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductPageTypeAlias.swift; sourceTree = "<group>"; };
 		C163550527984219004272DE /* Extension+UIKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+UIKit.swift"; sourceTree = "<group>"; };
 		C16355092798790A004272DE /* Extension+Foundation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+Foundation.swift"; sourceTree = "<group>"; };
 		C163550B27987B03004272DE /* AppConfigure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfigure.swift; sourceTree = "<group>"; };
@@ -272,7 +276,9 @@
 			isa = PBXGroup;
 			children = (
 				E998F88527915D8B008DD201 /* ProductPageViewController.swift */,
+				C150A58327A2E96700A6A68E /* ProductPageViewModel.swift */,
 				E998F89327917370008DD201 /* ProductPageDataManager.swift */,
+				C150A58527A2EDE600A6A68E /* ProductPageTypeAlias.swift */,
 			);
 			path = ProductPage;
 			sourceTree = "<group>";
@@ -770,6 +776,7 @@
 				E9FDEAAB2788647A00B12770 /* ShowProductPageRequest.swift in Sources */,
 				E963246A278B2C0200851348 /* ShowProductPageResposne.swift in Sources */,
 				C1A7D48927A271ED009CE82E /* ProductModifyViewController.swift in Sources */,
+				C150A58427A2E96700A6A68E /* ProductPageViewModel.swift in Sources */,
 				C1E0C198279C233E0046E839 /* ProductRegisterForm.swift in Sources */,
 				C17E063627846CF400D7F83D /* Product.swift in Sources */,
 				E99FDE782782D4C00083D4D6 /* Page.swift in Sources */,
@@ -792,6 +799,7 @@
 				C1A56961278B1014004E4B3C /* HTTPMethod.swift in Sources */,
 				C13469E62786E32F0044DFDB /* ProductImage.swift in Sources */,
 				C13469F927885DB00044DFDB /* APIRequest.swift in Sources */,
+				C150A58627A2EDE600A6A68E /* ProductPageTypeAlias.swift in Sources */,
 				E9632466278B2BCD00851348 /* ShowProductDetailResponse.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 			);
