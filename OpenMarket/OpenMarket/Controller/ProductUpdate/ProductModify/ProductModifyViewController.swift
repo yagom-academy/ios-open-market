@@ -7,19 +7,15 @@
 
 import UIKit
 
-class ProductModifyViewController: UIViewController {
+class ProductModifyViewController: ProductUpdateViewController {
     
     private lazy var viewModel = ProductModifyViewModel(id: self.id, viewHandler: self.updateUI)
-    
-    @IBOutlet weak var productRegisterView: ProductRegisterView!
-    
     var id: Int = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configureProductRegisterView()
         viewModel.viewDidLoad()
-        
     }
     
     func updateUI() {
@@ -55,17 +51,6 @@ private extension ProductModifyViewController {
     func configureProductRegisterView() {
         productRegisterView.delegate = viewModel
         productRegisterView.productImageAddButton.isHidden = true
-    }
-    
-    var form: ProductRegisterForm {
-        ProductRegisterForm(
-            name: productRegisterView.productNameTextField.text ?? "",
-            price: productRegisterView.productPriceTextField.text ?? "",
-            currency: productRegisterView.currencySegmentedControl.currentText,
-            discountedPrice: productRegisterView.discountedPriceTextField.text ?? "0",
-            stock: productRegisterView.productStockTextField.text ?? "0",
-            description: productRegisterView.descriptionTextView.text ?? ""
-        )
     }
     
 }

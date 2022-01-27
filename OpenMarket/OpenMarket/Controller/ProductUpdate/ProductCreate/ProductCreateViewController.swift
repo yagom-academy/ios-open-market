@@ -9,6 +9,7 @@ import UIKit
 
 final class ProductCreateViewController: ProductUpdateViewController {
     
+    @objc private(set) var model = ProductCreateModelManager()
     private var observation: NSKeyValueObservation?
     
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
@@ -19,6 +20,18 @@ final class ProductCreateViewController: ProductUpdateViewController {
         configureImagePicker()
         configureTargetAction()
         configureKVO()
+    }
+    
+    @objc
+    func updateImageStackView() {
+        DispatchQueue.main.async {
+            self.productRegisterView.productImageStackView.subviews.forEach {
+                $0.removed(from: self.productRegisterView.productImageStackView, whenTypeIs: UIImageView.self)
+            }
+            self.model.images.forEach {
+                self.productRegisterView.productImageStackView.insertArrangedSubview(UIImageView(with: $0), at: 0)
+            }
+        }
     }
     
     private func imageAddbuttonClicked(_ sender: Any) {
@@ -44,7 +57,7 @@ final class ProductCreateViewController: ProductUpdateViewController {
     @IBAction func doneButtonClicked(_ sender: UIBarButtonItem) {
         activityIndicator.startAnimating()
         do {
-            try model.process(forms, completionHandler: completionHandler)
+            try model.process(form, completionHandler: completionHandler)
         } catch {
             failureHandler(error: error)
         }

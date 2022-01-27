@@ -9,13 +9,20 @@ import UIKit
 
 class ProductUpdateViewController: UIViewController {
     
-    @objc private(set) var model = ProductCreateModelManager()
     private(set) var productRegisterView = ProductRegisterView()
     
     private let textFieldDelegator = ProductUpdateTextFieldDelegate()
     private let textViewDelegator = ProductUpdateTextViewDelegate()
     
-    var forms: ProductRegisterForm {
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        configureView()
+        configureDelgate()
+        configureNotification()
+        configureTextEditors()
+    }
+    
+    var form: ProductRegisterForm {
         ProductRegisterForm(
             name: productRegisterView.productNameTextField.text ?? "",
             price: productRegisterView.productPriceTextField.text ?? "",
@@ -26,25 +33,6 @@ class ProductUpdateViewController: UIViewController {
         )
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        configureView()
-        configureDelgate()
-        configureNotification()
-        configureTextEditors()
-    }
-    
-    @objc
-    func updateImageStackView() {
-        DispatchQueue.main.async {
-            self.productRegisterView.productImageStackView.subviews.forEach {
-                $0.removed(from: self.productRegisterView.productImageStackView, whenTypeIs: UIImageView.self)
-            }
-            self.model.images.forEach {
-                self.productRegisterView.productImageStackView.insertArrangedSubview(UIImageView(with: $0), at: 0)
-            }
-        }
-    }
 }
 
 // MARK: - Configure View Controller

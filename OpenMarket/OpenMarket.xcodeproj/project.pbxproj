@@ -280,11 +280,8 @@
 		C13BFD592796DFB3006E2440 /* ProductCreate */ = {
 			isa = PBXGroup;
 			children = (
-				C13BFD5A2796E015006E2440 /* ProductUpdateViewController.swift */,
 				C1763B672799589700D6C159 /* ProductCreateViewController.swift */,
 				C163550727985783004272DE /* ProductCreateModelManager.swift */,
-				C1E0C197279C233E0046E839 /* ProductRegisterForm.swift */,
-				C1A9BEA0279D9767005D6679 /* Delegate */,
 			);
 			path = ProductCreate;
 			sourceTree = "<group>";
@@ -298,6 +295,18 @@
 				E998F88D279164BF008DD201 /* OpenMarketLayout.swift */,
 			);
 			path = ProductPage;
+			sourceTree = "<group>";
+		};
+		C150A57F27A2C95A00A6A68E /* ProductUpdate */ = {
+			isa = PBXGroup;
+			children = (
+				C13BFD5A2796E015006E2440 /* ProductUpdateViewController.swift */,
+				C1E0C197279C233E0046E839 /* ProductRegisterForm.swift */,
+				C1A9BEA0279D9767005D6679 /* Delegate */,
+				C13BFD592796DFB3006E2440 /* ProductCreate */,
+				C1A7D48B27A27C0E009CE82E /* ProductModify */,
+			);
+			path = ProductUpdate;
 			sourceTree = "<group>";
 		};
 		C17E063827846D3400D7F83D /* Network */ = {
@@ -498,8 +507,7 @@
 			children = (
 				C123DF98279FB4A9003F5101 /* ProductDetail */,
 				C13BFD582796DF5E006E2440 /* ProductPage */,
-				C13BFD592796DFB3006E2440 /* ProductCreate */,
-				C1A7D48B27A27C0E009CE82E /* ProductModify */,
+				C150A57F27A2C95A00A6A68E /* ProductUpdate */,
 				C106B29427A11E7000716925 /* ProductModelManager.swift */,
 				C1763B63279931C900D6C159 /* ProductNetworkManager.swift */,
 			);
