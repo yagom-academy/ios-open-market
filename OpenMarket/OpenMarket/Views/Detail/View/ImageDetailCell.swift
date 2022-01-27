@@ -53,12 +53,7 @@ class ImageDetailCell: UICollectionViewCell {
         let minScale = scrollView.minimumZoomScale
         let maxScale = scrollView.maximumZoomScale
         
-        if minScale == maxScale, minScale > 1 {
-            return
-        }
-        
-        let toScale = maxScale
-        let finalScale = currectScale == minScale ? toScale : minScale
+        let finalScale = currectScale == minScale ? maxScale : minScale
         let zoomRect = zoomRect(scale: finalScale, center: point)
         scrollView.zoom(to: zoomRect, animated: animated)
     }
