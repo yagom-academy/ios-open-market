@@ -95,6 +95,8 @@ class MarketItemFormView: UIView {
     func formViewDidLoad() {
         setupViews()
         setupConstraints()
+        addKeyboardNotificationObservers()
+        addKeyboardDismissGestureRecognizer()
     }
 
     private func setupViews() {
@@ -133,3 +135,73 @@ class MarketItemFormView: UIView {
         ])
     }
 }
+
+extension MarketItemFormView {
+
+    private func addKeyboardNotificationObservers() {
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillShow(_:)),
+                                               name: UIResponder.keyboardWillShowNotification,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillHide(_:)),
+                                               name: UIResponder.keyboardWillHideNotification,
+                                               object: nil)
+    }
+
+    @objc private func keyboardWillShow(_ notification: Notification) {
+        guard let userInfo = notification.userInfo,
+              let keyboardFrame =
+                userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else {
+            return
+        }
+        scrollView.contentInset.bottom = keyboardFrame.height / 2
+        scrollView.bottomAnchor.constraint(equalTo: self.bottomAnchor,
+                                           constant: -keyboardFrame.height).isActive = true
+
+        guard let duration =
+                userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as? TimeInterval else {
+            return
+        }
+        UIView.animate(withDuration: duration) {
+            self.layoutIfNeeded()
+        }
+    }
+
+    @objc private func keyboardWillHide(_ notification: Notification) {
+        let contentInset: UIEdgeInsets = .zero
+        scrollView.contentInset = contentInset
+        scrollView.scrollIndicatorInsets = contentInset
+        scrollView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0).isActive = true
+
+        guard let userInfo = notification.userInfo,
+              let duration = userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as? TimeInterval else {
+            return
+        }
+        UIView.animate(withDuration: duration) {
+            self.layoutIfNeeded()
+        }
+    }
+
+    private func addKeyboardDismissGestureRecognizer() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        self.addGestureRecognizer(tap)
+        removeKeyboardNotificationObservers()
+    }
+
+    @objc private func dismissKeyboard() {
+        self.endEditing(true)
+    }
+
+    private func removeKeyboardNotificationObservers() {
+        NotificationCenter.default.removeObserver(self,
+                                                  name: UIResponder.keyboardWillShowNotification,
+                                                  object: nil)
+        NotificationCenter.default.removeObserver(self,
+                                                  name: UIResponder.keyboardWillHideNotification,
+                                                  object: nil)
+    }
+
+}
+
