@@ -1,6 +1,7 @@
 import UIKit
 
 class MarketItemListViewController: UIViewController {
+
     enum ViewType: Int {
         case list = 0
         case grid = 1
@@ -13,23 +14,22 @@ class MarketItemListViewController: UIViewController {
     var presentView: ViewType = .list
     var pageNumber: Int = 1
 
-    private var listCollectionView: UICollectionView! = nil
-    private var gridCollectionView: UICollectionView! = nil
-    private let indicator = UIActivityIndicatorView()
+    private lazy var listCollectionView = UICollectionView(frame: .zero, collectionViewLayout: createListLayout())
+    private lazy var gridCollectionView = UICollectionView(frame: .zero, collectionViewLayout: createGridLayout())
     private var listDataSource: UICollectionViewDiffableDataSource<Section, Product>!
     private var gridDataSource: UICollectionViewDiffableDataSource<Section, Product>!
     private var snapshot = NSDiffableDataSourceSnapshot<Section, Product>()
+    private let indicator = UIActivityIndicatorView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         configureNavigationBar()
-
         listCollectionView = configureHierarchy(type: presentView)
         configureDataSource(for: presentView)
         listCollectionView.delegate = self
+        gridCollectionView.delegate = self
         view = listCollectionView
         generateProductItems()
-
         configureIndicator()
     }
 }
@@ -88,10 +88,9 @@ extension MarketItemListViewController {
             view = listCollectionView
             listDataSource.apply(snapshot, animatingDifferences: false, completion: nil)
         case .grid:
-            if gridCollectionView == nil {
+            if gridCollectionView.frame == .zero {
                 gridCollectionView = configureHierarchy(type: .grid)
                 configureDataSource(for: .grid)
-                gridCollectionView.delegate = self
             }
             view = gridCollectionView
             gridDataSource.apply(snapshot)

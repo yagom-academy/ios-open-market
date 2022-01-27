@@ -38,7 +38,7 @@ struct ProductService: APIService {
 
     func retrieveSecretOfProduct(
         identification: Int,
-        body: ProductSecretCodeRequest,
+        body: SecretOfProductRequest,
         session: URLSessionProtocol,
         completionHandler: @escaping ((Result<String, NetworkingError>) -> Void)
     ) {
