@@ -57,3 +57,52 @@ class MarketItemRegistrationViewController: UIViewController {
     }
 
 }
+
+extension MarketItemRegistrationViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let newImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
+            itemRegisterManager.appendModel(with: newImage)
+            registrationView.photoCollectionView.reloadData()
+        }
+        self.dismiss(animated: true, completion: nil)
+    }
+
+    @objc func pickImage() {
+        imagePicker.sourceType = .photoLibrary
+        imagePicker.allowsEditing = true
+        self.present(imagePicker, animated: true)
+    }
+}
+
+extension MarketItemRegistrationViewController
+: UICollectionViewDataSource, UICollectionViewDelegate {
+
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return itemRegisterManager.getModelsCount()
+    }
+
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let model: CellType = itemRegisterManager.getModel(at: indexPath.row)
+
+        switch model {
+        case .image(let model):
+            let cell = registrationView.photoCollectionView.dequeueReusableCell(withReuseIdentifier: ImageCollectionViewCell.reuseIdentifier, for: indexPath) as! ImageCollectionViewCell
+            cell.setImage(with: model)
+            return cell
+        case .addImage:
+            let cell = registrationView.photoCollectionView.dequeueReusableCell(withReuseIdentifier: AddImageCollectionViewCell.reuseIdentifier, for: indexPath) as! AddImageCollectionViewCell
+            return cell
+        }
+    }
+
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let totalNumberOfImages = itemRegisterManager.getModelsCount()
+        if totalNumberOfImages < 6 {
+            let model: CellType = itemRegisterManager.getModel(at: indexPath.row)
+            if case .addImage = model {
+                pickImage()
+            }
+        }
+    }
+}

@@ -42,6 +42,9 @@
 		84A0424C27A271200042C60C /* ItemInformationTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A0424B27A271200042C60C /* ItemInformationTextField.swift */; };
 		84A0425027A27B1F0042C60C /* MarketItemRegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A0424F27A27B1F0042C60C /* MarketItemRegistrationViewController.swift */; };
 		84A0425527A27BDC0042C60C /* ItemRegisterAndModifyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A0425427A27BDC0042C60C /* ItemRegisterAndModifyManager.swift */; };
+		84A0426127A280670042C60C /* ImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A0426027A280670042C60C /* ImageCollectionViewCell.swift */; };
+		84A0426D27A281200042C60C /* AddImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A0426C27A281200042C60C /* AddImageCollectionViewCell.swift */; };
+		84A0427127A282D20042C60C /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A0427027A282D20042C60C /* UIImage+Extension.swift */; };
 		84A08691278FFEBA00CF2D18 /* GridCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A08690278FFEBA00CF2D18 /* GridCell.swift */; };
 		84A28AA82786B4AE00808E73 /* HTTPUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A28AA72786B4AE00808E73 /* HTTPUtility.swift */; };
 		84A28AEA2786D31000808E73 /* OpenMarketTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A28AE92786D31000808E73 /* OpenMarketTests.swift */; };
@@ -94,6 +97,9 @@
 		84A0424B27A271200042C60C /* ItemInformationTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemInformationTextField.swift; sourceTree = "<group>"; };
 		84A0424F27A27B1F0042C60C /* MarketItemRegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketItemRegistrationViewController.swift; sourceTree = "<group>"; };
 		84A0425427A27BDC0042C60C /* ItemRegisterAndModifyManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemRegisterAndModifyManager.swift; sourceTree = "<group>"; };
+		84A0426027A280670042C60C /* ImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCollectionViewCell.swift; sourceTree = "<group>"; };
+		84A0426C27A281200042C60C /* AddImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddImageCollectionViewCell.swift; sourceTree = "<group>"; };
+		84A0427027A282D20042C60C /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 		84A08690278FFEBA00CF2D18 /* GridCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridCell.swift; sourceTree = "<group>"; };
 		84A28AA72786B4AE00808E73 /* HTTPUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPUtility.swift; sourceTree = "<group>"; };
 		84A28AE72786D31000808E73 /* OpenMarketTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenMarketTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -148,6 +154,7 @@
 				8443438527910A4F0011C5B1 /* NumberFormatter+Extension.swift */,
 				841233D1279105E2009FF9C0 /* String+Extension.swift */,
 				8443438D27910D340011C5B1 /* Int+Extension.swift */,
+				84A0427027A282D20042C60C /* UIImage+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -192,6 +199,8 @@
 				84A0424F27A27B1F0042C60C /* MarketItemRegistrationViewController.swift */,
 				84A0424B27A271200042C60C /* ItemInformationTextField.swift */,
 				84A0424727A26A830042C60C /* MarketItemFormView.swift */,
+				84A0426027A280670042C60C /* ImageCollectionViewCell.swift */,
+				84A0426C27A281200042C60C /* AddImageCollectionViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -458,6 +467,7 @@
 				841233D2279105E2009FF9C0 /* String+Extension.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* MarketItemListViewController.swift in Sources */,
 				3368D5D7278448ED007D5760 /* ProductList.swift in Sources */,
+				84A0427127A282D20042C60C /* UIImage+Extension.swift in Sources */,
 				8467238F278D204700EA88B1 /* UserError.swift in Sources */,
 				84A08691278FFEBA00CF2D18 /* GridCell.swift in Sources */,
 				3368D5D927844A68007D5760 /* Product.swift in Sources */,
@@ -466,12 +476,14 @@
 				84A0425027A27B1F0042C60C /* MarketItemRegistrationViewController.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				8403B31E2788082B00C40679 /* UserDefaultUtility.swift in Sources */,
+				84A0426D27A281200042C60C /* AddImageCollectionViewCell.swift in Sources */,
 				84F7A50E2787D6E3000A56B1 /* DecodeUtility.swift in Sources */,
 				8443438E27910D340011C5B1 /* Int+Extension.swift in Sources */,
 				84A0424C27A271200042C60C /* ItemInformationTextField.swift in Sources */,
 				84F7A4FF2787CE61000A56B1 /* NetworkingError.swift in Sources */,
 				33E922CE2787EB050065DED8 /* APIService.swift in Sources */,
 				84A0424827A26A830042C60C /* MarketItemFormView.swift in Sources */,
+				84A0426127A280670042C60C /* ImageCollectionViewCell.swift in Sources */,
 				33C64BA52786E42200D21535 /* URLSessionProtocol.swift in Sources */,
 				84A28AA82786B4AE00808E73 /* HTTPUtility.swift in Sources */,
 				84F7A5192787DE28000A56B1 /* MockURLSessionDataTask.swift in Sources */,
