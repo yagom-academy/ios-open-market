@@ -8,7 +8,6 @@
 import Foundation
 import UIKit
 
-
 enum CellType {
     case image(model: ImageCollectionViewCellModel)
     case addImage
@@ -18,7 +17,6 @@ enum Mode: Int {
     case register = 0
     case modify = 1
 }
-
 
 class ItemRegisterAndModifyManager {
 
@@ -139,6 +137,24 @@ class ItemRegisterAndModifyManager {
         )
     }
 
-    private func registerItem(_ item: ProductRegistrationRequest) {}
+    private func registerItem(_ item: ProductRegistrationRequest) {
+        ProductService().registerProduct(
+            parameters: item,
+            session: HTTPUtility.defaultSession,
+            images: images
+        ) { result in
+            switch result {
+            case .success(let product):
+                DispatchQueue.main.async {
+                    print("\(product) 등록 성공")
+                }
+            case .failure:
+                DispatchQueue.main.async {
+                    print("상품 등록 실패")
+                }
+            }
+        }
+    }
+
     private func modifyItem(_ item: ProductModificationRequest) {}
 }

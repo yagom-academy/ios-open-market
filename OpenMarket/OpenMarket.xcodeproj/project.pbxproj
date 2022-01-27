@@ -45,6 +45,7 @@
 		84A0426127A280670042C60C /* ImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A0426027A280670042C60C /* ImageCollectionViewCell.swift */; };
 		84A0426D27A281200042C60C /* AddImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A0426C27A281200042C60C /* AddImageCollectionViewCell.swift */; };
 		84A0427127A282D20042C60C /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A0427027A282D20042C60C /* UIImage+Extension.swift */; };
+		84A0429627A2893B0042C60C /* Reusable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A0429527A2893B0042C60C /* Reusable.swift */; };
 		84A08691278FFEBA00CF2D18 /* GridCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A08690278FFEBA00CF2D18 /* GridCell.swift */; };
 		84A28AA82786B4AE00808E73 /* HTTPUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A28AA72786B4AE00808E73 /* HTTPUtility.swift */; };
 		84A28AEA2786D31000808E73 /* OpenMarketTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A28AE92786D31000808E73 /* OpenMarketTests.swift */; };
@@ -100,6 +101,7 @@
 		84A0426027A280670042C60C /* ImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCollectionViewCell.swift; sourceTree = "<group>"; };
 		84A0426C27A281200042C60C /* AddImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddImageCollectionViewCell.swift; sourceTree = "<group>"; };
 		84A0427027A282D20042C60C /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
+		84A0429527A2893B0042C60C /* Reusable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reusable.swift; sourceTree = "<group>"; };
 		84A08690278FFEBA00CF2D18 /* GridCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridCell.swift; sourceTree = "<group>"; };
 		84A28AA72786B4AE00808E73 /* HTTPUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPUtility.swift; sourceTree = "<group>"; };
 		84A28AE72786D31000808E73 /* OpenMarketTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenMarketTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -189,6 +191,14 @@
 			path = Entries;
 			sourceTree = "<group>";
 		};
+		84A0429427A2892F0042C60C /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				84A0429527A2893B0042C60C /* Reusable.swift */,
+			);
+			path = Protocol;
+			sourceTree = "<group>";
+		};
 		84A0868F278FFE9C00CF2D18 /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -208,6 +218,7 @@
 		84A28AA62786B32200808E73 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				84A0429427A2892F0042C60C /* Protocol */,
 				331C3889278907D900A01A11 /* Extension */,
 				84F7A4FD2787CE27000A56B1 /* Error */,
 				8403B31D2788082B00C40679 /* UserDefaultUtility.swift */,
@@ -491,6 +502,7 @@
 				8403B32227881EB300C40679 /* SecretOfProductRequest.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 				33A43A2927912EC800653458 /* ListCell.swift in Sources */,
+				84A0429627A2893B0042C60C /* Reusable.swift in Sources */,
 				33E922D12788646F0065DED8 /* ProductRegistrationRequest.swift in Sources */,
 				331C388B2789081B00A01A11 /* Data+Extension.swift in Sources */,
 				84A0425527A27BDC0042C60C /* ItemRegisterAndModifyManager.swift in Sources */,

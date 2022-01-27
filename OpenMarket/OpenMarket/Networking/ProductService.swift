@@ -97,7 +97,7 @@ struct ProductService: APIService {
     }
 
     func registerProduct(
-        parameters: ProductModificationRequest,
+        parameters: ProductRegistrationRequest,
         session: URLSessionProtocol,
         images: [Data],
         completionHandler: @escaping ((Result<Product, NetworkingError>) -> Void)

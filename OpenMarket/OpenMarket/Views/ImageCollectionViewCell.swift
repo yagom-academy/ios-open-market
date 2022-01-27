@@ -11,6 +11,8 @@ struct ImageCollectionViewCellModel {
     var image: UIImage?
 }
 
+extension UICollectionViewCell: Reusable {}
+
 class ImageCollectionViewCell: UICollectionViewCell {
 
     private var imageView: UIImageView = {
@@ -47,15 +49,3 @@ class ImageCollectionViewCell: UICollectionViewCell {
         ])
     }
 }
-
-protocol Reusable: AnyObject {
-    static var reuseIdentifier: String { get }
-}
-
-extension Reusable {
-    static var reuseIdentifier: String {
-        String(describing: Self.self)
-    }
-}
-
-extension UICollectionViewCell: Reusable {}

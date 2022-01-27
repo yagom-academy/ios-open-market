@@ -39,6 +39,8 @@ class MarketItemFormView: UIView {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.backgroundColor = .systemBackground
         collectionView.isDirectionalLockEnabled = true
+        collectionView.register(ImageCollectionViewCell.self, forCellWithReuseIdentifier: ImageCollectionViewCell.reuseIdentifier)
+        collectionView.register(AddImageCollectionViewCell.self, forCellWithReuseIdentifier: AddImageCollectionViewCell.reuseIdentifier)
         return collectionView
     }()
 
@@ -110,6 +112,7 @@ class MarketItemFormView: UIView {
         contentView.addArrangedSubview(descriptionInputTextView)
         scrollView.addSubview(contentView)
         self.addSubview(scrollView)
+        self.backgroundColor = .white
     }
 
     private func setupConstraints() {

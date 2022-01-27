@@ -32,6 +32,13 @@ class MarketItemListViewController: UIViewController {
         generateProductItems()
         configureIndicator()
     }
+
+    override func viewWillAppear(_ animated: Bool) {
+        pageNumber = 1
+        snapshot = NSDiffableDataSourceSnapshot<Section, Product>()
+        indicator.startAnimating()
+        generateProductItems()
+    }
 }
 
 extension MarketItemListViewController {
