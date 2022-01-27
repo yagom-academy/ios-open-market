@@ -161,7 +161,7 @@ class DetailViewController: UIViewController {
         }
     }
     
-    private func requestDelete(secret: String, complection: @escaping (Bool) -> Void) {
+    private func requestDelete(secret: String, completion: @escaping (Bool) -> Void) {
         guard let request = requestSecretSearch(secret: secret) else {
             return
         }
@@ -175,19 +175,19 @@ class DetailViewController: UIViewController {
                 }
                 self.delete(password: password) { isSuccess in
                     if isSuccess {
-                        complection(true)
+                        completion(true)
                     } else {
-                        complection(false)
+                        completion(false)
                     }
                 }
             case .failure(let error):
                 print(error.localizedDescription)
-                complection(false)
+                completion(false)
             }
         }
     }
     
-    private func delete(password: String, complection: @escaping (Bool) -> Void) {
+    private func delete(password: String, completion: @escaping (Bool) -> Void) {
         guard let data = self.data else {
             return
         }
@@ -198,10 +198,10 @@ class DetailViewController: UIViewController {
         networkManager.fetch(request: requestDelete, decodingType: Product.self) { result in
             switch result {
             case .success:
-                complection(true)
+                completion(true)
             case .failure(let error):
                 print(error.localizedDescription)
-                complection(false)
+                completion(false)
             }
         }
     }
