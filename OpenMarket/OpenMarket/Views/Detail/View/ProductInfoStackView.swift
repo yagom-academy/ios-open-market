@@ -23,7 +23,7 @@ class ProductInfoStackView: UIStackView {
         setUpAccessibility()
     }
     
-    func setUpAccessibility() {
+    private func setUpAccessibility() {
         labels.forEach { label in
             label.adjustsFontForContentSizeCategory = true
         }
