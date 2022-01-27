@@ -32,14 +32,19 @@ extension String {
 
 extension String {
     var decimal: String? {
-        guard let number = Int(self) else {
+        guard let number = Double(self) else {
             return nil
         }
+        
         let numberformatter = NumberFormatter()
         numberformatter.numberStyle = .decimal
+        
         return numberformatter.string(from: NSNumber(value: number))
     }
 }
+
+
+
 
 
 

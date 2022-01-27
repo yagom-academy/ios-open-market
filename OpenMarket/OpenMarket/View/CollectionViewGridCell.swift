@@ -1,15 +1,15 @@
 import UIKit
 
 class CollectionViewGridCell: UICollectionViewCell {
-
-    private var activityIndicator: UIActivityIndicatorView = {
+    //MARK: Property
+    private lazy var activityIndicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView()
+        indicator.frame = imageView.frame
         return indicator
     }()
     
-    let imageView: UIImageView = {
+    private let imageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(systemName: "pencil")
         return imageView
     }()
     
@@ -41,32 +41,44 @@ class CollectionViewGridCell: UICollectionViewCell {
     }()
     
     private lazy var stackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.addArrangedSubview(activityIndicator)
-        stackView.addArrangedSubview(imageView)
-        stackView.addArrangedSubview(nameLabel)
-        stackView.addArrangedSubview(priceLabel)
-        stackView.addArrangedSubview(stockLabel)
+        let stackView = UIStackView(
+            arrangedSubviews: [
+                activityIndicator,
+                imageView,
+                nameLabel,
+                priceLabel,
+                stockLabel
+            ]
+        )
         stackView.axis = .vertical
         stackView.distribution = .equalSpacing
         stackView.alignment = .center
         return stackView
     }()
-    
+    //MARK: Initialize 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        addSubview(stackView)
-        configureAutoLayout()
+        configureLayout()
         activityIndicator.startAnimating()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
-    
+    //MARK: Method
     func updateAllComponents(from item: ProductListAsk.Response.Page) {
-        imageView.image = ImageLoader.load(from: item.thumbnail)
-        activityIndicator.stopAnimating()
+        ImageLoader.load(from: item.thumbnail) { (result) in
+            switch result {
+            case .success(let data):
+                DispatchQueue.main.async {
+                    self.imageView.image = UIImage(data: data)
+                    self.activityIndicator.stopAnimating()
+                }
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+
         updateNameLabel(from: item)
         updatePriceLabel(from: item)
         updateStockLabel(from: item)
@@ -110,7 +122,9 @@ class CollectionViewGridCell: UICollectionViewCell {
         priceText.addAttribute(.font, value: UIFont.preferredFont(forTextStyle: .body), range: NSMakeRange(0, priceText.length))
         priceLabel.attributedText = priceText
     }
-    private func configureAutoLayout() {
+    //MARK: Layout
+    private func configureLayout() {
+        addSubview(stackView)
         stackView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             stackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),

@@ -7,9 +7,9 @@ enum ProductDelete {
         let name: String
         let thumbnail: String
         let currency: Currency
-        let price: Int
-        let bargainPrice: Int
-        let discountedPrice: Int
+        let price: Decimal
+        let bargainPrice: Decimal
+        let discountedPrice: Decimal
         let stock: Int
         let images: [Image]
         let vendors: Vendor
