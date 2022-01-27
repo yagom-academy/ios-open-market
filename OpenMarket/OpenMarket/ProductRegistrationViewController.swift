@@ -34,6 +34,8 @@ class ProductRegistrationViewController: UIViewController {
     
     private let descriptionTextView = UITextView()
 
+    weak var fetchProductListDelegate: MainViewController?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         create()
@@ -158,7 +160,9 @@ extension ProductRegistrationViewController {
             }
         }
 
-        dismiss(animated: true)
+        dismiss(animated: true) {
+            self.fetchProductListDelegate?.fetchProductList()
+        }
     }
     
     private func extractedImageDataFromStackView() -> [Data] {
