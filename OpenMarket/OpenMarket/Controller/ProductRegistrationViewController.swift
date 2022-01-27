@@ -2,8 +2,6 @@ import UIKit
 
 class ProductRegistrationViewController: UIViewController, UINavigationControllerDelegate {
     static let storyboardName = "ProductRegistration"
-    private let identifier = "2836ea8c-7215-11ec-abfa-378889d9906f"
-    private let secret = "-3CSKv$cyHsK_@Wk"
     private let maximumDescriptionsLimit = 1000
     private let minimumDescriptionsLimit = 10
     private let maximumNameLimit = 100
@@ -77,7 +75,7 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
         startActivityIndicator()
         DispatchQueue.global().async {
             let writtenSalesInformation = self.makeSalesInformation(
-                secret: self.secret,
+                secret: NetworkTask.secret,
                 maximumDescriptionsLimit: 1000,
                 minimumDescriptionsLimit: 10,
                 maximumNameLimit: 100,
@@ -106,7 +104,7 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
             }
             
             self.networkTask?.requestProductRegistration(
-                identifier: self.identifier,
+                identifier: NetworkTask.identifier,
                 salesInformation: salesInformation,
                 images: imageDatas
             ) { result in
@@ -127,7 +125,7 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
         startActivityIndicator()
         DispatchQueue.global().async {
             let writtenSalesInformation = self.modifiySalesInformation(
-                secret: self.secret,
+                secret: NetworkTask.secret,
                 maximumDescriptionsLimit: 1000,
                 minimumDescriptionsLimit: 10,
                 maximumNameLimit: 100,
@@ -144,7 +142,7 @@ class ProductRegistrationViewController: UIViewController, UINavigationControlle
             
             guard let productId = self.productInformation?.id else { return }
             self.networkTask?.requestProductModification(
-                identifier: self.identifier,
+                identifier: NetworkTask.identifier,
                 productId: productId,
                 information: modificationInformation
             ) { result in

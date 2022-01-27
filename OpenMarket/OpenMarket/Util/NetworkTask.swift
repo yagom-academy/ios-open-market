@@ -1,8 +1,10 @@
 import Foundation
 
 struct NetworkTask {
-    private let boundary = UUID().uuidString
+    static let identifier = "2836ea8c-7215-11ec-abfa-378889d9906f"
+    static let secret = "-3CSKv$cyHsK_@Wk"
     let jsonParser: JSONParsable
+    private let boundary = UUID().uuidString
     
     func requestHealthChekcer(completionHandler: @escaping (Result<Data, Error>) -> Void) {
         guard let url = NetworkAddress.healthChecker.url else { return }
