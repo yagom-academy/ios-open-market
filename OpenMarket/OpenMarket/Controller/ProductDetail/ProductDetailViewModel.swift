@@ -50,14 +50,14 @@ class ProductDetailViewModel {
         return "\(currency)"
     }
     
-    var productDiscountedText: String {
-        guard let discountedPrice = product?.discountedPrice else { return "" }
+    var productOriginalPriceText: String {
+        guard let discountedPrice = product?.price else { return "" }
         let discountedPriceValue = "\(productCurrency) \(discountedPrice)"
         return discountedPriceValue
     }
     
-    var productPriceText: String {
-        guard let price = product?.price else { return "" }
+    var productDiscountedPriceText: String {
+        guard let price = product?.bargainPrice else { return "" }
         let productPriceValue = "\(productCurrency) \(price)"
         return productPriceValue
     }

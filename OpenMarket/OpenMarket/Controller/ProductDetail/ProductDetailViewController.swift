@@ -31,8 +31,8 @@ class ProductDetailViewController: UIViewController {
             let viewModel = self.viewModel
             self.productNameLabel.text = viewModel.productNameText
             self.productStockLabel.text = viewModel.productStockText
-            self.productDiscountedPriceLabel.text = viewModel.productDiscountedText
-            self.productPriceLabel.text = viewModel.productPriceText
+            self.productDiscountedPriceLabel.text = viewModel.productOriginalPriceText
+            self.productPriceLabel.text = viewModel.productDiscountedPriceText
             self.productDescriptionTextField.text = viewModel.productDescriptionText
             self.imageSlider.reloadData()
         }
