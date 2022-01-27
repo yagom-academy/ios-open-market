@@ -34,25 +34,6 @@ class EditProductViewController: UIViewController, UITextFieldDelegate, UITextVi
         placeholderSetting()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        self.productNameTextField.becomeFirstResponder()
-        self.productPriceTextField.becomeFirstResponder()
-        self.discountedPriceTextField.becomeFirstResponder()
-        self.productStockTextField.becomeFirstResponder()
-        self.productDescription.becomeFirstResponder()
-    }
-    
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        self.productNameTextField.resignFirstResponder()
-        self.productPriceTextField.resignFirstResponder()
-        self.discountedPriceTextField.resignFirstResponder()
-        self.productStockTextField.resignFirstResponder()
-        self.productDescription.resignFirstResponder()
-
-        self.dismiss(animated: true, completion: nil)
-        return true
-    }
-    
     func placeholderSetting() {
         productNameTextField.delegate = self
         productPriceTextField.delegate = self
