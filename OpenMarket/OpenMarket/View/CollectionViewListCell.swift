@@ -4,26 +4,31 @@ class CollectionViewListCell: UICollectionViewListCell {
     //MARK: Property
     private lazy var activityIndicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView()
+        indicator.translatesAutoresizingMaskIntoConstraints = false
         return indicator
     }()
     
     private let imageView: UIImageView = {
         let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
     
     private let nameLabel: UILabel = {
         let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     private let priceLabel: UILabel = {
         let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     private lazy var labelStackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [nameLabel, priceLabel])
+        stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
         stackView.distribution = .fillEqually
         return stackView
@@ -31,6 +36,7 @@ class CollectionViewListCell: UICollectionViewListCell {
     
     private let stockLabel: UILabel = {
         let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     //MARK: Initialize
@@ -107,10 +113,7 @@ class CollectionViewListCell: UICollectionViewListCell {
         contentView.addSubview(imageView)
         contentView.addSubview(labelStackView)
         contentView.addSubview(stockLabel)
-        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        labelStackView.translatesAutoresizingMaskIntoConstraints = false
-        stockLabel.translatesAutoresizingMaskIntoConstraints = false
+        
         NSLayoutConstraint.activate([
             activityIndicator.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 5),
             activityIndicator.trailingAnchor.constraint(equalTo: labelStackView.leadingAnchor, constant: -5),

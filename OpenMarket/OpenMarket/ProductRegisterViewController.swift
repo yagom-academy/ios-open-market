@@ -129,6 +129,7 @@ final class ProductRegisterViewController: UIViewController {
     //MARK: UI Item Property
     private lazy var mainScrollView: UIScrollView = {
         var scrollView = UIScrollView(frame: .zero)
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.addSubview(registerImageView)
         scrollView.addSubview(imageCollectionView)
         scrollView.addSubview(textFieldStackView)
@@ -138,12 +139,13 @@ final class ProductRegisterViewController: UIViewController {
     
     private lazy var imageCollectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: makeImageHorizontalLayout())
-
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()
 
     private lazy var productNameTextField: UITextField = {
         var textfield = UITextField()
+        textfield.translatesAutoresizingMaskIntoConstraints = false
         textfield.placeholder = "상품명"
         textfield.keyboardType = .default
         textfield.borderStyle = .roundedRect
@@ -154,6 +156,7 @@ final class ProductRegisterViewController: UIViewController {
     
     private lazy var productPriceTextField: UITextField = {
         var textfield = UITextField()
+        textfield.translatesAutoresizingMaskIntoConstraints = false
         textfield.placeholder = "가격"
         textfield.keyboardType = .numberPad
         textfield.borderStyle = .roundedRect
@@ -165,6 +168,7 @@ final class ProductRegisterViewController: UIViewController {
     private lazy var currencySegmentedControl: UISegmentedControl = {
         let items: [String] = ["KRW","USD"]
         var segmentedControl = UISegmentedControl(items: items)
+        segmentedControl.translatesAutoresizingMaskIntoConstraints = false
         segmentedControl.selectedSegmentIndex = 0
         return segmentedControl
     }()
@@ -174,6 +178,7 @@ final class ProductRegisterViewController: UIViewController {
        productPriceTextField,
        currencySegmentedControl
        ])
+        stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
         stackView.distribution = .equalSpacing
         return stackView
@@ -181,6 +186,7 @@ final class ProductRegisterViewController: UIViewController {
     
     private lazy var discountedProductTextField: UITextField = {
         var textfield = UITextField()
+        textfield.translatesAutoresizingMaskIntoConstraints = false
         textfield.placeholder = "할인"
         textfield.keyboardType = .numberPad
         textfield.borderStyle = .roundedRect
@@ -191,6 +197,7 @@ final class ProductRegisterViewController: UIViewController {
     
     private lazy var productStockTextField: UITextField = {
         var textfield = UITextField()
+        textfield.translatesAutoresizingMaskIntoConstraints = false
         textfield.placeholder = "재고"
         textfield.keyboardType = .numberPad
         textfield.borderStyle = .roundedRect
@@ -208,6 +215,7 @@ final class ProductRegisterViewController: UIViewController {
         productStockTextField
         ]
        )
+        stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.alignment = .fill
         stackView.distribution = .fillEqually
         stackView.axis = .vertical
@@ -216,6 +224,7 @@ final class ProductRegisterViewController: UIViewController {
     
     private let textView: UITextView = {
         var textView = UITextView(frame: .zero)
+        textView.translatesAutoresizingMaskIntoConstraints = false
         textView.backgroundColor = .white
         textView.insertText("상품의 정보를 입력하세요", alternatives: [""], style: .none)
         return textView
@@ -275,8 +284,6 @@ final class ProductRegisterViewController: UIViewController {
     }
     
     private func layoutImageCollectionView() {
-        imageCollectionView.translatesAutoresizingMaskIntoConstraints = false
-        
         NSLayoutConstraint.activate([
             imageCollectionView.topAnchor.constraint(equalTo: mainScrollView.contentLayoutGuide.topAnchor, constant: 10),
             imageCollectionView.leadingAnchor.constraint(equalTo: registerImageView.trailingAnchor, constant: 5),
@@ -286,14 +293,6 @@ final class ProductRegisterViewController: UIViewController {
     }
     
     private func layoutTextFieldStackView() {
-        productNameTextField.translatesAutoresizingMaskIntoConstraints = false
-        productPriceTextField.translatesAutoresizingMaskIntoConstraints = false
-        currencySegmentedControl.translatesAutoresizingMaskIntoConstraints = false
-        priceSegmentedStackview.translatesAutoresizingMaskIntoConstraints = false
-        discountedProductTextField.translatesAutoresizingMaskIntoConstraints = false
-        productStockTextField.translatesAutoresizingMaskIntoConstraints = false
-        textFieldStackView.translatesAutoresizingMaskIntoConstraints = false
-
         NSLayoutConstraint.activate([
             productPriceTextField.leadingAnchor.constraint(equalTo: mainScrollView.frameLayoutGuide.leadingAnchor, constant: 10),
             productPriceTextField.trailingAnchor.constraint(equalTo: currencySegmentedControl.leadingAnchor, constant: -10),
@@ -312,8 +311,6 @@ final class ProductRegisterViewController: UIViewController {
     }
     
     private func layoutMainVerticalScrollView() {
-        mainScrollView.translatesAutoresizingMaskIntoConstraints = false
-        
         NSLayoutConstraint.activate([
             mainScrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             mainScrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
@@ -323,7 +320,6 @@ final class ProductRegisterViewController: UIViewController {
     }
     
     private func layoutTextView() {
-        textView.translatesAutoresizingMaskIntoConstraints = false
         textView.isScrollEnabled = false
         
         NSLayoutConstraint.activate([

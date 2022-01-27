@@ -1,7 +1,13 @@
 import UIKit
 
 class ImageCollectionViewCell: UICollectionViewCell {
-    
+    //MARK: - Views
+    private let imageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }()
+    //MARK: Initalizer
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
@@ -11,18 +17,12 @@ class ImageCollectionViewCell: UICollectionViewCell {
         self.addSubview(imageView)
         layoutImageView()
     }
-    
-    private var imageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        return imageView
-    }()
-    
+    //MARK: - Method
     func updateImage(to newImage: UIImage) {
         self.imageView.image = newImage
     }
     
-    func layoutImageView() {
+    private func layoutImageView() {
         NSLayoutConstraint.activate([
             imageView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 10),
             imageView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor),

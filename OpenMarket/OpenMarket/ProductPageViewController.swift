@@ -45,9 +45,6 @@ class ProductPageViewController: UIViewController, UICollectionViewDelegate {
     private func configureDataSources() {
         configureListDataSource()
         configureGridDataSource()
-//        guard let listDataSource = listDataSource, let gridDataSource = gridDataSource else {
-//            return
-//        }
     }
     
     private func configureCollectionView() {
@@ -213,8 +210,6 @@ class ProductPageViewController: UIViewController, UICollectionViewDelegate {
         segmented.selectedSegmentIndex = SegmentedControl.defaultSelectedSegmentIndex
         return segmented
     }()
-    
-
 }
 
 //MARK: - Segmented Control
