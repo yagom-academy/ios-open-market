@@ -1,6 +1,6 @@
 import Foundation
 
-struct ProductRegistrationRequest: Encodable {
+struct ProductRegistrationRequest: MultipartUploadable {
     let name: String
     let descriptions: String
     let price: Int
@@ -19,3 +19,5 @@ struct ProductRegistrationRequest: Encodable {
         case secret
     }
 }
+
+protocol MultipartUploadable: Encodable {}

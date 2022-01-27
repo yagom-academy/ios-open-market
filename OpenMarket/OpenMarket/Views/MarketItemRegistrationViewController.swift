@@ -43,13 +43,13 @@ class MarketItemRegistrationViewController: UIViewController {
 
     @objc private func doneButtonDidTap() {
         let currency = registrationView.currencySegmentedControl.titleForSegment(at: registrationView.currencySegmentedControl.selectedSegmentIndex)!
-        itemRegisterManager.fillWithInformation(registrationView.nameInputTextField.text,
-                                                registrationView.descriptionInputTextView.text,
-                                                registrationView.priceInputTextField.text,
-                                                currency,
-                                                registrationView.discountedPriceInputTextField.text,
-                                                registrationView.stockInputTextField.text)
-        itemRegisterManager.upload()
+        itemRegisterManager.createItem(by: .register,
+                                       registrationView.nameInputTextField.text,
+                                       registrationView.descriptionInputTextView.text,
+                                       registrationView.priceInputTextField.text,
+                                       currency,
+                                       registrationView.discountedPriceInputTextField.text,
+                                       registrationView.stockInputTextField.text)
     }
 
     @objc private func cancelButtonDidTap() {

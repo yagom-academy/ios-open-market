@@ -1,6 +1,6 @@
 import Foundation
 
-struct ProductModificationRequest: Encodable {
+struct ProductModificationRequest: MultipartUploadable {
     var name: String?
     var descriptions: String?
     var thumbnailIdentification: Int?

@@ -14,7 +14,16 @@ enum CellType {
     case addImage
 }
 
+enum Mode: Int {
+    case register = 0
+    case modify = 1
+}
+
+
 class ItemRegisterAndModifyManager {
+
+    private let vendorIdentification = UserDefaultUtility().getVendorIdentification()
+    private let vendorSecret = UserDefaultUtility().getVendorPassword() ?? ""
 
     private(set) var name: String?
     private(set) var description: String?
@@ -50,7 +59,7 @@ class ItemRegisterAndModifyManager {
         models.insert(.image(model: newModel), at: locationOfNewImage)
     }
 
-    func fillWithInformation(_ name: String?,
+    private func fillWithInformation(_ name: String?,
                              _ description: String?,
                              _ price: String?,
                              _ currency: String,
@@ -63,6 +72,73 @@ class ItemRegisterAndModifyManager {
         self.discountedPrice = discountedPrice
         self.stock = stock
     }
-    
-    func upload() {}
+
+    func createItem(by mode: Mode,
+                    _ name: String?,
+                    _ description: String?,
+                    _ price: String?,
+                    _ currency: String,
+                    _ discountedPrice: String?,
+                    _ stock: String?) {
+        fillWithInformation(name, description, price, currency, discountedPrice, stock)
+        switch mode {
+        case .register:
+            guard let item = createItemToRegister() else {
+                return
+            }
+            registerItem(item)
+        case .modify:
+            guard let item = createItemToModify() else {
+                return
+            }
+            modifyItem(item)
+        }
+    }
+
+    private func createItemToRegister() -> ProductRegistrationRequest? {
+        guard let name = self.name,
+              let descriptions = self.description,
+              let priceString = self.price,
+              let price = Int(priceString),
+              let currency = self.currency,
+              let discoutedPriceString = self.discountedPrice,
+              let discountedPrice = Int(discoutedPriceString),
+              let stockString = self.stock,
+              let stock = Int(stockString) else {
+            return nil
+        }
+        return ProductRegistrationRequest(name: name,
+                                          descriptions: descriptions,
+                                          price: price,
+                                          currency: currency,
+                                          discountedPrice: discountedPrice,
+                                          stock: stock,
+                                          secret: vendorSecret
+        )
+    }
+
+    private func createItemToModify() -> ProductModificationRequest? {
+        guard let name = self.name,
+              let descriptions = self.description,
+              let priceString = self.price,
+              let price = Int(priceString),
+              let currency = self.currency,
+              let discoutedPriceString = self.discountedPrice,
+              let discountedPrice = Int(discoutedPriceString),
+              let stockString = self.stock,
+              let stock = Int(stockString) else {
+            return nil
+        }
+        return ProductModificationRequest(name: name,
+                                          descriptions: descriptions,
+                                          price: price,
+                                          currency: currency,
+                                          discountedPrice: discountedPrice,
+                                          stock: stock,
+                                          secret: vendorSecret
+        )
+    }
+
+    private func registerItem(_ item: ProductRegistrationRequest) {}
+    private func modifyItem(_ item: ProductModificationRequest) {}
 }
