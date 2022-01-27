@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ProductCollectionViewListCell: UICollectionViewCell{
+class ProductCollectionViewListCell: UICollectionViewCell, ReuseIdentifying, ProductCollectionViewCell {
   
   @IBOutlet weak var productImageView: UIImageView!
   @IBOutlet weak var productNameLabel: UILabel!
@@ -17,23 +17,5 @@ class ProductCollectionViewListCell: UICollectionViewCell{
   
   override func awakeFromNib() {
     super.awakeFromNib()
-  }
-
-  func insertCellData(image: UIImage, name: String, fixedPrice: String, bargainPrice: String , stock: String) {
-    productImageView.image = image
-    productNameLabel.text = name
-    
-    productFixedPriceLabel.attributedText = fixedPrice.strikeThrough(strikeTarget: fixedPrice)
-    productBargainPriceLabel.text = bargainPrice
-    if fixedPrice == bargainPrice {
-      productFixedPriceLabel.isHidden = true
-    }
-    
-    if stock == "품절" {
-      productStockLabel.textColor = .orange
-    } else {
-      productStockLabel.textColor = .darkGray
-    }
-    productStockLabel.text = stock
   }
 }

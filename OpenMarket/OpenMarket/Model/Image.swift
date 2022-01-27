@@ -8,7 +8,7 @@
 import Foundation
 
 /**
- 상품 이미지 정보의 모델타입입니다.
+ 상품 이미지 정보의 모델 타입 (Response)
 */
 struct Image: Codable {
   /// 상품 이미지 식별번호

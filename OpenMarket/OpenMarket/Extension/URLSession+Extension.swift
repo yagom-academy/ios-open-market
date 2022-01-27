@@ -7,12 +7,6 @@
 
 import UIKit
 
-enum NetworkError: Error {
-  case statusCodeError
-  case receiveDataFailed
-  case connectFailed
-}
-
 extension URLSession {  
   func dataTask(
     _ request: URLRequest,
@@ -33,5 +27,4 @@ extension URLSession {
     }
     return dataTask
   }
-  
 }

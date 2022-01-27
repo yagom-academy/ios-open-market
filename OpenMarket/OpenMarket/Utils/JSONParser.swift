@@ -11,21 +11,19 @@ struct JSONParser {
   private let decoder = JSONDecoder()
   private let encoder = JSONEncoder()
   
-  func decode<Element: Codable>(
-    data: Data,
-    type: Element.Type
-  ) -> Result<Element, JSONParserError> {
-    guard let decodedData = try? decoder.decode(Element.self, from: data) else {
+  func decode<Element: Decodable>(
+    data: Data
+  ) -> Result<Element, NetworkError> {
+    guard let decodedData: Element = try? decoder.decode(Element.self, from: data) else {
       return .failure(.decodeFailed)
     }
     
     return .success(decodedData)
   }
   
-  func encode<Element: Codable>(
-    data: Element,
-    type: Element.Type
-  ) -> Result<Data, JSONParserError> {
+  func encode<Element: Encodable>(
+    data: Element
+  ) -> Result<Data, NetworkError> {
     guard let encodedData = try? encoder.encode(data) else {
       return .failure(.encodeFailed)
     }

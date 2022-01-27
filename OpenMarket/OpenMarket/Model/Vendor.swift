@@ -8,7 +8,7 @@
 import Foundation
 
 /**
- 판매자의 정보의 모델타입입니다.
+ 판매자의 정보의 모델 타입
 */
 struct Vendor: Codable {
   /// 판매자의 ID

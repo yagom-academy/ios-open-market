@@ -8,7 +8,7 @@
 import Foundation
 
 /**
- 상품 리스트의 모델타입입니다.
+ 상품 리스트의 모델 타입 (Response)
 */
 struct ProductList: Codable {
   /// 현제 페이지 번호
