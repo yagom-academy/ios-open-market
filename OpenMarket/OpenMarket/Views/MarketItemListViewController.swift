@@ -1,6 +1,6 @@
 import UIKit
 
-class ProductsCatalogViewController: UIViewController {
+class MarketItemListViewController: UIViewController {
     enum ViewType: Int {
         case list = 0
         case grid = 1
@@ -34,7 +34,7 @@ class ProductsCatalogViewController: UIViewController {
     }
 }
 
-extension ProductsCatalogViewController {
+extension MarketItemListViewController {
     private func configureNavigationBar() {
         navigationItem.titleView = configureSegmentedControl()
         guard let image = UIImage(systemName: "plus") else {
@@ -110,7 +110,7 @@ extension ProductsCatalogViewController {
     }
 }
 
-extension ProductsCatalogViewController {
+extension MarketItemListViewController {
     private func createGridLayout() -> UICollectionViewLayout {
         let itemSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(0.5),
@@ -153,7 +153,7 @@ extension ProductsCatalogViewController {
     }
 }
 
-extension ProductsCatalogViewController {
+extension MarketItemListViewController {
     private func configureDataSource(for viewType: ViewType) {
         switch viewType {
         case .list:
@@ -238,7 +238,7 @@ extension ProductsCatalogViewController {
     }
 }
 
-extension ProductsCatalogViewController: UICollectionViewDelegate {
+extension MarketItemListViewController: UICollectionViewDelegate {
     func scrollViewWillEndDragging(
         _ scrollView: UIScrollView,
         withVelocity velocity: CGPoint,

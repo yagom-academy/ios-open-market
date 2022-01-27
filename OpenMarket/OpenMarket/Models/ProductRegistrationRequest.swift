@@ -1,12 +1,12 @@
 import Foundation
 
-struct RegisterProductRequest: Encodable {
+struct ProductRegistrationRequest: Encodable {
     let name: String
     let descriptions: String
     let price: Int
     let currency: Currency
-    let discountedPrice: Int? = 0
-    let stock: Int? = 0
+    let discountedPrice: Int
+    let stock: Int
     let secret: String
 
     enum CodingKeys: String, CodingKey {
