@@ -8,7 +8,7 @@ final class ProductRegisterViewController: UIViewController {
     //MARK: - Typelias
     typealias collectionViewDataSource = UICollectionViewDiffableDataSource<ImageSection,UIImage>
     //MARK: - Property
-    private var imageDataSource: collectionViewDataSource?
+    private lazy var imageDataSource = creatDataSource()
     private var imagePicker = UIImagePickerController()
     private var images: [UIImage] = []
     private var registerImage = RegisterImageView()
@@ -94,6 +94,13 @@ final class ProductRegisterViewController: UIViewController {
         return layout
     }
     
+    private func creatDataSource() -> collectionViewDataSource {
+        return collectionViewDataSource(collectionView: imageCollectionView) {
+            (collectionView, indexPath, item) -> UICollectionViewCell? in
+            return nil
+        }
+    }
+    
     private func configureCellDataSource() {
         let cellRegistration = UICollectionView.CellRegistration<ImageCollectionViewCell, UIImage> {
             (cell, indexPath, item) in
@@ -116,7 +123,7 @@ final class ProductRegisterViewController: UIViewController {
         var snapshot = NSDiffableDataSourceSnapshot<ImageSection, UIImage>()
         snapshot.appendSections([.main])
         snapshot.appendItems(images)
-        self.imageDataSource?.apply(snapshot, animatingDifferences: false)
+        self.imageDataSource.apply(snapshot, animatingDifferences: false)
         print(snapshot.itemIdentifiers)
     }
     //MARK: UI Item Property

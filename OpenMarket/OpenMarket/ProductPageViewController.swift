@@ -19,8 +19,8 @@ class ProductPageViewController: UIViewController, UICollectionViewDelegate {
         frame: view.bounds,
         collectionViewLayout: makeGridLayout()
     )
-    private var listDataSource: collectionViewDataSource?
-    private var gridDataSource: collectionViewDataSource?
+    private lazy var listDataSource = creatListDataSource()
+    private lazy var gridDataSource = creatGridDataSource()
     private var isPaging: Bool = true
     //MARK: View life Cycle Method
     override func viewDidLoad() {
@@ -45,9 +45,9 @@ class ProductPageViewController: UIViewController, UICollectionViewDelegate {
     private func configureDataSources() {
         configureListDataSource()
         configureGridDataSource()
-        guard let listDataSource = listDataSource, let gridDataSource = gridDataSource else {
-            return
-        }
+//        guard let listDataSource = listDataSource, let gridDataSource = gridDataSource else {
+//            return
+//        }
     }
     
     private func configureCollectionView() {
@@ -124,6 +124,13 @@ class ProductPageViewController: UIViewController, UICollectionViewDelegate {
         }
     }
     
+    private func creatListDataSource() -> collectionViewDataSource {
+        return collectionViewDataSource(collectionView: listCollectionView) {
+            (collectionView, indexPath, item) -> UICollectionViewCell? in
+            return nil
+        }
+    }
+    
     private func configureListDataSource() {
         let cellRegistration = UICollectionView.CellRegistration<CollectionViewListCell,page> {
             (cell, indexPath, item) in
@@ -143,6 +150,12 @@ class ProductPageViewController: UIViewController, UICollectionViewDelegate {
         }
     }
     
+    private func creatGridDataSource() -> collectionViewDataSource {
+        return collectionViewDataSource(collectionView: gridCollectionView) {
+            (collectionView, indexPath, item) -> UICollectionViewCell? in
+            return nil
+        }
+    }
     private func configureGridDataSource() {
         let cellRegistration = UICollectionView.CellRegistration<CollectionViewGridCell, page> {
             (cell, indexPath, item) in
@@ -171,7 +184,7 @@ class ProductPageViewController: UIViewController, UICollectionViewDelegate {
         var snapshot = NSDiffableDataSourceSnapshot<Section, page>()
         snapshot.appendSections([.list])
         snapshot.appendItems(storage.pages)
-        self.listDataSource?.apply(snapshot, animatingDifferences: false)
+        self.listDataSource.apply(snapshot, animatingDifferences: false)
     }
     
     private func applyGridSnapShot() {
@@ -182,7 +195,7 @@ class ProductPageViewController: UIViewController, UICollectionViewDelegate {
         var snapshot = NSDiffableDataSourceSnapshot<Section, ProductListAsk.Response.Page>()
         snapshot.appendSections([.grid])
         snapshot.appendItems(storage.pages)
-        self.gridDataSource?.apply(snapshot, animatingDifferences: false)
+        self.gridDataSource.apply(snapshot, animatingDifferences: false)
     }
     
     private let segmentedControl: UISegmentedControl = {
@@ -256,7 +269,7 @@ extension ProductPageViewController: UIScrollViewDelegate {
         var collectionView: UICollectionView = segmentedControl.selectedSegmentIndex == 0 ? listCollectionView : gridCollectionView
         let position = scrollView.contentOffset.y
         
-        if position > (collectionView.contentSize.height-100-scrollView.frame.height), isPaging {
+        if position > ((collectionView.contentSize.height - 100) - scrollView.frame.height), isPaging {
             isPaging = false
             dataStorage.appendMoreItem()
             dataStorage.updateStorage {
