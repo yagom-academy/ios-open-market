@@ -75,7 +75,7 @@ final class ProductDetailViewController: UIViewController {
             return
         }
         
-        let imageWidth: CGFloat = view.frame.width
+        let imageWidth = view.frame.width
         
         for index in 0..<images.count {
             let imageView = UIImageView()
