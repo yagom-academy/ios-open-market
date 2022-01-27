@@ -127,7 +127,7 @@ class ProductRegisterManager {
         let stockString = productInformationView.stockTextField.text ?? ""
         let stock = Int(stockString) ?? 0
         
-        let productRegisterInformation = ProductRegisterInformation(name: name, descriptions: descriptions, price: price, currency: currency, discountedPrice: discountedPrice, stock: stock, secret: UserInformation.secret)
+        let productRegisterInformation = ProductRegisterInformation(name: name, descriptions: descriptions, price: price, currency: currency, discountedPrice: discountedPrice, stock: stock, secret: VendorInformation.secret)
         
         return productRegisterInformation
     }

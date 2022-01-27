@@ -99,7 +99,7 @@ private extension ProductDetailViewController {
     func configNavigationBar() {
         let manageButton = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(didTapManageButton))
         
-        if UserInformation.name == productDetail.vendors?.name {
+        if VendorInformation.name == productDetail.vendors?.name {
             self.navigationItem.setRightBarButton(manageButton, animated: true)
             return
         }
@@ -154,7 +154,7 @@ extension ProductDetailViewController {
         guard let secret = secret else {
             return
         }
-        let productSecret = ProductSecret(secret: UserInformation.secret)
+        let productSecret = ProductSecret(secret: VendorInformation.secret)
         api.retrieveProductSecret(productId: productDetail.id, secret: productSecret) { result in
             switch result {
             case .success(let password):

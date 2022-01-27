@@ -104,7 +104,7 @@ extension APIService {
             return
         }
         
-        var request = URLRequest(url: url, api: .productSecret(body: body, id: UserInformation.vendorId))
+        var request = URLRequest(url: url, api: .productSecret(body: body, id: VendorInformation.vendorId))
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         
         let task = dataTask(request: request) { result in
@@ -132,7 +132,7 @@ extension APIService {
             return
         }
         
-        var request = URLRequest(url: url, api: .productRegister(body: body, id: UserInformation.vendorId))
+        var request = URLRequest(url: url, api: .productRegister(body: body, id: VendorInformation.vendorId))
         request.addValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
         
         let task = dataTask(request: request, completion: completion)
@@ -149,7 +149,7 @@ extension APIService {
             return
         }
         
-        let request = URLRequest(url: url, api: .productUpdate(body: body, id: UserInformation.vendorId))
+        let request = URLRequest(url: url, api: .productUpdate(body: body, id: VendorInformation.vendorId))
         
         let task = dataTask(request: request) { result in
             switch result {
@@ -171,7 +171,7 @@ extension APIService {
             return
         }
         
-        let request = URLRequest(url: url, api: .deleteProduct(id: UserInformation.vendorId))
+        let request = URLRequest(url: url, api: .deleteProduct(id: VendorInformation.vendorId))
         
         let task = dataTask(request: request, completion: completion)
         
