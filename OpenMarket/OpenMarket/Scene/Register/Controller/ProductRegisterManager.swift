@@ -133,13 +133,15 @@ class ProductRegisterManager {
     }
     
     func fetchRegisteredProductDetail(from productDetail: ProductDetail) {
-        if let productImages = productDetail.images {
-            productImages.forEach { productImage in
-                guard let image = ImageLoader.loadImage(from: productImage.url) else {
-                    return
-                }
-                addImageToImageStackView(from: image, hasDeleteButton: false)
+        guard let productImages = productDetail.images else {
+            return
+        }
+        
+        productImages.forEach { productImage in
+            guard let image = ImageLoader.loadImage(from: productImage.url) else {
+                return
             }
+            addImageToImageStackView(from: image, hasDeleteButton: false)
         }
         
         setImageButtonHidden(state: true)
