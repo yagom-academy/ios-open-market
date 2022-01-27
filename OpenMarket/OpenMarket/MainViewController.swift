@@ -126,6 +126,7 @@ extension MainViewController: UIScrollViewDelegate {
 extension MainViewController {
     
     private func configureListViewController() {
+        listViewController.viewTransitionDelegate = self
         listViewController.view.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
