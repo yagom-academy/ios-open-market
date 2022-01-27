@@ -37,5 +37,17 @@ class ProductDetailViewController: UIViewController {
             self.imageSlider.reloadData()
         }
     }
+    
+    @IBAction func actionButtonClicked(_ sender: UIBarButtonItem) {
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        [
+            UIAlertAction(title: "수정", style: .default, handler: nil),
+            UIAlertAction(title: "삭제", style: .destructive, handler: nil),
+            UIAlertAction(title: "취소", style: .cancel, handler: nil)
+        ].forEach { alert.addAction($0) }
+        present(alert, animated: true)
+    }
+    
+    @IBAction func unwindToProductDetailView(_ segue: UIStoryboardSegue) { }
 
 }

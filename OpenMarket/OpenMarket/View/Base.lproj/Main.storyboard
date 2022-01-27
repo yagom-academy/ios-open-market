@@ -151,7 +151,11 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="3ue-I5-Qfh">
-                        <barButtonItem key="rightBarButtonItem" systemItem="action" id="NnY-ik-7k5"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="action" id="UgP-0v-8Nc">
+                            <connections>
+                                <action selector="actionButtonClicked:" destination="1VN-jc-Ozh" id="IhZ-wg-Ov5"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="imageSlider" destination="Jb1-wM-buX" id="iVW-z2-dtF"/>
@@ -160,11 +164,12 @@
                         <outlet property="productNameLabel" destination="1RE-s0-B7H" id="U4T-5N-SaF"/>
                         <outlet property="productPriceLabel" destination="ZmC-bd-sCy" id="ADS-81-heT"/>
                         <outlet property="productStockLabel" destination="SHB-sZ-Q2A" id="7Tc-9a-Nrq"/>
+                        <segue destination="WgP-i2-6LD" kind="presentation" identifier="productModifySegue" modalPresentationStyle="fullScreen" id="M14-tC-qLj"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GHG-z7-NTz" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1048" y="881"/>
+            <point key="canvasLocation" x="1048" y="910"/>
         </scene>
         <!--상품등록-->
         <scene sceneID="B4G-4S-WtW">
@@ -251,6 +256,48 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6x8-jq-flo" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2341" y="125"/>
+        </scene>
+        <!--상품수정-->
+        <scene sceneID="svR-ui-f4q">
+            <objects>
+                <viewController id="mZm-4O-mn7" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="A6r-5l-W8b">
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="Ra7-IF-eXL"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="상품수정" id="lv1-bq-AhI">
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="fjk-P1-EjM">
+                            <connections>
+                                <segue destination="IVk-g4-FmH" kind="unwind" unwindAction="unwindToProductDetailView:" id="aPq-KP-Fio"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="ws8-JO-6GK"/>
+                    </navigationItem>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Phk-x2-xXR" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="IVk-g4-FmH" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="3174" y="910"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="A9i-9n-hdJ">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="WgP-i2-6LD" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="R6D-FF-6jR">
+                        <rect key="frame" x="0.0" y="44" width="390" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="mZm-4O-mn7" kind="relationship" relationship="rootViewController" id="I1p-90-ogV"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="wsD-yL-47d" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2340" y="909.95260663507099"/>
         </scene>
     </scenes>
     <resources>
