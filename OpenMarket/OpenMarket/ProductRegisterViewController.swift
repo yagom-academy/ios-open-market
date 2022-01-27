@@ -17,25 +17,37 @@ final class ProductRegisterViewController: UIViewController {
     private var readyToPost: Bool?
    //MARK: View Life Cycle Method
     override func viewDidLoad() {
-        readyToPost = false
         super.viewDidLoad()
-        view.backgroundColor = .white
-        let gesture = UITapGestureRecognizer(target: self, action: #selector(dismissKey))
-        view.addGestureRecognizer(gesture)
-        gesture.cancelsTouchesInView = true
-        imagePicker.delegate = self
-        postManager.delegate = self
+        configureView()
         
         configureCellDataSource()
-        
+        setDelegateToOwn()
+       
         addSubviews()
         configureNavigationItem()
         configureUIItemLayouts()
-        layoutMainVerticalScrollView()
-        
+      
+        addTapGesture()
         addTargetToRegisterImage()
     }
     //MARK: Method
+    private func configureView() {
+        view.backgroundColor = .white
+        readyToPost = false
+    }
+    
+    private func setDelegateToOwn() {
+        imagePicker.delegate = self
+        postManager.delegate = self
+    }
+    
+    private func addTapGesture() {
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(dismissKey))
+        view.addGestureRecognizer(gesture)
+        gesture.cancelsTouchesInView = true
+    
+    }
+    
     private func configureNavigationItem() {
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(dismissRegisterView))
         navigationItem.title = "상품수정"
@@ -411,7 +423,14 @@ extension ProductRegisterViewController: PostManagerDelegate {
             return
         }
         
-        let discountPrice: Double = Double(discountedProductTextField.text ?? "0.0") ?? 0.0
+        guard let text = discountedProductTextField.text else {
+            return
+        }
+        
+        guard let discountPrice = Double(text.decimal ?? "0.0") else {
+            return
+        }
+        discountPrice as Double
         
         guard let stock: Int = Int(productStockTextField.text ?? "0") else {
             return
@@ -428,9 +447,9 @@ extension ProductRegisterViewController: PostManagerDelegate {
         params = ProductPost.Request.Params(
             name: name,
             descriptions: description,
-            price: price,
+            price: Decimal(price),
             currency: currency,
-            discountedPrice: discountPrice,
+            discountedPrice: Decimal(discountPrice),
             stock: stock,
             secret: secretKey
         )
