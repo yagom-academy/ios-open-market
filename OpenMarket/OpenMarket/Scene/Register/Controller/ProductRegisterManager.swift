@@ -4,7 +4,7 @@ class ProductRegisterManager {
     weak var pickerPresenterDelegate: PickerPresenter?
     let productInformationScrollView = ProductInformationScrollView()
     private lazy var productInformationView = productInformationScrollView.productInformationView
-    private let api = APIService()
+    private let apiService = APIService()
     init() {
         NotificationCenter.default.addObserver(self, selector: #selector(showAddImageButton), name: .imageRemoved, object: nil)
         productInformationView.addImageButton.addTarget(self, action: #selector(didTapAddImageButton), for: .touchUpInside)
@@ -156,7 +156,7 @@ class ProductRegisterManager {
         let productRegisterInformation = createProductRegisterInformation()
         let imagesDatas = takeRegisteredImages()
         
-        api.registerProduct(newProduct: productRegisterInformation, images: imagesDatas) { result in
+        apiService.registerProduct(newProduct: productRegisterInformation, images: imagesDatas) { result in
             switch result {
             case .success(_):
                 DispatchQueue.main.async {
@@ -171,7 +171,7 @@ class ProductRegisterManager {
     func update(productId: Int) {
         let productRegisterInformation = createProductRegisterInformation()
         
-        api.updateProduct(productId: productId, modifiedProduct: productRegisterInformation) { result in
+        apiService.updateProduct(productId: productId, modifiedProduct: productRegisterInformation) { result in
             switch result {
             case .success(let modifiedData):
                 DispatchQueue.main.async {

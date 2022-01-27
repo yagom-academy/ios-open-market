@@ -27,7 +27,7 @@ class MainViewController: UIViewController {
     private var listDataSource: UICollectionViewDiffableDataSource<ProductSection, ProductDetail>?
     private var gridDataSource: UICollectionViewDiffableDataSource<ProductSection, ProductDetail>?
     private var productData: [ProductDetail] = []
-    private let api = APIService()
+    private let apiService = APIService()
     
     private lazy var activityIndicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView()
@@ -51,7 +51,7 @@ class MainViewController: UIViewController {
     @objc private func fetchProductData() {
         activityIndicator.startAnimating()
                 
-        api.retrieveProductList(pageNo: RequestInformation.pageNumber, itemsPerPage: RequestInformation.itemsPerPage) { result in
+        apiService.retrieveProductList(pageNo: RequestInformation.pageNumber, itemsPerPage: RequestInformation.itemsPerPage) { result in
             switch result {
             case .success(let data):
                 self.productData = data.pages                
@@ -65,7 +65,7 @@ class MainViewController: UIViewController {
     }
     
     private func showProductDetail(from id: Int) {
-        api.retrieveProductDetail(productId: id) { result in
+        apiService.retrieveProductDetail(productId: id) { result in
             switch result {
             case .success(let productDetail):
                 DispatchQueue.main.async {

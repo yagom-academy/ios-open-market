@@ -3,7 +3,7 @@ import UIKit
 final class ProductDetailViewController: UIViewController {
     private let productDetailScrollView = ProductDetailScrollView()
     private var productDetail: ProductDetail
-    private let api = APIService()
+    private let apiService = APIService()
     
     init(productDetail: ProductDetail) {
         self.productDetail = productDetail
@@ -155,7 +155,7 @@ extension ProductDetailViewController {
             return
         }
         let productPassword = ProductPassword(secret: VendorInformation.secret)
-        api.retrieveProductSecret(productId: productDetail.id, password: productPassword) { result in
+        apiService.retrieveProductSecret(productId: productDetail.id, password: productPassword) { result in
             switch result {
             case .success(let password):
                 DispatchQueue.main.async {
@@ -172,7 +172,7 @@ extension ProductDetailViewController {
     }
     
     private func deleteProduct(productId: Int, secret: String) {
-        api.deleteProduct(productId: productId, secret: secret) { result in
+        apiService.deleteProduct(productId: productId, secret: secret) { result in
             switch result {
             case .success(_):
                 DispatchQueue.main.async {
