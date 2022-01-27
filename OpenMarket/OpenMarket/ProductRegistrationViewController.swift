@@ -2,6 +2,8 @@ import UIKit
 
 class ProductRegistrationViewController: UIViewController {
     
+    typealias Product = ProductDetailQueryManager.Response
+    
     enum LayoutAttribute {
         static let largeSpacing: CGFloat = 10
         static let smallSpacing: CGFloat = 5
@@ -34,11 +36,24 @@ class ProductRegistrationViewController: UIViewController {
     
     private let descriptionTextView = UITextView()
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         create()
         organizeViewHierarchy()
         configure()
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+    }
+    
+    convenience init(product: Product) {
+        self.init(nibName: nil, bundle: nil)
+        updateForModification(from: product)
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
     }
     
     private func create() {
@@ -84,6 +99,18 @@ class ProductRegistrationViewController: UIViewController {
         configureDescriptionTextView()
     }
     
+    private func updateForModification(from product: Product) {
+        updateNavigationBar()
+        updateImageStackView(from: product)
+        imageAddingButton.isHidden = true
+        updateNameTextField(from: product)
+        updatePriceTextField(from: product)
+        updateCurrencySegmentedControl(from: product)
+        updateBargainPriceTextField(from: product)
+        updateStockTextField(from: product)
+        updateDescriptionTextView(from: product)
+    }
+    
     //MARK: - MainView
     private func configureMainView() {
         view.backgroundColor = .systemBackground
@@ -98,11 +125,9 @@ extension ProductRegistrationViewController {
     }
     
     private func configureNavigationBar() {
-        navigationBar.setLeftButton(title: "Cancel")
+        navigationBar.setLeftButton(title: "Cancel", action: #selector(dismissModal))
         navigationBar.setMainLabel(title: "상품등록")
-        navigationBar.setRightButton(title: "Done")
-        navigationBar.setLeftButtonAction(action: #selector(dismissModal))
-        navigationBar.setRightButtonAction(action: #selector(registerProduct))
+        navigationBar.setRightButton(title: "Done", action: #selector(registerProduct))
         
         navigationBar.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -178,6 +203,10 @@ extension ProductRegistrationViewController {
         
         return images
     }
+    
+    private func updateNavigationBar() {
+        navigationBar.setMainLabel(title: "상품수정")
+    }
 }
 
 //MARK: - WholeScreenScrollView
@@ -225,6 +254,37 @@ extension ProductRegistrationViewController {
             imageStackView.heightAnchor.constraint(equalTo: imageScrollView.heightAnchor),
             imageStackView.leadingAnchor.constraint(equalTo: imageScrollView.leadingAnchor),
             imageStackView.trailingAnchor.constraint(equalTo: imageScrollView.trailingAnchor)
+        ])
+    }
+    
+    private func updateImageStackView(from product: Product) {
+        product.images.forEach {
+            ImageLoader.load(from: $0.url) { result in
+                switch result {
+                case .success(let data):
+                    guard let image = UIImage(data: data) else {
+                        print(OpenMarketError.conversionFail("Data", "UIImage"))
+                        return
+                    }
+                    DispatchQueue.main.async {
+                        self.addToStack(image: image)
+                    }
+                case .failure(let error):
+                    print(error.description)
+                }
+            }
+        }
+    }
+    
+    private func addToStack(image: UIImage) {
+        let imageView = UIImageView()
+        imageView.image = image
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+
+        imageStackView.insertArrangedSubview(imageView, at: 0)
+        NSLayoutConstraint.activate([
+            imageView.heightAnchor.constraint(equalTo: imageStackView.heightAnchor),
+            imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor)
         ])
     }
 }
@@ -286,18 +346,6 @@ extension ProductRegistrationViewController {
         picker.dismiss(animated: true, completion: nil)
         hideImageAddingButtonIfNeeded()
     }
-    
-    private func addToStack(image: UIImage) {
-        let imageView = UIImageView()
-        imageView.image = image
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-
-        imageStackView.insertArrangedSubview(imageView, at: 0)
-        NSLayoutConstraint.activate([
-            imageView.heightAnchor.constraint(equalTo: imageStackView.heightAnchor),
-            imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor)
-        ])
-    }
 }
 
 //MARK: - TextFieldStackView
@@ -323,6 +371,10 @@ extension ProductRegistrationViewController {
     private func configureNameTextField() {
         nameTextField.placeholder = "상품명"
     }
+    
+    private func updateNameTextField(from product: Product) {
+        nameTextField.text = product.name
+    }
 }
 
 //MARK: - PriceStackView
@@ -347,6 +399,10 @@ extension ProductRegistrationViewController {
         
         priceTextField.setContentHuggingPriority(.defaultLow, for: .horizontal)
     }
+    
+    private func updatePriceTextField(from product: Product) {
+        priceTextField.text = String(Int(product.price))
+    }
 }
 
 //MARK: - CurrencySegmentedControl
@@ -360,6 +416,14 @@ extension ProductRegistrationViewController {
         
         currencySegmentedControl.setContentHuggingPriority(.defaultHigh, for: .horizontal)
     }
+    
+    private func updateCurrencySegmentedControl(from product: Product) {
+        if product.currency == .KRW {
+            currencySegmentedControl.selectedSegmentIndex = 0
+        } else {
+            currencySegmentedControl.selectedSegmentIndex = 1
+        }
+    }
 }
 
 //MARK: - BargainPriceTextField
@@ -367,6 +431,10 @@ extension ProductRegistrationViewController {
     
     private func configureBargainPriceTextField() {
         bargainPriceTextField.placeholder = "할인금액"
+    }
+    
+    private func updateBargainPriceTextField(from product: Product) {
+        bargainPriceTextField.text = String(Int(product.bargainPrice))
     }
 }
 
@@ -376,9 +444,13 @@ extension ProductRegistrationViewController {
     private func configureStockTextField() {
         stockTextField.placeholder = "재고수정"
     }
+    
+    private func updateStockTextField(from product: Product) {
+        stockTextField.text = String(product.stock)
+    }
 }
 
-//MARK: - configureDescriptionTextView
+//MARK: - DescriptionTextView
 extension ProductRegistrationViewController {
     
     private func configureDescriptionTextView() {
@@ -396,5 +468,9 @@ extension ProductRegistrationViewController {
             descriptionTextView.widthAnchor.constraint(equalTo: wholeScreenScrollView.widthAnchor),
             descriptionTextView.heightAnchor.constraint(equalTo: view.heightAnchor),
         ])
+    }
+    
+    private func updateDescriptionTextView(from product: Product) {
+        descriptionTextView.text = product.description
     }
 }

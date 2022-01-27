@@ -38,7 +38,9 @@ class ProductDetailViewController: UIViewController {
     private let productStockLabel = UILabel()
     private let productPriceLabel = UILabel()
     private let productDescriptionTextView = UITextView()
-
+    
+    private var product: Product?
+    
     var productId: Int?
     
     override func viewDidLoad() {
@@ -102,7 +104,10 @@ extension ProductDetailViewController {
 //MARK: - NavigationTitle
 extension ProductDetailViewController {
     
-    private func updateNavigationTitle(from product: Product) {
+    private func updateNavigationTitle() {
+        guard let product = product else {
+            return
+        }
         navigationItem.title = product.name
     }
 }
@@ -114,14 +119,14 @@ extension ProductDetailViewController {
         modificationButtonItem = UIBarButtonItem(image: UIImage(systemName: "square.and.arrow.up"),
                                                         style: .plain,
                                                         target: self,
-                                                        action: #selector(presentModifyOrDeleteAlert))
+                                                        action: #selector(presentModifyOrDeleteActionSheet))
     }
     
-    @objc private func presentModifyOrDeleteAlert() {
+    @objc private func presentModifyOrDeleteActionSheet() {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let modifyAction = UIAlertAction(title: "수정", style: .default) {
             _ in
-            
+            self.presentModificationViewController()
         }
         let deleteAction = UIAlertAction(title: "삭제", style: .destructive) {
             _ in
@@ -132,6 +137,15 @@ extension ProductDetailViewController {
         alert.addAction(deleteAction)
         alert.addAction(cancelAction)
         present(alert, animated: true, completion: nil)
+    }
+    
+    private func presentModificationViewController() {
+        guard let product = product else {
+            return
+        }
+        let modificationViewController = ProductRegistrationViewController(product: product)
+        modificationViewController.modalPresentationStyle = .fullScreen
+        present(modificationViewController, animated: true)
     }
     
     private func presentDeleteAlert() {
@@ -251,7 +265,11 @@ extension ProductDetailViewController {
         ])
     }
     
-    private func updateImageStackView(from product: Product) {
+    private func updateImageStackView() {
+        guard let product = product else {
+            return
+        }
+        
         product.images.forEach {
             ImageLoader.load(from: $0.url) { (result) in
                 switch result {
@@ -301,7 +319,11 @@ extension ProductDetailViewController {
         ])
     }
     
-    private func updateProductTitleLabel(from product: Product) {
+    private func updateProductTitleLabel() {
+        guard let product = product else {
+            return
+        }
+        
         productTitleLabel.text = product.name
     }
 }
@@ -321,7 +343,11 @@ extension ProductDetailViewController {
         ])
     }
     
-    private func updateProductStockLabel(from product: Product) {
+    private func updateProductStockLabel() {
+        guard let product = product else {
+            return
+        }
+        
         if product.stock == 0 {
             productStockLabel.text = "품절"
             productStockLabel.textColor = LayoutAttribute.StockLabel.soldoutFontColor
@@ -348,7 +374,11 @@ extension ProductDetailViewController {
         ])
     }
     
-    private func updateProductPriceLabel(from product: Product) {
+    private func updateProductPriceLabel() {
+        guard let product = product else {
+            return
+        }
+        
         let blank = NSMutableAttributedString(string: " ")
         let lineBreak = NSMutableAttributedString(string: "\n")
         let currency = NSMutableAttributedString(string: product.currency.rawValue)
@@ -408,7 +438,11 @@ extension ProductDetailViewController {
         ])
     }
     
-    private func updateProductDescriptionTextView(from product: Product) {
+    private func updateProductDescriptionTextView() {
+        guard let product = product else {
+            return
+        }
+        
         productDescriptionTextView.text = product.description
     }
 }
@@ -430,8 +464,9 @@ extension ProductDetailViewController {
                     print(OpenMarketError.decodingFail("Data", "etworkingAPI.ProductDetailQuery.Response"))
                     return
                 }
+                self.product = product
                 DispatchQueue.main.async {
-                    self.update(from: product)
+                    self.update()
                 }
             case .failure(let error):
                 print(error.description)
@@ -439,12 +474,12 @@ extension ProductDetailViewController {
         }
     }
     
-    private func update(from product: Product) {
-        updateNavigationTitle(from: product)
-        updateImageStackView(from: product)
-        updateProductTitleLabel(from: product)
-        updateProductStockLabel(from: product)
-        updateProductPriceLabel(from: product)
-        updateProductDescriptionTextView(from: product)
+    private func update() {
+        updateNavigationTitle()
+        updateImageStackView()
+        updateProductTitleLabel()
+        updateProductStockLabel()
+        updateProductPriceLabel()
+        updateProductDescriptionTextView()
     }
 }

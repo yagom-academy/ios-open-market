@@ -23,32 +23,29 @@ class PlainNavigationBar: UIView {
         super.init(coder: coder)
     }
     
-    func setLeftButton(title: String) {
+    func setLeftButton(title: String, action: Selector) {
+        leftButton?.removeFromSuperview()
         let button = UIButton(type: .system)
         self.leftButton = button
         addSubview(button)
         configureLeftButton(title: title)
-    }
-    
-    func setLeftButtonAction(action: Selector) {
         leftButton?.addTarget(nil, action: action, for: .touchUpInside)
     }
-
+    
     func setMainLabel(title: String) {
+        mainLabel?.removeFromSuperview()
         let label = UILabel()
         self.mainLabel = label
         addSubview(label)
         configureMainLabel(title: title)
     }
     
-    func setRightButton(title: String) {
+    func setRightButton(title: String, action: Selector) {
+        rightButton?.removeFromSuperview()
         let button = UIButton(type: .system)
         self.rightButton = button
         addSubview(button)
         configureRightButton(title: title)
-    }
-    
-    func setRightButtonAction(action: Selector) {
         rightButton?.addTarget(nil, action: action, for: .touchUpInside)
     }
     
