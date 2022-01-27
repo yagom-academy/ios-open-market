@@ -16,62 +16,40 @@ class PlainNavigationBar: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        configureMainView()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
     
-    convenience init(leftButtonTitle: String?, mainLabelTitle: String?, rightButtonTitle: String?) {
-        self.init(frame: CGRect())
-        
-        create(leftButtonTitle: leftButtonTitle, mainLabelTitle: mainLabelTitle, rightButtonTitle: rightButtonTitle)
-        organizeViewHierarchy()
-        configure(leftButtonTitle: leftButtonTitle, mainLabelTitle: mainLabelTitle, rightButtonTitle: rightButtonTitle)
+    func setLeftButton(title: String) {
+        let button = UIButton(type: .system)
+        self.leftButton = button
+        addSubview(button)
+        configureLeftButton(title: title)
     }
     
-    private func create(leftButtonTitle: String?, mainLabelTitle: String?, rightButtonTitle: String?) {
-        if leftButtonTitle != nil {
-            createLeftButton()
-        }
-        
-        if mainLabelTitle != nil {
-            createMainLabel()
-        }
-        
-        if rightButtonTitle != nil {
-            createRightButton()
-        }
+    func setLeftButtonAction(action: Selector) {
+        leftButton?.addTarget(nil, action: action, for: .touchUpInside)
+    }
+
+    func setMainLabel(title: String) {
+        let label = UILabel()
+        self.mainLabel = label
+        addSubview(label)
+        configureMainLabel(title: title)
     }
     
-    private func organizeViewHierarchy() {
-        if let leftButton = leftButton {
-            addSubview(leftButton)
-        }
-        
-        if let mainLabel = mainLabel {
-            addSubview(mainLabel)
-        }
-        
-        if let rightButton = rightButton {
-            addSubview(rightButton)
-        }
+    func setRightButton(title: String) {
+        let button = UIButton(type: .system)
+        self.rightButton = button
+        addSubview(button)
+        configureRightButton(title: title)
     }
     
-    private func configure(leftButtonTitle: String?, mainLabelTitle: String?, rightButtonTitle: String?) {
-        configureMainView()
-        
-        if let leftButtonTitle = leftButtonTitle {
-            configureLeftButton(title: leftButtonTitle)
-        }
-        
-        if let mainLabelTitle = mainLabelTitle {
-            configureMainLabel(title: mainLabelTitle)
-        }
-        
-        if let rightButtonTitle = rightButtonTitle {
-            configureRightButton(title: rightButtonTitle)
-        }
+    func setRightButtonAction(action: Selector) {
+        rightButton?.addTarget(nil, action: action, for: .touchUpInside)
     }
     
     private func configureMainView() {
@@ -85,11 +63,7 @@ class PlainNavigationBar: UIView {
 
 //MARK: - LeftButton
 extension PlainNavigationBar {
-    
-    private func createLeftButton() {
-        self.leftButton = UIButton(type: .system)
-    }
-    
+
     private func configureLeftButton(title: String) {
         guard let leftButton = leftButton else {
             return
@@ -108,18 +82,10 @@ extension PlainNavigationBar {
             leftButton.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])
     }
-    
-    func setLeftButtonAction(action: Selector) {
-        leftButton?.addTarget(nil, action: action, for: .touchUpInside)
-    }
 }
 
 //MARK: - MainLabel
 extension PlainNavigationBar {
-    
-    private func createMainLabel() {
-        self.mainLabel = UILabel()
-    }
     
     private func configureMainLabel(title: String) {
         guard let mainLabel = mainLabel else {
@@ -141,10 +107,6 @@ extension PlainNavigationBar {
 
 //MARK: - RightButton
 extension PlainNavigationBar {
-
-    private func createRightButton() {
-        self.rightButton = UIButton(type: .system)
-    }
     
     private func configureRightButton(title: String) {
         guard let rightButton = rightButton else {
@@ -164,9 +126,5 @@ extension PlainNavigationBar {
             rightButton.trailingAnchor.constraint(equalTo: trailingAnchor),
             rightButton.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])
-    }
-    
-    func setRightButtonAction(action: Selector) {
-        rightButton?.addTarget(nil, action: action, for: .touchUpInside)
     }
 }

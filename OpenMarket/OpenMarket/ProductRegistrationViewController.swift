@@ -94,10 +94,16 @@ class ProductRegistrationViewController: UIViewController {
 extension ProductRegistrationViewController {
     
     private func createNavigationBar() {
-        navigationBar = PlainNavigationBar(leftButtonTitle: "Cancel", mainLabelTitle: "상품등록", rightButtonTitle: "Done")
+        self.navigationBar = PlainNavigationBar()
     }
     
     private func configureNavigationBar() {
+        navigationBar.setLeftButton(title: "Cancel")
+        navigationBar.setMainLabel(title: "상품등록")
+        navigationBar.setRightButton(title: "Done")
+        navigationBar.setLeftButtonAction(action: #selector(dismissModal))
+        navigationBar.setRightButtonAction(action: #selector(registerProduct))
+        
         navigationBar.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             navigationBar.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,
@@ -106,9 +112,6 @@ extension ProductRegistrationViewController {
                                                           constant: -1 * LayoutAttribute.largeSpacing),
             navigationBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
         ])
-        
-        navigationBar.setLeftButtonAction(action: #selector(dismissModal))
-        navigationBar.setRightButtonAction(action: #selector(registerProduct))
     }
     
     @objc private func dismissModal() {
