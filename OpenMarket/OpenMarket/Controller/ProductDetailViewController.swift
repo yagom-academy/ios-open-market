@@ -13,10 +13,35 @@ class ProductDetailViewController: UIViewController {
     @IBOutlet weak var previousPriceLabel: UILabel!
     @IBOutlet weak var priceLabel: UILabel!
     @IBOutlet weak var descriptionTextView: UITextView!
-        
+    private var imageDataSource: UICollectionViewDiffableDataSource<Section, Image>?
+
     override func viewDidLoad() {
         super.viewDidLoad()
         getProductDetail()
+        setupImageCollectionViewLayout()
+        setupImageCollectionView()
+        imageCollectionView.delegate = self
+        imageCollectionView.decelerationRate = .fast
+        imageCollectionView.isPagingEnabled = true
+    }
+    
+    func setupImageCollectionViewLayout() {
+        let layout = UICollectionViewFlowLayout()
+        layout.minimumLineSpacing = 0
+        layout.minimumInteritemSpacing = 0
+        layout.scrollDirection = .horizontal
+        imageCollectionView.collectionViewLayout = layout
+    }
+    
+    func setupImageCollectionView() {
+        imageDataSource = UICollectionViewDiffableDataSource<Section, Image>(collectionView: imageCollectionView) { collectionView, indexPath, product in
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProductImageCell", for: indexPath) as? ProductImageCollectionViewCell else {
+                return UICollectionViewCell()
+            }
+            
+            cell.setupImage(with: product)
+            return cell
+        }
     }
     
     private func getProductDetail() {
@@ -24,13 +49,23 @@ class ProductDetailViewController: UIViewController {
         apiManager.checkProductDetail(id: productID) { result in
             switch result {
             case .success(let product):
+                let productImages = product.images ?? []
                 DispatchQueue.main.async {
                     self.setup(with: product)
+                    self.populate(with: productImages)
+                    self.totalPageLabel.text = String(productImages.count)
                 }
             case .failure(let error):
                 print(error.localizedDescription)
             }
         }
+    }
+    
+    private func populate(with products: [Image]) {
+        var snapshot = NSDiffableDataSourceSnapshot<Section, Image>()
+        snapshot.appendSections([.main])
+        snapshot.appendItems(products)
+        imageDataSource?.apply(snapshot)
     }
     
     private func setup(with product: ProductDetail) {
@@ -71,4 +106,19 @@ class ProductDetailViewController: UIViewController {
         descriptionTextView.text = product.description ?? ""
     }
     
+}
+
+extension ProductDetailViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: collectionView.bounds.width, height: collectionView.bounds.height)
+    }
+}
+
+extension ProductDetailViewController: UICollectionViewDelegate {
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        let nowPage = Int(scrollView.contentOffset.x) / Int(scrollView.frame.width) + 1
+        currentPageLabel.text = String(nowPage)
+        print(scrollView.contentOffset)
+        print(scrollView.frame.width)
+    }
 }

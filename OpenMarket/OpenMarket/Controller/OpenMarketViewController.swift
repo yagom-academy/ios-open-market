@@ -1,10 +1,10 @@
 import UIKit
 
+enum Section {
+    case main
+}
+
 class OpenMarketViewController: UIViewController {
-    
-    enum Section {
-        case main
-    }
     
     @IBOutlet weak var segmentedControl: UISegmentedControl!
     private let apiManager = APIManager.shared

@@ -285,13 +285,27 @@
                                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                                 </collectionViewFlowLayout>
                                                 <cells>
-                                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="RB2-dq-0bB">
+                                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ProductImageCell" id="RB2-dq-0bB" customClass="ProductImageCollectionViewCell" customModule="OpenMarket" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="LPD-Xi-Adm">
                                                             <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
                                                             <autoresizingMask key="autoresizingMask"/>
+                                                            <subviews>
+                                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="lYe-hO-Y1D">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                                                </imageView>
+                                                            </subviews>
+                                                            <constraints>
+                                                                <constraint firstItem="lYe-hO-Y1D" firstAttribute="leading" secondItem="LPD-Xi-Adm" secondAttribute="leading" id="8bs-MC-5zf"/>
+                                                                <constraint firstAttribute="bottom" secondItem="lYe-hO-Y1D" secondAttribute="bottom" id="ltb-8b-pfj"/>
+                                                                <constraint firstItem="lYe-hO-Y1D" firstAttribute="top" secondItem="LPD-Xi-Adm" secondAttribute="top" id="xCu-va-ifb"/>
+                                                                <constraint firstAttribute="trailing" secondItem="lYe-hO-Y1D" secondAttribute="trailing" id="zFn-s3-L6T"/>
+                                                            </constraints>
                                                         </collectionViewCellContentView>
+                                                        <connections>
+                                                            <outlet property="productImageView" destination="lYe-hO-Y1D" id="rAk-8m-NbK"/>
+                                                        </connections>
                                                     </collectionViewCell>
                                                 </cells>
                                             </collectionView>
@@ -337,22 +351,22 @@
                                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                             </textView>
                                             <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="LZb-Ya-Dy4">
-                                                <rect key="frame" x="181.5" y="338.5" width="31" height="16"/>
+                                                <rect key="frame" x="183" y="338.5" width="28.5" height="16"/>
                                                 <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="udY-O4-8Bb">
-                                                        <rect key="frame" x="0.0" y="0.0" width="8.5" height="16"/>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="udY-O4-8Bb">
+                                                        <rect key="frame" x="0.0" y="0.0" width="6" height="16"/>
                                                         <fontDescription key="fontDescription" style="UICTFontTextStyleCallout"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="/" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2eE-ek-aad">
-                                                        <rect key="frame" x="13.5" y="0.0" width="4" height="16"/>
+                                                        <rect key="frame" x="11" y="0.0" width="4" height="16"/>
                                                         <fontDescription key="fontDescription" style="UICTFontTextStyleCallout"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1rp-IX-fyv">
-                                                        <rect key="frame" x="22.5" y="0.0" width="8.5" height="16"/>
+                                                        <rect key="frame" x="20" y="0.0" width="8.5" height="16"/>
                                                         <fontDescription key="fontDescription" style="UICTFontTextStyleCallout"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>

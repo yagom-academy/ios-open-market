@@ -42,6 +42,7 @@
 		EA1FD6632789CD2A00193735 /* MockURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA1FD6622789CD2A00193735 /* MockURLSession.swift */; };
 		EA1FD6642789D39D00193735 /* URLSessionError.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAB8FC0E2787DB770036A4E3 /* URLSessionError.swift */; };
 		EA1FD6652789D39F00193735 /* JSONError.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAB8FC102787DB850036A4E3 /* JSONError.swift */; };
+		EA8BE5E527A27653006A51CD /* ProductImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA8BE5E427A27653006A51CD /* ProductImageCollectionViewCell.swift */; };
 		EAB8FBD027834AFF0036A4E3 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = EAB8FBCF27834AFF0036A4E3 /* .swiftlint.yml */; };
 		EAB8FBD22783E4780036A4E3 /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAB8FBD12783E4780036A4E3 /* APIManager.swift */; };
 		EAB8FBD4278417820036A4E3 /* APIManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAB8FBD3278417820036A4E3 /* APIManagerTests.swift */; };
@@ -102,6 +103,7 @@
 		EA1043612797BC7F00745D64 /* NewProductInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewProductInformation.swift; sourceTree = "<group>"; };
 		EA1043632797C03900745D64 /* Currency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
 		EA1FD6622789CD2A00193735 /* MockURLSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSession.swift; sourceTree = "<group>"; };
+		EA8BE5E427A27653006A51CD /* ProductImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductImageCollectionViewCell.swift; sourceTree = "<group>"; };
 		EAB8FBCF27834AFF0036A4E3 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		EAB8FBD12783E4780036A4E3 /* APIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
 		EAB8FBD3278417820036A4E3 /* APIManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManagerTests.swift; sourceTree = "<group>"; };
@@ -160,6 +162,7 @@
 			isa = PBXGroup;
 			children = (
 				EAC5F3B7278EA60400AD2DA5 /* ProductListCell.swift */,
+				EA8BE5E427A27653006A51CD /* ProductImageCollectionViewCell.swift */,
 				EAC5F3B8278EA60400AD2DA5 /* ProductListCell.xib */,
 				47321081278FF5E90052EEB1 /* ProductGridCell.swift */,
 				47321082278FF5E90052EEB1 /* ProductGridCell.xib */,
@@ -465,6 +468,7 @@
 				47F2A2CB27A13E800079DC9A /* ProductDetailViewController.swift in Sources */,
 				470F81762782F51A006B4734 /* JSONParser.swift in Sources */,
 				470F81742782E8AC006B4734 /* ProductList.swift in Sources */,
+				EA8BE5E527A27653006A51CD /* ProductImageCollectionViewCell.swift in Sources */,
 				EAC5F3BC278EBE9800AD2DA5 /* OpenMarketViewLayout.swift in Sources */,
 				4708E50B2797E21D002BBCED /* AddProductViewController.swift in Sources */,
 				EAB8FC182787DC290036A4E3 /* Vendors.swift in Sources */,
