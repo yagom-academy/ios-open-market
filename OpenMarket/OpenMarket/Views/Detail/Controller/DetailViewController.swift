@@ -118,16 +118,16 @@ class DetailViewController: UIViewController {
     @IBAction private func tappedEditButton(_ sendor: UIButton) {
         showActionSheet { _ in
             self.showAlertPasswordInput { secret in
-                self.modifyAction(secret)
+                self.showModifyPage(secret)
             }
         } deleteHandler: { _ in
             self.showAlertPasswordInput { secret in
-                self.deleteAction(secret)
+                self.showDeleteSuccess(secret)
             }
         }
     }
     
-    private func modifyAction(_ secret: String) {
+    private func showModifyPage(_ secret: String) {
         self.requestModification(secret: secret) { isSuccess in
             if isSuccess {
                 DispatchQueue.main.async {
@@ -144,11 +144,11 @@ class DetailViewController: UIViewController {
         }
     }
     
-    private func deleteAction(_ secret: String) {
+    private func showDeleteSuccess(_ secret: String) {
         self.requestDelete(secret: secret) { isSuccess in
             if isSuccess {
                 DispatchQueue.main.async {
-                    self.showAlert(message: AlertMessage.CompleteProductdelete) {
+                    self.showAlert(message: AlertMessage.completeProductdelete) {
                         NotificationCenter.default.post(name: .updateMain, object: nil)
                         self.navigationController?.popViewController(animated: true)
                     }

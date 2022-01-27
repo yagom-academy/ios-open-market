@@ -71,13 +71,13 @@ class ProductCell: UICollectionViewCell {
     }
     
     private func setUpPrice(product: Product) {
-        let formatedPrice = "\(product.currency.rawValue) \(product.price.fomattedString)"
+        let formattedPrice = "\(product.currency.rawValue) \(product.price.fomattedString)"
         if product.discountedPrice == .zero {
             priceLabel.textColor = .systemGray
-            priceLabel.text = formatedPrice
+            priceLabel.text = formattedPrice
         } else {
             priceLabel.textColor = .systemRed
-            priceLabel.attributedText = formatedPrice.strikeThrough
+            priceLabel.attributedText = formattedPrice.strikeThrough
         }
     }
     

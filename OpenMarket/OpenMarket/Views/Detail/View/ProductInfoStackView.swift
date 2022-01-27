@@ -43,13 +43,13 @@ class ProductInfoStackView: UIStackView {
     }
     
     private func setUpPrice(product: Product) {
-        let formatedPrice = "\(product.currency.rawValue) \(product.price.fomattedString)"
+        let formattedPrice = "\(product.currency.rawValue) \(product.price.fomattedString)"
         if product.bargainPrice == .zero {
             priceLabel.textColor = .systemGray
-            priceLabel.text = formatedPrice
+            priceLabel.text = formattedPrice
         } else {
             priceLabel.textColor = .systemRed
-            priceLabel.attributedText = formatedPrice.strikeThrough
+            priceLabel.attributedText = formattedPrice.strikeThrough
         }
         priceLabel.font = .preferredFont(for: .title3, weight: .bold)
     }
