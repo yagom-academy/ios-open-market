@@ -134,7 +134,14 @@ private extension ProductDetailViewController {
         let alert = UIAlertController(title: AlertMessage.deleteProduct.title, message: AlertMessage.deleteProduct.message, preferredStyle: .alert)
         let cancelAction = UIAlertAction(title: AlertActionMessage.cancel.title, style: .cancel, handler: nil)
         let confirmAction = UIAlertAction(title: AlertActionMessage.done.title, style: .default) { _ in
-            self.checkSecret(secret: alert.textFields?.first?.text)
+            self.checkProductPassword(from: alert.textFields?.first?.text) { result in
+                switch result {
+                case .success(let password):
+                    self.deleteProduct(productId: self.productDetail.id, secret: password)
+                case .failure(let error):
+                    print(error)
+                }
+            }
         }
         alert.addTextField { textField in
             textField.isSecureTextEntry = true
@@ -150,23 +157,23 @@ private extension ProductDetailViewController {
 // MARK: - Delete Product
 
 extension ProductDetailViewController {
-    private func checkSecret(secret: String?) {
-        guard let secret = secret else {
+    private func checkProductPassword(from password: String?, completion: @escaping (Result<String, APIError>) -> Void) {
+        guard let password = password else {
             return
         }
         let productPassword = ProductPassword(secret: VendorInformation.secret)
         apiService.retrieveProductSecret(productId: productDetail.id, password: productPassword) { result in
             switch result {
-            case .success(let password):
+            case .success(let secret):
                 DispatchQueue.main.async {
-                    if password == secret {
-                        self.deleteProduct(productId: self.productDetail.id, secret: password)
+                    if secret == password {
+                        completion(.success(secret))
                         return
                     }
                     self.presentDeleteResponseAlert(isSuccess: false)
                 }
             case .failure(let error):
-                print(error)
+                completion(.failure(error))
             }
         }
     }

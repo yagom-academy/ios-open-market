@@ -22,7 +22,7 @@ class ProductRegisterViewController: ProductManageViewController {
     }
     
     @objc private func didTapDoneButton() {
-        if !checkValidInput() {
+        if !checkValidReceivedProductDetail() {
             return
         }
         productRegisterManager.register()

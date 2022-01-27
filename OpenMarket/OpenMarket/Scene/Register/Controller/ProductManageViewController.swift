@@ -25,7 +25,7 @@ class ProductManageViewController: UIViewController {
         }
     }
     
-    func checkValidInput() -> Bool {
+    func checkValidReceivedProductDetail() -> Bool {
         if productRegisterManager.isRegisteredImageEmpty {
             presentAlert(title: AlertMessage.noProductImage.title, message: AlertMessage.noProductImage.message)
             return false
