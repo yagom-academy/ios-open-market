@@ -46,6 +46,16 @@ class ProductNetworkManager {
         }
     }
     
+    func modifyProductRequest(id: Int, requestForm: UpdateProductRequestModel,
+                              completionHandeler: ((UpdateProductResult) -> Void)? = nil) {
+        urlSessionProvider.request(
+            .updateProduct(
+                sellerID: AppConfigure.venderIdentifier, productID: String(id), body: requestForm
+            )) { (result: UpdateProductResult) in
+            completionHandeler?(result)
+        }
+    }
+    
     func fetchImages(url: String,
                      completionHandler: ((ProductImageResult) -> Void)? = nil) {
         urlSessionProvider.requestImage(from: url) { result in
@@ -58,6 +68,7 @@ extension ProductNetworkManager {
     
     typealias CreateProductResult = Result<CreateProductResponse, URLSessionProviderError>
     typealias DetailProductResult = Result<ShowProductDetailResponse, URLSessionProviderError>
+    typealias UpdateProductResult = Result<UpdateProductResponse, URLSessionProviderError>
     typealias ProductImageResult = Result<UIImage, URLSessionProviderError>
     
 }

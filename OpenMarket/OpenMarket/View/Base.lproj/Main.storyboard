@@ -285,10 +285,15 @@
                                 <segue destination="IVk-g4-FmH" kind="unwind" unwindAction="unwindToProductDetailView:" id="aPq-KP-Fio"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="ws8-JO-6GK"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="ws8-JO-6GK">
+                            <connections>
+                                <action selector="doneButtonClicked:" destination="mZm-4O-mn7" id="hE4-P1-JJu"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="productRegisterView" destination="jOp-Fj-gVk" id="pls-kz-W7m"/>
+                        <segue destination="IVk-g4-FmH" kind="unwind" identifier="popToProductPageSegue" unwindAction="unwindToProductPageViewController:" id="3aR-Wq-8iQ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Phk-x2-xXR" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

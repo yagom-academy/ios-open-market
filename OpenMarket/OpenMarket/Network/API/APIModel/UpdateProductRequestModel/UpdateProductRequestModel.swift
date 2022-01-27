@@ -12,9 +12,9 @@ struct UpdateProductRequestModel: Encodable {
     let name: String?
     let descriptions: String?
     let thumbnailID: Int?
-    let price: Decimal?
+    let price: Double?
     let currency: Currency?
-    let discountedPrice: Int?
+    let discountedPrice: Double?
     let secret: String
     
     enum CodingKeys: String, CodingKey {

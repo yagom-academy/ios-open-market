@@ -36,6 +36,20 @@ class ProductModelManager {
         }
     }
     
+    func requestModifyProduct(form: ProductRegisterForm,
+                              completionHandler: ((Result<Product, URLSessionProviderError>) -> Void)? = nil) {
+        let requestForm = UpdateProductRequestModel(
+            name: form.name,
+            descriptions: form.description,
+            thumbnailID: nil,
+            price: Double(form.price),
+            currency: Currency(rawValue: form.currency),
+            discountedPrice: Double(form.discountedPrice ?? ""),
+            secret: AppConfigure.venderSecret
+        )
+        networkManager.modifyProductRequest(id: id, requestForm: requestForm, completionHandeler: completionHandler)
+    }
+    
     private func requestProductImages() {
         product?.images?.forEach({ productImage in
             let url = productImage.url
