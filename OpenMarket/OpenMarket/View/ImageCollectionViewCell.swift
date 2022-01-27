@@ -12,9 +12,9 @@ class ImageCollectionViewCell: UICollectionViewCell {
         layoutImageView()
     }
     
-    var imageView: UIImageView = {
+    private var imageView: UIImageView = {
         let imageView = UIImageView()
-        
+        imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
     
@@ -23,7 +23,11 @@ class ImageCollectionViewCell: UICollectionViewCell {
     }
     
     func layoutImageView() {
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.frame = self.bounds
+        NSLayoutConstraint.activate([
+            imageView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 10),
+            imageView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor),
+            imageView.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -10),
+            imageView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor)
+        ])
     }
 }

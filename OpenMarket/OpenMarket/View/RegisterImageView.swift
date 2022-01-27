@@ -2,13 +2,15 @@ import UIKit
 
 class RegisterImageView: UIView {
     //MARK: property
-    lazy var addIndicaterButton: UIButton = {
+    let addIndicaterButton: UIButton = {
         var button = UIButton(type: .contactAdd)
+        button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
-    lazy var productEnrollImageView: UIImageView = {
+    private let productEnrollImageView: UIImageView = {
         var imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.backgroundColor = .systemGray
         return imageView
     }()
@@ -25,9 +27,6 @@ class RegisterImageView: UIView {
     private func layoutCollectionViewCell() {
         self.addSubview(productEnrollImageView)
         self.addSubview(addIndicaterButton)
-        
-        addIndicaterButton.translatesAutoresizingMaskIntoConstraints = false
-        productEnrollImageView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             productEnrollImageView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor),

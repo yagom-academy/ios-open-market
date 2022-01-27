@@ -11,7 +11,7 @@ final class ProductRegisterViewController: UIViewController {
     private lazy var imageDataSource = creatDataSource()
     private var imagePicker = UIImagePickerController()
     private var images: [UIImage] = []
-    private var registerImage = RegisterImageView()
+    private var registerImageView = RegisterImageView()
     private let postManager = PostManager()
     private var params: ProductPost.Request.Params?
     private var readyToPost: Bool?
@@ -47,7 +47,7 @@ final class ProductRegisterViewController: UIViewController {
     }
     
     private func addTargetToRegisterImage() {
-        registerImage.addIndicaterButton.addTarget(nil, action: #selector(updateImage), for: .touchUpInside)
+        registerImageView.addIndicaterButton.addTarget(nil, action: #selector(updateImage), for: .touchUpInside)
     }
     
     private func checkReadyToPost() {
@@ -129,7 +129,7 @@ final class ProductRegisterViewController: UIViewController {
     //MARK: UI Item Property
     private lazy var mainScrollView: UIScrollView = {
         var scrollView = UIScrollView(frame: .zero)
-        scrollView.addSubview(registerImage)
+        scrollView.addSubview(registerImageView)
         scrollView.addSubview(imageCollectionView)
         scrollView.addSubview(textFieldStackView)
         scrollView.addSubview(textView)
@@ -262,15 +262,15 @@ final class ProductRegisterViewController: UIViewController {
     }
     
     private func layoutRegisterImage() {
-        registerImage.translatesAutoresizingMaskIntoConstraints = false
+        registerImageView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            registerImage.leadingAnchor.constraint(equalTo: mainScrollView.frameLayoutGuide.leadingAnchor),
-            registerImage.trailingAnchor.constraint(equalTo: mainScrollView.frameLayoutGuide.trailingAnchor),
-            registerImage.topAnchor.constraint(equalTo: mainScrollView.contentLayoutGuide.topAnchor, constant: 10),
-            registerImage.bottomAnchor.constraint(equalTo: textFieldStackView.topAnchor, constant: -20),
-            registerImage.widthAnchor.constraint(equalTo: mainScrollView.frameLayoutGuide.widthAnchor, multiplier: 0.35),
-            registerImage.heightAnchor.constraint(equalTo: mainScrollView.frameLayoutGuide.heightAnchor, multiplier: 0.25)
+            registerImageView.leadingAnchor.constraint(equalTo: mainScrollView.frameLayoutGuide.leadingAnchor),
+            registerImageView.trailingAnchor.constraint(equalTo: mainScrollView.frameLayoutGuide.trailingAnchor),
+            registerImageView.topAnchor.constraint(equalTo: mainScrollView.contentLayoutGuide.topAnchor, constant: 10),
+            registerImageView.bottomAnchor.constraint(equalTo: textFieldStackView.topAnchor, constant: -20),
+            registerImageView.widthAnchor.constraint(equalTo: mainScrollView.frameLayoutGuide.widthAnchor, multiplier: 0.35),
+            registerImageView.heightAnchor.constraint(equalTo: mainScrollView.frameLayoutGuide.heightAnchor, multiplier: 0.25)
         ])
     }
     
@@ -279,7 +279,7 @@ final class ProductRegisterViewController: UIViewController {
         
         NSLayoutConstraint.activate([
             imageCollectionView.topAnchor.constraint(equalTo: mainScrollView.contentLayoutGuide.topAnchor, constant: 10),
-            imageCollectionView.leadingAnchor.constraint(equalTo: registerImage.trailingAnchor, constant: 5),
+            imageCollectionView.leadingAnchor.constraint(equalTo: registerImageView.trailingAnchor, constant: 5),
             imageCollectionView.bottomAnchor.constraint(equalTo: textFieldStackView.topAnchor, constant: -20),
             imageCollectionView.trailingAnchor.constraint(equalTo: mainScrollView.frameLayoutGuide.trailingAnchor)
         ])
@@ -305,7 +305,7 @@ final class ProductRegisterViewController: UIViewController {
             ),
         ])
         NSLayoutConstraint.activate([
-            textFieldStackView.topAnchor.constraint(equalTo: registerImage.bottomAnchor, constant: 20),
+            textFieldStackView.topAnchor.constraint(equalTo: registerImageView.bottomAnchor, constant: 20),
             textFieldStackView.leadingAnchor.constraint(equalTo: mainScrollView.frameLayoutGuide.leadingAnchor, constant: 10),
             textFieldStackView.trailingAnchor.constraint(equalTo: mainScrollView.frameLayoutGuide.trailingAnchor, constant: -10)
         ])
@@ -338,12 +338,12 @@ final class ProductRegisterViewController: UIViewController {
 extension ProductRegisterViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         var newImage: UIImage? = nil
-       
-       if let possibleImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
-           newImage = possibleImage
-       } else if let possibleImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
-           newImage = possibleImage
-       }
+        
+        if let possibleImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
+            newImage = possibleImage
+        } else if let possibleImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+            newImage = possibleImage
+        }
         guard let image = newImage?.resizing(size: CGSize(width: 50, height: 80)) else {
             return
         }
@@ -351,7 +351,7 @@ extension ProductRegisterViewController: UIImagePickerControllerDelegate, UINavi
         images.append(image)
         applyImageSnapShot()
         imagePicker.dismiss(animated: true, completion: nil)
-       }
+    }
 }
     //MARK: - Alert
 extension ProductRegisterViewController {
