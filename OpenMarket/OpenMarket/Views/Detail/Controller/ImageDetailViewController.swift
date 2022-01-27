@@ -23,8 +23,11 @@ class ImageDetailViewController: UIViewController {
         registerXib()
         setUpCollectionView()
         setUpPageControl()
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.01) {
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        DispatchQueue.main.async {
             let indexPath = IndexPath(item: self.currentPage, section: 0)
             self.collectionView.scrollToItem(
                 at: indexPath,
