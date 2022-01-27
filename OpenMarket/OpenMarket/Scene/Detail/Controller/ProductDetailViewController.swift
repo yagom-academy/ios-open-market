@@ -154,8 +154,8 @@ extension ProductDetailViewController {
         guard let secret = secret else {
             return
         }
-        let productSecret = ProductSecret(secret: VendorInformation.secret)
-        api.retrieveProductSecret(productId: productDetail.id, secret: productSecret) { result in
+        let productPassword = ProductPassword(secret: VendorInformation.secret)
+        api.retrieveProductSecret(productId: productDetail.id, password: productPassword) { result in
             switch result {
             case .success(let password):
                 DispatchQueue.main.async {

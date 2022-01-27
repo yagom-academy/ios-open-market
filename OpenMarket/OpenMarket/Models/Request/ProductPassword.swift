@@ -1,6 +1,6 @@
 import Foundation
 
-struct ProductSecret: Codable {
+struct ProductPassword: Codable {
     let secret: String
     
     enum CodingKeys: CodingKey {

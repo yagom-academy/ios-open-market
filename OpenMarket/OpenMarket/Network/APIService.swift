@@ -95,12 +95,12 @@ extension APIService {
         task.resume()
     }
     
-    func retrieveProductSecret(productId: Int, secret: ProductSecret, completion: @escaping (Result<String, APIError>) -> Void) {
+    func retrieveProductSecret(productId: Int, password: ProductPassword, completion: @escaping (Result<String, APIError>) -> Void) {
         guard let url = URLCreator.productSecret(id: productId).url else {
             return
         }
         
-        guard let body = try? JSONEncoder().encode(secret) else {
+        guard let body = try? JSONEncoder().encode(password) else {
             return
         }
         
