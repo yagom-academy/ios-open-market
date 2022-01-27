@@ -6,12 +6,13 @@ class PostManager {
     var delegate: PostManagerDelegate?
     var postParams: ProductPost.Request.Params?
     var postImages: [UIImage]?
+    let secretKey = "$4VptmhDPzSD3#zg"
     
     func loadComponents(images: [UIImage], params: ProductPost.Request.Params) {
         postImages = images
         postParams = params
     }
-    
+ 
     func makeMultiPartFormData() {
         guard let postImages = postImages else {
             return

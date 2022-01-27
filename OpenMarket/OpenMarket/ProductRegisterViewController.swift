@@ -413,7 +413,6 @@ extension ProductRegisterViewController {
     
 extension ProductRegisterViewController: PostManagerDelegate {
     func makeParams() {
-        let secretKey = "$4VptmhDPzSD3#zg"
         
         guard let price = Double(productPriceTextField.text ?? "0.0") else {
             return
@@ -451,7 +450,7 @@ extension ProductRegisterViewController: PostManagerDelegate {
             currency: currency,
             discountedPrice: Decimal(discountPrice),
             stock: stock,
-            secret: secretKey
+            secret: postManager.secretKey
         )
     }
 
