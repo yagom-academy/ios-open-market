@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="K8S-VL-fLd">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="K8S-VL-fLd">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -21,7 +21,7 @@
                                 <rect key="frame" x="0.0" y="88" width="414" height="808"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Pmj-8Q-wD4">
-                                        <rect key="frame" x="8" y="0.0" width="398" height="808"/>
+                                        <rect key="frame" x="8" y="0.0" width="398" height="872.5"/>
                                         <subviews>
                                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="bCH-8b-QxW" customClass="ImagesCollectionView" customModule="OpenMarket" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="0.0" width="398" height="128"/>
@@ -38,7 +38,7 @@
                                                 <cells/>
                                             </collectionView>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="0vB-nZ-7fX" customClass="TextFieldsStackView" customModule="OpenMarket" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="136" width="398" height="672"/>
+                                                <rect key="frame" x="0.0" y="136" width="398" height="736.5"/>
                                                 <subviews>
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Laf-8V-Pyw">
                                                         <rect key="frame" x="0.0" y="0.0" width="398" height="34"/>
@@ -48,8 +48,17 @@
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits"/>
                                                     </textField>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="  상품명을 3자리 이상 입력해주세요." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0vu-Qh-0ih">
+                                                        <rect key="frame" x="0.0" y="42" width="398" height="13.5"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="12" id="6Lj-Be-wuN"/>
+                                                        </constraints>
+                                                        <fontDescription key="fontDescription" style="UICTFontTextStyleCaption2"/>
+                                                        <color key="textColor" systemColor="systemRedColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
                                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="SIu-pr-bmS">
-                                                        <rect key="frame" x="0.0" y="42" width="398" height="34"/>
+                                                        <rect key="frame" x="0.0" y="63.5" width="398" height="34"/>
                                                         <subviews>
                                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="hUz-td-uu1">
                                                                 <rect key="frame" x="0.0" y="0.0" width="293" height="34"/>
@@ -68,16 +77,34 @@
                                                             </segmentedControl>
                                                         </subviews>
                                                     </stackView>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="  가격을 입력해주세요." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TXK-5U-sbc">
+                                                        <rect key="frame" x="0.0" y="105.5" width="398" height="13.5"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="12" id="W2m-CW-5HR"/>
+                                                        </constraints>
+                                                        <fontDescription key="fontDescription" style="UICTFontTextStyleCaption2"/>
+                                                        <color key="textColor" systemColor="systemRedColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="OiE-BG-jus">
-                                                        <rect key="frame" x="0.0" y="84" width="398" height="34"/>
+                                                        <rect key="frame" x="0.0" y="127" width="398" height="34"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="34" id="AhR-DI-6Bq"/>
                                                         </constraints>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits"/>
                                                     </textField>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="  상품 가격보다 할인금액이 큽니다." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cx0-9R-imb">
+                                                        <rect key="frame" x="0.0" y="169" width="398" height="13.5"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="12" id="eTm-2h-Ztz"/>
+                                                        </constraints>
+                                                        <fontDescription key="fontDescription" style="UICTFontTextStyleCaption2"/>
+                                                        <color key="textColor" systemColor="systemRedColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="VsZ-2j-3kD">
-                                                        <rect key="frame" x="0.0" y="126" width="398" height="34"/>
+                                                        <rect key="frame" x="0.0" y="190.5" width="398" height="34"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="34" id="0zf-4U-tJB"/>
                                                         </constraints>
@@ -85,7 +112,7 @@
                                                         <textInputTraits key="textInputTraits"/>
                                                     </textField>
                                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" verticalCompressionResistancePriority="1000" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="uNd-sN-wC2">
-                                                        <rect key="frame" x="0.0" y="168" width="398" height="504"/>
+                                                        <rect key="frame" x="0.0" y="232.5" width="398" height="504"/>
                                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="500" id="jPb-sY-ut7"/>
@@ -99,8 +126,11 @@
                                                 <connections>
                                                     <outlet property="currency" destination="2XC-jE-m27" id="Yx6-t4-RjY"/>
                                                     <outlet property="descriptionTextView" destination="uNd-sN-wC2" id="hv8-zK-N89"/>
+                                                    <outlet property="discountedPriceInvalidLabel" destination="cx0-9R-imb" id="JRI-dx-3mJ"/>
                                                     <outlet property="discountedPriceTextField" destination="OiE-BG-jus" id="xxZ-3z-E4h"/>
+                                                    <outlet property="nameInvalidLabel" destination="0vu-Qh-0ih" id="Md1-nr-5Y6"/>
                                                     <outlet property="nameTextField" destination="Laf-8V-Pyw" id="b16-fi-uMw"/>
+                                                    <outlet property="priceInvalidLabel" destination="TXK-5U-sbc" id="XDq-L0-Ta5"/>
                                                     <outlet property="priceTextField" destination="hUz-td-uu1" id="Mxe-Ak-BpK"/>
                                                     <outlet property="stockTextField" destination="VsZ-2j-3kD" id="J19-i6-xUw"/>
                                                 </connections>
@@ -177,6 +207,9 @@
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemRedColor">
+            <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

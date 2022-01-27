@@ -21,6 +21,22 @@ class EditViewController: UIViewController {
         setUpNotificationCenter()
         setUpView()
         self.navigationItem.title = dataSource.state.rawValue
+        
+        textFieldsStackView.nameTextField.addTarget(
+            self,
+            action: #selector(self.verifyNameTextField(_:)),
+            for: .allEditingEvents
+        )
+        textFieldsStackView.priceTextField.addTarget(
+            self,
+            action: #selector(self.verifyPriceTextField(_:)),
+            for: .allEditingEvents
+        )
+        textFieldsStackView.discountedPriceTextField.addTarget(
+            self,
+            action: #selector(self.verifyDiscountedPriceTextField(_:)),
+            for: .allEditingEvents
+        )
     }
     
     func setUpModifyMode(product: Product, secret: String, images: [UIImage]) {
@@ -228,6 +244,69 @@ extension EditViewController {
         }
     }
 }
+
+extension EditViewController {
+    
+    @objc func verifyNameTextField(_ sender: Any?) {
+        guard let nameText = textFieldsStackView.nameTextField.text else {
+            return
+        }
+        if nameText.count < 3 {
+            DispatchQueue.main.async {
+                self.textFieldsStackView.nameTextField.layer.borderColor = UIColor.red.cgColor
+                self.textFieldsStackView.nameTextField.layer.borderWidth = 0.5
+                self.textFieldsStackView.nameInvalidLabel.isHidden = false
+            }
+        } else {
+            DispatchQueue.main.async {
+                self.textFieldsStackView.nameTextField.layer.borderWidth = 0
+                self.textFieldsStackView.nameInvalidLabel.isHidden = true
+            }
+        }
+    }
+    
+    @objc func verifyPriceTextField(_ sender: Any?) {
+        guard let priceText = textFieldsStackView.priceTextField.text else {
+            return
+        }
+        if priceText.count <= .zero {
+            DispatchQueue.main.async {
+                self.textFieldsStackView.priceTextField.layer.borderColor = UIColor.red.cgColor
+                self.textFieldsStackView.priceTextField.layer.borderWidth = 0.5
+                self.textFieldsStackView.priceInvalidLabel.isHidden = false
+            }
+        } else {
+            DispatchQueue.main.async {
+                self.textFieldsStackView.priceTextField.layer.borderWidth = 0
+                self.textFieldsStackView.priceInvalidLabel.isHidden = true
+            }
+        }
+    }
+    
+    @objc func verifyDiscountedPriceTextField(_ sender: Any?) {
+        guard let discountedPriceText = textFieldsStackView.discountedPriceTextField.text,
+              let discountedPrice = Double(discountedPriceText) else {
+            return
+        }
+        guard let priceText = textFieldsStackView.priceTextField.text,
+              let price = Double(priceText) else {
+            return
+        }
+        if (price - discountedPrice) < .zero {
+            DispatchQueue.main.async {
+                self.textFieldsStackView.discountedPriceTextField.layer.borderColor = UIColor.red.cgColor
+                self.textFieldsStackView.discountedPriceTextField.layer.borderWidth = 0.5
+                self.textFieldsStackView.discountedPriceInvalidLabel.isHidden = false
+            }
+        } else {
+            DispatchQueue.main.async {
+                self.textFieldsStackView.discountedPriceTextField.layer.borderWidth = 0
+                self.textFieldsStackView.discountedPriceInvalidLabel.isHidden = true
+            }
+        }
+    }
+}
+
 extension EditViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(
         _ collectionView: UICollectionView,
