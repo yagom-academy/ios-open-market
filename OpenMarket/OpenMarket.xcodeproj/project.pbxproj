@@ -39,8 +39,8 @@
 		C1346A0D278894390044DFDB /* UpdateProductRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E96323BC278888F900851348 /* UpdateProductRequest.swift */; };
 		C1346A0E2788943C0044DFDB /* APIRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13469F827885DB00044DFDB /* APIRequest.swift */; };
 		C13BFD5B2796E015006E2440 /* ProductUpdateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13BFD5A2796E015006E2440 /* ProductUpdateViewController.swift */; };
+		C150A58127A2D0EF00A6A68E /* ProductCreateViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C150A58027A2D0EF00A6A68E /* ProductCreateViewModel.swift */; };
 		C16355062798421A004272DE /* Extension+UIKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = C163550527984219004272DE /* Extension+UIKit.swift */; };
-		C163550827985783004272DE /* ProductCreateModelManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C163550727985783004272DE /* ProductCreateModelManager.swift */; };
 		C163550A2798790A004272DE /* Extension+Foundation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C16355092798790A004272DE /* Extension+Foundation.swift */; };
 		C163550C27987B03004272DE /* AppConfigure.swift in Sources */ = {isa = PBXBuildFile; fileRef = C163550B27987B03004272DE /* AppConfigure.swift */; };
 		C171F88027841135001D0B76 /* URLSessionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C171F87F27841135001D0B76 /* URLSessionProvider.swift */; };
@@ -137,8 +137,8 @@
 		C1346A02278867DA0044DFDB /* DeleteProductRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteProductRequest.swift; sourceTree = "<group>"; };
 		C1346A0527887E050044DFDB /* CreateProductRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateProductRequest.swift; sourceTree = "<group>"; };
 		C13BFD5A2796E015006E2440 /* ProductUpdateViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductUpdateViewController.swift; sourceTree = "<group>"; };
+		C150A58027A2D0EF00A6A68E /* ProductCreateViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductCreateViewModel.swift; sourceTree = "<group>"; };
 		C163550527984219004272DE /* Extension+UIKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+UIKit.swift"; sourceTree = "<group>"; };
-		C163550727985783004272DE /* ProductCreateModelManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductCreateModelManager.swift; sourceTree = "<group>"; };
 		C16355092798790A004272DE /* Extension+Foundation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+Foundation.swift"; sourceTree = "<group>"; };
 		C163550B27987B03004272DE /* AppConfigure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfigure.swift; sourceTree = "<group>"; };
 		C171F87F27841135001D0B76 /* URLSessionProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionProvider.swift; sourceTree = "<group>"; };
@@ -281,7 +281,7 @@
 			isa = PBXGroup;
 			children = (
 				C1763B672799589700D6C159 /* ProductCreateViewController.swift */,
-				C163550727985783004272DE /* ProductCreateModelManager.swift */,
+				C150A58027A2D0EF00A6A68E /* ProductCreateViewModel.swift */,
 			);
 			path = ProductCreate;
 			sourceTree = "<group>";
@@ -307,6 +307,18 @@
 				C1A7D48B27A27C0E009CE82E /* ProductModify */,
 			);
 			path = ProductUpdate;
+			sourceTree = "<group>";
+		};
+		C150A58227A2DDBD00A6A68E /* Entity */ = {
+			isa = PBXGroup;
+			children = (
+				E99FDE772782D4C00083D4D6 /* Page.swift */,
+				C17E063527846CF400D7F83D /* Product.swift */,
+				C13469E52786E32F0044DFDB /* ProductImage.swift */,
+				C13469E82786E35C0044DFDB /* Vendor.swift */,
+				E9FDEA14278463FE00B12770 /* Currency.swift */,
+			);
+			path = Entity;
 			sourceTree = "<group>";
 		};
 		C17E063827846D3400D7F83D /* Network */ = {
@@ -481,11 +493,9 @@
 		E99FDE742782D3980083D4D6 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				E99FDE772782D4C00083D4D6 /* Page.swift */,
-				C17E063527846CF400D7F83D /* Product.swift */,
-				C13469E52786E32F0044DFDB /* ProductImage.swift */,
-				C13469E82786E35C0044DFDB /* Vendor.swift */,
-				E9FDEA14278463FE00B12770 /* Currency.swift */,
+				C106B29427A11E7000716925 /* ProductModelManager.swift */,
+				C1763B63279931C900D6C159 /* ProductNetworkManager.swift */,
+				C150A58227A2DDBD00A6A68E /* Entity */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -508,8 +518,6 @@
 				C123DF98279FB4A9003F5101 /* ProductDetail */,
 				C13BFD582796DF5E006E2440 /* ProductPage */,
 				C150A57F27A2C95A00A6A68E /* ProductUpdate */,
-				C106B29427A11E7000716925 /* ProductModelManager.swift */,
-				C1763B63279931C900D6C159 /* ProductNetworkManager.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -735,7 +743,6 @@
 				C163550A2798790A004272DE /* Extension+Foundation.swift in Sources */,
 				C1A9BEA2279DB522005D6679 /* ProductRegisterView.swift in Sources */,
 				C16355062798421A004272DE /* Extension+UIKit.swift in Sources */,
-				C163550827985783004272DE /* ProductCreateModelManager.swift in Sources */,
 				C12E744C279548BC000197A0 /* OpenMarketGridCollectionViewCell.swift in Sources */,
 				C1E0C19F279C50990046E839 /* ProductUpdateTextViewDelegate.swift in Sources */,
 				C1763B682799589700D6C159 /* ProductCreateViewController.swift in Sources */,
@@ -755,6 +762,7 @@
 				E9632438278AEAB800851348 /* MultiPartRequest.swift in Sources */,
 				E96323BD278888F900851348 /* UpdateProductRequest.swift in Sources */,
 				E998F88E279164BF008DD201 /* OpenMarketLayout.swift in Sources */,
+				C150A58127A2D0EF00A6A68E /* ProductCreateViewModel.swift in Sources */,
 				C1346A0627887E050044DFDB /* CreateProductRequest.swift in Sources */,
 				E9632454278B2A7600851348 /* CreateProductResponse.swift in Sources */,
 				C12BD9FC27A250780035A06E /* ProductDetailViewModel.swift in Sources */,

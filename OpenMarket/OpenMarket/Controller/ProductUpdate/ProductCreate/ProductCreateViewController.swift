@@ -9,8 +9,7 @@ import UIKit
 
 final class ProductCreateViewController: ProductUpdateViewController {
     
-    @objc private(set) var model = ProductCreateModelManager()
-    private var observation: NSKeyValueObservation?
+    private(set) lazy var viewModel = ProductCreateViewModel(viewHandler: self.updateImageStackView)
     
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     private let imagePicker = UIImagePickerController(allowsEditing: true)
@@ -19,51 +18,39 @@ final class ProductCreateViewController: ProductUpdateViewController {
         super.viewDidLoad()
         configureImagePicker()
         configureTargetAction()
-        configureKVO()
     }
     
-    @objc
     func updateImageStackView() {
         DispatchQueue.main.async {
             self.productRegisterView.productImageStackView.subviews.forEach {
                 $0.removed(from: self.productRegisterView.productImageStackView, whenTypeIs: UIImageView.self)
             }
-            self.model.images.forEach {
+            self.viewModel.images.forEach {
                 self.productRegisterView.productImageStackView.insertArrangedSubview(UIImageView(with: $0), at: 0)
             }
         }
     }
     
     private func imageAddbuttonClicked(_ sender: Any) {
-        guard model.canAddImage else {
+        guard viewModel.canAddImage else {
             let title = "첨부할 수 있는 이미지가 초과되었습니다"
             let message = "새로운 이미지를 첨부하려면 기존의 이미지를 제거해주세요!"
             presentAcceptAlert(with: title, description: message)
             return
         }
-        
-        let alert = UIAlertController(
-            title: "사진을 불러옵니다",
-            message: "어디서 불러올까요?",
-            preferredStyle: .actionSheet
-        )
-        alert.addAction(title: "카메라", style: .default, handler: openCamera)
-        alert.addAction(title: "앨범", style: .default, handler: openPhotoLibrary)
-        alert.addAction(title: "취소", style: .cancel)
-        
-        self.present(alert, animated: true, completion: nil)
+        presentImagePickerAlert()
     }
     
     @IBAction func doneButtonClicked(_ sender: UIBarButtonItem) {
         activityIndicator.startAnimating()
         do {
-            try model.process(form, completionHandler: completionHandler)
+            try viewModel.process(form, completionHandler: completionHandler)
         } catch {
             failureHandler(error: error)
         }
     }
     
-    private func completionHandler(_ result: Result<CreateProductResponse, URLSessionProviderError>) {
+    private func completionHandler(_ result: Result<CreateProductResponse, Error>) {
         DispatchQueue.main.async {
             switch result {
             case.success(_):
@@ -92,14 +79,9 @@ private extension ProductCreateViewController {
     }
     
     func configureTargetAction() {
-        productRegisterView.productImageAddButton.addAction(
-            UIAction(handler: imageAddbuttonClicked), for: .touchUpInside)
-    }
-    
-    func configureKVO() {
-        observation = model.observe(\.images, options: []) { (_, _) in
-            self.updateImageStackView()
-        }
+        let addButton: UIButton = productRegisterView.productImageAddButton
+        let action = UIAction(handler: imageAddbuttonClicked)
+        addButton.addAction(action, for: .touchUpInside)
     }
     
 }
@@ -131,10 +113,23 @@ extension ProductCreateViewController: UIImagePickerControllerDelegate, UINaviga
         present(imagePicker, animated: true)
     }
     
+    private func presentImagePickerAlert() {
+        let alert = UIAlertController(
+            title: "사진을 불러옵니다",
+            message: "어디서 불러올까요?",
+            preferredStyle: .actionSheet
+        )
+        alert.addAction(title: "카메라", style: .default, handler: openCamera)
+        alert.addAction(title: "앨범", style: .default, handler: openPhotoLibrary)
+        alert.addAction(title: "취소", style: .cancel)
+        
+        self.present(alert, animated: true, completion: nil)
+    }
+    
     func imagePickerController(_ picker: UIImagePickerController,
                                didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let image = info[.editedImage] as? UIImage {
-            model.append(image: image)
+            viewModel.append(image: image)
         }
         dismiss(animated: true)
     }

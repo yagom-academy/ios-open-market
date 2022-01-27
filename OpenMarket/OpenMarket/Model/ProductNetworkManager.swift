@@ -17,7 +17,7 @@ class ProductNetworkManager {
             .showProductPage(
                 pageNumber: pageNumber,
                 itemsPerPage: itemsPerPage)
-        ) { (result: Result<ShowProductPageResponse, URLSessionProviderError>) in
+        ) { (result: Result<ShowProductPageResponse, Error>) in
             switch result {
             case .success(let data):
                 guard let data = data as? T else { return }
@@ -66,9 +66,9 @@ class ProductNetworkManager {
 
 extension ProductNetworkManager {
     
-    typealias CreateProductResult = Result<CreateProductResponse, URLSessionProviderError>
-    typealias DetailProductResult = Result<ShowProductDetailResponse, URLSessionProviderError>
-    typealias UpdateProductResult = Result<UpdateProductResponse, URLSessionProviderError>
-    typealias ProductImageResult = Result<UIImage, URLSessionProviderError>
+    typealias CreateProductResult = Result<CreateProductResponse, Error>
+    typealias DetailProductResult = Result<ShowProductDetailResponse, Error>
+    typealias UpdateProductResult = Result<UpdateProductResponse, Error>
+    typealias ProductImageResult = Result<UIImage, Error>
     
 }

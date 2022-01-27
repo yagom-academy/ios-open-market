@@ -27,7 +27,7 @@ class ProductModifyViewModel {
     }
     
     func doneButtonClicked(form: ProductRegisterForm,
-                           completionHandler: ((Result<Product, URLSessionProviderError>) -> Void)? = nil) {
+                           completionHandler: ((Result<Product, Error>) -> Void)? = nil) {
         model.requestModifyProduct(form: form, completionHandler: completionHandler)
     }
     
