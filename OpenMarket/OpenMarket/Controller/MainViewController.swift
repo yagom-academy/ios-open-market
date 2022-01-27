@@ -105,6 +105,25 @@ class MainViewController: UIViewController {
         loadProductsList(pageNumber: 1)
     }
     
+    private func presentProductDetail(at index: Int) {
+        guard let productId = productsDataSource.productId(at: index) else { return }
+        let storyboard = UIStoryboard(
+            name: ProductDetailViewController.storyboardName, bundle: nil
+        )
+        let viewController = storyboard.instantiateViewController(
+            identifier: ProductDetailViewController.identifier
+        ) { coder in
+            let productDetailViewController = ProductDetailViewController(
+                coder: coder,
+                productId: productId,
+                networkTask: self.networkTask,
+                jsonParser: self.jsonParser
+            )
+            return productDetailViewController
+        }
+        navigationController?.pushViewController(viewController, animated: true)
+    }
+    
     private func tryPresentingEditView(at index: Int) {
         if let vendorId = productsDataSource.vendorId(at: index),
            vendorId != 16 {
@@ -243,7 +262,7 @@ extension MainViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tryPresentingEditView(at: indexPath.row)
+        presentProductDetail(at: indexPath.row)
     }
 }
 
@@ -257,7 +276,7 @@ extension MainViewController: UICollectionViewDelegate {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        tryPresentingEditView(at: indexPath.item)
+        presentProductDetail(at: indexPath.item)
     }
 }
 
