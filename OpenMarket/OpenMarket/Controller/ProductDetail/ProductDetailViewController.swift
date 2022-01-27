@@ -70,7 +70,16 @@ private extension ProductDetailViewController {
     }
     
     func deleteProductHandler(_ action: UIAlertAction) {
+        let title = "패스워드를 입력해주세요"
+        let message = "상품을 삭제하려면 암호를 입력해주세요!"
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         
+        [
+            UIAlertAction(title: "확인", style: .default, handler: nil),
+            UIAlertAction(title: "취소", style: .cancel, handler: nil)
+        ].forEach { alert.addAction($0) }
+        
+        present(alert, animated: true)
     }
     
 }
