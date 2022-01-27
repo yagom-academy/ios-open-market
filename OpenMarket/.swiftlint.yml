@@ -1,6 +1,7 @@
 disabled_rules:
 - trailing_whitespace
 - xctfail_message
+- type_body_length
 
 included:
 excluded:
@@ -9,3 +10,5 @@ excluded:
 - OpenMarket/SceneDelegate.swift
 
 line_length: 99
+identifier_name:
+    max_length: 45

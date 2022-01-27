@@ -4,11 +4,12 @@ struct Product: Decodable {
     let id: Int
     let vendorId: Int
     let name: String
+    let description: String?
     let thumbnail: String
     let currency: Currency
-    let price: Double
-    let bargainPrice: Double
-    let discountedPrice: Double
+    let price: Decimal
+    let bargainPrice: Decimal
+    let discountedPrice: Decimal
     let stock: Int
     let images: [Image]?
     let vendor: Vendor?
@@ -17,8 +18,8 @@ struct Product: Decodable {
     
     private enum CodingKeys: String, CodingKey {
         case vendor = "vendors"
-        case id, vendorId, name, thumbnail, currency, price, bargainPrice, discountedPrice, stock,
-             images, createdAt, issuedAt
+        case id, vendorId, name, description, thumbnail, currency, price, bargainPrice,
+             discountedPrice, stock, images, createdAt, issuedAt
     }
 }
 
@@ -86,10 +87,10 @@ extension Product {
         )
     }
     var attributedPrice: NSAttributedString {
-        if self.bargainPrice == 0.0 {
+        if self.discountedPrice == 0.0 {
             return formattedOriginalPrice
         }
-
+        
         let priceWithBargainPrice = NSMutableAttributedString()
         let blank = NSAttributedString(string: " ")
         
@@ -104,7 +105,7 @@ extension Product {
     }
 }
 
-private extension Double {
+private extension Decimal {
     var formatted: String? {
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .decimal

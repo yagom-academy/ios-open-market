@@ -32,7 +32,11 @@
                                 <action selector="segmentedControlChanged:" destination="UkZ-gV-asY" eventType="valueChanged" id="AZE-NV-rKM"/>
                             </connections>
                         </segmentedControl>
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="0iu-rd-SuS"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="0iu-rd-SuS">
+                            <connections>
+                                <action selector="touchAddProductButton:" destination="UkZ-gV-asY" id="LzG-5S-Qvn"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="viewSegmentedControl" destination="lWY-7m-R2h" id="msJ-9f-wl6"/>

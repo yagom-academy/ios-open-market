@@ -17,6 +17,18 @@ class ProductsDataSource: NSObject {
         return index == products.count - 1
     }
     
+    func removeAllProducts() {
+        products = [Product]()
+    }
+    
+    func productId(at index: Int) -> Int? {
+        return products[safe: index]?.id
+    }
+    
+    func vendorId(at index: Int) -> Int? {
+        return products[safe: index]?.vendorId
+    }
+    
     private func setupCellImage(
         for cell: ProductCell,
         from url: URL,
@@ -57,7 +69,7 @@ extension ProductsDataSource: UITableViewDataSource {
         cellForRowAt indexPath: IndexPath
     ) -> UITableViewCell {
         let product = products[indexPath.row]
-        let reuseIdentifier = ProductsTableViewCell.reuseIdentifier
+        let reuseIdentifier = ProductsTableViewCell.identifier
         let cell = tableView.dequeueReusableCell(
             withIdentifier: reuseIdentifier,
             for: indexPath
@@ -93,7 +105,7 @@ extension ProductsDataSource: UICollectionViewDataSource {
         cellForItemAt indexPath: IndexPath
     ) -> UICollectionViewCell {
         let product = products[indexPath.item]
-        let reuseIdentifier = ProductsCollectionViewCell.reuseIdentifier
+        let reuseIdentifier = ProductsCollectionViewCell.identifier
         let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: reuseIdentifier,
             for: indexPath

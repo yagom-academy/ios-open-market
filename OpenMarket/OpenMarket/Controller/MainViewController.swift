@@ -1,8 +1,6 @@
 import UIKit
 
 class MainViewController: UIViewController {
-    private let tableViewCellNibName = "ProductsTableViewCell"
-    private let collectionViewCellNibName = "ProductsCollectionViewCell"
     private let loadingActivityIndicator = UIActivityIndicatorView()
     private var pageInformation: ProductsList?
     private let jsonParser: JSONParser = {
@@ -29,6 +27,14 @@ class MainViewController: UIViewController {
         loadProductsList(pageNumber: 1)
     }
     
+    @objc private func handleRefrashControl() {
+        reloadData()
+        let scrollView = view as? UIScrollView
+        DispatchQueue.main.async {
+            scrollView?.refreshControl?.endRefreshing()
+        }
+    }
+    
     private func loadProductsList(pageNumber: Int) {
         networkTask.requestProductList(pageNumber: pageNumber, itemsPerPage: 20) { result in
             switch result {
@@ -45,8 +51,8 @@ class MainViewController: UIViewController {
                 }
             case .failure(let error):
                 self.showAlert(
-                    title: "Network error",
-                    message: "데이터를 불러오지 못했습니다.\n\(error.localizedDescription)"
+                    title: "데이터를 불러오지 못했습니다",
+                    message: error.localizedDescription
                 )
                 self.loadingActivityIndicator.stopAnimating()
             }
@@ -94,8 +100,87 @@ class MainViewController: UIViewController {
         self.view = loadView(from: selectedSegment)
     }
     
+    private func reloadData() {
+        productsDataSource.removeAllProducts()
+        loadProductsList(pageNumber: 1)
+    }
+    
+    private func tryPresentingEditView(at index: Int) {
+        if let vendorId = productsDataSource.vendorId(at: index),
+           vendorId != 16 {
+            showAlert(
+                title: "다른 사람의 상품입니다",
+                message: "Vedor Id: \(vendorId)"
+            )
+        }
+        guard let productId = productsDataSource.productId(at: index) else { return }
+        networkTask.requestProductDetail(productId: productId) { result in
+            switch result {
+            case .success(let data):
+                guard let product: Product = try? self.jsonParser.decode(from: data) else {
+                    return
+                }
+                let storyboard = UIStoryboard(
+                    name: ProductRegistrationViewController.storyboardName,
+                    bundle: nil
+                )
+                DispatchQueue.main.async {
+                    let viewController = storyboard.instantiateViewController(
+                        identifier: ProductRegistrationViewController.identifier
+                    ) { coder in
+                        let productRegistrationViewController = ProductRegistrationViewController(
+                            coder: coder,
+                            isModifying: true,
+                            productInformation: product,
+                            networkTask: self.networkTask,
+                            jsonParser: self.jsonParser
+                        ) {
+                            self.showAlert(title: "수정 성공", message: nil)
+                            self.reloadData()
+                        }
+                        return productRegistrationViewController
+                    }
+                    let navigationController = UINavigationController(
+                        rootViewController: viewController
+                    )
+                    navigationController.modalPresentationStyle = .fullScreen
+                    self.present(navigationController, animated: true, completion: nil)
+                }
+            case .failure(let error):
+                self.showAlert(
+                    title: "데이터를 불러오지 못했습니다",
+                    message: error.localizedDescription
+                )
+            }
+        }
+    }
+    
     @IBAction private func segmentedControlChanged(_ sender: UISegmentedControl) {
         changeSubview()
+    }
+    
+    @IBAction private func touchAddProductButton(_ sender: UIBarButtonItem) {
+        let storyboard = UIStoryboard(
+            name: ProductRegistrationViewController.storyboardName,
+            bundle: nil
+        )
+        let viewController = storyboard.instantiateViewController(
+            identifier: ProductRegistrationViewController.identifier
+        ) { coder in
+            let productRegistrationViewController = ProductRegistrationViewController(
+                coder: coder,
+                isModifying: false,
+                networkTask: self.networkTask,
+                jsonParser: self.jsonParser
+            ) {
+                self.showAlert(title: "등록 성공", message: nil)
+                self.reloadData()
+            }
+            return productRegistrationViewController
+        }
+        let navigationController = UINavigationController(rootViewController: viewController)
+        navigationController.modalPresentationStyle = .fullScreen
+        present(navigationController, animated: true, completion: nil)
     }
 }
 
@@ -108,17 +193,23 @@ extension MainViewController {
     private func loadView(from segment: Segement) -> UIView {
         switch segment {
         case .list:
-            let nibName = UINib(nibName: tableViewCellNibName, bundle: nil)
+            let nibName = UINib(nibName: ProductsTableViewCell.identifier, bundle: nil)
             let tableView = UITableView()
             tableView.dataSource = productsDataSource
             tableView.delegate = self
             tableView.register(
                 nibName,
-                forCellReuseIdentifier: ProductsTableViewCell.reuseIdentifier
+                forCellReuseIdentifier: ProductsTableViewCell.identifier
+            )
+            tableView.refreshControl = UIRefreshControl()
+            tableView.refreshControl?.addTarget(
+                self,
+                action: #selector(handleRefrashControl),
+                for: .valueChanged
             )
             return tableView
         case .grid:
-            let nibName = UINib(nibName: collectionViewCellNibName, bundle: nil)
+            let nibName = UINib(nibName: ProductsCollectionViewCell.identifier, bundle: nil)
             let layout = UICollectionViewFlowLayout()
             layout.sectionInset = UIEdgeInsets(top: 0.0, left: 10.0, bottom: 0.0, right: 10.0)
             layout.sectionInsetReference = .fromSafeArea
@@ -128,7 +219,14 @@ extension MainViewController {
             collectionView.delegate = self
             collectionView.register(
                 nibName,
-                forCellWithReuseIdentifier: ProductsCollectionViewCell.reuseIdentifier
+                forCellWithReuseIdentifier: ProductsCollectionViewCell.identifier
+            )
+            collectionView.backgroundColor = .systemBackground
+            collectionView.refreshControl = UIRefreshControl()
+            collectionView.refreshControl?.addTarget(
+                self,
+                action: #selector(handleRefrashControl),
+                for: .valueChanged
             )
             return collectionView
         }
@@ -143,6 +241,10 @@ extension MainViewController: UITableViewDelegate {
     ) {
         loadNextPage(ifLastItemAt: indexPath)
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tryPresentingEditView(at: indexPath.row)
+    }
 }
 
 extension MainViewController: UICollectionViewDelegate {
@@ -152,6 +254,10 @@ extension MainViewController: UICollectionViewDelegate {
         forItemAt indexPath: IndexPath
     ) {
         loadNextPage(ifLastItemAt: indexPath)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        tryPresentingEditView(at: indexPath.item)
     }
 }
 
