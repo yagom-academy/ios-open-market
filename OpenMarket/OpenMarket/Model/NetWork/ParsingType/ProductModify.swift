@@ -5,9 +5,9 @@ enum ProductModify {
         let name: String?
         let description: String?
         let thumbnailId: Int?
-        let price: Double?
+        let price: Decimal?
         let currency: Currency?
-        let discountedPrice: Double?
+        let discountedPrice: Decimal?
         let stock: Int?
         let secret: String
         
@@ -24,9 +24,9 @@ enum ProductModify {
         let name: String
         let thumbnail: String
         let currency: Currency
-        let price: Double
-        let bargainPrice: Double
-        let discountedPrice: Double
+        let price: Decimal
+        let bargainPrice: Decimal
+        let discountedPrice: Decimal
         let stock: Int
         let images: [Image]
         let vendors: Vendor

@@ -28,9 +28,9 @@ enum ProductListAsk {
             let name: String
             let thumbnail: String
             let currency: Currency
-            let price: Double
-            let bargainPrice: Double
-            let discountedPrice: Double
+            let price: Decimal
+            let bargainPrice: Decimal
+            let discountedPrice: Decimal
             let stock: Int
             let createdAt: String
             let issuedAt: String
