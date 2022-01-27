@@ -26,40 +26,44 @@ class ProductDetailViewModel {
         model.requestDetailProduct()
     }
     
+    var product: Product? {
+        return model.product
+    }
+    
     var productImages: [UIImage] {
         return model.images
     }
     
     var productNameText: String {
-        guard let product = model.product else { return "" }
+        guard let product = product else { return "" }
         return product.name
     }
     
     var productStockText: String {
-        guard let stock = model.product?.stock else { return "" }
+        guard let stock = product?.stock else { return "" }
         let productStockValue = stock > 0 ? "재고수량 : \(stock)" : "품절"
         return productStockValue
     }
     
     var productCurrency: String {
-        guard let currency = model.product?.currency else { return "" }
+        guard let currency = product?.currency else { return "" }
         return "\(currency)"
     }
     
     var productDiscountedText: String {
-        guard let discountedPrice = model.product?.discountedPrice else { return "" }
+        guard let discountedPrice = product?.discountedPrice else { return "" }
         let discountedPriceValue = "\(productCurrency) \(discountedPrice)"
         return discountedPriceValue
     }
     
     var productPriceText: String {
-        guard let price = model.product?.price else { return "" }
+        guard let price = product?.price else { return "" }
         let productPriceValue = "\(productCurrency) \(price)"
         return productPriceValue
     }
     
     var productDescriptionText: String {
-        guard let description = model.product?.descriptions else { return "" }
+        guard let description = product?.descriptions else { return "" }
         return description
     }
     

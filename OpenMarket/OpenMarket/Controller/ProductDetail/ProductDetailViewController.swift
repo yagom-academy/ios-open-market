@@ -38,16 +38,39 @@ class ProductDetailViewController: UIViewController {
         }
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let navigationVC = segue.destination as? UINavigationController,
+           let modifyVC = navigationVC.topViewController as? ProductModifyViewController,
+           let product = sender as? Product {
+            modifyVC.product = product
+        }
+    }
+    
     @IBAction func actionButtonClicked(_ sender: UIBarButtonItem) {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         [
-            UIAlertAction(title: "수정", style: .default, handler: nil),
-            UIAlertAction(title: "삭제", style: .destructive, handler: nil),
-            UIAlertAction(title: "취소", style: .cancel, handler: nil)
+            UIAlertAction(title: "수정", style: .default,
+                          handler: modifyProductHandler),
+            UIAlertAction(title: "삭제", style: .destructive,
+                          handler: deleteProductHandler),
+            UIAlertAction(title: "취소", style: .cancel)
         ].forEach { alert.addAction($0) }
         present(alert, animated: true)
     }
     
     @IBAction func unwindToProductDetailView(_ segue: UIStoryboardSegue) { }
 
+}
+
+// MARK: - UIAlertController ActionSheet Handler
+private extension ProductDetailViewController {
+    
+    func modifyProductHandler(_ action: UIAlertAction) {
+        performSegue(withIdentifier: "productModifySegue", sender: viewModel.product)
+    }
+    
+    func deleteProductHandler(_ action: UIAlertAction) {
+        
+    }
+    
 }

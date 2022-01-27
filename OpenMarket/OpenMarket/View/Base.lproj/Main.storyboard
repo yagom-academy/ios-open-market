@@ -61,7 +61,7 @@
             </objects>
             <point key="canvasLocation" x="1047.8260869565217" y="124.55357142857142"/>
         </scene>
-        <!--Product Detail View Controller-->
+        <!--상품명-->
         <scene sceneID="QCq-wP-JdK">
             <objects>
                 <viewController id="1VN-jc-Ozh" customClass="ProductDetailViewController" customModule="OpenMarket" customModuleProvider="target" sceneMemberID="viewController">
@@ -150,7 +150,7 @@
                             <constraint firstAttribute="bottom" secondItem="dRK-1h-659" secondAttribute="bottom" id="n7e-W7-PEJ"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="3ue-I5-Qfh">
+                    <navigationItem key="navigationItem" title="상품명" id="3ue-I5-Qfh">
                         <barButtonItem key="rightBarButtonItem" systemItem="action" id="UgP-0v-8Nc">
                             <connections>
                                 <action selector="actionButtonClicked:" destination="1VN-jc-Ozh" id="IhZ-wg-Ov5"/>
@@ -260,7 +260,7 @@
         <!--상품수정-->
         <scene sceneID="svR-ui-f4q">
             <objects>
-                <viewController id="mZm-4O-mn7" sceneMemberID="viewController">
+                <viewController id="mZm-4O-mn7" customClass="ProductModifyViewController" customModule="OpenMarket" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="A6r-5l-W8b">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
