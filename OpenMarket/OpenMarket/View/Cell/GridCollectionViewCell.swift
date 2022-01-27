@@ -106,15 +106,31 @@ class GridCollectionViewCell: UICollectionViewCell {
     
     private func setUpImage(url: String) {
         DispatchQueue.global().async {
-            guard let imageUrl = URL(string: url),
-                  let data = try? Data(contentsOf: imageUrl) else {
+            guard let imageUrl = URL(string: url) else {
                 return
             }
             
-            DispatchQueue.main.async {
-                self.productImageView.image = UIImage(data: data)
+            self.loadImage(url: imageUrl) { image in
+                DispatchQueue.main.async {
+                    self.productImageView.image = image
+                }
             }
         }
+    }
+    
+    private func loadImage(url: URL, completionHandler: @escaping (UIImage) -> Void) {
+        let task = URLSession.shared.dataTask(with: url) { data, _, _ in
+            guard let data = data else {
+                return
+            }
+            
+            guard let image = UIImage(data: data) else {
+                return
+            }
+            
+            completionHandler(image)
+        }
+        task.resume()
     }
     
     private func setUpStockLabel(with stock: Int) {

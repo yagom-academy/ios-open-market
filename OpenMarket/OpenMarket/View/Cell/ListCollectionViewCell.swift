@@ -148,7 +148,6 @@ class ListCollectionViewCell: UICollectionViewCell {
                 DispatchQueue.main.async {
                     self.productImageView.image = image
                 }
-                
             }
         }
     }
