@@ -114,11 +114,93 @@ extension ProductDetailViewController {
         modificationButtonItem = UIBarButtonItem(image: UIImage(systemName: "square.and.arrow.up"),
                                                         style: .plain,
                                                         target: self,
-                                                        action: #selector(modifyOrDeleteProduct))
+                                                        action: #selector(presentModifyOrDeleteAlert))
     }
     
-    @objc private func modifyOrDeleteProduct() {
+    @objc private func presentModifyOrDeleteAlert() {
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let modifyAction = UIAlertAction(title: "수정", style: .default) {
+            _ in
+            
+        }
+        let deleteAction = UIAlertAction(title: "삭제", style: .destructive) {
+            _ in
+            self.presentDeleteAlert()
+        }
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel)
+        alert.addAction(modifyAction)
+        alert.addAction(deleteAction)
+        alert.addAction(cancelAction)
+        present(alert, animated: true, completion: nil)
+    }
+    
+    private func presentDeleteAlert() {
+        let alert = UIAlertController(title: "삭제비밀번호입력", message: nil, preferredStyle: .alert)
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel)
+        let deleteAction = UIAlertAction(title: "삭제", style: .destructive) {
+            _ in
+            guard let inputSecret = alert.textFields?[0].text else {
+                return
+            }
+            self.checkSecretAndDeleteProduct(inputSecret: inputSecret) { result in
+                switch result {
+                case .success(let secret):
+                    self.deleteProduct(secret: secret)
+                case .failure(let error):
+                    print(error.description)
+                }
+            }
+        }
         
+        alert.addTextField()
+        alert.addAction(cancelAction)
+        alert.addAction(deleteAction)
+        self.present(alert, animated: true)
+    }
+    
+    private func checkSecretAndDeleteProduct(inputSecret: String, completion: @escaping (Result<String, OpenMarketError>) -> Void) {
+        guard let productId = productId else {
+            return
+        }
+
+        NetworkingAPI.ProductDeleteSecretQuery.request(session: URLSession.shared,
+                                                       productId: productId,
+                                                       identifier: Vendor.identifier,
+                                                       secret: Vendor.secret) {
+            (result) in
+            switch result {
+            case .success(let data):
+                let secret = String(decoding: data, as: UTF8.self)
+                if inputSecret == secret {
+                    completion(.success(secret))
+                } else {
+                    completion(.failure(OpenMarketError.inputSecretIsWrong(secret)))
+                }
+            case .failure(let error):
+                completion(.failure(error))
+                return
+            }
+        }
+    }
+    
+    private func deleteProduct(secret: String) {
+        guard let productId = productId else {
+            return
+        }
+        
+        NetworkingAPI.ProductDelete.request(session: URLSession.shared,
+                                            identifier: Vendor.identifier,
+                                            productId: productId,
+                                            productSecret: secret) {
+            result in
+            switch result {
+            case .success:
+                print("Delete Success")
+                self.dismiss(animated: true)
+            case .failure(let error):
+                print(error.description)
+            }
+        }
     }
 }
 
@@ -341,9 +423,7 @@ extension ProductDetailViewController {
         
         NetworkingAPI.ProductDetailQuery.request(session: URLSession.shared,
                                                  productId: productId) {
-            
             result in
-            
             switch result {
             case .success(let data):
                 guard let product = NetworkingAPI.ProductDetailQuery.decode(data: data) else {

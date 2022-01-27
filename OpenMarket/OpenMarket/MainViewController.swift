@@ -13,6 +13,9 @@ class MainViewController: UIViewController {
         create()
         organizeViewHierarchy()
         configure()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
         fetchProductList()
     }
     
@@ -28,25 +31,6 @@ class MainViewController: UIViewController {
     func pushViewController(_ viewController: ProductDetailViewController, withProductId productId: Int) {
         viewController.productId = productId
         navigationController?.pushViewController(viewController, animated: true)
-    }
-    
-    func fetchProductList() {
-        NetworkingAPI.ProductListQuery.request(session: URLSession.shared,
-                                               pageNo: 1,
-                                               itemsPerPage: 30) { result in
-  
-            switch result {
-            case .success(let data):
-                guard let products = NetworkingAPI.ProductListQuery.decode(data: data)?.pages else {
-                    print(OpenMarketError.decodingFail("Data", "NetworkingAPI.ProductListQuery"))
-                    return
-                }
-                self.listViewController.applySnapShot(products: products)
-                self.gridViewController.applySnapShot(products: products)
-            case .failure(let error):
-                print(error)
-            }
-        }
     }
     
     private func create() {
@@ -112,7 +96,6 @@ extension MainViewController {
 
     @objc private func presentProductRegistrationViewController() {
         let productRegistrationViewController = ProductRegistrationViewController()
-        productRegistrationViewController.fetchProductListDelegate = self
         productRegistrationViewController.modalPresentationStyle = .fullScreen
         present(productRegistrationViewController, animated: true)
     }
@@ -177,5 +160,27 @@ extension MainViewController {
             gridViewController.view.topAnchor.constraint(equalTo: listViewController.view.topAnchor),
             gridViewController.view.bottomAnchor.constraint(equalTo: listViewController.view.bottomAnchor)
         ])
+    }
+}
+
+//MARK: - Networking
+extension MainViewController {
+    private func fetchProductList() {
+        NetworkingAPI.ProductListQuery.request(session: URLSession.shared,
+                                               pageNo: 1,
+                                               itemsPerPage: 30) { result in
+  
+            switch result {
+            case .success(let data):
+                guard let products = NetworkingAPI.ProductListQuery.decode(data: data)?.pages else {
+                    print(OpenMarketError.decodingFail("Data", "NetworkingAPI.ProductListQuery"))
+                    return
+                }
+                self.listViewController.applySnapShot(products: products)
+                self.gridViewController.applySnapShot(products: products)
+            case .failure(let error):
+                print(error)
+            }
+        }
     }
 }

@@ -15,6 +15,9 @@ enum OpenMarketError: Error {
     case encodingFail(String, String)
     case decodingFail(String, String)
     
+    //User Error
+    case inputSecretIsWrong(String)
+    
     var description: String {
         switch self {
         //Common Error
@@ -38,6 +41,10 @@ enum OpenMarketError: Error {
             return "encodingFail (from: \(from) -> to: \(to))"
         case .decodingFail(let from, let to):
             return "decodingFail (from: \(from) -> to: \(to))"
+        
+        //User Error
+        case .inputSecretIsWrong(let inputSecret):
+            return "inputSecret(\(inputSecret)) is Wrong"
         }
     }
 }
