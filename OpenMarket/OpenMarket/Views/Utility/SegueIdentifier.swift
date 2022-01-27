@@ -10,4 +10,5 @@ import Foundation
 enum SegueIdentifier {
     static let modifiyView = "ModifyView"
     static let productDetailView = "ProductDetailView"
+    static let imageDetailView = "ImageDetailView"
 }

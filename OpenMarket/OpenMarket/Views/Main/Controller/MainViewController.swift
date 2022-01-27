@@ -27,6 +27,7 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         requestProducts {
+            self.dataSource.updateProductList()
             self.collectionViewLoad()
         }
         setUpNotification()
@@ -36,19 +37,16 @@ class MainViewController: UIViewController {
     private func requestProducts(completion: @escaping () -> Void) {
         let networkManager: NetworkManager = NetworkManager()
         guard let request = networkManager.requestListSearch(page: dataSource.currentPage, itemsPerPage: 20) else {
-            showAlert(message: Message.badRequest)
+            print(Message.badRequest)
             return
         }
         networkManager.fetch(request: request, decodingType: Products.self) { result in
             switch result {
             case .success(let products):
                 self.dataSource.setUpProducts(products)
-                self.dataSource.appendProducts(products.pages)
                 completion()
             case .failure(let error):
-                DispatchQueue.main.async {
-                    self.showAlert(message: error.localizedDescription)
-                }
+                print(error.localizedDescription)
             }
         }
     }
@@ -91,8 +89,8 @@ class MainViewController: UIViewController {
     @objc private func updateMainView() {
         DispatchQueue.global().async {
             self.dataSource.resetCurrentPage()
-            self.dataSource.resetProductList()
             self.requestProducts {
+                self.dataSource.updateProductList()
                 self.collectionViewReload()
             }
         }
@@ -178,6 +176,7 @@ extension MainViewController: UICollectionViewDelegate {
            let products = dataSource.products, products.hasNext, products.pageNumber == dataSource.currentPage {
             dataSource.currentPage += 1
             self.requestProducts {
+                self.dataSource.appendProducts(products.pages)
                 self.collectionViewReload()
             }
         }
@@ -194,6 +193,7 @@ extension MainViewController: UICollectionViewDelegate {
         } else if let product = sender as? Product,
                   let nextViewController = segue.destination as? DetailViewController {
             nextViewController.requestDetail(productId: UInt(product.id))
+            nextViewController.setUpTitle(product.name)
         } else {
             showAlert(message: AlertMessage.dataDeliveredFail, completion: nil)
         }

@@ -17,7 +17,7 @@ extension UIViewController {
         self.present(alert, animated: true)
     }
     
-    func showAlertPasswordInput(complection: @escaping (String) -> Void) {
+    func showAlertPasswordInput(completion: @escaping (String) -> Void) {
         var resultTextField = UITextField()
         let alert = UIAlertController(title: "비밀번호를 입력해주세요", message: nil, preferredStyle: .alert)
         alert.addTextField { userTextField in
@@ -31,7 +31,7 @@ extension UIViewController {
                 }
                 return
             }
-            complection(secret)
+            completion(secret)
         }
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
         alert.addAction(okAcrion)

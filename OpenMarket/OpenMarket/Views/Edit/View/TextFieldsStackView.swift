@@ -24,12 +24,17 @@ class TextFieldsStackView: UIStackView {
     @IBOutlet weak var stockTextField: UITextField!
     @IBOutlet weak var descriptionTextView: UITextView!
     
+    @IBOutlet weak var nameInvalidLabel: UILabel!
+    @IBOutlet weak var priceInvalidLabel: UILabel!
+    @IBOutlet weak var discountedPriceInvalidLabel: UILabel!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         setUpDescriptionText()
         setUpPlaceHolder()
         setUpKeyboard()
         setUpNotification()
+        setUpInvaildLabel()
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -83,6 +88,21 @@ class TextFieldsStackView: UIStackView {
             discountedPrice: Double(discountedPrice),
             stock: Int(stock)
         )
+    }
+    
+    func setUpInvaildLabel() {
+        nameInvalidLabel.isHidden = true
+        priceInvalidLabel.isHidden = true
+        discountedPriceInvalidLabel.isHidden = true
+        
+        let customFont = UIFont.systemFont(ofSize: 10)
+        nameInvalidLabel.font = UIFontMetrics.default.scaledFont(for: customFont)
+        priceInvalidLabel.font = UIFontMetrics.default.scaledFont(for: customFont)
+        discountedPriceInvalidLabel.font = UIFontMetrics.default.scaledFont(for: customFont)
+        
+        nameInvalidLabel.adjustsFontForContentSizeCategory = true
+        priceInvalidLabel.adjustsFontForContentSizeCategory = true
+        discountedPriceInvalidLabel.adjustsFontForContentSizeCategory = true
     }
     
     private func setUpNotification() {

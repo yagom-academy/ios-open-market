@@ -24,9 +24,12 @@ class MainDataSource: NSObject {
     func appendProducts(_ products: [Product]) {
         self.productList.append(contentsOf: products)
     }
-    
-    func resetProductList() {
-        productList.removeAll()
+ 
+    func updateProductList() {
+        guard let products = products else {
+            return
+        }
+        productList = products.pages
     }
 }
 
