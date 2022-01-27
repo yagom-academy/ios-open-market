@@ -28,6 +28,7 @@ extension ProductDetailQueryManager {
         let id: Int
         let vendorId: Int
         let name: String
+        let description: String
         let thumbnail: String
         let currency: Currency
         let price: Double
@@ -40,7 +41,7 @@ extension ProductDetailQueryManager {
         let issuedAt: String
 
         enum CodingKeys: String, CodingKey {
-            case id, name, thumbnail, currency, price, stock, images, vendors
+            case id, name, description, thumbnail, currency, price, stock, images, vendors
             case vendorId = "vendor_id"
             case bargainPrice = "bargain_price"
             case discountedPrice = "discounted_price"

@@ -344,10 +344,10 @@
 			isa = PBXGroup;
 			children = (
 				60B7C1F32796AC1C0012215F /* Application */,
+				60D21037279D7F8D004F4F45 /* ErrorType */,
 				188150BA2789754400EE236E /* Model */,
 				604E1F5B278AE21000FE6A83 /* View */,
 				604E1F5C278AE21500FE6A83 /* ViewController */,
-				60D21037279D7F8D004F4F45 /* ErrorType */,
 			);
 			path = OpenMarket;
 			sourceTree = "<group>";

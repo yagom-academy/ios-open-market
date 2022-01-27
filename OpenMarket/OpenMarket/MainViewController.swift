@@ -25,6 +25,11 @@ class MainViewController: UIViewController {
         scrollView.setContentOffset(destinationPoint, animated: false)
     }
     
+    func pushViewController(_ viewController: ProductDetailViewController, withProductId productId: Int) {
+        viewController.productId = productId
+        navigationController?.pushViewController(viewController, animated: true)
+    }
+    
     private func create() {
         createProductRegistrationButtonItem()
     }

@@ -4,7 +4,7 @@ class ListCollectionViewController: UIViewController {
     
     private var collectionView: UICollectionView!
     private var dataSource: UICollectionViewDiffableDataSource<Section, Product>!
-    weak var viewTransitionDelegate: UIViewController?
+    weak var viewTransitionDelegate: MainViewController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -117,6 +117,6 @@ extension ListCollectionViewController: UICollectionViewDelegate {
             }
         }
         
-        viewTransitionDelegate?.navigationController?.pushViewController(ProductDetailViewController(), animated: true)
+        viewTransitionDelegate?.pushViewController(ProductDetailViewController(), withProductId: id)
     }
 }
