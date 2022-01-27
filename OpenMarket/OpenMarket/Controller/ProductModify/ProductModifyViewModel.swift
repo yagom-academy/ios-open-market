@@ -1,5 +1,5 @@
 //
-//  ProductDetailViewModel.swift
+//  ProductModifyViewModel.swift
 //  OpenMarket
 //
 //  Created by JeongTaek Han on 2022/01/27.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ProductDetailViewModel {
+class ProductModifyViewModel {
     
     private let model: ProductModelManager
     private let id: Int
@@ -41,7 +41,7 @@ class ProductDetailViewModel {
     
     var productStockText: String {
         guard let stock = product?.stock else { return "" }
-        let productStockValue = stock > 0 ? "재고수량 : \(stock)" : "품절"
+        let productStockValue = String(stock)
         return productStockValue
     }
     
@@ -52,13 +52,13 @@ class ProductDetailViewModel {
     
     var productDiscountedText: String {
         guard let discountedPrice = product?.discountedPrice else { return "" }
-        let discountedPriceValue = "\(productCurrency) \(discountedPrice)"
+        let discountedPriceValue = String(discountedPrice)
         return discountedPriceValue
     }
     
     var productPriceText: String {
         guard let price = product?.price else { return "" }
-        let productPriceValue = "\(productCurrency) \(price)"
+        let productPriceValue = String(price)
         return productPriceValue
     }
     
@@ -69,14 +69,34 @@ class ProductDetailViewModel {
     
 }
 
-extension ProductDetailViewModel: ImageSliderDataSource {
+extension ProductModifyViewModel: ProductRegisterViewDataSource {
     
-    func numberOfImages(in imageSlider: ImageSlider) -> Int {
-        productImages.count
+    func loadCurrency() -> String {
+        productCurrency
     }
     
-    func imageSlider(_ imageSlider: ImageSlider, imageForPageAt page: Int) -> UIImage {
-        productImages[page]
+    func loadDiscountedPrice() -> String {
+        productDiscountedText
+    }
+    
+    func loadStock() -> String {
+        productStockText
+    }
+    
+    func loadDescription() -> String {
+        productDescriptionText
+    }
+    
+    func loadImage() -> [UIImage] {
+        productImages
+    }
+    
+    func loadName() -> String {
+        productNameText
+    }
+    
+    func loadPrice() -> String {
+        productPriceText
     }
     
 }

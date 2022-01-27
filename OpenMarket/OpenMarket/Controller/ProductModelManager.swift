@@ -1,5 +1,5 @@
 //
-//  ProductDetailModelManager.swift
+//  ProductModelManager.swift
 //  OpenMarket
 //
 //  Created by JeongTaek Han on 2022/01/26.
@@ -8,7 +8,7 @@
 import Foundation
 import UIKit.UIImage
 
-class ProductDetailModelManager {
+class ProductModelManager {
     
     private let networkManager = ProductNetworkManager()
     

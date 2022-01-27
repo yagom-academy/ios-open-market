@@ -264,8 +264,20 @@
                     <view key="view" contentMode="scaleToFill" id="A6r-5l-W8b">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jOp-Fj-gVk" customClass="ProductRegisterView" customModule="OpenMarket" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </view>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="Ra7-IF-eXL"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="jOp-Fj-gVk" secondAttribute="bottom" id="EUt-OX-n7B"/>
+                            <constraint firstItem="jOp-Fj-gVk" firstAttribute="trailing" secondItem="Ra7-IF-eXL" secondAttribute="trailing" id="Z3F-au-vUE"/>
+                            <constraint firstItem="jOp-Fj-gVk" firstAttribute="top" secondItem="A6r-5l-W8b" secondAttribute="top" id="jCf-zm-3yC"/>
+                            <constraint firstItem="jOp-Fj-gVk" firstAttribute="leading" secondItem="Ra7-IF-eXL" secondAttribute="leading" id="ySX-7d-Pcc"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="상품수정" id="lv1-bq-AhI">
                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="fjk-P1-EjM">
@@ -275,11 +287,14 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="done" id="ws8-JO-6GK"/>
                     </navigationItem>
+                    <connections>
+                        <outlet property="productRegisterView" destination="jOp-Fj-gVk" id="pls-kz-W7m"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Phk-x2-xXR" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="IVk-g4-FmH" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="3174" y="910"/>
+            <point key="canvasLocation" x="3173.8461538461538" y="909.95260663507099"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="A9i-9n-hdJ">

@@ -110,6 +110,13 @@ extension UIView {
         }
     }
     
+    func removed<T: UIView>(from stackView: UIStackView, whenTypeIs: T.Type) {
+        if let view = self as? T {
+            stackView.removeArrangedSubview(view)
+            view.removeFromSuperview()
+        }
+    }
+    
 }
 
 extension UITextView {

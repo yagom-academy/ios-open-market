@@ -42,7 +42,7 @@ class ProductDetailViewController: UIViewController {
         if let navigationVC = segue.destination as? UINavigationController,
            let modifyVC = navigationVC.topViewController as? ProductModifyViewController,
            let product = sender as? Product {
-            modifyVC.product = product
+            modifyVC.id = product.id
         }
     }
     

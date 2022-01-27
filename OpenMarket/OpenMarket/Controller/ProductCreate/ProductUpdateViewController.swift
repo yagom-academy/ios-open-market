@@ -89,20 +89,6 @@ private extension ProductUpdateViewController {
     
 }
 
-// MARK: - UIView Utilities
-private extension UIView {
-    
-    func removed<T: UIView>(from stackView: UIStackView, whenTypeIs: T.Type) {
-        DispatchQueue.main.async {
-            if let view = self as? T {
-                stackView.removeArrangedSubview(view)
-                view.removeFromSuperview()
-            }
-        }
-    }
-    
-}
-
 // MARK: - Keyboard Control Utilities
 extension ProductUpdateViewController {
     
