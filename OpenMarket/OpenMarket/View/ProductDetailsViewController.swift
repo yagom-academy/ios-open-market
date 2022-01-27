@@ -13,7 +13,7 @@ final class ProductDetailsViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var productNameLabel: UILabel!
     @IBOutlet weak var stockLabel: UILabel!
-    @IBOutlet weak var productPriceLabel: UILabel!
+    @IBOutlet weak var priceLabel: UILabel!
     @IBOutlet weak var discountedPriceLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UITextView!
     @IBOutlet weak var pageControl: UIPageControl!
@@ -27,8 +27,6 @@ final class ProductDetailsViewController: UIViewController {
         return flowLayout
     }()
     
-    private var product: ProductDetails?
-    private var images: [ImageData] = []
     private lazy var loadingIndicator: UIActivityIndicatorView = {
         let loadingIndicator = UIActivityIndicatorView(style: .large)
         loadingIndicator.isHidden = false
@@ -41,6 +39,9 @@ final class ProductDetailsViewController: UIViewController {
         return loadingIndicator
     }()
     
+    private var product: ProductDetails?
+    private var images: [ImageData] = []
+
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
@@ -48,11 +49,9 @@ final class ProductDetailsViewController: UIViewController {
         
         setupCollectionView()
     }
-}
-
-// MARK: - Private Methods
-
-extension ProductDetailsViewController {
+    
+    // MARK: - Internal Methods
+    
     func fetchDetails(of productID: Int) {
         let apiService = MarketAPIService()
         startLoadingIndicator()
@@ -80,13 +79,41 @@ extension ProductDetailsViewController {
             }
         }
     }
+}
 
+// MARK: - Private Methods
+
+extension ProductDetailsViewController {
     private func setLabels(with product: ProductDetails) {
-        self.productNameLabel.text = product.name
-        self.stockLabel.text = "남은 수량: \(product.stock)"
-        self.productPriceLabel.text = String(product.price)
-        self.discountedPriceLabel.text = String(product.discountedPrice)
-        self.descriptionLabel.text = product.description
+        let presentation = getPresentation(product: product, identifier: ProductDetailsViewController.identifier)
+        
+        setProductNameLabel(with: presentation)
+        setStockLabel(with: presentation)
+        setPriceLabel(with: presentation)
+        setDiscountedPriceLabel(with: presentation)
+        descriptionLabel.text = product.description
+    }
+    
+    private func setProductNameLabel(with presentation: ProductUIPresentation) {
+        productNameLabel.text = presentation.productNameLabelText
+        productNameLabel.font = presentation.productNameLabelFont
+    }
+    
+    private func setStockLabel(with presentation: ProductUIPresentation) {
+        stockLabel.text = presentation.stockLabelText
+        stockLabel.textColor = presentation.stockLabelTextColor
+    }
+    
+    private func setPriceLabel(with presentation: ProductUIPresentation) {
+        priceLabel.text = presentation.priceLabelText
+        priceLabel.textColor = presentation.priceLabelTextColor
+        priceLabel.attributedText = presentation.priceLabelIsCrossed ? priceLabel.convertToAttributedString(from: priceLabel) : nil
+    }
+    
+    private func setDiscountedPriceLabel(with presentation: ProductUIPresentation) {
+        discountedPriceLabel.text = presentation.discountedLabelText
+        discountedPriceLabel.textColor = presentation.discountedLabelTextColor
+        discountedPriceLabel.isHidden = presentation.discountedLabelIsHidden
     }
     
     private func setNavigationTitle(with product: ProductDetails) {
@@ -182,6 +209,10 @@ extension ProductDetailsViewController: UICollectionViewDelegateFlowLayout {
         pageControl.currentPage = index.row
     }
 }
+
+// MARK: - ProductUIPresentable
+
+extension ProductDetailsViewController: ProductUIPresentable {}
 
 // MARK: - IdentifiableView
 

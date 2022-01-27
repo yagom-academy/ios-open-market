@@ -44,9 +44,7 @@ final class MarketCell: UICollectionViewCell {
         self.cellType = cellType
         setBorder()
         setImageView(with: product.thumbnailURL)
-        setProductNameLabel(to: product.name)
-        setPriceLabels(with: product.price, and: product.discountedPrice, currency: product.currency)
-        setStockLabel(to: product.stock)
+        setupLabels(with: product)
     }
 }
 
@@ -61,6 +59,15 @@ extension MarketCell {
         }
     }
     
+    private func setupLabels(with product: Product) {
+        let presentation = getPresentation(product: product, identifier: MarketCell.identifier)
+        
+        setProductNameLabel(with: presentation)
+        setStockLabel(with: presentation)
+        setPriceLabel(with: presentation)
+        setDiscountedPriceLabel(with: presentation)
+    }
+
     private func setImageView(with urlString: String) {
         guard let url = URL(string: urlString),
               let data = try? Data(contentsOf: url) else {
@@ -69,51 +76,32 @@ extension MarketCell {
         imageView.image = UIImage(data: data)
     }
     
-    private func setProductNameLabel(to productName: String) {
-        productNameLabel.text = productName
-        productNameLabel.font = UIFont.boldSystemFont(ofSize: 18)
+    private func setProductNameLabel(with presentation: ProductUIPresentation) {
+        productNameLabel.text = presentation.productNameLabelText
+        productNameLabel.font = presentation.productNameLabelFont
     }
     
-    private func setPriceLabels(with price: Double, and discountedPrice: Double, currency: String) {
-        let dontShowDiscounted = discountedPrice == 0
-        guard let priceString = price.decimalFormat,
-              let discountedPriceString = discountedPrice.decimalFormat else {
-            return
-        }
-        priceLabel.text = currency + CellString.space + priceString
-        discountedPriceLabel.text = currency + CellString.space + discountedPriceString
-        
-        if dontShowDiscounted {
-            discountedPriceLabel.isHidden = true
-            priceLabel.textColor = .systemGray
-        } else {
-            priceLabel.attributedText = convertToAttributedString(from: priceLabel)
-            priceLabel.textColor = .red
-            discountedPriceLabel.textColor = .systemGray
-        }
+    private func setStockLabel(with presentation: ProductUIPresentation) {
+        stockLabel.text = presentation.stockLabelText
+        stockLabel.textColor = presentation.stockLabelTextColor
     }
     
-    private func setStockLabel(to stock: Int) {
-        if stock == 0 {
-            stockLabel.text = CellString.outOfStock
-            stockLabel.textColor = .systemOrange
-        } else {
-            stockLabel.text = CellString.remainingStock + stock.stringFormat
-            stockLabel.textColor = .systemGray
-        }
+    private func setPriceLabel(with presentation: ProductUIPresentation) {
+        priceLabel.text = presentation.priceLabelText
+        priceLabel.textColor = presentation.priceLabelTextColor
+        priceLabel.attributedText = presentation.priceLabelIsCrossed ? priceLabel.convertToAttributedString(from: priceLabel) : nil
     }
     
-    private func convertToAttributedString(from label: UILabel) -> NSMutableAttributedString? {
-        guard let priceLabelString = label.text else {
-            return nil
-        }
-        let attributeString = NSMutableAttributedString(string: priceLabelString)
-        let range = NSRange(location: 0, length: attributeString.length)
-        attributeString.addAttribute(.strikethroughStyle, value: 1, range: range)
-        
-        return attributeString
+    private func setDiscountedPriceLabel(with presentation: ProductUIPresentation) {
+        discountedPriceLabel.text = presentation.discountedLabelText
+        discountedPriceLabel.textColor = presentation.discountedLabelTextColor
+        discountedPriceLabel.isHidden = presentation.discountedLabelIsHidden
     }
 }
+
+// MARK: - ProductUIPresentable
+
+extension MarketCell: ProductUIPresentable {}
 
 // MARK: - IdentifiableView
 

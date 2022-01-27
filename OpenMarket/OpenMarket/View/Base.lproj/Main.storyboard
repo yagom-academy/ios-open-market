@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="MfS-Ts-Ghk">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="MfS-Ts-Ghk">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
@@ -79,7 +78,7 @@
                                 <rect key="frame" x="0.0" y="44" width="414" height="852"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="nzy-9A-tO6" userLabel="Contents View">
-                                        <rect key="frame" x="0.0" y="10" width="404" height="630"/>
+                                        <rect key="frame" x="0.0" y="10" width="404" height="631.5"/>
                                         <subviews>
                                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="nN6-Gg-EDA">
                                                 <rect key="frame" x="10" y="0.0" width="394" height="341"/>
@@ -117,10 +116,10 @@
                                                 </cells>
                                             </collectionView>
                                             <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="maE-Zb-JKO">
-                                                <rect key="frame" x="10" y="361" width="394" height="26"/>
+                                                <rect key="frame" x="10" y="361" width="394" height="27.5"/>
                                             </pageControl>
                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="top" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="E95-EE-HZy" userLabel="Title stack">
-                                                <rect key="frame" x="10" y="407" width="394" height="170"/>
+                                                <rect key="frame" x="10" y="408.5" width="394" height="170"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ebi-Hz-TK3">
                                                         <rect key="frame" x="0.0" y="0.0" width="192" height="50"/>
@@ -154,7 +153,7 @@
                                                 </subviews>
                                             </stackView>
                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JZv-LM-1k6">
-                                                <rect key="frame" x="10" y="597" width="394" height="33"/>
+                                                <rect key="frame" x="10" y="598.5" width="394" height="33"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 <color key="textColor" systemColor="labelColor"/>
                                                 <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="14"/>
@@ -191,8 +190,8 @@
                         <outlet property="descriptionLabel" destination="JZv-LM-1k6" id="kBe-CQ-See"/>
                         <outlet property="discountedPriceLabel" destination="zR4-VH-6LU" id="F5U-3K-hG9"/>
                         <outlet property="pageControl" destination="maE-Zb-JKO" id="czB-2U-4NO"/>
+                        <outlet property="priceLabel" destination="5a3-YE-I09" id="gbe-6z-vF7"/>
                         <outlet property="productNameLabel" destination="ebi-Hz-TK3" id="l6O-jf-EJW"/>
-                        <outlet property="productPriceLabel" destination="5a3-YE-I09" id="myc-Eu-1Yh"/>
                         <outlet property="stockLabel" destination="ZnZ-aO-EXm" id="TiN-OQ-tKo"/>
                     </connections>
                 </viewController>
