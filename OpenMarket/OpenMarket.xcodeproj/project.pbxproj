@@ -145,6 +145,15 @@
 		0DF58F7A27888A6A0024602F /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				489392DD27A27250002BC393 /* DataType */,
+				489392DE27A272BA002BC393 /* DataMangaer */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		489392DD27A27250002BC393 /* DataType */ = {
+			isa = PBXGroup;
+			children = (
 				48C6991D278C2061002EF7D1 /* Common */,
 				48C69919278C1EC6002EF7D1 /* ProductList */,
 				48C6990A278AE8DA002EF7D1 /* RegistProduct */,
@@ -152,7 +161,16 @@
 				48C6991B278C1F93002EF7D1 /* Secret */,
 				48C6991C278C1FC8002EF7D1 /* DeleteProduct */,
 			);
-			path = Model;
+			path = DataType;
+			sourceTree = "<group>";
+		};
+		489392DE27A272BA002BC393 /* DataMangaer */ = {
+			isa = PBXGroup;
+			children = (
+				480DCBEB279FC7B2009F1402 /* GetDataManager.swift */,
+				489392D927A1ABF8002BC393 /* PostDataManager.swift */,
+			);
+			path = DataMangaer;
 			sourceTree = "<group>";
 		};
 		48C6990A278AE8DA002EF7D1 /* RegistProduct */ = {
@@ -247,8 +265,6 @@
 				C70FB10025BEF61C00C9924E /* Main.storyboard */,
 				0D7634EA278FFBE9001FFB05 /* View Controller */,
 				0DF58F7A27888A6A0024602F /* Model */,
-				480DCBEB279FC7B2009F1402 /* GetDataManager.swift */,
-				489392D927A1ABF8002BC393 /* PostDataManager.swift */,
 				0DF58F6D2787FD320024602F /* Decoder.swift */,
 				48274D50279A8BE6008901B6 /* StringExtension.swift */,
 				0DF58F72278816CE0024602F /* Network */,
