@@ -1,12 +1,12 @@
-struct ProductInformation: Codable {
+struct ProductInformation: Codable, Hashable {
     let id: Int
     let vendorId: Int
     let name: String
     let thumbnail: String
     let currency: String
-    let price: Int
-    let bargainPrice: Int
-    let discountedPrice: Int
+    let price: Double
+    let bargainPrice: Double
+    let discountedPrice: Double
     let stock: Int
     let images: [ProductImage]?
     let vendors: Vendors?

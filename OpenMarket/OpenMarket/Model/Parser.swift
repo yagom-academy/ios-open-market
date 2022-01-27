@@ -7,9 +7,10 @@ enum Parser<Element: Decodable> {
         do {
             products = try JSONDecoder().decode(Element.self, from: data)
         } catch {
-            print(ParserError.decodeFail.description)
+            print("error message : \(error.localizedDescription)")
         }
 
         return products
     }
 }
+

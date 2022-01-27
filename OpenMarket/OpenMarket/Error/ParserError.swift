@@ -5,7 +5,7 @@ enum ParserError: LocalizedError {
 }
 
 extension ParserError {
-    var description: String {
+    var errorDescription: String? {
         switch self {
         case .decodeFail:
             return "JSON decoding fail"
