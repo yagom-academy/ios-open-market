@@ -12,13 +12,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        guard let windowScene = (scene as? UIWindowScene) else { return }
-         window = UIWindow(windowScene: windowScene)
-         
-         let mainViewController = OpenMarketViewController()
-         
-         let navigationController = UINavigationController(rootViewController: mainViewController)
-                
+        guard let windowScene = (scene as? UIWindowScene) else {
+            return
+        }
+        window = UIWindow(windowScene: windowScene)
+        let mainViewController = ProductListViewController()
+        let navigationController = OpenMarketNavigationController(rootViewController: mainViewController)
+        
         window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
     }

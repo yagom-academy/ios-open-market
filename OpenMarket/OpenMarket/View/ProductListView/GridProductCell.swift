@@ -113,7 +113,8 @@ final class GridProductCell: UICollectionViewCell, ProductCellProtocol {
             
             bargainPriceLabel.isHidden = true
         } else {
-            priceLabel.attributedText = "\(currency.rawValue) \(price.formattedWithComma())".strikeThrough()
+            let priceText = "\(currency.rawValue) \(price.formattedWithComma())"
+            priceLabel.strikeThrough(text: priceText)
             priceLabel.textColor = .systemRed
             
             bargainPriceLabel.isHidden = false

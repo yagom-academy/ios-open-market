@@ -26,11 +26,11 @@ final class ListProductCell: UICollectionViewCell, ProductCellProtocol {
     }
     
     private func setupUnderLine() {
-        let underLinePositionX: CGFloat = 10
+        let inset: CGFloat = 10
         let underLine = layer.addBorder([.bottom], color: UIColor.systemGray, width: 0.5)
-        underLine.frame = CGRect(x: underLinePositionX,
+        underLine.frame = CGRect(x: 0,
                                  y: layer.frame.height,
-                                 width: underLine.frame.width - underLinePositionX,
+                                 width: underLine.frame.width + inset,
                                  height: underLine.frame.height)
         layer.addSublayer(underLine)
     }
@@ -44,7 +44,12 @@ final class ListProductCell: UICollectionViewCell, ProductCellProtocol {
         contentView.addSubview(horizontalStackView)
         horizontalStackView.translatesAutoresizingMaskIntoConstraints = false
         
-        horizontalStackView.layoutMargins = UIEdgeInsets(top: 10.0, left: 10.0, bottom: 10.0, right: 10.0)
+        let sideInset: Double = 0
+        let topBottomInset: Double = 10
+        horizontalStackView.layoutMargins = UIEdgeInsets(top: topBottomInset,
+                                                         left: sideInset,
+                                                         bottom: topBottomInset,
+                                                         right: sideInset)
         horizontalStackView.isLayoutMarginsRelativeArrangement = true
         
         horizontalStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor)
@@ -72,7 +77,7 @@ final class ListProductCell: UICollectionViewCell, ProductCellProtocol {
         let pricesStackView = UIStackView()
         pricesStackView.axis = .horizontal
         pricesStackView.alignment = .center
-        pricesStackView.distribution = .fillEqually
+        pricesStackView.distribution = .fill
         pricesStackView.spacing = 4
         pricesStackView.addArrangedSubview(priceLabel)
         pricesStackView.addArrangedSubview(bargainPriceLabel)
@@ -115,7 +120,8 @@ final class ListProductCell: UICollectionViewCell, ProductCellProtocol {
     private func setupLabels() {
         nameLabel.font = .preferredFont(forTextStyle: .headline)
         nameLabel.textAlignment = .center
-        nameLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        nameLabel.setContentHuggingPriority(.required, for: .horizontal)
+        nameLabel.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         
         priceLabel.font = .preferredFont(forTextStyle: .body)
         priceLabel.textAlignment = .center
@@ -128,6 +134,7 @@ final class ListProductCell: UICollectionViewCell, ProductCellProtocol {
         stockLabel.textAlignment = .right
         stockLabel.setContentHuggingPriority(.defaultLow, for: .horizontal)
         stockLabel.numberOfLines = 0
+        stockLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
     }
     
     func updateView(with data: Product) {
@@ -151,7 +158,8 @@ final class ListProductCell: UICollectionViewCell, ProductCellProtocol {
             
             bargainPriceLabel.isHidden = true
         } else {
-            priceLabel.attributedText = "\(currency.rawValue) \(price.formattedWithComma())".strikeThrough()
+            let priceText = "\(currency.rawValue) \(price.formattedWithComma())"
+            priceLabel.strikeThrough(text: priceText)
             priceLabel.textColor = .systemRed
             
             bargainPriceLabel.isHidden = false
@@ -163,9 +171,11 @@ final class ListProductCell: UICollectionViewCell, ProductCellProtocol {
         if stock == 0 {
             stockLabel.text = "품절"
             stockLabel.textColor = .systemYellow
+            stockLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
         } else {
             stockLabel.text = "잔여수량 : \(stock.formattedWithComma())"
             stockLabel.textColor = .systemGray
+            stockLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         }
     }
 }

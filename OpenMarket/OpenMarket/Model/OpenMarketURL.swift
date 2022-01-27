@@ -1,10 +1,11 @@
 import Foundation
+import UIKit
 
 struct OpenMarketBaseURL: BaseURLProtocol {
     var baseURL = "https://market-training.yagom-academy.kr/"
 }
 
-struct HealthCheckerAPI: APIProtocol {
+struct HealthCheckerAPI: Gettable {
     var url: URL?
     var method: HttpMethod = .get
     
@@ -13,7 +14,7 @@ struct HealthCheckerAPI: APIProtocol {
     }
 }
 
-struct ProductDetailAPI: APIProtocol {
+struct ProductDetailAPI: Gettable {
     var url: URL?
     var method: HttpMethod = .get
     
@@ -22,7 +23,7 @@ struct ProductDetailAPI: APIProtocol {
     }
 }
 
-struct ProductPageAPI: APIProtocol {
+struct ProductPageAPI: Gettable {
     var url: URL?
     var method: HttpMethod = .get
     
@@ -34,5 +35,19 @@ struct ProductPageAPI: APIProtocol {
         urlComponents?.queryItems?.append(itemsPerPageQuery)
         
         self.url = urlComponents?.url
+    }
+}
+
+struct ProductRegisterAPI: Postable {
+    var url: URL?
+    var method: HttpMethod = .post
+    var identifier: String = "1061fe9a-7215-11ec-abfa-951effcf9a75"
+    var contentType: String
+    var body: Data?
+    
+    init(boundary: String, body: Data, baseURL: BaseURLProtocol = OpenMarketBaseURL()) {
+        self.url = URL(string: "\(baseURL.baseURL)api/products")
+        self.contentType = "multipart/form-data; boundary=\(boundary)"
+        self.body = body
     }
 }
