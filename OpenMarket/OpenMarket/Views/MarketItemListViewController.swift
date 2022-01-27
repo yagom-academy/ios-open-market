@@ -47,13 +47,19 @@ extension MarketItemListViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(
             image: resizedImage,
             style: .plain,
-            target: nil,
-            action: nil
+            target: self,
+            action: #selector(plusImageDidTap)
         )
         navigationItem.rightBarButtonItem?.width = 0
         let appearance = UINavigationBarAppearance()
         appearance.configureWithDefaultBackground()
-        navigationController?.navigationBar.scrollEdgeAppearance = appearance
+    }
+
+    @objc private func plusImageDidTap() {
+        let registrationViewController = MarketItemRegistrationViewController()
+        let navigationController = UINavigationController(rootViewController: registrationViewController)
+        navigationController.modalPresentationStyle = .fullScreen
+        self.present(navigationController, animated: true)
     }
 
     private func configureSegmentedControl() -> UISegmentedControl {
@@ -79,7 +85,7 @@ extension MarketItemListViewController {
         return segmentedControl
     }
 
-    @objc func segmentedValueChanged(sender: UISegmentedControl) {
+    @objc private func segmentedValueChanged(sender: UISegmentedControl) {
         guard let viewType = ViewType(rawValue: sender.selectedSegmentIndex) else {
             return
         }
