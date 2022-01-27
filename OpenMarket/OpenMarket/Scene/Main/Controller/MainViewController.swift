@@ -43,11 +43,20 @@ class MainViewController: UIViewController {
         super.viewDidLoad()
         NotificationCenter.default.addObserver(self, selector: #selector(fetchProductData), name: .updateProductData, object: nil)
         configUI()
+        configRefreshControl()
         fetchProductData()
         productListCollectionView.delegate = self
         productGridCollectionView.delegate = self
     }
 
+    func configRefreshControl() {
+        [productListCollectionView, productGridCollectionView].forEach { collectionView in
+            collectionView?.refreshControl = UIRefreshControl()
+            collectionView?.refreshControl?.tintColor = .black
+            collectionView?.refreshControl?.addTarget(self, action: #selector(fetchProductData), for: .valueChanged)
+        }
+    }
+    
     @objc private func fetchProductData() {
         activityIndicator.startAnimating()
                 
@@ -85,7 +94,10 @@ class MainViewController: UIViewController {
         }
         configSnapShot(with: listDataSource)
         configSnapShot(with: gridDataSource)
+        
         activityIndicator.stopAnimating()
+        productListCollectionView.refreshControl?.endRefreshing()
+        productGridCollectionView.refreshControl?.endRefreshing()
     }
     
     @objc private func switchCollectionViewLayout() {
