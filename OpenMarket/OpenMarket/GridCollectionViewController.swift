@@ -11,12 +11,13 @@ class GridCollectionViewController: UIViewController {
     
     private var collectionView: UICollectionView!
     private var dataSource: UICollectionViewDiffableDataSource<Section, Product>!
+    weak var viewTransitionDelegate: UIViewController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         create()
         organizeViewHierarchy()
-        configureCollectionView()
+        configure()
     }
     
     func applySnapShot(products: [Product]) {
@@ -33,6 +34,11 @@ class GridCollectionViewController: UIViewController {
     
     private func organizeViewHierarchy() {
         view.addSubview(collectionView)
+    }
+    
+    private func configure() {
+        configureCollectionView()
+        configureCollectionViewDelegate()
     }
 }
 
@@ -103,5 +109,37 @@ extension GridCollectionViewController {
             
             return cell
         }
+    }
+}
+
+//MARK: - Delegate
+extension GridCollectionViewController: UICollectionViewDelegate {
+    
+    private func configureCollectionViewDelegate() {
+        collectionView.delegate = self
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let id = dataSource.itemIdentifier(for: indexPath)?.id else {
+            collectionView.deselectItem(at: indexPath, animated: true)
+            return
+        }
+        
+        NetworkingAPI.ProductDeleteSecretQuery.request(session: URLSession.shared,
+                                                       productId: id,
+                                                       identifier: Vendor.identifier,
+                                                       secret: Vendor.secret) {
+            
+            result in
+            
+            switch result {
+            case .success(let data):
+                print("상품 \(id)의 secret은 \(String(decoding: data, as: UTF8.self))입니다")
+            case .failure(let error):
+                print(error.description)
+            }
+        }
+        
+        viewTransitionDelegate?.navigationController?.pushViewController(ProductDetailViewController(), animated: true)
     }
 }

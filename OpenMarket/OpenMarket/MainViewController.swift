@@ -142,6 +142,7 @@ extension MainViewController {
 extension MainViewController {
     
     private func configureGridViewController() {
+        gridViewController.viewTransitionDelegate = self
         gridViewController.view.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([

@@ -8,7 +8,7 @@ enum OpenMarketError: Error {
     case URLRequestMakingFail
     case receivedInvalidData
     case receivedIinvalidResponse
-    case receivedFailureStatusCode
+    case receivedFailureStatusCode(Int)
     case HTTPBodyMakingFail
 
     //JSON Parsing Error
@@ -28,8 +28,8 @@ enum OpenMarketError: Error {
             return "receivedInvalidData"
         case .receivedIinvalidResponse:
             return "receivedIinvalidResponse"
-        case .receivedFailureStatusCode:
-            return "receivedFailureStatusCode"
+        case .receivedFailureStatusCode(let code):
+            return "FailureStatusCode : \(code)"
         case .HTTPBodyMakingFail:
             return "HTTPBodyMakingFail"
             

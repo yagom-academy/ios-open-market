@@ -97,7 +97,6 @@ extension ListCollectionViewController: UICollectionViewDelegate {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-
         guard let id = dataSource.itemIdentifier(for: indexPath)?.id else {
             collectionView.deselectItem(at: indexPath, animated: true)
             return
@@ -112,15 +111,12 @@ extension ListCollectionViewController: UICollectionViewDelegate {
             
             switch result {
             case .success(let data):
-                print(String(decoding: data, as: UTF8.self))
-                DispatchQueue.main.async {
-                    self.viewTransitionDelegate?.navigationController?.pushViewController(ProductDetailViewController(), animated: true)
-                }
+                print("상품 \(id)의 secret은 \(String(decoding: data, as: UTF8.self))입니다")
             case .failure(let error):
                 print(error.description)
             }
         }
         
-        
+        viewTransitionDelegate?.navigationController?.pushViewController(ProductDetailViewController(), animated: true)
     }
 }

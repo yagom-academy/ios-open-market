@@ -37,7 +37,7 @@ extension URLSessionProtocol {
             
             guard (200...299) ~= response.statusCode else {
                 print(String(decoding: data, as: UTF8.self))
-                completion(.failure(.receivedFailureStatusCode))
+                completion(.failure(.receivedFailureStatusCode(response.statusCode)))
                 return
             }
             
@@ -58,7 +58,7 @@ extension URLSessionProtocol {
             }
             
             guard (200...299) ~= response.statusCode else {
-                completion(.failure(.receivedFailureStatusCode))
+                completion(.failure(.receivedFailureStatusCode(response.statusCode)))
                 return
             }
             
