@@ -39,6 +39,51 @@ class ProductDetailViewController: UIViewController {
         setupImagesCollectionView()
     }
     
+    @objc private func presentEditView() {
+        guard let productId = productId,
+              let networkTask = networkTask,
+              let jsonParser = jsonParser else { return }
+        networkTask.requestProductDetail(productId: productId) { result in
+            switch result {
+            case .success(let data):
+                guard let product: Product = try? jsonParser.decode(from: data) else {
+                    return
+                }
+                let storyboard = UIStoryboard(
+                    name: ProductRegistrationViewController.storyboardName,
+                    bundle: nil
+                )
+                DispatchQueue.main.async {
+                    let viewController = storyboard.instantiateViewController(
+                        identifier: ProductRegistrationViewController.identifier
+                    ) { coder in
+                        let productRegistrationViewController = ProductRegistrationViewController(
+                            coder: coder,
+                            isModifying: true,
+                            productInformation: product,
+                            networkTask: networkTask,
+                            jsonParser: jsonParser
+                        ) {
+                            self.showAlert(title: "수정 성공", message: nil)
+                            self.loadData()
+                        }
+                        return productRegistrationViewController
+                    }
+                    let navigationController = UINavigationController(
+                        rootViewController: viewController
+                    )
+                    navigationController.modalPresentationStyle = .fullScreen
+                    self.present(navigationController, animated: true, completion: nil)
+                }
+            case .failure(let error):
+                self.showAlert(
+                    title: "데이터를 불러오지 못했습니다",
+                    message: error.localizedDescription
+                )
+            }
+        }
+    }
+    
     private func loadData() {
         guard let productId = productId else { return }
         networkTask?.requestProductDetail(productId: productId) { result in
@@ -48,6 +93,7 @@ class ProductDetailViewController: UIViewController {
                 DispatchQueue.main.async {
                     self.setupViewElements()
                     self.setupNavigationBar()
+                    self.imagesCollectionView.reloadData()
                 }
             case.failure(let error):
                 self.showAlert(title: "데이터를 불러오지 못했습니다", message: error.localizedDescription)
@@ -61,7 +107,6 @@ class ProductDetailViewController: UIViewController {
         priceLabel.attributedText = product?.attributedPrice
         descriptionTextView.text = product?.description
         imageIndexLabel.text = imageIndexText
-        imagesCollectionView.reloadData()
     }
     
     private func setupNavigationBar() {
@@ -71,7 +116,7 @@ class ProductDetailViewController: UIViewController {
                 image: UIImage(systemName: "square.and.pencil"),
                 style: .plain,
                 target: self,
-                action: nil
+                action: #selector(presentEditView)
             )
         }
     }

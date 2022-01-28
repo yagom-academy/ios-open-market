@@ -124,56 +124,6 @@ class MainViewController: UIViewController {
         navigationController?.pushViewController(viewController, animated: true)
     }
     
-    private func tryPresentingEditView(at index: Int) {
-        if let vendorId = productsDataSource.vendorId(at: index),
-           vendorId != 16 {
-            showAlert(
-                title: "다른 사람의 상품입니다",
-                message: "Vedor Id: \(vendorId)"
-            )
-        }
-        guard let productId = productsDataSource.productId(at: index) else { return }
-        networkTask.requestProductDetail(productId: productId) { result in
-            switch result {
-            case .success(let data):
-                guard let product: Product = try? self.jsonParser.decode(from: data) else {
-                    return
-                }
-                let storyboard = UIStoryboard(
-                    name: ProductRegistrationViewController.storyboardName,
-                    bundle: nil
-                )
-                DispatchQueue.main.async {
-                    let viewController = storyboard.instantiateViewController(
-                        identifier: ProductRegistrationViewController.identifier
-                    ) { coder in
-                        let productRegistrationViewController = ProductRegistrationViewController(
-                            coder: coder,
-                            isModifying: true,
-                            productInformation: product,
-                            networkTask: self.networkTask,
-                            jsonParser: self.jsonParser
-                        ) {
-                            self.showAlert(title: "수정 성공", message: nil)
-                            self.reloadData()
-                        }
-                        return productRegistrationViewController
-                    }
-                    let navigationController = UINavigationController(
-                        rootViewController: viewController
-                    )
-                    navigationController.modalPresentationStyle = .fullScreen
-                    self.present(navigationController, animated: true, completion: nil)
-                }
-            case .failure(let error):
-                self.showAlert(
-                    title: "데이터를 불러오지 못했습니다",
-                    message: error.localizedDescription
-                )
-            }
-        }
-    }
-    
     @IBAction private func segmentedControlChanged(_ sender: UISegmentedControl) {
         changeSubview()
     }
