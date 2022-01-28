@@ -92,7 +92,9 @@ private extension ProductDetailViewController {
                 case .success:
                     self.navigationController?.popViewController(animated: true)
                 case .failure(let error):
-                    print("\(error)가 발생하였습니다.")
+                    let title = "오류가 발생하였습니다"
+                    let message = "\(error)가 발생하여 상품 삭제에 실패하였습니다"
+                    self.presentAcceptAlert(with: title, description: message)
                 }
             }
         }
