@@ -124,7 +124,8 @@ extension RegisterProductViewController {
             image.jpegData(compressionQuality: 1)
         }
 
-        do { let result = try manageProductManger.isAppropriateToRegister(form: form)
+        do {
+            let result = try manageProductManger.isAppropriateToRegister(form: form)
             switch result {
             case .success(let result):
                 manageProductManger.productService.registerProduct(
