@@ -50,6 +50,12 @@ final class ProductDetailsViewController: UIViewController {
         setupCollectionView()
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+        
+        postNotification(name: Notification.Name.productUpdated)
+    }
+    
     // MARK: - Internal Methods
     
     func fetchDetails(of productID: Int) {
@@ -84,6 +90,13 @@ final class ProductDetailsViewController: UIViewController {
 // MARK: - Private Methods
 
 extension ProductDetailsViewController {
+    private func postNotification(name: Notification.Name) {
+        NotificationCenter.default.post(
+            name: name,
+            object: nil
+        )
+    }
+    
     private func setLabels(with product: ProductDetails) {
         let presentation = getPresentation(product: product, identifier: ProductDetailsViewController.identifier)
         
@@ -107,7 +120,10 @@ extension ProductDetailsViewController {
     private func setPriceLabel(with presentation: ProductUIPresentation) {
         priceLabel.text = presentation.priceLabelText
         priceLabel.textColor = presentation.priceLabelTextColor
-        priceLabel.attributedText = presentation.priceLabelIsCrossed ? priceLabel.convertToAttributedString(from: priceLabel) : nil
+        if presentation.priceLabelIsCrossed {
+            priceLabel.attributedText = priceLabel.convertToAttributedString(from: priceLabel)
+        }
+//        priceLabel.attributedText = presentation.priceLabelIsCrossed ? priceLabel.convertToAttributedString(from: priceLabel) : nil
     }
     
     private func setDiscountedPriceLabel(with presentation: ProductUIPresentation) {
@@ -249,7 +265,7 @@ extension ProductDetailsViewController: UICollectionViewDelegateFlowLayout {
 
 //MARK: - AddButtonTappedDelegate
 
-extension ProductDetailsViewController: AddButtonTappedDelegate {
+extension ProductDetailsViewController: DoneButtonTappedDelegate {
     func registerButtonTapped() {
         let apiService = MarketAPIService()
         
@@ -258,6 +274,7 @@ extension ProductDetailsViewController: AddButtonTappedDelegate {
             case .success(let product):
                 self.product = product
                 DispatchQueue.main.async {
+                    self.setNavigationTitle(with: product)
                     self.setLabels(with: product)
                 }
             case .failure(let error):

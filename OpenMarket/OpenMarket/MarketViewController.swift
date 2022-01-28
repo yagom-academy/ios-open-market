@@ -52,7 +52,7 @@ final class MarketViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        addNotificationObserver()
         setupSegmentedControl()
         fetchPage(pageNumber: 1, itemsPerPage: 20) { [weak self] _ in
             guard let self = self else {
@@ -60,6 +60,10 @@ final class MarketViewController: UIViewController {
             }
             self.showListViewController()
         }
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(Notification.Name.productUpdated)
     }
 }
 
@@ -95,6 +99,19 @@ extension MarketViewController {
 //MARK: - Private Methods
 
 extension MarketViewController {
+    private func addNotificationObserver() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleProductUpdatedNotification),
+            name: Notification.Name.productUpdated,
+            object: nil
+        )
+    }
+    
+    @objc private func handleProductUpdatedNotification() {
+        reloadCollectionViews()
+    }
+    
     private func startLoadingIndicator() {
         loadingIndicator.startAnimating()
     }
@@ -134,9 +151,12 @@ extension MarketViewController {
         viewController.removeFromParent()
     }
     
-    private func fetchPage(pageNumber: Int, itemsPerPage: Int, completion: @escaping (_ products: [Product]?) -> ()) {
+    private func fetchPage(
+        pageNumber: Int,
+        itemsPerPage: Int,
+        completion: @escaping (_ products: [Product]?) -> ()
+    ) {
         let apiService = MarketAPIService()
-        startLoadingIndicator()
         apiService.fetchPage(
             pageNumber: pageNumber,
             itemsPerPage: itemsPerPage
@@ -144,7 +164,6 @@ extension MarketViewController {
             guard let self = self else {
                 return
             }
-            self.stopLoadingIndicator()
             switch result {
             case .success(let data):
                 self.products = data.products
@@ -154,21 +173,36 @@ extension MarketViewController {
             }
         }
     }
+    
+    private func reloadCollectionViews() {
+        self.startLoadingIndicator()
+        fetchPage(pageNumber: 1, itemsPerPage: 20) { [weak self] products in
+            guard let products = products,
+                  let self = self else {
+                return
+            }
+            self.stopLoadingIndicator()
+            self.listViewController.reloadCollectionView(with: products)
+            DispatchQueue.main.async {
+                self.gridViewController.reloadCollectionView(with: products)
+            }
+        }
+    }
 }
 
 // MARK: - AddButtonTappedDelegate
 
-extension MarketViewController: AddButtonTappedDelegate {
+extension MarketViewController: DoneButtonTappedDelegate {
     func registerButtonTapped() {
         fetchPage(pageNumber: 1, itemsPerPage: 20) { [weak self] products in
             guard let products = products,
                   let self = self else {
                 return
             }
-            self.listViewController.updateProducts(with: products)
-            
+            self.listViewController.reloadCollectionView(with: products)
+
             DispatchQueue.main.async {
-                self.gridViewController.updateProducts(with: products)
+                self.gridViewController.reloadCollectionView(with: products)
             }
         }
     }

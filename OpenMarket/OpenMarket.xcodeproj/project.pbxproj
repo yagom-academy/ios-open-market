@@ -56,6 +56,7 @@
 		EDD88A1427A2BD3D0086BD1B /* UILabel+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDD88A1327A2BD3D0086BD1B /* UILabel+Extensions.swift */; };
 		EDD88A1627A2D24E0086BD1B /* ProductUIPresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDD88A1527A2D24E0086BD1B /* ProductUIPresentable.swift */; };
 		EDD88A1827A2DC200086BD1B /* ProductPresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDD88A1727A2DC200086BD1B /* ProductPresentable.swift */; };
+		EDD88A2027A3BACC0086BD1B /* Notification+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDD88A1F27A3BACC0086BD1B /* Notification+Extensions.swift */; };
 		EDE728EC27966E58003C3607 /* MarketCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE728EB27966E58003C3607 /* MarketCell.swift */; };
 		EDE728EE27967081003C3607 /* NibIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE728ED27967081003C3607 /* NibIdentifier.swift */; };
 		EDF3685E278EBF9E006FF528 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF3685D278EBF9E006FF528 /* ListViewController.swift */; };
@@ -126,6 +127,7 @@
 		EDD88A1327A2BD3D0086BD1B /* UILabel+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Extensions.swift"; sourceTree = "<group>"; };
 		EDD88A1527A2D24E0086BD1B /* ProductUIPresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductUIPresentable.swift; sourceTree = "<group>"; };
 		EDD88A1727A2DC200086BD1B /* ProductPresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductPresentable.swift; sourceTree = "<group>"; };
+		EDD88A1F27A3BACC0086BD1B /* Notification+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification+Extensions.swift"; sourceTree = "<group>"; };
 		EDE728EB27966E58003C3607 /* MarketCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketCell.swift; sourceTree = "<group>"; };
 		EDE728ED27967081003C3607 /* NibIdentifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NibIdentifier.swift; sourceTree = "<group>"; };
 		EDF3685D278EBF9E006FF528 /* ListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
@@ -262,6 +264,7 @@
 				3B277D3327A0038700F87DEA /* UIViewController+Extensions.swift */,
 				ED7F4FF927A0158A003AB3EA /* UIImage+Extensions.swift */,
 				EDD88A1327A2BD3D0086BD1B /* UILabel+Extensions.swift */,
+				EDD88A1F27A3BACC0086BD1B /* Notification+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -447,6 +450,7 @@
 				ED85D53527842A51007A23CF /* PatchProduct.swift in Sources */,
 				EDE728EE27967081003C3607 /* NibIdentifier.swift in Sources */,
 				3B9D096A27A29D9200C111D5 /* ImageData.swift in Sources */,
+				EDD88A2027A3BACC0086BD1B /* Notification+Extensions.swift in Sources */,
 				EDD54E8E2799BA9900CD7B36 /* AddImageButtonCell.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 				ED6EEFF927870D750042B6C2 /* Int+Extensions.swift in Sources */,

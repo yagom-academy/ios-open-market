@@ -41,7 +41,7 @@ final class ListViewController: UIViewController {
     
     // MARK: - Internal Methods
     
-    func updateProducts(with products: [Product]) {
+    func reloadCollectionView(with products: [Product]) {
         self.products = products
         
         DispatchQueue.main.async {

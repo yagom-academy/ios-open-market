@@ -7,9 +7,9 @@
 
 import UIKit
 
-// MARK: - AddButtonTappedDelegate Protocol
+// MARK: - DoneButtonTappedDelegate Protocol
 
-protocol AddButtonTappedDelegate: AnyObject {
+protocol DoneButtonTappedDelegate: AnyObject {
     func registerButtonTapped()
 }
 
@@ -68,13 +68,13 @@ final class ProductFormViewController: UIViewController {
     
     private var images: [UIImage] = []
     private var productImages: [ProductImage] = []
-    weak var delegate: AddButtonTappedDelegate?
+    weak var delegate: DoneButtonTappedDelegate?
     private var pageMode: PageMode
     private var productID: Int?
     
     // MARK: - Initializer
     
-    init?(delegate: AddButtonTappedDelegate,
+    init?(delegate: DoneButtonTappedDelegate,
           pageMode: PageMode,
           coder: NSCoder
     ) {
@@ -157,23 +157,20 @@ extension ProductFormViewController {
                 return
             }
             registerProduct()
-            presentAlert(
-                alertTitle: "제품등록 성공",
-                alertMessage: "제품이 성공적으로 등록됐습니다!"
-            ) { [weak self] _ in
-                guard let self = self else {
-                    return
-                }
-                self.delegate?.registerButtonTapped()
-                self.dismiss(animated: true, completion: nil)
-            }
+//            presentAlert(
+//                alertTitle: "제품등록 성공",
+//                alertMessage: "제품이 성공적으로 등록됐습니다!"
+//            ) { [weak self] _ in
+//                guard let self = self else {
+//                    return
+//                }
+//                self.delegate?.registerButtonTapped()
+//                self.dismiss(animated: true, completion: nil)
+//            }
         case .edit:
             updateProduct()
             
-            presentAlert(alertTitle: "수정완료", alertMessage: "수정이 완료되었습니다") { _ in
-                self.delegate?.registerButtonTapped()
-                self.dismiss(animated: true, completion: nil)
-            }
+
         }
     }
 }
@@ -292,16 +289,31 @@ extension ProductFormViewController {
         }
         apiService.registerProduct(product: postProduct, images: productImages) { result in
             switch result {
-            case .success(let data):
-                print(data)
-            case .failure(let error):
-                print(error)
+            case .success(_):
+                DispatchQueue.main.async {
+                    self.presentAlert(
+                        alertTitle: "제품등록 성공",
+                        alertMessage: "제품이 성공적으로 등록됐습니다!"
+                    ) { [weak self] _ in
+                        guard let self = self else {
+                            return
+                        }
+                        self.delegate?.registerButtonTapped()
+                        self.dismiss(animated: true, completion: nil)
+                    }
+                }
+            case .failure(_):
+                DispatchQueue.main.async {
+                    self.presentAlert(
+                        alertTitle: "제품등록 실패",
+                        alertMessage: "유감스",
+                        handler: nil)
+                }
             }
         }
     }
     
     private func updateProduct() {
-
         guard let name = productNameTextField.text,
               let descriptions = descriptionTextView.text,
               let priceText = priceTextField.text,
@@ -321,10 +333,19 @@ extension ProductFormViewController {
         }
         apiservice.updateProduct(productID: productID, product: product) { result in
             switch result {
-            case .success(let data):
-                print(data)
-            case .failure(let error):
-                print(error)
+            case .success(_):
+                DispatchQueue.main.async {
+                    self.presentAlert(alertTitle: "수정완료", alertMessage: "수정이 완료되었습니다") { _ in
+                        self.delegate?.registerButtonTapped()
+                        self.dismiss(animated: true, completion: nil)
+                    }
+                }
+            case .failure(_):
+                DispatchQueue.main.async {
+                    self.presentAlert(alertTitle: "수정 실패", alertMessage: "권한이 없습니다 당신은") { _ in
+                        self.dismiss(animated: true, completion: nil)
+                    }
+                }
             }
         }
     }

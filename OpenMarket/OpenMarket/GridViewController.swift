@@ -41,7 +41,7 @@ final class GridViewController: UIViewController {
     
     // MARK: - Internal Methods
  
-    func updateProducts(with products: [Product]) {
+    func reloadCollectionView(with products: [Product]) {
         self.products = products
         
         DispatchQueue.main.async {
@@ -88,6 +88,17 @@ extension GridViewController: UICollectionViewDataSource {
         cell.configure(with: products[indexPath.row], cellType: .grid)
         
         return cell
+    }
+}
+
+extension GridViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let controller = storyboard?.instantiateViewController(withIdentifier: ProductDetailsViewController.identifier) as? ProductDetailsViewController else {
+            return
+        }
+        let productId = products[indexPath.row].id
+        controller.fetchDetails(of: productId)
+        navigationController?.pushViewController(controller, animated: true)
     }
 }
 
