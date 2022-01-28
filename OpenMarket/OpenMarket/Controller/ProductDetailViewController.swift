@@ -86,30 +86,34 @@ extension ProductDetailViewController: UICollectionViewDataSource {
             withReuseIdentifier: UICollectionViewCell.identifier,
             for: indexPath
         )
-        product?.images?.forEach { image in
-            guard let url = URL(string: image.url) else { return}
-            networkTask?.downloadImage(from: url) { result in
-                switch result {
-                case .success(let data):
-                    let image = UIImage(data: data)
-                    DispatchQueue.main.async {
-                        let imageView = self.makeImageView(
-                            with: image,
-                            frame: cell.contentView.frame
-                        )
-                        guard indexPath == collectionView.indexPath(for: cell) else { return }
-                        cell.contentView.addSubview(imageView)
-                    }
-                case .failure:
-                    let image = UIImage(systemName: "xmark.app")
+        cell.contentView.subviews.forEach { subview in
+            subview.removeFromSuperview()
+        }
+        let urlString = product?.images?[indexPath.item].url ?? ""
+        guard let url = URL(string: urlString) else {
+            return cell
+        }
+        networkTask?.downloadImage(from: url) { result in
+            switch result {
+            case .success(let data):
+                let image = UIImage(data: data)
+                DispatchQueue.main.async {
                     let imageView = self.makeImageView(
                         with: image,
-                        frame: cell.contentView.frame
+                        frame: cell.contentView.bounds
                     )
-                    DispatchQueue.main.async {
-                        guard indexPath == collectionView.indexPath(for: cell) else { return }
-                        cell.contentView.addSubview(imageView)
-                    }
+                    guard indexPath == collectionView.indexPath(for: cell) else { return }
+                    cell.contentView.addSubview(imageView)
+                }
+            case .failure:
+                let image = UIImage(systemName: "xmark.app")
+                let imageView = self.makeImageView(
+                    with: image,
+                    frame: cell.contentView.frame
+                )
+                DispatchQueue.main.async {
+                    guard indexPath == collectionView.indexPath(for: cell) else { return }
+                    cell.contentView.addSubview(imageView)
                 }
             }
         }
