@@ -11,8 +11,8 @@ class OpenMarketCollectionViewCell: UICollectionViewCell {
     
     var containerStackView = UIStackView()
     var productNameLabel = UILabel()
-    var priceLabel = UILabel()
-    var discountedLabel = UILabel()
+    var originalPriceLabel = UILabel()
+    var bargainPriceLabel = UILabel()
     var accessoryImageView = UIImageView()
     
     var stackView: UIStackView = {
@@ -72,7 +72,7 @@ class OpenMarketCollectionViewCell: UICollectionViewCell {
     }
     
     override func prepareForReuse() {
-        discountedLabel.isHidden = true
+        bargainPriceLabel.isHidden = true
     }
     
     private func configureViewHirarchy() {
@@ -85,8 +85,8 @@ class OpenMarketCollectionViewCell: UICollectionViewCell {
         productStackView.addArrangedSubview(productNameLabel)
         productStackView.addArrangedSubview(priceStackView)
         
-        priceStackView.addArrangedSubview(priceLabel)
-        priceStackView.addArrangedSubview(discountedLabel)
+        priceStackView.addArrangedSubview(originalPriceLabel)
+        priceStackView.addArrangedSubview(bargainPriceLabel)
     }
     
     private func configureAutoLayout() {
@@ -102,14 +102,14 @@ class OpenMarketCollectionViewCell: UICollectionViewCell {
             imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor)
         ])
         
-        priceLabel.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
-        discountedLabel.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+        originalPriceLabel.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+        bargainPriceLabel.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         
         stockLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         priceStackView.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         
-        priceLabel.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
-        discountedLabel.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+        originalPriceLabel.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+        bargainPriceLabel.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         
         stockLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         priceStackView.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
@@ -141,21 +141,21 @@ class OpenMarketCollectionViewCell: UICollectionViewCell {
         }
         
         if item.discountedPrice != 0 {
-            priceLabel.textColor = .systemRed
+            originalPriceLabel.textColor = .systemRed
             let attributeString = NSMutableAttributedString(string: "\(item.currency) \(item.price)")
             attributeString.addAttribute(
                 NSAttributedString.Key.strikethroughStyle,
                 value: 2,
                 range: NSMakeRange(0, attributeString.length)
             )
-            priceLabel.attributedText = attributeString
+            originalPriceLabel.attributedText = attributeString
             
-            discountedLabel.isHidden = false
-            discountedLabel.text = "\(item.currency) \(item.discountedPrice)"
-            discountedLabel.textColor = .systemGray
+            bargainPriceLabel.isHidden = false
+            bargainPriceLabel.text = "\(item.currency) \(item.bargainPrice)"
+            bargainPriceLabel.textColor = .systemGray
         } else {
-            priceLabel.text = "\(item.currency) \(item.price)"
-            priceLabel.textColor = .systemGray
+            originalPriceLabel.text = "\(item.currency) \(item.bargainPrice)"
+            originalPriceLabel.textColor = .systemGray
         }
     }
 }
