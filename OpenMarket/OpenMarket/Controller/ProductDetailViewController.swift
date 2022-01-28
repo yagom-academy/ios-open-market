@@ -6,6 +6,7 @@ class ProductDetailViewController: UIViewController {
     private var productId: Int?
     private var networkTask: NetworkTask?
     private var jsonParser: JSONParser?
+    private var imageIndex: CGFloat = 0.0
     
     @IBOutlet private weak var imagesCollectionView: UICollectionView!
     @IBOutlet private weak var imageIndexLabel: UILabel!
@@ -39,7 +40,7 @@ class ProductDetailViewController: UIViewController {
         )
         flowLayout.scrollDirection = .horizontal
         imagesCollectionView.collectionViewLayout = flowLayout
-        imagesCollectionView.isPagingEnabled = true
+        scrollView.decelerationRate = .fast
     }
     
     private func loadData() {
@@ -139,8 +140,24 @@ extension ProductDetailViewController: UICollectionViewDataSource {
 }
 
 extension ProductDetailViewController: UIScrollViewDelegate {
-    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        let pageNumber = Int(floor(scrollView.contentOffset.x / scrollView.frame.width + 1))
+    func scrollViewWillEndDragging(
+        _ scrollView: UIScrollView,
+        withVelocity velocity: CGPoint,
+        targetContentOffset: UnsafeMutablePointer<CGPoint>
+    ) {
+        guard let layout = imagesCollectionView.collectionViewLayout as? UICollectionViewFlowLayout else { return }
+        let cellWidthIncludingSpacing = layout.itemSize.width + layout.minimumLineSpacing
+        var offset = targetContentOffset.pointee
+        let index = round(offset.x / cellWidthIncludingSpacing)
+        if index > imageIndex {
+            imageIndex += 1
+        } else if index < imageIndex, imageIndex != 0 {
+            imageIndex -= 1
+        }
+        offset = CGPoint(x: imageIndex * cellWidthIncludingSpacing, y: 0)
+        targetContentOffset.pointee = offset
+        
+        let pageNumber = Int(imageIndex + 1)
         let imagesCount = product?.images?.count ?? 0
         imageIndexLabel.text = "\(pageNumber)/\(imagesCount)"
     }
