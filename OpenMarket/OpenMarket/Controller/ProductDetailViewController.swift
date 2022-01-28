@@ -8,6 +8,12 @@ class ProductDetailViewController: UIViewController {
     private var jsonParser: JSONParser?
     private var imageIndex: CGFloat = 0.0
     
+    private var imageIndexText: String {
+        let pageNumber = Int(imageIndex + 1)
+        let imagesCount = product?.images?.count ?? 0
+        return "\(pageNumber)/\(imagesCount)"
+    }
+    
     @IBOutlet private weak var imagesCollectionView: UICollectionView!
     @IBOutlet private weak var imageIndexLabel: UILabel!
     @IBOutlet private weak var productNameLabel: UILabel!
@@ -30,17 +36,7 @@ class ProductDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         loadData()
-        imagesCollectionView.dataSource = self
-        let scrollView = imagesCollectionView as UIScrollView
-        scrollView.delegate = self
-        let flowLayout = UICollectionViewFlowLayout()
-        flowLayout.itemSize = CGSize(
-            width: view.frame.width - 20,
-            height: view.frame.width - 20
-        )
-        flowLayout.scrollDirection = .horizontal
-        imagesCollectionView.collectionViewLayout = flowLayout
-        scrollView.decelerationRate = .fast
+        setupImagesCollectionView()
     }
     
     private func loadData() {
@@ -64,7 +60,7 @@ class ProductDetailViewController: UIViewController {
         stockLabel.attributedText = product?.attributedStock
         priceLabel.attributedText = product?.attributedPrice
         descriptionTextView.text = product?.description
-        imageIndexLabel.text = "1/\(product?.images?.count ?? 0)"
+        imageIndexLabel.text = imageIndexText
         imagesCollectionView.reloadData()
     }
     
@@ -80,11 +76,39 @@ class ProductDetailViewController: UIViewController {
         }
     }
     
+    private func setupImagesCollectionView() {
+        imagesCollectionView.dataSource = self
+        let scrollView = imagesCollectionView as UIScrollView
+        scrollView.delegate = self
+        scrollView.decelerationRate = .fast
+        let flowLayout = UICollectionViewFlowLayout()
+        flowLayout.itemSize = CGSize(
+            width: view.frame.width - 20,
+            height: view.frame.width - 20
+        )
+        flowLayout.scrollDirection = .horizontal
+        imagesCollectionView.collectionViewLayout = flowLayout
+    }
+    
     private func makeImageView(with image: UIImage?, frame: CGRect) -> UIImageView {
         let imageView = UIImageView(frame: frame)
         imageView.image = image
         imageView.contentMode = .scaleAspectFit
         return imageView
+    }
+    
+    private func changePageOffset(of targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        guard let layout = imagesCollectionView.collectionViewLayout as? UICollectionViewFlowLayout else { return }
+        let cellWidthIncludingSpacing = layout.itemSize.width + layout.minimumLineSpacing
+        var offset = targetContentOffset.pointee
+        let index = round(offset.x / cellWidthIncludingSpacing)
+        if index > imageIndex {
+            imageIndex += 1
+        } else if index < imageIndex, imageIndex != 0 {
+            imageIndex -= 1
+        }
+        offset = CGPoint(x: imageIndex * cellWidthIncludingSpacing, y: 0)
+        targetContentOffset.pointee = offset
     }
 }
 
@@ -145,20 +169,7 @@ extension ProductDetailViewController: UIScrollViewDelegate {
         withVelocity velocity: CGPoint,
         targetContentOffset: UnsafeMutablePointer<CGPoint>
     ) {
-        guard let layout = imagesCollectionView.collectionViewLayout as? UICollectionViewFlowLayout else { return }
-        let cellWidthIncludingSpacing = layout.itemSize.width + layout.minimumLineSpacing
-        var offset = targetContentOffset.pointee
-        let index = round(offset.x / cellWidthIncludingSpacing)
-        if index > imageIndex {
-            imageIndex += 1
-        } else if index < imageIndex, imageIndex != 0 {
-            imageIndex -= 1
-        }
-        offset = CGPoint(x: imageIndex * cellWidthIncludingSpacing, y: 0)
-        targetContentOffset.pointee = offset
-        
-        let pageNumber = Int(imageIndex + 1)
-        let imagesCount = product?.images?.count ?? 0
-        imageIndexLabel.text = "\(pageNumber)/\(imagesCount)"
+        changePageOffset(of: targetContentOffset)
+        imageIndexLabel.text = imageIndexText
     }
 }
