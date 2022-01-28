@@ -1,4 +1,2 @@
 excluded:
   - Pods
-  - OpenMarket/Entries/AppDelegate.swift
-  - OpenMarket/Entries/SceneDelegate.swift
