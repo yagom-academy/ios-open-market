@@ -30,7 +30,7 @@ class ProductDetailViewController: UIViewController {
     typealias Product = NetworkingAPI.ProductDetailQuery.Response
     
     private var backButtonItem: UIBarButtonItem!
-    private var modificationButtonItem: UIBarButtonItem!
+    private var modifyOrDeleteButtonItem: UIBarButtonItem!
     private let acitivityIndicator = UIActivityIndicatorView()
     private let imageScrollView = UIScrollView()
     private let imageStackView = UIStackView()
@@ -53,12 +53,12 @@ class ProductDetailViewController: UIViewController {
     
     private func create() {
         createBackButtonItem()
-        createModificationButtonItem()
+        createModifyOrDeleteButtonItem()
     }
     
     private func organizeViewHierarchy() {
         navigationItem.setLeftBarButton(backButtonItem, animated: false)
-        navigationItem.setRightBarButton(modificationButtonItem, animated: false)
+        navigationItem.setRightBarButton(modifyOrDeleteButtonItem, animated: false)
         
         view.addSubview(acitivityIndicator)
         view.addSubview(imageScrollView)
@@ -115,8 +115,8 @@ extension ProductDetailViewController {
 //MARK: - ModificationButtonItem
 extension ProductDetailViewController {
     
-    private func createModificationButtonItem() {
-        modificationButtonItem = UIBarButtonItem(image: UIImage(systemName: "square.and.arrow.up"),
+    private func createModifyOrDeleteButtonItem() {
+        modifyOrDeleteButtonItem = UIBarButtonItem(image: UIImage(systemName: "square.and.arrow.up"),
                                                         style: .plain,
                                                         target: self,
                                                         action: #selector(presentModifyOrDeleteActionSheet))
@@ -143,7 +143,7 @@ extension ProductDetailViewController {
         guard let product = product else {
             return
         }
-        let modificationViewController = ProductRegistrationViewController(product: product)
+        let modificationViewController = ProductModificationViewController(product: product)
         modificationViewController.modalPresentationStyle = .fullScreen
         present(modificationViewController, animated: true)
     }
@@ -160,6 +160,9 @@ extension ProductDetailViewController {
                 switch result {
                 case .success(let secret):
                     self.deleteProduct(secret: secret)
+                    DispatchQueue.main.async {
+                        self.navigationController?.popViewController(animated: true)
+                    }
                 case .failure(let error):
                     print(error.description)
                 }

@@ -17,45 +17,34 @@ class ProductRegistrationViewController: UIViewController {
         static let recommendedImageHeight: CGFloat = 500
     }
 
-    private var navigationBar: PlainNavigationBar!
+    var navigationBar: PlainNavigationBar!
     
     private let wholeScreenScrollView = UIScrollView()
     
-    private let imageStackView = UIStackView()
-    private let imageAddingButton = UIButton()
+    let imageStackView = UIStackView()
+    let imageAddingButton = UIButton()
     private let imagePickerController = UIImagePickerController()
     private let imageScrollView = UIScrollView()
     
     private let textFieldStackView = UIStackView()
-    private let nameTextField = CenterAlignedTextField()
-    private let priceStackView = UIStackView()
-    private let priceTextField = CenterAlignedTextField()
-    private let currencySegmentedControl = UISegmentedControl()
-    private let bargainPriceTextField = CenterAlignedTextField()
-    private let stockTextField = CenterAlignedTextField()
+    let nameTextField = CenterAlignedTextField()
+    let priceStackView = UIStackView()
+    let priceTextField = CenterAlignedTextField()
+    let currencySegmentedControl = UISegmentedControl()
+    let bargainPriceTextField = CenterAlignedTextField()
+    let stockTextField = CenterAlignedTextField()
     
-    private let descriptionTextView = UITextView()
-
-    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+    let descriptionTextView = UITextView()
+    
+    //MARK: - Life Cycle
+    override func viewDidLoad() {
+        super.viewDidLoad()
         create()
         organizeViewHierarchy()
         configure()
     }
     
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-    }
-    
-    convenience init(product: Product) {
-        self.init(nibName: nil, bundle: nil)
-        updateForModification(from: product)
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
-    
+    //MARK: - Private Method
     private func create() {
         createNavigationBar()
     }
@@ -79,15 +68,12 @@ class ProductRegistrationViewController: UIViewController {
 
     private func configure() {
         configureMainView()
-
         configureNavigationBar()
-
         configureWholeScreenScrollView()
         configureImageScrollView()
         configureImageStackView()
         configureImageAddingButton()
         configureImagePickerController()
-
         configureTextFieldStackView()
         configureNameTextField()
         configurePriceStackView()
@@ -95,20 +81,7 @@ class ProductRegistrationViewController: UIViewController {
         configureCurrencySegmentedControl()
         configureBargainPriceTextField()
         configureStockTextField()
-
         configureDescriptionTextView()
-    }
-    
-    private func updateForModification(from product: Product) {
-        updateNavigationBar()
-        updateImageStackView(from: product)
-        imageAddingButton.isHidden = true
-        updateNameTextField(from: product)
-        updatePriceTextField(from: product)
-        updateCurrencySegmentedControl(from: product)
-        updateBargainPriceTextField(from: product)
-        updateStockTextField(from: product)
-        updateDescriptionTextView(from: product)
     }
     
     //MARK: - MainView
@@ -203,10 +176,6 @@ extension ProductRegistrationViewController {
         
         return images
     }
-    
-    private func updateNavigationBar() {
-        navigationBar.setMainLabel(title: "상품수정")
-    }
 }
 
 //MARK: - WholeScreenScrollView
@@ -257,26 +226,7 @@ extension ProductRegistrationViewController {
         ])
     }
     
-    private func updateImageStackView(from product: Product) {
-        product.images.forEach {
-            ImageLoader.load(from: $0.url) { result in
-                switch result {
-                case .success(let data):
-                    guard let image = UIImage(data: data) else {
-                        print(OpenMarketError.conversionFail("Data", "UIImage"))
-                        return
-                    }
-                    DispatchQueue.main.async {
-                        self.addToStack(image: image)
-                    }
-                case .failure(let error):
-                    print(error.description)
-                }
-            }
-        }
-    }
-    
-    private func addToStack(image: UIImage) {
+    func addToStack(image: UIImage) {
         let imageView = UIImageView()
         imageView.image = image
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -371,10 +321,6 @@ extension ProductRegistrationViewController {
     private func configureNameTextField() {
         nameTextField.placeholder = "상품명"
     }
-    
-    private func updateNameTextField(from product: Product) {
-        nameTextField.text = product.name
-    }
 }
 
 //MARK: - PriceStackView
@@ -399,10 +345,6 @@ extension ProductRegistrationViewController {
         
         priceTextField.setContentHuggingPriority(.defaultLow, for: .horizontal)
     }
-    
-    private func updatePriceTextField(from product: Product) {
-        priceTextField.text = String(Int(product.price))
-    }
 }
 
 //MARK: - CurrencySegmentedControl
@@ -416,14 +358,6 @@ extension ProductRegistrationViewController {
         
         currencySegmentedControl.setContentHuggingPriority(.defaultHigh, for: .horizontal)
     }
-    
-    private func updateCurrencySegmentedControl(from product: Product) {
-        if product.currency == .KRW {
-            currencySegmentedControl.selectedSegmentIndex = 0
-        } else {
-            currencySegmentedControl.selectedSegmentIndex = 1
-        }
-    }
 }
 
 //MARK: - BargainPriceTextField
@@ -432,10 +366,6 @@ extension ProductRegistrationViewController {
     private func configureBargainPriceTextField() {
         bargainPriceTextField.placeholder = "할인금액"
     }
-    
-    private func updateBargainPriceTextField(from product: Product) {
-        bargainPriceTextField.text = String(Int(product.bargainPrice))
-    }
 }
 
 //MARK: - StockTextField
@@ -443,10 +373,6 @@ extension ProductRegistrationViewController {
     
     private func configureStockTextField() {
         stockTextField.placeholder = "재고수정"
-    }
-    
-    private func updateStockTextField(from product: Product) {
-        stockTextField.text = String(product.stock)
     }
 }
 
@@ -468,9 +394,5 @@ extension ProductRegistrationViewController {
             descriptionTextView.widthAnchor.constraint(equalTo: wholeScreenScrollView.widthAnchor),
             descriptionTextView.heightAnchor.constraint(equalTo: view.heightAnchor),
         ])
-    }
-    
-    private func updateDescriptionTextView(from product: Product) {
-        descriptionTextView.text = product.description
     }
 }
