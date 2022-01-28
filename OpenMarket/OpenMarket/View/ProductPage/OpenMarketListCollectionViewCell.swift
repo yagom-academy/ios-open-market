@@ -20,17 +20,24 @@ final class OpenMarketListCollectionViewCell: OpenMarketCollectionViewCell {
     }
     
     private func configureListCellLayout() {
-        stackView.axis = .horizontal
-        stackView.alignment = .top
-        stackView.distribution = .fill
-        stackView.addArrangedSubview(accessoryImageView)
+        containerStackView.addArrangedSubview(accessoryImageView)
+        configureStackView()
+        configureAccessoryImageView()
+        priceStackView.axis = .horizontal
+    }
+    
+    private func configureStackView() {
+        containerStackView.axis = .horizontal
+        containerStackView.alignment = .top
+        containerStackView.distribution = .fill
+    }
+    
+    private func configureAccessoryImageView() {
         accessoryImageView.image = UIImage(systemName: "chevron.right")
         accessoryImageView.tintColor = .systemGray
-        
         NSLayoutConstraint.activate([
-            imageView.widthAnchor.constraint(equalTo: stackView.widthAnchor, multiplier: 0.2)
+            productImageView.widthAnchor.constraint(equalTo: containerStackView.widthAnchor, multiplier: 0.2)
         ])
-        priceStackView.axis = .horizontal
     }
     
 }

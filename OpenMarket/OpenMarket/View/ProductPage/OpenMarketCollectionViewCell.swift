@@ -9,13 +9,12 @@ import UIKit
 
 class OpenMarketCollectionViewCell: UICollectionViewCell {
     
-    var containerStackView = UIStackView()
-    var productNameLabel = UILabel()
-    var originalPriceLabel = UILabel()
-    var bargainPriceLabel = UILabel()
-    var accessoryImageView = UIImageView()
+    let productNameLabel = UILabel()
+    let originalPriceLabel = UILabel()
+    let bargainPriceLabel = UILabel()
+    let accessoryImageView = UIImageView()
     
-    var stackView: UIStackView = {
+    let containerStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
@@ -25,13 +24,13 @@ class OpenMarketCollectionViewCell: UICollectionViewCell {
         return stackView
     }()
     
-    var imageView: UIImageView = {
+    let productImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
     
-    var productStackView: UIStackView = {
+    let productStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.alignment = .leading
@@ -40,7 +39,7 @@ class OpenMarketCollectionViewCell: UICollectionViewCell {
         return stackView
     }()
     
-    var priceStackView: UIStackView = {
+    let priceStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.alignment = .center
@@ -48,7 +47,7 @@ class OpenMarketCollectionViewCell: UICollectionViewCell {
         return stackView
     }()
     
-    var stockLabel: UILabel = {
+    let stockLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .right
         label.numberOfLines = 0
@@ -76,11 +75,11 @@ class OpenMarketCollectionViewCell: UICollectionViewCell {
     }
     
     private func configureViewHirarchy() {
-        self.addSubview(stackView)
+        self.addSubview(containerStackView)
         
-        stackView.addArrangedSubview(imageView)
-        stackView.addArrangedSubview(productStackView)
-        stackView.addArrangedSubview(stockLabel)
+        containerStackView.addArrangedSubview(productImageView)
+        containerStackView.addArrangedSubview(productStackView)
+        containerStackView.addArrangedSubview(stockLabel)
         
         productStackView.addArrangedSubview(productNameLabel)
         productStackView.addArrangedSubview(priceStackView)
@@ -91,15 +90,19 @@ class OpenMarketCollectionViewCell: UICollectionViewCell {
     
     private func configureAutoLayout() {
         NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 10),
-            stackView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 10),
-            stackView.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -10),
-            stackView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor, constant: -10)
+            containerStackView.topAnchor.constraint(
+                equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 10),
+            containerStackView.leadingAnchor.constraint(
+                equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 10),
+            containerStackView.trailingAnchor.constraint(
+                equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -10),
+            containerStackView.bottomAnchor.constraint(
+                equalTo: self.safeAreaLayoutGuide.bottomAnchor, constant: -10)
         ])
         
         NSLayoutConstraint.activate([
-            imageView.widthAnchor.constraint(equalTo: stackView.widthAnchor, multiplier: 0.2),
-            imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor)
+            productImageView.widthAnchor.constraint(equalTo: containerStackView.widthAnchor, multiplier: 0.2),
+            productImageView.widthAnchor.constraint(equalTo: productImageView.heightAnchor)
         ])
         
         originalPriceLabel.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
@@ -121,9 +124,9 @@ class OpenMarketCollectionViewCell: UICollectionViewCell {
             DispatchQueue.main.async {
                 switch result {
                 case .success(let data):
-                    self.imageView.image = data
+                    self.productImageView.image = data
                 case .failure:
-                    self.imageView.image = UIImage(named: "Image")
+                    self.productImageView.image = UIImage(named: "Image")
                 }
             }
         }

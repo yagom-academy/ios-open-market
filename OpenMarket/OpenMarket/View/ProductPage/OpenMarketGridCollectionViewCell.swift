@@ -20,14 +20,17 @@ final class OpenMarketGridCollectionViewCell: OpenMarketCollectionViewCell {
     }
     
     private func configureGridCellLayout() {
-        stackView.axis = .vertical
-        stackView.alignment = .center
-        stackView.distribution = .equalSpacing
-        
+        configureStackView()
         NSLayoutConstraint.activate([
-            imageView.widthAnchor.constraint(equalTo: stackView.widthAnchor, multiplier: 0.9)
+            productImageView.widthAnchor.constraint(equalTo: containerStackView.widthAnchor, multiplier: 0.9)
         ])
         priceStackView.axis = .vertical
+    }
+    
+    private func configureStackView() {
+        containerStackView.axis = .vertical
+        containerStackView.alignment = .center
+        containerStackView.distribution = .equalSpacing
     }
     
 }
