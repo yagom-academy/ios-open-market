@@ -2,7 +2,7 @@ import UIKit
 
 class ManageProductViewController: UIViewController {
     private var keyboardHeight: CGFloat?
-    let manageProductManger = ManageProductManager()
+    let manageProductManger = UpdateProductManager()
     var images: [UIImage] = [] {
         didSet {
             stackView.setImages(images: images)

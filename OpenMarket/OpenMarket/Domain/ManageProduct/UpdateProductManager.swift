@@ -1,7 +1,7 @@
 import Foundation
 import UIKit
 
-class ManageProductManager {
+class UpdateProductManager {
     let productService = ProductService()
 
     func isAppropriateToRegister(form: ManageProductForm) throws ->
