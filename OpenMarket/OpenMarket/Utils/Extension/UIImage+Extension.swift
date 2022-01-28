@@ -1,10 +1,3 @@
-//
-//  UIImage+Extension.swift
-//  OpenMarket
-//
-//  Created by yeha on 2022/01/27.
-//
-
 import UIKit
 
 extension UIImage {
