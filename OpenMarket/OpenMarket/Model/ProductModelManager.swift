@@ -10,7 +10,7 @@ import UIKit.UIImage
 
 class ProductModelManager {
     
-    private let networkManager = ProductNetworkManager()
+    private let networkManager = ProductNetworkManager.shared
     
     private let id: Int?
     private(set) var product: Product?

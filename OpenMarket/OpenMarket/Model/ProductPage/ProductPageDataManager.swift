@@ -9,7 +9,7 @@ import Foundation
 
 class ProductPageDataManager {
     
-    private let networkManager = ProductNetworkManager()
+    private let networkManager = ProductNetworkManager.shared
     
     private var pageInfo: (currentPage: Int, itemsPerPage: Int) = (1, 10) {
         didSet { update() }

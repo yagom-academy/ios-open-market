@@ -10,7 +10,10 @@ import UIKit.UIImage
 
 class ProductNetworkManager {
     
+    static let shared = ProductNetworkManager()
+    
     private let urlSessionProvider = URLSessionProvider(session: URLSession.shared)
+    private let imageCache = NSCache<NSString, UIImage>()
     
     func fetchPage<T>(pageNumber: String, itemsPerPage: String, completionHandler: ((T) -> Void)? = nil) {
         urlSessionProvider.request(
@@ -86,10 +89,22 @@ class ProductNetworkManager {
     
     func fetchImages(url: String,
                      completionHandler: ((ProductImageResult) -> Void)? = nil) {
+        if let cachedImage = imageCache.object(forKey: url as NSString) {
+            completionHandler?(.success(cachedImage))
+            return
+        }
+                
         urlSessionProvider.requestImage(from: url) { result in
-            completionHandler?(result)
+            switch result {
+            case .success(let image):
+                self.imageCache.setObject(image, forKey: url as NSString)
+                completionHandler?(.success(image))
+            case .failure(let error):
+                completionHandler?(.failure(error))
+            }
         }
     }
+    
 }
 
 extension ProductNetworkManager {
