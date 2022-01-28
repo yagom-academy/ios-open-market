@@ -49,7 +49,8 @@ class ItemRegisterAndModifyManager {
     }
 
     func appendModel(with image: UIImage) {
-        let resizedImage = image.resize(newWidth: 100)
+        let croppedImage = image.crop()
+        let resizedImage = croppedImage.resize(newWidth: 200)
         appendImageData(resizedImage)
 
         let newModel = ImageCollectionViewCellModel(image: resizedImage)
