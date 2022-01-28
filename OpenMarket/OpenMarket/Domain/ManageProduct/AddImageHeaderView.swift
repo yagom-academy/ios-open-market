@@ -19,8 +19,7 @@ class AddImageHeaderView: UICollectionReusableView {
             addButton.topAnchor.constraint(equalTo: self.topAnchor),
             addButton.bottomAnchor.constraint(equalTo: self.bottomAnchor),
             addButton.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            addButton.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            addButton.heightAnchor.constraint(equalTo: self.widthAnchor)
+            addButton.trailingAnchor.constraint(equalTo: self.trailingAnchor)
         ])
         modifyButtonTitle(for: 0)
     }
