@@ -107,11 +107,13 @@ class OpenMarketTests: XCTestCase {
 
     func test_registerProduct() {
         let expectaion = XCTestExpectation(description: "")
-        let param = RegisterProductRequest(
+        let param = ProductRegistrationRequest(
             name: "MacBook M1 Pro",
-            descriptions: "pasta",
+            descriptions: "new macbook",
             price: 200,
             currency: .KRW,
+            discountedPrice: 100,
+            stock: 1,
             secret: "password")
         var images: [Data] = []
         let imageData = UIImage(named: "robot")!.pngData()!

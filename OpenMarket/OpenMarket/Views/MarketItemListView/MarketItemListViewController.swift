@@ -63,7 +63,7 @@ extension MarketItemListViewController {
     }
 
     @objc private func plusImageDidTap() {
-        let registrationViewController = MarketItemRegistrationViewController()
+        let registrationViewController = ItemRegistrationViewController()
         let navigationController = UINavigationController(rootViewController: registrationViewController)
         navigationController.modalPresentationStyle = .fullScreen
         self.present(navigationController, animated: true)

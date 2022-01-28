@@ -1,13 +1,6 @@
-//
-//  MarketItemFormView.swift
-//  OpenMarket
-//
-//  Created by yeha on 2022/01/27.
-//
-
 import UIKit
 
-class MarketItemFormView: UIView {
+class ItemRegisterAndModifyFormView: UIView {
 
     let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -139,7 +132,7 @@ class MarketItemFormView: UIView {
     }
 }
 
-extension MarketItemFormView {
+extension ItemRegisterAndModifyFormView {
 
     private func addKeyboardNotificationObservers() {
         NotificationCenter.default.addObserver(self,

@@ -1,22 +1,10 @@
-//
-//  ImageCollectionViewCell.swift
-//  OpenMarket
-//
-//  Created by yeha on 2022/01/27.
-//
-
 import UIKit
 
-struct ImageCollectionViewCellModel {
-    var image: UIImage?
-}
+class AddImageCollectionViewCell: UICollectionViewCell {
 
-extension UICollectionViewCell: Reusable {}
-
-class ImageCollectionViewCell: UICollectionViewCell {
-
-    private var imageView: UIImageView = {
+    var imageView: UIImageView = {
         let imageView = UIImageView()
+        imageView.image = UIImage(systemName: "plus")
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
@@ -30,10 +18,6 @@ class ImageCollectionViewCell: UICollectionViewCell {
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-
-    func setImage(with model: ImageCollectionViewCellModel) {
-        self.imageView.image = model.image
     }
 
     private func configureCell() {

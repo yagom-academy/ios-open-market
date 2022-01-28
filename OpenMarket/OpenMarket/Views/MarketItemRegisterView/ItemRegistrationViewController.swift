@@ -1,15 +1,8 @@
-//
-//  MarketItemRegistrationViewController.swift
-//  OpenMarket
-//
-//  Created by yeha on 2022/01/27.
-//
-
 import UIKit
 
-class MarketItemRegistrationViewController: UIViewController {
+class ItemRegistrationViewController: UIViewController {
 
-    private let registrationView = MarketItemFormView()
+    private let registrationView = ItemRegisterAndModifyFormView()
     private let itemRegisterManager = ItemRegisterAndModifyManager()
     private let imagePicker = UIImagePickerController()
 
@@ -58,7 +51,7 @@ class MarketItemRegistrationViewController: UIViewController {
 
 }
 
-extension MarketItemRegistrationViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+extension ItemRegistrationViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let newImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
@@ -75,8 +68,7 @@ extension MarketItemRegistrationViewController: UIImagePickerControllerDelegate,
     }
 }
 
-extension MarketItemRegistrationViewController
-: UICollectionViewDataSource, UICollectionViewDelegate {
+extension ItemRegistrationViewController: UICollectionViewDataSource, UICollectionViewDelegate {
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return itemRegisterManager.getModelsCount()
