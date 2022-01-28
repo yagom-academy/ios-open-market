@@ -109,7 +109,7 @@ extension ProductDetailViewController: UICollectionViewDataSource {
                 let image = UIImage(systemName: "xmark.app")
                 let imageView = self.makeImageView(
                     with: image,
-                    frame: cell.contentView.frame
+                    frame: cell.contentView.bounds
                 )
                 DispatchQueue.main.async {
                     guard indexPath == collectionView.indexPath(for: cell) else { return }
@@ -119,6 +119,4 @@ extension ProductDetailViewController: UICollectionViewDataSource {
         }
         return cell
     }
-    
-    
 }
