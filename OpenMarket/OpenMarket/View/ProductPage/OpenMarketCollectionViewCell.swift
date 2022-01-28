@@ -9,10 +9,22 @@ import UIKit
 
 class OpenMarketCollectionViewCell: UICollectionViewCell {
     
-    let productNameLabel = UILabel()
-    let originalPriceLabel = UILabel()
+    let productNameLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.preferredFont(forTextStyle: .title2)
+        label.adjustsFontForContentSizeCategory = true
+        return label
+    }()
+    
     let bargainPriceLabel = UILabel()
     let accessoryImageView = UIImageView()
+    
+    let originalPriceLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .systemRed
+        label.adjustsFontForContentSizeCategory = true
+        return label
+    }()
     
     let containerStackView: UIStackView = {
         let stackView = UIStackView()
@@ -71,7 +83,7 @@ class OpenMarketCollectionViewCell: UICollectionViewCell {
     }
     
     override func prepareForReuse() {
-        bargainPriceLabel.isHidden = true
+        originalPriceLabel.isHidden = true
     }
     
     private func configureViewHirarchy() {
@@ -119,8 +131,7 @@ class OpenMarketCollectionViewCell: UICollectionViewCell {
     }
     
     func configureContents(at indexPath: IndexPath, with item: Product) {
-        
-        URLSessionProvider(session: URLSession.shared).requestImage(from: item.thumbnail) { result in
+        ProductNetworkManager.shared.fetchImages(url: item.thumbnail) { result in
             DispatchQueue.main.async {
                 switch result {
                 case .success(let data):
@@ -132,8 +143,6 @@ class OpenMarketCollectionViewCell: UICollectionViewCell {
         }
         
         productNameLabel.text = item.name
-        productNameLabel.font = UIFont.boldSystemFont(ofSize: 17)
-        productNameLabel.adjustsFontForContentSizeCategory = true
         
         if item.stock > 0 {
             stockLabel.textColor = .systemGray
@@ -143,22 +152,20 @@ class OpenMarketCollectionViewCell: UICollectionViewCell {
             stockLabel.text = "품절"
         }
         
-        if item.discountedPrice != 0 {
-            originalPriceLabel.textColor = .systemRed
-            let attributeString = NSMutableAttributedString(string: "\(item.currency) \(item.price)")
-            attributeString.addAttribute(
-                NSAttributedString.Key.strikethroughStyle,
-                value: 2,
-                range: NSMakeRange(0, attributeString.length)
-            )
-            originalPriceLabel.attributedText = attributeString
-            
-            bargainPriceLabel.isHidden = false
+        if item.discountedPrice == 0 {
             bargainPriceLabel.text = "\(item.currency) \(item.bargainPrice)"
-            bargainPriceLabel.textColor = .systemGray
-        } else {
-            originalPriceLabel.text = "\(item.currency) \(item.bargainPrice)"
-            originalPriceLabel.textColor = .systemGray
+            return
         }
+        
+        let attributeString = NSMutableAttributedString(string: "\(item.currency) \(item.price)")
+        attributeString.addAttribute(
+            NSAttributedString.Key.strikethroughStyle,
+            value: 2,
+            range: NSMakeRange(0, attributeString.length)
+        )
+        originalPriceLabel.attributedText = attributeString
+        originalPriceLabel.isHidden = false
+        
+        bargainPriceLabel.text = "\(item.currency) \(item.bargainPrice)"
     }
 }
