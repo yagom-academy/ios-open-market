@@ -14,7 +14,6 @@ class AddImageHeaderView: UICollectionReusableView {
         super.init(frame: frame)
         self.addSubview(addButton)
         self.backgroundColor = .systemGray4
-        addButton.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             addButton.topAnchor.constraint(equalTo: self.topAnchor),
             addButton.bottomAnchor.constraint(equalTo: self.bottomAnchor),
