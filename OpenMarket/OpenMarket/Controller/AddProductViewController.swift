@@ -80,7 +80,7 @@ class AddProductViewController: UIViewController {
         setupCurrencySegmentControl()
     }
     
-    func setupCurrencySegmentControl() {
+    private func setupCurrencySegmentControl() {
         let lastIndex = currencySegmentedControl.numberOfSegments - 1
         for index in 0...lastIndex {
             let currentTitle = currencySegmentedControl.titleForSegment(at: index)
@@ -137,10 +137,9 @@ class AddProductViewController: UIViewController {
         apiManager.editProduct(id: id, product: information) { result in
             switch result {
             case .success(_):
+                NotificationCenter.default.post(name: NSNotification.Name("UpdateView"), object: nil)
                 DispatchQueue.main.async {
-                    self.dismiss(animated: true) {
-                        NotificationCenter.default.post(name: NSNotification.Name("UpdateView"), object: nil)
-                    }
+                    self.dismiss(animated: true, completion: nil)
                 }
             case .failure(let error):
                 print(error.localizedDescription)
@@ -153,10 +152,9 @@ class AddProductViewController: UIViewController {
             switch result {
             case .success(let data):
                 print("\(data.name) post 성공")
+                NotificationCenter.default.post(name: NSNotification.Name("UpdateView"), object: nil)
                 DispatchQueue.main.async {
-                    self.dismiss(animated: true) {
-                        NotificationCenter.default.post(name: NSNotification.Name("UpdateView"), object: nil)
-                    }
+                    self.dismiss(animated: true, completion: nil)
                 }
             case .failure(let error):
                 print(error.localizedDescription)

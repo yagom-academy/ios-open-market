@@ -4,7 +4,7 @@ enum URLManager {
     
     static let apiHost: String = "https://market-training.yagom-academy.kr/"
     case healthChecker
-    case checkProductDetail(id: Int)
+    case editOrCheckProductDetail(id: Int)
     case checkProductList(pageNumber: Int, itemsPerPage: Int)
     case addNewProduct
     case deleteProduct(id: Int, secret: String)
@@ -14,7 +14,7 @@ enum URLManager {
         switch self {
         case .healthChecker:
             return URL(string: URLManager.apiHost + "healthChecker")
-        case .checkProductDetail(let id):
+        case .editOrCheckProductDetail(let id):
             return URL(string: URLManager.apiHost + "api/products/" + "\(id)")
         case .checkProductList(let pageNumber, let itemsPerPage):
             var components = URLComponents(string: URLManager.apiHost + "api/products")

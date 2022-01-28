@@ -5,7 +5,7 @@ enum Section {
 }
 
 class OpenMarketViewController: UIViewController {
-    
+    // MARK: - Property
     @IBOutlet weak var segmentedControl: UISegmentedControl!
     private let apiManager = APIManager.shared
     private let listCollectionView = UICollectionView(frame: .zero, collectionViewLayout: OpenMarketViewLayout.list)
@@ -13,6 +13,7 @@ class OpenMarketViewController: UIViewController {
     private var listDataSource: UICollectionViewDiffableDataSource<Section, ProductDetail>?
     private var gridDataSource: UICollectionViewDiffableDataSource<Section, ProductDetail>?
     
+    // MARK: - Life Cycle Method
     override func loadView() {
         view = listCollectionView
     }
@@ -29,15 +30,29 @@ class OpenMarketViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(updateMainView), name: NSNotification.Name("UpdateView"), object: nil)
     }
     
-    @objc func updateMainView() {
+    // MARK: - Setup View Method
+    @objc private func updateMainView() {
         getProducts()
     }
     
+    @IBAction func segementChanged(_ sender: UISegmentedControl) {
+        switch sender.selectedSegmentIndex {
+        case 0:
+            view = listCollectionView
+        case 1:
+            view = gridCollectionView
+        default:
+            return
+        }
+    }
+    
+    // MARK: - Setup UI Method
     private func setupSegmentedControl() {
         segmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.systemBlue], for: .normal)
         segmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for: .selected)
     }
     
+    // MARK: - Setup Colllection View Method
     private func registerCollectionViewCell() {
         listCollectionView.register(UINib(nibName: String(describing: ProductListCell.self), bundle: nil), forCellWithReuseIdentifier: ProductListCell.identifier)
         gridCollectionView.register(UINib(nibName: String(describing: ProductGridCell.self), bundle: nil), forCellWithReuseIdentifier: ProductGridCell.identifier)
@@ -83,21 +98,10 @@ class OpenMarketViewController: UIViewController {
         listDataSource?.apply(snapshot)
         gridDataSource?.apply(snapshot)
     }
-    
-    @IBAction func segementChanged(_ sender: UISegmentedControl) {
-        switch sender.selectedSegmentIndex {
-        case 0:
-            view = listCollectionView
-        case 1:
-            view = gridCollectionView
-        default:
-            return
-        }
-    }
-    
 }
 
 extension OpenMarketViewController: UICollectionViewDelegate {
+    // MARK: - Setup Segue Method
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let cell = collectionView.cellForItem(at: indexPath) else { return }
         performSegue(withIdentifier: "ShowProductDetail", sender: cell)

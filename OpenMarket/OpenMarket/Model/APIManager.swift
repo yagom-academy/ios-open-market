@@ -4,6 +4,7 @@ import UIKit
 typealias Parameters = [String: String]
 
 class APIManager {
+    // MARK: - Property
     static let shared = APIManager()
     let boundary = "Boundary-\(UUID().uuidString)"
     let urlSession: URLSessionProtocol
@@ -13,6 +14,7 @@ class APIManager {
         self.urlSession = urlSession
     }
     
+    // MARK: - API Method
     func checkAPIHealth(completion: @escaping (Result<Data, Error>) -> Void) {
         guard let url = URLManager.healthChecker.url else { return }
         let request = URLRequest(url: url, method: .get)
@@ -20,7 +22,7 @@ class APIManager {
     }
     
     func checkProductDetail(id: Int, completion: @escaping (Result<ProductDetail, Error>) -> Void) {
-        guard let url = URLManager.checkProductDetail(id: id).url else { return }
+        guard let url = URLManager.editOrCheckProductDetail(id: id).url else { return }
         let request = URLRequest(url: url, method: .get)
         createDataTaskWithDecoding(with: request, completion: completion)
     }
@@ -30,10 +32,6 @@ class APIManager {
         let request = URLRequest(url: url, method: .get)
         createDataTaskWithDecoding(with: request, completion: completion)
     }
-    
-}
-
-extension APIManager {
     
     func addProduct(information: NewProductInformation, images: [NewProductImage], completion: @escaping (Result<ProductDetail, Error>) -> Void) {
         guard let url = URLManager.addNewProduct.url else { return }
@@ -45,7 +43,7 @@ extension APIManager {
     }
     
     func editProduct(id: Int, product: NewProductInformation, completion: @escaping (Result<Data, Error>) -> Void) {
-        guard let url = URLManager.checkProductDetail(id: id).url else { return }
+        guard let url = URLManager.editOrCheckProductDetail(id: id).url else { return }
         var request = URLRequest(url: url, method: .patch)
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("819efbc3-71fc-11ec-abfa-dd40b1881f4c", forHTTPHeaderField: "identifier")
@@ -53,6 +51,25 @@ extension APIManager {
         createDataTask(with: request, completion: completion)
     }
     
+    func deleteProduct(id: Int, secret: String, completion: @escaping (Result<ProductDetail, Error>) -> Void) {
+        guard let url = URLManager.deleteProduct(id: id, secret: secret).url else { return }
+        var request = URLRequest(url: url, method: .delete)
+        request.addValue("819efbc3-71fc-11ec-abfa-dd40b1881f4c", forHTTPHeaderField: "identifier")
+        createDataTaskWithDecoding(with: request, completion: completion)
+    }
+    
+    func checkProductSecret(id: Int, completion: @escaping (Result<Data, Error>) -> Void) {
+        guard let url = URLManager.checkProductSecret(id: id).url else { return }
+        var request = URLRequest(url: url, method: .post)
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue("819efbc3-71fc-11ec-abfa-dd40b1881f4c", forHTTPHeaderField: "identifier")
+        request.httpBody = JSONParser.encodeToData(with: vendorSecret)
+        createDataTask(with: request, completion: completion)
+    }
+}
+
+extension APIManager {
+    // MARK: - Create Request Body Method
     func createRequestBody(product: NewProductInformation, images: [NewProductImage]) -> Data {
         let parameters = createParams(with: product)
         let dataBody = createMultiPartFormData(with: parameters, images: images)
@@ -91,30 +108,10 @@ extension APIManager {
         
         return body
     }
-    
 }
 
 extension APIManager {
-    
-    func deleteProduct(id: Int, secret: String, completion: @escaping (Result<ProductDetail, Error>) -> Void) {
-        guard let url = URLManager.deleteProduct(id: id, secret: secret).url else { return }
-        var request = URLRequest(url: url, method: .delete)
-        request.addValue("819efbc3-71fc-11ec-abfa-dd40b1881f4c", forHTTPHeaderField: "identifier")
-        createDataTaskWithDecoding(with: request, completion: completion)
-    }
-    
-    func checkProductSecret(id: Int, completion: @escaping (Result<Data, Error>) -> Void) {
-        guard let url = URLManager.checkProductSecret(id: id).url else { return }
-        var request = URLRequest(url: url, method: .post)
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.addValue("819efbc3-71fc-11ec-abfa-dd40b1881f4c", forHTTPHeaderField: "identifier")
-        request.httpBody = JSONParser.encodeToData(with: vendorSecret)
-        createDataTask(with: request, completion: completion)
-    }
-}
-
-extension APIManager {
-    
+    // MARK: - Create DataTask Method
     func createDataTaskWithDecoding<T: Decodable>(with request: URLRequest, completion: @escaping (Result<T, Error>) -> Void) {
         let task = urlSession.dataTask(with: request) { data, response, error in
             if let httpResponse = response as? HTTPURLResponse,
@@ -162,8 +159,7 @@ extension APIManager {
             completion(.success(data))
         }
         task.resume()
-    }
-    
+    } 
 }
 
 extension APIManager {

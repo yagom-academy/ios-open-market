@@ -13,10 +13,10 @@ class ProductDetailViewController: UIViewController {
     
     private let apiManager = APIManager.shared
     private var imageDataSource: UICollectionViewDiffableDataSource<Section, Image>?
-    var productImages = [UIImage]()
+    private var productImages = [UIImage]()
     var productDetail: ProductDetail?
     var productID: Int?
-    var secret: String?
+    private var secret: String?
     
     // MARK: - Life Cycle Method
     override func viewDidLoad() {
@@ -27,7 +27,8 @@ class ProductDetailViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(updateDetailView), name: NSNotification.Name("UpdateView"), object: nil)
     }
     
-    @objc func updateDetailView() {
+    // MARK: - Setup View Method
+    @objc private func updateDetailView() {
         getProductDetail()
     }
     
@@ -35,8 +36,8 @@ class ProductDetailViewController: UIViewController {
         let alert = createAlert()
         present(alert, animated: true, completion: nil)
     }
-    
-    func getProductSecret() {
+    // MARK: - Networking Method
+    private func getProductSecret() {
         guard let productID = productID else { return }
         apiManager.checkProductSecret(id: productID) { result in
             switch result {
@@ -49,7 +50,7 @@ class ProductDetailViewController: UIViewController {
             }
         }
     }
-    // MARK: - Setup ProductDetailView Method
+
     private func getProductDetail() {
         guard let productID = productID else { return }
         apiManager.checkProductDetail(id: productID) { result in
@@ -66,14 +67,31 @@ class ProductDetailViewController: UIViewController {
         }
     }
     
-    func appendProductImages(with images: [Image]?) {
+    private func deleteCurrentProduct() {
+        guard let productID = productID, let secret = secret else { return }
+        apiManager.deleteProduct(id: productID, secret: secret) { result in
+            switch result {
+            case .success(let products):
+                DispatchQueue.main.async {
+                    print("\(products.name) 삭제 완료")
+                    NotificationCenter.default.post(name: NSNotification.Name("UpdateView"), object: nil)
+                    self.navigationController?.popViewController(animated: false)
+                }
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+    
+    // MARK: - Setup ProductDetailView Method
+    private func appendProductImages(with images: [Image]?) {
         guard let images = images else { return }
         images.forEach { image in
             convertToUIImage(with: image)
         }
     }
     
-    func convertToUIImage(with productImage: Image) {
+    private func convertToUIImage(with productImage: Image) {
         guard let imageURL = URL(string: productImage.url) else { return }
         URLSession.shared.dataTask(with: imageURL) { data, _, _ in
             guard let image = UIImage(data: data!) else { return }
@@ -127,7 +145,7 @@ class ProductDetailViewController: UIViewController {
     }
     
     // MARK: - Setup CollectionView Method
-    func setupImageCollectionView() {
+    private func setupImageCollectionView() {
         imageCollectionView.collectionViewLayout = OpenMarketViewLayout.productImages
         imageCollectionView.delegate = self
         imageCollectionView.decelerationRate = .fast
@@ -136,7 +154,7 @@ class ProductDetailViewController: UIViewController {
         setupImageCollectionViewDataSource()
     }
     
-    func setupImageCollectionViewDataSource() {
+    private func setupImageCollectionViewDataSource() {
         imageDataSource = UICollectionViewDiffableDataSource<Section, Image>(collectionView: imageCollectionView) { collectionView, indexPath, product in
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProductImageCollectionViewCell.identifier, for: indexPath) as? ProductImageCollectionViewCell else {
                 return UICollectionViewCell()
@@ -186,21 +204,7 @@ extension ProductDetailViewController {
         return alert
     }
     
-    func deleteCurrentProduct() {
-        guard let productID = productID, let secret = secret else { return }
-        apiManager.deleteProduct(id: productID, secret: secret) { result in
-            switch result {
-            case .success(let products):
-                DispatchQueue.main.async {
-                    print("\(products.name) 삭제 완료")
-                    self.navigationController?.popViewController(animated: false)
-                }
-            case .failure(let error):
-                print(error)
-            }
-        }
-    }
-    
+    // MARK: - Setup Segue Method
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard let navigationController = segue.destination as? UINavigationController else { return }
         let destination = navigationController.topViewController as? AddProductViewController
