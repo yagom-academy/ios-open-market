@@ -103,7 +103,7 @@ struct ManageProductForm {
         return stock != ""
     }
 
-    var isAppropriateDescriptions: Bool {
+    var isAppropriateDescription: Bool {
         return descriptions != ""
     }
 }
@@ -122,25 +122,10 @@ enum IsAppropriate<AppropriateForm, Inappropriates> {
     case failure(Inappropriates)
 }
 
-enum Inappropriate: CustomStringConvertible {
-    case name
-    case description
-    case price
-    case discountedPrice
-    case stock
-
-    var description: String {
-        switch self {
-        case .name:
-            return "상품명"
-        case .description:
-            return "상세설명"
-        case .price:
-            return "상품가격"
-        case .discountedPrice:
-            return "할인금액"
-        case .stock:
-            return "재고수량"
-        }
-    }
+enum Inappropriate: String {
+    case name = "상품명"
+    case description = "상세설명"
+    case price = "상품가격"
+    case discountedPrice = "할인금액"
+    case stock = "재고수량"
 }

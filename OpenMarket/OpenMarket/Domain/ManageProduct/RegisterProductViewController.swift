@@ -146,7 +146,7 @@ extension RegisterProductViewController {
             case .failure(let inAppropriates):
                 var message: String = ""
                 inAppropriates.forEach { inappropriate in
-                    message += inappropriate.description
+                    message += inappropriate.rawValue
                     message += " "
                 }
                 manageProductFormAlert.message = message
