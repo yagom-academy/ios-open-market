@@ -26,10 +26,8 @@
                                 </connections>
                             </button>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="w5O-k2-e7E">
-                                <rect key="frame" x="8" y="261" width="398" height="398"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="w5O-k2-e7E" secondAttribute="height" multiplier="1:1" id="7ci-oV-iDC"/>
-                                </constraints>
+                                <rect key="frame" x="0.0" y="91" width="414" height="771"/>
+                                <gestureRecognizers/>
                                 <viewLayoutGuide key="contentLayoutGuide" id="iLW-5i-9we"/>
                                 <viewLayoutGuide key="frameLayoutGuide" id="ydU-KJ-4Re"/>
                                 <connections>
@@ -37,7 +35,7 @@
                                 </connections>
                             </scrollView>
                             <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="z6r-Nd-b9i">
-                                <rect key="frame" x="129" y="655" width="156" height="26"/>
+                                <rect key="frame" x="129.5" y="816" width="155.5" height="26"/>
                                 <color key="pageIndicatorTintColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="currentPageIndicatorTintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </pageControl>
@@ -45,15 +43,14 @@
                         <viewLayoutGuide key="safeArea" id="loh-0z-di1"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="w5O-k2-e7E" firstAttribute="top" relation="greaterThanOrEqual" secondItem="tK7-6W-0tJ" secondAttribute="bottom" constant="20" id="0hg-Up-G8F"/>
-                            <constraint firstItem="w5O-k2-e7E" firstAttribute="centerY" secondItem="W5F-zk-MWb" secondAttribute="centerY" id="53f-wY-JBA"/>
-                            <constraint firstItem="z6r-Nd-b9i" firstAttribute="top" secondItem="w5O-k2-e7E" secondAttribute="bottom" constant="8" id="5Wo-T7-Vo7"/>
-                            <constraint firstItem="loh-0z-di1" firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="z6r-Nd-b9i" secondAttribute="bottom" constant="20" id="E7r-R0-rif"/>
-                            <constraint firstItem="w5O-k2-e7E" firstAttribute="leading" secondItem="loh-0z-di1" secondAttribute="leading" constant="8" id="MvG-Ub-A36"/>
+                            <constraint firstItem="w5O-k2-e7E" firstAttribute="top" secondItem="tK7-6W-0tJ" secondAttribute="bottom" constant="8" id="0hg-Up-G8F"/>
+                            <constraint firstItem="loh-0z-di1" firstAttribute="bottom" secondItem="z6r-Nd-b9i" secondAttribute="bottom" constant="20" id="E7r-R0-rif"/>
                             <constraint firstItem="tK7-6W-0tJ" firstAttribute="top" secondItem="loh-0z-di1" secondAttribute="top" constant="8" id="T7l-0L-0dJ"/>
                             <constraint firstItem="tK7-6W-0tJ" firstAttribute="leading" secondItem="loh-0z-di1" secondAttribute="leading" constant="8" id="aRT-cM-PIZ"/>
+                            <constraint firstItem="w5O-k2-e7E" firstAttribute="leading" secondItem="loh-0z-di1" secondAttribute="leading" id="btd-ko-e82"/>
+                            <constraint firstItem="loh-0z-di1" firstAttribute="bottom" secondItem="w5O-k2-e7E" secondAttribute="bottom" id="coq-W4-GNa"/>
+                            <constraint firstItem="loh-0z-di1" firstAttribute="trailing" secondItem="w5O-k2-e7E" secondAttribute="trailing" id="flh-gc-PdZ"/>
                             <constraint firstItem="z6r-Nd-b9i" firstAttribute="centerX" secondItem="W5F-zk-MWb" secondAttribute="centerX" id="jvx-Qr-wOL"/>
-                            <constraint firstItem="loh-0z-di1" firstAttribute="trailing" secondItem="w5O-k2-e7E" secondAttribute="trailing" constant="8" id="l6e-mx-2Aq"/>
                         </constraints>
                     </view>
                     <connections>

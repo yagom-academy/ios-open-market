@@ -85,13 +85,6 @@ class ProductDetailViewController: UIViewController, ReuseIdentifying, Delegate 
       width: (UIScreen.main.bounds.width - 16) * CGFloat(imageCount),
       height: UIScreen.main.bounds.width - 16
     )
-    //imageScrollView.delegate = self
-//    imageScrollView.alwaysBounceVertical = false
-//    imageScrollView.showsHorizontalScrollIndicator = false
-//    imageScrollView.showsVerticalScrollIndicator = false
-//    imageScrollView.isScrollEnabled = true
-//    imageScrollView.isPagingEnabled = true
-//    imageScrollView.bounces = false
   }
   
   func insertImageAtScrollView() {
