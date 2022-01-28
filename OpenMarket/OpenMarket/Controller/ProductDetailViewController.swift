@@ -11,10 +11,10 @@ class ProductDetailViewController: UIViewController {
     @IBOutlet weak var priceLabel: UILabel!
     @IBOutlet weak var descriptionTextView: UITextView!
     
+    private let apiManager = APIManager.shared
+    private var imageDataSource: UICollectionViewDiffableDataSource<Section, Image>?
     var productImages = [UIImage]()
     var productDetail: ProductDetail?
-    let apiManager = APIManager.shared
-    private var imageDataSource: UICollectionViewDiffableDataSource<Section, Image>?
     var productID: Int?
 
     // MARK: - Life Cycle Method
@@ -24,16 +24,9 @@ class ProductDetailViewController: UIViewController {
         getProductDetail()
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard let navigationController = segue.destination as? UINavigationController else { return }
-        let destination = navigationController.topViewController as? AddProductViewController
-        destination?.isEdit = true
-        destination?.images = productImages
-        destination?.product = productDetail
-    }
-    
-    @IBAction func edit(_ sender: Any) {
-        performSegue(withIdentifier: "edit", sender: nil)
+    @IBAction func tapEditDeleteButton(_ sender: Any) {
+        let alert = createAlert()
+        present(alert, animated: true, completion: nil)
     }
     
     // MARK: - Setup CollectionView Method
@@ -42,6 +35,7 @@ class ProductDetailViewController: UIViewController {
         imageCollectionView.delegate = self
         imageCollectionView.decelerationRate = .fast
         imageCollectionView.isPagingEnabled = true
+        imageCollectionView.showsHorizontalScrollIndicator = false
         setupImageCollectionViewDataSource()
     }
     
@@ -156,4 +150,32 @@ extension ProductDetailViewController: UICollectionViewDelegate {
         let currentPage = Int(scrollView.contentOffset.x) / Int(scrollView.frame.width) + 1
         currentPageLabel.text = String(currentPage)
     }
+}
+
+extension ProductDetailViewController {
+    private func createAlert() -> UIAlertController {
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let edit = UIAlertAction(title: "수정", style: .default) { action in
+            self.performSegue(withIdentifier: "edit", sender: nil)
+        }
+        let delete = UIAlertAction(title: "삭제", style: .destructive) { action in
+            
+        }
+        let cancel = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+        
+        alert.addAction(edit)
+        alert.addAction(delete)
+        alert.addAction(cancel)
+        
+        return alert
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard let navigationController = segue.destination as? UINavigationController else { return }
+        let destination = navigationController.topViewController as? AddProductViewController
+        destination?.isEdit = true
+        destination?.images = productImages
+        destination?.product = productDetail
+    }
+    
 }

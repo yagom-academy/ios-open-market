@@ -40,35 +40,58 @@ class AddProductViewController: UIViewController {
     private var isButtonTapped = true
     private var selectedIndex = 0
     private var alertText = AlertMessage.title
-    
     var isEdit = false
-    var name: String?
-    var price: String?
-    var discount: String?
-    var stock: String?
-    var des: String?
     var images = [UIImage]()
     var product: ProductDetail?
     
     // MARK: - Life Cycle Method
     override func viewDidLoad() {
         super.viewDidLoad()
-        if isEdit {
-            addImageButton.isHidden = true
-            navigationController?.navigationBar.topItem?.title = "상품수정"
-        } else {
-            navigationController?.navigationBar.topItem?.title = "상품등록"
-        }
-        setupImagePrickerController()
-        setupDescriptionTextView()
         setupKeyboardNotification()
         hideKeyboard()
+        if isEdit {
+            setupEditProductView()
+        } else {
+            setupAddProductView()
+        }
+    }
+    
+    // MARK: - Setup View Method
+    private func setupAddProductView() {
+        navigationController?.navigationBar.topItem?.title = "상품등록"
+        setupImagePrickerController()
+        setupDescriptionTextView()
+    }
+    
+    private func setupEditProductView() {
+        addImageButton.isHidden = true
+        navigationController?.navigationBar.topItem?.title = "상품수정"
+        setTextViewOutLine()
+        setupEditViewWithData()
+        setupProductImageStackView()
+    }
+    
+    private func setupEditViewWithData() {
         productNameTextField.text = product?.name
         productPriceTextField.text = product?.price.description
         descriptionTextView.text = product?.description
         discountedPriceTextField.text = product?.discountedPrice.description
         productStockTextField.text = product?.stock.description
-
+        setupCurrencySegmentControl()
+    }
+    
+    func setupCurrencySegmentControl() {
+        let lastIndex = currencySegmentedControl.numberOfSegments - 1
+        for index in 0...lastIndex {
+            let currentTitle = currencySegmentedControl.titleForSegment(at: index)
+            if currentTitle == product?.currency.unit {
+                currencySegmentedControl.selectedSegmentIndex = index
+                break
+            }
+        }
+    }
+    
+    private func setupProductImageStackView() {
         images.forEach { image in
             let imageView = UIImageView(image: image)
             productImageStackView.addArrangedSubview(imageView)
@@ -79,11 +102,6 @@ class AddProductViewController: UIViewController {
     
     // MARK: - IBAction Method
     @IBAction func tapCancelButton(_ sender: UIBarButtonItem) {
-        if isEdit {
-            navigationController?.navigationBar.topItem?.title = ""
-            self.navigationController?.popViewController(animated: true)
-            
-        }
         dismiss(animated: true)
     }
     
@@ -222,7 +240,6 @@ extension AddProductViewController {
         for buttonTag in 1...lastTagNumber {
             getProductImageFromButton(with: buttonTag)
         }
-
     }
     
     private func getProductImageFromButton(with tag: Int) {
@@ -232,6 +249,14 @@ extension AddProductViewController {
         
         let productImage = NewProductImage(image: imageData)
         newProductImages.append(productImage)
+    }
+    
+    // MARK: - Invalid Input Alert Method
+    private func invalidInputAlert(with message: String) {
+        let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+        let close = UIAlertAction(title: "닫기", style: .cancel, handler: nil)
+        alert.addAction(close)
+        present(alert, animated: true)
     }
 }
 
@@ -316,10 +341,6 @@ extension AddProductViewController: UIImagePickerControllerDelegate, UINavigatio
 extension AddProductViewController {
     // MARK: - Text View Setup Method
     private func setupDescriptionTextView() {
-        if isEdit {
-            setTextViewOutLine()
-            return
-        }
         setTextViewPlaceHolder()
         setTextViewOutLine()
     }
@@ -391,12 +412,3 @@ extension AddProductViewController {
     }
 }
 
-extension AddProductViewController {
-    // MARK: - Invalid Input Alert Method
-    private func invalidInputAlert(with message: String) {
-        let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
-        let close = UIAlertAction(title: "닫기", style: .cancel, handler: nil)
-        alert.addAction(close)
-        present(alert, animated: true)
-    }
-}

@@ -26,5 +26,4 @@ struct OpenMarketViewLayout {
         return layout
     }()
     
-
 }
