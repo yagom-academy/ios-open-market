@@ -1,6 +1,6 @@
 import UIKit
 
-class ModifyProductViewController: ManageProductViewController {
+class ModifyProductViewController: UpdateProductViewController {
     private let productService = ProductService()
     private var productIdentification: Int?
 

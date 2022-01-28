@@ -1,6 +1,6 @@
 import UIKit
 
-class RegisterProductViewController: ManageProductViewController {
+class RegisterProductViewController: UpdateProductViewController {
     private lazy var imagePickerController: UIImagePickerController = {
         let picker = UIImagePickerController()
         picker.delegate = self

@@ -1,6 +1,6 @@
 import UIKit
 
-class ManageProductViewController: UIViewController {
+class UpdateProductViewController: UIViewController {
     private var keyboardHeight: CGFloat?
     let manageProductManger = UpdateProductManager()
     var images: [UIImage] = [] {
@@ -120,7 +120,7 @@ class ManageProductViewController: UIViewController {
 }
 
 // MARK: Text Field Delegate
-extension ManageProductViewController: UITextFieldDelegate {
+extension UpdateProductViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
@@ -128,7 +128,7 @@ extension ManageProductViewController: UITextFieldDelegate {
 }
 
 // MARK: Text View Delegate
-extension ManageProductViewController: UITextViewDelegate {
+extension UpdateProductViewController: UITextViewDelegate {
     func textViewDidEndEditing(_ textView: UITextView) {
         if textView.text.isEmpty {
             textView.textColor = .systemGray
@@ -192,7 +192,7 @@ extension ManageProductViewController: UITextViewDelegate {
 }
 
 // MARK: Configure Notification
-extension ManageProductViewController {
+extension UpdateProductViewController {
     func configureNotification() {
         let notificationToAdd: [Selector: Notification.Name] = [
             #selector(keyboardAppear): UIResponder.keyboardWillShowNotification,
