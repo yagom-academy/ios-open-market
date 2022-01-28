@@ -86,7 +86,9 @@ class ProductGridLayoutCell: UICollectionViewCell {
         }
         
         productNameLabel.text = product.name
-        productImageView.image = ImageLoader.loadImage(from: product.thumbnail)
+        ImageLoader.loadImage(from: product.thumbnail) { image in
+            self.productImageView.image = image
+        }
         bargainPriceLabel.attributedText = NSMutableAttributedString.normalStyle(string: "\(product.currency.unit) \(bargainPrice)")
         productStockLabel.attributedText = AttributedTextCreator.createStockText(product: product)
     }

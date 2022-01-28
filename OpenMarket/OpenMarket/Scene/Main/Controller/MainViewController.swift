@@ -66,7 +66,18 @@ class MainViewController: UIViewController {
         configRefreshControl()
         fetchProductData()
         productListCollectionView.delegate = self
+        productListCollectionView.prefetchDataSource = self
         productGridCollectionView.delegate = self
+    }
+    
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        productListCollectionView.setNeedsLayout()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        productListCollectionView.setNeedsLayout()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -169,7 +180,6 @@ class MainViewController: UIViewController {
     
     func fetchNextPageProductData() {
         currentPage += 1
-        
         apiService.retrieveProductList(pageNo: currentPage, itemsPerPage: RequestInformation.itemsPerPage) { result in
             switch result {
             case .success(let data):
@@ -275,11 +285,11 @@ class MainViewController: UIViewController {
 private extension MainViewController {
     func createListLayout() -> UICollectionViewLayout {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                             heightDimension: .estimated(150))
+                                              heightDimension: .absolute(self.view.frame.height/10))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
 
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                              heightDimension: .estimated(150))
+                                              heightDimension: .absolute(self.view.frame.height/10))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
 
         let section = NSCollectionLayoutSection(group: group)
@@ -313,12 +323,17 @@ private extension MainViewController {
         }
         
         listDataSource = UICollectionViewDiffableDataSource<ProductSection, ProductDetail>(collectionView: productListCollectionView) { (collectionView, indexPath, product) -> UICollectionViewCell? in
-            return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: product)
+            guard let cell = collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: product) as? ProductListLayoutCell else {
+                return nil
+            }
+            DispatchQueue.main.async {
+                cell.updateWithProduct(from: product)
+            }
+            return cell
         }
         
         listDataSource?.supplementaryViewProvider = { (_, _, indexPath) -> UICollectionReusableView? in
             if self.hasNextPage {
-                self.fetchNextPageProductData()
                 return self.productListCollectionView.dequeueConfiguredReusableSupplementary(using: footerRegistration, for: indexPath)
             } else {
                 let loading = self.productListCollectionView.dequeueConfiguredReusableSupplementary(using: footerRegistration, for: indexPath)
@@ -397,5 +412,16 @@ extension MainViewController: UICollectionViewDelegate {
         let selectedProductID = productData[indexPath.item].id
         showProductDetail(from: selectedProductID)
         collectionView.deselectItem(at: indexPath, animated: true)
+    }
+}
+
+extension MainViewController: UICollectionViewDataSourcePrefetching{
+    func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
+        let customQueue = DispatchQueue(label: "custom", attributes: .concurrent)
+        if indexPaths.last?.row == productData.count - 1 && hasNextPage {
+            customQueue.async {
+                self.fetchNextPageProductData()
+            }
+        }
     }
 }

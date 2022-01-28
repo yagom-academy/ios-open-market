@@ -96,25 +96,32 @@ class ProductListLayoutCell: UICollectionViewListCell {
         stockLabelLayouts = stockConstraints
     }
     
+    override func prepareForReuse() {
+        listContentView.configuration = defaultContentConfiguration()
+        stockLabel.text = nil
+    }
+    
     override func updateConfiguration(using state: UICellConfigurationState) {
         setupViewsIfNeeded()
         
-        var content = defaultConfiguration().updated(for: state)
+        ImageLoader.loadImage(from: state.product?.thumbnail) { image in
+            var content = self.defaultConfiguration().updated(for: state)
+                
+            content.textToSecondaryTextVerticalPadding = Design.padding
+            content.imageToTextPadding = Design.padding
+            content.image = image
+            content.imageProperties.maximumSize = CGSize(width: Design.maximumImageWidth, height: Design.maximumImageHeight)
             
-        content.textToSecondaryTextVerticalPadding = Design.padding
-        content.imageToTextPadding = Design.padding
-        
-        content.image = ImageLoader.loadImage(from: state.product?.thumbnail)
-        content.imageProperties.maximumSize = CGSize(width: Design.maximumImageWidth, height: Design.maximumImageHeight)
-        
-        content.text = state.product?.name
-        content.textProperties.font = .preferredFont(forTextStyle: .headline)
-        
-        content.secondaryAttributedText = AttributedTextCreator.createPriceText(product: state.product) ?? nil
-        content.secondaryTextProperties.font = .preferredFont(forTextStyle: .body)
-        
-        listContentView.configuration = content
-        
-        stockLabel.attributedText = AttributedTextCreator.createStockText(product: state.product) ?? nil
+            content.text = state.product?.name
+            content.textProperties.numberOfLines = 2
+            content.textProperties.font = .preferredFont(forTextStyle: .headline)
+            
+            content.secondaryAttributedText = AttributedTextCreator.createPriceText(product: state.product) ?? nil
+            content.secondaryTextProperties.font = .preferredFont(forTextStyle: .body)
+            content.textProperties.numberOfLines = 1
+            self.listContentView.configuration = content
+            
+            self.stockLabel.attributedText = AttributedTextCreator.createStockText(product: state.product) ?? nil
+        }
     }
 }

@@ -138,10 +138,9 @@ class ProductRegisterManager {
         }
         
         productImages.forEach { productImage in
-            guard let image = ImageLoader.loadImage(from: productImage.url) else {
-                return
+            ImageLoader.loadImage(from: productImage.url) { image in
+                self.addImageToImageStackView(from: image, hasDeleteButton: false)
             }
-            addImageToImageStackView(from: image, hasDeleteButton: false)
         }
         
         setImageButtonHidden(state: true)
