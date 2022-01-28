@@ -18,13 +18,14 @@ class CacheManager {
     static func fetchImage(imageURL: URL, completionHandler: @escaping (UIImage) -> Void) {
         let request = URLRequest(url: imageURL)
 
-        if self.imageCache.cachedResponse(for: request) == nil {
-            self.downloadImage(request: request) { image in
+        self.loadImageFromCache(request: request) { result in
+            switch result {
+            case .success(let image):
                 completionHandler(image)
-            }
-        } else {
-            self.loadImageFromCache(request: request) { image in
-                completionHandler(image)
+            case .failure:
+                self.downloadImage(request: request) { image in
+                    completionHandler(image)
+                }
             }
         }
     }
@@ -54,13 +55,16 @@ class CacheManager {
 
     static func loadImageFromCache(
         request: URLRequest,
-        completionHandler: @escaping (UIImage) -> Void
+        completionHandler: @escaping (Result<UIImage, CacheError>) -> Void
     ) {
         if let data = self.imageCache.cachedResponse(for: request)?.data {
             guard let image = UIImage(data: data) else {
+                completionHandler(.failure(.inValidCashedImageData))
                 return
             }
-            completionHandler(image)
+            completionHandler(.success(image))
+        } else {
+            completionHandler(.failure(.absentCashedImage))
         }
     }
 }
