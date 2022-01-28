@@ -66,6 +66,26 @@ class ProductDetailViewController: UIViewController, ReuseIdentifying, Delegate 
     stockLabel.text = product.formattedStock
     descriptionLabel.text = product.description
   }
+}
+
+extension ProductDetailViewController {
+  func fetchData(productId: Int?) {
+    guard let productId = productId else {
+      return
+    }
+    api.detailProduct(productId: productId) { [self] response in
+      switch response {
+      case .success(let data):
+        product = data
+        DispatchQueue.main.async {
+          setUpImageView(imageCount: product?.images?.count)
+          insertImageAtScrollView()
+        }
+      case .failure(let error):
+        print(error)
+      }
+    }
+  }
   
   func setUpImageView(imageCount: Int?) {
     guard let imageCount = imageCount else {
@@ -117,26 +137,6 @@ class ProductDetailViewController: UIViewController, ReuseIdentifying, Delegate 
 extension ProductDetailViewController: UIScrollViewDelegate {
   func scrollViewDidScroll(_ scrollView: UIScrollView) {
     imagePageControl.currentPage = Int(scrollView.contentOffset.x / scrollView.frame.width)
-  }
-}
-
-extension ProductDetailViewController {
-  func fetchData(productId: Int?) {
-    guard let productId = productId else {
-      return
-    }
-    api.detailProduct(productId: productId) { [self] response in
-      switch response {
-      case .success(let data):
-        product = data
-        DispatchQueue.main.async {
-          setUpImageView(imageCount: product?.images?.count)
-          insertImageAtScrollView()
-        }
-      case .failure(let error):
-        print(error)
-      }
-    }
   }
 }
 

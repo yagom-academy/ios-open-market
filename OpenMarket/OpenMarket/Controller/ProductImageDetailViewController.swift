@@ -16,9 +16,9 @@ class ProductImageDetailViewController: UIViewController, ReuseIdentifying {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    setUpImageView()
     addPinchGesture()
     setPanGesture()
+    setUpImageView()
   }
   
   @IBAction func exitButtonDidTap(_ sender: Any) {
