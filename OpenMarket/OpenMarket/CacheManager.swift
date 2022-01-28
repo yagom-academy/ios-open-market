@@ -30,7 +30,7 @@ class CacheManager {
         }
     }
 
-    static func downloadImage(
+    private static func downloadImage(
         request: URLRequest,
         completionHandler: @escaping (UIImage) -> Void
     ) {
@@ -53,7 +53,7 @@ class CacheManager {
         dataTask.resume()
     }
 
-    static func loadImageFromCache(
+    private static func loadImageFromCache(
         request: URLRequest,
         completionHandler: @escaping (Result<UIImage, CacheError>) -> Void
     ) {
