@@ -32,7 +32,7 @@ extension UIViewController {
     func presentActionSheet(actionTitle: String, cancelTitle: String, handler: ((UIAlertAction) -> ())?) {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let updateAction = UIAlertAction(title: actionTitle, style: .default, handler: handler)
-        let deleteAction = UIAlertAction(title: cancelTitle, style: .destructive)
+        let deleteAction = UIAlertAction(title: cancelTitle, style: .destructive, handler: handler)
         let cancel = UIAlertAction(title: "취소", style: .cancel, handler: nil)
         
         alert.addAction(updateAction)

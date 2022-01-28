@@ -185,13 +185,57 @@ extension ProductDetailsViewController {
         controller.configureView(with: product)
     }
     
+    private func deleteProduct(productID: Int, secret: String) {
+        let apiService = MarketAPIService()
+        apiService.deleteProduct(productID: productID, productSecret: secret) { result in
+            switch result {
+            case .success(_):
+                DispatchQueue.main.async {
+                    self.presentAlert(alertTitle: "삭제완료", alertMessage: "제품을 삭제했습니다") { [weak self] _ in
+                        guard let self = self else {
+                            return
+                        }
+                        self.navigationController?.popViewController(animated: true)
+                    }
+                }
+            case .failure(_):
+                DispatchQueue.main.async {
+                    self.presentAlert(alertTitle: "삭제실패", alertMessage: "유감입니다") { [weak self]_ in
+                        guard let self = self else {
+                            return
+                        }
+                        self.dismiss(animated: true, completion: nil)
+                    }
+                }
+            }
+        }
+    }
     
     @objc private func barButtonTapped() {
         presentActionSheet(actionTitle: "수정", cancelTitle: "삭제") { action in
             if action.title == "수정" {
                 self.showEditController()
             } else {
-                // delete 구현
+                let apiService = MarketAPIService()
+                let password = Password(secret: "password")
+                guard let product = self.product else {
+                    return
+                }
+                apiService.getSecret(productID: product.id, password: password) { result in
+                    switch result {
+                    case .success(let secret):
+                        self.deleteProduct(productID: product.id, secret: secret)
+                    case .failure(_):
+                        DispatchQueue.main.async {
+                            self.presentAlert(alertTitle: "삭제실패", alertMessage: "자신의 제품만 삭제 할 수 있습니다") { [weak self]_ in
+                                guard let self = self else {
+                                    return
+                                }
+                                self.dismiss(animated: true, completion: nil)
+                            }
+                        }
+                    }
+                }
             }
         }
     }

@@ -100,13 +100,42 @@ extension MarketAPIService: APIServicable {
         
         performDataTask(request: request, completionHandler: completionHandler)
     }
-    
-    func getSecret(productID: Int, secret: String) {
         
+    func getSecret(
+        productID: Int,
+        password: Password,
+        completionHandler: @escaping (Result<String, APIError>) -> Void
+    ) {
+        guard let url = MarketAPI.postSecret(id: productID).url,
+              let body = encode(with: password) else {
+                  return
+              }
+        let headers = ["identifier": "cd706a3e-66db-11ec-9626-796401f2341a",
+                       "Content-Type": "application/json"]
+        let request = makeRequest(
+            url: url,
+            httpMethod: HTTPMethod.post,
+            headers: headers,
+            body: body
+        )
+        performDataTask(request: request, completionHandler: completionHandler)
     }
     
-    func deleteProduct(productID: Int, productSecret: String) {
-        
+    func deleteProduct(
+        productID: Int,
+        productSecret: String,
+        completionHandler: @escaping (Result<ProductDetails, APIError>) -> Void
+    ) {
+        guard let url = MarketAPI.delete(id: productID, secret: productSecret).url else {
+            return
+        }
+        let headers = ["identifier": "cd706a3e-66db-11ec-9626-796401f2341a"]
+        let request = makeRequest(
+            url: url,
+            httpMethod: HTTPMethod.delete,
+            headers: headers, body: nil
+        )
+        performDataTask(request: request, completionHandler: completionHandler)
     }
     
     func fetchProduct(
@@ -199,6 +228,12 @@ extension MarketAPIService {
             }
             guard let data = data else {
                 completionHandler(.failure(APIError.noData))
+                return
+            }
+            if T.self == String.self {
+                let stringData = String(decoding: data, as: UTF8.self)
+                
+                completionHandler(.success(stringData as! T))
                 return
             }
             guard let parsedData = parse(with: data, type: T.self) else {

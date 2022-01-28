@@ -24,6 +24,7 @@
 		3B971C92278573B600088872 /* MarketAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B971C91278573B600088872 /* MarketAPIService.swift */; };
 		3B9794C0279E8AF4008B89A7 /* UITextField+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9794BF279E8AF4008B89A7 /* UITextField+Extensions.swift */; };
 		3B9D096A27A29D9200C111D5 /* ImageData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9D096927A29D9200C111D5 /* ImageData.swift */; };
+		3B9D097227A3CF6400C111D5 /* Password.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9D097127A3CF6400C111D5 /* Password.swift */; };
 		3BBCC251278C156000B21E12 /* APIError+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBCC250278C156000B21E12 /* APIError+Extensions.swift */; };
 		3BD7DD8B279C3C890068F500 /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BD7DD8A279C3C890068F500 /* Currency.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
@@ -91,6 +92,7 @@
 		3B971C91278573B600088872 /* MarketAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketAPIService.swift; sourceTree = "<group>"; };
 		3B9794BF279E8AF4008B89A7 /* UITextField+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+Extensions.swift"; sourceTree = "<group>"; };
 		3B9D096927A29D9200C111D5 /* ImageData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageData.swift; sourceTree = "<group>"; };
+		3B9D097127A3CF6400C111D5 /* Password.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Password.swift; sourceTree = "<group>"; };
 		3BBCC250278C156000B21E12 /* APIError+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "APIError+Extensions.swift"; sourceTree = "<group>"; };
 		3BD7DD8A279C3C890068F500 /* Currency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -241,6 +243,7 @@
 			children = (
 				EDC4FD2C2785CD4000E0A775 /* Errors */,
 				ED0157E42782E5C400BEE737 /* Page.swift */,
+				3B9D097127A3CF6400C111D5 /* Password.swift */,
 				3B971C91278573B600088872 /* MarketAPIService.swift */,
 				3B971C592782E26400088872 /* Product.swift */,
 				ED85D53027842A2D007A23CF /* PostProduct.swift */,
@@ -434,6 +437,7 @@
 				3B277D3827A1735F00F87DEA /* ProductDetailsViewController.swift in Sources */,
 				EDD88A1627A2D24E0086BD1B /* ProductUIPresentable.swift in Sources */,
 				EDD54E862799AA4500CD7B36 /* ImageCell.swift in Sources */,
+				3B9D097227A3CF6400C111D5 /* Password.swift in Sources */,
 				EDF36860278EBFA5006FF528 /* GridViewController.swift in Sources */,
 				ED85D53127842A2D007A23CF /* PostProduct.swift in Sources */,
 				ED7F4FF8279ED4A3003AB3EA /* ProductUIString.swift in Sources */,

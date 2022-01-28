@@ -157,20 +157,8 @@ extension ProductFormViewController {
                 return
             }
             registerProduct()
-//            presentAlert(
-//                alertTitle: "제품등록 성공",
-//                alertMessage: "제품이 성공적으로 등록됐습니다!"
-//            ) { [weak self] _ in
-//                guard let self = self else {
-//                    return
-//                }
-//                self.delegate?.registerButtonTapped()
-//                self.dismiss(animated: true, completion: nil)
-//            }
         case .edit:
             updateProduct()
-            
-
         }
     }
 }
