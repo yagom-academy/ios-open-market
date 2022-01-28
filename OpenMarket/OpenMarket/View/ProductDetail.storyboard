@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
@@ -53,7 +53,7 @@
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="Vfi-yx-iYM">
+                                            <stackView opaque="NO" contentMode="scaleToFill" alignment="top" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="Vfi-yx-iYM">
                                                 <rect key="frame" x="0.0" y="424.5" width="394" height="20.5"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Z7A-4t-2Hr">
@@ -92,7 +92,7 @@
                                     <constraint firstItem="3gK-2k-0vf" firstAttribute="leading" secondItem="S9L-9e-Zdg" secondAttribute="leading" constant="10" id="Dma-dW-qi8"/>
                                     <constraint firstItem="3gK-2k-0vf" firstAttribute="width" secondItem="PQv-jn-GS9" secondAttribute="width" constant="-20" id="VP8-4m-LIK"/>
                                     <constraint firstItem="3gK-2k-0vf" firstAttribute="trailing" secondItem="S9L-9e-Zdg" secondAttribute="trailing" constant="-10" id="dwK-dQ-Ex5"/>
-                                    <constraint firstItem="3gK-2k-0vf" firstAttribute="bottom" secondItem="S9L-9e-Zdg" secondAttribute="bottom" constant="10" id="j89-t1-vne"/>
+                                    <constraint firstItem="3gK-2k-0vf" firstAttribute="bottom" secondItem="S9L-9e-Zdg" secondAttribute="bottom" constant="-10" id="j89-t1-vne"/>
                                 </constraints>
                                 <viewLayoutGuide key="contentLayoutGuide" id="S9L-9e-Zdg"/>
                                 <viewLayoutGuide key="frameLayoutGuide" id="PQv-jn-GS9"/>

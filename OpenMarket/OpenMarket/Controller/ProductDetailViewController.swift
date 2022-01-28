@@ -31,7 +31,10 @@ class ProductDetailViewController: UIViewController {
         loadData()
         imagesCollectionView.dataSource = self
         let flowLayout = UICollectionViewFlowLayout()
-        flowLayout.itemSize = imagesCollectionView.frame.size
+        flowLayout.itemSize = CGSize(
+            width: view.frame.width - 20,
+            height: view.frame.width - 20
+        )
         flowLayout.scrollDirection = .horizontal
         imagesCollectionView.collectionViewLayout = flowLayout
         imagesCollectionView.isPagingEnabled = true
