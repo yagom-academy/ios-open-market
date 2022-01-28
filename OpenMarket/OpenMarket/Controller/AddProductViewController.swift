@@ -411,4 +411,3 @@ extension AddProductViewController {
         view.endEditing(true)
     }
 }
-

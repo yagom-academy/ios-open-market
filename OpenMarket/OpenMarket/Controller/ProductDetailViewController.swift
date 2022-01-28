@@ -16,12 +16,14 @@ class ProductDetailViewController: UIViewController {
     var productImages = [UIImage]()
     var productDetail: ProductDetail?
     var productID: Int?
-
+    var secret: String?
+    
     // MARK: - Life Cycle Method
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupImageCollectionView()
+        getProductSecret()
         getProductDetail()
+        setupImageCollectionView()
     }
     
     @IBAction func tapEditDeleteButton(_ sender: Any) {
@@ -29,34 +31,20 @@ class ProductDetailViewController: UIViewController {
         present(alert, animated: true, completion: nil)
     }
     
-    // MARK: - Setup CollectionView Method
-    func setupImageCollectionView() {
-        imageCollectionView.collectionViewLayout = OpenMarketViewLayout.productImages
-        imageCollectionView.delegate = self
-        imageCollectionView.decelerationRate = .fast
-        imageCollectionView.isPagingEnabled = true
-        imageCollectionView.showsHorizontalScrollIndicator = false
-        setupImageCollectionViewDataSource()
-    }
-    
-    func setupImageCollectionViewDataSource() {
-        imageDataSource = UICollectionViewDiffableDataSource<Section, Image>(collectionView: imageCollectionView) { collectionView, indexPath, product in
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProductImageCollectionViewCell.identifier, for: indexPath) as? ProductImageCollectionViewCell else {
-                return UICollectionViewCell()
+    func getProductSecret() {
+        guard let productID = productID else { return }
+        apiManager.checkProductSecret(id: productID) { result in
+            switch result {
+            case .success(let data):
+                self.secret = String(decoding: data, as: UTF8.self)
+            case .failure(let error):
+                DispatchQueue.main.async {
+                    print(error)
+                    self.navigationItem.rightBarButtonItem = nil
+                }
             }
-            
-            cell.setupImage(with: product)
-            return cell
         }
     }
-
-    private func populate(with products: [Image]) {
-        var snapshot = NSDiffableDataSourceSnapshot<Section, Image>()
-        snapshot.appendSections([.main])
-        snapshot.appendItems(products)
-        imageDataSource?.apply(snapshot)
-    }
-    
     // MARK: - Setup ProductDetailView Method
     private func getProductDetail() {
         guard let productID = productID else { return }
@@ -85,7 +73,7 @@ class ProductDetailViewController: UIViewController {
         guard let imageURL = URL(string: productImage.url) else { return }
         URLSession.shared.dataTask(with: imageURL) { data, _, _ in
             guard let image = UIImage(data: data!) else { return }
-                self.productImages.append(image)
+            self.productImages.append(image)
         }.resume()
     }
     
@@ -97,7 +85,7 @@ class ProductDetailViewController: UIViewController {
         setupPriceLabel(with: product)
         setupDescriptionTextView(with: product)
         populate(with: productImages)
-    
+        
     }
     
     private func setupTotalPageLabel(with productImages: [Image]) {
@@ -135,8 +123,33 @@ class ProductDetailViewController: UIViewController {
         descriptionTextView.text = product.description ?? ""
     }
     
+    // MARK: - Setup CollectionView Method
+    func setupImageCollectionView() {
+        imageCollectionView.collectionViewLayout = OpenMarketViewLayout.productImages
+        imageCollectionView.delegate = self
+        imageCollectionView.decelerationRate = .fast
+        imageCollectionView.isPagingEnabled = true
+        imageCollectionView.showsHorizontalScrollIndicator = false
+        setupImageCollectionViewDataSource()
+    }
+    
+    func setupImageCollectionViewDataSource() {
+        imageDataSource = UICollectionViewDiffableDataSource<Section, Image>(collectionView: imageCollectionView) { collectionView, indexPath, product in
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProductImageCollectionViewCell.identifier, for: indexPath) as? ProductImageCollectionViewCell else {
+                return UICollectionViewCell()
+            }
+            cell.setupImage(with: product)
+            return cell
+        }
+    }
+    
+    private func populate(with products: [Image]) {
+        var snapshot = NSDiffableDataSourceSnapshot<Section, Image>()
+        snapshot.appendSections([.main])
+        snapshot.appendItems(products)
+        imageDataSource?.apply(snapshot)
+    }
 }
-
 extension ProductDetailViewController: UICollectionViewDelegateFlowLayout {
     // MARK: - Setup CollectionViewFlowLayout Method
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -159,7 +172,7 @@ extension ProductDetailViewController {
             self.performSegue(withIdentifier: "edit", sender: nil)
         }
         let delete = UIAlertAction(title: "삭제", style: .destructive) { action in
-            
+            self.deleteCurrentProduct()
         }
         let cancel = UIAlertAction(title: "취소", style: .cancel, handler: nil)
         
@@ -168,6 +181,21 @@ extension ProductDetailViewController {
         alert.addAction(cancel)
         
         return alert
+    }
+    
+    func deleteCurrentProduct() {
+        guard let productID = productID, let secret = secret else { return }
+        apiManager.deleteProduct(id: productID, secret: secret) { result in
+            switch result {
+            case .success(let products):
+                DispatchQueue.main.async {
+                    print("\(products.name) 삭제 완료")
+                    self.navigationController?.popViewController(animated: false)
+                }
+            case .failure(let error):
+                print(error)
+            }
+        }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

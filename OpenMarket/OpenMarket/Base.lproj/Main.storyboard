@@ -82,7 +82,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fHs-Dl-1RV" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1762" y="117"/>
+            <point key="canvasLocation" x="1896" y="546"/>
         </scene>
         <!--Add Product View Controller-->
         <scene sceneID="Pqz-4j-FBe">
@@ -257,7 +257,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W3x-ad-9Pa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2654" y="117"/>
+            <point key="canvasLocation" x="2735" y="546"/>
         </scene>
         <!--Product Detail View Controller-->
         <scene sceneID="9l2-1A-TgD">
@@ -436,7 +436,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LXL-lL-3ui" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="993" y="926"/>
+            <point key="canvasLocation" x="993" y="946"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>

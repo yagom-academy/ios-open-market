@@ -46,5 +46,18 @@ enum JSONParser {
 
         return dataString
     }
+    
+    static func encodeToData<T: Encodable>(with modelData: T) -> Data? {
+        let encoder = JSONEncoder()
+        
+        var data: Data?
+        do {
+            data = try encoder.encode(modelData)
+        } catch let error as NSError {
+            NSLog("Error in read(from:ofType:) domain= \(error.domain), description= \(error.localizedDescription)")
+        }
+        
+        return data
+    }
 
 }

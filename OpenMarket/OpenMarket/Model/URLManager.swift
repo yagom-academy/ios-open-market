@@ -7,6 +7,8 @@ enum URLManager {
     case checkProductDetail(id: Int)
     case checkProductList(pageNumber: Int, itemsPerPage: Int)
     case addNewProduct
+    case deleteProduct(id: Int, secret: String)
+    case checkProductSecret(id: Int)
     
     var url: URL? {
         switch self {
@@ -22,6 +24,10 @@ enum URLManager {
             return components?.url
         case .addNewProduct:
             return URL(string: URLManager.apiHost + "api/products")
+        case .deleteProduct(let id, let secret):
+            return URL(string: URLManager.apiHost + "api/products/" + "\(id)/" + "\(secret)")
+        case .checkProductSecret(let id):
+            return URL(string: URLManager.apiHost + "api/products/" + "\(id)/" + "secret")
         }
     }
     
