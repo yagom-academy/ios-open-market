@@ -1,6 +1,8 @@
 import UIKit
 
-class ProductModificationViewController: ProductRegistrationViewController {
+class ProductModificationViewController: UIViewController {
+    
+    typealias Product = ProductDetailQueryManager.Response
     
     private var product: Product?
     
@@ -18,53 +20,61 @@ class ProductModificationViewController: ProductRegistrationViewController {
         self.product = product
     }
     
+    //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        reInitializeForModification()
+        view = ProductEditingView(viewController: self)
+        configure()
     }
     
-    //MARK: - Private Method
-    private func reInitializeForModification() {
-        guard let product = product else {
-            return
-        }
+    private func configure() {
+        guard let view = view as? ProductEditingView,
+              let product = product else {
+                  return
+              }
         
-        reInitializeNavigationBar()
-        reInitializeImageStackView(from: product)
-        imageAddingButton.isHidden = true
-        reInitializeNameTextField(from: product)
-        reInitializePriceTextField(from: product)
-        reInitializeCurrencySegmentedControl(from: product)
-        reInitializeBargainPriceTextField(from: product)
-        reInitializeStockTextField(from: product)
-        reInitializeDescriptionTextView(from: product)
+        configureNavigationBar(at: view)
+        view.imageAddingButton.isHidden = true
+        configureImageStackView(from: product, at: view)
+        configureNameTextField(from: product, at: view)
+        configurePriceTextField(from: product, at: view)
+        configureCurrencySegmentedControl(from: product, at: view)
+        configureBargainPriceTextField(from: product, at: view)
+        configureStockTextField(from: product, at: view)
+        configureDescriptionTextView(from: product, at: view)
     }
 }
 
-//MARK: - Private Method
+//MARK: - NavigationBar
 extension ProductModificationViewController {
     
-    private func reInitializeNavigationBar() {
-        navigationBar.setMainLabel(title: "상품수정")
-        navigationBar.setRightButton(title: "Done", action: #selector(modifyProduct))
+    private func configureNavigationBar(at view: ProductEditingView) {
+        view.navigationBar.setLeftButton(title: "Cancel", action: #selector(dismissModal))
+        view.navigationBar.setMainLabel(title: "상품수정")
+        view.navigationBar.setRightButton(title: "Done", action: #selector(modifyProduct))
+    }
+    
+    @objc private func dismissModal() {
+        dismiss(animated: true)
     }
     
     @objc private func modifyProduct() {
-        guard let product = product else {
-            return
-        }
+        guard let view = view as? ProductEditingView,
+              let product = product else {
+                  return
+              }
         
-        let currency = currencySegmentedControl.titleForSegment(at: currencySegmentedControl.selectedSegmentIndex)
+        let currency = view.currencySegmentedControl.titleForSegment(at: view.currencySegmentedControl.selectedSegmentIndex)
         NetworkingAPI.ProductModify.request(session: URLSession.shared,
                                             identifier: Vendor.identifier,
                                             productId: product.id,
-                                            name: nameTextField.text,
-                                            descriptions: descriptionTextView.text,
+                                            name: view.nameTextField.text,
+                                            descriptions: view.descriptionTextView.text,
                                             thumbnailId: nil,
-                                            price: Double(priceTextField.text ?? ""),
+                                            price: Double(view.priceTextField.text ?? ""),
                                             currency: currency,
-                                            discountedPrice: Double(bargainPriceTextField.text ?? ""),
-                                            stock: Int(stockTextField.text ?? ""),
+                                            discountedPrice: Double(view.bargainPriceTextField.text ?? ""),
+                                            stock: Int(view.stockTextField.text ?? ""),
                                             secret: Vendor.secret) {
             result in
             switch result {
@@ -78,8 +88,12 @@ extension ProductModificationViewController {
             }
         }
     }
+}
 
-    private func reInitializeImageStackView(from product: Product) {
+//MARK: - ImageStackView
+extension ProductModificationViewController {
+    
+    private func configureImageStackView(from product: Product, at view: ProductEditingView) {
         product.images.forEach {
             ImageLoader.load(from: $0.url) { result in
                 switch result {
@@ -88,34 +102,43 @@ extension ProductModificationViewController {
                         print(OpenMarketError.conversionFail("Data", "UIImage"))
                         return
                     }
-                    DispatchQueue.main.sync {
-                        self.addToStack(image: image)
+                    DispatchQueue.main.async {
+                        view.addToStack(image: image)
                     }
                 case .failure(let error):
-                    print(error.localizedDescription)
+                    print(error.description)
                 }
             }
         }
     }
+}
+
+//MARK: - TextField
+extension ProductModificationViewController {
     
-    private func reInitializeNameTextField(from product: Product) {
-        nameTextField.text = product.name
+    private func configureNameTextField(from product: Product, at view: ProductEditingView) {
+        view.nameTextField.text = product.name
     }
-    private func reInitializePriceTextField(from product: Product) {
-        priceTextField.text = String(Int(product.price))
+
+    private func configurePriceTextField(from product: Product, at view: ProductEditingView) {
+        view.priceTextField.text = String(Int(product.price))
     }
-    private func reInitializeCurrencySegmentedControl(from product: Product){
+    
+    private func configureCurrencySegmentedControl(from product: Product, at view: ProductEditingView){
         let selectedIndex = product.currency == .KRW ? 0 : 1
-        currencySegmentedControl.selectedSegmentIndex = selectedIndex
+        view.currencySegmentedControl.selectedSegmentIndex = selectedIndex
     }
-    private func reInitializeBargainPriceTextField(from product: Product){
-        bargainPriceTextField.text = String(Int(product.bargainPrice))
+    
+    private func configureBargainPriceTextField(from product: Product, at view: ProductEditingView){
+        view.bargainPriceTextField.text = String(Int(product.bargainPrice))
     }
-    private func reInitializeStockTextField(from product: Product){
-        stockTextField.text = String(product.stock)
+    
+    private func configureStockTextField(from product: Product, at view: ProductEditingView){
+        view.stockTextField.text = String(product.stock)
     }
-    private func reInitializeDescriptionTextView(from product: Product){
-        descriptionTextView.text = product.description
+    
+    private func configureDescriptionTextView(from product: Product, at view: ProductEditingView){
+        view.descriptionTextView.text = product.description
     }
 }
 

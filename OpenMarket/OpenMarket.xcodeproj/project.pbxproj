@@ -40,6 +40,7 @@
 		60D21031279D5F7C004F4F45 /* UIFont+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60D21030279D5F7C004F4F45 /* UIFont+Extension.swift */; };
 		60EB057927A1954100465F58 /* ProductDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60EB057827A1954100465F58 /* ProductDetailViewController.swift */; };
 		60EB058227A3A3C800465F58 /* ProductModificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60EB058127A3A3C800465F58 /* ProductModificationViewController.swift */; };
+		60EB058927A3D8FB00465F58 /* ProductEditingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60EB058827A3D8FB00465F58 /* ProductEditingView.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
 		C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */; };
 		C70FB10425BEF61D00C9924E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C70FB10325BEF61D00C9924E /* Assets.xcassets */; };
@@ -91,6 +92,7 @@
 		60D21030279D5F7C004F4F45 /* UIFont+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Extension.swift"; sourceTree = "<group>"; };
 		60EB057827A1954100465F58 /* ProductDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetailViewController.swift; sourceTree = "<group>"; };
 		60EB058127A3A3C800465F58 /* ProductModificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductModificationViewController.swift; sourceTree = "<group>"; };
+		60EB058827A3D8FB00465F58 /* ProductEditingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductEditingView.swift; sourceTree = "<group>"; };
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -176,6 +178,7 @@
 		604E1F5B278AE21000FE6A83 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				60EB058727A3D8CE00465F58 /* View */,
 				60D2102B279D3ACE004F4F45 /* NavigationBar */,
 				60B7C20B279961170012215F /* TextField */,
 				60B7C1F22796ABD80012215F /* CollectionViewCell */,
@@ -323,6 +326,14 @@
 				60EB057827A1954100465F58 /* ProductDetailViewController.swift */,
 			);
 			name = ProductDetailScene;
+			sourceTree = "<group>";
+		};
+		60EB058727A3D8CE00465F58 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				60EB058827A3D8FB00465F58 /* ProductEditingView.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		C70FB0EE25BEF61C00C9924E = {
@@ -488,6 +499,7 @@
 				60B7C1F52796B2800012215F /* ListCollectionViewController.swift in Sources */,
 				604E1F73278D629600FE6A83 /* JSONResponseDecodable.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
+				60EB058927A3D8FB00465F58 /* ProductEditingView.swift in Sources */,
 				188150B7278972BB00EE236E /* NetworkingAPI.swift in Sources */,
 				60B7C211279989E90012215F /* HTTPMessageMaker.swift in Sources */,
 				188150C42789791600EE236E /* ProductDetailQueryManager.swift in Sources */,

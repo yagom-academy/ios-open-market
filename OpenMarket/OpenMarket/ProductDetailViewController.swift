@@ -38,7 +38,6 @@ class ProductDetailViewController: UIViewController {
     private let productStockLabel = UILabel()
     private let productPriceLabel = UILabel()
     private let productDescriptionTextView = UITextView()
-    
     private var product: Product?
     
     var productId: Int?
