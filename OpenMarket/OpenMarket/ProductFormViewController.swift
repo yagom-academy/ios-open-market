@@ -70,6 +70,7 @@ final class ProductFormViewController: UIViewController {
     private var productImages: [ProductImage] = []
     weak var delegate: AddButtonTappedDelegate?
     private var pageMode: PageMode
+    private var productID: Int?
     
     // MARK: - Initializer
     
@@ -120,6 +121,25 @@ final class ProductFormViewController: UIViewController {
     func triggerDelegateMethod() {
         delegate?.registerButtonTapped()
     }
+    
+    func configureView(with product: ProductDetails) {
+        productNameTextField.text = product.name
+        priceTextField.text = String(product.price)
+        discountedPriceTextField.text = String(product.discountedPrice)
+        stockTextField.text = String(product.stock)
+        descriptionTextView.text = product.description
+        productID = product.id
+        
+        product.images.forEach { image in
+            guard let url = URL(string: image.url),
+                  let data = try? Data(contentsOf: url),
+                  let uiimage = UIImage(data: data) else {
+                      return
+                  }
+            images.append(uiimage)
+        }
+        collectionView.reloadData()
+    }
 }
 
 //MARK: - IBActions
@@ -130,20 +150,30 @@ extension ProductFormViewController {
     }
     
     @IBAction func doneButtonTapped(_ sender: Any) {
-        guard images.count > 0 else {
-            presentAlert(alertTitle: "이미지를 추가해주세요.", alertMessage: "이미지를 최소 1개 등록해주세요.", handler: nil)
-            return
-        }
-        registerProduct()
-        presentAlert(
-            alertTitle: "제품등록 성공",
-            alertMessage: "제품이 성공적으로 등록됐습니다!"
-        ) { [weak self] _ in
-            guard let self = self else {
+        switch pageMode {
+        case .register:
+            guard images.count > 0 else {
+                presentAlert(alertTitle: "이미지를 추가해주세요.", alertMessage: "이미지를 최소 1개 등록해주세요.", handler: nil)
                 return
             }
-            self.delegate?.registerButtonTapped()
-            self.dismiss(animated: true, completion: nil)
+            registerProduct()
+            presentAlert(
+                alertTitle: "제품등록 성공",
+                alertMessage: "제품이 성공적으로 등록됐습니다!"
+            ) { [weak self] _ in
+                guard let self = self else {
+                    return
+                }
+                self.delegate?.registerButtonTapped()
+                self.dismiss(animated: true, completion: nil)
+            }
+        case .edit:
+            updateProduct()
+            
+            presentAlert(alertTitle: "수정완료", alertMessage: "수정이 완료되었습니다") { _ in
+                self.delegate?.registerButtonTapped()
+                self.dismiss(animated: true, completion: nil)
+            }
         }
     }
 }
@@ -261,6 +291,35 @@ extension ProductFormViewController {
             return
         }
         apiService.registerProduct(product: postProduct, images: productImages) { result in
+            switch result {
+            case .success(let data):
+                print(data)
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+    
+    private func updateProduct() {
+
+        guard let name = productNameTextField.text,
+              let descriptions = descriptionTextView.text,
+              let priceText = priceTextField.text,
+              let price = Double(priceText),
+              let currency = Currency(rawValue: currencySegmentedControl.selectedSegmentIndex) else {
+            return
+        }
+        let discountedPrice = convertDiscountedPrice(discountedPriceTextField)
+        let stock = convertStock(stockTextField)
+        
+
+        let product = PatchProduct(name: name, descriptions: descriptions, thumbnailID: nil, price: price, currency: currency.description, discountedPrice: Int(discountedPriceTextField.text!), stock:stock, secret: "password")
+
+        let apiservice = MarketAPIService()
+        guard let productID = productID else {
+            return
+        }
+        apiservice.updateProduct(productID: productID, product: product) { result in
             switch result {
             case .success(let data):
                 print(data)

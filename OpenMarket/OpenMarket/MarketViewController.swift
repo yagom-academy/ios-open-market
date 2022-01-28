@@ -14,7 +14,6 @@ final class MarketViewController: UIViewController {
     
     //MARK: - Properties
     
-//    private var apiService: APIServicable?
     private var products: [Product] = []
     
     private lazy var listViewController: ListViewController = {
@@ -62,12 +61,6 @@ final class MarketViewController: UIViewController {
             self.showListViewController()
         }
     }
-    
-    // MARK: - Internal Methods
-    
-//    func setAPIService(with apiService: APIServicable) {
-//        self.apiService = apiService
-//    }
 }
 
 //MARK: - IBActions

@@ -117,7 +117,13 @@ extension ProductDetailsViewController {
     }
     
     private func setNavigationTitle(with product: ProductDetails) {
-        navigationController?.title = product.name
+        let button = UIBarButtonItem(
+            barButtonSystemItem: .edit,
+            target: self,
+            action: #selector(barButtonTapped)
+        )
+        navigationController?.navigationBar.topItem?.title = product.name
+        navigationItem.setRightBarButton(button, animated: true)
     }
     
     private func setupCollectionView() {
@@ -140,6 +146,37 @@ extension ProductDetailsViewController {
     private func stopLoadingIndicator() {
         DispatchQueue.main.async {
             self.loadingIndicator.stopAnimating()
+        }
+    }
+    
+    private func showEditController() {
+        guard let controller = storyboard?.instantiateViewController(
+            identifier: ProductFormViewController.identifier,
+            creator: { coder in
+                ProductFormViewController(delegate: self, pageMode: .edit, coder: coder)
+            }
+        ) else {
+            assertionFailure("init(coder:) has not been implemented")
+            return
+        }
+
+        controller.modalPresentationStyle = .fullScreen
+        present(controller, animated: true, completion: nil)
+        
+        guard let product = product else {
+            return
+        }
+        controller.configureView(with: product)
+    }
+    
+    
+    @objc private func barButtonTapped() {
+        presentActionSheet(actionTitle: "수정", cancelTitle: "삭제") { action in
+            if action.title == "수정" {
+                self.showEditController()
+            } else {
+                // delete 구현
+            }
         }
     }
 }
@@ -207,6 +244,26 @@ extension ProductDetailsViewController: UICollectionViewDelegateFlowLayout {
         }
         self.collectionView.scrollToItem(at: index, at: .left, animated: true)
         pageControl.currentPage = index.row
+    }
+}
+
+//MARK: - AddButtonTappedDelegate
+
+extension ProductDetailsViewController: AddButtonTappedDelegate {
+    func registerButtonTapped() {
+        let apiService = MarketAPIService()
+        
+        apiService.fetchProduct(productID: product!.id) { result in
+            switch result {
+            case .success(let product):
+                self.product = product
+                DispatchQueue.main.async {
+                    self.setLabels(with: product)
+                }
+            case .failure(let error):
+                print(error)
+            }
+        }
     }
 }
 

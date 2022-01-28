@@ -28,4 +28,18 @@ extension UIViewController {
         
         self.present(alert, animated: true, completion: nil)
     }
+    
+    func presentActionSheet(actionTitle: String, cancelTitle: String, handler: ((UIAlertAction) -> ())?) {
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let updateAction = UIAlertAction(title: actionTitle, style: .default, handler: handler)
+        let deleteAction = UIAlertAction(title: cancelTitle, style: .destructive)
+        let cancel = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+        
+        alert.addAction(updateAction)
+        alert.addAction(deleteAction)
+        alert.addAction(cancel)
+        
+        self.present(alert, animated: true, completion: nil)
+    }
+
 }
