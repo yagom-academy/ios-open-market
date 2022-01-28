@@ -124,6 +124,7 @@ class MainViewController: UIViewController {
             }
             return productDetailViewController
         }
+        navigationItem.backButtonTitle = ""
         navigationController?.pushViewController(viewController, animated: true)
     }
     
