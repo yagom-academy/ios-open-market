@@ -1,7 +1,6 @@
 import UIKit
 
 class AddImageCollectionViewCell: UICollectionViewCell {
-
     var imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(systemName: "plus")
@@ -29,7 +28,6 @@ class AddImageCollectionViewCell: UICollectionViewCell {
             imageView.topAnchor.constraint(equalTo: contentView.topAnchor),
             imageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
-        ])
+            imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)])
     }
 }

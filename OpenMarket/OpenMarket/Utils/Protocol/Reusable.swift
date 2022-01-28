@@ -6,11 +6,11 @@
 //
 
 protocol Reusable: AnyObject {
-    static var reuseIdentifier: String { get }
+    static var identifier: String { get }
 }
 
 extension Reusable {
-    static var reuseIdentifier: String {
+    static var identifier: String {
         String(describing: self)
     }
 }

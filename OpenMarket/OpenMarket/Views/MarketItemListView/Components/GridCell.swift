@@ -35,7 +35,6 @@ extension GridCell {
         priceStackView.distribution = .fillEqually
 
         thumbnailImageView.contentMode = .scaleAspectFit
-
         nameLabel.font = .preferredFont(forTextStyle: .headline)
         nameLabel.textColor = .black
         priceLabel.font = .preferredFont(forTextStyle: .callout)
@@ -63,24 +62,15 @@ extension GridCell {
         NSLayoutConstraint.activate([
             itemStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
             itemStackView.bottomAnchor.constraint(
-                equalTo: contentView.bottomAnchor,
-                constant: -10
-            ),
+                equalTo: contentView.bottomAnchor, constant: -10),
             itemStackView.leadingAnchor.constraint(
-                equalTo: contentView.leadingAnchor,
-                constant: 5
-            ),
+                equalTo: contentView.leadingAnchor, constant: 5),
             itemStackView.trailingAnchor.constraint(
-                equalTo: contentView.trailingAnchor,
-                constant: -5
-            ),
+                equalTo: contentView.trailingAnchor, constant: -5),
             thumbnailImageView.heightAnchor.constraint(
-                equalTo: contentView.heightAnchor,
-                multiplier: 0.55
-            ),
+                equalTo: contentView.heightAnchor, multiplier: 0.55),
             nameLabel.heightAnchor.constraint(equalToConstant: 15),
-            stockLabel.heightAnchor.constraint(equalToConstant: 15)
-        ])
+            stockLabel.heightAnchor.constraint(equalToConstant: 15)])
     }
 
     private func configureContent(product: Product) {

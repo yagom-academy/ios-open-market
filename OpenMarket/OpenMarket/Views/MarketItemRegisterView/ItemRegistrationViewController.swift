@@ -1,7 +1,6 @@
 import UIKit
 
 class ItemRegistrationViewController: UIViewController {
-
     private let registrationView = ItemRegisterAndModifyFormView()
     private let itemRegisterManager = ItemRegisterAndModifyManager()
     private let imagePicker = UIImagePickerController()
@@ -24,36 +23,44 @@ class ItemRegistrationViewController: UIViewController {
         let appearance = UINavigationBarAppearance()
         appearance.configureWithDefaultBackground()
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
-        let doneButton = UIBarButtonItem(barButtonSystemItem: .done,
-                                         target: self,
-                                         action: #selector(doneButtonDidTap))
-        let cancelButton = UIBarButtonItem(barButtonSystemItem: .cancel,
-                                           target: self,
-                                           action: #selector(cancelButtonDidTap))
+        let doneButton = UIBarButtonItem(
+            barButtonSystemItem: .done,
+            target: self,
+            action: #selector(doneButtonDidTap))
+        let cancelButton = UIBarButtonItem(
+            barButtonSystemItem: .cancel,
+            target: self,
+            action: #selector(cancelButtonDidTap))
         self.navigationItem.rightBarButtonItem = doneButton
         self.navigationItem.leftBarButtonItem = cancelButton
     }
 
     @objc private func doneButtonDidTap() {
-        let currency = registrationView.currencySegmentedControl.titleForSegment(at: registrationView.currencySegmentedControl.selectedSegmentIndex)!
-        itemRegisterManager.createItem(by: .register,
-                                       registrationView.nameInputTextField.text,
-                                       registrationView.descriptionInputTextView.text,
-                                       registrationView.priceInputTextField.text,
-                                       currency,
-                                       registrationView.discountedPriceInputTextField.text,
-                                       registrationView.stockInputTextField.text)
+        let currency =
+            registrationView
+            .currencySegmentedControl
+            .titleForSegment(at: registrationView.currencySegmentedControl.selectedSegmentIndex)!
+        itemRegisterManager.createItem(
+            by: .register,
+            registrationView.nameInputTextField.text,
+            registrationView.descriptionInputTextView.text,
+            registrationView.priceInputTextField.text,
+            currency,
+            registrationView.discountedPriceInputTextField.text,
+            registrationView.stockInputTextField.text)
     }
-
+    
     @objc private func cancelButtonDidTap() {
         self.dismiss(animated: true, completion: nil)
     }
-
 }
 
-extension ItemRegistrationViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+extension ItemRegistrationViewController: UIImagePickerControllerDelegate,
+                                          UINavigationControllerDelegate {
+    func imagePickerController(
+        _ picker: UIImagePickerController,
+        didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]
+    ) {
         if let newImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
             itemRegisterManager.appendModel(with: newImage)
             registrationView.photoCollectionView.reloadData()
@@ -69,21 +76,40 @@ extension ItemRegistrationViewController: UIImagePickerControllerDelegate, UINav
 }
 
 extension ItemRegistrationViewController: UICollectionViewDataSource, UICollectionViewDelegate {
-
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        numberOfItemsInSection section: Int
+    ) -> Int {
         return itemRegisterManager.getModelsCount()
     }
 
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        cellForItemAt indexPath: IndexPath
+    ) -> UICollectionViewCell {
         let model: CellType = itemRegisterManager.getModel(at: indexPath.row)
 
         switch model {
         case .image(let model):
-            let cell = registrationView.photoCollectionView.dequeueReusableCell(withReuseIdentifier: ImageCollectionViewCell.reuseIdentifier, for: indexPath) as! ImageCollectionViewCell
+            guard let cell =
+                    registrationView
+                    .photoCollectionView
+                    .dequeueReusableCell(
+                        withReuseIdentifier: ImageCollectionViewCell.identifier,
+                        for: indexPath) as? ImageCollectionViewCell else {
+                return ImageCollectionViewCell()
+            }
             cell.setImage(with: model)
             return cell
         case .addImage:
-            let cell = registrationView.photoCollectionView.dequeueReusableCell(withReuseIdentifier: AddImageCollectionViewCell.reuseIdentifier, for: indexPath) as! AddImageCollectionViewCell
+            guard let cell =
+                    registrationView
+                    .photoCollectionView
+                    .dequeueReusableCell(
+                        withReuseIdentifier: AddImageCollectionViewCell.identifier,
+                        for: indexPath) as? AddImageCollectionViewCell else {
+                return AddImageCollectionViewCell()
+            }
             return cell
         }
     }

@@ -45,16 +45,12 @@ extension ListCell {
             listContentView.topAnchor.constraint(equalTo: contentView.topAnchor),
             listContentView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             listContentView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+
             stockStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
             stockStackView.heightAnchor.constraint(
-                equalTo: contentView.heightAnchor,
-                multiplier: 0.3
-            ),
+                equalTo: contentView.heightAnchor, multiplier: 0.3),
             stockStackView.trailingAnchor.constraint(
-                equalTo: contentView.trailingAnchor,
-                constant: -15
-            )
-        ])
+                equalTo: contentView.trailingAnchor, constant: -15)])
     }
 
     private func configureContent(product: Product) {
@@ -76,7 +72,6 @@ extension ListCell {
         content.textProperties.font = .preferredFont(forTextStyle: .headline)
         content.textProperties.color = .black
         content.text = product.name
-
         content.textToSecondaryTextVerticalPadding = 3
         content.secondaryTextProperties.font = .preferredFont(forTextStyle: .callout)
         content.secondaryTextProperties.color = .systemGray
@@ -90,8 +85,7 @@ extension ListCell {
             return
         }
         let bargainPriceAttributedString = NSMutableAttributedString(
-            string: "\(product.currency) \(bargainPrice)"
-        )
+            string: "\(product.currency) \(bargainPrice)")
 
         if product.discountedPrice != 0 {
             let blank = NSMutableAttributedString(string: " ")
@@ -99,7 +93,6 @@ extension ListCell {
             bargainPriceAttributedString.insert(priceAttributedString, at: 0)
         }
         content.secondaryAttributedText = bargainPriceAttributedString
-
         listContentView.configuration = content
 
         if product.stock == .zero {

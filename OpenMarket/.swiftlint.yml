@@ -2,5 +2,3 @@ excluded:
   - Pods
   - OpenMarket/Entries/AppDelegate.swift
   - OpenMarket/Entries/SceneDelegate.swift
-  - OpenMarket/Views/MarketItemRegisterView/ItemRegistrationViewController.swift
-  - OpenMarket/Views/MarketItemRegisterView/ItemRegisterAndModifyManager.swift

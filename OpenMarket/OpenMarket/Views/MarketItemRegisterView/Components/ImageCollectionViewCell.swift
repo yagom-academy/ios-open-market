@@ -7,7 +7,6 @@ struct ImageCollectionViewCellModel {
 extension UICollectionViewCell: Reusable {}
 
 class ImageCollectionViewCell: UICollectionViewCell {
-
     private var imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -38,7 +37,6 @@ class ImageCollectionViewCell: UICollectionViewCell {
             imageView.topAnchor.constraint(equalTo: contentView.topAnchor),
             imageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
-        ])
+            imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)])
     }
 }

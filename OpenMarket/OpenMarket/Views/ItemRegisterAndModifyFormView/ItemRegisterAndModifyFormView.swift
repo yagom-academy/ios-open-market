@@ -1,7 +1,6 @@
 import UIKit
 
 class ItemRegisterAndModifyFormView: UIView {
-
     let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -9,7 +8,6 @@ class ItemRegisterAndModifyFormView: UIView {
         scrollView.backgroundColor = .systemBackground
         return scrollView
     }()
-
     let contentView: UIStackView = {
         let contentView = UIStackView()
         contentView.translatesAutoresizingMaskIntoConstraints = false
@@ -20,7 +18,6 @@ class ItemRegisterAndModifyFormView: UIView {
         contentView.backgroundColor = .systemBackground
         return contentView
     }()
-
     let photoCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
@@ -32,11 +29,14 @@ class ItemRegisterAndModifyFormView: UIView {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.backgroundColor = .systemBackground
         collectionView.isDirectionalLockEnabled = true
-        collectionView.register(ImageCollectionViewCell.self, forCellWithReuseIdentifier: ImageCollectionViewCell.reuseIdentifier)
-        collectionView.register(AddImageCollectionViewCell.self, forCellWithReuseIdentifier: AddImageCollectionViewCell.reuseIdentifier)
+        collectionView.register(
+            ImageCollectionViewCell.self,
+            forCellWithReuseIdentifier: ImageCollectionViewCell.identifier)
+        collectionView.register(
+            AddImageCollectionViewCell.self,
+            forCellWithReuseIdentifier: AddImageCollectionViewCell.identifier)
         return collectionView
     }()
-
     let priceStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -46,7 +46,6 @@ class ItemRegisterAndModifyFormView: UIView {
         stackView.spacing = 8
         return stackView
     }()
-
     let currencySegmentedControl: UISegmentedControl = {
         let items = [Currency.KRW.rawValue, Currency.USD.rawValue]
         let segmentedControl = UISegmentedControl(items: items)
@@ -56,37 +55,31 @@ class ItemRegisterAndModifyFormView: UIView {
         segmentedControl.selectedSegmentIndex = 0
         return segmentedControl
     }()
-
     let nameInputTextField: ItemInformationTextField = {
         let textField = ItemInformationTextField(type: .name)
         return textField
     }()
-
     let priceInputTextField: ItemInformationTextField = {
         let textField = ItemInformationTextField(type: .price)
         textField.keyboardType = .decimalPad
         textField.setContentCompressionResistancePriority(.required, for: .horizontal)
         return textField
     }()
-
     let discountedPriceInputTextField: ItemInformationTextField = {
         let textField = ItemInformationTextField(type: .discountedPrice)
         textField.keyboardType = .decimalPad
         return textField
     }()
-
     let stockInputTextField: ItemInformationTextField = {
         let textField = ItemInformationTextField(type: .stock)
         textField.keyboardType = .numberPad
         return textField
     }()
-
     let descriptionInputTextView: UITextView = {
         let textView = UITextView()
         textView.isScrollEnabled = false
         return textView
     }()
-
     func formViewDidLoad() {
         setupViews()
         setupConstraints()
@@ -133,16 +126,17 @@ class ItemRegisterAndModifyFormView: UIView {
 }
 
 extension ItemRegisterAndModifyFormView {
-
     private func addKeyboardNotificationObservers() {
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(keyboardWillShow(_:)),
-                                               name: UIResponder.keyboardWillShowNotification,
-                                               object: nil)
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(keyboardWillHide(_:)),
-                                               name: UIResponder.keyboardWillHideNotification,
-                                               object: nil)
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillShow(_:)),
+            name: UIResponder.keyboardWillShowNotification,
+            object: nil)
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillHide(_:)),
+            name: UIResponder.keyboardWillHideNotification,
+            object: nil)
     }
 
     @objc private func keyboardWillShow(_ notification: Notification) {
@@ -171,7 +165,8 @@ extension ItemRegisterAndModifyFormView {
         scrollView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0).isActive = true
 
         guard let userInfo = notification.userInfo,
-              let duration = userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as? TimeInterval else {
+              let duration =
+                userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as? TimeInterval else {
             return
         }
         UIView.animate(withDuration: duration) {
@@ -191,12 +186,14 @@ extension ItemRegisterAndModifyFormView {
     }
 
     private func removeKeyboardNotificationObservers() {
-        NotificationCenter.default.removeObserver(self,
-                                                  name: UIResponder.keyboardWillShowNotification,
-                                                  object: nil)
-        NotificationCenter.default.removeObserver(self,
-                                                  name: UIResponder.keyboardWillHideNotification,
-                                                  object: nil)
+        NotificationCenter.default.removeObserver(
+            self,
+            name: UIResponder.keyboardWillShowNotification,
+            object: nil)
+        NotificationCenter.default.removeObserver(
+            self,
+            name: UIResponder.keyboardWillHideNotification,
+            object: nil)
     }
 
 }

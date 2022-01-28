@@ -12,10 +12,8 @@ enum Mode: Int {
 }
 
 class ItemRegisterAndModifyManager {
-
     private let vendorIdentification = UserDefaultUtility().getVendorIdentification()
     private let vendorSecret = UserDefaultUtility().getVendorPassword() ?? ""
-
     private(set) var name: String?
     private(set) var description: String?
     private(set) var price: String?
@@ -23,9 +21,8 @@ class ItemRegisterAndModifyManager {
     private(set) var discountedPrice: String?
     private(set) var stock: String?
     private(set) var secret: String?
-
-    private var models: [CellType] = [.addImage]
     private(set) var images: [Data] = []
+    private var models: [CellType] = [.addImage]
 
     init() {}
 
@@ -51,12 +48,14 @@ class ItemRegisterAndModifyManager {
         models.insert(.image(model: newModel), at: locationOfNewImage)
     }
 
-    private func fillWithInformation(_ name: String?,
-                             _ description: String?,
-                             _ price: String?,
-                             _ currency: String,
-                             _ discountedPrice: String?,
-                             _ stock: String?) {
+    private func fillWithInformation(
+        _ name: String?,
+        _ description: String?,
+        _ price: String?,
+        _ currency: String,
+        _ discountedPrice: String?,
+        _ stock: String?
+    ) {
         self.name = name
         self.description = description
         self.price = price
@@ -65,13 +64,15 @@ class ItemRegisterAndModifyManager {
         self.stock = stock
     }
 
-    func createItem(by mode: Mode,
-                    _ name: String?,
-                    _ description: String?,
-                    _ price: String?,
-                    _ currency: String,
-                    _ discountedPrice: String?,
-                    _ stock: String?) {
+    func createItem(
+        by mode: Mode,
+        _ name: String?,
+        _ description: String?,
+        _ price: String?,
+        _ currency: String,
+        _ discountedPrice: String?,
+        _ stock: String?
+    ) {
         fillWithInformation(name, description, price, currency, discountedPrice, stock)
         switch mode {
         case .register:
@@ -99,13 +100,14 @@ class ItemRegisterAndModifyManager {
               let stock = Int(stockString) else {
             return nil
         }
-        return ProductRegistrationRequest(name: name,
-                                          descriptions: descriptions,
-                                          price: price,
-                                          currency: currency,
-                                          discountedPrice: discountedPrice,
-                                          stock: stock,
-                                          secret: vendorSecret
+        return ProductRegistrationRequest(
+            name: name,
+            descriptions: descriptions,
+            price: price,
+            currency: currency,
+            discountedPrice: discountedPrice,
+            stock: stock,
+            secret: vendorSecret
         )
     }
 
@@ -121,13 +123,14 @@ class ItemRegisterAndModifyManager {
               let stock = Int(stockString) else {
             return nil
         }
-        return ProductModificationRequest(name: name,
-                                          descriptions: descriptions,
-                                          price: price,
-                                          currency: currency,
-                                          discountedPrice: discountedPrice,
-                                          stock: stock,
-                                          secret: vendorSecret
+        return ProductModificationRequest(
+            name: name,
+            descriptions: descriptions,
+            price: price,
+            currency: currency,
+            discountedPrice: discountedPrice,
+            stock: stock,
+            secret: vendorSecret
         )
     }
 
@@ -135,8 +138,7 @@ class ItemRegisterAndModifyManager {
         ProductService().registerProduct(
             parameters: item,
             session: HTTPUtility.defaultSession,
-            images: images
-        ) { result in
+            images: images) { result in
             switch result {
             case .success(let product):
                 DispatchQueue.main.async {

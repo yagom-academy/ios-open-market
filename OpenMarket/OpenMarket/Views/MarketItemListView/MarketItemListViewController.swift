@@ -1,25 +1,26 @@
 import UIKit
 
 class MarketItemListViewController: UIViewController {
-
     enum ViewType: Int {
         case list = 0
         case grid = 1
     }
-
     enum Section {
         case main
     }
 
-    var presentView: ViewType = .list
-    var pageNumber: Int = 1
-
-    private lazy var listCollectionView = UICollectionView(frame: .zero, collectionViewLayout: createListLayout())
-    private lazy var gridCollectionView = UICollectionView(frame: .zero, collectionViewLayout: createGridLayout())
+    private lazy var listCollectionView = UICollectionView(
+        frame: .zero,
+        collectionViewLayout: createListLayout())
+    private lazy var gridCollectionView = UICollectionView(
+        frame: .zero,
+        collectionViewLayout: createGridLayout())
     private var listDataSource: UICollectionViewDiffableDataSource<Section, Product>!
     private var gridDataSource: UICollectionViewDiffableDataSource<Section, Product>!
     private var snapshot = NSDiffableDataSourceSnapshot<Section, Product>()
     private let indicator = UIActivityIndicatorView()
+    private var presentView: ViewType = .list
+    private var pageNumber: Int = 1
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,8 +56,7 @@ extension MarketItemListViewController {
             image: resizedImage,
             style: .plain,
             target: self,
-            action: #selector(plusImageDidTap)
-        )
+            action: #selector(plusImageDidTap))
         navigationItem.rightBarButtonItem?.width = 0
         let appearance = UINavigationBarAppearance()
         appearance.configureWithDefaultBackground()
@@ -64,7 +64,8 @@ extension MarketItemListViewController {
 
     @objc private func plusImageDidTap() {
         let registrationViewController = ItemRegistrationViewController()
-        let navigationController = UINavigationController(rootViewController: registrationViewController)
+        let navigationController = UINavigationController(
+            rootViewController: registrationViewController)
         navigationController.modalPresentationStyle = .fullScreen
         self.present(navigationController, animated: true)
     }
@@ -72,7 +73,6 @@ extension MarketItemListViewController {
     private func configureSegmentedControl() -> UISegmentedControl {
         let item = ["LIST", "GRID"]
         let segmentedControl = UISegmentedControl(items: item)
-
         segmentedControl.frame = CGRect(x: 0, y: 0, width: 170, height: 15)
         segmentedControl.selectedSegmentIndex = 0
         segmentedControl.selectedSegmentTintColor = .systemBlue
@@ -82,13 +82,10 @@ extension MarketItemListViewController {
         let defaultText = [NSAttributedString.Key.foregroundColor: UIColor.systemBlue]
         segmentedControl.setTitleTextAttributes(selectedText, for: .selected)
         segmentedControl.setTitleTextAttributes(defaultText, for: .normal)
-
         segmentedControl.addTarget(
             self,
             action: #selector(segmentedValueChanged),
-            for: .valueChanged
-        )
-
+            for: .valueChanged)
         return segmentedControl
     }
 
@@ -116,8 +113,7 @@ extension MarketItemListViewController {
         indicator.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             indicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            indicator.centerYAnchor.constraint(equalTo: view.centerYAnchor)
-        ])
+            indicator.centerYAnchor.constraint(equalTo: view.centerYAnchor)])
         indicator.startAnimating()
     }
 }
@@ -126,19 +122,14 @@ extension MarketItemListViewController {
     private func createGridLayout() -> UICollectionViewLayout {
         let itemSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(0.5),
-            heightDimension: .fractionalHeight(1)
-        )
+            heightDimension: .fractionalHeight(1))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        item.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5)
-
         let groupSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1),
-            heightDimension: .absolute(270)
-        )
+            heightDimension: .absolute(270))
+        item.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5)
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-
         let section = NSCollectionLayoutSection(group: group)
-
         let layout = UICollectionViewCompositionalLayout(section: section)
         return layout
     }
@@ -160,7 +151,6 @@ extension MarketItemListViewController {
         let collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: layout)
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         collectionView.backgroundColor = .white
-
         return collectionView
     }
 }
@@ -171,9 +161,10 @@ extension MarketItemListViewController {
         case .list:
             let listCellRegistration = registerListCell()
             listDataSource = UICollectionViewDiffableDataSource<Section, Product>(
-                collectionView: listCollectionView
-            ) { (collectionView: UICollectionView, indexPath: IndexPath, identifier: Product
-            ) -> UICollectionViewCell? in
+                collectionView: listCollectionView) { (
+                collectionView: UICollectionView,
+                indexPath: IndexPath,
+                identifier: Product) -> UICollectionViewCell? in
                 return collectionView.dequeueConfiguredReusableCell(
                     using: listCellRegistration,
                     for: indexPath,
@@ -183,9 +174,10 @@ extension MarketItemListViewController {
         case .grid:
             let gridCellRegistration = registerGridCell()
             gridDataSource = UICollectionViewDiffableDataSource<Section, Product>(
-                collectionView: gridCollectionView
-            ) { (collectionView: UICollectionView, indexPath: IndexPath, identifier: Product
-            ) -> UICollectionViewCell? in
+                collectionView: gridCollectionView) { (
+                collectionView: UICollectionView,
+                indexPath: IndexPath,
+                identifier: Product) -> UICollectionViewCell? in
                 return collectionView.dequeueConfiguredReusableCell(
                     using: gridCellRegistration,
                     for: indexPath,
@@ -227,8 +219,7 @@ extension MarketItemListViewController {
         ProductService().retrieveProductList(
             pageNumber: pageNumber,
             itemsPerPage: 20,
-            session: HTTPUtility.defaultSession
-        ) { result in
+            session: HTTPUtility.defaultSession) { result in
             switch result {
             case .success(let productList):
                 self.pageNumber += 1
@@ -258,7 +249,6 @@ extension MarketItemListViewController: UICollectionViewDelegate {
     ) {
         let targetOffset = targetContentOffset.pointee.y + view.frame.height
         let scrollViewHeight = scrollView.contentSize.height
-
         if targetOffset > scrollViewHeight {
             generateProductItems()
         }

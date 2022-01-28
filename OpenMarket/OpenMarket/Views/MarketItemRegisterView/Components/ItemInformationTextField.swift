@@ -1,21 +1,18 @@
 import UIKit
 
 class ItemInformationTextField: UITextField {
-
     enum TextFieldType: String {
         case name
         case price
         case discountedPrice
         case stock
     }
-
     enum PlaceholderText {
         static let name = "상품명"
         static let price = "상품가격"
         static let discountedPrice = "할인금액"
         static let stock = "재고수량"
     }
-
     enum Color {
         static let text = UIColor.black
         static let placeholderText = UIColor.systemGray3
