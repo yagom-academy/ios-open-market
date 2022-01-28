@@ -41,18 +41,49 @@ class AddProductViewController: UIViewController {
     private var selectedIndex = 0
     private var alertText = AlertMessage.title
     
+    var isEdit = false
+    var name: String?
+    var price: String?
+    var discount: String?
+    var stock: String?
+    var des: String?
+    var images = [UIImage]()
+    var product: ProductDetail?
+    
     // MARK: - Life Cycle Method
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationController?.navigationBar.topItem?.title = "상품등록"
+        if isEdit {
+            addImageButton.isHidden = true
+            navigationController?.navigationBar.topItem?.title = "상품수정"
+        } else {
+            navigationController?.navigationBar.topItem?.title = "상품등록"
+        }
         setupImagePrickerController()
         setupDescriptionTextView()
         setupKeyboardNotification()
         hideKeyboard()
+        productNameTextField.text = product?.name
+        productPriceTextField.text = product?.price.description
+        descriptionTextView.text = product?.description
+        discountedPriceTextField.text = product?.discountedPrice.description
+        productStockTextField.text = product?.stock.description
+
+        images.forEach { image in
+            let imageView = UIImageView(image: image)
+            productImageStackView.addArrangedSubview(imageView)
+            imageView.heightAnchor.constraint(equalTo: productImageStackView.heightAnchor).isActive = true
+            imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor).isActive = true
+        }
     }
     
     // MARK: - IBAction Method
     @IBAction func tapCancelButton(_ sender: UIBarButtonItem) {
+        if isEdit {
+            navigationController?.navigationBar.topItem?.title = ""
+            self.navigationController?.popViewController(animated: true)
+            
+        }
         dismiss(animated: true)
     }
     
@@ -285,6 +316,10 @@ extension AddProductViewController: UIImagePickerControllerDelegate, UINavigatio
 extension AddProductViewController {
     // MARK: - Text View Setup Method
     private func setupDescriptionTextView() {
+        if isEdit {
+            setTextViewOutLine()
+            return
+        }
         setTextViewPlaceHolder()
         setTextViewOutLine()
     }

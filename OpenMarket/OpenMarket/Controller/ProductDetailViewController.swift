@@ -11,7 +11,8 @@ class ProductDetailViewController: UIViewController {
     @IBOutlet weak var priceLabel: UILabel!
     @IBOutlet weak var descriptionTextView: UITextView!
     
-    
+    var productImages = [UIImage]()
+    var productDetail: ProductDetail?
     let apiManager = APIManager.shared
     private var imageDataSource: UICollectionViewDiffableDataSource<Section, Image>?
     var productID: Int?
@@ -21,6 +22,18 @@ class ProductDetailViewController: UIViewController {
         super.viewDidLoad()
         setupImageCollectionView()
         getProductDetail()
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard let navigationController = segue.destination as? UINavigationController else { return }
+        let destination = navigationController.topViewController as? AddProductViewController
+        destination?.isEdit = true
+        destination?.images = productImages
+        destination?.product = productDetail
+    }
+    
+    @IBAction func edit(_ sender: Any) {
+        performSegue(withIdentifier: "edit", sender: nil)
     }
     
     // MARK: - Setup CollectionView Method
@@ -42,7 +55,7 @@ class ProductDetailViewController: UIViewController {
             return cell
         }
     }
-    
+
     private func populate(with products: [Image]) {
         var snapshot = NSDiffableDataSourceSnapshot<Section, Image>()
         snapshot.appendSections([.main])
@@ -57,12 +70,29 @@ class ProductDetailViewController: UIViewController {
             switch result {
             case .success(let product):
                 DispatchQueue.main.async {
+                    self.productDetail = product
+                    self.appendProductImages(with: product.images)
                     self.setup(with: product)
                 }
             case .failure(let error):
                 print(error.localizedDescription)
             }
         }
+    }
+    
+    func appendProductImages(with images: [Image]?) {
+        guard let images = images else { return }
+        images.forEach { image in
+            convertToUIImage(with: image)
+        }
+    }
+    
+    func convertToUIImage(with productImage: Image) {
+        guard let imageURL = URL(string: productImage.url) else { return }
+        URLSession.shared.dataTask(with: imageURL) { data, _, _ in
+            guard let image = UIImage(data: data!) else { return }
+                self.productImages.append(image)
+        }.resume()
     }
     
     private func setup(with product: ProductDetail) {

@@ -20,7 +20,6 @@ class ProductImageCollectionViewCell: UICollectionViewCell {
             DispatchQueue.main.async {
                 self.productImageView.image = image
             }
-            
         }.resume()
     }
 }

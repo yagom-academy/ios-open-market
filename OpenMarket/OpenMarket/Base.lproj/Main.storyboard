@@ -71,8 +71,9 @@
         <scene sceneID="06K-FF-ZyC">
             <objects>
                 <navigationController id="gEB-bW-9bK" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="xQe-bD-d1H"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="fch-Jy-bbn">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="56"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
@@ -86,13 +87,13 @@
         <!--Add Product View Controller-->
         <scene sceneID="Pqz-4j-FBe">
             <objects>
-                <viewController id="0cc-2w-7Sp" customClass="AddProductViewController" customModule="OpenMarket" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="AddProductViewController" id="0cc-2w-7Sp" customClass="AddProductViewController" customModule="OpenMarket" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="hxD-E2-cIh">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3Yh-1S-91Y">
-                                <rect key="frame" x="10" y="88" width="394" height="774"/>
+                                <rect key="frame" x="10" y="56" width="394" height="786"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oEp-hN-q5C" userLabel="Content View">
                                         <rect key="frame" x="0.0" y="0.0" width="394" height="370"/>
@@ -256,7 +257,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W3x-ad-9Pa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2471.0144927536235" y="116.51785714285714"/>
+            <point key="canvasLocation" x="2654" y="117"/>
         </scene>
         <!--Product Detail View Controller-->
         <scene sceneID="9l2-1A-TgD">
@@ -414,7 +415,13 @@
                             <constraint firstItem="bvd-zM-7Yo" firstAttribute="bottom" secondItem="k2J-nj-RJy" secondAttribute="bottom" id="v4H-aP-CB3"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="92j-v6-kpb"/>
+                    <navigationItem key="navigationItem" id="92j-v6-kpb">
+                        <barButtonItem key="rightBarButtonItem" systemItem="action" id="DbI-PI-guw">
+                            <connections>
+                                <action selector="edit:" destination="qSw-HC-sTu" id="3ab-D0-ltT"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="currentPageLabel" destination="udY-O4-8Bb" id="0OT-hM-VR0"/>
                         <outlet property="descriptionTextView" destination="3Jg-KK-bfT" id="ddr-0e-Jdh"/>
@@ -424,13 +431,17 @@
                         <outlet property="priceLabel" destination="0l4-aQ-sVm" id="8cO-Zi-e8T"/>
                         <outlet property="stockLabel" destination="Vzt-YX-XNo" id="Dp6-QC-BWt"/>
                         <outlet property="totalPageLabel" destination="1rp-IX-fyv" id="RMw-ch-0Rc"/>
+                        <segue destination="gEB-bW-9bK" kind="presentation" identifier="edit" id="Jkw-sb-bNM"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LXL-lL-3ui" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="992.75362318840587" y="839.73214285714278"/>
+            <point key="canvasLocation" x="993" y="926"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="Jkw-sb-bNM"/>
+    </inferredMetricsTieBreakers>
     <resources>
         <image name="plus" catalog="system" width="128" height="113"/>
         <systemColor name="labelColor">
