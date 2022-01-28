@@ -1,6 +1,6 @@
 import UIKit
 
-class CustomSegmentedControl: UISegmentedControl {
+class OpenMarketSegmentedControl: UISegmentedControl {
     override init(frame: CGRect) {
         super.init(frame: frame)
     }

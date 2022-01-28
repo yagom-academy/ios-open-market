@@ -134,7 +134,7 @@ private extension ProductDetailViewController {
         let alert = UIAlertController(title: AlertMessage.deleteProduct.title, message: AlertMessage.deleteProduct.message, preferredStyle: .alert)
         let cancelAction = UIAlertAction(title: AlertActionMessage.cancel.title, style: .cancel, handler: nil)
         let confirmAction = UIAlertAction(title: AlertActionMessage.done.title, style: .default) { _ in
-            self.checkProductPassword(from: alert.textFields?.first?.text) { result in
+            self.fetchProductPassword(from: alert.textFields?.first?.text) { result in
                 switch result {
                 case .success(let password):
                     self.deleteProduct(productId: self.productDetail.id, secret: password)
@@ -157,7 +157,7 @@ private extension ProductDetailViewController {
 // MARK: - Delete Product
 
 extension ProductDetailViewController {
-    private func checkProductPassword(from password: String?, completion: @escaping (Result<String, APIError>) -> Void) {
+    private func fetchProductPassword(from password: String?, completion: @escaping (Result<String, APIError>) -> Void) {
         guard let password = password else {
             return
         }

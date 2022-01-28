@@ -29,7 +29,7 @@ class ProductModifyViewController: ProductManageViewController {
     }
     
     @objc private func didTapDoneButton() {
-        if !checkValidReceivedProductDetail() {
+        if !isValidReceivedProductDetail() {
             return
         }
         

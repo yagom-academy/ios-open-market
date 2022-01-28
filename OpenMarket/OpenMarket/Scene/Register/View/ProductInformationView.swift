@@ -73,12 +73,12 @@ class ProductInformationView: UIView {
         return stackView
     }()
     
-    let nameTextField = CustomTextField(placeholder: Placeholder.name, hasToolBar: false)
-    let priceTextField = CustomTextField(placeholder: Placeholder.price, keyboardType: .decimalPad, hasToolBar: true)
-    let discountedPriceTextField = CustomTextField(placeholder: Placeholder.discountedPrice, keyboardType: .decimalPad, hasToolBar: true)
-    let stockTextField = CustomTextField(placeholder: Placeholder.stock, keyboardType: .numberPad, hasToolBar: true)
+    let nameTextField = OpenMarketTextField(placeholder: Placeholder.name, hasToolBar: false)
+    let priceTextField = OpenMarketTextField(placeholder: Placeholder.price, keyboardType: .decimalPad, hasToolBar: true)
+    let discountedPriceTextField = OpenMarketTextField(placeholder: Placeholder.discountedPrice, keyboardType: .decimalPad, hasToolBar: true)
+    let stockTextField = OpenMarketTextField(placeholder: Placeholder.stock, keyboardType: .numberPad, hasToolBar: true)
     
-    let currencySegmentedControl = CustomSegmentedControl(items: Currency.allCases.map { currency in currency.unit })
+    let currencySegmentedControl = OpenMarketSegmentedControl(items: Currency.allCases.map { currency in currency.unit })
     
     let descriptionTextView: UITextView = {
         let textView = UITextView()
