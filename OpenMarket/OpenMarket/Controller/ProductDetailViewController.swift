@@ -2,6 +2,7 @@ import UIKit
 
 class ProductDetailViewController: UIViewController {
     static let storyboardName = "ProductDetail"
+    private let password = "password"
     private var product: Product?
     private var productId: Int?
     private var networkTask: NetworkTask?
@@ -159,40 +160,64 @@ class ProductDetailViewController: UIViewController {
         targetContentOffset.pointee = offset
     }
     
+    private func removeProduct() {
+        guard let productId = productId else { return }
+        networkTask?.requestProductSecret(
+            productId: productId,
+            identifier: NetworkTask.identifier,
+            secret: NetworkTask.secret) { result in
+                switch result {
+                case .success(let data):
+                    let productSecret = String(decoding: data, as: UTF8.self)
+                    print(productSecret)
+                    self.networkTask?.requestRemoveProduct(
+                        identifier: NetworkTask.identifier,
+                        productId: productId,
+                        productSecret: productSecret
+                    ) { result in
+                        switch result {
+                        case .success:
+                            DispatchQueue.main.async {
+                                self.navigationController?.popViewController(animated: true)
+                                self.completionHandler?()
+                            }
+                        case .failure(let error):
+                            self.showAlert(title: "삭제 실패", message: error.localizedDescription)
+                        }
+                    }
+                case .failure(let error):
+                    self.showAlert(title: "상품 시크릿 요청 실패", message: error.localizedDescription)
+                }
+            }
+    }
+    
     @objc private func showActionSheet() {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let modifyAction = UIAlertAction(title: "수정", style: .default) {_ in
+        let modifyAction = UIAlertAction(title: "수정", style: .default) { _ in
             self.presentEditView()
         }
-        guard let productId = productId else { return }
-        let deleteAction = UIAlertAction(title: "삭제", style: .destructive) {_ in
-            self.networkTask?.requestProductSecret(
-                productId: productId,
-                identifier: NetworkTask.identifier,
-                secret: NetworkTask.secret) { result in
-                    switch result {
-                    case .success(let data):
-                        let productSecret = String(decoding: data, as: UTF8.self)
-                        print(productSecret)
-                        self.networkTask?.requestRemoveProduct(
-                            identifier: NetworkTask.identifier,
-                            productId: productId,
-                            productSecret: productSecret
-                        ) { result in
-                            switch result {
-                            case .success:
-                                DispatchQueue.main.async {
-                                    self.navigationController?.popViewController(animated: true)
-                                    self.completionHandler?()
-                                }
-                            case .failure(let error):
-                                self.showAlert(title: "삭제 실패", message: error.localizedDescription)
-                            }
-                        }
-                    case .failure(let error):
-                        self.showAlert(title: "상품 시크릿 요청 실패", message: error.localizedDescription)
-                    }
+        let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { _ in
+            let alert = UIAlertController(
+                title: "암호를 입력해주세요",
+                message: nil,
+                preferredStyle: .alert
+            )
+            let doneAction = UIAlertAction(title: "완료", style: .default) { _ in
+                if alert.textFields?[0].text == self.password {
+                    self.removeProduct()
+                } else {
+                    self.showAlert(title: "암호를 다시 확인해주세요", message: nil)
                 }
+            }
+            let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+            alert.addTextField() { textField in
+                textField.placeholder = "암호"
+                textField.textContentType = .password
+                textField.isSecureTextEntry = true
+            }
+            alert.addAction(doneAction)
+            alert.addAction(cancelAction)
+            self.present(alert, animated: true, completion: nil)
         }
         let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
         alert.addAction(modifyAction)
