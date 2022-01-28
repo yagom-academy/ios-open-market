@@ -26,6 +26,10 @@ class ProductDetailViewModel {
         model.requestDetailProduct()
     }
     
+    func deleteProduct(completionHandler: ((Result<Product, Error>) -> Void)? = nil) {
+        model.requestDeleteProduct(completionHandler: completionHandler)
+    }
+    
     var product: Product? {
         return model.product
     }

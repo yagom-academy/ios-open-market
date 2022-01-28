@@ -28,7 +28,7 @@ class ProductModifyViewController: ProductUpdateViewController {
         viewModel.doneButtonClicked(form: form) { result in
             DispatchQueue.main.async {
                 switch result {
-                case .success(_):
+                case .success:
                     self.performSegue(withIdentifier: "popToProductPageSegue", sender: nil)
                 case .failure(let error):
                     let title = "오류가 발생하였습니다"

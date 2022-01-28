@@ -53,7 +53,7 @@ final class ProductCreateViewController: ProductUpdateViewController {
     private func completionHandler(_ result: Result<CreateProductResponse, Error>) {
         DispatchQueue.main.async {
             switch result {
-            case.success(_):
+            case.success:
                 self.activityIndicator.stopAnimating()
                 self.dismiss(animated: true)
             case .failure(let error):

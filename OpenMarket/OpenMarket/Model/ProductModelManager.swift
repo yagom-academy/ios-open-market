@@ -46,6 +46,23 @@ class ProductModelManager {
             }
     }
     
+    private func requestProductSecret(completionHandler: ((Result<String, Error>) -> Void)? = nil) {
+        guard let id = id else { return }
+        networkManager.requestProductSecret(id: id, completionHandler: completionHandler)
+    }
+    
+    func requestDeleteProduct(completionHandler: ((Result<Product, Error>) -> Void)? = nil) {
+        guard let id = id else { return }
+        requestProductSecret { result in
+            switch result {
+            case .success(let secret):
+                self.networkManager.requestDeleteProduct(id: id, secret: secret, completionHandler: completionHandler)
+            case .failure(let error):
+                completionHandler?(.failure(error))
+            }
+        }
+    }
+    
     func requestDetailProduct() {
         guard let id = id else { return }
         networkManager.detailProductRequest(id: id) { result in

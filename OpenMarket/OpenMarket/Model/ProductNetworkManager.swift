@@ -29,6 +29,34 @@ class ProductNetworkManager {
         }
     }
     
+    func requestProductSecret(id: Int, completionHandler: ((SecretProductResult) -> Void)? = nil) {
+        urlSessionProvider.request(
+            .showProductSecret(
+                sellerID: AppConfigure.venderIdentifier, sellerPW: AppConfigure.venderSecret, productID: String(id)
+            )) { result in
+                switch result {
+                case .success(let data):
+                    guard let secret = String(data: data, encoding: .utf8) else {
+                        completionHandler?(.failure(URLSessionProviderError.decodingError))
+                        return
+                    }
+                    completionHandler?(.success(secret))
+                case .failure(let error):
+                    completionHandler?(.failure(error))
+                }
+                
+            }
+    }
+    
+    func requestDeleteProduct(id: Int, secret: String, completionHandler: ((DeleteProductResult) -> Void)? = nil) {
+        urlSessionProvider.request(
+            .deleteProduct(
+                sellerID: AppConfigure.venderIdentifier, productID: String(id), productSecret: secret
+            )) { (result: DeleteProductResult) in
+                completionHandler?(result)
+        }
+    }
+    
     func createProductRequest(data: Data, images: [Image],
                               completionHandler: ((CreateProductResult) -> Void)? = nil) {
         urlSessionProvider.request(
@@ -69,6 +97,8 @@ extension ProductNetworkManager {
     typealias CreateProductResult = Result<CreateProductResponse, Error>
     typealias DetailProductResult = Result<ShowProductDetailResponse, Error>
     typealias UpdateProductResult = Result<UpdateProductResponse, Error>
+    typealias SecretProductResult = Result<String, Error>
+    typealias DeleteProductResult = Result<DeleteProductResponse, Error>
     typealias ProductImageResult = Result<UIImage, Error>
     
 }

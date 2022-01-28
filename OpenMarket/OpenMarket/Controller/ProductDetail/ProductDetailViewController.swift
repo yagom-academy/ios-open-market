@@ -73,13 +73,29 @@ private extension ProductDetailViewController {
         let title = "패스워드를 입력해주세요"
         let message = "상품을 삭제하려면 암호를 입력해주세요!"
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        
+        alert.addTextField { textField in
+            textField.placeholder = "암호를 입력해주세요"
+            textField.isSecureTextEntry = true
+        }
         [
-            UIAlertAction(title: "확인", style: .default, handler: nil),
-            UIAlertAction(title: "취소", style: .cancel, handler: nil)
+            UIAlertAction(title: "확인", style: .default, handler: deleteRequestHandler),
+            UIAlertAction(title: "취소", style: .cancel)
         ].forEach { alert.addAction($0) }
         
         present(alert, animated: true)
+    }
+    
+    func deleteRequestHandler(_ sender: UIAlertAction) {
+        viewModel.deleteProduct { result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success:
+                    self.navigationController?.popViewController(animated: true)
+                case .failure(let error):
+                    print("\(error)가 발생하였습니다.")
+                }
+            }
+        }
     }
     
 }
