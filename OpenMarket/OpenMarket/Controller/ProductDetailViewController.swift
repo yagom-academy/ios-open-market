@@ -38,12 +38,8 @@ class ProductDetailViewController: UIViewController, ReuseIdentifying, Delegate 
     fetchData(productId: product?.id)
   }
   
-  override func viewWillAppear(_ animated: Bool) {
-  }
-  
   func setNavigationTitle(name: String?) {
     navigationItem.title = name
-    //nameLabel.text = name
   }
   
   @IBAction func etcButtonDidTap(_ sender: Any) {
@@ -82,8 +78,6 @@ class ProductDetailViewController: UIViewController, ReuseIdentifying, Delegate 
   func setUpImagePageControl(imageCount: Int) {
     imagePageControl.currentPage = 0
     imagePageControl.numberOfPages = imageCount
-    imagePageControl.pageIndicatorTintColor = .lightGray
-    imagePageControl.currentPageIndicatorTintColor = .black
   }
   
   func setUpScrollView(imageCount: Int) {
@@ -91,13 +85,13 @@ class ProductDetailViewController: UIViewController, ReuseIdentifying, Delegate 
       width: (UIScreen.main.bounds.width - 16) * CGFloat(imageCount),
       height: UIScreen.main.bounds.width - 16
     )
-    imageScrollView.delegate = self
-    imageScrollView.alwaysBounceVertical = false
-    imageScrollView.showsHorizontalScrollIndicator = false
-    imageScrollView.showsVerticalScrollIndicator = false
-    imageScrollView.isScrollEnabled = true
-    imageScrollView.isPagingEnabled = true
-    imageScrollView.bounces = false
+    //imageScrollView.delegate = self
+//    imageScrollView.alwaysBounceVertical = false
+//    imageScrollView.showsHorizontalScrollIndicator = false
+//    imageScrollView.showsVerticalScrollIndicator = false
+//    imageScrollView.isScrollEnabled = true
+//    imageScrollView.isPagingEnabled = true
+//    imageScrollView.bounces = false
   }
   
   func insertImageAtScrollView() {
@@ -247,17 +241,17 @@ extension ProductDetailViewController {
   }
   
   @objc private func showImageDetail() {
-//    let presentStoryBoard = UIStoryboard(
-//      name: ProductImageDetailViewController.stroyBoardName,
-//      bundle: nil
-//    )
-//    guard let presentViewController = presentStoryBoard.instantiateViewController(
-//      withIdentifier: ProductImageDetailViewController.reuseIdentifier
-//    ) as? ProductImageDetailViewController else {
-//      return
-//    }
-//    presentViewController.modalPresentationStyle = .overFullScreen
-//    presentViewController.images = productImages
-//    self.present(presentViewController, animated: true)
+    let presentStoryBoard = UIStoryboard(
+      name: ProductImageDetailViewController.stroyBoardName,
+      bundle: nil
+    )
+    guard let presentViewController = presentStoryBoard.instantiateViewController(
+      withIdentifier: ProductImageDetailViewController.reuseIdentifier
+    ) as? ProductImageDetailViewController else {
+      return
+    }
+    presentViewController.modalPresentationStyle = .overFullScreen
+    presentViewController.images = productImages
+    self.present(presentViewController, animated: true)
   }
 }

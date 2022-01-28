@@ -28,7 +28,7 @@ extension UIImageView {
           self?.image = image
         }
       case .failure(let error):
-        print(error.errorDescription)
+        print(error)
       }
     }
   }
