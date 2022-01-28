@@ -67,7 +67,12 @@ class ProductDetailViewController: UIViewController {
     private func setupNavigationBar() {
         navigationItem.title = product?.name
         if product?.vendorId == 16 {
-            navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "square.and.pencil"), style: .plain, target: self, action: nil)
+            navigationItem.rightBarButtonItem = UIBarButtonItem(
+                image: UIImage(systemName: "square.and.pencil"),
+                style: .plain,
+                target: self,
+                action: nil
+            )
         }
     }
     
@@ -80,11 +85,17 @@ class ProductDetailViewController: UIViewController {
 }
 
 extension ProductDetailViewController: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        numberOfItemsInSection section: Int
+    ) -> Int {
         return product?.images?.count ?? 0
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        cellForItemAt indexPath: IndexPath
+    ) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: UICollectionViewCell.identifier,
             for: indexPath
