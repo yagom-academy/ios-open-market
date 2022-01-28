@@ -54,7 +54,7 @@ class UpdateProductManager {
         )
     }
 
-    func comperess(image: UIImage, to limitedKiloBytes: Int) -> Data {
+    func compress(image: UIImage, to limitedKiloBytes: Int) -> Data {
         let limtedBytes = limitedKiloBytes * 1024
         var quality = 1.0
         var compressedImageData = Data()
@@ -64,7 +64,7 @@ class UpdateProductManager {
                 continue
             } else {
                 compressedImageData = data
-                break
+                return compressedImageData
             }
         }
         return compressedImageData

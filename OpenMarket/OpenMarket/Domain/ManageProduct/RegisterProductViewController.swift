@@ -193,7 +193,7 @@ extension RegisterProductViewController: UIImagePickerControllerDelegate,
         didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
     ) {
         if let image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
-            let compressedImageData = manageProductManger.comperess(image: image, to: 300)
+            let compressedImageData = manageProductManger.compress(image: image, to: 300)
             guard let compressedImage = UIImage(data: compressedImageData) else {
                 return
             }
