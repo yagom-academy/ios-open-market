@@ -30,6 +30,8 @@ class ProductDetailViewController: UIViewController {
         super.viewDidLoad()
         loadData()
         imagesCollectionView.dataSource = self
+        let scrollView = imagesCollectionView as UIScrollView
+        scrollView.delegate = self
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.itemSize = CGSize(
             width: view.frame.width - 20,
@@ -61,6 +63,7 @@ class ProductDetailViewController: UIViewController {
         stockLabel.attributedText = product?.attributedStock
         priceLabel.attributedText = product?.attributedPrice
         descriptionTextView.text = product?.description
+        imageIndexLabel.text = "1/\(product?.images?.count ?? 0)"
         imagesCollectionView.reloadData()
     }
     
@@ -132,5 +135,13 @@ extension ProductDetailViewController: UICollectionViewDataSource {
             }
         }
         return cell
+    }
+}
+
+extension ProductDetailViewController: UIScrollViewDelegate {
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        let pageNumber = Int(floor(scrollView.contentOffset.x / scrollView.frame.width + 1))
+        let imagesCount = product?.images?.count ?? 0
+        imageIndexLabel.text = "\(pageNumber)/\(imagesCount)"
     }
 }
