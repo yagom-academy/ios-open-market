@@ -12,7 +12,7 @@ class ProductsCatalogViewController: UIViewController {
 
     var presentView: ViewType = .list
     var pageNumber: Int = 1
-    var isPagingable: Bool = true
+    var isPagingable = true
 
     private lazy var listCollectionView = UICollectionView(
         frame: .zero,
@@ -72,7 +72,7 @@ extension ProductsCatalogViewController {
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
     }
 
-    @objc func touchUpRegisterButton() {
+    @objc private func touchUpRegisterButton() {
         let rootViewController = RegisterProductViewController.init()
         let navigationController = UINavigationController(rootViewController: rootViewController)
         navigationController.modalPresentationStyle = .fullScreen
@@ -165,8 +165,6 @@ extension ProductsCatalogViewController {
             layout = createGridLayout()
         }
         let collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: layout)
-//        collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-//        collectionView.backgroundColor = .white
 
         return collectionView
     }
