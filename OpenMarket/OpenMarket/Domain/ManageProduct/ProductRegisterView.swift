@@ -53,7 +53,7 @@ class ProductRegisterView: UIStackView {
 
     lazy var currencySegmentedControl: UISegmentedControl = {
         let segmentedControl = UISegmentedControl(
-            items: [Currency.KRW.rawValue, Currency.USD.rawValue])
+            items: [Currency.krw.rawValue, Currency.usd.rawValue])
         segmentedControl.selectedSegmentIndex = 0
         return segmentedControl
     }()
