@@ -17,7 +17,7 @@ struct ProductDetail: Codable {
     let bargainPrice: Int
     let discountedPrice: Int
     let stock: Int
-    let images: [ImageInformation]
+    let images: [ProductImage]
     let vendors: Vendor
     let createdAt: Date
     let issuedAt: Date
