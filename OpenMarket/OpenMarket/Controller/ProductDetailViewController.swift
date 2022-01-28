@@ -7,6 +7,7 @@ class ProductDetailViewController: UIViewController {
     private var networkTask: NetworkTask?
     private var jsonParser: JSONParser?
     private var imageIndex: CGFloat = 0.0
+    private var completionHandler: (() -> Void)?
     
     private var imageIndexText: String {
         let pageNumber = Int(imageIndex + 1)
@@ -25,12 +26,14 @@ class ProductDetailViewController: UIViewController {
         coder: NSCoder,
         productId: Int,
         networkTask: NetworkTask,
-        jsonParser: JSONParser
+        jsonParser: JSONParser,
+        completionHandler: (() -> Void)?
     ) {
         self.init(coder: coder)
         self.productId = productId
         self.networkTask = networkTask
         self.jsonParser = jsonParser
+        self.completionHandler = completionHandler
     }
     
     override func viewDidLoad() {
@@ -39,7 +42,7 @@ class ProductDetailViewController: UIViewController {
         setupImagesCollectionView()
     }
     
-    @objc private func presentEditView() {
+    private func presentEditView() {
         guard let productId = productId,
               let networkTask = networkTask,
               let jsonParser = jsonParser else { return }
@@ -116,7 +119,7 @@ class ProductDetailViewController: UIViewController {
                 image: UIImage(systemName: "square.and.pencil"),
                 style: .plain,
                 target: self,
-                action: #selector(presentEditView)
+                action: #selector(showActionSheet)
             )
         }
     }
@@ -154,6 +157,48 @@ class ProductDetailViewController: UIViewController {
         }
         offset = CGPoint(x: imageIndex * cellWidthIncludingSpacing, y: 0)
         targetContentOffset.pointee = offset
+    }
+    
+    @objc private func showActionSheet() {
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let modifyAction = UIAlertAction(title: "수정", style: .default) {_ in
+            self.presentEditView()
+        }
+        guard let productId = productId else { return }
+        let deleteAction = UIAlertAction(title: "삭제", style: .destructive) {_ in
+            self.networkTask?.requestProductSecret(
+                productId: productId,
+                identifier: NetworkTask.identifier,
+                secret: NetworkTask.secret) { result in
+                    switch result {
+                    case .success(let data):
+                        let productSecret = String(decoding: data, as: UTF8.self)
+                        print(productSecret)
+                        self.networkTask?.requestRemoveProduct(
+                            identifier: NetworkTask.identifier,
+                            productId: productId,
+                            productSecret: productSecret
+                        ) { result in
+                            switch result {
+                            case .success:
+                                DispatchQueue.main.async {
+                                    self.navigationController?.popViewController(animated: true)
+                                    self.completionHandler?()
+                                }
+                            case .failure(let error):
+                                self.showAlert(title: "삭제 실패", message: error.localizedDescription)
+                            }
+                        }
+                    case .failure(let error):
+                        self.showAlert(title: "상품 시크릿 요청 실패", message: error.localizedDescription)
+                    }
+                }
+        }
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+        alert.addAction(modifyAction)
+        alert.addAction(deleteAction)
+        alert.addAction(cancelAction)
+        present(alert, animated: true, completion: nil)
     }
 }
 

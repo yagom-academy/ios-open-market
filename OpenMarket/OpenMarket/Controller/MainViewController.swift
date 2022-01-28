@@ -118,7 +118,10 @@ class MainViewController: UIViewController {
                 productId: productId,
                 networkTask: self.networkTask,
                 jsonParser: self.jsonParser
-            )
+            ) {
+                self.showAlert(title: "삭제 성공", message: nil)
+                self.reloadData()
+            }
             return productDetailViewController
         }
         navigationController?.pushViewController(viewController, animated: true)

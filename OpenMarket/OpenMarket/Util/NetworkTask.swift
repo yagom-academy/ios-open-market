@@ -61,11 +61,11 @@ struct NetworkTask {
         completionHandler: @escaping (Result<Data, Error>) -> Void
     ) {
         guard let url = NetworkAddress.secret(productId: productId).url else { return }
-        let body = try? jsonParser.encode(from: secret)
+        let body = try? jsonParser.encode(from: ["secret": secret])
         let request = request(
             url: url,
             httpMethod: "POST",
-            httpHeaders: ["identifier": identifier],
+            httpHeaders: ["identifier": identifier, "Content-Type": "application/json"],
             httpBody: body
         )
         let task = dataTask(from: request, completionHandler: completionHandler)
