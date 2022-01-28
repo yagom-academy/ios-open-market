@@ -26,6 +26,11 @@ class OpenMarketViewController: UIViewController {
         setupListCollectionView()
         setupGridCollectionView()
         getProducts()
+        NotificationCenter.default.addObserver(self, selector: #selector(updateMainView), name: NSNotification.Name("UpdateView"), object: nil)
+    }
+    
+    @objc func updateMainView() {
+        getProducts()
     }
     
     private func setupSegmentedControl() {

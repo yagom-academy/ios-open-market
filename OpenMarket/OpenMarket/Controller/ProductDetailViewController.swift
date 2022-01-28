@@ -24,6 +24,11 @@ class ProductDetailViewController: UIViewController {
         getProductSecret()
         getProductDetail()
         setupImageCollectionView()
+        NotificationCenter.default.addObserver(self, selector: #selector(updateDetailView), name: NSNotification.Name("UpdateView"), object: nil)
+    }
+    
+    @objc func updateDetailView() {
+        getProductDetail()
     }
     
     @IBAction func tapEditDeleteButton(_ sender: Any) {
@@ -37,9 +42,8 @@ class ProductDetailViewController: UIViewController {
             switch result {
             case .success(let data):
                 self.secret = String(decoding: data, as: UTF8.self)
-            case .failure(let error):
+            case .failure(_):
                 DispatchQueue.main.async {
-                    print(error)
                     self.navigationItem.rightBarButtonItem = nil
                 }
             }
@@ -85,7 +89,6 @@ class ProductDetailViewController: UIViewController {
         setupPriceLabel(with: product)
         setupDescriptionTextView(with: product)
         populate(with: productImages)
-        
     }
     
     private func setupTotalPageLabel(with productImages: [Image]) {

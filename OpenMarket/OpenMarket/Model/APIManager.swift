@@ -44,6 +44,15 @@ extension APIManager {
         createDataTaskWithDecoding(with: request, completion: completion)
     }
     
+    func editProduct(id: Int, product: NewProductInformation, completion: @escaping (Result<Data, Error>) -> Void) {
+        guard let url = URLManager.checkProductDetail(id: id).url else { return }
+        var request = URLRequest(url: url, method: .patch)
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue("819efbc3-71fc-11ec-abfa-dd40b1881f4c", forHTTPHeaderField: "identifier")
+        request.httpBody = JSONParser.encodeToData(with: product)
+        createDataTask(with: request, completion: completion)
+    }
+    
     func createRequestBody(product: NewProductInformation, images: [NewProductImage]) -> Data {
         let parameters = createParams(with: product)
         let dataBody = createMultiPartFormData(with: parameters, images: images)

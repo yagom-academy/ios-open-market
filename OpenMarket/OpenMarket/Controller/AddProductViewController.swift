@@ -124,13 +124,23 @@ class AddProductViewController: UIViewController {
             alertText = AlertMessage.title
             return
         }
-
-        apiManager.addProduct(information: information, images: newProductImages) { result in
+        if isEdit {
+            patchEditedProduct(with: information)
+        } else {
+            postNewProduct(with: information)
+        }
+    }
+    
+    // MARK: - Networking Method
+    private func patchEditedProduct(with information: NewProductInformation) {
+        guard let id = product?.id else { return }
+        apiManager.editProduct(id: id, product: information) { result in
             switch result {
-            case .success(let data):
-                print("\(data.name) post 성공")
+            case .success(_):
                 DispatchQueue.main.async {
-                    self.dismiss(animated: true, completion: nil)
+                    self.dismiss(animated: true) {
+                        NotificationCenter.default.post(name: NSNotification.Name("UpdateView"), object: nil)
+                    }
                 }
             case .failure(let error):
                 print(error.localizedDescription)
@@ -138,12 +148,20 @@ class AddProductViewController: UIViewController {
         }
     }
     
-    private func initializeProductInput() {
-        ProductInput.name = nil
-        ProductInput.descriptions = nil
-        ProductInput.price = nil
-        ProductInput.discountedPrice = 0
-        ProductInput.stock = 0
+    private func postNewProduct(with information: NewProductInformation) {
+        apiManager.addProduct(information: information, images: newProductImages) { result in
+            switch result {
+            case .success(let data):
+                print("\(data.name) post 성공")
+                DispatchQueue.main.async {
+                    self.dismiss(animated: true) {
+                        NotificationCenter.default.post(name: NSNotification.Name("UpdateView"), object: nil)
+                    }
+                }
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
     }
 }
 
@@ -157,6 +175,14 @@ extension AddProductViewController {
             return
         }
         newProductInformation = NewProductInformation(name: name, descriptions: description, price: price, discountedPrice: discountedPrice, currency: ProductInput.currency, stock: stock, secret: ProductInput.secret)
+    }
+    
+    private func initializeProductInput() {
+        ProductInput.name = nil
+        ProductInput.descriptions = nil
+        ProductInput.price = nil
+        ProductInput.discountedPrice = 0
+        ProductInput.stock = 0
     }
     
     private func checkInputs() {
@@ -372,7 +398,7 @@ extension AddProductViewController: UITextViewDelegate {
             textView.textColor = UIColor.black
         }
     }
-        
+    
     func textViewDidEndEditing(_ textView: UITextView) {
         if textView.text.isEmpty {
             textView.text = "상품 설명(1,000자 이내)"
@@ -396,12 +422,12 @@ extension AddProductViewController {
     @objc private func keyboardWillShow(_ sender: Notification) {
         let userInfo: NSDictionary = sender.userInfo! as NSDictionary
         guard let keyboardFrame: NSValue = userInfo.value(forKey: UIResponder.keyboardFrameEndUserInfoKey) as? NSValue else { return }
-
+        
         let keyboardRect = keyboardFrame.cgRectValue
         scrollView.contentInset.bottom = keyboardRect.height
         scrollView.scrollIndicatorInsets = scrollView.contentInset
     }
-
+    
     @objc private func keyboardWillHide(_ sender: Notification) {
         scrollView.contentInset = .zero
         scrollView.scrollIndicatorInsets = .zero
