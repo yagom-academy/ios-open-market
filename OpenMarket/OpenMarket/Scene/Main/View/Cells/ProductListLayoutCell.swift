@@ -33,6 +33,12 @@ class ProductListLayoutCell: UICollectionViewListCell {
         return label
     }()
     
+    private let seperatorView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .lightGray
+        return view
+    }()
+    
     private var stockLabelLayouts: [NSLayoutConstraint]?
     
     private func defaultConfiguration() -> UIListContentConfiguration {
@@ -60,7 +66,7 @@ class ProductListLayoutCell: UICollectionViewListCell {
             return
         }
         
-        [listContentView, stockLabel].forEach { view in
+        [listContentView, stockLabel, seperatorView].forEach { view in
             contentView.addSubview(view)
             view.translatesAutoresizingMaskIntoConstraints = false
         }
@@ -77,7 +83,12 @@ class ProductListLayoutCell: UICollectionViewListCell {
         NSLayoutConstraint.activate([
             listContentView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Design.listContentViewTopMargin),
             listContentView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: Design.listContentViewBottomMargin),
-            listContentView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor)
+            listContentView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            
+            seperatorView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            seperatorView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            seperatorView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            seperatorView.heightAnchor.constraint(equalToConstant: 0.5)
         ])
         
         NSLayoutConstraint.activate(stockConstraints)

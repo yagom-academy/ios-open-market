@@ -30,6 +30,8 @@ class MainViewController: UIViewController {
     private let apiService = APIService()
     private var refreshTimer: Timer?
     private var refreshTime = 0
+    private var hasNextPage = true
+    private var currentPage = RequestInformation.pageNumber
     
     private lazy var activityIndicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView()
@@ -154,9 +156,27 @@ class MainViewController: UIViewController {
         apiService.retrieveProductList(pageNo: RequestInformation.pageNumber, itemsPerPage: RequestInformation.itemsPerPage) { result in
             switch result {
             case .success(let data):
-                self.productData = data.pages                
+                self.productData = data.pages
+                self.hasNextPage = data.hasNext
                 DispatchQueue.main.async {
                     self.configProductCollectionViewDataSource()
+                }
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+    
+    func fetchNextPageProductData() {
+        currentPage += 1
+        
+        apiService.retrieveProductList(pageNo: currentPage, itemsPerPage: RequestInformation.itemsPerPage) { result in
+            switch result {
+            case .success(let data):
+                self.productData.append(contentsOf: data.pages)
+                self.hasNextPage = data.hasNext
+                DispatchQueue.main.async {
+                    self.reconfigProductCollectionViewDataSource()
                 }
             case .failure(let error):
                 print(error)
@@ -176,6 +196,11 @@ class MainViewController: UIViewController {
                 print(error)
             }
         }
+    }
+    
+    private func reconfigProductCollectionViewDataSource() {
+        configSnapShot(with: listDataSource)
+        configSnapShot(with: gridDataSource)
     }
     
     private func configProductCollectionViewDataSource() {
@@ -249,8 +274,26 @@ class MainViewController: UIViewController {
 
 private extension MainViewController {
     func createListLayout() -> UICollectionViewLayout {
-        let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
-        return UICollectionViewCompositionalLayout.list(using: configuration)
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                             heightDimension: .estimated(150))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                              heightDimension: .estimated(150))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+
+        let section = NSCollectionLayoutSection(group: group)
+
+        let footerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                                     heightDimension: .estimated(44))
+
+        let sectionFooter = NSCollectionLayoutBoundarySupplementaryItem(
+            layoutSize: footerSize,
+            elementKind: UICollectionView.elementKindSectionFooter, alignment: .bottom)
+        section.boundarySupplementaryItems = [sectionFooter]
+
+        let layout = UICollectionViewCompositionalLayout(section: section)
+        return layout
     }
     
     func configListCollectionView() {
@@ -265,8 +308,24 @@ private extension MainViewController {
             cell.accessories = [.disclosureIndicator()]
         }
         
+        let footerRegistration = UICollectionView.SupplementaryRegistration<LoadingCollectionReusableView>(elementKind: UICollectionView.elementKindSectionFooter) { (supplementaryView, _, _) in
+            supplementaryView.configUI()
+        }
+        
         listDataSource = UICollectionViewDiffableDataSource<ProductSection, ProductDetail>(collectionView: productListCollectionView) { (collectionView, indexPath, product) -> UICollectionViewCell? in
             return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: product)
+        }
+        
+        listDataSource?.supplementaryViewProvider = { (_, _, indexPath) -> UICollectionReusableView? in
+            if self.hasNextPage {
+                self.fetchNextPageProductData()
+                return self.productListCollectionView.dequeueConfiguredReusableSupplementary(using: footerRegistration, for: indexPath)
+            } else {
+                let loading = self.productListCollectionView.dequeueConfiguredReusableSupplementary(using: footerRegistration, for: indexPath)
+                loading.loadingIndicator.stopAnimating()
+                return loading
+            }
+            
         }
     }
 }

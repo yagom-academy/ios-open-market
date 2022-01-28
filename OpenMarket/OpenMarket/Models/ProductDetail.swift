@@ -15,7 +15,7 @@ struct ProductDetail: Codable {
     let issuedAt: Date
     let images: [ProductImage]?
     let vendors: Vendor?
-    
+        
     enum CodingKeys: String, CodingKey {
         case vendorId = "vendor_id"
         case bargainPrice = "bargain_price"
