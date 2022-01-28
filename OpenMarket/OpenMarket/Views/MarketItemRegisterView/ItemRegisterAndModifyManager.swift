@@ -12,8 +12,8 @@ enum Mode: Int {
 }
 
 class ItemRegisterAndModifyManager {
-    private let vendorIdentification = UserDefaultUtility().getVendorIdentification()
-    private let vendorSecret = UserDefaultUtility().getVendorPassword() ?? ""
+    private let vendorIdentification = UserDefaultUtility().assignVendorIdentification()
+    private let vendorSecret = UserDefaultUtility().assignVendorPassword() ?? ""
     private(set) var name: String?
     private(set) var description: String?
     private(set) var price: String?
@@ -22,30 +22,30 @@ class ItemRegisterAndModifyManager {
     private(set) var stock: String?
     private(set) var secret: String?
     private(set) var images: [Data] = []
-    private var models: [CellType] = [.addImage]
+    private var photoModels: [CellType] = [.addImage]
 
     init() {}
 
-    func getModelsCount() -> Int {
-        return models.count
+    func countNumberOfModels() -> Int {
+        return photoModels.count
     }
 
-    func getModel(at index: Int) -> CellType {
-        return models[index]
+    func selectPhotoModel(by index: Int) -> CellType {
+        return photoModels[index]
     }
 
     private func appendImageData(_ image: UIImage) {
         self.images.append(image.pngData()!)
     }
 
-    func appendModel(with image: UIImage) {
+    func appendToPhotoModel(with image: UIImage) {
         let croppedImage = image.crop()
         let resizedImage = croppedImage.resize(newWidth: 200)
         appendImageData(resizedImage)
 
-        let newModel = ImageCollectionViewCellModel(image: resizedImage)
-        let locationOfNewImage = models.count - 1
-        models.insert(.image(model: newModel), at: locationOfNewImage)
+        let newPhotoModel = ImageCollectionViewCellModel(image: resizedImage)
+        let locationOfNewImage = photoModels.count - 1
+        photoModels.insert(.image(model: newPhotoModel), at: locationOfNewImage)
     }
 
     private func fillWithInformation(

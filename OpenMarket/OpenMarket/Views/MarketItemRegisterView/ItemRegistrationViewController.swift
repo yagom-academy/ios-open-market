@@ -62,7 +62,7 @@ extension ItemRegistrationViewController: UIImagePickerControllerDelegate,
         didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]
     ) {
         if let newImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
-            itemRegisterManager.appendModel(with: newImage)
+            itemRegisterManager.appendToPhotoModel(with: newImage)
             registrationView.photoCollectionView.reloadData()
         }
         self.dismiss(animated: true, completion: nil)
@@ -80,17 +80,17 @@ extension ItemRegistrationViewController: UICollectionViewDataSource, UICollecti
         _ collectionView: UICollectionView,
         numberOfItemsInSection section: Int
     ) -> Int {
-        return itemRegisterManager.getModelsCount()
+        return itemRegisterManager.countNumberOfModels()
     }
 
     func collectionView(
         _ collectionView: UICollectionView,
         cellForItemAt indexPath: IndexPath
     ) -> UICollectionViewCell {
-        let model: CellType = itemRegisterManager.getModel(at: indexPath.row)
+        let photoModel: CellType = itemRegisterManager.selectPhotoModel(by: indexPath.row)
 
-        switch model {
-        case .image(let model):
+        switch photoModel {
+        case .image(let photoModel):
             guard let cell =
                     registrationView
                     .photoCollectionView
@@ -99,7 +99,7 @@ extension ItemRegistrationViewController: UICollectionViewDataSource, UICollecti
                         for: indexPath) as? ImageCollectionViewCell else {
                 return ImageCollectionViewCell()
             }
-            cell.setImage(with: model)
+            cell.setImage(with: photoModel)
             return cell
         case .addImage:
             guard let cell =
@@ -115,10 +115,10 @@ extension ItemRegistrationViewController: UICollectionViewDataSource, UICollecti
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let totalNumberOfImages = itemRegisterManager.getModelsCount()
+        let totalNumberOfImages = itemRegisterManager.countNumberOfModels()
         if totalNumberOfImages < 6 {
-            let model: CellType = itemRegisterManager.getModel(at: indexPath.row)
-            if case .addImage = model {
+            let photoModel: CellType = itemRegisterManager.selectPhotoModel(by: indexPath.row)
+            if case .addImage = photoModel {
                 pickImage()
             }
         }

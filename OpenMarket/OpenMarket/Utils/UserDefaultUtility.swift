@@ -9,7 +9,7 @@ struct UserDefaultUtility {
         userDefaults.set(identification, forKey: UserDefaultUtility.vendorIdentification)
     }
 
-    func getVendorIdentification() -> String? {
+    func assignVendorIdentification() -> String? {
         guard let identification = userDefaults.string(
             forKey: UserDefaultUtility.vendorIdentification
         ) else {
@@ -22,10 +22,10 @@ struct UserDefaultUtility {
         userDefaults.set(password, forKey: UserDefaultUtility.vendorPassword)
     }
 
-    func getVendorPassword() -> String? {
+    func assignVendorPassword() -> String? {
         guard let password = userDefaults.string(forKey: UserDefaultUtility.vendorPassword) else {
-                return nil
-            }
+            return nil
+        }
         return password
     }
 }

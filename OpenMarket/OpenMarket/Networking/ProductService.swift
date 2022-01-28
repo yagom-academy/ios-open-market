@@ -1,7 +1,7 @@
 import Foundation
 
 struct ProductService: APIService {
-    let venderIdentification = UserDefaultUtility().getVendorIdentification()
+    let venderIdentification = UserDefaultUtility().assignVendorIdentification()
 
     func retrieveProduct(
         productIdentification: Int,
