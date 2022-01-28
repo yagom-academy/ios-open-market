@@ -111,8 +111,7 @@ extension ProductsCatalogViewController {
             view = listCollectionView
             listDataSource.apply(snapshot, animatingDifferences: false, completion: nil)
         case .grid:
-            let grid = gridCollectionView
-            view = grid
+            view = gridCollectionView
             gridDataSource.apply(snapshot)
         }
         presentView = viewType
