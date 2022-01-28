@@ -9,9 +9,9 @@ class CacheManager {
     private static let cacheDirectory: URL? = {
         let url = try? FileManager.default.url(
             for: .cachesDirectory,
-               in: .allDomainsMask,
-               appropriateFor: nil,
-               create: false)
+            in: .allDomainsMask,
+            appropriateFor: nil,
+            create: false)
         return url
     }()
 
