@@ -210,7 +210,7 @@ class ProductDetailViewController: UIViewController {
                 }
             }
             let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
-            alert.addTextField() { textField in
+            alert.addTextField { textField in
                 textField.placeholder = "암호"
                 textField.textContentType = .password
                 textField.isSecureTextEntry = true
