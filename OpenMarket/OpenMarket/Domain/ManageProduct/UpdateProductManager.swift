@@ -11,19 +11,19 @@ class UpdateProductManager {
         }
 
         var inappropriates: [Inappropriate] = []
-        if !form.nameIsAppropriate {
+        if !form.isAppropriateName {
             inappropriates.append(.name)
         }
-        if !form.priceIsAppropriate {
+        if !form.isAppropriatePrice {
             inappropriates.append(.price)
         }
-        if !form.discountedPriceIsAppropriate {
+        if !form.isAppropriateDiscountedPrice {
             inappropriates.append(.discountedPrice)
         }
-        if !form.stockIsAppropriate {
+        if !form.isAppropriateStock {
             inappropriates.append(.stock)
         }
-        if !form.descriptionIsAppropriate {
+        if !form.isAppropriateDescription {
             inappropriates.append(.description)
         }
 
@@ -79,21 +79,18 @@ struct ManageProductForm {
     let stock: String?
     let descriptions: String?
 
-    var nameIsAppropriate: Bool {
+    var isAppropriateName: Bool {
         guard let name = name, name.count > 2 else {
             return false
         }
         return true
     }
 
-    var priceIsAppropriate: Bool {
-        if price == "" {
-            return false
-        }
-        return true
+    var isAppropriatePrice: Bool {
+        return price != ""
     }
 
-    var discountedPriceIsAppropriate: Bool {
+    var isAppropriateDiscountedPrice: Bool {
         guard let discountedPrice = discountedPrice?.decimal,
               let price = price?.decimal,
               price >= discountedPrice else {
@@ -102,18 +99,12 @@ struct ManageProductForm {
         return true
     }
 
-    var stockIsAppropriate: Bool {
-        if stock == "" {
-            return false
-        }
-        return true
+    var isAppropriateStock: Bool {
+        return stock != ""
     }
 
-    var descriptionIsAppropriate: Bool {
-        if descriptions == "" {
-            return false
-        }
-        return true
+    var isAppropriateDescriptions: Bool {
+        return descriptions != ""
     }
 }
 
