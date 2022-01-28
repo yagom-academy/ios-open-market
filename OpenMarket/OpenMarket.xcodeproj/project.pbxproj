@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		0D06738C279AFAF700646841 /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D06738B279AFAF700646841 /* PostViewController.swift */; };
+		0D07760627A3AB95007A8B23 /* PostViewController+TextViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D07760527A3AB95007A8B23 /* PostViewController+TextViewDelegate.swift */; };
+		0D07760827A3ABED007A8B23 /* PostViewController+BarButtonAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D07760727A3ABED007A8B23 /* PostViewController+BarButtonAction.swift */; };
 		0D11492F27A16B68006961FE /* Encoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D11492E27A16B68006961FE /* Encoder.swift */; };
 		0D11493327A16E97006961FE /* PostViewController+ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D11493227A16E97006961FE /* PostViewController+ImagePicker.swift */; };
 		0D11493627A17089006961FE /* ViewController+TableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D11493527A17089006961FE /* ViewController+TableView.swift */; };
@@ -71,6 +73,8 @@
 
 /* Begin PBXFileReference section */
 		0D06738B279AFAF700646841 /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
+		0D07760527A3AB95007A8B23 /* PostViewController+TextViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PostViewController+TextViewDelegate.swift"; sourceTree = "<group>"; };
+		0D07760727A3ABED007A8B23 /* PostViewController+BarButtonAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PostViewController+BarButtonAction.swift"; sourceTree = "<group>"; };
 		0D11492E27A16B68006961FE /* Encoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Encoder.swift; sourceTree = "<group>"; };
 		0D11493227A16E97006961FE /* PostViewController+ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PostViewController+ImagePicker.swift"; sourceTree = "<group>"; };
 		0D11493527A17089006961FE /* ViewController+TableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+TableView.swift"; sourceTree = "<group>"; };
@@ -152,6 +156,8 @@
 			children = (
 				0D06738B279AFAF700646841 /* PostViewController.swift */,
 				0D11493227A16E97006961FE /* PostViewController+ImagePicker.swift */,
+				0D07760527A3AB95007A8B23 /* PostViewController+TextViewDelegate.swift */,
+				0D07760727A3ABED007A8B23 /* PostViewController+BarButtonAction.swift */,
 			);
 			path = Post;
 			sourceTree = "<group>";
@@ -454,6 +460,7 @@
 				0D90CB96279BF60D003A94BE /* ImageFile.swift in Sources */,
 				0DF58F78278872310024602F /* RequestType.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
+				0D07760827A3ABED007A8B23 /* PostViewController+BarButtonAction.swift in Sources */,
 				0DF58F71278816C10024602F /* URLSession.swift in Sources */,
 				48C6990E278AECD7002EF7D1 /* ProductPreview.swift in Sources */,
 				48AF118C2782FB6B00A2F6B6 /* ProductDetail.swift in Sources */,
@@ -464,6 +471,7 @@
 				0D6C5D3227992B1F006C9955 /* String+Extension.swift in Sources */,
 				0D90CB9C279F085B003A94BE /* ViewControllerError.swift in Sources */,
 				48AF118A2782FAC900A2F6B6 /* ProductList.swift in Sources */,
+				0D07760627A3AB95007A8B23 /* PostViewController+TextViewDelegate.swift in Sources */,
 				48C69914278AF174002EF7D1 /* DeleteProductRequest.swift in Sources */,
 				0D6C5D3527992EF9006C9955 /* Double+Extension.swift in Sources */,
 				0D11492F27A16B68006961FE /* Encoder.swift in Sources */,
