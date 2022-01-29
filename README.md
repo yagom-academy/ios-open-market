@@ -6,7 +6,7 @@
 
 | 메인                                                                  | 등록                                                  | 수정                                                | 삭제                                                |
 | ------------------------------------------------------------------- | --------------------------------------------------- | ------------------------------------------------- | ------------------------------------------------- |
-| ![콜렉션뷰테이블뷰](README_IMAGES/mainView.gif) | ![상품등록](README_IMAGES/productRegistration) | ![상품수정](README_IMAGES/editProduct.gif) | ![상품삭제](README_IMAGES/removeProduct.gif) |
+| ![콜렉션뷰테이블뷰](README_IMAGES/mainView.gif) | ![상품등록](README_IMAGES/productRegistration.gif) | ![상품수정](README_IMAGES/editProduct.gif) | ![상품삭제](README_IMAGES/removeProduct.gif) |
 
 # STEP 1
 
