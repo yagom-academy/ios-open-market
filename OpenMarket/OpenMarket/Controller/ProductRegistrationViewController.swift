@@ -756,9 +756,9 @@ extension ProductRegistrationViewController: UITextFieldDelegate {
         shouldChangeCharactersIn range: NSRange,
         replacementString string: String
     ) -> Bool {
-        if textField === productPriceTextField ||
-            textField === discountedPriceTextField ||
-            textField === stockTextField {
+        if productPriceTextField.isFirstResponder ||
+            discountedPriceTextField.isFirstResponder ||
+            stockTextField.isFirstResponder {
             if string.isEmpty {
                 return true
             }
