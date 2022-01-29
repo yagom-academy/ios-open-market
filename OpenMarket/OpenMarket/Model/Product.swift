@@ -4,11 +4,12 @@ struct Product: Decodable, Hashable {
     var identification: Int
     var vendorIdentification: Int
     var name: String
+    var description: String?
     var thumbnail: String
     var currency: Currency
-    var price: Double
-    var bargainPrice: Double
-    var discountedPrice: Double
+    var price: Decimal
+    var bargainPrice: Decimal
+    var discountedPrice: Decimal
     var stock: Int
     var createdAt: Date
     var issuedAt: Date
@@ -19,6 +20,7 @@ struct Product: Decodable, Hashable {
         case identification = "id"
         case vendorIdentification = "vendor_id"
         case name
+        case description
         case thumbnail
         case currency
         case price
@@ -32,9 +34,9 @@ struct Product: Decodable, Hashable {
     }
 }
 
-enum Currency: String, Encodable, Decodable, Hashable {
-    case KRW
-    case USD
+enum Currency: String, Encodable, Decodable, Hashable, CaseIterable {
+    case krw = "KRW"
+    case usd = "USD"
 }
 
 struct Image: Decodable, Hashable {

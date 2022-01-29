@@ -3,10 +3,10 @@ import Foundation
 struct RegisterProductRequest: Encodable {
     let name: String
     let descriptions: String
-    let price: Int
+    let price: Decimal
     let currency: Currency
-    let discountedPrice: Int? = 0
-    let stock: Int? = 0
+    let discountedPrice: Decimal?
+    let stock: Int?
     let secret: String
 
     enum CodingKeys: String, CodingKey {

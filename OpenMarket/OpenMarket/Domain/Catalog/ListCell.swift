@@ -8,6 +8,7 @@ class ListCell: UICollectionViewCell {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
+        configure()
     }
 
     required init?(coder: NSCoder) {
@@ -16,7 +17,7 @@ class ListCell: UICollectionViewCell {
 }
 
 extension ListCell {
-    func configure(product: Product) {
+    func configure() {
         stockStackView.axis = .horizontal
         stockStackView.alignment = .center
         stockStackView.distribution = .fill
@@ -28,7 +29,6 @@ extension ListCell {
 
         configureViewHierarchy()
         configureConstraint()
-        configureContent(product: product)
     }
 
     private func configureViewHierarchy() {
@@ -57,18 +57,18 @@ extension ListCell {
         ])
     }
 
-    private func configureContent(product: Product) {
+    func configureContent(product: Product) {
         var content = UIListContentConfiguration.subtitleCell()
-        content.imageProperties.maximumSize = CGSize(width: 40, height: 40)
+        content.imageProperties.maximumSize = CGSize(width: 45, height: 45)
+        content.imageProperties.reservedLayoutSize = CGSize(width: 40, height: 40)
+        content.image = UIImage()
         guard let url = URL(string: product.thumbnail) else {
             return
         }
-        DispatchQueue.global().async {
-            guard let imageData = try? Data(contentsOf: url) else {
-                return
-            }
+
+        CacheManager.fetchImage(imageURL: url) { image in
+            content.image = image
             DispatchQueue.main.async {
-                content.image = UIImage(data: imageData)
                 self.listContentView.configuration = content
             }
         }

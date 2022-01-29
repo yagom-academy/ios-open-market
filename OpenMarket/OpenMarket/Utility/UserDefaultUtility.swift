@@ -22,9 +22,9 @@ struct UserDefaultUtility {
         userDefaults.set(password, forKey: UserDefaultUtility.vendorPassword)
     }
 
-    func getVendorPassword() throws -> String {
+    func getVendorPassword() -> String? {
         guard let password = userDefaults.string(forKey: UserDefaultUtility.vendorPassword) else {
-            throw UserError.passwordNotFound
+            return nil
         }
         return password
     }

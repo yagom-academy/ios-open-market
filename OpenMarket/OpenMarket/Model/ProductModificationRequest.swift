@@ -4,9 +4,9 @@ struct ProductModificationRequest: Encodable {
     var name: String?
     var descriptions: String?
     var thumbnailIdentification: Int?
-    var price: Int?
+    var price: Decimal?
     var currency: Currency?
-    var discountedPrice: Int = 0
+    var discountedPrice: Decimal = 0
     var stock: Int = 0
     var secret: String
 

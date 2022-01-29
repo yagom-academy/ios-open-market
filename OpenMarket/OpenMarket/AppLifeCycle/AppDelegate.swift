@@ -12,6 +12,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        UserDefaultUtility().setVendorIdentification("c6d96ba0-7215-11ec-abfa-01fc209b5360")
+        UserDefaultUtility().setVendorPassword("grH5@Hy-p$5!6nzL")
         // Override point for customization after application launch.
         return true
     }

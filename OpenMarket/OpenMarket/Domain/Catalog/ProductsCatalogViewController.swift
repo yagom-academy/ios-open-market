@@ -12,9 +12,19 @@ class ProductsCatalogViewController: UIViewController {
 
     var presentView: ViewType = .list
     var pageNumber: Int = 1
+    var isPagingable = true
 
-    private var listCollectionView: UICollectionView! = nil
-    private var gridCollectionView: UICollectionView! = nil
+    private lazy var listCollectionView = UICollectionView(
+        frame: .zero,
+        collectionViewLayout: createListLayout()
+    )
+    private lazy var gridCollectionView: UICollectionView = {
+        let gridCollectionView = UICollectionView(frame: .zero, collectionViewLayout: createGridLayout())
+        gridCollectionView.delegate = self
+        configureDataSource(for: .grid, collectionView: gridCollectionView)
+        return gridCollectionView
+    }()
+
     private let indicator = UIActivityIndicatorView()
     private var listDataSource: UICollectionViewDiffableDataSource<Section, Product>!
     private var gridDataSource: UICollectionViewDiffableDataSource<Section, Product>!
@@ -23,14 +33,19 @@ class ProductsCatalogViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureNavigationBar()
-
         listCollectionView = configureHierarchy(type: presentView)
-        configureDataSource(for: presentView)
-        listCollectionView.delegate = self
-        view = listCollectionView
-        generateProductItems()
+        configureDataSource(for: presentView, collectionView: listCollectionView)
 
+        view = listCollectionView
+        listCollectionView.delegate = self
         configureIndicator()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        indicator.startAnimating()
+        snapshot = NSDiffableDataSourceSnapshot<Section, Product>()
+        pageNumber = 1
+        generateProductItems()
     }
 }
 
@@ -40,6 +55,7 @@ extension ProductsCatalogViewController {
         guard let image = UIImage(systemName: "plus") else {
             return
         }
+
         guard let cgImage = image.cgImage else {
             return
         }
@@ -47,13 +63,20 @@ extension ProductsCatalogViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(
             image: resizedImage,
             style: .plain,
-            target: nil,
-            action: nil
+            target: self,
+            action: #selector(touchUpRegisterButton)
         )
         navigationItem.rightBarButtonItem?.width = 0
         let appearance = UINavigationBarAppearance()
         appearance.configureWithDefaultBackground()
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
+    }
+
+    @objc private func touchUpRegisterButton() {
+        let rootViewController = RegisterProductViewController.init()
+        let navigationController = UINavigationController(rootViewController: rootViewController)
+        navigationController.modalPresentationStyle = .fullScreen
+        self.present(navigationController, animated: true)
     }
 
     private func configureSegmentedControl() -> UISegmentedControl {
@@ -88,11 +111,6 @@ extension ProductsCatalogViewController {
             view = listCollectionView
             listDataSource.apply(snapshot, animatingDifferences: false, completion: nil)
         case .grid:
-            if gridCollectionView == nil {
-                gridCollectionView = configureHierarchy(type: .grid)
-                configureDataSource(for: .grid)
-                gridCollectionView.delegate = self
-            }
             view = gridCollectionView
             gridDataSource.apply(snapshot)
         }
@@ -146,15 +164,14 @@ extension ProductsCatalogViewController {
             layout = createGridLayout()
         }
         let collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: layout)
-        collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        collectionView.backgroundColor = .white
 
         return collectionView
     }
 }
 
 extension ProductsCatalogViewController {
-    private func configureDataSource(for viewType: ViewType) {
+    private func configureDataSource(for viewType: ViewType,
+                                     collectionView: UICollectionView) {
         switch viewType {
         case .list:
             let listCellRegistration = registerListCell()
@@ -171,7 +188,7 @@ extension ProductsCatalogViewController {
         case .grid:
             let gridCellRegistration = registerGridCell()
             gridDataSource = UICollectionViewDiffableDataSource<Section, Product>(
-                collectionView: gridCollectionView
+                collectionView: collectionView
             ) { (collectionView: UICollectionView, indexPath: IndexPath, identifier: Product
             ) -> UICollectionViewCell? in
                 return collectionView.dequeueConfiguredReusableCell(
@@ -188,7 +205,7 @@ extension ProductsCatalogViewController {
             UICollectionView.CellRegistration<GridCell, Product> { cell, indexPath, identifier in
                 DispatchQueue.main.async {
                     if indexPath == self.gridCollectionView.indexPath(for: cell) {
-                        cell.configure(product: identifier)
+                        cell.configureContent(product: identifier)
                     }
                 }
             }
@@ -200,7 +217,7 @@ extension ProductsCatalogViewController {
             UICollectionView.CellRegistration<ListCell, Product> { cell, indexPath, identifier in
                 DispatchQueue.main.async {
                     if indexPath == self.listCollectionView.indexPath(for: cell) {
-                        cell.configure(product: identifier)
+                        cell.configureContent(product: identifier)
                     }
                 }
             }
@@ -220,12 +237,17 @@ extension ProductsCatalogViewController {
             switch result {
             case .success(let productList):
                 self.pageNumber += 1
+                self.isPagingable = true
                 let products = productList.pages
                 self.snapshot.appendItems(products)
                 DispatchQueue.main.async {
                     switch self.presentView {
                     case .list:
-                        self.listDataSource.apply(self.snapshot)
+                        self.listDataSource.apply(
+                            self.snapshot,
+                            animatingDifferences: false,
+                            completion: nil
+                        )
                     case .grid:
                         self.gridDataSource.apply(self.snapshot)
                     }
@@ -238,17 +260,28 @@ extension ProductsCatalogViewController {
     }
 }
 
+// MARK: Collection View Delegate
 extension ProductsCatalogViewController: UICollectionViewDelegate {
-    func scrollViewWillEndDragging(
-        _ scrollView: UIScrollView,
-        withVelocity velocity: CGPoint,
-        targetContentOffset: UnsafeMutablePointer<CGPoint>
-    ) {
-        let targetOffset = targetContentOffset.pointee.y + view.frame.height
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let targetOffset = scrollView.contentOffset.y + view.frame.height
         let scrollViewHeight = scrollView.contentSize.height
 
-        if targetOffset > scrollViewHeight {
+        if targetOffset > scrollViewHeight - (view.frame.height * 0.2), isPagingable {
+            isPagingable = false
             generateProductItems()
         }
+    }
+
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let item = self.listDataSource.itemIdentifier(for: indexPath) else {
+            return
+        }
+
+        collectionView.deselectItem(at: indexPath, animated: true)
+
+        let rootViewController = ModifyProductViewController.init(productIdentification: item.identification)
+        let navigationController = UINavigationController(rootViewController: rootViewController)
+        navigationController.modalPresentationStyle = .fullScreen
+        self.present(navigationController, animated: true)
     }
 }
