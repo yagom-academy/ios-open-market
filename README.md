@@ -503,7 +503,7 @@ iOS 15.0에서는 문제가 없었지만 iOS 14.0에선 segmented Controll을 �
 
 다만 아직 왜 이런 현상이 일어나는지는 찾지 못했습니다...🥲
 
-![README_IMAGES/151150071-36068f59-1e77-45bf-9fb2-490b434bad3c.mp4]
+[151150071-36068f59-1e77-45bf-9fb2-490b434bad3c](README_IMAGES/151150071-36068f59-1e77-45bf-9fb2-490b434bad3c.mp4)
 
 ### 2. 이미지 리사이즈에 메모리가 많이 필요한 문제
 
@@ -512,7 +512,7 @@ swift는 ARC를 사용하므로 가비지 컬렉터와 달리 필요없는 인�
 
 또한 iPod touch (7th generation)으로 실행을 했을 때와 iPhone으로 실행했을 때 사용하는 메모리의 양이 달랐는데 그 이유도 파악하진 못했습니다. 
 
-![150794938-96079c87-ef87-45a3-8a19-a9be01e3a729.png](Read%20Me%2011f3911481394d5dafcc67ac57634dd0/150794938-96079c87-ef87-45a3-8a19-a9be01e3a729.png)
+![150794938-96079c87-ef87-45a3-8a19-a9be01e3a729.png](README_IMAGES/150794938-96079c87-ef87-45a3-8a19-a9be01e3a729.png)
 
 # STEP 4
 
@@ -549,7 +549,7 @@ private func changePageOffset(of targetContentOffset: UnsafeMutablePointer<CGPoi
 
 | 자신의 상품                                                                                                                             | 다른 사람의 상품                                                                                           |
 | ---------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
-| ![README_IMAGES/![loading-ag-1666](README_IMAGES/Simulator_Screen_Shot_-_iPod_touch_(7th_generation)_-_2022-01-28_at_19.05.48.png) | ![](README_IMAGES/Simulator_Screen_Shot_-_iPod_touch_(7th_generation)_-_2022-01-28_at_19.05.53.png) |
+| ![myProduct](README_IMAGES/Simulator_Screen_Shot_-_iPod_touch_(7th_generation)_-_2022-01-28_at_19.05.48.png) | ![othersProduct](README_IMAGES/Simulator_Screen_Shot_-_iPod_touch_(7th_generation)_-_2022-01-28_at_19.05.53.png) |
 
 ## ❓ 해결하지 못한 부분
 
@@ -627,4 +627,5 @@ UISegmentedControl.selectedSegmentIndex must be used from main thread only
 
 아래 앱처럼 서클이 도는동안 바로 스크롤이 올라가지 않고, 잠시 멈추도록 하려 합니다.
 
-[README_IMAGES/Simulator_Screen_Recording_-_iPod_touch_(7th_generation)_-_2022-01-28_at_19.12.13.mp4]
+https://user-images.githubusercontent.com/70484506/151651668-6ebc2854-8e65-4d3f-a7cd-a4501d63b433.mp4
+
