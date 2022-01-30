@@ -14,23 +14,23 @@ class GetManager {
     var hasNextPage: Bool = true
     weak var delegate: GetResultRepresentable?
 
-    func nextPage(completion: @escaping () -> Void = {}) {
+    func nextPage(completion: (() -> Void)? = nil) {
         if hasNextPage {
             lastLoadedPage += 1
             fetchPage(completion: completion)
         }
     }
 
-    func update(completion: @escaping () -> Void = {}) {
+    func update(completion: (() -> Void)? = nil) {
         itemsPerPage = 20
         lastLoadedPage = 1
         delegate?.getManagerDidResetItems()
         fetchPage {
-            completion()
+            completion?()
         }
     }
 
-    private func fetchPage(completion: @escaping () -> Void = {}) {
+    private func fetchPage(completion: (() -> Void)? = nil) {
         URLSessionProvider(session: URLSession.shared)
             .request(.showProductPage(pageNumber: String(lastLoadedPage), itemsPerPage: String(itemsPerPage))) { (result: Result<ShowProductPageResponse, URLSessionProviderError>) in
                 switch result {
@@ -40,7 +40,7 @@ class GetManager {
                 case .failure(let error):
                     print(error)
                 }
-                completion()
+                completion?()
             }
     }
     
