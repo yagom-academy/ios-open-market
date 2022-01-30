@@ -11,9 +11,7 @@ extension UIViewController {
     func alertError(_ error: Error) {
         let alert = UIAlertController(title: "에러 발생", message: "\(error)", preferredStyle: .alert)
         
-        let okAction = UIAlertAction(title: "OK", style: .destructive) { action in
-            
-        }
+        let okAction = UIAlertAction(title: "OK", style: .destructive, handler: nil)
         
         alert.addAction(okAction)
         
