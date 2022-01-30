@@ -106,11 +106,11 @@ class CollectionViewCell: UICollectionViewCell {
         productNameLabel.font = UIFont.boldSystemFont(ofSize: 16)
         productNameLabel.textAlignment = .center
         
-        originalPriceLabel.attributedText = ("\(data.currency) \(data.price.addDemical())").strikeThroughStyle()
+        originalPriceLabel.attributedText = ("\(data.currency) \(data.price.demical())").strikeThroughStyle()
         originalPriceLabel.textColor = .systemRed
         originalPriceLabel.textAlignment = .center
 
-        priceLabel.text = "\(data.currency) \((data.price - data.bargainPrice).addDemical())"
+        priceLabel.text = "\(data.currency) \((data.price - data.bargainPrice).demical())"
         priceLabel.textAlignment = .center
         priceLabel.textColor = .systemGray
 

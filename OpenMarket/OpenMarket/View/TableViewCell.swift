@@ -122,11 +122,11 @@ class TableViewCell: UITableViewCell {
         productNameLabel.font = UIFont.boldSystemFont(ofSize: 16)
         productNameLabel.textAlignment = .left
         
-        originalPriceLabel.attributedText = ("\(withData.currency) \(withData.price.addDemical())").strikeThroughStyle()
+        originalPriceLabel.attributedText = ("\(withData.currency) \(withData.price.demical())").strikeThroughStyle()
         originalPriceLabel.textColor = .systemRed
         originalPriceLabel.textAlignment = .left
         
-        priceLabel.text = "\(withData.currency) \((withData.price-withData.bargainPrice).addDemical())"
+        priceLabel.text = "\(withData.currency) \((withData.price-withData.bargainPrice).demical())"
         priceLabel.textAlignment = .left
         priceLabel.textColor = .systemGray
         
