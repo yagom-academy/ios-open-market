@@ -64,8 +64,7 @@ final class PageViewController: UIViewController {
 
     @IBAction func addProductButtonDidTab(_ sender: UIBarButtonItem) {
         let addProductVC = AddProductViewController()
-        let naviController = UINavigationController()
-        naviController.addChild(addProductVC)
+        let naviController = UINavigationController(rootViewController: addProductVC)
         naviController.modalPresentationStyle = .fullScreen
         present(naviController, animated: true, completion: nil)
     }
