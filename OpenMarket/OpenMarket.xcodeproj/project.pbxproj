@@ -19,6 +19,8 @@
 		3B8144652796997C0042EF33 /* StoryboardIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8144642796997C0042EF33 /* StoryboardIdentifier.swift */; };
 		3B81446B2797DB6C0042EF33 /* ProductImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B81446A2797DB6C0042EF33 /* ProductImage.swift */; };
 		3B81446D2797DCD70042EF33 /* Data+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B81446C2797DCD70042EF33 /* Data+Extensions.swift */; };
+		3B92E93F27A653AA00F39EF5 /* LoadingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B92E93D27A653AA00F39EF5 /* LoadingCell.swift */; };
+		3B92E94027A653AA00F39EF5 /* LoadingCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3B92E93E27A653AA00F39EF5 /* LoadingCell.xib */; };
 		3B971C5A2782E26400088872 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B971C592782E26400088872 /* Product.swift */; };
 		3B971C782783EFCB00088872 /* DataTaskProvidable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B971C772783EFCB00088872 /* DataTaskProvidable.swift */; };
 		3B971C92278573B600088872 /* MarketAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B971C91278573B600088872 /* MarketAPIService.swift */; };
@@ -87,6 +89,8 @@
 		3B8144642796997C0042EF33 /* StoryboardIdentifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryboardIdentifier.swift; sourceTree = "<group>"; };
 		3B81446A2797DB6C0042EF33 /* ProductImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductImage.swift; sourceTree = "<group>"; };
 		3B81446C2797DCD70042EF33 /* Data+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Extensions.swift"; sourceTree = "<group>"; };
+		3B92E93D27A653AA00F39EF5 /* LoadingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingCell.swift; sourceTree = "<group>"; };
+		3B92E93E27A653AA00F39EF5 /* LoadingCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoadingCell.xib; sourceTree = "<group>"; };
 		3B971C592782E26400088872 /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
 		3B971C772783EFCB00088872 /* DataTaskProvidable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataTaskProvidable.swift; sourceTree = "<group>"; };
 		3B971C91278573B600088872 /* MarketAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketAPIService.swift; sourceTree = "<group>"; };
@@ -182,8 +186,9 @@
 				EDD54E892799B5F900CD7B36 /* ImageCell.xib */,
 				EDD54E8B2799BA5400CD7B36 /* AddImageButtonCell.xib */,
 				C70FB10025BEF61C00C9924E /* Main.storyboard */,
-				3B277D3727A1735F00F87DEA /* ProductDetailsViewController.swift */,
 				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
+				3B92E93D27A653AA00F39EF5 /* LoadingCell.swift */,
+				3B92E93E27A653AA00F39EF5 /* LoadingCell.xib */,
 				EDE728EB27966E58003C3607 /* MarketCell.swift */,
 				EDD54E852799AA4500CD7B36 /* ImageCell.swift */,
 				EDD54E8D2799BA9900CD7B36 /* AddImageButtonCell.swift */,
@@ -198,6 +203,7 @@
 				C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */,
 				C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */,
 				C70FB0FE25BEF61C00C9924E /* MarketViewController.swift */,
+				3B277D3727A1735F00F87DEA /* ProductDetailsViewController.swift */,
 				EDF3685D278EBF9E006FF528 /* ListViewController.swift */,
 				EDF3685F278EBFA5006FF528 /* GridViewController.swift */,
 				EDD54E872799B3EE00CD7B36 /* ProductFormViewController.swift */,
@@ -409,6 +415,7 @@
 				3B6E6C29278D30F20061EA49 /* ListCell.xib in Resources */,
 				EDD54E8A2799B5F900CD7B36 /* ImageCell.xib in Resources */,
 				C70FB10425BEF61D00C9924E /* Assets.xcassets in Resources */,
+				3B92E94027A653AA00F39EF5 /* LoadingCell.xib in Resources */,
 				C70FB10225BEF61C00C9924E /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -445,6 +452,7 @@
 				3B141DDF27913A59004D3727 /* CellString.swift in Sources */,
 				EDC4FD282785729500E0A775 /* JSONParsable.swift in Sources */,
 				3B277D3627A004B700F87DEA /* UITextView+Extensions.swift in Sources */,
+				3B92E93F27A653AA00F39EF5 /* LoadingCell.swift in Sources */,
 				ED7F4FFA27A0158A003AB3EA /* UIImage+Extensions.swift in Sources */,
 				EDD88A1227A27E270086BD1B /* ProductDetailsImageCell.swift in Sources */,
 				EDD88A1827A2DC200086BD1B /* ProductPresentable.swift in Sources */,

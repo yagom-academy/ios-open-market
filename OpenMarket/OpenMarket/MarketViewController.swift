@@ -175,7 +175,7 @@ extension MarketViewController {
     }
     
     private func reloadCollectionViews() {
-        self.startLoadingIndicator()
+        startLoadingIndicator()
         fetchPage(pageNumber: 1, itemsPerPage: 20) { [weak self] products in
             guard let products = products,
                   let self = self else {
@@ -194,17 +194,7 @@ extension MarketViewController {
 
 extension MarketViewController: DoneButtonTappedDelegate {
     func registerButtonTapped() {
-        fetchPage(pageNumber: 1, itemsPerPage: 20) { [weak self] products in
-            guard let products = products,
-                  let self = self else {
-                return
-            }
-            self.listViewController.reloadCollectionView(with: products)
-
-            DispatchQueue.main.async {
-                self.gridViewController.reloadCollectionView(with: products)
-            }
-        }
+        reloadCollectionViews()
     }
 }
 
