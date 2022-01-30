@@ -1,8 +1,9 @@
 import UIKit
+import JNomaKit
 
 class MainViewController: UIViewController {
     
-    private let segmentedControl = BlueSegmentedControl()
+    private var segmentedControl: JNSegmentedControl!
     private var productRegistrationButtonItem: UIBarButtonItem!
     private let scrollView = UIScrollView()
     private let listViewController = ListCollectionViewController()
@@ -34,6 +35,7 @@ class MainViewController: UIViewController {
     }
     
     private func create() {
+        createSegmentedControl()
         createProductRegistrationButtonItem()
     }
     
@@ -62,6 +64,10 @@ class MainViewController: UIViewController {
 
 //MARK: - Segmented Control
 extension MainViewController {
+    
+    private func createSegmentedControl() {
+        segmentedControl = JNSegmentedControl(items: ["List","Grid"], color: .systemBlue, textStyle: .caption1)
+    }
     
     private func configureSegmentedControl() {
         segmentedControl.translatesAutoresizingMaskIntoConstraints = false

@@ -1,4 +1,5 @@
 import UIKit
+import JNomaKit
 
 class ProductEditingView: UIView {
     
@@ -17,7 +18,7 @@ class ProductEditingView: UIView {
         static let recommendedImageHeight: CGFloat = 500
     }
 
-    let navigationBar = PlainNavigationBar()
+    let navigationBar = JNNavigationBar()
     let wholeScreenScrollView = UIScrollView()
     let imageStackView = UIStackView()
     let imageAddingButton = UIButton()

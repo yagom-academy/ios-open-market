@@ -1,4 +1,5 @@
 import UIKit
+import JNomaKit
 
 class CollectionViewListCell: UICollectionViewListCell {
     
@@ -175,11 +176,15 @@ extension CollectionViewListCell {
 extension CollectionViewListCell {
     private func configureNameLabel() {
         nameLabel.adjustsFontForContentSizeCategory = true
-        nameLabel.font = UIFont.dynamicBoldSystemFont(ofSize: LayoutAttribute.NameLabel.fontSize)
     }
     
     private func updateNameLabel(from product: Product) {
-        nameLabel.text = product.name
+        nameLabel.attributedText = JNAttributedStringMaker.attributedString(
+            text: product.name,
+            textStyle: .body,
+            fontColor: .black,
+            attributes: [.bold]
+        )
     }
 }
 
@@ -192,42 +197,53 @@ extension CollectionViewListCell {
     
     private func updatePriceLabel(from product: Product) {
         let blank = NSMutableAttributedString(string: " ")
-        let currency = NSMutableAttributedString(string: product.currency.rawValue)
-        guard let originalPrice = NSMutableAttributedString(string: product.price.description).toDecimal,
-              let bargainPrice = NSMutableAttributedString(string: product.bargainPrice.description).toDecimal else {
-                  print(OpenMarketError.conversionFail("basic NSMutableAttributedString", "decimal").description)
-                  return
-              }
-
         let result = NSMutableAttributedString(string: "")
         if product.price != product.bargainPrice {
-            let originalPriceDescription = NSMutableAttributedString()
-            originalPriceDescription.append(currency)
-            originalPriceDescription.append(blank)
-            originalPriceDescription.append(originalPrice)
-            originalPriceDescription.setStrikeThrough()
-            originalPriceDescription.setFontColor(to: LayoutAttribute.PriceLabel.originalPriceFontColor)
-            
-            let bargainPriceDescription = NSMutableAttributedString()
-            bargainPriceDescription.append(currency)
-            bargainPriceDescription.append(blank)
-            bargainPriceDescription.append(bargainPrice)
-            bargainPriceDescription.setFontColor(to: LayoutAttribute.PriceLabel.bargainPriceFontColor)
-            
-            result.append(originalPriceDescription)
+            let originalCurrency = JNAttributedStringMaker.attributedString(
+                text: "\(product.currency.rawValue) ",
+                textStyle: LayoutAttribute.PriceLabel.textStyle,
+                fontColor: LayoutAttribute.PriceLabel.originalPriceFontColor,
+                attributes: [.strikeThrough]
+            )
+            let originalPrice = JNAttributedStringMaker.attributedString(
+                text: product.price.description,
+                textStyle: LayoutAttribute.PriceLabel.textStyle,
+                fontColor: LayoutAttribute.PriceLabel.originalPriceFontColor,
+                attributes: [.decimal, .strikeThrough]
+            )
+            let bargainCurrency = JNAttributedStringMaker.attributedString(
+                text: "\(product.currency.rawValue) ",
+                textStyle: LayoutAttribute.PriceLabel.textStyle,
+                fontColor: LayoutAttribute.PriceLabel.bargainPriceFontColor
+            )
+            let bargainPrice = JNAttributedStringMaker.attributedString(
+                text: product.bargainPrice.description,
+                textStyle: LayoutAttribute.PriceLabel.textStyle,
+                fontColor: LayoutAttribute.PriceLabel.bargainPriceFontColor,
+                attributes: [.decimal]
+            )
+            result.append(originalCurrency)
+            result.append(originalPrice)
             result.append(blank)
-            result.append(bargainPriceDescription)
+            result.append(bargainCurrency)
+            result.append(bargainPrice)
         } else {
-            let bargainPriceDescription = NSMutableAttributedString()
-            bargainPriceDescription.append(currency)
-            bargainPriceDescription.append(blank)
-            bargainPriceDescription.append(bargainPrice)
-            bargainPriceDescription.setFontColor(to: LayoutAttribute.PriceLabel.bargainPriceFontColor)
-
-            result.append(bargainPriceDescription)
+            let bargainCurrency = JNAttributedStringMaker.attributedString(
+                text: "\(product.currency.rawValue) ",
+                textStyle: LayoutAttribute.PriceLabel.textStyle,
+                fontColor: LayoutAttribute.PriceLabel.bargainPriceFontColor
+            )
+            let bargainPrice = JNAttributedStringMaker.attributedString(
+                text: product.bargainPrice.description,
+                textStyle: LayoutAttribute.PriceLabel.textStyle,
+                fontColor: LayoutAttribute.PriceLabel.bargainPriceFontColor,
+                attributes: [.decimal]
+            )
+            
+            result.append(bargainCurrency)
+            result.append(bargainPrice)
         }
-        
-        result.setTextStyle(textStyle: LayoutAttribute.PriceLabel.textStyle)
+
         priceLabel.attributedText = result
     }
 }
