@@ -17,9 +17,6 @@ class CollectionViewCell: UICollectionViewCell {
     var priceLabel = UILabel()
     var stockLabel = UILabel()
     
-    let fontSize = CGFloat(18)
-    let imageHeight = CGFloat(120)
-    
     override func awakeFromNib() {
         super.awakeFromNib()
     }
@@ -52,7 +49,7 @@ class CollectionViewCell: UICollectionViewCell {
         containerStackView.axis = .vertical
         containerStackView.alignment = .fill
         containerStackView.distribution = .fill
-        containerStackView.spacing = 6
+        containerStackView.spacing = Constants.CollectionView.defaultSpacing * 2
         containerStackView.clipsToBounds = true
         
         containerStackView.addArrangedSubview(productImageView)
@@ -61,7 +58,7 @@ class CollectionViewCell: UICollectionViewCell {
             productImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 5),
             productImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -5),
             productImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
-            productImageView.bottomAnchor.constraint(equalTo: contentView.topAnchor, constant: imageHeight + 5)
+            productImageView.bottomAnchor.constraint(equalTo: contentView.topAnchor, constant: Constants.CollectionView.imageHeight + 5)
         ] )
         productImageView.contentMode = .scaleAspectFill
         productImageView.clipsToBounds = true
@@ -69,8 +66,8 @@ class CollectionViewCell: UICollectionViewCell {
         containerStackView.addArrangedSubview(productNameLabel)
         productNameLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate( [
-            productNameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: imageHeight + 20),
-            productNameLabel.bottomAnchor.constraint(equalTo: contentView.topAnchor, constant: imageHeight + fontSize + 20),
+            productNameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Constants.CollectionView.imageHeight + 20),
+            productNameLabel.bottomAnchor.constraint(equalTo: contentView.topAnchor, constant: Constants.CollectionView.imageHeight + Constants.CollectionView.fontSize + 20),
             productNameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 7),
             productNameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -7)
         ] )
@@ -78,15 +75,15 @@ class CollectionViewCell: UICollectionViewCell {
         containerStackView.addArrangedSubview(priceStackView)
         priceStackView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate( [
-            priceStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: imageHeight + fontSize + 29),
-            priceStackView.bottomAnchor.constraint(equalTo: contentView.topAnchor, constant: imageHeight + (fontSize * 3) + 29),
+            priceStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Constants.CollectionView.imageHeight + Constants.CollectionView.fontSize + 29),
+            priceStackView.bottomAnchor.constraint(equalTo: contentView.topAnchor, constant: Constants.CollectionView.imageHeight + (Constants.CollectionView.fontSize * 3) + 29),
             priceStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 7),
             priceStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -7)
         ] )
         priceStackView.axis = .vertical
         priceStackView.alignment = .center
         priceStackView.distribution = .fill
-        priceStackView.spacing = 3
+        priceStackView.spacing = Constants.CollectionView.defaultSpacing
         
         priceStackView.addArrangedSubview(originalPriceLabel)
         priceStackView.addArrangedSubview(priceLabel)
@@ -94,8 +91,8 @@ class CollectionViewCell: UICollectionViewCell {
         containerStackView.addArrangedSubview(stockLabel)
         stockLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate( [
-            stockLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: imageHeight + (fontSize * 3) + 38),
-            stockLabel.bottomAnchor.constraint(equalTo: contentView.topAnchor, constant: imageHeight + (fontSize * 4) + 38),
+            stockLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Constants.CollectionView.imageHeight + (Constants.CollectionView.fontSize * 3) + 38),
+            stockLabel.bottomAnchor.constraint(equalTo: contentView.topAnchor, constant: Constants.CollectionView.imageHeight + (Constants.CollectionView.fontSize * 4) + 38),
             stockLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 7),
             stockLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -7)
         ] )
@@ -103,7 +100,7 @@ class CollectionViewCell: UICollectionViewCell {
     
     func updateCell(data: ProductPreview) {
         productNameLabel.text = data.name
-        productNameLabel.font = UIFont.boldSystemFont(ofSize: 16)
+        productNameLabel.font = UIFont.boldSystemFont(ofSize: Constants.CollectionView.defaultFontSize)
         productNameLabel.textAlignment = .center
         
         originalPriceLabel.attributedText = ("\(data.currency) \(data.price.demical())").strikeThroughStyle()

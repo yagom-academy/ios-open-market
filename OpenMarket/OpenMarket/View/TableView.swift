@@ -20,9 +20,6 @@ class TableViewCell: UITableViewCell {
     var stockLabel = UILabel()
     var descriptionButton = UIButton()
     
-    let imageWidth = CGFloat(75)
-    let infoStackWidth = CGFloat(178)
-    
     override func awakeFromNib() {
         super.awakeFromNib()
     }
@@ -60,7 +57,7 @@ class TableViewCell: UITableViewCell {
         containerStackView.axis = .horizontal
         containerStackView.alignment = .fill
         containerStackView.distribution = .fill
-        containerStackView.spacing = 5
+        containerStackView.spacing = Constants.TableView.defaultSpacing
                 
         containerStackView.addArrangedSubview(productImageView)
         productImageView.translatesAutoresizingMaskIntoConstraints = false
@@ -68,7 +65,7 @@ class TableViewCell: UITableViewCell {
             productImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
             productImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5),
             productImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 5),
-            productImageView.trailingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: imageWidth)
+            productImageView.trailingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Constants.TableView.imageWidth)
         ] )
         productImageView.contentMode = .scaleAspectFill
         productImageView.clipsToBounds = true
@@ -78,20 +75,20 @@ class TableViewCell: UITableViewCell {
         NSLayoutConstraint.activate( [
             infoStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
             infoStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -7),
-            infoStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: imageWidth + 10),
-            infoStackView.trailingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: imageWidth + infoStackWidth + 10)
+            infoStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Constants.TableView.imageWidth + 10),
+            infoStackView.trailingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Constants.TableView.imageWidth + Constants.TableView.infoStackWidth + 10)
         ] )
         infoStackView.clipsToBounds = true
         infoStackView.axis = .vertical
         infoStackView.alignment = .leading
         infoStackView.distribution = .fill
-        infoStackView.spacing = 10
+        infoStackView.spacing = Constants.TableView.defaultSpacing * 2
         
         infoStackView.addArrangedSubview(productNameLabel)
         
         infoStackView.addArrangedSubview(priceStackView)
         priceStackView.axis = .horizontal
-        priceStackView.spacing = 5
+        priceStackView.spacing = Constants.TableView.defaultSpacing
         
         priceStackView.addArrangedSubview(originalPriceLabel)
         priceStackView.addArrangedSubview(priceLabel)
@@ -106,20 +103,20 @@ class TableViewCell: UITableViewCell {
         stockStackView.axis = .horizontal
         stockStackView.alignment = .top
         stockStackView.distribution = .fill
-        stockStackView.spacing = 7
+        stockStackView.spacing = Constants.TableView.defaultSpacing
         
         stockStackView.addArrangedSubview(stockLabel)
         
         stockStackView.addArrangedSubview(descriptionButton)
         descriptionButton.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate( [
-            descriptionButton.widthAnchor.constraint(equalToConstant: 18)
+            descriptionButton.widthAnchor.constraint(equalToConstant: Constants.TableView.defaultFontSize)
         ] )
     }
     
     func updateCellContent(withData: ProductPreview) {
         productNameLabel.text = withData.name
-        productNameLabel.font = UIFont.boldSystemFont(ofSize: 16)
+        productNameLabel.font = UIFont.boldSystemFont(ofSize: Constants.TableView.defaultFontSize)
         productNameLabel.textAlignment = .left
         
         originalPriceLabel.attributedText = ("\(withData.currency) \(withData.price.demical())").strikeThroughStyle()
