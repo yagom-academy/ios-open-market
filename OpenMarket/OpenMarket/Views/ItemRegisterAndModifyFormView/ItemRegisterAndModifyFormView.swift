@@ -1,6 +1,43 @@
 import UIKit
 
+extension ItemRegisterAndModifyManager: ItemRegisterAndModifyFormViewDataSource {}
+
+protocol ItemRegisterAndModifyFormViewDataSource: AnyObject {
+    func countNumberOfModels() -> Int
+    func selectPhotoModel(by index: Int) -> CellType
+    func appendToPhotoModel(with image: UIImage)
+}
+
+protocol ItemRegisterAndModifyFormViewDelegate: AnyObject {
+    func setupNavigationBar()
+    func register()
+    func dismiss()
+    func presentImagePicker(_ imagePicker: UIImagePickerController)
+}
+
 class ItemRegisterAndModifyFormView: UIView {
+    weak var dataSource: ItemRegisterAndModifyFormViewDataSource?
+    weak var delegate: ItemRegisterAndModifyFormViewDelegate?
+    private let imagePicker = UIImagePickerController()
+    let navigationBarAppearance: UINavigationBarAppearance = {
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithDefaultBackground()
+        return appearance
+    }()
+    let navigationBarDoneButton: UIBarButtonItem = {
+        let barButton = UIBarButtonItem(
+            barButtonSystemItem: .done,
+            target: self,
+            action: #selector(doneButtonDidTap))
+        return barButton
+    }()
+    let navigationBarCanceButton: UIBarButtonItem = {
+        let barButton = UIBarButtonItem(
+            barButtonSystemItem: .cancel,
+            target: self,
+            action: #selector(cancelButtonDidTap))
+        return barButton
+    }()
     let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -81,12 +118,30 @@ class ItemRegisterAndModifyFormView: UIView {
         return textView
     }()
     func formViewDidLoad() {
+        setupDelegate()
+        setupNavigationBar()
         setupViews()
         setupConstraints()
         addKeyboardNotificationObservers()
         addKeyboardDismissGestureRecognizer()
     }
 
+    private func setupDelegate() {
+        photoCollectionView.delegate = self
+        photoCollectionView.dataSource = self
+    }
+
+    private func setupNavigationBar() {
+        delegate?.setupNavigationBar()
+    }
+
+    @objc private func doneButtonDidTap() {
+        delegate?.register()
+    }
+
+    @objc private func cancelButtonDidTap() {
+        delegate?.dismiss()
+    }
     private func setupViews() {
         priceStackView.addArrangedSubview(priceInputTextField)
         priceStackView.addArrangedSubview(currencySegmentedControl)
@@ -123,6 +178,84 @@ class ItemRegisterAndModifyFormView: UIView {
             stockInputTextField.heightAnchor.constraint(equalToConstant: 31),
             descriptionInputTextView.heightAnchor.constraint(greaterThanOrEqualToConstant: 150)
         ])
+    }
+}
+
+extension ItemRegisterAndModifyFormView: UICollectionViewDataSource, UICollectionViewDelegate {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        numberOfItemsInSection section: Int
+    ) -> Int {
+        guard let totalNumberOfImages = dataSource?.countNumberOfModels() else {
+            return .zero
+        }
+        return totalNumberOfImages
+    }
+
+    func collectionView(
+        _ collectionView: UICollectionView,
+        cellForItemAt indexPath: IndexPath
+    ) -> UICollectionViewCell {
+        guard let photoModel: CellType = (dataSource?.selectPhotoModel(by: indexPath.row)) else {
+            return UICollectionViewCell()
+        }
+        switch photoModel {
+        case .image(let photoModel):
+            guard let cell =
+                    photoCollectionView
+                    .dequeueReusableCell(
+                        withReuseIdentifier: ImageCollectionViewCell.identifier,
+                        for: indexPath) as? ImageCollectionViewCell else {
+                return ImageCollectionViewCell()
+            }
+            cell.setImage(with: photoModel)
+            return cell
+        case .addImage:
+            guard let cell =
+                    photoCollectionView
+                    .dequeueReusableCell(
+                        withReuseIdentifier: AddImageCollectionViewCell.identifier,
+                        for: indexPath) as? AddImageCollectionViewCell else {
+                return AddImageCollectionViewCell()
+            }
+            return cell
+
+        }
+    }
+
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let totalNumberOfImages = dataSource?.countNumberOfModels() else {
+            return
+        }
+        if totalNumberOfImages < 6 {
+            guard let photoModel: CellType = dataSource?.selectPhotoModel(by: indexPath.row) else {
+                return
+            }
+            if case .addImage = photoModel {
+                pickImage()
+            }
+        }
+    }
+}
+
+extension ItemRegisterAndModifyFormView: UIImagePickerControllerDelegate,
+                                         UINavigationControllerDelegate {
+    func imagePickerController(
+        _ picker: UIImagePickerController,
+        didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
+    ) {
+        if let newImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
+            dataSource?.appendToPhotoModel(with: newImage)
+            photoCollectionView.reloadData()
+        }
+        imagePicker.dismiss(animated: true, completion: nil)
+    }
+
+    @objc func pickImage() {
+        imagePicker.delegate = self
+        imagePicker.sourceType = .photoLibrary
+        imagePicker.allowsEditing = true
+        delegate?.presentImagePicker(imagePicker)
     }
 }
 

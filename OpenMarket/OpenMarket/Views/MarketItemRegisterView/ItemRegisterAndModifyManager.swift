@@ -24,7 +24,16 @@ class ItemRegisterAndModifyManager {
     private(set) var images: [Data] = []
     private var photoModels: [CellType] = [.addImage]
 
-    init() {}
+    init() {
+        setupDelegates()
+    }
+
+    func setupDelegates() {
+        let itemRegisterAndModifyFormView = ItemRegisterAndModifyFormView()
+        let itemRegistrationViewController = ItemRegistrationViewController()
+        itemRegisterAndModifyFormView.dataSource = self
+        itemRegistrationViewController.dataSource = self
+    }
 
     func countNumberOfModels() -> Int {
         return photoModels.count
