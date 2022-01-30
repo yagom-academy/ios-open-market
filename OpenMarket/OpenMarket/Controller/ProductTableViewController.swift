@@ -9,7 +9,7 @@ import UIKit
 
 final class ProductTableViewController: UITableViewController {
     
-    private var currentPageNo: Int = .zero
+    private var currentPageNo: Int = 1
     private var hasNextPage: Bool = false
     private var products: [Product] = []
     private let loadingIndicator = UIActivityIndicatorView()
@@ -17,7 +17,8 @@ final class ProductTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         startloadingIndicator()
-        downloadProductsListPage(number: 1)
+        downloadProductsListPage(number: currentPageNo)
+        configureRefreshControl()
     }
     
     // MARK: - Table view data source
@@ -54,7 +55,7 @@ final class ProductTableViewController: UITableViewController {
         forRowAt indexPath: IndexPath
     ) {
         let paginationBuffer = 3
-        guard indexPath.row >= products.count - paginationBuffer,
+        guard indexPath.row == products.count - paginationBuffer,
               hasNextPage == true else { return }
         
         downloadProductsListPage(number: currentPageNo + 1)
@@ -67,22 +68,24 @@ final class ProductTableViewController: UITableViewController {
         loadingIndicator.translatesAutoresizingMaskIntoConstraints = false
         let safeArea = view.safeAreaLayoutGuide
         NSLayoutConstraint.activate([
-            loadingIndicator.centerYAnchor.constraint(equalTo: safeArea.centerYAnchor), loadingIndicator.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor)
+            loadingIndicator.centerYAnchor.constraint(
+                equalTo: safeArea.centerYAnchor),
+            loadingIndicator.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor)
         ])
         loadingIndicator.startAnimating()
     }
     
     private func downloadProductsListPage(number: Int) {
         let request = ProductsListPageRequest(pageNo: number, itemsPerPage: 20)
-        APIExecutor().execute(request) { (result: Result<ProductsListPage, Error>) in
+        APIExecutor().execute(request) { [weak self] (result: Result<ProductsListPage, Error>) in
             switch result {
             case .success(let productsListPage):
-                self.currentPageNo = productsListPage.pageNo
-                self.hasNextPage = productsListPage.hasNext
-                self.products.append(contentsOf: productsListPage.pages)
+                self?.currentPageNo = productsListPage.pageNo
+                self?.hasNextPage = productsListPage.hasNext
+                self?.products.append(contentsOf: productsListPage.pages)
                 DispatchQueue.main.async {
-                    self.tableView.reloadData()
-                    self.loadingIndicator.stopAnimating()
+                    self?.tableView.reloadData()
+                    self?.loadingIndicator.stopAnimating()
                 }
             case .failure(let error):
                 // Alert 넣기
@@ -90,5 +93,53 @@ final class ProductTableViewController: UITableViewController {
                 return
             }
         }
+    }
+    
+    private func configureRefreshControl() {
+        refreshControl = UIRefreshControl()
+        refreshControl?.addTarget(
+            self,
+            action: #selector(handleRefreshControl),
+            for: .valueChanged
+        )
+    }
+    
+    @objc private func handleRefreshControl() {
+        resetProductListPageInfo()
+        let request = ProductsListPageRequest(pageNo: 1, itemsPerPage: 20)
+        APIExecutor().execute(request) { [weak self] (result: Result<ProductsListPage, Error>) in
+            switch result {
+            case .success(let productsListPage):
+                self?.currentPageNo = productsListPage.pageNo
+                self?.hasNextPage = productsListPage.hasNext
+                self?.products.append(contentsOf: productsListPage.pages)
+                DispatchQueue.main.async {
+                    self?.tableView.reloadData()
+                    if self?.refreshControl?.isRefreshing == false {
+                        self?.scrollToTop(animated: false)
+                    }
+                    self?.refreshControl?.endRefreshing()
+                }
+            case .failure(let error):
+                // Alert 넣기
+                print("ProductsListPage 통신 중 에러 발생 : \(error)")
+                return
+            }
+        }
+    }
+    
+    private func resetProductListPageInfo() {
+        currentPageNo = 1
+        hasNextPage = false
+        products.removeAll()
+    }
+}
+
+// MARK: - RefreshDelegate
+
+extension ProductTableViewController: RefreshDelegate {
+    
+    func refresh() {
+        handleRefreshControl()
     }
 }
