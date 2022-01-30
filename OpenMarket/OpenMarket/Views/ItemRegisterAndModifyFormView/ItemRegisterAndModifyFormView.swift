@@ -117,6 +117,7 @@ class ItemRegisterAndModifyFormView: UIView {
 
             photoCollectionView.heightAnchor.constraint(equalToConstant: 130),
             nameInputTextField.heightAnchor.constraint(equalToConstant: 31),
+            currencySegmentedControl.widthAnchor.constraint(equalToConstant: 100),
             priceStackView.heightAnchor.constraint(equalToConstant: 31),
             discountedPriceInputTextField.heightAnchor.constraint(equalToConstant: 31),
             stockInputTextField.heightAnchor.constraint(equalToConstant: 31),
