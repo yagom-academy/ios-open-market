@@ -108,8 +108,13 @@ extension MarketViewController {
         )
     }
     
-    @objc private func handleProductUpdatedNotification() {
-        reloadCollectionViews()
+    @objc private func handleProductUpdatedNotification(_ notification: Notification) {
+        guard let isUpdated = notification.userInfo? ["isUpdated"] as? Bool else {
+            return
+        }
+        if isUpdated {
+            reloadCollectionViews()
+        }
     }
     
     private func startLoadingIndicator() {

@@ -48,6 +48,10 @@ final class ListViewController: UIViewController {
         
         DispatchQueue.main.async {
             self.collectionView.reloadData()
+            self.collectionView.scrollToItem(
+                at: IndexPath(row: 0, section: 0),
+                at: .top, animated: true
+            )
         }
     }
 }
@@ -64,14 +68,12 @@ extension ListViewController {
     private func setupCollectionViewCells() {
         let listNib = UINib(nibName: NibIdentifier.list, bundle: .main)
         collectionView.register(listNib, forCellWithReuseIdentifier: MarketCell.identifier)
-        let loadingNib = UINib(nibName: "LoadingCell", bundle: .main)
-        collectionView.register(loadingNib, forCellWithReuseIdentifier: "LoadingCell")
+        let loadingNib = UINib(nibName: LoadingCell.identifier, bundle: .main)
+        collectionView.register(loadingNib, forCellWithReuseIdentifier: LoadingCell.identifier)
     }
     
     private func paging() {
         var cellProduct: [Product] = []
-        
-        // 데이터 20개 추가
         let apiService = MarketAPIService()
         
         apiService.fetchPage(pageNumber: pageNumber, itemsPerPage: 20) { result in
@@ -79,7 +81,6 @@ extension ListViewController {
                 
             case .success(let data):
                 cellProduct = data.products
-                print(self.pageNumber)
                 self.products.append(contentsOf: cellProduct)
                 
                 
@@ -113,16 +114,8 @@ extension ListViewController {
         let contentHeight = scrollView.contentSize.height
         let height = scrollView.frame.height
 
-        
-//        print(offsetY > (contentHeight - height))
-//        print("offsetY: \(offsetY)") // 954.3333333333334
-//        print("contentHeight - height: \(contentHeight - height)") // 954.3333333333337
-//
-//        print(offsetY + 1 > (contentHeight - height))
-        // 스크롤이 테이블 뷰 Offset의 끝에 가게 되면 다음 페이지를 호출
-//        print("스크롤뷰")
-        
         if offsetY  + 1 > (contentHeight - height), isPaging == false {
+            isPaging = true
             beginPaging()
         }
     }
@@ -153,20 +146,19 @@ extension ListViewController: UICollectionViewDataSource {
         _ collectionView: UICollectionView,
         cellForItemAt indexPath: IndexPath
     ) -> UICollectionViewCell {
-        if indexPath.section == 0 {
+        if indexPath.section == 0, products.count > indexPath.row {
             guard let cell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: MarketCell.identifier,
                 for: indexPath
             ) as? MarketCell else {
                 return UICollectionViewCell()
             }
-            print("product 개수: \(products.count)")
-            print("indexpath: \(indexPath.row)")
+        
             cell.configure(with: products[indexPath.row], cellType: .list)
             
             return cell
         } else {
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "LoadingCell", for: indexPath) as? LoadingCell else {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LoadingCell.identifier, for: indexPath) as? LoadingCell else {
                 return UICollectionViewCell()
             }
             cell.start()

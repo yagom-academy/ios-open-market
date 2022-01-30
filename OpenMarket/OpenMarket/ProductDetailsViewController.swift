@@ -41,6 +41,7 @@ final class ProductDetailsViewController: UIViewController {
     
     private var product: ProductDetails?
     private var images: [ImageData] = []
+    private var isUpdated = false
 
     // MARK: - Lifecycle
     
@@ -93,7 +94,8 @@ extension ProductDetailsViewController {
     private func postNotification(name: Notification.Name) {
         NotificationCenter.default.post(
             name: name,
-            object: nil
+            object: nil,
+            userInfo: ["isUpdated": isUpdated]
         )
     }
     
@@ -307,7 +309,7 @@ extension ProductDetailsViewController: UICollectionViewDelegateFlowLayout {
     }
 }
 
-//MARK: - AddButtonTappedDelegate
+//MARK: - DoneButtonTappedDelegate
 
 extension ProductDetailsViewController: DoneButtonTappedDelegate {
     func registerButtonTapped() {
@@ -317,6 +319,7 @@ extension ProductDetailsViewController: DoneButtonTappedDelegate {
             switch result {
             case .success(let product):
                 self.product = product
+                self.isUpdated = true
                 DispatchQueue.main.async {
                     self.setNavigationTitle(with: product)
                     self.setLabels(with: product)

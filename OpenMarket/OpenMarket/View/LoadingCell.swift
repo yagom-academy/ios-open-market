@@ -7,7 +7,7 @@
 
 import UIKit
 
-class LoadingCell: UICollectionViewCell {
+final class LoadingCell: UICollectionViewCell {
     @IBOutlet var loadingIndicator: UIActivityIndicatorView!
     
     override func awakeFromNib() {
@@ -18,3 +18,7 @@ class LoadingCell: UICollectionViewCell {
         loadingIndicator.startAnimating()
     }
 }
+
+// MARK: - IdentifiableView
+
+extension LoadingCell: IdentifiableView {}
