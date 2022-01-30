@@ -8,7 +8,7 @@
 import UIKit
 
 extension UIImage {
-    func compressedImage(targetSize: CGSize) -> UIImage {
+    func compressed(to targetSize: CGSize) -> UIImage {
         let widthScaleRatio = targetSize.width / self.size.width
         let heightScaleRatio = targetSize.height / self.size.height
         

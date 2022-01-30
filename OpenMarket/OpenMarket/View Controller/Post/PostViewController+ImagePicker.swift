@@ -59,7 +59,7 @@ extension PostViewController: UIImagePickerControllerDelegate, UINavigationContr
         if let image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
             if image.size.width * image.size.height > 75000 {
                 let croppedImage = image.cropAsSquare()
-                convertedImage = croppedImage.compressedImage(targetSize: CGSize(width: 270, height: 270))
+                convertedImage = croppedImage.compressed(to: CGSize(width: 270, height: 270))
             } else {
                 convertedImage = image.cropAsSquare()
             }
