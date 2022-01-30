@@ -49,7 +49,7 @@ class ItemRegistrationViewController: UIViewController {
             registrationView.discountedPriceInputTextField.text,
             registrationView.stockInputTextField.text)
     }
-    
+
     @objc private func cancelButtonDidTap() {
         self.dismiss(animated: true, completion: nil)
     }
@@ -59,7 +59,7 @@ extension ItemRegistrationViewController: UIImagePickerControllerDelegate,
                                           UINavigationControllerDelegate {
     func imagePickerController(
         _ picker: UIImagePickerController,
-        didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]
+        didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
     ) {
         if let newImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
             itemRegisterManager.appendToPhotoModel(with: newImage)

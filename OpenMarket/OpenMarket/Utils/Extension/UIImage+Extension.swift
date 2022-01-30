@@ -21,7 +21,7 @@ extension UIImage {
         let shortestLength = min(width, height)
         let xOffset = (width - shortestLength) / 2
         let yOffset = (height - shortestLength) / 2
-        let square = CGRect (
+        let square = CGRect(
             x: xOffset,
             y: yOffset,
             width: shortestLength,

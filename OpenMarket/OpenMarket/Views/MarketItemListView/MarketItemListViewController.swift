@@ -161,10 +161,7 @@ extension MarketItemListViewController {
         case .list:
             let listCellRegistration = registerListCell()
             listDataSource = UICollectionViewDiffableDataSource<Section, Product>(
-                collectionView: listCollectionView) { (
-                collectionView: UICollectionView,
-                indexPath: IndexPath,
-                identifier: Product) -> UICollectionViewCell? in
+                collectionView: listCollectionView) { (collectionView: UICollectionView, indexPath: IndexPath, identifier: Product) -> UICollectionViewCell? in
                 return collectionView.dequeueConfiguredReusableCell(
                     using: listCellRegistration,
                     for: indexPath,
@@ -174,10 +171,7 @@ extension MarketItemListViewController {
         case .grid:
             let gridCellRegistration = registerGridCell()
             gridDataSource = UICollectionViewDiffableDataSource<Section, Product>(
-                collectionView: gridCollectionView) { (
-                collectionView: UICollectionView,
-                indexPath: IndexPath,
-                identifier: Product) -> UICollectionViewCell? in
+                collectionView: gridCollectionView) { (collectionView: UICollectionView, indexPath: IndexPath, identifier: Product) -> UICollectionViewCell? in
                 return collectionView.dequeueConfiguredReusableCell(
                     using: gridCellRegistration,
                     for: indexPath,
