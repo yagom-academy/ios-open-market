@@ -9,5 +9,6 @@ import Foundation
 import UIKit.NSDiffableDataSourceSectionSnapshot
 
 protocol GetResultRepresentable: AnyObject {
-    var snapshot: NSDiffableDataSourceSnapshot<Int, Product> { get set }
+    func getManagerDidResetItems()
+    func getManager(didAppendItems items: [Product])
 }

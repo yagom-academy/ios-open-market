@@ -5,7 +5,7 @@
 //  Created by Jae-hoon Sim on 2022/01/14.
 //
 
-import UIKit
+import Foundation
 
 class GetManager {
     
@@ -24,8 +24,7 @@ class GetManager {
     func update(completion: @escaping () -> Void = {}) {
         itemsPerPage = 20
         lastLoadedPage = 1
-        delegate?.snapshot = NSDiffableDataSourceSnapshot()
-        delegate?.snapshot.appendSections([0])
+        delegate?.getManagerDidResetItems()
         fetchPage {
             completion()
         }
@@ -37,7 +36,7 @@ class GetManager {
                 switch result {
                 case .success(let data):
                     self.hasNextPage = data.hasNext
-                    self.delegate?.snapshot.appendItems(data.pages)
+                    self.delegate?.getManager(didAppendItems: data.pages)
                 case .failure(let error):
                     print(error)
                 }

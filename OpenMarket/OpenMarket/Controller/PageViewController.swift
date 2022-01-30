@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class PageViewController: UIViewController, GetResultRepresentable {
+final class PageViewController: UIViewController {
     
     @IBOutlet private weak var segmentedControl: UISegmentedControl!
     @IBOutlet private var activityIndicator: UIActivityIndicatorView!
@@ -76,7 +76,7 @@ final class PageViewController: UIViewController, GetResultRepresentable {
     }
 }
 
-// MARK: - UICollectionViewDelegate Protocol RequireMents
+// MARK: - Protocol RequireMents
 extension PageViewController: UICollectionViewDelegate {
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -88,6 +88,19 @@ extension PageViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 
     }
+}
+
+extension PageViewController: GetResultRepresentable {
+    func getManagerDidResetItems() {
+        snapshot = NSDiffableDataSourceSnapshot<Int, Product>()
+        snapshot.appendSections([0])
+    }
+    
+    func getManager(didAppendItems items: [Product]) {
+        snapshot.appendItems(items)
+    }
+    
+    
 }
 
 // MARK: - Updating Layout
