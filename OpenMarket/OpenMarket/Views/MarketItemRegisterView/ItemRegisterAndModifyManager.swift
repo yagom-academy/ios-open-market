@@ -25,14 +25,6 @@ class ItemRegisterAndModifyManager {
     private var photoModels: [CellType] = [.addImage]
 
     init() {
-        setupDelegates()
-    }
-
-    func setupDelegates() {
-        let itemRegisterAndModifyFormView = ItemRegisterAndModifyFormView()
-        let itemRegistrationViewController = ItemRegistrationViewController()
-        itemRegisterAndModifyFormView.dataSource = self
-        itemRegistrationViewController.dataSource = self
     }
 
     func countNumberOfModels() -> Int {
@@ -153,9 +145,9 @@ class ItemRegisterAndModifyManager {
                 DispatchQueue.main.async {
                     print("\(product) 등록 성공")
                 }
-            case .failure:
+            case .failure(let error):
                 DispatchQueue.main.async {
-                    print("상품 등록 실패")
+                    print("상품 등록 실패: \(error)")
                 }
             }
         }

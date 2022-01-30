@@ -1,23 +1,8 @@
 import UIKit
 
-extension ItemRegisterAndModifyManager: ItemRegistrationViewControllerDataSource {}
-
-protocol ItemRegistrationViewControllerDataSource: AnyObject {
-    func selectPhotoModel(by index: Int) -> CellType
-    func createItem(
-        by mode: Mode,
-        _ name: String?,
-        _ description: String?,
-        _ price: String?,
-        _ currency: String,
-        _ discountedPrice: String?,
-        _ stock: String?
-    )
-}
-
 class ItemRegistrationViewController: UIViewController {
     private let registrationView = ItemRegisterAndModifyFormView()
-    weak var dataSource: ItemRegistrationViewControllerDataSource?
+    private var manager = ItemRegisterAndModifyManager()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,7 +24,7 @@ extension ItemRegistrationViewController: ItemRegisterAndModifyFormViewDelegate 
             registrationView
             .currencySegmentedControl
             .titleForSegment(at: registrationView.currencySegmentedControl.selectedSegmentIndex)!
-        dataSource?.createItem(
+        manager.createItem(
             by: .register,
             registrationView.nameInputTextField.text,
             registrationView.descriptionInputTextView.text,

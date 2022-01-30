@@ -1,13 +1,5 @@
 import UIKit
 
-extension ItemRegisterAndModifyManager: ItemRegisterAndModifyFormViewDataSource {}
-
-protocol ItemRegisterAndModifyFormViewDataSource: AnyObject {
-    func countNumberOfModels() -> Int
-    func selectPhotoModel(by index: Int) -> CellType
-    func appendToPhotoModel(with image: UIImage)
-}
-
 protocol ItemRegisterAndModifyFormViewDelegate: AnyObject {
     func setupNavigationBar()
     func register()
@@ -16,8 +8,8 @@ protocol ItemRegisterAndModifyFormViewDelegate: AnyObject {
 }
 
 class ItemRegisterAndModifyFormView: UIView {
-    weak var dataSource: ItemRegisterAndModifyFormViewDataSource?
     weak var delegate: ItemRegisterAndModifyFormViewDelegate?
+    private var manager = ItemRegisterAndModifyManager()
     private let imagePicker = UIImagePickerController()
     let navigationBarAppearance: UINavigationBarAppearance = {
         let appearance = UINavigationBarAppearance()
@@ -186,9 +178,7 @@ extension ItemRegisterAndModifyFormView: UICollectionViewDataSource, UICollectio
         _ collectionView: UICollectionView,
         numberOfItemsInSection section: Int
     ) -> Int {
-        guard let totalNumberOfImages = dataSource?.countNumberOfModels() else {
-            return .zero
-        }
+        let totalNumberOfImages = manager.countNumberOfModels()
         return totalNumberOfImages
     }
 
@@ -196,9 +186,7 @@ extension ItemRegisterAndModifyFormView: UICollectionViewDataSource, UICollectio
         _ collectionView: UICollectionView,
         cellForItemAt indexPath: IndexPath
     ) -> UICollectionViewCell {
-        guard let photoModel: CellType = (dataSource?.selectPhotoModel(by: indexPath.row)) else {
-            return UICollectionViewCell()
-        }
+        let photoModel: CellType = (manager.selectPhotoModel(by: indexPath.row))
         switch photoModel {
         case .image(let photoModel):
             guard let cell =
@@ -224,13 +212,9 @@ extension ItemRegisterAndModifyFormView: UICollectionViewDataSource, UICollectio
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let totalNumberOfImages = dataSource?.countNumberOfModels() else {
-            return
-        }
+        let totalNumberOfImages = manager.countNumberOfModels()
         if totalNumberOfImages < 6 {
-            guard let photoModel: CellType = dataSource?.selectPhotoModel(by: indexPath.row) else {
-                return
-            }
+            let photoModel: CellType = manager.selectPhotoModel(by: indexPath.row)
             if case .addImage = photoModel {
                 pickImage()
             }
@@ -245,7 +229,7 @@ extension ItemRegisterAndModifyFormView: UIImagePickerControllerDelegate,
         didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
     ) {
         if let newImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
-            dataSource?.appendToPhotoModel(with: newImage)
+            manager.appendToPhotoModel(with: newImage)
             photoCollectionView.reloadData()
         }
         imagePicker.dismiss(animated: true, completion: nil)
