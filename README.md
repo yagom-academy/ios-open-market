@@ -5,18 +5,18 @@
 
 ## 목차 
 - [구현](#구현)
-- [STEP1](#step-1)
-    - [고민했던 점](#고민했던-점)
-    - [학습 키워드](#학습-키워드)
-- [STEP2](#step-2)
-    - [고민했던 점](#고민했던-점)
-    - [학습 키워드](#학습-키워드)
-- [STEP3](#step-3)
-    - [고민했던 점](#고민했던-점)
-    - [학습 키워드](#학습-키워드)
-- [STEP4](#step-4)
-    - [고민했던 점](#고민했던-점)
-    - [학습 키워드](#학습-키워드)
+- [STEP1](#STEP1)
+    - [고민했던 점](#STEP1-1)
+    - [학습 키워드](#STEP1-2)
+- [STEP2](#STEP2)
+    - [고민했던 점](#STEP2-1)
+    - [학습 키워드](#STEP2-2)
+- [STEP3](#STEP3)
+    - [고민했던 점](#STEP3-1)
+    - [학습 키워드](#STEP3-2)
+- [STEP4](#STEP4)
+    - [고민했던 점](#STEP4-1)
+    - [학습 키워드](#STEP4-2)
 ---
 
 ## 구현
@@ -39,7 +39,12 @@
 
 </center>
 
-## STEP 1
+<a name="STEP1"></a>
+
+## 🤔 STEP 1
+
+
+<a name="STEP1-1"></a>
 
 ## 고민했던 점 
 
@@ -73,6 +78,8 @@ HTTPMethod 별로 반환값 혹은 completion handler가 필요한 경우가 달
 
 메서드가 리턴되더라도 추후에 데이터를 전달받기 위해 `@escaping`을 클로저에 사용해주었습니다. 이와 함께 `Result` 타입을 활용하여 성공/실패에 따른 정상적인 결과/에러를 반환해 줄 수 있도록 했습니다. 
 
+<a name="STEP1-2"></a>
+
 ## 학습키워드 
 - API
 - HTTMethod
@@ -87,9 +94,11 @@ HTTPMethod 별로 반환값 혹은 completion handler가 필요한 경우가 달
 - Unit Test
 
 
+<a name="STEP2"></a>
 
+## 🤔 Step 2 
 
-## Step 2 
+<a name="STEP2-1"></a>
 
 ## 고민했던 점 
 
@@ -155,6 +164,7 @@ NSCache를 활용하여 URL으로 부터 받아오는 이미지 데이터를 캐
 |:--:|:--:|
 |![](https://i.imgur.com/PfQh21S.png)|![](https://i.imgur.com/7s6uknN.png)|
 
+<a name="STEP2-2"></a>
 
 ## 학습 키워드 
 - Modern cell configuration
@@ -174,7 +184,12 @@ NSCache를 활용하여 URL으로 부터 받아오는 이미지 데이터를 캐
 - AutoLayout
 - NSMutableAttributedString
 
-## Step 3
+
+<a name="STEP3"></a>
+
+## 🤔 Step 3
+
+<a name="STEP3-1"></a>
 
 ## 고민했던 점 
 
@@ -208,6 +223,8 @@ textField나 textView에 텍스트 작성시 화면이 작은 iPod Touch의 경�
 
 또한 이미지를 등록하는 과정에서 추가한 이미지를 제거할 수 도 있어야 한다고 생각해서 제거 버튼을 구현해주었습니다. 이 부분은 `UIImageview`와 `UIButton`을 가지는 컨테이너 뷰를 만들어서 커스텀하게 구현해주었습니다. 
 
+<a name="STEP3-2"></a>
+
 ## 학습 키워드
 
 - Image Resizing
@@ -226,7 +243,11 @@ textField나 textView에 텍스트 작성시 화면이 작은 iPod Touch의 경�
     - HttpRequest, HttpResponse
     - Request, Response Debugging
 
-## Step 4
+<a name="STEP4"></a>
+
+## 🤔 Step 4
+
+<a name="STEP4-1"></a>
 
 ### 고민했던 점 
 
@@ -280,6 +301,8 @@ CollectionView를 위에서 아래로 터치하여 끌어내릴 경우 list/grid
 ![](https://i.imgur.com/nTDW4dq.gif)
 
 `Timer`를 이용하여 정해준 시점에 한번씩 서버에 요청을 보내 현재 어플리케이션이 갖고 있는 데이터와 서버단의 데이터를 비교하여 서버단의 데이터가 현재 데이터보다 최신일 시 애니메이션이 추가된 버튼이 내려와 사용자에게 새로운 게시물이 있다고 알림으로써 접근성과 편의성을 고려하였습니다.
+
+<a name="STEP4-2"></a>
 
 ## 학습 키워드
 
