@@ -1,5 +1,8 @@
 # 🏪 오픈마켓 프로젝트
 
+- 팀 프로젝트
+- 구현 기간 : 2022.01.03 ~ 01.28 (4 weeks)
+
 ## 목차 
 - [구현](#구현)
 - [STEP1](#step-1)
@@ -8,20 +11,31 @@
 - [STEP2](#step-2)
     - [고민했던 점](#고민했던-점)
     - [학습 키워드](#학습-키워드)
-
+- [STEP3](#step-3)
+    - [고민했던 점](#고민했던-점)
+    - [학습 키워드](#학습-키워드)
+- [STEP4](#step-4)
+    - [고민했던 점](#고민했던-점)
+    - [학습 키워드](#학습-키워드)
 ---
 
 ## 구현
 
 <center>
     
-|List|Grid|
-|:---:|:---:|
-|<img src="https://i.imgur.com/LlxM52k.gif" width="300" height="650">|<img src="https://i.imgur.com/ZYYRaKq.gif" width="300" height="650">|
+|List|Grid|ActivityIndicator|List, Grid 전환|
+|:---:|:---:|:---:|:---:|
+|<img src="https://i.imgur.com/LlxM52k.gif" width="390" height="650">|<img src="https://i.imgur.com/ZYYRaKq.gif" width="350" height="650">|<img src="https://i.imgur.com/6F1WWhb.gif" width="300" height="650">|<img src="https://i.imgur.com/vyhsNog.gif" width="390" height="650">|
 
-|ActivityIndicator|List, Grid 전환|
-|:---:|:---:|
-|<img src="https://i.imgur.com/6F1WWhb.gif" width="300" height="650">|![](https://i.imgur.com/vyhsNog.gif)|
+    
+|Pagination(무한 스크롤)|리프레시 컨트롤|수정/등록 Alert| 상세 이미지 페이징 |
+|:---:|:---:|:---:|:---:|
+|![](https://i.imgur.com/OV760oy.gif)|![](https://i.imgur.com/gcTPDbU.gif)|![](https://i.imgur.com/95ahAb9.gif)|![](https://i.imgur.com/NPBKeXf.gif)|
+
+| 업데이트 버튼(새 게시물) | 키보드 높이 조정 | 상품 삭제 및 업데이트 | 상품 수정 및 업데이트  |
+|:---:|:---:|:---:|:---:|
+|![](https://i.imgur.com/TybJtTU.gif)|![](https://i.imgur.com/ycqAzdY.gif)|![](https://i.imgur.com/DPPsjQg.gif)|![](https://i.imgur.com/nQkNwAD.gif)|
+
 
 </center>
 
@@ -159,3 +173,124 @@ NSCache를 활용하여 URL으로 부터 받아오는 이미지 데이터를 캐
 - Segmented Control
 - AutoLayout
 - NSMutableAttributedString
+
+## Step 3
+
+## 고민했던 점 
+
+### 1. 상품 등록/수정 `ViewController`의 공통 기능 구현 
+
+컨테이너 뷰의 레이아웃을 잡는다거나, alert를 띄우는 등 등록/수정 ViewController에서 공통적으로 필요로하는 기능들을 프로토콜 기본구현으로 제공해봤습니다. 다만 Objective-C 메서드들은 프로토콜 기본 구현이 불가하다는 점에 한계를 직접 경험해본 것 같습니다. 이에 상속과 프로토콜 기본 구현 관련하여 고민을 해봤습니다.
+
+- 상속
+    - 다중 상속이 불가능하다
+- 프로토콜 기본 구현 
+    - Objective-C 프로토콜은 기본 구현이 불가능하다.
+
+### 2. `UIImage` 이미지 크기 조정 
+
+UIGraphics를 사용하여 이미지 크기를 조절해주었습니다. `UIGraphicsBeginImageContextWithOptions()` 메서드를 호출하여 비트맵을 만들고 `UIImage.draw(in:)`로 원하는 사이즈만큼 줄인 뒤, `UIGraphicsGetImageFromCurrentImageContext()` 메서드를 통해 크기가 조정된 이미지를 얻었습니다. 이후 `UIGraphicsEndImageContext()`를 호출하여 비트맵을 제거 처리해주면서 이미지 크기를 조정하는 로직을 구현했습니다. 
+
+### 3. 키보드 사용에 따른 ScrollView inset 조정
+
+textField나 textView에 텍스트 작성시 화면이 작은 iPod Touch의 경우 키보드가 이벤트 발생 뷰를 가려버리는 문제가 있어 키보드가 올라옴에 따라 스크롤 뷰의 `contentInset.bottom`을 키보드의 높이만큼 지정하여 키보드가 텍스트필드나, 텍스트뷰를 가릴 일이 없도록 구현하였습니다.
+
+### 4. View와 ViewController 분리 
+
+뷰와 뷰컨트롤러의 책임을 덜기위해 둘 사이에 `ProductRegisterManager`라는 객체를 생성하였습니다.
+
+매니저는 뷰를 알고있어 뷰의 특정 속성값을 알 수 있고, 뷰컨트롤러는 매니저를 알고있기에 매니저가 구한 뷰의 속성값을 받기만 하면 되게끔 하여 뷰컨트롤러의 책임을 덜어주었습니다.
+
+
+### 5. 이미지 추가/삭제 
+
+이미지의 경우 5개까지 추가 가능하기에, 추가된 이미지가 5개가 되면 추가 버튼을 `isHidden = true`하여 숨겨주었습니다. 이 부분은 숨김 처리하는 것 보다, 추후에 alert를 주어 최대 등록 개수를 알려주거나, 추가 버튼 내에서 현재 등록된 개수/최대 개수를 나타내주는 방식으로 수정하면 좋을 것 같다고 생각했습니다. 
+
+또한 이미지를 등록하는 과정에서 추가한 이미지를 제거할 수 도 있어야 한다고 생각해서 제거 버튼을 구현해주었습니다. 이 부분은 `UIImageview`와 `UIButton`을 가지는 컨테이너 뷰를 만들어서 커스텀하게 구현해주었습니다. 
+
+## 학습 키워드
+
+- Image Resizing
+- 프로토콜 기본 구현 / 상속
+- Custom View 구현 
+- View와 ViewController 분리 
+- Keyboard 관리 
+- Delegate pattern
+- UIImagePickerController
+    - 사용자 사진첩 접근 권한 설정 
+- UISegmentedControl
+- ScrollView
+- Networking
+    - multipart/form
+    - URLSession
+    - HttpRequest, HttpResponse
+    - Request, Response Debugging
+
+## Step 4
+
+### 고민했던 점 
+
+### 1. 공통 기능 상속 구현 
+
+상품 등록/수정 화면에서 요구되는 공통된 화면,기능들이 많았었기에, 이전 step에서는 프로토콜 기본 구현을 활용하여 공통 기능들을 구현해줬었습니다. 하지만 objective-c 메서드들은 프로토콜 기본 구현이 불가하기 때문에, 이번 step에서는 `상속`을 활용하여 공통 기능을 구현하고 이를 상속하여 기능들을 사용할 수 있도록 해줬습니다. 
+
+각 하위 뷰 컨트롤러에서 가져야하는 특수한 화면이나, 기능들의 경우 상속 이후 자체적으로 내부에서 구현해줬습니다.
+
+### 2. 상품 수정/삭제 접근 권한 
+
+상품 상세 화면에 진입하게 되면, 우측 상단에 상품 수정/삭제 버튼이 보여야 한다는 요구사항이 있었습니다. 
+
+상품 수정/삭제의 경우 본인이 등록한 상품이 아닐 경우 수정/삭제가 불가능하기 때문에 초입부에서부터 접근을 막아주는 것이 효율적일 것이라 판단했습니다. 
+
+이에 상품 상세 화면에 진입했을 때, 본인 상품인지 아닌지를 먼저 판별하여 화면에서의 버튼 노출 여부를 결정하였습니다. 
+
+|본인이 등록 상품 상세 화면|타인이 등록한 상품 상세 화면|
+|:---:|:---:|
+|![](https://i.imgur.com/OP1NXVk.png)|![](https://i.imgur.com/SiEaFuX.png)|
+
+### 3. NotificationCenter를 활용한 업데이트 요청
+
+상품 수정/삭제가 이루어지고 해당 화면이 내려가게 되면 이전 메인 화면이나 상품 상세 화면에서의 업데이트 또한 필요했습니다. 
+
+이에 NotificationCenter의 userInfo에 업데이트된 데이터를 담아 최신 데이터로 업데이트 해줄 것을 요청하는 로직을 구현했습니다. 매번 업데이트를 요청하는 것이 아니라, 데이터의 변경사항에 발생했을 때만 업데이트를 보내주도록 하여 무분별한 API 요청을 하지 않도록 구현했습니다.
+
+### 4. 상세 화면 이미지를 화면에 꽉 차도록 리사이징
+
+|Before Resize|After Resize|
+|:--:|:--:|
+|![](https://i.imgur.com/qbF7kyy.png)|![](https://i.imgur.com/cwPyPpd.png)|
+
+`scaleAspectFill`을 쓰면 이미지가 확대되어 잘리는데, 저희가 원하는 모습은 이미지가 잘리지않는 모습이기때문에 이미지뷰의 속성을 `scaleAspectFit`을 사용하여 이미지가 잘리지 않게 구현하였습니다.
+
+하지만 이미지가 잘리진 않아도, 양 옆에 하얀 공백이 생기는 것이 마음에 들지않아 이전에 구현해놓았던 `resize` 메서드를 활용하여 공백이 생기지 않도록 조정해주었습니다. 
+
+
+### 5. Pagination(무한 스크롤) 구현 
+
+CollectionView를 스크롤하여 가장 마지막 게시글까지 화면에 노출되는 경우, 추가적으로 다음 페이지의 데이터를 서버에 요청해오고 데이터 및 UI를 업데이트 하도록 해줬습니다. 
+
+하지만 추가적으로 데이터가 발생함에 따라 스크롤이 버벅이는 문제가 발생했습니다. 이에 기존에 동기적으로 받아오던 이미지를 비동기적으로 받아올 수 있도록 개선하였고, collectionView의 prefetch를 사용하여 데이터를 보여주기 이전에 미리 데이터를 업데이트 해둘 수 있도록 했습니다. 
+
+### 6. CollectionView RefreshControl 구현 
+
+CollectionView를 위에서 아래로 터치하여 끌어내릴 경우 list/grid 화면을 업데이트 해주도록 구현하였습니다. collectionView가 가지는 기본적인 RefreshControl에 Custom RefreshControl을 적용시켰고, 목록 최상단에서 스크롤을 끌어내릴 시 서버에 요청을 보내 최신 데이터를 받아 기존 데이터가 업데이트되도록 구현하였습니다.
+
+### 7. 새 게시물 조회 후 업데이트 버튼 노출
+
+![](https://i.imgur.com/nTDW4dq.gif)
+
+`Timer`를 이용하여 정해준 시점에 한번씩 서버에 요청을 보내 현재 어플리케이션이 갖고 있는 데이터와 서버단의 데이터를 비교하여 서버단의 데이터가 현재 데이터보다 최신일 시 애니메이션이 추가된 버튼이 내려와 사용자에게 새로운 게시물이 있다고 알림으로써 접근성과 편의성을 고려하였습니다.
+
+## 학습 키워드
+
+- View Animate
+- Custom View
+- Image Resize
+- Notification
+- 공통 기능 상속
+- UIAdaptivePresentationControllerDelegate
+- 상품 수정/삭제 API 
+- CollectionView
+    - UICollectionViewDataSourcePrefetching
+    - prepareForReuse
+    - Pagination (무한 스크롤)
