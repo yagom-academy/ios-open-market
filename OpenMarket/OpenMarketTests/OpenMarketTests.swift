@@ -3,11 +3,11 @@ import XCTest
 
 class OpenMarketTests: XCTestCase {
     var sut: ProductService!
+    let vendorIdentification = "3594c847-7217-11ec-abfa-c755b3088c6f"
+    let vendorSecret = "hSBq8Dn6y!GuA4#e"
 
     override func setUpWithError() throws {
         sut = ProductService()
-        let vendorIdentification = "cd706a3e-66db-11ec-9626-796401f2341a"
-        UserDefaultUtility().setVendorIdentification(vendorIdentification)
     }
 
     func test_checkNetworkConnection() {
@@ -114,7 +114,7 @@ class OpenMarketTests: XCTestCase {
             currency: .KRW,
             discountedPrice: 100,
             stock: 1,
-            secret: "password")
+            secret: vendorSecret)
         var images: [Data] = []
         let imageData = UIImage(named: "robot")!.pngData()!
 
