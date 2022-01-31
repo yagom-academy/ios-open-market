@@ -41,7 +41,7 @@ class ItemRegisterAndModifyManager {
 
     func appendToPhotoModel(with image: UIImage) {
         let croppedImage = image.crop()
-        let resizedImage = croppedImage.resize(newWidth: 200)
+        let resizedImage = croppedImage.resize(newWidth: 100)
         appendImageData(resizedImage)
 
         let newPhotoModel = ImageCollectionViewCellModel(image: resizedImage)
@@ -49,7 +49,7 @@ class ItemRegisterAndModifyManager {
         photoModels.insert(.image(model: newPhotoModel), at: locationOfNewImage)
     }
 
-    private func fillWithInformation(
+    func fillWithInformation(
         _ name: String?,
         _ description: String?,
         _ price: String?,
@@ -65,16 +65,7 @@ class ItemRegisterAndModifyManager {
         self.stock = stock
     }
 
-    func createItem(
-        by mode: Mode,
-        _ name: String?,
-        _ description: String?,
-        _ price: String?,
-        _ currency: String,
-        _ discountedPrice: String?,
-        _ stock: String?
-    ) {
-        fillWithInformation(name, description, price, currency, discountedPrice, stock)
+    func sendRequest(_ mode: Mode) {
         switch mode {
         case .register:
             guard let item = createItemToRegister() else {

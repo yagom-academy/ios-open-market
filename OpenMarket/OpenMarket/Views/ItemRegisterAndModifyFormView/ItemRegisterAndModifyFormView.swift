@@ -2,9 +2,9 @@ import UIKit
 
 protocol ItemRegisterAndModifyFormViewDelegate: AnyObject {
     func setupNavigationBar()
-    func register()
+    func present(_ viewController: UIViewController)
     func dismiss()
-    func presentImagePicker(_ imagePicker: UIImagePickerController)
+    func informMode() -> Mode
 }
 
 class ItemRegisterAndModifyFormView: UIView {
@@ -128,12 +128,24 @@ class ItemRegisterAndModifyFormView: UIView {
     }
 
     @objc private func doneButtonDidTap() {
-        delegate?.register()
+        manager.fillWithInformation(
+            nameInputTextField.text,
+            descriptionInputTextView.text,
+            priceInputTextField.text,
+            currencySegmentedControl.titleForSegment(
+                at: currencySegmentedControl.selectedSegmentIndex)!,
+            discountedPriceInputTextField.text,
+            stockInputTextField.text)
+        guard let mode = delegate?.informMode() else {
+            return
+        }
+        manager.sendRequest(mode)
     }
 
     @objc private func cancelButtonDidTap() {
         delegate?.dismiss()
     }
+
     private func setupViews() {
         priceStackView.addArrangedSubview(priceInputTextField)
         priceStackView.addArrangedSubview(currencySegmentedControl)
@@ -239,7 +251,7 @@ extension ItemRegisterAndModifyFormView: UIImagePickerControllerDelegate,
         imagePicker.delegate = self
         imagePicker.sourceType = .photoLibrary
         imagePicker.allowsEditing = true
-        delegate?.presentImagePicker(imagePicker)
+        delegate?.present(imagePicker)
     }
 }
 
