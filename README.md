@@ -25,7 +25,7 @@
     
 |List|Grid|ActivityIndicator|List, Grid 전환|
 |:---:|:---:|:---:|:---:|
-|<img src="https://i.imgur.com/LlxM52k.gif" width="390" height="650">|<img src="https://i.imgur.com/ZYYRaKq.gif" width="350" height="650">|<img src="https://i.imgur.com/6F1WWhb.gif" width="300" height="650">|<img src="https://i.imgur.com/vyhsNog.gif" width="390" height="650">|
+|<img src="https://i.imgur.com/LlxM52k.gif" width="390" height="450">|<img src="https://i.imgur.com/ZYYRaKq.gif" width="350" height="450">|<img src="https://i.imgur.com/6F1WWhb.gif" width="300" height="450">|<img src="https://i.imgur.com/vyhsNog.gif" width="390" height="450">|
 
     
 |Pagination(무한 스크롤)|리프레시 컨트롤|수정/등록 Alert| 상세 이미지 페이징 |
