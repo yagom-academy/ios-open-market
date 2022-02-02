@@ -14,7 +14,7 @@ final class LoadingCell: UICollectionViewCell {
         super.awakeFromNib()
     }
     
-    func start() {
+    func startLoadingIndicator() {
         loadingIndicator.startAnimating()
     }
 }
