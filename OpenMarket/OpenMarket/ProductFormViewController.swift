@@ -266,7 +266,6 @@ extension ProductFormViewController {
     }
     
     private func registerProduct() {
-        let apiService = MarketAPIService()
         guard let postProduct = makePostProduct() else {
             presentAlert(
                 alertTitle: "제품등록 실패",
@@ -275,7 +274,7 @@ extension ProductFormViewController {
             )
             return
         }
-        apiService.registerProduct(product: postProduct, images: productImages) { result in
+        MarketAPIService().registerProduct(product: postProduct, images: productImages) { result in
             switch result {
             case .success(_):
                 DispatchQueue.main.async {
@@ -315,11 +314,10 @@ extension ProductFormViewController {
 
         let product = PatchProduct(name: name, descriptions: descriptions, thumbnailID: nil, price: price, currency: currency.description, discountedPrice: Int(discountedPriceTextField.text!), stock:stock, secret: "password")
 
-        let apiservice = MarketAPIService()
         guard let productID = productID else {
             return
         }
-        apiservice.updateProduct(productID: productID, product: product) { result in
+        MarketAPIService().updateProduct(productID: productID, product: product) { result in
             switch result {
             case .success(_):
                 DispatchQueue.main.async {

@@ -96,9 +96,8 @@ extension GridViewController {
     
     private func fetchNextPage() {
         var cellProduct: [Product] = []
-        let apiService = MarketAPIService()
         
-        apiService.fetchPage(pageNumber: pageNumber, itemsPerPage: 20) { [weak self] result in
+        MarketAPIService().fetchPage(pageNumber: pageNumber, itemsPerPage: 20) { [weak self] result in
             guard let self = self else {
                 return
             }
@@ -136,7 +135,7 @@ extension GridViewController: UICollectionViewDataSource {
     ) -> Int {
         if section == 0 {
             return products.count
-        } else if section == 1, isPaging {
+        } else if section == 1 && isPaging {
             return 2
         } else {
             return 0

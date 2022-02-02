@@ -60,9 +60,8 @@ final class ProductDetailsViewController: UIViewController {
     // MARK: - Internal Methods
     
     func fetchDetails(of productID: Int) {
-        let apiService = MarketAPIService()
         startLoadingIndicator()
-        apiService.fetchProduct(productID: productID) { [weak self] result in
+        MarketAPIService().fetchProduct(productID: productID) { [weak self] result in
             guard let self = self else {
                 return
             }
@@ -79,7 +78,10 @@ final class ProductDetailsViewController: UIViewController {
                 }
             case .failure(_):
                 DispatchQueue.main.async {
-                    self.presentAlert(alertTitle: "데이터를 가져오지 못했습니다", alertMessage: "죄송해요") { _ in
+                    self.presentAlert(
+                        alertTitle: "데이터를 가져오지 못했습니다",
+                        alertMessage: "죄송해요"
+                    ) { _ in
                         self.navigationController?.popViewController(animated: true)
                     }
                 }
@@ -100,7 +102,10 @@ extension ProductDetailsViewController {
     }
     
     private func setLabels(with product: ProductDetails) {
-        let presentation = getPresentation(product: product, identifier: ProductDetailsViewController.identifier)
+        let presentation = getPresentation(
+            product: product,
+            identifier: ProductDetailsViewController.identifier
+        )
         
         setProductNameLabel(with: presentation)
         setStockLabel(with: presentation)
@@ -125,7 +130,6 @@ extension ProductDetailsViewController {
         if presentation.priceLabelIsCrossed {
             priceLabel.attributedText = priceLabel.convertToAttributedString(from: priceLabel)
         }
-//        priceLabel.attributedText = presentation.priceLabelIsCrossed ? priceLabel.convertToAttributedString(from: priceLabel) : nil
     }
     
     private func setDiscountedPriceLabel(with presentation: ProductUIPresentation) {
@@ -171,13 +175,16 @@ extension ProductDetailsViewController {
         guard let controller = storyboard?.instantiateViewController(
             identifier: ProductFormViewController.identifier,
             creator: { coder in
-                ProductFormViewController(delegate: self, pageMode: .edit, coder: coder)
+                ProductFormViewController(
+                    delegate: self,
+                    pageMode: .edit,
+                    coder: coder
+                )
             }
         ) else {
             assertionFailure("init(coder:) has not been implemented")
             return
         }
-
         controller.modalPresentationStyle = .fullScreen
         present(controller, animated: true, completion: nil)
         
@@ -188,12 +195,17 @@ extension ProductDetailsViewController {
     }
     
     private func deleteProduct(productID: Int, secret: String) {
-        let apiService = MarketAPIService()
-        apiService.deleteProduct(productID: productID, productSecret: secret) { result in
+        MarketAPIService().deleteProduct(
+            productID: productID,
+            productSecret: secret
+        ) { result in
             switch result {
             case .success(_):
                 DispatchQueue.main.async {
-                    self.presentAlert(alertTitle: "삭제완료", alertMessage: "제품을 삭제했습니다") { [weak self] _ in
+                    self.presentAlert(
+                        alertTitle: "삭제 완료",
+                        alertMessage: "제품을 삭제했습니다"
+                    ) { [weak self] _ in
                         guard let self = self else {
                             return
                         }
@@ -202,7 +214,10 @@ extension ProductDetailsViewController {
                 }
             case .failure(_):
                 DispatchQueue.main.async {
-                    self.presentAlert(alertTitle: "삭제실패", alertMessage: "유감입니다") { [weak self]_ in
+                    self.presentAlert(
+                        alertTitle: "삭제 실패",
+                        alertMessage: "유감입니다"
+                    ) { [weak self] _ in
                         guard let self = self else {
                             return
                         }
@@ -218,18 +233,23 @@ extension ProductDetailsViewController {
             if action.title == "수정" {
                 self.showEditController()
             } else {
-                let apiService = MarketAPIService()
                 let password = Password(secret: "password")
                 guard let product = self.product else {
                     return
                 }
-                apiService.getSecret(productID: product.id, password: password) { result in
+                MarketAPIService().getSecret(
+                    productID: product.id,
+                    password: password
+                ) { result in
                     switch result {
                     case .success(let secret):
                         self.deleteProduct(productID: product.id, secret: secret)
                     case .failure(_):
                         DispatchQueue.main.async {
-                            self.presentAlert(alertTitle: "삭제실패", alertMessage: "자신의 제품만 삭제 할 수 있습니다") { [weak self]_ in
+                            self.presentAlert(
+                                alertTitle: "삭제 실패",
+                                alertMessage: "자신의 제품만 삭제할 수 있습니다"
+                            ) { [weak self]_ in
                                 guard let self = self else {
                                     return
                                 }
@@ -259,7 +279,8 @@ extension ProductDetailsViewController: UICollectionViewDataSource {
     ) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: ProductDetailsImageCell.identifier,
-            for: indexPath) as? ProductDetailsImageCell else {
+            for: indexPath
+        ) as? ProductDetailsImageCell else {
             return UICollectionViewCell()
         }
         let imageURL = images[indexPath.row].url
@@ -296,16 +317,21 @@ extension ProductDetailsViewController: UICollectionViewDelegateFlowLayout {
         targetContentOffset: UnsafeMutablePointer<CGPoint>
     ) {
         targetContentOffset.pointee = scrollView.contentOffset
-        var indexes = self.collectionView.indexPathsForVisibleItems
-        indexes.sort()
-        var index = indexes.first!
-        let cell = self.collectionView.cellForItem(at: index)!
-        let position = self.collectionView.contentOffset.x - cell.frame.origin.x
+        let sortedIndexes = collectionView.indexPathsForVisibleItems.sorted()
+        guard var firstIndex = sortedIndexes.first,
+              let cell = collectionView.cellForItem(at: firstIndex) else {
+                  return
+              }
+        let position = collectionView.contentOffset.x - cell.frame.origin.x
         if position > cell.frame.size.width / 2 {
-            index.row = index.row + 1
+            firstIndex.row = firstIndex.row + 1
         }
-        self.collectionView.scrollToItem(at: index, at: .left, animated: true)
-        pageControl.currentPage = index.row
+        self.collectionView.scrollToItem(
+            at: firstIndex,
+            at: .left,
+            animated: true
+        )
+        pageControl.currentPage = firstIndex.row
     }
 }
 
@@ -313,9 +339,13 @@ extension ProductDetailsViewController: UICollectionViewDelegateFlowLayout {
 
 extension ProductDetailsViewController: DoneButtonTappedDelegate {
     func registerButtonTapped() {
-        let apiService = MarketAPIService()
-        
-        apiService.fetchProduct(productID: product!.id) { result in
+        guard let product = product else {
+            return
+        }
+        MarketAPIService().fetchProduct(productID: product.id) { [weak self] result in
+            guard let self = self else {
+                return
+            }
             switch result {
             case .success(let product):
                 self.product = product
@@ -324,8 +354,12 @@ extension ProductDetailsViewController: DoneButtonTappedDelegate {
                     self.setNavigationTitle(with: product)
                     self.setLabels(with: product)
                 }
-            case .failure(let error):
-                print(error)
+            case .failure(_):
+                self.presentAlert(
+                    alertTitle: "로딩 실패",
+                    alertMessage: "상품의 상세를 가져올 수 없습니다",
+                    handler: nil
+                )
             }
         }
     }
@@ -337,4 +371,4 @@ extension ProductDetailsViewController: ProductUIPresentable {}
 
 // MARK: - IdentifiableView
 
-extension ProductDetailsViewController: IdentifiableView { }
+extension ProductDetailsViewController: IdentifiableView {}

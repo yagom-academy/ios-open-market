@@ -17,7 +17,10 @@ final class MarketViewController: UIViewController {
     private var products: [Product] = []
     
     private lazy var listViewController: ListViewController = {
-        let storyboard = UIStoryboard(name: StoryboardIdentifier.main, bundle: Bundle.main)
+        let storyboard = UIStoryboard(
+            name: StoryboardIdentifier.main,
+            bundle: Bundle.main
+        )
         let viewController = storyboard.instantiateViewController(
             identifier: ListViewController.identifier
         ) { coder in
@@ -27,7 +30,10 @@ final class MarketViewController: UIViewController {
     }()
     
     private lazy var gridViewController: GridViewController = {
-        let storyboard = UIStoryboard(name: StoryboardIdentifier.main, bundle: Bundle.main)
+        let storyboard = UIStoryboard(
+            name: StoryboardIdentifier.main,
+            bundle: Bundle.main
+        )
         let viewController = storyboard.instantiateViewController(
             identifier: GridViewController.identifier
         ) { coder in
@@ -52,6 +58,7 @@ final class MarketViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         addNotificationObserver()
         setupSegmentedControl()
         fetchPage(pageNumber: 1, itemsPerPage: 20) { [weak self] _ in
@@ -84,7 +91,11 @@ extension MarketViewController {
         guard let destination = storyboard?.instantiateViewController(
             identifier: ProductFormViewController.identifier,
             creator: { coder in
-                ProductFormViewController(delegate: self, pageMode: .register, coder: coder)
+                ProductFormViewController(
+                    delegate: self,
+                    pageMode: .register,
+                    coder: coder
+                )
             }
         ) else {
             assertionFailure("init(coder:) has not been implemented")
@@ -161,8 +172,7 @@ extension MarketViewController {
         itemsPerPage: Int,
         completion: @escaping (_ products: [Product]?) -> ()
     ) {
-        let apiService = MarketAPIService()
-        apiService.fetchPage(
+        MarketAPIService().fetchPage(
             pageNumber: pageNumber,
             itemsPerPage: itemsPerPage
         ) { [weak self] result in
@@ -173,8 +183,12 @@ extension MarketViewController {
             case .success(let data):
                 self.products = data.products
                 completion(data.products)
-            case .failure(let error):
-                print(error)
+            case .failure(_):
+                self.presentAlert(
+                    alertTitle: "로딩 실패",
+                    alertMessage: "데이터를 가져올 수 없었습니다.",
+                    handler: nil
+                )
             }
         }
     }
@@ -195,7 +209,7 @@ extension MarketViewController {
     }
 }
 
-// MARK: - AddButtonTappedDelegate
+// MARK: - DoneButtonTappedDelegate
 
 extension MarketViewController: DoneButtonTappedDelegate {
     func registerButtonTapped() {

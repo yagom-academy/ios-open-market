@@ -15,20 +15,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                willConnectTo session: UISceneSession,
                options connectionOptions: UIScene.ConnectionOptions
     ) {
-        guard let _ = (scene as? UIWindowScene) else { return }
-//        guard let marketViewController = UIStoryboard(
-//            name: "Main",
-//            bundle: nil
-//        ).instantiateViewController(
-//            withIdentifier: "MarketViewController"
-//        ) as? MarketViewController else {
-//            return
-//        }
-//        let marketAPIService = MarketAPIService()
-//        marketViewController.setAPIService(with: marketAPIService)
-//        let navigationController = UINavigationController(rootViewController: marketViewController)
-//
-//        self.window?.rootViewController = navigationController
+        guard let _ = (scene as? UIWindowScene) else {
+            return
+        }
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
