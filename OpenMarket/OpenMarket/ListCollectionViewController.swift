@@ -25,7 +25,7 @@ final class ListCollectionViewController: UIViewController {
 }
 
 //MARK: - Private Method
-extension ListCollectionViewController {
+extension ListCollectionViewController: UICollectionViewDelegate {
     private func create() {
         createCollectionView()
         createDataSource()

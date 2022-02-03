@@ -37,7 +37,7 @@ final class MainViewController: UIViewController {
 }
 
 //MARK: - Private Method
-extension MainViewController {
+extension MainViewController: UIScrollViewDelegate {
     private func create() {
         createSegmentedControl()
         createProductRegistrationButtonItem()

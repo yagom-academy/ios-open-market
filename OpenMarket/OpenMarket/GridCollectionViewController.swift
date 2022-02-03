@@ -32,7 +32,7 @@ final class GridCollectionViewController: UIViewController {
 }
 
 //MARK: - Private Method
-extension GridCollectionViewController {
+extension GridCollectionViewController: UICollectionViewDelegate {
     private func create() {
         createCollectionView()
         createDataSource()
