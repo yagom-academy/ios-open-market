@@ -17,10 +17,20 @@ class ImageScrollView: UIScrollView, UIImagePickerControllerDelegate, UINavigati
         static let recommendedImageHeight: CGFloat = 500
     }
 
-    weak var viewController: UIViewController?
-    let imageStackView = UIStackView()
-    let imageAddingButton = UIButton()
+    var allImageData: [Data] {
+        let images: [UIImage] = imageStackView.arrangedSubviews.compactMap {
+            let imageView = $0 as? UIImageView
+            return imageView?.image
+        }
+        
+        return images.compactMap {
+            $0.jpegData(underBytes: LayoutAttribute.maximumImageBytesSize)
+        }
+    }
     
+    private weak var viewController: UIViewController?
+    private let imageStackView = UIStackView()
+    private let imageAddingButton = UIButton()
     private let imagePickerController = UIImagePickerController()
     
     override init(frame: CGRect) {
@@ -31,14 +41,15 @@ class ImageScrollView: UIScrollView, UIImagePickerControllerDelegate, UINavigati
         super.init(coder: coder)
     }
     
-    convenience init() {
+    convenience init(mode: Mode, viewController: UIViewController?) {
         self.init(frame: CGRect())
+        self.viewController = viewController
         organizeViewHierarchy()
-        configure()
+        configure(mode: mode)
     }
     
     //MARK: - Open Method
-    func add(imageView: UIImageView) {
+    func pushToStack(imageView: UIImageView) {
         imageStackView.insertArrangedSubview(imageView, at: 0)
         imageView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -67,9 +78,9 @@ class ImageScrollView: UIScrollView, UIImagePickerControllerDelegate, UINavigati
                 width: LayoutAttribute.recommendedImageWidth,
                 height: LayoutAttribute.recommendedImageHeight
             )
-            add(imageView: UIImageView(image: resizedImage))
+            pushToStack(imageView: UIImageView(image: resizedImage))
         } else {
-            add(imageView: UIImageView(image: squareImage))
+            pushToStack(imageView: UIImageView(image: squareImage))
         }
         
         picker.dismiss(animated: true, completion: nil)
@@ -81,15 +92,21 @@ class ImageScrollView: UIScrollView, UIImagePickerControllerDelegate, UINavigati
 extension ImageScrollView {
     private func organizeViewHierarchy() {
         addSubview(imageStackView)
-        addSubview(imageAddingButton)
+        imageStackView.addArrangedSubview(imageAddingButton)
     }
     
-    private func configure() {
+    private func configure(mode: Mode) {
         configureImageStackView()
-        configureImageAddingButton()
-        configureImagePickerController()
+        
+        if mode == .register {
+            configureImageAddingButton()
+            configureImagePickerController()
+        } else if mode == .modify {
+            imageAddingButton.isHidden = true
+        }
     }
     
+    //MARK: - StackView
     private func configureImageStackView() {
         imageStackView.axis = .horizontal
         imageStackView.spacing = LayoutAttribute.largeSpacing
@@ -102,6 +119,7 @@ extension ImageScrollView {
         ])
     }
     
+    //MARK: - ImageAddingButton
     private func configureImageAddingButton() {
         imageAddingButton.backgroundColor = .systemGray5
         imageAddingButton.setImage(UIImage(systemName: "plus"), for: .normal)

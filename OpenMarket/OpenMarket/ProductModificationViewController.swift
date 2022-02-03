@@ -1,9 +1,26 @@
 import UIKit
+import JNomaKit
 
 class ProductModificationViewController: UIViewController {
     
     typealias Product = ProductDetailQueryManager.Response
     
+    enum LayoutAttribute {
+        static let largeSpacing: CGFloat = 10
+        static let smallSpacing: CGFloat = 5
+    }
+    
+    private let navigationBar = JNNavigationBar()
+    private let wholeScreenScrollView = UIScrollView()
+    private var imageScrollView: ImageScrollView!
+    private let textFieldStackView = UIStackView()
+    private let nameTextField = CenterAlignedTextField()
+    private let priceStackView = UIStackView()
+    private let priceTextField = CenterAlignedTextField()
+    private let currencySegmentedControl = UISegmentedControl()
+    private let         discountedPriceTextField = CenterAlignedTextField()
+    private let stockTextField = CenterAlignedTextField()
+    private let descriptionTextView = UITextView()
     private var product: Product?
     
     //MARK: - Initializer
@@ -23,35 +40,66 @@ class ProductModificationViewController: UIViewController {
     //MARK: - Life Cycle
     override func loadView() {
         super.loadView()
-        view = ProductEditingView(viewController: self)
+        create()
+        organizeViewHierarchy()
         configure()
-    }
-    
-    private func configure() {
-        guard let view = view as? ProductEditingView,
-              let product = product else {
-                  return
-              }
-        
-        configureNavigationBar(at: view)
-        view.imageScrollView.imageAddingButton.isHidden = true
-        configureImageStackView(from: product, at: view)
-        configureNameTextField(from: product, at: view)
-        configurePriceTextField(from: product, at: view)
-        configureCurrencySegmentedControl(from: product, at: view)
-        configureBargainPriceTextField(from: product, at: view)
-        configureStockTextField(from: product, at: view)
-        configureDescriptionTextView(from: product, at: view)
     }
 }
 
-//MARK: - NavigationBar
 extension ProductModificationViewController {
+    private func create() {
+        imageScrollView = ImageScrollView(mode: .modify, viewController: nil)
+    }
     
-    private func configureNavigationBar(at view: ProductEditingView) {
-        view.navigationBar.setLeftButton(title: "Cancel", action: #selector(dismissModal))
-        view.navigationBar.setMainLabel(title: "상품수정")
-        view.navigationBar.setRightButton(title: "Done", action: #selector(modifyProduct))
+    private func organizeViewHierarchy() {
+        view.addSubview(navigationBar)
+        view.addSubview(wholeScreenScrollView)
+
+        wholeScreenScrollView.addSubview(imageScrollView)
+        wholeScreenScrollView.addSubview(textFieldStackView)
+        wholeScreenScrollView.addSubview(descriptionTextView)
+
+        textFieldStackView.addArrangedSubview(nameTextField)
+        textFieldStackView.addArrangedSubview(priceStackView)
+        textFieldStackView.addArrangedSubview(discountedPriceTextField)
+        textFieldStackView.addArrangedSubview(stockTextField)
+    }
+    
+    private func configure() {
+        guard let product = product else { return }
+        
+        configureMainView()
+        configureNavigationBar()
+        configureWholeScreenScrollView()
+        configureImageScrollView(images: product.images)
+        configureTextFieldStackView()
+        configureNameTextField(text: product.name)
+        configurePriceStackView()
+        configurePriceTextField(price: product.price)
+        configureCurrencySegmentedControl(currency: product.currency)
+        configureDiscountedPriceTextField(discountedPrice: product.discountedPrice)
+        configureStockTextField(stock: product.stock)
+        configureDescriptionTextView(text: product.description)
+    }
+    
+    private func configureMainView() {
+        view.backgroundColor = .systemBackground
+    }
+
+    //MARK: - NavigationBar
+    private func configureNavigationBar() {
+        navigationBar.setLeftButton(title: "Cancel", action: #selector(dismissModal))
+        navigationBar.setMainLabel(title: "상품수정")
+        navigationBar.setRightButton(title: "Done", action: #selector(modifyProduct))
+        
+        navigationBar.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            navigationBar.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,
+                                                         constant: LayoutAttribute.largeSpacing),
+            navigationBar.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,
+                                                          constant: -1 * LayoutAttribute.largeSpacing),
+            navigationBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
+        ])
     }
     
     @objc private func dismissModal() {
@@ -59,24 +107,25 @@ extension ProductModificationViewController {
     }
     
     @objc private func modifyProduct() {
-        guard let view = view as? ProductEditingView,
-              let product = product else {
+        guard let product = product else {
                   return
               }
         
-        let currency = view.currencySegmentedControl.titleForSegment(at: view.currencySegmentedControl.selectedSegmentIndex)
-        NetworkingAPI.ProductModify.request(session: URLSession.shared,
-                                            identifier: Vendor.identifier,
-                                            productId: product.id,
-                                            name: view.nameTextField.text,
-                                            descriptions: view.descriptionTextView.text,
-                                            thumbnailId: nil,
-                                            price: Double(view.priceTextField.text ?? ""),
-                                            currency: currency,
-                                            discountedPrice: Double(view.bargainPriceTextField.text ?? ""),
-                                            stock: Int(view.stockTextField.text ?? ""),
-                                            secret: Vendor.secret) {
-            result in
+        let currency = currencySegmentedControl.titleForSegment(at: currencySegmentedControl.selectedSegmentIndex)
+        NetworkingAPI.ProductModify.request(
+            session: URLSession.shared,
+            identifier: Vendor.identifier,
+            productId: product.id,
+            name: nameTextField.text,
+            descriptions: descriptionTextView.text,
+            thumbnailId: nil,
+            price: Double(priceTextField.text ?? ""),
+            currency: currency,
+            discountedPrice: Double(        discountedPriceTextField.text ?? ""),
+            stock: Int(stockTextField.text ?? ""),
+            secret: Vendor.secret
+        ) { result in
+            
             switch result {
             case .success:
                 print("Modify success")
@@ -88,17 +137,40 @@ extension ProductModificationViewController {
             }
         }
     }
-}
-
-//MARK: - ImageStackView
-extension ProductModificationViewController {
     
-    private func configureImageStackView(from product: Product, at view: ProductEditingView) {
-        for _ in (1...product.images.count) {
-            view.imageScrollView.add(imageView: UIImageView())
+    //MARK: - WholeScreenScrollView
+    private func configureWholeScreenScrollView() {
+        wholeScreenScrollView.translatesAutoresizingMaskIntoConstraints = false
+        wholeScreenScrollView.setContentHuggingPriority(.defaultLow, for: .vertical)
+        NSLayoutConstraint.activate([
+            wholeScreenScrollView.topAnchor.constraint(equalTo: navigationBar.bottomAnchor,
+                                                       constant: LayoutAttribute.largeSpacing),
+            wholeScreenScrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            wholeScreenScrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,
+                                                           constant: LayoutAttribute.largeSpacing),
+            wholeScreenScrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,
+                                                            constant: -1 * LayoutAttribute.largeSpacing)
+        ])
+    }
+
+    //MARK: - ImageScrollView
+    private func configureImageScrollView(images: [Product.Image]) {
+        fillImages(images: images)
+    
+        imageScrollView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            imageScrollView.widthAnchor.constraint(equalTo: wholeScreenScrollView.widthAnchor),
+            imageScrollView.topAnchor.constraint(equalTo: wholeScreenScrollView.topAnchor),
+            imageScrollView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.2),
+        ])
+    }
+    
+    private func fillImages(images: [Product.Image]) {
+        for _ in (1...images.count) {
+            imageScrollView.pushToStack(imageView: UIImageView())
         }
 
-        for (index, image) in product.images.enumerated() {
+        for (index, image) in images.enumerated() {
             ImageLoader.load(from: image.url) { result in
                 switch result {
                 case .success(let data):
@@ -107,7 +179,7 @@ extension ProductModificationViewController {
                         return
                     }
                     DispatchQueue.main.async {
-                        view.imageScrollView.update(image: image, at: index)
+                        self.imageScrollView.update(image: image, at: index)
                     }
                 case .failure(let error):
                     print(error.description)
@@ -115,34 +187,76 @@ extension ProductModificationViewController {
             }
         }
     }
-}
-
-//MARK: - TextField
-extension ProductModificationViewController {
     
-    private func configureNameTextField(from product: Product, at view: ProductEditingView) {
-        view.nameTextField.text = product.name
+    //MARK: - TextFieldStackView
+    private func configureTextFieldStackView() {
+        textFieldStackView.axis = .vertical
+        textFieldStackView.spacing = LayoutAttribute.smallSpacing
+        textFieldStackView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            textFieldStackView.topAnchor.constraint(equalTo: imageScrollView.bottomAnchor,
+                                                    constant: LayoutAttribute.largeSpacing),
+            textFieldStackView.widthAnchor.constraint(equalTo: wholeScreenScrollView.widthAnchor),
+        ])
     }
 
-    private func configurePriceTextField(from product: Product, at view: ProductEditingView) {
-        view.priceTextField.text = String(Int(product.price))
+    //MARK: - NameTextField
+    private func configureNameTextField(text: String) {
+        nameTextField.text = text
     }
     
-    private func configureCurrencySegmentedControl(from product: Product, at view: ProductEditingView){
-        let selectedIndex = product.currency == .KRW ? 0 : 1
-        view.currencySegmentedControl.selectedSegmentIndex = selectedIndex
+    //MARK: - PriceStackView
+    private func configurePriceStackView() {
+        priceStackView.axis = .horizontal
+        priceStackView.alignment = .center
+        priceStackView.spacing = LayoutAttribute.smallSpacing
+        priceStackView.translatesAutoresizingMaskIntoConstraints = false
+        
+        priceStackView.addArrangedSubview(priceTextField)
+        priceStackView.addArrangedSubview(currencySegmentedControl)
+    }
+
+    //MARK: - PriceTextField
+    private func configurePriceTextField(price: Double) {
+        priceTextField.text = String(Int(price))
+        priceTextField.setContentHuggingPriority(.defaultLow, for: .horizontal)
     }
     
-    private func configureBargainPriceTextField(from product: Product, at view: ProductEditingView){
-        view.bargainPriceTextField.text = String(Int(product.bargainPrice))
+    //MARK: - CurrencySegmentedControl
+    private func configureCurrencySegmentedControl(currency: ProductDetailQueryManager.Currency){
+        currencySegmentedControl.insertSegment(withTitle: "KRW", at: 0, animated: false)
+        currencySegmentedControl.insertSegment(withTitle: "USD", at: 1, animated: false)
+        let selectedIndex = currency == .KRW ? 0 : 1
+        currencySegmentedControl.selectedSegmentIndex = selectedIndex
+        currencySegmentedControl.isUserInteractionEnabled = false
+        currencySegmentedControl.translatesAutoresizingMaskIntoConstraints = false
+        currencySegmentedControl.setContentHuggingPriority(.defaultHigh, for: .horizontal)
     }
     
-    private func configureStockTextField(from product: Product, at view: ProductEditingView){
-        view.stockTextField.text = String(product.stock)
+    //MARK: - BargainPriceTextField
+    private func configureDiscountedPriceTextField(discountedPrice: Double){
+        discountedPriceTextField.text = String(Int(discountedPrice))
     }
     
-    private func configureDescriptionTextView(from product: Product, at view: ProductEditingView){
-        view.descriptionTextView.text = product.description
+    //MARK: - StockTextField
+    private func configureStockTextField(stock: Int){
+        stockTextField.text = String(stock)
+    }
+    
+    //MARK: - DescriptionTextView
+    private func configureDescriptionTextView(text: String){
+        descriptionTextView.text = text
+        descriptionTextView.font = .preferredFont(forTextStyle: .callout)
+        descriptionTextView.adjustsFontForContentSizeCategory = true
+        descriptionTextView.isScrollEnabled = false
+        descriptionTextView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            descriptionTextView.topAnchor.constraint(equalTo: textFieldStackView.bottomAnchor,
+                                                     constant: LayoutAttribute.largeSpacing),
+            descriptionTextView.bottomAnchor.constraint(equalTo: wholeScreenScrollView.bottomAnchor),
+            descriptionTextView.widthAnchor.constraint(equalTo: wholeScreenScrollView.widthAnchor),
+            descriptionTextView.heightAnchor.constraint(equalTo: view.heightAnchor),
+        ])
     }
 }
 

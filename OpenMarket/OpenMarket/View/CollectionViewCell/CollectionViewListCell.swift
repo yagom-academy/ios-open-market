@@ -198,7 +198,7 @@ extension CollectionViewListCell {
     private func updatePriceLabel(from product: Product) {
         let blank = NSMutableAttributedString(string: " ")
         let result = NSMutableAttributedString(string: "")
-        if product.price != product.bargainPrice {
+        if product.price != product.discountedPrice {
             let originalCurrency = JNAttributedStringMaker.attributedString(
                 text: "\(product.currency.rawValue) ",
                 textStyle: LayoutAttribute.PriceLabel.textStyle,
@@ -211,13 +211,13 @@ extension CollectionViewListCell {
                 fontColor: LayoutAttribute.PriceLabel.originalPriceFontColor,
                 attributes: [.decimal, .strikeThrough]
             )
-            let bargainCurrency = JNAttributedStringMaker.attributedString(
+            let discountedCurrency = JNAttributedStringMaker.attributedString(
                 text: "\(product.currency.rawValue) ",
                 textStyle: LayoutAttribute.PriceLabel.textStyle,
                 fontColor: LayoutAttribute.PriceLabel.bargainPriceFontColor
             )
-            let bargainPrice = JNAttributedStringMaker.attributedString(
-                text: product.bargainPrice.description,
+            let discountedPrice = JNAttributedStringMaker.attributedString(
+                text: product.discountedPrice.description,
                 textStyle: LayoutAttribute.PriceLabel.textStyle,
                 fontColor: LayoutAttribute.PriceLabel.bargainPriceFontColor,
                 attributes: [.decimal]
@@ -225,23 +225,23 @@ extension CollectionViewListCell {
             result.append(originalCurrency)
             result.append(originalPrice)
             result.append(blank)
-            result.append(bargainCurrency)
-            result.append(bargainPrice)
+            result.append(discountedCurrency)
+            result.append(discountedPrice)
         } else {
-            let bargainCurrency = JNAttributedStringMaker.attributedString(
+            let discountedCurrency = JNAttributedStringMaker.attributedString(
                 text: "\(product.currency.rawValue) ",
                 textStyle: LayoutAttribute.PriceLabel.textStyle,
                 fontColor: LayoutAttribute.PriceLabel.bargainPriceFontColor
             )
-            let bargainPrice = JNAttributedStringMaker.attributedString(
-                text: product.bargainPrice.description,
+            let discountedPrice = JNAttributedStringMaker.attributedString(
+                text: product.discountedPrice.description,
                 textStyle: LayoutAttribute.PriceLabel.textStyle,
                 fontColor: LayoutAttribute.PriceLabel.bargainPriceFontColor,
                 attributes: [.decimal]
             )
             
-            result.append(bargainCurrency)
-            result.append(bargainPrice)
+            result.append(discountedCurrency)
+            result.append(discountedPrice)
         }
 
         priceLabel.attributedText = result

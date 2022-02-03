@@ -20,7 +20,7 @@ class ProductDetailViewController: UIViewController {
         enum PriceLabel {
             static let textStyle: UIFont.TextStyle = .body
             static let originalPriceFontColor: UIColor = .red
-            static let bargainPriceFontColor: UIColor = .systemGray
+            static let discountedPriceFontColor: UIColor = .systemGray
         }
         
         enum DescriptionTextView {
@@ -394,7 +394,7 @@ extension ProductDetailViewController {
         
         let lineBreak = NSMutableAttributedString(string: "\n")
         let result = NSMutableAttributedString(string: "")
-        if product.price != product.bargainPrice {
+        if product.price != product.discountedPrice {
             let originalCurrency = JNAttributedStringMaker.attributedString(
                 text: "\(product.currency.rawValue) ",
                 textStyle: LayoutAttribute.PriceLabel.textStyle,
@@ -407,37 +407,37 @@ extension ProductDetailViewController {
                 fontColor: LayoutAttribute.PriceLabel.originalPriceFontColor,
                 attributes: [.decimal, .strikeThrough]
             )
-            let bargainCurrency = JNAttributedStringMaker.attributedString(
+            let discountedCurrency = JNAttributedStringMaker.attributedString(
                 text: "\(product.currency.rawValue) ",
                 textStyle: LayoutAttribute.PriceLabel.textStyle,
-                fontColor: LayoutAttribute.PriceLabel.bargainPriceFontColor
+                fontColor: LayoutAttribute.PriceLabel.discountedPriceFontColor
             )
-            let bargainPrice = JNAttributedStringMaker.attributedString(
-                text: product.bargainPrice.description,
+            let discountedPrice = JNAttributedStringMaker.attributedString(
+                text: product.discountedPrice.description,
                 textStyle: LayoutAttribute.PriceLabel.textStyle,
-                fontColor: LayoutAttribute.PriceLabel.bargainPriceFontColor,
+                fontColor: LayoutAttribute.PriceLabel.discountedPriceFontColor,
                 attributes: [.decimal]
             )
             result.append(originalCurrency)
             result.append(originalPrice)
             result.append(lineBreak)
-            result.append(bargainCurrency)
-            result.append(bargainPrice)
+            result.append(discountedCurrency)
+            result.append(discountedPrice)
         } else {
-            let bargainCurrency = JNAttributedStringMaker.attributedString(
+            let discountedCurrency = JNAttributedStringMaker.attributedString(
                 text: "\(product.currency.rawValue) ",
                 textStyle: LayoutAttribute.PriceLabel.textStyle,
-                fontColor: LayoutAttribute.PriceLabel.bargainPriceFontColor
+                fontColor: LayoutAttribute.PriceLabel.discountedPriceFontColor
             )
-            let bargainPrice = JNAttributedStringMaker.attributedString(
-                text: product.bargainPrice.description,
+            let discountedPrice = JNAttributedStringMaker.attributedString(
+                text: product.discountedPrice.description,
                 textStyle: LayoutAttribute.PriceLabel.textStyle,
-                fontColor: LayoutAttribute.PriceLabel.bargainPriceFontColor,
+                fontColor: LayoutAttribute.PriceLabel.discountedPriceFontColor,
                 attributes: [.decimal]
             )
             
-            result.append(bargainCurrency)
-            result.append(bargainPrice)
+            result.append(discountedCurrency)
+            result.append(discountedPrice)
         }
 
         productPriceLabel.attributedText = result

@@ -36,7 +36,6 @@
 		60D2102F279D3CE4004F4F45 /* ProductRegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60D2102E279D3CE4004F4F45 /* ProductRegistrationViewController.swift */; };
 		60EB057927A1954100465F58 /* ProductDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60EB057827A1954100465F58 /* ProductDetailViewController.swift */; };
 		60EB058227A3A3C800465F58 /* ProductModificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60EB058127A3A3C800465F58 /* ProductModificationViewController.swift */; };
-		60EB058927A3D8FB00465F58 /* ProductEditingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60EB058827A3D8FB00465F58 /* ProductEditingView.swift */; };
 		60EB05FC27A7013500465F58 /* JNomaKit in Frameworks */ = {isa = PBXBuildFile; productRef = 60EB05FB27A7013500465F58 /* JNomaKit */; };
 		60EB060127ABB7AB00465F58 /* ImageScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60EB060027ABB7AB00465F58 /* ImageScrollView.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
@@ -86,7 +85,6 @@
 		60D2102E279D3CE4004F4F45 /* ProductRegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductRegistrationViewController.swift; sourceTree = "<group>"; };
 		60EB057827A1954100465F58 /* ProductDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetailViewController.swift; sourceTree = "<group>"; };
 		60EB058127A3A3C800465F58 /* ProductModificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductModificationViewController.swift; sourceTree = "<group>"; };
-		60EB058827A3D8FB00465F58 /* ProductEditingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductEditingView.swift; sourceTree = "<group>"; };
 		60EB060027ABB7AB00465F58 /* ImageScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageScrollView.swift; sourceTree = "<group>"; };
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -166,7 +164,6 @@
 			isa = PBXGroup;
 			children = (
 				60EB05FF27ABB78D00465F58 /* ScrollView */,
-				60EB058727A3D8CE00465F58 /* View */,
 				60B7C20B279961170012215F /* TextField */,
 				60B7C1F22796ABD80012215F /* CollectionViewCell */,
 			);
@@ -177,7 +174,8 @@
 			isa = PBXGroup;
 			children = (
 				60D21032279D7587004F4F45 /* MainScene */,
-				60D21033279D7596004F4F45 /* ProductRegistrationScene, ProductModificationScene */,
+				60D21033279D7596004F4F45 /* ProductRegistrationScene */,
+				60EB060327ABCE1600465F58 /* ProductModificationScene */,
 				60EB057727A1952A00465F58 /* ProductDetailScene */,
 			);
 			name = ViewController;
@@ -272,13 +270,12 @@
 			name = MainScene;
 			sourceTree = "<group>";
 		};
-		60D21033279D7596004F4F45 /* ProductRegistrationScene, ProductModificationScene */ = {
+		60D21033279D7596004F4F45 /* ProductRegistrationScene */ = {
 			isa = PBXGroup;
 			children = (
 				60D2102E279D3CE4004F4F45 /* ProductRegistrationViewController.swift */,
-				60EB058127A3A3C800465F58 /* ProductModificationViewController.swift */,
 			);
-			name = "ProductRegistrationScene, ProductModificationScene";
+			name = ProductRegistrationScene;
 			sourceTree = "<group>";
 		};
 		60D21037279D7F8D004F4F45 /* ErrorType */ = {
@@ -297,20 +294,20 @@
 			name = ProductDetailScene;
 			sourceTree = "<group>";
 		};
-		60EB058727A3D8CE00465F58 /* View */ = {
-			isa = PBXGroup;
-			children = (
-				60EB058827A3D8FB00465F58 /* ProductEditingView.swift */,
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
 		60EB05FF27ABB78D00465F58 /* ScrollView */ = {
 			isa = PBXGroup;
 			children = (
 				60EB060027ABB7AB00465F58 /* ImageScrollView.swift */,
 			);
 			path = ScrollView;
+			sourceTree = "<group>";
+		};
+		60EB060327ABCE1600465F58 /* ProductModificationScene */ = {
+			isa = PBXGroup;
+			children = (
+				60EB058127A3A3C800465F58 /* ProductModificationViewController.swift */,
+			);
+			name = ProductModificationScene;
 			sourceTree = "<group>";
 		};
 		C70FB0EE25BEF61C00C9924E = {
@@ -478,7 +475,6 @@
 				60B7C1F52796B2800012215F /* ListCollectionViewController.swift in Sources */,
 				604E1F73278D629600FE6A83 /* JSONResponseDecodable.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
-				60EB058927A3D8FB00465F58 /* ProductEditingView.swift in Sources */,
 				188150B7278972BB00EE236E /* NetworkingAPI.swift in Sources */,
 				60B7C211279989E90012215F /* HTTPMessageMaker.swift in Sources */,
 				188150C42789791600EE236E /* ProductDetailQueryManager.swift in Sources */,
