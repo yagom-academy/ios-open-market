@@ -83,6 +83,7 @@ extension ProductModificationViewController {
         configureDescriptionTextView(text: product.description)
     }
     
+    //MARK: - MainView
     private func configureMainView() {
         view.backgroundColor = .systemBackground
     }
@@ -111,8 +112,11 @@ extension ProductModificationViewController {
         guard let product = product else {
                   return
               }
-        
         let currency = currencySegmentedControl.titleForSegment(at: currencySegmentedControl.selectedSegmentIndex)
+        
+        let grayView = UIView(frame: view.frame)
+        grayView.fillGrayScreenWithActivityIndicator(to: view)
+        
         NetworkingAPI.ProductModify.request(
             session: URLSession.shared,
             identifier: Vendor.identifier,
@@ -134,7 +138,10 @@ extension ProductModificationViewController {
                     self.dismiss(animated: true)
                 }
             case .failure(let error):
-                print(error)
+                DispatchQueue.main.async {
+                    grayView.removeFromSuperview()
+                    UIAlertController.simpleAlert(message: "상품수정에 실패했습니다\n\(error.description)", presentationDelegate: self)
+                }
             }
         }
     }

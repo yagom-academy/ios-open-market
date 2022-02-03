@@ -132,7 +132,7 @@ extension GridCollectionViewController: UICollectionViewDelegate {
             case .success(let data):
                 print("상품 \(id)의 secret은 \(String(decoding: data, as: UTF8.self))입니다")
             case .failure(let error):
-                print(error.description)
+                UIAlertController.simpleAlert(message: "상품 secret 조회에 실패했습니다\n\(error.description)", presentationDelegate: self)
             }
         }
         

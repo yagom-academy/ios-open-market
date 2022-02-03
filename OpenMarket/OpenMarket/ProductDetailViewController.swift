@@ -166,17 +166,7 @@ extension ProductDetailViewController {
             guard let inputSecret = alert.textFields?[0].text else {
                 return
             }
-            self.checkSecretAndDeleteProduct(inputSecret: inputSecret) { result in
-                switch result {
-                case .success(let secret):
-                    self.deleteProduct(secret: secret)
-                    DispatchQueue.main.async {
-                        self.navigationController?.popViewController(animated: true)
-                    }
-                case .failure(let error):
-                    print(error.description)
-                }
-            }
+            self.deleteProduct(secret: inputSecret)
         }
         
         alert.addTextField()
@@ -185,35 +175,13 @@ extension ProductDetailViewController {
         self.present(alert, animated: true)
     }
     
-    private func checkSecretAndDeleteProduct(inputSecret: String, completion: @escaping (Result<String, OpenMarketError>) -> Void) {
-        guard let productId = productId else {
-            return
-        }
-
-        NetworkingAPI.ProductDeleteSecretQuery.request(session: URLSession.shared,
-                                                       productId: productId,
-                                                       identifier: Vendor.identifier,
-                                                       secret: Vendor.secret) {
-            (result) in
-            switch result {
-            case .success(let data):
-                let secret = String(decoding: data, as: UTF8.self)
-                if inputSecret == secret {
-                    completion(.success(secret))
-                } else {
-                    completion(.failure(OpenMarketError.inputSecretIsWrong(secret)))
-                }
-            case .failure(let error):
-                completion(.failure(error))
-                return
-            }
-        }
-    }
-    
     private func deleteProduct(secret: String) {
         guard let productId = productId else {
             return
         }
+
+        let grayView = UIView(frame: view.frame)
+        grayView.fillGrayScreenWithActivityIndicator(to: view)
         
         NetworkingAPI.ProductDelete.request(session: URLSession.shared,
                                             identifier: Vendor.identifier,
@@ -222,12 +190,15 @@ extension ProductDetailViewController {
             result in
             switch result {
             case .success:
-                print("Delete Success")
+                print("delete success")
                 DispatchQueue.main.async {
-                    self.dismiss(animated: true)
+                    self.navigationController?.popViewController(animated: true)
                 }
             case .failure(let error):
-                print(error.description)
+                DispatchQueue.main.async {
+                    grayView.removeFromSuperview()
+                    UIAlertController.simpleAlert(message: "상품삭제에 실패했습니다\n\(error.description)", presentationDelegate: self)
+                }
             }
         }
     }

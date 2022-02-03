@@ -100,6 +100,7 @@ extension ProductRegistrationViewController {
               let discountedPriceText = bargainPriceTextField.text,
               let discountedPrice = Double(discountedPriceText),
               let stockText = stockTextField.text else {
+                  UIAlertController.simpleAlert(message: "입력이 올바르지 않습니다", presentationDelegate: self)
                   return
               }
         
@@ -108,9 +109,10 @@ extension ProductRegistrationViewController {
         let secret = Vendor.secret
         let images: [Data] = imageScrollView.allImageData
         
-        guard (1...5).contains(images.count) else {
-            return
-        }
+        guard (1...5).contains(images.count) else { return }
+        
+        let grayView = UIView(frame: view.frame)
+        grayView.fillGrayScreenWithActivityIndicator(to: view)
         
         NetworkingAPI.ProductRegistration.request(
             session: URLSession.shared,
@@ -128,12 +130,16 @@ extension ProductRegistrationViewController {
             switch result {
             case .success:
                 print("upload success")
+                DispatchQueue.main.async {
+                    self.dismiss(animated: true)
+                }
             case .failure(let error):
-                print(error)
+                DispatchQueue.main.async {
+                    grayView.removeFromSuperview()
+                    UIAlertController.simpleAlert(message: "상품등록에 실패했습니다\n\(error.description)", presentationDelegate: self)
+                }
             }
         }
-
-        dismiss(animated: true)
     }
     
     //MARK: - WholeScreenScrollView
