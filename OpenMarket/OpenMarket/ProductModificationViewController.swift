@@ -34,7 +34,7 @@ class ProductModificationViewController: UIViewController {
               }
         
         configureNavigationBar(at: view)
-        view.imageAddingButton.isHidden = true
+        view.imageScrollView.imageAddingButton.isHidden = true
         configureImageStackView(from: product, at: view)
         configureNameTextField(from: product, at: view)
         configurePriceTextField(from: product, at: view)
@@ -95,9 +95,9 @@ extension ProductModificationViewController {
     
     private func configureImageStackView(from product: Product, at view: ProductEditingView) {
         for _ in (1...product.images.count) {
-            view.addToStackViewAtFirst(imageView: UIImageView())
+            view.imageScrollView.add(imageView: UIImageView())
         }
-        
+
         for (index, image) in product.images.enumerated() {
             ImageLoader.load(from: image.url) { result in
                 switch result {
@@ -107,7 +107,7 @@ extension ProductModificationViewController {
                         return
                     }
                     DispatchQueue.main.async {
-                        view.updateImageOfStackView(image, at: index)
+                        view.imageScrollView.update(image: image, at: index)
                     }
                 case .failure(let error):
                     print(error.description)

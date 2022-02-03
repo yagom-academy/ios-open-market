@@ -38,6 +38,7 @@
 		60EB058227A3A3C800465F58 /* ProductModificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60EB058127A3A3C800465F58 /* ProductModificationViewController.swift */; };
 		60EB058927A3D8FB00465F58 /* ProductEditingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60EB058827A3D8FB00465F58 /* ProductEditingView.swift */; };
 		60EB05FC27A7013500465F58 /* JNomaKit in Frameworks */ = {isa = PBXBuildFile; productRef = 60EB05FB27A7013500465F58 /* JNomaKit */; };
+		60EB060127ABB7AB00465F58 /* ImageScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60EB060027ABB7AB00465F58 /* ImageScrollView.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
 		C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */; };
 		C70FB10425BEF61D00C9924E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C70FB10325BEF61D00C9924E /* Assets.xcassets */; };
@@ -86,6 +87,7 @@
 		60EB057827A1954100465F58 /* ProductDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetailViewController.swift; sourceTree = "<group>"; };
 		60EB058127A3A3C800465F58 /* ProductModificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductModificationViewController.swift; sourceTree = "<group>"; };
 		60EB058827A3D8FB00465F58 /* ProductEditingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductEditingView.swift; sourceTree = "<group>"; };
+		60EB060027ABB7AB00465F58 /* ImageScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageScrollView.swift; sourceTree = "<group>"; };
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -163,6 +165,7 @@
 		604E1F5B278AE21000FE6A83 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				60EB05FF27ABB78D00465F58 /* ScrollView */,
 				60EB058727A3D8CE00465F58 /* View */,
 				60B7C20B279961170012215F /* TextField */,
 				60B7C1F22796ABD80012215F /* CollectionViewCell */,
@@ -300,6 +303,14 @@
 				60EB058827A3D8FB00465F58 /* ProductEditingView.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		60EB05FF27ABB78D00465F58 /* ScrollView */ = {
+			isa = PBXGroup;
+			children = (
+				60EB060027ABB7AB00465F58 /* ImageScrollView.swift */,
+			);
+			path = ScrollView;
 			sourceTree = "<group>";
 		};
 		C70FB0EE25BEF61C00C9924E = {
@@ -474,6 +485,7 @@
 				188150C1278978C800EE236E /* ProductDeleteManager.swift in Sources */,
 				60B7C208279831E40012215F /* Vendor.swift in Sources */,
 				188150C927897FE000EE236E /* HealthCheckerManager.swift in Sources */,
+				60EB060127ABB7AB00465F58 /* ImageScrollView.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 				60B7C217279993800012215F /* Data+Extension.swift in Sources */,
 			);

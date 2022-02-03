@@ -20,10 +20,7 @@ class ProductEditingView: UIView {
 
     let navigationBar = JNNavigationBar()
     let wholeScreenScrollView = UIScrollView()
-    let imageStackView = UIStackView()
-    let imageAddingButton = UIButton()
-    let imagePickerController = UIImagePickerController()
-    let imageScrollView = UIScrollView()
+    let imageScrollView = ImageScrollView()
     let textFieldStackView = UIStackView()
     let nameTextField = CenterAlignedTextField()
     let priceStackView = UIStackView()
@@ -51,24 +48,6 @@ class ProductEditingView: UIView {
         self.viewController = viewController
     }
     
-    //MARK: - Open Method
-    func addToStackViewAtFirst(imageView: UIImageView) {
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-
-        imageStackView.insertArrangedSubview(imageView, at: 0)
-        NSLayoutConstraint.activate([
-            imageView.heightAnchor.constraint(equalTo: imageStackView.heightAnchor),
-            imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor)
-        ])
-    }
-    
-    func updateImageOfStackView(_ image: UIImage, at: Int) {
-        guard let imageView = imageStackView.arrangedSubviews[at] as? UIImageView else {
-            return
-        }
-        imageView.image = image
-    }
-    
     private func organizeViewHierarchy() {
         addSubview(navigationBar)
         addSubview(wholeScreenScrollView)
@@ -76,9 +55,6 @@ class ProductEditingView: UIView {
         wholeScreenScrollView.addSubview(imageScrollView)
         wholeScreenScrollView.addSubview(textFieldStackView)
         wholeScreenScrollView.addSubview(descriptionTextView)
-        
-        imageScrollView.addSubview(imageStackView)
-        imageStackView.addArrangedSubview(imageAddingButton)
 
         textFieldStackView.addArrangedSubview(nameTextField)
         textFieldStackView.addArrangedSubview(priceStackView)
@@ -91,9 +67,6 @@ class ProductEditingView: UIView {
         configureNavigationBar()
         configureWholeScreenScrollView()
         configureImageScrollView()
-        configureImageStackView()
-        configureImageAddingButton()
-        configureImagePickerController()
         configureTextFieldStackView()
         configureNameTextField()
         configurePriceStackView()
@@ -155,81 +128,6 @@ extension ProductEditingView: UIImagePickerControllerDelegate, UINavigationContr
             imageScrollView.topAnchor.constraint(equalTo: wholeScreenScrollView.topAnchor),
             imageScrollView.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.2),
         ])
-    }
-}
-
-//MARK: - ImageStackView
-extension ProductEditingView {
-
-    private func configureImageStackView() {
-        imageStackView.axis = .horizontal
-        imageStackView.spacing = LayoutAttribute.largeSpacing
-        
-        imageStackView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            imageStackView.heightAnchor.constraint(equalTo: imageScrollView.heightAnchor),
-            imageStackView.leadingAnchor.constraint(equalTo: imageScrollView.leadingAnchor),
-            imageStackView.trailingAnchor.constraint(equalTo: imageScrollView.trailingAnchor)
-        ])
-    }
-}
-
-//MARK: - ImageAddingButton
-extension ProductEditingView {
-    
-    private func configureImageAddingButton() {
-        imageAddingButton.backgroundColor = .systemGray5
-        imageAddingButton.setImage(UIImage(systemName: "plus"), for: .normal)
-        imageAddingButton.addTarget(self, action: #selector(presentImagePickerController), for: .touchUpInside)
-        
-        imageAddingButton.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            imageAddingButton.heightAnchor.constraint(equalTo: imageStackView.heightAnchor),
-            imageAddingButton.widthAnchor.constraint(equalTo: imageAddingButton.heightAnchor)
-        ])
-    }
-    
-    private func hideImageAddingButtonIfNeeded() {
-        let images = imageStackView.arrangedSubviews.compactMap {
-            $0 as? UIImageView
-        }
-        if images.count >= ProductImageAttribute.maximumImageCount {
-            imageAddingButton.isHidden = true
-        }
-    }
-    
-    @objc private func presentImagePickerController() {
-        viewController?.present(imagePickerController, animated: true, completion: nil)
-    }
-}
-
-//MARK: - ImagePickerController
-extension ProductEditingView {
-    
-    private func configureImagePickerController() {
-        imagePickerController.delegate = self
-        imagePickerController.allowsEditing = true
-    }
-
-    func imagePickerController(_ picker: UIImagePickerController,
-                               didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        
-        guard let editedImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage,
-              let squareImage = editedImage.croppedToSquareForm() else {
-                  print(OpenMarketError.conversionFail("basic UIImage", "cropped to square form").description)
-                  return
-              }
-
-        if squareImage.size.width > ProductImageAttribute.recommendedImageWidth {
-            let resizedImage = squareImage.resized(width: ProductImageAttribute.recommendedImageWidth,
-                                            height: ProductImageAttribute.recommendedImageHeight)
-            addToStackViewAtFirst(imageView: UIImageView(image: resizedImage))
-        } else {
-            addToStackViewAtFirst(imageView: UIImageView(image: squareImage))
-        }
-        
-        picker.dismiss(animated: true, completion: nil)
-        hideImageAddingButtonIfNeeded()
     }
 }
 

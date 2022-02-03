@@ -97,7 +97,7 @@ extension ProductRegistrationViewController {
     private func extractedImageDataFromStackView(at view: ProductEditingView) -> [Data] {
         var images: [Data] = []
         
-        view.imageStackView.arrangedSubviews.forEach {
+        view.imageScrollView.imageStackView.arrangedSubviews.forEach {
             guard let imageView = $0 as? UIImageView,
                   let imageData = imageView.image?.jpegData(underBytes: ProductImageAttribute.maximumImageBytesSize) else {
                       print(OpenMarketError.conversionFail("UIImage", "JPEG Data").description)
