@@ -1,7 +1,7 @@
 import UIKit
 import JNomaKit
 
-class PriceLabel: UILabel {
+final class PriceLabel: UILabel {
     
     enum LayoutAttribute {
         enum PriceLabel {

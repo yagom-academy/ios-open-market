@@ -1,7 +1,7 @@
 import UIKit
 import JNomaKit
 
-class ProductModificationViewController: UIViewController {
+final class ProductModificationViewController: UIViewController {
     
     typealias Product = ProductDetailQueryManager.Response
     

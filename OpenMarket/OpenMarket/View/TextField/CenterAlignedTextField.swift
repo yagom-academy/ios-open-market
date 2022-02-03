@@ -1,6 +1,6 @@
 import UIKit
 
-class CenterAlignedTextField: UITextField {
+final class CenterAlignedTextField: UITextField {
     
     enum LayoutAttribute {
         static let inset = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
@@ -16,15 +16,15 @@ class CenterAlignedTextField: UITextField {
         super.init(coder: coder)
     }
     
-    override open func textRect(forBounds bounds: CGRect) -> CGRect {
+    override public func textRect(forBounds bounds: CGRect) -> CGRect {
         return bounds.inset(by: LayoutAttribute.inset)
     }
     
-    override open func placeholderRect(forBounds bounds: CGRect) -> CGRect {
+    override public func placeholderRect(forBounds bounds: CGRect) -> CGRect {
         return bounds.inset(by: LayoutAttribute.inset)
     }
     
-    override open func editingRect(forBounds bounds: CGRect) -> CGRect {
+    override public func editingRect(forBounds bounds: CGRect) -> CGRect {
         return bounds.inset(by: LayoutAttribute.inset)
     }
     

@@ -1,6 +1,6 @@
 import UIKit
 
-class GridCollectionViewController: UIViewController {
+final class GridCollectionViewController: UIViewController {
     
     enum LayoutAttribute {
         static let estimatedHeight: CGFloat = 220

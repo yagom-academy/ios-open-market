@@ -1,7 +1,7 @@
 import UIKit
 import JNomaKit
 
-class CollectionViewListCell: UICollectionViewListCell {
+final class CollectionViewListCell: UICollectionViewListCell {
     
     enum LayoutAttribute {
         static let largeSpacing: CGFloat = 10

@@ -1,7 +1,7 @@
 import UIKit
 import JNomaKit
 
-class CollectionViewGridCell: UICollectionViewCell {
+final class CollectionViewGridCell: UICollectionViewCell {
 
     typealias Product = NetworkingAPI.ProductListQuery.Response.Page
     

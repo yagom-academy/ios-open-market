@@ -1,7 +1,7 @@
 import UIKit
 import JNomaKit
 
-class MainViewController: UIViewController {
+final class MainViewController: UIViewController {
     
     private var segmentedControl: JNSegmentedControl!
     private var productRegistrationButtonItem: UIBarButtonItem!

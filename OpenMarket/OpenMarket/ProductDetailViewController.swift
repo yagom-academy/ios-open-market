@@ -1,7 +1,7 @@
 import UIKit
 import JNomaKit
 
-class ProductDetailViewController: UIViewController {
+final class ProductDetailViewController: UIViewController {
     
     enum LayoutAttribute {
         static let largeSpacing: CGFloat = 30

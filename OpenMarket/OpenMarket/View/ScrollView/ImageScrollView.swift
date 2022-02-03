@@ -1,6 +1,6 @@
 import UIKit
 
-class ImageScrollView: UIScrollView, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+final class ImageScrollView: UIScrollView, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     enum Mode {
         case register

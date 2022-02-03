@@ -1,6 +1,6 @@
 import UIKit
 
-class ListCollectionViewController: UIViewController {
+final class ListCollectionViewController: UIViewController {
     
     private var collectionView: UICollectionView!
     private var dataSource: UICollectionViewDiffableDataSource<Section, Product>!
