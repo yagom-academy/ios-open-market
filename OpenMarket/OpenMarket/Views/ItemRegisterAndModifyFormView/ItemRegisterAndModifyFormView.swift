@@ -2,20 +2,23 @@ import UIKit
 
 protocol ItemRegisterAndModifyFormViewDelegate: AnyObject {
     func setupNavigationBar()
-    func present(_ viewController: UIViewController)
     func dismiss()
-    func informMode() -> Mode
+    func fillWithInformation(_ name: String?,
+                     _ description: String?,
+                     _ price: String?,
+                     _ currency: String,
+                     _ discountedPrice: String?,
+                     _ stock: String?)
 }
 
 class ItemRegisterAndModifyFormView: UIView {
     weak var delegate: ItemRegisterAndModifyFormViewDelegate?
-    private var manager = ItemRegisterAndModifyManager()
-    private let imagePicker = UIImagePickerController()
     let navigationBarAppearance: UINavigationBarAppearance = {
         let appearance = UINavigationBarAppearance()
         appearance.configureWithDefaultBackground()
         return appearance
     }()
+
     let navigationBarDoneButton: UIBarButtonItem = {
         let barButton = UIBarButtonItem(
             barButtonSystemItem: .done,
@@ -23,6 +26,7 @@ class ItemRegisterAndModifyFormView: UIView {
             action: #selector(doneButtonDidTap))
         return barButton
     }()
+
     let navigationBarCanceButton: UIBarButtonItem = {
         let barButton = UIBarButtonItem(
             barButtonSystemItem: .cancel,
@@ -30,6 +34,7 @@ class ItemRegisterAndModifyFormView: UIView {
             action: #selector(cancelButtonDidTap))
         return barButton
     }()
+
     let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -37,6 +42,7 @@ class ItemRegisterAndModifyFormView: UIView {
         scrollView.backgroundColor = .systemBackground
         return scrollView
     }()
+
     let contentView: UIStackView = {
         let contentView = UIStackView()
         contentView.translatesAutoresizingMaskIntoConstraints = false
@@ -47,6 +53,7 @@ class ItemRegisterAndModifyFormView: UIView {
         contentView.backgroundColor = .systemBackground
         return contentView
     }()
+
     let photoCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
@@ -66,6 +73,7 @@ class ItemRegisterAndModifyFormView: UIView {
             forCellWithReuseIdentifier: AddImageCollectionViewCell.identifier)
         return collectionView
     }()
+
     let priceStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -75,6 +83,7 @@ class ItemRegisterAndModifyFormView: UIView {
         stackView.spacing = 8
         return stackView
     }()
+
     let currencySegmentedControl: UISegmentedControl = {
         let items = [Currency.KRW.rawValue, Currency.USD.rawValue]
         let segmentedControl = UISegmentedControl(items: items)
@@ -84,33 +93,38 @@ class ItemRegisterAndModifyFormView: UIView {
         segmentedControl.selectedSegmentIndex = 0
         return segmentedControl
     }()
+
     let nameInputTextField: ItemInformationTextField = {
         let textField = ItemInformationTextField(type: .name)
         return textField
     }()
+
     let priceInputTextField: ItemInformationTextField = {
         let textField = ItemInformationTextField(type: .price)
         textField.keyboardType = .decimalPad
         textField.setContentCompressionResistancePriority(.required, for: .horizontal)
         return textField
     }()
+
     let discountedPriceInputTextField: ItemInformationTextField = {
         let textField = ItemInformationTextField(type: .discountedPrice)
         textField.keyboardType = .decimalPad
         return textField
     }()
+
     let stockInputTextField: ItemInformationTextField = {
         let textField = ItemInformationTextField(type: .stock)
         textField.keyboardType = .numberPad
         return textField
     }()
+
     let descriptionInputTextView: UITextView = {
         let textView = UITextView()
         textView.isScrollEnabled = false
         return textView
     }()
+
     func formViewDidLoad() {
-        setupDelegate()
         setupNavigationBar()
         setupViews()
         setupConstraints()
@@ -118,17 +132,12 @@ class ItemRegisterAndModifyFormView: UIView {
         addKeyboardDismissGestureRecognizer()
     }
 
-    private func setupDelegate() {
-        photoCollectionView.delegate = self
-        photoCollectionView.dataSource = self
-    }
-
     private func setupNavigationBar() {
         delegate?.setupNavigationBar()
     }
 
     @objc private func doneButtonDidTap() {
-        manager.fillWithInformation(
+        delegate?.fillWithInformation(
             nameInputTextField.text,
             descriptionInputTextView.text,
             priceInputTextField.text,
@@ -136,10 +145,6 @@ class ItemRegisterAndModifyFormView: UIView {
                 at: currencySegmentedControl.selectedSegmentIndex)!,
             discountedPriceInputTextField.text,
             stockInputTextField.text)
-        guard let mode = delegate?.informMode() else {
-            return
-        }
-        manager.sendRequest(mode)
     }
 
     @objc private func cancelButtonDidTap() {
@@ -180,78 +185,7 @@ class ItemRegisterAndModifyFormView: UIView {
             priceStackView.heightAnchor.constraint(equalToConstant: 31),
             discountedPriceInputTextField.heightAnchor.constraint(equalToConstant: 31),
             stockInputTextField.heightAnchor.constraint(equalToConstant: 31),
-            descriptionInputTextView.heightAnchor.constraint(greaterThanOrEqualToConstant: 150)
-        ])
-    }
-}
-
-extension ItemRegisterAndModifyFormView: UICollectionViewDataSource, UICollectionViewDelegate {
-    func collectionView(
-        _ collectionView: UICollectionView,
-        numberOfItemsInSection section: Int
-    ) -> Int {
-        let totalNumberOfImages = manager.countNumberOfModels()
-        return totalNumberOfImages
-    }
-
-    func collectionView(
-        _ collectionView: UICollectionView,
-        cellForItemAt indexPath: IndexPath
-    ) -> UICollectionViewCell {
-        let photoModel: CellType = (manager.selectPhotoModel(by: indexPath.row))
-        switch photoModel {
-        case .image(let photoModel):
-            guard let cell =
-                    photoCollectionView
-                    .dequeueReusableCell(
-                        withReuseIdentifier: ImageCollectionViewCell.identifier,
-                        for: indexPath) as? ImageCollectionViewCell else {
-                return ImageCollectionViewCell()
-            }
-            cell.setImage(with: photoModel)
-            return cell
-        case .addImage:
-            guard let cell =
-                    photoCollectionView
-                    .dequeueReusableCell(
-                        withReuseIdentifier: AddImageCollectionViewCell.identifier,
-                        for: indexPath) as? AddImageCollectionViewCell else {
-                return AddImageCollectionViewCell()
-            }
-            return cell
-
-        }
-    }
-
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let totalNumberOfImages = manager.countNumberOfModels()
-        if totalNumberOfImages < 6 {
-            let photoModel: CellType = manager.selectPhotoModel(by: indexPath.row)
-            if case .addImage = photoModel {
-                pickImage()
-            }
-        }
-    }
-}
-
-extension ItemRegisterAndModifyFormView: UIImagePickerControllerDelegate,
-                                         UINavigationControllerDelegate {
-    func imagePickerController(
-        _ picker: UIImagePickerController,
-        didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
-    ) {
-        if let newImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
-            manager.appendToPhotoModel(with: newImage)
-            photoCollectionView.reloadData()
-        }
-        imagePicker.dismiss(animated: true, completion: nil)
-    }
-
-    @objc func pickImage() {
-        imagePicker.delegate = self
-        imagePicker.sourceType = .photoLibrary
-        imagePicker.allowsEditing = true
-        delegate?.present(imagePicker)
+            descriptionInputTextView.heightAnchor.constraint(greaterThanOrEqualToConstant: 150)])
     }
 }
 
@@ -325,5 +259,4 @@ extension ItemRegisterAndModifyFormView {
             name: UIResponder.keyboardWillHideNotification,
             object: nil)
     }
-
 }
