@@ -92,7 +92,6 @@ extension MarketCell {
         if presentation.priceLabelIsCrossed {
             priceLabel.attributedText = priceLabel.convertToAttributedString(from: priceLabel)
         }
-//        priceLabel.attributedText = presentation.priceLabelIsCrossed ? priceLabel.convertToAttributedString(from: priceLabel) : nil
     }
     
     private func setDiscountedPriceLabel(with presentation: ProductUIPresentation) {

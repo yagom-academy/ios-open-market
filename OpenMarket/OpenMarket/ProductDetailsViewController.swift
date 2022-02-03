@@ -61,6 +61,11 @@ final class ProductDetailsViewController: UIViewController {
     
     func fetchDetails(of productID: Int) {
         startLoadingIndicator()
+        if let cacheProduct = ProductDetailsCache.shared.getProduct(for: productID) {
+            stopLoadingIndicator()
+            configureUI(with: cacheProduct)
+            return
+        }
         MarketAPIService().fetchProduct(productID: productID) { [weak self] result in
             guard let self = self else {
                 return
@@ -68,14 +73,8 @@ final class ProductDetailsViewController: UIViewController {
             self.stopLoadingIndicator()
             switch result {
             case .success(let product):
-                self.product = product
-                self.images = product.images
-                DispatchQueue.main.async {
-                    self.setLabels(with: product)
-                    self.setNavigationTitle(with: product)
-                    self.setPageControl()
-                    self.collectionView.reloadData()
-                }
+                ProductDetailsCache.shared.cache(product, for: productID)
+                self.configureUI(with: product)
             case .failure(_):
                 DispatchQueue.main.async {
                     self.presentAlert(
@@ -144,7 +143,7 @@ extension ProductDetailsViewController {
             target: self,
             action: #selector(barButtonTapped)
         )
-        navigationController?.navigationBar.topItem?.title = product.name
+        navigationItem.title = product.name
         navigationItem.setRightBarButton(button, animated: true)
     }
     
@@ -225,6 +224,18 @@ extension ProductDetailsViewController {
                     }
                 }
             }
+        }
+    }
+    
+    private func configureUI(with product: ProductDetails) {
+        self.product = product
+        self.images = product.images
+        
+        DispatchQueue.main.async {
+            self.setLabels(with: product)
+            self.setNavigationTitle(with: product)
+            self.setPageControl()
+            self.collectionView.reloadData()
         }
     }
     
