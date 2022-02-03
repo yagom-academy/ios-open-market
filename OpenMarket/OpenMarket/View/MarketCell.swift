@@ -38,6 +38,7 @@ final class MarketCell: UICollectionViewCell {
         
         discountedPriceLabel.isHidden = false
         priceLabel.attributedText = nil
+        imageView.image = nil
     }
     
     func configure(with product: Product, cellType: CellType) {
@@ -69,11 +70,7 @@ extension MarketCell {
     }
 
     private func setImageView(with urlString: String) {
-        guard let url = URL(string: urlString),
-              let data = try? Data(contentsOf: url) else {
-            return
-        }
-        imageView.image = UIImage(data: data)
+        imageView.setImage(to: urlString)
     }
     
     private func setProductNameLabel(with presentation: ProductUIPresentation) {

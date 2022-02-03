@@ -61,11 +61,6 @@ final class ProductDetailsViewController: UIViewController {
     
     func fetchDetails(of productID: Int) {
         startLoadingIndicator()
-        if let cacheProduct = ProductDetailsCache.shared.getProduct(for: productID) {
-            stopLoadingIndicator()
-            configureUI(with: cacheProduct)
-            return
-        }
         MarketAPIService().fetchProduct(productID: productID) { [weak self] result in
             guard let self = self else {
                 return
@@ -73,7 +68,6 @@ final class ProductDetailsViewController: UIViewController {
             self.stopLoadingIndicator()
             switch result {
             case .success(let product):
-                ProductDetailsCache.shared.cache(product, for: productID)
                 self.configureUI(with: product)
             case .failure(_):
                 DispatchQueue.main.async {
@@ -200,6 +194,7 @@ extension ProductDetailsViewController {
         ) { result in
             switch result {
             case .success(_):
+                self.isUpdated = true
                 DispatchQueue.main.async {
                     self.presentAlert(
                         alertTitle: "삭제 완료",

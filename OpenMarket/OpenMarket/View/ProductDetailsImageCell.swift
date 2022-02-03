@@ -19,11 +19,7 @@ final class ProductDetailsImageCell: UICollectionViewCell {
     }
     
     private func setImageView(with urlString: String) {
-        guard let url = URL(string: urlString),
-              let data = try? Data(contentsOf: url) else {
-            return
-        }
-        imageView.image = UIImage(data: data)
+        imageView.setImage(to: urlString)
     }
 }
 

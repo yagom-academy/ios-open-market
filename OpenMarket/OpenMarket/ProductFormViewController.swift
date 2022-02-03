@@ -100,7 +100,7 @@ final class ProductFormViewController: UIViewController {
         setTextFields()
         setSegmentedControlTitle()
         setTextViewPlaceholder()
-        addTextViewObserver()
+//        addTextViewObserver()
         addTextFieldTarget()
         hideKeyboardOnTap()
     }
@@ -153,7 +153,11 @@ extension ProductFormViewController {
         switch pageMode {
         case .register:
             guard images.count > 0 else {
-                presentAlert(alertTitle: "이미지를 추가해주세요.", alertMessage: "이미지를 최소 1개 등록해주세요.", handler: nil)
+                presentAlert(
+                    alertTitle: "이미지를 추가해주세요.",
+                    alertMessage: "이미지를 최소 1개 등록해주세요.",
+                    handler: nil
+                )
                 return
             }
             registerProduct()
@@ -175,11 +179,23 @@ extension ProductFormViewController {
     }
     
     private func setupCollectionViewCells() {
-        let imageCellNib = UINib(nibName: ImageCell.identifier, bundle: .main)
-        let addImageButtonCellNib = UINib(nibName: AddImageButtonCell.identifier, bundle: .main)
+        let imageCellNib = UINib(
+            nibName: ImageCell.identifier,
+            bundle: .main
+        )
+        let addImageButtonCellNib = UINib(
+            nibName: AddImageButtonCell.identifier,
+            bundle: .main
+        )
         
-        collectionView.register(imageCellNib, forCellWithReuseIdentifier: ImageCell.identifier)
-        collectionView.register(addImageButtonCellNib, forCellWithReuseIdentifier: AddImageButtonCell.identifier)
+        collectionView.register(
+            imageCellNib,
+            forCellWithReuseIdentifier: ImageCell.identifier
+        )
+        collectionView.register(
+            addImageButtonCellNib,
+            forCellWithReuseIdentifier: AddImageButtonCell.identifier
+        )
     }
     
     private func setNavigationBar() {
@@ -274,7 +290,10 @@ extension ProductFormViewController {
             )
             return
         }
-        MarketAPIService().registerProduct(product: postProduct, images: productImages) { result in
+        MarketAPIService().registerProduct(
+            product: postProduct,
+            images: productImages
+        ) { result in
             switch result {
             case .success(_):
                 DispatchQueue.main.async {
@@ -305,30 +324,44 @@ extension ProductFormViewController {
               let descriptions = descriptionTextView.text,
               let priceText = priceTextField.text,
               let price = Double(priceText),
+              let discountedPrice = discountedPriceTextField.text,
+              let productID = productID,
               let currency = Currency(rawValue: currencySegmentedControl.selectedSegmentIndex) else {
             return
         }
-        let discountedPrice = convertDiscountedPrice(discountedPriceTextField)
         let stock = convertStock(stockTextField)
+        let product = PatchProduct(
+            name: name,
+            descriptions: descriptions,
+            thumbnailID: nil,
+            price: price,
+            currency: currency.description,
+            discountedPrice: Int(discountedPrice),
+            stock: stock,
+            secret: "password"
+        )
         
-
-        let product = PatchProduct(name: name, descriptions: descriptions, thumbnailID: nil, price: price, currency: currency.description, discountedPrice: Int(discountedPriceTextField.text!), stock:stock, secret: "password")
-
-        guard let productID = productID else {
-            return
-        }
-        MarketAPIService().updateProduct(productID: productID, product: product) { result in
+        MarketAPIService().updateProduct(
+            productID: productID,
+            product: product
+        ) { result in
             switch result {
             case .success(_):
                 DispatchQueue.main.async {
-                    self.presentAlert(alertTitle: "수정완료", alertMessage: "수정이 완료되었습니다") { _ in
+                    self.presentAlert(
+                        alertTitle: "수정완료",
+                        alertMessage: "수정이 완료되었습니다"
+                    ) { _ in
                         self.delegate?.registerButtonTapped()
                         self.dismiss(animated: true, completion: nil)
                     }
                 }
             case .failure(_):
                 DispatchQueue.main.async {
-                    self.presentAlert(alertTitle: "수정 실패", alertMessage: "권한이 없습니다 당신은") { _ in
+                    self.presentAlert(
+                        alertTitle: "수정 실패",
+                        alertMessage: "권한이 없습니다 당신은"
+                    ) { _ in
                         self.dismiss(animated: true, completion: nil)
                     }
                 }
@@ -443,7 +476,11 @@ extension ProductFormViewController: UICollectionViewDataSource {
                 for: indexPath
             ) as! ImageCell
             
-            cell.configure(with: images[indexPath.row - 1], index: indexPath.row - 1, delegate: self)
+            cell.configure(
+                with: images[indexPath.row - 1],
+                index: indexPath.row - 1,
+                delegate: self
+            )
             return cell
         }
     }
@@ -484,7 +521,11 @@ extension ProductFormViewController: AddImageCellDelegate {
             )
             return
         }
-        self.present(self.imagePicker, animated: true, completion: nil)
+        self.present(
+            self.imagePicker,
+            animated: true,
+            completion: nil
+        )
     }
 }
 
