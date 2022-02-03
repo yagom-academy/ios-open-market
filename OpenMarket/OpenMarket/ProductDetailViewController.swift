@@ -43,11 +43,15 @@ class ProductDetailViewController: UIViewController {
     
     var productId: Int?
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override func loadView() {
+        super.loadView()
         create()
         organizeViewHierarchy()
         configure()
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
         fetchProductDetail()
     }
     

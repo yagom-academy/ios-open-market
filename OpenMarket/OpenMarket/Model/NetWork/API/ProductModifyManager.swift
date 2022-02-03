@@ -35,7 +35,7 @@ enum ProductModifyManager: JSONResponseDecodable {
             return
         }
         
-        URLSession.shared.requestDataTask(urlString: urlString,
+        session.requestDataTask(urlString: urlString,
                                           httpMethod: httpMethod,
                                           httpBody: httpBody,
                                           headerFields: headerFields) {

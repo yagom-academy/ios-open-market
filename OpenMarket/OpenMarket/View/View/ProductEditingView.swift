@@ -33,7 +33,7 @@ class ProductEditingView: UIView {
     let stockTextField = CenterAlignedTextField()
     let descriptionTextView = UITextView()
     
-    private var viewController: UIViewController?
+    private weak var viewController: UIViewController?
     
     //MARK: - Initializer
     override init(frame: CGRect) {

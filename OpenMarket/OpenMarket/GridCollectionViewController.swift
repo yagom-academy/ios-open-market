@@ -13,8 +13,9 @@ class GridCollectionViewController: UIViewController {
     private var dataSource: UICollectionViewDiffableDataSource<Section, Product>!
     weak var viewTransitionDelegate: MainViewController?
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    //MARK: - Life Cycle
+    override func loadView() {
+        super.loadView()
         create()
         organizeViewHierarchy()
         configure()

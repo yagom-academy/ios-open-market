@@ -9,8 +9,9 @@ class MainViewController: UIViewController {
     private let listViewController = ListCollectionViewController()
     private let gridViewController = GridCollectionViewController()
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    //MARK: - Life Cycle
+    override func loadView() {
+        super.loadView()
         create()
         organizeViewHierarchy()
         configure()

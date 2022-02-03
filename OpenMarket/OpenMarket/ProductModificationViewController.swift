@@ -21,8 +21,8 @@ class ProductModificationViewController: UIViewController {
     }
     
     //MARK: - Life Cycle
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override func loadView() {
+        super.loadView()
         view = ProductEditingView(viewController: self)
         configure()
     }
