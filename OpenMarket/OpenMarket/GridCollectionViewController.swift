@@ -13,7 +13,7 @@ final class GridCollectionViewController: UIViewController {
     
     private var collectionView: UICollectionView!
     private var dataSource: UICollectionViewDiffableDataSource<Section, Product>!
-    weak var viewTransitionDelegate: MainViewController?
+    weak var viewPresentationDelegate: MainViewController?
     
     //MARK: - Life Cycle
     override func loadView() {
@@ -136,6 +136,6 @@ extension GridCollectionViewController: UICollectionViewDelegate {
             }
         }
         
-        viewTransitionDelegate?.pushViewController(ProductDetailViewController(), withProductId: id)
+        viewPresentationDelegate?.pushViewController(ProductDetailViewController(), withProductId: id)
     }
 }

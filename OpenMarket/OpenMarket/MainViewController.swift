@@ -134,7 +134,7 @@ extension MainViewController: UIScrollViewDelegate {
 
     //MARK: - ListViewController
     private func configureListViewController() {
-        listViewController.viewTransitionDelegate = self
+        listViewController.viewPresentationDelegate = self
         listViewController.view.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
@@ -147,7 +147,7 @@ extension MainViewController: UIScrollViewDelegate {
 
     //MARK: - GridViewController
     private func configureGridViewController() {
-        gridViewController.viewTransitionDelegate = self
+        gridViewController.viewPresentationDelegate = self
         gridViewController.view.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
