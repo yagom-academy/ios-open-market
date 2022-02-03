@@ -41,7 +41,7 @@ class CollectionViewGridCell: UICollectionViewCell {
     private let activityIndicator = UIActivityIndicatorView()
     private let imageView = UIImageView()
     private let nameLabel = UILabel()
-    private let priceLabel = UILabel()
+    private let priceLabel = PriceLabel()
     private let stockLabel = UILabel()
     private let labelStackView = UIStackView()
     var currentThumbnailURL: String?
@@ -191,59 +191,17 @@ extension CollectionViewGridCell {
     
     private func configurePriceLabel() {
         priceLabel.numberOfLines = 0
+        priceLabel.textAlignment = .center
         priceLabel.adjustsFontForContentSizeCategory = true
     }
     
     private func updatePriceLabel(from product: Product) {
-        let lineBreak = NSMutableAttributedString(string: "\n")
-        let result = NSMutableAttributedString(string: "")
-        if product.price != product.discountedPrice {
-            let originalCurrency = JNAttributedStringMaker.attributedString(
-                text: "\(product.currency.rawValue) ",
-                textStyle: LayoutAttribute.PriceLabel.textStyle,
-                fontColor: LayoutAttribute.PriceLabel.originalPriceFontColor,
-                attributes: [.strikeThrough]
-            )
-            let originalPrice = JNAttributedStringMaker.attributedString(
-                text: product.price.description,
-                textStyle: LayoutAttribute.PriceLabel.textStyle,
-                fontColor: LayoutAttribute.PriceLabel.originalPriceFontColor,
-                attributes: [.decimal, .strikeThrough]
-            )
-            let discountedCurrency = JNAttributedStringMaker.attributedString(
-                text: "\(product.currency.rawValue) ",
-                textStyle: LayoutAttribute.PriceLabel.textStyle,
-                fontColor: LayoutAttribute.PriceLabel.bargainPriceFontColor
-            )
-            let discountedPrice = JNAttributedStringMaker.attributedString(
-                text: product.discountedPrice.description,
-                textStyle: LayoutAttribute.PriceLabel.textStyle,
-                fontColor: LayoutAttribute.PriceLabel.bargainPriceFontColor,
-                attributes: [.decimal]
-            )
-            result.append(originalCurrency)
-            result.append(originalPrice)
-            result.append(lineBreak)
-            result.append(discountedCurrency)
-            result.append(discountedPrice)
-        } else {
-            let discountedCurrency = JNAttributedStringMaker.attributedString(
-                text: "\(product.currency.rawValue) ",
-                textStyle: LayoutAttribute.PriceLabel.textStyle,
-                fontColor: LayoutAttribute.PriceLabel.bargainPriceFontColor
-            )
-            let discountedPrice = JNAttributedStringMaker.attributedString(
-                text: product.discountedPrice.description,
-                textStyle: LayoutAttribute.PriceLabel.textStyle,
-                fontColor: LayoutAttribute.PriceLabel.bargainPriceFontColor,
-                attributes: [.decimal]
-            )
-            
-            result.append(discountedCurrency)
-            result.append(discountedPrice)
-        }
-
-        priceLabel.attributedText = result
+        priceLabel.setText(
+            currency: product.currency.rawValue,
+            originalPrice: product.price,
+            discountedPrice: product.discountedPrice,
+            direction: .vertical
+        )
     }
 }
 

@@ -35,10 +35,10 @@ class ProductDetailViewController: UIViewController {
     private let acitivityIndicator = UIActivityIndicatorView()
     private let imageScrollView = UIScrollView()
     private let imageStackView = UIStackView()
-    private let productTitleLabel = UILabel()
-    private let productStockLabel = UILabel()
-    private let productPriceLabel = UILabel()
-    private let productDescriptionTextView = UITextView()
+    private let nameLabel = UILabel()
+    private let stockLabel = UILabel()
+    private let priceLabel = PriceLabel()
+    private let descriptionTextView = UITextView()
     private var product: Product?
     
     var productId: Int?
@@ -66,10 +66,10 @@ class ProductDetailViewController: UIViewController {
         
         view.addSubview(acitivityIndicator)
         view.addSubview(imageScrollView)
-        view.addSubview(productTitleLabel)
-        view.addSubview(productStockLabel)
-        view.addSubview(productPriceLabel)
-        view.addSubview(productDescriptionTextView)
+        view.addSubview(nameLabel)
+        view.addSubview(stockLabel)
+        view.addSubview(priceLabel)
+        view.addSubview(descriptionTextView)
         
         imageScrollView.addSubview(imageStackView)
     }
@@ -79,10 +79,19 @@ class ProductDetailViewController: UIViewController {
         configureAcitivityIndicator()
         configureImageScrollView()
         configureImageStackView()
-        configureProductTitleLabel()
-        configureProductStockLabel()
-        configureProductPriceLabel()
-        configureProductDescriptionTextView()
+        configureNameLabel()
+        configureStockLabel()
+        configurePriceLabel()
+        configureDescriptionTextView()
+    }
+    
+    private func update() {
+        updateNavigationTitle()
+        updateImageStackView()
+        updateNameLabel()
+        updateStockLabel()
+        updatePriceLabel()
+        updateDescriptionTextView()
     }
 
     private func configureMainView() {
@@ -313,26 +322,26 @@ extension ProductDetailViewController {
     }
 }
 
-//MARK: - ProductTitleLabel
+//MARK: - NameLabel
 extension ProductDetailViewController {
     
-    private func configureProductTitleLabel() {
-        productTitleLabel.adjustsFontForContentSizeCategory = true
-        productTitleLabel.translatesAutoresizingMaskIntoConstraints = false
+    private func configureNameLabel() {
+        nameLabel.adjustsFontForContentSizeCategory = true
+        nameLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            productTitleLabel.topAnchor.constraint(equalTo: imageScrollView.bottomAnchor,
+            nameLabel.topAnchor.constraint(equalTo: imageScrollView.bottomAnchor,
                                                    constant: LayoutAttribute.smallSpacing),
-            productTitleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor,
+            nameLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor,
                                                        constant: LayoutAttribute.largeSpacing)
         ])
     }
     
-    private func updateProductTitleLabel() {
+    private func updateNameLabel() {
         guard let product = product else {
             return
         }
         
-        productTitleLabel.attributedText = JNAttributedStringMaker.attributedString(
+        nameLabel.attributedText = JNAttributedStringMaker.attributedString(
             text: product.name,
             textStyle: .body,
             fontColor: .black,
@@ -341,132 +350,89 @@ extension ProductDetailViewController {
     }
 }
 
-//MARK: - ProductStockLabel
+//MARK: - StockLabel
 extension ProductDetailViewController {
     
-    private func configureProductStockLabel() {
-        productStockLabel.font = .preferredFont(forTextStyle: LayoutAttribute.StockLabel.textStyle)
-        productStockLabel.adjustsFontForContentSizeCategory = true
-        productStockLabel.translatesAutoresizingMaskIntoConstraints = false
+    private func configureStockLabel() {
+        stockLabel.font = .preferredFont(forTextStyle: LayoutAttribute.StockLabel.textStyle)
+        stockLabel.adjustsFontForContentSizeCategory = true
+        stockLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            productStockLabel.topAnchor.constraint(equalTo: imageScrollView.bottomAnchor,
+            stockLabel.topAnchor.constraint(equalTo: imageScrollView.bottomAnchor,
                                                    constant: LayoutAttribute.smallSpacing),
-            productStockLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor,
+            stockLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor,
                                                         constant: -1 * LayoutAttribute.largeSpacing)
         ])
     }
     
-    private func updateProductStockLabel() {
+    private func updateStockLabel() {
         guard let product = product else {
             return
         }
         
         if product.stock == 0 {
-            productStockLabel.text = "품절"
-            productStockLabel.textColor = LayoutAttribute.StockLabel.soldoutFontColor
+            stockLabel.text = "품절"
+            stockLabel.textColor = LayoutAttribute.StockLabel.soldoutFontColor
         } else {
-            productStockLabel.text = "잔여수량: \(product.stock)"
-            productStockLabel.textColor = LayoutAttribute.StockLabel.stockFontColor
+            stockLabel.text = "잔여수량: \(product.stock)"
+            stockLabel.textColor = LayoutAttribute.StockLabel.stockFontColor
         }
     }
 }
 
-//MARK: - ProductPriceLabel
+//MARK: - PriceLabel
 extension ProductDetailViewController {
     
-    private func configureProductPriceLabel() {
-        productPriceLabel.numberOfLines = 0
-        productPriceLabel.adjustsFontForContentSizeCategory = true
-        productPriceLabel.textAlignment = .right
-        productPriceLabel.translatesAutoresizingMaskIntoConstraints = false
+    private func configurePriceLabel() {
+        priceLabel.numberOfLines = 0
+        priceLabel.adjustsFontForContentSizeCategory = true
+        priceLabel.textAlignment = .right
+        priceLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            productPriceLabel.topAnchor.constraint(equalTo: productStockLabel.bottomAnchor,
+            priceLabel.topAnchor.constraint(equalTo: stockLabel.bottomAnchor,
                                                    constant: LayoutAttribute.smallSpacing),
-            productPriceLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor,
+            priceLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor,
                                                         constant: -1 * LayoutAttribute.largeSpacing)
         ])
     }
     
-    private func updateProductPriceLabel() {
+    private func updatePriceLabel() {
         guard let product = product else {
             return
         }
         
-        let lineBreak = NSMutableAttributedString(string: "\n")
-        let result = NSMutableAttributedString(string: "")
-        if product.price != product.discountedPrice {
-            let originalCurrency = JNAttributedStringMaker.attributedString(
-                text: "\(product.currency.rawValue) ",
-                textStyle: LayoutAttribute.PriceLabel.textStyle,
-                fontColor: LayoutAttribute.PriceLabel.originalPriceFontColor,
-                attributes: [.strikeThrough]
-            )
-            let originalPrice = JNAttributedStringMaker.attributedString(
-                text: product.price.description,
-                textStyle: LayoutAttribute.PriceLabel.textStyle,
-                fontColor: LayoutAttribute.PriceLabel.originalPriceFontColor,
-                attributes: [.decimal, .strikeThrough]
-            )
-            let discountedCurrency = JNAttributedStringMaker.attributedString(
-                text: "\(product.currency.rawValue) ",
-                textStyle: LayoutAttribute.PriceLabel.textStyle,
-                fontColor: LayoutAttribute.PriceLabel.discountedPriceFontColor
-            )
-            let discountedPrice = JNAttributedStringMaker.attributedString(
-                text: product.discountedPrice.description,
-                textStyle: LayoutAttribute.PriceLabel.textStyle,
-                fontColor: LayoutAttribute.PriceLabel.discountedPriceFontColor,
-                attributes: [.decimal]
-            )
-            result.append(originalCurrency)
-            result.append(originalPrice)
-            result.append(lineBreak)
-            result.append(discountedCurrency)
-            result.append(discountedPrice)
-        } else {
-            let discountedCurrency = JNAttributedStringMaker.attributedString(
-                text: "\(product.currency.rawValue) ",
-                textStyle: LayoutAttribute.PriceLabel.textStyle,
-                fontColor: LayoutAttribute.PriceLabel.discountedPriceFontColor
-            )
-            let discountedPrice = JNAttributedStringMaker.attributedString(
-                text: product.discountedPrice.description,
-                textStyle: LayoutAttribute.PriceLabel.textStyle,
-                fontColor: LayoutAttribute.PriceLabel.discountedPriceFontColor,
-                attributes: [.decimal]
-            )
-            
-            result.append(discountedCurrency)
-            result.append(discountedPrice)
-        }
-
-        productPriceLabel.attributedText = result
+        priceLabel.setText(
+            currency: product.currency.rawValue,
+            originalPrice: product.price,
+            discountedPrice: product.discountedPrice,
+            direction: .vertical
+        )
     }
 }
 
-//MARK: - ProductDescriptionTextView
+//MARK: - DescriptionTextView
 extension ProductDetailViewController {
     
-    private func configureProductDescriptionTextView() {
-        productDescriptionTextView.font = .preferredFont(forTextStyle: LayoutAttribute.DescriptionTextView.textStyle)
-        productDescriptionTextView.translatesAutoresizingMaskIntoConstraints = false
+    private func configureDescriptionTextView() {
+        descriptionTextView.font = .preferredFont(forTextStyle: LayoutAttribute.DescriptionTextView.textStyle)
+        descriptionTextView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            productDescriptionTextView.topAnchor.constraint(equalTo: productPriceLabel.bottomAnchor,
+            descriptionTextView.topAnchor.constraint(equalTo: priceLabel.bottomAnchor,
                                                             constant: LayoutAttribute.smallSpacing),
-            productDescriptionTextView.leadingAnchor.constraint(equalTo: view.leadingAnchor,
+            descriptionTextView.leadingAnchor.constraint(equalTo: view.leadingAnchor,
                                                                 constant: LayoutAttribute.largeSpacing),
-            productDescriptionTextView.trailingAnchor.constraint(equalTo: view.trailingAnchor,
+            descriptionTextView.trailingAnchor.constraint(equalTo: view.trailingAnchor,
                                                                 constant: -1 * LayoutAttribute.largeSpacing),
-            productDescriptionTextView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            descriptionTextView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
         ])
     }
     
-    private func updateProductDescriptionTextView() {
+    private func updateDescriptionTextView() {
         guard let product = product else {
             return
         }
         
-        productDescriptionTextView.text = product.description
+        descriptionTextView.text = product.description
     }
 }
 
@@ -495,14 +461,5 @@ extension ProductDetailViewController {
                 print(error.description)
             }
         }
-    }
-    
-    private func update() {
-        updateNavigationTitle()
-        updateImageStackView()
-        updateProductTitleLabel()
-        updateProductStockLabel()
-        updateProductPriceLabel()
-        updateProductDescriptionTextView()
     }
 }
