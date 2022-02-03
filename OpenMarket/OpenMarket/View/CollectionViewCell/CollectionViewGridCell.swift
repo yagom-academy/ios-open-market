@@ -11,11 +11,6 @@ class CollectionViewGridCell: UICollectionViewCell {
         static let borderColor: CGColor = UIColor.systemGray.cgColor
         static let borderWidth: CGFloat = 1
         static let cornerRadius: CGFloat = 15
-
-        enum ActivityIndicator {
-            static let fractionalWidth: CGFloat = 0.7
-            static let aspectRatio: CGFloat = 1
-        }
         
         enum ImageView {
             static let fractionalWidth: CGFloat = 0.7
@@ -69,10 +64,10 @@ class CollectionViewGridCell: UICollectionViewCell {
     }
     
     private func organizeViewHierarchy() {
-        addSubview(activityIndicator)
         addSubview(imageView)
-        addSubview(labelStackView)
+        imageView.addSubview(activityIndicator)
         
+        addSubview(labelStackView)
         labelStackView.addArrangedSubview(nameLabel)
         labelStackView.addArrangedSubview(priceLabel)
         labelStackView.addArrangedSubview(stockLabel)
@@ -95,7 +90,7 @@ class CollectionViewGridCell: UICollectionViewCell {
         layer.cornerRadius = LayoutAttribute.cornerRadius
 
         NSLayoutConstraint.activate([
-            heightAnchor.constraint(greaterThanOrEqualTo: imageView.heightAnchor, multiplier: 2.0)
+            heightAnchor.constraint(greaterThanOrEqualTo: widthAnchor, multiplier: 1.5)
         ])
     }
 }
@@ -105,16 +100,12 @@ extension CollectionViewGridCell {
     
     private func configureAcitivityIndicator() {
         activityIndicator.startAnimating()
-        
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+        activityIndicator.setContentHuggingPriority(.defaultLow, for: .vertical)
+        activityIndicator.setContentHuggingPriority(.defaultLow, for: .horizontal)
         NSLayoutConstraint.activate([
-            activityIndicator.topAnchor.constraint(equalTo: topAnchor,
-                                           constant: LayoutAttribute.largeSpacing),
-            activityIndicator.widthAnchor.constraint(equalTo: widthAnchor,
-                                                     multiplier: LayoutAttribute.ActivityIndicator.fractionalWidth),
-            activityIndicator.heightAnchor.constraint(equalTo: activityIndicator.widthAnchor,
-                                                      multiplier: LayoutAttribute.ActivityIndicator.aspectRatio),
-            activityIndicator.centerXAnchor.constraint(equalTo: centerXAnchor)
+            activityIndicator.centerXAnchor.constraint(equalTo: imageView.centerXAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: imageView.centerYAnchor)
         ])
     }
 }
@@ -140,8 +131,8 @@ extension CollectionViewGridCell {
             switch result {
             case .success(let data):
                 DispatchQueue.main.sync {
-                    self.imageView.image = UIImage(data: data)
                     self.activityIndicator.stopAnimating()
+                    self.imageView.image = UIImage(data: data)
                 }
             case .failure(let error):
                 print(error.localizedDescription)

@@ -213,7 +213,9 @@ extension ProductDetailViewController {
             switch result {
             case .success:
                 print("Delete Success")
-                self.dismiss(animated: true)
+                DispatchQueue.main.async {
+                    self.dismiss(animated: true)
+                }
             case .failure(let error):
                 print(error.description)
             }

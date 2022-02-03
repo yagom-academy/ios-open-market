@@ -68,14 +68,15 @@ class CollectionViewListCell: UICollectionViewListCell {
     }
     
     private func organizeViewHierarchy() {
-        contentView.addSubview(activityIndicator)
         contentView.addSubview(imageView)
-        contentView.addSubview(labelStackView)
-        contentView.addSubview(stockLabel)
-        contentView.addSubview(chevronButton)
+        imageView.addSubview(activityIndicator)
         
+        contentView.addSubview(labelStackView)
         labelStackView.addArrangedSubview(nameLabel)
         labelStackView.addArrangedSubview(priceLabel)
+        
+        contentView.addSubview(stockLabel)
+        contentView.addSubview(chevronButton)
     }
     
     private func configure() {
@@ -105,16 +106,12 @@ extension CollectionViewListCell {
     
     private func configureActivityIndicator() {
         activityIndicator.startAnimating()
-        
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            activityIndicator.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,
-                                                       constant: LayoutAttribute.largeSpacing),
-            activityIndicator.widthAnchor.constraint(equalTo: contentView.widthAnchor,
-                                                     multiplier: LayoutAttribute.AcitivityIndicator.fractionalWidth),
-            activityIndicator.heightAnchor.constraint(equalTo: activityIndicator.widthAnchor,
-                                                      multiplier: LayoutAttribute.AcitivityIndicator.aspectRatio),
-            activityIndicator.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
+            activityIndicator.topAnchor.constraint(equalTo: imageView.topAnchor),
+            activityIndicator.bottomAnchor.constraint(equalTo: imageView.bottomAnchor),
+            activityIndicator.leadingAnchor.constraint(equalTo: imageView.leadingAnchor),
+            activityIndicator.trailingAnchor.constraint(equalTo: imageView.trailingAnchor)
         ])
     }
 }
