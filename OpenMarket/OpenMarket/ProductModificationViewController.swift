@@ -94,8 +94,12 @@ extension ProductModificationViewController {
 extension ProductModificationViewController {
     
     private func configureImageStackView(from product: Product, at view: ProductEditingView) {
-        product.images.forEach {
-            ImageLoader.load(from: $0.url) { result in
+        for _ in (1...product.images.count) {
+            view.addToStackViewAtFirst(imageView: UIImageView())
+        }
+        
+        for (index, image) in product.images.enumerated() {
+            ImageLoader.load(from: image.url) { result in
                 switch result {
                 case .success(let data):
                     guard let image = UIImage(data: data) else {
@@ -103,7 +107,7 @@ extension ProductModificationViewController {
                         return
                     }
                     DispatchQueue.main.async {
-                        view.addToStack(image: image)
+                        view.updateImageOfStackView(image, at: index)
                     }
                 case .failure(let error):
                     print(error.description)

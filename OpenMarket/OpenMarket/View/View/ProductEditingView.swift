@@ -52,9 +52,7 @@ class ProductEditingView: UIView {
     }
     
     //MARK: - Open Method
-    func addToStack(image: UIImage) {
-        let imageView = UIImageView()
-        imageView.image = image
+    func addToStackViewAtFirst(imageView: UIImageView) {
         imageView.translatesAutoresizingMaskIntoConstraints = false
 
         imageStackView.insertArrangedSubview(imageView, at: 0)
@@ -62,6 +60,13 @@ class ProductEditingView: UIView {
             imageView.heightAnchor.constraint(equalTo: imageStackView.heightAnchor),
             imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor)
         ])
+    }
+    
+    func updateImageOfStackView(_ image: UIImage, at: Int) {
+        guard let imageView = imageStackView.arrangedSubviews[at] as? UIImageView else {
+            return
+        }
+        imageView.image = image
     }
     
     private func organizeViewHierarchy() {
@@ -218,9 +223,9 @@ extension ProductEditingView {
         if squareImage.size.width > ProductImageAttribute.recommendedImageWidth {
             let resizedImage = squareImage.resized(width: ProductImageAttribute.recommendedImageWidth,
                                             height: ProductImageAttribute.recommendedImageHeight)
-            addToStack(image: resizedImage)
+            addToStackViewAtFirst(imageView: UIImageView(image: resizedImage))
         } else {
-            addToStack(image: squareImage)
+            addToStackViewAtFirst(imageView: UIImageView(image: squareImage))
         }
         
         picker.dismiss(animated: true, completion: nil)
