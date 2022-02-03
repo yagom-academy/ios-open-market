@@ -18,7 +18,7 @@ final class ProductModificationViewController: UIViewController {
     private let priceStackView = UIStackView()
     private let priceTextField = CenterAlignedTextField()
     private let currencySegmentedControl = UISegmentedControl()
-    private let         discountedPriceTextField = CenterAlignedTextField()
+    private let discountedPriceTextField = CenterAlignedTextField()
     private let stockTextField = CenterAlignedTextField()
     private let descriptionTextView = UITextView()
     private var product: Product?
@@ -46,6 +46,7 @@ final class ProductModificationViewController: UIViewController {
     }
 }
 
+//MARK: - Private Method
 extension ProductModificationViewController {
     private func create() {
         imageScrollView = ImageScrollView(mode: .modify, viewController: nil)

@@ -2,6 +2,8 @@ import UIKit
 
 final class ListCollectionViewController: UIViewController {
     
+    typealias Product = NetworkingAPI.ProductListQuery.Response.Page
+    
     private var collectionView: UICollectionView!
     private var dataSource: UICollectionViewDiffableDataSource<Section, Product>!
     weak var viewTransitionDelegate: MainViewController?
@@ -20,7 +22,10 @@ final class ListCollectionViewController: UIViewController {
         snapshot.appendItems(products)
         self.dataSource.apply(snapshot, animatingDifferences: false)
     }
-    
+}
+
+//MARK: - Private Method
+extension ListCollectionViewController {
     private func create() {
         createCollectionView()
         createDataSource()
@@ -34,11 +39,8 @@ final class ListCollectionViewController: UIViewController {
     private func organizeViewHierarchy() {
         view.addSubview(collectionView)
     }
-}
 
-//MARK: - CollectionView
-extension ListCollectionViewController {
-
+    //MARK: - CollectionView
     private func createCollectionView() {
         let layout =  UICollectionViewCompositionalLayout { (section, layoutEnvironment) in
             let appearance = UICollectionLayoutListConfiguration.Appearance.plain
@@ -60,13 +62,8 @@ extension ListCollectionViewController {
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
-}
 
-//MARK: - DataSoruce
-extension ListCollectionViewController {
-    
-    typealias Product = NetworkingAPI.ProductListQuery.Response.Page
-
+    //MARK: - DataSoruce
     private enum Section: Hashable {
         case main
     }
@@ -89,11 +86,8 @@ extension ListCollectionViewController {
             return cell
         }
     }
-}
 
-//MARK: - Delegate
-extension ListCollectionViewController: UICollectionViewDelegate {
-    
+    //MARK: - CollectionViewDelegate
     private func configureCollectionViewDelegate() {
         collectionView.delegate = self
     }

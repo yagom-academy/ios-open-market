@@ -61,7 +61,10 @@ final class CollectionViewListCell: UICollectionViewListCell {
         updatePriceLabel(from: product)
         updateStockLabel(from: product)
     }
-    
+}
+
+//MARK: - Private Method
+extension CollectionViewListCell {
     private func organizeViewHierarchy() {
         contentView.addSubview(imageView)
         imageView.addSubview(activityIndicator)
@@ -94,11 +97,8 @@ final class CollectionViewListCell: UICollectionViewListCell {
                                                 constant: LayoutAttribute.largeSpacing * 2)
         ])
     }
-}
 
-//MARK: - ActivityIndicator
-extension CollectionViewListCell {
-    
+    //MARK: - ActivityIndicator
     private func configureActivityIndicator() {
         activityIndicator.startAnimating()
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
@@ -109,11 +109,8 @@ extension CollectionViewListCell {
             activityIndicator.trailingAnchor.constraint(equalTo: imageView.trailingAnchor)
         ])
     }
-}
 
-//MARK: - ImageView
-extension CollectionViewListCell {
-    
+    //MARK: - ImageView
     private func configureImageView() {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -142,11 +139,8 @@ extension CollectionViewListCell {
             }
         }
     }
-}
 
-//MARK: - LabelStackView
-extension CollectionViewListCell {
-
+    //MARK: - LabelStackView
     private func configureLabelStackView() {
         labelStackView.axis = .vertical
         labelStackView.distribution = .fillEqually
@@ -164,10 +158,8 @@ extension CollectionViewListCell {
                                                 constant: -1 * LayoutAttribute.largeSpacing)
         ])
     }
-}
 
-//MARK: - NameLabel
-extension CollectionViewListCell {
+    //MARK: - NameLabel
     private func configureNameLabel() {
         nameLabel.adjustsFontForContentSizeCategory = true
     }
@@ -180,11 +172,8 @@ extension CollectionViewListCell {
             attributes: [.bold]
         )
     }
-}
 
-//MARK: - PriceLabel
-extension CollectionViewListCell {
-    
+    //MARK: - PriceLabel
     private func configurePriceLabel() {
         priceLabel.adjustsFontForContentSizeCategory = true
     }
@@ -197,11 +186,8 @@ extension CollectionViewListCell {
             direction: .horizontal
         )
     }
-}
 
-//MARK: - StockLabel
-extension CollectionViewListCell {
-    
+    //MARK: - StockLabel
     private func configureStockLabel() {
         stockLabel.adjustsFontForContentSizeCategory = true
         stockLabel.font = .preferredFont(forTextStyle: LayoutAttribute.StockLabel.textStyle)
@@ -224,11 +210,8 @@ extension CollectionViewListCell {
             stockLabel.textColor = LayoutAttribute.StockLabel.stockFontColor
         }
     }
-}
 
-//MARK: - ChevronButton
-extension CollectionViewListCell {
-    
+    //MARK: - ChevronButton
     private func configureChevronButton() {
         chevronButton.setImage(UIImage(systemName: "chevron.right"), for: .normal)
         chevronButton.tintColor = LayoutAttribute.ChevronButton.fontColor

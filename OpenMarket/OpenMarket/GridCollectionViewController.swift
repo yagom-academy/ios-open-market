@@ -2,6 +2,8 @@ import UIKit
 
 final class GridCollectionViewController: UIViewController {
     
+    typealias Product = NetworkingAPI.ProductListQuery.Response.Page
+    
     enum LayoutAttribute {
         static let estimatedHeight: CGFloat = 220
         static let itemsPerGroup = 2
@@ -27,7 +29,10 @@ final class GridCollectionViewController: UIViewController {
         snapshot.appendItems(products)
         self.dataSource.apply(snapshot, animatingDifferences: false)
     }
-    
+}
+
+//MARK: - Private Method
+extension GridCollectionViewController {
     private func create() {
         createCollectionView()
         createDataSource()
@@ -41,11 +46,8 @@ final class GridCollectionViewController: UIViewController {
         configureCollectionView()
         configureCollectionViewDelegate()
     }
-}
 
-//MARK: - CollectionView
-extension GridCollectionViewController {
-    
+    //MARK: - CollectionView
     private func createCollectionView() {
         let itemSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
@@ -83,13 +85,8 @@ extension GridCollectionViewController {
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
-}
 
-//MARK: - DataSource
-extension GridCollectionViewController {
-    
-    typealias Product = NetworkingAPI.ProductListQuery.Response.Page
-
+    //MARK: - DataSource
     private enum Section: Hashable {
         case main
     }
@@ -112,11 +109,8 @@ extension GridCollectionViewController {
             return cell
         }
     }
-}
 
-//MARK: - Delegate
-extension GridCollectionViewController: UICollectionViewDelegate {
-    
+    //MARK: - Delegate
     private func configureCollectionViewDelegate() {
         collectionView.delegate = self
     }

@@ -63,7 +63,10 @@ final class CollectionViewGridCell: UICollectionViewCell {
         updatePriceLabel(from: product)
         updateStockLabel(from: product)
     }
-    
+}
+
+//MARK: - Private Method
+extension CollectionViewGridCell {
     private func organizeViewHierarchy() {
         addSubview(imageView)
         imageView.addSubview(activityIndicator)
@@ -94,11 +97,8 @@ final class CollectionViewGridCell: UICollectionViewCell {
             heightAnchor.constraint(greaterThanOrEqualTo: widthAnchor, multiplier: 1.5)
         ])
     }
-}
 
-//MARK: - Activity Indicator
-extension CollectionViewGridCell {
-    
+    //MARK: - Activity Indicator
     private func configureAcitivityIndicator() {
         activityIndicator.startAnimating()
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
@@ -109,11 +109,8 @@ extension CollectionViewGridCell {
             activityIndicator.centerYAnchor.constraint(equalTo: imageView.centerYAnchor)
         ])
     }
-}
 
-//MARK: - ImageView
-extension CollectionViewGridCell {
-
+    //MARK: - ImageView
     private func configureImageView() {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -142,11 +139,8 @@ extension CollectionViewGridCell {
             }
         }
     }
-}
 
-//MARK: - Label StackView
-extension CollectionViewGridCell {
-    
+    //MARK: - Label StackView
     private func configureLabelStackView() {
         labelStackView.axis = .vertical
         labelStackView.distribution = .equalSpacing
@@ -166,11 +160,8 @@ extension CollectionViewGridCell {
                                                    constant: -1 * LayoutAttribute.largeSpacing)
         ])
     }
-}
 
-//MARK: - Name Label
-extension CollectionViewGridCell {
-
+    //MARK: - Name Label
     private func configureNameLabel() {
         nameLabel.textAlignment = .center
         nameLabel.adjustsFontForContentSizeCategory = true
@@ -184,11 +175,8 @@ extension CollectionViewGridCell {
             attributes: [.bold]
         )
     }
-}
 
-//MARK: - Price Label
-extension CollectionViewGridCell {
-    
+    //MARK: - Price Label
     private func configurePriceLabel() {
         priceLabel.numberOfLines = 0
         priceLabel.textAlignment = .center
@@ -203,11 +191,8 @@ extension CollectionViewGridCell {
             direction: .vertical
         )
     }
-}
 
-//MARK: - Stock Label
-extension CollectionViewGridCell {
-    
+    //MARK: - Stock Label
     private func configureStockLabel() {
         stockLabel.adjustsFontForContentSizeCategory = true
         stockLabel.font = .preferredFont(forTextStyle: LayoutAttribute.StockLabel.textStyle)

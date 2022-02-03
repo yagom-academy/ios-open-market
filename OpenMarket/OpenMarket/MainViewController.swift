@@ -34,7 +34,10 @@ final class MainViewController: UIViewController {
         viewController.productId = productId
         navigationController?.pushViewController(viewController, animated: true)
     }
-    
+}
+
+//MARK: - Private Method
+extension MainViewController {
     private func create() {
         createSegmentedControl()
         createProductRegistrationButtonItem()
@@ -61,11 +64,8 @@ final class MainViewController: UIViewController {
     private func configureMainView() {
         view.backgroundColor = .systemBackground
     }
-}
 
-//MARK: - Segmented Control
-extension MainViewController {
-    
+    //MARK: - Segmented Control
     private func createSegmentedControl() {
         segmentedControl = JNSegmentedControl(items: ["List","Grid"], color: .systemBlue, textStyle: .caption1)
     }
@@ -89,16 +89,15 @@ extension MainViewController {
         
         scrollView.setContentOffset(destinationPoint, animated: true)
     }
-}
 
-//MARK: - ProductRegistrationButtonItem
-extension MainViewController {
-    
+    //MARK: - ProductRegistrationButtonItem
     private func createProductRegistrationButtonItem() {
-        productRegistrationButtonItem = UIBarButtonItem(image: UIImage(systemName: "plus"),
-                                                        style: .plain,
-                                                        target: self,
-                                                        action: #selector(presentProductRegistrationViewController))
+        productRegistrationButtonItem = UIBarButtonItem(
+            image: UIImage(systemName: "plus"),
+            style: .plain,
+            target: self,
+            action: #selector(presentProductRegistrationViewController)
+        )
     }
 
     @objc private func presentProductRegistrationViewController() {
@@ -106,11 +105,8 @@ extension MainViewController {
         productRegistrationViewController.modalPresentationStyle = .fullScreen
         present(productRegistrationViewController, animated: true)
     }
-}
 
-//MARK: - ScrollView
-extension MainViewController: UIScrollViewDelegate {
-    
+    //MARK: - ScrollView
     private func configureScrollView() {
         scrollView.delegate = self
         scrollView.isPagingEnabled = true
@@ -135,11 +131,8 @@ extension MainViewController: UIScrollViewDelegate {
             segmentedControl.selectedSegmentIndex = pageNumber
         }
     }
-}
 
-//MARK: - ListViewController
-extension MainViewController {
-    
+    //MARK: - ListViewController
     private func configureListViewController() {
         listViewController.viewTransitionDelegate = self
         listViewController.view.translatesAutoresizingMaskIntoConstraints = false
@@ -151,11 +144,8 @@ extension MainViewController {
             listViewController.view.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
-}
 
-//MARK: - GridViewController
-extension MainViewController {
-    
+    //MARK: - GridViewController
     private func configureGridViewController() {
         gridViewController.viewTransitionDelegate = self
         gridViewController.view.translatesAutoresizingMaskIntoConstraints = false

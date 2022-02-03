@@ -3,6 +3,8 @@ import JNomaKit
 
 final class ProductDetailViewController: UIViewController {
     
+    typealias Product = NetworkingAPI.ProductDetailQuery.Response
+    
     enum LayoutAttribute {
         static let largeSpacing: CGFloat = 30
         static let smallSpacing: CGFloat = 10
@@ -28,8 +30,6 @@ final class ProductDetailViewController: UIViewController {
         }
     }
     
-    typealias Product = NetworkingAPI.ProductDetailQuery.Response
-    
     private var backButtonItem: UIBarButtonItem!
     private var modifyOrDeleteButtonItem: UIBarButtonItem!
     private let acitivityIndicator = UIActivityIndicatorView()
@@ -54,7 +54,10 @@ final class ProductDetailViewController: UIViewController {
         super.viewDidLoad()
         fetchProductDetail()
     }
-    
+}
+
+//MARK: - Private Method
+extension ProductDetailViewController {
     private func create() {
         createBackButtonItem()
         createModifyOrDeleteButtonItem()
@@ -94,40 +97,34 @@ final class ProductDetailViewController: UIViewController {
         updateDescriptionTextView()
     }
 
+    //MARK: - MainView
     private func configureMainView() {
         view.backgroundColor = .systemBackground
     }
-}
 
-//MARK: - BackButtonItem
-extension ProductDetailViewController {
-    
+    //MARK: - BackButtonItem
     private func createBackButtonItem() {
-        backButtonItem = UIBarButtonItem(image: UIImage(systemName: "chevron.left"),
-                                                        style: .plain,
-                                                        target: self,
-                                                        action: #selector(dismissProductDetailViewController))
+        backButtonItem = UIBarButtonItem(
+            image: UIImage(systemName: "chevron.left"),
+            style: .plain,
+            target: self,
+            action: #selector(dismissProductDetailViewController)
+        )
     }
     
     @objc private func dismissProductDetailViewController() {
         navigationController?.popViewController(animated: true)
     }
-}
 
-//MARK: - NavigationTitle
-extension ProductDetailViewController {
-    
+    //MARK: - NavigationTitle
     private func updateNavigationTitle() {
         guard let product = product else {
             return
         }
         navigationItem.title = product.name
     }
-}
 
-//MARK: - ModificationButtonItem
-extension ProductDetailViewController {
-    
+    //MARK: - ModificationButtonItem
     private func createModifyOrDeleteButtonItem() {
         modifyOrDeleteButtonItem = UIBarButtonItem(image: UIImage(systemName: "square.and.arrow.up"),
                                                         style: .plain,
@@ -234,11 +231,8 @@ extension ProductDetailViewController {
             }
         }
     }
-}
 
-//MARK: - AcitivityIndicator
-extension ProductDetailViewController {
-    
+    //MARK: - AcitivityIndicator
     private func configureAcitivityIndicator() {
         acitivityIndicator.startAnimating()
         acitivityIndicator.translatesAutoresizingMaskIntoConstraints = false
@@ -250,11 +244,8 @@ extension ProductDetailViewController {
             acitivityIndicator.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
         ])
     }
-}
 
-//MARK: - ImageScrollView
-extension ProductDetailViewController {
-    
+    //MARK: - ImageScrollView
     private func configureImageScrollView() {
         imageScrollView.isPagingEnabled = true
         imageScrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -266,11 +257,8 @@ extension ProductDetailViewController {
             imageScrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
         ])
     }
-}
 
-//MARK: - ImageStackView
-extension ProductDetailViewController {
-    
+    //MARK: - ImageStackView
     private func configureImageStackView() {
         imageStackView.axis = .horizontal
         imageStackView.translatesAutoresizingMaskIntoConstraints = false
@@ -320,11 +308,8 @@ extension ProductDetailViewController {
             imageView.heightAnchor.constraint(equalTo: imageStackView.heightAnchor)
         ])
     }
-}
 
-//MARK: - NameLabel
-extension ProductDetailViewController {
-    
+    //MARK: - NameLabel
     private func configureNameLabel() {
         nameLabel.adjustsFontForContentSizeCategory = true
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -348,11 +333,8 @@ extension ProductDetailViewController {
             attributes: [.bold]
         )
     }
-}
 
-//MARK: - StockLabel
-extension ProductDetailViewController {
-    
+    //MARK: - StockLabel
     private func configureStockLabel() {
         stockLabel.font = .preferredFont(forTextStyle: LayoutAttribute.StockLabel.textStyle)
         stockLabel.adjustsFontForContentSizeCategory = true
@@ -378,11 +360,8 @@ extension ProductDetailViewController {
             stockLabel.textColor = LayoutAttribute.StockLabel.stockFontColor
         }
     }
-}
 
-//MARK: - PriceLabel
-extension ProductDetailViewController {
-    
+    //MARK: - PriceLabel
     private func configurePriceLabel() {
         priceLabel.numberOfLines = 0
         priceLabel.adjustsFontForContentSizeCategory = true
@@ -408,11 +387,8 @@ extension ProductDetailViewController {
             direction: .vertical
         )
     }
-}
 
-//MARK: - DescriptionTextView
-extension ProductDetailViewController {
-    
+    //MARK: - DescriptionTextView
     private func configureDescriptionTextView() {
         descriptionTextView.font = .preferredFont(forTextStyle: LayoutAttribute.DescriptionTextView.textStyle)
         descriptionTextView.translatesAutoresizingMaskIntoConstraints = false
