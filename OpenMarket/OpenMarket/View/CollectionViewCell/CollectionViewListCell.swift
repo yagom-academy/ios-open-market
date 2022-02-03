@@ -48,6 +48,7 @@ class CollectionViewListCell: UICollectionViewListCell {
     private let labelStackView = UIStackView()
     private let stockLabel = UILabel()
     private let chevronButton = UIButton()
+    var currentThumbnailURL: String?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -136,6 +137,8 @@ extension CollectionViewListCell {
         ImageLoader.load(from: product.thumbnail) { (result) in
             switch result {
             case .success(let data):
+                guard self.currentThumbnailURL == product.thumbnail else { return }
+                
                 DispatchQueue.main.sync {
                     self.imageView.image = UIImage(data: data)
                     self.activityIndicator.stopAnimating()

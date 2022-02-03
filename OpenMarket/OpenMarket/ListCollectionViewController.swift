@@ -83,6 +83,7 @@ extension ListCollectionViewController {
                 for: indexPath,
                 item: item
             )
+            cell.currentThumbnailURL = item.thumbnail
             cell.update(from: item)
             
             return cell
