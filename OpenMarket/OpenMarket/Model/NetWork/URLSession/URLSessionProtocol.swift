@@ -45,7 +45,7 @@ extension URLSessionProtocol {
         }.resume()
     }
     
-    func requestDataTask(url: URL, completion: @escaping (Result<Data, OpenMarketError>) -> Void) {
+    func requestImageDataTask(url: URL, completion: @escaping (Result<Data, OpenMarketError>) -> Void) {
         dataTask(with: url) { (data, response, error) in
             guard let data = data else {
                 completion(.failure(.receivedInvalidData))
@@ -61,7 +61,8 @@ extension URLSessionProtocol {
                 completion(.failure(.receivedFailureStatusCode(response.statusCode)))
                 return
             }
-            
+ 
+            ImageLoader.cachedImages.setObject(data as NSData, forKey: url as NSURL)
             completion(.success(data))
         }.resume()
     }

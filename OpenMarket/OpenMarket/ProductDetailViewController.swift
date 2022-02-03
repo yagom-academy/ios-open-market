@@ -248,7 +248,7 @@ extension ProductDetailViewController {
         }
         
         product.images.forEach {
-            ImageLoader.load(from: $0.url) { (result) in
+            ImageLoader.load(session: URLSession.shared, from: $0.url) { (result) in
                 switch result {
                 case .success(let data):
                     DispatchQueue.main.sync {

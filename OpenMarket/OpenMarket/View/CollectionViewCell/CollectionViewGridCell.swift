@@ -125,7 +125,7 @@ extension CollectionViewGridCell {
     }
     
     private func updateImageView(from product: Product) {
-        ImageLoader.load(from: product.thumbnail) { (result) in
+        ImageLoader.load(session: URLSession.shared, from: product.thumbnail) { (result) in
             switch result {
             case .success(let data):
                 guard self.currentThumbnailURL == product.thumbnail else { return }

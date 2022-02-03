@@ -179,7 +179,7 @@ extension ProductModificationViewController {
         }
 
         for (index, image) in images.enumerated() {
-            ImageLoader.load(from: image.url) { result in
+            ImageLoader.load(session: URLSession.shared, from: image.url) { result in
                 switch result {
                 case .success(let data):
                     guard let image = UIImage(data: data) else {
