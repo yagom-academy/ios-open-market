@@ -1,20 +1,32 @@
 import UIKit
 
 class ItemRegistrationViewController: UIViewController {
-    private weak var registrationView: ItemRegisterAndModifyFormView!
+    private let registrationView = ItemRegisterAndModifyFormView()
     private var manager = ItemRegisterAndModifyManager()
     private let imagePicker = UIImagePickerController()
     private let mode: Mode = .register
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        registrationView.photoCollectionView.dataSource = self
+        setupPhotoCollectionView()
         registrationView.delegate = self
         registrationView.formViewDidLoad()
         view = registrationView
     }
+
+    private func setupPhotoCollectionView() {
+        registrationView.photoCollectionView.delegate = self
+        registrationView.photoCollectionView.dataSource = self
+        registrationView.photoCollectionView.register(
+            ImageCollectionViewCell.self,
+            forCellWithReuseIdentifier: ImageCollectionViewCell.identifier)
+        registrationView.photoCollectionView.register(
+            AddImageCollectionViewCell.self,
+            forCellWithReuseIdentifier: AddImageCollectionViewCell.identifier)
+    }
 }
 
+// MARK: - ItemRegisterAndModifyFormViewDelegate
 extension ItemRegistrationViewController: ItemRegisterAndModifyFormViewDelegate {
     func setupNavigationBar() {
         navigationController?.navigationBar.scrollEdgeAppearance = registrationView.navigationBarAppearance
@@ -23,6 +35,7 @@ extension ItemRegistrationViewController: ItemRegisterAndModifyFormViewDelegate 
     }
 
     func dismiss() {
+        pickImage()
         dismiss(animated: true, completion: nil)
     }
 
@@ -38,6 +51,7 @@ extension ItemRegistrationViewController: ItemRegisterAndModifyFormViewDelegate 
     }
 }
 
+// MARK: - UICollectionViewDataSource
 extension ItemRegistrationViewController: UICollectionViewDataSource {
     func collectionView(
         _ collectionView: UICollectionView,
@@ -74,7 +88,10 @@ extension ItemRegistrationViewController: UICollectionViewDataSource {
             return cell
         }
     }
+}
 
+// MARK: - UICollectionViewDelegate
+extension ItemRegistrationViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let totalNumberOfImages = manager.countNumberOfModels()
         if totalNumberOfImages < 6 {
@@ -85,7 +102,8 @@ extension ItemRegistrationViewController: UICollectionViewDataSource {
         }
     }
 }
- 
+
+// MARK: - UIImagePickerControllerDelegate
 extension ItemRegistrationViewController: UIImagePickerControllerDelegate,
                                           UINavigationControllerDelegate {
     func imagePickerController(
@@ -103,6 +121,6 @@ extension ItemRegistrationViewController: UIImagePickerControllerDelegate,
         imagePicker.delegate = self
         imagePicker.sourceType = .photoLibrary
         imagePicker.allowsEditing = true
-        present(imagePicker, animated: true)
+        present(imagePicker, animated: true, completion: nil)
     }
 }

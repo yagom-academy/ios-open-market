@@ -60,17 +60,10 @@ class ItemRegisterAndModifyFormView: UIView {
         layout.itemSize = CGSize(width: 130, height: 130)
         layout.minimumInteritemSpacing = 0
         layout.minimumLineSpacing = 20
-
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.backgroundColor = .systemBackground
         collectionView.isDirectionalLockEnabled = true
-        collectionView.register(
-            ImageCollectionViewCell.self,
-            forCellWithReuseIdentifier: ImageCollectionViewCell.identifier)
-        collectionView.register(
-            AddImageCollectionViewCell.self,
-            forCellWithReuseIdentifier: AddImageCollectionViewCell.identifier)
         return collectionView
     }()
 
