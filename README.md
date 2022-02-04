@@ -1,5 +1,8 @@
 # 오픈마켓 
 
+### ✅ 상세한 회고는 [블로그포스팅](https://velog.io/@yohanblessyou/%EC%95%BC%EA%B3%B0%EC%95%84%EC%B9%B4%EB%8D%B0%EB%AF%B8-%EC%98%A4%ED%94%88%EB%A7%88%EC%BC%93)에 정리되어 있습니다
+
+### 📝 목차
 1. 프로젝트 기본정보
 2. App 구동화면
 3. 주요설계 포인트
@@ -26,8 +29,7 @@
 ## 🌀 3. 주요설계
 
 ### 🔸 코드배치 & 구조
-![image](https://user-images.githubusercontent.com/39155090/152005137-6c6f508b-7189-4a94-af35-20bc102f1aab.png)
-
+![image](https://user-images.githubusercontent.com/39155090/152527864-d4b347ac-dab3-4f82-b31f-583040e1543c.png)
 ### 🔸 Networking API
 `NetworkingAPI`라는 네임스페이스를 통해 네트워크 API들을 호출할 수 있습니다. 이후 각 API 별로 필요한 HTTP 메시지를 구성한 후 URLSessionProtocol에 기본구현으로 제공되는 `requestDataTask()`를 통해 메시지를 전송합니다 (URLSession은 URLSessionProtocol을 채택합니다)
 ![image](https://user-images.githubusercontent.com/39155090/152009263-ddba3dbd-c27b-4e96-b4f7-80efae1a1587.png)
