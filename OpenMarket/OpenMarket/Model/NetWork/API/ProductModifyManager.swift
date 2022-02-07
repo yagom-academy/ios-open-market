@@ -5,10 +5,10 @@ enum ProductModifyManager: JSONResponseDecodable {
                                                identifier: String,
                                                productId: Int,
                                                name: String?,
-                                               description: String?,
+                                               descriptions: String?,
                                                thumbnailId: Int?,
                                                price: Double?,
-                                               currency: Currency?,
+                                               currency: String?,
                                                discountedPrice: Double?,
                                                stock: Int?,
                                                secret: String,
@@ -17,18 +17,37 @@ enum ProductModifyManager: JSONResponseDecodable {
         let httpMethod = "PATCH"
         let baseURLString = "https://market-training.yagom-academy.kr/api/products"
         let urlString = "\(baseURLString)/\(productId)"
-        
+        let headerFields: [String: String] = [
+            "identifier" : Vendor.identifier,
+            "Content-Type" : "application/json"
+        ]
+        let currency = Currency(rawValue: currency ?? "")
         let request = Request(name: name,
-                              description: description,
+                              descriptions: descriptions,
                               thumbnailId: thumbnailId,
                               price: price,
                               currency: currency,
                               discountedPrice: discountedPrice,
                               stock: stock,
                               secret: secret)
+        guard let httpBody = try? JSONEncoder().encode(request) else {
+            completion(.failure(.encodingFail("ProductModifyManager.Request", "Data")))
+            return
+        }
         
-        //TODO: - make HTTPBody
-        //TODO: - call dataTask
+        session.requestDataTask(urlString: urlString,
+                                          httpMethod: httpMethod,
+                                          httpBody: httpBody,
+                                          headerFields: headerFields) {
+            (result) in
+            
+            switch result {
+            case .success(let data):
+                completion(.success(data))
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
     }
 }
 
@@ -41,7 +60,7 @@ extension ProductModifyManager {
     
     struct Request: Encodable {
         let name: String?
-        let description: String?
+        let descriptions: String?
         let thumbnailId: Int?
         let price: Double?
         let currency: Currency?
@@ -50,7 +69,7 @@ extension ProductModifyManager {
         let secret: String
         
         enum CodingKeys: String, CodingKey {
-            case name, description, price, currency, stock, secret
+            case name, descriptions, price, currency, stock, secret
             case thumbnailId = "thumbnail_id"
             case discountedPrice = "discounted_price"
         }

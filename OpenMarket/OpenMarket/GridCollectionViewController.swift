@@ -1,6 +1,8 @@
 import UIKit
 
-class GridCollectionViewController: UIViewController {
+final class GridCollectionViewController: UIViewController {
+    
+    typealias Product = NetworkingAPI.ProductListQuery.Response.Page
     
     enum LayoutAttribute {
         static let estimatedHeight: CGFloat = 220
@@ -11,12 +13,14 @@ class GridCollectionViewController: UIViewController {
     
     private var collectionView: UICollectionView!
     private var dataSource: UICollectionViewDiffableDataSource<Section, Product>!
+    weak var viewPresentationDelegate: MainViewController?
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    //MARK: - Life Cycle
+    override func loadView() {
+        super.loadView()
         create()
         organizeViewHierarchy()
-        configureCollectionView()
+        configure()
     }
     
     func applySnapShot(products: [Product]) {
@@ -25,7 +29,10 @@ class GridCollectionViewController: UIViewController {
         snapshot.appendItems(products)
         self.dataSource.apply(snapshot, animatingDifferences: false)
     }
-    
+}
+
+//MARK: - Private Method
+extension GridCollectionViewController: UICollectionViewDelegate {
     private func create() {
         createCollectionView()
         createDataSource()
@@ -34,11 +41,13 @@ class GridCollectionViewController: UIViewController {
     private func organizeViewHierarchy() {
         view.addSubview(collectionView)
     }
-}
-
-//MARK: - CollectionView
-extension GridCollectionViewController {
     
+    private func configure() {
+        configureCollectionView()
+        configureCollectionViewDelegate()
+    }
+
+    //MARK: - CollectionView
     private func createCollectionView() {
         let itemSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
@@ -76,13 +85,8 @@ extension GridCollectionViewController {
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
-}
 
-//MARK: - DataSource
-extension GridCollectionViewController {
-    
-    typealias Product = NetworkingAPI.ProductListQuery.Response.Page
-
+    //MARK: - DataSource
     private enum Section: Hashable {
         case main
     }
@@ -99,9 +103,39 @@ extension GridCollectionViewController {
                 for: indexPath,
                 item: item
             )
+            cell.currentThumbnailURL = item.thumbnail
             cell.update(from: item)
             
             return cell
         }
+    }
+
+    //MARK: - Delegate
+    private func configureCollectionViewDelegate() {
+        collectionView.delegate = self
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let id = dataSource.itemIdentifier(for: indexPath)?.id else {
+            collectionView.deselectItem(at: indexPath, animated: true)
+            return
+        }
+        
+        NetworkingAPI.ProductDeleteSecretQuery.request(session: URLSession.shared,
+                                                       productId: id,
+                                                       identifier: Vendor.identifier,
+                                                       secret: Vendor.secret) {
+            
+            result in
+            
+            switch result {
+            case .success(let data):
+                print("상품 \(id)의 secret은 \(String(decoding: data, as: UTF8.self))입니다")
+            case .failure(let error):
+                UIAlertController.simpleAlert(message: "상품 secret 조회에 실패했습니다\n\(error.description)", presentationDelegate: self)
+            }
+        }
+        
+        viewPresentationDelegate?.pushViewController(ProductDetailViewController(), withProductId: id)
     }
 }

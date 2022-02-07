@@ -9,11 +9,15 @@ enum ProductDeleteManager: JSONResponseDecodable {
         let httpMethod = "DELETE"
         let baseURLString = "https://market-training.yagom-academy.kr/api/products"
         let urlString = "\(baseURLString)/\(productId)/\(productSecret)"
+        let headerFields: [String: String] = [
+            "identifier" : Vendor.identifier,
+            "Content-Type" : "application/json"
+        ]
         
         session.requestDataTask(urlString: urlString,
                                           httpMethod: httpMethod,
                                           httpBody: nil,
-                                          headerFields: nil,
+                                          headerFields: headerFields,
                                           completion: completion)
     }
 }

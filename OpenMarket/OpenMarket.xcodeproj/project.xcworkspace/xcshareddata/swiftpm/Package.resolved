@@ -1,0 +1,16 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "JNomaKit",
+        "repositoryURL": "https://github.com/YohanBlessYou/JNomaKit.git",
+        "state": {
+          "branch": "master",
+          "revision": "1aadd80fd04205a6ea56bb4b938a6955ec3123b5",
+          "version": null
+        }
+      }
+    ]
+  },
+  "version": 1
+}

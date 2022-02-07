@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -26,18 +26,21 @@
 		60B7C1ED2796A0AF0012215F /* OpenMarketError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60B7C1EC2796A0AF0012215F /* OpenMarketError.swift */; };
 		60B7C1F52796B2800012215F /* ListCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60B7C1F42796B2800012215F /* ListCollectionViewController.swift */; };
 		60B7C1F72796B2980012215F /* GridCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60B7C1F62796B2980012215F /* GridCollectionViewController.swift */; };
-		60B7C1FA2796B2FB0012215F /* BlueSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60B7C1F92796B2FB0012215F /* BlueSegmentedControl.swift */; };
 		60B7C1FF2796DEC20012215F /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60B7C1FE2796DEC20012215F /* MainViewController.swift */; };
-		60B7C2032797E24D0012215F /* NSMutableAttributedString+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60B7C2022797E24D0012215F /* NSMutableAttributedString+Extension.swift */; };
 		60B7C2052798017E0012215F /* CollectionViewGridCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60B7C2042798017E0012215F /* CollectionViewGridCell.swift */; };
 		60B7C208279831E40012215F /* Vendor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60B7C207279831E40012215F /* Vendor.swift */; };
 		60B7C20E279961500012215F /* CenterAlignedTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60B7C20D279961500012215F /* CenterAlignedTextField.swift */; };
 		60B7C211279989E90012215F /* HTTPMessageMaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60B7C210279989E90012215F /* HTTPMessageMaker.swift */; };
 		60B7C217279993800012215F /* Data+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60B7C216279993800012215F /* Data+Extension.swift */; };
 		60D21024279BD0AE004F4F45 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60D21023279BD0AE004F4F45 /* UIImage+Extension.swift */; };
-		60D2102D279D3AF5004F4F45 /* PlainNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60D2102C279D3AF5004F4F45 /* PlainNavigationBar.swift */; };
 		60D2102F279D3CE4004F4F45 /* ProductRegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60D2102E279D3CE4004F4F45 /* ProductRegistrationViewController.swift */; };
-		60D21031279D5F7C004F4F45 /* UIFont+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60D21030279D5F7C004F4F45 /* UIFont+Extension.swift */; };
+		60EB057927A1954100465F58 /* ProductDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60EB057827A1954100465F58 /* ProductDetailViewController.swift */; };
+		60EB058227A3A3C800465F58 /* ProductModificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60EB058127A3A3C800465F58 /* ProductModificationViewController.swift */; };
+		60EB05FC27A7013500465F58 /* JNomaKit in Frameworks */ = {isa = PBXBuildFile; productRef = 60EB05FB27A7013500465F58 /* JNomaKit */; };
+		60EB060127ABB7AB00465F58 /* ImageScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60EB060027ABB7AB00465F58 /* ImageScrollView.swift */; };
+		60EB060627ABDED200465F58 /* PriceLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60EB060527ABDED200465F58 /* PriceLabel.swift */; };
+		60EB060927AC2F8E00465F58 /* UIAlertController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60EB060827AC2F8E00465F58 /* UIAlertController+Extension.swift */; };
+		60EB061127AC364A00465F58 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60EB061027AC364A00465F58 /* UIView+Extension.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
 		C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */; };
 		C70FB10425BEF61D00C9924E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C70FB10325BEF61D00C9924E /* Assets.xcassets */; };
@@ -75,18 +78,20 @@
 		60B7C1EC2796A0AF0012215F /* OpenMarketError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketError.swift; sourceTree = "<group>"; };
 		60B7C1F42796B2800012215F /* ListCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCollectionViewController.swift; sourceTree = "<group>"; };
 		60B7C1F62796B2980012215F /* GridCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridCollectionViewController.swift; sourceTree = "<group>"; };
-		60B7C1F92796B2FB0012215F /* BlueSegmentedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlueSegmentedControl.swift; sourceTree = "<group>"; };
 		60B7C1FE2796DEC20012215F /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
-		60B7C2022797E24D0012215F /* NSMutableAttributedString+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSMutableAttributedString+Extension.swift"; sourceTree = "<group>"; };
 		60B7C2042798017E0012215F /* CollectionViewGridCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewGridCell.swift; sourceTree = "<group>"; };
 		60B7C207279831E40012215F /* Vendor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vendor.swift; sourceTree = "<group>"; };
 		60B7C20D279961500012215F /* CenterAlignedTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CenterAlignedTextField.swift; sourceTree = "<group>"; };
 		60B7C210279989E90012215F /* HTTPMessageMaker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMessageMaker.swift; sourceTree = "<group>"; };
 		60B7C216279993800012215F /* Data+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Extension.swift"; sourceTree = "<group>"; };
 		60D21023279BD0AE004F4F45 /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
-		60D2102C279D3AF5004F4F45 /* PlainNavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlainNavigationBar.swift; sourceTree = "<group>"; };
 		60D2102E279D3CE4004F4F45 /* ProductRegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductRegistrationViewController.swift; sourceTree = "<group>"; };
-		60D21030279D5F7C004F4F45 /* UIFont+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Extension.swift"; sourceTree = "<group>"; };
+		60EB057827A1954100465F58 /* ProductDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetailViewController.swift; sourceTree = "<group>"; };
+		60EB058127A3A3C800465F58 /* ProductModificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductModificationViewController.swift; sourceTree = "<group>"; };
+		60EB060027ABB7AB00465F58 /* ImageScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageScrollView.swift; sourceTree = "<group>"; };
+		60EB060527ABDED200465F58 /* PriceLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceLabel.swift; sourceTree = "<group>"; };
+		60EB060827AC2F8E00465F58 /* UIAlertController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIAlertController+Extension.swift"; sourceTree = "<group>"; };
+		60EB061027AC364A00465F58 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -107,6 +112,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				60EB05FC27A7013500465F58 /* JNomaKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -123,15 +129,6 @@
 				60B7C206279831B40012215F /* Vendor */,
 			);
 			path = Model;
-			sourceTree = "<group>";
-		};
-		189785452791482C00E62B0A /* Text */ = {
-			isa = PBXGroup;
-			children = (
-				60B7C2022797E24D0012215F /* NSMutableAttributedString+Extension.swift */,
-				60D21030279D5F7C004F4F45 /* UIFont+Extension.swift */,
-			);
-			path = Text;
 			sourceTree = "<group>";
 		};
 		189C6B89278D57C800DE6D00 /* NetWork */ = {
@@ -172,11 +169,12 @@
 		604E1F5B278AE21000FE6A83 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				60D2102B279D3ACE004F4F45 /* NavigationBar */,
+				60EB060F27AC363A00465F58 /* View */,
+				60EB060727AC2F6C00465F58 /* Alert */,
+				60EB060427ABDEBB00465F58 /* Label */,
+				60EB05FF27ABB78D00465F58 /* ScrollView */,
 				60B7C20B279961170012215F /* TextField */,
 				60B7C1F22796ABD80012215F /* CollectionViewCell */,
-				60B7C1F82796B2E40012215F /* SegmentedControl */,
-				189785452791482C00E62B0A /* Text */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -186,6 +184,8 @@
 			children = (
 				60D21032279D7587004F4F45 /* MainScene */,
 				60D21033279D7596004F4F45 /* ProductRegistrationScene */,
+				60EB060327ABCE1600465F58 /* ProductModificationScene */,
+				60EB057727A1952A00465F58 /* ProductDetailScene */,
 			);
 			name = ViewController;
 			sourceTree = "<group>";
@@ -237,14 +237,6 @@
 			path = Application;
 			sourceTree = "<group>";
 		};
-		60B7C1F82796B2E40012215F /* SegmentedControl */ = {
-			isa = PBXGroup;
-			children = (
-				60B7C1F92796B2FB0012215F /* BlueSegmentedControl.swift */,
-			);
-			path = SegmentedControl;
-			sourceTree = "<group>";
-		};
 		60B7C206279831B40012215F /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
@@ -277,14 +269,6 @@
 			path = Data;
 			sourceTree = "<group>";
 		};
-		60D2102B279D3ACE004F4F45 /* NavigationBar */ = {
-			isa = PBXGroup;
-			children = (
-				60D2102C279D3AF5004F4F45 /* PlainNavigationBar.swift */,
-			);
-			path = NavigationBar;
-			sourceTree = "<group>";
-		};
 		60D21032279D7587004F4F45 /* MainScene */ = {
 			isa = PBXGroup;
 			children = (
@@ -311,6 +295,54 @@
 			path = ErrorType;
 			sourceTree = "<group>";
 		};
+		60EB057727A1952A00465F58 /* ProductDetailScene */ = {
+			isa = PBXGroup;
+			children = (
+				60EB057827A1954100465F58 /* ProductDetailViewController.swift */,
+			);
+			name = ProductDetailScene;
+			sourceTree = "<group>";
+		};
+		60EB05FF27ABB78D00465F58 /* ScrollView */ = {
+			isa = PBXGroup;
+			children = (
+				60EB060027ABB7AB00465F58 /* ImageScrollView.swift */,
+			);
+			path = ScrollView;
+			sourceTree = "<group>";
+		};
+		60EB060327ABCE1600465F58 /* ProductModificationScene */ = {
+			isa = PBXGroup;
+			children = (
+				60EB058127A3A3C800465F58 /* ProductModificationViewController.swift */,
+			);
+			name = ProductModificationScene;
+			sourceTree = "<group>";
+		};
+		60EB060427ABDEBB00465F58 /* Label */ = {
+			isa = PBXGroup;
+			children = (
+				60EB060527ABDED200465F58 /* PriceLabel.swift */,
+			);
+			path = Label;
+			sourceTree = "<group>";
+		};
+		60EB060727AC2F6C00465F58 /* Alert */ = {
+			isa = PBXGroup;
+			children = (
+				60EB060827AC2F8E00465F58 /* UIAlertController+Extension.swift */,
+			);
+			path = Alert;
+			sourceTree = "<group>";
+		};
+		60EB060F27AC363A00465F58 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				60EB061027AC364A00465F58 /* UIView+Extension.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		C70FB0EE25BEF61C00C9924E = {
 			isa = PBXGroup;
 			children = (
@@ -333,10 +365,10 @@
 			isa = PBXGroup;
 			children = (
 				60B7C1F32796AC1C0012215F /* Application */,
+				60D21037279D7F8D004F4F45 /* ErrorType */,
 				188150BA2789754400EE236E /* Model */,
 				604E1F5B278AE21000FE6A83 /* View */,
 				604E1F5C278AE21500FE6A83 /* ViewController */,
-				60D21037279D7F8D004F4F45 /* ErrorType */,
 			);
 			path = OpenMarket;
 			sourceTree = "<group>";
@@ -375,6 +407,9 @@
 			dependencies = (
 			);
 			name = OpenMarket;
+			packageProductDependencies = (
+				60EB05FB27A7013500465F58 /* JNomaKit */,
+			);
 			productName = OpenMarket;
 			productReference = C70FB0F725BEF61C00C9924E /* OpenMarket.app */;
 			productType = "com.apple.product-type.application";
@@ -406,6 +441,9 @@
 				Base,
 			);
 			mainGroup = C70FB0EE25BEF61C00C9924E;
+			packageReferences = (
+				60EB05FA27A7013500465F58 /* XCRemoteSwiftPackageReference "JNomaKit" */,
+			);
 			productRefGroup = C70FB0F825BEF61C00C9924E /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -450,24 +488,25 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				60EB061127AC364A00465F58 /* UIView+Extension.swift in Sources */,
+				60EB057927A1954100465F58 /* ProductDetailViewController.swift in Sources */,
 				60B7C1EB279695C30012215F /* URLSessionProtocol.swift in Sources */,
-				60D2102D279D3AF5004F4F45 /* PlainNavigationBar.swift in Sources */,
+				60EB058227A3A3C800465F58 /* ProductModificationViewController.swift in Sources */,
 				6019129427910A9B00A513C4 /* CollectionViewListCell.swift in Sources */,
 				6082A5F627912C2100D26048 /* ImageLoader.swift in Sources */,
 				188150B92789751E00EE236E /* ProductModifyManager.swift in Sources */,
 				6046C6F52784742D00CCE09B /* URLSession+Extension.swift in Sources */,
+				60EB060927AC2F8E00465F58 /* UIAlertController+Extension.swift in Sources */,
 				60B7C1FF2796DEC20012215F /* MainViewController.swift in Sources */,
-				60B7C1FA2796B2FB0012215F /* BlueSegmentedControl.swift in Sources */,
 				60B7C1F72796B2980012215F /* GridCollectionViewController.swift in Sources */,
 				188150C62789794A00EE236E /* ProductListQueryManager.swift in Sources */,
 				60D2102F279D3CE4004F4F45 /* ProductRegistrationViewController.swift in Sources */,
 				60B7C20E279961500012215F /* CenterAlignedTextField.swift in Sources */,
+				60EB060627ABDED200465F58 /* PriceLabel.swift in Sources */,
 				60B7C1ED2796A0AF0012215F /* OpenMarketError.swift in Sources */,
 				188150BD2789778900EE236E /* ProductRegistrationManager.swift in Sources */,
 				188150BF2789788200EE236E /* ProductDeleteSecretQueryManager.swift in Sources */,
 				60B7C2052798017E0012215F /* CollectionViewGridCell.swift in Sources */,
-				60D21031279D5F7C004F4F45 /* UIFont+Extension.swift in Sources */,
-				60B7C2032797E24D0012215F /* NSMutableAttributedString+Extension.swift in Sources */,
 				60D21024279BD0AE004F4F45 /* UIImage+Extension.swift in Sources */,
 				60B7C1F52796B2800012215F /* ListCollectionViewController.swift in Sources */,
 				604E1F73278D629600FE6A83 /* JSONResponseDecodable.swift in Sources */,
@@ -478,6 +517,7 @@
 				188150C1278978C800EE236E /* ProductDeleteManager.swift in Sources */,
 				60B7C208279831E40012215F /* Vendor.swift in Sources */,
 				188150C927897FE000EE236E /* HealthCheckerManager.swift in Sources */,
+				60EB060127ABB7AB00465F58 /* ImageScrollView.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 				60B7C217279993800012215F /* Data+Extension.swift in Sources */,
 			);
@@ -738,6 +778,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		60EB05FA27A7013500465F58 /* XCRemoteSwiftPackageReference "JNomaKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/YohanBlessYou/JNomaKit.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		60EB05FB27A7013500465F58 /* JNomaKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 60EB05FA27A7013500465F58 /* XCRemoteSwiftPackageReference "JNomaKit" */;
+			productName = JNomaKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = C70FB0EF25BEF61C00C9924E /* Project object */;
 }

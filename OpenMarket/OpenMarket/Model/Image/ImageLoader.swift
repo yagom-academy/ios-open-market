@@ -1,25 +1,27 @@
 import UIKit
 
 enum ImageLoader {
-    static func load(from urlString: String, completion: @escaping (Result<Data, OpenMarketError>) -> ()) {
-        
-        guard let url = URL(string: urlString) else {
-            print(OpenMarketError.conversionFail("string", "URL").description)
-            return
-        }
-        
-        URLSession.shared.requestDataTask(url: url, completion: completion)
-    }
+    static let cachedImages = NSCache<NSURL, NSData>()
     
-    static func load<T: URLSessionProtocol>(session: T,
-                                            from urlString: String,
-                                            completion: @escaping (Result<Data, OpenMarketError>) -> ()) {
-        
+    static func load<T: URLSessionProtocol>(
+        session: T,
+        from urlString: String,
+        completion: @escaping (Result<Data, OpenMarketError>) -> ()
+    ) {
+        if let url = NSURL(string: urlString),
+           let cachedImageData = cachedImages.object(forKey: url) {
+            DispatchQueue.main.async {
+                let data = Data(referencing: cachedImageData)
+                completion(.success(data))
+            }
+            return
+        }
+
         guard let url = URL(string: urlString) else {
             print(OpenMarketError.conversionFail("string", "URL").description)
             return
         }
         
-        session.requestDataTask(url: url, completion: completion)
+        session.requestImageDataTask(url: url, completion: completion)
     }
 }

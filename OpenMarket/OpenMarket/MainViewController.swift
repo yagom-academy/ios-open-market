@@ -1,18 +1,23 @@
 import UIKit
+import JNomaKit
 
-class MainViewController: UIViewController {
+final class MainViewController: UIViewController {
     
-    private let segmentedControl = BlueSegmentedControl()
+    private var segmentedControl: JNSegmentedControl!
     private var productRegistrationButtonItem: UIBarButtonItem!
     private let scrollView = UIScrollView()
     private let listViewController = ListCollectionViewController()
     private let gridViewController = GridCollectionViewController()
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    //MARK: - Life Cycle
+    override func loadView() {
+        super.loadView()
         create()
         organizeViewHierarchy()
         configure()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
         fetchProductList()
     }
     
@@ -25,7 +30,16 @@ class MainViewController: UIViewController {
         scrollView.setContentOffset(destinationPoint, animated: false)
     }
     
+    func pushViewController(_ viewController: ProductDetailViewController, withProductId productId: Int) {
+        viewController.productId = productId
+        navigationController?.pushViewController(viewController, animated: true)
+    }
+}
+
+//MARK: - Private Method
+extension MainViewController: UIScrollViewDelegate {
     private func create() {
+        createSegmentedControl()
         createProductRegistrationButtonItem()
     }
     
@@ -50,10 +64,11 @@ class MainViewController: UIViewController {
     private func configureMainView() {
         view.backgroundColor = .systemBackground
     }
-}
 
-//MARK: - Segmented Control
-extension MainViewController {
+    //MARK: - Segmented Control
+    private func createSegmentedControl() {
+        segmentedControl = JNSegmentedControl(items: ["List","Grid"], color: .systemBlue, textStyle: .caption1)
+    }
     
     private func configureSegmentedControl() {
         segmentedControl.translatesAutoresizingMaskIntoConstraints = false
@@ -74,28 +89,24 @@ extension MainViewController {
         
         scrollView.setContentOffset(destinationPoint, animated: true)
     }
-}
 
-//MARK: - ProductRegistrationButtonItem
-extension MainViewController {
-    
+    //MARK: - ProductRegistrationButtonItem
     private func createProductRegistrationButtonItem() {
-        productRegistrationButtonItem = UIBarButtonItem(image: UIImage(systemName: "plus"),
-                                                        style: .plain,
-                                                        target: self,
-                                                        action: #selector(presentProductRegistrationViewController))
+        productRegistrationButtonItem = UIBarButtonItem(
+            image: UIImage(systemName: "plus"),
+            style: .plain,
+            target: self,
+            action: #selector(presentProductRegistrationViewController)
+        )
     }
 
     @objc private func presentProductRegistrationViewController() {
-        let vc = ProductRegistrationViewController()
-        vc.modalPresentationStyle = .fullScreen
-        present(vc, animated: true)
+        let productRegistrationViewController = ProductRegistrationViewController()
+        productRegistrationViewController.modalPresentationStyle = .fullScreen
+        present(productRegistrationViewController, animated: true)
     }
-}
 
-//MARK: - ScrollView
-extension MainViewController: UIScrollViewDelegate {
-    
+    //MARK: - ScrollView
     private func configureScrollView() {
         scrollView.delegate = self
         scrollView.isPagingEnabled = true
@@ -120,12 +131,10 @@ extension MainViewController: UIScrollViewDelegate {
             segmentedControl.selectedSegmentIndex = pageNumber
         }
     }
-}
 
-//MARK: - ListViewController
-extension MainViewController {
-    
+    //MARK: - ListViewController
     private func configureListViewController() {
+        listViewController.viewPresentationDelegate = self
         listViewController.view.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
@@ -135,12 +144,10 @@ extension MainViewController {
             listViewController.view.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
-}
 
-//MARK: - GridViewController
-extension MainViewController {
-    
+    //MARK: - GridViewController
     private func configureGridViewController() {
+        gridViewController.viewPresentationDelegate = self
         gridViewController.view.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
@@ -155,7 +162,6 @@ extension MainViewController {
 
 //MARK: - Networking
 extension MainViewController {
-    
     private func fetchProductList() {
         NetworkingAPI.ProductListQuery.request(session: URLSession.shared,
                                                pageNo: 1,

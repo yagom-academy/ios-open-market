@@ -1,12 +1,16 @@
 import UIKit
 
-class ListCollectionViewController: UIViewController {
+final class ListCollectionViewController: UIViewController {
+    
+    typealias Product = NetworkingAPI.ProductListQuery.Response.Page
     
     private var collectionView: UICollectionView!
     private var dataSource: UICollectionViewDiffableDataSource<Section, Product>!
+    weak var viewPresentationDelegate: MainViewController?
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    //MARK: - Life Cycle
+    override func loadView() {
+        super.loadView()
         create()
         organizeViewHierarchy()
         configure()
@@ -18,7 +22,10 @@ class ListCollectionViewController: UIViewController {
         snapshot.appendItems(products)
         self.dataSource.apply(snapshot, animatingDifferences: false)
     }
-    
+}
+
+//MARK: - Private Method
+extension ListCollectionViewController: UICollectionViewDelegate {
     private func create() {
         createCollectionView()
         createDataSource()
@@ -26,16 +33,14 @@ class ListCollectionViewController: UIViewController {
     
     private func configure() {
         configureCollectionView()
+        configureCollectionViewDelegate()
     }
     
     private func organizeViewHierarchy() {
         view.addSubview(collectionView)
     }
-}
 
-//MARK: - CollectionView
-extension ListCollectionViewController {
-
+    //MARK: - CollectionView
     private func createCollectionView() {
         let layout =  UICollectionViewCompositionalLayout { (section, layoutEnvironment) in
             let appearance = UICollectionLayoutListConfiguration.Appearance.plain
@@ -57,13 +62,8 @@ extension ListCollectionViewController {
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
-}
 
-//MARK: - DataSoruce
-extension ListCollectionViewController {
-    
-    typealias Product = NetworkingAPI.ProductListQuery.Response.Page
-
+    //MARK: - DataSoruce
     private enum Section: Hashable {
         case main
     }
@@ -80,10 +80,39 @@ extension ListCollectionViewController {
                 for: indexPath,
                 item: item
             )
+            cell.currentThumbnailURL = item.thumbnail
             cell.update(from: item)
             
             return cell
         }
     }
-}
 
+    //MARK: - CollectionViewDelegate
+    private func configureCollectionViewDelegate() {
+        collectionView.delegate = self
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let id = dataSource.itemIdentifier(for: indexPath)?.id else {
+            collectionView.deselectItem(at: indexPath, animated: true)
+            return
+        }
+        
+        NetworkingAPI.ProductDeleteSecretQuery.request(session: URLSession.shared,
+                                                       productId: id,
+                                                       identifier: Vendor.identifier,
+                                                       secret: Vendor.secret) {
+            
+            result in
+            
+            switch result {
+            case .success(let data):
+                print("상품 \(id)의 secret은 \(String(decoding: data, as: UTF8.self))입니다")
+            case .failure(let error):
+                UIAlertController.simpleAlert(message: "상품 secret 조회에 실패했습니다\n\(error.description)", presentationDelegate: self)
+            }
+        }
+        
+        viewPresentationDelegate?.pushViewController(ProductDetailViewController(), withProductId: id)
+    }
+}

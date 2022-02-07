@@ -1,6 +1,7 @@
 import UIKit
+import JNomaKit
 
-class CollectionViewListCell: UICollectionViewListCell {
+final class CollectionViewListCell: UICollectionViewListCell {
     
     enum LayoutAttribute {
         static let largeSpacing: CGFloat = 10
@@ -21,12 +22,6 @@ class CollectionViewListCell: UICollectionViewListCell {
             static let fontColor: UIColor = .black
         }
         
-        enum PriceLabel {
-            static let textStyle: UIFont.TextStyle = .callout
-            static let originalPriceFontColor: UIColor = .red
-            static let bargainPriceFontColor: UIColor = .systemGray
-        }
-        
         enum StockLabel {
             static let textStyle: UIFont.TextStyle = .callout
             static let stockFontColor: UIColor = .systemGray
@@ -43,10 +38,11 @@ class CollectionViewListCell: UICollectionViewListCell {
     private let activityIndicator = UIActivityIndicatorView()
     private let imageView = UIImageView()
     private let nameLabel = UILabel()
-    private let priceLabel = UILabel()
+    private let priceLabel = PriceLabel()
     private let labelStackView = UIStackView()
     private let stockLabel = UILabel()
     private let chevronButton = UIButton()
+    var currentThumbnailURL: String?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -65,16 +61,20 @@ class CollectionViewListCell: UICollectionViewListCell {
         updatePriceLabel(from: product)
         updateStockLabel(from: product)
     }
-    
+}
+
+//MARK: - Private Method
+extension CollectionViewListCell {
     private func organizeViewHierarchy() {
-        contentView.addSubview(activityIndicator)
         contentView.addSubview(imageView)
-        contentView.addSubview(labelStackView)
-        contentView.addSubview(stockLabel)
-        contentView.addSubview(chevronButton)
+        imageView.addSubview(activityIndicator)
         
+        contentView.addSubview(labelStackView)
         labelStackView.addArrangedSubview(nameLabel)
         labelStackView.addArrangedSubview(priceLabel)
+        
+        contentView.addSubview(stockLabel)
+        contentView.addSubview(chevronButton)
     }
     
     private func configure() {
@@ -97,30 +97,20 @@ class CollectionViewListCell: UICollectionViewListCell {
                                                 constant: LayoutAttribute.largeSpacing * 2)
         ])
     }
-}
 
-//MARK: - ActivityIndicator
-extension CollectionViewListCell {
-    
+    //MARK: - ActivityIndicator
     private func configureActivityIndicator() {
         activityIndicator.startAnimating()
-        
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            activityIndicator.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,
-                                                       constant: LayoutAttribute.largeSpacing),
-            activityIndicator.widthAnchor.constraint(equalTo: contentView.widthAnchor,
-                                                     multiplier: LayoutAttribute.AcitivityIndicator.fractionalWidth),
-            activityIndicator.heightAnchor.constraint(equalTo: activityIndicator.widthAnchor,
-                                                      multiplier: LayoutAttribute.AcitivityIndicator.aspectRatio),
-            activityIndicator.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
+            activityIndicator.topAnchor.constraint(equalTo: imageView.topAnchor),
+            activityIndicator.bottomAnchor.constraint(equalTo: imageView.bottomAnchor),
+            activityIndicator.leadingAnchor.constraint(equalTo: imageView.leadingAnchor),
+            activityIndicator.trailingAnchor.constraint(equalTo: imageView.trailingAnchor)
         ])
     }
-}
 
-//MARK: - ImageView
-extension CollectionViewListCell {
-    
+    //MARK: - ImageView
     private func configureImageView() {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -135,10 +125,12 @@ extension CollectionViewListCell {
     }
     
     private func updateImageView(from product: Product) {
-        ImageLoader.load(from: product.thumbnail) { (result) in
+        ImageLoader.load(session: URLSession.shared, from: product.thumbnail) { (result) in
             switch result {
             case .success(let data):
-                DispatchQueue.main.sync {
+                guard self.currentThumbnailURL == product.thumbnail else { return }
+                
+                DispatchQueue.main.async {
                     self.imageView.image = UIImage(data: data)
                     self.activityIndicator.stopAnimating()
                 }
@@ -147,11 +139,8 @@ extension CollectionViewListCell {
             }
         }
     }
-}
 
-//MARK: - LabelStackView
-extension CollectionViewListCell {
-
+    //MARK: - LabelStackView
     private func configureLabelStackView() {
         labelStackView.axis = .vertical
         labelStackView.distribution = .fillEqually
@@ -169,72 +158,36 @@ extension CollectionViewListCell {
                                                 constant: -1 * LayoutAttribute.largeSpacing)
         ])
     }
-}
 
-//MARK: - NameLabel
-extension CollectionViewListCell {
+    //MARK: - NameLabel
     private func configureNameLabel() {
         nameLabel.adjustsFontForContentSizeCategory = true
-        nameLabel.font = UIFont.dynamicBoldSystemFont(ofSize: LayoutAttribute.NameLabel.fontSize)
     }
     
     private func updateNameLabel(from product: Product) {
-        nameLabel.text = product.name
+        nameLabel.attributedText = JNAttributedStringMaker.attributedString(
+            text: product.name,
+            textStyle: .body,
+            fontColor: .black,
+            attributes: [.bold]
+        )
     }
-}
 
-//MARK: - PriceLabel
-extension CollectionViewListCell {
-    
+    //MARK: - PriceLabel
     private func configurePriceLabel() {
         priceLabel.adjustsFontForContentSizeCategory = true
     }
     
     private func updatePriceLabel(from product: Product) {
-        let blank = NSMutableAttributedString(string: " ")
-        let currency = NSMutableAttributedString(string: product.currency.rawValue)
-        guard let originalPrice = NSMutableAttributedString(string: product.price.description).toDecimal,
-              let bargainPrice = NSMutableAttributedString(string: product.bargainPrice.description).toDecimal else {
-                  print(OpenMarketError.conversionFail("basic NSMutableAttributedString", "decimal").description)
-                  return
-              }
-
-        let result = NSMutableAttributedString(string: "")
-        if product.price != product.bargainPrice {
-            let originalPriceDescription = NSMutableAttributedString()
-            originalPriceDescription.append(currency)
-            originalPriceDescription.append(blank)
-            originalPriceDescription.append(originalPrice)
-            originalPriceDescription.setStrikeThrough()
-            originalPriceDescription.setFontColor(to: LayoutAttribute.PriceLabel.originalPriceFontColor)
-            
-            let bargainPriceDescription = NSMutableAttributedString()
-            bargainPriceDescription.append(currency)
-            bargainPriceDescription.append(blank)
-            bargainPriceDescription.append(bargainPrice)
-            bargainPriceDescription.setFontColor(to: LayoutAttribute.PriceLabel.bargainPriceFontColor)
-            
-            result.append(originalPriceDescription)
-            result.append(blank)
-            result.append(bargainPriceDescription)
-        } else {
-            let bargainPriceDescription = NSMutableAttributedString()
-            bargainPriceDescription.append(currency)
-            bargainPriceDescription.append(blank)
-            bargainPriceDescription.append(bargainPrice)
-            bargainPriceDescription.setFontColor(to: LayoutAttribute.PriceLabel.bargainPriceFontColor)
-
-            result.append(bargainPriceDescription)
-        }
-        
-        result.setTextStyle(textStyle: LayoutAttribute.PriceLabel.textStyle)
-        priceLabel.attributedText = result
+        priceLabel.setText(
+            currency: product.currency.rawValue,
+            originalPrice: product.price,
+            discountedPrice: product.discountedPrice,
+            direction: .horizontal
+        )
     }
-}
 
-//MARK: - StockLabel
-extension CollectionViewListCell {
-    
+    //MARK: - StockLabel
     private func configureStockLabel() {
         stockLabel.adjustsFontForContentSizeCategory = true
         stockLabel.font = .preferredFont(forTextStyle: LayoutAttribute.StockLabel.textStyle)
@@ -257,11 +210,8 @@ extension CollectionViewListCell {
             stockLabel.textColor = LayoutAttribute.StockLabel.stockFontColor
         }
     }
-}
 
-//MARK: - ChevronButton
-extension CollectionViewListCell {
-    
+    //MARK: - ChevronButton
     private func configureChevronButton() {
         chevronButton.setImage(UIImage(systemName: "chevron.right"), for: .normal)
         chevronButton.tintColor = LayoutAttribute.ChevronButton.fontColor

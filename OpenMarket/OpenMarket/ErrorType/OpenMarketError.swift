@@ -8,12 +8,15 @@ enum OpenMarketError: Error {
     case URLRequestMakingFail
     case receivedInvalidData
     case receivedIinvalidResponse
-    case receivedFailureStatusCode
+    case receivedFailureStatusCode(Int)
     case HTTPBodyMakingFail
 
     //JSON Parsing Error
     case encodingFail(String, String)
     case decodingFail(String, String)
+    
+    //User Error
+    case inputSecretIsWrong(String)
     
     var description: String {
         switch self {
@@ -28,8 +31,8 @@ enum OpenMarketError: Error {
             return "receivedInvalidData"
         case .receivedIinvalidResponse:
             return "receivedIinvalidResponse"
-        case .receivedFailureStatusCode:
-            return "receivedFailureStatusCode"
+        case .receivedFailureStatusCode(let code):
+            return "FailureStatusCode : \(code)"
         case .HTTPBodyMakingFail:
             return "HTTPBodyMakingFail"
             
@@ -38,6 +41,10 @@ enum OpenMarketError: Error {
             return "encodingFail (from: \(from) -> to: \(to))"
         case .decodingFail(let from, let to):
             return "decodingFail (from: \(from) -> to: \(to))"
+        
+        //User Error
+        case .inputSecretIsWrong(let inputSecret):
+            return "inputSecret(\(inputSecret)) is Wrong"
         }
     }
 }
