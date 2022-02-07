@@ -18,6 +18,7 @@ class ProductRegistrationModificationViewController: productRegisterModification
   var viewMode: ViewMode?
   var productImages: [UIImage] = []
   
+  var delegate: Delegate?
   private let identifer = "3be89f18-7200-11ec-abfa-25c2d8a6d606"
   private let secret = "-7VPcqeCv=Xbu3&P"
   
@@ -64,8 +65,9 @@ class ProductRegistrationModificationViewController: productRegisterModification
             navigationController?.popViewController(animated: true)
           }
         case .failure(let error):
+          print(error)
           DispatchQueue.main.async {
-            showAlert(message: error.localizedDescription)
+            showAlert(message: APIError.productRegistrationFailed.errorDescription)
           }
         }
       }
@@ -84,12 +86,14 @@ class ProductRegistrationModificationViewController: productRegisterModification
         switch response {
         case .success(let data):
           DispatchQueue.main.async {
-            
+            delegate?.setUpLabelView(prodcutInfo: data)
+            delegate?.setNavigationTitle(name: data.name)
             navigationController?.popViewController(animated: true)
           }
         case .failure(let error):
+          print(error)
           DispatchQueue.main.async {
-            showAlert(message: error.localizedDescription)
+            showAlert(message: APIError.productModificationFailed.errorDescription)
           }
         }
       }
@@ -229,8 +233,9 @@ extension ProductRegistrationModificationViewController {
           setProductDetail(product: data)
         }
       case .failure(let error):
+        print(error)
         DispatchQueue.main.async {
-          showAlert(message: error.localizedDescription)
+          showAlert(message: APIError.getProductFailed.errorDescription)
         }
       }
     }

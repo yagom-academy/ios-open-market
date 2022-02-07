@@ -14,8 +14,8 @@ enum  APIError: Error {
   case productDeleteFailed
 }
 
-extension APIError: LocalizedError {
-  var errorDescription: String? {
+extension APIError {
+  var errorDescription: String {
     switch self {
     case .getProductFailed:
       return "데이터를 불러오지 못했습니다\n다시 시도해주세요"

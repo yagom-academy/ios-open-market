@@ -22,6 +22,10 @@
 		255619962784562B00067096 /* JSONParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 255619952784562B00067096 /* JSONParser.swift */; };
 		25561998278459B000067096 /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25561997278459B000067096 /* APIManager.swift */; };
 		25561999278459B000067096 /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25561997278459B000067096 /* APIManager.swift */; };
+		256288F727A2C8D8003B273D /* ProductImageDetail.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 256288F627A2C8D8003B273D /* ProductImageDetail.storyboard */; };
+		256288F927A2C8FB003B273D /* ProductImageDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 256288F827A2C8FB003B273D /* ProductImageDetailViewController.swift */; };
+		256288FB27A3B2AA003B273D /* AlertMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 256288FA27A3B2AA003B273D /* AlertMessage.swift */; };
+		256288FC27A3B2AA003B273D /* AlertMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 256288FA27A3B2AA003B273D /* AlertMessage.swift */; };
 		2563E86927A13458003CD2CC /* UIImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2563E86827A13458003CD2CC /* UIImageView+Extension.swift */; };
 		2563E86A27A13458003CD2CC /* UIImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2563E86827A13458003CD2CC /* UIImageView+Extension.swift */; };
 		2563E86C27A164F1003CD2CC /* ImageCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2563E86B27A164F1003CD2CC /* ImageCacheManager.swift */; };
@@ -106,6 +110,9 @@
 		253079422790FCF2004639B2 /* ProductCollectionViewListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductCollectionViewListCell.swift; sourceTree = "<group>"; };
 		255619952784562B00067096 /* JSONParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONParser.swift; sourceTree = "<group>"; };
 		25561997278459B000067096 /* APIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
+		256288F627A2C8D8003B273D /* ProductImageDetail.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ProductImageDetail.storyboard; sourceTree = "<group>"; };
+		256288F827A2C8FB003B273D /* ProductImageDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductImageDetailViewController.swift; sourceTree = "<group>"; };
+		256288FA27A3B2AA003B273D /* AlertMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertMessage.swift; sourceTree = "<group>"; };
 		2563E86827A13458003CD2CC /* UIImageView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extension.swift"; sourceTree = "<group>"; };
 		2563E86B27A164F1003CD2CC /* ImageCacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCacheManager.swift; sourceTree = "<group>"; };
 		2580F2062786C6CC005FC50F /* URLGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLGenerator.swift; sourceTree = "<group>"; };
@@ -230,6 +237,7 @@
 				25EEB07C279E6376007E50D8 /* ProductsCollection.storyboard */,
 				25EEB080279E6520007E50D8 /* ProductRegistrationModification.storyboard */,
 				25EEB07E279E6501007E50D8 /* ProductDetail.storyboard */,
+				256288F627A2C8D8003B273D /* ProductImageDetail.storyboard */,
 			);
 			path = StoryBoard;
 			sourceTree = "<group>";
@@ -283,6 +291,7 @@
 				25EEB0222798723B007E50D8 /* ImagePickerable.swift */,
 				25F8D1FF279592F3005B9767 /* ReuseIdentifying.swift */,
 				2563E86B27A164F1003CD2CC /* ImageCacheManager.swift */,
+				256288FA27A3B2AA003B273D /* AlertMessage.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -294,6 +303,7 @@
 				2530792D278D2FBA004639B2 /* ProductCollectionViewController.swift */,
 				25EEB01C27981EAD007E50D8 /* ProductRegistrationModificationViewController.swift */,
 				25EEB082279E68E1007E50D8 /* ProductDetailViewController.swift */,
+				256288F827A2C8FB003B273D /* ProductImageDetailViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -425,6 +435,7 @@
 			files = (
 				C70FB10725BEF61D00C9924E /* LaunchScreen.storyboard in Resources */,
 				25EEB081279E6520007E50D8 /* ProductRegistrationModification.storyboard in Resources */,
+				256288F727A2C8D8003B273D /* ProductImageDetail.storyboard in Resources */,
 				253079412790FA9D004639B2 /* ProductCollectionViewListCell.xib in Resources */,
 				C70FB10425BEF61D00C9924E /* Assets.xcassets in Resources */,
 				25EEB07D279E6376007E50D8 /* ProductsCollection.storyboard in Resources */,
@@ -457,6 +468,7 @@
 				25F8D1FB27953BED005B9767 /* String+Extension.swift in Sources */,
 				89DA5A7E27847F5900D39567 /* JSONParser.swift in Sources */,
 				25F8D20E2796AA9C005B9767 /* ImageFile.swift in Sources */,
+				256288FC27A3B2AA003B273D /* AlertMessage.swift in Sources */,
 				25EEB02D279A8520007E50D8 /* ProductRequestForRegistration.swift in Sources */,
 				25561993278450EA00067096 /* ProductList.swift in Sources */,
 				2580F2082786C88D005FC50F /* URLGenerator.swift in Sources */,
@@ -507,6 +519,7 @@
 				25F8D200279592F3005B9767 /* ReuseIdentifying.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				89376D2127844F0700364CB8 /* ProductList.swift in Sources */,
+				256288FB27A3B2AA003B273D /* AlertMessage.swift in Sources */,
 				25EEB02C279A8520007E50D8 /* ProductRequestForRegistration.swift in Sources */,
 				25F8D2132796AAE2005B9767 /* ProductRequestForModification.swift in Sources */,
 				2580F2072786C6CC005FC50F /* URLGenerator.swift in Sources */,
@@ -516,6 +529,7 @@
 				2530792C278D2BB5004639B2 /* ProductCollectionViewGridCell.swift in Sources */,
 				25EEB02627998F46007E50D8 /* productRegistartionModification.swift in Sources */,
 				25EEB0232798723B007E50D8 /* ImagePickerable.swift in Sources */,
+				256288F927A2C8FB003B273D /* ProductImageDetailViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

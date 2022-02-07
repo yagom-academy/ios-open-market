@@ -124,7 +124,7 @@ class ProductCollectionViewController: UIViewController {
       case .failure(let error):
         print(error)
         DispatchQueue.main.async {
-          showAlert(message: error.localizedDescription)
+          showAlert(message: APIError.getProductFailed.errorDescription)
         }
       }
     }
