@@ -1,6 +1,9 @@
+<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&width=100%&height=300&section=header&text=🏪%20오픈마켓%20프로젝트&fontSize=90" width=100%>
+
+
 # 🏪 오픈마켓 프로젝트
 
-- 팀 프로젝트
+- 팀 프로젝트 (2인)
 - 구현 기간 : 2022.01.03 ~ 01.28 (4 weeks)
 
 ## 목차 
@@ -19,7 +22,9 @@
     - [학습 키워드](#STEP4-2)
 ---
 
-## 구현
+<a name="구현"></a>
+
+# 📱 구현
 
 <center>
     
@@ -41,14 +46,14 @@
 
 <a name="STEP1"></a>
 
-## 🤔 STEP 1
+# 🤔 STEP 1
 
 
 <a name="STEP1-1"></a>
 
-## 고민했던 점 
+## 🔥 고민했던 점 
 
-### 1. 네트워크 무관 테스트
+### 1️⃣ 네트워크 무관 테스트
 
 프로젝트의 Step1에서 요구되는 실제 네트워크와 통신하지 않으며 진행하는 테스트를  Mock을 생성하여 구현해봤습니다.
 
@@ -63,24 +68,24 @@
 이제 Unit test를 할 때, `APIService의` session에 `MockURLSession`을 넣어주어 항상 성공/실패하도록 설정해두었습니다. 이에 기대하던 데이터를 미리 디코딩해두고, `APIService`의 메서드를 실행 결과가 이와 동일한지 비교하여 네트워크와 무관한 로직 테스트를 수행했습니다. 
 
 
-### 2. `URLRequest` initializer 추가 
+### 2️⃣ `URLRequest` initializer 추가 
 
 `URLRequest` 인스턴스를 커스텀하게 생성해주기 위해 extension을 사용하여 이니셜라이저를 생성하였습니다. 생성과 함께 httpHeader/Body도 설정해주고, url도 달아주기 위해 부가적으로 `API`, `URLCreator`와 같은 타입을 생성하였습니다.
 
-### 3. `dataTask()` 공통 사용 및 HTTPMethod 별 메서드 분리 
+### 4️⃣ `dataTask()` 공통 사용 및 HTTPMethod 별 메서드 분리 
 
 서버 요청에 반복적으로 사용될 수 있는 `dataTask()`를 하나로 묶어 사용하였습니다. 이 덕분에 상품 상세 조회, 상품 리스트 조회, 상품 삭제 등 여러 요청에서 해당 메서드를 재사용할 수 있었습니다.
 
 HTTPMethod 별로 반환값 혹은 completion handler가 필요한 경우가 달라 이는 각각의 메서드로 구현해주었습니다. API문서에 따른 request들을 생성하기 위한 데이터들을 메서드의 파라미터에서 받도록 하고, 내부에서 조건에 맞는 `URLRequest`를 생성하여 성공/실패시 데이터/오류를 반환하도록 하였습니다. (데이터 반환이 필요하지 않은 경우는 에러만 반환하도록 했습니다)
 
 
-### 4. `@escaping` closure 및 `Result` 타입 사용 
+### 5️⃣ `@escaping` closure 및 `Result` 타입 사용 
 
 메서드가 리턴되더라도 추후에 데이터를 전달받기 위해 `@escaping`을 클로저에 사용해주었습니다. 이와 함께 `Result` 타입을 활용하여 성공/실패에 따른 정상적인 결과/에러를 반환해 줄 수 있도록 했습니다. 
 
 <a name="STEP1-2"></a>
 
-## 학습키워드 
+## 🔑 학습 키워드 
 - API
 - HTTMethod
 - 네트워크와 무관한 네트워킹 타입의 Unit test
@@ -96,13 +101,13 @@ HTTPMethod 별로 반환값 혹은 completion handler가 필요한 경우가 달
 
 <a name="STEP2"></a>
 
-## 🤔 Step 2 
+# 🤔 Step 2 
 
 <a name="STEP2-1"></a>
 
-## 고민했던 점 
+## 🔥 고민했던 점 
 
-### 1. Modern CollectionView 구현
+### 1️⃣ Modern CollectionView 구현
 
 기존의 방식과 달리 애플에서 새롭게 제시하는 modern collectionView 구현 방식을 사용하여 프로젝트를 진행했습니다. 
 이 때 compositional Layout과 DiffableDataSource를 주로 활용하였으며, 이 들의 장점을 체감했던 것 같습니다.
@@ -117,7 +122,7 @@ HTTPMethod 별로 반환값 혹은 completion handler가 필요한 경우가 달
 
 이러한 내용들에 기반해서 이번 프로젝트는 modern CollectionView 구현 방식을 사용했습니다!
 
-### 2. List/Grid collectionView 스위치하기
+### 2️⃣ List/Grid collectionView 스위치하기
 
 두 개의 collectionview에 각각의 Cell을 추가하여 사용할 지, 하나의 collectionView에 각각의 cell을 상황에 따라 바꿔 사용할 지 고민해보았습니다.
 
@@ -131,7 +136,7 @@ HTTPMethod 별로 반환값 혹은 completion handler가 필요한 경우가 달
 첫 화면이 ListLayoutCollectionView 이므로 앱이 시작되고 데이터가 불러와졌을 때 해당 뷰의 인스턴스를 생성하였고 화면이 스위칭되었을 때 GridLayoutCollectionView의 인스턴스를 생성해주었으며, 각 뷰가 스위칭 될 때마다 현재 보이는 뷰는 hidden되지않고 보이지 않는 뷰는 hidden되게 만들어 뷰를 올렸습니다. alpha값을 변경하여 뷰를 숨기는 것과 고민했으나, alpha 값을 1로 주게 되면 보이기에는 사라지지만 뷰가 실제로는 그려지기에 메모리 관점에서 `isHidden`을 사용하는 것이 뷰를 그리지 않는 방법이라고 하여 비용 관점에서 효율적이라고 생각했습니다.
 
 
-### 3. 스토리보드 없이 코드로 하게된 이유
+### 3️⃣ 스토리보드 없이 코드로 하게된 이유
 
 ![](https://minjunkweon.github.io/assets/images/image-20190814150748264.png)
 
@@ -145,18 +150,18 @@ HTTPMethod 별로 반환값 혹은 completion handler가 필요한 경우가 달
 - 간단한 레이아웃을 설정하는 부분이라면 재사용을 고려할 수 있었습니다.
 - 위 사진처럼 코드로 짜는 UI가 스토리보드로 짜는 UI의 범주를 포함하고있어 스토리보드로만 UI를 구성하는 것은 한계가 있다고 생각하였습니다.
 
-### 4. Image Cache 구현 
+### 4️⃣ Image Cache 구현 
 
 NSCache를 활용하여 URL으로 부터 받아오는 이미지 데이터를 캐싱하였습니다.
 
 `imageCache`에 URL로부터 받아오는 이미지가 이미 존재하는 경우 해당 이미지를 반환하고, `imageCache`에 해당 이미지가 없는 경우 캐시에 저장 후 이미지를 반환하도록 구현하였습니다. 
 추후에 데이터를 업데이트하는 경우, 데이터를 리로드하는 경우에 생성해둔 캐시를 활용하여 조금 더 빠르게 이미지를 로드할 수 있다는 이점을 취할 수 있을거라 생각했습니다. 
 
-### 5. 상수 관리 
+### 5️⃣ 상수 관리 
 
 레이아웃에 들어가는 제약값과, 문자열의 헤더부분을 각 네임스페이스에 정리하여 향후 사이즈를 변경하거나, 문자열을 변경하는 등의 상황에서 유연하게 대처할 수 있도록 하기 위해 상수 관리를 해주었습니다.
 
-### 6. 모든 기기에 대응하도록 autolayout 지원 
+### 6️⃣ 모든 기기에 대응하도록 autolayout 지원 
 
 모든 기기에 대응하기위해 collectionView의 프레임을 각 기기마다 다른 사이즈를 가진 safe Area에 맞춰주었습니다. 또한 cell내의 텍스트, 이미지가 잘리지 않도록 하기 위해 cell의 이미지 크기가 줄어들도록 autolayout을 설정하여 유연하게 조정되도록 구현하였습니다. 
 
@@ -166,7 +171,7 @@ NSCache를 활용하여 URL으로 부터 받아오는 이미지 데이터를 캐
 
 <a name="STEP2-2"></a>
 
-## 학습 키워드 
+## 🔑 학습 키워드 
 - Modern cell configuration
     - `UIConfigurationStateCustomKey`
     - `UIConfigurationState`
@@ -187,13 +192,13 @@ NSCache를 활용하여 URL으로 부터 받아오는 이미지 데이터를 캐
 
 <a name="STEP3"></a>
 
-## 🤔 Step 3
+# 🤔 Step 3
 
 <a name="STEP3-1"></a>
 
-## 고민했던 점 
+## 🔥 고민했던 점 
 
-### 1. 상품 등록/수정 `ViewController`의 공통 기능 구현 
+### 1️⃣ 상품 등록/수정 `ViewController`의 공통 기능 구현 
 
 컨테이너 뷰의 레이아웃을 잡는다거나, alert를 띄우는 등 등록/수정 ViewController에서 공통적으로 필요로하는 기능들을 프로토콜 기본구현으로 제공해봤습니다. 다만 Objective-C 메서드들은 프로토콜 기본 구현이 불가하다는 점에 한계를 직접 경험해본 것 같습니다. 이에 상속과 프로토콜 기본 구현 관련하여 고민을 해봤습니다.
 
@@ -202,22 +207,22 @@ NSCache를 활용하여 URL으로 부터 받아오는 이미지 데이터를 캐
 - 프로토콜 기본 구현 
     - Objective-C 프로토콜은 기본 구현이 불가능하다.
 
-### 2. `UIImage` 이미지 크기 조정 
+### 2️⃣ `UIImage` 이미지 크기 조정 
 
 UIGraphics를 사용하여 이미지 크기를 조절해주었습니다. `UIGraphicsBeginImageContextWithOptions()` 메서드를 호출하여 비트맵을 만들고 `UIImage.draw(in:)`로 원하는 사이즈만큼 줄인 뒤, `UIGraphicsGetImageFromCurrentImageContext()` 메서드를 통해 크기가 조정된 이미지를 얻었습니다. 이후 `UIGraphicsEndImageContext()`를 호출하여 비트맵을 제거 처리해주면서 이미지 크기를 조정하는 로직을 구현했습니다. 
 
-### 3. 키보드 사용에 따른 ScrollView inset 조정
+### 3️⃣ 키보드 사용에 따른 ScrollView inset 조정
 
 textField나 textView에 텍스트 작성시 화면이 작은 iPod Touch의 경우 키보드가 이벤트 발생 뷰를 가려버리는 문제가 있어 키보드가 올라옴에 따라 스크롤 뷰의 `contentInset.bottom`을 키보드의 높이만큼 지정하여 키보드가 텍스트필드나, 텍스트뷰를 가릴 일이 없도록 구현하였습니다.
 
-### 4. View와 ViewController 분리 
+### 4️⃣ View와 ViewController 분리 
 
 뷰와 뷰컨트롤러의 책임을 덜기위해 둘 사이에 `ProductRegisterManager`라는 객체를 생성하였습니다.
 
 매니저는 뷰를 알고있어 뷰의 특정 속성값을 알 수 있고, 뷰컨트롤러는 매니저를 알고있기에 매니저가 구한 뷰의 속성값을 받기만 하면 되게끔 하여 뷰컨트롤러의 책임을 덜어주었습니다.
 
 
-### 5. 이미지 추가/삭제 
+### 5️⃣ 이미지 추가/삭제 
 
 이미지의 경우 5개까지 추가 가능하기에, 추가된 이미지가 5개가 되면 추가 버튼을 `isHidden = true`하여 숨겨주었습니다. 이 부분은 숨김 처리하는 것 보다, 추후에 alert를 주어 최대 등록 개수를 알려주거나, 추가 버튼 내에서 현재 등록된 개수/최대 개수를 나타내주는 방식으로 수정하면 좋을 것 같다고 생각했습니다. 
 
@@ -225,7 +230,7 @@ textField나 textView에 텍스트 작성시 화면이 작은 iPod Touch의 경�
 
 <a name="STEP3-2"></a>
 
-## 학습 키워드
+## 🔑 학습 키워드
 
 - Image Resizing
 - 프로토콜 기본 구현 / 상속
@@ -245,19 +250,19 @@ textField나 textView에 텍스트 작성시 화면이 작은 iPod Touch의 경�
 
 <a name="STEP4"></a>
 
-## 🤔 Step 4
+# 🤔 Step 4
 
 <a name="STEP4-1"></a>
 
-### 고민했던 점 
+## 🔥 고민했던 점 
 
-### 1. 공통 기능 상속 구현 
+### 1️⃣ 공통 기능 상속 구현 
 
 상품 등록/수정 화면에서 요구되는 공통된 화면,기능들이 많았었기에, 이전 step에서는 프로토콜 기본 구현을 활용하여 공통 기능들을 구현해줬었습니다. 하지만 objective-c 메서드들은 프로토콜 기본 구현이 불가하기 때문에, 이번 step에서는 `상속`을 활용하여 공통 기능을 구현하고 이를 상속하여 기능들을 사용할 수 있도록 해줬습니다. 
 
 각 하위 뷰 컨트롤러에서 가져야하는 특수한 화면이나, 기능들의 경우 상속 이후 자체적으로 내부에서 구현해줬습니다.
 
-### 2. 상품 수정/삭제 접근 권한 
+### 2️⃣ 상품 수정/삭제 접근 권한 
 
 상품 상세 화면에 진입하게 되면, 우측 상단에 상품 수정/삭제 버튼이 보여야 한다는 요구사항이 있었습니다. 
 
@@ -269,13 +274,13 @@ textField나 textView에 텍스트 작성시 화면이 작은 iPod Touch의 경�
 |:---:|:---:|
 |![](https://i.imgur.com/OP1NXVk.png)|![](https://i.imgur.com/SiEaFuX.png)|
 
-### 3. NotificationCenter를 활용한 업데이트 요청
+### 3️⃣ NotificationCenter를 활용한 업데이트 요청
 
 상품 수정/삭제가 이루어지고 해당 화면이 내려가게 되면 이전 메인 화면이나 상품 상세 화면에서의 업데이트 또한 필요했습니다. 
 
 이에 NotificationCenter의 userInfo에 업데이트된 데이터를 담아 최신 데이터로 업데이트 해줄 것을 요청하는 로직을 구현했습니다. 매번 업데이트를 요청하는 것이 아니라, 데이터의 변경사항에 발생했을 때만 업데이트를 보내주도록 하여 무분별한 API 요청을 하지 않도록 구현했습니다.
 
-### 4. 상세 화면 이미지를 화면에 꽉 차도록 리사이징
+### 4️⃣ 상세 화면 이미지를 화면에 꽉 차도록 리사이징
 
 |Before Resize|After Resize|
 |:--:|:--:|
@@ -286,17 +291,17 @@ textField나 textView에 텍스트 작성시 화면이 작은 iPod Touch의 경�
 하지만 이미지가 잘리진 않아도, 양 옆에 하얀 공백이 생기는 것이 마음에 들지않아 이전에 구현해놓았던 `resize` 메서드를 활용하여 공백이 생기지 않도록 조정해주었습니다. 
 
 
-### 5. Pagination(무한 스크롤) 구현 
+### 5️⃣ Pagination(무한 스크롤) 구현 
 
 CollectionView를 스크롤하여 가장 마지막 게시글까지 화면에 노출되는 경우, 추가적으로 다음 페이지의 데이터를 서버에 요청해오고 데이터 및 UI를 업데이트 하도록 해줬습니다. 
 
 하지만 추가적으로 데이터가 발생함에 따라 스크롤이 버벅이는 문제가 발생했습니다. 이에 기존에 동기적으로 받아오던 이미지를 비동기적으로 받아올 수 있도록 개선하였고, collectionView의 prefetch를 사용하여 데이터를 보여주기 이전에 미리 데이터를 업데이트 해둘 수 있도록 했습니다. 
 
-### 6. CollectionView RefreshControl 구현 
+### 6️⃣ CollectionView RefreshControl 구현 
 
 CollectionView를 위에서 아래로 터치하여 끌어내릴 경우 list/grid 화면을 업데이트 해주도록 구현하였습니다. collectionView가 가지는 기본적인 RefreshControl에 Custom RefreshControl을 적용시켰고, 목록 최상단에서 스크롤을 끌어내릴 시 서버에 요청을 보내 최신 데이터를 받아 기존 데이터가 업데이트되도록 구현하였습니다.
 
-### 7. 새 게시물 조회 후 업데이트 버튼 노출
+### 7️⃣ 새 게시물 조회 후 업데이트 버튼 노출
 
 ![](https://i.imgur.com/nTDW4dq.gif)
 
@@ -304,7 +309,7 @@ CollectionView를 위에서 아래로 터치하여 끌어내릴 경우 list/grid
 
 <a name="STEP4-2"></a>
 
-## 학습 키워드
+## 🔑 학습 키워드
 
 - View Animate
 - Custom View
