@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		942CE24F282930ED006C6648 /* ProductList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 942CE24E282930ED006C6648 /* ProductList.swift */; };
+		9BAC5B21282936E0000269EE /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BAC5B20282936E0000269EE /* Product.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
 		C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */; };
 		C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FE25BEF61C00C9924E /* ViewController.swift */; };
@@ -17,6 +18,7 @@
 
 /* Begin PBXFileReference section */
 		942CE24E282930ED006C6648 /* ProductList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductList.swift; sourceTree = "<group>"; };
+		9BAC5B20282936E0000269EE /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -41,6 +43,7 @@
 			isa = PBXGroup;
 			children = (
 				942CE24E282930ED006C6648 /* ProductList.swift */,
+				9BAC5B20282936E0000269EE /* Product.swift */,
 			);
 			path = Product;
 			sourceTree = "<group>";
@@ -146,6 +149,7 @@
 			files = (
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
 				942CE24F282930ED006C6648 /* ProductList.swift in Sources */,
+				9BAC5B21282936E0000269EE /* Product.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 			);
