@@ -8,7 +8,7 @@
 import UIKit
 
 struct Parser<T: Codable> {
-    static func decode(name: String) -> T? {
+    func decode(name: String) -> T? {
         let decoder = JSONDecoder()
         guard let asset = NSDataAsset(name: name, bundle: .main) else {
             return nil
