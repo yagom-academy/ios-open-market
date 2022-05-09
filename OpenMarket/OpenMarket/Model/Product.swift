@@ -16,7 +16,7 @@ struct Product: Codable {
     let price: Double
     var description: String? = nil
     let bargainPrice: Double
-    let disconuntedPrice: Double
+    let discountedPrice: Double
     let stock: Int
     let createdAt: String
     let issuedAt: String
@@ -26,7 +26,7 @@ struct Product: Codable {
     private enum CodingKeys: String, CodingKey {
         case vendorId = "vendor_id"
         case bargainPrice = "bargain_price"
-        case disconuntedPrice = "disconunted_price"
+        case discountedPrice = "discounted_price"
         case createdAt = "created_at"
         case issuedAt = "issued_at"
         case id, name, thumbnail, currency, price, description, stock, images, vendors
