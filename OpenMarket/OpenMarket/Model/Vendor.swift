@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Vendor {
+struct Vendor: Codable {
     let name: String
     let id: Int
     let createdAt: Date
