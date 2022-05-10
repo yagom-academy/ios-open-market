@@ -37,5 +37,3 @@ struct ProductList: Codable {
         let issuedAt: Date?
     }
 }
-
-
