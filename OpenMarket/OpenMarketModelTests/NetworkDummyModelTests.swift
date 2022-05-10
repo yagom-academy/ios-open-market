@@ -9,11 +9,11 @@ import XCTest
 @testable import OpenMarket
 
 class NetworkDummyModelTests: XCTestCase {
-    var sut: APIService!
+    var sut: APIProvider!
     
     override func setUpWithError() throws {
         try super.setUpWithError()
-        sut = APIService()
+        sut = APIProvider()
     }
     
     override func tearDownWithError() throws {
@@ -31,16 +31,10 @@ class NetworkDummyModelTests: XCTestCase {
         let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: nil, headerFields: nil)
         let dummy = DummyData(data: file.data, response: response, error: nil)
         let stubUrlSession = StubURLSession(dummy: dummy)
-        sut = APIService(urlSession: stubUrlSession)
+        sut = APIProvider(urlSession: stubUrlSession)
         
         // when
-        sut.retrieveProductList { product in
-            let result = try! JSONDecoder().decode(Products.self, from: product)
-            let expected = 1
-            
-            XCTAssertEqual(expected, result.pageNo)
-            promise.fulfill()
-        }
+
         
         wait(for: [promise], timeout: 10)
     }
