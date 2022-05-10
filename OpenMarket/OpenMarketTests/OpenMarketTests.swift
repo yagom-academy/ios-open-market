@@ -2,7 +2,7 @@
 //  OpenMarketTests.swift
 //  OpenMarketTests
 //
-//  Created by 김태현 on 2022/05/10.
+//  Created by papri, Tiana on 2022/05/10.
 //
 
 import XCTest
