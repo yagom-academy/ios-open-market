@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct OpenMarketService: Decodable {
+struct OpenMarketProductList: Decodable {
     let products: [Product]
     
     enum CodingKeys: String, CodingKey {

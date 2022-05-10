@@ -22,14 +22,14 @@ class OpenMarketTests: XCTestCase {
         // given
         let fileName = "products"
         // when, then
-        XCTAssertNoThrow(try OpenMarketService.parse(fileName: fileName))
+        XCTAssertNoThrow(try OpenMarketProductList.parse(fileName: fileName))
     }
     
     func test_parse할때_파일이름이올바르면_Product배열반환() throws {
         // given
         let fileName = "products"
         // when
-        let firstProduct = try OpenMarketService.parse(fileName: fileName).products.first
+        let firstProduct = try OpenMarketProductList.parse(fileName: fileName).products.first
         // then
         XCTAssertEqual(firstProduct?.name, "Test Product")
     }

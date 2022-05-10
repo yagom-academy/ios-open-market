@@ -14,8 +14,8 @@ struct HTTPManager {
         self.hostURL = hostURL
     }
     
-    func loadProductData(of productID: String, completionHandler: @escaping (Data) -> Void) {
-        let requestURL = hostURL + "/api/products/" + productID
+    func loadProductListData(pageNumber: Int, itemsPerPage: Int, completionHandler: @escaping (Data) -> Void) {
+        let requestURL = hostURL + "/api/products?page_no=\(pageNumber)&items_per_page=\(itemsPerPage)"
         guard let url = URL(string: requestURL) else {
             return
         }
