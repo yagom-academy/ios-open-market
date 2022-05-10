@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0E6DF3C8282A0B2A0076E0C6 /* Decodable+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E6DF3C7282A0B2A0076E0C6 /* Decodable+.swift */; };
+		0E6DF3CB282A0C0F0076E0C6 /* DecodingError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E6DF3CA282A0C0F0076E0C6 /* DecodingError.swift */; };
 		0E70314A2829F777002134CF /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E7031492829F777002134CF /* Product.swift */; };
 		67FA257F282A05DA0089BBE3 /* OpenMarketService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67FA257E282A05DA0089BBE3 /* OpenMarketService.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
@@ -18,6 +20,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0E6DF3C7282A0B2A0076E0C6 /* Decodable+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Decodable+.swift"; sourceTree = "<group>"; };
+		0E6DF3CA282A0C0F0076E0C6 /* DecodingError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecodingError.swift; sourceTree = "<group>"; };
 		0E7031492829F777002134CF /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
 		67FA257E282A05DA0089BBE3 /* OpenMarketService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketService.swift; sourceTree = "<group>"; };
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -41,6 +45,31 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0E6DF3C5282A0B090076E0C6 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				0E6DF3C9282A0BF30076E0C6 /* Error */,
+				0E6DF3C6282A0B100076E0C6 /* Extension */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		0E6DF3C6282A0B100076E0C6 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				0E6DF3C7282A0B2A0076E0C6 /* Decodable+.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		0E6DF3C9282A0BF30076E0C6 /* Error */ = {
+			isa = PBXGroup;
+			children = (
+				0E6DF3CA282A0C0F0076E0C6 /* DecodingError.swift */,
+			);
+			path = Error;
+			sourceTree = "<group>";
+		};
 		0E7031482829F750002134CF /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -95,6 +124,7 @@
 		C70FB0F925BEF61C00C9924E /* OpenMarket */ = {
 			isa = PBXGroup;
 			children = (
+				0E6DF3C5282A0B090076E0C6 /* Utils */,
 				67FA257D282A00AF0089BBE3 /* View */,
 				67FA257C282A00940089BBE3 /* Controller */,
 				67FA257B282A007F0089BBE3 /* Scene */,
@@ -180,6 +210,8 @@
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				67FA257F282A05DA0089BBE3 /* OpenMarketService.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
+				0E6DF3CB282A0C0F0076E0C6 /* DecodingError.swift in Sources */,
+				0E6DF3C8282A0B2A0076E0C6 /* Decodable+.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
