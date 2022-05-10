@@ -13,3 +13,10 @@ enum NetworkErorr: Error {
     case severError
     case urlError
 }
+extension URLComponents {
+    mutating func configureQuery(_ paramters: [String: String]) {
+        self.queryItems = paramters.map{ (key, value) in
+            URLQueryItem(name: key, value: value)
+        }
+    }
+}
