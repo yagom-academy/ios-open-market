@@ -1,4 +1,4 @@
-# 🏪 은행 창구 매니저 
+# 🏪 오픈마켓 
 > 프로젝트 기간: 2022-05-09 ~ 2022-05-20
 > 
 > 팀원: [Safari](https://github.com/saafaaari), [dudu](https://github.com/firstDo)
