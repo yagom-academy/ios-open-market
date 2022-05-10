@@ -41,7 +41,7 @@ class NetworkTests: XCTestCase {
         sut = API.requestList
         
         // when
-        sut.getData(page: 1, itemsPerPage: 10) { result in
+        sut.request(page: 1, itemsPerPage: 10) { result in
             // then
             switch result {
             case .success(let list):
@@ -63,7 +63,7 @@ class NetworkTests: XCTestCase {
         sut = API.requestProduct
  
         // when
-        sut.getData(id: 2072) { result in
+        sut.request(id: 2072) { result in
             // then
             switch result {
             case .success(let product):
@@ -79,14 +79,14 @@ class NetworkTests: XCTestCase {
         wait(for: [promise], timeout: 10)
     }
     
-    func test_네트워크통신없이_productList데이터_요청시_올바른값이_넘어오는지() {
+    func test_네트워크통신없이_요청시_성공하는_경우() {
         // given
-        let mockSession = StubURLSession()
+        let mockSession = MockURLSession()
         let promise = expectation(description: "will return productList")
         sut = API.requestList
         
         // when
-        sut.getData(session: mockSession, page: 1, itemsPerPage: 10) { result in
+        sut.request(session: mockSession, page: 1, itemsPerPage: 10) { result in
             // then
             switch result {
             case .success(let list):
@@ -95,6 +95,27 @@ class NetworkTests: XCTestCase {
                 XCTAssertEqual(list.totalCount, 10)
             case .failure(_):
                 XCTAssert(false, "에러 발생하면 안됨")
+            }
+            promise.fulfill()
+        }
+        
+        wait(for: [promise], timeout: 10)
+    }
+    
+    func test_네트워크통신없이_요청시_실패하는_경우() {
+        // given
+        let mockSession = MockURLSession(isRequestSuccess: false)
+        let promise = expectation(description: "will return productList")
+        sut = API.requestList
+        
+        // when
+        sut.request(session: mockSession, page: 1, itemsPerPage: 10) { result in
+            // then
+            switch result {
+            case .success(_):
+                XCTAssert(false, "성공하면 안됨")
+            case .failure(_):
+                XCTAssert(true, "테스트 성공")
             }
             promise.fulfill()
         }

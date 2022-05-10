@@ -18,12 +18,12 @@ struct ProductList: Codable {
     let totalCount: Int?
     let offset: Int?
     let limit: Int?
-    let pages: [Page]?
+    let pages: [Product]?
     let lastPage: Int?
     let hasNext: Bool?
     let hasPrev: Bool?
     
-    struct Page: Codable {
+    struct Product: Codable {
         let id: Int?
         let vendorId: Int?
         let name: String?

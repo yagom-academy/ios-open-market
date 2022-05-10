@@ -74,7 +74,7 @@ extension API {
         }.resume()
     }
     
-    func getData(session: URLSessionProtocol = session, id: Int, completion: @escaping (Result<Product, NetworkErorr>) -> Void) {
+    func request(session: URLSessionProtocol = session, id: Int, completion: @escaping (Result<ProductDetail, NetworkErorr>) -> Void) {
         let urlComponents = URLComponents(string: API.host + path + "\(id)")
         
         guard let url = urlComponents?.url else {
@@ -103,8 +103,8 @@ extension API {
                 jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
                 jsonDecoder.dateDecodingStrategy = .formatted(.dateFormatter)
                 
-                let productData = try jsonDecoder.decode(Product.self, from: data)
-                completion(.success(productData))
+                let productDetail = try jsonDecoder.decode(ProductDetail.self, from: data)
+                completion(.success(productDetail))
             } catch {
                 completion(.failure(.jsonError))
                 return
@@ -112,7 +112,7 @@ extension API {
         }.resume()
     }
     
-    func getData(session: URLSessionProtocol = session, page: Int, itemsPerPage: Int, completion: @escaping (Result<ProductList, NetworkErorr>) -> Void) {
+    func request(session: URLSessionProtocol = session, page: Int, itemsPerPage: Int, completion: @escaping (Result<ProductList, NetworkErorr>) -> Void) {
         var urlComponents = URLComponents(string: API.host + path)
         let parameters = ["page_no": "\(page)","items_per_page": "\(itemsPerPage)"]
         urlComponents?.configureQuery(parameters)
@@ -143,8 +143,8 @@ extension API {
                 jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
                 jsonDecoder.dateDecodingStrategy = .formatted(.dateFormatter)
                 
-                let productData = try jsonDecoder.decode(ProductList.self, from: data)
-                completion(.success(productData))
+                let productList = try jsonDecoder.decode(ProductList.self, from: data)
+                completion(.success(productList))
             } catch {
                 completion(.failure(.jsonError))
                 return

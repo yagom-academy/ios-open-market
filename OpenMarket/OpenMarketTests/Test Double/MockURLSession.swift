@@ -1,5 +1,5 @@
 //
-//  StubURLSession.swift
+//  MockURLSession.swift
 //  OpenMarketTests
 //
 //  Created by dudu, safari on 2022/05/09.
@@ -12,14 +12,14 @@ import Foundation
 struct DummyData {
     var data: Data?
     
-    mutating func setUp() {
+    init() {
         guard let path = Bundle.main.path(forResource: "products", ofType: "json") else { return }
         guard let jsonString = try? String(contentsOfFile: path) else { return }
         data = jsonString.data(using: .utf8)
     }
 }
 
-class StubURLSessionDataTask: URLSessionDataTask {
+final class MockURLSessionDataTask: URLSessionDataTask {
     var completion: () -> Void = {}
 
     override func resume() {
@@ -28,9 +28,9 @@ class StubURLSessionDataTask: URLSessionDataTask {
 }
 
 
-class StubURLSession: URLSessionProtocol {
+final class MockURLSession: URLSessionProtocol {
     var isRequestSuccess: Bool
-    var sessionDataTask: StubURLSessionDataTask?
+    var sessionDataTask: MockURLSessionDataTask?
     
     init(isRequestSuccess: Bool = true) {
         self.isRequestSuccess = isRequestSuccess
@@ -38,11 +38,10 @@ class StubURLSession: URLSessionProtocol {
     
     func dataTask(with url: URL, completionHandler: @escaping DataTaskCompletionHandler) -> URLSessionDataTask {
         let successResponse = HTTPURLResponse(url: url, statusCode: 200, httpVersion: "2", headerFields: nil)
-        let failureResponse = HTTPURLResponse(url: url, statusCode: 402, httpVersion: "2", headerFields: nil)
+        let failureResponse = HTTPURLResponse(url: url, statusCode: 404, httpVersion: "2", headerFields: nil)
         
-        let sessionDataTask = StubURLSessionDataTask()
-        var dummyData = DummyData()
-        dummyData.setUp()
+        let sessionDataTask = MockURLSessionDataTask()
+        let dummyData = DummyData()
         
         if isRequestSuccess {
             sessionDataTask.completion = {
