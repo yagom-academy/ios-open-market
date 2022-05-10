@@ -23,7 +23,7 @@ struct ProductDetail: Codable {
     let createdAt: Date
     let issuedAt: Date
     
-    private enum Codingkeys: String, CodingKey {
+    private enum CodingKeys: String, CodingKey {
         case id
         case vendorId = "vendor_id"
         case name
@@ -31,7 +31,7 @@ struct ProductDetail: Codable {
         case thumbnail
         case currency
         case price
-        case barginPrice = "bargin_price"
+        case bargainPrice = "bargain_price"
         case discountedPrice = "discounted_price"
         case stock
         case images

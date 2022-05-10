@@ -30,14 +30,11 @@ class OpenMarketJSONTests: XCTestCase {
             XCTFail("File Not Found.")
             return
         }
-        print("asset: ",asset)
         
         // when
-//        let pageInformation: PageInformation? = jsonParser.decodingJson(json: asset.data)
-        let result = try? jsonDecoder.decode(PageInformation.self, from: asset.data)
-        print("result: ",result)
+        let pageInformation: PageInformation? = jsonParser.decodingJson(json: asset.data)
         
         // then
-        XCTAssertNotNil(result)
+        XCTAssertNotNil(pageInformation)
     }
 }

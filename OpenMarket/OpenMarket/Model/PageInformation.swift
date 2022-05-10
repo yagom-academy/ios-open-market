@@ -16,7 +16,7 @@ struct PageInformation: Codable {
     let hasNext: Bool
     let hasPrev: Bool
     
-    private enum Codingkeys: String, CodingKey {
+    private enum CodingKeys: String, CodingKey {
         case pageNo = "page_no"
         case itemsPerPage = "items_per_page"
         case totalCount = "total_count"

@@ -20,7 +20,7 @@ struct ProductInformation: Codable {
     let createdAt: String
     let issuedAt: String
     
-    private enum Codingkeys: String, CodingKey {
+    private enum CodingKeys: String, CodingKey {
         case id
         case vendorId = "vendor_id"
         case name
