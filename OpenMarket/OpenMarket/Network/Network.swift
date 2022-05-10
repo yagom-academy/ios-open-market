@@ -85,7 +85,7 @@ extension API {
         }.resume()
     }
     
-    func getData<T: Decodable>(session: URLSessionProtocol = session, id: String = "", completion: @escaping (Result<T, NetworkErorr>) -> Void) {
+    func getData<T: Decodable>(dataType: T.Type, session: URLSessionProtocol = session, id: String = "", completion: @escaping (Result<T, NetworkErorr>) -> Void) {
         var urlComponents = URLComponents(string: API.host + path + id)
         urlComponents?.configureQuery(parameters)
         
