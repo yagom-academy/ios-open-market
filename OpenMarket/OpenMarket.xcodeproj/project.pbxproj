@@ -24,6 +24,7 @@
 		DA0DDF7E28294F9000B72AD8 /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0DDF7D28294F9000B72AD8 /* Image.swift */; };
 		DA0DDF8028294FA200B72AD8 /* Vendor.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0DDF7F28294FA200B72AD8 /* Vendor.swift */; };
 		DA0DDF822829531400B72AD8 /* ProductList.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0DDF812829531400B72AD8 /* ProductList.swift */; };
+		DA0DDF86282A007000B72AD8 /* URLSessionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0DDF85282A007000B72AD8 /* URLSessionProvider.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,6 +53,7 @@
 		DA0DDF7D28294F9000B72AD8 /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
 		DA0DDF7F28294FA200B72AD8 /* Vendor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vendor.swift; sourceTree = "<group>"; };
 		DA0DDF812829531400B72AD8 /* ProductList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductList.swift; sourceTree = "<group>"; };
+		DA0DDF85282A007000B72AD8 /* URLSessionProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionProvider.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +85,7 @@
 		C70FB0EE25BEF61C00C9924E = {
 			isa = PBXGroup;
 			children = (
+				DA0DDF84282A003600B72AD8 /* Network */,
 				C70FB0F925BEF61C00C9924E /* OpenMarket */,
 				4EA2BFCB282957140028C72A /* DecodeTests */,
 				C70FB0F825BEF61C00C9924E /* Products */,
@@ -123,6 +126,14 @@
 				DA0DDF812829531400B72AD8 /* ProductList.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		DA0DDF84282A003600B72AD8 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				DA0DDF85282A007000B72AD8 /* URLSessionProvider.swift */,
+			);
+			path = Network;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -244,6 +255,7 @@
 				DA0DDF7E28294F9000B72AD8 /* Image.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
 				DA0DDF7C28294D6E00B72AD8 /* Product.swift in Sources */,
+				DA0DDF86282A007000B72AD8 /* URLSessionProvider.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 			);
