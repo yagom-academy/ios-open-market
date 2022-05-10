@@ -40,25 +40,13 @@ enum API {
             return "api/products/"
         }
     }
-    
-    private var parameters: [String: String] {
-        switch self {
-        case .serverState:
-            return [:]
-        case .requestList:
-            return ["page_no": "1","items_per_page": "10"]
-        case .requestProduct:
-            return [:]
-        }
-    }
 }
 
 //MARK: - Network Method
 
 extension API {
     func checkServerState(session: URLSessionProtocol = session, completion: @escaping (Result<String, NetworkErorr>) -> Void) {
-        var urlComponents = URLComponents(string: API.host + path)
-        urlComponents?.configureQuery(parameters)
+        let urlComponents = URLComponents(string: API.host + path)
         
         guard let url = urlComponents?.url else {
             completion(.failure(.urlError))
@@ -81,12 +69,51 @@ extension API {
                 return
             }
             
-            completion(.success(text))
+            
+            completion(.success(text.trimmingCharacters(in:CharacterSet(charactersIn: "\""))))
         }.resume()
     }
     
-    func getData<T: Decodable>(dataType: T.Type, session: URLSessionProtocol = session, id: String = "", completion: @escaping (Result<T, NetworkErorr>) -> Void) {
-        var urlComponents = URLComponents(string: API.host + path + id)
+    func getData(session: URLSessionProtocol = session, id: Int, completion: @escaping (Result<Product, NetworkErorr>) -> Void) {
+        let urlComponents = URLComponents(string: API.host + path + "\(id)")
+        
+        guard let url = urlComponents?.url else {
+            completion(.failure(.unknown))
+            return
+        }
+        
+        session.dataTask(with: url) { data, response, error in
+            guard error == nil else {
+                completion(.failure(.severError))
+                return
+            }
+            
+            guard let responseCode = (response as? HTTPURLResponse)?.statusCode, (200..<300).contains(responseCode) else {
+                completion(.failure(.severError))
+                return
+            }
+            
+            guard let data = data else {
+                completion(.failure(.unknown))
+                return
+            }
+            
+            do {
+                let jsonDecoder = JSONDecoder()
+                jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
+                
+                let productData = try jsonDecoder.decode(Product.self, from: data)
+                completion(.success(productData))
+            } catch {
+                completion(.failure(.jsonError))
+                return
+            }
+        }.resume()
+    }
+    
+    func getData(session: URLSessionProtocol = session, page: Int, itemsPerPage: Int, completion: @escaping (Result<ProductList, NetworkErorr>) -> Void) {
+        var urlComponents = URLComponents(string: API.host + path)
+        let parameters = ["page_no": "\(page)","items_per_page": "\(itemsPerPage)"]
         urlComponents?.configureQuery(parameters)
         
         guard let url = urlComponents?.url else {
@@ -114,7 +141,7 @@ extension API {
                 let jsonDecoder = JSONDecoder()
                 jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
                 
-                let productData = try jsonDecoder.decode(T.self, from: data)
+                let productData = try jsonDecoder.decode(ProductList.self, from: data)
                 completion(.success(productData))
             } catch {
                 completion(.failure(.jsonError))

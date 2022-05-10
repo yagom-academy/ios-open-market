@@ -27,7 +27,7 @@ class NetworkTests: XCTestCase {
             switch result {
             case .success(let text):
                 XCTAssertEqual("OK", text)
-            case .failure(let _):
+            case .failure(_):
                 XCTAssert(false, "에러 발생하면 안됨")
             }
             promise.fulfill()
@@ -42,13 +42,13 @@ class NetworkTests: XCTestCase {
         sut = API.requestList
         
         // when
-        sut.getData(dataType: ProductList.self) { result in
+        sut.getData(page: 1, itemsPerPage: 10) { result in
             switch result {
             case .success(let list):
                 XCTAssertEqual(list.pageNo, 1)
                 XCTAssertEqual(list.itemsPerPage, 10)
                 XCTAssertEqual(list.totalCount, 1368)
-            case .failure(let error)
+            case .failure(_):
                 XCTAssert(false, "에러 발생하면 안됨")
             }
             promise.fulfill()
