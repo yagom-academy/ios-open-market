@@ -27,10 +27,8 @@ final class MockURLSessionDataTask: URLSessionDataTask {
     }
 }
 
-
 final class MockURLSession: URLSessionProtocol {
     var isRequestSuccess: Bool
-    var sessionDataTask: MockURLSessionDataTask?
     
     init(isRequestSuccess: Bool = true) {
         self.isRequestSuccess = isRequestSuccess
@@ -53,7 +51,6 @@ final class MockURLSession: URLSessionProtocol {
             }
         }
         
-        self.sessionDataTask = sessionDataTask
         return sessionDataTask
     }
 }
