@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import UIKit
 
 struct ProductCatalog: Codable {
     let pageno: Int?

@@ -7,8 +7,12 @@
 
 import UIKit
 
-extension Decodable {
-    static func parse(name: String) -> Self? {
+protocol Catalog: Decodable {
+    func parse(name: String) -> Self?
+}
+
+extension Catalog {
+    func parse(name: String) -> Self? {
         guard let asset = NSDataAsset(name: name) else {
             return nil
         }
