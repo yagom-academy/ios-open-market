@@ -13,7 +13,7 @@ struct PageInformation {
     let totalCount: Int
     let offset: Int
     let limit: Int
-    let pages: [productInformation]
+    let pages: [ProductInformation]
     let lastPage: Int
     let hasNext: Bool
     let hasPrev: Bool
@@ -29,8 +29,4 @@ struct PageInformation {
         case hasNext = "has_next"
         case hasPrev = "has_prev"
     }
-}
-
-struct productInformation {
-    
 }
