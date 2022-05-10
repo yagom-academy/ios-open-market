@@ -9,10 +9,10 @@ import XCTest
 
 class MockURLSessionTests: XCTestCase {
 
-    var sut: URLSessionProvider!
+    var sut: URLSessionGenerator!
     
     override func setUpWithError() throws {
-       sut = URLSessionProvider(session: MockURLSession())
+       sut = URLSessionGenerator(session: MockURLSession())
     }
 
     override func tearDownWithError() throws {

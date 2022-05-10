@@ -9,7 +9,7 @@ import Foundation
 
 
 final class RequestAssistant {
-    let sessionManager = URLSessionProvider(session: URLSession.shared)
+    let sessionManager = URLSessionGenerator(session: URLSession.shared)
     
     func requestListAPI(pageNum: Int, items_per_page: Int, completionHandler: @escaping ((Result<ProductList, OpenMarketError>) -> Void)) {
         let path = "api/products"
