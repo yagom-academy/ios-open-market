@@ -2,7 +2,7 @@
 //  HTTPManager.swift
 //  OpenMarket
 //
-//  Created by 허윤영 on 10/05/2022.
+//  Created by papri, Tiana on 10/05/2022.
 //
 
 import Foundation
