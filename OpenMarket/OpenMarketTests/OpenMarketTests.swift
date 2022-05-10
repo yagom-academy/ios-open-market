@@ -24,5 +24,24 @@ class OpenMarketTests: XCTestCase {
         // then
         XCTAssertEqual(firstProduct?.name, "Test Product")
     }
-
+    
+    func test_loadProductListData할때_올바른response받으면_completionHandler실행() {
+        // given
+        let promise = expectation(description: "It gives product name")
+        let httpManager = HTTPManager()
+        var products: [Product] = []
+        // when
+        let completionHandler: (Data) -> Void = { data in
+            do {
+                products = try JSONDecoder().decode(OpenMarketProductList.self, from: data).products
+            } catch {
+                return
+            }
+            // then
+            XCTAssertEqual(products.first?.name, "피자와 맥주")
+            promise.fulfill()
+        }
+        httpManager.loadProductListData(pageNumber: 2, itemsPerPage: 10, completionHandler: completionHandler)
+        wait(for: [promise], timeout: 10)
+    }
 }
