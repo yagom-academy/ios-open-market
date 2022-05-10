@@ -1,6 +1,7 @@
 {
-  "colors" : [
+  "data" : [
     {
+      "filename" : "products.json",
       "idiom" : "universal"
     }
   ],
