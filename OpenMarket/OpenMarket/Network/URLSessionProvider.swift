@@ -9,6 +9,8 @@ import Foundation
 
 class URLSessionProvider {
     let session: URLSessionProtocol
+class URLSessionGenerator {
+    let session: CustomURLSession
     let apiHost: String = "https://market-training.yagom-academy.kr/"
     
     init (session: URLSessionProtocol = URLSession.shared) {

@@ -5,7 +5,6 @@
 //  Created by Grumpy, OneTool on 2022/05/10.
 //
 
-import Foundation
 import UIKit
 
 class MockURLSessionDataTask: URLSessionDataTask {
@@ -16,7 +15,7 @@ class MockURLSessionDataTask: URLSessionDataTask {
     }
 }
 
-class MockURLSession: URLSessionProtocol {
+class MockURLSession: CustomURLSession {
     var sessionDataTask: MockURLSessionDataTask?
     
     func dataTask(with request: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask {
