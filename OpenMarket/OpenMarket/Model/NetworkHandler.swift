@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class NetworkHandler {
+struct NetworkHandler {
     static func getData(urlString: String, completionHandler: @escaping (_ data: Data) -> Void) {
         let session = URLSession(configuration: .default)
         
