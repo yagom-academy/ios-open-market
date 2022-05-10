@@ -13,9 +13,9 @@ struct ProductInformation {
     let name: String
     let thumbnail: String
     let currency: Currency
-    let price: Int
-    let barginPrice: Int
-    let discountedPrice: Int
+    let price: Double
+    let barginPrice: Double
+    let discountedPrice: Double
     let stock: Int
     let createdAt: Date
     let issuedAt: Date
