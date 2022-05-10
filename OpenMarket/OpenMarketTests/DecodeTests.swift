@@ -17,3 +17,19 @@ final class DecodeTests: XCTestCase {
     try super.tearDownWithError()
   }
 }
+
+// MARK: - APIResponse
+
+extension APIResponse: Equatable {
+  public static func == (lhs: APIResponse, rhs: APIResponse) -> Bool {
+    let pageNo = lhs.pageNo == rhs.pageNo
+    let itemsPerPage = lhs.itemsPerPage == rhs.itemsPerPage
+    let totalCount = lhs.totalCount == rhs.totalCount
+    let offset = lhs.offset == rhs.offset
+    let limit = lhs.limit == rhs.limit
+    let lastPage = lhs.lastPage == rhs.lastPage
+    let hasNext = lhs.hasNext == rhs.hasNext
+    let hasPrev = lhs.hasPrev == rhs.hasPrev
+    return pageNo && itemsPerPage && totalCount && offset && limit && lastPage && hasNext && hasPrev
+  }
+}
