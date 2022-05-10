@@ -33,7 +33,7 @@ struct ProductList: Codable {
         let bargainPrice: Double?
         let discountedPrice: Double?
         let stock: Int?
-        let createdAt: Date?
-        let issuedAt: Date?
+        let createdAt: String?
+        let issuedAt: String?
     }
 }

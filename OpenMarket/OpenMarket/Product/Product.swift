@@ -18,8 +18,8 @@ struct Product: Codable {
     let bargainPrice: Double?
     let discountedPrice: Double?
     let stock: Int?
-    let createdAt: Date?
-    let issuedAt: Date?
+    let createdAt: String?
+    let issuedAt: String?
     let images: [Image]?
     let vendors: Vendor?
     
@@ -28,13 +28,13 @@ struct Product: Codable {
         let url: String?
         let thumbnailUrl: String?
         let succeed: Bool?
-        let issuedAt: Date?
+        let issuedAt: String?
     }
     
     struct Vendor: Codable {
         let name: String?
         let id: Int?
-        let createdAt: Date?
-        let issuedAt: Date?
+        let createdAt: String?
+        let issuedAt: String?
     }
 }
