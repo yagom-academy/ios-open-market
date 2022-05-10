@@ -25,7 +25,7 @@ class URLSessionTests: XCTestCase {
             case .success(let data):
                 XCTAssertEqual(data, "OK")
             case .failure(_):
-                return
+                XCTFail()
             }
         }
     }
@@ -36,7 +36,7 @@ class URLSessionTests: XCTestCase {
             case .success(let data):
                 XCTAssertEqual(data.pageNumber, 1)
             case .failure(_):
-                return
+                XCTFail()
             }
         }
     }
@@ -47,7 +47,7 @@ class URLSessionTests: XCTestCase {
             case .success(let data):
                 XCTAssertEqual(data.name, "아이폰13")
             case .failure(_):
-                return
+                XCTFail()
             }
         }
     }
