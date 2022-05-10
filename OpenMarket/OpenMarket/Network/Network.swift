@@ -110,8 +110,10 @@ extension API {
                 return
             }
             
-            let jsonDecoder = JSONDecoder()
             do {
+                let jsonDecoder = JSONDecoder()
+                jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
+                
                 let productData = try jsonDecoder.decode(T.self, from: data)
                 completion(.success(productData))
             } catch {
