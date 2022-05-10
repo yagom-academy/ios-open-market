@@ -49,7 +49,6 @@
 			isa = PBXGroup;
 			children = (
 				0E6DF3C9282A0BF30076E0C6 /* Error */,
-				0E6DF3C6282A0B100076E0C6 /* Extension */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -77,6 +76,14 @@
 				67FA257E282A05DA0089BBE3 /* OpenMarketService.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		675D90DC282A2C6200A46468 /* Test */ = {
+			isa = PBXGroup;
+			children = (
+				0E6DF3C6282A0B100076E0C6 /* Extension */,
+			);
+			path = Test;
 			sourceTree = "<group>";
 		};
 		67FA257B282A007F0089BBE3 /* Scene */ = {
@@ -124,6 +131,7 @@
 		C70FB0F925BEF61C00C9924E /* OpenMarket */ = {
 			isa = PBXGroup;
 			children = (
+				675D90DC282A2C6200A46468 /* Test */,
 				0E6DF3C5282A0B090076E0C6 /* Utils */,
 				67FA257D282A00AF0089BBE3 /* View */,
 				67FA257C282A00940089BBE3 /* Controller */,
