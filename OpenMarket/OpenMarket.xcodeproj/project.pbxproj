@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		839AA0705AAF9CB71ABFA93C /* Pods_OpenMarket.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41E7C73D6CEC0E4BB2132759 /* Pods_OpenMarket.framework */; };
 		8610B2AA28295DB300EB00AF /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 8610B2A928295DB300EB00AF /* .swiftlint.yml */; };
+		8610B2B4282A052600EB00AF /* Products.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8610B2B3282A052600EB00AF /* Products.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
 		C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */; };
 		C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FE25BEF61C00C9924E /* ViewController.swift */; };
@@ -21,6 +22,7 @@
 		41E7C73D6CEC0E4BB2132759 /* Pods_OpenMarket.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OpenMarket.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		593F13E1FB6D05FB04F2E5F9 /* Pods-OpenMarket.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenMarket.release.xcconfig"; path = "Target Support Files/Pods-OpenMarket/Pods-OpenMarket.release.xcconfig"; sourceTree = "<group>"; };
 		8610B2A928295DB300EB00AF /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; name = .swiftlint.yml; path = ../.swiftlint.yml; sourceTree = "<group>"; };
+		8610B2B3282A052600EB00AF /* Products.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Products.swift; sourceTree = "<group>"; };
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -61,6 +63,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		8610B2B2282A051400EB00AF /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				8610B2B3282A052600EB00AF /* Products.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		C70FB0EE25BEF61C00C9924E = {
 			isa = PBXGroup;
 			children = (
@@ -82,6 +92,7 @@
 		C70FB0F925BEF61C00C9924E /* OpenMarket */ = {
 			isa = PBXGroup;
 			children = (
+				8610B2B2282A051400EB00AF /* Model */,
 				C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */,
 				C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */,
 				C70FB0FE25BEF61C00C9924E /* ViewController.swift */,
@@ -210,6 +221,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
+				8610B2B4282A052600EB00AF /* Products.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 			);
