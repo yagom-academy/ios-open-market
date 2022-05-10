@@ -1,7 +1,7 @@
 # 🏬 오픈마켓
 > 프로젝트 기간: 2022.05.09 ~ 2022.05.20 <br>
 > 팀원: [Donnie](https://github.com/westeastyear), [우롱차](https://github.com/dnwhd0112)
-> 리뷰어: [또치]()
+> 리뷰어: [또치](https://github.com/TTOzzi)
 
 ## 🔎 프로젝트 소개
 
