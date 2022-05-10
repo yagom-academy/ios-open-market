@@ -68,7 +68,7 @@ final class DecodeTests: XCTestCase {
   }
 }
 
-// MARK: - APIResponse
+// MARK: - APIResponse Extension
 
 extension APIResponse: Equatable {
   public static func == (lhs: APIResponse, rhs: APIResponse) -> Bool {
@@ -83,6 +83,8 @@ extension APIResponse: Equatable {
     return pageNo && itemsPerPage && totalCount && offset && limit && lastPage && hasNext && hasPrev
   }
 }
+
+// MARK: - Product Extension
 
 extension Product: Equatable {
   public static func == (lhs: Product, rhs: Product) -> Bool {
