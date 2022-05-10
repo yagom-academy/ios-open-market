@@ -13,10 +13,10 @@ struct Parser<T: Codable> {
         guard let asset = NSDataAsset(name: name, bundle: .main) else {
             return nil
         }
-        guard let listData = try? decoder.decode(T.self, from: asset.data) else {
+        guard let decodedData = try? decoder.decode(T.self, from: asset.data) else {
             return nil
         }
         
-        return listData
+        return decodedData
     }
 }
