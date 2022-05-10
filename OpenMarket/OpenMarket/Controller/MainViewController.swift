@@ -12,6 +12,10 @@ final class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view = mainView
+        
+        APIService().retrieveProductList { result in
+            print(result)
+        }
     }
 }
 

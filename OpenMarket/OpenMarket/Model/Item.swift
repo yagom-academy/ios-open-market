@@ -5,24 +5,19 @@
 //  Created by Red, Mino. on 2022/05/10.
 //
 
-struct Item: Codable {
-    let id: Int
+struct Page: Codable {
+    let id, vendorID: Int
     let name: String
     let thumbnail: String
     let currency: String
-    let price: String
-    let bargainPrice: String
-    let discountedPrice: String
+    let price, bargainPrice, discountedPrice: Double
     let stock: Int
-    let createdAt: String
-    let issuedAt: String
-    
-    enum Codingkeys: String, CodingKey {
+    let createdAt, issuedAt: String
+
+    enum CodingKeys: String, CodingKey {
         case id
-        case name
-        case thumbnail
-        case currency
-        case price
+        case vendorID = "vendor_id"
+        case name, thumbnail, currency, price
         case bargainPrice = "bargain_price"
         case discountedPrice = "discounted_price"
         case stock

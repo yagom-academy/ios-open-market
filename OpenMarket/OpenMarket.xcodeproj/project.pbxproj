@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A17840CA282A234B00DAB50D /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A17840C9282A234B00DAB50D /* APIService.swift */; };
+		A17840CD282A238700DAB50D /* StubURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = A17840CC282A238700DAB50D /* StubURLSession.swift */; };
 		A1D0E1032829F5FE00451BF8 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1D0E1022829F5FE00451BF8 /* MainView.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
 		C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */; };
@@ -29,6 +31,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		A17840C9282A234B00DAB50D /* APIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
+		A17840CC282A238700DAB50D /* StubURLSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubURLSession.swift; sourceTree = "<group>"; };
 		A1D0E1022829F5FE00451BF8 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -61,6 +65,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A17840C8282A233B00DAB50D /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				A17840C9282A234B00DAB50D /* APIService.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		A17840CB282A236E00DAB50D /* TestDouble */ = {
+			isa = PBXGroup;
+			children = (
+				A17840CC282A238700DAB50D /* StubURLSession.swift */,
+			);
+			path = TestDouble;
+			sourceTree = "<group>";
+		};
 		A1D0E1002829F5BF00451BF8 /* View */ = {
 			isa = PBXGroup;
 			children = (
@@ -104,8 +124,8 @@
 				A1D0E1002829F5BF00451BF8 /* View */,
 				C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */,
 				C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */,
-				DA9AE544282A06E6003BA8B2 /* Network */,
 				DA94FF8F2829FBA8002CDFF6 /* Model */,
+				A17840C8282A233B00DAB50D /* Network */,
 				C70FB10825BEF61D00C9924E /* Info.plist */,
 			);
 			path = OpenMarket;
@@ -123,16 +143,10 @@
 		DA9AE53C282A03BD003BA8B2 /* OpenMarketModelTests */ = {
 			isa = PBXGroup;
 			children = (
+				A17840CB282A236E00DAB50D /* TestDouble */,
 				DA9AE53D282A03BD003BA8B2 /* OpenMarketModelTests.swift */,
 			);
 			path = OpenMarketModelTests;
-			sourceTree = "<group>";
-		};
-		DA9AE544282A06E6003BA8B2 /* Network */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Network;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -235,6 +249,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C70FB0FF25BEF61C00C9924E /* MainViewController.swift in Sources */,
+				A17840CA282A234B00DAB50D /* APIService.swift in Sources */,
 				DA94FF912829FC8F002CDFF6 /* Products.swift in Sources */,
 				A1D0E1032829F5FE00451BF8 /* MainView.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
@@ -247,6 +262,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A17840CD282A238700DAB50D /* StubURLSession.swift in Sources */,
 				DA9AE53E282A03BD003BA8B2 /* OpenMarketModelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
