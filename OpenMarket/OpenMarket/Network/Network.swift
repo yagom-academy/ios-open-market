@@ -81,7 +81,7 @@ extension API {
             completion(.failure(.unknown))
             return
         }
-
+        
         session.dataTask(with: url) { data, response, error in
             guard error == nil else {
                 completion(.failure(.severError))
@@ -101,6 +101,7 @@ extension API {
             do {
                 let jsonDecoder = JSONDecoder()
                 jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
+                jsonDecoder.dateDecodingStrategy = .formatted(.dateFormatter)
                 
                 let productData = try jsonDecoder.decode(Product.self, from: data)
                 completion(.success(productData))
@@ -140,6 +141,7 @@ extension API {
             do {
                 let jsonDecoder = JSONDecoder()
                 jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
+                jsonDecoder.dateDecodingStrategy = .formatted(.dateFormatter)
                 
                 let productData = try jsonDecoder.decode(ProductList.self, from: data)
                 completion(.success(productData))
@@ -159,4 +161,14 @@ private extension URLComponents {
             URLQueryItem(name: key, value: value)
         }
     }
+}
+
+//MARK: - DateFormatter Method
+
+private extension DateFormatter {
+    static let dateFormatter: DateFormatter = {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'hh:mm:ss.SS"
+        return dateFormatter
+    }()
 }
