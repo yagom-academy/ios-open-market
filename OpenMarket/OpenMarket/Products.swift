@@ -2,7 +2,7 @@
 //  Products.swift
 //  OpenMarket
 //
-//  Created by Eddy on 2022/05/09.
+//  Created by Eddy, marisol on 2022/05/09.
 //
 
 import Foundation
@@ -19,12 +19,10 @@ struct Products: Decodable {
     let hasPrev: Bool
     
     private enum CodingKeys: String, CodingKey {
+        case offset, limit, pages
         case pageNo = "page_no"
         case itemsPerPage = "items_per_page"
         case totalCount = "total_count"
-        case offset
-        case limit
-        case pages
         case lastPage = "last_page"
         case hasNext = "has_next"
         case hasPrev = "has_prev"
@@ -45,15 +43,10 @@ struct ProductsDetail: Decodable {
     let issuedAt: String
     
     private enum CodingKeys: String, CodingKey {
-        case id
+        case id, name, thumbnail, currency, price, stock
         case vendorId = "vendor_id"
-        case name
-        case thumbnail
-        case currency
-        case price
         case bargainPrice = "bargain_price"
         case discountedPrice = "discounted_price"
-        case stock
         case createdAt = "created_at"
         case issuedAt = "issued_at"
     }

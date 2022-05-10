@@ -2,7 +2,7 @@
 //  MockURLSession.swift
 //  OpenMarket
 //
-//  Created by marisol on 2022/05/10.
+//  Created by Eddy, marisol on 2022/05/10.
 //
 
 import Foundation
@@ -20,14 +20,20 @@ final class MockURLSessionDataTask: URLSessionDataTask {
 }
 
 final class MockURLSession: URLSessionProtocol {
-    var isRequestSuccess: Bool
-    var sessionDataTask: MockURLSessionDataTask?
+    private var isRequestSuccess: Bool
+    private var sessionDataTask: MockURLSessionDataTask?
     
     init(isRequestSucceses: Bool = true) {
         self.isRequestSuccess = isRequestSucceses
     }
     
-    func dataTask(with url: URL, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask {
+    func dataTask(with request: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask {
+        let sessionDataTask = MockURLSessionDataTask()
+        
+        guard let url = request.url else {
+            return URLSessionDataTask()
+        }
+        
         let successResponse = HTTPURLResponse(url: url,
                                               statusCode: 200,
                                               httpVersion: "2",
@@ -36,7 +42,6 @@ final class MockURLSession: URLSessionProtocol {
                                               statusCode: 404,
                                               httpVersion: "2",
                                               headerFields: nil)
-        let sessionDataTask = MockURLSessionDataTask()
         
         if isRequestSuccess {
             sessionDataTask.completion = {
