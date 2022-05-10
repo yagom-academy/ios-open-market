@@ -20,7 +20,7 @@ class URLSessionTests: XCTestCase {
     }
 
     func test_서버와_통신하여_HealthCheckerAPI를_호출하는지() {
-        let expt = expectation(description: "waiting for test")
+        let expectation = expectation(description: "waiting for test")
         let successResult: String = "\"OK\""
         var message: String = ""
         
@@ -29,7 +29,7 @@ class URLSessionTests: XCTestCase {
             case .success(let data):
                 print(data)
                 message = data
-                expt.fulfill()
+                expectation.fulfill()
             case .failure(_):
                 XCTFail()
             }
@@ -39,7 +39,7 @@ class URLSessionTests: XCTestCase {
     }
     
     func test_서버와_통신하여_상품_리스트_조회API를_호출하는지() {
-        let expt = expectation(description: "waiting for test")
+        let expectation = expectation(description: "waiting for test")
         let successResult: Int = 1
         var pageNumber: Int = 0
         
@@ -47,7 +47,7 @@ class URLSessionTests: XCTestCase {
             switch result {
             case .success(let data):
                 pageNumber = data.pageNumber
-                expt.fulfill()
+                expectation.fulfill()
             case .failure(_):
                 XCTFail()
             }
@@ -57,7 +57,7 @@ class URLSessionTests: XCTestCase {
     }
     
     func test_서버와_통신하여_상품_상세_조회API를_호출하는지() {
-        let expt = expectation(description: "waiting for test")
+        let expectation = expectation(description: "waiting for test")
         let successResult: String = "아이폰13"
         var name: String = ""
         
@@ -65,7 +65,7 @@ class URLSessionTests: XCTestCase {
             switch result {
             case .success(let data):
                 name = data.name
-                expt.fulfill()
+                expectation.fulfill()
             case .failure(_):
                 XCTFail()
             }
