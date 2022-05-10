@@ -20,7 +20,7 @@ class MockURLSessionTests: XCTestCase {
     }
 
     func test_서버와_통신하는_대신에_MockData_데이터를_가져오는지() {
-        let expt = expectation(description: "waiting for test")
+        let exptectation = expectation(description: "waiting for test")
         let successResult: Int = 1
         var pageNumber: Int = 0
         
@@ -30,7 +30,7 @@ class MockURLSessionTests: XCTestCase {
             }
             let result = try? JSONDecoder().decode(ProductList.self, from: data)
             pageNumber = result!.pageNumber
-            expt.fulfill()
+            exptectation.fulfill()
         }
         
         waitForExpectations(timeout: 1, handler: nil)
