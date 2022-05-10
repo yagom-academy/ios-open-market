@@ -8,7 +8,7 @@
 import UIKit
 
 extension Decodable {
-    func parse(fileName: String) throws -> Self {
+    static func parse(fileName: String) throws -> Self {
         guard let assetFile = NSDataAsset(name: fileName) else {
             throw DecodingError.dataAssetFail
         }
