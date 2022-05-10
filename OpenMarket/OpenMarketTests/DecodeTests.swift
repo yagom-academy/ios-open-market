@@ -16,6 +16,34 @@ final class DecodeTests: XCTestCase {
   override func tearDownWithError() throws {
     try super.tearDownWithError()
   }
+  
+  func testDecode_Mock데이터가제공될때_APIResponse타입으로디코딩이성공해야한다() {
+    // given
+    guard let asset = NSDataAsset(name: "products") else { return XCTFail() }
+    // when
+    let output = try? JSONDecoder().decode(APIResponse.self, from: asset.data)
+    // then
+    XCTAssertNotNil(output)
+  }
+  
+  func testDecode_Mock데이터가제공될때_APIResponse의데이터가같아야한다() {
+    // given
+    guard let asset = NSDataAsset(name: "products") else { return XCTFail() }
+    let input = APIResponse(
+      pageNo: 1,
+      itemsPerPage: 20,
+      totalCount: 10,
+      offset: 0,
+      limit: 20,
+      pages: [],
+      lastPage: 1,
+      hasNext: false,
+      hasPrev: false)
+    // when
+    let output = try? JSONDecoder().decode(APIResponse.self, from: asset.data)
+    // then
+    XCTAssertEqual(input, output)
+  }
 }
 
 // MARK: - APIResponse
