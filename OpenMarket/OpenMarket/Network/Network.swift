@@ -14,10 +14,10 @@ enum NetworkErorr: Error {
     case urlError
 }
 
-enum API {
+enum API<T: Codable> {
     case serverState
-    case requestList
-    case requestProduct
+    case requestList(page: Int, itemsPerPage: Int)
+    case requestProduct(id: Int)
     
     private static var host: String {
         "https://market-training.yagom-academy.kr/"
@@ -30,14 +30,14 @@ enum API {
         return URLSession(configuration: config)
     }
     
-    private var path: String {
+    private var urlString: String {
         switch self {
         case .serverState:
-            return "healthChecker"
-        case .requestList:
-            return "api/products"
-        case.requestProduct:
-            return "api/products/"
+            return Self.host + "healthChecker"
+        case .requestList(let page, let itemsPerPage):
+            return Self.host + "api/products?items_per_page=\(itemsPerPage)&page_no=\(page)"
+        case .requestProduct(let id):
+            return Self.host + "api/products/\(id)"
         }
     }
 }
@@ -46,9 +46,7 @@ enum API {
 
 extension API {
     func checkServerState(session: URLSessionProtocol = session, completion: @escaping (Result<String, NetworkErorr>) -> Void) {
-        let urlComponents = URLComponents(string: API.host + path)
-        
-        guard let url = urlComponents?.url else {
+        guard let url = URL(string: urlString) else {
             completion(.failure(.urlError))
             return
         }
@@ -69,16 +67,13 @@ extension API {
                 return
             }
             
-            
             completion(.success(text.trimmingCharacters(in:CharacterSet(charactersIn: "\""))))
         }.resume()
     }
     
-    func request(session: URLSessionProtocol = session, id: Int, completion: @escaping (Result<ProductDetail, NetworkErorr>) -> Void) {
-        let urlComponents = URLComponents(string: API.host + path + "\(id)")
-        
-        guard let url = urlComponents?.url else {
-            completion(.failure(.unknown))
+    func request(session: URLSessionProtocol = session, completion: @escaping (Result<T, NetworkErorr>) -> Void) {
+        guard let url = URL(string: urlString) else {
+            completion(.failure(.urlError))
             return
         }
         
@@ -103,63 +98,13 @@ extension API {
                 jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
                 jsonDecoder.dateDecodingStrategy = .formatted(.dateFormatter)
                 
-                let productDetail = try jsonDecoder.decode(ProductDetail.self, from: data)
+                let productDetail = try jsonDecoder.decode(T.self, from: data)
                 completion(.success(productDetail))
             } catch {
                 completion(.failure(.jsonError))
                 return
             }
         }.resume()
-    }
-    
-    func request(session: URLSessionProtocol = session, page: Int, itemsPerPage: Int, completion: @escaping (Result<ProductList, NetworkErorr>) -> Void) {
-        var urlComponents = URLComponents(string: API.host + path)
-        let parameters = ["page_no": "\(page)","items_per_page": "\(itemsPerPage)"]
-        urlComponents?.configureQuery(parameters)
-        
-        guard let url = urlComponents?.url else {
-            completion(.failure(.unknown))
-            return
-        }
-        
-        session.dataTask(with: url) { data, response, error in
-            guard error == nil else {
-                completion(.failure(.severError))
-                return
-            }
-            
-            guard let responseCode = (response as? HTTPURLResponse)?.statusCode, (200..<300).contains(responseCode) else {
-                completion(.failure(.severError))
-                return
-            }
-            
-            guard let data = data else {
-                completion(.failure(.unknown))
-                return
-            }
-            
-            do {
-                let jsonDecoder = JSONDecoder()
-                jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
-                jsonDecoder.dateDecodingStrategy = .formatted(.dateFormatter)
-                
-                let productList = try jsonDecoder.decode(ProductList.self, from: data)
-                completion(.success(productList))
-            } catch {
-                completion(.failure(.jsonError))
-                return
-            }
-        }.resume()
-    }
-}
-
-//MARK: - ConfigureQuery Method
-
-private extension URLComponents {
-    mutating func configureQuery(_ paramters: [String: String]) {
-        self.queryItems = paramters.map{ (key, value) in
-            URLQueryItem(name: key, value: value)
-        }
     }
 }
 

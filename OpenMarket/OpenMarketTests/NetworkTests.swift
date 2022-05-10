@@ -10,7 +10,6 @@ import XCTest
 @testable import OpenMarket
 
 class NetworkTests: XCTestCase {
-    var sut: API!
     
     override func setUpWithError() throws {}
     override func tearDownWithError() throws {}
@@ -18,7 +17,7 @@ class NetworkTests: XCTestCase {
     func test_네트워크에_서버상태요청시_OK가_넘어오는지() {
         // given
         let promise = expectation(description: "will return OK message")
-        sut = API.serverState
+        let sut = API<String>.serverState
         
         // when
         sut.checkServerState { result in
@@ -38,10 +37,10 @@ class NetworkTests: XCTestCase {
     func test_네트워크에_productList데이터_요청시_올바른값이_넘어오는지() {
         // given
         let promise = expectation(description: "will return productList")
-        sut = API.requestList
+        let sut = API<ProductList>.requestList(page: 1, itemsPerPage: 10)
         
         // when
-        sut.request(page: 1, itemsPerPage: 10) { result in
+        sut.request { result in
             // then
             switch result {
             case .success(let list):
@@ -60,10 +59,10 @@ class NetworkTests: XCTestCase {
     func test_네트워크에_product요청시_올바른값이_넘어오는지() {
         // given
         let promise = expectation(description: "will return product")
-        sut = API.requestProduct
+        let sut = API<ProductDetail>.requestProduct(id: 2072)
  
         // when
-        sut.request(id: 2072) { result in
+        sut.request { result in
             // then
             switch result {
             case .success(let product):
@@ -83,10 +82,10 @@ class NetworkTests: XCTestCase {
         // given
         let mockSession = MockURLSession()
         let promise = expectation(description: "will return productList")
-        sut = API.requestList
+        let sut = API<ProductList>.requestList(page: 1, itemsPerPage: 10)
         
         // when
-        sut.request(session: mockSession, page: 1, itemsPerPage: 10) { result in
+        sut.request(session: mockSession) { result in
             // then
             switch result {
             case .success(let list):
@@ -106,10 +105,10 @@ class NetworkTests: XCTestCase {
         // given
         let mockSession = MockURLSession(isRequestSuccess: false)
         let promise = expectation(description: "will return productList")
-        sut = API.requestList
+        let sut = API<ProductList>.requestList(page: 1, itemsPerPage: 10)
         
         // when
-        sut.request(session: mockSession, page: 1, itemsPerPage: 10) { result in
+        sut.request(session: mockSession) { result in
             // then
             switch result {
             case .success(_):
