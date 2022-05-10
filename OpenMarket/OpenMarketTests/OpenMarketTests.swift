@@ -9,15 +9,6 @@ import XCTest
 @testable import OpenMarket
 
 class OpenMarketTests: XCTestCase {
-
-    override func setUpWithError() throws {
-        
-    }
-
-    override func tearDownWithError() throws {
-        
-    }
-    
     func test_parse할때_파일이름이올바르면_OpenMarketService반환() {
         // given
         let fileName = "products"

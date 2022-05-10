@@ -31,7 +31,6 @@ struct HTTPManager {
                mimeType == "application/json",
                let data = data {
                 completionHandler(data)
-                return
             }
         }
         task.resume()
