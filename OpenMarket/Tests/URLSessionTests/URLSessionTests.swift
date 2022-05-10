@@ -20,7 +20,7 @@ class URLSessionTests: XCTestCase {
     }
 
     func test_서버와_통신하여_HealthCheckerAPI를_호출하는지() {
-        sut.requestHealthCheckerApi() { result in
+        sut.requestHealthCheckerAPI() { result in
             switch result {
             case .success(let data):
                 XCTAssertEqual(data, "OK")
@@ -31,7 +31,7 @@ class URLSessionTests: XCTestCase {
     }
     
     func test_서버와_통신하여_상품_리스트_조회API를_호출하는지() {
-        sut.requestListApi(pageNum: 1, items_per_page: 10) { result in
+        sut.requestListAPI(pageNum: 1, items_per_page: 10) { result in
             switch result {
             case .success(let data):
                 XCTAssertEqual(data.pageNumber, 1)
@@ -42,7 +42,7 @@ class URLSessionTests: XCTestCase {
     }
     
     func test_서버와_통신하여_상품_상세_조회API를_호출하는지() {
-        sut.requestDetailApi(product_id: 522) { result in
+        sut.requestDetailAPI(product_id: 522) { result in
             switch result {
             case .success(let data):
                 XCTAssertEqual(data.name, "아이폰13")
