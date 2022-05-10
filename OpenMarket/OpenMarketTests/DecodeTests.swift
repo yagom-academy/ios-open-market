@@ -44,6 +44,28 @@ final class DecodeTests: XCTestCase {
     // then
     XCTAssertEqual(input, output)
   }
+  
+  func testDecode_Mock데이터가제공될때_Product의데이터가같아야한다() {
+    // given
+    guard let asset = NSDataAsset(name: "products") else { return XCTFail() }
+    let input = Product(
+      id: 20,
+      vendorId: 3,
+      name: "Test Product",
+      thumbnail: "https://s3.ap-northeast-2.amazonaws.com/media.yagom-academy.kr/training-resources/3/thumb/5a0cd56b6d3411ecabfa97fd953cf965.jpg",
+      currency: .krw,
+      price: 0,
+      bargainPrice: 0,
+      discountedPrice: 0,
+      stock: 0,
+      createdAt: "2022-01-04T00:00:00.00",
+      issuedAt: "2022-01-04T00:00:00.00")
+    // when
+    let reponse = try? JSONDecoder().decode(APIResponse.self, from: asset.data)
+    let output = reponse?.pages.first
+    // then
+    XCTAssertEqual(input, output)
+  }
 }
 
 // MARK: - APIResponse
