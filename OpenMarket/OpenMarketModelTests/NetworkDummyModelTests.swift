@@ -2,13 +2,13 @@
 //  OpenMarketModelTests.swift
 //  OpenMarketModelTests
 //
-//  Created by 박세리 on 2022/05/10.
+//  Created by Red, Mino on 2022/05/10.
 //
 
 import XCTest
 @testable import OpenMarket
 
-class OpenMarketModelTests: XCTestCase {
+class NetworkDummyModelTests: XCTestCase {
     var sut: APIService!
     
     override func setUpWithError() throws {
