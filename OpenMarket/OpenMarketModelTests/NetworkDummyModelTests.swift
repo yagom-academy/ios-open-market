@@ -9,33 +9,42 @@ import XCTest
 @testable import OpenMarket
 
 class NetworkDummyModelTests: XCTestCase {
-    var sut: APIProvider!
+    var sut: APIProvider<Products>!
     
     override func setUpWithError() throws {
         try super.setUpWithError()
-        sut = APIProvider()
+        sut = APIProvider<Products>(urlSession: StubURLSession())
     }
     
     override func tearDownWithError() throws {
         sut = nil
     }
     
-    func test_retrieveProductList를호출할때_예상값을반환() {
+    func test_request를호출할때_예상값을반환() {
         // given
+        let promise = expectation(description: "")
         guard let file = NSDataAsset(name: "products") else {
             return
         }
         
-        let promise = expectation(description: "")
-        let url = URL(string: "https://market-training.yagom-academy.kr/")!
-        let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: nil, headerFields: nil)
-        let dummy = DummyData(data: file.data, response: response, error: nil)
-        let stubUrlSession = StubURLSession(dummy: dummy)
-        sut = APIProvider(urlSession: stubUrlSession)
+        let endPoint = EndPoint(
+            baseURL: "TEST",
+            sampleData: file.data
+        )
         
         // when
+        sut.request(with: endPoint) { result in
+            switch result {
+            case .success(let data):
+                let result = data.pageNo
+                let expected = 1
+                XCTAssertEqual(expected, result)
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+            promise.fulfill()
+        }
 
-        
         wait(for: [promise], timeout: 10)
     }
 }

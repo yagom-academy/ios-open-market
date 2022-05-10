@@ -57,19 +57,17 @@ extension Requestable {
         }
 
         var urlQueryItems = [URLQueryItem]()
-        let queryParameters = queryParameters?.toDictionary()
-        
-        switch queryParameters {
-        case.success(let data):
-            data.forEach {
-                urlQueryItems.append(URLQueryItem(name: $0.key, value: "\($0.value)"))
+        if let queryParameters = queryParameters?.toDictionary() {
+            switch queryParameters {
+            case.success(let data):
+                data.forEach {
+                    urlQueryItems.append(URLQueryItem(name: $0.key, value: "\($0.value)"))
+                }
+            case.failure(let error):
+                return .failure(error)
             }
-        case.failure(let error):
-            return .failure(error)
-        case .none:
-            return .failure(.decodeError)
         }
-  
+          
         urlComponents.queryItems = urlQueryItems.isEmpty == false ? urlQueryItems : nil
 
         guard let url = urlComponents.url else {

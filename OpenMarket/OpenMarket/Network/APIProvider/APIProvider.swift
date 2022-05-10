@@ -16,16 +16,17 @@ protocol URLSessionProtocol {
 extension URLSession: URLSessionProtocol {}
 
 protocol Provider {
-    func request<R: Decodable>(with endpoint: Requestable, completion: @escaping (Result<R, Error>) -> Void)
+    associatedtype T
+    func request(with endpoint: Requestable, completion: @escaping (Result<T, Error>) -> Void)
 }
 
-final class APIProvider: Provider {
+final class APIProvider<T: Decodable>: Provider {
     let urlSession: URLSessionProtocol
     init(urlSession: URLSessionProtocol = URLSession.shared) {
         self.urlSession = urlSession
     }
 
-    func request<R: Decodable>(with endpoint: Requestable, completion: @escaping (Result<R, Error>) -> Void) {
+    func request(with endpoint: Requestable, completion: @escaping (Result<T, Error>) -> Void) {
         let urlRequest = endpoint.generateUrlRequest()
         
         switch urlRequest {
@@ -70,7 +71,7 @@ final class APIProvider: Provider {
         completion(.success((data)))
     }
 
-    private func decode<T: Decodable>(data: Data) -> Result<T, Error> {
+    private func decode(data: Data) -> Result<T, Error> {
         do {
             let decoded = try JSONDecoder().decode(T.self, from: data)
             return .success(decoded)
