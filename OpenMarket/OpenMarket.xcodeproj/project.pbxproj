@@ -20,6 +20,8 @@
 		E1B91471282A1FC100DD2820 /* PageInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1B91470282A1FC100DD2820 /* PageInformation.swift */; };
 		E1B91473282A2AA900DD2820 /* ProductInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1B91472282A2AA900DD2820 /* ProductInformation.swift */; };
 		E1B91475282A2CBE00DD2820 /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1B91474282A2CBE00DD2820 /* Currency.swift */; };
+		E1B91477282A38E300DD2820 /* ProductRegistration.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1B91476282A38E300DD2820 /* ProductRegistration.swift */; };
+		E1B91479282A3A7700DD2820 /* RegistrationParameter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1B91478282A3A7700DD2820 /* RegistrationParameter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +40,8 @@
 		E1B91470282A1FC100DD2820 /* PageInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageInformation.swift; sourceTree = "<group>"; };
 		E1B91472282A2AA900DD2820 /* ProductInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductInformation.swift; sourceTree = "<group>"; };
 		E1B91474282A2CBE00DD2820 /* Currency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
+		E1B91476282A38E300DD2820 /* ProductRegistration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductRegistration.swift; sourceTree = "<group>"; };
+		E1B91478282A3A7700DD2820 /* RegistrationParameter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationParameter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +96,8 @@
 				9C7E881D282A2E5500D83081 /* ProductDetail.swift */,
 				9C7E881F282A313A00D83081 /* Image.swift */,
 				9C7E8821282A329200D83081 /* Vendor.swift */,
+				E1B91476282A38E300DD2820 /* ProductRegistration.swift */,
+				E1B91478282A3A7700DD2820 /* RegistrationParameter.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -169,12 +175,14 @@
 				E1B9146F282A1D0900DD2820 /* JsonParser.swift in Sources */,
 				9C7E8820282A313A00D83081 /* Image.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
+				E1B91477282A38E300DD2820 /* ProductRegistration.swift in Sources */,
 				9C7E881E282A2E5500D83081 /* ProductDetail.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				E1B91471282A1FC100DD2820 /* PageInformation.swift in Sources */,
 				E1B91473282A2AA900DD2820 /* ProductInformation.swift in Sources */,
 				9C7E8822282A329200D83081 /* Vendor.swift in Sources */,
 				E1B91475282A2CBE00DD2820 /* Currency.swift in Sources */,
+				E1B91479282A3A7700DD2820 /* RegistrationParameter.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
