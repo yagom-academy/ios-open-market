@@ -81,7 +81,7 @@ extension API {
             completion(.failure(.unknown))
             return
         }
-        
+
         session.dataTask(with: url) { data, response, error in
             guard error == nil else {
                 completion(.failure(.severError))
