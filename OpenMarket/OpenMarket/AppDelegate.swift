@@ -1,6 +1,6 @@
 //
 //  OpenMarket - AppDelegate.swift
-//  Created by yagom. 
+//  Created by Grumpy, OneTool
 //  Copyright © yagom. All rights reserved.
 // 
 

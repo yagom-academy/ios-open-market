@@ -2,16 +2,16 @@
 //  URLSessionProvider.swift
 //  OpenMarket
 //
-//  Created by 김태훈 on 2022/05/10.
+//  Created by Grumpy, OneTool on 2022/05/10.
 //
 
 import Foundation
 
 class URLSessionProvider {
-    let session: URLSession
+    let session: URLSessionProtocol
     let apiHost: String = "https://market-training.yagom-academy.kr/"
     
-    init (session: URLSession = URLSession.shared) {
+    init (session: URLSessionProtocol = URLSession.shared) {
         self.session = session
     }
     
