@@ -61,3 +61,20 @@ extension APIResponse: Equatable {
     return pageNo && itemsPerPage && totalCount && offset && limit && lastPage && hasNext && hasPrev
   }
 }
+
+extension Product: Equatable {
+  public static func == (lhs: Product, rhs: Product) -> Bool {
+    let id = lhs.id == rhs.id
+    let vendorId = lhs.vendorId == rhs.vendorId
+    let name = lhs.name == rhs.name
+    let thumbnail = lhs.thumbnail == rhs.thumbnail
+    let currency = lhs.currency == rhs.currency
+    let price = lhs.price == rhs.price
+    let bargainPrice = lhs.bargainPrice == rhs.bargainPrice
+    let discountedPrice = lhs.discountedPrice == rhs.discountedPrice
+    let stock = lhs.stock == rhs.stock
+    let createdAt = lhs.createdAt == rhs.createdAt
+    let issuedAt = lhs.issuedAt == rhs.issuedAt
+    return id && vendorId && name && thumbnail && currency && price && bargainPrice && discountedPrice && stock && createdAt && issuedAt
+  }
+}
