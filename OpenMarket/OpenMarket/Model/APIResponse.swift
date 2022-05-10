@@ -27,4 +27,3 @@ struct APIResponse: Decodable {
     case offset, limit, pages
   }
 }
-
