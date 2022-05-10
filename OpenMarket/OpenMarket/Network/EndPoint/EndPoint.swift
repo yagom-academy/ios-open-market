@@ -16,7 +16,7 @@ final class EndPoint: Requestable {
     var headers: [String: String]?
     var sampleData: Data?
 
-    init(baseURL: String,
+    init(baseURL: String = "https://market-training.yagom-academy.kr/",
          path: String = "",
          method: HttpMethod = .get,
          queryParameters: Encodable? = nil,

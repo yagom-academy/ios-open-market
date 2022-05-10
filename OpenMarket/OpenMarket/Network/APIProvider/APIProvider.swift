@@ -43,7 +43,7 @@ final class APIProvider<T: Decodable>: Provider {
                 }
             }.resume()
         case .failure(let error):
-            completion(.failure(NetworkError.urlRequest(error)))
+            completion(.failure(error))
         }
     }
 
