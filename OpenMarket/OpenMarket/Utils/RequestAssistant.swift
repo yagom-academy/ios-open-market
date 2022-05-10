@@ -9,7 +9,7 @@ import Foundation
 
 
 final class RequestAssistant {
-    let sessionManager = URLSessionGenerator(session: URLSession.shared)
+    private let sessionManager = URLSessionGenerator(session: URLSession.shared)
     
     func requestListAPI(pageNum: Int, items_per_page: Int, completionHandler: @escaping ((Result<ProductList, OpenMarketError>) -> Void)) {
         let path = "api/products"
@@ -54,7 +54,7 @@ final class RequestAssistant {
         })
     }
     
-    func manageError<T>(response: URLResponse?, result: T ,completionHandler: @escaping ((Result<T, OpenMarketError>) -> Void)) {
+    private func manageError<T>(response: URLResponse?, result: T ,completionHandler: @escaping ((Result<T, OpenMarketError>) -> Void)) {
         guard let response = response as? HTTPURLResponse else {
             return
         }
