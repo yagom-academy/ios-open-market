@@ -27,7 +27,6 @@ class URLSessionTests: XCTestCase {
         sut.requestHealthCheckerAPI() { result in
             switch result {
             case .success(let data):
-                print(data)
                 message = data
                 expectation.fulfill()
             case .failure(_):
