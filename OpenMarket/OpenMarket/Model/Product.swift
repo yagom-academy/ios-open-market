@@ -5,7 +5,8 @@
 //  Created by marlang, Taeangel on 2022/05/10.
 //
 
-struct Product: Codable {
+struct Product: Decodable {
+   
     let id: Int?
     let vendorId: Int?
     let name: String?

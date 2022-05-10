@@ -7,13 +7,13 @@
 
 import Foundation
 
-struct ProductCatalog: Codable {
+struct ProductCatalog: Decodable {
     let pageno: Int?
     let itemspPerPage: Int?
     let totalCount: Int?
     let offset: Int?
     let limit: Int?
-    let pages: [Product]
+    let pages: [Product]?
     
     enum CodingKeys: String, CodingKey {
         case pageno = "page_no"
