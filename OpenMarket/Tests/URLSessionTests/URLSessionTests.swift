@@ -21,7 +21,7 @@ class URLSessionTests: XCTestCase {
 
     func test_서버와_통신하여_HealthCheckerAPI를_호출하는지() {
         let expt = expectation(description: "waiting for test")
-        let successResult: String = "OK"
+        let successResult: String = "\"OK\""
         var message: String = ""
         
         sut.requestHealthCheckerAPI() { result in

@@ -48,7 +48,7 @@ final class RequestAssistant {
             guard let data = data else {
                 return
             }
-            if let result = String(data: data, encoding: .utf8)?.replacingOccurrences(of: "\"", with: "") {
+            if let result = String(data: data, encoding: .utf8) {
                 self.manageError(response: response, result: result, completionHandler: completionHandler)
             }
         })
