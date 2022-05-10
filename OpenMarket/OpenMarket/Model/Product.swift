@@ -5,7 +5,7 @@
 //  Created by marlang, Taeangel on 2022/05/10.
 //
 
-struct Products {
+struct Product {
     let id: Int?
     let vendorId: Int?
     let name: String?
