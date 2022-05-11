@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class MockTestData: NetworkAble {
+final class MockNetwork: NetworkAble {
     
     private enum FileInfo {
         static var fileName = "PageInformationTest"
@@ -20,6 +20,7 @@ final class MockTestData: NetworkAble {
                         extensionType: FileInfo.extensionType)
         
         guard let url = URLComponents(string: url)?.url else { return }
+        
         let response = HTTPURLResponse(url: url,
                                        statusCode: 200,
                                        httpVersion: "2",

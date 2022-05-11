@@ -16,8 +16,8 @@ final class Network: NetworkAble {
     
     func requestData(url: String,
                      completeHandler: @escaping (Data?, URLResponse?, Error?) -> Void ) {
-        let config = URLSessionConfiguration.default
-        let session = URLSession(configuration: config)
+        let configure = URLSessionConfiguration.default
+        let session = URLSession(configuration: configure)
         
         let urlComponents = URLComponents(string: url)
         
