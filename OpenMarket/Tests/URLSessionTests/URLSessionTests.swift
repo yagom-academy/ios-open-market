@@ -73,4 +73,42 @@ class URLSessionTests: XCTestCase {
         waitForExpectations(timeout: 1, handler: nil)
         XCTAssertEqual(name, successResult)
     }
+    
+    func test_상품_상세_조회API를_호출했을때_Currency타입으로_Decode_성공하는지() {
+        let expectation = expectation(description: "waiting for test")
+        let successResult: Currency? = Currency(rawValue: "KRW")
+        var currency: Currency?
+        
+        sut.requestDetailAPI(productId: 522) { result in
+            switch result {
+            case .success(let data):
+                currency = data.currency
+            case .failure(_):
+                XCTFail()
+            }
+            expectation.fulfill()
+        }
+        waitForExpectations(timeout: 1, handler: nil)
+        XCTAssertEqual(currency, successResult)
+    }
+    
+    func test_상품_상세_조회API를_호출했을때_Date타입으로_Decode_성공하는지() {
+        let expectation = expectation(description: "waiting for test")
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'hh:mm:ss.SS"
+        let successResult: Date? = dateFormatter.date(from: "2022-01-18T00:00:00.00")
+        var createdAt: Date?
+        
+        sut.requestDetailAPI(productId: 522) { result in
+            switch result {
+            case .success(let data):
+                createdAt = data.createdAt
+            case .failure(_):
+                XCTFail()
+            }
+            expectation.fulfill()
+        }
+        waitForExpectations(timeout: 1, handler: nil)
+        XCTAssertEqual(createdAt, successResult)
+    }
 }
