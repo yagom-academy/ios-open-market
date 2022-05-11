@@ -7,7 +7,17 @@
 
 import Foundation
 
+fileprivate enum StatusCodeRange {
+    static let success = 200 ... 299
+}
+
+fileprivate enum ContentType {
+    static let applicationJson = "application/json"
+    static let textPlain = "text/plain"
+}
+
 enum TargetURL {
+    static let hostURL = "https://market-training.yagom-academy.kr/"
     case productList(pageNumber: Int, itemsPerPage: Int)
     case productDetail(productNumber: Int)
     
@@ -25,7 +35,7 @@ struct HTTPManager {
     private let hostURL: String
     private let urlSession: URLSessionProtocol
     
-    init(hostURL: String = "https://market-training.yagom-academy.kr/", urlSession: URLSessionProtocol = URLSession.shared) {
+    init(hostURL: String = TargetURL.hostURL, urlSession: URLSessionProtocol = URLSession.shared) {
         self.hostURL = hostURL
         self.urlSession = urlSession
     }
@@ -40,11 +50,11 @@ struct HTTPManager {
                 return
             }
             guard let httpResponse = response as? HTTPURLResponse,
-                  (200 ... 299).contains(httpResponse.statusCode) else {
+                  (StatusCodeRange.success).contains(httpResponse.statusCode) else {
                 return
             }
             if let mimeType = httpResponse.mimeType,
-               mimeType == "application/json",
+               mimeType == ContentType.applicationJson,
                let data = data {
                 completionHandler(data)
             }
