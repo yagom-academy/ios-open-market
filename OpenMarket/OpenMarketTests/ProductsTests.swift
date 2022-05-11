@@ -8,12 +8,13 @@
 import XCTest
 @testable import OpenMarket
 
-class OpenMarketTests: XCTestCase {
-  var sut: ProductsList!
+final class OpenMarketTests: XCTestCase {
+  private var sut: ProductsList!
   
   override func setUpWithError() throws {
     try super.setUpWithError()
-    self.sut = ProductsList.decode(from: "products")
+    let asset = NSDataAsset(name: "products")!
+    self.sut = try? JSONDecoder().decode(ProductsList.self, from: asset.data)
   }
   
   override func tearDownWithError() throws {
@@ -21,7 +22,7 @@ class OpenMarketTests: XCTestCase {
     self.sut = nil
   }
   
-  func testDecode_Jsonfile_pageNo이_1이다() {
+  private func testDecode_Jsonfile_pageNo이_1이다() {
     //given
     let pageNumber = 1
     //when
@@ -30,7 +31,7 @@ class OpenMarketTests: XCTestCase {
     XCTAssertEqual(pageNumber, result)
   }
   
-  func testDecode_Jsonfile_pages수는_10이다() {
+  private func testDecode_Jsonfile_pages수는_10이다() {
     //given
     let numberOfItems = 10
     //when
@@ -39,7 +40,7 @@ class OpenMarketTests: XCTestCase {
     XCTAssertEqual(numberOfItems, result)
   }
   
-  func testDecode_Jsonfile_pages의첫번째Id는_20이다() {
+  private func testDecode_Jsonfile_pages의첫번째Id는_20이다() {
     //given
     let productId = 20
     //when
