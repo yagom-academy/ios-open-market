@@ -8,8 +8,7 @@
 import Foundation
 
 protocol NetworkService {
-  func get(
-    url urlString: String,
-    headers: [String: String]?,
-    completion: (Result<Data, Error>) -> Void)
+  func checkHealth(_ completion: (Result<String, APINetworkError>) -> Void)
+  func fetchProductAll(_ completion: (Result<[Product], APINetworkError>) -> Void)
+  func fetchProductOne(productID: Int, _ completion: (Result<Product, APINetworkError>) -> Void)
 }
