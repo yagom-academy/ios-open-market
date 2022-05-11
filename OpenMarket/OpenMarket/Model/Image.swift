@@ -12,7 +12,7 @@ struct Image: Codable {
     let url: String
     let thumbnailUrl: String
     let succeed: Bool
-    let issuedAt: String
+    let issuedAt: Date
     
     private enum CodingKeys: String, CodingKey {
         case thumbnailUrl = "thumbnail_url"
