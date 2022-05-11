@@ -1,8 +1,11 @@
 //
 //  MockData.swift
 //  OpenMarketTests
-//
-//  Created by LIMGAUI on 2022/05/11.
+//  Created by Lingo, Quokka
 //
 
 import Foundation
+
+struct MockData {
+  var data: Data?
+}
