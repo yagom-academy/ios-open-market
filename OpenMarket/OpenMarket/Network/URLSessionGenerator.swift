@@ -19,7 +19,7 @@ final class URLSessionGenerator {
             return
         }
         var request: URLRequest = URLRequest(url: url)
-        request.httpMethod = "GET"
+        request.httpMethod = endpoint.method
         session.dataTask(with: request, completionHandler: completionHandler).resume()
     }
 }

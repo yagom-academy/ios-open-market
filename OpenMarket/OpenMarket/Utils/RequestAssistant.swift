@@ -90,6 +90,13 @@ extension Endpoint {
             return .makeForEndpoint("/healthChecker")
         }
     }
+    
+    var method: String {
+        switch self {
+        case .productList(_, _), .productDetail(_), .healthCheck:
+            return "GET"
+        }
+    }
 }
 
 extension URL {
