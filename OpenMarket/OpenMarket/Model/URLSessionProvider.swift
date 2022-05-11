@@ -7,17 +7,17 @@
 
 import Foundation
 
-struct URLSessionProvider {
+struct URLSessionProvider<T: Decodable> {
   private let hostApi = "https://market-training.yagom-academy.kr"
-  private let session: URLSession
+  private let session: URLSessionProtocol
   private let path: String
   
-  init(session: URLSession = URLSession.shared, path: String = "") {
+  init(session: URLSessionProtocol = URLSession.shared, path: String = "") {
       self.session = session
       self.path = path
   }
   
-  func get(completionHandler: @escaping (Result<Data, NetworkError>) -> Void) {
+  func get(completionHandler: @escaping (Result<T, NetworkError>) -> Void) {
     guard let url = URL(string: hostApi + path) else {
       return
     }
@@ -40,7 +40,11 @@ struct URLSessionProvider {
         return
       }
       
-      completionHandler(.success(data))
+      guard let products = try? JSONDecoder().decode(T.self, from: data) else {
+        return
+      }
+      
+      completionHandler(.success(products))
     }.resume()
   }
 }
