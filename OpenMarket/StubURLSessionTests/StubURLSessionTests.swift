@@ -11,7 +11,6 @@ import XCTest
 class StubURLSessionTests: XCTestCase {
     func test_dataTask할때_dummyResponse받으면_completionHandler실행() {
         //given
-        var httpManager = HTTPManager()
         let promise = expectation(description: "dataTask test 성공")
         guard let url = URL(string: "https://market-training.yagom-academy.kr/") else {
             return
@@ -39,6 +38,7 @@ class StubURLSessionTests: XCTestCase {
         let dummyData = DummyData(data: data, response: dummyResponse, error: nil)
         let stubURLSession = StubURLSession(dummyData: dummyData)
         var products: [Product] = []
+        let httpManager = HTTPManager(urlSession: stubURLSession)
         
         //when
         let completionHandler: (Data) -> Void = { data in
@@ -51,7 +51,6 @@ class StubURLSessionTests: XCTestCase {
             XCTAssertEqual(products.first?.name, "Test Product")
             promise.fulfill()
         }
-        httpManager.urlSession = stubURLSession
         httpManager.loadData(targetURL: TargetURL.productList(pageNumber: 2, itemsPerPage: 10), completionHandler: completionHandler)
         wait(for: [promise], timeout: 10)
     }

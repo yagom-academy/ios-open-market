@@ -22,8 +22,8 @@ enum TargetURL {
 }
 
 struct HTTPManager {
-    var hostURL: String
-    var urlSession: URLSessionProtocol
+    private let hostURL: String
+    private let urlSession: URLSessionProtocol
     
     init(hostURL: String = "https://market-training.yagom-academy.kr/", urlSession: URLSessionProtocol = URLSession.shared) {
         self.hostURL = hostURL
