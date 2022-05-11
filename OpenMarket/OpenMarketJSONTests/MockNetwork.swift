@@ -7,19 +7,20 @@
 
 import Foundation
 
-final class MockTestData: NetworkAble {
+final class MockNetwork: NetworkAble {
     
-    private enum fileInfo {
+    private enum FileInfo {
         static var fileName = "PageInformationTest"
         static var extensionType = "json"
     }
     
     func requestData(url: String,
-                            query: [(String, String)]?,
-                            completeHandler: @escaping (Data?, URLResponse?, Error?) -> Void) {
-        let data = load(fileName: fileInfo.fileName, extensionType: fileInfo.extensionType)
+                     completeHandler: @escaping (Data?, URLResponse?, Error?) -> Void) {
+        let data = load(fileName: FileInfo.fileName,
+                        extensionType: FileInfo.extensionType)
         
-        guard let url = URLComponents(string: OpenMarketApiUrl.pageInformation.string)?.url else { return }
+        guard let url = URLComponents(string: url)?.url else { return }
+        
         let response = HTTPURLResponse(url: url,
                                        statusCode: 200,
                                        httpVersion: "2",

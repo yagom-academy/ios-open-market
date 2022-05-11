@@ -9,32 +9,34 @@ import XCTest
 @testable import OpenMarket
 
 final class OpenMarketJSONTests: XCTestCase {
-    private var mockTestData: NetworkAble!
-    private var testData: NetworkAble!
+    private var mockNetwork: NetworkAble!
+    private var network: NetworkAble!
     
     override func setUpWithError() throws {
         try super.setUpWithError()
-        mockTestData = MockTestData()
-        testData = Network()
+        mockNetwork = MockNetwork()
+        network = Network()
     }
     
     override func tearDownWithError() throws {
         try super.tearDownWithError()
-        mockTestData = nil
-        testData = nil
+        mockNetwork = nil
+        network = nil
     }
     
     func test_products_JSON_테스트파일을_decoding해서_결과는_NotNil() {
         // given
         let promise = expectation(description: "비동기 메서드 테스트")
-        let query = [("page_no","1"),("items_per_page","10")]
-        let url = OpenMarketApiUrl.pageInformation.string
+        let pageNo = 2
+        let itemsPerPage = 10
+        let url = OpenMarketApi.pageInformation(pageNo: pageNo, itemsPerPage: itemsPerPage).string
         
         // when
-        mockTestData.requestData(url: url, query: query) { data, response, error in
+        mockNetwork.requestData(url: url) { data, response, error in
             guard error == nil else { return }
+            
             guard let data = data,
-                    let pageInformation = try? JSONDecoder().decode(PageInformation.self, from: data) else { return }
+                  let pageInformation = try? JSONDecoder().decode(PageInformation.self, from: data) else { return }
             
         // then
             XCTAssertNotNil(pageInformation)
@@ -46,11 +48,12 @@ final class OpenMarketJSONTests: XCTestCase {
     func test_pageInformation_decoding해서_결과는_NotNil() {
         // given
         let promise = expectation(description: "비동기 메서드 테스트")
-        let query = [("page_no","2"),("items_per_page","10")]
-        let url = OpenMarketApiUrl.pageInformation.string
+        let pageNo = 2
+        let itemsPerPage = 10
+        let url = OpenMarketApi.pageInformation(pageNo: pageNo, itemsPerPage: itemsPerPage).string
         
         // when
-        testData.requestData(url: url, query: query) { data, response, error in
+        network.requestData(url: url) { data, response, error in
             guard error == nil else { return }
             
             let successsRange = 200..<300
@@ -59,7 +62,7 @@ final class OpenMarketJSONTests: XCTestCase {
                     successsRange.contains(statusCode) else { return }
             
             guard let data = data,
-                    let pageInformation = try? JSONDecoder().decode(PageInformation.self, from: data) else { return }
+                  let pageInformation = try? JSONDecoder().decode(PageInformation.self, from: data) else { return }
         
         // then
             XCTAssertNotNil(pageInformation)
@@ -72,10 +75,10 @@ final class OpenMarketJSONTests: XCTestCase {
         // given
         let promise = expectation(description: "비동기 메서드 테스트")
         let target = 2049
-        let url = OpenMarketApiUrl.productDetail(productNumber: target).string
+        let url = OpenMarketApi.productDetail(productNumber: target).string
         
         // when
-        testData.requestData(url: url, query: nil) { data, response, error in
+        network.requestData(url: url) { data, response, error in
             guard error == nil else { return }
             
             let successsRange = 200..<300
