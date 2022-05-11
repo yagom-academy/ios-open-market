@@ -1,8 +1,19 @@
 //
 //  MockURLSessionDataTask.swift
 //  OpenMarketTests
-//
-//  Created by LIMGAUI on 2022/05/11.
+//  Created by Lingo, Quokka
 //
 
 import Foundation
+
+final class MockURLSessionDataTask: URLSessionDataTask {
+  private var handler: (() -> Void)?
+  
+  override func resume() {
+    self.handler?()
+  }
+  
+  func setHandler(_ handler: (() -> Void)?) {
+    self.handler = handler
+  }
+}
