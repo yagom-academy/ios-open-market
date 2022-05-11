@@ -28,7 +28,7 @@ final class OpenMarketJSONTests: XCTestCase {
         // given
         let promise = expectation(description: "비동기 메서드 테스트")
         let query = [("page_no","1"),("items_per_page","10")]
-        let url = OpenMarketApiUrl.pageInformationUrl
+        let url = OpenMarketApiUrl.pageInformation.string
         
         // when
         mockTestData.requestData(url: url, query: query) { data, response, error in
@@ -47,7 +47,7 @@ final class OpenMarketJSONTests: XCTestCase {
         // given
         let promise = expectation(description: "비동기 메서드 테스트")
         let query = [("page_no","2"),("items_per_page","10")]
-        let url = OpenMarketApiUrl.pageInformationUrl
+        let url = OpenMarketApiUrl.pageInformation.string
         
         // when
         testData.requestData(url: url, query: query) { data, response, error in
@@ -71,8 +71,8 @@ final class OpenMarketJSONTests: XCTestCase {
     func test_productDetail_decoding해서_결과는_NotNil() {
         // given
         let promise = expectation(description: "비동기 메서드 테스트")
-        let target = "2049"
-        let url = OpenMarketApiUrl.productDetailUrl + target
+        let target = 2049
+        let url = OpenMarketApiUrl.productDetail(productNumber: target).string
         
         // when
         testData.requestData(url: url, query: nil) { data, response, error in
