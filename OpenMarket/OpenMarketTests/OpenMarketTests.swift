@@ -27,7 +27,7 @@ class OpenMarketTests: XCTestCase {
     
     func test_loadData할때_올바른response받으면_OpenMarketProductList디코드하고_completionHandler실행() {
         // given
-        let promise = expectation(description: "It gives product name")
+        let promise = expectation(description: "It gives vendor name")
         let httpManager = HTTPManager()
         var products: [Product] = []
         // when
