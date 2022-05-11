@@ -16,8 +16,6 @@ final class MockURLSessionDataTask: URLSessionDataTask {
 }
 
 final class MockURLSession: CustomURLSession {
-    var sessionDataTask: MockURLSessionDataTask?
-    
     func dataTask(with request: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask {
         let sessionDataTask = MockURLSessionDataTask()
         guard let url = request.url else {
@@ -27,7 +25,6 @@ final class MockURLSession: CustomURLSession {
         sessionDataTask.resumeDidCall = {
             completionHandler(NSDataAsset(name: "products", bundle: .main)?.data, successResponse, nil)
         }
-        self.sessionDataTask = sessionDataTask
         return sessionDataTask
     }
 }
