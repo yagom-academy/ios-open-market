@@ -19,25 +19,24 @@ fileprivate enum ContentType {
     static let textPlain = "text/plain"
 }
 
-enum TargetURL {
-    static let hostURL = "https://market-training.yagom-academy.kr/"
-    case healthChecker
-    case productList(pageNumber: Int, itemsPerPage: Int)
-    case productDetail(productNumber: Int)
-    
-    var string: String {
-        switch self {
-        case .healthChecker:
-            return "/healthChecker"
-        case .productList(let pageNumber, let itemsPerPage):
-            return "/api/products?page_no=\(pageNumber)&items_per_page=\(itemsPerPage)"
-        case .productDetail(let productNumber):
-            return "/api/products/\(productNumber)"
+struct HTTPManager {
+    enum TargetURL {
+        static let hostURL = "https://market-training.yagom-academy.kr/"
+        case healthChecker
+        case productList(pageNumber: Int, itemsPerPage: Int)
+        case productDetail(productNumber: Int)
+        
+        var string: String {
+            switch self {
+            case .healthChecker:
+                return "/healthChecker"
+            case .productList(let pageNumber, let itemsPerPage):
+                return "/api/products?page_no=\(pageNumber)&items_per_page=\(itemsPerPage)"
+            case .productDetail(let productNumber):
+                return "/api/products/\(productNumber)"
+            }
         }
     }
-}
-
-struct HTTPManager {
     private let hostURL: String
     private let urlSession: URLSessionProtocol
     

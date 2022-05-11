@@ -55,7 +55,7 @@ class StubURLSessionTests: XCTestCase {
             XCTAssertEqual(products.first?.name, "Test Product")
             promise.fulfill()
         }
-        httpManager.loadData(targetURL: TargetURL.productList(pageNumber: 2, itemsPerPage: 10), completionHandler: completionHandler)
+        httpManager.loadData(targetURL: HTTPManager.TargetURL.productList(pageNumber: 2, itemsPerPage: 10), completionHandler: completionHandler)
         wait(for: [promise], timeout: 10)
     }
 }
