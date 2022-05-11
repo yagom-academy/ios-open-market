@@ -6,7 +6,7 @@
 //
 
 enum API {
-    static let hostApi = "https://market-training.yagom-academy.kr"
+    static let hostAPI = "https://market-training.yagom-academy.kr"
     static let productPath = "/api/products"
     static let healthCheckerPath = "/healthChecker"
     
@@ -17,11 +17,11 @@ enum API {
     func generateURL() -> String {
         switch self {
         case .productList(let pageNo, let itemsPerPage):
-            return API.hostApi + API.productPath + "?page_no=\(pageNo)&items_per_page=\(itemsPerPage)"
+            return API.hostAPI + API.productPath + "?page_no=\(pageNo)&items_per_page=\(itemsPerPage)"
         case .productDetail(let productId):
-            return API.hostApi + API.productPath + "/\(productId)"
+            return API.hostAPI + API.productPath + "/\(productId)"
         case .healthChecker:
-            return API.hostApi + API.healthCheckerPath
+            return API.hostAPI + API.healthCheckerPath
         }
     }
 }
