@@ -8,7 +8,7 @@
 import Foundation
 
 protocol NetworkService {
-  func checkHealth(_ completion: (Result<String, APINetworkError>) -> Void)
-  func fetchProductAll(_ completion: (Result<[Product], APINetworkError>) -> Void)
-  func fetchProductOne(productID: Int, _ completion: (Result<Product, APINetworkError>) -> Void)
+  func checkHealth(_ completion: @escaping (Result<String, APINetworkError>) -> Void)
+  func fetchProductAll(_ completion: @escaping (Result<[Product], APINetworkError>) -> Void)
+  func fetchProductOne(productID: Int, _ completion: @escaping (Result<Product, APINetworkError>) -> Void)
 }
