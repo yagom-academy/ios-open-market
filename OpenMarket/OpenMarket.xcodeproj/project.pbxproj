@@ -15,6 +15,7 @@
 		AB6E6BFA282A4E4A00431717 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6E6BF9282A4E4A00431717 /* Product.swift */; };
 		B02944A3282A430800B9828F /* DecodeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B02944A2282A430800B9828F /* DecodeTests.swift */; };
 		B0A408D8282B8B1600A388FA /* NetworkAPITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0A408D7282B8B1600A388FA /* NetworkAPITests.swift */; };
+		B0A408DD282B933C00A388FA /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0A408DC282B933C00A388FA /* NetworkService.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
 		C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */; };
 		C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FE25BEF61C00C9924E /* ViewController.swift */; };
@@ -43,6 +44,7 @@
 		B02944A0282A430800B9828F /* OpenMarketTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenMarketTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B02944A2282A430800B9828F /* DecodeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecodeTests.swift; sourceTree = "<group>"; };
 		B0A408D7282B8B1600A388FA /* NetworkAPITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkAPITests.swift; sourceTree = "<group>"; };
+		B0A408DC282B933C00A388FA /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -136,6 +138,22 @@
 			path = OpenMarketTests;
 			sourceTree = "<group>";
 		};
+		B0A408D9282B930900A388FA /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				B0A408DA282B932B00A388FA /* Protocol */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		B0A408DA282B932B00A388FA /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				B0A408DC282B933C00A388FA /* NetworkService.swift */,
+			);
+			path = Protocol;
+			sourceTree = "<group>";
+		};
 		B4FBF88626FDD11983B57D53 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -169,6 +187,7 @@
 			isa = PBXGroup;
 			children = (
 				B0294499282A09C900B9828F /* Application */,
+				B0A408D9282B930900A388FA /* Network */,
 				AB6E6BF6282A4C3A00431717 /* Model */,
 				B029449A282A09CF00B9828F /* Controller */,
 				B029449B282A09D800B9828F /* Resource */,
@@ -317,6 +336,7 @@
 				AB6E6BF8282A4C5600431717 /* APIResponse.swift in Sources */,
 				AB6E6BFA282A4E4A00431717 /* Product.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
+				B0A408DD282B933C00A388FA /* NetworkService.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
