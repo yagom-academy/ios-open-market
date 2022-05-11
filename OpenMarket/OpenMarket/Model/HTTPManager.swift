@@ -7,6 +7,20 @@
 
 import Foundation
 
+enum TargetURL {
+    case productList(pageNumber: Int, itemsPerPage: Int)
+    case productDetail(productNumber: Int)
+    
+    var string: String {
+        switch self {
+        case .productList(let pageNumber, let itemsPerPage):
+            return "/api/products?page_no=\(pageNumber)&items_per_page=\(itemsPerPage)"
+        case .productDetail(let productNumber):
+            return "/api/products/\(productNumber)"
+        }
+    }
+}
+
 struct HTTPManager {
     var hostURL: String
     var urlSession: URLSessionProtocol
