@@ -67,4 +67,23 @@ class OpenMarketTests: XCTestCase {
         httpManager.loadData(targetURL: TargetURL.productDetail(productNumber: 522), completionHandler: completionHandler)
         wait(for: [promise], timeout: 10)
     }
+    
+    func test_listenHealthChecker할때_올바른response받으면_StatusCode_200() {
+        // given
+        let promise = expectation(description: "It gives status code 200")
+        let httpManager = HTTPManager()
+        
+        // when
+        let completionHandler: (Result<HTTPURLResponse, NetworkError>) -> Void = { response in
+            switch response {
+            case .success(let response):
+                XCTAssertEqual(response.statusCode, 200)
+            case .failure(let error):
+                print(error.rawValue)
+            }
+            promise.fulfill()
+        }
+        httpManager.listenHealthChecker(completionHandler: completionHandler)
+        wait(for: [promise], timeout: 10)
+    }
 }
