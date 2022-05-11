@@ -153,7 +153,7 @@ class OpenMarketTests: XCTestCase {
         var okResult = ""
         let expectedResult = "OK"
         
-        guard let url = URL(string: API.hostApi + API.healthCheckerPath) else {
+        guard let url = URL(string: API.hostAPI + API.healthCheckerPath) else {
             XCTFail("URL 포맷팅 실패")
             return
         }
