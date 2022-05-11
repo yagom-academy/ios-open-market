@@ -46,23 +46,27 @@ struct HTTPManager {
         self.urlSession = urlSession
     }
     
-    func listenHealthChecker() {
+    func listenHealthChecker(completionHandler: @escaping (Result<HTTPURLResponse, NetworkError>) -> Void) {
         let requestURL = hostURL + TargetURL.healthChecker.string
         guard let url = URL(string: requestURL) else {
+            completionHandler(.failure(.invalidURL))
             return
         }
         let task = urlSession.dataTask(with: url) { data, response, error in
             if let _ = error {
+                completionHandler(.failure(.clientError))
                 return
             }
             guard let httpResponse = response as? HTTPURLResponse,
                   StatusCode.okSuccess == httpResponse.statusCode else {
+                completionHandler(.failure(.serverError))
                 return
             }
-            if let mimeType = httpResponse.mimeType,
-               mimeType == ContentType.textPlain {
+            if httpResponse.statusCode == StatusCode.okSuccess {
+                completionHandler(.success(httpResponse))
                 return
             }
+            completionHandler(.failure(.serverError))
         }
         task.resume()
     }
