@@ -5,16 +5,19 @@
 //  Created by Red, Mino on 2022/05/10.
 //
 
-import Foundation
+fileprivate extension Constansts {
+    static let productsListPath = "/api/products"
+    static let productsDetailPath = "/api/products/"
+}
 
 struct EndPoints {
     static func getProductsList(pageNumber: Int, perPages: Int) -> EndPoint {
         let productsListDTO = ProductsListDTO(pageNumber: pageNumber, perPages: perPages)
-        let endpoint = EndPoint(path: "/api/products", queryParameters: productsListDTO)
+        let endpoint = EndPoint(path: Constansts.productsListPath, queryParameters: productsListDTO)
         return endpoint
     }
     static func getProductsDetail(id: String) -> EndPoint {
-        let endpoint = EndPoint(path: "/api/products/\(id)")
+        let endpoint = EndPoint(path: Constansts.productsDetailPath + id)
         return endpoint
     }
 }

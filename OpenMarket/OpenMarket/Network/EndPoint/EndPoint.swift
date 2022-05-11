@@ -7,6 +7,10 @@
 
 import Foundation
 
+fileprivate extension Constansts {
+    static let baseURL = "https://market-training.yagom-academy.kr/"
+}
+
 final class EndPoint: Requestable {
     var baseURL: String
     var path: String
@@ -16,7 +20,7 @@ final class EndPoint: Requestable {
     var headers: [String: String]?
     var sampleData: Data?
 
-    init(baseURL: String = "https://market-training.yagom-academy.kr/",
+    init(baseURL: String = Constansts.baseURL,
          path: String = "",
          method: HttpMethod = .get,
          queryParameters: Encodable? = nil,

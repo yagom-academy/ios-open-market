@@ -7,10 +7,8 @@
 
 import Foundation
 
-typealias DataTaskCompletionHandler = (Data?, URLResponse?, Error?) -> Void
-
 protocol URLSessionProtocol {
-    func dataTask(with url: URLRequest, completionHandler: @escaping DataTaskCompletionHandler) -> URLSessionDataTask
+    func dataTask(with url: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask
 }
 
 extension URLSession: URLSessionProtocol {}
@@ -21,22 +19,24 @@ protocol Provider {
 }
 
 final class APIProvider<T: Decodable>: Provider {
-    let urlSession: URLSessionProtocol
+    private let urlSession: URLSessionProtocol
     init(urlSession: URLSessionProtocol = URLSession.shared) {
         self.urlSession = urlSession
     }
 
-    func request(with endpoint: Requestable, completion: @escaping (Result<T, Error>) -> Void) {
+    func request(
+        with endpoint: Requestable,
+        completion: @escaping (Result<T, Error>) -> Void
+    ) {
         let urlRequest = endpoint.generateUrlRequest()
         
         switch urlRequest {
         case .success(let urlRequest):
             urlSession.dataTask(with: urlRequest) { [weak self] data, response, error in
                 self?.checkError(with: data, response, error) { result in
-                    guard let self = self else { return }
                     switch result {
                     case .success(let data):
-                        completion(self.decode(data: data))
+                        completion(data.decode())
                     case .failure(let error):
                         completion(.failure(error))
                     }
@@ -46,8 +46,15 @@ final class APIProvider<T: Decodable>: Provider {
             completion(.failure(error))
         }
     }
+}
 
-    private func checkError(with data: Data?, _ response: URLResponse?, _ error: Error?, completion: @escaping (Result<Data, Error>) -> ()) {
+extension APIProvider {
+    private func checkError(
+        with data: Data?,
+        _ response: URLResponse?,
+        _ error: Error?,
+        completion: @escaping (Result<Data, Error>) -> ()
+    ) {
         if let error = error {
             completion(.failure(error))
             return
@@ -59,7 +66,7 @@ final class APIProvider<T: Decodable>: Provider {
         }
 
         guard (200...299).contains(response.statusCode) else {
-            completion(.failure(NetworkError.invalidHttpStatusCode(response.statusCode)))
+            completion(.failure(NetworkError.invalidHttpStatusCode(statusCode: response.statusCode)))
             return
         }
 
@@ -69,14 +76,5 @@ final class APIProvider<T: Decodable>: Provider {
         }
 
         completion(.success((data)))
-    }
-
-    private func decode(data: Data) -> Result<T, Error> {
-        do {
-            let decoded = try JSONDecoder().decode(T.self, from: data)
-            return .success(decoded)
-        } catch {
-            return .failure(NetworkError.emptyData)
-        }
     }
 }

@@ -19,7 +19,7 @@ protocol Requestable {
 
 extension Requestable {
     func generateUrlRequest() -> Result<URLRequest, NetworkError> {
-        let url = createURL()
+        let url = generateURL()
         var urlRequest: URLRequest
         
         switch url {
@@ -50,10 +50,10 @@ extension Requestable {
         return .success(urlRequest)
     }
 
-    func createURL()  -> Result<URL, NetworkError> {
+    func generateURL() -> Result<URL, NetworkError> {
         let fullPath = "\(baseURL)\(path)"
         guard var urlComponents = URLComponents(string: fullPath) else {
-            return .failure(.components)
+            return .failure(.urlComponet)
         }
 
         var urlQueryItems = [URLQueryItem]()
@@ -71,7 +71,7 @@ extension Requestable {
         urlComponents.queryItems = urlQueryItems.isEmpty == false ? urlQueryItems : nil
 
         guard let url = urlComponents.url else {
-            return .failure(.components)
+            return .failure(.urlComponet)
         }
         return .success(url)
     }
