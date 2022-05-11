@@ -55,6 +55,9 @@
 		DA0DDFAD282A5DA000B72AD8 /* RequestAssistant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ECC5217282A3460008F7E14 /* RequestAssistant.swift */; };
 		DA0DDFAE282A5E7700B72AD8 /* RequestAssistant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ECC5217282A3460008F7E14 /* RequestAssistant.swift */; };
 		DA0DDFAF282A5E7700B72AD8 /* RequestAssistant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ECC5217282A3460008F7E14 /* RequestAssistant.swift */; };
+		DA4FEC62282B5B1100DF4C8A /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0DDFA1282A4FF700B72AD8 /* Currency.swift */; };
+		DA4FEC63282B5B1200DF4C8A /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0DDFA1282A4FF700B72AD8 /* Currency.swift */; };
+		DA4FEC64282B5B1200DF4C8A /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0DDFA1282A4FF700B72AD8 /* Currency.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -412,6 +415,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DA4FEC62282B5B1100DF4C8A /* Currency.swift in Sources */,
 				4EA2BFCD282957140028C72A /* DecodeTests.swift in Sources */,
 				DA0DDFA8282A5AA600B72AD8 /* OpenMarketError.swift in Sources */,
 				4EA2BFD5282957560028C72A /* ProductList.swift in Sources */,
@@ -436,6 +440,7 @@
 				4ECC5213282A31B6008F7E14 /* Product.swift in Sources */,
 				4ECC5215282A31B6008F7E14 /* ProductList.swift in Sources */,
 				4ECC5216282A31B6008F7E14 /* Vendor.swift in Sources */,
+				DA4FEC64282B5B1200DF4C8A /* Currency.swift in Sources */,
 				DA0DDFAF282A5E7700B72AD8 /* RequestAssistant.swift in Sources */,
 				4ECC5210282A31B3008F7E14 /* CustomURLSession.swift in Sources */,
 				4ECC520A282A31A1008F7E14 /* URLSessionTests.swift in Sources */,
@@ -474,6 +479,7 @@
 				DA0DDF9B282A109200B72AD8 /* CustomURLSession.swift in Sources */,
 				DA0DDF94282A105800B72AD8 /* MockURLSessionTests.swift in Sources */,
 				DA0DDFA0282A129600B72AD8 /* Vendor.swift in Sources */,
+				DA4FEC63282B5B1200DF4C8A /* Currency.swift in Sources */,
 				DA0DDFAE282A5E7700B72AD8 /* RequestAssistant.swift in Sources */,
 				DA0DDFA9282A5AA700B72AD8 /* OpenMarketError.swift in Sources */,
 				DA0DDF9A282A108D00B72AD8 /* URLSessionGenerator.swift in Sources */,
