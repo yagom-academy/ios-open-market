@@ -13,7 +13,10 @@ struct URLSessionProvider<T: Codable> {
   private let path: String
   private let parameters: [String: String]
   
-  init(session: URLSessionProtocol = URLSession.shared, path: String = "", parameters: [String: String] = [:]) {
+  init(session: URLSessionProtocol = URLSession.shared,
+       path: String = "",
+       parameters: [String: String] = [:])
+  {
     self.session = session
     self.path = path
     self.parameters = parameters
@@ -49,7 +52,6 @@ struct URLSessionProvider<T: Codable> {
         completionHandler(.failure(.invalid))
         return
       }
-      
       guard let products = try? JSONDecoder().decode(T.self, from: data) else {
         completionHandler(.failure(.decodeError))
         return
