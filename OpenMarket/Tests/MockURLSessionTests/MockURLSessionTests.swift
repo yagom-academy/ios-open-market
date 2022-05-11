@@ -23,7 +23,7 @@ class MockURLSessionTests: XCTestCase {
         let exptectation = expectation(description: "waiting for test")
         let successResult: Int = 1
         var pageNumber: Int = 0
-        let endpoint: Endpoint = .producList(nubmers: 1, pages: 10)
+        let endpoint: Endpoint = .productList(nubmers: 1, pages: 10)
         
         sut.request(endpoint: endpoint) { data, response, error in
             guard let data = data else {

@@ -12,7 +12,7 @@ final class RequestAssistant {
     
     func requestListAPI(pageNumber: Int, itemsPerPage: Int, completionHandler: @escaping ((Result<ProductList, OpenMarketError>) -> Void)) {
         
-        let endpoint: Endpoint = .producList(nubmers: pageNumber, pages: itemsPerPage)
+        let endpoint: Endpoint = .productList(nubmers: pageNumber, pages: itemsPerPage)
         
         sessionManager.request(endpoint: endpoint, completionHandler: { [weak self] data, response, error in
             guard let data = data else {
@@ -74,7 +74,7 @@ final class RequestAssistant {
 }
 
 enum Endpoint {
-    case producList(nubmers: Int, pages: Int)
+    case productList(nubmers: Int, pages: Int)
     case productDetail(productId: Int)
     case healthCheck
 }
@@ -82,18 +82,18 @@ enum Endpoint {
 extension Endpoint {
     var url: URL? {
         switch self {
-        case .producList(let numbers, let pages):
-            return .makeForEndpoint("api/products?page_no=\(numbers)&items_per_page=\(pages)")
+        case .productList(let numbers, let pages):
+            return .makeForEndpoint("/api/products?page_no=\(numbers)&items_per_page=\(pages)")
         case .productDetail(let productId):
-            return .makeForEndpoint("api/products/\(productId)")
+            return .makeForEndpoint("/api/products/\(productId)")
         case .healthCheck:
-            return .makeForEndpoint("healthChecker")
+            return .makeForEndpoint("/healthChecker")
         }
     }
 }
 
 extension URL {
-    static let baseURL = "https://market-training.yagom-academy.kr/"
+    static let baseURL = "https://market-training.yagom-academy.kr"
     
     static func makeForEndpoint(_ endpoint: String) -> URL? {
         URL(string: baseURL + endpoint)
