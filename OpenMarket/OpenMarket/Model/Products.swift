@@ -33,7 +33,7 @@ struct ProductsList: Codable {
 
 struct Item: Codable {
   let id: Int?
-  let vender: Int?
+  let venderId: Int?
   let name: String?
   let thumbnail: String?
   let currency: String?
@@ -46,7 +46,7 @@ struct Item: Codable {
   
   private enum CodingKeys: String, CodingKey {
     case id
-    case vender = "vendor_id"
+    case venderId = "vendor_id"
     case name
     case thumbnail
     case currency
@@ -58,5 +58,3 @@ struct Item: Codable {
     case issuedDate = "issued_at"
   }
 }
-
-
