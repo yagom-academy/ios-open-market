@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0E29E7DB282B447800608206 /* URLSessionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E29E7DA282B447800608206 /* URLSessionProtocol.swift */; };
+		0E36FB3D282B46B600143E05 /* StubURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E36FB3C282B46B600143E05 /* StubURLSession.swift */; };
 		0E6DF3C8282A0B2A0076E0C6 /* Decodable+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E6DF3C7282A0B2A0076E0C6 /* Decodable+.swift */; };
 		0E6DF3CB282A0C0F0076E0C6 /* DecodingError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E6DF3CA282A0C0F0076E0C6 /* DecodingError.swift */; };
 		0E6DF3D7282A3A8E0076E0C6 /* OpenMarketTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E6DF3D6282A3A8E0076E0C6 /* OpenMarketTests.swift */; };
@@ -34,6 +35,7 @@
 
 /* Begin PBXFileReference section */
 		0E29E7DA282B447800608206 /* URLSessionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionProtocol.swift; sourceTree = "<group>"; };
+		0E36FB3C282B46B600143E05 /* StubURLSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubURLSession.swift; sourceTree = "<group>"; };
 		0E6DF3C7282A0B2A0076E0C6 /* Decodable+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Decodable+.swift"; sourceTree = "<group>"; };
 		0E6DF3CA282A0C0F0076E0C6 /* DecodingError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecodingError.swift; sourceTree = "<group>"; };
 		0E6DF3D4282A3A8E0076E0C6 /* OpenMarketTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenMarketTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -73,6 +75,7 @@
 			isa = PBXGroup;
 			children = (
 				0E29E7DA282B447800608206 /* URLSessionProtocol.swift */,
+				0E36FB3C282B46B600143E05 /* StubURLSession.swift */,
 			);
 			path = "Test Double";
 			sourceTree = "<group>";
@@ -297,6 +300,7 @@
 			files = (
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
 				0E70314A2829F777002134CF /* Product.swift in Sources */,
+				0E36FB3D282B46B600143E05 /* StubURLSession.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				67FA257F282A05DA0089BBE3 /* OpenMarketProductList.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
