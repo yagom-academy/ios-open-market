@@ -7,15 +7,14 @@
 
 import Foundation
 
-
 final class RequestAssistant {
     private let sessionManager = URLSessionGenerator(session: URLSession.shared)
     
-    func requestListAPI(pageNum: Int, items_per_page: Int, completionHandler: @escaping ((Result<ProductList, OpenMarketError>) -> Void)) {
+    func requestListAPI(pageNumber: Int, itemsPerPage: Int, completionHandler: @escaping ((Result<ProductList, OpenMarketError>) -> Void)) {
         let path = "api/products"
-        let queryString = "?page_no=\(pageNum)&items_per_page=\(items_per_page)"
+        let queryString = "?page_no=\(pageNumber)&items_per_page=\(itemsPerPage)"
         
-        sessionManager.sendGet(path: path + queryString, completionHandler: { data, response, error in
+        sessionManager.request(path: path + queryString, completionHandler: { data, response, error in
             guard let data = data else {
                 return
             }
@@ -23,14 +22,14 @@ final class RequestAssistant {
                 completionHandler(.failure(.failDecode))
                 return
             }
-            self.manageError(response: response, result: result, completionHandler: completionHandler)
+            self.handleResponse(response: response, result: result, completionHandler: completionHandler)
         })
     }
     
     func requestDetailAPI(product_id: Int, completionHandler: @escaping ((Result<Product, OpenMarketError>) -> Void)) {
         let path = "api/products/\(product_id)"
         
-        sessionManager.sendGet(path: path, completionHandler: { data, response, error in
+        sessionManager.request(path: path, completionHandler: { data, response, error in
             guard let data = data else {
                 return
             }
@@ -38,23 +37,23 @@ final class RequestAssistant {
                 completionHandler(.failure(.failDecode))
                 return
             }
-            self.manageError(response: response, result: result, completionHandler: completionHandler)
+            self.handleResponse(response: response, result: result, completionHandler: completionHandler)
         })
     }
     
     func requestHealthCheckerAPI(completionHandler: @escaping ((Result<String, OpenMarketError>) -> Void)) {
         let path = "healthChecker"
-        sessionManager.sendGet(path: path, completionHandler: { data, response, error in
+        sessionManager.request(path: path, completionHandler: { data, response, error in
             guard let data = data else {
                 return
             }
             if let result = String(data: data, encoding: .utf8) {
-                self.manageError(response: response, result: result, completionHandler: completionHandler)
+                self.handleResponse(response: response, result: result, completionHandler: completionHandler)
             }
         })
     }
     
-    private func manageError<T>(response: URLResponse?, result: T ,completionHandler: @escaping ((Result<T, OpenMarketError>) -> Void)) {
+    private func handleResponse<T>(response: URLResponse?, result: T ,completionHandler: @escaping ((Result<T, OpenMarketError>) -> Void)) {
         guard let response = response as? HTTPURLResponse else {
             return
         }
