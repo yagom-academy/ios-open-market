@@ -21,7 +21,7 @@ class URLSessionProviderTests: XCTestCase {
     try super.tearDownWithError()
   }
   
-  func test_healthChecker_api_경로를_통한_통신이_되는지() {
+  func test_healthChecker_api_경로를_통한_통신이된다() {
     //given
     let promise = expectation(description: "")
     sutHealthyChecker = URLSessionProvider<String>(path: "/healthChecker")
