@@ -18,7 +18,7 @@ enum NetworkError: LocalizedError {
         switch self {
         case .unknownError: return "알 수 없는 에러입니다."
         case .invalidHttpStatusCode(let statusCode): return "status코드가 200~299가 아닌, \(statusCode)입니다."
-        case .urlComponet: return "components를 생성 에러가 발생했습니다."
+        case .urlComponet: return "URL components 생성 에러가 발생했습니다."
         case .emptyData: return "data가 비어있습니다."
         case .decodeError: return "decode 에러가 발생했습니다."
         }

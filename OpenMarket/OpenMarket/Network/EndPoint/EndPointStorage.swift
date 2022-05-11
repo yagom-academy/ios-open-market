@@ -10,7 +10,7 @@ fileprivate extension Constansts {
     static let productsDetailPath = "/api/products/"
 }
 
-struct EndPoints {
+struct EndPointStorage {
     static func getProductsList(pageNumber: Int, perPages: Int) -> EndPoint {
         let productsListDTO = ProductsListDTO(pageNumber: pageNumber, perPages: perPages)
         let endpoint = EndPoint(path: Constansts.productsListPath, queryParameters: productsListDTO)

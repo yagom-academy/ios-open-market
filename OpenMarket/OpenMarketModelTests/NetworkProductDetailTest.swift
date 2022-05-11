@@ -8,12 +8,12 @@
 import XCTest
 @testable import OpenMarket
 
-class NetworkPageModelTest: XCTestCase {
-    var sut: APIProvider<Page>!
+class NetworkProductDetailTest: XCTestCase {
+    var sut: APIProvider<ProductDetail>!
     
     override func setUpWithError() throws {
         try super.setUpWithError()
-        sut = APIProvider<Page>()
+        sut = APIProvider<ProductDetail>()
     }
 
     override func tearDownWithError() throws {
@@ -23,7 +23,7 @@ class NetworkPageModelTest: XCTestCase {
     func test_APIProvider_getProductsDetail_request를호출할때_예상값을반환() {
         // given
         let promise = expectation(description: "")
-        let endpoint = EndPoints.getProductsDetail(id: "522")
+        let endpoint = EndPointStorage.getProductsDetail(id: "522")
         
         // when
         sut.request(with: endpoint) { result in

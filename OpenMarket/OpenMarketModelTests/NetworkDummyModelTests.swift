@@ -45,7 +45,6 @@ class NetworkDummyModelTests: XCTestCase {
             }
             promise.fulfill()
         }
-
         wait(for: [promise], timeout: 10)
     }
 }
