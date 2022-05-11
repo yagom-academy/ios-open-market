@@ -9,7 +9,7 @@ import XCTest
 @testable import OpenMarket
 
 final class OpenMarketTests: XCTestCase {
-  private var sut: ProductsList!
+  var sut: ProductsList!
   
   override func setUpWithError() throws {
     try super.setUpWithError()
@@ -22,7 +22,7 @@ final class OpenMarketTests: XCTestCase {
     self.sut = nil
   }
   
-  private func testDecode_Jsonfile_pageNo이_1이다() {
+  func testDecode_Jsonfile_pageNo이_1이다() {
     //given
     let pageNumber = 1
     //when
@@ -31,20 +31,20 @@ final class OpenMarketTests: XCTestCase {
     XCTAssertEqual(pageNumber, result)
   }
   
-  private func testDecode_Jsonfile_pages수는_10이다() {
+  func testDecode_Jsonfile_pages수는_10이다() {
     //given
     let numberOfItems = 10
     //when
-    let result = sut.productItems.count
+    let result = sut.items.count
     //then
     XCTAssertEqual(numberOfItems, result)
   }
   
-  private func testDecode_Jsonfile_pages의첫번째Id는_20이다() {
+  func testDecode_Jsonfile_pages의첫번째Id는_20이다() {
     //given
     let productId = 20
     //when
-    let result = sut.productItems[0].id
+    let result = sut.items[0].id
     //then
     XCTAssertEqual(productId, result)
   }
