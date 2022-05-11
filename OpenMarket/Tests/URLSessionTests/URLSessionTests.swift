@@ -28,10 +28,10 @@ class URLSessionTests: XCTestCase {
             switch result {
             case .success(let data):
                 message = data
-                expectation.fulfill()
             case .failure(_):
                 XCTFail()
             }
+            expectation.fulfill()
         }
         waitForExpectations(timeout: 1, handler: nil)
         XCTAssertEqual(message, successResult)
@@ -46,10 +46,11 @@ class URLSessionTests: XCTestCase {
             switch result {
             case .success(let data):
                 pageNumber = data.pageNumber
-                expectation.fulfill()
+                
             case .failure(_):
                 XCTFail()
             }
+            expectation.fulfill()
         }
         waitForExpectations(timeout: 1, handler: nil)
         XCTAssertEqual(pageNumber, successResult)
@@ -64,10 +65,10 @@ class URLSessionTests: XCTestCase {
             switch result {
             case .success(let data):
                 name = data.name
-                expectation.fulfill()
             case .failure(_):
                 XCTFail()
             }
+            expectation.fulfill()
         }
         waitForExpectations(timeout: 1, handler: nil)
         XCTAssertEqual(name, successResult)
