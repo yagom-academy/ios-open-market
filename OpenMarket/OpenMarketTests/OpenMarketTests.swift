@@ -25,7 +25,7 @@ class OpenMarketTests: XCTestCase {
         XCTAssertEqual(firstProduct?.name, "Test Product")
     }
     
-    func test_loadProductListData할때_올바른response받으면_completionHandler실행() {
+    func test_loadData할때_올바른response받으면_OpenMarketProductList디코드하고_completionHandler실행() {
         // given
         let promise = expectation(description: "It gives product name")
         let httpManager = HTTPManager()
@@ -45,7 +45,7 @@ class OpenMarketTests: XCTestCase {
         wait(for: [promise], timeout: 10)
     }
     
-    func test_loadProductDetailData할때_올바른response받으면_completionHandler실행() {
+    func test_loadData할때_올바른response받으면_Product디코드하고_completionHandler실행() {
         // given
         let promise = expectation(description: "It gives product name")
         let httpManager = HTTPManager()
