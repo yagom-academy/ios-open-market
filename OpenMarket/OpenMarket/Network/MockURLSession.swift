@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MockURLSessionDataTask: URLSessionDataTask {
+final class MockURLSessionDataTask: URLSessionDataTask {
     var resumeDidCall: () -> Void = {}
     
     override func resume() {
@@ -15,7 +15,7 @@ class MockURLSessionDataTask: URLSessionDataTask {
     }
 }
 
-class MockURLSession: CustomURLSession {
+final class MockURLSession: CustomURLSession {
     var sessionDataTask: MockURLSessionDataTask?
     
     func dataTask(with request: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask {

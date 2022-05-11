@@ -7,19 +7,20 @@
 
 import Foundation
 
-class URLSessionGenerator {
-    let session: CustomURLSession
-    let apiHost: String = "https://market-training.yagom-academy.kr/"
+final class URLSessionGenerator {
+    private let session: CustomURLSession
+    private let apiHost: String = "https://market-training.yagom-academy.kr/"
     
     init (session: CustomURLSession = URLSession.shared) {
         self.session = session
     }
     
-    func sendGet(path: String, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void){
-        if let url: URL = URL(string: apiHost + path) {
-            var request: URLRequest = URLRequest(url: url)
-            request.httpMethod = "GET"
-            session.dataTask(with: request, completionHandler: completionHandler).resume()
+    func request(path: String, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void){
+        guard let url: URL = URL(string: apiHost + path) else {
+            return
         }
+        var request: URLRequest = URLRequest(url: url)
+        request.httpMethod = "GET"
+        session.dataTask(with: request, completionHandler: completionHandler).resume()
     }
 }
