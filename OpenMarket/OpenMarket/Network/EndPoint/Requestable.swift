@@ -50,7 +50,7 @@ extension Requestable {
         return .success(urlRequest)
     }
 
-    func generateURL() -> Result<URL, NetworkError> {
+    private func generateURL() -> Result<URL, NetworkError> {
         let fullPath = "\(baseURL)\(path)"
         guard var urlComponents = URLComponents(string: fullPath) else {
             return .failure(.urlComponet)

@@ -19,7 +19,7 @@ struct ProductDetail: Codable {
     let images: [ProductsImage]
     let vendor: Vendor
 
-    enum CodingKeys: String, CodingKey {
+    private enum CodingKeys: String, CodingKey {
         case id
         case vendorID = "vendor_id"
         case name, thumbnail, currency, price
@@ -40,7 +40,7 @@ struct ProductsImage: Codable {
     let succeed: Bool
     let issuedAt: String
 
-    enum CodingKeys: String, CodingKey {
+    private enum CodingKeys: String, CodingKey {
         case id, url
         case thumbnailURL = "thumbnail_url"
         case succeed
@@ -53,7 +53,7 @@ struct Vendor: Codable {
     let id: Int
     let createdAt, issuedAt: String
 
-    enum CodingKeys: String, CodingKey {
+    private enum CodingKeys: String, CodingKey {
         case name, id
         case createdAt = "created_at"
         case issuedAt = "issued_at"
