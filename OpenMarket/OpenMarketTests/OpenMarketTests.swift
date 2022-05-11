@@ -44,4 +44,27 @@ class OpenMarketTests: XCTestCase {
         httpManager.loadData(targetURL: TargetURL.productList(pageNumber: 2, itemsPerPage: 10), completionHandler: completionHandler)
         wait(for: [promise], timeout: 10)
     }
+    
+    func test_loadProductDetailData할때_올바른response받으면_completionHandler실행() {
+        // given
+        let promise = expectation(description: "It gives product name")
+        let httpManager = HTTPManager()
+        var product: Product?
+        // when
+        let completionHandler: (Data) -> Void = { data in
+            do {
+                product = try JSONDecoder().decode(Product.self, from: data)
+            } catch {
+                return
+            }
+            // then
+            guard let product = product else {
+                return
+            }
+            XCTAssertEqual(product.name, "아이폰13")
+            promise.fulfill()
+        }
+        httpManager.loadData(targetURL: TargetURL.productDetail(productNumber: 522), completionHandler: completionHandler)
+        wait(for: [promise], timeout: 10)
+    }
 }
