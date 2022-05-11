@@ -8,29 +8,29 @@
 import Foundation
 
 struct NetworkHandler {
-    static func getData(urlString: String, completionHandler: @escaping (_ data: Data) -> Void) {
+    func getData(urlString: String, completionHandler: @escaping (Result<Data, APIError>) -> Void) {
         let session = URLSession(configuration: .default)
         
         guard let url = URL(string: urlString) else {
-            return
+            return completionHandler(.failure(.convertError))
         }
         
         let request = URLRequest(url: url)
         
         let dataTask = session.dataTask(with: request) { data, response, error in
             guard error == nil else {
-                return
+                return completionHandler(.failure(.requestError))
             }
             
             guard let data = data else {
-                return
+                return completionHandler(.failure(.dataError))
             }
             
             guard let response = response as? HTTPURLResponse, response.statusCode < 300 else {
-                return
+                return completionHandler(.failure(.responseError))
             }
             
-            completionHandler(data)
+            completionHandler(.success(data))
         }
         
         dataTask.resume()
