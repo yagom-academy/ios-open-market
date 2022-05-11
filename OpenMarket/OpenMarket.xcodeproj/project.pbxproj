@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		3CBCDF05A9F2C22D32879C5C /* Pods_OpenMarket.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC65416381B06671881E622C /* Pods_OpenMarket.framework */; };
 		AB0781E7282B555C00887BE8 /* MockURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0781E6282B555C00887BE8 /* MockURLSession.swift */; };
+		AB0781E9282B5DD200887BE8 /* MockURLSessionDataTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0781E8282B5DD200887BE8 /* MockURLSessionDataTask.swift */; };
 		AB6E6BF8282A4C5600431717 /* APIResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6E6BF7282A4C5600431717 /* APIResponse.swift */; };
 		AB6E6BFA282A4E4A00431717 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6E6BF9282A4E4A00431717 /* Product.swift */; };
 		B02944A3282A430800B9828F /* DecodeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B02944A2282A430800B9828F /* DecodeTests.swift */; };
@@ -33,6 +34,7 @@
 		7493774DC6E13DC735899796 /* Pods-OpenMarket.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenMarket.release.xcconfig"; path = "Target Support Files/Pods-OpenMarket/Pods-OpenMarket.release.xcconfig"; sourceTree = "<group>"; };
 		7DB701CAB12BA555A5442B62 /* Pods-OpenMarket.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenMarket.debug.xcconfig"; path = "Target Support Files/Pods-OpenMarket/Pods-OpenMarket.debug.xcconfig"; sourceTree = "<group>"; };
 		AB0781E6282B555C00887BE8 /* MockURLSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSession.swift; sourceTree = "<group>"; };
+		AB0781E8282B5DD200887BE8 /* MockURLSessionDataTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSessionDataTask.swift; sourceTree = "<group>"; };
 		AB6E6BF7282A4C5600431717 /* APIResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIResponse.swift; sourceTree = "<group>"; };
 		AB6E6BF9282A4E4A00431717 /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
 		B02944A0282A430800B9828F /* OpenMarketTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenMarketTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -78,6 +80,7 @@
 			isa = PBXGroup;
 			children = (
 				AB0781E6282B555C00887BE8 /* MockURLSession.swift */,
+				AB0781E8282B5DD200887BE8 /* MockURLSessionDataTask.swift */,
 			);
 			path = Mock;
 			sourceTree = "<group>";
@@ -292,6 +295,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AB0781E9282B5DD200887BE8 /* MockURLSessionDataTask.swift in Sources */,
 				AB0781E7282B555C00887BE8 /* MockURLSession.swift in Sources */,
 				B02944A3282A430800B9828F /* DecodeTests.swift in Sources */,
 			);
