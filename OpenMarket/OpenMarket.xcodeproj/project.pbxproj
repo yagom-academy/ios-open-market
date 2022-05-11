@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0341E5D0282A2D4700DEC832 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0341E5CF282A2D4700DEC832 /* Network.swift */; };
+		0341E5D0282A2D4700DEC832 /* URLSessionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0341E5CF282A2D4700DEC832 /* URLSessionProvider.swift */; };
 		0341E5D4282A391C00DEC832 /* URLSessionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0341E5D3282A391C00DEC832 /* URLSessionTests.swift */; };
 		0341E5D6282A43E700DEC832 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0341E5D5282A43E700DEC832 /* NetworkError.swift */; };
 		036802E02829106A0097DC62 /* ProductsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 036802DF2829106A0097DC62 /* ProductsTests.swift */; };
@@ -32,7 +32,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		0341E5CF282A2D4700DEC832 /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
+		0341E5CF282A2D4700DEC832 /* URLSessionProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionProvider.swift; sourceTree = "<group>"; };
 		0341E5D3282A391C00DEC832 /* URLSessionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionTests.swift; sourceTree = "<group>"; };
 		0341E5D5282A43E700DEC832 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 		036802DD2829106A0097DC62 /* OpenMarketTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenMarketTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -81,7 +81,7 @@
 			children = (
 				036802E8282911100097DC62 /* Products.swift */,
 				AE7773CF2829FF61001B0A37 /* Decodable+Extension.swift */,
-				0341E5CF282A2D4700DEC832 /* Network.swift */,
+				0341E5CF282A2D4700DEC832 /* URLSessionProvider.swift */,
 				0341E5D5282A43E700DEC832 /* NetworkError.swift */,
 			);
 			path = Model;
@@ -257,7 +257,7 @@
 				0341E5D6282A43E700DEC832 /* NetworkError.swift in Sources */,
 				036802E9282911100097DC62 /* Products.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
-				0341E5D0282A2D4700DEC832 /* Network.swift in Sources */,
+				0341E5D0282A2D4700DEC832 /* URLSessionProvider.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 			);
