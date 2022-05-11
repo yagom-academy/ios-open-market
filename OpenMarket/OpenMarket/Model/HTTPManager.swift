@@ -9,9 +9,11 @@ import Foundation
 
 struct HTTPManager {
     var hostURL: String
+    var urlSession: URLSessionProtocol
     
-    init(hostURL: String = "https://market-training.yagom-academy.kr/") {
+    init(hostURL: String = "https://market-training.yagom-academy.kr/", urlSession: URLSessionProtocol = URLSession.shared) {
         self.hostURL = hostURL
+        self.urlSession = urlSession
     }
     
     func loadProductListData(pageNumber: Int, itemsPerPage: Int, completionHandler: @escaping (Data) -> Void) {
@@ -19,7 +21,7 @@ struct HTTPManager {
         guard let url = URL(string: requestURL) else {
             return
         }
-        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+        let task = urlSession.dataTask(with: url) { data, response, error in
             if let _ = error {
                 return
             }
