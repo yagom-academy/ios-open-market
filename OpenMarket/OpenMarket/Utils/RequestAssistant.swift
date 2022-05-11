@@ -18,7 +18,7 @@ final class RequestAssistant {
             guard let data = data else {
                 return
             }
-            guard let result = try? Decoder.shared.decoder.decode(ProductList.self, from: data) else {
+            guard let result = try? Decoder.shared.decode(ProductList.self, from: data) else {
                 completionHandler(.failure(.failDecode))
                 return
             }
@@ -33,7 +33,7 @@ final class RequestAssistant {
             guard let data = data else {
                 return
             }
-            guard let result = try? Decoder.shared.decoder.decode(Product.self, from: data) else {
+            guard let result = try? Decoder.shared.decode(Product.self, from: data) else {
                 completionHandler(.failure(.failDecode))
                 return
             }
@@ -100,13 +100,12 @@ extension URL {
     }
 }
 
-class Decoder {
-    static let shared = Decoder()
-    let decoder = JSONDecoder()
-    let dateFormat: DateFormatter
+final class Decoder {
+    static let shared = Decoder().decoder
+    private let decoder = JSONDecoder()
     
     private init() {
-        dateFormat = DateFormatter()
+        let dateFormat: DateFormatter = DateFormatter()
         dateFormat.dateFormat = "yyyy-MM-dd'T'hh:mm:ss.SS"
         decoder.dateDecodingStrategy = .formatted(dateFormat)
     }

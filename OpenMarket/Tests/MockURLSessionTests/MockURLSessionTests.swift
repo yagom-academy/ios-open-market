@@ -29,7 +29,7 @@ class MockURLSessionTests: XCTestCase {
             guard let data = data else {
                 return
             }
-            let result = try? JSONDecoder().decode(ProductList.self, from: data)
+            let result = try? Decoder.shared.decode(ProductList.self, from: data)
             pageNumber = result!.pageNumber
             exptectation.fulfill()
         }
