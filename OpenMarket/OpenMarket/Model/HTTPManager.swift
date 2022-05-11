@@ -71,24 +71,29 @@ struct HTTPManager {
         task.resume()
     }
     
-    func loadData(targetURL: TargetURL, completionHandler: @escaping (Data) -> Void) {
+    func loadData(targetURL: TargetURL, completionHandler: @escaping (Result<Data, NetworkError>) -> Void) {
         let requestURL = hostURL + targetURL.string
         guard let url = URL(string: requestURL) else {
+            completionHandler(.failure(.invalidURL))
             return
         }
         let task = urlSession.dataTask(with: url) { data, response, error in
             if let _ = error {
+                completionHandler(.failure(.clientError))
                 return
             }
             guard let httpResponse = response as? HTTPURLResponse,
                   (StatusCode.successRange).contains(httpResponse.statusCode) else {
+                completionHandler(.failure(.serverError))
                 return
             }
             if let mimeType = httpResponse.mimeType,
                mimeType == ContentType.applicationJson,
                let data = data {
-                completionHandler(data)
+                completionHandler(.success(data))
+                return
             }
+            completionHandler(.failure(.serverError))
         }
         task.resume()
     }

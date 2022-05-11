@@ -31,11 +31,15 @@ class OpenMarketTests: XCTestCase {
         let httpManager = HTTPManager()
         var products: [Product] = []
         // when
-        let completionHandler: (Data) -> Void = { data in
-            do {
-                products = try JSONDecoder().decode(OpenMarketProductList.self, from: data).products
-            } catch {
-                return
+        let completionHandler: (Result<Data, NetworkError>) -> Void = { data in
+            switch data {
+            case .success(let data):
+                guard let decodedData = try? JSONDecoder().decode(OpenMarketProductList.self, from: data) else {
+                    return
+                }
+                products = decodedData.products
+            case .failure(let error):
+                print(error.rawValue)
             }
             // then
             XCTAssertEqual(products.first?.name, "피자와 맥주")
@@ -51,12 +55,17 @@ class OpenMarketTests: XCTestCase {
         let httpManager = HTTPManager()
         var product: Product?
         // when
-        let completionHandler: (Data) -> Void = { data in
-            do {
-                product = try JSONDecoder().decode(Product.self, from: data)
-            } catch {
-                return
+        let completionHandler: (Result<Data, NetworkError>) -> Void = { data in
+            switch data {
+            case .success(let data):
+                guard let decodedData = try? JSONDecoder().decode(Product.self, from: data) else {
+                    return
+                }
+                product = decodedData
+            case .failure(let error):
+                print(error.rawValue)
             }
+            
             // then
             guard let product = product else {
                 return

@@ -41,11 +41,15 @@ class StubURLSessionTests: XCTestCase {
         let httpManager = HTTPManager(urlSession: stubURLSession)
         
         //when
-        let completionHandler: (Data) -> Void = { data in
-            do {
-                products = try JSONDecoder().decode(OpenMarketProductList.self, from: data).products
-            } catch {
-                return
+        let completionHandler: (Result<Data, NetworkError>) -> Void = { data in
+            switch data {
+            case .success(let data):
+                guard let decodedData = try? JSONDecoder().decode(OpenMarketProductList.self, from: data) else {
+                    return
+                }
+                products = decodedData.products
+            case .failure(let error):
+                print(error.rawValue)
             }
             // then
             XCTAssertEqual(products.first?.name, "Test Product")
