@@ -52,7 +52,7 @@ class StubURLSessionTests: XCTestCase {
             promise.fulfill()
         }
         httpManager.urlSession = stubURLSession
-        httpManager.loadProductListData(pageNumber: 2, itemsPerPage: 10, completionHandler: completionHandler)
+        httpManager.loadData(targetURL: TargetURL.productList(pageNumber: 2, itemsPerPage: 10), completionHandler: completionHandler)
         wait(for: [promise], timeout: 10)
     }
 }

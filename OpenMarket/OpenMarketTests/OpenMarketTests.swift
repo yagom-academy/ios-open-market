@@ -41,7 +41,7 @@ class OpenMarketTests: XCTestCase {
             XCTAssertEqual(products.first?.name, "피자와 맥주")
             promise.fulfill()
         }
-        httpManager.loadProductListData(pageNumber: 2, itemsPerPage: 10, completionHandler: completionHandler)
+        httpManager.loadData(targetURL: TargetURL.productList(pageNumber: 2, itemsPerPage: 10), completionHandler: completionHandler)
         wait(for: [promise], timeout: 10)
     }
 }

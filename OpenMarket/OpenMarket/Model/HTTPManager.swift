@@ -30,8 +30,8 @@ struct HTTPManager {
         self.urlSession = urlSession
     }
     
-    func loadProductListData(pageNumber: Int, itemsPerPage: Int, completionHandler: @escaping (Data) -> Void) {
-        let requestURL = hostURL + "/api/products?page_no=\(pageNumber)&items_per_page=\(itemsPerPage)"
+    func loadData(targetURL: TargetURL, completionHandler: @escaping (Data) -> Void) {
+        let requestURL = hostURL + targetURL.string
         guard let url = URL(string: requestURL) else {
             return
         }
