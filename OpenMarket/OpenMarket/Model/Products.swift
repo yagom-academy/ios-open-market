@@ -13,7 +13,7 @@ struct ProductsList: Codable {
   let totalCount: Int?
   let offset: Int?
   let limit: Int?
-  let productItems: [ProductItem]
+  let items: [Item]
   let lastPage: Int?
   let hasNext: Bool?
   let hasPrev: Bool?
@@ -24,14 +24,14 @@ struct ProductsList: Codable {
     case totalCount = "total_count"
     case offset
     case limit
-    case productItems = "pages"
+    case items = "pages"
     case lastPage = "last_page"
     case hasNext = "has_next"
     case hasPrev = "has_prev"
   }
 }
 
-struct ProductItem: Codable {
+struct Item: Codable {
   let id: Int?
   let vender: Int?
   let name: String?
