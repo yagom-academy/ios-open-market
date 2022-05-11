@@ -20,8 +20,8 @@ struct ProductDetail: Codable {
     let stock: Int
     let images: [Image]
     let vendors: Vendor
-    let createdAt: Date
-    let issuedAt: Date
+    let createdAt: String
+    let issuedAt: String
     
     private enum CodingKeys: String, CodingKey {
         case id

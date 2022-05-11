@@ -14,10 +14,12 @@ final class MockTestData: NetworkAble {
         static var extensionType = "json"
     }
     
-    
-    func inquireProductList(url: String, query: [(String, String)], completeHandler: @escaping (Data?, URLResponse?, Error?) -> Void) {
+    func requestData(url: String,
+                            query: [(String, String)]?,
+                            completeHandler: @escaping (Data?, URLResponse?, Error?) -> Void) {
         let data = load(fileName: fileInfo.fileName, extensionType: fileInfo.extensionType)
-        guard let url = URLComponents(string: "https://market-training.yagom-academy.kr/api/products?")?.url else { return }
+        
+        guard let url = URLComponents(string: OpenMarketApiUrl.pageInformationUrl)?.url else { return }
         let response = HTTPURLResponse(url: url,
                                        statusCode: 200,
                                        httpVersion: "2",
@@ -25,8 +27,6 @@ final class MockTestData: NetworkAble {
         
         completeHandler(data, response, nil)
     }
-    
-    
     
     private func load(fileName: String, extensionType: String) -> Data? {
         let testBundle = Bundle(for: type(of: self))
