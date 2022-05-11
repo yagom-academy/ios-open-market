@@ -80,7 +80,8 @@ extension APIResponse: Equatable {
     let lastPage = lhs.lastPage == rhs.lastPage
     let hasNext = lhs.hasNext == rhs.hasNext
     let hasPrev = lhs.hasPrev == rhs.hasPrev
-    return pageNo && itemsPerPage && totalCount && offset && limit && lastPage && hasNext && hasPrev
+    return pageNo && itemsPerPage && totalCount && offset
+        && limit && lastPage && hasNext && hasPrev
   }
 }
 
@@ -99,6 +100,7 @@ extension Product: Equatable {
     let stock = lhs.stock == rhs.stock
     let createdAt = lhs.createdAt == rhs.createdAt
     let issuedAt = lhs.issuedAt == rhs.issuedAt
-    return id && vendorId && name && thumbnail && currency && price && bargainPrice && discountedPrice && stock && createdAt && issuedAt
+    return id && vendorId && name && thumbnail && currency && price
+        && bargainPrice && discountedPrice && stock && createdAt && issuedAt
   }
 }

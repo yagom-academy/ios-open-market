@@ -1,7 +1,6 @@
 //
 //  APINetworkService.swift
 //  OpenMarket
-//
 //  Created by Lingo, Quokka on 2022/05/11.
 //
 
@@ -21,7 +20,9 @@ class APINetworkService: NetworkService {
     self.urlSession = urlSession
   }
   
-  func checkHealth(_ completion: @escaping (Result<String, APINetworkError>) -> Void) {
+  func checkHealth(
+    _ completion: @escaping (Result<String, APINetworkError>) -> Void
+  ) {
     let urlString = Constant.baseURL + Constant.healthCheckerPath
     
     self.request(url: urlString) { result in
@@ -35,13 +36,16 @@ class APINetworkService: NetworkService {
     }
   }
   
-  func fetchProductAll(_ completion: @escaping (Result<[Product], APINetworkError>) -> Void) {
+  func fetchProductAll(
+    _ completion: @escaping (Result<[Product], APINetworkError>) -> Void
+  ) {
     let urlString = Constant.baseURL + Constant.productsPath
     
     self.request(url: urlString) { result in
       switch result {
       case let .success(data):
-        guard let apiResponse = try? JSONDecoder().decode(APIResponse.self, from: data) else { return }
+        guard let apiResponse = try? JSONDecoder().decode(APIResponse.self, from: data)
+        else { return }
         let products = apiResponse.pages
         completion(.success(products))
       case let .failure(error):
@@ -50,13 +54,17 @@ class APINetworkService: NetworkService {
     }
   }
   
-  func fetchProductOne(productID: Int, _ completion: @escaping (Result<Product, APINetworkError>) -> Void) {
+  func fetchProductOne(
+    productID: Int,
+    _ completion: @escaping (Result<Product, APINetworkError>) -> Void
+  ) {
     let urlString = Constant.baseURL + Constant.productPath + String(productID)
     
     self.request(url: urlString) { result in
       switch result {
       case let .success(data):
-        guard let product = try? JSONDecoder().decode(Product.self, from: data) else { return }
+        guard let product = try? JSONDecoder().decode(Product.self, from: data)
+        else { return }
         completion(.success(product))
       case let .failure(error):
         completion(.failure(error))
@@ -64,7 +72,10 @@ class APINetworkService: NetworkService {
     }
   }
   
-  func request(url urlString: String, _ completion: @escaping (Result<Data, APINetworkError>) -> Void) {
+  func request(
+    url urlString: String,
+    _ completion: @escaping (Result<Data, APINetworkError>) -> Void
+  ) {
     guard let url = URL(string: urlString) else { return }
     
     self.urlSession.dataTask(with: url) { data, response, error in
