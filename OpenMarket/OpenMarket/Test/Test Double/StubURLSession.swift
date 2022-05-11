@@ -17,3 +17,28 @@ struct DummyData {
         completionHandler?(data, response, error)
     }
 }
+
+class StubURLSession: URLSessionProtocol {
+    var dummyData: DummyData?
+    
+    init(dummyData: DummyData) {
+        self.dummyData = dummyData
+    }
+    
+    func dataTask(with url: URL, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask {
+        return StubURLSessionDataTask(dummyData: dummyData, completionHandler: completionHandler)
+    }
+}
+
+class StubURLSessionDataTask: URLSessionDataTask {
+    var dummyData: DummyData?
+    
+    init(dummyData: DummyData?, completionHandler: ((Data?, URLResponse?, Error?) -> Void)?) {
+        self.dummyData = dummyData
+        self.dummyData?.completionHandler = completionHandler
+    }
+    
+    override func resume() {
+        dummyData?.completion()
+    }
+}
