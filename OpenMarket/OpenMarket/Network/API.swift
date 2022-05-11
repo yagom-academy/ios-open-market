@@ -8,7 +8,7 @@
 enum API {
     static let hostApi = "https://market-training.yagom-academy.kr"
     static let productPath = "/api/products"
-    static let healthCheckerPath = "/HealthChecker"
+    static let healthCheckerPath = "/healthChecker"
     
     case productList(pageNo: Int, itemsPerPage: Int)
     case productDetail(productId: Int)

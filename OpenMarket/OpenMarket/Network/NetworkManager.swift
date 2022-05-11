@@ -8,7 +8,6 @@
 import Foundation
 
 enum NetworkError: Error {
-    case url
     case error
     case data
     case statusCode
@@ -16,16 +15,18 @@ enum NetworkError: Error {
 }
 
 struct NetworkManager<T: Decodable> {
-    private let session: URLSession
+    var session: URLSessionProtocol
     
-    init(session: URLSession = .shared) {
+    init(session: URLSessionProtocol) {
         self.session = session
     }
     
-    func execute(with request: URLRequest, completion: @escaping (Result<T, NetworkError>) -> Void) {
+    func execute(with url: URL, completion: @escaping (Result<T, NetworkError>) -> Void) {
         let successRange = 200...299
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
         
-        session.dataTask(with: request) { data, response, error in
+        session.dataTask(with: url) { data, response, error in
             guard error == nil else {
                 completion(.failure(.error))
                 return
