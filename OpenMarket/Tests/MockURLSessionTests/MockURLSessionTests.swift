@@ -23,8 +23,9 @@ class MockURLSessionTests: XCTestCase {
         let exptectation = expectation(description: "waiting for test")
         let successResult: Int = 1
         var pageNumber: Int = 0
+        let endpoint: Endpoint = .producList(nubmers: 1, pages: 10)
         
-        sut.sendGet(path: "api/products?page_no=1&items_per_page=10") { data, response, error in
+        sut.request(endpoint: endpoint) { data, response, error in
             guard let data = data else {
                 return
             }

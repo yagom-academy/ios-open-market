@@ -42,7 +42,7 @@ class URLSessionTests: XCTestCase {
         let successResult: Int = 1
         var pageNumber: Int = 0
         
-        sut.requestListAPI(pageNum: 1, items_per_page: 10) { result in
+        sut.requestListAPI(pageNumber: 1, itemsPerPage: 10) { result in
             switch result {
             case .success(let data):
                 pageNumber = data.pageNumber
@@ -60,7 +60,7 @@ class URLSessionTests: XCTestCase {
         let successResult: String = "아이폰13"
         var name: String = ""
         
-        sut.requestDetailAPI(product_id: 522) { result in
+        sut.requestDetailAPI(productId: 522) { result in
             switch result {
             case .success(let data):
                 name = data.name
