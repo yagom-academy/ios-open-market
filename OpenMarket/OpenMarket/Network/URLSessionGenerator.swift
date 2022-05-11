@@ -9,14 +9,13 @@ import Foundation
 
 final class URLSessionGenerator {
     private let session: CustomURLSession
-    private let apiHost: String = "https://market-training.yagom-academy.kr/"
     
     init (session: CustomURLSession = URLSession.shared) {
         self.session = session
     }
     
-    func request(path: String, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void){
-        guard let url: URL = URL(string: apiHost + path) else {
+    func request(endpoint: Endpoint, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void){
+        guard let url = endpoint.url else {
             return
         }
         var request: URLRequest = URLRequest(url: url)

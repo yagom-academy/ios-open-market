@@ -11,10 +11,10 @@ final class RequestAssistant {
     private let sessionManager = URLSessionGenerator(session: URLSession.shared)
     
     func requestListAPI(pageNumber: Int, itemsPerPage: Int, completionHandler: @escaping ((Result<ProductList, OpenMarketError>) -> Void)) {
-        let path = "api/products"
-        let queryString = "?page_no=\(pageNumber)&items_per_page=\(itemsPerPage)"
         
-        sessionManager.request(path: path + queryString, completionHandler: { data, response, error in
+        let endpoint: Endpoint = .producList(nubmers: pageNumber, pages: itemsPerPage)
+        
+        sessionManager.request(endpoint: endpoint, completionHandler: { [weak self] data, response, error in
             guard let data = data else {
                 return
             }
@@ -22,14 +22,14 @@ final class RequestAssistant {
                 completionHandler(.failure(.failDecode))
                 return
             }
-            self.handleResponse(response: response, result: result, completionHandler: completionHandler)
+            self?.handleResponse(response: response, result: result, completionHandler: completionHandler)
         })
     }
     
-    func requestDetailAPI(product_id: Int, completionHandler: @escaping ((Result<Product, OpenMarketError>) -> Void)) {
-        let path = "api/products/\(product_id)"
+    func requestDetailAPI(productId: Int, completionHandler: @escaping ((Result<Product, OpenMarketError>) -> Void)) {
+        let endpoint: Endpoint = .productDetail(productId: productId)
         
-        sessionManager.request(path: path, completionHandler: { data, response, error in
+        sessionManager.request(endpoint: endpoint, completionHandler: { [weak self] data, response, error in
             guard let data = data else {
                 return
             }
@@ -37,18 +37,18 @@ final class RequestAssistant {
                 completionHandler(.failure(.failDecode))
                 return
             }
-            self.handleResponse(response: response, result: result, completionHandler: completionHandler)
+            self?.handleResponse(response: response, result: result, completionHandler: completionHandler)
         })
     }
     
     func requestHealthCheckerAPI(completionHandler: @escaping ((Result<String, OpenMarketError>) -> Void)) {
-        let path = "healthChecker"
-        sessionManager.request(path: path, completionHandler: { data, response, error in
+        let endpoint: Endpoint = .healthCheck
+        sessionManager.request(endpoint: endpoint, completionHandler: { [weak self] data, response, error in
             guard let data = data else {
                 return
             }
             if let result = String(data: data, encoding: .utf8) {
-                self.handleResponse(response: response, result: result, completionHandler: completionHandler)
+                self?.handleResponse(response: response, result: result, completionHandler: completionHandler)
             }
         })
     }
@@ -72,6 +72,34 @@ final class RequestAssistant {
         }
     }
 }
+
+enum Endpoint {
+    case producList(nubmers: Int, pages: Int)
+    case productDetail(productId: Int)
+    case healthCheck
+}
+
+extension Endpoint {
+    var url: URL? {
+        switch self {
+        case .producList(let numbers, let pages):
+            return .makeForEndpoint("api/products?page_no=\(numbers)&items_per_page=\(pages)")
+        case .productDetail(let productId):
+            return .makeForEndpoint("api/products/\(productId)")
+        case .healthCheck:
+            return .makeForEndpoint("healthChecker")
+        }
+    }
+}
+
+extension URL {
+    static let baseURL = "https://market-training.yagom-academy.kr/"
+    
+    static func makeForEndpoint(_ endpoint: String) -> URL? {
+        URL(string: baseURL + endpoint)
+    }
+}
+
 class Decoder {
     static let shared = Decoder()
     let decoder = JSONDecoder()
