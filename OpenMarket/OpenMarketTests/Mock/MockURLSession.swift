@@ -12,3 +12,5 @@ protocol URLSessionProtocol {
   ) -> URLSessionDataTask
 }
 
+extension URLSession: URLSessionProtocol {}
+
