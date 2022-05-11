@@ -23,7 +23,6 @@ final class Network: NetworkAble {
         
         guard let requestURL = urlComponents?.url else { return }
         let dataTask = session.dataTask(with: requestURL) { (data, response, error) in
-            guard error == nil else { return }
             completeHandler(data, response, error)
         }
         dataTask.resume()
