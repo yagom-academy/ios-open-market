@@ -51,6 +51,7 @@ struct URLSessionProvider<T: Codable> {
       }
       
       guard let products = try? JSONDecoder().decode(T.self, from: data) else {
+        completionHandler(.failure(.decodeError))
         return
       }
       
