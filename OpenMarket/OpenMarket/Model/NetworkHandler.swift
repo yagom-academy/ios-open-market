@@ -9,9 +9,10 @@ import Foundation
 
 struct NetworkHandler {
     var session: URLSessionProtocol = URLSession(configuration: .default)
+    let baseURL = "https://market-training.yagom-academy.kr/"
     
-    func getData(urlString: String, completionHandler: @escaping (Result<Data, APIError>) -> Void) {
-        guard let url = URL(string: urlString) else {
+    func getData(pathString: String, completionHandler: @escaping (Result<Data, APIError>) -> Void) {
+        guard let url = URL(string: baseURL + pathString) else {
             return completionHandler(.failure(.convertError))
         }
         
