@@ -32,7 +32,7 @@ final class OpenMarketJSONTests: XCTestCase {
         
         // when
         mockTestData.requestData(url: url, query: query) { data, response, error in
-            
+            guard error == nil else { return }
             guard let data = data,
                     let pageInformation = try? JSONDecoder().decode(PageInformation.self, from: data) else { return }
             
@@ -51,6 +51,8 @@ final class OpenMarketJSONTests: XCTestCase {
         
         // when
         testData.requestData(url: url, query: query) { data, response, error in
+            guard error == nil else { return }
+            
             let successsRange = 200..<300
             
             guard let statusCode = (response as? HTTPURLResponse)?.statusCode,
@@ -74,6 +76,8 @@ final class OpenMarketJSONTests: XCTestCase {
         
         // when
         testData.requestData(url: url, query: nil) { data, response, error in
+            guard error == nil else { return }
+            
             let successsRange = 200..<300
             
             guard let statusCode = (response as? HTTPURLResponse)?.statusCode,
