@@ -6,14 +6,14 @@
 
 import Foundation
 
-enum Constant {
+fileprivate enum Constant {
   static let baseURL = "https://market-training.yagom-academy.kr/"
   static let productsPath = "api/products?page_no=1&items_per_page=10"
   static let productPath = "api/products/"
   static let healthCheckerPath = "healthChecker"
 }
 
-class APINetworkService: NetworkService {
+final class APINetworkService: NetworkService {
   private let urlSession: URLSessionProtocol
   
   init(urlSession: URLSessionProtocol) {
@@ -72,7 +72,7 @@ class APINetworkService: NetworkService {
     }
   }
   
-  func request(
+  private func request(
     url urlString: String,
     _ completion: @escaping (Result<Data, APINetworkError>) -> Void
   ) {
