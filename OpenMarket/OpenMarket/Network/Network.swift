@@ -95,7 +95,6 @@ extension API {
             
             do {
                 let jsonDecoder = JSONDecoder()
-                jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
                 jsonDecoder.dateDecodingStrategy = .formatted(.dateFormatter)
                 
                 let result = try jsonDecoder.decode(T.self, from: data)

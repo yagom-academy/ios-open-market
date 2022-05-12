@@ -23,12 +23,33 @@ struct Product: Codable {
     let images: [Image]?
     let vendors: Vendor?
     
+    enum CodingKeys: String, CodingKey {
+        case id, name, thumbnail, currency, price, description, stock
+        case vendorId = "vendor_id"
+        case bargainPrice = "bargain_price"
+        case discountedPrice = "discounted_price"
+        case createdAt = "created_at"
+        case issuedAt = "issued_at"
+        case images, vendors
+    }
+    
+    enum Currency: String, Codable {
+        case KRW = "KRW"
+        case USD = "USD"
+    }
+    
     struct Image: Codable {
         let id: Int?
         let url: String?
         let thumbnailUrl: String?
         let succeed: Bool?
         let issuedAt: Date?
+        
+        enum CodingKeys: String, CodingKey {
+            case id, url, succeed
+            case thumbnailUrl = "thumbnail_url"
+            case issuedAt = "issued_at"
+        }
     }
     
     struct Vendor: Codable {
@@ -36,5 +57,11 @@ struct Product: Codable {
         let id: Int?
         let createdAt: Date?
         let issuedAt: Date?
+        
+        enum CodingKeys: String, CodingKey {
+            case name, id
+            case createdAt = "created_at"
+            case issuedAt = "issued_at"
+        }
     }
 }
