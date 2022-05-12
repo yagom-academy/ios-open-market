@@ -7,6 +7,11 @@
 
 import UIKit
 
+enum CollectionLayout: Int {
+    case list = 0
+    case grid = 1
+}
+
 final class MainView: UIView {
     lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: configureListLayout())
@@ -62,5 +67,16 @@ final class MainView: UIView {
             collectionView.leadingAnchor.constraint(equalTo: leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: trailingAnchor)
         ])
+    }
+    
+    func changeLayout(index selectedIndex: Int) {
+        guard let layout = CollectionLayout(rawValue: selectedIndex) else { return }
+        
+        switch layout {
+        case .list:
+            collectionView.collectionViewLayout = configureListLayout()
+        case .grid:
+            collectionView.collectionViewLayout = configureGridLayout()
+        }
     }
 }

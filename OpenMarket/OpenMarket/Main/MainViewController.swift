@@ -8,6 +8,7 @@ import UIKit
 
 final class MainViewController: UIViewController {
     private lazy var mainView = MainView(frame: self.view.bounds)
+    
     private let dummyList: [Product]? = {
         guard let path = Bundle.main.path(forResource: "products", ofType: "json") else { return nil }
         guard let jsonString = try? String(contentsOfFile: path) else { return nil }
@@ -20,6 +21,14 @@ final class MainViewController: UIViewController {
         
     }()
     
+    private lazy var segmentControl: UISegmentedControl = {
+        let segmentControl = UISegmentedControl(items: ["LIST", "GRID"])
+        segmentControl.selectedSegmentTintColor = .systemBlue
+        segmentControl.addTarget(self, action: #selector(segmentValueDidChanged(segmentedControl:)), for: .valueChanged)
+        segmentControl.selectedSegmentIndex = 0
+        return segmentControl
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureView()
@@ -28,17 +37,15 @@ final class MainViewController: UIViewController {
     
     private func configureNavigationBar() {
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonDidTapped))
-        
-        let segmentControl = UISegmentedControl(items: ["LIST", "GRID"])
-        segmentControl.selectedSegmentTintColor = .systemBlue
-        segmentControl.addTarget(self, action: #selector(segmentValueDidChanged(segmentedControl:)), for: .valueChanged)
-        segmentControl.selectedSegmentIndex = 0
         navigationItem.titleView = segmentControl
     }
     
     @objc private func addButtonDidTapped() {}
     
-    @objc private func segmentValueDidChanged(segmentedControl: UISegmentedControl) {}
+    @objc private func segmentValueDidChanged(segmentedControl: UISegmentedControl) {
+        mainView.changeLayout(index: segmentedControl.selectedSegmentIndex)
+        mainView.collectionView.reloadData()
+    }
     
     private func configureView() {
         mainView.backgroundColor = .systemBackground
@@ -59,12 +66,17 @@ extension MainViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProductListCell.identifier, for: indexPath) as? ProductListCell else {
-            return ProductListCell()
+        guard let layout = CollectionLayout(rawValue: segmentControl.selectedSegmentIndex) else { return UICollectionViewCell() }
+        
+        switch layout {
+        case .grid:
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProductGridCell.identifier, for: indexPath) as? ProductGridCell else { return ProductGridCell() }
+            cell.configure(data: dummyList?[indexPath.item])
+            return cell
+        case .list:
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProductListCell.identifier, for: indexPath) as? ProductListCell else { return ProductListCell() }
+            cell.configure(data: dummyList?[indexPath.item])
+            return cell
         }
-        
-        cell.configure(data: dummyList?[indexPath.item])
-        
-        return cell
     }
 }
