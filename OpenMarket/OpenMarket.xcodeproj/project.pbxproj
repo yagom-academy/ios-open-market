@@ -10,6 +10,8 @@
 		3034C891282A5157002F2A01 /* Decodable+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30419826282A4EE700083790 /* Decodable+Extension.swift */; };
 		304197DD282A07D700083790 /* ProductCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304197DC282A07D700083790 /* ProductCatalog.swift */; };
 		30419827282A4EE700083790 /* Decodable+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30419826282A4EE700083790 /* Decodable+Extension.swift */; };
+		30C06337282CA80200CACD3C /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30C06336282CA80200CACD3C /* API.swift */; };
+		30C06339282CA86A00CACD3C /* URLSessionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30C06338282CA86A00CACD3C /* URLSessionProtocol.swift */; };
 		839AA0705AAF9CB71ABFA93C /* Pods_OpenMarket.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41E7C73D6CEC0E4BB2132759 /* Pods_OpenMarket.framework */; };
 		8610B2AA28295DB300EB00AF /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 8610B2A928295DB300EB00AF /* .swiftlint.yml */; };
 		8610B2B4282A052600EB00AF /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8610B2B3282A052600EB00AF /* Product.swift */; };
@@ -39,6 +41,8 @@
 /* Begin PBXFileReference section */
 		304197DC282A07D700083790 /* ProductCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductCatalog.swift; sourceTree = "<group>"; };
 		30419826282A4EE700083790 /* Decodable+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Decodable+Extension.swift"; sourceTree = "<group>"; };
+		30C06336282CA80200CACD3C /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
+		30C06338282CA86A00CACD3C /* URLSessionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionProtocol.swift; sourceTree = "<group>"; };
 		41E7C73D6CEC0E4BB2132759 /* Pods_OpenMarket.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OpenMarket.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		593F13E1FB6D05FB04F2E5F9 /* Pods-OpenMarket.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenMarket.release.xcconfig"; path = "Target Support Files/Pods-OpenMarket/Pods-OpenMarket.release.xcconfig"; sourceTree = "<group>"; };
 		8610B2A928295DB300EB00AF /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; name = .swiftlint.yml; path = ../.swiftlint.yml; sourceTree = "<group>"; };
@@ -124,6 +128,8 @@
 			children = (
 				8622BBAF282CA37C00D1FAC0 /* URLSessionProvider.swift */,
 				8622BBB1282CA64200D1FAC0 /* NetworkError.swift */,
+				30C06336282CA80200CACD3C /* API.swift */,
+				30C06338282CA86A00CACD3C /* URLSessionProtocol.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -322,6 +328,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				30C06339282CA86A00CACD3C /* URLSessionProtocol.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
 				8622BBB2282CA64200D1FAC0 /* NetworkError.swift in Sources */,
 				30419827282A4EE700083790 /* Decodable+Extension.swift in Sources */,
@@ -329,6 +336,7 @@
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 				8622BBB0282CA37C00D1FAC0 /* URLSessionProvider.swift in Sources */,
+				30C06337282CA80200CACD3C /* API.swift in Sources */,
 				304197DD282A07D700083790 /* ProductCatalog.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
