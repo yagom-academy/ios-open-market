@@ -47,7 +47,7 @@ struct URLSessionProvider<T: Decodable> {
         return
       }
       guard let response = response as? HTTPURLResponse,
-            (200...299).contains(response.statusCode)
+            (200..<300).contains(response.statusCode)
       else {
         completionHandler(.failure(.statusCodeError))
         return
