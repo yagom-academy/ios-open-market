@@ -26,8 +26,7 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      shouldUseLaunchSchemeArgsEnv = "YES"
-      codeCoverageEnabled = "YES">
+      shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
          <TestableReference
             skipped = "NO">
@@ -46,6 +45,36 @@
                BlueprintIdentifier = "8622BBB8282CAC2C00D1FAC0"
                BuildableName = "URLSessionTest.xctest"
                BlueprintName = "URLSessionTest"
+               ReferencedContainer = "container:OpenMarket.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "869BD316282D04EF00284FAE"
+               BuildableName = "MockURLSessionTest.xctest"
+               BlueprintName = "MockURLSessionTest"
+               ReferencedContainer = "container:OpenMarket.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "869BD325282D059900284FAE"
+               BuildableName = "URLSessionTests.xctest"
+               BlueprintName = "URLSessionTests"
+               ReferencedContainer = "container:OpenMarket.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "869BD333282D0DA100284FAE"
+               BuildableName = "URLHealthcheckerTests.xctest"
+               BlueprintName = "URLHealthcheckerTests"
                ReferencedContainer = "container:OpenMarket.xcodeproj">
             </BuildableReference>
          </TestableReference>
