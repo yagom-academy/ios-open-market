@@ -59,7 +59,7 @@ class NetworkTests: XCTestCase {
     func test_네트워크에_product요청시_올바른값이_넘어오는지() {
         // given
         let promise = expectation(description: "will return product")
-        let sut = API<ProductDetail>.requestProduct(id: 2072)
+        let sut = API<Product>.requestProduct(id: 2072)
  
         // when
         sut.request { result in

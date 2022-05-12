@@ -22,18 +22,4 @@ struct ProductList: Codable {
     let lastPage: Int?
     let hasNext: Bool?
     let hasPrev: Bool?
-    
-    struct Product: Codable {
-        let id: Int?
-        let vendorId: Int?
-        let name: String?
-        let thumbnail: String?
-        let currency: Currency?
-        let price: Double?
-        let bargainPrice: Double?
-        let discountedPrice: Double?
-        let stock: Int?
-        let createdAt: Date?
-        let issuedAt: Date?
-    }
 }
