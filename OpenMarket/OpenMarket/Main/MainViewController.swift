@@ -33,7 +33,6 @@ final class MainViewController: UIViewController {
     
     private func configureCollectionView() {
         mainView.collectionView.dataSource = self
-        mainView.collectionView.delegate = self
         mainView.collectionView.register(ProductCell.self, forCellWithReuseIdentifier: "cell")
     }
 }
@@ -51,16 +50,5 @@ extension MainViewController: UICollectionViewDataSource {
         cell.configure(data: dummyList?[indexPath.item])
         
         return cell
-    }
-}
-
-extension MainViewController: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        guard let flowLayout = collectionViewLayout as? UICollectionViewFlowLayout else { return .zero }
-
-        let space = flowLayout.sectionInset.left + flowLayout.sectionInset.right
-        let width = (collectionView.bounds.width - space - flowLayout.minimumInteritemSpacing) / 2
-        
-        return CGSize(width: width, height: width * 1.5)
     }
 }
