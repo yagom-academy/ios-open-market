@@ -8,10 +8,14 @@
 import Foundation
 
 struct URLSessionProvider<T: Codable> {
-    let session = URLSession.shared
+    let session: URLSessionProtocol
     
-    func getData(from url: URL, completionHandler: @escaping (Result<T, NetworkError>) -> Void) {
-        let task = session.dataTask(with: url) { data, urlResponse, error in
+    init (session: URLSessionProtocol = URLSession.shared) {
+        self.session = session
+    }
+    
+    func getData(from urlRequest: URLRequest, completionHandler: @escaping (Result<T, NetworkError>) -> Void) {
+        let task = session.dataTask(with: urlRequest) { data, urlResponse, error in
             
             guard let data = data, error == nil else {
                 completionHandler(.failure(.unknownError))
