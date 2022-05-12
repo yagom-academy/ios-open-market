@@ -8,15 +8,15 @@
 import Foundation
 
 struct ProductsList: Codable {
-  let pageNumber: Int?
-  let itemsPerPage: Int?
-  let totalCount: Int?
-  let offset: Int?
-  let limit: Int?
+  let pageNumber: Int
+  let itemsPerPage: Int
+  let totalCount: Int
+  let offset: Int
+  let limit: Int
   let items: [Item]
-  let lastPage: Int?
-  let hasNext: Bool?
-  let hasPrev: Bool?
+  let lastPage: Int
+  let hasNext: Bool
+  let hasPrev: Bool
   
   private enum CodingKeys: String, CodingKey {
     case pageNumber = "page_no"
@@ -32,17 +32,17 @@ struct ProductsList: Codable {
 }
 
 struct Item: Codable {
-  let id: Int?
-  let venderId: Int?
-  let name: String?
-  let thumbnail: String?
-  let currency: String?
-  let price: Int?
-  let bargainPrice: Int?
-  let discountedPrice: Int?
-  let stock: Int?
-  let createdAt: String?
-  let issuedAt: String?
+  let id: Int
+  let venderId: Int
+  let name: String
+  let thumbnail: String
+  let currency: String
+  let price: Int
+  let bargainPrice: Int
+  let discountedPrice: Int
+  let stock: Int
+  let createdAt: String
+  let issuedAt: String
   
   private enum CodingKeys: String, CodingKey {
     case id
