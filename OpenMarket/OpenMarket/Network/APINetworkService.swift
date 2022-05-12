@@ -14,9 +14,9 @@ fileprivate enum Constant {
 }
 
 final class APINetworkService: NetworkService {
-  private let urlSession: URLSessionProtocol
+  private let urlSession: URLSessionable
   
-  init(urlSession: URLSessionProtocol) {
+  init(urlSession: URLSessionable) {
     self.urlSession = urlSession
   }
   

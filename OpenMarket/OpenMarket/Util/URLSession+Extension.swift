@@ -6,4 +6,4 @@
 
 import Foundation
 
-extension URLSession: URLSessionProtocol {}
+extension URLSession: URLSessionable {}

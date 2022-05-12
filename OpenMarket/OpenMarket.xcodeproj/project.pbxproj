@@ -17,7 +17,7 @@
 		B02944A3282A430800B9828F /* DecodeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B02944A2282A430800B9828F /* DecodeTests.swift */; };
 		B0A408DD282B933C00A388FA /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0A408DC282B933C00A388FA /* NetworkService.swift */; };
 		B0A408DF282B945D00A388FA /* APINetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0A408DE282B945D00A388FA /* APINetworkService.swift */; };
-		B0A408E1282B95F400A388FA /* URLSessionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0A408E0282B95F400A388FA /* URLSessionProtocol.swift */; };
+		B0A408E1282B95F400A388FA /* URLSessionable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0A408E0282B95F400A388FA /* URLSessionable.swift */; };
 		B0A408E3282BA5F200A388FA /* APINetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0A408E2282BA5F200A388FA /* APINetworkError.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
 		C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */; };
@@ -49,7 +49,7 @@
 		B02944A2282A430800B9828F /* DecodeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecodeTests.swift; sourceTree = "<group>"; };
 		B0A408DC282B933C00A388FA /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		B0A408DE282B945D00A388FA /* APINetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APINetworkService.swift; sourceTree = "<group>"; };
-		B0A408E0282B95F400A388FA /* URLSessionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionProtocol.swift; sourceTree = "<group>"; };
+		B0A408E0282B95F400A388FA /* URLSessionable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionable.swift; sourceTree = "<group>"; };
 		B0A408E2282BA5F200A388FA /* APINetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APINetworkError.swift; sourceTree = "<group>"; };
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -165,7 +165,7 @@
 			isa = PBXGroup;
 			children = (
 				B0A408DC282B933C00A388FA /* NetworkService.swift */,
-				B0A408E0282B95F400A388FA /* URLSessionProtocol.swift */,
+				B0A408E0282B95F400A388FA /* URLSessionable.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -353,7 +353,7 @@
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
 				AB6E6BF8282A4C5600431717 /* APIResponse.swift in Sources */,
 				AB6E6BFA282A4E4A00431717 /* Product.swift in Sources */,
-				B0A408E1282B95F400A388FA /* URLSessionProtocol.swift in Sources */,
+				B0A408E1282B95F400A388FA /* URLSessionable.swift in Sources */,
 				B00E3C5F282BDA2B006AB0AC /* URLSession+Extension.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				B0A408DD282B933C00A388FA /* NetworkService.swift in Sources */,

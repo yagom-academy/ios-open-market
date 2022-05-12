@@ -7,7 +7,7 @@
 import Foundation
 @testable import OpenMarket
 
-final class MockURLSession: URLSessionProtocol {
+final class MockURLSession: URLSessionable {
   private let task = MockURLSessionDataTask()
   private let hasRequestFail: Bool
   
