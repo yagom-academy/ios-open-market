@@ -42,7 +42,10 @@ final class APINetworkService: NetworkService {
     _ completion: @escaping (Result<[Product], APINetworkError>) -> Void
   ) {
     let urlString = Constant.baseURL + Constant.productListPath
-    let url = makeURL(url: urlString, queryItems: ["page_no": pageNumber, "items_per_page": itemsPerPage])
+    let url = makeURL(
+      url: urlString,
+      queryItems: ["page_no": pageNumber, "items_per_page": itemsPerPage]
+    )
     
     self.request(url: url) { result in
       switch result {
@@ -125,9 +128,10 @@ final class APINetworkService: NetworkService {
 extension APINetworkService {
   private func makeURL(url urlString: String, queryItems: [String: Int]? = nil) -> URL? {
     var urlComponents = URLComponents(string: urlString)
-    queryItems?.forEach({ queryItem in
-      urlComponents?.queryItems?.append(URLQueryItem(name: queryItem.key, value: String(queryItem.value)))
-    })
+    queryItems?.forEach { query in
+      let queryItem = URLQueryItem(name: query.key, value: String(query.value))
+      urlComponents?.queryItems?.append(queryItem)
+    }
     return urlComponents?.url
   }
 }
