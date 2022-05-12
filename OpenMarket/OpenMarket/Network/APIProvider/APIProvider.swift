@@ -78,3 +78,14 @@ extension APIProvider {
         completion(.success((data)))
     }
 }
+
+fileprivate extension Data {
+    func decode<T: Decodable>() -> Result<T, Error> {
+        do {
+            let decoded = try JSONDecoder().decode(T.self, from: self)
+            return .success(decoded)
+        } catch {
+            return .failure(NetworkError.decodeError)
+        }
+    }
+}
