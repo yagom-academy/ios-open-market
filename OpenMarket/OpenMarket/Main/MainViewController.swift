@@ -48,7 +48,8 @@ final class MainViewController: UIViewController {
     
     private func configureCollectionView() {
         mainView.collectionView.dataSource = self
-        mainView.collectionView.register(ProductCell.self, forCellWithReuseIdentifier: ProductCell.identifier)
+        mainView.collectionView.register(ProductGridCell.self, forCellWithReuseIdentifier: ProductGridCell.identifier)
+        mainView.collectionView.register(ProductListCell.self, forCellWithReuseIdentifier: ProductListCell.identifier)
     }
 }
 
@@ -58,8 +59,8 @@ extension MainViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProductCell.identifier, for: indexPath) as? ProductCell else {
-            return ProductCell()
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProductListCell.identifier, for: indexPath) as? ProductListCell else {
+            return ProductListCell()
         }
         
         cell.configure(data: dummyList?[indexPath.item])

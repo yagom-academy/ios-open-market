@@ -1,5 +1,5 @@
 //
-//  ProductCell.swift
+//  ProductListCell.swift
 //  OpenMarket
 //
 //  Created by dudu, safari on 2022/05/12.
@@ -7,12 +7,10 @@
 
 import UIKit
 
-final class ProductCell: UICollectionViewCell {
+class ProductListCell: UICollectionViewCell {
     private lazy var productStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [thumbnailImageView, nameLabel, priceStackView, QuantityLabel])
+        let stackView = UIStackView(arrangedSubviews: [thumbnailImageView, informationStackView])
         stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.axis = .vertical
-        stackView.alignment = .center
         return stackView
     }()
     
@@ -22,17 +20,33 @@ final class ProductCell: UICollectionViewCell {
         return imageView
     }()
     
+    private lazy var informationStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [topStackView, bottomStackView])
+        stackView.axis = .vertical
+        return stackView
+    }()
+    
+    private lazy var topStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [nameLabel, QuantityLabel, ])
+        return stackView
+    }()
+    
     private let nameLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 21, weight: .bold)
         label.textAlignment = .center
+        label.setContentHuggingPriority(.defaultLow, for: .horizontal)
         return label
     }()
     
-    private lazy var priceStackView: UIStackView = {
+    private let QuantityLabel: UILabel = {
+        let label = UILabel()
+        label.textAlignment = .center
+        return label
+    }()
+    
+    private lazy var bottomStackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [priceLabel, bargainPriceLabel])
-        stackView.setContentHuggingPriority(.defaultLow, for: .vertical)
-        stackView.axis = .vertical
         return stackView
     }()
     
@@ -46,12 +60,7 @@ final class ProductCell: UICollectionViewCell {
         let label = UILabel()
         label.textColor = .systemGray3
         label.textAlignment = .center
-        return label
-    }()
-    
-    private let QuantityLabel: UILabel = {
-        let label = UILabel()
-        label.textAlignment = .center
+        label.setContentHuggingPriority(.defaultLow, for: .horizontal)
         return label
     }()
     
@@ -82,7 +91,7 @@ final class ProductCell: UICollectionViewCell {
         ])
         
         NSLayoutConstraint.activate([
-            thumbnailImageView.widthAnchor.constraint(equalTo: productStackView.widthAnchor, multiplier: 0.7),
+            thumbnailImageView.heightAnchor.constraint(equalTo: productStackView.heightAnchor, multiplier: 0.7),
             thumbnailImageView.widthAnchor.constraint(equalTo: thumbnailImageView.heightAnchor)
         ])
     }
