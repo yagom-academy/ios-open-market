@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct URLSessionProvider<T: Codable> {
+struct URLSessionProvider<T: Decodable> {
   private let hostApi = "https://market-training.yagom-academy.kr"
   private let session: URLSessionProtocol
   private let path: String
