@@ -94,3 +94,15 @@ final class APINetworkService: NetworkService {
     }.resume()
   }
 }
+
+// MARK: URLComponents Method
+
+extension APINetworkService {
+  func makeURL(url urlString: String, queryItems: [String: String]? = nil) -> URL? {
+    var urlComponents = URLComponents(string: urlString)
+    queryItems?.forEach({ queryItem in
+      urlComponents?.queryItems?.append(URLQueryItem(name: queryItem.key, value: queryItem.value))
+    })
+    return urlComponents?.url
+  }
+}
