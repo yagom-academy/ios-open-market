@@ -39,4 +39,44 @@ class URLSessionTest: XCTestCase {
         }
         wait(for: [promise], timeout: 10)
     }
+    
+    func test_네트워크가_연결이_되지않아도_getData의_함수를_호출하면_Mock데이터의_totalCount의_값이_10인지() {
+        //given
+        let promise = expectation(description: "")
+        let url = URL(string: "empty")!
+        let requset = URLRequest(url: url)
+        
+        //when
+        sut.getData(from: requset) { result in
+            //then
+            switch result {
+            case .success(let data):
+                XCTAssertEqual(data.totalCount, 10)
+            case .failure(_):
+                XCTFail()
+            }
+            promise.fulfill()
+        }
+        wait(for: [promise], timeout: 10)
+    }
+    
+    func test_네트워크가_연결이_되지않아도_getData의_함수를_호출하면_Mock데이터의_pages의_첫번째값의_id값이_20인지() {
+        //given
+        let promise = expectation(description: "")
+        let url = URL(string: "empty")!
+        let requset = URLRequest(url: url)
+        
+        //when
+        sut.getData(from: requset) { result in
+            //then
+            switch result {
+            case .success(let data):
+                XCTAssertEqual(data.pages?.first?.id, 20)
+            case .failure(_):
+                XCTFail()
+            }
+            promise.fulfill()
+        }
+        wait(for: [promise], timeout: 10)
+    }
 }
