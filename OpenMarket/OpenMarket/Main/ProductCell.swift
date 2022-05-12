@@ -65,8 +65,15 @@ final class ProductCell: UICollectionViewCell {
         ])
         
         NSLayoutConstraint.activate([
-            thumbnailImageView.widthAnchor.constraint(equalTo: thumbnailImageView.heightAnchor),
-            thumbnailImageView.widthAnchor.constraint(equalTo: productStackView.widthAnchor)
+            thumbnailImageView.widthAnchor.constraint(equalTo: thumbnailImageView.heightAnchor)
         ])
+    }
+    
+    func configure(data: Product?) {
+        thumbnailImageView.image = UIImage(systemName: "swift")
+        nameLabel.text = data?.name
+        bargainPriceLabel.text = "\(data?.currency?.rawValue ?? "USD") \(data?.bargainPrice ?? 1.0)"
+        discountedPriceLabel.text = "\(data?.currency?.rawValue ?? "USD") \(data?.discountedPrice ?? 1.0)"
+        QuantityLabel.text = data?.stock == 0 ? "품절" : "잔여수량: \(data?.stock ?? 0)"
     }
 }
