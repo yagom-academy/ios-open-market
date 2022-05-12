@@ -36,7 +36,7 @@ class NetworkDummyModelTests: XCTestCase {
         sut.request(with: endPoint) { result in
             switch result {
             case .success(let data):
-                let result = data.pageNo
+                let result = data.pageNumber
                 let expected = 1
                 XCTAssertEqual(expected, result)
             case .failure(let error):

@@ -8,21 +8,28 @@
 import Foundation
 
 struct ProductDetail: Codable {
-    let id, vendorID: Int
+    let id: Int
+    let vendorID: Int
     let name: String
     let thumbnail: String
     let currency: String
     let price: Int
     let productsDescription: String
-    let bargainPrice, discountedPrice, stock: Int
-    let createdAt, issuedAt: String
-    let images: [ProductsImage]
+    let bargainPrice: Int
+    let discountedPrice: Int
+    let stock: Int
+    let createdAt: String
+    let issuedAt: String
+    let images: [ProductImage]
     let vendor: Vendor
 
     private enum CodingKeys: String, CodingKey {
         case id
         case vendorID = "vendor_id"
-        case name, thumbnail, currency, price
+        case name
+        case thumbnail
+        case currency
+        case price
         case productsDescription = "description"
         case bargainPrice = "bargain_price"
         case discountedPrice = "discounted_price"
@@ -34,16 +41,18 @@ struct ProductDetail: Codable {
     }
 }
 
-struct ProductsImage: Codable {
+struct ProductImage: Codable {
     let id: Int
-    let url, thumbnailURL: String
-    let succeed: Bool
+    let url: URL
+    let thumbnailURL: URL
+    let isSuccess: Bool
     let issuedAt: String
 
     private enum CodingKeys: String, CodingKey {
-        case id, url
+        case id
+        case url
         case thumbnailURL = "thumbnail_url"
-        case succeed
+        case isSuccess = "succeed"
         case issuedAt = "issued_at"
     }
 }
@@ -51,10 +60,12 @@ struct ProductsImage: Codable {
 struct Vendor: Codable {
     let name: String
     let id: Int
-    let createdAt, issuedAt: String
+    let createdAt: String
+    let issuedAt: String
 
     private enum CodingKeys: String, CodingKey {
-        case name, id
+        case name
+        case id
         case createdAt = "created_at"
         case issuedAt = "issued_at"
     }
