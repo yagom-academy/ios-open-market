@@ -12,7 +12,7 @@ enum APINetworkError: LocalizedError {
   var errorDescription: String? {
     switch self {
     case .badRequest:
-      return "BAD_REQUEST"
+      return "올바르지 않은 요청입니다."
     }
   }
 }
