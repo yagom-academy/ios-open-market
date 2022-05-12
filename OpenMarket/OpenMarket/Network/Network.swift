@@ -24,10 +24,10 @@ enum API<T: Codable> {
     }
     
     private static var session: URLSession {
-        let config = URLSessionConfiguration.default
-        config.waitsForConnectivity = true
-        config.timeoutIntervalForResource = 300
-        return URLSession(configuration: config)
+        let configuration = URLSessionConfiguration.default
+        configuration.waitsForConnectivity = true
+        configuration.timeoutIntervalForResource = 300
+        return URLSession(configuration: configuration)
     }
     
     private var urlString: String {
@@ -98,8 +98,8 @@ extension API {
                 jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
                 jsonDecoder.dateDecodingStrategy = .formatted(.dateFormatter)
                 
-                let productDetail = try jsonDecoder.decode(T.self, from: data)
-                completion(.success(productDetail))
+                let result = try jsonDecoder.decode(T.self, from: data)
+                completion(.success(result))
             } catch {
                 completion(.failure(.jsonError))
                 return
