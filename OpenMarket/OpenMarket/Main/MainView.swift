@@ -2,7 +2,7 @@
 //  MainView.swift
 //  OpenMarket
 //
-//  Created by  dudu, safari on 2022/05/12.
+//  Created by dudu, safari on 2022/05/12.
 //
 
 import UIKit
@@ -29,13 +29,13 @@ final class MainView: UIView {
     }
     
     private func configureLayout() {
-        self.addSubview(collectionView)
+        addSubview(collectionView)
         
         NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-            collectionView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            collectionView.trailingAnchor.constraint(equalTo: self.trailingAnchor)
+            collectionView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            collectionView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: trailingAnchor)
         ])
     }
 }
