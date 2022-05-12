@@ -42,7 +42,7 @@ final class MockURLSessionTests: XCTestCase {
     sut.get { result in
       switch result {
       case .success(let products):
-        XCTAssertEqual(products.items.count, data)
+        XCTAssertEqual(products.pages.count, data)
       case .failure(_):
         XCTFail()
       }
@@ -56,7 +56,7 @@ final class MockURLSessionTests: XCTestCase {
     sut.get { result in
       switch result {
       case .success(let products):
-        XCTAssertEqual(products.items.first?.id, data)
+        XCTAssertEqual(products.pages.first?.id, data)
       case .failure(_):
         XCTFail()
       }

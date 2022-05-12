@@ -129,7 +129,7 @@ class URLSessionProviderTests: XCTestCase {
       //then
       switch result {
       case .success(let products):
-        XCTAssertFalse(products.hasNext!)
+        XCTAssertFalse(products.hasNext)
       case .failure(_):
         XCTFail()
       }
@@ -148,7 +148,7 @@ class URLSessionProviderTests: XCTestCase {
       //then
       switch result {
       case .success(let product):
-        XCTAssertEqual(product.items[0].name, data)
+        XCTAssertEqual(product.pages[0].name, data)
       case .failure(_):
         XCTFail()
       }
@@ -167,7 +167,7 @@ class URLSessionProviderTests: XCTestCase {
       //then
       switch result {
       case .success(let product):
-        XCTAssertEqual(product.items[0].createdAt, data)
+        XCTAssertEqual(product.pages[0].createdAt, data)
       case .failure(_):
         XCTFail()
       }
