@@ -77,6 +77,33 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		AC70B776282CBA270065042D /* ItemModel */ = {
+			isa = PBXGroup;
+			children = (
+				E5BEAFE2282A58E9001B7BDD /* ItemPage.swift */,
+				ACB76936282CB68600CD6073 /* ItemDetail.swift */,
+				E5BEAFE4282A7C01001B7BDD /* Currency.swift */,
+			);
+			path = ItemModel;
+			sourceTree = "<group>";
+		};
+		AC70B777282CBA310065042D /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				ACA96009282A7D9A00CBA9D1 /* ItemProtocol.swift */,
+				AC161A14282B7E9200472DDC /* URLSessionProtocol.swift */,
+			);
+			path = Protocol;
+			sourceTree = "<group>";
+		};
+		AC70B778282CBAE30065042D /* Error */ = {
+			isa = PBXGroup;
+			children = (
+				E5BEAFFD282B7AF9001B7BDD /* APIError.swift */,
+			);
+			path = Error;
+			sourceTree = "<group>";
+		};
 		ACA8E2B9282B85F600B36F46 /* NetworkHandlerTest */ = {
 			isa = PBXGroup;
 			children = (
@@ -138,13 +165,10 @@
 		E5BEAFE1282A582A001B7BDD /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				E5BEAFE2282A58E9001B7BDD /* ItemPage.swift */,
-				ACA96009282A7D9A00CBA9D1 /* ItemProtocol.swift */,
-				ACB76936282CB68600CD6073 /* ItemDetail.swift */,
-				E5BEAFE4282A7C01001B7BDD /* Currency.swift */,
+				AC70B778282CBAE30065042D /* Error */,
+				AC70B776282CBA270065042D /* ItemModel */,
+				AC70B777282CBA310065042D /* Protocol */,
 				E5BEAFE6282A7F5B001B7BDD /* NetworkHandler.swift */,
-				AC161A14282B7E9200472DDC /* URLSessionProtocol.swift */,
-				E5BEAFFD282B7AF9001B7BDD /* APIError.swift */,
 				E52B4BE0282C98F200AE7D00 /* DataDecoder.swift */,
 			);
 			path = Model;
