@@ -11,6 +11,7 @@ class ProductListCell: UICollectionViewCell {
     private lazy var productStackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [thumbnailImageView, informationStackView])
         stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.spacing = 8
         return stackView
     }()
     
@@ -34,50 +35,40 @@ class ProductListCell: UICollectionViewCell {
     private let nameLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 21, weight: .bold)
-        label.textAlignment = .center
-        label.setContentHuggingPriority(.defaultLow, for: .horizontal)
+        label.setContentHuggingPriority(.low, for: .horizontal)
         return label
     }()
     
     private let QuantityLabel: UILabel = {
         let label = UILabel()
-        label.textAlignment = .center
         return label
     }()
     
     private lazy var bottomStackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [priceLabel, bargainPriceLabel])
+        stackView.spacing = 8
         return stackView
     }()
     
     private let priceLabel: UILabel = {
         let label = UILabel()
-        label.textAlignment = .center
         return label
     }()
     
     private let bargainPriceLabel: UILabel = {
         let label = UILabel()
         label.textColor = .systemGray3
-        label.textAlignment = .center
-        label.setContentHuggingPriority(.defaultLow, for: .horizontal)
+        label.setContentHuggingPriority(.low, for: .horizontal)
         return label
     }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureLayout()
-        configureCell()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    private func configureCell() {
-        layer.cornerRadius = 10
-        layer.borderWidth = 2.0
-        layer.borderColor = UIColor.systemGray3.cgColor
     }
     
     private func configureLayout() {
@@ -91,7 +82,7 @@ class ProductListCell: UICollectionViewCell {
         ])
         
         NSLayoutConstraint.activate([
-            thumbnailImageView.heightAnchor.constraint(equalTo: productStackView.heightAnchor, multiplier: 0.7),
+            thumbnailImageView.heightAnchor.constraint(equalTo: productStackView.heightAnchor),
             thumbnailImageView.widthAnchor.constraint(equalTo: thumbnailImageView.heightAnchor)
         ])
     }
