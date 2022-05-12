@@ -31,4 +31,18 @@ enum DataDecoder {
             throw error
         }
     }
+    
+    static func decodeItemDetail(data: Result<Data, APIError>) throws -> ItemDetail {
+        switch data {
+        case .success(let data):
+            do {
+                let itemDetail = try JSONDecoder().decode(ItemDetail.self, from: data)
+                return itemDetail
+            } catch {
+                throw APIError.decodeError
+            }
+        case .failure(let error):
+            throw error
+        }
+    }
 }
