@@ -55,11 +55,11 @@ extension APIProvider {
         }
 
         guard let response = response as? HTTPURLResponse else {
-            completion(.failure(NetworkError.unknownError))
+            completion(.failure(NetworkError.responseError))
             return
         }
 
-        guard (200...299).contains(response.statusCode) else {
+        guard (200..<300).contains(response.statusCode) else {
             completion(.failure(NetworkError.invalidHttpStatusCodeError(statusCode: response.statusCode)))
             return
         }

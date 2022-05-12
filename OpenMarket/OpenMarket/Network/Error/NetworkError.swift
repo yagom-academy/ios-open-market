@@ -13,6 +13,7 @@ enum NetworkError: LocalizedError {
     case urlComponetError
     case emptyDataError
     case decodeError
+    case responseError
 
     var errorDescription: String? {
         switch self {
@@ -21,6 +22,7 @@ enum NetworkError: LocalizedError {
         case .urlComponetError: return "URL components 생성 에러가 발생했습니다."
         case .emptyDataError: return "data가 비어있습니다."
         case .decodeError: return "decode 에러가 발생했습니다."
+        case .responseError: return "response 수신을 실폐 했습니다."
         }
     }
 }
