@@ -48,5 +48,3 @@ class NetworkDummyModelTests: XCTestCase {
         wait(for: [promise], timeout: 10)
     }
 }
-
-JSONDecoder.de
