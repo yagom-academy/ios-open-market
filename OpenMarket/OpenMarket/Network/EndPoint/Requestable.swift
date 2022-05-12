@@ -53,7 +53,7 @@ extension Requestable {
     private func generateURL() -> Result<URL, NetworkError> {
         let fullPath = "\(baseURL)\(path)"
         guard var urlComponents = URLComponents(string: fullPath) else {
-            return .failure(.urlComponet)
+            return .failure(.urlComponetError)
         }
 
         var urlQueryItems = [URLQueryItem]()
@@ -71,7 +71,7 @@ extension Requestable {
         urlComponents.queryItems = urlQueryItems.isEmpty == false ? urlQueryItems : nil
 
         guard let url = urlComponents.url else {
-            return .failure(.urlComponet)
+            return .failure(.urlComponetError)
         }
         return .success(url)
     }

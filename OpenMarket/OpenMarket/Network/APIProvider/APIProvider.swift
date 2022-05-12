@@ -66,12 +66,12 @@ extension APIProvider {
         }
 
         guard (200...299).contains(response.statusCode) else {
-            completion(.failure(NetworkError.invalidHttpStatusCode(statusCode: response.statusCode)))
+            completion(.failure(NetworkError.invalidHttpStatusCodeError(statusCode: response.statusCode)))
             return
         }
 
         guard let data = data else {
-            completion(.failure(NetworkError.emptyData))
+            completion(.failure(NetworkError.emptyDataError))
             return
         }
 
