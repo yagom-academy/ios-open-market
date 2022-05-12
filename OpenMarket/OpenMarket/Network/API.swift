@@ -10,7 +10,6 @@ enum API: String {
     
     case healthChecker = "healthChecker"
     case catalog = "api/products"
-    case product = "api/products/{{product_id}}"
     
     var path: String {
         self.rawValue

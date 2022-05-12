@@ -78,6 +78,16 @@
                ReferencedContainer = "container:OpenMarket.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "30C0633D282D131000CACD3C"
+               BuildableName = "URLProductCatalogTests.xctest"
+               BlueprintName = "URLProductCatalogTests"
+               ReferencedContainer = "container:OpenMarket.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction

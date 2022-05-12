@@ -1,35 +1,41 @@
 //
-//  URLProductCatalogTests.swift
-//  URLProductCatalogTests
+//  URLSessionTests.swift
+//  URLSessionTests
 //
-//  Created by 김동욱 on 2022/05/12.
+//  Created by song on 2022/05/12.
 //
 
 import XCTest
+@testable import OpenMarket
 
 class URLProductCatalogTests: XCTestCase {
 
+    var sut: URLSessionProvider<ProductCatalog>!
     override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+        sut = URLSessionProvider()
     }
 
     override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+        sut = nil
     }
-
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        // Any test you write for XCTest can be annotated as throws and async.
-        // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
-        // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
-    }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        measure {
-            // Put the code you want to measure the time of here.
+   
+    func test_URL이_상품리스트_조회_일때_fetchData_메서드를_호출하면_data의offset_값이_10인지() {
+        //given
+        let promise = expectation(description: "")
+        let path = API.catalog.path
+        let query = ["page_no": "2", "items_per_page": "10"]
+        
+        //when
+        sut.fetchData(path: path, parameters: query) { result in
+            //then
+            switch result {
+            case .success(let data):
+                XCTAssertEqual(data.offset, 10)
+            case .failure(_):
+                XCTFail()
+            }
+            promise.fulfill()
         }
+        wait(for: [promise], timeout: 10)
     }
-
 }

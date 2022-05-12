@@ -14,7 +14,11 @@ struct URLSessionProvider<T: Codable> {
         self.session = session
     }
 
-    func fetchData(path: String, parameters: [String: String] = [:], completionHandler: @escaping (Result<T, NetworkError>) -> Void) {
+    func fetchData(
+        path: String,
+        parameters: [String: String] = [:],
+        completionHandler: @escaping (Result<T, NetworkError>) -> Void
+    ) {
             guard var url = URLComponents(string: API.host + path) else {
                 return completionHandler(.failure(.urlError))
             }
@@ -34,7 +38,10 @@ struct URLSessionProvider<T: Codable> {
             getData(from: request, completionHandler: completionHandler)
         }
 
-    func getData(from urlRequest: URLRequest, completionHandler: @escaping (Result<T, NetworkError>) -> Void) {
+    func getData(
+        from urlRequest: URLRequest,
+        completionHandler: @escaping (Result<T, NetworkError>) -> Void
+    ) {
         let task = session.dataTask(with: urlRequest) { data, urlResponse, error in
             
             guard error == nil else {

@@ -31,9 +31,19 @@ class MockURLSessionDataTask: URLSessionDataTask {
 
 class MockURLSession: URLSessionProtocol {
 
-    func dataTask(with urlRequest: URLRequest, completionHandler: @escaping DataTaskCompletionHandler) -> URLSessionDataTask {
-        let successResponse = HTTPURLResponse(url: urlRequest.url!, statusCode: 200, httpVersion: "", headerFields: nil)
+    func dataTask(
+        with urlRequest: URLRequest,
+        completionHandler: @escaping DataTaskCompletionHandler
+    ) -> URLSessionDataTask {
+        let successResponse = HTTPURLResponse(
+            url: urlRequest.url!,
+            statusCode: 200, httpVersion: "",
+            headerFields: nil
+        )
 
-        return MockURLSessionDataTask { completionHandler( MockData().load(), successResponse, nil) }
+        return MockURLSessionDataTask { completionHandler(
+            MockData().load(),
+            successResponse, nil
+        ) }
     }
 }
