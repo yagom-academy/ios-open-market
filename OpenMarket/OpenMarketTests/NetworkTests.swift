@@ -17,7 +17,7 @@ class NetworkTests: XCTestCase {
     func test_네트워크에_서버상태요청시_OK가_넘어오는지() {
         // given
         let promise = expectation(description: "will return OK message")
-        let sut = API<String>.serverState
+        let sut = NetworkManager<String>()
         
         // when
         sut.checkServerState { result in
@@ -37,10 +37,11 @@ class NetworkTests: XCTestCase {
     func test_네트워크에_productList데이터_요청시_올바른값이_넘어오는지() {
         // given
         let promise = expectation(description: "will return productList")
-        let sut = API<ProductList>.requestList(page: 1, itemsPerPage: 10)
+        let sut = NetworkManager<ProductList>()
+        let endPoint = EndPoint.requestList(page: 1, itemsPerPage: 10)
         
         // when
-        sut.request { result in
+        sut.request(endPoint: endPoint) { result in
             // then
             switch result {
             case .success(let list):
@@ -59,10 +60,11 @@ class NetworkTests: XCTestCase {
     func test_네트워크에_product요청시_올바른값이_넘어오는지() {
         // given
         let promise = expectation(description: "will return product")
-        let sut = API<Product>.requestProduct(id: 2072)
+        let sut = NetworkManager<Product>()
+        let endPoint = EndPoint.requestProduct(id: 2072)
  
         // when
-        sut.request { result in
+        sut.request(endPoint: endPoint) { result in
             // then
             switch result {
             case .success(let product):
@@ -81,11 +83,12 @@ class NetworkTests: XCTestCase {
     func test_네트워크통신없이_요청시_성공하는_경우() {
         // given
         let mockSession = MockURLSession()
+        let sut = NetworkManager<ProductList>(session: mockSession)
         let promise = expectation(description: "will return productList")
-        let sut = API<ProductList>.requestList(page: 1, itemsPerPage: 10)
+        let endPoint = EndPoint.requestList(page: 1, itemsPerPage: 10)
         
         // when
-        sut.request(session: mockSession) { result in
+        sut.request(endPoint: endPoint) { result in
             // then
             switch result {
             case .success(let list):
@@ -104,11 +107,12 @@ class NetworkTests: XCTestCase {
     func test_네트워크통신없이_요청시_실패하는_경우() {
         // given
         let mockSession = MockURLSession(isRequestSuccess: false)
+        let sut = NetworkManager<ProductList>(session: mockSession)
         let promise = expectation(description: "will return productList")
-        let sut = API<ProductList>.requestList(page: 1, itemsPerPage: 10)
+        let endPoint = EndPoint.requestList(page: 1, itemsPerPage: 10)
         
         // when
-        sut.request(session: mockSession) { result in
+        sut.request(endPoint: endPoint) { result in
             // then
             switch result {
             case .success(_):

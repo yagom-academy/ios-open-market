@@ -14,39 +14,38 @@ enum NetworkErorr: Error {
     case urlError
 }
 
-enum API<T: Codable> {
+enum EndPoint {
     case serverState
     case requestList(page: Int, itemsPerPage: Int)
     case requestProduct(id: Int)
-    
+}
+
+extension EndPoint {
     private static var host: String {
         "https://market-training.yagom-academy.kr/"
     }
     
-    private static var session: URLSession {
-        let configuration = URLSessionConfiguration.default
-        configuration.waitsForConnectivity = true
-        configuration.timeoutIntervalForResource = 300
-        return URLSession(configuration: configuration)
-    }
-    
-    private var urlString: String {
+    var url: URL? {
         switch self {
         case .serverState:
-            return Self.host + "healthChecker"
+            return URL(string: Self.host + "healthChecker")
         case .requestList(let page, let itemsPerPage):
-            return Self.host + "api/products?items_per_page=\(itemsPerPage)&page_no=\(page)"
+            return URL(string: Self.host + "api/products?items_per_page=\(itemsPerPage)&page_no=\(page)")
         case .requestProduct(let id):
-            return Self.host + "api/products/\(id)"
+            return URL(string: Self.host + "api/products/\(id)")
         }
     }
 }
 
-//MARK: - Network Method
-
-extension API {
-    func checkServerState(session: URLSessionProtocol = session, completion: @escaping (Result<String, NetworkErorr>) -> Void) {
-        guard let url = URL(string: urlString) else {
+struct NetworkManager<T: Codable> {
+    private let session: URLSessionProtocol
+    
+    init(session: URLSessionProtocol = URLSession.customSession) {
+        self.session = session
+    }
+    
+    func checkServerState(completion: @escaping (Result<String, NetworkErorr>) -> Void) {
+        guard let url = EndPoint.serverState.url else {
             completion(.failure(.urlError))
             return
         }
@@ -71,8 +70,8 @@ extension API {
         }.resume()
     }
     
-    func request(session: URLSessionProtocol = session, completion: @escaping (Result<T, NetworkErorr>) -> Void) {
-        guard let url = URL(string: urlString) else {
+    func request(endPoint: EndPoint, completion: @escaping (Result<T, NetworkErorr>) -> Void) {
+        guard let url = endPoint.url else {
             completion(.failure(.urlError))
             return
         }
@@ -107,7 +106,7 @@ extension API {
     }
 }
 
-//MARK: - DateFormatter Method
+//MARK: - Extension DateFormatter
 
 private extension DateFormatter {
     static let dateFormatter: DateFormatter = {
@@ -115,4 +114,15 @@ private extension DateFormatter {
         dateFormatter.dateFormat = "yyyy-MM-dd'T'hh:mm:ss.SS"
         return dateFormatter
     }()
+}
+
+//MARK: - Extension URLSession
+
+private extension URLSession {
+    static var customSession: URLSession {
+        let configuration = URLSessionConfiguration.default
+        configuration.waitsForConnectivity = true
+        configuration.timeoutIntervalForResource = 300
+        return URLSession(configuration: configuration)
+    }
 }
