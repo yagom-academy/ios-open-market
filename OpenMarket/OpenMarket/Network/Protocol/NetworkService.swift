@@ -12,6 +12,8 @@ protocol NetworkService {
   )
   
   func fetchProductAll(
+    pageNumber: Int,
+    itemsPerPage: Int,
     _ completion: @escaping (Result<[Product], APINetworkError>) -> Void
   )
   
