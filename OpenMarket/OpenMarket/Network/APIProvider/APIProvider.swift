@@ -7,12 +7,6 @@
 
 import Foundation
 
-protocol URLSessionProtocol {
-    func dataTask(with url: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask
-}
-
-extension URLSession: URLSessionProtocol {}
-
 protocol Provider {
     associatedtype T
     func request(with endpoint: Requestable, completion: @escaping (Result<T, Error>) -> Void)

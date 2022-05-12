@@ -12,6 +12,8 @@
 		A1A3ECCB282A55E1000A440C /* EndPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A3ECCA282A55E1000A440C /* EndPoint.swift */; };
 		A1A3ECCE282A56C0000A440C /* APIProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A3ECCD282A56C0000A440C /* APIProvider.swift */; };
 		A1D0E1032829F5FE00451BF8 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1D0E1022829F5FE00451BF8 /* MainView.swift */; };
+		A1DADBF2282D4F88002C7B4D /* URLSession+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1DADBF1282D4F88002C7B4D /* URLSession+Extension.swift */; };
+		A1DADBF4282D4FCB002C7B4D /* URLSessionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1DADBF3282D4FCB002C7B4D /* URLSessionProtocol.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
 		C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */; };
 		C70FB0FF25BEF61C00C9924E /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FE25BEF61C00C9924E /* MainViewController.swift */; };
@@ -45,6 +47,8 @@
 		A1A3ECCA282A55E1000A440C /* EndPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndPoint.swift; sourceTree = "<group>"; };
 		A1A3ECCD282A56C0000A440C /* APIProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIProvider.swift; sourceTree = "<group>"; };
 		A1D0E1022829F5FE00451BF8 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		A1DADBF1282D4F88002C7B4D /* URLSession+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSession+Extension.swift"; sourceTree = "<group>"; };
+		A1DADBF3282D4FCB002C7B4D /* URLSessionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionProtocol.swift; sourceTree = "<group>"; };
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -97,6 +101,7 @@
 				A1A3ECCC282A56B4000A440C /* APIProvider */,
 				DA9AE547282A44D3003BA8B2 /* EndPoint */,
 				A1A3ECC7282A5525000A440C /* Error */,
+				A1DADBF3282D4FCB002C7B4D /* URLSessionProtocol.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -143,6 +148,14 @@
 			path = Controller;
 			sourceTree = "<group>";
 		};
+		A1DADBF0282D4F6E002C7B4D /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				A1DADBF1282D4F88002C7B4D /* URLSession+Extension.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
 		C70FB0EE25BEF61C00C9924E = {
 			isa = PBXGroup;
 			children = (
@@ -170,6 +183,7 @@
 				A1D0E1002829F5BF00451BF8 /* View */,
 				A1D0E1012829F5C300451BF8 /* Controller */,
 				A17840C8282A233B00DAB50D /* Network */,
+				A1DADBF0282D4F6E002C7B4D /* Extension */,
 				A147E6A1282B4F4300DD03A4 /* Common */,
 				C70FB10825BEF61D00C9924E /* Info.plist */,
 			);
@@ -326,6 +340,8 @@
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				DA9AE567282B5709003BA8B2 /* ProductsDetail.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
+				A1DADBF2282D4F88002C7B4D /* URLSession+Extension.swift in Sources */,
+				A1DADBF4282D4FCB002C7B4D /* URLSessionProtocol.swift in Sources */,
 				DA9AE561282AAA1C003BA8B2 /* ProductsListDTO.swift in Sources */,
 				A1A3ECCB282A55E1000A440C /* EndPoint.swift in Sources */,
 				DA9AE54B282A45FF003BA8B2 /* NetworkError.swift in Sources */,
