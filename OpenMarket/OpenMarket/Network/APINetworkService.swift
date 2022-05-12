@@ -8,8 +8,8 @@ import Foundation
 
 fileprivate enum Constant {
   static let baseURL = "https://market-training.yagom-academy.kr/"
-  static let productsPath = "api/products?page_no=1&items_per_page=10"
-  static let productPath = "api/products/"
+  static let productListPath = "api/products?page_no=1&items_per_page=10"
+  static let productDetailPath = "api/products/"
   static let healthCheckerPath = "healthChecker"
 }
 
@@ -39,7 +39,7 @@ final class APINetworkService: NetworkService {
   func fetchProductAll(
     _ completion: @escaping (Result<[Product], APINetworkError>) -> Void
   ) {
-    let urlString = Constant.baseURL + Constant.productsPath
+    let urlString = Constant.baseURL + Constant.productListPath
     
     self.request(url: urlString) { result in
       switch result {
@@ -58,7 +58,7 @@ final class APINetworkService: NetworkService {
     productID: Int,
     _ completion: @escaping (Result<Product, APINetworkError>) -> Void
   ) {
-    let urlString = Constant.baseURL + Constant.productPath + String(productID)
+    let urlString = Constant.baseURL + Constant.productDetailPath + String(productID)
     
     self.request(url: urlString) { result in
       switch result {
