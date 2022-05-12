@@ -9,7 +9,7 @@ import UIKit
 
 final class MainView: UIView {
     lazy var collectionView: UICollectionView = {
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: configureCollectionLayout())
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: configureListLayout())
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()
@@ -23,7 +23,7 @@ final class MainView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func configureCollectionLayout() -> UICollectionViewCompositionalLayout {
+    private func configureGridLayout() -> UICollectionViewCompositionalLayout {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         item.contentInsets = .init(top: 4, leading: 8, bottom: 4, trailing: 8)
@@ -37,6 +37,21 @@ final class MainView: UIView {
         
         return layout
     }
+    
+    private func configureListLayout() -> UICollectionViewCompositionalLayout {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalWidth(1/6))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 1)
+        
+        let section = NSCollectionLayoutSection(group: group)
+        
+        let layout = UICollectionViewCompositionalLayout(section: section)
+        
+        return layout
+    }
+    
     
     private func configureLayout() {
         addSubview(collectionView)
