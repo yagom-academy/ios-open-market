@@ -10,4 +10,5 @@ enum APIError: Error {
     case transportError
     case dataError
     case responseError
+    case decodeError
 }

@@ -25,7 +25,7 @@ enum DataDecoder {
                 let itemPage = try JSONDecoder().decode(ItemPage.self, from: data)
                 return itemPage
             } catch {
-                throw error
+                throw APIError.decodeError
             }
         case .failure(let error):
             throw error
