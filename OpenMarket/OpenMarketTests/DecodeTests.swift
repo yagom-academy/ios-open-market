@@ -17,7 +17,7 @@ final class DecodeTests: XCTestCase {
     try super.tearDownWithError()
   }
   
-  func testDecode_Mock데이터가제공될때_APIResponse타입으로디코딩이성공해야한다() {
+  func testDecode_Mock데이터가제공될때_디코딩이성공해야한다() {
     // given
     guard let asset = NSDataAsset(name: "products") else { return XCTFail() }
     // when
