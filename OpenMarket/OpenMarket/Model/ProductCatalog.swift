@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ProductCatalog: Decodable {
+struct ProductCatalog: Codable {
     let pageno: Int?
     let itemspPerPage: Int?
     let totalCount: Int?
