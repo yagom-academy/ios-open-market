@@ -20,7 +20,7 @@ struct NetworkHandler {
         
         let dataTask = session.dataTask(with: request) { data, response, error in
             guard error == nil else {
-                return completionHandler(.failure(.requestError))
+                return completionHandler(.failure(.transportError))
             }
             
             guard let data = data else {

@@ -7,7 +7,7 @@
 
 enum APIError: Error {
     case convertError
-    case requestError
+    case transportError
     case dataError
     case responseError
 }
