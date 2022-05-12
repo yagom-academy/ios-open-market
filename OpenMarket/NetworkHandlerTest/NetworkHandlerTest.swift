@@ -119,4 +119,26 @@ class NetworkHandlerTest: XCTestCase {
         }
         wait(for: [promise], timeout: 5)
     }
+    
+    func test_getData호출시_dataError를_잘던지는지() {
+        //given
+        let promise = expectation(description: "convertError를_잘던지는지")
+        var dummyData = DummyData()
+        dummyData.data = nil
+        dummyData.response = HTTPURLResponse(url: URL(string: "test")!, statusCode: 200, httpVersion: "2", headerFields: nil)
+        dummyData.error = nil
+        sut.session = StubURLSession(dummyData: dummyData)
+        
+        //when
+        sut.getData(pathString: "test") { data in
+            //then
+            do {
+                let _ = try DataDecoder.decodeItemPage(data: data)
+            } catch {
+                XCTAssertEqual(error as! APIError, APIError.dataError)
+            }
+            promise.fulfill()
+        }
+        wait(for: [promise], timeout: 5)
+    }
 }
