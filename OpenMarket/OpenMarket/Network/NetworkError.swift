@@ -9,4 +9,5 @@ enum NetworkError: Error {
     case unknownError
     case statusCodeError
     case decodeError
+    case urlError
 }
