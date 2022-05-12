@@ -33,7 +33,7 @@ final class MainViewController: UIViewController {
     
     private func configureCollectionView() {
         mainView.collectionView.dataSource = self
-        mainView.collectionView.register(ProductCell.self, forCellWithReuseIdentifier: "cell")
+        mainView.collectionView.register(ProductCell.self, forCellWithReuseIdentifier: ProductCell.identifier)
     }
 }
 
@@ -43,7 +43,7 @@ extension MainViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as? ProductCell else {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProductCell.identifier, for: indexPath) as? ProductCell else {
             return ProductCell()
         }
         
