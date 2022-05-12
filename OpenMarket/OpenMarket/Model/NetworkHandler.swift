@@ -27,7 +27,7 @@ struct NetworkHandler {
                 return completionHandler(.failure(.dataError))
             }
             
-            guard let response = response as? HTTPURLResponse, response.statusCode < 300 else {
+            guard let response = response as? HTTPURLResponse, (200...299).contains(response.statusCode) else {
                 return completionHandler(.failure(.responseError))
             }
             
