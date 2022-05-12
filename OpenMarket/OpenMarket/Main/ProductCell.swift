@@ -90,8 +90,19 @@ final class ProductCell: UICollectionViewCell {
     func configure(data: Product?) {
         thumbnailImageView.image = UIImage(systemName: "swift")
         nameLabel.text = data?.name
+        
+        if data?.price == data?.bargainPrice {
+            bargainPriceLabel.isHidden = true
+            priceLabel.textColor = .systemGray3
+        } else {
+            bargainPriceLabel.isHidden = false
+            priceLabel.textColor = .systemRed
+        }
+        
+        priceLabel.text = "\(data?.currency?.rawValue ?? "USD") \(data?.price ?? 1.0)"
         bargainPriceLabel.text = "\(data?.currency?.rawValue ?? "USD") \(data?.bargainPrice ?? 1.0)"
-        discountedPriceLabel.text = "\(data?.currency?.rawValue ?? "USD") \(data?.discountedPrice ?? 1.0)"
+        
+        QuantityLabel.textColor = data?.stock == 0 ? .systemOrange : .systemGray3
         QuantityLabel.text = data?.stock == 0 ? "품절" : "잔여수량: \(data?.stock ?? 0)"
     }
 }
