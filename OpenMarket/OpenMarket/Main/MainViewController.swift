@@ -23,7 +23,22 @@ final class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureView()
+        configureNavigationBar()
     }
+    
+    private func configureNavigationBar() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonDidTapped))
+        
+        let segmentControl = UISegmentedControl(items: ["LIST", "GRID"])
+        segmentControl.selectedSegmentTintColor = .systemBlue
+        segmentControl.addTarget(self, action: #selector(segmentValueDidChanged(segmentedControl:)), for: .valueChanged)
+        segmentControl.selectedSegmentIndex = 0
+        navigationItem.titleView = segmentControl
+    }
+    
+    @objc private func addButtonDidTapped() {}
+    
+    @objc private func segmentValueDidChanged(segmentedControl: UISegmentedControl) {}
     
     private func configureView() {
         mainView.backgroundColor = .systemBackground
