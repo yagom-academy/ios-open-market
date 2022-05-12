@@ -7,6 +7,10 @@
 
 import Foundation
 
+enum HttpMethod {
+  static let get = "GET"
+}
+
 struct URLSessionProvider<T: Decodable> {
   private let hostApi = "https://market-training.yagom-academy.kr"
   private let session: URLSessionProtocol
@@ -35,7 +39,7 @@ struct URLSessionProvider<T: Decodable> {
     }
     
     var request = URLRequest(url: url)
-    request.httpMethod = "GET"
+    request.httpMethod = HttpMethod.get
     
     session.dataTask(with: request) { data, response, error in
       guard error == nil else {
