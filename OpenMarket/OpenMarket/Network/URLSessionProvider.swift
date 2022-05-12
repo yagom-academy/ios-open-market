@@ -17,7 +17,7 @@ struct URLSessionProvider<T: Codable> {
     func getData(from urlRequest: URLRequest, completionHandler: @escaping (Result<T, NetworkError>) -> Void) {
         let task = session.dataTask(with: urlRequest) { data, urlResponse, error in
             
-            guard let data = data, error == nil else {
+            guard error == nil else {
                 completionHandler(.failure(.unknownError))
                 return
             }
@@ -25,6 +25,11 @@ struct URLSessionProvider<T: Codable> {
             guard let httpResponse = urlResponse as? HTTPURLResponse,
                   (200...299).contains(httpResponse.statusCode) else {
                 completionHandler(.failure(.statusCodeError))
+                return
+            }
+            
+            guard let data = data else {
+                completionHandler(.failure(.unknownError))
                 return
             }
             
