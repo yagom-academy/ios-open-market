@@ -7,6 +7,8 @@ disabled_rules:
 - line_length
 - unused_optional_binding
 - comment_spacing
+- empty_enum_arguments
+- xctfail_message
 
 excluded:
 - Pods
