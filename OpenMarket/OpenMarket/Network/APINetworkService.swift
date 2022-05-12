@@ -8,7 +8,7 @@ import Foundation
 
 fileprivate enum Constant {
   static let baseURL = "https://market-training.yagom-academy.kr/"
-  static let productListPath = "api/products?page_no=1&items_per_page=10"
+  static let productListPath = "api/products?"
   static let productDetailPath = "api/products/"
   static let healthCheckerPath = "healthChecker"
 }
@@ -37,11 +37,14 @@ final class APINetworkService: NetworkService {
   }
   
   func fetchProductAll(
+    pageNumber: Int,
+    itemsPerPage: Int,
     _ completion: @escaping (Result<[Product], APINetworkError>) -> Void
   ) {
     let urlString = Constant.baseURL + Constant.productListPath
+    let url = makeURL(url: urlString, queryItems: ["page_no": pageNumber, "items_per_page": itemsPerPage])
     
-    self.request(url: urlString) { result in
+    self.request(url: url) { result in
       switch result {
       case let .success(data):
         guard let apiResponse = try? JSONDecoder().decode(APIResponse.self, from: data)
@@ -93,15 +96,37 @@ final class APINetworkService: NetworkService {
       }
     }.resume()
   }
+  
+  private func request(
+    url: URL?,
+    _ completion: @escaping (Result<Data, APINetworkError>) -> Void
+  ) {
+    guard let url = url else { return }
+    
+    self.urlSession.dataTask(with: url) { data, response, error in
+      guard error == nil else { return }
+      guard let response = response as? HTTPURLResponse else { return }
+      guard let data = data else { return }
+      
+      switch response.statusCode {
+      case 200...299:
+        completion(.success(data))
+      case 400:
+        completion(.failure(.badRequest))
+      default:
+        break
+      }
+    }.resume()
+  }
 }
 
 // MARK: URLComponents Method
 
 extension APINetworkService {
-  func makeURL(url urlString: String, queryItems: [String: String]? = nil) -> URL? {
+  private func makeURL(url urlString: String, queryItems: [String: Int]? = nil) -> URL? {
     var urlComponents = URLComponents(string: urlString)
     queryItems?.forEach({ queryItem in
-      urlComponents?.queryItems?.append(URLQueryItem(name: queryItem.key, value: queryItem.value))
+      urlComponents?.queryItems?.append(URLQueryItem(name: queryItem.key, value: String(queryItem.value)))
     })
     return urlComponents?.url
   }
