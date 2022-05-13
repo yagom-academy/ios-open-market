@@ -22,12 +22,10 @@ class MockURLSessionTest: XCTestCase {
     
     func test_네트워크가_연결이_되지않아도_getData의_함수를_호출하면_Mock데이터의_itemspPerPage의_값이_20인지() {
         //given
-        let promise = expectation(description: "")
-        let url = URL(string: "empty")!
-        let requset = URLRequest(url: url)
+        let promise = expectation(description: "The Value of items per page 20")
         
         //when
-        sut.getData(from: requset) { result in
+        sut.getData(from: .healthChecker) { result in
             //then
             switch result {
             case .success(let data):
@@ -42,12 +40,10 @@ class MockURLSessionTest: XCTestCase {
     
     func test_네트워크가_연결이_되지않아도_getData의_함수를_호출하면_Mock데이터의_totalCount의_값이_10인지() {
         //given
-        let promise = expectation(description: "")
-        let url = URL(string: "empty")!
-        let requset = URLRequest(url: url)
+        let promise = expectation(description: "The value of the totalCount is 10")
         
         //when
-        sut.getData(from: requset) { result in
+        sut.getData(from: .healthChecker) { result in
             //then
             switch result {
             case .success(let data):
@@ -62,12 +58,10 @@ class MockURLSessionTest: XCTestCase {
     
     func test_네트워크가_연결이_되지않아도_getData의_함수를_호출하면_Mock데이터의_pages의_첫번째값의_id값이_20인지() {
         //given
-        let promise = expectation(description: "")
-        let url = URL(string: "empty")!
-        let requset = URLRequest(url: url)
+        let promise = expectation(description: "The first value of pages is 20")
         
         //when
-        sut.getData(from: requset) { result in
+        sut.getData(from: .healthChecker) { result in
             //then
             switch result {
             case .success(let data):

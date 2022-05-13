@@ -21,10 +21,10 @@ class URLHealthCheckerSessionTests: XCTestCase {
     
     func test_path가_healthChecker일때_getUser_메서드를_호출하면_data의_값이_OK인지() {
         //given
-        let promise = expectation(description: "")
-        let path = API.healthChecker.path
+        let promise = expectation(description: "data value is OK")
+       
         //when
-        sut.fetchData(path: path) { result in
+        sut.getData(from: .healthChecker) { result in
             //then
             switch result {
             case .success(let data):

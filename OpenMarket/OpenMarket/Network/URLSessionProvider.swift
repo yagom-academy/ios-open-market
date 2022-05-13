@@ -13,36 +13,19 @@ struct URLSessionProvider<T: Codable> {
     init (session: URLSessionProtocol = URLSession.shared) {
         self.session = session
     }
-
-    func fetchData(
-        path: String,
-        parameters: [String: String] = [:],
-        completionHandler: @escaping (Result<T, NetworkError>) -> Void
-    ) {
-            guard var url = URLComponents(string: API.host + path) else {
-                return completionHandler(.failure(.urlError))
-            }
-
-            let query = parameters.map { (key: String, value: String) in
-                URLQueryItem(name: key, value: value)
-            }
-
-            url.queryItems = query
-            guard let url = url.url else {
-                return completionHandler(.failure(.urlError))
-            }
-
-            var request = URLRequest(url: url)
-            request.httpMethod = "GET"
-
-            getData(from: request, completionHandler: completionHandler)
-        }
-
+    
     func getData(
-        from urlRequest: URLRequest,
+        from url: Endpoint,
         completionHandler: @escaping (Result<T, NetworkError>) -> Void
     ) {
-        let task = session.dataTask(with: urlRequest) { data, urlResponse, error in
+        guard let url = url.url else {
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        
+        let task = session.dataTask(with: request) { data, urlResponse, error in
             
             guard error == nil else {
                 completionHandler(.failure(.unknownError))
