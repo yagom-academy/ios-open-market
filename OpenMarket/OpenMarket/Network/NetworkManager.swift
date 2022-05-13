@@ -21,35 +21,41 @@ struct NetworkManager<T: Decodable> {
         self.session = session
     }
     
-    func execute(with url: URL, completion: @escaping (Result<T, NetworkError>) -> Void) {
+    func execute(with api: APIable, completion: @escaping (Result<T, NetworkError>) -> Void) {
         let successRange = 200...299
-        var request = URLRequest(url: url)
-        request.httpMethod = "GET"
         
-        session.dataTask(with: url) { data, response, error in
-            guard error == nil else {
-                completion(.failure(.error))
-                return
-            }
-            
-            guard let statusCode = (response as? HTTPURLResponse)?.statusCode,
-                  successRange.contains(statusCode) else {
-                completion(.failure(.statusCode))
-                return
-            }
-            
-            guard let data = data else {
-                completion(.failure(.data))
-                return
-            }
-            
-            do {
-                let decoder = JSONDecoder()
-                let result = try decoder.decode(T.self, from: data)
-                completion(.success(result))
-            } catch {
-                completion(.failure(.decode))
-            }
-        }.resume()
+        switch api.method {
+        case .get:
+            session.dataTask(with: api) { response in
+                guard response.error == nil else {
+                    completion(.failure(.error))
+                    return
+                }
+                
+                guard successRange.contains(response.statusCode) else {
+                    completion(.failure(.statusCode))
+                    return
+                }
+                
+                guard let data = response.data else {
+                    completion(.failure(.data))
+                    return
+                }
+                
+                do {
+                    let decoder = JSONDecoder()
+                    let result = try decoder.decode(T.self, from: data)
+                    completion(.success(result))
+                } catch {
+                    completion(.failure(.decode))
+                }
+            }       
+        case .post:
+            print("post")
+        case .put:
+            print("put")
+        case .delete:
+            print("delete")
+        }
     }
 }
