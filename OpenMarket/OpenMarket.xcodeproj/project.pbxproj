@@ -37,6 +37,7 @@
 		E1B91479282A3A7700DD2820 /* RegistrationParameter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1B91478282A3A7700DD2820 /* RegistrationParameter.swift */; };
 		E1B9147F282A80D300DD2820 /* PageInformationTest.json in Resources */ = {isa = PBXBuildFile; fileRef = E1B9147E282A80D300DD2820 /* PageInformationTest.json */; };
 		E1C321EA282E19A60095D7E4 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1C321E9282E19A60095D7E4 /* NetworkError.swift */; };
+		E1C321EB282E3E060095D7E4 /* StubURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CA10EB9282E251000D0376F /* StubURLSession.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -311,6 +312,7 @@
 				9C7E8822282A329200D83081 /* Vendor.swift in Sources */,
 				E1B91475282A2CBE00DD2820 /* Currency.swift in Sources */,
 				E1B91479282A3A7700DD2820 /* RegistrationParameter.swift in Sources */,
+				E1C321EB282E3E060095D7E4 /* StubURLSession.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

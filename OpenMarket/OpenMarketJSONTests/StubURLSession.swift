@@ -37,4 +37,8 @@ final class StubURLSessionDataTask: URLSessionDataTask {
         self.dummyData = dummy
         self.dummyData?.completionHandler = completionHandler
     }
+    
+    override func resume() {
+        dummyData?.completion()
+    }
 }
