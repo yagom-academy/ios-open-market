@@ -5,7 +5,7 @@
 //  Created by 두기, minseong on 2022/05/12.
 //
 
-struct ItemDetail:Codable, ItemAble {
+struct ItemDetail: Codable, ItemAble {
     var id: Int
     var vendorId: Int
     var name: String
