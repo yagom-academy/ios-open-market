@@ -17,17 +17,7 @@ final class MainViewController: UIViewController {
     private lazy var mainView = MainView(frame: self.view.bounds)
     private lazy var dataSource = makeDataSource()
     
-    private let dummyList: [Product]! = {
-        guard let path = Bundle.main.path(forResource: "products", ofType: "json") else { return nil }
-        guard let jsonString = try? String(contentsOfFile: path) else { return nil }
-        guard let data = jsonString.data(using: .utf8) else { return nil }
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd'T'hh:mm:ss.SS"
-        let jsonDecoder = JSONDecoder()
-        jsonDecoder.dateDecodingStrategy = .formatted(dateFormatter)
-        return try? jsonDecoder.decode(ProductList.self, from: data).products
-        
-    }()
+    private var products = [Product]()
     
     private lazy var segmentControl: UISegmentedControl = {
         let segmentControl = UISegmentedControl(items: ["LIST", "GRID"])
@@ -41,7 +31,7 @@ final class MainViewController: UIViewController {
         super.viewDidLoad()
         configureView()
         configureNavigationBar()
-        applySnapshot()
+        requestData()
     }
     
     private func configureView() {
@@ -65,6 +55,25 @@ final class MainViewController: UIViewController {
     @objc private func segmentValueDidChanged(segmentedControl: UISegmentedControl) {
         mainView.changeLayout(index: segmentedControl.selectedSegmentIndex)
         mainView.collectionView.reloadData()
+    }
+}
+
+// MARK: - NetWork
+
+extension MainViewController {
+    private func requestData() {
+        let endPoint = EndPoint.requestList(page: 1, itemsPerPage: 30)
+        
+        NetworkManager<ProductList>().request(endPoint: endPoint) { [weak self] result in
+            switch result {
+            case .success(let data):
+                guard let result = data.products else { return }
+                self?.products = result
+                self?.applySnapshot()
+            case .failure(let error):
+                print(error)
+            }
+        }
     }
 }
 
@@ -94,10 +103,12 @@ extension MainViewController {
     }
     
     private func applySnapshot() {
-        var snapshot = Snapshot()
-        
-        snapshot.appendSections([.main])
-        snapshot.appendItems(dummyList)
-        dataSource.apply(snapshot)
+        DispatchQueue.main.async { [self] in
+            var snapshot = Snapshot()
+            
+            snapshot.appendSections([.main])
+            snapshot.appendItems(products)
+            dataSource.apply(snapshot)
+        }
     }
 }
