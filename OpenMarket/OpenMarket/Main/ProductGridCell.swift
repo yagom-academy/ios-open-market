@@ -92,7 +92,6 @@ extension ProductGridCell {
     }
     
     func configure(data: Product?) {
-        thumbnailImageView.image = UIImage(systemName: "swift")
         nameLabel.text = data?.name
         
         if data?.price == data?.bargainPrice {
@@ -112,5 +111,15 @@ extension ProductGridCell {
     
     func setImage(with image: UIImage) {
         thumbnailImageView.image = image
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        thumbnailImageView.image = UIImage(systemName: "photo.on.rectangle.angled")
+        nameLabel.text = nil
+        priceLabel.text = nil
+        bargainPriceLabel.text = nil
+        QuantityLabel.textColor = .label
+        QuantityLabel.text = nil
     }
 }
