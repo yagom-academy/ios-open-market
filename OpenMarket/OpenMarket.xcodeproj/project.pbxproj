@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		64E900A428292CEA00FD415B /* Products.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64E900A328292CEA00FD415B /* Products.swift */; };
 		64E900C0282A2F3D00FD415B /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64E900BF282A2F3D00FD415B /* NetworkManager.swift */; };
-		64E900C4282AAF7300FD415B /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64E900C3282AAF7300FD415B /* API.swift */; };
+		64E900C4282AAF7300FD415B /* APIable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64E900C3282AAF7300FD415B /* APIable.swift */; };
 		B34973D6282A0AE0001F9B42 /* URLSessionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B34973D5282A0AE0001F9B42 /* URLSessionProtocol.swift */; };
 		B34973DE282B494D001F9B42 /* OpenMarketTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B34973DD282B494D001F9B42 /* OpenMarketTests.swift */; };
 		B366BF5B2829F5B200FA90B4 /* StubURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = B366BF5A2829F5B200FA90B4 /* StubURLSession.swift */; };
@@ -34,7 +34,7 @@
 /* Begin PBXFileReference section */
 		64E900A328292CEA00FD415B /* Products.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Products.swift; sourceTree = "<group>"; };
 		64E900BF282A2F3D00FD415B /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
-		64E900C3282AAF7300FD415B /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
+		64E900C3282AAF7300FD415B /* APIable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIable.swift; sourceTree = "<group>"; };
 		B34973D5282A0AE0001F9B42 /* URLSessionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionProtocol.swift; sourceTree = "<group>"; };
 		B34973DB282B494D001F9B42 /* OpenMarketTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenMarketTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B34973DD282B494D001F9B42 /* OpenMarketTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketTests.swift; sourceTree = "<group>"; };
@@ -107,7 +107,7 @@
 				B366BF5A2829F5B200FA90B4 /* StubURLSession.swift */,
 				B34973D5282A0AE0001F9B42 /* URLSessionProtocol.swift */,
 				64E900BF282A2F3D00FD415B /* NetworkManager.swift */,
-				64E900C3282AAF7300FD415B /* API.swift */,
+				64E900C3282AAF7300FD415B /* APIable.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -263,7 +263,7 @@
 				B366BF5B2829F5B200FA90B4 /* StubURLSession.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
 				64E900A428292CEA00FD415B /* Products.swift in Sources */,
-				64E900C4282AAF7300FD415B /* API.swift in Sources */,
+				64E900C4282AAF7300FD415B /* APIable.swift in Sources */,
 				B34973D6282A0AE0001F9B42 /* URLSessionProtocol.swift in Sources */,
 				64E900C0282A2F3D00FD415B /* NetworkManager.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
