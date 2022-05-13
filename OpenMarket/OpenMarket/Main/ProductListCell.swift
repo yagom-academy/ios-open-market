@@ -91,35 +91,39 @@ extension ProductListCell {
         ])
     }
     
-    func configure(data: Product?) {
-        nameLabel.text = data?.name
-        
-        if data?.price == data?.bargainPrice {
-            bargainPriceLabel.isHidden = true
-            priceLabel.textColor = .systemGray3
-        } else {
-            bargainPriceLabel.isHidden = false
-            priceLabel.textColor = .systemRed
-        }
-        
-        priceLabel.text = "\(data?.currency?.rawValue ?? "USD") \(data?.price ?? 1.0)"
-        bargainPriceLabel.text = "\(data?.currency?.rawValue ?? "USD") \(data?.bargainPrice ?? 1.0)"
-        
-        QuantityLabel.textColor = data?.stock == 0 ? .systemOrange : .systemGray3
-        QuantityLabel.text = data?.stock == 0 ? "품절" : "잔여수량: \(data?.stock ?? 0)"
-    }
-    
-    func setImage(with image: UIImage) {
-        thumbnailImageView.image = image
-    }
-    
     override func prepareForReuse() {
         super.prepareForReuse()
         thumbnailImageView.image = UIImage(systemName: "photo.on.rectangle.angled")
         nameLabel.text = nil
+        priceLabel.attributedText = nil
         priceLabel.text = nil
         bargainPriceLabel.text = nil
         QuantityLabel.textColor = .label
         QuantityLabel.text = nil
     }
+    
+    func configure(data: Product) {
+        nameLabel.text = data.name
+        
+        priceLabel.text = data.price?.priceFormat(currency: data.currency?.rawValue)
+        bargainPriceLabel.text = data.bargainPrice?.priceFormat(currency: data.currency?.rawValue)
+        
+        if data.price == data.bargainPrice {
+            bargainPriceLabel.isHidden = true
+            priceLabel.textColor = .systemGray3
+        } else {
+            bargainPriceLabel.isHidden = false
+            priceLabel.textColor = .systemRed
+            priceLabel.addStrikethrough()
+        }
+        
+        QuantityLabel.textColor = data.stock == 0 ? .systemOrange : .systemGray3
+        QuantityLabel.text = data.stock == 0 ? "품절" : "잔여수량: \(data.stock ?? 0)"
+    }
+    
+    func setImage(with image: UIImage) {
+        thumbnailImageView.image = image
+    }
 }
+
+
