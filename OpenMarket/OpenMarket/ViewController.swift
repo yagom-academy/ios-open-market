@@ -21,16 +21,18 @@ class ViewController: UIViewController {
         let sampleList: ProductList = parser.decode(name: "products")!
         return sampleList.pages
     }()
+    
     override func viewDidLoad() {
+        super.viewDidLoad()
+        
         self.view.addSubview(segmentedControl)
         self.view.addSubview(collectionView)
+        segmentLayout()
         configureCollectionView()
-        self.view.backgroundColor = .white
-        super.viewDidLoad()
         collectionViewDelegate()
         registerCollectionView()
+        //self.view.backgroundColor = .white
         
-        segmentLayout()
         segmentedControl.addTarget(self, action: #selector(arrangementChange(_:)), for: .valueChanged)
         segmentedControl.selectedSegmentIndex = 0
         self.arrangementChange(segmentedControl)
@@ -39,7 +41,7 @@ class ViewController: UIViewController {
     private func listLayout() -> UICollectionViewCompositionalLayout {
         var listConfiguration = UICollectionLayoutListConfiguration(appearance: .grouped)
         listConfiguration.showsSeparators = true
-        listConfiguration.backgroundColor = UIColor.systemIndigo
+        listConfiguration.backgroundColor = UIColor.clear
         return UICollectionViewCompositionalLayout.list(using: listConfiguration)
     }
     
@@ -78,12 +80,14 @@ class ViewController: UIViewController {
     }
     
     func configureCollectionView() {
+        
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 25.0).isActive = true
         collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
     }
-
+}
 
 extension ViewController {
     func registerCollectionView() {
