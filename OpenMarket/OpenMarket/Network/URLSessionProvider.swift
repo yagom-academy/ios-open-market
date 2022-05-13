@@ -19,6 +19,7 @@ struct URLSessionProvider<T: Codable> {
         completionHandler: @escaping (Result<T, NetworkError>) -> Void
     ) {
         guard let url = url.url else {
+            completionHandler(.failure(.urlError))
             return
         }
         
@@ -28,7 +29,7 @@ struct URLSessionProvider<T: Codable> {
         let task = session.dataTask(with: request) { data, urlResponse, error in
             
             guard error == nil else {
-                completionHandler(.failure(.unknownError))
+                completionHandler(.failure(.clientError))
                 return
             }
             
@@ -39,7 +40,7 @@ struct URLSessionProvider<T: Codable> {
             }
             
             guard let data = data else {
-                completionHandler(.failure(.unknownError))
+                completionHandler(.failure(.dataError))
                 return
             }
             
