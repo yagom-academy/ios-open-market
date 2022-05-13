@@ -39,6 +39,11 @@ extension EndPoint {
     }
 }
 
+final class Cache {
+    static let imageCache = NSCache<NSString, UIImage>()
+    private init() { }
+}
+
 struct NetworkManager<T: Codable> {
     private let session: URLSessionProtocol
     
@@ -113,6 +118,11 @@ struct NetworkManager<T: Codable> {
             return
         }
         
+        if let cacheImage = Cache.imageCache.object(forKey: url.absoluteString as NSString) {
+            completion(.success(cacheImage))
+            return
+        }
+        
         session.dataTask(with: url) { data, response, error in
             guard error == nil else {
                 completion(.failure(.severError))
@@ -134,6 +144,7 @@ struct NetworkManager<T: Codable> {
                 return
             }
             
+            Cache.imageCache.setObject(image, forKey: url.absoluteString as NSString)
             completion(.success(image))
         }.resume()
     }
