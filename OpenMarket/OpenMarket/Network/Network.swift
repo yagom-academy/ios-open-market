@@ -6,12 +6,14 @@
 //
 
 import Foundation
+import UIKit
 
 enum NetworkErorr: Error {
     case unknown
     case jsonError
     case severError
     case urlError
+    case imageError
 }
 
 enum EndPoint {
@@ -102,6 +104,37 @@ struct NetworkManager<T: Codable> {
                 completion(.failure(.jsonError))
                 return
             }
+        }.resume()
+    }
+    
+    func downloadImage(urlString: String?, completion: @escaping (Result<UIImage, NetworkErorr>) -> Void) {
+        guard let urlString = urlString, let url = URL(string: urlString) else {
+            completion(.failure(.urlError))
+            return
+        }
+        
+        session.dataTask(with: url) { data, response, error in
+            guard error == nil else {
+                completion(.failure(.severError))
+                return
+            }
+            
+            guard let responseCode = (response as? HTTPURLResponse)?.statusCode, (200..<300).contains(responseCode) else {
+                completion(.failure(.severError))
+                return
+            }
+            
+            guard let data = data else {
+                completion(.failure(.unknown))
+                return
+            }
+            
+            guard let image = UIImage(data: data) else {
+                completion(.failure(.imageError))
+                return
+            }
+            
+            completion(.success(image))
         }.resume()
     }
 }

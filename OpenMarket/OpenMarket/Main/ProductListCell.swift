@@ -15,7 +15,7 @@ class ProductListCell: UICollectionViewCell {
         return stackView
     }()
     
-    private let thumbnailImageView: UIImageView = {
+    let thumbnailImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView

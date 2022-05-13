@@ -62,7 +62,7 @@ final class MainViewController: UIViewController {
 
 extension MainViewController {
     private func requestData() {
-        let endPoint = EndPoint.requestList(page: 1, itemsPerPage: 30)
+        let endPoint = EndPoint.requestList(page: 1, itemsPerPage: 1000)
         
         NetworkManager<ProductList>().request(endPoint: endPoint) { [weak self] result in
             switch result {
@@ -91,10 +91,32 @@ extension MainViewController {
             case .grid:
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProductGridCell.identifier, for: indexPath) as? ProductGridCell else { return ProductGridCell() }
                 cell.configure(data: itemIdentifier)
+                NetworkManager<String>().downloadImage(urlString: itemIdentifier.thumbnail) { result in
+                    switch result {
+                    case .success(let image):
+                        DispatchQueue.main.async {
+                            guard collectionView.indexPath(for: cell) == indexPath else { return }
+                            cell.thumbnailImageView.image = image
+                        }
+                    case .failure(_):
+                        break
+                    }
+                }
                 return cell
             case .list:
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProductListCell.identifier, for: indexPath) as? ProductListCell else { return ProductListCell() }
                 cell.configure(data: itemIdentifier)
+                NetworkManager<String>().downloadImage(urlString: itemIdentifier.thumbnail) { result in
+                    switch result {
+                    case .success(let image):
+                        DispatchQueue.main.async {
+                            guard collectionView.indexPath(for: cell) == indexPath else { return }
+                            cell.thumbnailImageView.image = image
+                        }
+                    case .failure(_):
+                        break
+                    }
+                }
                 return cell
             }
         }
