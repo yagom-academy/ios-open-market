@@ -74,14 +74,12 @@ class ViewController: UIViewController {
             collectionView
                 .register(ListCollectionViewCell.classForCoder(), forCellWithReuseIdentifier: "listCell")
             self.collectionView.reloadData()
-            print(self.arrangeMode)
         } else if mode == ArrangeMode.grid.rawValue {
             self.arrangeMode = .grid
             collectionView.setCollectionViewLayout(gridLayout(), animated: true)
             collectionView
                 .register(GridCollectionViewCell.classForCoder(), forCellWithReuseIdentifier: "gridCell")
             self.collectionView.reloadData()
-            print(self.arrangeMode)
         }
     }
     

@@ -26,23 +26,26 @@ class GridCollectionViewCell: UICollectionViewCell {
         setUpLabel()
     }
     
-    let stackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .vertical
-        stackView.spacing = 5
-        stackView.alignment = .center
-        stackView.distribution = .equalSpacing
-        return stackView
-    }()
+    
     
     func setUpCell() {
         productNameLabel = UILabel()
         productPriceLabel = UILabel()
         productImageView = UIImageView()
+        productStockLabel = UILabel()
+        productBargainPriceLabel = UILabel()
         productImageView.image = UIImage(named: "macmini")
         productImageView.heightAnchor.constraint(equalToConstant: 100).isActive = true
         productImageView.widthAnchor.constraint(equalToConstant: 120).isActive = true
         productImageView.contentMode = .scaleAspectFit
+        
+        let stackView: UIStackView = {
+            let stackView = UIStackView()
+            stackView.axis = .vertical
+            stackView.spacing = 5
+            stackView.alignment = .center
+            return stackView
+        }()
         
         contentView.addSubview(stackView)
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -58,18 +61,19 @@ class GridCollectionViewCell: UICollectionViewCell {
             stackView.distribution = .fillEqually
             return stackView
         }()
-        productNameLabel.topAnchor.constraint(equalTo: productImageView.bottomAnchor, constant: 5).isActive = true
-        
-        vStackView.topAnchor.constraint(equalTo: productNameLabel.bottomAnchor, constant: 5).isActive = true
-        vStackView.bottomAnchor.constraint(equalTo: stackView.bottomAnchor, constant: -5).isActive = true
-        
-        vStackView.addArrangedSubview(productBargainPriceLabel)
-        vStackView.addArrangedSubview(productPriceLabel)
         
         stackView.addArrangedSubview(productImageView)
         stackView.addArrangedSubview(productNameLabel)
         stackView.addArrangedSubview(vStackView)
         stackView.addArrangedSubview(productStockLabel)
+        productNameLabel.topAnchor.constraint(equalTo: productImageView.bottomAnchor).isActive = true
+        
+        vStackView.topAnchor.constraint(equalTo: productNameLabel.bottomAnchor).isActive = true
+        
+        vStackView.addArrangedSubview(productBargainPriceLabel)
+        vStackView.addArrangedSubview(productPriceLabel)
+        
+        
         
     }
     
