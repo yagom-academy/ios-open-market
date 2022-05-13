@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ProductListCell: UICollectionViewCell {
+final class ProductListCell: UICollectionViewCell {
     private lazy var productStackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [thumbnailImageView, informationStackView])
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -70,7 +70,11 @@ class ProductListCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+}
+
+// MARK: - ProductListCell Method
+
+extension ProductListCell {
     private func configureLayout() {
         contentView.addSubview(productStackView)
         
