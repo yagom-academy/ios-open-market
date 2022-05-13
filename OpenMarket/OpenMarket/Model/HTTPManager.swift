@@ -45,11 +45,12 @@ struct HTTPManager {
         self.urlSession = urlSession
     }
     
-    func listenHealthChecker(completionHandler: @escaping (Result<HTTPURLResponse, NetworkError>) -> Void) {
+    @discardableResult
+    func listenHealthChecker(completionHandler: @escaping (Result<HTTPURLResponse, NetworkError>) -> Void) -> URLSessionDataTask? {
         let requestURL = hostURL + TargetURL.healthChecker.string
         guard let url = URL(string: requestURL) else {
             completionHandler(.failure(.invalidURL))
-            return
+            return nil
         }
         let task = urlSession.dataTask(with: url) { data, response, error in
             if let _ = error {
@@ -68,13 +69,15 @@ struct HTTPManager {
             completionHandler(.failure(.invalidStatusCode(error: nil, statusCode: httpResponse.statusCode)))
         }
         task.resume()
+        return task
     }
     
-    func loadData(targetURL: TargetURL, completionHandler: @escaping (Result<Data, NetworkError>) -> Void) {
+    @discardableResult
+    func loadData(targetURL: TargetURL, completionHandler: @escaping (Result<Data, NetworkError>) -> Void) -> URLSessionDataTask? {
         let requestURL = hostURL + targetURL.string
         guard let url = URL(string: requestURL) else {
             completionHandler(.failure(.invalidURL))
-            return
+            return nil
         }
         let task = urlSession.dataTask(with: url) { data, response, error in
             if let _ = error {
@@ -95,5 +98,6 @@ struct HTTPManager {
             completionHandler(.failure(.invalidStatusCode(error: nil, statusCode: httpResponse.statusCode)))
         }
         task.resume()
+        return task
     }
 }
