@@ -5,7 +5,7 @@
 //  Created by Red, Mino on 2022/05/10.
 //
 
-fileprivate extension Constansts {
+fileprivate extension Constants {
     static let productsListPath = "/api/products"
     static let productsDetailPath = "/api/products/"
 }
@@ -13,11 +13,11 @@ fileprivate extension Constansts {
 struct EndPointStorage {
     static func getProductsList(pageNumber: Int, perPages: Int) -> EndPoint {
         let productsListDTO = ProductsListDTO(pageNumber: pageNumber, perPages: perPages)
-        let endpoint = EndPoint(path: Constansts.productsListPath, queryParameters: productsListDTO)
+        let endpoint = EndPoint(path: Constants.productsListPath, queryParameters: productsListDTO)
         return endpoint
     }
     static func getProductsDetail(id: String) -> EndPoint {
-        let endpoint = EndPoint(path: Constansts.productsDetailPath + id)
+        let endpoint = EndPoint(path: Constants.productsDetailPath + id)
         return endpoint
     }
 }
