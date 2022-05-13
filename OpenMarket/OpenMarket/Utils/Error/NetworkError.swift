@@ -7,8 +7,21 @@
 
 import Foundation
 
-enum NetworkError: String, Error {
+enum NetworkError: Error {
     case invalidURL
-    case clientError
-    case serverError
+    case invalidStatusCode(error: Error?, statusCode: Int?)
+    case emptyData
+}
+
+extension NetworkError: LocalizedError {
+    var errorDescription: String? {
+        switch self {
+        case .invalidURL:
+            return "invalidURL"
+        case .invalidStatusCode(let error, let statusCode):
+            return "error: \(String(describing: error)), statusCode: \(String(describing: statusCode))"
+        case .emptyData:
+            return "emptyData"
+        }
+    }
 }

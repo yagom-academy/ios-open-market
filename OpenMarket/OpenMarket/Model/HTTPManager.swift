@@ -53,19 +53,19 @@ struct HTTPManager {
         }
         let task = urlSession.dataTask(with: url) { data, response, error in
             if let _ = error {
-                completionHandler(.failure(.clientError))
+                completionHandler(.failure(.invalidStatusCode(error: error, statusCode: nil)))
                 return
             }
             guard let httpResponse = response as? HTTPURLResponse,
                   StatusCode.okSuccess == httpResponse.statusCode else {
-                completionHandler(.failure(.serverError))
+                completionHandler(.failure(.invalidStatusCode(error: nil, statusCode: nil)))
                 return
             }
             if httpResponse.statusCode == StatusCode.okSuccess {
                 completionHandler(.success(httpResponse))
                 return
             }
-            completionHandler(.failure(.serverError))
+            completionHandler(.failure(.invalidStatusCode(error: nil, statusCode: httpResponse.statusCode)))
         }
         task.resume()
     }
@@ -78,12 +78,12 @@ struct HTTPManager {
         }
         let task = urlSession.dataTask(with: url) { data, response, error in
             if let _ = error {
-                completionHandler(.failure(.clientError))
+                completionHandler(.failure(.invalidStatusCode(error: error, statusCode: nil)))
                 return
             }
             guard let httpResponse = response as? HTTPURLResponse,
                   (StatusCode.successRange).contains(httpResponse.statusCode) else {
-                completionHandler(.failure(.serverError))
+                completionHandler(.failure(.invalidStatusCode(error: nil, statusCode: nil)))
                 return
             }
             if let mimeType = httpResponse.mimeType,
@@ -92,7 +92,7 @@ struct HTTPManager {
                 completionHandler(.success(data))
                 return
             }
-            completionHandler(.failure(.serverError))
+            completionHandler(.failure(.invalidStatusCode(error: nil, statusCode: httpResponse.statusCode)))
         }
         task.resume()
     }
