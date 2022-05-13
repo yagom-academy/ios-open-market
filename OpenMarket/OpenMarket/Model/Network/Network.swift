@@ -9,8 +9,8 @@ import Foundation
 
 protocol NetworkAble {
     func requestData(url: String,
-                     completeHandler: @escaping (Data?, URLResponse?) -> Void,
-                     errorHandler: @escaping (Error) -> Void)
+                     completeHandler: @escaping DataTaskCompletionHandler,
+                     errorHandler: @escaping DataTaskErrorHandler)
 }
 
 final class Network: NetworkAble {
@@ -26,8 +26,8 @@ final class Network: NetworkAble {
     }
     
     func requestData(url: String,
-                     completeHandler: @escaping (Data?, URLResponse?) -> Void,
-                     errorHandler: @escaping (Error) -> Void) {
+                     completeHandler: @escaping DataTaskCompletionHandler,
+                     errorHandler: @escaping DataTaskErrorHandler) {
         
         let urlComponents = URLComponents(string: url)
         guard let requestURL = urlComponents?.url else {
@@ -53,7 +53,7 @@ final class Network: NetworkAble {
                 return
             }
             
-            completeHandler(data, response)
+            completeHandler(data, response, error)
         }
         dataTask.resume()
     }
