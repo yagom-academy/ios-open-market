@@ -7,12 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		64C31DF4282E4034004E5D97 /* StubURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = B366BF5A2829F5B200FA90B4 /* StubURLSession.swift */; };
 		64E900A428292CEA00FD415B /* Products.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64E900A328292CEA00FD415B /* Products.swift */; };
 		64E900C0282A2F3D00FD415B /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64E900BF282A2F3D00FD415B /* NetworkManager.swift */; };
 		64E900C4282AAF7300FD415B /* APIable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64E900C3282AAF7300FD415B /* APIable.swift */; };
 		B34973D6282A0AE0001F9B42 /* URLSessionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B34973D5282A0AE0001F9B42 /* URLSessionProtocol.swift */; };
 		B34973DE282B494D001F9B42 /* OpenMarketTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B34973DD282B494D001F9B42 /* OpenMarketTests.swift */; };
-		B366BF5B2829F5B200FA90B4 /* StubURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = B366BF5A2829F5B200FA90B4 /* StubURLSession.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
 		C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */; };
 		C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FE25BEF61C00C9924E /* ViewController.swift */; };
@@ -104,7 +104,6 @@
 		64C31D89282C0314004E5D97 /* Network */ = {
 			isa = PBXGroup;
 			children = (
-				B366BF5A2829F5B200FA90B4 /* StubURLSession.swift */,
 				B34973D5282A0AE0001F9B42 /* URLSessionProtocol.swift */,
 				64E900BF282A2F3D00FD415B /* NetworkManager.swift */,
 				64E900C3282AAF7300FD415B /* APIable.swift */,
@@ -116,6 +115,7 @@
 			isa = PBXGroup;
 			children = (
 				B34973DD282B494D001F9B42 /* OpenMarketTests.swift */,
+				B366BF5A2829F5B200FA90B4 /* StubURLSession.swift */,
 			);
 			path = OpenMarketTests;
 			sourceTree = "<group>";
@@ -252,6 +252,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				64C31DF4282E4034004E5D97 /* StubURLSession.swift in Sources */,
 				B34973DE282B494D001F9B42 /* OpenMarketTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -260,7 +261,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B366BF5B2829F5B200FA90B4 /* StubURLSession.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
 				64E900A428292CEA00FD415B /* Products.swift in Sources */,
 				64E900C4282AAF7300FD415B /* APIable.swift in Sources */,
