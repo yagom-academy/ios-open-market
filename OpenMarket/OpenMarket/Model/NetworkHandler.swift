@@ -8,8 +8,12 @@
 import Foundation
 
 struct NetworkHandler {
-    var session: URLSessionProtocol = URLSession(configuration: .default)
-    let baseURL = "https://market-training.yagom-academy.kr/"
+    private let session: URLSessionProtocol
+    private let baseURL = "https://market-training.yagom-academy.kr/"
+    
+    init(session: URLSessionProtocol = URLSession(configuration: .default)) {
+        self.session = session
+    }
     
     func getData(pathString: String, completionHandler: @escaping (Result<Data, APIError>) -> Void) {
         guard let url = URL(string: baseURL + pathString) else {

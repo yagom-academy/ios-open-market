@@ -9,18 +9,6 @@ import XCTest
 @testable import OpenMarket
 
 class NetworkHandlerTest: XCTestCase {
-    var sut: NetworkHandler!
-    
-    override func setUpWithError() throws {
-        try super.setUpWithError()
-        sut = NetworkHandler()
-    }
-
-    override func tearDownWithError() throws {
-        try super.tearDownWithError()
-        sut = nil
-    }
-    
     //MARK: - 테스트를 위한 메서드
     func convertJsonToData(fileName: String) -> Data {
         let testBundle = Bundle(for: type(of: self))
@@ -37,10 +25,12 @@ class NetworkHandlerTest: XCTestCase {
         dummyData.data = convertJsonToData(fileName: "products")
         dummyData.response = HTTPURLResponse(url: URL(string: "test")!, statusCode: 200, httpVersion: "2", headerFields: nil)
         dummyData.error = nil
-        sut.session = StubURLSession(dummyData: dummyData)
+        
+        let session = StubURLSession(dummyData: dummyData)
+        let netWorkHandler = NetworkHandler(session: session)
         
         //when
-        sut.getData(pathString: "test") { data in
+        netWorkHandler.getData(pathString: "test") { data in
             //then
             do {
                 let itemPage = try DataDecoder.decode(data: data, dataType: ItemPage.self)
@@ -61,10 +51,11 @@ class NetworkHandlerTest: XCTestCase {
         dummyData.data = convertJsonToData(fileName: "products")
         dummyData.response = HTTPURLResponse(url: URL(string: "test")!, statusCode: 200, httpVersion: "2", headerFields: nil)
         dummyData.error = nil
-        sut.session = StubURLSession(dummyData: dummyData)
+        let session = StubURLSession(dummyData: dummyData)
+        let netWorkHandler = NetworkHandler(session: session)
 
         //when
-        sut.getData(pathString: testPath) { data in
+        netWorkHandler.getData(pathString: testPath) { data in
             //then
             do {
                 let _ = try DataDecoder.decode(data: data, dataType: ItemPage.self)
@@ -84,10 +75,11 @@ class NetworkHandlerTest: XCTestCase {
         dummyData.data = convertJsonToData(fileName: "products")
         dummyData.response = HTTPURLResponse(url: URL(string: "test")!, statusCode: 200, httpVersion: "2", headerFields: nil)
         dummyData.error = APIError.convertError
-        sut.session = StubURLSession(dummyData: dummyData)
+        let session = StubURLSession(dummyData: dummyData)
+        let netWorkHandler = NetworkHandler(session: session)
 
         //when
-        sut.getData(pathString: "test") { data in
+        netWorkHandler.getData(pathString: "test") { data in
             //then
             do {
                 let _ = try DataDecoder.decode(data: data, dataType: ItemPage.self)
@@ -107,10 +99,11 @@ class NetworkHandlerTest: XCTestCase {
         dummyData.data = convertJsonToData(fileName: "products")
         dummyData.response = HTTPURLResponse(url: URL(string: "test")!, statusCode: 404, httpVersion: "2", headerFields: nil)
         dummyData.error = nil
-        sut.session = StubURLSession(dummyData: dummyData)
+        let session = StubURLSession(dummyData: dummyData)
+        let netWorkHandler = NetworkHandler(session: session)
 
         //when
-        sut.getData(pathString: "test") { data in
+        netWorkHandler.getData(pathString: "test") { data in
             //then
             do {
                 let _ = try DataDecoder.decode(data: data, dataType: ItemPage.self)
@@ -130,10 +123,11 @@ class NetworkHandlerTest: XCTestCase {
         dummyData.data = nil
         dummyData.response = HTTPURLResponse(url: URL(string: "test")!, statusCode: 200, httpVersion: "2", headerFields: nil)
         dummyData.error = nil
-        sut.session = StubURLSession(dummyData: dummyData)
+        let session = StubURLSession(dummyData: dummyData)
+        let netWorkHandler = NetworkHandler(session: session)
 
         //when
-        sut.getData(pathString: "test") { data in
+        netWorkHandler.getData(pathString: "test") { data in
             //then
             do {
                 let _ = try DataDecoder.decode(data: data, dataType: ItemPage.self)
@@ -154,10 +148,11 @@ class NetworkHandlerTest: XCTestCase {
         dummyData.data = convertJsonToData(fileName: testFileName)
         dummyData.response = HTTPURLResponse(url: URL(string: "test")!, statusCode: 200, httpVersion: "2", headerFields: nil)
         dummyData.error = nil
-        sut.session = StubURLSession(dummyData: dummyData)
+        let session = StubURLSession(dummyData: dummyData)
+        let netWorkHandler = NetworkHandler(session: session)
 
         //when
-        sut.getData(pathString: "test") { data in
+        netWorkHandler.getData(pathString: "test") { data in
             //then
             do {
                 let _ = try DataDecoder.decode(data: data, dataType: ItemPage.self)
