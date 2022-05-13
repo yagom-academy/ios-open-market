@@ -10,7 +10,7 @@ import UIKit
 
 final class StubURLSession: URLSessionProtocol {
     func dataTask(with request: URLRequest,
-                  completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask {
+                  completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTaskProtocol {
         let file = NSDataAsset(name: "products")
         
         let endPoint = EndPoint(
@@ -25,20 +25,26 @@ final class StubURLSession: URLSessionProtocol {
             headerFields: nil
         )
         
-        let sessionDataTask = StubURLSessionDataTask()
+        let completion: () -> Void = {}
         
-        sessionDataTask.completion = {
+        let sessionDataTask = StubURLSessionDataTask(resumeHandler: completion)
+        
+        sessionDataTask.resumeHandler = {
             completionHandler(endPoint.sampleData, successResponse, nil)
         }
-        
+                
         return sessionDataTask
     }
 }
 
-final class StubURLSessionDataTask: URLSessionDataTask {
-    var completion: (() -> ())?
+final class StubURLSessionDataTask: URLSessionDataTaskProtocol {
+    var resumeHandler: () -> Void
     
-    override func resume() {
-        completion?()
+    init(resumeHandler: @escaping () -> Void) {
+        self.resumeHandler = resumeHandler
+    }
+    
+    func resume() {
+        resumeHandler()
     }
 }
