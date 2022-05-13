@@ -16,12 +16,19 @@ class ViewController: UIViewController {
     lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: listLayout())
     let segmentedControl = UISegmentedControl(items: ["List", "Grid"])
     
+    private let data: [Product] = {
+        let parser: Parser<ProductList> = Parser()
+        let sampleList: ProductList = parser.decode(name: "products")!
+        return sampleList.pages
+    }()
     override func viewDidLoad() {
         self.view.addSubview(segmentedControl)
         self.view.addSubview(collectionView)
         configureCollectionView()
         self.view.backgroundColor = .white
         super.viewDidLoad()
+        collectionViewDelegate()
+        registerCollectionView()
         
         segmentLayout()
         segmentedControl.addTarget(self, action: #selector(arrangementChange(_:)), for: .valueChanged)
@@ -78,5 +85,30 @@ class ViewController: UIViewController {
     }
 
 
+extension ViewController {
+    func registerCollectionView() {
+        collectionView
+    .register(ListCollectionViewCell.classForCoder(), forCellWithReuseIdentifier: "listCell")
+    }
+    
+    func collectionViewDelegate() {
+        collectionView.delegate = self
+        collectionView.dataSource = self
+    }
 }
 
+extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        data.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "listCell", for: indexPath) as? ListCollectionViewCell else { return UICollectionViewCell() }
+        cell.productNameLabel.text = data[indexPath.row].name
+        cell.productPriceLabel.text = String(data[indexPath.row].price)
+        cell.productStockLabel.text = String(data[indexPath.row].stock)
+        
+        return cell
+    }
+}
