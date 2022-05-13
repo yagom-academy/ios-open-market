@@ -38,9 +38,9 @@ struct HTTPManager {
         }
     }
     private let hostURL: String
-    private let urlSession: URLSessionProtocol
+    private let urlSession: URLSession
     
-    init(hostURL: String = TargetURL.hostURL, urlSession: URLSessionProtocol = URLSession.shared) {
+    init(hostURL: String = TargetURL.hostURL, urlSession: URLSession = URLSession.shared) {
         self.hostURL = hostURL
         self.urlSession = urlSession
     }
