@@ -32,6 +32,7 @@
 		E1B91477282A38E300DD2820 /* ProductRegistration.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1B91476282A38E300DD2820 /* ProductRegistration.swift */; };
 		E1B91479282A3A7700DD2820 /* RegistrationParameter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1B91478282A3A7700DD2820 /* RegistrationParameter.swift */; };
 		E1B9147F282A80D300DD2820 /* PageInformationTest.json in Resources */ = {isa = PBXBuildFile; fileRef = E1B9147E282A80D300DD2820 /* PageInformationTest.json */; };
+		E1C321EA282E19A60095D7E4 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1C321E9282E19A60095D7E4 /* NetworkError.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,6 +70,7 @@
 		E1B91476282A38E300DD2820 /* ProductRegistration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductRegistration.swift; sourceTree = "<group>"; };
 		E1B91478282A3A7700DD2820 /* RegistrationParameter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationParameter.swift; sourceTree = "<group>"; };
 		E1B9147E282A80D300DD2820 /* PageInformationTest.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = PageInformationTest.json; sourceTree = "<group>"; };
+		E1C321E9282E19A60095D7E4 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,6 +123,7 @@
 			children = (
 				9C7E8835282A890900D83081 /* Network.swift */,
 				9C7E8860282BA80B00D83081 /* OpenMarketApi.swift */,
+				E1C321E9282E19A60095D7E4 /* NetworkError.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -282,6 +285,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9C7E8826282A4B1300D83081 /* ProductSecret.swift in Sources */,
+				E1C321EA282E19A60095D7E4 /* NetworkError.swift in Sources */,
 				9C7E8820282A313A00D83081 /* Image.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
 				9C7E8861282BA80B00D83081 /* OpenMarketApi.swift in Sources */,

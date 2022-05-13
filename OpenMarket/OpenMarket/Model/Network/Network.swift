@@ -7,24 +7,63 @@
 
 import Foundation
 
+typealias DataTaskCompletionHandler = (Data?, URLResponse?, Error?) -> Void
+
 protocol NetworkAble {
     func requestData(url: String,
-                     completeHandler: @escaping (Data?, URLResponse?, Error?) -> Void )
+                     completeHandler: @escaping (Data?, URLResponse?) -> Void,
+                     errorHandler: @escaping (Error) -> Void)
 }
+
+protocol URLSessionProtocol {
+    func dataTask(with url: URL, completionHandler: @escaping DataTaskCompletionHandler) -> URLSessionDataTask
+}
+
+extension URLSession: URLSessionProtocol {}
 
 final class Network: NetworkAble {
     
+    private enum Constant {
+        static let successRange = 200..<300
+    }
+    
+    var session: URLSessionProtocol
+    
+    init(session: URLSessionProtocol) {
+        self.session = session
+    }
+    
     func requestData(url: String,
-                     completeHandler: @escaping (Data?, URLResponse?, Error?) -> Void ) {
-        let configure = URLSessionConfiguration.default
-        let session = URLSession(configuration: configure)
+                     completeHandler: @escaping (Data?, URLResponse?) -> Void,
+                     errorHandler: @escaping (Error) -> Void) {
         
         let urlComponents = URLComponents(string: url)
+        guard let requestURL = urlComponents?.url else {
+            errorHandler(NetworkError.urlError)
+            return
+        }
         
-        guard let requestURL = urlComponents?.url else { return }
         let dataTask = session.dataTask(with: requestURL) { (data, response, error) in
-            completeHandler(data, response, error)
+            
+            guard error == nil else {
+                errorHandler(NetworkError.sessionError)
+                return
+            }
+            
+            guard let statusCode = (response as? HTTPURLResponse)?.statusCode,
+                Constant.successRange.contains(statusCode) else {
+                errorHandler(NetworkError.statusCodeError)
+                return
+            }
+            
+            guard let data = data else {
+                errorHandler(NetworkError.dataError)
+                return
+            }
+            
+            completeHandler(data, response)
         }
         dataTask.resume()
     }
 }
+
