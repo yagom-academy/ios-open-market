@@ -30,7 +30,7 @@ class NetworkHandlerTest: XCTestCase {
     }
     
     //MARK: - 네트워크 없이 테스트
-    func test_getData호출시_데이터를잘가져오는지() {
+    func test_getData호출시_decodeItemPage성공시_0번째items의_id가_20인가() {
         //given
         let promise = expectation(description: "id가 일치 하는지")
         var dummyData = DummyData()
@@ -46,14 +46,14 @@ class NetworkHandlerTest: XCTestCase {
                 let itemPage = try DataDecoder.decodeItemPage(data: data)
                 XCTAssertEqual(itemPage.items[0].id, 20)
             } catch {
-                XCTAssertNil(error)
+                XCTFail()
             }
             promise.fulfill()
         }
         wait(for: [promise], timeout: 5)
     }
     
-    func test_getData호출시_convertError를_잘던지는지() {
+    func test_getData호출시_path가_올바르지않을경우_convertError를_잘던지는지() {
         //given
         let promise = expectation(description: "convertError를_잘던지는지")
         let testPath = "te st"
@@ -68,6 +68,7 @@ class NetworkHandlerTest: XCTestCase {
             //then
             do {
                 let _ = try DataDecoder.decodeItemPage(data: data)
+                XCTFail()
             } catch {
                 XCTAssertEqual(error as! APIError, APIError.convertError)
             }
@@ -76,7 +77,7 @@ class NetworkHandlerTest: XCTestCase {
         wait(for: [promise], timeout: 5)
     }
     
-    func test_getData호출시_requestError를_잘던지는지() {
+    func test_getData호출시_dataTask에서_에러가존재할경우_requestError를_잘던지는지() {
         //given
         let promise = expectation(description: "requestError를_잘던지는지")
         var dummyData = DummyData()
@@ -90,6 +91,7 @@ class NetworkHandlerTest: XCTestCase {
             //then
             do {
                 let _ = try DataDecoder.decodeItemPage(data: data)
+                XCTFail()
             } catch {
                 XCTAssertEqual(error as! APIError, APIError.transportError)
             }
@@ -98,7 +100,7 @@ class NetworkHandlerTest: XCTestCase {
         wait(for: [promise], timeout: 5)
     }
     
-    func test_getData호출시_responseError를_잘던지는지() {
+    func test_getData호출시_statusCode가_200에서299_아닐때_responseError를_잘던지는지() {
         //given
         let promise = expectation(description: "responseError를_잘던지는지")
         var dummyData = DummyData()
@@ -112,6 +114,7 @@ class NetworkHandlerTest: XCTestCase {
             //then
             do {
                 let _ = try DataDecoder.decodeItemPage(data: data)
+                XCTFail()
             } catch {
                 XCTAssertEqual(error as! APIError, APIError.responseError)
             }
@@ -120,7 +123,7 @@ class NetworkHandlerTest: XCTestCase {
         wait(for: [promise], timeout: 5)
     }
     
-    func test_getData호출시_dataError를_잘던지는지() {
+    func test_getData호출시_data가_올바르지않은경우_dataError를_잘던지는지() {
         //given
         let promise = expectation(description: "dataError를_잘던지는지")
         var dummyData = DummyData()
@@ -134,6 +137,7 @@ class NetworkHandlerTest: XCTestCase {
             //then
             do {
                 let _ = try DataDecoder.decodeItemPage(data: data)
+                XCTFail()
             } catch {
                 XCTAssertEqual(error as! APIError, APIError.dataError)
             }
@@ -142,7 +146,7 @@ class NetworkHandlerTest: XCTestCase {
         wait(for: [promise], timeout: 5)
     }
     
-    func test_getData호출시_completionHandler에서_decodeError를_잘던지는지() {
+    func test_getData호출시_decoding실패시_decodeError를_잘던지는지() {
         //given
         let promise = expectation(description: "decodeError를_잘던지는지")
         let testFileName = "wrongFileName"
@@ -157,6 +161,7 @@ class NetworkHandlerTest: XCTestCase {
             //then
             do {
                 let _ = try DataDecoder.decodeItemPage(data: data)
+                XCTFail()
             } catch {
                 XCTAssertEqual(error as! APIError, APIError.decodeError)
             }
