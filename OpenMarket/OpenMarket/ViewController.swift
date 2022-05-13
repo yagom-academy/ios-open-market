@@ -6,8 +6,13 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+enum ArrangeMode: Int {
+    case list = 0
+    case grid = 1
+}
 
+class ViewController: UIViewController {
+    var arrangeMode: ArrangeMode = .list
     let segmentedControl = UISegmentedControl(items: ["List", "Grid"])
     
     override func viewDidLoad() {
