@@ -57,7 +57,7 @@ struct HTTPManager {
             return nil
         }
         let task = urlSession.dataTask(with: url) { data, response, error in
-            if let _ = error {
+            if let error = error {
                 completionHandler(.failure(.invalidStatusCode(error: error, statusCode: nil)))
                 return
             }
@@ -66,11 +66,13 @@ struct HTTPManager {
                 completionHandler(.failure(.invalidStatusCode(error: nil, statusCode: nil)))
                 return
             }
-            if httpResponse.statusCode == StatusCode.okSuccess {
+            
+            switch httpResponse.statusCode {
+            case StatusCode.okSuccess:
                 completionHandler(.success(httpResponse))
-                return
+            default:
+                completionHandler(.failure(.invalidStatusCode(error: nil, statusCode: httpResponse.statusCode)))
             }
-            completionHandler(.failure(.invalidStatusCode(error: nil, statusCode: httpResponse.statusCode)))
         }
         task.resume()
         return task
@@ -84,7 +86,7 @@ struct HTTPManager {
             return nil
         }
         let task = urlSession.dataTask(with: url) { data, response, error in
-            if let _ = error {
+            if let error = error {
                 completionHandler(.failure(.invalidStatusCode(error: error, statusCode: nil)))
                 return
             }
@@ -93,13 +95,17 @@ struct HTTPManager {
                 completionHandler(.failure(.invalidStatusCode(error: nil, statusCode: nil)))
                 return
             }
-            if let mimeType = httpResponse.mimeType,
-               mimeType == ContentType.applicationJson,
-               let data = data {
+        
+            switch httpResponse.statusCode {
+            case StatusCode.okSuccess where httpResponse.mimeType == ContentType.applicationJson:
+                guard let data = data else {
+                    completionHandler(.failure(.emptyData))
+                    return
+                }
                 completionHandler(.success(data))
-                return
+            default:
+                completionHandler(.failure(.invalidStatusCode(error: nil, statusCode: httpResponse.statusCode)))
             }
-            completionHandler(.failure(.invalidStatusCode(error: nil, statusCode: httpResponse.statusCode)))
         }
         task.resume()
         return task
