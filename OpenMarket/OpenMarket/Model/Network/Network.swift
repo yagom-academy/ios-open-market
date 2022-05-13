@@ -7,19 +7,11 @@
 
 import Foundation
 
-typealias DataTaskCompletionHandler = (Data?, URLResponse?, Error?) -> Void
-
 protocol NetworkAble {
     func requestData(url: String,
                      completeHandler: @escaping (Data?, URLResponse?) -> Void,
                      errorHandler: @escaping (Error) -> Void)
 }
-
-protocol URLSessionProtocol {
-    func dataTask(with url: URL, completionHandler: @escaping DataTaskCompletionHandler) -> URLSessionDataTask
-}
-
-extension URLSession: URLSessionProtocol {}
 
 final class Network: NetworkAble {
     
