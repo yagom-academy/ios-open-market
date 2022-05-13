@@ -98,7 +98,7 @@ extension MainViewController {
                     case .success(let image):
                         DispatchQueue.main.async {
                             guard collectionView.indexPath(for: cell) == indexPath else { return }
-                            cell.thumbnailImageView.image = image
+                            cell.setImage(with: image)
                         }
                     case .failure(_):
                         break
@@ -113,7 +113,7 @@ extension MainViewController {
                     case .success(let image):
                         DispatchQueue.main.async {
                             guard collectionView.indexPath(for: cell) == indexPath else { return }
-                            cell.thumbnailImageView.image = image
+                            cell.setImage(with: image)
                         }
                     case .failure(_):
                         break

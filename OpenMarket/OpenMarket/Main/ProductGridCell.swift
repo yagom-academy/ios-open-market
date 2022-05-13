@@ -16,7 +16,7 @@ final class ProductGridCell: UICollectionViewCell {
         return stackView
     }()
     
-    let thumbnailImageView: UIImageView = {
+    private let thumbnailImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
@@ -108,5 +108,9 @@ extension ProductGridCell {
         
         QuantityLabel.textColor = data?.stock == 0 ? .systemOrange : .systemGray3
         QuantityLabel.text = data?.stock == 0 ? "품절" : "잔여수량: \(data?.stock ?? 0)"
+    }
+    
+    func setImage(with image: UIImage) {
+        thumbnailImageView.image = image
     }
 }
