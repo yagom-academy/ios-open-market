@@ -43,7 +43,7 @@ class NetworkHandlerTest: XCTestCase {
         sut.getData(pathString: "test") { data in
             //then
             do {
-                let itemPage = try DataDecoder.decodeItemPage(data: data)
+                let itemPage = try DataDecoder.decode(data: data, dataType: ItemPage.self)
                 XCTAssertEqual(itemPage.items[0].id, 20)
             } catch {
                 XCTFail()
@@ -62,12 +62,12 @@ class NetworkHandlerTest: XCTestCase {
         dummyData.response = HTTPURLResponse(url: URL(string: "test")!, statusCode: 200, httpVersion: "2", headerFields: nil)
         dummyData.error = nil
         sut.session = StubURLSession(dummyData: dummyData)
-        
+
         //when
         sut.getData(pathString: testPath) { data in
             //then
             do {
-                let _ = try DataDecoder.decodeItemPage(data: data)
+                let _ = try DataDecoder.decode(data: data, dataType: ItemPage.self)
                 XCTFail()
             } catch {
                 XCTAssertEqual(error as! APIError, APIError.convertError)
@@ -76,7 +76,7 @@ class NetworkHandlerTest: XCTestCase {
         }
         wait(for: [promise], timeout: 5)
     }
-    
+
     func test_getData호출시_dataTask에서_에러가존재할경우_requestError를_잘던지는지() {
         //given
         let promise = expectation(description: "requestError를_잘던지는지")
@@ -85,12 +85,12 @@ class NetworkHandlerTest: XCTestCase {
         dummyData.response = HTTPURLResponse(url: URL(string: "test")!, statusCode: 200, httpVersion: "2", headerFields: nil)
         dummyData.error = APIError.convertError
         sut.session = StubURLSession(dummyData: dummyData)
-        
+
         //when
         sut.getData(pathString: "test") { data in
             //then
             do {
-                let _ = try DataDecoder.decodeItemPage(data: data)
+                let _ = try DataDecoder.decode(data: data, dataType: ItemPage.self)
                 XCTFail()
             } catch {
                 XCTAssertEqual(error as! APIError, APIError.transportError)
@@ -99,7 +99,7 @@ class NetworkHandlerTest: XCTestCase {
         }
         wait(for: [promise], timeout: 5)
     }
-    
+
     func test_getData호출시_statusCode가_200에서299_아닐때_responseError를_잘던지는지() {
         //given
         let promise = expectation(description: "responseError를_잘던지는지")
@@ -108,12 +108,12 @@ class NetworkHandlerTest: XCTestCase {
         dummyData.response = HTTPURLResponse(url: URL(string: "test")!, statusCode: 404, httpVersion: "2", headerFields: nil)
         dummyData.error = nil
         sut.session = StubURLSession(dummyData: dummyData)
-        
+
         //when
         sut.getData(pathString: "test") { data in
             //then
             do {
-                let _ = try DataDecoder.decodeItemPage(data: data)
+                let _ = try DataDecoder.decode(data: data, dataType: ItemPage.self)
                 XCTFail()
             } catch {
                 XCTAssertEqual(error as! APIError, APIError.responseError)
@@ -122,7 +122,7 @@ class NetworkHandlerTest: XCTestCase {
         }
         wait(for: [promise], timeout: 5)
     }
-    
+
     func test_getData호출시_data가_올바르지않은경우_dataError를_잘던지는지() {
         //given
         let promise = expectation(description: "dataError를_잘던지는지")
@@ -131,12 +131,12 @@ class NetworkHandlerTest: XCTestCase {
         dummyData.response = HTTPURLResponse(url: URL(string: "test")!, statusCode: 200, httpVersion: "2", headerFields: nil)
         dummyData.error = nil
         sut.session = StubURLSession(dummyData: dummyData)
-        
+
         //when
         sut.getData(pathString: "test") { data in
             //then
             do {
-                let _ = try DataDecoder.decodeItemPage(data: data)
+                let _ = try DataDecoder.decode(data: data, dataType: ItemPage.self)
                 XCTFail()
             } catch {
                 XCTAssertEqual(error as! APIError, APIError.dataError)
@@ -145,7 +145,7 @@ class NetworkHandlerTest: XCTestCase {
         }
         wait(for: [promise], timeout: 5)
     }
-    
+
     func test_getData호출시_decoding실패시_decodeError를_잘던지는지() {
         //given
         let promise = expectation(description: "decodeError를_잘던지는지")
@@ -155,12 +155,12 @@ class NetworkHandlerTest: XCTestCase {
         dummyData.response = HTTPURLResponse(url: URL(string: "test")!, statusCode: 200, httpVersion: "2", headerFields: nil)
         dummyData.error = nil
         sut.session = StubURLSession(dummyData: dummyData)
-        
+
         //when
         sut.getData(pathString: "test") { data in
             //then
             do {
-                let _ = try DataDecoder.decodeItemPage(data: data)
+                let _ = try DataDecoder.decode(data: data, dataType: ItemPage.self)
                 XCTFail()
             } catch {
                 XCTAssertEqual(error as! APIError, APIError.decodeError)

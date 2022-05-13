@@ -8,36 +8,12 @@
 import Foundation
 
 enum DataDecoder {
-    static func decodeHealthCheck(data: Result<Data, APIError>) throws -> String {
-        switch data {
-        case .success(let data):
-            let health = String(decoding: data, as: UTF8.self)
-            return health.trimmingCharacters(in: ["\""])
-        case .failure(let error):
-            throw error
-        }
-    }
-    
-    static func decodeItemPage(data: Result<Data, APIError>) throws -> ItemPage {
+    static func decode<T: Codable>(data: Result<Data, APIError>, dataType: T.Type) throws -> T {
         switch data {
         case .success(let data):
             do {
-                let itemPage = try JSONDecoder().decode(ItemPage.self, from: data)
-                return itemPage
-            } catch {
-                throw APIError.decodeError
-            }
-        case .failure(let error):
-            throw error
-        }
-    }
-    
-    static func decodeItemDetail(data: Result<Data, APIError>) throws -> ItemDetail {
-        switch data {
-        case .success(let data):
-            do {
-                let itemDetail = try JSONDecoder().decode(ItemDetail.self, from: data)
-                return itemDetail
+                let decodedData = try JSONDecoder().decode(dataType, from: data)
+                return decodedData
             } catch {
                 throw APIError.decodeError
             }
