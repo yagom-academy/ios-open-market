@@ -18,6 +18,7 @@ final class MainViewController: UIViewController {
     private lazy var dataSource = makeDataSource()
     
     private var products = [Product]()
+    private var pageNumber = 1
     
     private lazy var segmentControl: UISegmentedControl = {
         let segmentControl = UISegmentedControl(items: ["LIST", "GRID"])
@@ -31,7 +32,7 @@ final class MainViewController: UIViewController {
         super.viewDidLoad()
         configureView()
         configureNavigationBar()
-        requestData()
+        requestData(pageNumber: pageNumber)
     }
     
     private func configureView() {
@@ -48,6 +49,7 @@ final class MainViewController: UIViewController {
     private func configureCollectionView() {
         mainView.collectionView.register(ProductGridCell.self, forCellWithReuseIdentifier: ProductGridCell.identifier)
         mainView.collectionView.register(ProductListCell.self, forCellWithReuseIdentifier: ProductListCell.identifier)
+        mainView.collectionView.prefetchDataSource = self
     }
     
     @objc private func addButtonDidTapped() {}
@@ -61,14 +63,14 @@ final class MainViewController: UIViewController {
 // MARK: - NetWork
 
 extension MainViewController {
-    private func requestData() {
-        let endPoint = EndPoint.requestList(page: 1, itemsPerPage: 1000)
+    private func requestData(pageNumber: Int) {
+        let endPoint = EndPoint.requestList(page: pageNumber, itemsPerPage: 20)
         
         NetworkManager<ProductList>().request(endPoint: endPoint) { [weak self] result in
             switch result {
             case .success(let data):
                 guard let result = data.products else { return }
-                self?.products = result
+                self?.products.append(contentsOf: result)
                 self?.applySnapshot()
             case .failure(let error):
                 print(error)
@@ -131,6 +133,18 @@ extension MainViewController {
             snapshot.appendSections([.main])
             snapshot.appendItems(products)
             dataSource.apply(snapshot)
+        }
+    }
+}
+
+extension MainViewController: UICollectionViewDataSourcePrefetching {
+    func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
+        guard let indexPath = indexPaths.last else { return }
+        let section = indexPath.row / 20
+        
+        if section + 1 == pageNumber {
+            pageNumber += 1
+            requestData(pageNumber: pageNumber)
         }
     }
 }
