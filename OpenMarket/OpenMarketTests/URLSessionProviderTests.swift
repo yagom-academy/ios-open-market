@@ -44,7 +44,7 @@ class URLSessionProviderTests: XCTestCase {
     let promise = expectation(description: "")
     sut = URLSessionProvider<ProductsList>(path: "/api/products",
                                            parameters: ["page_no": "1", "items_per_page": "20"])
-    let data = 1367
+    let data = 1378
     //when
     sut.get { result in
       //then
