@@ -23,7 +23,11 @@ final class StubURLSessionDataTask: URLSessionDataTask {
 }
 
 struct StubURLSession: URLSessionProtocol {
-    let dummyData: DummyData
+    private let dummyData: DummyData
+    
+    init(dummyData: DummyData) {
+        self.dummyData = dummyData
+    }
     
     func dataTask(with request: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask {
         let sessionDataTask = StubURLSessionDataTask()
