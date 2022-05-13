@@ -36,6 +36,10 @@ struct HTTPManager {
                 return "/api/products/\(productNumber)"
             }
         }
+        
+        var requestURL: String {
+            return HTTPManager.TargetURL.hostURL + string
+        }
     }
     private let hostURL: String
     private let urlSession: URLSession
@@ -47,7 +51,7 @@ struct HTTPManager {
     
     @discardableResult
     func listenHealthChecker(completionHandler: @escaping (Result<HTTPURLResponse, NetworkError>) -> Void) -> URLSessionDataTask? {
-        let requestURL = hostURL + TargetURL.healthChecker.string
+        let requestURL = TargetURL.healthChecker.requestURL
         guard let url = URL(string: requestURL) else {
             completionHandler(.failure(.invalidURL))
             return nil
@@ -74,7 +78,7 @@ struct HTTPManager {
     
     @discardableResult
     func loadData(targetURL: TargetURL, completionHandler: @escaping (Result<Data, NetworkError>) -> Void) -> URLSessionDataTask? {
-        let requestURL = hostURL + targetURL.string
+        let requestURL = targetURL.requestURL
         guard let url = URL(string: requestURL) else {
             completionHandler(.failure(.invalidURL))
             return nil
