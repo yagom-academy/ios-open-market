@@ -23,7 +23,7 @@ class NetworkProductDetailTest: XCTestCase {
     func test_APIProvider_getProductsDetail_request를호출할때_예상값을반환() {
         // given
         let promise = expectation(description: "")
-        let endpoint = EndPointStorage.getProductsDetail(id: "522")
+        let endpoint = EndPointStorage.productsDetail(id: "522")
         
         // when
         sut.request(with: endpoint) { result in

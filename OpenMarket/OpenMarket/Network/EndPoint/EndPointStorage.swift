@@ -11,12 +11,17 @@ fileprivate extension Constants {
 }
 
 struct EndPointStorage {
-    static func getProductsList(pageNumber: Int, perPages: Int) -> EndPoint {
-        let productsListDTO = ProductsListDTO(pageNumber: pageNumber, perPages: perPages)
-        let endpoint = EndPoint(path: Constants.productsListPath, queryParameters: productsListDTO)
+    static func productsList(pageNumber: Int, perPages: Int)
+        -> EndPoint {
+        let productsListDTO = ProductsListDTO(
+            pageNumber: pageNumber,
+            perPages: perPages)
+        let endpoint = EndPoint(
+            path: Constants.productsListPath,
+            queryParameters: productsListDTO)
         return endpoint
     }
-    static func getProductsDetail(id: String) -> EndPoint {
+    static func productsDetail(id: String) -> EndPoint {
         let endpoint = EndPoint(path: Constants.productsDetailPath + id)
         return endpoint
     }
