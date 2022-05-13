@@ -1,5 +1,5 @@
 //
-//  ListCollectionViewCell.swift
+//  GridCollectionViewCell.swift
 //  OpenMarket
 //
 //  Created by Grumpy, OneTool on 2022/05/13.
@@ -7,17 +7,12 @@
 
 import UIKit
 
-class ListCollectionViewCell: UICollectionViewCell {
+class GridCollectionViewCell: UICollectionViewCell {
     var productNameLabel: UILabel!
     var productPriceLabel: UILabel!
-    var productStockLabel: UILabel!
     var productImageView: UIImageView!
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        setUpCell()
-        setUpLabel()
-    }
+    var productStockLabel: UILabel!
+    var productBargainPriceLabel: UILabel!
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
@@ -25,23 +20,29 @@ class ListCollectionViewCell: UICollectionViewCell {
         setUpLabel()
     }
     
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setUpCell()
+        setUpLabel()
+    }
+    
+    let stackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.spacing = 5
+        stackView.alignment = .center
+        stackView.distribution = .equalSpacing
+        return stackView
+    }()
+    
     func setUpCell() {
         productNameLabel = UILabel()
-        productStockLabel = UILabel()
         productPriceLabel = UILabel()
         productImageView = UIImageView()
-        
         productImageView.image = UIImage(named: "macmini")
-        productImageView.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        productImageView.widthAnchor.constraint(equalToConstant: 60).isActive = true
+        productImageView.heightAnchor.constraint(equalToConstant: 100).isActive = true
+        productImageView.widthAnchor.constraint(equalToConstant: 120).isActive = true
         productImageView.contentMode = .scaleAspectFit
-        
-        let stackView: UIStackView = {
-            let stackView = UIStackView()
-            stackView.axis = .horizontal
-            stackView.spacing = 10
-            return stackView
-        }()
         
         contentView.addSubview(stackView)
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -50,27 +51,32 @@ class ListCollectionViewCell: UICollectionViewCell {
         stackView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor).isActive = true
         stackView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor).isActive = true
         
-        stackView.addArrangedSubview(productImageView)
-        
-        let priceStackView: UIStackView = {
+        let vStackView: UIStackView = {
             let stackView = UIStackView()
             stackView.axis = .vertical
+            stackView.alignment = .center
+            stackView.distribution = .fillEqually
             return stackView
         }()
+        productNameLabel.topAnchor.constraint(equalTo: productImageView.bottomAnchor, constant: 5).isActive = true
         
-        priceStackView.addArrangedSubview(productNameLabel)
-        priceStackView.addArrangedSubview(productPriceLabel)
-        stackView.addArrangedSubview(priceStackView)
+        vStackView.topAnchor.constraint(equalTo: productNameLabel.bottomAnchor, constant: 5).isActive = true
+        vStackView.bottomAnchor.constraint(equalTo: stackView.bottomAnchor, constant: -5).isActive = true
         
+        vStackView.addArrangedSubview(productBargainPriceLabel)
+        vStackView.addArrangedSubview(productPriceLabel)
+        
+        stackView.addArrangedSubview(productImageView)
+        stackView.addArrangedSubview(productNameLabel)
+        stackView.addArrangedSubview(vStackView)
         stackView.addArrangedSubview(productStockLabel)
         
-        priceStackView.topAnchor.constraint(equalTo: stackView.topAnchor).isActive = true
-        priceStackView.bottomAnchor.constraint(equalTo: stackView.bottomAnchor).isActive = true
     }
     
     func setUpLabel() {
         productNameLabel.font = UIFont.preferredFont(forTextStyle: .headline)
         productPriceLabel.font = UIFont.preferredFont(forTextStyle: .subheadline)
+        productBargainPriceLabel.font = UIFont.preferredFont(forTextStyle: .subheadline)
         productStockLabel.font = UIFont.preferredFont(forTextStyle: .subheadline)
     }
 }

@@ -30,8 +30,6 @@ class ViewController: UIViewController {
         segmentLayout()
         configureCollectionView()
         collectionViewDelegate()
-        registerCollectionView()
-        //self.view.backgroundColor = .white
         
         segmentedControl.addTarget(self, action: #selector(arrangementChange(_:)), for: .valueChanged)
         segmentedControl.selectedSegmentIndex = 0
@@ -71,18 +69,26 @@ class ViewController: UIViewController {
         let mode = sender.selectedSegmentIndex
         
         if mode == ArrangeMode.list.rawValue {
+            self.arrangeMode = .list
             collectionView.setCollectionViewLayout(listLayout(), animated: true)
+            collectionView
+                .register(ListCollectionViewCell.classForCoder(), forCellWithReuseIdentifier: "listCell")
             self.collectionView.reloadData()
+            print(self.arrangeMode)
         } else if mode == ArrangeMode.grid.rawValue {
+            self.arrangeMode = .grid
             collectionView.setCollectionViewLayout(gridLayout(), animated: true)
+            collectionView
+                .register(GridCollectionViewCell.classForCoder(), forCellWithReuseIdentifier: "gridCell")
             self.collectionView.reloadData()
+            print(self.arrangeMode)
         }
     }
     
     func configureCollectionView() {
         
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 25.0).isActive = true
+        collectionView.topAnchor.constraint(equalTo: self.segmentedControl.bottomAnchor, constant: 10).isActive = true
         collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
@@ -90,10 +96,6 @@ class ViewController: UIViewController {
 }
 
 extension ViewController {
-    func registerCollectionView() {
-        collectionView
-    .register(ListCollectionViewCell.classForCoder(), forCellWithReuseIdentifier: "listCell")
-    }
     
     func collectionViewDelegate() {
         collectionView.delegate = self
@@ -108,11 +110,22 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, 
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "listCell", for: indexPath) as? ListCollectionViewCell else { return UICollectionViewCell() }
-        cell.productNameLabel.text = data[indexPath.row].name
-        cell.productPriceLabel.text = String(data[indexPath.row].price)
-        cell.productStockLabel.text = String(data[indexPath.row].stock)
-        
-        return cell
+        switch self.arrangeMode {
+        case .list:
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "listCell", for: indexPath) as? ListCollectionViewCell else { return UICollectionViewCell() }
+            cell.productNameLabel.text = data[indexPath.row].name
+            cell.productPriceLabel.text = String(data[indexPath.row].price)
+            cell.productStockLabel.text = String(data[indexPath.row].stock)
+            return cell
+        case .grid:
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "gridCell", for: indexPath) as? GridCollectionViewCell else { return UICollectionViewCell() }
+            cell.productNameLabel.text = data[indexPath.row].name
+            cell.productPriceLabel.text = String(data[indexPath.row].price)
+            cell.productStockLabel.text = String(data[indexPath.row].stock)
+            cell.layer.borderWidth = 2
+            cell.layer.borderColor = UIColor.systemPink.cgColor
+            return cell
+        }
     }
 }
+
