@@ -6,6 +6,6 @@
 //
 
 enum Currency: String, Codable {
-    case KRW = "KRW"
-    case USD = "USD"
+    case KRW
+    case USD
 }
