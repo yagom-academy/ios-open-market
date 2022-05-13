@@ -27,7 +27,7 @@ final class MockURLSessionTests: XCTestCase {
 
   func test_mockData_pageNumber은_1이다() {
     //given
-    MockURLProtocol.requestHandler = {request in
+    MockURLProtocol.requestHandler = { request in
       let exampleData = self.mockData
       let response = HTTPURLResponse(url: request.url!,
                                      statusCode: 200,
@@ -45,7 +45,6 @@ final class MockURLSessionTests: XCTestCase {
       case .failure(let error):
         print(error)
       }
-      
       expectation.fulfill()
     }
     wait(for: [expectation], timeout: 1)
@@ -53,7 +52,7 @@ final class MockURLSessionTests: XCTestCase {
   
   func test_mockData_pages의_count는_10이다() {
     //given
-    MockURLProtocol.requestHandler = {request in
+    MockURLProtocol.requestHandler = { request in
       let exampleData = self.mockData
       let response = HTTPURLResponse(url: request.url!,
                                      statusCode: 200,
@@ -71,7 +70,6 @@ final class MockURLSessionTests: XCTestCase {
       case .failure(let error):
         print(error)
       }
-      
       expectation.fulfill()
     }
     wait(for: [expectation], timeout: 1)
@@ -79,7 +77,7 @@ final class MockURLSessionTests: XCTestCase {
   
   func test_mockData_pages의_첫번째_index_id는_20이다() {
     //given
-    MockURLProtocol.requestHandler = {request in
+    MockURLProtocol.requestHandler = { request in
       let exampleData = self.mockData
       let response = HTTPURLResponse(url: request.url!,
                                      statusCode: 200,
@@ -97,7 +95,6 @@ final class MockURLSessionTests: XCTestCase {
       case .failure(let error):
         print(error)
       }
-      
       expectation.fulfill()
     }
     wait(for: [expectation], timeout: 1)
