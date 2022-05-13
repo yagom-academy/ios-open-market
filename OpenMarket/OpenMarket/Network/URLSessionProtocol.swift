@@ -7,10 +7,39 @@
 
 import Foundation
 
-typealias DataTaskCompletionHandler = (Data?, URLResponse?, Error?) -> Void
+typealias DataTaskCompletionHandler = (Response) -> Void
 
-protocol URLSessionProtocol {
-    func dataTask(with url: URL, completionHandler: @escaping DataTaskCompletionHandler) -> URLSessionDataTask
+struct Response {
+    var data: Data?
+    var statusCode: Int
+    var error: Error?
 }
 
-extension URLSession: URLSessionProtocol { }
+protocol URLSessionProtocol {
+    func dataTask(with api: APIable, completionHandler: @escaping DataTaskCompletionHandler) 
+}
+
+extension URLSession: URLSessionProtocol {
+    func dataTask(with api: APIable, completionHandler: @escaping DataTaskCompletionHandler) {
+        let hostAPI = api.hostAPI
+        let path = api.path
+        var urlComponent = URLComponents(string: hostAPI + path)
+        
+        urlComponent?.queryItems = api.param?.map {
+            URLQueryItem(name: $0.key, value: $0.value)
+        }
+        
+        guard let url = urlComponent?.url else {
+             return
+        }
+        
+        dataTask(with: url) { data, response, error in
+            guard let statusCode = (response as? HTTPURLResponse)?.statusCode else {
+                return
+            }
+            
+            let response = Response(data: data, statusCode: statusCode, error: error)
+            completionHandler(response)
+        }.resume()
+    }
+}
