@@ -24,32 +24,24 @@ class OpenMarketTests: XCTestCase {
         sutHealthChecker = nil
     }
     
-    func test_Product_dummy데이터의_totalCount과_예상값이_일치한다() {
+    func test_Product_dummy데이터의_totalCount가_10과_일치한다() {
         // given
         let promise = expectation(description: "success")
         var totalCount: Int = 0
         let expectedResult: Int = 10
-        
-        guard let url = URL(string: "fakeURL") else {
-            XCTFail("URL 포맷팅 실패")
-            return
-        }
-        
-        guard let dummy = NSDataAsset(name: "products") else {
+
+        guard let product = NSDataAsset(name: "products") else {
             XCTFail("Data 포맷팅 실패")
             return
         }
         
-        let response = HTTPURLResponse(url: url,
-                                       statusCode: 200,
-                                       httpVersion: nil,
-                                       headerFields: nil)
-        let dummyData = DummyData(data: dummy.data, response: response, error: nil)
+        let response = Response(data: product.data, statusCode: 200, error: nil)
+        let dummyData = DummyData(response: response)
         let stubUrlSession = StubURLSession(dummy: dummyData)
         sutProduct.session = stubUrlSession
-        
+
         // when
-        sutProduct.execute(with: url) { result in
+        sutProduct.execute(with: FakeAPI()) { result in
             switch result {
             case .success(let product):
                 totalCount = product.totalCount
@@ -58,39 +50,31 @@ class OpenMarketTests: XCTestCase {
             }
             promise.fulfill()
         }
-        
+
         wait(for: [promise], timeout: 10)
-        
+
         // then
         XCTAssertEqual(totalCount, expectedResult)
     }
-    
+
     func test_statusCode를_400설정하면_발생하는에러가_statusCodeError와_일치한다() {
         // given
         let promise = expectation(description: "failure")
-        
-        guard let url = URL(string: "fakeURL") else {
-            XCTFail("URL 포맷팅 실패")
-            return
-        }
-        
-        guard let dummyData = NSDataAsset(name: "products") else {
+
+        guard let product = NSDataAsset(name: "products") else {
             XCTFail("Data 포맷팅 실패")
             return
         }
-        
-        let response = HTTPURLResponse(url: url,
-                                       statusCode: 400,
-                                       httpVersion: nil,
-                                       headerFields: nil)
-        let dummy = DummyData(data: dummyData.data, response: response, error: nil)
-        let stubUrlSession = StubURLSession(dummy: dummy)
+
+        let response = Response(data: product.data, statusCode: 400, error: nil)
+        let dummyData = DummyData(response: response)
+        let stubUrlSession = StubURLSession(dummy: dummyData)
         sutProduct.session = stubUrlSession
-        
+
         var errorResult: NetworkError? = nil
-        
+
         // when
-        sutProduct.execute(with: url) { result in
+        sutProduct.execute(with: FakeAPI()) { result in
             switch result {
             case .success:
                 XCTFail()
@@ -99,39 +83,31 @@ class OpenMarketTests: XCTestCase {
             }
             promise.fulfill()
         }
-        
+
         wait(for: [promise], timeout: 10)
-        
+
         // then
         XCTAssertEqual(errorResult, NetworkError.statusCode)
     }
-    
-    func test_ProductDetail_dummy데이터의_vendorID와_예상값이_일치한다() {
+
+    func test_ProductDetail_dummy데이터의_vendorID와_3이_일치한다() {
         // given
         let promise = expectation(description: "success")
         var venderId: Int = 0
         let expectedResult: Int = 3
-        
-        guard let url = URL(string: "fakeURL") else {
-            XCTFail("URL 포맷팅 실패")
-            return
-        }
-        
-        guard let dummy = NSDataAsset(name: "products") else {
+
+        guard let product = NSDataAsset(name: "products") else {
             XCTFail("Data 포맷팅 실패")
             return
         }
-        
-        let response = HTTPURLResponse(url: url,
-                                       statusCode: 200,
-                                       httpVersion: nil,
-                                       headerFields: nil)
-        let dummyData = DummyData(data: dummy.data, response: response, error: nil)
+
+        let response = Response(data: product.data, statusCode: 200, error: nil)
+        let dummyData = DummyData(response: response)
         let stubUrlSession = StubURLSession(dummy: dummyData)
         sutProduct.session = stubUrlSession
-        
+
         // when
-        sutProduct.execute(with: url) { result in
+        sutProduct.execute(with: FakeAPI()) { result in
             switch result {
             case .success(let product):
                 venderId = product.pages[0].vendorId
@@ -140,9 +116,9 @@ class OpenMarketTests: XCTestCase {
             }
             promise.fulfill()
         }
-        
+
         wait(for: [promise], timeout: 10)
-        
+
         // then
         XCTAssertEqual(venderId, expectedResult)
     }
@@ -153,13 +129,8 @@ class OpenMarketTests: XCTestCase {
         var okResult = ""
         let expectedResult = "OK"
         
-        guard let url = URL(string: API.hostAPI + API.healthCheckerPath) else {
-            XCTFail("URL 포맷팅 실패")
-            return
-        }
-        
         // when
-        sutHealthChecker.execute(with: url) { result in
+        sutHealthChecker.execute(with: HealthChecker()) { result in
             switch result {
             case .success(let result):
                 okResult = result
@@ -168,10 +139,9 @@ class OpenMarketTests: XCTestCase {
             }
             promise.fulfill()
         }
-        
         wait(for: [promise], timeout: 10)
-
-        // then
+        
+        //then
         XCTAssertEqual(okResult, expectedResult)
     }
 }
