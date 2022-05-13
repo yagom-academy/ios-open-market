@@ -5,7 +5,7 @@
 //  Created by Red, Mino. on 2022/05/10.
 //
 
-struct Products: Codable {
+struct Products: Decodable {
     let pageNumber: Int
     let itemsPerPage: Int
     let totalCount: Int
@@ -27,7 +27,7 @@ struct Products: Codable {
     }
 }
 
-struct Item: Codable {
+struct Item: Decodable {
     let id: Int
     let vendorID: Int
     let name: String
