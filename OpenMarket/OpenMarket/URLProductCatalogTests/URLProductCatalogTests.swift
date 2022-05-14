@@ -24,7 +24,7 @@ class URLProductCatalogTests: XCTestCase {
         let promise = expectation(description: "The offset value of data is 10")
         
         //when
-        sut.getData(from: .productList(page: 2, itemsPerPage: 10)) { result in
+        sut.fetchData(from: .productList(page: 2, itemsPerPage: 10)) { result in
             //then
             switch result {
             case .success(let data):
@@ -42,7 +42,7 @@ class URLProductCatalogTests: XCTestCase {
         let promise = expectation(description: "The offset value of data is 10")
         
         //when
-        sut.getData(from: .productList(page: 1, itemsPerPage: 11)) { result in
+        sut.fetchData(from: .productList(page: 1, itemsPerPage: 11)) { result in
             //then
             switch result {
             case .success(let data):

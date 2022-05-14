@@ -24,7 +24,7 @@ class URLHealthCheckerSessionTests: XCTestCase {
         let promise = expectation(description: "data value is OK")
        
         //when
-        sut.getData(from: .healthChecker) { result in
+        sut.fetchData(from: .healthChecker) { result in
             //then
             switch result {
             case .success(let data):

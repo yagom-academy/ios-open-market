@@ -25,7 +25,7 @@ class URLProductTests: XCTestCase {
         let promise = expectation(description: "The vendorId value of data is 14")
         
         //when
-        sut.getData(from: .detailProduct(id: 2085)) { result in
+        sut.fetchData(from: .detailProduct(id: 2085)) { result in
             //then
             switch result {
             case .success(let data):
