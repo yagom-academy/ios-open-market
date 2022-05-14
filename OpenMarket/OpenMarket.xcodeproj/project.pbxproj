@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3008F395282F648E0034C902 /* Decodable+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3008F394282F648E0034C902 /* Decodable+Extension.swift */; };
 		304197DD282A07D700083790 /* ProductList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304197DC282A07D700083790 /* ProductList.swift */; };
 		30C06337282CA80200CACD3C /* Endpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30C06336282CA80200CACD3C /* Endpoint.swift */; };
 		30C06339282CA86A00CACD3C /* URLSessionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30C06338282CA86A00CACD3C /* URLSessionProtocol.swift */; };
@@ -60,6 +61,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3008F394282F648E0034C902 /* Decodable+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Decodable+Extension.swift"; sourceTree = "<group>"; };
 		304197DC282A07D700083790 /* ProductList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductList.swift; sourceTree = "<group>"; };
 		30C06336282CA80200CACD3C /* Endpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endpoint.swift; sourceTree = "<group>"; };
 		30C06338282CA86A00CACD3C /* URLSessionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionProtocol.swift; sourceTree = "<group>"; };
@@ -129,6 +131,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3008F393282F64460034C902 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				3008F394282F648E0034C902 /* Decodable+Extension.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
 		3074A67F214CC99E2D34BAF3 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -259,6 +269,7 @@
 				C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */,
 				C70FB10325BEF61D00C9924E /* Assets.xcassets */,
 				C70FB10825BEF61D00C9924E /* Info.plist */,
+				3008F393282F64460034C902 /* Utils */,
 				30C06348282D16E700CACD3C /* View */,
 				30C06347282D16DF00CACD3C /* Controller */,
 				8610B2B2282A051400EB00AF /* Model */,
@@ -538,6 +549,7 @@
 				30C06339282CA86A00CACD3C /* URLSessionProtocol.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
 				8622BBB2282CA64200D1FAC0 /* NetworkError.swift in Sources */,
+				3008F395282F648E0034C902 /* Decodable+Extension.swift in Sources */,
 				8610B2B4282A052600EB00AF /* Product.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
