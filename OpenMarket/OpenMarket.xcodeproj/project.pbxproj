@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		304197DD282A07D700083790 /* ProductCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304197DC282A07D700083790 /* ProductCatalog.swift */; };
+		304197DD282A07D700083790 /* ProductList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304197DC282A07D700083790 /* ProductList.swift */; };
 		30C06337282CA80200CACD3C /* Endpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30C06336282CA80200CACD3C /* Endpoint.swift */; };
 		30C06339282CA86A00CACD3C /* URLSessionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30C06338282CA86A00CACD3C /* URLSessionProtocol.swift */; };
 		30C06341282D131000CACD3C /* URLProductCatalogTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30C06340282D131000CACD3C /* URLProductCatalogTests.swift */; };
@@ -60,7 +60,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		304197DC282A07D700083790 /* ProductCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductCatalog.swift; sourceTree = "<group>"; };
+		304197DC282A07D700083790 /* ProductList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductList.swift; sourceTree = "<group>"; };
 		30C06336282CA80200CACD3C /* Endpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endpoint.swift; sourceTree = "<group>"; };
 		30C06338282CA86A00CACD3C /* URLSessionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionProtocol.swift; sourceTree = "<group>"; };
 		30C0633E282D131000CACD3C /* URLProductCatalogTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = URLProductCatalogTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -183,7 +183,7 @@
 			isa = PBXGroup;
 			children = (
 				8610B2B3282A052600EB00AF /* Product.swift */,
-				304197DC282A07D700083790 /* ProductCatalog.swift */,
+				304197DC282A07D700083790 /* ProductList.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -543,7 +543,7 @@
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 				8622BBB0282CA37C00D1FAC0 /* URLSessionProvider.swift in Sources */,
 				30C06337282CA80200CACD3C /* Endpoint.swift in Sources */,
-				304197DD282A07D700083790 /* ProductCatalog.swift in Sources */,
+				304197DD282A07D700083790 /* ProductList.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
