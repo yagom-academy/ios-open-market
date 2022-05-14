@@ -8,7 +8,7 @@
 import XCTest
 @testable import OpenMarket
 
-class URLProductCatalogTests: XCTestCase {
+class URLProductListTests: XCTestCase {
 
     var sut: URLSessionProvider<ProductList>!
     override func setUpWithError() throws {
