@@ -25,7 +25,10 @@ final class StubURLSession: URLSessionProtocol {
         self.dummyData = dummy
     }
     
-    func dataTask(with url: URL, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask {
+    func dataTask(
+        with url: URL,
+        completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void
+    ) -> URLSessionDataTask {
         return StubURLSessionDataTask(dummy: dummyData, completionHandler: completionHandler)
     }
 }
@@ -33,7 +36,10 @@ final class StubURLSession: URLSessionProtocol {
 final class StubURLSessionDataTask: URLSessionDataTask {
     var dummyData: DummyData?
     
-    init(dummy: DummyData?, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void?) {
+    init(
+        dummy: DummyData?,
+        completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void?
+    ) {
         self.dummyData = dummy
         self.dummyData?.completionHandler = completionHandler
     }

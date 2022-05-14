@@ -36,10 +36,22 @@ final class OpenMarketJSONTests: XCTestCase {
         let stubUrlSession = StubURLSession(dummy: dummy)
         let mockNetwork = Network(session: stubUrlSession)
         
-        let pagesFirstObjcet = ProductInformation(id: 20, vendorId: 3, name: "Test Product", thumbnail: "https://s3.ap-northeast-2.amazonaws.com/media.yagom-academy.kr/training-resources/3/thumb/5a0cd56b6d3411ecabfa97fd953cf965.jpg", currency: "KRW", price: 0, bargainPrice: 0, discountedPrice: 0, stock: 0, createdAt: "2022-01-04T00:00:00.00", issuedAt: "2022-01-04T00:00:00.00")
+        let pagesFirstObjcet = ProductInformation(
+            id: 20,
+            vendorId: 3,
+            name: "Test Product",
+            thumbnail: "https://s3.ap-northeast-2.amazonaws.com/media.yagom-academy.kr/training-resources/3/thumb/5a0cd56b6d3411ecabfa97fd953cf965.jpg",
+            currency: "KRW",
+            price: 0,
+            bargainPrice: 0,
+            discountedPrice: 0,
+            stock: 0,
+            createdAt: "2022-01-04T00:00:00.00",
+            issuedAt: "2022-01-04T00:00:00.00"
+        )
         
         //when
-        mockNetwork.requestData(url: urlString) { (data, response) -> Void in
+        mockNetwork.requestData(url: urlString) { (data, response) in
             guard let data = data,
                   let pageInformation = try? JSONDecoder().decode(PageInformation.self, from: data) else { return }
             
@@ -48,7 +60,7 @@ final class OpenMarketJSONTests: XCTestCase {
             XCTAssertEqual(pageInformation.pages.first, pagesFirstObjcet )
             promise.fulfill()
         }
-        errorHandler: { (error: Error) -> Void in
+        errorHandler: { error in
             XCTFail(error.localizedDescription)
         }
         wait(for: [promise], timeout: 10)
@@ -69,10 +81,10 @@ final class OpenMarketJSONTests: XCTestCase {
         let mockNetwork = Network(session: stubUrlSession)
         
         //when
-        mockNetwork.requestData(url: urlString) { (data, response) -> Void in
+        mockNetwork.requestData(url: urlString) { (data, response) in
             XCTFail("complete handler 사용")
             promise.fulfill()
-        } errorHandler: { (error: Error) -> Void in
+        } errorHandler: { error in
             XCTAssertEqual(error as? NetworkError, sessionError)
             promise.fulfill()
         }
@@ -87,7 +99,7 @@ final class OpenMarketJSONTests: XCTestCase {
         let urlString = OpenMarketApi.pageInformation(pageNo: pageNo, itemsPerPage: itemsPerPage).pathString
 
         // when
-        network.requestData(url: urlString) { (data, response) -> Void in
+        network.requestData(url: urlString) { (data, response) in
             guard let data = data,
                   let pageInformation = try? JSONDecoder().decode(PageInformation.self, from: data) else { return }
             
@@ -95,7 +107,7 @@ final class OpenMarketJSONTests: XCTestCase {
             XCTAssertNotNil(pageInformation)
             promise.fulfill()
         }
-        errorHandler: { (error: Error) -> Void in
+        errorHandler: { error in
             XCTFail(error.localizedDescription)
         }
         wait(for: [promise], timeout: 10)
@@ -115,8 +127,74 @@ final class OpenMarketJSONTests: XCTestCase {
         // then
             XCTAssertNotNil(productDetail)
             promise.fulfill()
-        } errorHandler: { (error: Error) -> Void in
+        } errorHandler: { error in
             XCTFail(error.localizedDescription)
+        }
+        wait(for: [promise], timeout: 10)
+    }
+    
+    func test_urlError을_발생시켜서_확인 () {
+        // given
+        let promise = expectation(description: "timeout 테스트")
+        let urlString = "\\"
+
+        // when
+        network.requestData(url: urlString) { (data, response) in
+            
+            //then
+            XCTFail("에러처리 실패")
+            promise.fulfill()
+        }
+        errorHandler: { error in
+            XCTAssertEqual(error as? NetworkError, NetworkError.urlError)
+            promise.fulfill()
+        }
+        wait(for: [promise], timeout: 10)
+    }
+    
+    func test_mockNetwork객체에_statusCodeError를_발생시켜서_확인() {
+        // given
+        let fileName = "PageInformationTest"
+        let extensionType = "json"
+        let promise = expectation(description: "timeout 테스트")
+        let urlString = OpenMarketApi.pageInformation(pageNo: 1, itemsPerPage: 10).pathString
+        let url = URL(string: urlString)!
+        let data = load(fileName: fileName, extensionType: extensionType)
+        let statusCodeError = NetworkError.statusCodeError
+        let response = HTTPURLResponse(url: url, statusCode: 500, httpVersion: nil, headerFields: nil)
+        let dummy = DummyData(data: data, response: response, error: nil)
+        let stubUrlSession = StubURLSession(dummy: dummy)
+        let mockNetwork = Network(session: stubUrlSession)
+        
+        //when
+        mockNetwork.requestData(url: urlString) { (data, response) in
+            XCTFail("complete handler 사용")
+            promise.fulfill()
+        } errorHandler: { error in
+            XCTAssertEqual(error as? NetworkError, statusCodeError)
+            promise.fulfill()
+        }
+        wait(for: [promise], timeout: 10)
+    }
+    
+    func test_mockNetwork객체에_dataError를_발생시켜서_확인() {
+        // given
+        let promise = expectation(description: "timeout 테스트")
+        let urlString = OpenMarketApi.pageInformation(pageNo: 1, itemsPerPage: 10).pathString
+        let url = URL(string: urlString)!
+        let dataError = NetworkError.dataError
+        let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: nil, headerFields: nil)
+        let dummy = DummyData(data: nil, response: response, error: nil)
+        let stubUrlSession = StubURLSession(dummy: dummy)
+        let mockNetwork = Network(session: stubUrlSession)
+        
+        //when
+        mockNetwork.requestData(url: urlString) { (data, response) in
+            XCTFail("complete handler 사용")
+            promise.fulfill()
+        } errorHandler: { error in
+            XCTAssertEqual(error as? NetworkError, dataError)
+            promise.fulfill()
         }
         wait(for: [promise], timeout: 10)
     }
@@ -124,8 +202,8 @@ final class OpenMarketJSONTests: XCTestCase {
 
 // MARK: - 파일 load 함수
 
-extension OpenMarketJSONTests {
-    private func load(fileName: String, extensionType: String) -> Data? {
+private extension OpenMarketJSONTests {
+    func load(fileName: String, extensionType: String) -> Data? {
         let testBundle = Bundle(for: type(of: self))
         guard let fileLocation = testBundle.url(forResource: fileName, withExtension: extensionType) else { return nil }
         do {
