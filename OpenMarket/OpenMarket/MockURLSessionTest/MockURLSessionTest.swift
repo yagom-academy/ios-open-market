@@ -29,7 +29,7 @@ class MockURLSessionTest: XCTestCase {
             //then
             switch result {
             case .success(let data):
-                XCTAssertEqual(data.itemspPerPage, 20)
+                XCTAssertEqual(data.itemsPerPage, 20)
             case .failure(_):
                 XCTFail()
             }

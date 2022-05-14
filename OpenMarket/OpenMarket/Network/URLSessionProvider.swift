@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct URLSessionProvider<T: Codable> {
+struct URLSessionProvider<T: Decodable> {
     private let session: URLSessionProtocol
     
     init (session: URLSessionProtocol = URLSession.shared) {

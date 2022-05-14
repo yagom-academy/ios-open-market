@@ -6,7 +6,7 @@
 //
 import Foundation
 
-struct Product: Codable {
+struct Product: Decodable {
     let id: Int?
     let vendorId: Int?
     let name: String?
