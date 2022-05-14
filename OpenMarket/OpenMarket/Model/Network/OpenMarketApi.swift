@@ -11,7 +11,7 @@ enum OpenMarketApi {
     case pageInformation(pageNo: Int, itemsPerPage: Int)
     case productDetail(productNumber: Int)
     
-    var string: String {
+    var pathString: String {
         switch self {
         case .pageInformation(let pageNo, let itemsPerPage):
             return Self.hostUrl + "api/products?page_no=\(pageNo)&items_per_page=\(itemsPerPage)"

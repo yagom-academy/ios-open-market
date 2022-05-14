@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ProductDetail: Codable {
+struct ProductDetail: Decodable {
     let id: Int
     let vendorId: Int
     let name: String
@@ -18,7 +18,7 @@ struct ProductDetail: Codable {
     let bargainPrice: Double
     let discountedPrice: Double
     let stock: Int
-    let images: [Image]
+    let images: [ProductImage]
     let vendors: Vendor
     let createdAt: String
     let issuedAt: String

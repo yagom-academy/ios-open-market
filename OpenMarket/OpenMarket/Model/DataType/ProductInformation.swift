@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ProductInformation: Codable {
+struct ProductInformation: Codable, Equatable {
     let id: Int
     let vendorId: Int
     let name: String
