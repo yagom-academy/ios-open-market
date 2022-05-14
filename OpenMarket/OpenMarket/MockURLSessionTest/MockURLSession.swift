@@ -17,14 +17,14 @@ struct MockData {
     }
 }
 
-class MockURLSessionDataTask: URLSessionDataTask {
+class MockURLSessionDataTask: URLSessionDataTaskProtocol {
     private let closure: () -> Void
 
     init(closure: @escaping () -> Void) {
         self.closure = closure
     }
 
-    override func resume() {
+    func resume() {
         closure()
     }
 }
@@ -34,7 +34,7 @@ class MockURLSession: URLSessionProtocol {
     func dataTask(
         with urlRequest: URLRequest,
         completionHandler: @escaping DataTaskCompletionHandler
-    ) -> URLSessionDataTask {
+    ) -> URLSessionDataTaskProtocol {
         let successResponse = HTTPURLResponse(
             url: urlRequest.url!,
             statusCode: 200, httpVersion: "",
