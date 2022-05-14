@@ -8,9 +8,12 @@
 import Foundation
 
 protocol NetworkAble {
-    func requestData(url: String,
-                     completeHandler: @escaping DataTaskCompletionHandler,
-                     errorHandler: @escaping DataTaskErrorHandler)
+    @discardableResult
+    func requestData(
+        url: String,
+        completeHandler: @escaping (Data?, URLResponse?) -> Void,
+        errorHandler: @escaping (Error) -> Void
+    ) -> URLSessionDataTask?
 }
 
 final class Network: NetworkAble {
@@ -19,20 +22,23 @@ final class Network: NetworkAble {
         static let successRange = 200..<300
     }
     
-    var session: URLSessionProtocol
+    private let session: URLSessionProtocol
     
     init(session: URLSessionProtocol) {
         self.session = session
     }
     
-    func requestData(url: String,
-                     completeHandler: @escaping DataTaskCompletionHandler,
-                     errorHandler: @escaping DataTaskErrorHandler) {
+    @discardableResult
+    func requestData(
+        url: String,
+        completeHandler: @escaping (Data?, URLResponse?) -> Void,
+        errorHandler: @escaping (Error) -> Void
+    ) -> URLSessionDataTask? {
         
         let urlComponents = URLComponents(string: url)
         guard let requestURL = urlComponents?.url else {
             errorHandler(NetworkError.urlError)
-            return
+            return nil
         }
         
         let dataTask = session.dataTask(with: requestURL) { (data, response, error) in
@@ -53,9 +59,10 @@ final class Network: NetworkAble {
                 return
             }
             
-            completeHandler(data, response, error)
+            completeHandler(data, response)
         }
         dataTask.resume()
+        return dataTask
     }
 }
 
