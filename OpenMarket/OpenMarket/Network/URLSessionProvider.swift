@@ -14,18 +14,24 @@ struct URLSessionProvider<T: Decodable> {
         self.session = session
     }
     
-    func getData(
+    func fetchData(
         from url: Endpoint,
-        completionHandler: @escaping (Result<T, NetworkError>) -> Void
-    ) {
+        completionHandler: @escaping (Result<T, NetworkError>) -> Void) {
         guard let url = url.url else {
             completionHandler(.failure(.urlError))
             return
         }
         
-        var request = URLRequest(url: url)
-        request.httpMethod = "GET"
+        var urlRequest = URLRequest(url: url)
+        urlRequest.httpMethod = "GET"
         
+        request(with: urlRequest, completionHandler: completionHandler)
+    }
+    
+    func request(
+        with request: URLRequest,
+        completionHandler: @escaping (Result<T, NetworkError>) -> Void
+    ) {
         let task = session.dataTask(with: request) { data, urlResponse, error in
             
             guard error == nil else {
@@ -44,14 +50,12 @@ struct URLSessionProvider<T: Decodable> {
                 return
             }
             
-            let json = JSONDecoder()
-            json.keyDecodingStrategy = .convertFromSnakeCase
-            guard let products = try? json.decode(T.self, from: data) else {
+            guard let resultData = T.parse(data: data) else {
                 completionHandler(.failure(.decodeError))
                 return
             }
             
-            completionHandler(.success(products))
+            completionHandler(.success(resultData))
         }
         task.resume()
     }
