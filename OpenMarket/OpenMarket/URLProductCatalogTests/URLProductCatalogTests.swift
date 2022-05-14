@@ -10,7 +10,7 @@ import XCTest
 
 class URLProductCatalogTests: XCTestCase {
 
-    var sut: URLSessionProvider<ProductCatalog>!
+    var sut: URLSessionProvider<ProductList>!
     override func setUpWithError() throws {
         sut = URLSessionProvider()
     }

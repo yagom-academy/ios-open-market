@@ -9,11 +9,11 @@ import XCTest
 @testable import OpenMarket
 
 class MockURLSessionTest: XCTestCase {
-    var sut: URLSessionProvider<ProductCatalog>!
+    var sut: URLSessionProvider<ProductList>!
     
     override func setUpWithError() throws {
         let session = MockURLSession()
-        sut = URLSessionProvider<ProductCatalog>(session: session)
+        sut = URLSessionProvider<ProductList>(session: session)
     }
 
     override func tearDownWithError() throws {
