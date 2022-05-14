@@ -26,8 +26,7 @@ class GridCollectionViewCell: UICollectionViewCell {
         setUpLabel()
     }
     
-    
-    
+
     func setUpCell() {
         productNameLabel = UILabel()
         productPriceLabel = UILabel()
@@ -35,15 +34,15 @@ class GridCollectionViewCell: UICollectionViewCell {
         productStockLabel = UILabel()
         productBargainPriceLabel = UILabel()
         productImageView.image = UIImage(named: "macmini")
-        productImageView.heightAnchor.constraint(equalToConstant: 100).isActive = true
-        productImageView.widthAnchor.constraint(equalToConstant: 120).isActive = true
         productImageView.contentMode = .scaleAspectFit
+        
         
         let stackView: UIStackView = {
             let stackView = UIStackView()
             stackView.axis = .vertical
-            stackView.spacing = 5
             stackView.alignment = .center
+            stackView.distribution = .fillEqually
+            
             return stackView
         }()
         
@@ -62,19 +61,27 @@ class GridCollectionViewCell: UICollectionViewCell {
             return stackView
         }()
         
-        stackView.addArrangedSubview(productImageView)
+        let imageStackView: UIStackView = {
+            let stackView = UIStackView(arrangedSubviews: [productImageView])
+            stackView.axis = .vertical
+            stackView.alignment = .center
+            stackView.distribution = .fillEqually
+            
+            return stackView
+        }()
+        
+        stackView.addArrangedSubview(imageStackView)
         stackView.addArrangedSubview(productNameLabel)
         stackView.addArrangedSubview(vStackView)
         stackView.addArrangedSubview(productStockLabel)
         productNameLabel.topAnchor.constraint(equalTo: productImageView.bottomAnchor).isActive = true
+        productImageView.topAnchor.constraint(equalTo: stackView.topAnchor).isActive = true
         
         vStackView.topAnchor.constraint(equalTo: productNameLabel.bottomAnchor).isActive = true
         
         vStackView.addArrangedSubview(productBargainPriceLabel)
         vStackView.addArrangedSubview(productPriceLabel)
-        
-        
-        
+
     }
     
     func setUpLabel() {

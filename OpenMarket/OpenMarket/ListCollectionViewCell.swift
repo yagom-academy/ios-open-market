@@ -13,6 +13,20 @@ class ListCollectionViewCell: UICollectionViewCell {
     var productStockLabel: UILabel!
     var productImageView: UIImageView!
     
+    let stackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.spacing = 10
+        return stackView
+    }()
+    
+    let priceStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.distribution = .fillEqually
+        return stackView
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setUpCell()
@@ -35,29 +49,16 @@ class ListCollectionViewCell: UICollectionViewCell {
         productImageView.heightAnchor.constraint(equalToConstant: 50).isActive = true
         productImageView.widthAnchor.constraint(equalToConstant: 60).isActive = true
         productImageView.contentMode = .scaleAspectFit
-        
-        let stackView: UIStackView = {
-            let stackView = UIStackView()
-            stackView.axis = .horizontal
-            stackView.spacing = 10
-            return stackView
-        }()
-        
+     
         contentView.addSubview(stackView)
         stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor).isActive = true
-        stackView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor).isActive = true
-        stackView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor).isActive = true
-        stackView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor).isActive = true
-        
+        stackView.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
+        stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
+        stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
+        stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
+        stackView.heightAnchor.constraint(equalToConstant: 60).isActive = true
         stackView.addArrangedSubview(productImageView)
-        
-        let priceStackView: UIStackView = {
-            let stackView = UIStackView()
-            stackView.axis = .vertical
-            return stackView
-        }()
-        
+     
         priceStackView.addArrangedSubview(productNameLabel)
         priceStackView.addArrangedSubview(productPriceLabel)
         stackView.addArrangedSubview(priceStackView)

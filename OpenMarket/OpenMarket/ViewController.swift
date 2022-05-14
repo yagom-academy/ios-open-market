@@ -37,7 +37,7 @@ class ViewController: UIViewController {
     }
     
     private func listLayout() -> UICollectionViewCompositionalLayout {
-        var listConfiguration = UICollectionLayoutListConfiguration(appearance: .grouped)
+        var listConfiguration = UICollectionLayoutListConfiguration(appearance: .insetGrouped)
         listConfiguration.showsSeparators = true
         listConfiguration.backgroundColor = UIColor.clear
         return UICollectionViewCompositionalLayout.list(using: listConfiguration)
@@ -70,13 +70,13 @@ class ViewController: UIViewController {
         
         if mode == ArrangeMode.list.rawValue {
             self.arrangeMode = .list
-            collectionView.setCollectionViewLayout(listLayout(), animated: true)
+            collectionView.setCollectionViewLayout(listLayout(), animated: true) { [weak self] _ in self?.collectionView.reloadData() }
             collectionView
                 .register(ListCollectionViewCell.classForCoder(), forCellWithReuseIdentifier: "listCell")
             self.collectionView.reloadData()
         } else if mode == ArrangeMode.grid.rawValue {
             self.arrangeMode = .grid
-            collectionView.setCollectionViewLayout(gridLayout(), animated: true)
+            collectionView.setCollectionViewLayout(gridLayout(), animated: true) { [weak self] _ in self?.collectionView.reloadData() }
             collectionView
                 .register(GridCollectionViewCell.classForCoder(), forCellWithReuseIdentifier: "gridCell")
             self.collectionView.reloadData()
@@ -120,8 +120,7 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, 
             cell.productNameLabel.text = data[indexPath.row].name
             cell.productPriceLabel.text = String(data[indexPath.row].price)
             cell.productStockLabel.text = String(data[indexPath.row].stock)
-            cell.layer.borderWidth = 2
-            cell.layer.borderColor = UIColor.systemPink.cgColor
+
             return cell
         }
     }
