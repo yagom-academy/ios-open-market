@@ -44,7 +44,9 @@ struct URLSessionProvider<T: Decodable> {
                 return
             }
             
-            guard let products = try? JSONDecoder().decode(T.self, from: data) else {
+            let json = JSONDecoder()
+            json.keyDecodingStrategy = .convertFromSnakeCase
+            guard let products = try? json.decode(T.self, from: data) else {
                 completionHandler(.failure(.decodeError))
                 return
             }
