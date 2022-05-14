@@ -2,7 +2,7 @@
 //  NetworkError.swift
 //  OpenMarket
 //
-//  Created by song on 2022/05/12.
+//  Created by marlang, Taeangel on 2022/05/12.
 //
 
 enum NetworkError: Error {
