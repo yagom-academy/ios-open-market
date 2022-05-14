@@ -15,6 +15,6 @@ struct ProductList: Decodable {
     let limit: Int?
     let pages: [Product]?
     let lastPage: Int?
-    let nextPage: Bool?
-    let prevPage: Bool?
+    let hasNextPage: Bool?
+    let hasPrevPage: Bool?
 }
