@@ -118,11 +118,37 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, 
         case .grid:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "gridCell", for: indexPath) as? GridCollectionViewCell else { return UICollectionViewCell() }
             cell.productNameLabel.text = data[indexPath.row].name
-            cell.productPriceLabel.text = String(data[indexPath.row].price)
-            cell.productStockLabel.text = String(data[indexPath.row].stock)
+
+            
+            cell.productPriceLabel.text = "\(data[indexPath.row].currency!.rawValue) \(String(data[indexPath.row].price))"
+            
+            if data[indexPath.row].discountedPrice != 0 {
+                cell.productBargainPriceLabel.text = "\(data[indexPath.row].currency!.rawValue) \(String(data[indexPath.row].bargainPrice))"
+                cell.productPriceLabel.textColor = .red
+                
+                cell.productPriceLabel.attributedText = setTextAttribute(of: cell.productPriceLabel.text!, attributes: [.strikethroughStyle: NSUnderlineStyle.single.rawValue])
+            }
+            
+            if data[indexPath.row].stock == 0 {
+                cell.productStockLabel.text = "품절"
+                cell.productStockLabel.textColor = .systemOrange
+            } else {
+                cell.productStockLabel.text = "잔여수량 :  \(String(data[indexPath.row].stock))"
+            }
+            
+            cell.layer.borderWidth = 1.5
+            cell.layer.borderColor = UIColor.systemGray.cgColor
+            cell.layer.cornerRadius = 10.0
 
             return cell
         }
     }
 }
 
+extension ViewController {
+    func setTextAttribute(of target: String, attributes: [NSAttributedString.Key: Any]) -> NSAttributedString {
+        let attributedText = NSMutableAttributedString(string: target)
+        attributedText.addAttributes(attributes, range: (target as NSString).range(of: target))
+        return attributedText
+    }
+}

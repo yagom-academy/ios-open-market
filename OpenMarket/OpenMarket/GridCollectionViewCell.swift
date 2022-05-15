@@ -11,12 +11,15 @@ class GridCollectionViewCell: UICollectionViewCell {
     let productNameLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.preferredFont(forTextStyle: .headline)
+        label.font = UIFont.preferredFont(for: .title3, weight: .semibold)
+        label.adjustsFontForContentSizeCategory = true
         return label
     }()
     
     let productPriceLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.preferredFont(forTextStyle: .subheadline)
+        label.font = UIFont.preferredFont(forTextStyle: .body)
+        label.textColor = .systemGray
         return label
     }()
     
@@ -29,13 +32,15 @@ class GridCollectionViewCell: UICollectionViewCell {
     
     let productBargainPriceLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.preferredFont(forTextStyle: .subheadline)
+        label.font = UIFont.preferredFont(forTextStyle: .body)
+        label.textColor = .systemGray
         return label
     }()
     
     let productStockLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.preferredFont(forTextStyle: .subheadline)
+        label.font = UIFont.preferredFont(forTextStyle: .body)
+        label.textColor = .systemGray
         return label
     }()
     
@@ -43,7 +48,10 @@ class GridCollectionViewCell: UICollectionViewCell {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.alignment = .center
-        stackView.distribution = .fillEqually
+        stackView.spacing = 5
+        stackView.isLayoutMarginsRelativeArrangement = true
+        stackView.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 5, trailing: 10)
+        
         
         return stackView
     }()
@@ -52,10 +60,18 @@ class GridCollectionViewCell: UICollectionViewCell {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.alignment = .center
-        stackView.distribution = .fillEqually
+        stackView.distribution = .fill
         return stackView
     }()
     
+    let vStackView2: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.alignment = .center
+        stackView.spacing = 5
+        stackView.distribution = .fillEqually
+        return stackView
+    }()
 
     
     required init?(coder: NSCoder) {
@@ -73,12 +89,18 @@ class GridCollectionViewCell: UICollectionViewCell {
         
         // Add SubViews
         contentView.addSubview(stackView)
+        
+        
         stackView.addArrangedSubview(productImageView)
-        stackView.addArrangedSubview(productNameLabel)
-        stackView.addArrangedSubview(vStackView)
-        stackView.addArrangedSubview(productStockLabel)
-        vStackView.addArrangedSubview(productBargainPriceLabel)
+        stackView.addArrangedSubview(vStackView2)
+        
+        vStackView2.addArrangedSubview(productNameLabel)
+        vStackView2.addArrangedSubview(vStackView)
+        vStackView2.addArrangedSubview(productStockLabel)
+        
         vStackView.addArrangedSubview(productPriceLabel)
+        vStackView.addArrangedSubview(productBargainPriceLabel)
+        
         
         // StackView Constraints
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -89,12 +111,22 @@ class GridCollectionViewCell: UICollectionViewCell {
         
         
         // productNameLabel Constraints
-        productNameLabel.topAnchor.constraint(equalTo: productImageView.bottomAnchor).isActive = true
+        //productNameLabel.topAnchor.constraint(equalTo: productImageView.bottomAnchor).isActive = true
         
         // productImageView Constraints
-        productImageView.topAnchor.constraint(equalTo: stackView.topAnchor).isActive = true
+        //productImageView.topAnchor.constraint(equalTo: stackView.topAnchor).isActive = true
+        productImageView.heightAnchor.constraint(equalTo: stackView.heightAnchor, multiplier: 0.5).isActive = true
         
         // vertical StackView Constraints
         vStackView.topAnchor.constraint(equalTo: productNameLabel.bottomAnchor).isActive = true
+    }
+}
+
+extension UIFont {
+    static func preferredFont(for style: TextStyle, weight: Weight) -> UIFont {
+        let metrics = UIFontMetrics(forTextStyle: style)
+        let desc = UIFontDescriptor.preferredFontDescriptor(withTextStyle: style)
+        let font = UIFont.systemFont(ofSize: desc.pointSize, weight: weight)
+        return metrics.scaledFont(for: font)
     }
 }
