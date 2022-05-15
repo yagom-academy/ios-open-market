@@ -60,7 +60,7 @@ class GridCollectionViewCell: UICollectionViewCell {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.alignment = .center
-        stackView.distribution = .fillEqually
+        stackView.distribution = .fillProportionally
         return stackView
     }()
     
@@ -108,18 +108,8 @@ class GridCollectionViewCell: UICollectionViewCell {
         stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
         stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
         stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
-        
-        
-        // productNameLabel Constraints
-        //productNameLabel.topAnchor.constraint(equalTo: productImageView.bottomAnchor).isActive = true
-        
-        // productImageView Constraints
-        //productImageView.topAnchor.constraint(equalTo: stackView.topAnchor).isActive = true
+
         productImageView.heightAnchor.constraint(equalTo: stackView.heightAnchor, multiplier: 0.5).isActive = true
-        
-        // vertical StackView Constraints
-        vStackView.topAnchor.constraint(equalTo: productNameLabel.bottomAnchor).isActive = true
-        vStackView.bottomAnchor.constraint(equalTo: productStockLabel.topAnchor).isActive = true
     }
 }
 
