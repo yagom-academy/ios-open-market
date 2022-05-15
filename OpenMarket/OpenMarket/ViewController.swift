@@ -63,6 +63,20 @@ class ViewController: UIViewController {
         segmentedControl.translatesAutoresizingMaskIntoConstraints = false
         segmentedControl.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 10.0).isActive = true
         segmentedControl.centerXAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.centerXAnchor).isActive = true
+        segmentedControl.backgroundColor = .white
+        segmentedControl.selectedSegmentTintColor = .systemBlue
+        let normalTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.systemBlue]
+        segmentedControl.setTitleTextAttributes(normalTextAttributes, for: .normal)
+        let selectedTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        segmentedControl.setTitleTextAttributes(selectedTextAttributes, for: .selected)
+        segmentedControl.layer.borderColor = UIColor.systemBlue.cgColor
+        segmentedControl.layer.borderWidth = 1.0
+        segmentedControl.layer.cornerRadius = 1.0
+        segmentedControl.layer.masksToBounds = true
+        segmentedControl.setWidth(90, forSegmentAt: 0)
+        segmentedControl.setWidth(90, forSegmentAt: 1)
+        segmentedControl.apportionsSegmentWidthsByContent = true
+
     }
     
     @objc func arrangementChange(_ sender: UISegmentedControl) {
@@ -118,7 +132,7 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, 
         case .grid:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "gridCell", for: indexPath) as? GridCollectionViewCell else { return UICollectionViewCell() }
             cell.productNameLabel.text = data[indexPath.row].name
-
+            
             
             cell.productPriceLabel.text = "\(data[indexPath.row].currency!.rawValue) \(NumberFormatterAssistant.shared.numberFormatString(for: data[indexPath.row].price))"
             
@@ -139,7 +153,7 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, 
             cell.layer.borderWidth = 1.5
             cell.layer.borderColor = UIColor.systemGray.cgColor
             cell.layer.cornerRadius = 10.0
-
+            
             return cell
         }
     }
@@ -152,3 +166,5 @@ extension ViewController {
         return attributedText
     }
 }
+
+
