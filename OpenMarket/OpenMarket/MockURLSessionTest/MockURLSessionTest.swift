@@ -12,7 +12,7 @@ class MockURLSessionTest: XCTestCase {
     var sut: URLSessionProvider<ProductList>!
     
     override func setUpWithError() throws {
-        let session = MockURLSession()
+        let session = MockURLSession(isRequestSuccess: true)
         sut = URLSessionProvider<ProductList>(session: session)
     }
 
@@ -68,6 +68,26 @@ class MockURLSessionTest: XCTestCase {
                 XCTAssertEqual(data.pages?.first?.id, 20)
             case .failure(_):
                 XCTFail()
+            }
+            promise.fulfill()
+        }
+        wait(for: [promise], timeout: 10)
+    }
+    
+    func test_isRequestSuccess가_false라면_fetchData_함수를호출하면_statusCode_Error인지() {
+        //given
+        let promise = expectation(description: "statusCodeError if isRequestSuccess value is false")
+        let session = MockURLSession(isRequestSuccess: false)
+        sut = URLSessionProvider(session: session)
+
+        //when
+        sut.fetchData(from: .healthChecker) { result in
+            //then
+            switch result {
+            case .success(_):
+                XCTFail()
+            case .failure(let error):
+                XCTAssertEqual(error, .statusCodeError)
             }
             promise.fulfill()
         }

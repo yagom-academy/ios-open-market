@@ -18,32 +18,50 @@ struct MockData {
 }
 
 class MockURLSessionDataTask: URLSessionDataTaskProtocol {
-    private let closure: () -> Void
-
+    let closure: () -> Void
+    
     init(closure: @escaping () -> Void) {
         self.closure = closure
     }
-
+    
     func resume() {
         closure()
     }
 }
 
 class MockURLSession: URLSessionProtocol {
-
+    var isRequestSuccess: Bool
+    
+    init(isRequestSuccess: Bool = true) {
+        self.isRequestSuccess = isRequestSuccess
+    }
+    
     func dataTask(
         with urlRequest: URLRequest,
         completionHandler: @escaping DataTaskCompletionHandler
     ) -> URLSessionDataTaskProtocol {
-        let successResponse = HTTPURLResponse(
+        
+        let sucessResponse = HTTPURLResponse(
             url: urlRequest.url!,
             statusCode: 200, httpVersion: "",
             headerFields: nil
         )
-
-        return MockURLSessionDataTask { completionHandler(
-            MockData().load(),
-            successResponse, nil
-        ) }
+        
+        let failureResponse = HTTPURLResponse(
+            url: urlRequest.url!,
+            statusCode: 400, httpVersion: "",
+            headerFields: nil
+        )
+        
+        if isRequestSuccess {
+            return MockURLSessionDataTask {
+                completionHandler(MockData().load(), sucessResponse, nil)
+            }
+        } else {
+            return MockURLSessionDataTask {
+                completionHandler(MockData().load(), failureResponse, nil)
+            }
+        }
     }
 }
+    
