@@ -16,6 +16,21 @@ class ViewController: UIViewController {
     lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: listLayout())
     let segmentedControl = UISegmentedControl(items: ["List", "Grid"])
     
+    let topCoverView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor.systemGroupedBackground
+        //view.backgroundColor = UIColor.systemOrange
+        return view
+    }()
+    
+    let addButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "plus"), for: .normal)
+        button.titleLabel!.font = .preferredFont(forTextStyle: .body)
+        button.titleLabel?.textColor = .systemBlue
+        return button
+    }()
+    
     private let data: [Product] = {
         let parser: Parser<ProductList> = Parser()
         let sampleList: ProductList = parser.decode(name: "products")!
@@ -24,9 +39,26 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.view.addSubview(topCoverView)
+        self.view.addSubview(addButton)
         self.view.addSubview(segmentedControl)
         self.view.addSubview(collectionView)
+        
+        topCoverView.translatesAutoresizingMaskIntoConstraints = false
+        topCoverView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
+        topCoverView.centerXAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.centerXAnchor).isActive = true
+        topCoverView.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.12).isActive = true
+        topCoverView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor).isActive = true
+        topCoverView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor).isActive = true
+        
+        addButton.translatesAutoresizingMaskIntoConstraints = false
+        addButton.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor).isActive = true
+        addButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        addButton.widthAnchor.constraint(equalToConstant: 50).isActive = true
+        addButton.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor).isActive = true
+        
+        
+        
         segmentLayout()
         configureCollectionView()
         collectionViewDelegate()
@@ -37,7 +69,7 @@ class ViewController: UIViewController {
     }
     
     private func listLayout() -> UICollectionViewCompositionalLayout {
-        var listConfiguration = UICollectionLayoutListConfiguration(appearance: .insetGrouped)
+        var listConfiguration = UICollectionLayoutListConfiguration(appearance: .plain)
         listConfiguration.showsSeparators = true
         listConfiguration.backgroundColor = UIColor.clear
         return UICollectionViewCompositionalLayout.list(using: listConfiguration)
@@ -100,10 +132,12 @@ class ViewController: UIViewController {
     func configureCollectionView() {
         
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.topAnchor.constraint(equalTo: self.segmentedControl.bottomAnchor, constant: 10).isActive = true
+        
+        collectionView.topAnchor.constraint(equalTo: self.topCoverView.bottomAnchor, constant:  10).isActive = true
         collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+
     }
 }
 

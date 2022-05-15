@@ -37,6 +37,7 @@ class ListCollectionViewCell: UICollectionViewCell {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.spacing = 10
+        stackView.alignment = .top
         return stackView
     }()
     
