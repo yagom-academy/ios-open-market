@@ -8,32 +8,20 @@
 import UIKit
 
 extension UILabel {
-    func addStrikeThrough() {
-        guard let text = self.text else {
-            return
-        }
-        
+    func addStrikeThrough(price: Double) {
         let underlineAttriString = NSAttributedString(
-            string: text,
+            string: String(price),
             attributes: [NSAttributedString.Key.strikethroughStyle: NSUnderlineStyle.single.rawValue]
         )
         
         self.attributedText = underlineAttriString
     }
     
-    func toDecimal(with currency: String) {
+    func toDecimal(with currency: String, price: Double) {
         let numberfommater = NumberFormatter()
         numberfommater.numberStyle = .decimal
-        
-        guard let text = self.text else {
-            return
-        }
-    
-        guard let number = numberfommater.number(from: text) else {
-            return
-        }
-        
-        guard let fomattedNumber = numberfommater.string(from: number) else {
+
+        guard let fomattedNumber = numberfommater.string(from: price as NSNumber) else {
             return
         }
         

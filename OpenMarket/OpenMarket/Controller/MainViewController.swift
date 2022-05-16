@@ -25,20 +25,35 @@ final class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setUpNavigationItem()
         setUpCollectionView()
+        setUpSegmentControl()
+    }
+    
+    private func setUpNavigationItem() {
+        navigationItem.titleView = mainView.segmentControl
+        navigationItem.rightBarButtonItem = mainView.addButton
     }
     
     private func setUpCollectionView() {
         mainView.collectionView.register(
             ListCollectionViewCell.self,
-            forCellWithReuseIdentifier: "ListCollectionViewCell"
+            forCellWithReuseIdentifier: ListCollectionViewCell.identifier
         )
         mainView.collectionView.register(
             GridCollectionViewCell.self,
-            forCellWithReuseIdentifier: "GridCollectionViewCell"
+            forCellWithReuseIdentifier: GridCollectionViewCell.identifier
         )
     }
     
+    private func setUpSegmentControl() {
+        mainView.segmentControl.addTarget(self, action: #selector(changeLayout), for: .valueChanged)
+    }
+    
+    @objc private func changeLayout() {
+        mainView.setUpLayout(segmentIndex: mainView.segmentControl.selectedSegmentIndex)
+    }
+        
     private func makeDataSource() -> DataSource {
         let dataSource = DataSource(
             collectionView: mainView.collectionView,

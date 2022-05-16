@@ -8,6 +8,18 @@
 import UIKit
 
 final class MainView: UIView {
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        addSubviews()
+        setUpAttribute()
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        addSubviews()
+        setUpAttribute()
+    }
+    
     enum LayoutStatus: Int {
         case list = 0
         case grid = 1
@@ -68,17 +80,12 @@ final class MainView: UIView {
         return layout
     }()
     
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        backgroundColor = .white
+    private func addSubviews() {
         addSubview(collectionView)
     }
     
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
+    private func setUpAttribute() {
         backgroundColor = .white
-        addSubview(collectionView)
     }
     
     func setUpLayout(segmentIndex: Int) {

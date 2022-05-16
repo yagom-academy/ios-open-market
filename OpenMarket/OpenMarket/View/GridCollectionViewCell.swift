@@ -100,17 +100,13 @@ final class GridCollectionViewCell: UICollectionViewCell {
         productNameLabel.text = data.name
         productImageView.image = image
         
-        if data.bargainPrice == 0 {
+        if data.discountedPrice == 0 {
             productionPriceLabel.isHidden = true
-            sellingPriceLabel.text = String(data.price)
+            sellingPriceLabel.toDecimal(with: data.currency, price: data.price)
         } else {
             productionPriceLabel.isHidden = false
-            let underlineAttriString = NSAttributedString(
-                string: String(data.price),
-                attributes: [NSAttributedString.Key.strikethroughStyle: NSUnderlineStyle.single.rawValue]
-            )
-            productionPriceLabel.attributedText = underlineAttriString
-            sellingPriceLabel.text = String(data.bargainPrice)
+            productionPriceLabel.addStrikeThrough(price: data.price)
+            sellingPriceLabel.toDecimal(with: data.currency, price: data.bargainPrice)
         }
         
         stockLabel.text = String(data.stock)
