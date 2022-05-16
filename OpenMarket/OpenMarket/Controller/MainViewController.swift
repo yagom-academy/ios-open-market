@@ -7,6 +7,19 @@
 import UIKit
 
 class MainViewController: UIViewController {
+  lazy var collectionView = UICollectionView(frame: .zero,
+                                             collectionViewLayout: configureListLayout())
+  let urlProvider = URLSessionProvider<ProductsList>(path: "/api/products",
+                                                     parameters: ["page_no":"1",
+                                                                  "items_per_page": "20"])
+  private var pages: [Page] = [] {
+    didSet {
+      DispatchQueue.main.async {
+        self.collectionView.reloadData()
+      }
+    }
+  }
+  
 
     override func viewDidLoad() {
         super.viewDidLoad()
