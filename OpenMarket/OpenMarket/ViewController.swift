@@ -14,23 +14,7 @@ enum ArrangeMode: Int {
 class ViewController: UIViewController {
     var arrangeMode: ArrangeMode = .list
     lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: listLayout())
-    let segmentedControl = UISegmentedControl(items: ["List", "Grid"])
-    
-    let topCoverView: UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor.systemGroupedBackground
-        //view.backgroundColor = UIColor.systemOrange
-        return view
-    }()
-    
-    let addButton: UIButton = {
-        let button = UIButton()
-        button.setImage(UIImage(systemName: "plus"), for: .normal)
-        button.titleLabel!.font = .preferredFont(forTextStyle: .body)
-        button.titleLabel?.textColor = .systemBlue
-        return button
-    }()
-    
+    let segmentedControl = UISegmentedControl(items: ["LIST", "GRID"])
     private let data: [Product] = {
         let parser: Parser<ProductList> = Parser()
         let sampleList: ProductList = parser.decode(name: "products")!
@@ -39,24 +23,11 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.addSubview(topCoverView)
-        self.view.addSubview(addButton)
-        self.view.addSubview(segmentedControl)
+        let plusButton = UIBarButtonItem(barButtonSystemItem: .add, target: nil, action: nil)
+        self.navigationItem.titleView = segmentedControl
+        self.navigationItem.rightBarButtonItem = plusButton
         self.view.addSubview(collectionView)
-        
-        topCoverView.translatesAutoresizingMaskIntoConstraints = false
-        topCoverView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
-        topCoverView.centerXAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.centerXAnchor).isActive = true
-        topCoverView.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.12).isActive = true
-        topCoverView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor).isActive = true
-        topCoverView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor).isActive = true
-        
-        addButton.translatesAutoresizingMaskIntoConstraints = false
-        addButton.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor).isActive = true
-        addButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        addButton.widthAnchor.constraint(equalToConstant: 50).isActive = true
-        addButton.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor).isActive = true
-        
+        self.navigationController?.navigationBar.backgroundColor = .systemGroupedBackground
         
         
         segmentLayout()
@@ -82,19 +53,16 @@ class ViewController: UIViewController {
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 2)
         
         group.interItemSpacing = .fixed(10)
-        
         let section = NSCollectionLayoutSection(group: group)
         
         section.interGroupSpacing = CGFloat(10)
-        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 0, trailing: 10)
         
         return UICollectionViewCompositionalLayout(section: section)
     }
     
     func segmentLayout() {
         segmentedControl.translatesAutoresizingMaskIntoConstraints = false
-        segmentedControl.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 10.0).isActive = true
-        segmentedControl.centerXAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.centerXAnchor).isActive = true
         segmentedControl.backgroundColor = .white
         segmentedControl.selectedSegmentTintColor = .systemBlue
         let normalTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.systemBlue]
@@ -104,11 +72,11 @@ class ViewController: UIViewController {
         segmentedControl.layer.borderColor = UIColor.systemBlue.cgColor
         segmentedControl.layer.borderWidth = 1.0
         segmentedControl.layer.cornerRadius = 1.0
-        segmentedControl.layer.masksToBounds = true
+        segmentedControl.layer.masksToBounds = false
         segmentedControl.setWidth(90, forSegmentAt: 0)
         segmentedControl.setWidth(90, forSegmentAt: 1)
         segmentedControl.apportionsSegmentWidthsByContent = true
-
+        segmentedControl.sizeToFit()
     }
     
     @objc func arrangementChange(_ sender: UISegmentedControl) {
@@ -133,7 +101,7 @@ class ViewController: UIViewController {
         
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         
-        collectionView.topAnchor.constraint(equalTo: self.topCoverView.bottomAnchor, constant:  10).isActive = true
+        collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0).isActive = true
         collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
