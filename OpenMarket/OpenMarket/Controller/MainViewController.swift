@@ -7,11 +7,39 @@
 import UIKit
 
 final class MainViewController: UIViewController {
-  lazy var collectionView = UICollectionView(frame: .zero,
+  private lazy var collectionView = UICollectionView(frame: .zero,
                                              collectionViewLayout: configureListLayout())
-  let urlProvider = URLSessionProvider<ProductsList>(path: "/api/products",
+  private let urlProvider = URLSessionProvider<ProductsList>(path: "/api/products",
                                                      parameters: ["page_no":"1",
                                                                   "items_per_page": "20"])
+  private lazy var segmentedControl: UISegmentedControl = {
+    let segment = UISegmentedControl(items: ["LIST", "GRID"])
+    segment.selectedSegmentIndex = 0
+    segment.addTarget(self, action: #selector(changeCollectionViewLayout(_:)), for: .valueChanged)
+    
+    return segment
+  }()
+  
+  private func configureNavigationItems() {
+    navigationItem.titleView = segmentedControl
+    navigationItem.rightBarButtonItem = .init(barButtonSystemItem: .add,
+                                              target: .none,
+                                              action: .none)
+  }
+  
+  @objc private func changeCollectionViewLayout(_ sender: UISegmentedControl) {
+    switch sender.selectedSegmentIndex {
+    case 0:
+      collectionView.collectionViewLayout = configureListLayout()
+    case 1:
+      return
+    default:
+      return
+    }
+    collectionView.reloadData()
+  }
+
+
   private var pages: [Page] = [] {
     didSet {
       DispatchQueue.main.async {
@@ -25,7 +53,9 @@ final class MainViewController: UIViewController {
     fetchPages()
     configureCollectionView()
     collectionView.collectionViewLayout = configureListLayout()
+    configureNavigationItems()
   }
+  
   
   private func configureCollectionView() {
     self.view.addSubview(collectionView)
