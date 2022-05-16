@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 enum NetworkErorr: Error {
-    case unknown
+    case dataError
     case jsonError
     case severError
     case urlError
@@ -43,7 +43,7 @@ struct NetworkManager<T: Codable> {
             }
             
             guard let data = data, let text = String(data: data, encoding: .utf8) else {
-                completion(.failure(.unknown))
+                completion(.failure(.dataError))
                 return
             }
             
@@ -66,7 +66,7 @@ struct NetworkManager<T: Codable> {
             }
             
             guard let data = data else {
-                completion(.failure(.unknown))
+                completion(.failure(.dataError))
                 return
             }
             
@@ -105,7 +105,7 @@ struct NetworkManager<T: Codable> {
             }
             
             guard let data = data else {
-                completion(.failure(.unknown))
+                completion(.failure(.dataError))
                 return
             }
             
