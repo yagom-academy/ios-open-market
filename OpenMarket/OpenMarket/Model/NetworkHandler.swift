@@ -26,13 +26,13 @@ struct NetworkHandler {
         return component?.url
     }
     
-    func request(pathString: String, httpMethod: HttpMethod, response: @escaping (Result<Data?, APIError>) -> Void) {
-        guard let url = URL(string: baseURL + pathString) else {
+    func request(api: APIable, response: @escaping (Result<Data?, APIError>) -> Void) {
+        guard let url = makeURL(api: api) else {
             return response(.failure(.convertError))
         }
         
         var request = URLRequest(url: url)
-        request.httpMethod = httpMethod.string
+        request.httpMethod = api.method.string
         
         session.receiveResponse(request: request) { responseResult in
             guard responseResult.error == nil else {
@@ -43,7 +43,7 @@ struct NetworkHandler {
                 return response(.failure(.responseError))
             }
             
-            switch httpMethod {
+            switch api.method {
             case .get:
                 response(.success(responseResult.data))
             case .post:
