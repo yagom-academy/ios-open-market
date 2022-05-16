@@ -27,4 +27,14 @@ extension UILabel {
         
         self.text = "\(currency) \(fomattedNumber)"
     }
+    
+    func update(by stock: Int) {
+        let attachment = NSTextAttachment()
+        attachment.image = UIImage(systemName: "chevron.right")?.withTintColor(.systemGray)
+        attachment.bounds = CGRect(x: 0, y: 1, width: 10, height: 10)
+        let attachmentString = NSAttributedString(attachment: attachment)
+        let contentString = NSMutableAttributedString(string: stock == 0 ? "품절 " : "잔여수량 : \(stock) ")
+        contentString.append(attachmentString)
+        self.attributedText = contentString
+    }
 }

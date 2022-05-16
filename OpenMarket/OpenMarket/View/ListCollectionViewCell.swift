@@ -107,7 +107,7 @@ final class ListCollectionViewCell: UICollectionViewCell {
             productStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
             productStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5),
             productStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 5),
-            productStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -5),
+            productStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
         ])
         
         NSLayoutConstraint.activate([
@@ -135,7 +135,8 @@ final class ListCollectionViewCell: UICollectionViewCell {
             sellingPriceLabel.toDecimal(with: data.currency, price: data.bargainPrice)
         }
         
-        stockLabel.text = String(data.stock)
+        stockLabel.textColor = data.stock == 0 ? .systemOrange : .systemGray
+        stockLabel.update(by: data.stock)
     }
     
     func updateImage(image: UIImage?) {

@@ -41,6 +41,7 @@ final class GridCollectionViewCell: UICollectionViewCell {
     private lazy var productImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.contentMode = .scaleAspectFit
         return imageView
     }()
     
@@ -108,7 +109,8 @@ final class GridCollectionViewCell: UICollectionViewCell {
             sellingPriceLabel.toDecimal(with: data.currency, price: data.bargainPrice)
         }
         
-        stockLabel.text = String(data.stock)
+        stockLabel.textColor = data.stock == 0 ? .systemOrange : .systemGray
+        stockLabel.update(by: data.stock)
     }
     
     func updateImage(image: UIImage?) {
