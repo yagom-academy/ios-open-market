@@ -8,7 +8,7 @@
 struct HealthCheckerAPI: APIable {
     let host = "https://market-training.yagom-academy.kr/"
     let path = "healthChecker"
-    let prams: [String : String]? = nil
+    let params: [String : String]? = nil
     let method: HttpMethod = .get
 }
 
@@ -17,7 +17,7 @@ struct ItemPageAPI: APIable {
     let path = "api/products/"
     let pageNumber: Int
     let itemPerPage: Int
-    var prams: [String : String]? {
+    var params: [String : String]? {
         return [ "page_no" : String(pageNumber),
                  "items_per_page" : String(itemPerPage) ]
     }
@@ -30,6 +30,6 @@ struct ItemDetailAPI: APIable {
     var path: String {
         return "api/products/\(id)"
     }
-    let prams: [String : String]? = nil
+    let params: [String : String]? = nil
     let method: HttpMethod = .get
 }

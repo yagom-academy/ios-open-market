@@ -8,7 +8,7 @@
 protocol APIable {
     var host: String { get }
     var path: String { get }
-    var prams: [String : String]? { get }
+    var params: [String : String]? { get }
     var method: HttpMethod { get }
 }
 
