@@ -22,9 +22,9 @@ final class Cache {
 }
 
 struct NetworkManager<T: Codable> {
-    private let session: URLSessionProtocol
+    private let session: URLSession
     
-    init(session: URLSessionProtocol = URLSession.customSession) {
+    init(session: URLSession = .customSession) {
         self.session = session
     }
     

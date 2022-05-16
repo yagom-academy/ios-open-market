@@ -9,8 +9,7 @@
 /* Begin PBXBuildFile section */
 		942CE24F282930ED006C6648 /* ProductList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 942CE24E282930ED006C6648 /* ProductList.swift */; };
 		942CE25B28294DD7006C6648 /* NetworkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 942CE25A28294DD7006C6648 /* NetworkTests.swift */; };
-		942CE26428294E0D006C6648 /* URLSessionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 942CE26328294E0D006C6648 /* URLSessionProtocol.swift */; };
-		942CE26628294F54006C6648 /* MockURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 942CE26528294F54006C6648 /* MockURLSession.swift */; };
+		942CE26628294F54006C6648 /* MockURLProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 942CE26528294F54006C6648 /* MockURLProtocol.swift */; };
 		942CE268282959AC006C6648 /* products.json in Resources */ = {isa = PBXBuildFile; fileRef = 942CE267282959AB006C6648 /* products.json */; };
 		9469FAD8282ECA9A0053037F /* UILabel+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9469FAD7282ECA9A0053037F /* UILabel+.swift */; };
 		9469FADA282ECAA40053037F /* Double+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9469FAD9282ECAA40053037F /* Double+.swift */; };
@@ -46,8 +45,7 @@
 		942CE24E282930ED006C6648 /* ProductList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductList.swift; sourceTree = "<group>"; };
 		942CE25828294DD7006C6648 /* OpenMarketTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenMarketTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		942CE25A28294DD7006C6648 /* NetworkTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkTests.swift; sourceTree = "<group>"; };
-		942CE26328294E0D006C6648 /* URLSessionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionProtocol.swift; sourceTree = "<group>"; };
-		942CE26528294F54006C6648 /* MockURLSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSession.swift; sourceTree = "<group>"; };
+		942CE26528294F54006C6648 /* MockURLProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLProtocol.swift; sourceTree = "<group>"; };
 		942CE267282959AB006C6648 /* products.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = products.json; sourceTree = "<group>"; };
 		9469FAD7282ECA9A0053037F /* UILabel+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+.swift"; sourceTree = "<group>"; };
 		9469FAD9282ECAA40053037F /* Double+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+.swift"; sourceTree = "<group>"; };
@@ -110,7 +108,7 @@
 			isa = PBXGroup;
 			children = (
 				942CE267282959AB006C6648 /* products.json */,
-				942CE26528294F54006C6648 /* MockURLSession.swift */,
+				942CE26528294F54006C6648 /* MockURLProtocol.swift */,
 			);
 			path = "Test Double";
 			sourceTree = "<group>";
@@ -118,7 +116,6 @@
 		942CE26228294DF8006C6648 /* Network */ = {
 			isa = PBXGroup;
 			children = (
-				942CE26328294E0D006C6648 /* URLSessionProtocol.swift */,
 				9BF53E502829FE6000E1A936 /* Network.swift */,
 				94C11BE62832483400EB3049 /* EndPoint.swift */,
 			);
@@ -284,7 +281,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				942CE26628294F54006C6648 /* MockURLSession.swift in Sources */,
+				942CE26628294F54006C6648 /* MockURLProtocol.swift in Sources */,
 				942CE25B28294DD7006C6648 /* NetworkTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -294,7 +291,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				9BF817522832468F0016A085 /* UICollectionViewLayout+.swift in Sources */,
-				942CE26428294E0D006C6648 /* URLSessionProtocol.swift in Sources */,
 				9BB17ED3282CC022009BE432 /* MainView.swift in Sources */,
 				94881799282D439B00217C2A /* ProductListCell.swift in Sources */,
 				9469FAD8282ECA9A0053037F /* UILabel+.swift in Sources */,
