@@ -24,9 +24,11 @@ final class MainViewController: UIViewController {
     
     private lazy var segmentControl: UISegmentedControl = {
         let segmentControl = UISegmentedControl(items: ["LIST", "GRID"])
+        
         segmentControl.selectedSegmentTintColor = .systemBlue
         segmentControl.addTarget(self, action: #selector(segmentValueDidChanged(segmentedControl:)), for: .valueChanged)
         segmentControl.selectedSegmentIndex = 0
+        
         return segmentControl
     }()
     
@@ -53,7 +55,11 @@ final class MainViewController: UIViewController {
         mainView.collectionView.register(ProductListCell.self, forCellWithReuseIdentifier: ProductListCell.identifier)
         mainView.collectionView.prefetchDataSource = self
     }
-    
+}
+
+// MARK: - Action Method
+
+extension MainViewController {
     @objc private func addButtonDidTapped() {}
     
     @objc private func segmentValueDidChanged(segmentedControl: UISegmentedControl) {
@@ -62,7 +68,7 @@ final class MainViewController: UIViewController {
     }
 }
 
-// MARK: - NetWork
+// MARK: - NetWork Method
 
 extension MainViewController {
     private func requestData(pageNumber: Int) {
@@ -72,6 +78,7 @@ extension MainViewController {
             switch result {
             case .success(let data):
                 guard let result = data.products else { return }
+                
                 self?.products.append(contentsOf: result)
                 self?.applySnapshot()
             case .failure(let error):
@@ -94,6 +101,7 @@ extension MainViewController {
             switch layout {
             case .grid:
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProductGridCell.identifier, for: indexPath) as? ProductGridCell else { return ProductGridCell() }
+                
                 cell.configure(data: itemIdentifier)
                 self.networkManager.downloadImage(urlString: itemIdentifier.thumbnail) { result in
                     switch result {
@@ -106,9 +114,11 @@ extension MainViewController {
                         break
                     }
                 }
+                
                 return cell
             case .list:
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProductListCell.identifier, for: indexPath) as? ProductListCell else { return ProductListCell() }
+                
                 cell.configure(data: itemIdentifier)
                 self.networkManager.downloadImage(urlString: itemIdentifier.thumbnail) { result in
                     switch result {
@@ -121,6 +131,7 @@ extension MainViewController {
                         break
                     }
                 }
+                
                 return cell
             }
         }
@@ -138,6 +149,8 @@ extension MainViewController {
         }
     }
 }
+
+//MARK: - CollectionView DataSourcePrefetching
 
 extension MainViewController: UICollectionViewDataSourcePrefetching {
     func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
