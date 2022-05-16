@@ -12,6 +12,7 @@ final class MainViewController: UIViewController {
     }
     
     private lazy var mainView = MainView(frame: view.bounds)
+    private let productsAPIServie = APIProvider<Products>()
     private typealias DataSource = UICollectionViewDiffableDataSource<Section, Item>
     private typealias Snapshot = NSDiffableDataSourceSnapshot<Section, Item>
     private lazy var datasource = makeDataSource()
@@ -28,6 +29,7 @@ final class MainViewController: UIViewController {
         setUpNavigationItem()
         setUpCollectionView()
         setUpSegmentControl()
+        requestProducts()
     }
     
     private func setUpNavigationItem() {
@@ -53,7 +55,21 @@ final class MainViewController: UIViewController {
     @objc private func changeLayout() {
         mainView.setUpLayout(segmentIndex: mainView.segmentControl.selectedSegmentIndex)
     }
+    
+    private func requestProducts() {
+        let endpoint = EndPointStorage.productsList(pageNumber: 1, perPages: 100)
         
+        productsAPIServie.request(with: endpoint) { result in
+            switch result {
+            case .success(let products):
+                self.items.append(contentsOf: products.items)
+                self.applySnapshot(animatingDifferences: false)
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+    
     private func makeDataSource() -> DataSource {
         let dataSource = DataSource(
             collectionView: mainView.collectionView,
@@ -62,19 +78,48 @@ final class MainViewController: UIViewController {
                 switch self.mainView.layoutStatus {
                 case .list:
                     guard let cell = collectionView.dequeueReusableCell(
-                        withReuseIdentifier: "ListCollectionViewCell",
+                        withReuseIdentifier: ListCollectionViewCell.identifier,
                         for: indexPath) as? ListCollectionViewCell else {
                         return UICollectionViewCell()
                     }
-                    cell.updateUI(data: item, image: UIImage(systemName: "swift"))
+    
+                    self.productsAPIServie.requestImage(with: item.thumbnail) { result in
+                        switch result {
+                        case .success(let image):
+                            DispatchQueue.main.async {
+                                if collectionView.indexPath(for: cell) == indexPath {
+                                    cell.updateImage(image: image)
+                                }
+                            }
+                        case .failure(_):
+                            print("썸네일 에러")
+                        }
+                    }
+                    
+                    cell.updateLabel(data: item)
                     return cell
+                
                 case .grid:
                     guard let cell = collectionView.dequeueReusableCell(
-                        withReuseIdentifier: "GridCollectionViewCell",
+                        withReuseIdentifier: GridCollectionViewCell.identifier,
                         for: indexPath) as? GridCollectionViewCell else {
                         return UICollectionViewCell()
                     }
-                    cell.updateUI(data: item, image: UIImage(systemName: "swift"))
+                    
+                    self.productsAPIServie.requestImage(with: item.thumbnail) { result in
+                        switch result {
+                        case .success(let image):
+                            DispatchQueue.main.async {
+                                if collectionView.indexPath(for: cell) == indexPath {
+                                    cell.updateImage(image: image)
+                                }
+                            }
+                        case .failure(_):
+                            print("썸네일 에러")
+                        }
+                    }
+                    
+                    cell.updateLabel(data: item)
                     return cell
                 }
             })

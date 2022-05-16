@@ -6,11 +6,12 @@
 //
 
 import Foundation
+import UIKit
 
 protocol Provider {
     associatedtype T
     func request(with endpoint: Requestable, completion: @escaping (Result<T, Error>) -> Void)
-    func requestImage(with url: URL, completion: @escaping (Result<Data, Error>) -> Void)
+    func requestImage(with url: URL, completion: @escaping (Result<UIImage, Error>) -> Void)
 }
 
 final class APIProvider<T: Decodable>: Provider {
@@ -44,11 +45,18 @@ final class APIProvider<T: Decodable>: Provider {
     
     func requestImage(
         with url: URL,
-        completion: @escaping (Result<Data, Error>) -> Void
+        completion: @escaping (Result<UIImage, Error>) -> Void
     ) {
         urlSession.dataTask(with: url) { [weak self] data, response, error in
             self?.checkError(with: data, response, error) { result in
-                completion(result)
+                switch result {
+                case .success(let data):
+                    if let image = UIImage(data: data) {
+                        completion(.success(image))
+                    }
+                case .failure(let error):
+                    completion(.failure(error))
+                }
             }
         }.resume()
     }

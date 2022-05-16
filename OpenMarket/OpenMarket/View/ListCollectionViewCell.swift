@@ -123,9 +123,8 @@ final class ListCollectionViewCell: UICollectionViewCell {
         ])
     }
     
-    func updateUI(data: Item, image: UIImage?) {
+    func updateLabel(data: Item) {
         productNameLabel.text = data.name
-        productImageView.image = image
         
         if data.discountedPrice == 0 {
             productionPriceLabel.isHidden = true
@@ -137,5 +136,9 @@ final class ListCollectionViewCell: UICollectionViewCell {
         }
         
         stockLabel.text = String(data.stock)
+    }
+    
+    func updateImage(image: UIImage?) {
+        productImageView.image = image
     }
 }
