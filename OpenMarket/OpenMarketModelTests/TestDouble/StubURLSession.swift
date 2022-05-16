@@ -9,6 +9,29 @@ import UIKit
 @testable import OpenMarket
 
 final class StubURLSession: URLSessionProtocol {
+    func dataTask(with url: URL, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTaskProtocol {
+        let successResponse = HTTPURLResponse(
+            url: URL(string: "http://test")!,
+            statusCode: 200,
+            httpVersion: "2",
+            headerFields: nil
+        )
+        let completion: () -> Void = {}
+        let sessionDataTask = StubURLSessionDataTask(resumeHandler: completion)
+        
+        do {
+            let urlData = try Data(contentsOf: url)
+            
+            sessionDataTask.resumeHandler = {
+                completionHandler(urlData, successResponse, nil)
+            }
+            
+            return sessionDataTask
+        } catch { }
+        
+        return sessionDataTask
+    }
+    
     func dataTask(with request: URLRequest,
                   completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTaskProtocol {
         let file = NSDataAsset(name: "products")

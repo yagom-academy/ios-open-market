@@ -10,6 +10,7 @@ import Foundation
 protocol Provider {
     associatedtype T
     func request(with endpoint: Requestable, completion: @escaping (Result<T, Error>) -> Void)
+    func request(with url: URL, completion: @escaping (Result<Data, Error>) -> Void)
 }
 
 final class APIProvider<T: Decodable>: Provider {
@@ -17,7 +18,7 @@ final class APIProvider<T: Decodable>: Provider {
     init(urlSession: URLSessionProtocol = URLSession.shared) {
         self.urlSession = urlSession
     }
-
+    
     func request(
         with endpoint: Requestable,
         completion: @escaping (Result<T, Error>) -> Void
@@ -41,6 +42,17 @@ final class APIProvider<T: Decodable>: Provider {
         }
     }
     
+    func request(
+        with url: URL,
+        completion: @escaping (Result<Data, Error>) -> Void
+    ) {
+        urlSession.dataTask(with: url) { [weak self] data, response, error in
+            self?.checkError(with: data, response, error) { result in
+                completion(result)
+            }
+        }.resume()
+    }
+    
     private func checkError(
         with data: Data?,
         _ response: URLResponse?,
@@ -51,22 +63,22 @@ final class APIProvider<T: Decodable>: Provider {
             completion(.failure(error))
             return
         }
-
+        
         guard let response = response as? HTTPURLResponse else {
             completion(.failure(NetworkError.responseError))
             return
         }
-
+        
         guard (200..<300).contains(response.statusCode) else {
             completion(.failure(NetworkError.invalidHttpStatusCodeError(statusCode: response.statusCode)))
             return
         }
-
+        
         guard let data = data else {
             completion(.failure(NetworkError.emptyDataError))
             return
         }
-
+        
         completion(.success((data)))
     }
 }
