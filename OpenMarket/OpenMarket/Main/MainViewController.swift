@@ -47,6 +47,7 @@ final class MainViewController: UIViewController {
         configureView()
         configureNavigationBar()
         requestData(pageNumber: pageNumber)
+        print(CollectionLayout.grid.cellType)
     }
     
     private func configureView() {
@@ -107,43 +108,24 @@ extension MainViewController {
             guard let self = self else { return nil }
             
             guard let layout = CollectionLayout(rawValue: self.segmentControl.selectedSegmentIndex) else { return nil }
+            let cellType = layout.cellType
             
-            switch layout {
-            case .grid:
-                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProductGridCell.identifier, for: indexPath) as? ProductGridCell else { return ProductGridCell() }
-                
-                cell.configure(data: itemIdentifier)
-                self.networkManager.downloadImage(urlString: itemIdentifier.thumbnail) { result in
-                    switch result {
-                    case .success(let image):
-                        DispatchQueue.main.async {
-                            guard collectionView.indexPath(for: cell) == indexPath else { return }
-                            cell.setImage(with: image)
-                        }
-                    case .failure(_):
-                        break
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellType.identifier, for: indexPath) as? ProductCell else { return cellType.init() }
+            
+            cell.configure(data: itemIdentifier)
+            self.networkManager.downloadImage(urlString: itemIdentifier.thumbnail) { result in
+                switch result {
+                case .success(let image):
+                    DispatchQueue.main.async {
+                        guard collectionView.indexPath(for: cell) == indexPath else { return }
+                        cell.setImage(with: image)
                     }
+                case .failure(_):
+                    break
                 }
-                
-                return cell
-            case .list:
-                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProductListCell.identifier, for: indexPath) as? ProductListCell else { return ProductListCell() }
-                
-                cell.configure(data: itemIdentifier)
-                self.networkManager.downloadImage(urlString: itemIdentifier.thumbnail) { result in
-                    switch result {
-                    case .success(let image):
-                        DispatchQueue.main.async {
-                            guard collectionView.indexPath(for: cell) == indexPath else { return }
-                            cell.setImage(with: image)
-                        }
-                    case .failure(_):
-                        break
-                    }
-                }
-                
-                return cell
             }
+            
+            return cell
         }
         
         return dataSource

@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class ProductGridCell: UICollectionViewCell {
+final class ProductGridCell: UICollectionViewCell, ProductCell {
     private lazy var mainStackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [productStackView, priceStackView, quantityLabel])
         stackView.translatesAutoresizingMaskIntoConstraints = false

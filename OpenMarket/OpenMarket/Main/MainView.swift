@@ -10,6 +10,15 @@ import UIKit
 enum CollectionLayout: Int {
     case list = 0
     case grid = 1
+    
+    var cellType: ProductCell.Type {
+        switch self {
+        case .list:
+            return ProductListCell.self
+        case .grid:
+            return ProductGridCell.self
+        }
+    }
 }
 
 final class MainView: UIView {

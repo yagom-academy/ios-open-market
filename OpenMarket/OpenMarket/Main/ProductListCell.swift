@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class ProductListCell: UICollectionViewCell {
+final class ProductListCell: UICollectionViewCell, ProductCell {
     private lazy var mainStackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [productStackView, seperatorLineView])
         stackView.translatesAutoresizingMaskIntoConstraints = false
