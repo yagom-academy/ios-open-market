@@ -35,12 +35,9 @@ struct NetworkManager<T: Codable> {
         }
         
         session.dataTask(with: urlRequst) { data, response, error in
-            guard error == nil else {
-                completion(.failure(.severError))
-                return
-            }
-            
-            guard let statusCode = (response as? HTTPURLResponse)?.statusCode, (200..<300).contains(statusCode) else {
+            guard let statusCode = (response as? HTTPURLResponse)?.statusCode,
+                    (200..<300).contains(statusCode),
+                    error == nil else {
                 completion(.failure(.severError))
                 return
             }
@@ -61,12 +58,9 @@ struct NetworkManager<T: Codable> {
         }
         
         session.dataTask(with: urlRequst) { data, response, error in
-            guard error == nil else {
-                completion(.failure(.severError))
-                return
-            }
-            
-            guard let responseCode = (response as? HTTPURLResponse)?.statusCode, (200..<300).contains(responseCode) else {
+            guard let statusCode = (response as? HTTPURLResponse)?.statusCode,
+                    (200..<300).contains(statusCode),
+                    error == nil else {
                 completion(.failure(.severError))
                 return
             }
@@ -103,12 +97,9 @@ struct NetworkManager<T: Codable> {
         let urlRequset = URLRequest(url: url)
         
         session.dataTask(with: urlRequset) { data, response, error in
-            guard error == nil else {
-                completion(.failure(.severError))
-                return
-            }
-            
-            guard let responseCode = (response as? HTTPURLResponse)?.statusCode, (200..<300).contains(responseCode) else {
+            guard let statusCode = (response as? HTTPURLResponse)?.statusCode,
+                    (200..<300).contains(statusCode),
+                    error == nil else {
                 completion(.failure(.severError))
                 return
             }
