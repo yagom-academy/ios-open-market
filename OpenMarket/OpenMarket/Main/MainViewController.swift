@@ -154,6 +154,10 @@ extension MainViewController {
 
 extension MainViewController: UICollectionViewDataSourcePrefetching {
     func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
+        prefetchData(indexPaths)
+    }
+    
+    private func prefetchData(_ indexPaths: [IndexPath]) {
         guard let indexPath = indexPaths.last else { return }
         let section = indexPath.row / 20
         
