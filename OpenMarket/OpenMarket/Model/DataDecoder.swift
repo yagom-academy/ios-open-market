@@ -8,17 +8,12 @@
 import Foundation
 
 enum DataDecoder {
-    static func decode<T: Codable>(data: Result<Data, APIError>, dataType: T.Type) throws -> T {
-        switch data {
-        case .success(let data):
-            do {
-                let decodedData = try JSONDecoder().decode(dataType, from: data)
-                return decodedData
-            } catch {
-                throw APIError.decodeError
-            }
-        case .failure(let error):
-            throw error
+    static func decode<T: Codable>(data: Data?, dataType: T.Type) throws -> T {
+        guard let data = data else {
+            throw APIError.dataError
         }
+        let decodedData = try JSONDecoder().decode(dataType, from: data)
+        
+        return decodedData
     }
 }
