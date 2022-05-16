@@ -29,6 +29,8 @@
 		DA9AE55E282AA1E4003BA8B2 /* EndPointStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9AE55D282AA1E4003BA8B2 /* EndPointStorage.swift */; };
 		DA9AE561282AAA1C003BA8B2 /* ProductsListDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9AE560282AAA1C003BA8B2 /* ProductsListDTO.swift */; };
 		DA9AE567282B5709003BA8B2 /* ProductsDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9AE566282B5709003BA8B2 /* ProductsDetail.swift */; };
+		DA9AE5B728326AF0003BA8B2 /* ListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9AE5B628326AF0003BA8B2 /* ListCollectionViewCell.swift */; };
+		DA9AE5B928326B67003BA8B2 /* GridCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9AE5B828326B67003BA8B2 /* GridCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,6 +69,8 @@
 		DA9AE55D282AA1E4003BA8B2 /* EndPointStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndPointStorage.swift; sourceTree = "<group>"; };
 		DA9AE560282AAA1C003BA8B2 /* ProductsListDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsListDTO.swift; sourceTree = "<group>"; };
 		DA9AE566282B5709003BA8B2 /* ProductsDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsDetail.swift; sourceTree = "<group>"; };
+		DA9AE5B628326AF0003BA8B2 /* ListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCollectionViewCell.swift; sourceTree = "<group>"; };
+		DA9AE5B828326B67003BA8B2 /* GridCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -136,6 +140,8 @@
 				C70FB10325BEF61D00C9924E /* Assets.xcassets */,
 				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
 				A1D0E1022829F5FE00451BF8 /* MainView.swift */,
+				DA9AE5B628326AF0003BA8B2 /* ListCollectionViewCell.swift */,
+				DA9AE5B828326B67003BA8B2 /* GridCollectionViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -333,6 +339,7 @@
 				A1D48C522831EF5D00C1819F /* Data+Extension.swift in Sources */,
 				A1A3ECCE282A56C0000A440C /* APIProvider.swift in Sources */,
 				DA9AE546282A44C9003BA8B2 /* Requestable.swift in Sources */,
+				DA9AE5B928326B67003BA8B2 /* GridCollectionViewCell.swift in Sources */,
 				DA9AE55E282AA1E4003BA8B2 /* EndPointStorage.swift in Sources */,
 				A1D48C542831EFB000C1819F /* Encodable+Extension.swift in Sources */,
 				DA94FF912829FC8F002CDFF6 /* Products.swift in Sources */,
@@ -341,6 +348,7 @@
 				DA9AE549282A4513003BA8B2 /* HTTPMethod.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				DA9AE567282B5709003BA8B2 /* ProductsDetail.swift in Sources */,
+				DA9AE5B728326AF0003BA8B2 /* ListCollectionViewCell.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 				A1DADBF2282D4F88002C7B4D /* URLSession+Extension.swift in Sources */,
 				A1DADBF4282D4FCB002C7B4D /* URLSessionProtocol.swift in Sources */,
