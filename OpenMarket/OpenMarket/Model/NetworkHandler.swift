@@ -35,29 +35,33 @@ struct NetworkHandler {
         self.session = session
     }
     
-    func getData(pathString: String, completionHandler: @escaping (Result<Data, APIError>) -> Void) {
+    func communicate(pathString: String, httpMethod: HttpMethod, completionHandler: @escaping (Result<Data?, APIError>) -> Void) {
         guard let url = URL(string: baseURL + pathString) else {
             return completionHandler(.failure(.convertError))
         }
         
-        let request = URLRequest(url: url)
+        var request = URLRequest(url: url)
+        request.httpMethod = httpMethod.string
         
-        let dataTask = session.dataTask(with: request) { data, response, error in
-            guard error == nil else {
+        session.receiveResponse(request: request) { responseResult in
+            guard responseResult.error == nil else {
                 return completionHandler(.failure(.transportError))
             }
             
-            guard let data = data else {
-                return completionHandler(.failure(.dataError))
-            }
-            
-            guard let response = response as? HTTPURLResponse, (200...299).contains(response.statusCode) else {
+            guard let response = responseResult.response as? HTTPURLResponse, (200...299).contains(response.statusCode) else {
                 return completionHandler(.failure(.responseError))
             }
             
-            completionHandler(.success(data))
+            switch httpMethod {
+            case .get:
+                completionHandler(.success(responseResult.data))
+            case .post:
+                completionHandler(.success(responseResult.data))
+            case .delete:
+                completionHandler(.success(responseResult.data))
+            case .patch:
+                completionHandler(.success(responseResult.data))
+            }
         }
-        
-        dataTask.resume()
     }
 }
