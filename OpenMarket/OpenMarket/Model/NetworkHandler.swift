@@ -17,9 +17,8 @@ struct NetworkHandler {
     
     private func makeURL(api: APIable) -> URL? {
         var component = URLComponents(string: api.host + api.path)
-        let prams = api.prams
         
-        component?.queryItems = prams?.compactMap {
+        component?.queryItems = api.params?.compactMap {
             URLQueryItem(name: $0.key, value: $0.value)
         }
         
