@@ -22,8 +22,13 @@ final class GridCollectionViewCell: UICollectionViewCell {
         setUpAttribute()
     }
     
+    override func prepareForReuse() {
+        productImageView.image = nil
+        productNameLabel.text = ""
+    }
+    
     private lazy var productStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [productImageView, productNameLabel, productionPriceLabel, sellingPriceLabel, remainningQuantityLabel])
+        let stackView = UIStackView(arrangedSubviews: [productImageView, productNameLabel, productionPriceLabel, sellingPriceLabel, stockLabel])
         stackView.axis = .vertical
         stackView.alignment = .center
         stackView.distribution = .fill
@@ -60,7 +65,7 @@ final class GridCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    private lazy var remainningQuantityLabel: UILabel = {
+    private lazy var stockLabel: UILabel = {
         let label = UILabel()
         label.textColor = .systemGray2
         label.textAlignment = .center
@@ -91,8 +96,23 @@ final class GridCollectionViewCell: UICollectionViewCell {
         layer.cornerRadius = 10
     }
     
-    override func prepareForReuse() {
-        productImageView.image = nil
-        productNameLabel.text = ""
+    func updateUI(data: Item, image: UIImage?) {
+        productNameLabel.text = data.name
+        productImageView.image = image
+        
+        if data.bargainPrice == 0 {
+            productionPriceLabel.isHidden = true
+            sellingPriceLabel.text = String(data.price)
+        } else {
+            productionPriceLabel.isHidden = false
+            let underlineAttriString = NSAttributedString(
+                string: String(data.price),
+                attributes: [NSAttributedString.Key.strikethroughStyle: NSUnderlineStyle.single.rawValue]
+            )
+            productionPriceLabel.attributedText = underlineAttriString
+            sellingPriceLabel.text = String(data.bargainPrice)
+        }
+        
+        stockLabel.text = String(data.stock)
     }
 }

@@ -31,7 +31,7 @@ struct Products: Decodable {
     }
 }
 
-struct Item: Decodable {
+struct Item: Decodable, Hashable {
     let id: Int
     let vendorID: Int
     let name: String

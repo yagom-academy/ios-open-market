@@ -20,6 +20,11 @@ final class ListCollectionViewCell: UICollectionViewCell {
         makeConstraints()
     }
     
+    override func prepareForReuse() {
+        productImageView.image = nil
+        productNameLabel.text = ""
+    }
+    
     private lazy var productStackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [productImageView, informationStackView])
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -40,7 +45,7 @@ final class ListCollectionViewCell: UICollectionViewCell {
     }()
     
     private lazy var topStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [productNameLabel, remainningQuantityLabel])
+        let stackView = UIStackView(arrangedSubviews: [productNameLabel, stockLabel])
         stackView.distribution = .fillEqually
         return stackView
     }()
@@ -52,7 +57,7 @@ final class ListCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    private lazy var remainningQuantityLabel: UILabel = {
+    private lazy var stockLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .right
         label.textColor = .systemGray2
@@ -118,9 +123,23 @@ final class ListCollectionViewCell: UICollectionViewCell {
         ])
     }
     
-    override func prepareForReuse() {
-        productImageView.image = nil
-        productNameLabel.text = ""
+    func updateUI(data: Item, image: UIImage?) {
+        productNameLabel.text = data.name
+        productImageView.image = image
         
+        if data.bargainPrice == 0 {
+            productionPriceLabel.isHidden = true
+            sellingPriceLabel.text = String(data.price)
+        } else {
+            productionPriceLabel.isHidden = false
+            let underlineAttriString = NSAttributedString(
+                string: String(data.price),
+                attributes: [NSAttributedString.Key.strikethroughStyle: NSUnderlineStyle.single.rawValue]
+            )
+            productionPriceLabel.attributedText = underlineAttriString
+            sellingPriceLabel.text = String(data.bargainPrice)
+        }
+        
+        stockLabel.text = String(data.stock)
     }
 }
