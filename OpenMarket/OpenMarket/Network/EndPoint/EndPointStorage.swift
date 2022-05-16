@@ -15,14 +15,19 @@ struct EndPointStorage {
         -> EndPoint {
         let productsListDTO = ProductsListDTO(
             pageNumber: pageNumber,
-            perPages: perPages)
+            perPages: perPages
+        )
         let endpoint = EndPoint(
             path: Constants.productsListPath,
-            queryParameters: productsListDTO)
+            queryParameters: productsListDTO
+        )
         return endpoint
     }
+    
     static func productsDetail(id: String) -> EndPoint {
-        let endpoint = EndPoint(path: Constants.productsDetailPath + id)
+        let endpoint = EndPoint(
+            path: Constants.productsDetailPath + id
+        )
         return endpoint
     }
 }

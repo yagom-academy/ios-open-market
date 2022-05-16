@@ -4,6 +4,7 @@
 //
 //  Created by Red, Mino. on 2022/05/10.
 //
+
 import Foundation
 
 struct Products: Decodable {
@@ -14,7 +15,7 @@ struct Products: Decodable {
     let limit: Int
     let items: [Item]
     let lastPage: Int
-    let hasNext: Int
+    let hasNext: Bool
     let hasPrev: Bool
 
     private enum CodingKeys: String, CodingKey {
