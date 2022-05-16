@@ -29,7 +29,13 @@ final class MainViewController: UIViewController {
     private lazy var segmentControl: UISegmentedControl = {
         let segmentControl = UISegmentedControl(items: ["LIST", "GRID"])
         
+        segmentControl.setTitleTextAttributes([.foregroundColor : UIColor.white], for: .selected)
+        segmentControl.setTitleTextAttributes([.foregroundColor : UIColor.systemBlue], for: .normal)
         segmentControl.selectedSegmentTintColor = .systemBlue
+        segmentControl.setWidth(view.bounds.width / 5, forSegmentAt: 0)
+        segmentControl.setWidth(view.bounds.width / 5, forSegmentAt: 1)
+        segmentControl.layer.borderWidth = 1.0
+        segmentControl.layer.borderColor = UIColor.systemBlue.cgColor
         segmentControl.addTarget(self, action: #selector(segmentValueDidChanged(segmentedControl:)), for: .valueChanged)
         segmentControl.selectedSegmentIndex = 0
         
