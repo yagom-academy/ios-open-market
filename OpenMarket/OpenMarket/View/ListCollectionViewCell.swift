@@ -127,7 +127,7 @@ final class ListCollectionViewCell: UICollectionViewCell {
         productNameLabel.text = data.name
         productImageView.image = image
         
-        if data.bargainPrice == 0 {
+        if data.discountedPrice == 0 {
             productionPriceLabel.isHidden = true
             sellingPriceLabel.text = String(data.price)
         } else {
