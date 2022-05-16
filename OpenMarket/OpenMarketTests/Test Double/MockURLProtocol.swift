@@ -8,6 +8,7 @@
 import Foundation
 
 @testable import OpenMarket
+import XCTest
 
 struct DummyData {
     var data: Data?
@@ -31,7 +32,10 @@ final class MockURLProtocol: URLProtocol {
     }
     
     override func startLoading() {
-        guard let handler = Self.requsetHandler else { return }
+        guard let handler = Self.requsetHandler else {
+            XCTFail()
+            return
+        }
         do {
             let (response, data) = try handler(request)
             client?.urlProtocol(self, didReceive: response, cacheStoragePolicy: .notAllowed)
