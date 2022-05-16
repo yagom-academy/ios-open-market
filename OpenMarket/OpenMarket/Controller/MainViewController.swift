@@ -28,9 +28,26 @@ final class MainViewController: UIViewController {
     self.collectionView.dataSource = self
   }
   
+  private func configureListLayout() -> UICollectionViewFlowLayout {
+    let layout = UICollectionViewFlowLayout()
+    layout.sectionInset = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
+    layout.minimumLineSpacing = 10
+    layout.minimumInteritemSpacing = 10
+    layout.itemSize = CGSize(width: self.view.bounds.width,
+                             height: self.view.bounds.height/14)
+    return layout
+  }
+  
+  private func fetchPages() {
+    urlProvider.get { data in
+      guard let products = try? data.get() else {
+        return
+      }
+      self.pages = products.pages
+    }
+  }
+}
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
 extension MainViewController: UICollectionViewDataSource {
   func collectionView(_ collectionView: UICollectionView,
                       numberOfItemsInSection section: Int) -> Int {
