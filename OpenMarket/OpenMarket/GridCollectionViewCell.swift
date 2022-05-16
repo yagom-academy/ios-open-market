@@ -90,7 +90,6 @@ class GridCollectionViewCell: UICollectionViewCell {
         // Add SubViews
         contentView.addSubview(stackView)
         
-        
         stackView.addArrangedSubview(productImageView)
         stackView.addArrangedSubview(vStackView2)
         
@@ -100,7 +99,6 @@ class GridCollectionViewCell: UICollectionViewCell {
         
         vStackView.addArrangedSubview(productPriceLabel)
         vStackView.addArrangedSubview(productBargainPriceLabel)
-        
         
         // StackView Constraints
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -119,5 +117,22 @@ extension UIFont {
         let desc = UIFontDescriptor.preferredFontDescriptor(withTextStyle: style)
         let font = UIFont.systemFont(ofSize: desc.pointSize, weight: weight)
         return metrics.scaledFont(for: font)
+    }
+}
+
+extension GridCollectionViewCell {
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        productNameLabel.text = ""
+        productPriceLabel.attributedText = nil
+        productPriceLabel.textColor = .systemGray
+        productPriceLabel.text = ""
+        
+        productStockLabel.textColor = .systemGray
+        productStockLabel.text = ""
+        productBargainPriceLabel.textColor = .systemGray
+        productBargainPriceLabel.text = ""
+        
+        productImageView.heightAnchor.constraint(equalTo: stackView.heightAnchor, multiplier: 0.5).isActive = true
     }
 }

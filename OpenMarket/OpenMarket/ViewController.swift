@@ -23,12 +23,11 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let plusButton = UIBarButtonItem(barButtonSystemItem: .add, target: nil, action: nil)
+        let plusButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: nil)
         self.navigationItem.titleView = segmentedControl
         self.navigationItem.rightBarButtonItem = plusButton
         self.view.addSubview(collectionView)
         self.navigationController?.navigationBar.backgroundColor = .systemGroupedBackground
-        
         
         segmentLayout()
         configureCollectionView()
@@ -98,14 +97,11 @@ class ViewController: UIViewController {
     }
     
     func configureCollectionView() {
-        
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        
         collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0).isActive = true
         collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-
     }
 }
 
@@ -124,12 +120,16 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, 
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let url = URL(string: data[indexPath.row].thumbnail)
+        let thumbnail = try? Data(contentsOf: url!)
+        
         switch self.arrangeMode {
         case .list:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "listCell", for: indexPath) as? ListCollectionViewCell else { return UICollectionViewCell() }
             cell.productNameLabel.text = data[indexPath.row].name
             cell.productPriceLabel.text = "\(data[indexPath.row].currency!.rawValue) \(NumberFormatterAssistant.shared.numberFormatString(for: data[indexPath.row].price))"
             cell.productStockLabel.text = String(data[indexPath.row].stock)
+            cell.productImageView.image = UIImage(data: thumbnail!)
             cell.accessories = [.disclosureIndicator()]
             
             if data[indexPath.row].discountedPrice != 0 {
@@ -147,6 +147,7 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, 
             }
             
             return cell
+            
         case .grid:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "gridCell", for: indexPath) as? GridCollectionViewCell else { return UICollectionViewCell() }
             cell.productNameLabel.text = data[indexPath.row].name
