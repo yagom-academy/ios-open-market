@@ -16,29 +16,6 @@ enum NetworkErorr: Error {
     case imageError
 }
 
-enum EndPoint {
-    case serverState
-    case requestList(page: Int, itemsPerPage: Int)
-    case requestProduct(id: Int)
-}
-
-extension EndPoint {
-    private static var host: String {
-        "https://market-training.yagom-academy.kr/"
-    }
-    
-    var url: URL? {
-        switch self {
-        case .serverState:
-            return URL(string: Self.host + "healthChecker")
-        case .requestList(let page, let itemsPerPage):
-            return URL(string: Self.host + "api/products?items_per_page=\(itemsPerPage)&page_no=\(page)")
-        case .requestProduct(let id):
-            return URL(string: Self.host + "api/products/\(id)")
-        }
-    }
-}
-
 final class Cache {
     static let imageCache = NSCache<NSString, UIImage>()
     private init() { }
@@ -52,7 +29,7 @@ struct NetworkManager<T: Codable> {
     }
     
     func checkServerState(completion: @escaping (Result<String, NetworkErorr>) -> Void) {
-        guard let url = EndPoint.serverState.url else {
+        guard let url = EndPoint.serverState(httpMethod: .get).url else {
             completion(.failure(.urlError))
             return
         }

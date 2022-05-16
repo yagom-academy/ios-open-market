@@ -64,7 +64,7 @@ final class MainViewController: UIViewController {
 
 extension MainViewController {
     private func requestData(pageNumber: Int) {
-        let endPoint = EndPoint.requestList(page: pageNumber, itemsPerPage: 20)
+        let endPoint = EndPoint.requestList(page: pageNumber, itemsPerPage: 20, httpMethod: .get)
         
         NetworkManager<ProductList>().request(endPoint: endPoint) { [weak self] result in
             switch result {
