@@ -77,11 +77,12 @@ final class ListCell: UICollectionViewCell {
     stackView.axis = .horizontal
     stackView.alignment = .top
     stackView.distribution = .fill
+    stackView.spacing = 5
     stackView.translatesAutoresizingMaskIntoConstraints = false
     return stackView
   }()
   
-  func configureListCell() {
+  private func configureListCell() {
     contentView.addSubview(totalStackView)
     totalStackView.addArrangedSubview(thumbnailImageView)
     totalStackView.addArrangedSubview(verticalStackView)
@@ -92,10 +93,16 @@ final class ListCell: UICollectionViewCell {
     priceStackView.addArrangedSubview(discountedPriceLabel)
     
     NSLayoutConstraint.activate([
-      totalStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-      totalStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-      totalStackView.topAnchor.constraint(equalTo: contentView.topAnchor),
-      totalStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+      totalStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
+      totalStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
+      totalStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 0),
+      totalStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 0),
+      
+      thumbnailImageView.widthAnchor.constraint(equalTo: thumbnailImageView.heightAnchor,
+                                                multiplier: 1.2),
+      
+      verticalStackView.widthAnchor.constraint(equalTo: contentView.widthAnchor,
+                                               multiplier: 0.5)
     ])
   }
   
