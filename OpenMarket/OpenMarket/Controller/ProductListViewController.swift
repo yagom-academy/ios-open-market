@@ -1,11 +1,11 @@
 //
-//  ViewController.swift
+//  ProductListViewController.swift
 //  Created by Lingo, Quokka
 // 
 
 import UIKit
 
-final class ViewController: UIViewController {
+final class ProductListViewController: UIViewController {
   private let networkService = APINetworkService(urlSession: URLSession.shared)
   private var productList = [Product]()
 
