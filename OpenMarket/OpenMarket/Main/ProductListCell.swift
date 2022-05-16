@@ -28,7 +28,9 @@ final class ProductListCell: UICollectionViewCell {
     }()
     
     private lazy var topStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [nameLabel, QuantityLabel, ])
+        let stackView = UIStackView(arrangedSubviews: [nameLabel, quantityLabel, accessoryImageView])
+        stackView.alignment = .center
+        stackView.spacing = 8
         return stackView
     }()
     
@@ -36,12 +38,22 @@ final class ProductListCell: UICollectionViewCell {
         let label = UILabel()
         label.font = .systemFont(ofSize: 21, weight: .bold)
         label.setContentHuggingPriority(.low, for: .horizontal)
+        label.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         return label
     }()
     
-    private let QuantityLabel: UILabel = {
+    private let quantityLabel: UILabel = {
         let label = UILabel()
         return label
+    }()
+    
+    private let accessoryImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.image = UIImage(systemName: "chevron.forward", withConfiguration: UIImage.SymbolConfiguration(weight: .bold))
+        imageView.tintColor = .systemGray3
+        imageView.contentMode = .scaleAspectFill
+        return imageView
     }()
     
     private lazy var bottomStackView: UIStackView = {
@@ -89,6 +101,12 @@ extension ProductListCell {
             thumbnailImageView.heightAnchor.constraint(equalTo: productStackView.heightAnchor),
             thumbnailImageView.widthAnchor.constraint(equalTo: thumbnailImageView.heightAnchor)
         ])
+        
+        NSLayoutConstraint.activate([
+            accessoryImageView.topAnchor.constraint(equalTo: topStackView.topAnchor, constant: 8),
+            accessoryImageView.bottomAnchor.constraint(equalTo: topStackView.bottomAnchor, constant: -8),
+            accessoryImageView.widthAnchor.constraint(equalTo: accessoryImageView.heightAnchor)
+        ])
     }
     
     override func prepareForReuse() {
@@ -98,8 +116,8 @@ extension ProductListCell {
         priceLabel.attributedText = nil
         priceLabel.text = nil
         bargainPriceLabel.text = nil
-        QuantityLabel.textColor = .label
-        QuantityLabel.text = nil
+        quantityLabel.textColor = .label
+        quantityLabel.text = nil
     }
     
     func configure(data: Product) {
@@ -117,8 +135,8 @@ extension ProductListCell {
             priceLabel.addStrikethrough()
         }
         
-        QuantityLabel.textColor = data.stock == 0 ? .systemOrange : .systemGray3
-        QuantityLabel.text = data.stock == 0 ? "품절" : "잔여수량: \(data.stock ?? 0)"
+        quantityLabel.textColor = data.stock == 0 ? .systemOrange : .systemGray3
+        quantityLabel.text = data.stock == 0 ? "품절" : "잔여수량: \(data.stock ?? 0)"
     }
     
     func setImage(with image: UIImage) {

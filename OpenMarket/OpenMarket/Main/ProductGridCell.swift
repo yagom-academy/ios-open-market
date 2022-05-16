@@ -9,7 +9,7 @@ import UIKit
 
 final class ProductGridCell: UICollectionViewCell {
     private lazy var productStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [thumbnailImageView, nameLabel, priceStackView, QuantityLabel])
+        let stackView = UIStackView(arrangedSubviews: [thumbnailImageView, nameLabel, priceStackView, quantityLabel])
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
         stackView.alignment = .center
@@ -49,7 +49,7 @@ final class ProductGridCell: UICollectionViewCell {
         return label
     }()
     
-    private let QuantityLabel: UILabel = {
+    private let quantityLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
         return label
@@ -98,8 +98,8 @@ extension ProductGridCell {
         priceLabel.attributedText = nil
         priceLabel.text = nil
         bargainPriceLabel.text = nil
-        QuantityLabel.textColor = .label
-        QuantityLabel.text = nil
+        quantityLabel.textColor = .label
+        quantityLabel.text = nil
     }
     
     func configure(data: Product) {
@@ -117,8 +117,8 @@ extension ProductGridCell {
             priceLabel.addStrikethrough()
         }
         
-        QuantityLabel.textColor = data.stock == 0 ? .systemOrange : .systemGray3
-        QuantityLabel.text = data.stock == 0 ? "품절" : "잔여수량: \(data.stock ?? 0)"
+        quantityLabel.textColor = data.stock == 0 ? .systemOrange : .systemGray3
+        quantityLabel.text = data.stock == 0 ? "품절" : "잔여수량: \(data.stock ?? 0)"
     }
     
     func setImage(with image: UIImage) {
