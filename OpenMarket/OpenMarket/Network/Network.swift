@@ -5,7 +5,6 @@
 //  Created by dudu, safari on 2022/05/10.
 //
 
-import Foundation
 import UIKit
 
 enum NetworkErorr: Error {
@@ -16,16 +15,13 @@ enum NetworkErorr: Error {
     case imageError
 }
 
-final class Cache {
-    static let imageCache = NSCache<NSString, UIImage>()
-    private init() { }
-}
-
 struct NetworkManager<T: Codable> {
     private let session: URLSession
+    private let cacheManager: CacheManager<UIImage>?
     
-    init(session: URLSession = .customSession) {
+    init(session: URLSession = .customSession, imageCache: CacheManager<UIImage>? = nil) {
         self.session = session
+        self.cacheManager = imageCache
     }
     
     func checkServerState(completion: @escaping (Result<String, NetworkErorr>) -> Void) {
@@ -89,7 +85,7 @@ struct NetworkManager<T: Codable> {
             return
         }
         
-        if let cacheImage = Cache.imageCache.object(forKey: url.absoluteString as NSString) {
+        if let cacheImage = cacheManager?.get(forKey: url) {
             completion(.success(cacheImage))
             return
         }
@@ -114,7 +110,7 @@ struct NetworkManager<T: Codable> {
                 return
             }
             
-            Cache.imageCache.setObject(image, forKey: url.absoluteString as NSString)
+            cacheManager?.set(object: image, forKey: url)
             completion(.success(image))
         }.resume()
     }
