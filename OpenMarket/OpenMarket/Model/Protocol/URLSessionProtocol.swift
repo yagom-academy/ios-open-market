@@ -7,8 +7,23 @@
 
 import Foundation
 
-protocol URLSessionProtocol {
-    func dataTask(with request: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask
+struct ResponseResult {
+    let data: Data?
+    let response: URLResponse?
+    let error: Error?
 }
 
-extension URLSession: URLSessionProtocol {}
+protocol URLSessionProtocol {
+    func receiveResponse(request: URLRequest, completionHandler: @escaping (ResponseResult) -> Void)
+}
+
+extension URLSession: URLSessionProtocol {
+    func receiveResponse(request: URLRequest, completionHandler: @escaping (ResponseResult) -> Void) {
+        let datatask = self.dataTask(with: request) { data, response, error in
+            let responseResult = ResponseResult(data: data, response: response, error: error)
+            completionHandler(responseResult)
+        }
+        
+        datatask.resume()
+    }
+}
