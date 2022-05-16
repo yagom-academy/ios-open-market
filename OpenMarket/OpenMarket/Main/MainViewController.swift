@@ -10,6 +10,10 @@ private enum Section {
     case main
 }
 
+private enum Constant {
+    static let requestItemCount = 20
+}
+
 final class MainViewController: UIViewController {
     private typealias DataSource = UICollectionViewDiffableDataSource<Section, Product>
     private typealias Snapshot = NSDiffableDataSourceSnapshot<Section, Product>
@@ -72,7 +76,7 @@ extension MainViewController {
 
 extension MainViewController {
     private func requestData(pageNumber: Int) {
-        let endPoint = EndPoint.requestList(page: pageNumber, itemsPerPage: 20, httpMethod: .get)
+        let endPoint = EndPoint.requestList(page: pageNumber, itemsPerPage: Constant.requestItemCount, httpMethod: .get)
         
         networkManager.request(endPoint: endPoint) { [weak self] result in
             switch result {
@@ -159,7 +163,8 @@ extension MainViewController: UICollectionViewDataSourcePrefetching {
     
     private func prefetchData(_ indexPaths: [IndexPath]) {
         guard let indexPath = indexPaths.last else { return }
-        let section = indexPath.row / 20
+        
+        let section = indexPath.row / Constant.requestItemCount
         
         if section + 1 == pageNumber {
             pageNumber += 1
