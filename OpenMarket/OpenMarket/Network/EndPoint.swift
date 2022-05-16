@@ -25,7 +25,7 @@ extension EndPoint {
         "https://market-training.yagom-academy.kr/"
     }
     
-    var url: URL? {
+    private var url: URL? {
         switch self {
         case .serverState:
             return URL(string: Self.host + "healthChecker")

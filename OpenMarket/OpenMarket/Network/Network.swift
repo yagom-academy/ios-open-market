@@ -29,12 +29,12 @@ struct NetworkManager<T: Codable> {
     }
     
     func checkServerState(completion: @escaping (Result<String, NetworkErorr>) -> Void) {
-        guard let url = EndPoint.serverState(httpMethod: .get).url else {
+        guard let urlRequst = EndPoint.serverState(httpMethod: .get).urlRequst else {
             completion(.failure(.urlError))
             return
         }
         
-        session.dataTask(with: url) { data, response, error in
+        session.dataTask(with: urlRequst) { data, response, error in
             guard error == nil else {
                 completion(.failure(.severError))
                 return
@@ -55,12 +55,12 @@ struct NetworkManager<T: Codable> {
     }
     
     func request(endPoint: EndPoint, completion: @escaping (Result<T, NetworkErorr>) -> Void) {
-        guard let url = endPoint.url else {
+        guard let urlRequst = endPoint.urlRequst else {
             completion(.failure(.urlError))
             return
         }
         
-        session.dataTask(with: url) { data, response, error in
+        session.dataTask(with: urlRequst) { data, response, error in
             guard error == nil else {
                 completion(.failure(.severError))
                 return
@@ -100,7 +100,9 @@ struct NetworkManager<T: Codable> {
             return
         }
         
-        session.dataTask(with: url) { data, response, error in
+        let urlRequset = URLRequest(url: url)
+        
+        session.dataTask(with: urlRequset) { data, response, error in
             guard error == nil else {
                 completion(.failure(.severError))
                 return
