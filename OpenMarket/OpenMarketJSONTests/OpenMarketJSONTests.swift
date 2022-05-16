@@ -8,17 +8,17 @@
 import XCTest
 @testable import OpenMarket
 
-final class OpenMarketJSONTests: XCTestCase {
-    private var network: NetworkAble!
+final class OpenMarketJSONTests: XCTestCase, NetworkAble {
+    var session: URLSessionProtocol = URLSession.shared
     
     override func setUpWithError() throws {
         try super.setUpWithError()
-        network = Network(session: URLSession.shared)
+        session = URLSession.shared
     }
     
     override func tearDownWithError() throws {
         try super.tearDownWithError()
-        network = nil
+        session = URLSession.shared
     }
     
     func test_mockNetwork객체를_pageInformation_decoding해서_결과는_NotNil_그리고_page의_첫번째물건이름은_TestProduct() {
@@ -29,12 +29,15 @@ final class OpenMarketJSONTests: XCTestCase {
         let pageNo = 1
         let imtesPerPage = 10
         let urlString = OpenMarketApi.pageInformation(pageNo: pageNo, itemsPerPage: imtesPerPage).pathString
-        let url = URL(string: urlString)!
+        guard let url = OpenMarketApi.pageInformation(pageNo: pageNo, itemsPerPage: imtesPerPage).url else {
+            XCTFail("Url 변환 실패")
+            return
+        }
         let data = load(fileName: fileName, extensionType: extensionType)
         let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: nil, headerFields: nil)
         let dummy = DummyData(data: data, response: response, error: nil)
         let stubUrlSession = StubURLSession(dummy: dummy)
-        let mockNetwork = Network(session: stubUrlSession)
+        session = stubUrlSession
         
         let pagesFirstObjcet = ProductInformation(
             id: 20,
@@ -51,7 +54,7 @@ final class OpenMarketJSONTests: XCTestCase {
         )
         
         //when
-        mockNetwork.requestData(url: urlString) { (data, response) in
+        requestData(url: url) { (data, response) in
             guard let data = data,
                   let pageInformation = try? JSONDecoder().decode(PageInformation.self, from: data) else { return }
             
@@ -78,10 +81,10 @@ final class OpenMarketJSONTests: XCTestCase {
         let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: nil, headerFields: nil)
         let dummy = DummyData(data: data, response: response, error: sessionError)
         let stubUrlSession = StubURLSession(dummy: dummy)
-        let mockNetwork = Network(session: stubUrlSession)
-        
+        //let mockNetwork = Network(session: stubUrlSession)
+        session = stubUrlSession
         //when
-        mockNetwork.requestData(url: urlString) { (data, response) in
+        requestData(url: url) { (data, response) in
             XCTFail("complete handler 사용")
             promise.fulfill()
         } errorHandler: { error in
@@ -96,10 +99,15 @@ final class OpenMarketJSONTests: XCTestCase {
         let promise = expectation(description: "timeout 테스트")
         let pageNo = 1
         let itemsPerPage = 10
-        let urlString = OpenMarketApi.pageInformation(pageNo: pageNo, itemsPerPage: itemsPerPage).pathString
+        
+        guard let url = OpenMarketApi.pageInformation(pageNo: pageNo, itemsPerPage: itemsPerPage).url else {
+            XCTFail("변환실패")
+            return
+        }
+
 
         // when
-        network.requestData(url: urlString) { (data, response) in
+        requestData(url: url) { (data, response) in
             guard let data = data,
                   let pageInformation = try? JSONDecoder().decode(PageInformation.self, from: data) else { return }
             
@@ -117,10 +125,13 @@ final class OpenMarketJSONTests: XCTestCase {
         // given
         let promise = expectation(description: "timeout 테스트")
         let target = 2049
-        let url = OpenMarketApi.productDetail(productNumber: target).pathString
+        guard let url = OpenMarketApi.productDetail(productNumber: target).url else {
+            XCTFail("Url 변환 실패")
+            return
+        }
         
         // when
-        network.requestData(url: url) { data, response in
+        requestData(url: url) { data, response in
             guard let data = data,
                   let productDetail = try? JSONDecoder().decode(ProductDetail.self, from: data) else { return }
 
@@ -132,7 +143,7 @@ final class OpenMarketJSONTests: XCTestCase {
         }
         wait(for: [promise], timeout: 10)
     }
-    
+    /*
     func test_urlError을_발생시켜서_확인 () {
         // given
         let promise = expectation(description: "timeout 테스트")
@@ -151,6 +162,7 @@ final class OpenMarketJSONTests: XCTestCase {
         }
         wait(for: [promise], timeout: 10)
     }
+     */
     
     func test_mockNetwork객체에_statusCodeError를_발생시켜서_확인() {
         // given
@@ -164,10 +176,11 @@ final class OpenMarketJSONTests: XCTestCase {
         let response = HTTPURLResponse(url: url, statusCode: 500, httpVersion: nil, headerFields: nil)
         let dummy = DummyData(data: data, response: response, error: nil)
         let stubUrlSession = StubURLSession(dummy: dummy)
-        let mockNetwork = Network(session: stubUrlSession)
+        session = stubUrlSession
+        //let mockNetwork = Network(session: stubUrlSession)
         
         //when
-        mockNetwork.requestData(url: urlString) { (data, response) in
+        requestData(url: url) { (data, response) in
             XCTFail("complete handler 사용")
             promise.fulfill()
         } errorHandler: { error in
@@ -186,10 +199,11 @@ final class OpenMarketJSONTests: XCTestCase {
         let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: nil, headerFields: nil)
         let dummy = DummyData(data: nil, response: response, error: nil)
         let stubUrlSession = StubURLSession(dummy: dummy)
-        let mockNetwork = Network(session: stubUrlSession)
+        session = stubUrlSession
+        //let mockNetwork = Network(session: stubUrlSession)
         
         //when
-        mockNetwork.requestData(url: urlString) { (data, response) in
+        requestData(url: url) { (data, response) in
             XCTFail("complete handler 사용")
             promise.fulfill()
         } errorHandler: { error in

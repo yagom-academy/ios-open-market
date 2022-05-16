@@ -8,40 +8,27 @@
 import Foundation
 
 protocol NetworkAble {
+    
+    var session: URLSessionProtocol { get }
+    
     @discardableResult
     func requestData(
-        url: String,
+        url: URL,
         completeHandler: @escaping (Data?, URLResponse?) -> Void,
         errorHandler: @escaping (Error) -> Void
     ) -> URLSessionDataTask?
 }
 
-final class Network: NetworkAble {
-    
-    private enum Constant {
-        static let successRange = 200..<300
-    }
-    
-    private let session: URLSessionProtocol
-    
-    init(session: URLSessionProtocol) {
-        self.session = session
-    }
+extension NetworkAble {
     
     @discardableResult
     func requestData(
-        url: String,
+        url: URL,
         completeHandler: @escaping (Data?, URLResponse?) -> Void,
         errorHandler: @escaping (Error) -> Void
     ) -> URLSessionDataTask? {
         
-        let urlComponents = URLComponents(string: url)
-        guard let requestURL = urlComponents?.url else {
-            errorHandler(NetworkError.urlError)
-            return nil
-        }
-        
-        let dataTask = session.dataTask(with: requestURL) { (data, response, error) in
+        let dataTask = session.dataTask(with: url) { (data, response, error) in
             
             guard error == nil else {
                 errorHandler(NetworkError.sessionError)
@@ -49,7 +36,7 @@ final class Network: NetworkAble {
             }
             
             guard let statusCode = (response as? HTTPURLResponse)?.statusCode,
-                Constant.successRange.contains(statusCode) else {
+                  (200..<300).contains(statusCode) else {
                 errorHandler(NetworkError.statusCodeError)
                 return
             }
@@ -65,4 +52,3 @@ final class Network: NetworkAble {
         return dataTask
     }
 }
-
