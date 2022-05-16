@@ -32,7 +32,7 @@ final class MainViewController: UIViewController {
     case 0:
       collectionView.collectionViewLayout = configureListLayout()
     case 1:
-      return
+      collectionView.collectionViewLayout = configureGridLayout()
     default:
       return
     }
@@ -61,6 +61,7 @@ final class MainViewController: UIViewController {
     self.view.addSubview(collectionView)
     collectionView.frame = self.view.safeAreaLayoutGuide.layoutFrame
     self.collectionView.register(ListCell.self, forCellWithReuseIdentifier: "ListCell")
+    self.collectionView.register(GridCell.self, forCellWithReuseIdentifier: "GridCell")
     self.collectionView.dataSource = self
   }
   
@@ -71,6 +72,16 @@ final class MainViewController: UIViewController {
     layout.minimumInteritemSpacing = 10
     layout.itemSize = CGSize(width: self.view.bounds.width,
                              height: self.view.bounds.height/14)
+    return layout
+  }
+  
+  private func configureGridLayout() -> UICollectionViewFlowLayout {
+    let layout = UICollectionViewFlowLayout()
+    layout.sectionInset = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
+    layout.minimumLineSpacing = 10
+    layout.minimumInteritemSpacing = 10
+    layout.itemSize = CGSize(width: self.view.bounds.width/2 - 15,
+                             height: self.view.bounds.height/3)
     return layout
   }
   
