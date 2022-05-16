@@ -15,6 +15,17 @@ struct NetworkHandler {
         self.session = session
     }
     
+    private func makeURL(api: APIable) -> URL? {
+        var component = URLComponents(string: api.host + api.path)
+        let prams = api.prams
+        
+        component?.queryItems = prams?.compactMap {
+            URLQueryItem(name: $0.key, value: $0.value)
+        }
+        
+        return component?.url
+    }
+    
     func request(pathString: String, httpMethod: HttpMethod, response: @escaping (Result<Data?, APIError>) -> Void) {
         guard let url = URL(string: baseURL + pathString) else {
             return response(.failure(.convertError))
