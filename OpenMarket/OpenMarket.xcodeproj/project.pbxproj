@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		AC161A15282B7E9200472DDC /* URLSessionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC161A14282B7E9200472DDC /* URLSessionProtocol.swift */; };
+		AC326F73283285DA00303ADC /* APIableProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC326F72283285DA00303ADC /* APIableProtocol.swift */; };
 		ACA8E2BB282B85F600B36F46 /* NetworkHandlerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA8E2BA282B85F600B36F46 /* NetworkHandlerTest.swift */; };
 		ACA9600A282A7D9A00CBA9D1 /* ItemProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA96009282A7D9A00CBA9D1 /* ItemProtocol.swift */; };
 		ACB76937282CB68600CD6073 /* ItemDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACB76936282CB68600CD6073 /* ItemDetail.swift */; };
@@ -38,6 +39,7 @@
 
 /* Begin PBXFileReference section */
 		AC161A14282B7E9200472DDC /* URLSessionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionProtocol.swift; sourceTree = "<group>"; };
+		AC326F72283285DA00303ADC /* APIableProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIableProtocol.swift; sourceTree = "<group>"; };
 		ACA8E2B8282B85F600B36F46 /* NetworkHandlerTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NetworkHandlerTest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		ACA8E2BA282B85F600B36F46 /* NetworkHandlerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkHandlerTest.swift; sourceTree = "<group>"; };
 		ACA96009282A7D9A00CBA9D1 /* ItemProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemProtocol.swift; sourceTree = "<group>"; };
@@ -91,6 +93,7 @@
 			isa = PBXGroup;
 			children = (
 				ACA96009282A7D9A00CBA9D1 /* ItemProtocol.swift */,
+				AC326F72283285DA00303ADC /* APIableProtocol.swift */,
 				AC161A14282B7E9200472DDC /* URLSessionProtocol.swift */,
 			);
 			path = Protocol;
@@ -295,6 +298,7 @@
 			files = (
 				E52B4BE1282C98F200AE7D00 /* DataDecoder.swift in Sources */,
 				ACB76937282CB68600CD6073 /* ItemDetail.swift in Sources */,
+				AC326F73283285DA00303ADC /* APIableProtocol.swift in Sources */,
 				AC161A15282B7E9200472DDC /* URLSessionProtocol.swift in Sources */,
 				E5BEAFE7282A7F5B001B7BDD /* NetworkHandler.swift in Sources */,
 				E5BEAFE3282A58E9001B7BDD /* ItemPage.swift in Sources */,
