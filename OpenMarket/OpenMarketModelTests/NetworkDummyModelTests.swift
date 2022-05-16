@@ -23,7 +23,7 @@ class NetworkDummyModelTests: XCTestCase {
     
     func test_request를호출할때_예상값을반환() {
         // given
-        let promise = expectation(description: "")
+        let promise = expectation(description: "TEST")
         guard let file = NSDataAsset(name: "products") else {
             return
         }
@@ -49,12 +49,12 @@ class NetworkDummyModelTests: XCTestCase {
         wait(for: [promise], timeout: 10)
     }
     
-    func test_request를호출할때_예상값을반환_s() {
+    func test_requestImage를호출할때_예상값을반환() {
         // given
-        let promise = expectation(description: "")
+        let promise = expectation(description: "TEST")
         
         // when
-        sut.request(with: itemURL!) { result in
+        sut.requestImage(with: itemURL!) { result in
             switch result {
             case .success(let data):
                 let result = data
@@ -64,7 +64,7 @@ class NetworkDummyModelTests: XCTestCase {
                             string: "https://s3.ap-northeast-2.amazonaws.com/media.yagom-academy.kr/training-resources/3/thumb/5a0cd56b6d3411ecabfa97fd953cf965.jpg")!)
                     XCTAssertEqual(expected, result)
                 } catch {
-                    print("예상값 오류")
+                    print(error.localizedDescription)
                 }
             case .failure(let error):
                 print(error.localizedDescription)

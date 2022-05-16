@@ -10,7 +10,7 @@ import Foundation
 protocol Provider {
     associatedtype T
     func request(with endpoint: Requestable, completion: @escaping (Result<T, Error>) -> Void)
-    func request(with url: URL, completion: @escaping (Result<Data, Error>) -> Void)
+    func requestImage(with url: URL, completion: @escaping (Result<Data, Error>) -> Void)
 }
 
 final class APIProvider<T: Decodable>: Provider {
@@ -42,7 +42,7 @@ final class APIProvider<T: Decodable>: Provider {
         }
     }
     
-    func request(
+    func requestImage(
         with url: URL,
         completion: @escaping (Result<Data, Error>) -> Void
     ) {
