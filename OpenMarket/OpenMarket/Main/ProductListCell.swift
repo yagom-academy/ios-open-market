@@ -18,6 +18,9 @@ final class ProductListCell: UICollectionViewCell {
     
     private lazy var productStackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [thumbnailImageView, informationStackView])
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.directionalLayoutMargins = .init(top: 0, leading: 0, bottom: 0, trailing: 8)
+        stackView.isLayoutMarginsRelativeArrangement = true
         stackView.spacing = 8
         return stackView
     }()
@@ -125,10 +128,6 @@ extension ProductListCell {
         
         NSLayoutConstraint.activate([
             seperatorLineView.heightAnchor.constraint(equalToConstant: 1)
-        ])
-        
-        NSLayoutConstraint.activate([
-            topStackView.trailingAnchor.constraint(equalTo: productStackView.trailingAnchor, constant: -8)
         ])
     }
     
