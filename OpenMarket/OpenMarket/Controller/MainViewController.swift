@@ -20,6 +20,14 @@ final class MainViewController: UIViewController {
     }
   }
   
+  
+  private func configureCollectionView() {
+    self.view.addSubview(collectionView)
+    collectionView.frame = self.view.safeAreaLayoutGuide.layoutFrame
+    self.collectionView.register(ListCell.self, forCellWithReuseIdentifier: "ListCell")
+    self.collectionView.dataSource = self
+  }
+  
 
     override func viewDidLoad() {
         super.viewDidLoad()
