@@ -32,7 +32,7 @@ class NetworkHandlerTest: XCTestCase {
         let netWorkHandler = NetworkHandler(session: StubURLSession(dummyData: dummyData))
         
         //when
-        netWorkHandler.communicate(pathString: "test", httpMethod: .get) { data in
+        netWorkHandler.request(pathString: "test", httpMethod: .get) { data in
             switch data {
             case .success(let data):
                 do {
@@ -59,7 +59,7 @@ class NetworkHandlerTest: XCTestCase {
         let wrongURLString = "te st"
         
         //when
-        netWorkHandler.communicate(pathString: wrongURLString, httpMethod: .get) { data in
+        netWorkHandler.request(pathString: wrongURLString, httpMethod: .get) { data in
             switch data {
             case .success(let data):
                 do {
@@ -85,7 +85,7 @@ class NetworkHandlerTest: XCTestCase {
         let netWorkHandler = NetworkHandler(session: StubURLSession(dummyData: dummyData))
         
         //when
-        netWorkHandler.communicate(pathString: "test", httpMethod: .get) { data in
+        netWorkHandler.request(pathString: "test", httpMethod: .get) { data in
             switch data {
             case .success(let data):
                 do {
@@ -111,7 +111,7 @@ class NetworkHandlerTest: XCTestCase {
         let netWorkHandler = NetworkHandler(session: StubURLSession(dummyData: dummyData))
         
         //when
-        netWorkHandler.communicate(pathString: "test", httpMethod: .get) { data in
+        netWorkHandler.request(pathString: "test", httpMethod: .get) { data in
             switch data {
             case .success(let data):
                 do {
@@ -136,7 +136,7 @@ class NetworkHandlerTest: XCTestCase {
         let netWorkHandler = NetworkHandler(session: StubURLSession(dummyData: dummyData))
         
         //when
-        netWorkHandler.communicate(pathString: "test", httpMethod: .get) { data in
+        netWorkHandler.request(pathString: "test", httpMethod: .get) { data in
             switch data {
             case .success(let data):
                 do {
@@ -163,7 +163,7 @@ class NetworkHandlerTest: XCTestCase {
         let netWorkHandler = NetworkHandler(session: StubURLSession(dummyData: dummyData))
         
         //when
-        netWorkHandler.communicate(pathString: "test", httpMethod: .get) { data in
+        netWorkHandler.request(pathString: "test", httpMethod: .get) { data in
             switch data {
             case .success(let data):
                 do {
