@@ -84,6 +84,7 @@ final class ListCell: UICollectionViewCell {
   
   private func configureListCell() {
     contentView.addSubview(totalStackView)
+    totalStackView.axis = .horizontal
     totalStackView.addArrangedSubview(thumbnailImageView)
     totalStackView.addArrangedSubview(verticalStackView)
     totalStackView.addArrangedSubview(stockLabel)
@@ -99,10 +100,10 @@ final class ListCell: UICollectionViewCell {
       totalStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 0),
       
       thumbnailImageView.widthAnchor.constraint(equalTo: thumbnailImageView.heightAnchor,
-                                                multiplier: 1.2),
+                                                multiplier: 1.1),
       
       verticalStackView.widthAnchor.constraint(equalTo: contentView.widthAnchor,
-                                               multiplier: 0.5)
+                                               multiplier: 0.4)
     ])
   }
   
@@ -110,37 +111,21 @@ final class ListCell: UICollectionViewCell {
     self.thumbnailImageView.load(urlString: page.thumbnail)
     self.nameLabel.text = page.name
     if page.discountedPrice == 0 {
+      self.bargainPriceLabel.textColor = .systemGray
+      self.bargainPriceLabel.attributedText = .none
       self.bargainPriceLabel.text = "\(page.currency)\(page.bargainPrice)"
       self.discountedPriceLabel.text = ""
     } else {
-      bargainPriceLabel.textColor = .systemRed
+      self.bargainPriceLabel.textColor = .systemRed
       self.bargainPriceLabel.attributedText = "\(page.currency)\(page.bargainPrice)".strikeThrough()
       self.discountedPriceLabel.text = "\(page.currency)\(page.discountedPrice)"
     }
-    
-    self.stockLabel.text = "잔여수량:\(page.stock)"
-  }
-}
-
-extension String {
-  func strikeThrough() -> NSAttributedString {
-    let attributeString: NSMutableAttributedString = NSMutableAttributedString(string: self)
-    attributeString.addAttribute(NSAttributedString.Key.strikethroughStyle, value: NSUnderlineStyle.single.rawValue, range: NSMakeRange(0, attributeString.length))
-    return attributeString
-  }
-}
-
-extension UIImageView {
-  func load(urlString: String) {
-    guard let url = URL(string: urlString) else { return }
-    DispatchQueue.global().async { [weak self] in
-      if let data = try? Data(contentsOf: url) {
-        if let image = UIImage(data: data) {
-          DispatchQueue.main.async {
-            self?.image = image
-          }
-        }
-      }
+    if page.stock == 0 {
+      self.stockLabel.textColor = .systemYellow
+      self.stockLabel.text = "품절"
+    } else {
+      self.stockLabel.textColor = .systemGray
+      self.stockLabel.text = "잔여수량 : \(page.stock)"
     }
   }
 }
