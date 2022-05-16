@@ -45,7 +45,7 @@ final class ProductListCell: UICollectionViewCell {
     private let nameLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 21, weight: .bold)
-        label.setContentHuggingPriority(.low, for: .horizontal)
+        label.setContentHuggingPriority(.lowest, for: .horizontal)
         label.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         return label
     }()
@@ -78,7 +78,7 @@ final class ProductListCell: UICollectionViewCell {
     private let bargainPriceLabel: UILabel = {
         let label = UILabel()
         label.textColor = .systemGray3
-        label.setContentHuggingPriority(.low, for: .horizontal)
+        label.setContentHuggingPriority(.lowest, for: .horizontal)
         return label
     }()
     

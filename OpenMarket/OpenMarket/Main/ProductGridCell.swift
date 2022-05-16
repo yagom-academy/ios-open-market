@@ -40,7 +40,7 @@ final class ProductGridCell: UICollectionViewCell {
     
     private lazy var priceStackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [priceLabel, bargainPriceLabel])
-        stackView.setContentHuggingPriority(.low, for: .vertical)
+        stackView.setContentHuggingPriority(.lowest, for: .vertical)
         stackView.axis = .vertical
         return stackView
     }()

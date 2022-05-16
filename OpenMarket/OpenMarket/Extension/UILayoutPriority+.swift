@@ -8,5 +8,5 @@
 import UIKit
 
 extension UILayoutPriority {
-    static let low = UILayoutPriority(100)
+    static let lowest = UILayoutPriority(100)
 }
