@@ -20,6 +20,8 @@ final class MainViewController: UIViewController {
     private var products = [Product]()
     private var pageNumber = 1
     
+    private var networkManager = NetworkManager<ProductList>(imageCache: CacheManager())
+    
     private lazy var segmentControl: UISegmentedControl = {
         let segmentControl = UISegmentedControl(items: ["LIST", "GRID"])
         segmentControl.selectedSegmentTintColor = .systemBlue
@@ -66,7 +68,7 @@ extension MainViewController {
     private func requestData(pageNumber: Int) {
         let endPoint = EndPoint.requestList(page: pageNumber, itemsPerPage: 20, httpMethod: .get)
         
-        NetworkManager<ProductList>().request(endPoint: endPoint) { [weak self] result in
+        networkManager.request(endPoint: endPoint) { [weak self] result in
             switch result {
             case .success(let data):
                 guard let result = data.products else { return }
@@ -93,7 +95,7 @@ extension MainViewController {
             case .grid:
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProductGridCell.identifier, for: indexPath) as? ProductGridCell else { return ProductGridCell() }
                 cell.configure(data: itemIdentifier)
-                NetworkManager<String>().downloadImage(urlString: itemIdentifier.thumbnail) { result in
+                self.networkManager.downloadImage(urlString: itemIdentifier.thumbnail) { result in
                     switch result {
                     case .success(let image):
                         DispatchQueue.main.async {
@@ -108,7 +110,7 @@ extension MainViewController {
             case .list:
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProductListCell.identifier, for: indexPath) as? ProductListCell else { return ProductListCell() }
                 cell.configure(data: itemIdentifier)
-                NetworkManager<String>().downloadImage(urlString: itemIdentifier.thumbnail) { result in
+                self.networkManager.downloadImage(urlString: itemIdentifier.thumbnail) { result in
                     switch result {
                     case .success(let image):
                         DispatchQueue.main.async {
