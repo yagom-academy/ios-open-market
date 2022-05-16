@@ -12,8 +12,11 @@ enum DataDecoder {
         guard let data = data else {
             throw APIError.dataError
         }
-        let decodedData = try JSONDecoder().decode(dataType, from: data)
-        
-        return decodedData
+        do {
+            let decodedData = try JSONDecoder().decode(dataType, from: data)
+            return decodedData
+        } catch {
+            throw APIError.decodeError
+        }
     }
 }
