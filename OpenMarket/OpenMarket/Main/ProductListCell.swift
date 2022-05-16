@@ -8,9 +8,16 @@
 import UIKit
 
 final class ProductListCell: UICollectionViewCell {
+    private lazy var mainStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [productStackView, seperatorLineView])
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .vertical
+        stackView.spacing = 8
+        return stackView
+    }()
+    
     private lazy var productStackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [thumbnailImageView, informationStackView])
-        stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.spacing = 8
         return stackView
     }()
@@ -29,6 +36,7 @@ final class ProductListCell: UICollectionViewCell {
     
     private lazy var topStackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [nameLabel, quantityLabel, accessoryImageView])
+        stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.alignment = .center
         stackView.spacing = 8
         return stackView
@@ -74,6 +82,13 @@ final class ProductListCell: UICollectionViewCell {
         return label
     }()
     
+    private let seperatorLineView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .systemGray3
+        return view
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureLayout()
@@ -88,13 +103,13 @@ final class ProductListCell: UICollectionViewCell {
 
 extension ProductListCell {
     private func configureLayout() {
-        contentView.addSubview(productStackView)
+        contentView.addSubview(mainStackView)
         
         NSLayoutConstraint.activate([
-            productStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
-            productStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
-            productStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
-            productStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
+            mainStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
+            mainStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 0),
+            mainStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
+            mainStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 0),
         ])
         
         NSLayoutConstraint.activate([
@@ -106,6 +121,14 @@ extension ProductListCell {
             accessoryImageView.topAnchor.constraint(equalTo: topStackView.topAnchor, constant: 8),
             accessoryImageView.bottomAnchor.constraint(equalTo: topStackView.bottomAnchor, constant: -8),
             accessoryImageView.widthAnchor.constraint(equalTo: accessoryImageView.heightAnchor)
+        ])
+        
+        NSLayoutConstraint.activate([
+            seperatorLineView.heightAnchor.constraint(equalToConstant: 1)
+        ])
+        
+        NSLayoutConstraint.activate([
+            topStackView.trailingAnchor.constraint(equalTo: productStackView.trailingAnchor, constant: -8)
         ])
     }
     
