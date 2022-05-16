@@ -4,6 +4,7 @@
 //
 //  Created by Red, Mino. on 2022/05/10.
 //
+import Foundation
 
 struct Products: Decodable {
     let pageNumber: Int
@@ -13,13 +14,15 @@ struct Products: Decodable {
     let limit: Int
     let items: [Item]
     let lastPage: Int
-    let hasNext, hasPrev: Bool
+    let hasNext: Int
+    let hasPrev: Bool
 
     private enum CodingKeys: String, CodingKey {
         case pageNumber = "page_no"
         case itemsPerPage = "items_per_page"
         case totalCount = "total_count"
-        case offset, limit
+        case offset
+        case limit
         case items = "pages"
         case lastPage = "last_page"
         case hasNext = "has_next"
@@ -31,13 +34,14 @@ struct Item: Decodable {
     let id: Int
     let vendorID: Int
     let name: String
-    let thumbnail: String
+    let thumbnail: URL
     let currency: String
     let price: Double
     let bargainPrice: Double
     let discountedPrice: Double
     let stock: Int
-    let createdAt, issuedAt: String
+    let createdAt: String
+    let issuedAt: String
 
     private enum CodingKeys: String, CodingKey {
         case id
