@@ -8,10 +8,19 @@
 import UIKit
 
 final class ProductGridCell: UICollectionViewCell {
-    private lazy var productStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [thumbnailImageView, nameLabel, priceStackView, quantityLabel])
+    private lazy var mainStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [productStackView, priceStackView, quantityLabel])
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
+        stackView.alignment = .center
+        stackView.distribution = .equalSpacing
+        return stackView
+    }()
+    
+    private lazy var productStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [thumbnailImageView, nameLabel])
+        stackView.axis = .vertical
+        stackView.spacing = 8
         stackView.alignment = .center
         return stackView
     }()
@@ -76,13 +85,13 @@ final class ProductGridCell: UICollectionViewCell {
 
 extension ProductGridCell {
     private func configureLayout() {
-        contentView.addSubview(productStackView)
+        contentView.addSubview(mainStackView)
         
         NSLayoutConstraint.activate([
-            productStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
-            productStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
-            productStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
-            productStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
+            mainStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
+            mainStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
+            mainStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
+            mainStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
         ])
         
         NSLayoutConstraint.activate([
