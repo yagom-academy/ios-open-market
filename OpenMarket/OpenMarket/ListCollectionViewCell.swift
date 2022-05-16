@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ListCollectionViewCell: UICollectionViewCell {
+class ListCollectionViewCell: UICollectionViewListCell {
     let productNameLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.preferredFont(forTextStyle: .headline)
@@ -17,12 +17,21 @@ class ListCollectionViewCell: UICollectionViewCell {
     let productPriceLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.preferredFont(forTextStyle: .subheadline)
+        label.textColor = .systemGray
+        return label
+    }()
+    
+    let productBargainPriceLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.preferredFont(forTextStyle: .subheadline)
+        label.textColor = .systemGray
         return label
     }()
     
     let productStockLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.preferredFont(forTextStyle: .subheadline)
+        label.textColor = .systemGray
         label.textAlignment = .right
         return label
     }()
@@ -36,12 +45,22 @@ class ListCollectionViewCell: UICollectionViewCell {
     let stackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
-        stackView.spacing = 10
+        stackView.spacing = 5
         stackView.alignment = .top
+        stackView.distribution = .fill
+        
         return stackView
     }()
     
     let priceStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.distribution = .fillProportionally
+        stackView.spacing = 5
+        return stackView
+    }()
+    
+    let informationStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.distribution = .fillEqually
@@ -62,13 +81,17 @@ class ListCollectionViewCell: UICollectionViewCell {
         // Add SubViews
         contentView.addSubview(stackView)
         stackView.addArrangedSubview(productImageView)
-        priceStackView.addArrangedSubview(productNameLabel)
+        informationStackView.addArrangedSubview(productNameLabel)
         priceStackView.addArrangedSubview(productPriceLabel)
-        stackView.addArrangedSubview(priceStackView)
+        priceStackView.addArrangedSubview(productBargainPriceLabel)
+        informationStackView.addArrangedSubview(priceStackView)
+        stackView.addArrangedSubview(informationStackView)
         stackView.addArrangedSubview(productStockLabel)
         
         
         // StackView Constraints
+        stackView.isLayoutMarginsRelativeArrangement = true
+        stackView.layoutMargins = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
         stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
@@ -76,15 +99,11 @@ class ListCollectionViewCell: UICollectionViewCell {
         stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
         stackView.heightAnchor.constraint(equalToConstant: 60).isActive = true
         
+        informationStackView.centerYAnchor.constraint(equalTo: stackView.centerYAnchor).isActive = true
         
         // productImageView Constraints
-        productImageView.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        productImageView.widthAnchor.constraint(equalToConstant: 60).isActive = true
+        productImageView.heightAnchor.constraint(equalToConstant: 70).isActive = true
+        productImageView.widthAnchor.constraint(equalTo: stackView.widthAnchor, multiplier: 0.135).isActive = true
         productImageView.contentMode = .scaleAspectFit
-     
-        
-        // priceStackView Constaints
-        priceStackView.topAnchor.constraint(equalTo: stackView.topAnchor).isActive = true
-        priceStackView.bottomAnchor.constraint(equalTo: stackView.bottomAnchor).isActive = true
     }
 }

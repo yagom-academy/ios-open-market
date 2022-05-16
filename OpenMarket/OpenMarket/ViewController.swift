@@ -17,7 +17,7 @@ class ViewController: UIViewController {
     let segmentedControl = UISegmentedControl(items: ["LIST", "GRID"])
     private let data: [Product] = {
         let parser: Parser<ProductList> = Parser()
-        let sampleList: ProductList = parser.decode(name: "products")!
+        let sampleList: ProductList = parser.decode(name: "list")!
         return sampleList.pages
     }()
     
@@ -128,8 +128,24 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, 
         case .list:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "listCell", for: indexPath) as? ListCollectionViewCell else { return UICollectionViewCell() }
             cell.productNameLabel.text = data[indexPath.row].name
-            cell.productPriceLabel.text = String(data[indexPath.row].price)
+            cell.productPriceLabel.text = "\(data[indexPath.row].currency!.rawValue) \(NumberFormatterAssistant.shared.numberFormatString(for: data[indexPath.row].price))"
             cell.productStockLabel.text = String(data[indexPath.row].stock)
+            cell.accessories = [.disclosureIndicator()]
+            
+            if data[indexPath.row].discountedPrice != 0 {
+                cell.productBargainPriceLabel.text = "\(data[indexPath.row].currency!.rawValue) \(NumberFormatterAssistant.shared.numberFormatString(for: data[indexPath.row].bargainPrice))"
+                cell.productPriceLabel.textColor = .red
+                
+                cell.productPriceLabel.attributedText = setTextAttribute(of: cell.productPriceLabel.text!, attributes: [.strikethroughStyle: NSUnderlineStyle.single.rawValue])
+            }
+            
+            if data[indexPath.row].stock == 0 {
+                cell.productStockLabel.text = "품절"
+                cell.productStockLabel.textColor = .systemOrange
+            } else {
+                cell.productStockLabel.text = "잔여수량 :  \(String(data[indexPath.row].stock))"
+            }
+            
             return cell
         case .grid:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "gridCell", for: indexPath) as? GridCollectionViewCell else { return UICollectionViewCell() }
