@@ -11,6 +11,7 @@ class ListCollectionViewCell: UICollectionViewListCell {
     let productNameLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.preferredFont(forTextStyle: .headline)
+
         return label
     }()
     
@@ -18,6 +19,7 @@ class ListCollectionViewCell: UICollectionViewListCell {
         let label = UILabel()
         label.font = UIFont.preferredFont(forTextStyle: .subheadline)
         label.textColor = .systemGray
+        label.textAlignment = .left
         return label
     }()
     
@@ -25,6 +27,7 @@ class ListCollectionViewCell: UICollectionViewListCell {
         let label = UILabel()
         label.font = UIFont.preferredFont(forTextStyle: .subheadline)
         label.textColor = .systemGray
+        label.textAlignment = .left
         return label
     }()
     
@@ -47,7 +50,7 @@ class ListCollectionViewCell: UICollectionViewListCell {
         stackView.axis = .horizontal
         stackView.spacing = 5
         stackView.alignment = .top
-        stackView.distribution = .fill
+        stackView.distribution = .fillProportionally
         
         return stackView
     }()
@@ -55,6 +58,7 @@ class ListCollectionViewCell: UICollectionViewListCell {
     let priceStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
+        stackView.alignment = .leading
         stackView.distribution = .fillProportionally
         stackView.spacing = 5
         return stackView
@@ -64,6 +68,26 @@ class ListCollectionViewCell: UICollectionViewListCell {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.distribution = .fillEqually
+        return stackView
+    }()
+    
+    let stackView0: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.distribution = .fillEqually
+        return stackView
+    }()
+    
+    let stackView1: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        return stackView
+    }()
+    
+    let stackView2: UIStackView = {
+        let stackView = UIStackView()
+        stackView.distribution = .fill
+        stackView.axis = .horizontal
         return stackView
     }()
     
@@ -81,13 +105,24 @@ class ListCollectionViewCell: UICollectionViewListCell {
         // Add SubViews
         contentView.addSubview(stackView)
         stackView.addArrangedSubview(productImageView)
-        informationStackView.addArrangedSubview(productNameLabel)
-        priceStackView.addArrangedSubview(productPriceLabel)
-        priceStackView.addArrangedSubview(productBargainPriceLabel)
-        informationStackView.addArrangedSubview(priceStackView)
-        stackView.addArrangedSubview(informationStackView)
-        stackView.addArrangedSubview(productStockLabel)
+        stackView0.addArrangedSubview(stackView1)
+        stackView0.addArrangedSubview(stackView2)
+        stackView.addArrangedSubview(stackView0)
+        stackView1.addArrangedSubview(productNameLabel)
+        stackView1.addArrangedSubview(productStockLabel)
+        stackView2.addArrangedSubview(productPriceLabel)
+        stackView2.addArrangedSubview(productBargainPriceLabel)
         
+        configureLayoutConstraints()
+    }
+    
+    func configureLayoutConstraints() {
+        stackView0.centerYAnchor.constraint(equalTo: stackView.centerYAnchor).isActive = true
+        productNameLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        productStockLabel.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+        
+        productPriceLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        productBargainPriceLabel.setContentHuggingPriority(.defaultLow, for: .horizontal)
         
         // StackView Constraints
         stackView.isLayoutMarginsRelativeArrangement = true
@@ -98,12 +133,26 @@ class ListCollectionViewCell: UICollectionViewListCell {
         stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
         stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
         stackView.heightAnchor.constraint(equalToConstant: 60).isActive = true
-        
-        informationStackView.centerYAnchor.constraint(equalTo: stackView.centerYAnchor).isActive = true
-        
+
         // productImageView Constraints
         productImageView.heightAnchor.constraint(equalToConstant: 70).isActive = true
-        productImageView.widthAnchor.constraint(equalTo: stackView.widthAnchor, multiplier: 0.135).isActive = true
+        productImageView.widthAnchor.constraint(equalTo: stackView.widthAnchor, multiplier: 0.15).isActive = true
         productImageView.contentMode = .scaleAspectFit
+    }
+}
+
+extension ListCollectionViewCell {
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        productNameLabel.text = ""
+        productPriceLabel.attributedText = nil
+        productPriceLabel.textColor = .systemGray
+        productPriceLabel.text = ""
+        
+        productStockLabel.textColor = .systemGray
+        productStockLabel.text = ""
+        productBargainPriceLabel.textColor = .systemGray
+        productBargainPriceLabel.text = ""
+        configureLayoutConstraints()
     }
 }

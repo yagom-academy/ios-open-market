@@ -133,7 +133,7 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, 
             cell.accessories = [.disclosureIndicator()]
             
             if data[indexPath.row].discountedPrice != 0 {
-                cell.productBargainPriceLabel.text = "\(data[indexPath.row].currency!.rawValue) \(NumberFormatterAssistant.shared.numberFormatString(for: data[indexPath.row].bargainPrice))"
+                cell.productBargainPriceLabel.text = "  \(data[indexPath.row].currency!.rawValue) \(NumberFormatterAssistant.shared.numberFormatString(for: data[indexPath.row].bargainPrice))"
                 cell.productPriceLabel.textColor = .red
                 
                 cell.productPriceLabel.attributedText = setTextAttribute(of: cell.productPriceLabel.text!, attributes: [.strikethroughStyle: NSUnderlineStyle.single.rawValue])
