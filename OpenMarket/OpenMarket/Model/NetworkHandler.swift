@@ -7,6 +7,26 @@
 
 import Foundation
 
+enum HttpMethod {
+    case get
+    case post
+    case delete
+    case patch
+    
+    var string: String {
+        switch self {
+        case .get:
+            return "GET"
+        case .post:
+            return "POST"
+        case .delete:
+            return "DELETE"
+        case .patch:
+            return "PATCH"
+        }
+    }
+}
+
 struct NetworkHandler {
     private let session: URLSessionProtocol
     private let baseURL = "https://market-training.yagom-academy.kr/"
