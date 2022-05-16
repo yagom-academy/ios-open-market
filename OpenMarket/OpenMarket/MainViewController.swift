@@ -8,6 +8,16 @@ import UIKit
 
 final class MainViewController: UIViewController {
     
+    var status = 0
+    
+    enum Section {
+        case main
+        case grid
+    }
+    
+    var dataSource: UICollectionViewDiffableDataSource<Section, Int>!
+    var collectionView: UICollectionView!
+    
     private lazy var segmentedControl: UISegmentedControl = {
         let segment = UISegmentedControl(items: ["LIST", "GRID"])
         segment.selectedSegmentIndex = 0
@@ -29,12 +39,16 @@ final class MainViewController: UIViewController {
         segment.setTitleTextAttributes(releasedTextAttributes, for: .normal)
         return segment
     }()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
         
         configureSegmentedControl()
+        configureCollectionView()
+        configureDataSource()
+        
+        self.collectionView.register(GridCollectionViewCell.self, forCellWithReuseIdentifier: GridCollectionViewCell.identifier)
     }
     
     private func configureSegmentedControl() {
@@ -51,5 +65,57 @@ final class MainViewController: UIViewController {
             return
         }
     }
+    
+    private func creatLayout() -> UICollectionViewCompositionalLayout {
+        let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
+        return UICollectionViewCompositionalLayout.list(using: configuration)
+    }
+    
+    private func configureCollectionView() {
+        collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: creatLayout())
+        view.addSubview(collectionView)
+        collectionView.delegate = self
+    }
+    
+    private func configureDataSource() {
+        let cellRegistration = UICollectionView.CellRegistration<UICollectionViewListCell, Int> { (cell, indexPath, item) in
+            var content = cell.defaultContentConfiguration()
+            content.image = UIImage(systemName: "swift")
+            content.text = "\(indexPath.section), \(indexPath.row)"
+            cell.contentConfiguration = content
+        }
+        
+        dataSource = UICollectionViewDiffableDataSource<Section, Int>(collectionView: collectionView) {
+            (collectionView: UICollectionView, indexPath: IndexPath, identifier: Int) in
+            if self.status == 1 {
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: GridCollectionViewCell.identifier, for: indexPath) as? GridCollectionViewCell else { return UICollectionViewListCell() }
+//                cell.configureContent(productInformation: )
+                return cell
+            } else {
+                return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: identifier)
+            }
+        }
+        
+        var snapshot = NSDiffableDataSourceSnapshot<Section, Int>()
+        snapshot.appendSections([.main, .grid])
+        snapshot.appendItems(Array(1...10), toSection: .main)
+        snapshot.appendItems(Array(11...20), toSection: .grid)
+        dataSource.apply(snapshot, animatingDifferences: true)
+    }
+    
+    private func createListLayout() -> UICollectionViewLayout {
+        let flowLayout = UICollectionViewFlowLayout()
+        flowLayout.minimumLineSpacing = 20
+        flowLayout.minimumInteritemSpacing = 10
+        flowLayout.scrollDirection = .vertical
+        flowLayout.itemSize = CGSize(
+            width: view.safeAreaLayoutGuide.layoutFrame.width / 3 ,
+            height: view.safeAreaLayoutGuide.layoutFrame.height / 3
+        )
+        return flowLayout
+    }
 }
 
+extension MainViewController: UICollectionViewDelegate {
+    
+}

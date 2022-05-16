@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 struct ProductInformation: Codable, Equatable {
     let id: Int
@@ -20,6 +21,8 @@ struct ProductInformation: Codable, Equatable {
     let createdAt: String
     let issuedAt: String
     
+    var thumbnailImage: UIImage?
+
     private enum CodingKeys: String, CodingKey {
         case id
         case vendorId = "vendor_id"
@@ -34,3 +37,4 @@ struct ProductInformation: Codable, Equatable {
         case issuedAt = "issued_at"
     }
 }
+

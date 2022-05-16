@@ -67,8 +67,8 @@ final class GridCollectionViewCell: UICollectionViewCell {
         ])
     }
     
-    func configureContent(productInformation product: ProductInformation) {
-//        productImage.image = ProductInformation.thumbnail
+    func configureContent(productInformation product: ProductInformation) {        
+        productImage.image = product.thumbnailImage
         productTitle.text = product.name
         productPrice.text = "\( product.currency) + \(product.price)"
         discountPrice.text = "\(product.discountedPrice)"
