@@ -8,12 +8,6 @@
 import Foundation
 @testable import OpenMarket
 
-struct DummyData {
-    var data: Data?
-    var response: URLResponse?
-    var error: Error?
-}
-
 final class StubURLSessionDataTask: URLSessionDataTask {
     var fakeResume: () -> Void = {}
     
@@ -23,13 +17,13 @@ final class StubURLSessionDataTask: URLSessionDataTask {
 }
 
 struct StubURLSession: URLSessionProtocol {
-    private let dummyData: DummyData
+    private let dummyData: ResponseResult
     
-    init(dummyData: DummyData) {
+    init(dummyData: ResponseResult) {
         self.dummyData = dummyData
     }
     
-    func dataTask(with request: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask {
+    private func fakeDataTask(with request: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask {
         let sessionDataTask = StubURLSessionDataTask()
         
         sessionDataTask.fakeResume = {
@@ -37,5 +31,14 @@ struct StubURLSession: URLSessionProtocol {
         }
         
         return sessionDataTask
+    }
+    
+    func receiveResponse(request: URLRequest, completionHandler: @escaping (ResponseResult) -> Void) {
+        let datatask = self.fakeDataTask(with: request) { data, response, error in
+            let responseResult = ResponseResult(data: data, response: response, error: error)
+            completionHandler(responseResult)
+        }
+        
+        datatask.resume()
     }
 }
