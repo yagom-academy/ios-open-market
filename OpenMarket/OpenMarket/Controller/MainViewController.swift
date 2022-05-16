@@ -6,7 +6,7 @@
 
 import UIKit
 
-class MainViewController: UIViewController {
+final class MainViewController: UIViewController {
   lazy var collectionView = UICollectionView(frame: .zero,
                                              collectionViewLayout: configureListLayout())
   let urlProvider = URLSessionProvider<ProductsList>(path: "/api/products",
