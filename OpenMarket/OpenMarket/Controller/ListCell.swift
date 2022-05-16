@@ -98,4 +98,21 @@ final class ListCell: UICollectionViewCell {
       totalStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
     ])
   }
+  
+  func setUpListCell(page: Page) {
+    self.thumbnailImageView.load(urlString: page.thumbnail)
+    self.nameLabel.text = page.name
+    if page.discountedPrice == 0 {
+      self.bargainPriceLabel.text = "\(page.currency)\(page.bargainPrice)"
+      self.discountedPriceLabel.text = ""
+    } else {
+      bargainPriceLabel.textColor = .systemRed
+      self.bargainPriceLabel.attributedText = "\(page.currency)\(page.bargainPrice)".strikeThrough()
+      self.discountedPriceLabel.text = "\(page.currency)\(page.discountedPrice)"
+    }
+    
+    self.stockLabel.text = "잔여수량:\(page.stock)"
+  }
+}
+
 }
