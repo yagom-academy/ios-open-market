@@ -52,9 +52,34 @@ final class ProductListCollectionViewCell: UICollectionViewCell {
   
   override init(frame: CGRect) {
     super.init(frame: frame)
+    self.configureUI()
   }
   
   required init?(coder: NSCoder) {
     super.init(coder: coder)
+    self.configureUI()
+  }
+  
+  private func configureUI() {
+    self.contentView.addSubview(containerStackView)
+    self.containerStackView.addArrangedSubview(productImageView)
+    self.containerStackView.addArrangedSubview(informationStackView)
+    self.containerStackView.addArrangedSubview(quantityStackView)
+    
+    self.informationStackView.addArrangedSubview(titleLabel)
+    self.informationStackView.addArrangedSubview(priceStackView)
+    self.priceStackView.addArrangedSubview(bargainPriceLabel)
+    self.priceStackView.addArrangedSubview(priceLabel)
+    
+    self.quantityStackView.addArrangedSubview(stockLabel)
+    self.quantityStackView.addArrangedSubview(disclosureImageView)
+    
+    self.containerStackView.translatesAutoresizingMaskIntoConstraints = false
+    NSLayoutConstraint.activate([
+      containerStackView.topAnchor.constraint(equalTo: contentView.topAnchor),
+      containerStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+      containerStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+      containerStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
+    ])
   }
 }
