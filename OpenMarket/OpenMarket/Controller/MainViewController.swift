@@ -20,6 +20,12 @@ final class MainViewController: UIViewController {
     }
   }
   
+  override func viewDidLoad() {
+    super.viewDidLoad()
+    fetchPages()
+    configureCollectionView()
+    collectionView.collectionViewLayout = configureListLayout()
+  }
   
   private func configureCollectionView() {
     self.view.addSubview(collectionView)
