@@ -87,9 +87,9 @@
 			isa = PBXGroup;
 			children = (
 				03301A562832ACFA00D58385 /* String+Extension.swift */,
+				0396412C2833705200E0DE5A /* Int+Extension.swift */,
 				03301A582832AD3800D58385 /* ImageView+Extension.swift */,
 				0396412A283368CB00E0DE5A /* UIStackView+Extension.swift */,
-				0396412C2833705200E0DE5A /* Int+Extension.swift */,
 				0396412E28337A5500E0DE5A /* CALayer+Extension.swift */,
 			);
 			path = Util;
