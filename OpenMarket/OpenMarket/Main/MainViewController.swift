@@ -26,19 +26,9 @@ final class MainViewController: UIViewController {
     
     private var networkManager = NetworkManager<ProductList>(imageCache: CacheManager())
     
-    private lazy var segmentControl: UISegmentedControl = {
-        let segmentControl = UISegmentedControl(items: ["LIST", "GRID"])
-        
-        segmentControl.setTitleTextAttributes([.foregroundColor : UIColor.white], for: .selected)
-        segmentControl.setTitleTextAttributes([.foregroundColor : UIColor.systemBlue], for: .normal)
-        segmentControl.selectedSegmentTintColor = .systemBlue
-        segmentControl.setWidth(view.bounds.width / 5, forSegmentAt: 0)
-        segmentControl.setWidth(view.bounds.width / 5, forSegmentAt: 1)
-        segmentControl.layer.borderWidth = 1.0
-        segmentControl.layer.borderColor = UIColor.systemBlue.cgColor
+    private lazy var segmentControl: CellSegmentControl = {
+        let segmentControl = CellSegmentControl(items: ["LIST", "GRID"])
         segmentControl.addTarget(self, action: #selector(segmentValueDidChanged(segmentedControl:)), for: .valueChanged)
-        segmentControl.selectedSegmentIndex = 0
-        
         return segmentControl
     }()
     
