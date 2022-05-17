@@ -8,10 +8,31 @@
 import UIKit
 
 final class ProductListCollectionViewCell: UICollectionViewCell {
-  private let containerStackView = UIStackView()
-  private let informationStackView = UIStackView()
-  private let priceStackView = UIStackView()
-  private let quantityStackView = UIStackView()
+  private let containerStackView: UIStackView = {
+    let stackView = UIStackView()
+    stackView.axis = .horizontal
+    return stackView
+  }()
+  
+  private let informationStackView: UIStackView = {
+    let stackView = UIStackView()
+    stackView.axis = .vertical
+    stackView.alignment = .leading
+    return stackView
+  }()
+  
+  private let priceStackView: UIStackView = {
+    let stackView = UIStackView()
+    stackView.axis = .horizontal
+    return stackView
+  }()
+  
+  private let quantityStackView: UIStackView = {
+    let stackView = UIStackView()
+    stackView.axis = .horizontal
+    stackView.alignment = .top
+    return stackView
+  }()
 
   private let productImageView: UIImageView = {
     let imageView = UIImageView()
@@ -68,8 +89,8 @@ final class ProductListCollectionViewCell: UICollectionViewCell {
     
     self.informationStackView.addArrangedSubview(titleLabel)
     self.informationStackView.addArrangedSubview(priceStackView)
-    self.priceStackView.addArrangedSubview(bargainPriceLabel)
     self.priceStackView.addArrangedSubview(priceLabel)
+    self.priceStackView.addArrangedSubview(bargainPriceLabel)
     
     self.quantityStackView.addArrangedSubview(stockLabel)
     self.quantityStackView.addArrangedSubview(disclosureImageView)
