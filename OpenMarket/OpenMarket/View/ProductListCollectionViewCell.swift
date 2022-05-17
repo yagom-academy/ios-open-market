@@ -81,6 +81,21 @@ final class ProductListCollectionViewCell: UICollectionViewCell {
     self.configureUI()
   }
   
+  func setup(product: Product) {
+    self.titleLabel.text = product.name
+    self.priceLabel.text = "\(product.price)"
+    self.bargainPriceLabel.text = "\(product.bargainPrice)"
+    self.stockLabel.text = "잔여수량: \(product.stock)"
+    self.productImageView.image = UIImage(data: convertImageFromData(url: product.thumbnail))
+  }
+  
+  private func convertImageFromData(url urlString: String) -> Data {
+    guard let url = URL(string: urlString),
+          let data = try? Data(contentsOf: url)
+    else { return Data() }
+    return data
+  }
+  
   private func configureUI() {
     self.contentView.addSubview(containerStackView)
     self.containerStackView.addArrangedSubview(productImageView)

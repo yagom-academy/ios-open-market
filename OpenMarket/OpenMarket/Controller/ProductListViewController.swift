@@ -7,7 +7,13 @@ import UIKit
 
 final class ProductListViewController: UIViewController {
   private let networkService = APINetworkService(urlSession: URLSession.shared)
-  private var productList = [Product]()
+  private var productList = [Product]() {
+    didSet {
+      DispatchQueue.main.async {
+        self.collectionView.reloadData()
+      }
+    }
+  }
 
   private let segmentControl: UISegmentedControl = {
     let segment = UISegmentedControl(items: ["LIST", "GRID"])
@@ -34,6 +40,7 @@ final class ProductListViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     self.configureUI()
+    self.loadProductListData(page: 1, itemPerPage: 10)
   }
   
   private func loadProductListData(page: Int, itemPerPage: Int) {
@@ -69,11 +76,12 @@ extension ProductListViewController: UICollectionViewDataSource {
     _ collectionView: UICollectionView,
     cellForItemAt indexPath: IndexPath
   ) -> UICollectionViewCell {
-    guard let cell = collectionView.dequeueReusableCell(
+    guard let listCell = collectionView.dequeueReusableCell(
       withReuseIdentifier: ProductListCollectionViewCell.identifier,
       for: indexPath) as? ProductListCollectionViewCell
     else { return ProductListCollectionViewCell() }
     
-    return cell
+    listCell.setup(product: self.productList[indexPath.row])
+    return listCell
   }
 }
