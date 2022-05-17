@@ -20,15 +20,20 @@ class OpenMarketViewController: UIViewController {
         
         self.view.addSubview(collectionView)
         self.collectionView.dataSource = self
+        self.collectionView.delegate = self
         self.collectionView.frame = self.view.safeAreaLayoutGuide.layoutFrame
         self.collectionView.register(ListCell.self, forCellWithReuseIdentifier: ListCell.identifier)
     }
     
     private func listCellLayout() -> UICollectionViewFlowLayout {
         let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .horizontal
+        layout.scrollDirection = .vertical
         return layout
     }
+}
+
+extension OpenMarketViewController: UICollectionViewDelegate {
+    
 }
 
 extension OpenMarketViewController: UICollectionViewDataSource {
@@ -40,12 +45,12 @@ extension OpenMarketViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        10
+        12
     }
 }
 
 extension OpenMarketViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: view.frame.width, height: view.frame.width / 5)
+        return CGSize(width: view.frame.width, height: view.frame.height / 16.5 )
     }
 }
