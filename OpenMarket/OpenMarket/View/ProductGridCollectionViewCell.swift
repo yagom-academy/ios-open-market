@@ -55,4 +55,35 @@ final class ProductGridCollectionViewCell: UICollectionViewCell {
     label.textColor = .systemGray
     return label
   }()
+  
+  override init(frame: CGRect) {
+    super.init(frame: frame)
+    self.configureUI()
+  }
+  
+  required init?(coder: NSCoder) {
+    super.init(coder: coder)
+    self.configureUI()
+  }
+  
+  private func configureUI() {
+    self.contentView.addSubview(containerStackView)
+    self.containerStackView.addArrangedSubview(productImageView)
+    self.containerStackView.addArrangedSubview(informationStackView)
+    self.containerStackView.addArrangedSubview(stockLabel)
+    
+    self.informationStackView.addArrangedSubview(titleLabel)
+    self.informationStackView.addArrangedSubview(priceStackView)
+    self.priceStackView.addArrangedSubview(priceLabel)
+    self.priceStackView.addArrangedSubview(bargainPriceLabel)
+    
+    self.containerStackView.translatesAutoresizingMaskIntoConstraints = false
+    NSLayoutConstraint.activate([
+      containerStackView.topAnchor.constraint(equalTo: contentView.topAnchor),
+      containerStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+      containerStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+      containerStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
+    ])
+  }
 }
+
