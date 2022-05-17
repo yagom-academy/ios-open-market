@@ -102,11 +102,12 @@ final class GridCollectionViewCell: UICollectionViewCell {
         
         if data.discountedPrice == 0 {
             productionPriceLabel.isHidden = true
-            sellingPriceLabel.toDecimal(with: data.currency, price: data.price)
+            sellingPriceLabel.update(with: data.currency, price: data.price)
         } else {
             productionPriceLabel.isHidden = false
             productionPriceLabel.addStrikeThrough(price: data.price)
-            sellingPriceLabel.toDecimal(with: data.currency, price: data.bargainPrice)
+            productionPriceLabel.update(with: data.currency, price: data.bargainPrice)
+            sellingPriceLabel.update(with: data.currency, price: data.bargainPrice)
         }
         
         stockLabel.textColor = data.stock == 0 ? .systemOrange : .systemGray

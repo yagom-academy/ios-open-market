@@ -17,7 +17,7 @@ extension UILabel {
         self.attributedText = underlineAttriString
     }
     
-    func toDecimal(with currency: String, price: Double) {
+    func update(with currency: String, price: Double) {
         let numberfommater = NumberFormatter()
         numberfommater.numberStyle = .decimal
 
