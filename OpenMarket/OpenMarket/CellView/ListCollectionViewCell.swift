@@ -34,7 +34,6 @@ class ListCollectionViewCell: UICollectionViewListCell, Contentable {
     }
     
     func configureSubViewStructure() {
-        // Add SubViews
         contentView.addSubview(mainStackView)
         mainStackView.addArrangedSubview(productImageView)
         informationStackView.addArrangedSubview(nameStockStackView)
@@ -56,8 +55,7 @@ class ListCollectionViewCell: UICollectionViewListCell, Contentable {
         
         productPriceLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         productBargainPriceLabel.setContentHuggingPriority(.defaultLow, for: .horizontal)
-        
-        // StackView Constraints
+
         mainStackView.translatesAutoresizingMaskIntoConstraints = false
         mainStackView.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
         mainStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
@@ -65,53 +63,8 @@ class ListCollectionViewCell: UICollectionViewListCell, Contentable {
         mainStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
         mainStackView.heightAnchor.constraint(equalToConstant: 60).isActive = true
 
-        // productImageView Constraints
         productImageView.heightAnchor.constraint(equalTo: mainStackView.heightAnchor, constant: -10).isActive = true
         productImageView.widthAnchor.constraint(equalTo: mainStackView.widthAnchor, multiplier: 0.15).isActive = true
-    }
-}
-
-extension UICollectionViewCell {
-    func createLabel(font: UIFont, textColor: UIColor, alignment: NSTextAlignment) -> UILabel {
-        let label = UILabel()
-        
-        label.font = font
-        label.textColor = textColor
-        label.textAlignment = alignment
-        
-        return label
-    }
-    
-    func createStackView(axis: NSLayoutConstraint.Axis, alignment: UIStackView.Alignment, distribution: UIStackView.Distribution, spacing: CGFloat) -> UIStackView {
-        let stackView = UIStackView()
-        
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.axis = axis
-        stackView.alignment = alignment
-        stackView.distribution = distribution
-        stackView.spacing = spacing
-        
-        return stackView
-    }
-    
-    func createStackView(axis: NSLayoutConstraint.Axis, alignment: UIStackView.Alignment, distribution: UIStackView.Distribution, spacing: CGFloat, margin: UIEdgeInsets) -> UIStackView {
-        let stackView = UIStackView()
-        
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.axis = axis
-        stackView.alignment = alignment
-        stackView.distribution = distribution
-        stackView.spacing = spacing
-        stackView.isLayoutMarginsRelativeArrangement = true
-        stackView.layoutMargins = margin
-        
-        return stackView
-    }
-    
-    func createImageView(contentMode: ContentMode) -> UIImageView {
-        let imageView = UIImageView()
-        imageView.contentMode = contentMode
-        return imageView
     }
 }
 
@@ -131,10 +84,4 @@ extension ListCollectionViewCell {
     }
 }
 
-protocol Contentable {
-    var productNameLabel: UILabel { get }
-    var productPriceLabel: UILabel { get }
-    var productBargainPriceLabel: UILabel { get }
-    var productStockLabel: UILabel { get }
-    var productImageView: UIImageView { get }
-}
+

@@ -30,7 +30,6 @@ class GridCollectionViewCell: UICollectionViewCell, Contentable {
     }
 
     func setUpSubViewStructure() {
-        // Add SubViews
         contentView.addSubview(mainStackView)
         mainStackView.addArrangedSubview(productImageView)
         mainStackView.addArrangedSubview(informationStackView)
@@ -51,8 +50,6 @@ class GridCollectionViewCell: UICollectionViewCell, Contentable {
         productImageView.heightAnchor.constraint(equalTo: mainStackView.heightAnchor, multiplier: 0.5).isActive = true
     }
 }
-
-
 
 extension GridCollectionViewCell {
     override func prepareForReuse() {
