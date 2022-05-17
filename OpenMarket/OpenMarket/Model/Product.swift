@@ -7,7 +7,8 @@
 
 import Foundation
 
-struct Product: Decodable {
+struct Product: Decodable, Hashable {
+    let identifier = UUID()
     let name: String
     let price: Int
     let bargainPrice: Int
