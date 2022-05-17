@@ -7,66 +7,52 @@
 
 import UIKit
 
-class GridCollectionViewCell: UICollectionViewCell {
+class GridCollectionViewCell: UICollectionViewCell, Contentable {
     lazy var productNameLabel = createLabel(font: .preferredFont(for: .title3, weight: .semibold), textColor: .black, alignment: .center)
-    
     lazy var productImageView = createImageView(contentMode: .scaleAspectFit)
-    
     lazy var productPriceLabel = createLabel(font: .preferredFont(forTextStyle: .body), textColor: .systemGray, alignment: .center)
-    
     lazy var productBargainPriceLabel = createLabel(font: .preferredFont(forTextStyle: .body), textColor: .systemGray, alignment: .center)
-    
     lazy var productStockLabel = createLabel(font: .preferredFont(forTextStyle: .body), textColor: .systemGray, alignment: .center)
-    
-    lazy var stackView = createStackView(axis: .vertical, alignment: .center, distribution: .fill, spacing: 5, margin: UIEdgeInsets(top: 10, left: 10, bottom: 5, right: 10))
-    
-    lazy var stackView0 = createStackView(axis: .vertical, alignment: .center, distribution: .fillProportionally, spacing: 0)
-    
-    lazy var stackView1 = createStackView(axis: .vertical, alignment: .center, distribution: .fillEqually, spacing: 5)
+    lazy var mainStackView = createStackView(axis: .vertical, alignment: .center, distribution: .fill, spacing: 5, margin: UIEdgeInsets(top: 10, left: 10, bottom: 5, right: 10))
+    lazy var priceStackView = createStackView(axis: .vertical, alignment: .center, distribution: .fillProportionally, spacing: 0)
+    lazy var informationStackView = createStackView(axis: .vertical, alignment: .center, distribution: .fillEqually, spacing: 5)
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        setUpCell()
+        setUpSubViewStructure()
+        setUpLayoutConstraints()
     }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setUpCell()
+        setUpSubViewStructure()
+        setUpLayoutConstraints()
     }
 
-    func setUpCell() {
+    func setUpSubViewStructure() {
         // Add SubViews
-        contentView.addSubview(stackView)
+        contentView.addSubview(mainStackView)
+        mainStackView.addArrangedSubview(productImageView)
+        mainStackView.addArrangedSubview(informationStackView)
+        informationStackView.addArrangedSubview(productNameLabel)
+        informationStackView.addArrangedSubview(priceStackView)
+        informationStackView.addArrangedSubview(productStockLabel)
+        priceStackView.addArrangedSubview(productPriceLabel)
+        priceStackView.addArrangedSubview(productBargainPriceLabel)
         
-        stackView.addArrangedSubview(productImageView)
-        stackView.addArrangedSubview(stackView1)
-        
-        stackView1.addArrangedSubview(productNameLabel)
-        stackView1.addArrangedSubview(stackView0)
-        stackView1.addArrangedSubview(productStockLabel)
-        
-        stackView0.addArrangedSubview(productPriceLabel)
-        stackView0.addArrangedSubview(productBargainPriceLabel)
-        
-        // StackView Constraints
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
-        stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
-        stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
-        stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
-
-        productImageView.heightAnchor.constraint(equalTo: stackView.heightAnchor, multiplier: 0.5).isActive = true
+    }
+    
+    func setUpLayoutConstraints() {
+        mainStackView.translatesAutoresizingMaskIntoConstraints = false
+        mainStackView.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
+        mainStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
+        mainStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
+        mainStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
+        productImageView.heightAnchor.constraint(equalTo: mainStackView.heightAnchor, multiplier: 0.5).isActive = true
     }
 }
 
-extension UIFont {
-    static func preferredFont(for style: TextStyle, weight: Weight) -> UIFont {
-        let metrics = UIFontMetrics(forTextStyle: style)
-        let desc = UIFontDescriptor.preferredFontDescriptor(withTextStyle: style)
-        let font = UIFont.systemFont(ofSize: desc.pointSize, weight: weight)
-        return metrics.scaledFont(for: font)
-    }
-}
+
 
 extension GridCollectionViewCell {
     override func prepareForReuse() {
@@ -81,6 +67,6 @@ extension GridCollectionViewCell {
         productBargainPriceLabel.textColor = .systemGray
         productBargainPriceLabel.text = ""
         
-        productImageView.heightAnchor.constraint(equalTo: stackView.heightAnchor, multiplier: 0.5).isActive = true
+        productImageView.heightAnchor.constraint(equalTo: mainStackView.heightAnchor, multiplier: 0.5).isActive = true
     }
 }
