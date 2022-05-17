@@ -19,7 +19,7 @@ final class ProductGridCollectionViewCell: UICollectionViewCell {
   private let informationStackView: UIStackView = {
     let stackView = UIStackView()
     stackView.axis = .vertical
-    stackView.spacing = 6.0
+    stackView.spacing = 20.0
     return stackView
   }()
   
@@ -74,11 +74,22 @@ final class ProductGridCollectionViewCell: UICollectionViewCell {
   }
   
   func setup(product: Product) {
+    self.setPriceLabel(product)
+    self.setStockLabel(product)
     self.titleLabel.text = product.name
     self.priceLabel.setStrike(text: "\(product.currency.rawValue) \(product.price.toDecimal)")
     self.bargainPriceLabel.text = "\(product.currency.rawValue) \(product.bargainPrice.toDecimal)"
-    self.setStockLabel(product)
     self.productImageView.image = UIImage(data: convertImageFromData(url: product.thumbnail))
+  }
+  
+  private func setPriceLabel(_ product: Product) {
+    if product.discountedPrice == .zero {
+      self.informationStackView.spacing = 20.0
+      self.priceLabel.isHidden = true
+    } else {
+      self.informationStackView.spacing = 10.0
+      self.priceLabel.isHidden = false
+    }
   }
   
   private func setStockLabel(_ product: Product) {
@@ -105,10 +116,11 @@ final class ProductGridCollectionViewCell: UICollectionViewCell {
     self.contentView.addSubview(containerStackView)
     self.containerStackView.addArrangedSubview(productImageView)
     self.containerStackView.addArrangedSubview(informationStackView)
-    self.containerStackView.addArrangedSubview(stockLabel)
+    //self.containerStackView.addArrangedSubview(stockLabel)
     
     self.informationStackView.addArrangedSubview(titleLabel)
     self.informationStackView.addArrangedSubview(priceStackView)
+    self.informationStackView.addArrangedSubview(stockLabel)
     self.priceStackView.addArrangedSubview(priceLabel)
     self.priceStackView.addArrangedSubview(bargainPriceLabel)
     

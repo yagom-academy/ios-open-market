@@ -87,6 +87,7 @@ final class ProductListCollectionViewCell: UICollectionViewCell {
   
   func setup(product: Product) {
     self.titleLabel.text = product.name
+    self.priceLabel.isHidden = product.discountedPrice == .zero
     self.priceLabel.setStrike(text: "\(product.currency.rawValue) \(product.price.toDecimal)")
     self.bargainPriceLabel.text = "\(product.currency.rawValue) \(product.bargainPrice.toDecimal)"
     self.setStockLabel(product)
