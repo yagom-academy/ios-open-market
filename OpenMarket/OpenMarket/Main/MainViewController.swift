@@ -20,8 +20,8 @@ final class MainViewController: UIViewController {
     
     private lazy var mainView = MainView(frame: self.view.bounds)
     private lazy var dataSource = makeDataSource()
+    private lazy var snapshot = makeSnapshot()
     
-    private var products = [Product]()
     private var pageNumber = 1
     
     private var networkManager = NetworkManager<ProductList>(imageCache: CacheManager())
@@ -38,6 +38,7 @@ final class MainViewController: UIViewController {
         configureNavigationBar()
         configureRefreshControl()
         requestData(pageNumber: pageNumber)
+        
     }
     
     private func configureView() {
@@ -75,7 +76,8 @@ extension MainViewController {
     
     @objc private func handleRefreshControl() {
         pageNumber = 1
-        products.removeAll()
+        snapshot = makeSnapshot()
+
         networkManager.clearCache()
         requestData(pageNumber: pageNumber)
     }
@@ -92,8 +94,8 @@ extension MainViewController {
             case .success(let data):
                 guard let result = data.products else { return }
                 
-                self?.products.append(contentsOf: result)
-                self?.applySnapshot()
+                //self?.products.append(contentsOf: result)
+                self?.applySnapshot(products: result)
                 
                 DispatchQueue.main.async {
                     self?.mainView.indicatorView.stopAnimating()
@@ -137,12 +139,17 @@ extension MainViewController {
         
         return dataSource
     }
+     
+    private func makeSnapshot() -> Snapshot {
+        var snapshot = dataSource.snapshot()
+        snapshot.deleteAllItems()
+        snapshot.appendSections([.main])
+        
+        return snapshot
+    }
     
-    private func applySnapshot() {
+    private func applySnapshot(products: [Product]) {
         DispatchQueue.main.async { [self] in
-            var snapshot = Snapshot()
-            
-            snapshot.appendSections([.main])
             snapshot.appendItems(products)
             dataSource.apply(snapshot)
         }
