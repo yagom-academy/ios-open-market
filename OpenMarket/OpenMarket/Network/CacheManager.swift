@@ -8,7 +8,7 @@
 import Foundation
 
 final class CacheManager<T: AnyObject> {
-    let cache = NSCache<NSString, T>()
+    private let cache = NSCache<NSString, T>()
     
     func set(object: T, forKey url: URL) {
         cache.setObject(object, forKey: url.absoluteString as NSString)
@@ -16,5 +16,9 @@ final class CacheManager<T: AnyObject> {
     
     func get(forKey url: URL) -> T? {
         cache.object(forKey: url.absoluteString as NSString)
+    }
+    
+    func clear() {
+        cache.removeAllObjects()
     }
 }

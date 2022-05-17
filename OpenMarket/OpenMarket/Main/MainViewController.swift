@@ -46,6 +46,7 @@ final class MainViewController: UIViewController {
         super.viewDidLoad()
         configureView()
         configureNavigationBar()
+        configureRefreshControl()
         requestData(pageNumber: pageNumber)
     }
     
@@ -65,6 +66,11 @@ final class MainViewController: UIViewController {
         mainView.collectionView.register(ProductListCell.self, forCellWithReuseIdentifier: ProductListCell.identifier)
         mainView.collectionView.prefetchDataSource = self
     }
+    
+    private func configureRefreshControl() {
+        mainView.collectionView.refreshControl = UIRefreshControl()
+        mainView.collectionView.refreshControl?.addTarget(self, action: #selector(handleRefreshControl), for: .valueChanged)
+    }
 }
 
 // MARK: - Action Method
@@ -75,6 +81,13 @@ extension MainViewController {
     @objc private func segmentValueDidChanged(segmentedControl: UISegmentedControl) {
         mainView.changeLayout(index: segmentedControl.selectedSegmentIndex)
         mainView.collectionView.reloadData()
+    }
+    
+    @objc private func handleRefreshControl() {
+        pageNumber = 1
+        products.removeAll()
+        networkManager.clearCache()
+        requestData(pageNumber: pageNumber)
     }
 }
 
@@ -94,6 +107,7 @@ extension MainViewController {
                 
                 DispatchQueue.main.async {
                     self?.mainView.indicatorView.stopAnimating()
+                    self?.mainView.collectionView.refreshControl?.endRefreshing()
                 }
             case .failure(_):
                 break

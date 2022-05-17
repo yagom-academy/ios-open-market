@@ -24,6 +24,10 @@ struct NetworkManager<T: Codable> {
         self.cacheManager = imageCache
     }
     
+    func clearCache() {
+        cacheManager?.clear()
+    }
+    
     func checkServerState(completion: @escaping (Result<String, NetworkErorr>) -> Void) {
         guard let urlRequst = EndPoint.serverState(httpMethod: .get).urlRequst else {
             completion(.failure(.urlError))
