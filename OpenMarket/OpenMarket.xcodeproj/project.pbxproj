@@ -14,6 +14,7 @@
 		0E70314A2829F777002134CF /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E7031492829F777002134CF /* Product.swift */; };
 		0EC4B1CD282DF4420052F39B /* HTTPManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC4B1CC282DF4420052F39B /* HTTPManagerTests.swift */; };
 		0ED7574C282DF52E00C05FC1 /* MockURLProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED7574B282DF52E00C05FC1 /* MockURLProtocol.swift */; };
+		6724FDB8283370CC00183FC8 /* ProductGridCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6724FDB7283370CC00183FC8 /* ProductGridCell.swift */; };
 		675D90DE282A2D5B00A46468 /* HTTPManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 675D90DD282A2D5B00A46468 /* HTTPManager.swift */; };
 		675D90ED282BA28900A46468 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 675D90EC282BA28900A46468 /* NetworkError.swift */; };
 		678EA5AE2833304B005CE9EA /* BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 678EA5AD2833304B005CE9EA /* BaseView.swift */; };
@@ -44,6 +45,7 @@
 		0EC4B1CA282DF4420052F39B /* HTTPManagerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HTTPManagerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0EC4B1CC282DF4420052F39B /* HTTPManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPManagerTests.swift; sourceTree = "<group>"; };
 		0ED7574B282DF52E00C05FC1 /* MockURLProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLProtocol.swift; sourceTree = "<group>"; };
+		6724FDB7283370CC00183FC8 /* ProductGridCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductGridCell.swift; sourceTree = "<group>"; };
 		675D90DD282A2D5B00A46468 /* HTTPManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPManager.swift; sourceTree = "<group>"; };
 		675D90EC282BA28900A46468 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 		678EA5AD2833304B005CE9EA /* BaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseView.swift; sourceTree = "<group>"; };
@@ -152,6 +154,7 @@
 				678EA5AD2833304B005CE9EA /* BaseView.swift */,
 				0E09C88328333EE7004E4568 /* ProductListCell.swift */,
 				0E09C88528336508004E4568 /* CellUIComponent.swift */,
+				6724FDB7283370CC00183FC8 /* ProductGridCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -305,6 +308,7 @@
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 				0E09C88928336E01004E4568 /* UIStackView+.swift in Sources */,
 				0E6DF3CB282A0C0F0076E0C6 /* DecodingError.swift in Sources */,
+				6724FDB8283370CC00183FC8 /* ProductGridCell.swift in Sources */,
 				678EA5AE2833304B005CE9EA /* BaseView.swift in Sources */,
 				675D90ED282BA28900A46468 /* NetworkError.swift in Sources */,
 				675D90DE282A2D5B00A46468 /* HTTPManager.swift in Sources */,
