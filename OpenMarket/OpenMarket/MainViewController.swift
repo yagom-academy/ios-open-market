@@ -20,6 +20,28 @@ final class MainViewController: UIViewController, NetworkAble {
     var dataSource: UICollectionViewDiffableDataSource<Section, ProductInformation>!
     var collectionView: UICollectionView!
     
+    private lazy var listLayout: UICollectionViewCompositionalLayout = {
+        let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
+        return UICollectionViewCompositionalLayout.list(using: configuration)
+    }()
+    
+    private lazy var gridLayout: UICollectionViewLayout = {
+        let flowLayout = UICollectionViewFlowLayout()
+        let inset: CGFloat = 20
+        let rowItems = 2
+        flowLayout.minimumLineSpacing = inset
+        flowLayout.minimumInteritemSpacing = inset
+        flowLayout.scrollDirection = .vertical
+        flowLayout.itemSize = CGSize(
+            width: (view.safeAreaLayoutGuide.layoutFrame.width / CGFloat(rowItems)) - (inset * 1.5),
+            height: view.safeAreaLayoutGuide.layoutFrame.height / 2 - inset
+        )
+        flowLayout.sectionInset.left = inset
+        flowLayout.sectionInset.right = inset
+        
+        return flowLayout
+    }()
+    
     private lazy var segmentedControl: UISegmentedControl = {
         let segment = UISegmentedControl(items: ["LIST", "GRID"])
         segment.selectedSegmentIndex = 0
@@ -62,24 +84,19 @@ final class MainViewController: UIViewController, NetworkAble {
         switch sender.selectedSegmentIndex {
         case 0:
             self.status = 0
-            collectionView.setCollectionViewLayout(creatListLayout(), animated: true)
+            collectionView.setCollectionViewLayout(listLayout, animated: true)
             collectionView.reloadData()
         case 1:
             self.status = 1
-            collectionView.setCollectionViewLayout(createGridLayout(), animated: true)
+            collectionView.setCollectionViewLayout(gridLayout, animated: true)
             collectionView.reloadData()
         default:
             return
         }
     }
-    
-    private func creatListLayout() -> UICollectionViewCompositionalLayout {
-        let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
-        return UICollectionViewCompositionalLayout.list(using: configuration)
-    }
-    
+
     private func configureCollectionView() {
-        collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: creatListLayout())
+        collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: listLayout)
         view.addSubview(collectionView)
         collectionView.delegate = self
     }
@@ -119,17 +136,7 @@ final class MainViewController: UIViewController, NetworkAble {
         }
     }
     
-    private func createGridLayout() -> UICollectionViewLayout {
-        let flowLayout = UICollectionViewFlowLayout()
-//        flowLayout.minimumLineSpacing = 20
-//        flowLayout.minimumInteritemSpacing = 10
-        flowLayout.scrollDirection = .vertical
-        flowLayout.itemSize = CGSize(
-            width: view.frame.size.width / 2 - 20,
-            height: view.frame.size.height / 2
-        )
-        return flowLayout
-    }
+    
 }
 
 extension MainViewController: UICollectionViewDelegate {
