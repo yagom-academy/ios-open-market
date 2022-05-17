@@ -7,7 +7,6 @@
 
 import UIKit
 
-@available(iOS 14.0, *)
 final class ListCollectionViewCell: UICollectionViewListCell {
     
     static var identifier: String {
@@ -22,24 +21,23 @@ final class ListCollectionViewCell: UICollectionViewListCell {
     
     private let stock = UILabel()
     
-    func setConstrait() {
+    private func setConstraint() {
         [listContentView, stock].forEach {
             contentView.addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
         
         stock.setContentHuggingPriority(.defaultHigh, for: .horizontal)
-
+        
         NSLayoutConstraint.activate([
             listContentView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             listContentView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             listContentView.topAnchor.constraint(equalTo: contentView.topAnchor),
-                stock.leadingAnchor.constraint(greaterThanOrEqualTo: listContentView.trailingAnchor),
-                stock.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            stock.leadingAnchor.constraint(greaterThanOrEqualTo: listContentView.trailingAnchor),
+            stock.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             stock.widthAnchor.constraint(lessThanOrEqualTo: listContentView.widthAnchor, multiplier: 0.5)
         ])
     }
-    
     
     func configureContent(productInformation product: ProductInformation) {
         
@@ -51,15 +49,16 @@ final class ListCollectionViewCell: UICollectionViewListCell {
         
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .decimal
+        
         switch product.currency {
         case Currency.KRW.rawValue:
             numberFormatter.maximumFractionDigits = 0
         default:
             numberFormatter.maximumFractionDigits = 1
         }
-        numberFormatter.maximumFractionDigits = 0
+        
         let stringPrice = numberFormatter.string(for: product.price) ?? ""
-
+        
         if product.discountedPrice == 0 {
             configure.secondaryText = "\(product.currency) \(stringPrice)"
         } else {
@@ -70,7 +69,7 @@ final class ListCollectionViewCell: UICollectionViewListCell {
         }
         
         listContentView.configuration = configure
-
+        
         if product.stock == 0 {
             stock.text = "품절"
             stock.textColor = .orange
@@ -78,7 +77,7 @@ final class ListCollectionViewCell: UICollectionViewListCell {
             stock.text = "잔여수량: \(product.stock)"
             stock.textColor = .black
         }
-        setConstrait()
+        setConstraint()
     }
 }
 

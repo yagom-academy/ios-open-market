@@ -38,7 +38,6 @@ final class MainViewController: UIViewController, NetworkAble {
         )
         flowLayout.sectionInset.left = inset
         flowLayout.sectionInset.right = inset
-        
         return flowLayout
     }()
     
@@ -105,12 +104,13 @@ final class MainViewController: UIViewController, NetworkAble {
         dataSource = UICollectionViewDiffableDataSource<Section, ProductInformation>(collectionView: collectionView) {
             (collectionView: UICollectionView, indexPath: IndexPath, identifier: ProductInformation) in
             switch self.status {
-        case 0:
+            case 0:
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ListCollectionViewCell.identifier, for: indexPath) as? ListCollectionViewCell else { return UICollectionViewListCell() }
                 cell.accessories = [.disclosureIndicator()]
                 cell.configureContent(productInformation: identifier)
                 return cell
-        case 1:
+                
+            case 1:
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: GridCollectionViewCell.identifier, for: indexPath) as? GridCollectionViewCell else { return UICollectionViewCell() }
                 cell.configureContent(productInformation: identifier)
                 return cell
@@ -132,11 +132,8 @@ final class MainViewController: UIViewController, NetworkAble {
             snapshot.appendItems(pageInformation.pages)
             self.dataSource.apply(snapshot, animatingDifferences: true)
         } errorHandler: { error in
-//            print(error)
         }
     }
-    
-    
 }
 
 extension MainViewController: UICollectionViewDelegate {
