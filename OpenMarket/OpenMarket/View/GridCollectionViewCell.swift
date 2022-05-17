@@ -49,7 +49,9 @@ final class GridCollectionViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
+        contentView.layer.borderColor = UIColor.gray.cgColor
+        contentView.layer.borderWidth = 1
+        contentView.layer.cornerRadius = 5
         setCellView()
     }
     
@@ -73,7 +75,7 @@ final class GridCollectionViewCell: UICollectionViewCell {
     func configureContent(productInformation product: ProductInformation) {        
         productImage.image = product.thumbnailImage
         productTitle.text = product.name
-        productPrice.text = "\( product.currency) + \(product.price)"
+        productPrice.text = "\( product.currency) \(product.price)"
         discountPrice.text = "\(product.discountedPrice)"
         if product.stock == 0 {
             stock.text = "품절"
