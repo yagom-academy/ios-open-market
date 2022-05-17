@@ -27,13 +27,16 @@ final class ListCollectionViewCell: UICollectionViewListCell {
             contentView.addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
+        
+        stock.setContentHuggingPriority(.defaultHigh, for: .horizontal)
 
         NSLayoutConstraint.activate([
-            stock.leadingAnchor.constraint(greaterThanOrEqualTo: listContentView.leadingAnchor),
-            stock.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             listContentView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             listContentView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            listContentView.topAnchor.constraint(equalTo: contentView.topAnchor)
+            listContentView.topAnchor.constraint(equalTo: contentView.topAnchor),
+                stock.leadingAnchor.constraint(greaterThanOrEqualTo: listContentView.trailingAnchor),
+                stock.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            stock.widthAnchor.constraint(lessThanOrEqualTo: listContentView.widthAnchor, multiplier: 0.5)
         ])
     }
     
@@ -41,28 +44,49 @@ final class ListCollectionViewCell: UICollectionViewListCell {
     func configureContent(productInformation product: ProductInformation) {
         
         var configure = defaultListConfiguration()
-        
         configure.image = product.thumbnailImage
         configure.imageProperties.maximumSize = CGSize(width: 50, height: 50)
         configure.text = product.name
         configure.textProperties.font = .preferredFont(forTextStyle: .headline)
         
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .decimal
+        switch product.currency {
+        case Currency.KRW.rawValue:
+            numberFormatter.maximumFractionDigits = 0
+        default:
+            numberFormatter.maximumFractionDigits = 1
+        }
+        numberFormatter.maximumFractionDigits = 0
+        let stringPrice = numberFormatter.string(for: product.price) ?? ""
+
         if product.discountedPrice == 0 {
-            configure.secondaryText = "\(product.currency) \(product.price)"
+            configure.secondaryText = "\(product.currency) \(stringPrice)"
         } else {
-            configure.secondaryText = "\(product.discountedPrice) \(product.currency) \(product.discountedPrice) \(product.price) "
-            //일부글자 폰트 바꾸도록 설정
+            let stringDiscountedPrice = numberFormatter.string(for: product.discountedPrice) ?? ""
+            let letter = "\(product.currency) \(stringPrice)"
+            let text = letter + " \(product.currency) \(stringDiscountedPrice)"
+            configure.secondaryAttributedText = NSMutableAttributedString(allText: text, redText: letter)
         }
         
         listContentView.configuration = configure
 
         if product.stock == 0 {
             stock.text = "품절"
-            stock.textColor = .yellow
+            stock.textColor = .orange
         } else {
             stock.text = "잔여수량: \(product.stock)"
             stock.textColor = .black
         }
         setConstrait()
+    }
+}
+
+private extension NSMutableAttributedString {
+    convenience init(allText: String, redText: String) {
+        self.init(string: allText)
+        self.addAttribute(.foregroundColor, value: UIColor.red, range: (allText as NSString).range(of: redText))
+        self.addAttribute(.strikethroughColor, value: UIColor.red, range: (allText as NSString).range(of: redText))
+        self.addAttribute(.strikethroughStyle, value: 1, range: (allText as NSString).range(of: redText))
     }
 }
