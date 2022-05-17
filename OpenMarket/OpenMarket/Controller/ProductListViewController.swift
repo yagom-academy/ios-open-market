@@ -14,6 +14,11 @@ final class ProductListViewController: UIViewController {
       }
     }
   }
+  
+  private lazy var addProductButton = UIBarButtonItem(
+    barButtonSystemItem: .add,
+    target: self,
+    action: #selector(didTapAddProductButton))
 
   private lazy var segmentControl: UISegmentedControl = {
     let segment = UISegmentedControl(items: ["LIST", "GRID"])
@@ -53,6 +58,8 @@ final class ProductListViewController: UIViewController {
     }
   }
   
+  @objc func didTapAddProductButton(_ sender: UIBarButtonItem) {}
+  
   @objc func changeLayout(_ sender: UISegmentedControl) {
     switch sender.selectedSegmentIndex {
     case 0:
@@ -73,6 +80,7 @@ final class ProductListViewController: UIViewController {
   
   private func configureUI() {
     self.view.backgroundColor = .systemBackground
+    self.navigationItem.rightBarButtonItem = addProductButton
     self.navigationItem.titleView = segmentControl
     self.view.addSubview(collectionView)
     self.collectionView.translatesAutoresizingMaskIntoConstraints = false
