@@ -69,10 +69,15 @@ final class MainViewController: UIViewController {
   
   private func configureCollectionView() {
     self.view.addSubview(collectionView)
-    collectionView.frame = self.view.safeAreaLayoutGuide.layoutFrame
+    let safeArea = self.view.safeAreaLayoutGuide
+    collectionView.translatesAutoresizingMaskIntoConstraints = false
+    NSLayoutConstraint.activate([collectionView.leftAnchor.constraint(equalTo: safeArea.leftAnchor),
+                                 collectionView.rightAnchor.constraint(equalTo: safeArea.rightAnchor),
+                                 collectionView.topAnchor.constraint(equalTo: safeArea.topAnchor),
+                                 collectionView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor)
+                                ])
     self.collectionView.register(ListCell.self, forCellWithReuseIdentifier: "ListCell")
     self.collectionView.register(GridCell.self, forCellWithReuseIdentifier: "GridCell")
-    self.collectionView.collectionViewLayout = configureListLayout()
   }
   
   private func configureNavigationItems() {
