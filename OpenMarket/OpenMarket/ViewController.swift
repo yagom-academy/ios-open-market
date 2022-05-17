@@ -26,8 +26,10 @@ class ViewController: UIViewController {
         self.navigationItem.rightBarButtonItem = plusButton
         self.view.addSubview(collectionView)
         self.navigationController?.navigationBar.backgroundColor = .systemGroupedBackground
-
-            setData()
+        self.view.addSubview(activityIndicator)
+        self.activityIndicator.startAnimating()
+        
+        setData()
         
         segmentLayout()
         configureCollectionView()
@@ -40,10 +42,12 @@ class ViewController: UIViewController {
     
     private func setData() {
         RequestAssistant.shared.requestListAPI(pageNumber: 1, itemsPerPage: 20) { result in
+            Thread.sleep(forTimeInterval: 5)
             switch result {
             case .success(let dataa):
                 self.data = dataa.pages
                 DispatchQueue.main.async {
+                    self.activityIndicator.stopAnimating()
                     self.collectionView.reloadData()
                 }
             case .failure(_):
@@ -52,6 +56,16 @@ class ViewController: UIViewController {
             
         }
     }
+    
+    lazy var activityIndicator: UIActivityIndicatorView = {
+        let activityIndicator = UIActivityIndicatorView()
+        activityIndicator.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
+        activityIndicator.center = self.view.center
+        activityIndicator.color = UIColor.systemBlue
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.style = UIActivityIndicatorView.Style.medium
+        return activityIndicator
+    }()
     
     private func listLayout() -> UICollectionViewCompositionalLayout {
         var listConfiguration = UICollectionLayoutListConfiguration(appearance: .plain)
