@@ -1,0 +1,14 @@
+disabled_rules:
+- void_return
+- vertical_parameter_alignment
+- trailing_whitespace
+- identifier_name
+- vertical_whitespace
+- line_length
+- unused_optional_binding
+- comment_spacing
+- empty_enum_arguments
+- xctfail_message
+
+excluded:
+- Pods
