@@ -77,7 +77,11 @@ final class ProductGridCollectionViewCell: UICollectionViewCell {
     self.titleLabel.text = product.name
     self.priceLabel.setStrike(text: "\(product.currency.rawValue) \(product.price)")
     self.bargainPriceLabel.text = "\(product.currency.rawValue) \(product.bargainPrice)"
-    
+    self.setStockLabel(product)
+    self.productImageView.image = UIImage(data: convertImageFromData(url: product.thumbnail))
+  }
+  
+  private func setStockLabel(_ product: Product) {
     if product.stock == 0 {
       self.stockLabel.textColor = .systemOrange
       self.stockLabel.text = "품절"
@@ -85,9 +89,6 @@ final class ProductGridCollectionViewCell: UICollectionViewCell {
       self.stockLabel.textColor = .secondaryLabel
       self.stockLabel.text = "잔여수량: \(product.stock)"
     }
-    
-
-    self.productImageView.image = UIImage(data: convertImageFromData(url: product.thumbnail))
   }
   
   private func convertImageFromData(url urlString: String) -> Data {
