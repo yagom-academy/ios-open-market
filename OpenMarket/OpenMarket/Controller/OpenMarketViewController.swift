@@ -11,12 +11,22 @@ class OpenMarketViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        setup()
+    }
+    
+    func setup() {
+//        NSLayoutConstraint
+//        collectionView
+        
+        self.view.addSubview(collectionView)
+        self.collectionView.dataSource = self
+        self.collectionView.frame = self.view.safeAreaLayoutGuide.layoutFrame
+        self.collectionView.register(ListCell.self, forCellWithReuseIdentifier: ListCell.identifier)
     }
     
     private func listCellLayout() -> UICollectionViewFlowLayout {
         let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .vertical
+        layout.scrollDirection = .horizontal
         return layout
     }
 }
