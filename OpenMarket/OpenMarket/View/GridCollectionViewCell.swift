@@ -20,6 +20,7 @@ final class GridCollectionViewCell: UICollectionViewCell {
     
     private lazy var productTitle: UILabel = {
         let label = UILabel()
+        label.font = UIFont.preferredFont(forTextStyle: .headline)
         return label
     }()
     
@@ -42,7 +43,7 @@ final class GridCollectionViewCell: UICollectionViewCell {
         let view = UIStackView(arrangedSubviews: [productImage, productTitle, productPrice, discountPrice, stock])
         view.translatesAutoresizingMaskIntoConstraints = false
         view.alignment = .center
-        view.distribution = .fill
+        view.distribution = .equalSpacing
         view.axis = .vertical
         return view
     }()
@@ -61,9 +62,10 @@ final class GridCollectionViewCell: UICollectionViewCell {
     
     private func setCellView() {
         contentView.addSubview(verticalStackView)
+        let inset: CGFloat = 20
         NSLayoutConstraint.activate([
-            verticalStackView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            verticalStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            verticalStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: inset),
+            verticalStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -inset),
             verticalStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             verticalStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             
@@ -72,17 +74,44 @@ final class GridCollectionViewCell: UICollectionViewCell {
         ])
     }
     
-    func configureContent(productInformation product: ProductInformation) {        
+    func configureContent(productInformation product: ProductInformation) {
+        
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .decimal
+        
+        switch product.currency {
+        case Currency.KRW.rawValue:
+            numberFormatter.maximumFractionDigits = 0
+        default:
+            numberFormatter.maximumFractionDigits = 1
+        }
+        let stringPrice = numberFormatter.string(for: product.price) ?? ""
+        let stringDiscountedPrice = numberFormatter.string(for: product.discountedPrice) ?? ""
+        
         productImage.image = product.thumbnailImage
         productTitle.text = product.name
-        productPrice.text = "\( product.currency) \(product.price)"
-        discountPrice.text = "\(product.discountedPrice)"
+        
+        if product.discountedPrice == 0 {
+            discountPrice.isHidden = true
+            productPrice.text = "\(product.currency) \(stringPrice)"
+        } else {
+            discountPrice.isHidden = false
+            let priceText = "\(product.currency) \(stringPrice)"
+            productPrice.attributedText = NSMutableAttributedString(allText: priceText, redText: priceText)
+            discountPrice.text = "\(product.currency) \(stringDiscountedPrice)"
+        }
+        
         if product.stock == 0 {
             stock.text = "품절"
-            stock.textColor = .yellow
+            stock.textColor = .orange
         } else {
-            stock.text = "판매수량: \(product.stock)"
+            stock.text = "잔여수량: \(product.stock)"
             stock.textColor = .black
         }
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        productPrice.attributedText = nil
     }
 }

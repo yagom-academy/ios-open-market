@@ -10,8 +10,8 @@ final class MainViewController: UIViewController, NetworkAble {
     
     let session: URLSessionProtocol = URLSession.shared
     var status = 0
-    var pageNo = 3
-    var itemsPerPage = 30
+    var pageNo = 4
+    var itemsPerPage = 40
     
     enum Section {
         case main
@@ -34,7 +34,7 @@ final class MainViewController: UIViewController, NetworkAble {
         flowLayout.scrollDirection = .vertical
         flowLayout.itemSize = CGSize(
             width: (view.safeAreaLayoutGuide.layoutFrame.width / CGFloat(rowItems)) - (inset * 1.5),
-            height: view.safeAreaLayoutGuide.layoutFrame.height / 2 - inset
+            height: view.safeAreaLayoutGuide.layoutFrame.height / 2.5 - inset
         )
         flowLayout.sectionInset.left = inset
         flowLayout.sectionInset.right = inset
