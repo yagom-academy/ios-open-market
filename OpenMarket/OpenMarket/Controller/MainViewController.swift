@@ -21,6 +21,7 @@ final class MainViewController: UIViewController {
     private lazy var imageCacheManager = ImageCacheManager<Products>(apiService: productsAPIServie)
         
     private var items: [Item] = []
+    private var currentPage = 1
     
     override func loadView() {
         super.loadView()
@@ -32,7 +33,7 @@ final class MainViewController: UIViewController {
         setUpNavigationItem()
         setUpCollectionView()
         setUpSegmentControl()
-        requestProducts()
+        requestProducts(by: currentPage)
     }
     
     private func setUpNavigationItem() {
@@ -49,6 +50,7 @@ final class MainViewController: UIViewController {
             GridCollectionViewCell.self,
             forCellWithReuseIdentifier: GridCollectionViewCell.identifier
         )
+        mainView.collectionView.prefetchDataSource = self
     }
     
     private func setUpSegmentControl() {
@@ -59,8 +61,8 @@ final class MainViewController: UIViewController {
         mainView.setUpLayout(segmentIndex: mainView.segmentControl.selectedSegmentIndex)
     }
     
-    private func requestProducts() {
-        let endpoint = EndPointStorage.productsList(pageNumber: 1, perPages: 10)
+    private func requestProducts(by page: Int) {
+        let endpoint = EndPointStorage.productsList(pageNumber: page, perPages: 20)
         
         productsAPIServie.request(with: endpoint) { result in
             switch result {
@@ -121,6 +123,17 @@ final class MainViewController: UIViewController {
             snapshot.appendSections([.main])
             snapshot.appendItems(self.items, toSection: .main)
             self.datasource.apply(snapshot, animatingDifferences: animatingDifferences)
+        }
+    }
+}
+
+extension MainViewController: UICollectionViewDataSourcePrefetching {
+    func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
+        indexPaths.forEach { indexPath in
+            if indexPath.row == items.count - 1 {
+                currentPage += 1
+                requestProducts(by: currentPage)
+            }
         }
     }
 }
