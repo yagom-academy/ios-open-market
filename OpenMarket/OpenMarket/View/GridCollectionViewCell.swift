@@ -56,6 +56,7 @@ final class GridCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .title3)
         label.textAlignment = .center
+        label.setContentHuggingPriority(.defaultHigh, for: .vertical)
         return label
     }()
     
@@ -70,6 +71,7 @@ final class GridCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.textColor = .systemGray2
         label.textAlignment = .center
+        label.setContentHuggingPriority(.defaultLow, for: .vertical)
         return label
     }()
     
@@ -95,7 +97,7 @@ final class GridCollectionViewCell: UICollectionViewCell {
         
         NSLayoutConstraint.activate([
             productImageView.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.5),
-            productImageView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.9),
+            productImageView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.8),
         ])
         
         NSLayoutConstraint.activate([
@@ -103,6 +105,10 @@ final class GridCollectionViewCell: UICollectionViewCell {
             indicatorView.bottomAnchor.constraint(equalTo: productImageView.bottomAnchor, constant: 0),
             indicatorView.leadingAnchor.constraint(equalTo: productImageView.leadingAnchor, constant: 0),
             indicatorView.trailingAnchor.constraint(equalTo: productImageView.trailingAnchor, constant: 0),
+        ])
+        
+        NSLayoutConstraint.activate([
+            productNameLabel.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.8),
         ])
     }
     
@@ -126,7 +132,7 @@ final class GridCollectionViewCell: UICollectionViewCell {
         }
         
         stockLabel.textColor = data.stock == 0 ? .systemOrange : .systemGray
-        stockLabel.update(by: data.stock)
+        stockLabel.text = data.stock == 0 ? "품절 " : "잔여수량 : \(data.stock) "
     }
     
     func updateImage(image: UIImage?) {
