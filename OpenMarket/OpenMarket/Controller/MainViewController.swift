@@ -46,11 +46,11 @@ final class MainViewController: UIViewController {
     collectionView.reloadData()
   }
 
-
   private var pages: [Page] = [] {
     didSet {
       DispatchQueue.main.async {
         self.collectionView.reloadData()
+        self.applySnapshot()
       }
     }
   }
@@ -61,9 +61,9 @@ final class MainViewController: UIViewController {
     configureCollectionView()
     collectionView.collectionViewLayout = configureListLayout()
     configureNavigationItems()
+    applySnapshot(animatingDifferences: false)
     collectionView.dataSource = self.dataSource
   }
-  
   
   private func configureCollectionView() {
     self.view.addSubview(collectionView)
@@ -125,6 +125,12 @@ final class MainViewController: UIViewController {
     })
     return dataSource
   }
+  
+  func applySnapshot(animatingDifferences: Bool = true) {
+    var snapshot = Snapshot()
+    snapshot.appendSections([.main])
+    snapshot.appendItems(pages)
+    dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
   }
 }
 
