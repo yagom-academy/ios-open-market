@@ -31,7 +31,7 @@ struct ProductsList: Decodable {
   }
 }
 
-struct Page: Decodable {
+struct Page: Decodable, Hashable {
   let id: Int
   let venderId: Int
   let name: String
@@ -56,6 +56,14 @@ struct Page: Decodable {
     case stock
     case createdAt = "created_at"
     case issuedAt = "issued_at"
+  }
+  
+  func hash(into hasher: inout Hasher) {
+    hasher.combine(id)
+  }
+
+  static func == (lhs: Page, rhs: Page) -> Bool {
+    lhs.id == rhs.id
   }
 }
 
