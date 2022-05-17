@@ -60,12 +60,13 @@ final class ProductListViewController: UIViewController {
       let layout = UICollectionViewFlowLayout()
       layout.itemSize = CGSize(width: view.frame.width, height: view.frame.height / 15)
       self.collectionView.reloadData()
-      self.collectionView.setCollectionViewLayout(layout, animated: true)
+      self.collectionView.collectionViewLayout = layout
     case 1:
       let layout = UICollectionViewFlowLayout()
-      layout.itemSize = CGSize(width: view.frame.width / 2 - 10, height: view.frame.height / 5)
+      layout.itemSize = CGSize(width: view.frame.width / 2 - 20, height: view.frame.height / 3)
+      layout.sectionInset = UIEdgeInsets(top: 0, left: 10.0, bottom: 0, right: 10.0)
       self.collectionView.reloadData()
-      self.collectionView.setCollectionViewLayout(layout, animated: true)
+      self.collectionView.collectionViewLayout = layout
     default:
       break
     }

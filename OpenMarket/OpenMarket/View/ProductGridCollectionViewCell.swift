@@ -11,12 +11,15 @@ final class ProductGridCollectionViewCell: UICollectionViewCell {
   private let containerStackView: UIStackView = {
     let stackView = UIStackView()
     stackView.axis = .vertical
+    stackView.alignment = .center
+    stackView.distribution = .equalSpacing
     return stackView
   }()
   
   private let informationStackView: UIStackView = {
     let stackView = UIStackView()
     stackView.axis = .vertical
+    stackView.spacing = 6.0
     return stackView
   }()
   
@@ -41,12 +44,14 @@ final class ProductGridCollectionViewCell: UICollectionViewCell {
   private let priceLabel: UILabel = {
     let label = UILabel()
     label.textColor = .systemRed
+    label.textAlignment = .center
     return label
   }()
   
   private let bargainPriceLabel: UILabel = {
     let label = UILabel()
     label.textColor = .systemGray
+    label.textAlignment = .center
     return label
   }()
   
@@ -82,6 +87,9 @@ final class ProductGridCollectionViewCell: UICollectionViewCell {
   }
   
   private func configureUI() {
+    self.contentView.layer.borderWidth = 1.0
+    self.contentView.layer.cornerRadius = 10.0
+    self.contentView.layer.borderColor = UIColor.systemGray.cgColor
     self.contentView.addSubview(containerStackView)
     self.containerStackView.addArrangedSubview(productImageView)
     self.containerStackView.addArrangedSubview(informationStackView)
@@ -95,9 +103,11 @@ final class ProductGridCollectionViewCell: UICollectionViewCell {
     self.containerStackView.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
       containerStackView.topAnchor.constraint(equalTo: contentView.topAnchor),
-      containerStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
       containerStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-      containerStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
+      containerStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+      containerStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10.0),
+      productImageView.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.6),
+      productImageView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.8)
     ])
   }
 }
