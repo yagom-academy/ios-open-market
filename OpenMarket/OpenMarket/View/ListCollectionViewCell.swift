@@ -23,6 +23,7 @@ final class ListCollectionViewCell: UICollectionViewCell {
     override func prepareForReuse() {
         productImageView.image = nil
         productNameLabel.text = ""
+        indicatorView.startAnimating()
     }
     
     private lazy var productStackView: UIStackView = {
@@ -36,6 +37,12 @@ final class ListCollectionViewCell: UICollectionViewCell {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
+    }()
+    
+    private lazy var indicatorView: UIActivityIndicatorView = {
+        let indicatorView = UIActivityIndicatorView()
+        indicatorView.translatesAutoresizingMaskIntoConstraints = false
+        return indicatorView
     }()
     
     private lazy var informationStackView: UIStackView = {
@@ -99,6 +106,7 @@ final class ListCollectionViewCell: UICollectionViewCell {
     
     private func addSubviews() {
         contentView.addSubview(productStackView)
+        contentView.addSubview(indicatorView)
         contentView.addSubview(bottomLineView)
     }
     
@@ -113,6 +121,13 @@ final class ListCollectionViewCell: UICollectionViewCell {
         NSLayoutConstraint.activate([
             productImageView.heightAnchor.constraint(equalTo: productStackView.heightAnchor),
             productImageView.widthAnchor.constraint(equalTo: productImageView.heightAnchor)
+        ])
+        
+        NSLayoutConstraint.activate([
+            indicatorView.topAnchor.constraint(equalTo: productImageView.topAnchor, constant: 0),
+            indicatorView.bottomAnchor.constraint(equalTo: productImageView.bottomAnchor, constant: 0),
+            indicatorView.leadingAnchor.constraint(equalTo: productImageView.leadingAnchor, constant: 0),
+            indicatorView.trailingAnchor.constraint(equalTo: productImageView.trailingAnchor, constant: 0),
         ])
         
         NSLayoutConstraint.activate([
@@ -132,6 +147,7 @@ final class ListCollectionViewCell: UICollectionViewCell {
         } else {
             productionPriceLabel.isHidden = false
             productionPriceLabel.addStrikeThrough(price: data.price)
+            productionPriceLabel.addStrikeThrough(price: data.bargainPrice)
             productionPriceLabel.update(with: data.currency, price: data.bargainPrice)
             sellingPriceLabel.update(with: data.currency, price: data.bargainPrice)
         }
@@ -141,6 +157,7 @@ final class ListCollectionViewCell: UICollectionViewCell {
     }
     
     func updateImage(image: UIImage?) {
+        indicatorView.stopAnimating()
         productImageView.image = image
     }
 }

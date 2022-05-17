@@ -25,6 +25,7 @@ final class GridCollectionViewCell: UICollectionViewCell {
     override func prepareForReuse() {
         productImageView.image = nil
         productNameLabel.text = ""
+        indicatorView.startAnimating()
     }
     
     private lazy var productStackView: UIStackView = {
@@ -43,6 +44,12 @@ final class GridCollectionViewCell: UICollectionViewCell {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFit
         return imageView
+    }()
+    
+    private lazy var indicatorView: UIActivityIndicatorView = {
+        let indicatorView = UIActivityIndicatorView()
+        indicatorView.translatesAutoresizingMaskIntoConstraints = false
+        return indicatorView
     }()
     
     private lazy var productNameLabel: UILabel = {
@@ -75,6 +82,7 @@ final class GridCollectionViewCell: UICollectionViewCell {
     
     private func addSubviews() {
         contentView.addSubview(productStackView)
+        contentView.addSubview(indicatorView)
     }
     
     private func makeConstraints() {
@@ -86,8 +94,15 @@ final class GridCollectionViewCell: UICollectionViewCell {
         ])
         
         NSLayoutConstraint.activate([
-            productImageView.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.5),
-            productImageView.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.9),
+            productImageView.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.5),
+            productImageView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.9),
+        ])
+        
+        NSLayoutConstraint.activate([
+            indicatorView.topAnchor.constraint(equalTo: productImageView.topAnchor, constant: 0),
+            indicatorView.bottomAnchor.constraint(equalTo: productImageView.bottomAnchor, constant: 0),
+            indicatorView.leadingAnchor.constraint(equalTo: productImageView.leadingAnchor, constant: 0),
+            indicatorView.trailingAnchor.constraint(equalTo: productImageView.trailingAnchor, constant: 0),
         ])
     }
     
@@ -116,5 +131,6 @@ final class GridCollectionViewCell: UICollectionViewCell {
     
     func updateImage(image: UIImage?) {
         productImageView.image = image
+        indicatorView.stopAnimating()
     }
 }
