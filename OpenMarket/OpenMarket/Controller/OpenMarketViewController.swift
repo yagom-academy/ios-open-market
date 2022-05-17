@@ -9,11 +9,21 @@ import UIKit
 class OpenMarketViewController: UIViewController {
     private let segmentControl = UISegmentedControl(items: ["list", "grid"])
     private var collectionView: UICollectionView?
-    private var productList: [Product] = []
-    private var network: URLSessionProvider<ProductList>? {
+    private var productList: [Product] = [] {
         didSet {
-            getData(from: .productList(page: 1, itemsPerPage: 12))
+            DispatchQueue.main.async {
+                self.collectionView?.reloadData()
+            }
         }
+    }
+    private var network: URLSessionProvider<ProductList>?
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        network = URLSessionProvider()
+        getData(from: .productList(page: 1, itemsPerPage: 12))
+        setup()
+        addsegment()
     }
     
     func getData(from: Endpoint) {
@@ -21,18 +31,10 @@ class OpenMarketViewController: UIViewController {
             switch result {
             case .success(let data):
                 self.productList = data.pages!
-                print(data)
             case .failure(_):
                 print("")
             }
         })
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        network = URLSessionProvider()
-        setup()
-        addsegment()
     }
     
     func setup() {
@@ -47,6 +49,8 @@ class OpenMarketViewController: UIViewController {
     private func listCellLayout() -> UICollectionViewFlowLayout {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
+        layout.minimumLineSpacing = 2
+        layout.itemSize = CGSize(width: view.frame.width, height: view.frame.height / 14 )
         return layout
     }
     
@@ -71,19 +75,13 @@ extension OpenMarketViewController: UICollectionViewDataSource {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ListCell.identifier, for: indexPath) as? ListCell else {
             return UICollectionViewCell()
         }
+        
+        
+        
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return productList.count
-    }
-}
-
-extension OpenMarketViewController: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: view.frame.width, height: view.frame.height / 14 )
-    }
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 2
     }
 }
