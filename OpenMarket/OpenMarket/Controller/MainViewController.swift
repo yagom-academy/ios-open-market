@@ -111,6 +111,7 @@ final class MainViewController: UIViewController {
   
   private func configureGridLayout() -> UICollectionViewFlowLayout {
     let layout = UICollectionViewFlowLayout()
+    collectionView.contentOffset = .init(x: 0, y: -collectionView.contentSize.height)
     layout.sectionInset = UIEdgeInsets(top: 10, left: 5, bottom: 5, right: 5)
     layout.minimumLineSpacing = 10
     layout.minimumInteritemSpacing = 10
