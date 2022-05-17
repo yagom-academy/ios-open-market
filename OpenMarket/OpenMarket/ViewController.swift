@@ -19,7 +19,10 @@ class ViewController: UIViewController {
     private lazy var activityIndicator: UIActivityIndicatorView = {
         createActivityIndicator()
     }()
-    
+}
+
+// MARK: - Life Cycle
+extension ViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpNavigationItems()
@@ -34,7 +37,34 @@ class ViewController: UIViewController {
         
         setUpInitialState()
     }
+}
+
+// MARK: - Delegate
+extension ViewController {
+    func collectionViewDelegate() {
+        collectionView.delegate = self
+        collectionView.dataSource = self
+    }
+}
+
+// MARK: - Delegate Method
+extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        data.count
+    }
     
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        switch self.arrangeMode {
+        case .list:
+            return configureListCell(indexPath: indexPath)
+        case .grid:
+            return configureGridCell(indexPath: indexPath)
+        }
+    }
+}
+
+// MARK: - Private Method
+extension ViewController {
     private func setUpNavigationItems() {
         let plusButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: nil)
         self.navigationItem.titleView = segmentedControl
@@ -118,28 +148,6 @@ class ViewController: UIViewController {
         activityIndicator.style = UIActivityIndicatorView.Style.medium
         return activityIndicator
     }
-}
-
-extension ViewController {
-    func collectionViewDelegate() {
-        collectionView.delegate = self
-        collectionView.dataSource = self
-    }
-}
-
-extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        data.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        switch self.arrangeMode {
-        case .list:
-            return configureListCell(indexPath: indexPath)
-        case .grid:
-            return configureGridCell(indexPath: indexPath)
-        }
-    }
     
     private func configureListCell(indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "listCell", for: indexPath) as? ListCollectionViewCell else {
@@ -147,7 +155,7 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, 
         }
         
         cell.accessories = [.disclosureIndicator()]
-        setUpCellContents(indexPath: indexPath, cell: cell)
+        configureCellContents(indexPath: indexPath, cell: cell)
         
         return cell
     }
@@ -157,7 +165,7 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, 
             return UICollectionViewCell()
         }
         
-        setUpCellContents(indexPath: indexPath, cell: cell)
+        configureCellContents(indexPath: indexPath, cell: cell)
         
         cell.layer.borderWidth = 1.5
         cell.layer.borderColor = UIColor.systemGray.cgColor
@@ -166,7 +174,7 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, 
         return cell
     }
     
-    private func setUpCellContents(indexPath: IndexPath, cell: Contentable) {
+    private func configureCellContents(indexPath: IndexPath, cell: Contentable) {
         guard let currency = data[indexPath.row].currency?.rawValue else {
             return
         }
@@ -189,12 +197,9 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, 
             cell.productStockLabel.text = "잔여수량 :  \(String(data[indexPath.row].stock))"
         }
     }
-}
-
-extension ViewController {
-    func setTextAttribute(of target: String, attributes: [NSAttributedString.Key: Any]) -> NSAttributedString {
+    
+    private func setTextAttribute(of target: String, attributes: [NSAttributedString.Key: Any]) -> NSAttributedString {
         let attributedText = NSMutableAttributedString(string: target)
-        
         attributedText.addAttributes(attributes, range: (target as NSString).range(of: target))
         
         return attributedText
