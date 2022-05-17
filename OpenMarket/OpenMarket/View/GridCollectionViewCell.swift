@@ -63,7 +63,10 @@ final class GridCollectionViewCell: UICollectionViewCell {
             verticalStackView.topAnchor.constraint(equalTo: contentView.topAnchor),
             verticalStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             verticalStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            verticalStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
+            verticalStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            
+            productImage.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.8),
+            productImage.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.5)
         ])
     }
     

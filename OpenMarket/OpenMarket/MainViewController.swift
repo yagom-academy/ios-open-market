@@ -61,42 +61,38 @@ final class MainViewController: UIViewController, NetworkAble {
     @objc func changeSegmentedControl(sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex {
         case 0:
+            self.status = 0
             collectionView.reloadData()
+            collectionView.setCollectionViewLayout(creatListLayout(), animated: true)
             return print("LIST 뷰입니다.")
         case 1:
+            self.status = 1
             collectionView.reloadData()
+            collectionView.setCollectionViewLayout(createGridLayout(), animated: true)
             return print("GIRD 뷰입니다.")
         default:
             return
         }
     }
     
-    private func creatLayout() -> UICollectionViewCompositionalLayout {
+    private func creatListLayout() -> UICollectionViewCompositionalLayout {
         let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
         return UICollectionViewCompositionalLayout.list(using: configuration)
     }
     
     private func configureCollectionView() {
-        collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: creatLayout())
+        collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: creatListLayout())
         view.addSubview(collectionView)
         collectionView.delegate = self
     }
     
     private func configureDataSource(pageNo: Int, itemsPerPage: Int) {
-        /*
-        let cellRegistration = UICollectionView.CellRegistration<UICollectionViewListCell, Int> { (cell, indexPath, item) in
-            var content = cell.defaultContentConfiguration()
-            content.image = UIImage(systemName: "swift")
-            content.text = "\(indexPath.section), \(indexPath.row)"
-            cell.contentConfiguration = content
-        }
-         */
-        
         dataSource = UICollectionViewDiffableDataSource<Section, ProductInformation>(collectionView: collectionView) {
             (collectionView: UICollectionView, indexPath: IndexPath, identifier: ProductInformation) in
             switch self.status {
         case 0:
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ListCollectionViewCell.identifier, for: indexPath) as? ListCollectionViewCell else { return UICollectionViewListCell() }
+                cell.accessories = [.disclosureIndicator()]
                 cell.configureContent(productInformation: identifier)
                 return cell
         case 1:
@@ -104,7 +100,7 @@ final class MainViewController: UIViewController, NetworkAble {
                 cell.configureContent(productInformation: identifier)
                 return cell
             default:
-                return nil
+                return UICollectionViewCell()
             }
         }
         
@@ -115,26 +111,24 @@ final class MainViewController: UIViewController, NetworkAble {
             return
         }
         
-        requestData(
-            url: url
-        ) { data, urlResponse in
+        requestData(url: url) { data, urlResponse in
             guard let data = data,
                   let pageInformation = try? JSONDecoder().decode(PageInformation.self, from: data) else { return }
             snapshot.appendItems(pageInformation.pages)
             self.dataSource.apply(snapshot, animatingDifferences: true)
         } errorHandler: { error in
-            print(error)
+//            print(error)
         }
     }
     
-    private func createListLayout() -> UICollectionViewLayout {
+    private func createGridLayout() -> UICollectionViewLayout {
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.minimumLineSpacing = 20
         flowLayout.minimumInteritemSpacing = 10
         flowLayout.scrollDirection = .vertical
         flowLayout.itemSize = CGSize(
-            width: view.safeAreaLayoutGuide.layoutFrame.width / 3 ,
-            height: view.safeAreaLayoutGuide.layoutFrame.height / 3
+            width: view.safeAreaLayoutGuide.layoutFrame.width,
+            height: view.safeAreaLayoutGuide.layoutFrame.height
         )
         return flowLayout
     }

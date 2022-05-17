@@ -60,7 +60,7 @@ final class ListCollectionViewCell: UICollectionViewListCell {
             stock.text = "품절"
             stock.textColor = .yellow
         } else {
-            stock.text = "판매수량: \(product.stock)"
+            stock.text = "잔여수량: \(product.stock)"
             stock.textColor = .black
         }
         setConstrait()
