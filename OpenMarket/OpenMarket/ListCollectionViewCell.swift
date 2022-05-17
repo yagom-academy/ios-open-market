@@ -8,88 +8,23 @@
 import UIKit
 
 class ListCollectionViewCell: UICollectionViewListCell {
-    let productNameLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.preferredFont(forTextStyle: .headline)
-
-        return label
-    }()
+    lazy var productNameLabel = createLabel(font: .preferredFont(forTextStyle: .headline), textColor: .black, alignment: .natural)
     
-    let productPriceLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.preferredFont(forTextStyle: .subheadline)
-        label.textColor = .systemGray
-        label.textAlignment = .left
-        return label
-    }()
+    lazy var productPriceLabel = createLabel(font: .preferredFont(forTextStyle: .subheadline), textColor: .systemGray, alignment: .left)
     
-    let productBargainPriceLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.preferredFont(forTextStyle: .subheadline)
-        label.textColor = .systemGray
-        label.textAlignment = .left
-        return label
-    }()
+    lazy var productBargainPriceLabel: UILabel = createLabel(font: .preferredFont(forTextStyle: .subheadline), textColor: .systemGray, alignment: .left)
     
-    let productStockLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.preferredFont(forTextStyle: .subheadline)
-        label.textColor = .systemGray
-        label.textAlignment = .right
-        return label
-    }()
+    lazy var productStockLabel: UILabel = createLabel(font: .preferredFont(forTextStyle: .subheadline), textColor: .systemGray, alignment: .right)
     
-    let productImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = UIImage(named: "macmini")
-        return imageView
-    }()
+    lazy var productImageView = createImageView(contentMode: .scaleAspectFit)
     
-    let stackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .horizontal
-        stackView.spacing = 5
-        stackView.alignment = .top
-        stackView.distribution = .fillProportionally
-        
-        return stackView
-    }()
+    lazy var stackView = createStackView(axis: .horizontal, alignment: .top, distribution: .fillProportionally, spacing: 5, margin: UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5))
     
-    let priceStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .horizontal
-        stackView.alignment = .leading
-        stackView.distribution = .fillProportionally
-        stackView.spacing = 5
-        return stackView
-    }()
+    lazy var stackView0 = createStackView(axis: .vertical, alignment: .fill, distribution: .fillEqually, spacing: 0)
     
-    let informationStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .vertical
-        stackView.distribution = .fillEqually
-        return stackView
-    }()
+    lazy var stackView1 = createStackView(axis: .horizontal, alignment: .leading, distribution: .fill, spacing: 0)
     
-    let stackView0: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .vertical
-        stackView.distribution = .fillEqually
-        return stackView
-    }()
-    
-    let stackView1: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .horizontal
-        return stackView
-    }()
-    
-    let stackView2: UIStackView = {
-        let stackView = UIStackView()
-        stackView.distribution = .fill
-        stackView.axis = .horizontal
-        return stackView
-    }()
+    lazy var stackView2 = createStackView(axis: .horizontal, alignment: .leading, distribution: .fill, spacing: 0)
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -102,6 +37,11 @@ class ListCollectionViewCell: UICollectionViewListCell {
     }
     
     func setUpCell() {
+        configureSubViewStructure()
+        configureLayoutConstraints()
+    }
+    
+    func configureSubViewStructure() {
         // Add SubViews
         contentView.addSubview(stackView)
         stackView.addArrangedSubview(productImageView)
@@ -112,12 +52,13 @@ class ListCollectionViewCell: UICollectionViewListCell {
         stackView1.addArrangedSubview(productStockLabel)
         stackView2.addArrangedSubview(productPriceLabel)
         stackView2.addArrangedSubview(productBargainPriceLabel)
-        
-        configureLayoutConstraints()
     }
     
     func configureLayoutConstraints() {
         stackView0.centerYAnchor.constraint(equalTo: stackView.centerYAnchor).isActive = true
+        
+        productNameLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        productStockLabel.setContentHuggingPriority(.defaultLow, for: .horizontal)
         productNameLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         productStockLabel.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         
@@ -125,8 +66,6 @@ class ListCollectionViewCell: UICollectionViewListCell {
         productBargainPriceLabel.setContentHuggingPriority(.defaultLow, for: .horizontal)
         
         // StackView Constraints
-        stackView.isLayoutMarginsRelativeArrangement = true
-        stackView.layoutMargins = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
         stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
@@ -135,9 +74,52 @@ class ListCollectionViewCell: UICollectionViewListCell {
         stackView.heightAnchor.constraint(equalToConstant: 60).isActive = true
 
         // productImageView Constraints
-        productImageView.heightAnchor.constraint(equalToConstant: 70).isActive = true
+        productImageView.heightAnchor.constraint(equalTo: stackView.heightAnchor, constant: -10).isActive = true
         productImageView.widthAnchor.constraint(equalTo: stackView.widthAnchor, multiplier: 0.15).isActive = true
-        productImageView.contentMode = .scaleAspectFit
+    }
+}
+
+extension UICollectionViewCell {
+    func createLabel(font: UIFont, textColor: UIColor, alignment: NSTextAlignment) -> UILabel {
+        let label = UILabel()
+        
+        label.font = font
+        label.textColor = textColor
+        label.textAlignment = alignment
+        
+        return label
+    }
+    
+    func createStackView(axis: NSLayoutConstraint.Axis, alignment: UIStackView.Alignment, distribution: UIStackView.Distribution, spacing: CGFloat) -> UIStackView {
+        let stackView = UIStackView()
+        
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = axis
+        stackView.alignment = alignment
+        stackView.distribution = distribution
+        stackView.spacing = spacing
+        
+        return stackView
+    }
+    
+    func createStackView(axis: NSLayoutConstraint.Axis, alignment: UIStackView.Alignment, distribution: UIStackView.Distribution, spacing: CGFloat, margin: UIEdgeInsets) -> UIStackView {
+        let stackView = UIStackView()
+        
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = axis
+        stackView.alignment = alignment
+        stackView.distribution = distribution
+        stackView.spacing = spacing
+        stackView.isLayoutMarginsRelativeArrangement = true
+        stackView.layoutMargins = margin
+        
+        return stackView
+    }
+    
+    func createImageView(contentMode: ContentMode) -> UIImageView {
+        let imageView = UIImageView()
+        imageView.contentMode = contentMode
+        return imageView
     }
 }
 

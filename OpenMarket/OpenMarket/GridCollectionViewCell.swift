@@ -8,71 +8,21 @@
 import UIKit
 
 class GridCollectionViewCell: UICollectionViewCell {
-    let productNameLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.preferredFont(forTextStyle: .headline)
-        label.font = UIFont.preferredFont(for: .title3, weight: .semibold)
-        label.adjustsFontForContentSizeCategory = true
-        return label
-    }()
+    lazy var productNameLabel = createLabel(font: .preferredFont(for: .title3, weight: .semibold), textColor: .black, alignment: .center)
     
-    let productPriceLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.preferredFont(forTextStyle: .body)
-        label.textColor = .systemGray
-        return label
-    }()
+    lazy var productImageView = createImageView(contentMode: .scaleAspectFit)
     
-    let productImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = UIImage(named: "macmini")
-        imageView.contentMode = .scaleAspectFit
-        return imageView
-    }()
+    lazy var productPriceLabel = createLabel(font: .preferredFont(forTextStyle: .body), textColor: .systemGray, alignment: .center)
     
-    let productBargainPriceLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.preferredFont(forTextStyle: .body)
-        label.textColor = .systemGray
-        return label
-    }()
+    lazy var productBargainPriceLabel = createLabel(font: .preferredFont(forTextStyle: .body), textColor: .systemGray, alignment: .center)
     
-    let productStockLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.preferredFont(forTextStyle: .body)
-        label.textColor = .systemGray
-        return label
-    }()
+    lazy var productStockLabel = createLabel(font: .preferredFont(forTextStyle: .body), textColor: .systemGray, alignment: .center)
     
-    let stackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .vertical
-        stackView.alignment = .center
-        stackView.spacing = 5
-        stackView.isLayoutMarginsRelativeArrangement = true
-        stackView.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 5, trailing: 10)
-        
-        
-        return stackView
-    }()
+    lazy var stackView = createStackView(axis: .vertical, alignment: .center, distribution: .fill, spacing: 5, margin: UIEdgeInsets(top: 10, left: 10, bottom: 5, right: 10))
     
-    let vStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .vertical
-        stackView.alignment = .center
-        stackView.distribution = .fillProportionally
-        return stackView
-    }()
+    lazy var stackView0 = createStackView(axis: .vertical, alignment: .center, distribution: .fillProportionally, spacing: 0)
     
-    let vStackView2: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .vertical
-        stackView.alignment = .center
-        stackView.spacing = 5
-        stackView.distribution = .fillEqually
-        return stackView
-    }()
-
+    lazy var stackView1 = createStackView(axis: .vertical, alignment: .center, distribution: .fillEqually, spacing: 5)
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
@@ -83,22 +33,20 @@ class GridCollectionViewCell: UICollectionViewCell {
         super.init(frame: frame)
         setUpCell()
     }
-    
 
     func setUpCell() {
-        
         // Add SubViews
         contentView.addSubview(stackView)
         
         stackView.addArrangedSubview(productImageView)
-        stackView.addArrangedSubview(vStackView2)
+        stackView.addArrangedSubview(stackView1)
         
-        vStackView2.addArrangedSubview(productNameLabel)
-        vStackView2.addArrangedSubview(vStackView)
-        vStackView2.addArrangedSubview(productStockLabel)
+        stackView1.addArrangedSubview(productNameLabel)
+        stackView1.addArrangedSubview(stackView0)
+        stackView1.addArrangedSubview(productStockLabel)
         
-        vStackView.addArrangedSubview(productPriceLabel)
-        vStackView.addArrangedSubview(productBargainPriceLabel)
+        stackView0.addArrangedSubview(productPriceLabel)
+        stackView0.addArrangedSubview(productBargainPriceLabel)
         
         // StackView Constraints
         stackView.translatesAutoresizingMaskIntoConstraints = false
