@@ -13,13 +13,11 @@ enum ArrangeMode: Int {
 
 class ViewController: UIViewController {
     var arrangeMode: ArrangeMode = .list
-    lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: listLayout())
     let segmentedControl = UISegmentedControl(items: ["LIST", "GRID"])
-    private let data: [Product] = {
-        let parser: Parser<ProductList> = Parser()
-        let sampleList: ProductList = parser.decode(name: "list")!
-        return sampleList.pages
-    }()
+    var data: [Product] = []
+    
+    lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: listLayout())
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,6 +26,8 @@ class ViewController: UIViewController {
         self.navigationItem.rightBarButtonItem = plusButton
         self.view.addSubview(collectionView)
         self.navigationController?.navigationBar.backgroundColor = .systemGroupedBackground
+
+            setData()
         
         segmentLayout()
         configureCollectionView()
@@ -36,6 +36,21 @@ class ViewController: UIViewController {
         segmentedControl.addTarget(self, action: #selector(arrangementChange(_:)), for: .valueChanged)
         segmentedControl.selectedSegmentIndex = 0
         self.arrangementChange(segmentedControl)
+    }
+    
+    private func setData() {
+        RequestAssistant.shared.requestListAPI(pageNumber: 1, itemsPerPage: 20) { result in
+            switch result {
+            case .success(let dataa):
+                self.data = dataa.pages
+                DispatchQueue.main.async {
+                    self.collectionView.reloadData()
+                }
+            case .failure(_):
+                return
+            }
+            
+        }
     }
     
     private func listLayout() -> UICollectionViewCompositionalLayout {
@@ -120,7 +135,6 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, 
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-
         switch self.arrangeMode {
         case .list:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "listCell", for: indexPath) as? ListCollectionViewCell else { return UICollectionViewCell() }
