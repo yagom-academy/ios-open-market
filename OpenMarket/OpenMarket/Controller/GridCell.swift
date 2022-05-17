@@ -20,27 +20,27 @@ final class GridCell: UICollectionViewCell {
     super.init(coder: coder)
   }
   
-  let thumbnailImageView: UIImageView = {
+  private let thumbnailImageView: UIImageView = {
     let imageView = UIImageView()
     imageView.translatesAutoresizingMaskIntoConstraints = false
     return imageView
   }()
   
-  let nameLabel: UILabel = {
+  private let nameLabel: UILabel = {
     let label = UILabel()
     label.textAlignment = .center
     label.font = .systemFont(ofSize: 20, weight: .bold)
     return label
   }()
   
-  let bargainPriceLabel: UILabel = {
+  private let bargainPriceLabel: UILabel = {
     let label = UILabel()
     label.textAlignment = .center
     label.font = .systemFont(ofSize: 17)
     return label
   }()
   
-  let discountedPriceLabel: UILabel = {
+  private let discountedPriceLabel: UILabel = {
     let label = UILabel()
     label.textAlignment = .center
     label.font = .systemFont(ofSize: 17)
@@ -48,14 +48,14 @@ final class GridCell: UICollectionViewCell {
     return label
   }()
   
-  let stockLabel: UILabel = {
+  private let stockLabel: UILabel = {
     let label = UILabel()
     label.textAlignment = .center
     label.font = .systemFont(ofSize: 17)
     return label
   }()
   
-  let totalStackView: UIStackView = {
+  private let totalStackView: UIStackView = {
     let stackView = UIStackView()
     stackView.axis = .horizontal
     stackView.alignment = .center

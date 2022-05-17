@@ -18,27 +18,27 @@ final class ListCell: UICollectionViewCell {
     super.init(coder: coder)
   }
   
-  let thumbnailImageView: UIImageView = {
+  private let thumbnailImageView: UIImageView = {
     let imageView = UIImageView()
     imageView.translatesAutoresizingMaskIntoConstraints = false
     return imageView
   }()
   
-  let nameLabel: UILabel = {
+  private let nameLabel: UILabel = {
     let label = UILabel()
     label.textAlignment = .left
     label.font = .systemFont(ofSize: 17, weight: .bold)
     return label
   }()
   
-  let bargainPriceLabel: UILabel = {
+  private let bargainPriceLabel: UILabel = {
     let label = UILabel()
     label.textAlignment = .left
     label.font = .systemFont(ofSize: 17)
     return label
   }()
   
-  let discountedPriceLabel: UILabel = {
+  private let discountedPriceLabel: UILabel = {
     let label = UILabel()
     label.textAlignment = .left
     label.font = .systemFont(ofSize: 17)
@@ -46,14 +46,14 @@ final class ListCell: UICollectionViewCell {
     return label
   }()
   
-  let stockLabel: UILabel = {
+  private let stockLabel: UILabel = {
     let label = UILabel()
     label.textAlignment = .right
     label.font = .systemFont(ofSize: 17)
     return label
   }()
   
-  let priceStackView: UIStackView = {
+  private let priceStackView: UIStackView = {
     let stackView = UIStackView()
     stackView.axis = .horizontal
     stackView.alignment = .bottom
@@ -62,7 +62,7 @@ final class ListCell: UICollectionViewCell {
     return stackView
   }()
   
-  let verticalStackView: UIStackView = {
+  private let verticalStackView: UIStackView = {
     let stackView = UIStackView()
     stackView.axis = .vertical
     stackView.alignment = .leading
@@ -71,7 +71,7 @@ final class ListCell: UICollectionViewCell {
     return stackView
   }()
   
-  let totalStackView: UIStackView = {
+  private let totalStackView: UIStackView = {
     let stackView = UIStackView()
     stackView.axis = .horizontal
     stackView.alignment = .top
