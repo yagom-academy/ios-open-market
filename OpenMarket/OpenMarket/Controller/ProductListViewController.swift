@@ -23,10 +23,10 @@ final class ProductListViewController: UIViewController {
     collectionView.backgroundColor = .systemBackground
     collectionView.register(
       ProductListCollectionViewCell.self,
-      forCellWithReuseIdentifier: "ProductListCollectionViewCell")
+      forCellWithReuseIdentifier: ProductListCollectionViewCell.identifier)
     collectionView.register(
       ProductGridCollectionViewCell.self,
-      forCellWithReuseIdentifier: "ProductGridCollectionViewCell")
+      forCellWithReuseIdentifier: ProductGridCollectionViewCell.identifier)
     return collectionView
   }()
   
