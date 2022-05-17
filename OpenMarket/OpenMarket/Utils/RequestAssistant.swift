@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 final class RequestAssistant {
     private let sessionManager = URLSessionGenerator(session: URLSession.shared)

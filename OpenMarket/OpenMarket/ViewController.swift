@@ -120,16 +120,14 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, 
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let url = URL(string: data[indexPath.row].thumbnail)
-        let thumbnail = try? Data(contentsOf: url!)
-        
+
         switch self.arrangeMode {
         case .list:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "listCell", for: indexPath) as? ListCollectionViewCell else { return UICollectionViewCell() }
             cell.productNameLabel.text = data[indexPath.row].name
             cell.productPriceLabel.text = "\(data[indexPath.row].currency!.rawValue) \(NumberFormatterAssistant.shared.numberFormatString(for: data[indexPath.row].price))"
             cell.productStockLabel.text = String(data[indexPath.row].stock)
-            cell.productImageView.image = UIImage(data: thumbnail!)
+            cell.productImageView.requestImageDownload(url: data[indexPath.row].thumbnail)
             cell.accessories = [.disclosureIndicator()]
             
             if data[indexPath.row].discountedPrice != 0 {
@@ -151,7 +149,7 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, 
         case .grid:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "gridCell", for: indexPath) as? GridCollectionViewCell else { return UICollectionViewCell() }
             cell.productNameLabel.text = data[indexPath.row].name
-            
+            cell.productImageView.requestImageDownload(url: data[indexPath.row].thumbnail)
             
             cell.productPriceLabel.text = "\(data[indexPath.row].currency!.rawValue) \(NumberFormatterAssistant.shared.numberFormatString(for: data[indexPath.row].price))"
             
