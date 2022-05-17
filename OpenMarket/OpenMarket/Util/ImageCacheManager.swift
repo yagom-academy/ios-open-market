@@ -15,11 +15,11 @@ final class ImageCacheManager<T: Decodable> {
         self.apiService = apiService
     }
     
-    func loadImage(url: URL, completion: @escaping (UIImage) -> Void) {
+    func loadImage(url: URL, completion: @escaping (Result<UIImage, Error>) -> Void) {
         let nsURL = url as NSURL
         
         if let cachedImage = cache.object(forKey: nsURL) {
-            completion(cachedImage)
+            completion(.success(cachedImage))
             return
         }
         
@@ -28,10 +28,10 @@ final class ImageCacheManager<T: Decodable> {
             case .success(let data):
                 if let image = UIImage(data: data) {
                     self.cache.setObject(image, forKey: nsURL)
-                    completion(image)
+                    completion(.success(image))
                 }
-            case .failure(_):
-                print("썸네일 에러")
+            case .failure(let error):
+                completion(.failure(error))
             }
         }
     }

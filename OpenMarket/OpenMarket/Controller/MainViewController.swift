@@ -35,7 +35,11 @@ final class MainViewController: UIViewController {
         setUpSegmentControl()
         requestProducts(by: currentPage)
     }
-    
+ }
+
+// MARK: SetUp Method
+
+extension MainViewController {
     private func setUpNavigationItem() {
         navigationItem.titleView = mainView.segmentControl
         navigationItem.rightBarButtonItem = mainView.addButton
@@ -46,10 +50,12 @@ final class MainViewController: UIViewController {
             ListCollectionViewCell.self,
             forCellWithReuseIdentifier: ListCollectionViewCell.identifier
         )
+        
         mainView.collectionView.register(
             GridCollectionViewCell.self,
             forCellWithReuseIdentifier: GridCollectionViewCell.identifier
         )
+        
         mainView.collectionView.prefetchDataSource = self
     }
     
@@ -60,21 +66,59 @@ final class MainViewController: UIViewController {
     @objc private func changeLayout() {
         mainView.setUpLayout(segmentIndex: mainView.segmentControl.selectedSegmentIndex)
     }
-    
+}
+
+// MARK: API Request Method
+
+extension MainViewController {
     private func requestProducts(by page: Int) {
         let endpoint = EndPointStorage.productsList(pageNumber: page, perPages: 20)
         
-        productsAPIServie.request(with: endpoint) { result in
+        productsAPIServie.request(with: endpoint) { [weak self] result in
+            guard let self = self else {
+                return
+            }
+            
             switch result {
             case .success(let products):
                 self.items.append(contentsOf: products.items)
                 self.applySnapshot(animatingDifferences: false)
             case .failure(let error):
-                print(error)
+                DispatchQueue.main.async {
+                    self.alertBuilder
+                        .setTitle("오류 발생")
+                        .setMessage(error.localizedDescription)
+                        .setConfirmTitle("다시요청하기")
+                        .setConfirmHandler {
+                            self.requestProducts(by: self.currentPage)
+                        }
+                        .showAlert()
+                }
             }
         }
     }
     
+    private func loadImage(url: URL, completion: @escaping (UIImage) -> Void) {
+        self.imageCacheManager.loadImage(url: url) { result in
+            switch result {
+            case .success(let image):
+                completion(image)
+            case .failure(let error):
+                DispatchQueue.main.async {
+                    self.alertBuilder
+                        .setTitle("오류 발생")
+                        .setMessage(error.localizedDescription)
+                        .setConfirmTitle("고객센터에 연락하세요.")
+                        .showAlert()
+                }
+            }
+        }
+    }
+}
+
+// MARK: Datasource && Snapshot
+
+extension MainViewController {
     private func makeDataSource() -> DataSource {
         let dataSource = DataSource(
             collectionView: mainView.collectionView,
@@ -88,9 +132,11 @@ final class MainViewController: UIViewController {
                         return UICollectionViewCell()
                     }
     
-                    self.imageCacheManager.loadImage(url: item.thumbnail) { image in
+                    self.loadImage(url: item.thumbnail) { image in
                         DispatchQueue.main.async {
-                            cell.updateImage(image: image)
+                            if collectionView.indexPath(for: cell) == indexPath {
+                                cell.updateImage(image: image)
+                            }
                         }
                     }
                     
@@ -104,9 +150,11 @@ final class MainViewController: UIViewController {
                         return UICollectionViewCell()
                     }
                     
-                    self.imageCacheManager.loadImage(url: item.thumbnail) { image in
+                    self.loadImage(url: item.thumbnail) { image in
                         DispatchQueue.main.async {
-                            cell.updateImage(image: image)
+                            if collectionView.indexPath(for: cell) == indexPath {
+                                cell.updateImage(image: image)
+                            }
                         }
                     }
                     
@@ -116,7 +164,7 @@ final class MainViewController: UIViewController {
             })
         return dataSource
     }
-
+    
     private func applySnapshot(animatingDifferences: Bool = true) {
         DispatchQueue.main.async {
             var snapshot = Snapshot()
@@ -126,6 +174,8 @@ final class MainViewController: UIViewController {
         }
     }
 }
+
+// MARK: UICollectionViewDataSourcePrefetching
 
 extension MainViewController: UICollectionViewDataSourcePrefetching {
     func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
