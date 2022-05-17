@@ -173,6 +173,7 @@
 		C70FB0EE25BEF61C00C9924E = {
 			isa = PBXGroup;
 			children = (
+				DA10BB5C2833A91F00812F9D /* CellView */,
 				DAB91821283345F10077254E /* Extensions */,
 				C70FB0F925BEF61C00C9924E /* OpenMarket */,
 				DA0DDFA3282A508400B72AD8 /* Tests */,
@@ -205,8 +206,6 @@
 				DA0DDF84282A003600B72AD8 /* Network */,
 				DA0DDFAC282A5D7800B72AD8 /* Utils */,
 				DA0DDFA4282A50CE00B72AD8 /* Error */,
-				4ECE6E6B282E3EAD00536F3E /* ListCollectionViewCell.swift */,
-				DA671A48282E483B00461C26 /* GridCollectionViewCell.swift */,
 			);
 			path = OpenMarket;
 			sourceTree = "<group>";
@@ -267,6 +266,15 @@
 				4EC87E0F2830C5A600DDB419 /* NumberFormatterAssistant.swift */,
 			);
 			path = Utils;
+			sourceTree = "<group>";
+		};
+		DA10BB5C2833A91F00812F9D /* CellView */ = {
+			isa = PBXGroup;
+			children = (
+				4ECE6E6B282E3EAD00536F3E /* ListCollectionViewCell.swift */,
+				DA671A48282E483B00461C26 /* GridCollectionViewCell.swift */,
+			);
+			path = CellView;
 			sourceTree = "<group>";
 		};
 		DAB91821283345F10077254E /* Extensions */ = {
