@@ -6,16 +6,18 @@
 
 import UIKit
 
-final class MainViewController: UIViewController {
+final class MainViewController: UIViewController, NetworkAble {
     
+    let session: URLSessionProtocol = URLSession.shared
     var status = 0
+    var pageNo = 1
+    var itemsPerPage = 10
     
     enum Section {
         case main
-        case grid
     }
     
-    var dataSource: UICollectionViewDiffableDataSource<Section, Int>!
+    var dataSource: UICollectionViewDiffableDataSource<Section, ProductInformation>!
     var collectionView: UICollectionView!
     
     private lazy var segmentedControl: UISegmentedControl = {
@@ -46,9 +48,10 @@ final class MainViewController: UIViewController {
         
         configureSegmentedControl()
         configureCollectionView()
-        configureDataSource()
+        configureDataSource(pageNo: pageNo, itemsPerPage: itemsPerPage)
         
         self.collectionView.register(GridCollectionViewCell.self, forCellWithReuseIdentifier: GridCollectionViewCell.identifier)
+        self.collectionView.register(ListCollectionViewCell.self, forCellWithReuseIdentifier: ListCollectionViewCell.identifier)
     }
     
     private func configureSegmentedControl() {
@@ -58,8 +61,10 @@ final class MainViewController: UIViewController {
     @objc func changeSegmentedControl(sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex {
         case 0:
+            collectionView.reloadData()
             return print("LIST 뷰입니다.")
         case 1:
+            collectionView.reloadData()
             return print("GIRD 뷰입니다.")
         default:
             return
@@ -77,30 +82,49 @@ final class MainViewController: UIViewController {
         collectionView.delegate = self
     }
     
-    private func configureDataSource() {
+    private func configureDataSource(pageNo: Int, itemsPerPage: Int) {
+        /*
         let cellRegistration = UICollectionView.CellRegistration<UICollectionViewListCell, Int> { (cell, indexPath, item) in
             var content = cell.defaultContentConfiguration()
             content.image = UIImage(systemName: "swift")
             content.text = "\(indexPath.section), \(indexPath.row)"
             cell.contentConfiguration = content
         }
+         */
         
-        dataSource = UICollectionViewDiffableDataSource<Section, Int>(collectionView: collectionView) {
-            (collectionView: UICollectionView, indexPath: IndexPath, identifier: Int) in
-            if self.status == 1 {
-                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: GridCollectionViewCell.identifier, for: indexPath) as? GridCollectionViewCell else { return UICollectionViewListCell() }
-//                cell.configureContent(productInformation: )
+        dataSource = UICollectionViewDiffableDataSource<Section, ProductInformation>(collectionView: collectionView) {
+            (collectionView: UICollectionView, indexPath: IndexPath, identifier: ProductInformation) in
+            switch self.status {
+        case 0:
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ListCollectionViewCell.identifier, for: indexPath) as? ListCollectionViewCell else { return UICollectionViewListCell() }
+                cell.configureContent(productInformation: identifier)
                 return cell
-            } else {
-                return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: identifier)
+        case 1:
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: GridCollectionViewCell.identifier, for: indexPath) as? GridCollectionViewCell else { return UICollectionViewCell() }
+                cell.configureContent(productInformation: identifier)
+                return cell
+            default:
+                return nil
             }
         }
         
-        var snapshot = NSDiffableDataSourceSnapshot<Section, Int>()
-        snapshot.appendSections([.main, .grid])
-        snapshot.appendItems(Array(1...10), toSection: .main)
-        snapshot.appendItems(Array(11...20), toSection: .grid)
-        dataSource.apply(snapshot, animatingDifferences: true)
+        var snapshot = NSDiffableDataSourceSnapshot<Section, ProductInformation>()
+        snapshot.appendSections([.main])
+        
+        guard let url = OpenMarketApi.pageInformation(pageNo: pageNo, itemsPerPage: itemsPerPage).url else {
+            return
+        }
+        
+        requestData(
+            url: url
+        ) { data, urlResponse in
+            guard let data = data,
+                  let pageInformation = try? JSONDecoder().decode(PageInformation.self, from: data) else { return }
+            snapshot.appendItems(pageInformation.pages)
+            self.dataSource.apply(snapshot, animatingDifferences: true)
+        } errorHandler: { error in
+            print(error)
+        }
     }
     
     private func createListLayout() -> UICollectionViewLayout {

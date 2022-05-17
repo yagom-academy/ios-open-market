@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-struct ProductInformation: Codable, Equatable {
+struct ProductInformation: Codable, Equatable, Hashable {
     let id: Int
     let vendorId: Int
     let name: String
@@ -20,8 +20,14 @@ struct ProductInformation: Codable, Equatable {
     let stock: Int
     let createdAt: String
     let issuedAt: String
-    
-    var thumbnailImage: UIImage?
+    var thumbnailImage: UIImage? {
+        get {
+        guard let url = URL(string:thumbnail), let data = try? Data(contentsOf: url) else {
+            return nil
+        }
+        return UIImage(data: data) ?? nil
+        }
+    }
 
     private enum CodingKeys: String, CodingKey {
         case id
