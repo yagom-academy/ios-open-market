@@ -67,7 +67,11 @@ final class GridCell: UICollectionViewCell {
   
   override func prepareForReuse() {
     super.prepareForReuse()
-    self.thumbnailImageView.image = nil
+    self.thumbnailImageView.image = UIImage(systemName: "goforward")
+    self.nameLabel.text = nil
+    self.stockLabel.text = nil
+    self.bargainPriceLabel.text = nil
+    self.discountedPriceLabel.text = nil
   }
   
   private func configureGridCell() {
