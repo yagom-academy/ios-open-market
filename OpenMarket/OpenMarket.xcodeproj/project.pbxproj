@@ -180,7 +180,6 @@
 			isa = PBXGroup;
 			children = (
 				C70FB0F925BEF61C00C9924E /* OpenMarket */,
-				C70FB10825BEF61D00C9924E /* Info.plist */,
 				DA0DDFA3282A508400B72AD8 /* Tests */,
 				C70FB0F825BEF61C00C9924E /* Products */,
 			);
@@ -206,6 +205,7 @@
 				C70FB10025BEF61C00C9924E /* Main.storyboard */,
 				C70FB10325BEF61D00C9924E /* Assets.xcassets */,
 				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
+				C70FB10825BEF61D00C9924E /* Info.plist */,
 				DAB91821283345F10077254E /* Extensions */,
 				DA10BB5C2833A91F00812F9D /* CellView */,
 				DA0DDF83282954A200B72AD8 /* Model */,
