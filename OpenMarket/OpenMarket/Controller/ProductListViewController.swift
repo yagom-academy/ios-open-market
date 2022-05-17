@@ -21,6 +21,7 @@ final class ProductListViewController: UIViewController {
     layout.itemSize = CGSize(width: view.frame.width, height: view.frame.height / 10)
     let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
     collectionView.backgroundColor = .systemBackground
+    collectionView.dataSource = self
     collectionView.register(
       ProductListCollectionViewCell.self,
       forCellWithReuseIdentifier: ProductListCollectionViewCell.identifier)
@@ -53,5 +54,26 @@ final class ProductListViewController: UIViewController {
       collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
       collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
     ])
+  }
+}
+
+extension ProductListViewController: UICollectionViewDataSource {
+  func collectionView(
+    _ collectionView: UICollectionView,
+    numberOfItemsInSection section: Int
+  ) -> Int {
+    return self.productList.count
+  }
+  
+  func collectionView(
+    _ collectionView: UICollectionView,
+    cellForItemAt indexPath: IndexPath
+  ) -> UICollectionViewCell {
+    guard let cell = collectionView.dequeueReusableCell(
+      withReuseIdentifier: ProductListCollectionViewCell.identifier,
+      for: indexPath) as? ProductListCollectionViewCell
+    else { return ProductListCollectionViewCell() }
+    
+    return cell
   }
 }
