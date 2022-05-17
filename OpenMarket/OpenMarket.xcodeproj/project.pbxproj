@@ -7,8 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3008F395282F648E0034C902 /* Decodable+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3008F394282F648E0034C902 /* Decodable+.swift */; };
+		3008F395282F648E0034C902 /* Decodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3008F394282F648E0034C902 /* Decodable.swift */; };
 		3008F399282FCB720034C902 /* Json.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3008F398282FCB720034C902 /* Json.swift */; };
+		3008F3CD28337E990034C902 /* CALayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3008F3CC28337E990034C902 /* CALayer.swift */; };
 		304197DD282A07D700083790 /* ProductList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304197DC282A07D700083790 /* ProductList.swift */; };
 		30C06337282CA80200CACD3C /* Endpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30C06336282CA80200CACD3C /* Endpoint.swift */; };
 		30C06339282CA86A00CACD3C /* URLSessionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30C06338282CA86A00CACD3C /* URLSessionProtocol.swift */; };
@@ -56,8 +57,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		3008F394282F648E0034C902 /* Decodable+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Decodable+.swift"; sourceTree = "<group>"; };
+		3008F394282F648E0034C902 /* Decodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Decodable.swift; sourceTree = "<group>"; };
 		3008F398282FCB720034C902 /* Json.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Json.swift; sourceTree = "<group>"; };
+		3008F3CC28337E990034C902 /* CALayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CALayer.swift; sourceTree = "<group>"; };
 		304197DC282A07D700083790 /* ProductList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductList.swift; sourceTree = "<group>"; };
 		30C06336282CA80200CACD3C /* Endpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endpoint.swift; sourceTree = "<group>"; };
 		30C06338282CA86A00CACD3C /* URLSessionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionProtocol.swift; sourceTree = "<group>"; };
@@ -222,9 +224,10 @@
 		86CC60A22833483D00AE2132 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
-				3008F394282F648E0034C902 /* Decodable+.swift */,
+				3008F394282F648E0034C902 /* Decodable.swift */,
 				86CC60A5283348AE00AE2132 /* UIView.swift */,
 				86CC60A32833489300AE2132 /* UIStackView.swift */,
+				3008F3CC28337E990034C902 /* CALayer.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -500,12 +503,13 @@
 				30C06339282CA86A00CACD3C /* URLSessionProtocol.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* OpenMarketViewController.swift in Sources */,
 				8622BBB2282CA64200D1FAC0 /* NetworkError.swift in Sources */,
-				3008F395282F648E0034C902 /* Decodable+.swift in Sources */,
+				3008F395282F648E0034C902 /* Decodable.swift in Sources */,
 				8610B2B4282A052600EB00AF /* Product.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				3008F399282FCB720034C902 /* Json.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 				8622BBB0282CA37C00D1FAC0 /* URLSessionProvider.swift in Sources */,
+				3008F3CD28337E990034C902 /* CALayer.swift in Sources */,
 				86CC60A128333F2C00AE2132 /* ListCell.swift in Sources */,
 				86CC60A6283348AE00AE2132 /* UIView.swift in Sources */,
 				30C06337282CA80200CACD3C /* Endpoint.swift in Sources */,

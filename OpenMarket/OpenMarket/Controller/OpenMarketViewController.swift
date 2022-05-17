@@ -15,9 +15,6 @@ class OpenMarketViewController: UIViewController {
     }
     
     func setup() {
-//        NSLayoutConstraint
-//        collectionView
-        
         self.view.addSubview(collectionView)
         self.collectionView.dataSource = self
         self.collectionView.delegate = self
@@ -51,6 +48,9 @@ extension OpenMarketViewController: UICollectionViewDataSource {
 
 extension OpenMarketViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: view.frame.width, height: view.frame.height / 16.5 )
+        return CGSize(width: view.frame.width, height: view.frame.height / 14 )
+    }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 2
     }
 }

@@ -88,13 +88,18 @@ class ListCell: UICollectionViewCell {
         super.init(frame: frame)
         addsubViews()
         layout()
+        setupBorder()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    private func setupBorder() {
+        let border = layer.addBorder(edges: [.bottom], color: .lightGray, thickness: 0.5, bottomLeftSpacing: 15)
+        layer.addSublayer(border)
+    }
 }
-
 
 // MARK: - layout
 
