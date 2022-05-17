@@ -6,3 +6,11 @@
 //
 
 import Foundation
+
+extension Int {
+  var toDecimal: String {
+    let formatter = NumberFormatter()
+    formatter.numberStyle = .decimal
+    return formatter.string(for: self) ?? ""
+  }
+}
