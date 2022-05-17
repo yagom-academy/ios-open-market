@@ -13,6 +13,7 @@
 		0ED7574C282DF52E00C05FC1 /* MockURLProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED7574B282DF52E00C05FC1 /* MockURLProtocol.swift */; };
 		675D90DE282A2D5B00A46468 /* HTTPManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 675D90DD282A2D5B00A46468 /* HTTPManager.swift */; };
 		675D90ED282BA28900A46468 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 675D90EC282BA28900A46468 /* NetworkError.swift */; };
+		678EA5AE2833304B005CE9EA /* BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 678EA5AD2833304B005CE9EA /* BaseView.swift */; };
 		67FA257F282A05DA0089BBE3 /* OpenMarketProductList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67FA257E282A05DA0089BBE3 /* OpenMarketProductList.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
 		C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */; };
@@ -39,6 +40,7 @@
 		0ED7574B282DF52E00C05FC1 /* MockURLProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLProtocol.swift; sourceTree = "<group>"; };
 		675D90DD282A2D5B00A46468 /* HTTPManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPManager.swift; sourceTree = "<group>"; };
 		675D90EC282BA28900A46468 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
+		678EA5AD2833304B005CE9EA /* BaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseView.swift; sourceTree = "<group>"; };
 		67FA257E282A05DA0089BBE3 /* OpenMarketProductList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketProductList.swift; sourceTree = "<group>"; };
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -132,6 +134,7 @@
 			isa = PBXGroup;
 			children = (
 				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
+				678EA5AD2833304B005CE9EA /* BaseView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -282,6 +285,7 @@
 				67FA257F282A05DA0089BBE3 /* OpenMarketProductList.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 				0E6DF3CB282A0C0F0076E0C6 /* DecodingError.swift in Sources */,
+				678EA5AE2833304B005CE9EA /* BaseView.swift in Sources */,
 				675D90ED282BA28900A46468 /* NetworkError.swift in Sources */,
 				675D90DE282A2D5B00A46468 /* HTTPManager.swift in Sources */,
 			);
@@ -398,7 +402,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -453,7 +457,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
