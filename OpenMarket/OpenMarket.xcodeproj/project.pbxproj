@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3008F395282F648E0034C902 /* Decodable+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3008F394282F648E0034C902 /* Decodable+Extension.swift */; };
+		3008F395282F648E0034C902 /* Decodable+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3008F394282F648E0034C902 /* Decodable+.swift */; };
 		3008F399282FCB720034C902 /* Json.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3008F398282FCB720034C902 /* Json.swift */; };
 		304197DD282A07D700083790 /* ProductList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304197DC282A07D700083790 /* ProductList.swift */; };
 		30C06337282CA80200CACD3C /* Endpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30C06336282CA80200CACD3C /* Endpoint.swift */; };
@@ -22,6 +22,8 @@
 		869BD321282D053000284FAE /* MockURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8622BBC2282CAC4F00D1FAC0 /* MockURLSession.swift */; };
 		869BD337282D0DA100284FAE /* URLHealthcheckerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869BD336282D0DA100284FAE /* URLHealthcheckerTests.swift */; };
 		86CC60A128333F2C00AE2132 /* ListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86CC60A028333F2C00AE2132 /* ListCell.swift */; };
+		86CC60A42833489300AE2132 /* UIStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86CC60A32833489300AE2132 /* UIStackView.swift */; };
+		86CC60A6283348AE00AE2132 /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86CC60A5283348AE00AE2132 /* UIView.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
 		C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */; };
 		C70FB0FF25BEF61C00C9924E /* OpenMarketViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FE25BEF61C00C9924E /* OpenMarketViewController.swift */; };
@@ -54,7 +56,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		3008F394282F648E0034C902 /* Decodable+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Decodable+Extension.swift"; sourceTree = "<group>"; };
+		3008F394282F648E0034C902 /* Decodable+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Decodable+.swift"; sourceTree = "<group>"; };
 		3008F398282FCB720034C902 /* Json.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Json.swift; sourceTree = "<group>"; };
 		304197DC282A07D700083790 /* ProductList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductList.swift; sourceTree = "<group>"; };
 		30C06336282CA80200CACD3C /* Endpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endpoint.swift; sourceTree = "<group>"; };
@@ -73,6 +75,8 @@
 		869BD334282D0DA100284FAE /* URLHealthcheckerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = URLHealthcheckerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		869BD336282D0DA100284FAE /* URLHealthcheckerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLHealthcheckerTests.swift; sourceTree = "<group>"; };
 		86CC60A028333F2C00AE2132 /* ListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCell.swift; sourceTree = "<group>"; };
+		86CC60A32833489300AE2132 /* UIStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIStackView.swift; sourceTree = "<group>"; };
+		86CC60A5283348AE00AE2132 /* UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -119,7 +123,7 @@
 		3008F393282F64460034C902 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				3008F394282F648E0034C902 /* Decodable+Extension.swift */,
+				86CC60A22833483D00AE2132 /* Extension */,
 				3008F398282FCB720034C902 /* Json.swift */,
 			);
 			path = Utils;
@@ -213,6 +217,16 @@
 				869BD336282D0DA100284FAE /* URLHealthcheckerTests.swift */,
 			);
 			path = URLHealthcheckerTests;
+			sourceTree = "<group>";
+		};
+		86CC60A22833483D00AE2132 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				3008F394282F648E0034C902 /* Decodable+.swift */,
+				86CC60A5283348AE00AE2132 /* UIView.swift */,
+				86CC60A32833489300AE2132 /* UIStackView.swift */,
+			);
+			path = Extension;
 			sourceTree = "<group>";
 		};
 		C70FB0EE25BEF61C00C9924E = {
@@ -486,14 +500,16 @@
 				30C06339282CA86A00CACD3C /* URLSessionProtocol.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* OpenMarketViewController.swift in Sources */,
 				8622BBB2282CA64200D1FAC0 /* NetworkError.swift in Sources */,
-				3008F395282F648E0034C902 /* Decodable+Extension.swift in Sources */,
+				3008F395282F648E0034C902 /* Decodable+.swift in Sources */,
 				8610B2B4282A052600EB00AF /* Product.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				3008F399282FCB720034C902 /* Json.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 				8622BBB0282CA37C00D1FAC0 /* URLSessionProvider.swift in Sources */,
 				86CC60A128333F2C00AE2132 /* ListCell.swift in Sources */,
+				86CC60A6283348AE00AE2132 /* UIView.swift in Sources */,
 				30C06337282CA80200CACD3C /* Endpoint.swift in Sources */,
+				86CC60A42833489300AE2132 /* UIStackView.swift in Sources */,
 				304197DD282A07D700083790 /* ProductList.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
