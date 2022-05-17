@@ -15,9 +15,13 @@ final class ProductListViewController: UIViewController {
     }
   }
 
-  private let segmentControl: UISegmentedControl = {
+  private lazy var segmentControl: UISegmentedControl = {
     let segment = UISegmentedControl(items: ["LIST", "GRID"])
+    segment.setWidth(70, forSegmentAt: 0)
+    segment.setWidth(70, forSegmentAt: 1)
     segment.selectedSegmentIndex = .zero
+    segment.backgroundColor = .systemBackground
+    segment.addTarget(self, action: #selector(changeLayout(_:)), for: .valueChanged)
     return segment
   }()
   
@@ -49,6 +53,8 @@ final class ProductListViewController: UIViewController {
       self.productList = productList
     }
   }
+  
+  @objc func changeLayout(_ sender: UISegmentedControl) {}
   
   private func configureUI() {
     self.view.backgroundColor = .systemBackground
