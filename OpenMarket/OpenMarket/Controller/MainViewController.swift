@@ -7,6 +7,9 @@
 import UIKit
 
 final class MainViewController: UIViewController {
+  enum Section {
+    case main
+  }
   private lazy var collectionView = UICollectionView(frame: .zero,
                                              collectionViewLayout: configureListLayout())
   private let urlProvider = URLSessionProvider<ProductsList>(path: "/api/products",
