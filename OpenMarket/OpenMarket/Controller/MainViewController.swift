@@ -11,12 +11,15 @@ final class MainViewController: UIViewController {
         case main
     }
     
-    private lazy var mainView = MainView(frame: view.bounds)
-    private let productsAPIServie = APIProvider<Products>()
     private typealias DataSource = UICollectionViewDiffableDataSource<Section, Item>
     private typealias Snapshot = NSDiffableDataSourceSnapshot<Section, Item>
-    private lazy var datasource = makeDataSource()
     
+    private let productsAPIServie = APIProvider<Products>()
+    
+    private lazy var mainView = MainView(frame: view.bounds)
+    private lazy var datasource = makeDataSource()
+    private lazy var imageCacheManager = ImageCacheManager<Products>(apiService: productsAPIServie)
+        
     private var items: [Item] = []
     
     override func loadView() {
@@ -57,7 +60,7 @@ final class MainViewController: UIViewController {
     }
     
     private func requestProducts() {
-        let endpoint = EndPointStorage.productsList(pageNumber: 1, perPages: 100)
+        let endpoint = EndPointStorage.productsList(pageNumber: 1, perPages: 10)
         
         productsAPIServie.request(with: endpoint) { result in
             switch result {
@@ -83,16 +86,9 @@ final class MainViewController: UIViewController {
                         return UICollectionViewCell()
                     }
     
-                    self.productsAPIServie.requestImage(with: item.thumbnail) { result in
-                        switch result {
-                        case .success(let image):
-                            DispatchQueue.main.async {
-                                if collectionView.indexPath(for: cell) == indexPath {
-                                    cell.updateImage(image: image)
-                                }
-                            }
-                        case .failure(_):
-                            print("썸네일 에러")
+                    self.imageCacheManager.loadImage(url: item.thumbnail) { image in
+                        DispatchQueue.main.async {
+                            cell.updateImage(image: image)
                         }
                     }
                     
@@ -106,16 +102,9 @@ final class MainViewController: UIViewController {
                         return UICollectionViewCell()
                     }
                     
-                    self.productsAPIServie.requestImage(with: item.thumbnail) { result in
-                        switch result {
-                        case .success(let image):
-                            DispatchQueue.main.async {
-                                if collectionView.indexPath(for: cell) == indexPath {
-                                    cell.updateImage(image: image)
-                                }
-                            }
-                        case .failure(_):
-                            print("썸네일 에러")
+                    self.imageCacheManager.loadImage(url: item.thumbnail) { image in
+                        DispatchQueue.main.async {
+                            cell.updateImage(image: image)
                         }
                     }
                     
@@ -125,7 +114,7 @@ final class MainViewController: UIViewController {
             })
         return dataSource
     }
-    
+
     private func applySnapshot(animatingDifferences: Bool = true) {
         DispatchQueue.main.async {
             var snapshot = Snapshot()
