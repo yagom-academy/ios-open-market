@@ -110,7 +110,19 @@ final class ProductListCollectionViewCell: UICollectionViewCell {
     return data
   }
   
+  private func addBottomBorder(thickness: CGFloat) {
+    let border = CALayer()
+    border.frame = CGRect(
+      x: 0,
+      y: contentView.frame.height - thickness,
+      width: contentView.frame.width,
+      height: thickness)
+    border.backgroundColor = UIColor.systemGray4.cgColor
+    self.contentView.layer.addSublayer(border)
+  }
+  
   private func configureUI() {
+    self.addBottomBorder(thickness: 1.0)
     self.contentView.addSubview(containerStackView)
     self.containerStackView.addArrangedSubview(productImageView)
     self.containerStackView.addArrangedSubview(informationStackView)
