@@ -15,48 +15,7 @@ class ViewController: UIViewController {
     var arrangeMode: ArrangeMode = .list
     let segmentedControl = UISegmentedControl(items: ["LIST", "GRID"])
     var data: [Product] = []
-    
     lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: listLayout())
-    
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        let plusButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: nil)
-        self.navigationItem.titleView = segmentedControl
-        self.navigationItem.rightBarButtonItem = plusButton
-        self.view.addSubview(collectionView)
-        self.navigationController?.navigationBar.backgroundColor = .systemGroupedBackground
-        self.view.addSubview(activityIndicator)
-        self.activityIndicator.startAnimating()
-        
-        setData()
-        
-        segmentLayout()
-        configureCollectionView()
-        collectionViewDelegate()
-        
-        segmentedControl.addTarget(self, action: #selector(arrangementChange(_:)), for: .valueChanged)
-        segmentedControl.selectedSegmentIndex = 0
-        self.arrangementChange(segmentedControl)
-    }
-    
-    private func setData() {
-        RequestAssistant.shared.requestListAPI(pageNumber: 1, itemsPerPage: 20) { result in
-            Thread.sleep(forTimeInterval: 5)
-            switch result {
-            case .success(let dataa):
-                self.data = dataa.pages
-                DispatchQueue.main.async {
-                    self.activityIndicator.stopAnimating()
-                    self.collectionView.reloadData()
-                }
-            case .failure(_):
-                return
-            }
-            
-        }
-    }
-    
     lazy var activityIndicator: UIActivityIndicatorView = {
         let activityIndicator = UIActivityIndicatorView()
         activityIndicator.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
@@ -67,42 +26,61 @@ class ViewController: UIViewController {
         return activityIndicator
     }()
     
-    private func listLayout() -> UICollectionViewCompositionalLayout {
-        var listConfiguration = UICollectionLayoutListConfiguration(appearance: .plain)
-        listConfiguration.showsSeparators = true
-        listConfiguration.backgroundColor = UIColor.clear
-        return UICollectionViewCompositionalLayout.list(using: listConfiguration)
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setUpNavigationItems()
+        self.view.addSubview(collectionView)
+        self.view.addSubview(activityIndicator)
+        self.activityIndicator.startAnimating()
+        receiveProductListData()
+        
+        setUpSegmentedControlLayout()
+        setUpCollectionViewConstraints()
+        collectionViewDelegate()
+        
+        segmentedControl.addTarget(self, action: #selector(arrangementChange(_:)), for: .valueChanged)
+        segmentedControl.selectedSegmentIndex = 0
+        self.arrangementChange(segmentedControl)
     }
     
-    private func gridLayout() -> UICollectionViewCompositionalLayout {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(self.view.frame.height * 0.35))
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 2)
-        
-        group.interItemSpacing = .fixed(10)
-        let section = NSCollectionLayoutSection(group: group)
-        
-        section.interGroupSpacing = CGFloat(10)
-        section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 0, trailing: 10)
-        
-        return UICollectionViewCompositionalLayout(section: section)
+    private func setUpNavigationItems() {
+        let plusButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: nil)
+        self.navigationItem.titleView = segmentedControl
+        self.navigationItem.rightBarButtonItem = plusButton
+        self.navigationController?.navigationBar.backgroundColor = .systemGroupedBackground
     }
     
-    func segmentLayout() {
+    private func receiveProductListData() {
+        RequestAssistant.shared.requestListAPI(pageNumber: 1, itemsPerPage: 20) { result in
+            Thread.sleep(forTimeInterval: 5)
+            switch result {
+            case .success(let data):
+                self.data = data.pages
+                DispatchQueue.main.async {
+                    self.activityIndicator.stopAnimating()
+                    self.collectionView.reloadData()
+                }
+            case .failure(_):
+                return
+            }
+        }
+    }
+    
+    func setUpSegmentedControlLayout() {
+        let normalTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.systemBlue, .font: UIFont.preferredFont(forTextStyle: .callout)]
+        let selectedTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white, .font: UIFont.preferredFont(forTextStyle: .callout)]
+        
         segmentedControl.translatesAutoresizingMaskIntoConstraints = false
         segmentedControl.backgroundColor = .white
         segmentedControl.selectedSegmentTintColor = .systemBlue
-        let normalTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.systemBlue]
         segmentedControl.setTitleTextAttributes(normalTextAttributes, for: .normal)
-        let selectedTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
         segmentedControl.setTitleTextAttributes(selectedTextAttributes, for: .selected)
         segmentedControl.layer.borderColor = UIColor.systemBlue.cgColor
         segmentedControl.layer.borderWidth = 1.0
         segmentedControl.layer.cornerRadius = 1.0
         segmentedControl.layer.masksToBounds = false
-        segmentedControl.setWidth(90, forSegmentAt: 0)
-        segmentedControl.setWidth(90, forSegmentAt: 1)
+        segmentedControl.setWidth(85, forSegmentAt: 0)
+        segmentedControl.setWidth(85, forSegmentAt: 1)
         segmentedControl.apportionsSegmentWidthsByContent = true
         segmentedControl.sizeToFit()
     }
@@ -125,7 +103,7 @@ class ViewController: UIViewController {
         }
     }
     
-    func configureCollectionView() {
+    func setUpCollectionViewConstraints() {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0).isActive = true
         collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
@@ -135,7 +113,6 @@ class ViewController: UIViewController {
 }
 
 extension ViewController {
-    
     func collectionViewDelegate() {
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -143,7 +120,6 @@ extension ViewController {
 }
 
 extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         data.count
     }
@@ -212,4 +188,28 @@ extension ViewController {
     }
 }
 
+// MARK: - Collection View Layout
+extension ViewController {
+    private func listLayout() -> UICollectionViewCompositionalLayout {
+        var listConfiguration = UICollectionLayoutListConfiguration(appearance: .plain)
+        listConfiguration.showsSeparators = true
+        listConfiguration.backgroundColor = UIColor.clear
+        return UICollectionViewCompositionalLayout.list(using: listConfiguration)
+    }
+    
+    private func gridLayout() -> UICollectionViewCompositionalLayout {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(self.view.frame.height * 0.30))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 2)
+        
+        group.interItemSpacing = .fixed(10)
+        let section = NSCollectionLayoutSection(group: group)
+        
+        section.interGroupSpacing = CGFloat(10)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 0, trailing: 10)
+        
+        return UICollectionViewCompositionalLayout(section: section)
+    }
+}
 
