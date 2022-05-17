@@ -26,16 +26,21 @@ final class GridCollectionViewCell: UICollectionViewCell {
     
     private lazy var productPrice: UILabel = {
         let label = UILabel()
+        label.font = UIFont.preferredFont(forTextStyle: .callout)
+        label.textColor = .gray
         return label
     }()
     
     private lazy var discountPrice: UILabel = {
         let label = UILabel()
+        label.font = UIFont.preferredFont(forTextStyle: .callout)
+        label.textColor = .gray
         return label
     }()
     
     private lazy var stock: UILabel = {
         let label = UILabel()
+        label.font = UIFont.preferredFont(forTextStyle: .callout)
         return label
     }()
     
@@ -52,7 +57,7 @@ final class GridCollectionViewCell: UICollectionViewCell {
         super.init(frame: frame)
         contentView.layer.borderColor = UIColor.gray.cgColor
         contentView.layer.borderWidth = 1
-        contentView.layer.cornerRadius = 5
+        contentView.layer.cornerRadius = 10
         setCellView()
     }
     
@@ -106,7 +111,7 @@ final class GridCollectionViewCell: UICollectionViewCell {
             stock.textColor = .orange
         } else {
             stock.text = "잔여수량: \(product.stock)"
-            stock.textColor = .black
+            stock.textColor = .gray
         }
     }
     

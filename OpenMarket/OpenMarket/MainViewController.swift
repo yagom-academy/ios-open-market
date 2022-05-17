@@ -63,6 +63,17 @@ final class MainViewController: UIViewController, NetworkAble {
         return segment
     }()
     
+    private lazy var activityIndicator: UIActivityIndicatorView = {
+        let activityIndicator = UIActivityIndicatorView()
+        activityIndicator.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
+        activityIndicator.center = self.view.center
+        activityIndicator.color = UIColor.red
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.style = UIActivityIndicatorView.Style.medium
+        activityIndicator.stopAnimating()
+        return activityIndicator
+    }()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
@@ -98,6 +109,9 @@ final class MainViewController: UIViewController, NetworkAble {
         collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: listLayout)
         view.addSubview(collectionView)
         collectionView.delegate = self
+
+        view.addSubview(activityIndicator)
+        activityIndicator.startAnimating()
     }
     
     private func configureDataSource(pageNo: Int, itemsPerPage: Int) {
@@ -131,6 +145,9 @@ final class MainViewController: UIViewController, NetworkAble {
                   let pageInformation = try? JSONDecoder().decode(PageInformation.self, from: data) else { return }
             snapshot.appendItems(pageInformation.pages)
             self.dataSource.apply(snapshot, animatingDifferences: true)
+            DispatchQueue.main.async {
+                self.activityIndicator.stopAnimating()
+            }
         } errorHandler: { error in
         }
     }

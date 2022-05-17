@@ -33,9 +33,11 @@ final class ListCollectionViewCell: UICollectionViewListCell {
             listContentView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             listContentView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             listContentView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            
             stock.leadingAnchor.constraint(greaterThanOrEqualTo: listContentView.trailingAnchor),
-            stock.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            stock.widthAnchor.constraint(lessThanOrEqualTo: listContentView.widthAnchor, multiplier: 0.5)
+            stock.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -5),
+            stock.widthAnchor.constraint(lessThanOrEqualTo: listContentView.widthAnchor, multiplier: 0.5),
+            stock.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
         ])
     }
     
@@ -43,9 +45,11 @@ final class ListCollectionViewCell: UICollectionViewListCell {
         
         var configure = defaultListConfiguration()
         configure.image = product.thumbnailImage
-        configure.imageProperties.maximumSize = CGSize(width: 50, height: 50)
+        configure.imageProperties.maximumSize = CGSize(width: 60, height: 60)
         configure.text = product.name
         configure.textProperties.font = .preferredFont(forTextStyle: .headline)
+        configure.secondaryTextProperties.font = .preferredFont(forTextStyle: .callout)
+        configure.secondaryTextProperties.color = .gray
         
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .decimal
@@ -75,7 +79,7 @@ final class ListCollectionViewCell: UICollectionViewListCell {
             stock.textColor = .orange
         } else {
             stock.text = "잔여수량: \(product.stock)"
-            stock.textColor = .black
+            stock.textColor = .gray
         }
         setConstraint()
     }
