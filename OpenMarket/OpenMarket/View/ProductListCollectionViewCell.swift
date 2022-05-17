@@ -11,6 +11,7 @@ final class ProductListCollectionViewCell: UICollectionViewCell {
   private let containerStackView: UIStackView = {
     let stackView = UIStackView()
     stackView.axis = .horizontal
+    stackView.spacing = 6.0
     return stackView
   }()
   
@@ -18,12 +19,15 @@ final class ProductListCollectionViewCell: UICollectionViewCell {
     let stackView = UIStackView()
     stackView.axis = .vertical
     stackView.alignment = .leading
+    stackView.distribution = .fillEqually
     return stackView
   }()
   
   private let priceStackView: UIStackView = {
     let stackView = UIStackView()
     stackView.axis = .horizontal
+    stackView.alignment = .center
+    stackView.spacing = 6.0
     return stackView
   }()
   
@@ -111,11 +115,17 @@ final class ProductListCollectionViewCell: UICollectionViewCell {
     self.quantityStackView.addArrangedSubview(disclosureImageView)
     
     self.containerStackView.translatesAutoresizingMaskIntoConstraints = false
+    self.productImageView.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
       containerStackView.topAnchor.constraint(equalTo: contentView.topAnchor),
       containerStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
       containerStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-      containerStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
+      containerStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+      
+      productImageView.heightAnchor.constraint(equalTo: contentView.heightAnchor),
+      productImageView.widthAnchor.constraint(
+        equalTo: productImageView.heightAnchor,
+        multiplier: 1.0)
     ])
   }
 }

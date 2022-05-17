@@ -24,7 +24,7 @@ final class ProductListViewController: UIViewController {
   private lazy var collectionView: UICollectionView = {
     let layout = UICollectionViewFlowLayout()
     layout.scrollDirection = .vertical
-    layout.itemSize = CGSize(width: view.frame.width, height: view.frame.height / 10)
+    layout.itemSize = CGSize(width: view.frame.width, height: view.frame.height / 15)
     let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
     collectionView.backgroundColor = .systemBackground
     collectionView.dataSource = self
