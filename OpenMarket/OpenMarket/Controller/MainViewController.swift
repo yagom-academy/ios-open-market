@@ -10,6 +10,20 @@ final class MainViewController: UIViewController {
   enum Section {
     case main
   }
+  enum layoutType {
+    case list
+    case grid
+    
+    var string: String {
+      switch self {
+      case .list:
+        return "LIST"
+      case .grid:
+        return "GRID"
+      }
+    }
+  }
+  
   typealias DataSource = UICollectionViewDiffableDataSource<Section, Page>
   typealias Snapshot = NSDiffableDataSourceSnapshot<Section, Page>
   private lazy var dataSource = makeDataSource()
