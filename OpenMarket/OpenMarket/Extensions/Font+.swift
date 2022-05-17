@@ -1,5 +1,5 @@
 //
-//  UIFont+.swift
+//  Font+.swift
 //  OpenMarket
 //
 //  Created by Grumpy, OneTool on 2022/05/17.
