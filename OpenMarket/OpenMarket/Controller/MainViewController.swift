@@ -61,6 +61,7 @@ final class MainViewController: UIViewController {
     configureCollectionView()
     collectionView.collectionViewLayout = configureListLayout()
     configureNavigationItems()
+    collectionView.dataSource = self.dataSource
   }
   
   
@@ -69,7 +70,6 @@ final class MainViewController: UIViewController {
     collectionView.frame = self.view.safeAreaLayoutGuide.layoutFrame
     self.collectionView.register(ListCell.self, forCellWithReuseIdentifier: "ListCell")
     self.collectionView.register(GridCell.self, forCellWithReuseIdentifier: "GridCell")
-    self.collectionView.dataSource = self
   }
   
   private func configureListLayout() -> UICollectionViewFlowLayout {
@@ -100,33 +100,31 @@ final class MainViewController: UIViewController {
       self.pages = products.pages
     }
   }
-}
-
-extension MainViewController: UICollectionViewDataSource {
-  func collectionView(_ collectionView: UICollectionView,
-                      numberOfItemsInSection section: Int) -> Int {
-    return self.pages.count
-  }
   
-  func collectionView(_ collectionView: UICollectionView,
-                      cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    if segmentedControl.selectedSegmentIndex == 0 {
-      let id = String(describing: ListCell.self)
-      guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: id,
-                                                          for: indexPath) as? ListCell else {
-        return UICollectionViewCell()
+  func makeDataSource() -> DataSource {
+    let dataSource = DataSource(collectionView: collectionView, cellProvider: {
+      (collectionView, indexPath, page) ->
+      UICollectionViewCell? in
+      if self.segmentedControl.selectedSegmentIndex == 0 {
+        let id = String(describing: ListCell.self)
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: id,
+                                                            for: indexPath) as? ListCell else {
+          return UICollectionViewCell()
+        }
+        cell.setUpListCell(page: self.pages[indexPath.row])
+        return cell
+      } else {
+        let id = String(describing: GridCell.self)
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: id,
+                                                            for: indexPath) as? GridCell else {
+          return UICollectionViewCell()
+        }
+        cell.setUpListCell(page: self.pages[indexPath.row])
+        return cell
       }
-      cell.setUpListCell(page: self.pages[indexPath.row])
-      return cell
-    } else {
-      let id = String(describing: GridCell.self)
-      guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: id,
-                                                          for: indexPath) as? GridCell else {
-        return UICollectionViewCell()
-      }
-      cell.setUpListCell(page: self.pages[indexPath.row])
-      return cell
-    }
+    })
+    return dataSource
+  }
   }
 }
 
