@@ -37,7 +37,6 @@ final class GridCell: UICollectionViewCell {
     let label = UILabel()
     label.textAlignment = .center
     label.font = .systemFont(ofSize: 17)
-    label.textColor = .systemGray
     return label
   }()
   
@@ -53,7 +52,6 @@ final class GridCell: UICollectionViewCell {
     let label = UILabel()
     label.textAlignment = .center
     label.font = .systemFont(ofSize: 17)
-    label.textColor = .systemGray
     return label
   }()
   
@@ -67,14 +65,19 @@ final class GridCell: UICollectionViewCell {
     return stackView
   }()
   
+  override func prepareForReuse() {
+    super.prepareForReuse()
+    self.thumbnailImageView.image = nil
+  }
+  
   private func configureGridCell() {
     contentView.addSubview(totalStackView)
     totalStackView.axis = .vertical
-    totalStackView.addArrangedSubview(thumbnailImageView)
-    totalStackView.addArrangedSubview(nameLabel)
-    totalStackView.addArrangedSubview(bargainPriceLabel)
-    totalStackView.addArrangedSubview(discountedPriceLabel)
-    totalStackView.addArrangedSubview(stockLabel)
+    totalStackView.addArrangedSubviews(thumbnailImageView,
+                                       nameLabel,
+                                       bargainPriceLabel,
+                                       discountedPriceLabel,
+                                       stockLabel)
     
     NSLayoutConstraint.activate([
       totalStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
@@ -92,16 +95,20 @@ final class GridCell: UICollectionViewCell {
   func setUpListCell(page: Page) {
     self.thumbnailImageView.load(urlString: page.thumbnail)
     self.nameLabel.text = page.name
+    let bargainPrice = page.currency + page.bargainPrice.convertCurrency()
+    
     if page.discountedPrice == 0 {
       self.bargainPriceLabel.textColor = .systemGray
       self.bargainPriceLabel.attributedText = .none
-      self.bargainPriceLabel.text = "\(page.currency)\(page.bargainPrice)"
-      self.discountedPriceLabel.text = ""
+      self.bargainPriceLabel.text = bargainPrice
+      self.discountedPriceLabel.isHidden = true
     } else {
       self.bargainPriceLabel.textColor = .systemRed
-      self.bargainPriceLabel.attributedText = "\(page.currency)\(page.bargainPrice)".strikeThrough()
-      self.discountedPriceLabel.text = "\(page.currency)\(page.discountedPrice)"
+      self.bargainPriceLabel.attributedText = bargainPrice.strikeThrough()
+      self.discountedPriceLabel.isHidden = false
+      self.discountedPriceLabel.text = page.currency + page.discountedPrice.convertCurrency()
     }
+    
     if page.stock == 0 {
       self.stockLabel.textColor = .systemYellow
       self.stockLabel.text = "품절"
