@@ -5,11 +5,13 @@
 //  Created by Grumpy, OneTool on 2022/05/10.
 //
 
-import Foundation
 import UIKit
 
 final class RequestAssistant {
+    static let shared = RequestAssistant()
     private let sessionManager = URLSessionGenerator(session: URLSession.shared)
+    
+    private init() { }
     
     func requestListAPI(pageNumber: Int, itemsPerPage: Int, completionHandler: @escaping ((Result<ProductList, OpenMarketError>) -> Void)) {
         
