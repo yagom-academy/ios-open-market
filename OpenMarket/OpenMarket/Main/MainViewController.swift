@@ -47,7 +47,6 @@ final class MainViewController: UIViewController {
         configureView()
         configureNavigationBar()
         requestData(pageNumber: pageNumber)
-        print(CollectionLayout.grid.cellType)
     }
     
     private func configureView() {
@@ -96,8 +95,8 @@ extension MainViewController {
                 DispatchQueue.main.async {
                     self?.mainView.indicatorView.stopAnimating()
                 }
-            case .failure(let error):
-                print(error)
+            case .failure(_):
+                break
             }
         }
     }

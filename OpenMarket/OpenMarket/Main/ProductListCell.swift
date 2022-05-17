@@ -165,5 +165,3 @@ extension ProductListCell {
         thumbnailImageView.image = image
     }
 }
-
-
