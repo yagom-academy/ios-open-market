@@ -7,21 +7,41 @@
 import UIKit
 
 class OpenMarketViewController: UIViewController {
-    lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: listCellLayout())
-    let segmentControl = UISegmentedControl(items: ["list", "grid"])
-
+    private let segmentControl = UISegmentedControl(items: ["list", "grid"])
+    private var collectionView: UICollectionView?
+    private var productList: [Product] = []
+    private var network: URLSessionProvider<ProductList>? {
+        didSet {
+            getData(from: .productList(page: 1, itemsPerPage: 12))
+        }
+    }
+    
+    func getData(from: Endpoint) {
+        network?.fetchData(from: from, completionHandler: { result in
+            switch result {
+            case .success(let data):
+                self.productList = data.pages!
+                print(data)
+            case .failure(_):
+                print("")
+            }
+        })
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        network = URLSessionProvider()
         setup()
         addsegment()
     }
     
     func setup() {
-        self.view.addSubview(collectionView)
-        self.collectionView.dataSource = self
-        self.collectionView.delegate = self
-        self.collectionView.frame = self.view.safeAreaLayoutGuide.layoutFrame
-        self.collectionView.register(ListCell.self, forCellWithReuseIdentifier: ListCell.identifier)
+        let flowLayout = listCellLayout()
+        self.collectionView = UICollectionView(frame: view.frame, collectionViewLayout: flowLayout)
+        self.view.addSubview(collectionView ?? UICollectionView())
+        self.collectionView?.dataSource = self
+        self.collectionView?.delegate = self
+        self.collectionView?.register(ListCell.self, forCellWithReuseIdentifier: ListCell.identifier)
     }
     
     private func listCellLayout() -> UICollectionViewFlowLayout {
@@ -55,7 +75,7 @@ extension OpenMarketViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        12
+        return productList.count
     }
 }
 
