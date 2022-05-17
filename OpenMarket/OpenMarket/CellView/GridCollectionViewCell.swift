@@ -7,7 +7,7 @@
 
 import UIKit
 
-class GridCollectionViewCell: UICollectionViewCell, Contentable {
+final class GridCollectionViewCell: UICollectionViewCell, Contentable {
     lazy var productNameLabel = createLabel(font: .preferredFont(for: .title3, weight: .semibold), textColor: .black, alignment: .center)
     lazy var productImageView = createImageView(contentMode: .scaleAspectFit)
     lazy var productPriceLabel = createLabel(font: .preferredFont(forTextStyle: .body), textColor: .systemGray, alignment: .center)
