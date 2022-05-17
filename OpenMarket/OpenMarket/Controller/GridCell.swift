@@ -96,7 +96,7 @@ final class GridCell: UICollectionViewCell {
     ])
   }
   
-  func setUpListCell(page: Page) {
+  func setUpGridCell(page: Page) {
     self.thumbnailImageView.load(urlString: page.thumbnail)
     self.nameLabel.text = page.name
     let bargainPrice = page.currency + page.bargainPrice.convertCurrency()

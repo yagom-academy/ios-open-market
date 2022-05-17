@@ -128,7 +128,7 @@ extension MainViewController {
       } else {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "GridCell",
                                                             for: indexPath) as? GridCell
-        cell?.setUpListCell(page: self.pages[indexPath.row])
+        cell?.setUpGridCell(page: self.pages[indexPath.row])
         return cell
       }
     })
