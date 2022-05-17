@@ -7,7 +7,14 @@
 import UIKit
 
 final class MainViewController: UIViewController {
-    enum Section {
+    private enum Constants {
+        static let itemsCountPerPage = 20
+        static let requestErrorAlertTitle = "오류 발생"
+        static let requestErrorAlertConfirmTitle = "다시요청하기"
+        static let loadImageErrorAlertConfirmTitle = "확인"
+    }
+    
+    private enum Section {
         case main
     }
     
@@ -72,7 +79,7 @@ extension MainViewController {
 
 extension MainViewController {
     private func requestProducts(by page: Int) {
-        let endpoint = EndPointStorage.productsList(pageNumber: page, perPages: 20)
+        let endpoint = EndPointStorage.productsList(pageNumber: page, perPages: Constants.itemsCountPerPage)
         
         productsAPIServie.request(with: endpoint) { [weak self] result in
             guard let self = self else {
@@ -86,9 +93,9 @@ extension MainViewController {
             case .failure(let error):
                 DispatchQueue.main.async {
                     self.alertBuilder
-                        .setTitle("오류 발생")
+                        .setTitle(Constants.requestErrorAlertTitle)
                         .setMessage(error.localizedDescription)
-                        .setConfirmTitle("다시요청하기")
+                        .setConfirmTitle(Constants.requestErrorAlertConfirmTitle)
                         .setConfirmHandler {
                             self.requestProducts(by: self.currentPage)
                         }
@@ -106,9 +113,9 @@ extension MainViewController {
             case .failure(let error):
                 DispatchQueue.main.async {
                     self.alertBuilder
-                        .setTitle("오류 발생")
+                        .setTitle(Constants.requestErrorAlertTitle)
                         .setMessage(error.localizedDescription)
-                        .setConfirmTitle("고객센터에 연락하세요.")
+                        .setConfirmTitle(Constants.loadImageErrorAlertConfirmTitle)
                         .showAlert()
                 }
             }

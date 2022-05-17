@@ -5,12 +5,12 @@
 //  Created by Red, Mino on 2022/05/10.
 //
 
-fileprivate extension Constants {
-    static let productsListPath = "/api/products"
-    static let productsDetailPath = "/api/products/"
-}
-
 struct EndPointStorage {
+    private enum Constants {
+        static let productsListPath = "/api/products"
+        static let productsDetailPath = "/api/products/"
+    }
+    
     static func productsList(pageNumber: Int, perPages: Int)
         -> EndPoint {
         let productsListDTO = ProductsListDTO(
