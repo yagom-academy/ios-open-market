@@ -27,13 +27,11 @@ final class MainViewController: UIViewController {
   typealias DataSource = UICollectionViewDiffableDataSource<Section, Page>
   typealias Snapshot = NSDiffableDataSourceSnapshot<Section, Page>
   private lazy var dataSource = makeDataSource()
-  
   private lazy var collectionView = UICollectionView(frame: .zero,
                                                      collectionViewLayout: configureListLayout())
   private let urlProvider = URLSessionProvider<ProductsList>(path: "/api/products",
                                                              parameters: ["page_no":"1",
                                                                           "items_per_page": "20"])
-  
   private var pages: [Page] = [] {
     didSet {
       DispatchQueue.main.async {
