@@ -18,6 +18,7 @@
 		ABF6011E283345DD00E8CAC2 /* UICollectionViewCell+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF6011D283345DD00E8CAC2 /* UICollectionViewCell+Extension.swift */; };
 		B00E3C5F282BDA2B006AB0AC /* URLSession+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00E3C5E282BDA2B006AB0AC /* URLSession+Extension.swift */; };
 		B02944A3282A430800B9828F /* DecodeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B02944A2282A430800B9828F /* DecodeTests.swift */; };
+		B05BE63A2833CC230059CD26 /* Int+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B05BE6392833CC230059CD26 /* Int+Extension.swift */; };
 		B0802A4228326C670058019C /* ProductListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0802A4128326C670058019C /* ProductListCollectionViewCell.swift */; };
 		B0A408DD282B933C00A388FA /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0A408DC282B933C00A388FA /* NetworkService.swift */; };
 		B0A408DF282B945D00A388FA /* APINetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0A408DE282B945D00A388FA /* APINetworkService.swift */; };
@@ -54,6 +55,7 @@
 		B00E3C5E282BDA2B006AB0AC /* URLSession+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSession+Extension.swift"; sourceTree = "<group>"; };
 		B02944A0282A430800B9828F /* OpenMarketTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenMarketTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B02944A2282A430800B9828F /* DecodeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecodeTests.swift; sourceTree = "<group>"; };
+		B05BE6392833CC230059CD26 /* Int+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Extension.swift"; sourceTree = "<group>"; };
 		B0802A4128326C670058019C /* ProductListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductListCollectionViewCell.swift; sourceTree = "<group>"; };
 		B0A408DC282B933C00A388FA /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		B0A408DE282B945D00A388FA /* APINetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APINetworkService.swift; sourceTree = "<group>"; };
@@ -120,6 +122,7 @@
 			children = (
 				ABF6011D283345DD00E8CAC2 /* UICollectionViewCell+Extension.swift */,
 				AB56FB4128339687009E6DC0 /* UILabel+Extension.swift */,
+				B05BE6392833CC230059CD26 /* Int+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -376,6 +379,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B05BE63A2833CC230059CD26 /* Int+Extension.swift in Sources */,
 				B0A408DF282B945D00A388FA /* APINetworkService.swift in Sources */,
 				B0802A4228326C670058019C /* ProductListCollectionViewCell.swift in Sources */,
 				B0A408E3282BA5F200A388FA /* APINetworkError.swift in Sources */,
