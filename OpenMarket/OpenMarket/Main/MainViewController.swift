@@ -92,6 +92,10 @@ extension MainViewController {
                 
                 self?.products.append(contentsOf: result)
                 self?.applySnapshot()
+                
+                DispatchQueue.main.async {
+                    self?.mainView.indicatorView.stopAnimating()
+                }
             case .failure(let error):
                 print(error)
             }
