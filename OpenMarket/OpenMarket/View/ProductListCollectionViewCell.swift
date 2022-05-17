@@ -89,7 +89,15 @@ final class ProductListCollectionViewCell: UICollectionViewCell {
     self.titleLabel.text = product.name
     self.priceLabel.setStrike(text: "\(product.currency.rawValue) \(product.price)")
     self.bargainPriceLabel.text = "\(product.currency.rawValue) \(product.bargainPrice)"
-    self.stockLabel.text = "잔여수량: \(product.stock)"
+    
+    if product.stock == 0 {
+      self.stockLabel.textColor = .systemOrange
+      self.stockLabel.text = "품절"
+    } else {
+      self.stockLabel.textColor = .secondaryLabel
+      self.stockLabel.text = "잔여수량: \(product.stock)"
+    }
+    
     self.productImageView.image = UIImage(data: convertImageFromData(url: product.thumbnail))
   }
   

@@ -43,7 +43,7 @@ final class ProductListViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     self.configureUI()
-    self.loadProductListData(page: 1, itemPerPage: 10)
+    self.loadProductListData(page: 1, itemPerPage: 30)
   }
   
   private func loadProductListData(page: Int, itemPerPage: Int) {

@@ -37,6 +37,7 @@ final class ProductGridCollectionViewCell: UICollectionViewCell {
   
   private let titleLabel: UILabel = {
     let label = UILabel()
+    label.textAlignment = .center
     label.font = .preferredFont(forTextStyle: .headline)
     return label
   }()
@@ -58,6 +59,7 @@ final class ProductGridCollectionViewCell: UICollectionViewCell {
   private let stockLabel: UILabel = {
     let label = UILabel()
     label.textColor = .systemGray
+    label.textAlignment = .center
     return label
   }()
   
@@ -75,7 +77,16 @@ final class ProductGridCollectionViewCell: UICollectionViewCell {
     self.titleLabel.text = product.name
     self.priceLabel.setStrike(text: "\(product.currency.rawValue) \(product.price)")
     self.bargainPriceLabel.text = "\(product.currency.rawValue) \(product.bargainPrice)"
-    self.stockLabel.text = "잔여수량: \(product.stock)"
+    
+    if product.stock == 0 {
+      self.stockLabel.textColor = .systemOrange
+      self.stockLabel.text = "품절"
+    } else {
+      self.stockLabel.textColor = .secondaryLabel
+      self.stockLabel.text = "잔여수량: \(product.stock)"
+    }
+    
+
     self.productImageView.image = UIImage(data: convertImageFromData(url: product.thumbnail))
   }
   
