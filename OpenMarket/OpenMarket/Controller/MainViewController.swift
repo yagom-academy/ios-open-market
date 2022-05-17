@@ -69,11 +69,14 @@ final class MainViewController: UIViewController {
     self.view.addSubview(collectionView)
     let safeArea = self.view.safeAreaLayoutGuide
     collectionView.translatesAutoresizingMaskIntoConstraints = false
-    NSLayoutConstraint.activate([collectionView.leftAnchor.constraint(equalTo: safeArea.leftAnchor),
-                                 collectionView.rightAnchor.constraint(equalTo: safeArea.rightAnchor),
-                                 collectionView.topAnchor.constraint(equalTo: safeArea.topAnchor),
-                                 collectionView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor)
-                                ])
+    
+    NSLayoutConstraint.activate([
+      collectionView.leftAnchor.constraint(equalTo: safeArea.leftAnchor),
+      collectionView.rightAnchor.constraint(equalTo: safeArea.rightAnchor),
+      collectionView.topAnchor.constraint(equalTo: safeArea.topAnchor),
+      collectionView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor)
+    ])
+    
     self.collectionView.register(ListCell.self, forCellWithReuseIdentifier: "ListCell")
     self.collectionView.register(GridCell.self, forCellWithReuseIdentifier: "GridCell")
   }
@@ -129,11 +132,13 @@ extension MainViewController {
       if self.segmentedControl.selectedSegmentIndex == 0 {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ListCell",
                                                       for: indexPath) as? ListCell
+        
         cell?.setUpListCell(page: self.pages[indexPath.row])
         return cell
       } else {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "GridCell",
-                                                            for: indexPath) as? GridCell
+                                                      for: indexPath) as? GridCell
+        
         cell?.setUpGridCell(page: self.pages[indexPath.row])
         return cell
       }
