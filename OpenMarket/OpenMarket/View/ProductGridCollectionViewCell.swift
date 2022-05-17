@@ -73,8 +73,8 @@ final class ProductGridCollectionViewCell: UICollectionViewCell {
   
   func setup(product: Product) {
     self.titleLabel.text = product.name
-    self.priceLabel.setStrike(text: "\(product.price)")
-    self.bargainPriceLabel.text = "\(product.bargainPrice)"
+    self.priceLabel.setStrike(text: "\(product.currency.rawValue) \(product.price)")
+    self.bargainPriceLabel.text = "\(product.currency.rawValue) \(product.bargainPrice)"
     self.stockLabel.text = "잔여수량: \(product.stock)"
     self.productImageView.image = UIImage(data: convertImageFromData(url: product.thumbnail))
   }
