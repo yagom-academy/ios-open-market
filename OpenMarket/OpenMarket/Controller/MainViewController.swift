@@ -10,6 +10,10 @@ final class MainViewController: UIViewController {
   enum Section {
     case main
   }
+  typealias DataSource = UICollectionViewDiffableDataSource<Section, Page>
+  typealias Snapshot = NSDiffableDataSourceSnapshot<Section, Page>
+  private lazy var dataSource = makeDataSource()
+  
   private lazy var collectionView = UICollectionView(frame: .zero,
                                              collectionViewLayout: configureListLayout())
   private let urlProvider = URLSessionProvider<ProductsList>(path: "/api/products",
