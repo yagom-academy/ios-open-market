@@ -8,10 +8,12 @@ import UIKit
 
 class OpenMarketViewController: UIViewController {
     lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: listCellLayout())
-    
+    let segmentControl = UISegmentedControl(items: ["list", "grid"])
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
+        addsegment()
     }
     
     func setup() {
@@ -26,6 +28,17 @@ class OpenMarketViewController: UIViewController {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         return layout
+    }
+    
+    func addsegment() {
+        segmentControl.selectedSegmentTintColor = .systemBlue
+        segmentControl.layer.addBorder(edges: [.all], color: .systemBlue, thickness: 2)
+        segmentControl.selectedSegmentIndex = 0
+        let attribute = [NSAttributedString.Key.foregroundColor: UIColor.systemBlue]
+        segmentControl.setTitleTextAttributes(attribute, for: .normal)
+        let attribute2 = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        segmentControl.setTitleTextAttributes(attribute2, for: UIControl.State.selected)
+        self.navigationItem.titleView = segmentControl
     }
 }
 
