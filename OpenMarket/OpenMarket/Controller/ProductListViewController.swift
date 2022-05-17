@@ -82,12 +82,25 @@ extension ProductListViewController: UICollectionViewDataSource {
     _ collectionView: UICollectionView,
     cellForItemAt indexPath: IndexPath
   ) -> UICollectionViewCell {
-    guard let listCell = collectionView.dequeueReusableCell(
-      withReuseIdentifier: ProductListCollectionViewCell.identifier,
-      for: indexPath) as? ProductListCollectionViewCell
-    else { return ProductListCollectionViewCell() }
-    
-    listCell.setup(product: self.productList[indexPath.row])
-    return listCell
+    switch segmentControl.selectedSegmentIndex {
+    case 0:
+      guard let listCell = collectionView.dequeueReusableCell(
+        withReuseIdentifier: ProductListCollectionViewCell.identifier,
+        for: indexPath) as? ProductListCollectionViewCell
+      else { return ProductListCollectionViewCell() }
+      
+      listCell.setup(product: self.productList[indexPath.row])
+      return listCell
+    case 1:
+      guard let gridCell = collectionView.dequeueReusableCell(
+        withReuseIdentifier: ProductGridCollectionViewCell.identifier,
+        for: indexPath) as? ProductGridCollectionViewCell
+      else { return ProductGridCollectionViewCell() }
+      
+      gridCell.setup(product: self.productList[indexPath.row])
+      return gridCell
+    default:
+      return UICollectionViewCell()
+    }
   }
 }
