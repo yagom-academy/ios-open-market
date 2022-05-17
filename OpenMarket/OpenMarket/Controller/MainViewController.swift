@@ -51,7 +51,7 @@ final class MainViewController: UIViewController {
     super.viewDidLoad()
     fetchPages()
     configureCollectionView()
-    configureNavigationItems()
+    configureNavigationBar()
     applySnapshot(animatingDifferences: false)
     collectionView.dataSource = self.dataSource
   }
@@ -78,7 +78,9 @@ final class MainViewController: UIViewController {
     self.collectionView.register(GridCell.self, forCellWithReuseIdentifier: "GridCell")
   }
   
-  private func configureNavigationItems() {
+  private func configureNavigationBar() {
+    navigationController?.navigationBar.backgroundColor = .lightGray
+    navigationController?.navigationBar.scrollEdgeAppearance = UINavigationBarAppearance()
     navigationItem.titleView = segmentedControl
     navigationItem.rightBarButtonItem = .init(barButtonSystemItem: .add,
                                               target: .none,
