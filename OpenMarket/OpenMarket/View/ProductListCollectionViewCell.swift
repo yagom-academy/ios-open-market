@@ -87,7 +87,7 @@ final class ProductListCollectionViewCell: UICollectionViewCell {
   
   func setup(product: Product) {
     self.titleLabel.text = product.name
-    self.priceLabel.text = "\(product.price)"
+    self.priceLabel.setStrike(text: "\(product.price)")
     self.bargainPriceLabel.text = "\(product.bargainPrice)"
     self.stockLabel.text = "잔여수량: \(product.stock)"
     self.productImageView.image = UIImage(data: convertImageFromData(url: product.thumbnail))
