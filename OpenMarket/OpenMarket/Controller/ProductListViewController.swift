@@ -54,7 +54,22 @@ final class ProductListViewController: UIViewController {
     }
   }
   
-  @objc func changeLayout(_ sender: UISegmentedControl) {}
+  @objc func changeLayout(_ sender: UISegmentedControl) {
+    switch sender.selectedSegmentIndex {
+    case 0:
+      let layout = UICollectionViewFlowLayout()
+      layout.itemSize = CGSize(width: view.frame.width, height: view.frame.height / 15)
+      self.collectionView.reloadData()
+      self.collectionView.setCollectionViewLayout(layout, animated: true)
+    case 1:
+      let layout = UICollectionViewFlowLayout()
+      layout.itemSize = CGSize(width: view.frame.width / 2 - 10, height: view.frame.height / 5)
+      self.collectionView.reloadData()
+      self.collectionView.setCollectionViewLayout(layout, animated: true)
+    default:
+      break
+    }
+  }
   
   private func configureUI() {
     self.view.backgroundColor = .systemBackground
