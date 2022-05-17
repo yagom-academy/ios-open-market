@@ -10,8 +10,8 @@ final class MainViewController: UIViewController, NetworkAble {
     
     let session: URLSessionProtocol = URLSession.shared
     var status = 0
-    var pageNo = 1
-    var itemsPerPage = 10
+    var pageNo = 3
+    var itemsPerPage = 30
     
     enum Section {
         case main
@@ -62,14 +62,12 @@ final class MainViewController: UIViewController, NetworkAble {
         switch sender.selectedSegmentIndex {
         case 0:
             self.status = 0
-            collectionView.reloadData()
             collectionView.setCollectionViewLayout(creatListLayout(), animated: true)
-            return print("LIST 뷰입니다.")
+            collectionView.reloadData()
         case 1:
             self.status = 1
-            collectionView.reloadData()
             collectionView.setCollectionViewLayout(createGridLayout(), animated: true)
-            return print("GIRD 뷰입니다.")
+            collectionView.reloadData()
         default:
             return
         }
@@ -123,12 +121,12 @@ final class MainViewController: UIViewController, NetworkAble {
     
     private func createGridLayout() -> UICollectionViewLayout {
         let flowLayout = UICollectionViewFlowLayout()
-        flowLayout.minimumLineSpacing = 20
-        flowLayout.minimumInteritemSpacing = 10
+//        flowLayout.minimumLineSpacing = 20
+//        flowLayout.minimumInteritemSpacing = 10
         flowLayout.scrollDirection = .vertical
         flowLayout.itemSize = CGSize(
-            width: view.safeAreaLayoutGuide.layoutFrame.width,
-            height: view.safeAreaLayoutGuide.layoutFrame.height
+            width: view.frame.size.width / 2 - 20,
+            height: view.frame.size.height / 2
         )
         return flowLayout
     }
