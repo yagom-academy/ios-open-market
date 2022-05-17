@@ -27,6 +27,7 @@ final class MainViewController: UIViewController {
     private lazy var datasource = makeDataSource()
     private lazy var imageCacheManager = ImageCacheManager<Products>(apiService: productsAPIServie)
         
+    private var products: Products?
     private var items: [Item] = []
     private var currentPage = 1
     
@@ -88,6 +89,7 @@ extension MainViewController {
             
             switch result {
             case .success(let products):
+                self.products = products
                 self.items.append(contentsOf: products.items)
                 self.applySnapshot(animatingDifferences: false)
             case .failure(let error):
@@ -186,11 +188,13 @@ extension MainViewController {
 
 extension MainViewController: UICollectionViewDataSourcePrefetching {
     func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
-        indexPaths.forEach { indexPath in
-            if indexPath.row == items.count - 1 {
-                currentPage += 1
-                requestProducts(by: currentPage)
-            }
+        guard products?.hasNext == true else {
+            return
+        }
+        
+        if indexPaths.last?.row == items.count - 1 {
+            currentPage += 1
+            requestProducts(by: currentPage)
         }
     }
 }
