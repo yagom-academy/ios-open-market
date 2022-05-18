@@ -104,6 +104,4 @@ struct URLSessionProvider<T: Decodable> {
         }
         task.resume()
     }
-
-    
 }

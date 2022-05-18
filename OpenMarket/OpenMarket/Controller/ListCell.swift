@@ -73,7 +73,6 @@ class ListCell: UICollectionViewCell {
         stackView.axis = .horizontal
         stackView.spacing = 10
         stackView.alignment = .trailing
-        stackView.setContentHuggingPriority(.defaultLow, for: .horizontal)
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
@@ -148,10 +147,6 @@ class ListCell: UICollectionViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        nameLabel.text = ""
-        stockLabel.text = ""
-        priceLabel.attributedText = nil
-        priceLabel.text = ""
         priceLabel.textColor = .lightGray
         stockLabel.textColor = .lightGray
     }
@@ -161,11 +156,11 @@ class ListCell: UICollectionViewCell {
 
 extension ListCell {
     private func addsubViews() {
-        self.contentView.addSubview(cellStackView)
-        self.cellStackView.addArrangedsubViews(thumbnailImageView, informationStackView, stockStackView)
-        self.informationStackView.addArrangedsubViews(nameLabel, priceStackView)
-        self.priceStackView.addArrangedsubViews(priceLabel, bargenLabel)
-        self.stockStackView.addArrangedsubViews(stockLabel, accessoryLabel)
+        contentView.addSubview(cellStackView)
+        cellStackView.addArrangedsubViews(thumbnailImageView, informationStackView, stockStackView)
+        informationStackView.addArrangedsubViews(nameLabel, priceStackView)
+        priceStackView.addArrangedsubViews(priceLabel, bargenLabel)
+        stockStackView.addArrangedsubViews(stockLabel, accessoryLabel)
     }
     
     private func layout() {
