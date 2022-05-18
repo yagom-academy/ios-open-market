@@ -53,4 +53,15 @@ final class GridCell: UICollectionViewCell, ItemCellable {
             self.stockLabel.text = stock
         }
     }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        itemImageView.image = nil
+        itemNameLabel.text = nil
+        priceLabel.text = nil
+        bargainPriceLabel.text = nil
+        stockLabel.text = nil
+        self.layer.cornerRadius = 8
+        self.layer.borderWidth = 1
+    }
 }

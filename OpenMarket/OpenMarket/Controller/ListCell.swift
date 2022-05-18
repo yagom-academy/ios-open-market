@@ -53,4 +53,13 @@ final class ListCell: UICollectionViewCell, ItemCellable {
             self.stockLabel.text = stock
         }
     }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        itemImageView.image = nil
+        itemNameLabel.text = nil
+        priceLabel.text = nil
+        bargainPriceLabel.text = nil
+        stockLabel.text = nil
+    }
 }
