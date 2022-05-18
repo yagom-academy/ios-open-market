@@ -1,5 +1,4 @@
-//
-//  GridCell.swift
+//   GridCell.swift
 //  OpenMarket
 //
 //  Created by cathy, mmim.
@@ -34,6 +33,7 @@ final class GridCell: UICollectionViewCell {
     let label = UILabel()
     label.textAlignment = .center
     label.font = .systemFont(ofSize: FontSize.title, weight: .bold)
+    label.setContentHuggingPriority(.defaultHigh, for: .vertical)
     return label
   }()
   
@@ -64,8 +64,15 @@ final class GridCell: UICollectionViewCell {
     stackView.axis = .horizontal
     stackView.alignment = .center
     stackView.distribution = .equalSpacing
-    stackView.spacing = 10
     stackView.translatesAutoresizingMaskIntoConstraints = false
+    return stackView
+  }()
+  
+  private let priceStackView: UIStackView = {
+    let stackView = UIStackView()
+    stackView.axis = .vertical
+    stackView.alignment = .center
+    stackView.distribution = .fill
     return stackView
   }()
   
@@ -85,9 +92,9 @@ final class GridCell: UICollectionViewCell {
     totalStackView.axis = .vertical
     totalStackView.addArrangedSubviews(thumbnailImageView,
                                        nameLabel,
-                                       priceLabel,
-                                       bargainPriceLabel,
+                                       priceStackView,
                                        stockLabel)
+    priceStackView.addArrangedSubviews(priceLabel, bargainPriceLabel)
     
     NSLayoutConstraint.activate([
       totalStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
