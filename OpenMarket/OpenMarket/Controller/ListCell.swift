@@ -55,6 +55,7 @@ final class ListCell: UICollectionViewCell, ItemCellable {
                 self.stockLabel.textColor = #colorLiteral(red: 0.9607843161, green: 0.7058823705, blue: 0.200000003, alpha: 1)
             } else {
                 self.stockLabel.text = stock
+                self.stockLabel.textColor = #colorLiteral(red: 0.6666666865, green: 0.6666666865, blue: 0.6666666865, alpha: 1)
             }
         }
     }
