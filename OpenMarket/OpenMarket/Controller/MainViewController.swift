@@ -126,20 +126,35 @@ final class MainViewController: UIViewController {
 
 extension MainViewController {
   private func makeDataSource() -> DataSource {
-    let dataSource = DataSource(collectionView: collectionView, cellProvider: {
-      (collectionView, indexPath, page) ->
-      UICollectionViewCell? in
+    let dataSource = DataSource(collectionView: collectionView,
+                                cellProvider: {
+      (collectionView, indexPath, page) -> UICollectionViewCell? in
+      
       if self.segmentedControl.selectedSegmentIndex == 0 {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ListCell",
-                                                      for: indexPath) as? ListCell
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ListCell",
+                                                            for: indexPath) as? ListCell
+        else {
+          return nil
+        }
         
-        cell?.setUpListCell(page: self.pages[indexPath.row])
+        DispatchQueue.main.async {
+          if collectionView.indexPath(for: cell) == indexPath {
+            cell.setUpListCell(page: page)
+          }
+        }
         return cell
       } else {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "GridCell",
-                                                      for: indexPath) as? GridCell
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "GridCell",
+                                                            for: indexPath) as? GridCell
+        else {
+          return nil
+        }
         
-        cell?.setUpGridCell(page: self.pages[indexPath.row])
+        DispatchQueue.main.async {
+          if collectionView.indexPath(for: cell) == indexPath {
+            cell.setUpGridCell(page: page)
+          }
+        }
         return cell
       }
     })
