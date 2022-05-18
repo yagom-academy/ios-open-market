@@ -53,12 +53,15 @@ final class ProductListCollectionViewCell: UICollectionViewCell {
   private let priceLabel: UILabel = {
     let label = UILabel()
     label.textColor = .systemRed
+    label.adjustsFontSizeToFitWidth = true
+    label.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
     return label
   }()
   
   private let bargainPriceLabel: UILabel = {
     let label = UILabel()
     label.textColor = .systemGray
+    label.adjustsFontSizeToFitWidth = true
     return label
   }()
   
