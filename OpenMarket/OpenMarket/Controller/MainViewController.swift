@@ -123,7 +123,7 @@ final class MainViewController: UIViewController {
     layout.minimumLineSpacing = 10
     layout.minimumInteritemSpacing = 10
     layout.itemSize = CGSize(width: self.view.bounds.width/2 - 15,
-                             height: self.view.bounds.height/3)
+                             height: self.view.bounds.height/3 - 30)
     return layout
   }
 }
