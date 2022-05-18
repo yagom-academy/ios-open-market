@@ -11,30 +11,18 @@ enum HttpMethod {
   static let get = "GET"
 }
 
-struct URLSessionProvider<T: Decodable> {
-  private let hostApi = "https://market-training.yagom-academy.kr"
+struct ApiProvider<T: Decodable> {
   private let session: URLSessionProtocol
-  private let path: String
-  private let parameters: [String: String]
   
-  init(session: URLSessionProtocol = URLSession.shared,
-       path: String = "",
-       parameters: [String: String] = [:])
-  {
+  init(session: URLSessionProtocol = URLSession.shared) {
     self.session = session
-    self.path = path
-    self.parameters = parameters
   }
   
-  func get(completionHandler: @escaping (Result<T, NetworkError>) -> Void) {
-    guard var urlComponents = URLComponents(string: hostApi + path) else {
-      return
-    }
-    let query = parameters.map {
-      URLQueryItem(name: $0.key, value: $0.value)
-    }
-    urlComponents.queryItems = query
-    guard let url = urlComponents.url else {
+  func get(_ endpoint: Endpoint,
+           completionHandler: @escaping (Result<T, NetworkError>) -> Void)
+  {
+    guard let url = endpoint.url else {
+      completionHandler(.failure(.invalid))
       return
     }
     
