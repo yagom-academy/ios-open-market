@@ -50,7 +50,12 @@ final class ListCell: UICollectionViewCell, ItemCellable {
     
     var stock: String = "" {
         didSet {
-            self.stockLabel.text = stock
+            if stock == "잔여수량 : 0" {
+                self.stockLabel.text = "품절"
+                self.stockLabel.textColor = #colorLiteral(red: 0.9607843161, green: 0.7058823705, blue: 0.200000003, alpha: 1)
+            } else {
+                self.stockLabel.text = stock
+            }
         }
     }
     
@@ -61,5 +66,6 @@ final class ListCell: UICollectionViewCell, ItemCellable {
         priceLabel.text = nil
         bargainPriceLabel.text = nil
         stockLabel.text = nil
+        stockLabel.textColor = nil
     }
 }
