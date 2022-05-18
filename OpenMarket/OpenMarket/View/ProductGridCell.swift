@@ -35,6 +35,9 @@ class ProductGridCell: UICollectionViewCell {
 
 extension ProductGridCell {
     private func addSubViews() {
+        contentView.layer.borderWidth = CGFloat(1)
+        contentView.layer.cornerRadius = CGFloat(10)
+        contentView.layer.borderColor = UIColor.systemGray.cgColor
         contentView.addSubview(baseStackView)
         baseStackView.addArrangedSubviews(cellUIComponent.thumbnailImageView, cellUIComponent.nameLabel, cellUIComponent.priceLabel, cellUIComponent.bargainPriceLabel, cellUIComponent.stockLabel)
     }
@@ -42,14 +45,16 @@ extension ProductGridCell {
     private func layout() {
         let thumbnail = cellUIComponent.thumbnailImageView
         
+        let inset = CGFloat(10)
         NSLayoutConstraint.activate([
-            baseStackView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            baseStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            baseStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            baseStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
+            baseStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: inset),
+            baseStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -inset),
+            baseStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: inset),
+            baseStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -inset)
         ])
         
         NSLayoutConstraint.activate([
+            thumbnail.widthAnchor.constraint(equalToConstant: 50),
             thumbnail.heightAnchor.constraint(equalTo: thumbnail.widthAnchor)
         ])
     }
