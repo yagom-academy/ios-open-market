@@ -10,7 +10,6 @@ class MainViewController: UIViewController {
     enum Section {
         case main
     }
-    var cacheProducts: [Product]?
     var collectionView: UICollectionView!
     var dataSource: UICollectionViewDiffableDataSource<Section, Product>!
     var currentSnapshot: NSDiffableDataSourceSnapshot<Section, Product>! = nil
@@ -22,17 +21,20 @@ class MainViewController: UIViewController {
         configureHierarchy(createLayout: createListLayout)
         configureDataSource()
         setUpNavigationItem()
-        fetchData()
+        fetchData(index: 0)
+        collectionView.prefetchDataSource = self
     }
-
-    func fetchData() {
-        HTTPManager().loadData(targetURL: .productList(pageNumber: 1, itemsPerPage: 20)) { [self] data in
+    
+    func fetchData(index: Int) {
+        let itemsPerPage = 20
+        let pageNumber = index / itemsPerPage + 1
+        
+        HTTPManager().loadData(targetURL: .productList(pageNumber: pageNumber, itemsPerPage: itemsPerPage)) { [self] data in
             switch data {
             case .success(let data):
                 guard let products = try? JSONDecoder().decode(OpenMarketProductList.self, from: data).products else { return }
                 DispatchQueue.main.async { [self] in
                     updateSnapshot(products: products)
-                    cacheProducts = products
                 }
             case .failure(let error):
                 print(error.localizedDescription)
@@ -136,10 +138,21 @@ extension MainViewController {
     }
     
     func updateSnapshot(products: [Product]) {
+        let ifFirst = currentSnapshot == nil
         currentSnapshot = dataSource.snapshot()
-        currentSnapshot.appendSections([.main])
+        
+        if ifFirst {
+            currentSnapshot.appendSections([.main])
+        }
+        
         currentSnapshot.appendItems(products)
         dataSource.apply(currentSnapshot)
         
+    }
+}
+
+extension MainViewController: UICollectionViewDataSourcePrefetching {
+    func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
+        fetchData(index: (indexPaths[safe: 0]?.row ?? 0))
     }
 }
