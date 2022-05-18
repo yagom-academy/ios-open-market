@@ -12,6 +12,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         registCell()
+        setListLayout()
         openMarketCollectionView.dataSource = self
     }
     
@@ -30,7 +31,18 @@ extension ViewController: UICollectionViewDataSource {
         
         return listCell
     }
-    
-    
 }
 
+extension ViewController {
+    func setListLayout() {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(openMarketCollectionView.frame.height * 0.1))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: itemSize.heightDimension)
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 1)
+        
+        let section = NSCollectionLayoutSection(group: group)
+        
+        openMarketCollectionView.collectionViewLayout = UICollectionViewCompositionalLayout(section: section)
+    }
+}
