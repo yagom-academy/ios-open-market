@@ -29,8 +29,6 @@ final class ViewController: UIViewController {
     }
     
     private func getItemPage(itemCell: ItemCellable, indexPath: IndexPath) {
-        self.myActivityIndicator.startAnimating()
-        myActivityIndicator.isHidden = false
         networkHandler.request(api: itemPageAPI) { data in
             switch data {
             case .success(let data):
@@ -40,7 +38,6 @@ final class ViewController: UIViewController {
                 break
             }
         }
-        self.myActivityIndicator.stopAnimating()
     }
     
     private func getImage(itemCell: ItemCellable ,url: String, indexPath: IndexPath) {
@@ -78,13 +75,18 @@ final class ViewController: UIViewController {
                 itemCell.bargainPrice = itemPage.items[indexPath.row].currency + itemPage.items[indexPath.row].bargainPrice.description
                 itemCell.stock = itemPage.items[indexPath.row].stock
             }
+            self.myActivityIndicator.stopAnimating()
         }
     }
     
     @IBAction private func changeLayoutSegment(_ sender: UISegmentedControl) {
         if sender.selectedSegmentIndex == 0 {
+            myActivityIndicator.isHidden = false
+            myActivityIndicator.startAnimating()
             setListLayout()
         } else {
+            myActivityIndicator.isHidden = false
+            myActivityIndicator.startAnimating()
             setGridLayout()
         }
         openMarketCollectionView.reloadData()
