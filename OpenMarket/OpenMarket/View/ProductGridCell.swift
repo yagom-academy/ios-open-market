@@ -17,7 +17,7 @@ class ProductGridCell: UICollectionViewCell {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
-        stackView.distribution = .fillEqually
+        stackView.alignment = .center
         stackView.spacing = 2
         return stackView
     }()
@@ -50,7 +50,7 @@ extension ProductGridCell {
         ])
         
         NSLayoutConstraint.activate([
-            thumbnail.widthAnchor.constraint(equalToConstant: safeAreaLayoutGuide.layoutFrame.width * 0.4),
+            thumbnail.widthAnchor.constraint(equalToConstant: safeAreaLayoutGuide.layoutFrame.width * 0.3),
             thumbnail.heightAnchor.constraint(equalTo: thumbnail.widthAnchor)
         ])
     }
