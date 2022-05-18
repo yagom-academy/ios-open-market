@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AC12F11D283486C70044462D /* ListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC12F11B283486C70044462D /* ListCell.swift */; };
+		AC12F11E283486C70044462D /* ListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AC12F11C283486C70044462D /* ListCell.xib */; };
 		AC161A15282B7E9200472DDC /* URLSessionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC161A14282B7E9200472DDC /* URLSessionProtocol.swift */; };
 		AC326F73283285DA00303ADC /* APIableProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC326F72283285DA00303ADC /* APIableProtocol.swift */; };
 		ACA8E2BB282B85F600B36F46 /* NetworkHandlerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA8E2BA282B85F600B36F46 /* NetworkHandlerTest.swift */; };
@@ -41,6 +43,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		AC12F11B283486C70044462D /* ListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCell.swift; sourceTree = "<group>"; };
+		AC12F11C283486C70044462D /* ListCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ListCell.xib; sourceTree = "<group>"; };
 		AC161A14282B7E9200472DDC /* URLSessionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionProtocol.swift; sourceTree = "<group>"; };
 		AC326F72283285DA00303ADC /* APIableProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIableProtocol.swift; sourceTree = "<group>"; };
 		ACA8E2B8282B85F600B36F46 /* NetworkHandlerTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NetworkHandlerTest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -158,6 +162,7 @@
 			isa = PBXGroup;
 			children = (
 				C70FB0FE25BEF61C00C9924E /* ViewController.swift */,
+				AC12F11B283486C70044462D /* ListCell.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -166,6 +171,7 @@
 			isa = PBXGroup;
 			children = (
 				C70FB10025BEF61C00C9924E /* Main.storyboard */,
+				AC12F11C283486C70044462D /* ListCell.xib */,
 				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
 			);
 			path = View;
@@ -284,6 +290,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C70FB10725BEF61D00C9924E /* LaunchScreen.storyboard in Resources */,
+				AC12F11E283486C70044462D /* ListCell.xib in Resources */,
 				C70FB10425BEF61D00C9924E /* Assets.xcassets in Resources */,
 				C70FB10225BEF61C00C9924E /* Main.storyboard in Resources */,
 			);
@@ -309,6 +316,7 @@
 				E52B4BE1282C98F200AE7D00 /* DataDecoder.swift in Sources */,
 				ACB76937282CB68600CD6073 /* ItemDetail.swift in Sources */,
 				AC326F73283285DA00303ADC /* APIableProtocol.swift in Sources */,
+				AC12F11D283486C70044462D /* ListCell.swift in Sources */,
 				E525336C28328C350032F533 /* APIModels.swift in Sources */,
 				AC161A15282B7E9200472DDC /* URLSessionProtocol.swift in Sources */,
 				E5BEAFE7282A7F5B001B7BDD /* NetworkHandler.swift in Sources */,
