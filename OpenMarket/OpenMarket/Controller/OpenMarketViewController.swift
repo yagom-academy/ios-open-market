@@ -58,10 +58,10 @@ class OpenMarketViewController: UIViewController {
         segmentControl.selectedSegmentTintColor = .systemBlue
         segmentControl.layer.addBorder(edges: [.all], color: .systemBlue, thickness: 2)
         segmentControl.selectedSegmentIndex = 0
-        let attribute = [NSAttributedString.Key.foregroundColor: UIColor.systemBlue]
-        segmentControl.setTitleTextAttributes(attribute, for: .normal)
-        let attribute2 = [NSAttributedString.Key.foregroundColor: UIColor.white]
-        segmentControl.setTitleTextAttributes(attribute2, for: UIControl.State.selected)
+        let nomalFontColor = [NSAttributedString.Key.foregroundColor: UIColor.systemBlue]
+        segmentControl.setTitleTextAttributes(nomalFontColor, for: .normal)
+        let selectedFontColor = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        segmentControl.setTitleTextAttributes(selectedFontColor, for: UIControl.State.selected)
         self.navigationItem.titleView = segmentControl
     }
 }
