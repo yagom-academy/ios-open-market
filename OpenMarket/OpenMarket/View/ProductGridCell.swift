@@ -50,7 +50,6 @@ extension ProductGridCell {
         ])
         
         NSLayoutConstraint.activate([
-            thumbnail.widthAnchor.constraint(equalToConstant: safeAreaLayoutGuide.layoutFrame.width * 0.3),
             thumbnail.heightAnchor.constraint(equalTo: thumbnail.widthAnchor)
         ])
     }

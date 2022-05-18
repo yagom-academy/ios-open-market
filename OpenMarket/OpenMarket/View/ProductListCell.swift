@@ -107,8 +107,9 @@ extension ProductListCell {
         ])
         
         NSLayoutConstraint.activate([
-            thumbnail.widthAnchor.constraint(equalToConstant: 50),
-            thumbnail.heightAnchor.constraint(equalTo: thumbnail.widthAnchor)
+            thumbnail.heightAnchor.constraint(equalTo: contentStackView.heightAnchor),
+            thumbnail.heightAnchor.constraint(lessThanOrEqualToConstant: safeAreaLayoutGuide.layoutFrame.height * 1.2),
+            thumbnail.widthAnchor.constraint(equalTo: thumbnail.heightAnchor)
         ])
         
         NSLayoutConstraint.activate([
