@@ -15,7 +15,7 @@ final class GridCell: UICollectionViewCell {
     super.init(frame: frame)
     configureGridCell()
     self.contentView.layer.borderWidth = 1
-    self.contentView.layer.borderColor = UIColor.gray.cgColor
+    self.contentView.layer.borderColor = UIColor.lightGray.cgColor
     self.contentView.layer.cornerRadius = 10
   }
   
