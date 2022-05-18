@@ -8,28 +8,36 @@ import UIKit
 
 class ViewController: UIViewController {
     @IBOutlet weak var openMarketCollectionView: UICollectionView!
+    let listCellName = String(describing: ListCell.self)
+    let GridCellName = String(describing: GridCell.self)
     
     override func viewDidLoad() {
         super.viewDidLoad()
         registCell()
-        setListLayout()
+//      setListLayout()
+        setGridLayout()
         openMarketCollectionView.dataSource = self
     }
     
     private func registCell() {
-        openMarketCollectionView.register(UINib(nibName: "ListCell", bundle: nil), forCellWithReuseIdentifier: "ListCell")
+        openMarketCollectionView.register(UINib(nibName: listCellName, bundle: nil), forCellWithReuseIdentifier: listCellName)
+        openMarketCollectionView.register(UINib(nibName: GridCellName, bundle: nil), forCellWithReuseIdentifier: GridCellName)
     }
 }
 
 extension ViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        1
+        8
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let listCell = collectionView.dequeueReusableCell(withReuseIdentifier: "ListCell", for: indexPath) as? ListCell else { return ListCell() }
+//        guard let listCell = collectionView.dequeueReusableCell(withReuseIdentifier:  ListCellName, for: indexPath) as? ListCell else { return ListCell() }
+        guard let gridCell = collectionView.dequeueReusableCell(withReuseIdentifier: GridCellName, for: indexPath) as? GridCell else { return GridCell() }
         
-        return listCell
+        gridCell.layer.cornerRadius = 8
+        gridCell.layer.borderWidth = 1
+        
+        return gridCell
     }
 }
 
@@ -40,6 +48,19 @@ extension ViewController {
         
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: itemSize.heightDimension)
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 1)
+        
+        let section = NSCollectionLayoutSection(group: group)
+        
+        openMarketCollectionView.collectionViewLayout = UICollectionViewCompositionalLayout(section: section)
+    }
+    
+    func setGridLayout() {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalWidth(0.7))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        item.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 7, bottom: 5, trailing: 7)
+        
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: itemSize.heightDimension)
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 2)
         
         let section = NSCollectionLayoutSection(group: group)
         
