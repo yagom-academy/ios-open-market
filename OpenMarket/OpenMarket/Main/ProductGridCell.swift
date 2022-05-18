@@ -95,7 +95,7 @@ extension ProductGridCell {
         ])
         
         NSLayoutConstraint.activate([
-            thumbnailImageView.widthAnchor.constraint(equalTo: productStackView.widthAnchor, multiplier: 0.7),
+            thumbnailImageView.widthAnchor.constraint(equalTo: mainStackView.widthAnchor, multiplier: 0.7),
             thumbnailImageView.widthAnchor.constraint(equalTo: thumbnailImageView.heightAnchor)
         ])
     }
