@@ -32,6 +32,7 @@ final class ListCell: UICollectionViewCell {
     let label = UILabel()
     label.textAlignment = .left
     label.font = .systemFont(ofSize: FontSize.title, weight: .bold)
+    label.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
     return label
   }()
   
@@ -40,6 +41,7 @@ final class ListCell: UICollectionViewCell {
     label.textAlignment = .left
     label.font = .systemFont(ofSize: FontSize.body)
     label.textColor = .systemGray
+    label.setContentHuggingPriority(.defaultHigh, for: .horizontal)
     return label
   }()
   
@@ -54,7 +56,26 @@ final class ListCell: UICollectionViewCell {
     let label = UILabel()
     label.textAlignment = .right
     label.font = .systemFont(ofSize: FontSize.body)
+    label.setContentHuggingPriority(.defaultHigh, for: .horizontal)
     return label
+  }()
+  
+  private let accessoryImageView: UIImageView = {
+    let imageView = UIImageView()
+    imageView.image = UIImage(systemName: "chevron.right")
+    imageView.tintColor = .systemGray
+    imageView.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+    imageView.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+    return imageView
+  }()
+  
+  private let nameStackView: UIStackView = {
+    let stackView = UIStackView()
+    stackView.axis = .horizontal
+    stackView.alignment = .top
+    stackView.distribution = .fill
+    stackView.spacing = 5
+    return stackView
   }()
   
   private let priceStackView: UIStackView = {
@@ -69,7 +90,7 @@ final class ListCell: UICollectionViewCell {
   private let verticalStackView: UIStackView = {
     let stackView = UIStackView()
     stackView.axis = .vertical
-    stackView.alignment = .leading
+    stackView.alignment = .fill
     stackView.distribution = .fill
     stackView.spacing = 5
     return stackView
@@ -78,7 +99,7 @@ final class ListCell: UICollectionViewCell {
   private let totalStackView: UIStackView = {
     let stackView = UIStackView()
     stackView.axis = .horizontal
-    stackView.alignment = .top
+    stackView.alignment = .fill
     stackView.distribution = .fill
     stackView.spacing = 5
     stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -99,8 +120,9 @@ final class ListCell: UICollectionViewCell {
   private func configureListCell() {
     contentView.addSubview(totalStackView)
     totalStackView.axis = .horizontal
-    totalStackView.addArrangedSubviews(thumbnailImageView, verticalStackView, stockLabel)
-    verticalStackView.addArrangedSubviews(nameLabel, priceStackView)
+    totalStackView.addArrangedSubviews(thumbnailImageView, verticalStackView)
+    verticalStackView.addArrangedSubviews(nameStackView, priceStackView)
+    nameStackView.addArrangedSubviews(nameLabel, stockLabel, accessoryImageView)
     priceStackView.addArrangedSubviews(priceLabel, bargainPriceLabel)
     
     NSLayoutConstraint.activate([
@@ -110,10 +132,7 @@ final class ListCell: UICollectionViewCell {
       totalStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
       
       thumbnailImageView.widthAnchor.constraint(equalTo: thumbnailImageView.heightAnchor,
-                                                multiplier: 1.1),
-      
-      verticalStackView.widthAnchor.constraint(equalTo: contentView.widthAnchor,
-                                               multiplier: 0.4)
+                                                multiplier: 1.1)
     ])
   }
   
@@ -134,19 +153,11 @@ final class ListCell: UICollectionViewCell {
     
     if page.stock == 0 {
       self.stockLabel.textColor = .systemYellow
-      makeStockLabel("품절")
+      self.stockLabel.text = "품절"
     } else {
       self.stockLabel.textColor = .systemGray
-      makeStockLabel("잔여수량 : \(page.stock)")
+      self.stockLabel.text = "잔여수량 : \(page.stock)"
     }
-  }
-  
-  private func makeStockLabel(_ stock: String) {
-    let attributedString = NSMutableAttributedString(string: stock)
-    let imageAttachment = NSTextAttachment()
-    imageAttachment.image = UIImage(systemName: "chevron.right")?.withRenderingMode(.alwaysTemplate)
-    attributedString.append(NSAttributedString(attachment: imageAttachment))
-    self.stockLabel.attributedText = attributedString
   }
 }
 
