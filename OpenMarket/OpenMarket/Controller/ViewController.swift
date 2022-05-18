@@ -8,6 +8,7 @@ import UIKit
 
 class ViewController: UIViewController {
     @IBOutlet weak var openMarketCollectionView: UICollectionView!
+    @IBOutlet weak var collectionViewSegment: UISegmentedControl!
     let listCellName = String(describing: ListCell.self)
     let GridCellName = String(describing: GridCell.self)
     
@@ -22,6 +23,8 @@ class ViewController: UIViewController {
     private func registCell() {
         openMarketCollectionView.register(UINib(nibName: listCellName, bundle: nil), forCellWithReuseIdentifier: listCellName)
         openMarketCollectionView.register(UINib(nibName: GridCellName, bundle: nil), forCellWithReuseIdentifier: GridCellName)
+    }
+    @IBAction func changeLayoutSegment(_ sender: UISegmentedControl) {
     }
 }
 

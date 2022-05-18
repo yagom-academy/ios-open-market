@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="vwT-x8-kfi">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -18,7 +18,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="LwH-4D-DmQ">
-                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                                <rect key="frame" x="0.0" y="88" width="414" height="808"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="SYq-ZZ-g84">
                                     <size key="itemSize" width="128" height="128"/>
@@ -30,21 +30,54 @@
                             </collectionView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="LwH-4D-DmQ" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="HQK-cu-rIj"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="LwH-4D-DmQ" secondAttribute="trailing" id="Ocn-XU-QKZ"/>
                             <constraint firstItem="LwH-4D-DmQ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="QTT-XT-WVJ"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="LwH-4D-DmQ" secondAttribute="bottom" id="jPD-OO-raA"/>
+                            <constraint firstAttribute="bottom" secondItem="LwH-4D-DmQ" secondAttribute="bottom" id="jPD-OO-raA"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="47D-JK-Rib">
+                        <nil key="title"/>
+                        <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="Pp3-hi-DGT">
+                            <rect key="frame" x="116" y="6" width="182" height="32"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <segments>
+                                <segment title="LIST"/>
+                                <segment title="GRID"/>
+                            </segments>
+                            <connections>
+                                <action selector="changeLayoutSegment:" destination="BYZ-38-t0r" eventType="valueChanged" id="1wi-En-38G"/>
+                            </connections>
+                        </segmentedControl>
+                    </navigationItem>
                     <connections>
+                        <outlet property="collectionViewSegment" destination="Pp3-hi-DGT" id="uwc-4S-kPe"/>
                         <outlet property="openMarketCollectionView" destination="LwH-4D-DmQ" id="OKz-aU-oOs"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="133" y="110"/>
+            <point key="canvasLocation" x="1042.0289855072465" y="109.82142857142857"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="jDI-zh-Q8f">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="vwT-x8-kfi" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="CIh-Sq-y3o">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="Icm-zT-7YQ"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="8Ek-8X-JKl" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="131.8840579710145" y="109.82142857142857"/>
         </scene>
     </scenes>
     <resources>
