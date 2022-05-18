@@ -56,14 +56,16 @@ final class MainViewController: UIViewController {
     configureCollectionView()
     configureNavigationBar()
     applySnapshot(animatingDifferences: false)
+    collectionView.prefetchDataSource = self
   }
   
   private func fetchPages() {
-    urlProvider.get(.productList(pageNumber: 1, itemsPerPage: 20)) { data in
+    urlProvider.get(.productList(pageNumber: currentPageNumber, itemsPerPage: 20)) { data in
       guard let products = try? data.get() else {
         return
       }
-      self.pages = products.pages
+      self.productsList = products
+      self.pages += products.pages
     }
   }
   
@@ -175,5 +177,18 @@ extension MainViewController {
     snapshot.appendSections([.main])
     snapshot.appendItems(pages)
     dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
+  }
+}
+
+extension MainViewController: UICollectionViewDataSourcePrefetching {
+  func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
+    guard productsList?.hasNext == true else {
+      return
+    }
+
+    if indexPaths.last?.row == pages.count - 1 {
+      currentPageNumber += 1
+      fetchPages()
+    }
   }
 }
