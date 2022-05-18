@@ -21,12 +21,12 @@ class OpenMarketViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         network = URLSessionProvider()
-        getData(from: .productList(page: 1, itemsPerPage: 20))
+        fetchData(from: .productList(page: 1, itemsPerPage: 20))
         setup()
         addsegment()
     }
     
-    func getData(from: Endpoint) {
+    private func fetchData(from: Endpoint) {
         network?.fetchData(from: from, completionHandler: { result in
             switch result {
             case .success(let data):
@@ -37,7 +37,7 @@ class OpenMarketViewController: UIViewController {
         })
     }
     
-    func setup() {
+    private func setup() {
         let flowLayout = listCellLayout()
         self.collectionView = UICollectionView(frame: view.frame, collectionViewLayout: flowLayout)
         self.view.addSubview(collectionView ?? UICollectionView())
@@ -54,7 +54,7 @@ class OpenMarketViewController: UIViewController {
         return layout
     }
     
-    func addsegment() {
+    private func addsegment() {
         segmentControl.selectedSegmentTintColor = .systemBlue
         segmentControl.layer.addBorder(edges: [.all], color: .systemBlue, thickness: 2)
         segmentControl.selectedSegmentIndex = 0

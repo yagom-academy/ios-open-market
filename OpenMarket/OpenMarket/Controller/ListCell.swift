@@ -13,7 +13,7 @@ extension ListCell {
     }
 }
 
-class ListCell: UICollectionViewCell {
+final class ListCell: UICollectionViewCell {
     private lazy var cellStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
