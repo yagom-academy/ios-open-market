@@ -8,6 +8,10 @@
 import UIKit
 
 final class ListCell: UICollectionViewCell {
+  static var identifier: String {
+    return String(describing: self)
+  }
+  
   override init(frame: CGRect) {
     super.init(frame: frame)
     configureListCell()
@@ -27,14 +31,14 @@ final class ListCell: UICollectionViewCell {
   private let nameLabel: UILabel = {
     let label = UILabel()
     label.textAlignment = .left
-    label.font = .systemFont(ofSize: 17, weight: .bold)
+    label.font = .systemFont(ofSize: FontSize.title, weight: .bold)
     return label
   }()
   
   private let priceLabel: UILabel = {
     let label = UILabel()
     label.textAlignment = .left
-    label.font = .systemFont(ofSize: 17)
+    label.font = .systemFont(ofSize: FontSize.body)
     label.textColor = .systemGray
     return label
   }()
@@ -42,14 +46,14 @@ final class ListCell: UICollectionViewCell {
   private let bargainPriceLabel: UILabel = {
     let label = UILabel()
     label.textAlignment = .left
-    label.font = .systemFont(ofSize: 17)
+    label.font = .systemFont(ofSize: FontSize.body)
     return label
   }()
   
   private let stockLabel: UILabel = {
     let label = UILabel()
     label.textAlignment = .right
-    label.font = .systemFont(ofSize: 17)
+    label.font = .systemFont(ofSize: FontSize.body)
     return label
   }()
   
