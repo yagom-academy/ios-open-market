@@ -21,10 +21,9 @@ class OpenMarketViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         network = URLSessionProvider()
-        getData(from: .productList(page: 1, itemsPerPage: 30))
+        getData(from: .productList(page: 1, itemsPerPage: 70))
         setup()
         addsegment()
-        
     }
     
     func getData(from: Endpoint) {
@@ -50,7 +49,7 @@ class OpenMarketViewController: UIViewController {
     private func listCellLayout() -> UICollectionViewFlowLayout {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
-        layout.minimumLineSpacing = 2
+        layout.minimumLineSpacing = 7
         layout.itemSize = CGSize(width: view.frame.width, height: view.frame.height / 14 )
         return layout
     }

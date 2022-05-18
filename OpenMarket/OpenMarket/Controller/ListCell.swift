@@ -17,6 +17,9 @@ class ListCell: UICollectionViewCell {
     private lazy var cellStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
+        stackView.alignment = .top
+        stackView.distribution = .fillProportionally
+        stackView.spacing = 10
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
@@ -32,6 +35,8 @@ class ListCell: UICollectionViewCell {
     private lazy var informationStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
+        stackView.alignment = .leading
+        stackView.spacing = 7
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
@@ -45,7 +50,6 @@ class ListCell: UICollectionViewCell {
     private lazy var priceStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
-        stackView.distribution = .fillProportionally
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
@@ -53,36 +57,43 @@ class ListCell: UICollectionViewCell {
     private lazy var priceLabel: UILabel = {
         let label = UILabel()
         label.text = "Price Label"
+        label.textColor = .lightGray
         return label
     }()
     
     private lazy var bargenLabel: UILabel = {
         let label = UILabel()
         label.text = "Bargen Label"
+        label.textColor = .lightGray
         return label
     }()
     
     private lazy var stockStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
-        stackView.alignment = .top
+        stackView.spacing = 10
+        stackView.alignment = .trailing
+        stackView.setContentHuggingPriority(.defaultLow, for: .horizontal)
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
-
+    
     private lazy var stockLabel: UILabel = {
         let label = UILabel()
         label.text = "Stock Label"
+        label.textColor = .lightGray
         label.textAlignment = .right
         return label
     }()
     
-    private lazy var accessoryImage: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = UIImage(systemName: "chevron.right")
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.tintColor = .lightGray
-        return imageView
+    private lazy var accessoryLabel: UILabel = {
+        let label = UILabel()
+        let attachment = NSTextAttachment()
+        attachment.image = UIImage(systemName: "chevron.right")?.withTintColor(.lightGray)
+        let attachmentString = NSAttributedString(attachment: attachment)
+        let attributedStr = NSMutableAttributedString(string: attachmentString.description)
+        label.attributedText = attachmentString
+        return label
     }()
     
     override init(frame: CGRect) {
@@ -105,7 +116,7 @@ class ListCell: UICollectionViewCell {
         nameLabel.text = data.name
         
         if data.stock == 0 {
-            stockLabel.text = "재고없어!"
+            stockLabel.text = "품절"
             stockLabel.textColor = .systemYellow
         } else {
             guard let stock = data.stock else {
@@ -117,12 +128,14 @@ class ListCell: UICollectionViewCell {
         guard let price = data.price, let bargenPrice = data.bargainPrice, let currency = data.currency else {
             return
         }
-       
+        
         if data.discountedPrice == 0 {
             priceLabel.text = "\(currency)\(price)"
             bargenLabel.text = ""
         } else {
-            priceLabel.text = "\(currency)\(price) "
+            priceLabel.textColor = .systemRed
+            priceLabel.attributedText = "\(currency)\(price) ".strikeThrough()
+            
             bargenLabel.text = "\(currency)\(bargenPrice)"
         }
     }
@@ -131,6 +144,16 @@ class ListCell: UICollectionViewCell {
         DispatchQueue.main.async {
             self.thumbnailImageView.image = image
         }
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        nameLabel.text = ""
+        stockLabel.text = ""
+        priceLabel.attributedText = nil
+        priceLabel.text = ""
+        priceLabel.textColor = .lightGray
+        stockLabel.textColor = .lightGray
     }
 }
 
@@ -142,7 +165,7 @@ extension ListCell {
         self.cellStackView.addArrangedsubViews(thumbnailImageView, informationStackView, stockStackView)
         self.informationStackView.addArrangedsubViews(nameLabel, priceStackView)
         self.priceStackView.addArrangedsubViews(priceLabel, bargenLabel)
-        self.stockStackView.addArrangedsubViews(stockLabel, accessoryImage)
+        self.stockStackView.addArrangedsubViews(stockLabel, accessoryLabel)
     }
     
     private func layout() {
@@ -154,8 +177,12 @@ extension ListCell {
         ])
         
         NSLayoutConstraint.activate([
-            thumbnailImageView.widthAnchor.constraint(equalTo: cellStackView.heightAnchor),
-            thumbnailImageView.heightAnchor.constraint(equalTo: cellStackView.heightAnchor)
+            thumbnailImageView.widthAnchor.constraint(equalTo: cellStackView.heightAnchor, constant: -5),
+            thumbnailImageView.heightAnchor.constraint(equalTo: cellStackView.heightAnchor, constant: -5)
+        ])
+        
+        NSLayoutConstraint.activate([
+            informationStackView.widthAnchor.constraint(equalTo: cellStackView.widthAnchor, multiplier: 0.5)
         ])
     }
 }
