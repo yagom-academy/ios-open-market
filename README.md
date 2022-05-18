@@ -1,3 +1,4 @@
+
 # 오픈마켓
 
 # 🎁 ios-open-market 
@@ -9,6 +10,10 @@
 - [실행화면](#실행화면)
 - [UML](#uml)
 - [STEP 1 기능 구현](#step-1-기능-구현)
+    + [고민했던 것들(트러블 슈팅)](#고민했던-것들트러블-슈팅)
+    + [배운 개념](#배운-개념)
+    + [PR 후 개선사항](#pr-후-개선사항)
+- [STEP 2 기능 구현](#step-2-기능-구현)
     + [고민했던 것들(트러블 슈팅)](#고민했던-것들트러블-슈팅)
     + [배운 개념](#배운-개념)
     + [PR 후 개선사항](#pr-후-개선사항)
@@ -290,4 +295,288 @@
 8️⃣ `EndPoint`  
 9️⃣ 비동기 메서드를 테스트 하는 방법  
 
+---
+## PR 후 개선사항
+>1️⃣ **MockURLSessionDataTask init 관련 Error 에러**
+>
+>![](https://i.imgur.com/TqXVi4m.png)
+>
+> 위와 같은 에러를 어떻게 처리해야할지 고민끝에 스티븐에게 어떤 키워드를 공부해야 해결할수있을지 질문을 남겼었다.
+> URLProtocol을 활용해서 Mock 테스트 하는것을 찾아보라는 피드백을 받아 공부해보았고 해결했다.
+>
+>문제는 URLSessionDataTask 를 상속받았을경우 생기는 문제였다.
+>
+>![](https://i.imgur.com/48SsfND.png)
+>
+>위의 코드처럼 상속을 받지 않았을때는 문제가 없었다.
+>
+>그래서 어떻게 저문제를 해결할수 있을까 고민해보았고 URLSession 을 테스트 하기위해 URLSessionProtocol 을 만들어 주었던것처럼 URLSessionDataTaskProtocol 을 만들어주었다.
+>
+>URLSessionDataTask에서 사용하던 메서드 resume() 를URLSessionDataTaskProtocol에서 필수구현하도록 명시해두었으며
+>
+>URLSessionProtocol 의 메서드 dataTask() 의 반환타입을 URLSessionDataTaskProtocol 로 수정해준뒤 Protocol 의 conform 에 맞도록 코드를 수정해주어 문제를 해결했다.
+>
+>![](https://i.imgur.com/O1XLdvS.png)
+>
+>
+>2️⃣ **MockURLSessionTest 의 statusCode Error 테스트 추가**
+>
+>구현된 코드에서 data, response, error 를 요청하는 fetch() 메서드는 enum 타입으로 url 을 인자로 받고 있기때문에 url 을 잘못 입력하는 경우가 있을수 없으며, MockURLSession 에서 구현한 dataTask() 메서드 에는 항상 성공하는 Response(200번) 를 반환해 주기 때문에 StatusCode Error 를 테스트하기 위해 어떻게 해야할지 고민했다.
+>
+>스티븐의 조언을 듣고 MockURLSession 의 dataTask() 메서드에서 어떠한 경우에는 성공하는 Response 를 반환하도록 어떠한 경우에는 실패하는 Response(400번)을 반환하도록 분기 처리를 해주었다.
+>
+>분기 처리를 하기위해 MockURLSession 에 flag 를 추가해 MockURLSession 을 초기화할때 주입 받을수 있도록 initializer 를 활용했다.
+>
+>이제는 테스트하기전에 flag 에 대한 값을 실패의 경우로 변경해서 Test 하기만 하면된다!
+>
+>**StatusCode Error Test 코드**
+>```swift
+>class MockURLSession: URLSessionProtocol {
+>    var isRequestSuccess: Bool
+>    
+>    init(isRequestSuccess: Bool = true) {
+>        self.isRequestSuccess = isRequestSuccess
+>    }
+>    
+>    func dataTask(
+>        with urlRequest: URLRequest,
+>        completionHandler: @escaping DataTaskCompletionHandler
+>    ) -> URLSessionDataTaskProtocol {
+>        
+>        let sucessResponse = HTTPURLResponse(
+>            url: urlRequest.url!,
+>            statusCode: 200, httpVersion: "",
+>            headerFields: nil
+>        )
+>        
+>        let failureResponse = HTTPURLResponse(
+>            url: urlRequest.url!,
+>            statusCode: 400, httpVersion: "",
+>            headerFields: nil
+>        )
+>        
+>        if isRequestSuccess {
+>            return MockURLSessionDataTask {
+>                completionHandler(MockData().load(), sucessResponse, nil)
+>            }
+>        } else {
+>            return MockURLSessionDataTask {
+>                completionHandler(MockData().load(), failureResponse, nil)
+>            }
+>        }
+>    }
+>}
+>
+>class MockURLSessionTest: XCTestCase {
+>   func test_isRequestSuccess가_false라면_fetchData_함수를호출하면_statusCode_Error인지() {
+>        //given
+>        let promise = expectation(description: "statusCodeError if isRequestSuccess value is false")
+>        let session = MockURLSession(isRequestSuccess: false)
+>        sut = URLSessionProvider(session: session)
+>
+>        //when
+>        sut.fetchData(from: .healthChecker) { result in
+>            //then
+>            switch result {
+>            case .success(_):
+>                XCTFail()
+>            case .failure(let error):
+>                XCTAssertEqual(error, .statusCodeError)
+>            }
+>            promise.fulfill()
+>        }
+>        wait(for: [promise], timeout: 10)
+>    }
+>}
+>```
+
+---
+## STEP 2 기능 구현
+
+---
+## 고민했던 것들(트러블 슈팅)
+>1️⃣ **이미지를 텍스트로 변경하여 label text 에 할당 하는 방법🤔**
+>
+>![](https://i.imgur.com/ddvA786.png)
+>
+>위의 사진에 보이는 `discloser indicator` 이미지를 기존에는 이미지뷰를 추가하여 구현하였다.
+>
+>하지만 레이아웃 관련 에러가 생겨 디스클로저 인디케이터가 늘어나는 상황이 발생했고 이를 해결하기위해 인디케이터 이미지의 고정 크기를 설정해주는것이 아니라 텍스트로 변환 하여 인디 케이터 이미지를 `label text`에 할당 주는 방법을 사용했다.
+>
+>**변경 전 코드**
+>```swift
+>private lazy var accessoryImage: UIImageView = {
+>        let imageView = UIImageView()
+>        imageView.image = UIImage(systemName: "chevron.right")
+>        imageView.translatesAutoresizingMaskIntoConstraints = false
+>        imageView.tintColor = .lightGray
+>        return imageView
+>    }()
+>```
+>**변경 후 코드**
+>```swift
+>private lazy var accessoryLabel: UILabel = {
+>        let label = UILabel()
+>        let attachment = NSTextAttachment()
+>        attachment.image = UIImage(systemName: "chevron.right")?.withTintColor(.lightGray)
+>        let attachmentString = NSAttributedString(attachment: attachment)
+>        let attributedStr = NSMutableAttributedString(string: attachmentString.description)
+>        label.attributedText = attachmentString
+>        return label
+>    }()
+>```
+>
+>**변경 후 코드**
+>
+>2️⃣ **서버에서 가져온 데이터를 어떻게 화면에 보여줄수 있을까?? 🤔**
+>
+>기존 만들어두었던 서버와 통신하는 `URLSessionProvider` 를 활용해 `UIApp` 을 만들기 위해 `ViewController`에서 아래의 코드처럼 서버에서 데이터를 가지고오도록 했다.
+>```swift
+>class OpenMarketViewController: UIViewController {
+>    private let segmentControl = UISegmentedControl(items: ["list", "grid"])
+>    private var collectionView: UICollectionView?
+>    private var network: URLSessionProvider<ProductList>?
+>    private var productList: [Product]? {
+>        didSet {
+>            DispatchQueue.main.async {
+>                self.collectionView?.reloadData()
+>            }
+>        }
+>    }
+>    
+>    override func viewDidLoad() {
+>        super.viewDidLoad()
+>        network = URLSessionProvider()
+>        getData(from: .productList(page: 1, itemsPerPage: 110))
+>        setup()
+>        addsegment()
+>    }
+>    
+>    func getData(from: Endpoint) {
+>        network?.fetchData(from: from, completionHandler: { result in
+>            switch result {
+>            case .success(let data):
+>                self.productList = data.pages
+>            case .failure(_):
+>                print("")
+>            }
+>        })
+>    }
+>}
+>```
+> `viewDidLoad`에서 `getData()`메서드를 호출하여 서버에서 받아온 데이터를 파싱에 성공하면 저장 프로퍼티 `productList` 에 값이 할당되고 `productList` 의 값이 변경될때마다 `CollectionView` 의 `reloadData()`메서드를 사용해 `CollectionView` 를 갱신하도록 해주었다.
+> 
+>그후 서버에서 가져온 데이터를 `CollectionViewDataSource` 에서 활용하도록 해주었다.
+>```swift
+>extension OpenMarketViewController: UICollectionViewDataSource {
+>    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+>        guard let cell = >collectionView.dequeueReusableCell(withReuseIdentifier: >ListCell.identifier, for: indexPath) as? ListCell else {
+>            return UICollectionViewCell()
+>        }
+>        
+>        guard let product = productList?[indexPath.item] else { 
+>            return return UICollectionViewCell()
+>        }
+>        
+>        guard let url = product.thumbnail else {
+>            return UICollectionViewCell()
+>        }
+>    
+>        network?.fetchImage(from: url, completionHandler: { result in
+>            switch result {
+>            case .success(let data):
+>                cell.update(image: data)
+>            case .failure(_):
+>                break
+>            }
+>        })
+>        
+>        cell.update(data: product)
+>        
+>        return cell
+>    }
+>    
+>    func collectionView(_ collectionView: UICollectionView, >numberOfItemsInSection section: Int) -> Int {
+>        return productList?.count ?? .zero
+>    }
+>}
+>```
+>이미지를 제외한 데이터들은 `viewDidLoad` 단계에서 서버에서 받아오고 `cellForItemAt` 단계에서 서버에서 이미지를 가져오도록 구현하였다.
+>
+>**서버에서 이미지를 가져오는 코드**
+>```swift
+>    func fetchImage(
+>        from url: String,
+>        completionHandler: @escaping (Result<UIImage, NetworkError>) -> Void) {
+>        guard let imageurl = URL(string: url) else {
+>            completionHandler(.failure(.urlError))
+>            return
+>        }
+>        
+>        var urlRequest = URLRequest(url: imageurl)
+>        urlRequest.httpMethod = "GET"
+>        
+>        requestImgae(with: urlRequest, completionHandler: completionHandler)
+>    }
+>    
+>    func requestImgae(
+>        with request: URLRequest,
+>        completionHandler: @escaping (Result<UIImage, NetworkError>) -> Void
+>    ) {
+>        let task = session.dataTask(with: request) { data, urlResponse, error in
+>            
+>            guard error == nil else {
+>                completionHandler(.failure(.clientError))
+>                return
+>            }
+>            
+>            guard let httpResponse = urlResponse as? HTTPURLResponse,
+>                  (200...299).contains(httpResponse.statusCode) else {
+>                completionHandler(.failure(.statusCodeError))
+>                return
+>            }
+>            
+>            guard let data = data else {
+>                completionHandler(.failure(.dataError))
+>                return
+>            }
+>            
+>            guard let image = UIImage(data: data) else {
+>                return
+>            }
+>            
+>            completionHandler(.success(image))
+>        }
+>        task.resume()
+>    }
+>```
+>
+>3️⃣ **코드베이스로 Cell 의 레이아웃을 설정하는 방법? 🤔**
+>코드로 cell의 레이아웃을 설정할때 스택뷰에 넣어서 정렬하는 방식과 frame 활용해 CGRect 설정을 해주어야 할지에 대해 고민하였고
+>    
+>크기와 위치를 고정하기보다는 스택뷰에 넣어 정렬하는 방식을 택하였습니다.
+>
+>#### 질문한것들
+>
+>1️⃣ **오토레이아웃 관련 에러**
+>현재`stockStackView`에서만 Width and horizontal position are ambiguous for UILabel 에러가 발생하는데 좋은 해결 방법이 있을까요~?
+>![](https://i.imgur.com/vskIXOF.png)
+>
+>2️⃣ **이미지 관련에러**
+>현재 `prepareForReuse`에 이미지설정을 해주지 않는데 이미지가 변경되는 에러가 발생하지 않습니다.
+>스크롤을 빠르게 내린후 다시 위쪽으로 스크롤을 하게될경우 셀이 재사용되면서 이미지가 잘못 들어갈것이라 예상 했는데 이미지가 각각의 셀의 위치에 맞게 잘 적용되는것을 확인했습니다!
+>
+>왜 `prepareForReuse`을 해주지 않았는데도 이미지 `bug`가 발생하지 않았는지 궁급합니다.
+
+---
+## 배운 개념
+1️⃣ `CollectionView`  
+2️⃣ `CollectionvewFlowLayout`  
+3️⃣ `CALayer`  
+4️⃣ `segmentControl`  
+5️⃣ `NSTextAttachment`: 이미지를 텍스트로 변경하여 레이블에 추가하는 방법   
+6️⃣ `NSLayoutConstraint`  
+7️⃣ `prepareForReuse`  
+
+---
 ## PR 후 개선사항
