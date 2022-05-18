@@ -56,6 +56,11 @@
                                 <action selector="changeLayoutSegment:" destination="BYZ-38-t0r" eventType="valueChanged" id="1wi-En-38G"/>
                             </connections>
                         </segmentedControl>
+                        <barButtonItem key="rightBarButtonItem" title="+" style="done" id="Lmy-V6-OaT">
+                            <connections>
+                                <action selector="moveToAddView:" destination="BYZ-38-t0r" id="IDP-MM-xE5"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="collectionViewSegment" destination="Pp3-hi-DGT" id="uwc-4S-kPe"/>
