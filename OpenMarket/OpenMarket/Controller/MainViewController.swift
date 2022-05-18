@@ -11,6 +11,8 @@ class MainViewController: UIViewController {
         case main
     }
     var collectionView: UICollectionView!
+    var listLayout: UICollectionViewLayout!
+    var gridLayout: UICollectionViewLayout!
     var dataSource: UICollectionViewDiffableDataSource<Section, Product>!
     var currentSnapshot: NSDiffableDataSourceSnapshot<Section, Product>! = nil
     lazy var baseView = BaseView(frame: view.bounds)
@@ -18,7 +20,9 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view = baseView
-        configureHierarchy(createLayout: createListLayout)
+        applyListLayout()
+        applyGridLayout()
+        configureHierarchy(collectionViewLayout: listLayout)
         configureDataSource()
         setUpNavigationItem()
         fetchData(index: 0)
@@ -57,9 +61,9 @@ class MainViewController: UIViewController {
     @objc func switchCollectionViewLayout() {
         switch baseView.segmentedControl.selectedSegmentIndex {
         case 0:
-            collectionView.setCollectionViewLayout(createListLayout(), animated: false)
+            collectionView.setCollectionViewLayout(listLayout, animated: false)
         case 1:
-            collectionView.setCollectionViewLayout(createGridLayout(), animated: false)
+            collectionView.setCollectionViewLayout(gridLayout, animated: false)
         default:
             break
         }
@@ -74,13 +78,13 @@ class MainViewController: UIViewController {
 
 extension MainViewController {
     
-    func configureHierarchy(createLayout: () -> UICollectionViewLayout) {
-        collectionView = UICollectionView(frame: .zero, collectionViewLayout: createLayout())
+    func configureHierarchy(collectionViewLayout: UICollectionViewLayout) {
+        collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout)
         view.addSubview(collectionView)
         layoutCollectionView()
     }
     
-    func createGridLayout() -> UICollectionViewLayout {
+    func applyGridLayout() {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(0.3))
@@ -89,15 +93,14 @@ extension MainViewController {
         let section = NSCollectionLayoutSection(group: group)
         section.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5)
         section.interGroupSpacing = 10
-
         let layout = UICollectionViewCompositionalLayout(section: section)
-
-        return layout
+        gridLayout = layout
     }
     
-    func createListLayout() -> UICollectionViewLayout {
+    func applyListLayout() {
         let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
-        return UICollectionViewCompositionalLayout.list(using: configuration)
+        let layout = UICollectionViewCompositionalLayout.list(using: configuration)
+        listLayout = layout
     }
     
     func layoutCollectionView() {
