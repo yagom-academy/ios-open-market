@@ -13,7 +13,7 @@ extension CALayer {
     let borderWidth = 0.5
     border.frame = CGRect(x: 10, y: frame.height - borderWidth,
                           width: frame.width, height: borderWidth)
-    border.backgroundColor = UIColor.systemGray.cgColor
+    border.backgroundColor = UIColor.lightGray.cgColor
     self.addSublayer(border)
   }
 }
