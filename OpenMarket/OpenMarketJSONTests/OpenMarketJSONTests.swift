@@ -28,7 +28,6 @@ final class OpenMarketJSONTests: XCTestCase, NetworkAble {
         let promise = expectation(description: "timeout 테스트")
         let pageNo = 1
         let imtesPerPage = 10
-        let urlString = OpenMarketApi.pageInformation(pageNo: pageNo, itemsPerPage: imtesPerPage).pathString
         guard let url = OpenMarketApi.pageInformation(pageNo: pageNo, itemsPerPage: imtesPerPage).url else {
             XCTFail("Url 변환 실패")
             return
@@ -39,20 +38,6 @@ final class OpenMarketJSONTests: XCTestCase, NetworkAble {
         let stubUrlSession = StubURLSession(dummy: dummy)
         session = stubUrlSession
         
-        let pagesFirstObjcet = ProductInformation(
-            id: 20,
-            vendorId: 3,
-            name: "Test Product",
-            thumbnail: "https://s3.ap-northeast-2.amazonaws.com/media.yagom-academy.kr/training-resources/3/thumb/5a0cd56b6d3411ecabfa97fd953cf965.jpg",
-            currency: "KRW",
-            price: 0,
-            bargainPrice: 0,
-            discountedPrice: 0,
-            stock: 0,
-            createdAt: "2022-01-04T00:00:00.00",
-            issuedAt: "2022-01-04T00:00:00.00"
-        )
-        
         //when
         requestData(url: url) { (data, response) in
             guard let data = data,
@@ -60,7 +45,6 @@ final class OpenMarketJSONTests: XCTestCase, NetworkAble {
             
             //then
             XCTAssertNotNil(pageInformation)
-            XCTAssertEqual(pageInformation.pages.first, pagesFirstObjcet )
             promise.fulfill()
         }
         errorHandler: { error in
@@ -81,7 +65,7 @@ final class OpenMarketJSONTests: XCTestCase, NetworkAble {
         let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: nil, headerFields: nil)
         let dummy = DummyData(data: data, response: response, error: sessionError)
         let stubUrlSession = StubURLSession(dummy: dummy)
-        //let mockNetwork = Network(session: stubUrlSession)
+
         session = stubUrlSession
         //when
         requestData(url: url) { (data, response) in
@@ -104,7 +88,6 @@ final class OpenMarketJSONTests: XCTestCase, NetworkAble {
             XCTFail("변환실패")
             return
         }
-
 
         // when
         requestData(url: url) { (data, response) in
@@ -143,26 +126,6 @@ final class OpenMarketJSONTests: XCTestCase, NetworkAble {
         }
         wait(for: [promise], timeout: 10)
     }
-    /*
-    func test_urlError을_발생시켜서_확인 () {
-        // given
-        let promise = expectation(description: "timeout 테스트")
-        let urlString = "\\"
-
-        // when
-        network.requestData(url: urlString) { (data, response) in
-            
-            //then
-            XCTFail("에러처리 실패")
-            promise.fulfill()
-        }
-        errorHandler: { error in
-            XCTAssertEqual(error as? NetworkError, NetworkError.urlError)
-            promise.fulfill()
-        }
-        wait(for: [promise], timeout: 10)
-    }
-     */
     
     func test_mockNetwork객체에_statusCodeError를_발생시켜서_확인() {
         // given
@@ -177,7 +140,6 @@ final class OpenMarketJSONTests: XCTestCase, NetworkAble {
         let dummy = DummyData(data: data, response: response, error: nil)
         let stubUrlSession = StubURLSession(dummy: dummy)
         session = stubUrlSession
-        //let mockNetwork = Network(session: stubUrlSession)
         
         //when
         requestData(url: url) { (data, response) in
@@ -200,7 +162,6 @@ final class OpenMarketJSONTests: XCTestCase, NetworkAble {
         let dummy = DummyData(data: nil, response: response, error: nil)
         let stubUrlSession = StubURLSession(dummy: dummy)
         session = stubUrlSession
-        //let mockNetwork = Network(session: stubUrlSession)
         
         //when
         requestData(url: url) { (data, response) in

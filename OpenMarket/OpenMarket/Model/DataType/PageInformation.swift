@@ -11,7 +11,7 @@ struct PageInformation: Codable {
     let totalCount: Int
     let offset: Int
     let limit: Int
-    let pages: [ProductInformation]
+    private(set) var pages: [ProductInformation]
     let lastPage: Int
     let hasNext: Bool
     let hasPrev: Bool
