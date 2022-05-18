@@ -124,9 +124,12 @@ final class ListCell: UICollectionViewCell {
             stockLabel.text = "재고수량: \(stock)"
         }
         
-        guard let price = data.price, let bargenPrice = data.bargainPrice, let currency = data.currency else {
+        guard let currency = data.currency else {
             return
         }
+                
+        let price = Formatter.convertNumber(by: data.price?.description)
+        let bargenPrice = Formatter.convertNumber(by: data.bargainPrice?.description)
         
         if data.discountedPrice == 0 {
             priceLabel.text = "\(currency)\(price)"
