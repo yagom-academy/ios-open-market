@@ -10,13 +10,23 @@ import UIKit
 class ProductListCell: UICollectionViewCell {
     static let reuseIdentifier = "product-list-cell-reuse-Identifier"
     let cellUIComponent = CellUIComponent()
+    private var item: Product? = nil
     var showSeparator = true {
         didSet {
             updateSeparator()
         }
     }
     
-    private lazy var separatorView: UIView = {
+    private lazy var accessoryImageView: UIImageView = {
+        let imageView = UIImageView()
+        let chevronImage = UIImage(systemName: "chevron.right")
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.image = chevronImage
+        imageView.tintColor = UIColor.lightGray.withAlphaComponent(0.7)
+        return imageView
+    }()
+    
+    lazy var seperatorView: UIView = {
         let view = UIView()
         view.backgroundColor = .placeholderText
         return view
@@ -27,7 +37,6 @@ class ProductListCell: UICollectionViewCell {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
-        stackView.distribution = .fillEqually
         stackView.spacing = 2
         return stackView
     }()
@@ -43,16 +52,13 @@ class ProductListCell: UICollectionViewCell {
     private lazy var productDescriptionStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
-        stackView.alignment = .leading
-        stackView.distribution = .fillEqually
         stackView.spacing = 2
         return stackView
     }()
     
-    private lazy var nameAndStockStackView: UIStackView = {
+    private lazy var nameStockAccessoryStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
-        stackView.distribution = .fillEqually
         stackView.spacing = 2
         return stackView
     }()
@@ -60,8 +66,6 @@ class ProductListCell: UICollectionViewCell {
     private lazy var priceStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
-        stackView.alignment = .leading
-        stackView.distribution = .fillEqually
         stackView.spacing = 2
         return stackView
     }()
@@ -81,15 +85,15 @@ extension ProductListCell {
     private func addSubViews() {
         contentView.addSubview(baseStackView)
         
-        nameAndStockStackView.addArrangedSubviews(cellUIComponent.nameLabel, cellUIComponent.stockLabel)
-        
+        nameStockAccessoryStackView.addArrangedSubviews(cellUIComponent.nameLabel, cellUIComponent.stockLabel, accessoryImageView)
+
         priceStackView.addArrangedSubviews(cellUIComponent.priceLabel, cellUIComponent.bargainPriceLabel)
         
-        productDescriptionStackView.addArrangedSubviews(nameAndStockStackView, priceStackView)
+        productDescriptionStackView.addArrangedSubviews(nameStockAccessoryStackView, priceStackView)
         
         contentStackView.addArrangedSubviews(cellUIComponent.thumbnailImageView, productDescriptionStackView)
         
-        baseStackView.addArrangedSubviews(contentStackView, separatorView)
+        baseStackView.addArrangedSubviews(contentStackView, seperatorView)
     }
     
     private func layout() {
@@ -103,14 +107,70 @@ extension ProductListCell {
         ])
         
         NSLayoutConstraint.activate([
-            thumbnail.widthAnchor.constraint(equalToConstant: safeAreaLayoutGuide.layoutFrame.width * 0.2),
+            thumbnail.widthAnchor.constraint(equalToConstant: 50),
             thumbnail.heightAnchor.constraint(equalTo: thumbnail.widthAnchor)
+        ])
+        
+        NSLayoutConstraint.activate([
+            accessoryImageView.widthAnchor.constraint(equalToConstant: 13),
         ])
     }
 }
 
 extension ProductListCell {
     private func updateSeparator() {
-        separatorView.isHidden = !showSeparator
+        seperatorView.isHidden = !showSeparator
+    }
+}
+
+extension ProductListCell {
+    func updateWithItem(_ newItem: Product) {
+        guard item != newItem else { return }
+        item = newItem
+        setNeedsUpdateConfiguration()
+    }
+    
+    override var configurationState: UICellConfigurationState {
+        var state = super.configurationState
+        state.item = self.item
+        return state
+    }
+}
+
+fileprivate extension UIConfigurationStateCustomKey {
+    static let item = UIConfigurationStateCustomKey("ProductListCell.item")
+}
+
+extension UICellConfigurationState {
+    var item: Product? {
+        set { self[.item] = newValue }
+        get { return self[.item] as? Product }
+    }
+}
+
+extension ProductListCell {
+    func setupViewsIfNeeded() {
+        layout()
+    }
+    
+    override func updateConfiguration(using state: UICellConfigurationState) {
+        setupViewsIfNeeded()
+        
+        guard let product = state.item else { return }
+        
+        cellUIComponent.nameLabel.text = product.name
+        cellUIComponent.stockLabel.text = String(product.stock)
+        cellUIComponent.bargainPriceLabel.text = String(product.bargainPrice)
+        cellUIComponent.priceLabel.text = String(product.price)
+        
+        guard let image = urlToImage(product.thumbnail) else { return }
+        cellUIComponent.thumbnailImageView.image = image
+    }
+    
+    func urlToImage(_ urlString: String) -> UIImage? {
+        guard let url = URL(string: urlString),
+                let data = try? Data(contentsOf: url),
+                let image = UIImage(data: data) else { return nil }
+        return image
     }
 }
