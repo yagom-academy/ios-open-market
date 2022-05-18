@@ -54,7 +54,7 @@ extension ProductGridCell {
         ])
         
         NSLayoutConstraint.activate([
-            thumbnail.widthAnchor.constraint(equalToConstant: 50),
+            thumbnail.widthAnchor.constraint(equalToConstant: contentView.frame.width * 0.7),
             thumbnail.heightAnchor.constraint(equalTo: thumbnail.widthAnchor)
         ])
     }
@@ -101,7 +101,7 @@ extension ProductGridCell {
             cellUIComponent.stockLabel.text = "품절"
             cellUIComponent.stockLabel.textColor = .systemYellow
         default:
-            cellUIComponent.stockLabel.text = String(stock)
+            cellUIComponent.stockLabel.text = "잔여수량 : " + String(stock)
         }
     }
     

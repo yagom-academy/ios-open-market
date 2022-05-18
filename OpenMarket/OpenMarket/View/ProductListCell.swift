@@ -176,7 +176,7 @@ extension ProductListCell {
             cellUIComponent.stockLabel.text = "품절"
             cellUIComponent.stockLabel.textColor = .systemYellow
         default:
-            cellUIComponent.stockLabel.text = String(stock)
+            cellUIComponent.stockLabel.text = "잔여수량 : " + String(stock)
         }
     }
     

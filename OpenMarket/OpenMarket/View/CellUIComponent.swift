@@ -26,6 +26,7 @@ class CellUIComponent {
         let label = UILabel()
         label.adjustsFontForContentSizeCategory = true
         label.font = UIFont.preferredFont(forTextStyle: .body)
+        label.textColor = .systemGray
         return label
     }()
     
@@ -33,6 +34,7 @@ class CellUIComponent {
         let label = UILabel()
         label.adjustsFontForContentSizeCategory = true
         label.font = UIFont.preferredFont(forTextStyle: .body)
+        label.textColor = .systemGray
         return label
     }()
     
@@ -40,6 +42,7 @@ class CellUIComponent {
         let label = UILabel()
         label.adjustsFontForContentSizeCategory = true
         label.font = UIFont.preferredFont(forTextStyle: .body)
+        label.textColor = .systemGray
         return label
     }()
 }
