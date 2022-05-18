@@ -10,7 +10,7 @@ class MainViewController: UIViewController {
     enum Section {
         case main
     }
-    
+    var cacheProducts: [Product]?
     var collectionView: UICollectionView!
     var dataSource: UICollectionViewDiffableDataSource<Section, Product>!
     var currentSnapshot: NSDiffableDataSourceSnapshot<Section, Product>! = nil
@@ -33,6 +33,7 @@ class MainViewController: UIViewController {
                     self.configureHierarchy(createLayout: layout)
                     self.configureDataSource()
                     updateSnapshot(products: products)
+                    cacheProducts = products
                 }
             case .failure(let error):
                 print(error.localizedDescription)
@@ -53,11 +54,8 @@ class MainViewController: UIViewController {
     }
     
     @objc func switchCollectionViewLayout() {
-        if baseView.segmentedControl.selectedSegmentIndex == 1 {
-            fetchData(layout: createGridLayout)
-        } else {
-            fetchData(layout: createListLayout)
-        }
+        self.configureDataSource()
+        dataSource.apply(currentSnapshot)
     }
     
     @objc func registerProduct() {
