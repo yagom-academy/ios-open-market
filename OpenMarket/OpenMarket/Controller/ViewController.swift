@@ -15,8 +15,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         registCell()
-//      setListLayout()
-        setGridLayout()
+        setListLayout()
         openMarketCollectionView.dataSource = self
     }
     
@@ -25,6 +24,12 @@ class ViewController: UIViewController {
         openMarketCollectionView.register(UINib(nibName: gridCellName, bundle: nil), forCellWithReuseIdentifier: gridCellName)
     }
     @IBAction func changeLayoutSegment(_ sender: UISegmentedControl) {
+        if sender.selectedSegmentIndex == 0 {
+            setListLayout()
+        } else {
+            setGridLayout()
+        }
+        openMarketCollectionView.reloadData()
     }
 }
 
