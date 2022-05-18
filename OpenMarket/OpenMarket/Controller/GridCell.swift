@@ -67,7 +67,5 @@ final class GridCell: UICollectionViewCell, ItemCellable {
         bargainPriceLabel.text = nil
         stockLabel.text = nil
         stockLabel.textColor = nil
-        self.layer.cornerRadius = 8
-        self.layer.borderWidth = 1
     }
 }

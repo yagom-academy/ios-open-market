@@ -105,6 +105,8 @@ extension ViewController: UICollectionViewDataSource {
         } else {
             guard let gridCell = collectionView.dequeueReusableCell(withReuseIdentifier: gridCellName, for: indexPath) as? GridCell else { return GridCell() }
             getItemPage(itemCell: gridCell, indexPath: indexPath)
+            gridCell.layer.cornerRadius = 8
+            gridCell.layer.borderWidth = 1
             return gridCell
         }
     }
