@@ -45,6 +45,7 @@ class ListCell: UICollectionViewCell {
     private lazy var priceStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
+        stackView.distribution = .fillProportionally
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
@@ -121,26 +122,8 @@ extension ListCell {
         ])
         
         NSLayoutConstraint.activate([
-            thumbnailImageView.widthAnchor.constraint(equalToConstant: frame.height),
-            thumbnailImageView.heightAnchor.constraint(equalToConstant: frame.height * 4 / 5),
-            thumbnailImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            thumbnailImageView.trailingAnchor.constraint(equalTo: informationStackView.leadingAnchor)
-        ])
-        
-        NSLayoutConstraint.activate([
-            informationStackView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            informationStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
-        ])
-        
-        NSLayoutConstraint.activate([
-            stockStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
-            stockStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            stockStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            stockStackView.leadingAnchor.constraint(equalTo: informationStackView.trailingAnchor, constant: 400)
-        ])
-        
-        NSLayoutConstraint.activate([
-        accessoryImage.widthAnchor.constraint(equalToConstant: frame.height / 5)
+            thumbnailImageView.widthAnchor.constraint(equalTo: cellStackView.heightAnchor),
+            thumbnailImageView.heightAnchor.constraint(equalTo: cellStackView.heightAnchor)
         ])
     }
 }
