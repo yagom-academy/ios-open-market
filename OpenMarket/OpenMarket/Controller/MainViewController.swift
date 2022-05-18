@@ -10,9 +10,9 @@ final class MainViewController: UIViewController {
   enum Section {
     case main
   }
-  enum layoutType {
-    case list
-    case grid
+  enum Layout: Int {
+    case list = 0
+    case grid = 1
     
     var string: String {
       switch self {
@@ -39,9 +39,11 @@ final class MainViewController: UIViewController {
   }
   
   private lazy var segmentedControl: UISegmentedControl = {
-    let segment = UISegmentedControl(items: [layoutType.list.string, layoutType.grid.string])
-    segment.selectedSegmentIndex = 0
-    segment.addTarget(self, action: #selector(changeCollectionViewLayout(_:)), for: .valueChanged)
+    let segment = UISegmentedControl(items: [Layout.list.string, Layout.grid.string])
+    segment.selectedSegmentIndex = Layout.list.rawValue
+    segment.addTarget(self,
+                      action: #selector(changeCollectionViewLayout(_:)),
+                      for: .valueChanged)
     return segment
   }()
   
@@ -74,8 +76,8 @@ final class MainViewController: UIViewController {
       collectionView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor)
     ])
     
-    self.collectionView.register(ListCell.self, forCellWithReuseIdentifier: "ListCell")
-    self.collectionView.register(GridCell.self, forCellWithReuseIdentifier: "GridCell")
+    self.collectionView.register(ListCell.self, forCellWithReuseIdentifier: ListCell.identifier)
+    self.collectionView.register(GridCell.self, forCellWithReuseIdentifier: GridCell.identifier)
   }
   
   private func configureNavigationBar() {
@@ -89,9 +91,9 @@ final class MainViewController: UIViewController {
   
   @objc private func changeCollectionViewLayout(_ sender: UISegmentedControl) {
     switch sender.selectedSegmentIndex {
-    case 0:
+    case Layout.list.rawValue:
       collectionView.collectionViewLayout = configureListLayout()
-    case 1:
+    case Layout.grid.rawValue:
       collectionView.collectionViewLayout = configureGridLayout()
     default:
       return
@@ -123,36 +125,43 @@ final class MainViewController: UIViewController {
 
 extension MainViewController {
   private func makeDataSource() -> DataSource {
-    let dataSource = DataSource(collectionView: collectionView,
-                                cellProvider: {
-      (collectionView, indexPath, page) -> UICollectionViewCell? in
+    let dataSource = DataSource(
+      collectionView: collectionView,
+      cellProvider: {(collectionView, indexPath, page) -> UICollectionViewCell? in
       
-      if self.segmentedControl.selectedSegmentIndex == 0 {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ListCell",
-                                                            for: indexPath) as? ListCell
+      switch self.segmentedControl.selectedSegmentIndex {
+      case Layout.list.rawValue:
+        guard let cell = collectionView.dequeueReusableCell(
+          withReuseIdentifier: ListCell.identifier,
+          for: indexPath
+        ) as? ListCell
         else {
           return nil
         }
-        
         DispatchQueue.main.async {
           if collectionView.indexPath(for: cell) == indexPath {
             cell.setUpListCell(page: page)
           }
         }
         return cell
-      } else {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "GridCell",
-                                                            for: indexPath) as? GridCell
+        
+      case Layout.grid.rawValue:
+        guard let cell = collectionView.dequeueReusableCell(
+          withReuseIdentifier: GridCell.identifier,
+          for: indexPath
+        ) as? GridCell
         else {
           return nil
         }
-        
         DispatchQueue.main.async {
           if collectionView.indexPath(for: cell) == indexPath {
             cell.setUpGridCell(page: page)
           }
         }
         return cell
+        
+      default:
+        return nil
       }
     })
     return dataSource
