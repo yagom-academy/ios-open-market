@@ -38,8 +38,7 @@ final class ViewController: UIViewController {
         }
     }
     
-    
-    func getImage(itemCell: ItemCellable ,url: String, indexPath: IndexPath) {
+    private func getImage(itemCell: ItemCellable ,url: String, indexPath: IndexPath) {
         guard let cell = itemCell as? UICollectionViewCell else { return }
         var itemCell = itemCell
         
