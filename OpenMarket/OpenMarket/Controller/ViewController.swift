@@ -11,6 +11,9 @@ final class ViewController: UIViewController {
     @IBOutlet private weak var collectionViewSegment: UISegmentedControl!
     private let listCellName = String(describing: ListCell.self)
     private let gridCellName = String(describing: GridCell.self)
+    let itemPageAPI = ItemPageAPI(pageNumber: 1, itemPerPage: 100)
+    
+    private let networkHandler = NetworkHandler()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,6 +26,7 @@ final class ViewController: UIViewController {
         openMarketCollectionView.register(UINib(nibName: listCellName, bundle: nil), forCellWithReuseIdentifier: listCellName)
         openMarketCollectionView.register(UINib(nibName: gridCellName, bundle: nil), forCellWithReuseIdentifier: gridCellName)
     }
+    
     @IBAction private func changeLayoutSegment(_ sender: UISegmentedControl) {
         if sender.selectedSegmentIndex == 0 {
             setListLayout()
@@ -35,19 +39,57 @@ final class ViewController: UIViewController {
 
 extension ViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        8
+        100
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         if collectionViewSegment.selectedSegmentIndex == 0 {
             guard let listCell = collectionView.dequeueReusableCell(withReuseIdentifier:  listCellName, for: indexPath) as? ListCell else { return ListCell() }
-            
-            return setListCell(cell: listCell, indexPath: indexPath)
+            networkHandler.request(api: itemPageAPI) { data in
+                switch data {
+                case .success(let data):
+                        guard let itemPage = try? DataDecoder.decode(data: data, dataType: ItemPage.self) else { return }
+                        DispatchQueue.main.async {
+                            listCell.itemNameLabel.text = itemPage.items[indexPath.row].name
+                            if itemPage.items[indexPath.row].price == itemPage.items[indexPath.row].bargainPrice {
+                                listCell.priceLabel.isHidden = true
+                            } else {
+                                listCell.priceLabel.isHidden = false
+                            }
+                            listCell.priceLabel.text = itemPage.items[indexPath.row].currency + itemPage.items[indexPath.row].price.description
+                            listCell.bargainPriceLabel.text = itemPage.items[indexPath.row].currency + itemPage.items[indexPath.row].bargainPrice.description
+                            listCell.stockLabel.text = "잔여수량 : " + itemPage.items[indexPath.row].stock.description
+                        }
+                case .failure(_):
+                    break
+                }
+            }
+            return listCell
         } else {
             guard let gridCell = collectionView.dequeueReusableCell(withReuseIdentifier: gridCellName, for: indexPath) as? GridCell else { return GridCell() }
-            
-            return setGridCell(cell: gridCell, indexPath: indexPath)
+            networkHandler.request(api: itemPageAPI) { data in
+                switch data {
+                case .success(let data):
+                        guard let itemPage = try? DataDecoder.decode(data: data, dataType: ItemPage.self) else { return }
+                        DispatchQueue.main.async {
+                            gridCell.itemNameLabel.text = itemPage.items[indexPath.row].name
+                            if itemPage.items[indexPath.row].price == itemPage.items[indexPath.row].bargainPrice {
+                                gridCell.priceLabel.isHidden = true
+                            } else {
+                                gridCell.priceLabel.isHidden = false
+                            }
+                            gridCell.priceLabel.text = itemPage.items[indexPath.row].currency + itemPage.items[indexPath.row].price.description
+                            gridCell.bargainPriceLabel.text = itemPage.items[indexPath.row].currency + itemPage.items[indexPath.row].bargainPrice.description
+                            gridCell.stockLabel.text = "잔여수량 : " + itemPage.items[indexPath.row].stock.description
+                        }
+                case .failure(_):
+                    break
+                }
+            }
+            gridCell.layer.cornerRadius = 8
+            gridCell.layer.borderWidth = 1
+            return gridCell
         }
     }
 }
@@ -76,20 +118,5 @@ extension ViewController {
         let section = NSCollectionLayoutSection(group: group)
         
         openMarketCollectionView.collectionViewLayout = UICollectionViewCompositionalLayout(section: section)
-    }
-    
-    private func setListCell(cell: ListCell, indexPath: IndexPath) -> ListCell {
-        let cell = cell
-        cell.layer.borderWidth = 0
-        
-        return cell
-    }
-    
-    private func setGridCell(cell: GridCell, indexPath: IndexPath) -> GridCell {
-        let cell = cell
-        cell.layer.cornerRadius = 8
-        cell.layer.borderWidth = 1
-        
-        return cell
     }
 }
