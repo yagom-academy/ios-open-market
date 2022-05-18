@@ -29,9 +29,7 @@ final class MainViewController: UIViewController {
   private lazy var dataSource = makeDataSource()
   private lazy var collectionView = UICollectionView(frame: .zero,
                                                      collectionViewLayout: configureListLayout())
-  private let urlProvider = URLSessionProvider<ProductsList>(path: "/api/products",
-                                                             parameters: ["page_no":"1",
-                                                                          "items_per_page": "20"])
+  private let urlProvider = ApiProvider<ProductsList>()
   private var pages: [Page] = [] {
     didSet {
       DispatchQueue.main.async {
@@ -53,11 +51,10 @@ final class MainViewController: UIViewController {
     configureCollectionView()
     configureNavigationBar()
     applySnapshot(animatingDifferences: false)
-    collectionView.dataSource = self.dataSource
   }
   
   private func fetchPages() {
-    urlProvider.get { data in
+    urlProvider.get(.productList(pageNumber: 1, itemsPerPage: 20)) { data in
       guard let products = try? data.get() else {
         return
       }
