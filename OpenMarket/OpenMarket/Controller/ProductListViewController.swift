@@ -124,7 +124,7 @@ extension ProductListViewController: UICollectionViewDataSource {
         for: indexPath) as? ProductListCollectionViewCell
       else { return ProductListCollectionViewCell() }
       
-      listCell.setup(product: self.productList[indexPath.row])
+      listCell.setUp(product: self.productList[indexPath.row])
       return listCell
     case 1:
       guard let gridCell = collectionView.dequeueReusableCell(
@@ -132,7 +132,7 @@ extension ProductListViewController: UICollectionViewDataSource {
         for: indexPath) as? ProductGridCollectionViewCell
       else { return ProductGridCollectionViewCell() }
       
-      gridCell.setup(product: self.productList[indexPath.row])
+      gridCell.setUp(product: self.productList[indexPath.row])
       return gridCell
     default:
       return UICollectionViewCell()

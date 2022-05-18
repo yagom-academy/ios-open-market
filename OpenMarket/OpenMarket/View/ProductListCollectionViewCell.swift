@@ -85,23 +85,13 @@ final class ProductListCollectionViewCell: UICollectionViewCell {
     self.configureUI()
   }
   
-  func setup(product: Product) {
+  func setUp(product: Product) {
+    self.setStockLabel(product)
     self.titleLabel.text = product.name
     self.priceLabel.isHidden = product.discountedPrice == .zero
     self.priceLabel.setStrike(text: "\(product.currency.rawValue) \(product.price.toDecimal)")
     self.bargainPriceLabel.text = "\(product.currency.rawValue) \(product.bargainPrice.toDecimal)"
-    self.setStockLabel(product)
     self.productImageView.image = UIImage(data: convertImageFromData(url: product.thumbnail))
-  }
-  
-  private func setStockLabel(_ product: Product) {
-    if product.stock == 0 {
-      self.stockLabel.textColor = .systemOrange
-      self.stockLabel.text = "품절"
-    } else {
-      self.stockLabel.textColor = .secondaryLabel
-      self.stockLabel.text = "잔여수량: \(product.stock)"
-    }
   }
   
   private func convertImageFromData(url urlString: String) -> Data {
@@ -110,19 +100,22 @@ final class ProductListCollectionViewCell: UICollectionViewCell {
     else { return Data() }
     return data
   }
-  
-  private func addBottomBorder(thickness: CGFloat) {
-    let border = CALayer()
-    border.frame = CGRect(
-      x: 0,
-      y: contentView.frame.height - thickness,
-      width: contentView.frame.width,
-      height: thickness)
-    border.backgroundColor = UIColor.systemGray4.cgColor
-    self.contentView.layer.addSublayer(border)
+}
+
+// MARK: - UI
+
+private extension ProductListCollectionViewCell {
+  func setStockLabel(_ product: Product) {
+    if product.stock == .zero {
+      self.stockLabel.textColor = .systemOrange
+      self.stockLabel.text = ProductConstant.soldOut
+    } else {
+      self.stockLabel.textColor = .secondaryLabel
+      self.stockLabel.text = "\(ProductConstant.remainStock) \(product.stock)"
+    }
   }
   
-  private func configureUI() {
+  func configureUI() {
     self.addBottomBorder(thickness: 1.0)
     self.contentView.addSubview(containerStackView)
     self.containerStackView.addArrangedSubview(productImageView)
@@ -150,5 +143,16 @@ final class ProductListCollectionViewCell: UICollectionViewCell {
         equalTo: productImageView.heightAnchor,
         multiplier: 1.0)
     ])
+  }
+  
+  func addBottomBorder(thickness: CGFloat) {
+    let border = CALayer()
+    border.frame = CGRect(
+      x: .zero,
+      y: contentView.frame.height - thickness,
+      width: contentView.frame.width,
+      height: thickness)
+    border.backgroundColor = UIColor.systemGray4.cgColor
+    self.contentView.layer.addSublayer(border)
   }
 }

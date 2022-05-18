@@ -73,7 +73,7 @@ final class ProductGridCollectionViewCell: UICollectionViewCell {
     self.configureUI()
   }
   
-  func setup(product: Product) {
+  func setUp(product: Product) {
     self.setPriceLabel(product)
     self.setStockLabel(product)
     self.titleLabel.text = product.name
@@ -81,8 +81,19 @@ final class ProductGridCollectionViewCell: UICollectionViewCell {
     self.bargainPriceLabel.text = "\(product.currency.rawValue) \(product.bargainPrice.toDecimal)"
     self.productImageView.image = UIImage(data: convertImageFromData(url: product.thumbnail))
   }
-  
-  private func setPriceLabel(_ product: Product) {
+
+  private func convertImageFromData(url urlString: String) -> Data {
+    guard let url = URL(string: urlString),
+          let data = try? Data(contentsOf: url)
+    else { return Data() }
+    return data
+  }
+}
+
+// MARK: - UI
+
+private extension ProductGridCollectionViewCell {
+  func setPriceLabel(_ product: Product) {
     if product.discountedPrice == .zero {
       self.informationStackView.spacing = 20.0
       self.priceLabel.isHidden = true
@@ -92,31 +103,23 @@ final class ProductGridCollectionViewCell: UICollectionViewCell {
     }
   }
   
-  private func setStockLabel(_ product: Product) {
-    if product.stock == 0 {
+  func setStockLabel(_ product: Product) {
+    if product.stock == .zero {
       self.stockLabel.textColor = .systemOrange
-      self.stockLabel.text = "품절"
+      self.stockLabel.text = ProductConstant.soldOut
     } else {
       self.stockLabel.textColor = .secondaryLabel
-      self.stockLabel.text = "잔여수량: \(product.stock)"
+      self.stockLabel.text = "\(ProductConstant.remainStock) \(product.stock)"
     }
   }
   
-  private func convertImageFromData(url urlString: String) -> Data {
-    guard let url = URL(string: urlString),
-          let data = try? Data(contentsOf: url)
-    else { return Data() }
-    return data
-  }
-  
-  private func configureUI() {
+  func configureUI() {
     self.contentView.layer.borderWidth = 1.0
     self.contentView.layer.cornerRadius = 10.0
     self.contentView.layer.borderColor = UIColor.systemGray.cgColor
     self.contentView.addSubview(containerStackView)
     self.containerStackView.addArrangedSubview(productImageView)
     self.containerStackView.addArrangedSubview(informationStackView)
-    //self.containerStackView.addArrangedSubview(stockLabel)
     
     self.informationStackView.addArrangedSubview(titleLabel)
     self.informationStackView.addArrangedSubview(priceStackView)
@@ -135,4 +138,3 @@ final class ProductGridCollectionViewCell: UICollectionViewCell {
     ])
   }
 }
-
