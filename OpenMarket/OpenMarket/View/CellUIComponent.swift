@@ -19,6 +19,7 @@ class CellUIComponent {
         let label = UILabel()
         label.adjustsFontForContentSizeCategory = true
         label.font = UIFont.preferredFont(forTextStyle: .title3)
+        label.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         return label
     }()
     
@@ -27,6 +28,7 @@ class CellUIComponent {
         label.adjustsFontForContentSizeCategory = true
         label.font = UIFont.preferredFont(forTextStyle: .body)
         label.textColor = .systemGray
+        label.setContentHuggingPriority(.required, for: .horizontal)
         return label
     }()
     
@@ -35,6 +37,7 @@ class CellUIComponent {
         label.adjustsFontForContentSizeCategory = true
         label.font = UIFont.preferredFont(forTextStyle: .body)
         label.textColor = .systemGray
+        label.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         return label
     }()
     
@@ -43,6 +46,7 @@ class CellUIComponent {
         label.adjustsFontForContentSizeCategory = true
         label.font = UIFont.preferredFont(forTextStyle: .body)
         label.textColor = .systemGray
+        label.setContentHuggingPriority(.required, for: .horizontal)
         return label
     }()
 }
