@@ -81,8 +81,8 @@ final class MainViewController: UIViewController {
       collectionView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor)
     ])
     
-    self.collectionView.register(ListCell.self, forCellWithReuseIdentifier: ListCell.identifier)
-    self.collectionView.register(GridCell.self, forCellWithReuseIdentifier: GridCell.identifier)
+    collectionView.register(ListCell.self, forCellWithReuseIdentifier: ListCell.identifier)
+    collectionView.register(GridCell.self, forCellWithReuseIdentifier: GridCell.identifier)
   }
   
   private func configureNavigationBar() {
