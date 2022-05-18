@@ -64,7 +64,8 @@ final class GridCell: UICollectionViewCell {
     let stackView = UIStackView()
     stackView.axis = .horizontal
     stackView.alignment = .center
-    stackView.distribution = .equalSpacing
+    stackView.distribution = .fill
+    stackView.spacing = 10
     stackView.translatesAutoresizingMaskIntoConstraints = false
     return stackView
   }()
@@ -74,6 +75,14 @@ final class GridCell: UICollectionViewCell {
     stackView.axis = .vertical
     stackView.alignment = .center
     stackView.distribution = .fill
+    return stackView
+  }()
+  
+  private let infoStackView: UIStackView = {
+    let stackView = UIStackView()
+    stackView.axis = .vertical
+    stackView.alignment = .fill
+    stackView.distribution = .equalSpacing
     return stackView
   }()
   
@@ -92,9 +101,8 @@ final class GridCell: UICollectionViewCell {
     contentView.addSubview(totalStackView)
     totalStackView.axis = .vertical
     totalStackView.addArrangedSubviews(thumbnailImageView,
-                                       nameLabel,
-                                       priceStackView,
-                                       stockLabel)
+                                       infoStackView)
+    infoStackView.addArrangedSubviews(nameLabel, priceStackView, stockLabel)
     priceStackView.addArrangedSubviews(priceLabel, bargainPriceLabel)
     
     NSLayoutConstraint.activate([
