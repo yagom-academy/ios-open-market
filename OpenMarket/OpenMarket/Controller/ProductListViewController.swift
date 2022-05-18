@@ -45,6 +45,8 @@ final class ProductListViewController: UIViewController {
     return collectionView
   }()
   
+  private let indicator = UIActivityIndicatorView(style: .large)
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     self.configureUI()
@@ -52,9 +54,13 @@ final class ProductListViewController: UIViewController {
   }
   
   private func loadProductListData(page: Int, itemPerPage: Int) {
+    self.indicator.startAnimating()
     self.networkService.fetchProductAll(pageNumber: page, itemsPerPage: itemPerPage) { result in
       guard let productList = try? result.get() else { return }
       self.productList = productList
+      DispatchQueue.main.async {
+        self.indicator.stopAnimating()
+      }
     }
   }
   
@@ -83,12 +89,18 @@ final class ProductListViewController: UIViewController {
     self.navigationItem.rightBarButtonItem = addProductButton
     self.navigationItem.titleView = segmentControl
     self.view.addSubview(collectionView)
+    self.view.addSubview(indicator)
     self.collectionView.translatesAutoresizingMaskIntoConstraints = false
+    self.indicator.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
       collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
       collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
       collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-      collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
+      collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+      indicator.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+      indicator.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+      indicator.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+      indicator.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
     ])
   }
 }
