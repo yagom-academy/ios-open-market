@@ -100,6 +100,38 @@ class ListCell: UICollectionViewCell {
         let border = layer.addBorder(edges: [.bottom], color: .lightGray, thickness: 0.5, bottomLeftSpacing: 15)
         layer.addSublayer(border)
     }
+    
+    func update(data: Product) {
+        nameLabel.text = data.name
+        
+        if data.stock == 0 {
+            stockLabel.text = "재고없어!"
+            stockLabel.textColor = .systemYellow
+        } else {
+            guard let stock = data.stock else {
+                return
+            }
+            stockLabel.text = "재고수량: \(stock)"
+        }
+        
+        guard let price = data.price, let bargenPrice = data.bargainPrice, let currency = data.currency else {
+            return
+        }
+       
+        if data.discountedPrice == 0 {
+            priceLabel.text = "\(currency)\(price)"
+            bargenLabel.text = ""
+        } else {
+            priceLabel.text = "\(currency)\(price) "
+            bargenLabel.text = "\(currency)\(bargenPrice)"
+        }
+    }
+    
+    func update(image: UIImage) {
+        DispatchQueue.main.async {
+            self.thumbnailImageView.image = image
+        }
+    }
 }
 
 // MARK: - layout

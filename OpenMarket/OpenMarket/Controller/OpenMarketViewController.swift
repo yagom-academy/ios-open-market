@@ -21,9 +21,10 @@ class OpenMarketViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         network = URLSessionProvider()
-        getData(from: .productList(page: 1, itemsPerPage: 12))
+        getData(from: .productList(page: 1, itemsPerPage: 30))
         setup()
         addsegment()
+        
     }
     
     func getData(from: Endpoint) {
@@ -76,7 +77,22 @@ extension OpenMarketViewController: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         
+        let product = productList[indexPath.item]
         
+        guard let url = product.thumbnail else {
+            return UICollectionViewCell()
+        }
+    
+        network?.fetchImage(from: url, completionHandler: { result in
+            switch result {
+            case .success(let data):
+                cell.update(image: data)
+            case .failure(_):
+                break
+            }
+        })
+        
+        cell.update(data: product)
         
         return cell
     }
