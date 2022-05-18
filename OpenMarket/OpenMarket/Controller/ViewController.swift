@@ -72,7 +72,7 @@ final class ViewController: UIViewController {
                 itemCell.discountedPrice = itemPage.items[indexPath.row].discountedPrice
                 itemCell.price = itemPage.items[indexPath.row].currency + itemPage.items[indexPath.row].price.description
                 itemCell.bargainPrice = itemPage.items[indexPath.row].currency + itemPage.items[indexPath.row].bargainPrice.description
-                itemCell.stock = "잔여수량 : " + itemPage.items[indexPath.row].stock.description
+                itemCell.stock = itemPage.items[indexPath.row].stock
             }
         }
     }

@@ -13,5 +13,5 @@ protocol ItemCellable {
     var price: String { get set }
     var discountedPrice: Int { get set }
     var bargainPrice: String { get set }
-    var stock: String { get set }
+    var stock: Int { get set }
 }

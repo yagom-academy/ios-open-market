@@ -48,13 +48,13 @@ final class GridCell: UICollectionViewCell, ItemCellable {
         }
     }
     
-    var stock: String = "" {
+    var stock: Int = 0 {
         didSet {
-            if stock == "잔여수량 : 0" {
+            if stock == 0 {
                 self.stockLabel.text = "품절"
                 self.stockLabel.textColor = #colorLiteral(red: 0.9607843161, green: 0.7058823705, blue: 0.200000003, alpha: 1)
             } else {
-                self.stockLabel.text = stock
+                self.stockLabel.text = "잔여수량 : \(stock)"
                 self.stockLabel.textColor = #colorLiteral(red: 0.6666666865, green: 0.6666666865, blue: 0.6666666865, alpha: 1)
             }
         }
