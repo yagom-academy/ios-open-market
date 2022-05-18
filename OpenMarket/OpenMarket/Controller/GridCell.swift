@@ -28,7 +28,13 @@ final class GridCell: UICollectionViewCell, ItemCellable {
     
     var price: String = "" {
         didSet {
-            self.priceLabel.text = price
+            let attributeString = NSMutableAttributedString(string: price)
+            
+            attributeString.addAttribute(.strikethroughStyle,
+                                         value: NSUnderlineStyle.single.rawValue,
+                                         range: NSMakeRange(0, attributeString.length))
+            
+            self.priceLabel.attributedText = attributeString
         }
     }
     
