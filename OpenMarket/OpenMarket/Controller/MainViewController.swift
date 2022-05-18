@@ -68,6 +68,7 @@ class MainViewController: UIViewController {
     }
     
     @objc func registerProduct() {
+        present(RegisterProductViewController(), animated: false)
     }
 }
 
