@@ -119,6 +119,8 @@
 			isa = PBXGroup;
 			children = (
 				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
+				AEAF783228327FAA00215F26 /* ListCell.swift */,
+				03301A5A2832B68400D58385 /* GridCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -127,8 +129,6 @@
 			isa = PBXGroup;
 			children = (
 				C70FB0FE25BEF61C00C9924E /* MainViewController.swift */,
-				AEAF783228327FAA00215F26 /* ListCell.swift */,
-				03301A5A2832B68400D58385 /* GridCell.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";

@@ -31,18 +31,18 @@ final class ListCell: UICollectionViewCell {
     return label
   }()
   
-  private let bargainPriceLabel: UILabel = {
-    let label = UILabel()
-    label.textAlignment = .left
-    label.font = .systemFont(ofSize: 17)
-    return label
-  }()
-  
-  private let discountedPriceLabel: UILabel = {
+  private let priceLabel: UILabel = {
     let label = UILabel()
     label.textAlignment = .left
     label.font = .systemFont(ofSize: 17)
     label.textColor = .systemGray
+    return label
+  }()
+  
+  private let bargainPriceLabel: UILabel = {
+    let label = UILabel()
+    label.textAlignment = .left
+    label.font = .systemFont(ofSize: 17)
     return label
   }()
   
@@ -87,7 +87,9 @@ final class ListCell: UICollectionViewCell {
     self.nameLabel.text = nil
     self.stockLabel.text = nil
     self.bargainPriceLabel.text = nil
-    self.discountedPriceLabel.text = nil
+    self.priceLabel.text = nil
+    self.priceLabel.attributedText = nil
+    self.priceLabel.isHidden = false
   }
   
   private func configureListCell() {
@@ -95,7 +97,7 @@ final class ListCell: UICollectionViewCell {
     totalStackView.axis = .horizontal
     totalStackView.addArrangedSubviews(thumbnailImageView, verticalStackView, stockLabel)
     verticalStackView.addArrangedSubviews(nameLabel, priceStackView)
-    priceStackView.addArrangedSubviews(bargainPriceLabel, discountedPriceLabel)
+    priceStackView.addArrangedSubviews(priceLabel, bargainPriceLabel)
     
     NSLayoutConstraint.activate([
       totalStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
@@ -114,18 +116,16 @@ final class ListCell: UICollectionViewCell {
   func setUpListCell(page: Page) {
     self.thumbnailImageView.load(urlString: page.thumbnail)
     self.nameLabel.text = page.name
-    let bargainPrice = page.currency + page.bargainPrice.convertCurrency()
     
     if page.discountedPrice == 0 {
+      self.priceLabel.isHidden = true
+      self.bargainPriceLabel.text = "\(page.currency)\(page.bargainPrice.convertCurrency())"
       self.bargainPriceLabel.textColor = .systemGray
-      self.bargainPriceLabel.attributedText = .none
-      self.bargainPriceLabel.text = bargainPrice
-      self.discountedPriceLabel.isHidden = true
     } else {
-      self.bargainPriceLabel.textColor = .systemRed
-      self.bargainPriceLabel.attributedText = bargainPrice.strikeThrough()
-      self.discountedPriceLabel.isHidden = false
-      self.discountedPriceLabel.text = page.currency + page.discountedPrice.convertCurrency()
+      self.priceLabel.textColor = .systemRed
+      self.priceLabel.attributedText = "\(page.currency)\(page.price.convertCurrency())".strikeThrough()
+      self.bargainPriceLabel.text = "\(page.currency)\(page.bargainPrice.convertCurrency())"
+      self.bargainPriceLabel.textColor = .systemGray
     }
     
     if page.stock == 0 {
@@ -141,7 +141,6 @@ final class ListCell: UICollectionViewCell {
     let attributedString = NSMutableAttributedString(string: "잔여수량 : \(stock)")
     let imageAttachment = NSTextAttachment()
     imageAttachment.image = UIImage(systemName: "chevron.right")?.withRenderingMode(.alwaysTemplate)
-    imageAttachment.image?.withTintColor(.systemGray)
     attributedString.append(NSAttributedString(attachment: imageAttachment))
     self.stockLabel.attributedText = attributedString
   }

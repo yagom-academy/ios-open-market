@@ -33,18 +33,18 @@ final class GridCell: UICollectionViewCell {
     return label
   }()
   
-  private let bargainPriceLabel: UILabel = {
-    let label = UILabel()
-    label.textAlignment = .center
-    label.font = .systemFont(ofSize: 17)
-    return label
-  }()
-  
-  private let discountedPriceLabel: UILabel = {
+  private let priceLabel: UILabel = {
     let label = UILabel()
     label.textAlignment = .center
     label.font = .systemFont(ofSize: 17)
     label.textColor = .systemGray
+    return label
+  }()
+  
+  private let bargainPriceLabel: UILabel = {
+    let label = UILabel()
+    label.textAlignment = .center
+    label.font = .systemFont(ofSize: 17)
     return label
   }()
   
@@ -71,7 +71,9 @@ final class GridCell: UICollectionViewCell {
     self.nameLabel.text = nil
     self.stockLabel.text = nil
     self.bargainPriceLabel.text = nil
-    self.discountedPriceLabel.text = nil
+    self.priceLabel.text = nil
+    self.priceLabel.attributedText = nil
+    self.priceLabel.isHidden = false
   }
   
   private func configureGridCell() {
@@ -79,8 +81,8 @@ final class GridCell: UICollectionViewCell {
     totalStackView.axis = .vertical
     totalStackView.addArrangedSubviews(thumbnailImageView,
                                        nameLabel,
+                                       priceLabel,
                                        bargainPriceLabel,
-                                       discountedPriceLabel,
                                        stockLabel)
     
     NSLayoutConstraint.activate([
@@ -99,18 +101,16 @@ final class GridCell: UICollectionViewCell {
   func setUpGridCell(page: Page) {
     self.thumbnailImageView.load(urlString: page.thumbnail)
     self.nameLabel.text = page.name
-    let bargainPrice = page.currency + page.bargainPrice.convertCurrency()
     
     if page.discountedPrice == 0 {
+      self.priceLabel.isHidden = true
+      self.bargainPriceLabel.text = "\(page.currency)\(page.bargainPrice.convertCurrency())"
       self.bargainPriceLabel.textColor = .systemGray
-      self.bargainPriceLabel.attributedText = .none
-      self.bargainPriceLabel.text = bargainPrice
-      self.discountedPriceLabel.isHidden = true
     } else {
-      self.bargainPriceLabel.textColor = .systemRed
-      self.bargainPriceLabel.attributedText = bargainPrice.strikeThrough()
-      self.discountedPriceLabel.isHidden = false
-      self.discountedPriceLabel.text = page.currency + page.discountedPrice.convertCurrency()
+      self.priceLabel.textColor = .systemRed
+      self.priceLabel.attributedText = "\(page.currency)\(page.price.convertCurrency())".strikeThrough()
+      self.bargainPriceLabel.text = "\(page.currency)\(page.bargainPrice.convertCurrency())"
+      self.bargainPriceLabel.textColor = .systemGray
     }
     
     if page.stock == 0 {
