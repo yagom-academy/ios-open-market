@@ -15,6 +15,8 @@
 		9469FADA282ECAA40053037F /* Double+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9469FAD9282ECAA40053037F /* Double+.swift */; };
 		94881794282CC60400217C2A /* ProductGridCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94881793282CC60400217C2A /* ProductGridCell.swift */; };
 		94881799282D439B00217C2A /* ProductListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94881798282D439B00217C2A /* ProductListCell.swift */; };
+		94A8E23A28353D68008BD5EC /* UIRefreshControl+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94A8E23928353D68008BD5EC /* UIRefreshControl+.swift */; };
+		94A8E23C28353D74008BD5EC /* UIActivityIndicator+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94A8E23B28353D74008BD5EC /* UIActivityIndicator+.swift */; };
 		94C11BE72832483400EB3049 /* EndPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94C11BE62832483400EB3049 /* EndPoint.swift */; };
 		94C11BE92832689200EB3049 /* Encodable+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94C11BE82832689200EB3049 /* Encodable+.swift */; };
 		94C11BEB283281E900EB3049 /* CacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94C11BEA283281E900EB3049 /* CacheManager.swift */; };
@@ -53,6 +55,8 @@
 		9469FAD9282ECAA40053037F /* Double+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+.swift"; sourceTree = "<group>"; };
 		94881793282CC60400217C2A /* ProductGridCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductGridCell.swift; sourceTree = "<group>"; };
 		94881798282D439B00217C2A /* ProductListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductListCell.swift; sourceTree = "<group>"; };
+		94A8E23928353D68008BD5EC /* UIRefreshControl+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIRefreshControl+.swift"; sourceTree = "<group>"; };
+		94A8E23B28353D74008BD5EC /* UIActivityIndicator+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIActivityIndicator+.swift"; sourceTree = "<group>"; };
 		94C11BE62832483400EB3049 /* EndPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndPoint.swift; sourceTree = "<group>"; };
 		94C11BE82832689200EB3049 /* Encodable+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Encodable+.swift"; sourceTree = "<group>"; };
 		94C11BEA283281E900EB3049 /* CacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheManager.swift; sourceTree = "<group>"; };
@@ -135,6 +139,8 @@
 				9469FAD9282ECAA40053037F /* Double+.swift */,
 				94C11BE82832689200EB3049 /* Encodable+.swift */,
 				9BF817512832468F0016A085 /* UICollectionViewLayout+.swift */,
+				94A8E23928353D68008BD5EC /* UIRefreshControl+.swift */,
+				94A8E23B28353D74008BD5EC /* UIActivityIndicator+.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -304,8 +310,10 @@
 				9BC589CF282D4D0300721A0F /* UILayoutPriority+.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* MainViewController.swift in Sources */,
 				942CE24F282930ED006C6648 /* ProductList.swift in Sources */,
+				94A8E23C28353D74008BD5EC /* UIActivityIndicator+.swift in Sources */,
 				94C11BE92832689200EB3049 /* Encodable+.swift in Sources */,
 				9B70EAA728335FE8000A7339 /* CellSegmentControl.swift in Sources */,
+				94A8E23A28353D68008BD5EC /* UIRefreshControl+.swift in Sources */,
 				9BAC5B21282936E0000269EE /* Product.swift in Sources */,
 				9469FADA282ECAA40053037F /* Double+.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,

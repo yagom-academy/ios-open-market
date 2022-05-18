@@ -94,12 +94,11 @@ extension MainViewController {
             case .success(let data):
                 guard let result = data.products else { return }
                 
-                //self?.products.append(contentsOf: result)
                 self?.applySnapshot(products: result)
                 
                 DispatchQueue.main.async {
-                    self?.mainView.indicatorView.stopAnimating()
-                    self?.mainView.collectionView.refreshControl?.endRefreshing()
+                    self?.mainView.indicatorView.stop()
+                    self?.mainView.collectionView.refreshControl?.stop()
                 }
             case .failure(_):
                 break
