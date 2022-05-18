@@ -2,7 +2,10 @@
 //  ProductConstant.swift
 //  OpenMarket
 //
-//  Created by LIMGAUI on 2022/05/18.
+//  Created by Lingo, Quokka on 2022/05/18.
 //
 
-import Foundation
+enum ProductConstant {
+  static let soldOut = "품절"
+  static let remainStock = "잔여수량:"
+}
