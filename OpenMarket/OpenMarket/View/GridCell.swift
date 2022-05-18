@@ -26,6 +26,7 @@ final class GridCell: UICollectionViewCell {
   private let thumbnailImageView: UIImageView = {
     let imageView = UIImageView()
     imageView.translatesAutoresizingMaskIntoConstraints = false
+    imageView.contentMode = .scaleAspectFit
     return imageView
   }()
   
