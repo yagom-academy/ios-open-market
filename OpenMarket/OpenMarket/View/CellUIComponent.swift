@@ -20,6 +20,7 @@ class CellUIComponent {
         label.adjustsFontForContentSizeCategory = true
         label.font = UIFont.preferredFont(forTextStyle: .title3)
         label.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        label.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         return label
     }()
     
@@ -47,6 +48,7 @@ class CellUIComponent {
         label.font = UIFont.preferredFont(forTextStyle: .body)
         label.textColor = .systemGray
         label.setContentHuggingPriority(.required, for: .horizontal)
+        label.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         return label
     }()
 }
