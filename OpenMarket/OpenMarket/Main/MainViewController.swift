@@ -151,7 +151,7 @@ extension MainViewController {
     private func applySnapshot(products: [Product]) {
         DispatchQueue.main.async { [self] in
             snapshot.appendItems(products)
-            dataSource.apply(snapshot)
+            dataSource.apply(snapshot, animatingDifferences: false)
         }
     }
 }
