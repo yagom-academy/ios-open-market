@@ -159,12 +159,34 @@ extension ProductListCell {
         guard let product = state.item else { return }
         
         cellUIComponent.nameLabel.text = product.name
-        cellUIComponent.stockLabel.text = String(product.stock)
-        cellUIComponent.bargainPriceLabel.text = String(product.bargainPrice)
-        cellUIComponent.priceLabel.text = String(product.price)
+        cellUIComponent.bargainPriceLabel.text = product.currency + String(product.bargainPrice)
+        cellUIComponent.priceLabel.text = product.currency + String(product.price)
+        
+        setUpStockLabel(stock: product.stock)
+        setUpPriceLabel(price: product.price, bargainPrice: product.bargainPrice)
         
         guard let image = urlToImage(product.thumbnail) else { return }
         cellUIComponent.thumbnailImageView.image = image
+    }
+    
+    func setUpStockLabel(stock: Int) {
+        switch stock {
+        case 0:
+            cellUIComponent.stockLabel.text = "품절"
+            cellUIComponent.stockLabel.textColor = .systemYellow
+        default:
+            cellUIComponent.stockLabel.text = String(stock)
+        }
+    }
+    
+    func setUpPriceLabel(price: Int, bargainPrice: Int) {
+        switch bargainPrice == price {
+        case true:
+            cellUIComponent.bargainPriceLabel.isHidden = true
+        case false:
+            cellUIComponent.priceLabel.attributedText = cellUIComponent.priceLabel.text?.strikeThrough()
+            cellUIComponent.priceLabel.textColor = .systemRed
+        }
     }
     
     func urlToImage(_ urlString: String) -> UIImage? {

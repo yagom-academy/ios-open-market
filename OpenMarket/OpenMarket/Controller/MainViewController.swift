@@ -25,7 +25,7 @@ class MainViewController: UIViewController {
     }
     
     func fetchData(layout: @escaping () -> UICollectionViewLayout) {
-        HTTPManager().loadData(targetURL: .productList(pageNumber: 1, itemsPerPage: 10)) { [self] data in
+        HTTPManager().loadData(targetURL: .productList(pageNumber: 1, itemsPerPage: 20)) { [self] data in
             switch data {
             case .success(let data):
                 guard let products = try? JSONDecoder().decode(OpenMarketProductList.self, from: data).products else { return }
