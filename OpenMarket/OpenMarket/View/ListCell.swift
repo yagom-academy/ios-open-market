@@ -134,15 +134,15 @@ final class ListCell: UICollectionViewCell {
     
     if page.stock == 0 {
       self.stockLabel.textColor = .systemYellow
-      self.stockLabel.text = "품절"
+      makeStockLabel("품절")
     } else {
       self.stockLabel.textColor = .systemGray
-      makeStockLabel(page.stock)
+      makeStockLabel("잔여수량 : \(page.stock)")
     }
   }
   
-  private func makeStockLabel(_ stock: Int) {
-    let attributedString = NSMutableAttributedString(string: "잔여수량 : \(stock)")
+  private func makeStockLabel(_ stock: String) {
+    let attributedString = NSMutableAttributedString(string: stock)
     let imageAttachment = NSTextAttachment()
     imageAttachment.image = UIImage(systemName: "chevron.right")?.withRenderingMode(.alwaysTemplate)
     attributedString.append(NSAttributedString(attachment: imageAttachment))
