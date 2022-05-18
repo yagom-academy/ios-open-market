@@ -11,8 +11,7 @@ final class ViewController: UIViewController {
     @IBOutlet private weak var collectionViewSegment: UISegmentedControl!
     private let listCellName = String(describing: ListCell.self)
     private let gridCellName = String(describing: GridCell.self)
-    let itemPageAPI = ItemPageAPI(pageNumber: 1, itemPerPage: 100)
-    
+    private let itemPageAPI = ItemPageAPI(pageNumber: 1, itemPerPage: 100)
     private let networkHandler = NetworkHandler()
     
     override func viewDidLoad() {
@@ -27,10 +26,20 @@ final class ViewController: UIViewController {
         openMarketCollectionView.register(UINib(nibName: gridCellName, bundle: nil), forCellWithReuseIdentifier: gridCellName)
     }
     
-    private func setCellComponents(itemCell: ItemCellable, itemPage: ItemPage, indexPath: IndexPath) {
-        guard let cell = itemCell as? UICollectionViewCell else {
-            return
+    private func getItemPage(itemCell: ItemCellable, indexPath: IndexPath) {
+        networkHandler.request(api: itemPageAPI) { data in
+            switch data {
+            case .success(let data):
+                guard let itemPage = try? DataDecoder.decode(data: data, dataType: ItemPage.self) else { return }
+                self.setCellComponents(itemCell: itemCell, itemPage: itemPage, indexPath: indexPath)
+            case .failure(_):
+                break
+            }
         }
+    }
+    
+    private func setCellComponents(itemCell: ItemCellable, itemPage: ItemPage, indexPath: IndexPath) {
+        guard let cell = itemCell as? UICollectionViewCell else { return }
         
         var itemCell = itemCell
         
@@ -68,27 +77,11 @@ extension ViewController: UICollectionViewDataSource {
         
         if collectionViewSegment.selectedSegmentIndex == 0 {
             guard let listCell = collectionView.dequeueReusableCell(withReuseIdentifier:  listCellName, for: indexPath) as? ListCell else { return ListCell() }
-            networkHandler.request(api: itemPageAPI) { data in
-                switch data {
-                case .success(let data):
-                    guard let itemPage = try? DataDecoder.decode(data: data, dataType: ItemPage.self) else { return }
-                    self.setCellComponents(itemCell: listCell, itemPage: itemPage, indexPath: indexPath)
-                case .failure(_):
-                    break
-                }
-            }
+            getItemPage(itemCell: listCell, indexPath: indexPath)
             return listCell
         } else {
             guard let gridCell = collectionView.dequeueReusableCell(withReuseIdentifier: gridCellName, for: indexPath) as? GridCell else { return GridCell() }
-            networkHandler.request(api: itemPageAPI) { data in
-                switch data {
-                case .success(let data):
-                    guard let itemPage = try? DataDecoder.decode(data: data, dataType: ItemPage.self) else { return }
-                    self.setCellComponents(itemCell: gridCell, itemPage: itemPage, indexPath: indexPath)
-                case .failure(_):
-                    break
-                }
-            }
+            getItemPage(itemCell: gridCell, indexPath: indexPath)
             gridCell.layer.cornerRadius = 8
             gridCell.layer.borderWidth = 1
             return gridCell
