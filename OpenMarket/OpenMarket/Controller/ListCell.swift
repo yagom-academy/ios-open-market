@@ -11,7 +11,5 @@ class ListCell: UICollectionViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
     }
-
 }

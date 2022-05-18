@@ -10,7 +10,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var openMarketCollectionView: UICollectionView!
     @IBOutlet weak var collectionViewSegment: UISegmentedControl!
     let listCellName = String(describing: ListCell.self)
-    let GridCellName = String(describing: GridCell.self)
+    let gridCellName = String(describing: GridCell.self)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,7 +22,7 @@ class ViewController: UIViewController {
     
     private func registCell() {
         openMarketCollectionView.register(UINib(nibName: listCellName, bundle: nil), forCellWithReuseIdentifier: listCellName)
-        openMarketCollectionView.register(UINib(nibName: GridCellName, bundle: nil), forCellWithReuseIdentifier: GridCellName)
+        openMarketCollectionView.register(UINib(nibName: gridCellName, bundle: nil), forCellWithReuseIdentifier: gridCellName)
     }
     @IBAction func changeLayoutSegment(_ sender: UISegmentedControl) {
     }
@@ -35,7 +35,7 @@ extension ViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 //        guard let listCell = collectionView.dequeueReusableCell(withReuseIdentifier:  ListCellName, for: indexPath) as? ListCell else { return ListCell() }
-        guard let gridCell = collectionView.dequeueReusableCell(withReuseIdentifier: GridCellName, for: indexPath) as? GridCell else { return GridCell() }
+        guard let gridCell = collectionView.dequeueReusableCell(withReuseIdentifier: gridCellName, for: indexPath) as? GridCell else { return GridCell() }
         
         gridCell.layer.cornerRadius = 8
         gridCell.layer.borderWidth = 1

@@ -10,8 +10,6 @@ import UIKit
 class GridCell: UICollectionViewCell {
 
     override func awakeFromNib() {
-        super.awakeFromNib()
-        
+        super.awakeFromNib()        
     }
-
 }
