@@ -33,3 +33,10 @@ struct ItemDetailAPI: APIable {
     let params: [String : String]? = nil
     let method: HttpMethod = .get
 }
+
+struct ItemImageAPI: APIable {
+    var host: String
+    var path = ""
+    var params: [String : String]? = nil
+    var method: HttpMethod = .get
+}

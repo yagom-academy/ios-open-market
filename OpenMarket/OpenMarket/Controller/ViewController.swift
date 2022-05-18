@@ -38,10 +38,33 @@ final class ViewController: UIViewController {
         }
     }
     
+    
+    func getImage(itemCell: ItemCellable ,url: String, indexPath: IndexPath) {
+        guard let cell = itemCell as? UICollectionViewCell else { return }
+        var itemCell = itemCell
+        
+        networkHandler.request(api: ItemImageAPI(host: url)) { data in
+            switch data {
+            case .success(let data):
+                guard let imageData = data else { return }
+                DispatchQueue.main.async {
+                    if self.openMarketCollectionView.indexPath(for: cell) == indexPath {
+                        itemCell.itemImage = UIImage(data: imageData)
+                    }
+                }
+            case .failure(_):
+                break
+            }
+        }
+    }
+    
     private func setCellComponents(itemCell: ItemCellable, itemPage: ItemPage, indexPath: IndexPath) {
         guard let cell = itemCell as? UICollectionViewCell else { return }
-        
+    
         var itemCell = itemCell
+        let thumnailURL = itemPage.items[indexPath.row].thumbnail
+        
+        self.getImage(itemCell: itemCell, url: thumnailURL, indexPath: indexPath)
         
         DispatchQueue.main.async {
             if self.openMarketCollectionView.indexPath(for: cell) == indexPath {
