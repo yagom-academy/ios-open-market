@@ -9,19 +9,19 @@ import UIKit
 class OpenMarketViewController: UIViewController {
     private let segmentControl = UISegmentedControl(items: ["list", "grid"])
     private var collectionView: UICollectionView?
-    private var productList: [Product] = [] {
+    private var network: URLSessionProvider<ProductList>?
+    private var productList: [Product]? {
         didSet {
             DispatchQueue.main.async {
                 self.collectionView?.reloadData()
             }
         }
     }
-    private var network: URLSessionProvider<ProductList>?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         network = URLSessionProvider()
-        getData(from: .productList(page: 1, itemsPerPage: 70))
+        getData(from: .productList(page: 1, itemsPerPage: 20))
         setup()
         addsegment()
     }
@@ -30,7 +30,7 @@ class OpenMarketViewController: UIViewController {
         network?.fetchData(from: from, completionHandler: { result in
             switch result {
             case .success(let data):
-                self.productList = data.pages!
+                self.productList = data.pages
             case .failure(_):
                 print("")
             }
@@ -76,7 +76,9 @@ extension OpenMarketViewController: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         
-        let product = productList[indexPath.item]
+        guard let product = productList?[indexPath.item] else {
+            return UICollectionViewCell()
+        }
         
         guard let url = product.thumbnail else {
             return UICollectionViewCell()
@@ -97,6 +99,6 @@ extension OpenMarketViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return productList.count
+        return productList?.count ?? .zero
     }
 }
