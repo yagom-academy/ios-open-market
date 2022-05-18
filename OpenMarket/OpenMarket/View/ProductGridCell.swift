@@ -10,6 +10,7 @@ import UIKit
 class ProductGridCell: UICollectionViewCell {
     static let reuseIdentifier = "product-grid-cell-reuse-Identifier"
     let cellUIComponent = CellUIComponent()
+    private var item: Product? = nil
     
     //MARK: - stackView
     private lazy var baseStackView: UIStackView = {
@@ -52,5 +53,46 @@ extension ProductGridCell {
             thumbnail.widthAnchor.constraint(equalToConstant: safeAreaLayoutGuide.layoutFrame.width * 0.4),
             thumbnail.heightAnchor.constraint(equalTo: thumbnail.widthAnchor)
         ])
+    }
+}
+
+extension ProductGridCell {
+    func updateWithItem(_ newItem: Product) {
+        guard item != newItem else { return }
+        item = newItem
+        setNeedsUpdateConfiguration()
+    }
+    
+    override var configurationState: UICellConfigurationState {
+        var state = super.configurationState
+        state.item = self.item
+        return state
+    }
+}
+
+extension ProductGridCell {
+    func setupViewsIfNeeded() {
+        layout()
+    }
+    
+    override func updateConfiguration(using state: UICellConfigurationState) {
+        setupViewsIfNeeded()
+        
+        guard let product = state.item else { return }
+        
+        cellUIComponent.nameLabel.text = product.name
+        cellUIComponent.stockLabel.text = String(product.stock)
+        cellUIComponent.bargainPriceLabel.text = String(product.bargainPrice)
+        cellUIComponent.priceLabel.text = String(product.price)
+        
+        guard let image = urlToImage(product.thumbnail) else { return }
+        cellUIComponent.thumbnailImageView.image = image
+    }
+    
+    func urlToImage(_ urlString: String) -> UIImage? {
+        guard let url = URL(string: urlString),
+                let data = try? Data(contentsOf: url),
+                let image = UIImage(data: data) else { return nil }
+        return image
     }
 }
