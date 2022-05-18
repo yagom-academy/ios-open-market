@@ -22,6 +22,7 @@
 		0396412D2833705200E0DE5A /* Int+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0396412C2833705200E0DE5A /* Int+Extension.swift */; };
 		0396412F28337A5500E0DE5A /* CALayer+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0396412E28337A5500E0DE5A /* CALayer+Extension.swift */; };
 		AE2C0685282B966500D5A24C /* ApiProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE2C0684282B966500D5A24C /* ApiProviderTests.swift */; };
+		AE82C0082834FCAB00A0EFDC /* FontSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE82C0072834FCAB00A0EFDC /* FontSize.swift */; };
 		AEAF783328327FAA00215F26 /* ListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEAF783228327FAA00215F26 /* ListCell.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
 		C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */; };
@@ -57,6 +58,7 @@
 		0396412C2833705200E0DE5A /* Int+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Extension.swift"; sourceTree = "<group>"; };
 		0396412E28337A5500E0DE5A /* CALayer+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CALayer+Extension.swift"; sourceTree = "<group>"; };
 		AE2C0684282B966500D5A24C /* ApiProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiProviderTests.swift; sourceTree = "<group>"; };
+		AE82C0072834FCAB00A0EFDC /* FontSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontSize.swift; sourceTree = "<group>"; };
 		AEAF783228327FAA00215F26 /* ListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCell.swift; sourceTree = "<group>"; };
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -88,11 +90,8 @@
 		03301A552832ACD500D58385 /* Util */ = {
 			isa = PBXGroup;
 			children = (
-				03301A562832ACFA00D58385 /* String+Extension.swift */,
-				0396412C2833705200E0DE5A /* Int+Extension.swift */,
-				03301A582832AD3800D58385 /* ImageView+Extension.swift */,
-				0396412A283368CB00E0DE5A /* UIStackView+Extension.swift */,
-				0396412E28337A5500E0DE5A /* CALayer+Extension.swift */,
+				AE82C0072834FCAB00A0EFDC /* FontSize.swift */,
+				AE82C0092834FE9400A0EFDC /* Extension */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -153,6 +152,18 @@
 				039161D5282B570B00DFE033 /* MockData.swift */,
 			);
 			path = Mock;
+			sourceTree = "<group>";
+		};
+		AE82C0092834FE9400A0EFDC /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				03301A562832ACFA00D58385 /* String+Extension.swift */,
+				0396412C2833705200E0DE5A /* Int+Extension.swift */,
+				03301A582832AD3800D58385 /* ImageView+Extension.swift */,
+				0396412A283368CB00E0DE5A /* UIStackView+Extension.swift */,
+				0396412E28337A5500E0DE5A /* CALayer+Extension.swift */,
+			);
+			path = Extension;
 			sourceTree = "<group>";
 		};
 		C70FB0EE25BEF61C00C9924E = {
@@ -308,6 +319,7 @@
 				0396412B283368CB00E0DE5A /* UIStackView+Extension.swift in Sources */,
 				0396412D2833705200E0DE5A /* Int+Extension.swift in Sources */,
 				0396412F28337A5500E0DE5A /* CALayer+Extension.swift in Sources */,
+				AE82C0082834FCAB00A0EFDC /* FontSize.swift in Sources */,
 				0341E5D0282A2D4700DEC832 /* ApiProvider.swift in Sources */,
 				AEAF783328327FAA00215F26 /* ListCell.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
