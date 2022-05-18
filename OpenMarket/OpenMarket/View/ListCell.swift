@@ -64,7 +64,7 @@ final class ListCell: UICollectionViewCell {
   private let accessoryImageView: UIImageView = {
     let imageView = UIImageView()
     imageView.image = UIImage(systemName: "chevron.right")
-    imageView.tintColor = .systemGray
+    imageView.tintColor = .lightGray
     imageView.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
     imageView.setContentHuggingPriority(.defaultHigh, for: .horizontal)
     return imageView
