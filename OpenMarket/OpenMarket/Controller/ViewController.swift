@@ -9,6 +9,8 @@ import UIKit
 final class ViewController: UIViewController {
     @IBOutlet private weak var openMarketCollectionView: UICollectionView!
     @IBOutlet private weak var collectionViewSegment: UISegmentedControl!
+    @IBOutlet private weak var myActivityIndicator: UIActivityIndicatorView!
+    
     private let listCellName = String(describing: ListCell.self)
     private let gridCellName = String(describing: GridCell.self)
     private let itemPageAPI = ItemPageAPI(pageNumber: 1, itemPerPage: 100)
@@ -27,6 +29,8 @@ final class ViewController: UIViewController {
     }
     
     private func getItemPage(itemCell: ItemCellable, indexPath: IndexPath) {
+        self.myActivityIndicator.startAnimating()
+        myActivityIndicator.isHidden = false
         networkHandler.request(api: itemPageAPI) { data in
             switch data {
             case .success(let data):
@@ -36,6 +40,7 @@ final class ViewController: UIViewController {
                 break
             }
         }
+        self.myActivityIndicator.stopAnimating()
     }
     
     private func getImage(itemCell: ItemCellable ,url: String, indexPath: IndexPath) {

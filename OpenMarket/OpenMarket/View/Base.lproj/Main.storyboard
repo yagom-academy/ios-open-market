@@ -28,6 +28,9 @@
                                 </collectionViewFlowLayout>
                                 <cells/>
                             </collectionView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="Mlj-FY-Xgy">
+                                <rect key="frame" x="197" y="438" width="20" height="20"/>
+                            </activityIndicatorView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -35,6 +38,8 @@
                             <constraint firstItem="LwH-4D-DmQ" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="HQK-cu-rIj"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="LwH-4D-DmQ" secondAttribute="trailing" id="Ocn-XU-QKZ"/>
                             <constraint firstItem="LwH-4D-DmQ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="QTT-XT-WVJ"/>
+                            <constraint firstItem="Mlj-FY-Xgy" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="b7O-hZ-hr5"/>
+                            <constraint firstItem="Mlj-FY-Xgy" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="dqI-z6-bSu"/>
                             <constraint firstAttribute="bottom" secondItem="LwH-4D-DmQ" secondAttribute="bottom" id="jPD-OO-raA"/>
                         </constraints>
                     </view>
@@ -54,6 +59,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="collectionViewSegment" destination="Pp3-hi-DGT" id="uwc-4S-kPe"/>
+                        <outlet property="myActivityIndicator" destination="Mlj-FY-Xgy" id="zxx-z9-Zie"/>
                         <outlet property="openMarketCollectionView" destination="LwH-4D-DmQ" id="OKz-aU-oOs"/>
                     </connections>
                 </viewController>
