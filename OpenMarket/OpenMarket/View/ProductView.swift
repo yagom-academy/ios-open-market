@@ -11,18 +11,19 @@ final class ProductView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.addSubview(collectionView)
+        segmentedControl.addTarget(self, action: #selector(switchSegment(segmentControl:)), for: .valueChanged)
     }
-    
+ 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
     lazy var segmentedControl: UISegmentedControl = {
         let segmentedControl = UISegmentedControl(items: ["LIST", "GRID"])
-        
+        segmentedControl.selectedSegmentIndex = 0
         segmentedControl.translatesAutoresizingMaskIntoConstraints = false
         segmentedControl.backgroundColor = .systemBlue
-        
+       
         return segmentedControl
     }()
     
@@ -61,7 +62,7 @@ final class ProductView: UIView {
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         item.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5)
         
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(70))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(300))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 2)
         
         let section = NSCollectionLayoutSection(group: group)
@@ -78,8 +79,6 @@ final class ProductView: UIView {
             self.collectionView.topAnchor.constraint(equalTo: self.topAnchor),
             self.collectionView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
         ])
-        
-        segmentedControl.addTarget(self, action: #selector(switchSegment(segmentControl:)), for: .valueChanged)
     }
     
     @objc private func switchSegment(segmentControl: UISegmentedControl) {
@@ -91,5 +90,6 @@ final class ProductView: UIView {
         default:
             collectionView.collectionViewLayout = listLayout
         }
+        collectionView.reloadData()
     }
 }

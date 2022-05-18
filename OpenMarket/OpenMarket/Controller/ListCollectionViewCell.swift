@@ -2,12 +2,12 @@
 //  CollectionViewCell.swift
 //  OpenMarket
 //
-//  Created by marisol on 2022/05/16.
+//  Created by Eddy, marisol on 2022/05/16.
 //
 
 import UIKit
 
-final class CollectionViewCell: UICollectionViewCell {
+final class ListCollectionViewCell: UICollectionViewCell {
     static let identifier = "CollectionViewCell"
     var productImage: UIImageView = UIImageView()
     var productName: UILabel = UILabel()
@@ -21,6 +21,40 @@ final class CollectionViewCell: UICollectionViewCell {
     private lazy var productWithImageStackView = makeStackView(axis: .horizontal, alignment: .fill, distribution: .fill, spacing: 5)
     private lazy var accessoryStackView = makeStackView(axis: .horizontal, alignment: .top, distribution: .fill, spacing: 5)
     
+    lazy var originalPrice: UILabel = {
+        let label = UILabel()
+       
+        guard let currency = currency.text else {
+            return UILabel()
+        }
+        
+        guard let price = price.text else {
+            return UILabel()
+        }
+        
+        label.text = "\(currency) \(price)"
+        
+        label.textColor = .systemGray2
+        return label
+    }()
+    
+    lazy var discountedPrice: UILabel = {
+        let label = UILabel()
+       
+        guard let currency = currency.text else {
+            return UILabel()
+        }
+        
+        guard let price = bargainPrice.text else {
+            return UILabel()
+        }
+        
+        label.text = "\(currency) \(price)"
+        label.textColor = .systemGray2
+        
+        return label
+    }()
+    
     private func makeStackView(axis: NSLayoutConstraint.Axis, alignment: UIStackView.Alignment, distribution: UIStackView.Distribution, spacing: CGFloat) -> UIStackView {
         let stackView = UIStackView()
         
@@ -33,12 +67,16 @@ final class CollectionViewCell: UICollectionViewCell {
         return stackView
     }
     
+    func makeBargainPrice(price: UILabel) {
+        price.textColor = .systemRed
+        price.attributedText = price.text?.strikeThrough()
+    }
+    
     func configurePriceUI() {
-        priceStackView.addArrangedSubview(currency)
-        priceStackView.addArrangedSubview(price)
+        priceStackView.addArrangedSubview(originalPrice)
+        priceStackView.addArrangedSubview(discountedPrice)
         
-        currency.textColor = .systemGray2
-        price.textColor = .systemGray2
+        discountedPrice.textColor = .systemGray2
     }
     
     func configureProductUI() {
