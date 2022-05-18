@@ -69,11 +69,7 @@ final class ViewController: UIViewController {
         DispatchQueue.main.async {
             if self.openMarketCollectionView.indexPath(for: cell) == indexPath {
                 itemCell.itemName = itemPage.items[indexPath.row].name
-                if itemPage.items[indexPath.row].discountedPrice == 0 {
-                    itemCell.isDiscount = false
-                } else {
-                    itemCell.isDiscount = true
-                }
+                itemCell.discountedPrice = itemPage.items[indexPath.row].discountedPrice
                 itemCell.price = itemPage.items[indexPath.row].currency + itemPage.items[indexPath.row].price.description
                 itemCell.bargainPrice = itemPage.items[indexPath.row].currency + itemPage.items[indexPath.row].bargainPrice.description
                 itemCell.stock = "잔여수량 : " + itemPage.items[indexPath.row].stock.description

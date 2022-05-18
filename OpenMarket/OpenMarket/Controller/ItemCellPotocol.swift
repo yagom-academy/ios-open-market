@@ -11,7 +11,7 @@ protocol ItemCellable {
     var itemImage: UIImage? { get set }
     var itemName: String { get set }
     var price: String { get set }
-    var isDiscount: Bool { get set }
+    var discountedPrice: Int { get set }
     var bargainPrice: String { get set }
     var stock: String { get set }
 }

@@ -32,12 +32,12 @@ final class GridCell: UICollectionViewCell, ItemCellable {
         }
     }
     
-    var isDiscount: Bool = true {
+    var discountedPrice: Int = 0 {
         didSet {
-            if isDiscount {
-                self.priceLabel.isHidden = false
-            } else {
+            if discountedPrice == 0 {
                 self.priceLabel.isHidden = true
+            } else {
+                self.priceLabel.isHidden = false
             }
         }
     }
