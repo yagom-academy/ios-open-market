@@ -70,6 +70,13 @@
                 </constraints>
             </collectionViewCellContentView>
             <size key="customSize" width="181" height="315"/>
+            <connections>
+                <outlet property="bargainPriceLabel" destination="RLg-Uy-ebT" id="YEj-4u-7ib"/>
+                <outlet property="itemImageView" destination="72o-S8-ycf" id="lPc-5i-68h"/>
+                <outlet property="itemNameLabel" destination="egS-O9-CVG" id="RwX-SQ-EXh"/>
+                <outlet property="priceLabel" destination="OWF-fZ-lhy" id="lFn-e6-vQe"/>
+                <outlet property="stockLabel" destination="0Dj-My-19S" id="qej-rw-h57"/>
+            </connections>
             <point key="canvasLocation" x="115.21739130434783" y="73.325892857142847"/>
         </collectionViewCell>
     </objects>

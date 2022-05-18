@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -129,6 +129,13 @@
                 </constraints>
             </collectionViewCellContentView>
             <size key="customSize" width="336" height="54"/>
+            <connections>
+                <outlet property="bargainPriceLabel" destination="ga8-ln-uK6" id="rIJ-mQ-ddo"/>
+                <outlet property="itemImageView" destination="0at-6o-EQf" id="8b3-Br-fYR"/>
+                <outlet property="itemNameLabel" destination="49Y-L0-bNZ" id="VNG-Yq-p6i"/>
+                <outlet property="priceLabel" destination="pWq-9Y-aEt" id="cU9-Sj-4jO"/>
+                <outlet property="stockLabel" destination="4PJ-ni-5Ny" id="sHN-g2-ym0"/>
+            </connections>
             <point key="canvasLocation" x="-8.6956521739130448" y="40.848214285714285"/>
         </collectionViewCell>
     </objects>
