@@ -19,19 +19,18 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view = baseView
+        configureHierarchy(createLayout: createListLayout)
+        configureDataSource()
         setUpNavigationItem()
-        
-        fetchData(layout: createListLayout)
+        fetchData()
     }
-    
-    func fetchData(layout: @escaping () -> UICollectionViewLayout) {
+
+    func fetchData() {
         HTTPManager().loadData(targetURL: .productList(pageNumber: 1, itemsPerPage: 20)) { [self] data in
             switch data {
             case .success(let data):
                 guard let products = try? JSONDecoder().decode(OpenMarketProductList.self, from: data).products else { return }
                 DispatchQueue.main.async { [self] in
-                    self.configureHierarchy(createLayout: layout)
-                    self.configureDataSource()
                     updateSnapshot(products: products)
                     cacheProducts = products
                 }
@@ -54,6 +53,14 @@ class MainViewController: UIViewController {
     }
     
     @objc func switchCollectionViewLayout() {
+        switch baseView.segmentedControl.selectedSegmentIndex {
+        case 0:
+            collectionView.setCollectionViewLayout(createListLayout(), animated: false)
+        case 1:
+            collectionView.setCollectionViewLayout(createGridLayout(), animated: false)
+        default:
+            break
+        }
         self.configureDataSource()
         dataSource.apply(currentSnapshot)
     }
@@ -77,11 +84,11 @@ extension MainViewController {
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 2)
         let section = NSCollectionLayoutSection(group: group)
         section.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5)
-        section.interGroupSpacing = 5
-        group.interItemSpacing = .fixed(10)
-        
+        section.interGroupSpacing = 10
+        group.interItemSpacing = .fixed(40)
+
         let layout = UICollectionViewCompositionalLayout(section: section)
-        
+
         return layout
     }
     
