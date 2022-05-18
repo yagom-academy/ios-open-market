@@ -27,6 +27,28 @@ final class ViewController: UIViewController {
         openMarketCollectionView.register(UINib(nibName: gridCellName, bundle: nil), forCellWithReuseIdentifier: gridCellName)
     }
     
+    private func setCellComponents(itemCell: ItemCellable, itemPage: ItemPage, indexPath: IndexPath) {
+        guard let cell = itemCell as? UICollectionViewCell else {
+            return
+        }
+        
+        var itemCell = itemCell
+        
+        DispatchQueue.main.async {
+            if self.openMarketCollectionView.indexPath(for: cell) == indexPath {
+                itemCell.itemName = itemPage.items[indexPath.row].name
+                if itemPage.items[indexPath.row].discountedPrice == 0 {
+                    itemCell.isDiscount = false
+                } else {
+                    itemCell.isDiscount = true
+                }
+                itemCell.price = itemPage.items[indexPath.row].currency + itemPage.items[indexPath.row].price.description
+                itemCell.bargainPrice = itemPage.items[indexPath.row].currency + itemPage.items[indexPath.row].bargainPrice.description
+                itemCell.stock = "잔여수량 : " + itemPage.items[indexPath.row].stock.description
+            }
+        }
+    }
+    
     @IBAction private func changeLayoutSegment(_ sender: UISegmentedControl) {
         if sender.selectedSegmentIndex == 0 {
             setListLayout()
@@ -39,7 +61,7 @@ final class ViewController: UIViewController {
 
 extension ViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        100
+        return itemPageAPI.itemPerPage
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -49,18 +71,8 @@ extension ViewController: UICollectionViewDataSource {
             networkHandler.request(api: itemPageAPI) { data in
                 switch data {
                 case .success(let data):
-                        guard let itemPage = try? DataDecoder.decode(data: data, dataType: ItemPage.self) else { return }
-                        DispatchQueue.main.async {
-                            listCell.itemNameLabel.text = itemPage.items[indexPath.row].name
-                            if itemPage.items[indexPath.row].price == itemPage.items[indexPath.row].bargainPrice {
-                                listCell.priceLabel.isHidden = true
-                            } else {
-                                listCell.priceLabel.isHidden = false
-                            }
-                            listCell.priceLabel.text = itemPage.items[indexPath.row].currency + itemPage.items[indexPath.row].price.description
-                            listCell.bargainPriceLabel.text = itemPage.items[indexPath.row].currency + itemPage.items[indexPath.row].bargainPrice.description
-                            listCell.stockLabel.text = "잔여수량 : " + itemPage.items[indexPath.row].stock.description
-                        }
+                    guard let itemPage = try? DataDecoder.decode(data: data, dataType: ItemPage.self) else { return }
+                    self.setCellComponents(itemCell: listCell, itemPage: itemPage, indexPath: indexPath)
                 case .failure(_):
                     break
                 }
@@ -71,18 +83,8 @@ extension ViewController: UICollectionViewDataSource {
             networkHandler.request(api: itemPageAPI) { data in
                 switch data {
                 case .success(let data):
-                        guard let itemPage = try? DataDecoder.decode(data: data, dataType: ItemPage.self) else { return }
-                        DispatchQueue.main.async {
-                            gridCell.itemNameLabel.text = itemPage.items[indexPath.row].name
-                            if itemPage.items[indexPath.row].price == itemPage.items[indexPath.row].bargainPrice {
-                                gridCell.priceLabel.isHidden = true
-                            } else {
-                                gridCell.priceLabel.isHidden = false
-                            }
-                            gridCell.priceLabel.text = itemPage.items[indexPath.row].currency + itemPage.items[indexPath.row].price.description
-                            gridCell.bargainPriceLabel.text = itemPage.items[indexPath.row].currency + itemPage.items[indexPath.row].bargainPrice.description
-                            gridCell.stockLabel.text = "잔여수량 : " + itemPage.items[indexPath.row].stock.description
-                        }
+                    guard let itemPage = try? DataDecoder.decode(data: data, dataType: ItemPage.self) else { return }
+                    self.setCellComponents(itemCell: gridCell, itemPage: itemPage, indexPath: indexPath)
                 case .failure(_):
                     break
                 }
