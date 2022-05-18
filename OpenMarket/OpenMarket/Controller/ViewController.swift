@@ -39,13 +39,16 @@ extension ViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-//        guard let listCell = collectionView.dequeueReusableCell(withReuseIdentifier:  ListCellName, for: indexPath) as? ListCell else { return ListCell() }
-        guard let gridCell = collectionView.dequeueReusableCell(withReuseIdentifier: gridCellName, for: indexPath) as? GridCell else { return GridCell() }
         
-        gridCell.layer.cornerRadius = 8
-        gridCell.layer.borderWidth = 1
-        
-        return gridCell
+        if collectionViewSegment.selectedSegmentIndex == 0 {
+            guard let listCell = collectionView.dequeueReusableCell(withReuseIdentifier:  listCellName, for: indexPath) as? ListCell else { return ListCell() }
+            
+            return setListCell(cell: listCell, indexPath: indexPath)
+        } else {
+            guard let gridCell = collectionView.dequeueReusableCell(withReuseIdentifier: gridCellName, for: indexPath) as? GridCell else { return GridCell() }
+            
+            return setGridCell(cell: gridCell, indexPath: indexPath)
+        }
     }
 }
 
@@ -73,5 +76,20 @@ extension ViewController {
         let section = NSCollectionLayoutSection(group: group)
         
         openMarketCollectionView.collectionViewLayout = UICollectionViewCompositionalLayout(section: section)
+    }
+    
+    func setListCell(cell: ListCell, indexPath: IndexPath) -> ListCell {
+        let cell = cell
+        cell.layer.borderWidth = 0
+        
+        return cell
+    }
+    
+    func setGridCell(cell: GridCell, indexPath: IndexPath) -> GridCell {
+        let cell = cell
+        cell.layer.cornerRadius = 8
+        cell.layer.borderWidth = 1
+        
+        return cell
     }
 }
