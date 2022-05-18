@@ -1,5 +1,5 @@
 //
-//  BaseCellView.swift
+//  CellUIComponent.swift
 //  OpenMarket
 //
 //  Created by papri, Tiana on 17/05/2022.
