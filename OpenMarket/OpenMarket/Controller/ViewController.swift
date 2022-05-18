@@ -13,11 +13,19 @@ final class ViewController: UIViewController {
     
     private let listCellName = String(describing: ListCell.self)
     private let gridCellName = String(describing: GridCell.self)
-    private let itemPageAPI = ItemPageAPI(pageNumber: 1, itemPerPage: 100)
     private let networkHandler = NetworkHandler()
+    
+    private var items: [Item] = [] {
+        didSet {
+            DispatchQueue.main.async {
+                self.openMarketCollectionView.reloadData()
+            }
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        getItemPage()
         registCell()
         setListLayout()
         openMarketCollectionView.dataSource = self
@@ -27,13 +35,13 @@ final class ViewController: UIViewController {
         openMarketCollectionView.register(UINib(nibName: listCellName, bundle: nil), forCellWithReuseIdentifier: listCellName)
         openMarketCollectionView.register(UINib(nibName: gridCellName, bundle: nil), forCellWithReuseIdentifier: gridCellName)
     }
-    
-    private func getItemPage(itemCell: ItemCellable, indexPath: IndexPath) {
+    private func getItemPage() {
+        let itemPageAPI = ItemPageAPI(pageNumber: 1, itemPerPage: 20)
         networkHandler.request(api: itemPageAPI) { data in
             switch data {
             case .success(let data):
                 guard let itemPage = try? DataDecoder.decode(data: data, dataType: ItemPage.self) else { return }
-                self.setCellComponents(itemCell: itemCell, itemPage: itemPage, indexPath: indexPath)
+                self.items = itemPage.items
             case .failure(_):
                 break
             }
@@ -59,21 +67,21 @@ final class ViewController: UIViewController {
         }
     }
     
-    private func setCellComponents(itemCell: ItemCellable, itemPage: ItemPage, indexPath: IndexPath) {
+    private func setCellComponents(itemCell: ItemCellable, indexPath: IndexPath) {
         guard let cell = itemCell as? UICollectionViewCell else { return }
     
         var itemCell = itemCell
-        let thumnailURL = itemPage.items[indexPath.row].thumbnail
+        let thumnailURL = self.items[indexPath.row].thumbnail
         
         self.getImage(itemCell: itemCell, url: thumnailURL, indexPath: indexPath)
         
         DispatchQueue.main.async {
             if self.openMarketCollectionView.indexPath(for: cell) == indexPath {
-                itemCell.itemName = itemPage.items[indexPath.row].name
-                itemCell.discountedPrice = itemPage.items[indexPath.row].discountedPrice
-                itemCell.price = itemPage.items[indexPath.row].currency + itemPage.items[indexPath.row].price.description
-                itemCell.bargainPrice = itemPage.items[indexPath.row].currency + itemPage.items[indexPath.row].bargainPrice.description
-                itemCell.stock = itemPage.items[indexPath.row].stock
+                itemCell.itemName = self.items[indexPath.row].name
+                itemCell.discountedPrice = self.items[indexPath.row].discountedPrice
+                itemCell.price = self.items[indexPath.row].currency + self.items[indexPath.row].price.description
+                itemCell.bargainPrice = self.items[indexPath.row].currency + self.items[indexPath.row].bargainPrice.description
+                itemCell.stock = self.items[indexPath.row].stock
             }
             self.myActivityIndicator.stopAnimating()
         }
@@ -95,18 +103,18 @@ final class ViewController: UIViewController {
 
 extension ViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return itemPageAPI.itemPerPage
+        return items.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         if collectionViewSegment.selectedSegmentIndex == 0 {
             guard let listCell = collectionView.dequeueReusableCell(withReuseIdentifier:  listCellName, for: indexPath) as? ListCell else { return ListCell() }
-            getItemPage(itemCell: listCell, indexPath: indexPath)
+            setCellComponents(itemCell: listCell, indexPath: indexPath)
             return listCell
         } else {
             guard let gridCell = collectionView.dequeueReusableCell(withReuseIdentifier: gridCellName, for: indexPath) as? GridCell else { return GridCell() }
-            getItemPage(itemCell: gridCell, indexPath: indexPath)
+            setCellComponents(itemCell: gridCell, indexPath: indexPath)
             gridCell.layer.cornerRadius = 8
             gridCell.layer.borderWidth = 1
             return gridCell
