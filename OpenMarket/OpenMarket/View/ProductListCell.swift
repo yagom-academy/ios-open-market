@@ -196,4 +196,12 @@ extension ProductListCell {
                 let image = UIImage(data: data) else { return nil }
         return image
     }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        cellUIComponent.stockLabel.textColor = .systemGray
+        cellUIComponent.priceLabel.textColor = .systemGray
+        cellUIComponent.bargainPriceLabel.isHidden = false
+        cellUIComponent.priceLabel.attributedText = nil
+    }
 }
