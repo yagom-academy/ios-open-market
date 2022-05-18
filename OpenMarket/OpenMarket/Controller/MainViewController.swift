@@ -26,7 +26,7 @@ final class MainViewController: UIViewController {
   
   typealias DataSource = UICollectionViewDiffableDataSource<Section, Page>
   typealias Snapshot = NSDiffableDataSourceSnapshot<Section, Page>
-  private lazy var dataSource = makeDataSource()
+  
   private lazy var collectionView = UICollectionView(frame: .zero,
                                                      collectionViewLayout: configureListLayout())
   private let urlProvider = ApiProvider<ProductsList>()
@@ -37,6 +37,9 @@ final class MainViewController: UIViewController {
       }
     }
   }
+  private lazy var dataSource = makeDataSource()
+  private var currentPageNumber = 1
+  private var productsList:ProductsList?
   
   private lazy var segmentedControl: UISegmentedControl = {
     let segment = UISegmentedControl(items: [Layout.list.string, Layout.grid.string])
