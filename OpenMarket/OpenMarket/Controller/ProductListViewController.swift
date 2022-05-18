@@ -5,7 +5,16 @@
 
 import UIKit
 
+fileprivate enum SegmentIndex: Int {
+  case list = 0
+  case grid
+}
+
 final class ProductListViewController: UIViewController {
+  private enum Constant {
+    static let segmentWidth = 80.0
+  }
+  
   private let networkService = APINetworkService(urlSession: URLSession.shared)
   private var productList = [Product]() {
     didSet {
@@ -22,10 +31,10 @@ final class ProductListViewController: UIViewController {
 
   private lazy var segmentControl: UISegmentedControl = {
     let segment = UISegmentedControl(items: ["LIST", "GRID"])
-    segment.setWidth(80, forSegmentAt: 0)
-    segment.setWidth(80, forSegmentAt: 1)
+    segment.setWidth(Constant.segmentWidth, forSegmentAt: .zero)
+    segment.setWidth(Constant.segmentWidth, forSegmentAt: 1)
     segment.selectedSegmentIndex = .zero
-    segment.addTarget(self, action: #selector(changeLayout(_:)), for: .valueChanged)
+    segment.addTarget(self, action: #selector(changeLayout), for: .valueChanged)
     return segment
   }()
   
@@ -64,27 +73,39 @@ final class ProductListViewController: UIViewController {
     }
   }
   
-  @objc func didTapAddProductButton(_ sender: UIBarButtonItem) {}
-  
+  @objc private func didTapAddProductButton(_ sender: UIBarButtonItem) {}
+}
+
+// MARK: - UI
+
+private extension ProductListViewController {
   @objc func changeLayout(_ sender: UISegmentedControl) {
-    switch sender.selectedSegmentIndex {
-    case 0:
-      let layout = UICollectionViewFlowLayout()
-      layout.itemSize = CGSize(width: view.frame.width, height: view.frame.height / 15)
-      self.collectionView.reloadData()
-      self.collectionView.collectionViewLayout = layout
-    case 1:
-      let layout = UICollectionViewFlowLayout()
-      layout.itemSize = CGSize(width: view.frame.width / 2 - 20, height: view.frame.height / 3)
-      layout.sectionInset = UIEdgeInsets(top: 0, left: 10.0, bottom: 0, right: 10.0)
-      self.collectionView.reloadData()
-      self.collectionView.collectionViewLayout = layout
-    default:
-      break
+    guard let segment = SegmentIndex(rawValue: segmentControl.selectedSegmentIndex)
+    else { return }
+    
+    self.collectionView.reloadData()
+    switch segment {
+    case .list:
+      self.configureListLayout()
+    case .grid:
+      self.configureGridLayout()
     }
   }
   
-  private func configureUI() {
+  func configureListLayout() {
+    let layout = UICollectionViewFlowLayout()
+    layout.itemSize = CGSize(width: view.frame.width, height: view.frame.height / 15)
+    self.collectionView.collectionViewLayout = layout
+  }
+  
+  func configureGridLayout() {
+    let layout = UICollectionViewFlowLayout()
+    layout.itemSize = CGSize(width: view.frame.width / 2 - 20, height: view.frame.height / 3)
+    layout.sectionInset = UIEdgeInsets(top: .zero, left: 10.0, bottom: .zero, right: 10.0)
+    self.collectionView.collectionViewLayout = layout
+  }
+  
+  func configureUI() {
     self.view.backgroundColor = .systemBackground
     self.navigationItem.rightBarButtonItem = addProductButton
     self.navigationItem.titleView = segmentControl
@@ -105,6 +126,8 @@ final class ProductListViewController: UIViewController {
   }
 }
 
+// MARK: - DataSource
+
 extension ProductListViewController: UICollectionViewDataSource {
   func collectionView(
     _ collectionView: UICollectionView,
@@ -117,8 +140,11 @@ extension ProductListViewController: UICollectionViewDataSource {
     _ collectionView: UICollectionView,
     cellForItemAt indexPath: IndexPath
   ) -> UICollectionViewCell {
-    switch segmentControl.selectedSegmentIndex {
-    case 0:
+    guard let segment = SegmentIndex(rawValue: segmentControl.selectedSegmentIndex)
+    else { return UICollectionViewCell() }
+    
+    switch segment {
+    case .list:
       guard let listCell = collectionView.dequeueReusableCell(
         withReuseIdentifier: ProductListCollectionViewCell.identifier,
         for: indexPath) as? ProductListCollectionViewCell
@@ -126,7 +152,7 @@ extension ProductListViewController: UICollectionViewDataSource {
       
       listCell.setUp(product: self.productList[indexPath.row])
       return listCell
-    case 1:
+    case .grid:
       guard let gridCell = collectionView.dequeueReusableCell(
         withReuseIdentifier: ProductGridCollectionViewCell.identifier,
         for: indexPath) as? ProductGridCollectionViewCell
@@ -134,8 +160,6 @@ extension ProductListViewController: UICollectionViewDataSource {
       
       gridCell.setUp(product: self.productList[indexPath.row])
       return gridCell
-    default:
-      return UICollectionViewCell()
     }
   }
 }
