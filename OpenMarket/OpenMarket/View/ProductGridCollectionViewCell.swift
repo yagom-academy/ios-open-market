@@ -132,7 +132,6 @@ private extension ProductGridCollectionViewCell {
       containerStackView.topAnchor.constraint(equalTo: contentView.topAnchor),
       containerStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
       containerStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-      containerStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10.0),
       productImageView.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.6),
       productImageView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.8)
     ])
