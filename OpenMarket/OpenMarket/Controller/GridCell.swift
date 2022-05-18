@@ -7,7 +7,7 @@
 
 import UIKit
 
-class GridCell: UICollectionViewCell {
+final class GridCell: UICollectionViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()        

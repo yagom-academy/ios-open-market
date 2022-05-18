@@ -6,11 +6,11 @@
 
 import UIKit
 
-class ViewController: UIViewController {
-    @IBOutlet weak var openMarketCollectionView: UICollectionView!
-    @IBOutlet weak var collectionViewSegment: UISegmentedControl!
-    let listCellName = String(describing: ListCell.self)
-    let gridCellName = String(describing: GridCell.self)
+final class ViewController: UIViewController {
+    @IBOutlet private weak var openMarketCollectionView: UICollectionView!
+    @IBOutlet private weak var collectionViewSegment: UISegmentedControl!
+    private let listCellName = String(describing: ListCell.self)
+    private let gridCellName = String(describing: GridCell.self)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,7 +23,7 @@ class ViewController: UIViewController {
         openMarketCollectionView.register(UINib(nibName: listCellName, bundle: nil), forCellWithReuseIdentifier: listCellName)
         openMarketCollectionView.register(UINib(nibName: gridCellName, bundle: nil), forCellWithReuseIdentifier: gridCellName)
     }
-    @IBAction func changeLayoutSegment(_ sender: UISegmentedControl) {
+    @IBAction private func changeLayoutSegment(_ sender: UISegmentedControl) {
         if sender.selectedSegmentIndex == 0 {
             setListLayout()
         } else {
@@ -53,7 +53,7 @@ extension ViewController: UICollectionViewDataSource {
 }
 
 extension ViewController {
-    func setListLayout() {
+    private func setListLayout() {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(openMarketCollectionView.frame.height * 0.1))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
@@ -65,7 +65,7 @@ extension ViewController {
         openMarketCollectionView.collectionViewLayout = UICollectionViewCompositionalLayout(section: section)
     }
     
-    func setGridLayout() {
+    private func setGridLayout() {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalWidth(0.7))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         item.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 7, bottom: 5, trailing: 7)
@@ -78,14 +78,14 @@ extension ViewController {
         openMarketCollectionView.collectionViewLayout = UICollectionViewCompositionalLayout(section: section)
     }
     
-    func setListCell(cell: ListCell, indexPath: IndexPath) -> ListCell {
+    private func setListCell(cell: ListCell, indexPath: IndexPath) -> ListCell {
         let cell = cell
         cell.layer.borderWidth = 0
         
         return cell
     }
     
-    func setGridCell(cell: GridCell, indexPath: IndexPath) -> GridCell {
+    private func setGridCell(cell: GridCell, indexPath: IndexPath) -> GridCell {
         let cell = cell
         cell.layer.cornerRadius = 8
         cell.layer.borderWidth = 1
