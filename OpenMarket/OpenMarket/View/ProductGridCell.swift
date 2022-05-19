@@ -13,7 +13,7 @@ class ProductGridCell: UICollectionViewCell {
     private var item: Product? = nil
     
     //MARK: - stackView
-    private lazy var baseStackView: UIStackView = {
+    private var baseStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical

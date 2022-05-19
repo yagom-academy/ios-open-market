@@ -17,7 +17,7 @@ class ProductListCell: UICollectionViewCell {
         }
     }
     
-    private lazy var accessoryImageView: UIImageView = {
+    private var accessoryImageView: UIImageView = {
         let imageView = UIImageView()
         let chevronImage = UIImage(systemName: "chevron.right")
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -26,14 +26,14 @@ class ProductListCell: UICollectionViewCell {
         return imageView
     }()
     
-    lazy var seperatorView: UIView = {
+    var seperatorView: UIView = {
         let view = UIView()
         view.backgroundColor = .placeholderText
         return view
     }()
     
     //MARK: - stackView
-    private lazy var baseStackView: UIStackView = {
+    private var baseStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
@@ -41,7 +41,7 @@ class ProductListCell: UICollectionViewCell {
         return stackView
     }()
     
-    private lazy var contentStackView: UIStackView = {
+    private var contentStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.distribution = .fill
@@ -49,21 +49,21 @@ class ProductListCell: UICollectionViewCell {
         return stackView
     }()
     
-    private lazy var productDescriptionStackView: UIStackView = {
+    private var productDescriptionStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.spacing = 2
         return stackView
     }()
     
-    private lazy var nameStockAccessoryStackView: UIStackView = {
+    private var nameStockAccessoryStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.spacing = 2
         return stackView
     }()
     
-    private lazy var priceStackView: UIStackView = {
+    private var priceStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.spacing = 2
