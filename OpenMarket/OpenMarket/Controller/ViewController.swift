@@ -14,6 +14,8 @@ final class ViewController: UIViewController {
     private let listCellName = String(describing: ListCell.self)
     private let gridCellName = String(describing: GridCell.self)
     private let networkHandler = NetworkHandler()
+    private var hasNext = true
+    private var pageNumber = 1
     
     private var items: [Item] = [] {
         didSet {
@@ -29,6 +31,7 @@ final class ViewController: UIViewController {
         registCell()
         setListLayout()
         openMarketCollectionView.dataSource = self
+        openMarketCollectionView.prefetchDataSource = self
     }
     
     private func registCell() {
@@ -36,12 +39,13 @@ final class ViewController: UIViewController {
         openMarketCollectionView.register(UINib(nibName: gridCellName, bundle: nil), forCellWithReuseIdentifier: gridCellName)
     }
     private func getItemPage() {
-        let itemPageAPI = ItemPageAPI(pageNumber: 1, itemPerPage: 20)
+        let itemPageAPI = ItemPageAPI(pageNumber: pageNumber, itemPerPage: 20)
         networkHandler.request(api: itemPageAPI) { data in
             switch data {
             case .success(let data):
                 guard let itemPage = try? DataDecoder.decode(data: data, dataType: ItemPage.self) else { return }
-                self.items = itemPage.items
+                self.items.append(contentsOf: itemPage.items)
+                self.hasNext = itemPage.hasNext
             case .failure(_):
                 break
             }
@@ -129,6 +133,19 @@ extension ViewController: UICollectionViewDataSource {
             gridCell.layer.cornerRadius = 8
             gridCell.layer.borderWidth = 1
             return gridCell
+        }
+    }
+}
+
+extension ViewController: UICollectionViewDataSourcePrefetching {
+    func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
+        guard hasNext else {
+            return
+        }
+        
+        if indexPaths.last?.row == items.count - 1 {
+          pageNumber += 1
+          getItemPage()
         }
     }
 }
