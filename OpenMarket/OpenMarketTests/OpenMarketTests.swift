@@ -9,12 +9,12 @@ import XCTest
 @testable import OpenMarket
 
 class OpenMarketTests: XCTestCase {
-    var sutProduct: NetworkManager<Products>!
+    var sutProduct: NetworkManager<ProductsList>!
     var sutHealthChecker: NetworkManager<String>!
 
     override func setUpWithError() throws {
         try super.setUpWithError()
-        sutProduct = NetworkManager<Products>(session: URLSession.shared)
+        sutProduct = NetworkManager<ProductsList>(session: URLSession.shared)
         sutHealthChecker = NetworkManager<String>(session: URLSession.shared)
     }
 

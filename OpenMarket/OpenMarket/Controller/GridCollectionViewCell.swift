@@ -16,9 +16,10 @@ final class GridCollectionViewCell: UICollectionViewCell {
     var bargainPrice: UILabel = UILabel()
     var stock: UILabel = UILabel()
 
-    private lazy var productStackView = makeStackView(axis: .vertical, alignment: .center, distribution: .fill, spacing: 5)
-    
-    lazy var originalPrice: UILabel = {
+    private lazy var productStackView = makeStackView(axis: .vertical, alignment: .center, distribution: .equalSpacing, spacing: 5)
+    private lazy var priceStackView = makeStackView(axis: .vertical, alignment: .center, distribution: .fill, spacing: 3)
+
+    private lazy var originalPrice: UILabel = {
         let label = UILabel()
        
         guard let currency = currency.text else {
@@ -29,30 +30,29 @@ final class GridCollectionViewCell: UICollectionViewCell {
             return UILabel()
         }
         
-        label.text = "\(currency) \(price)"
         label.textColor = .systemGray2
                 
         return label
     }()
     
-    lazy var discountedPrice: UILabel = {
+    private lazy var discountedPrice: UILabel = {
         let label = UILabel()
        
         guard let currency = currency.text else {
             return UILabel()
         }
-        guard let price = bargainPrice.text else {
+        guard let bargainPrice = bargainPrice.text else {
             return UILabel()
         }
         
-        label.text = "\(currency) \(price)"
         label.textColor = .systemGray2
         
         return label
     }()
 
-    private lazy var stockName: UILabel = {
+    private lazy var stockLabel: UILabel = {
         let label = UILabel()
+        
         guard let stock = stock.text else {
             return UILabel()
         }
@@ -69,11 +69,99 @@ final class GridCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    func makeBargainPrice(price: UILabel) {
-        price.textColor = .systemRed
-        price.attributedText = price.text?.strikeThrough()
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        makeSeparator()
     }
     
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        productImage.image = nil
+        productName.text = nil
+        currency.text = nil
+        price.text = nil
+        bargainPrice.text = nil
+        stock.text = nil
+    }
+    
+    func configureCell(_ products: Products) {
+        if products.discountedPrice != 0 {
+           setDiscountedPriceUI(products)
+        } else {
+            setOriginalPriceUI(products)
+        }
+        
+        setCellUI(products)
+        configureProductUI()
+        configurePriceUI()
+    }
+}
+
+// MARK: - setup UI
+extension GridCollectionViewCell {
+    private func setDiscountedPriceUI(_ products: Products) {
+        let currency = products.currency
+        let formattedPrice = formatNumber(price: products.price)
+        let bargain = formatNumber(price: products.bargainPrice)
+        
+        originalPrice.text = currency + formattedPrice
+        strikeThrough(price: originalPrice)
+        discountedPrice.text = currency + bargain
+        discountedPrice.textColor = .systemGray2
+    }
+    
+    private func setOriginalPriceUI(_ products: Products) {
+        let formattedPrice = formatNumber(price: products.price)
+        let currency = products.currency
+        
+        originalPrice.text = "\(currency) \(formattedPrice)"
+        originalPrice.textColor = .systemGray2
+    }
+    
+    private func setCellUI(_ products: Products) {
+        productName.font  = UIFont.boldSystemFont(ofSize: 20)
+        productName.text = products.name
+        stock.text = String(products.stock)
+        
+        guard let data = try? Data(contentsOf: products.thumbnail) else {
+            return
+        }
+        
+        productImage.image = UIImage(data: data)
+    }
+    
+    private func configurePriceUI() {
+        priceStackView.addArrangedSubview(originalPrice)
+        priceStackView.addArrangedSubview(discountedPrice)
+    }
+    
+    private func configureProductUI() {
+        productStackView.addArrangedSubview(productImage)
+        productStackView.addArrangedSubview(productName)
+        productStackView.addArrangedSubview(priceStackView)
+        productStackView.addArrangedSubview(stockLabel)
+        self.contentView.addSubview(productStackView)
+        
+        NSLayoutConstraint.activate([
+            productStackView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 20),
+            productStackView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 10),
+            productStackView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -20),
+            productStackView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -10)
+        ])
+        
+        NSLayoutConstraint.activate([
+            productImage.widthAnchor.constraint(equalToConstant: 100),
+            productImage.heightAnchor.constraint(equalTo: productImage.widthAnchor)
+        ])
+    }
+}
+
+// MARK: - support UI
+extension GridCollectionViewCell {
     private func makeStackView(axis: NSLayoutConstraint.Axis, alignment: UIStackView.Alignment, distribution: UIStackView.Distribution, spacing: CGFloat) -> UIStackView {
         let stackView = UIStackView()
         
@@ -86,36 +174,25 @@ final class GridCollectionViewCell: UICollectionViewCell {
         return stackView
     }
     
-    func configureProductUI() {
-        productStackView.addArrangedSubview(productImage)
-        productStackView.addArrangedSubview(productName)
-        productStackView.addArrangedSubview(originalPrice)
-        productStackView.addArrangedSubview(discountedPrice)
-        productStackView.addArrangedSubview(stockName)
-        self.contentView.addSubview(productStackView)
-        
-        NSLayoutConstraint.activate([
-            productStackView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 10),
-            productStackView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 5),
-            productStackView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -10),
-            productStackView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -5)
-        ])
-        
-        NSLayoutConstraint.activate([
-            productImage.widthAnchor.constraint(equalToConstant: 100),
-            productImage.heightAnchor.constraint(equalTo: productImage.widthAnchor)
-        ])
+    private func makeSeparator() {
+        self.layer.borderWidth = 2
+        self.layer.borderColor = UIColor.systemGray5.cgColor
+        self.layer.cornerRadius = 10
     }
-}
-
-extension String {
-    func strikeThrough() -> NSAttributedString {
-        let attributeString = NSMutableAttributedString(string: self)
-        attributeString.addAttribute(
-            NSAttributedString.Key.strikethroughStyle,
-            value: NSUnderlineStyle.single.rawValue,
-            range: NSMakeRange(0,attributeString.length)
-        )
-        return attributeString
+    
+    private func formatNumber(price: Int) -> String {
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .decimal
+        
+        guard let formattedPrice = numberFormatter.string(from: NSNumber(value: price)) else {
+            return ""
+        }
+        
+        return formattedPrice
+    }
+    
+    private func strikeThrough(price: UILabel) {
+        price.textColor = .systemRed
+        price.attributedText = price.text?.strikeThrough()
     }
 }
