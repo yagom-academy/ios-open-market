@@ -44,6 +44,7 @@ final class MainView: UIView {
     
     lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: bounds, collectionViewLayout: listLayout)
+        collectionView.backgroundColor = .systemBackground
         return collectionView
     }()
     

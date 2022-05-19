@@ -91,7 +91,7 @@ extension MainViewController {
             case .success(let products):
                 self.products = products
                 self.items.append(contentsOf: products.items)
-                self.applySnapshot(animatingDifferences: false)
+                self.applySnapshot()
             case .failure(let error):
                 DispatchQueue.main.async {
                     self.alertBuilder
@@ -143,9 +143,7 @@ extension MainViewController {
     
                     self.loadImage(url: item.thumbnail) { image in
                         DispatchQueue.main.async {
-                            if collectionView.indexPath(for: cell) == indexPath {
-                                cell.updateImage(image: image)
-                            }
+                            cell.updateImage(image: image)
                         }
                     }
                     
@@ -161,9 +159,7 @@ extension MainViewController {
                     
                     self.loadImage(url: item.thumbnail) { image in
                         DispatchQueue.main.async {
-                            if collectionView.indexPath(for: cell) == indexPath {
-                                cell.updateImage(image: image)
-                            }
+                            cell.updateImage(image: image)
                         }
                     }
                     
@@ -174,12 +170,12 @@ extension MainViewController {
         return dataSource
     }
     
-    private func applySnapshot(animatingDifferences: Bool = true) {
+    private func applySnapshot() {
         DispatchQueue.main.async {
             var snapshot = Snapshot()
             snapshot.appendSections([.main])
             snapshot.appendItems(self.items, toSection: .main)
-            self.datasource.apply(snapshot, animatingDifferences: animatingDifferences)
+            self.datasource.apply(snapshot)
         }
     }
 }
