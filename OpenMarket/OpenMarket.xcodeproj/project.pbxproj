@@ -38,6 +38,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+
 		6447D28B2835D69A005570BC /* Products.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Products.swift; sourceTree = "<group>"; };
 		6447D28E2835DF1F005570BC /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
 		64C31DF5282E446C004E5D97 /* TestAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestAPI.swift; sourceTree = "<group>"; };
@@ -50,6 +51,7 @@
 		B34973DB282B494D001F9B42 /* OpenMarketTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenMarketTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B34973DD282B494D001F9B42 /* OpenMarketTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketTests.swift; sourceTree = "<group>"; };
 		B366BF5A2829F5B200FA90B4 /* StubURLSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubURLSession.swift; sourceTree = "<group>"; };
+
 		B3F7D96C28348AA00079ED84 /* GridCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridCollectionViewCell.swift; sourceTree = "<group>"; };
 		B3F7D96E283520C30079ED84 /* CALayer+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CALayer+.swift"; sourceTree = "<group>"; };
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -88,6 +90,7 @@
 			path = Extension;
 			sourceTree = "<group>";
 		};
+
 		64C31D85282C02AA004E5D97 /* Application */ = {
 			isa = PBXGroup;
 			children = (
@@ -100,6 +103,7 @@
 		64C31D86282C02C8004E5D97 /* View */ = {
 			isa = PBXGroup;
 			children = (
+
 				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
 				B32C2BD22832591300381A0E /* ProductView.swift */,
 			);
@@ -119,8 +123,10 @@
 		64C31D88282C02DF004E5D97 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+
 				64E900A328292CEA00FD415B /* ProductsList.swift */,
 				6447D28B2835D69A005570BC /* Products.swift */,
+
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -170,7 +176,9 @@
 				64C31D89282C0314004E5D97 /* Network */,
 				64C31D88282C02DF004E5D97 /* Model */,
 				64C31D86282C02C8004E5D97 /* View */,
+
 				6447D28D2835DECD005570BC /* Extension */,
+
 				64C31D87282C02CF004E5D97 /* Controller */,
 				C70FB10325BEF61D00C9924E /* Assets.xcassets */,
 				C70FB10825BEF61D00C9924E /* Info.plist */,
@@ -287,11 +295,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+
 				C70FB0FF25BEF61C00C9924E /* MainViewController.swift in Sources */,
 				64E900A428292CEA00FD415B /* ProductsList.swift in Sources */,
 				B32C2BF728327B4000381A0E /* ListCollectionViewCell.swift in Sources */,
 				64E900C4282AAF7300FD415B /* APIable.swift in Sources */,
 				B3F7D96D28348AA00079ED84 /* GridCollectionViewCell.swift in Sources */,
+
 				B34973D6282A0AE0001F9B42 /* URLSessionProtocol.swift in Sources */,
 				64E900C0282A2F3D00FD415B /* NetworkManager.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
@@ -310,6 +320,7 @@
 			isa = PBXTargetDependency;
 			target = C70FB0F625BEF61C00C9924E /* OpenMarket */;
 			targetProxy = B34973DF282B494D001F9B42 /* PBXContainerItemProxy */;
+
 		};
 /* End PBXTargetDependency section */
 
