@@ -7,7 +7,7 @@
 import UIKit
 
 class OpenMarketViewController: UIViewController {
-    private let segmentControl = CustomSegment(items: ["list", "grid"])
+    private let segmentControl = SegmentControl(items: ["list", "grid"])
     private var collectionView: UICollectionView?
     private var network: URLSessionProvider<ProductList>?
     private var productList: [Product]? {
@@ -38,30 +38,12 @@ class OpenMarketViewController: UIViewController {
     }
     
     private func setup() {
-        let flowLayout = listCellLayout()
+        let flowLayout = LayoutType.list.layout
         self.collectionView = UICollectionView(frame: view.frame, collectionViewLayout: flowLayout)
         self.view.addSubview(collectionView ?? UICollectionView())
         self.collectionView?.dataSource = self
-        self.collectionView?.delegate = self
         self.collectionView?.register(ListCell.self, forCellWithReuseIdentifier: ListCell.identifier)
         self.collectionView?.register(GridCell.self, forCellWithReuseIdentifier: GridCell.identifier)
-
-    }
-    
-    private func listCellLayout() -> UICollectionViewFlowLayout {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .vertical
-        layout.minimumLineSpacing = 7
-        layout.itemSize = CGSize(width: view.frame.width, height: view.frame.height / 14 )
-        return layout
-    }
-    
-    private func gridCellLayout() -> UICollectionViewFlowLayout {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .vertical
-        layout.sectionInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
-        layout.itemSize = CGSize(width: view.frame.width / 2.2, height: view.frame.height / 3 )
-        return layout
     }
     
     private func addsegment() {
@@ -72,18 +54,14 @@ class OpenMarketViewController: UIViewController {
     @objc func didChangeSegment(_ sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex {
         case 0:
-            collectionView?.collectionViewLayout = listCellLayout()
+            collectionView?.collectionViewLayout = LayoutType.list.layout
         case 1:
-            collectionView?.collectionViewLayout = gridCellLayout()
+            collectionView?.collectionViewLayout = LayoutType.grid.layout
         default:
             return
         }
         collectionView?.reloadData()
     }
-}
-
-extension OpenMarketViewController: UICollectionViewDelegate {
-    
 }
 
 extension OpenMarketViewController: UICollectionViewDataSource {
