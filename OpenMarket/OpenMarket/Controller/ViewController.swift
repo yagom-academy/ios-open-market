@@ -27,17 +27,18 @@ final class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        getItemPage()
-        registCell()
-        setListLayout()
         openMarketCollectionView.dataSource = self
         openMarketCollectionView.prefetchDataSource = self
+        registCell()
+        getItemPage()
+        setListLayout()
     }
     
     private func registCell() {
         openMarketCollectionView.register(UINib(nibName: listCellName, bundle: nil), forCellWithReuseIdentifier: listCellName)
         openMarketCollectionView.register(UINib(nibName: gridCellName, bundle: nil), forCellWithReuseIdentifier: gridCellName)
     }
+    
     private func getItemPage() {
         let itemPageAPI = ItemPageAPI(pageNumber: pageNumber, itemPerPage: 20)
         networkHandler.request(api: itemPageAPI) { data in
@@ -115,7 +116,7 @@ final class ViewController: UIViewController {
         openMarketCollectionView.reloadData()
     }
 }
-
+// MARK: - CollectionView Cell
 extension ViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return items.count
@@ -137,6 +138,7 @@ extension ViewController: UICollectionViewDataSource {
     }
 }
 
+// MARK: - CollectionView Prefetching
 extension ViewController: UICollectionViewDataSourcePrefetching {
     func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
         guard hasNext else {
@@ -150,6 +152,7 @@ extension ViewController: UICollectionViewDataSourcePrefetching {
     }
 }
 
+// MARK: - CollectionView Layout
 extension ViewController {
     private func setListLayout() {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(openMarketCollectionView.frame.height * 0.1))

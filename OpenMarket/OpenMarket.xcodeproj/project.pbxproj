@@ -173,7 +173,6 @@
 				E5DF525E2835332300CBBC45 /* ItemCellPotocol.swift */,
 				AC12F11B283486C70044462D /* ListCell.swift */,
 				E5DF525A2834A77100CBBC45 /* GridCell.swift */,
-				E5DF52612836395500CBBC45 /* ImageCacheManager.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -199,6 +198,7 @@
 				E52B4BE0282C98F200AE7D00 /* DataDecoder.swift */,
 				E525336B28328C350032F533 /* APIModels.swift */,
 				E525336D2832915F0032F533 /* HttpMethod.swift */,
+				E5DF52612836395500CBBC45 /* ImageCacheManager.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
