@@ -53,7 +53,6 @@ final class ProductListCollectionViewCell: UICollectionViewCell {
   private let priceLabel: UILabel = {
     let label = UILabel()
     label.textColor = .systemRed
-    label.adjustsFontSizeToFitWidth = true
     label.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
     return label
   }()
@@ -68,6 +67,7 @@ final class ProductListCollectionViewCell: UICollectionViewCell {
   private let stockLabel: UILabel = {
     let label = UILabel()
     label.textColor = .systemGray
+    label.textAlignment = .right
     return label
   }()
   
@@ -140,11 +140,14 @@ private extension ProductListCollectionViewCell {
       containerStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
       containerStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
       containerStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-      
+      stockLabel.widthAnchor.constraint(equalTo: disclosureImageView.widthAnchor, multiplier: 9.0),
       productImageView.heightAnchor.constraint(equalTo: contentView.heightAnchor),
       productImageView.widthAnchor.constraint(
         equalTo: productImageView.heightAnchor,
-        multiplier: 1.0)
+        multiplier: 1.0),
+      informationStackView.widthAnchor.constraint(
+        lessThanOrEqualToConstant: contentView.bounds.width * 0.5
+      )
     ])
   }
   
