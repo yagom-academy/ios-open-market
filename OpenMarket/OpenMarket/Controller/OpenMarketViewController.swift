@@ -7,7 +7,7 @@
 import UIKit
 
 class OpenMarketViewController: UIViewController {
-    private let segmentControl = UISegmentedControl(items: ["list", "grid"])
+    private let segmentControl = CustomSegment(items: ["list", "grid"])
     private var collectionView: UICollectionView?
     private var network: URLSessionProvider<ProductList>?
     private var productList: [Product]? {
@@ -44,6 +44,8 @@ class OpenMarketViewController: UIViewController {
         self.collectionView?.dataSource = self
         self.collectionView?.delegate = self
         self.collectionView?.register(ListCell.self, forCellWithReuseIdentifier: ListCell.identifier)
+        self.collectionView?.register(GridCell.self, forCellWithReuseIdentifier: GridCell.identifier)
+
     }
     
     private func listCellLayout() -> UICollectionViewFlowLayout {
@@ -57,21 +59,13 @@ class OpenMarketViewController: UIViewController {
     private func gridCellLayout() -> UICollectionViewFlowLayout {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
-        layout.minimumLineSpacing = 10
-        layout.itemSize = CGSize(width: view.frame.width / 2.5, height: view.frame.height / 4 )
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
+        layout.itemSize = CGSize(width: view.frame.width / 2.2, height: view.frame.height / 3 )
         return layout
     }
     
     private func addsegment() {
-        segmentControl.selectedSegmentTintColor = .systemBlue
-        segmentControl.layer.addBorder(edges: [.all], color: .systemBlue, thickness: 2)
-        segmentControl.selectedSegmentIndex = 0
-        let nomalFontColor = [NSAttributedString.Key.foregroundColor: UIColor.systemBlue]
-        segmentControl.setTitleTextAttributes(nomalFontColor, for: .normal)
-        let selectedFontColor = [NSAttributedString.Key.foregroundColor: UIColor.white]
-        segmentControl.setTitleTextAttributes(selectedFontColor, for: UIControl.State.selected)
         self.navigationItem.titleView = segmentControl
-        
         segmentControl.addTarget(self, action: #selector(didChangeSegment), for: .valueChanged)
     }
     
@@ -103,7 +97,6 @@ extension OpenMarketViewController: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         
-        #warning("여기 삽질 해야함")
         if segmentControl.selectedSegmentIndex == 0 {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ListCell.identifier, for: indexPath) as? ListCell else {
                 return UICollectionViewCell()
@@ -121,7 +114,8 @@ extension OpenMarketViewController: UICollectionViewDataSource {
                 cell.update(data: product)
                 return cell
         } else {
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ListCell.identifier, for: indexPath) as? ListCell else {
+            
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: GridCell.identifier, for: indexPath) as? GridCell else {
                 return UICollectionViewCell()
             }
                 
