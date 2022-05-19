@@ -102,7 +102,7 @@ extension MainViewController {
     private func makeDataSource() -> DataSource {
         let dataSource = DataSource(
             collectionView: productView.collectionView,
-            cellProvider: { (collectionView, indexPath, productDetail) -> UICollectionViewCell? in
+            cellProvider: { (collectionView, indexPath, product) -> UICollectionViewCell? in
                 if self.productView.segmentedControl.selectedSegmentIndex == 1 {
                     guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: GridCollectionViewCell.identifier, for: indexPath) as? GridCollectionViewCell else {
                         return UICollectionViewCell()
@@ -110,7 +110,7 @@ extension MainViewController {
                     
                     DispatchQueue.main.async {
                         if collectionView.indexPath(for: cell) == indexPath {
-                            cell.configureCell(productDetail)
+                            cell.configureCell(product)
                         }
                     }
                     
@@ -122,7 +122,7 @@ extension MainViewController {
                     
                     DispatchQueue.main.async {
                         if collectionView.indexPath(for: cell) == indexPath {
-                            cell.configureCell(productDetail)
+                            cell.configureCell(product)
                         }
                     }
                     
