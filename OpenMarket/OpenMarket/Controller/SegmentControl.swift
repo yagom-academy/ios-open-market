@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CustomSegment: UISegmentedControl {
+final class SegmentControl: UISegmentedControl {
     override init(items: [Any]?) {
         super.init(items: items)
         setupSegment()
@@ -17,7 +17,7 @@ class CustomSegment: UISegmentedControl {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setupSegment() {
+    private func setupSegment() {
         selectedSegmentTintColor = .systemBlue
         let nomalFontColor = [NSAttributedString.Key.foregroundColor: UIColor.systemBlue]
         setTitleTextAttributes(nomalFontColor, for: .normal)
