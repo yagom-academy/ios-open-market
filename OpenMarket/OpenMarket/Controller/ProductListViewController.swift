@@ -83,13 +83,13 @@ private extension ProductListViewController {
     guard let segment = SegmentIndex(rawValue: segmentControl.selectedSegmentIndex)
     else { return }
     
-    self.collectionView.reloadData()
     switch segment {
     case .list:
       self.configureListLayout()
     case .grid:
       self.configureGridLayout()
     }
+    self.collectionView.reloadData()
   }
   
   func configureListLayout() {
