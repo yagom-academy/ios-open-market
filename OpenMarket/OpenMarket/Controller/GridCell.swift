@@ -78,6 +78,7 @@ class GridCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        setupBorder()
         addsubViews()
         layout()
     }
@@ -85,7 +86,12 @@ class GridCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-        
+    
+    private func setupBorder() {
+        let border = layer.addBorder(edges: [.all], color: .systemGray, thickness: 1.5, radius: 15)
+        layer.addSublayer(border)
+    }
+    
     func update(data: Product) {
         nameLabel.text = data.name
 
@@ -133,7 +139,6 @@ class GridCell: UICollectionViewCell {
         stockLabel.textColor = .lightGray
     }
 }
-
 extension GridCell {
     private func addsubViews() {
         contentView.addsubViews(thumbnailImageView, cellStackView)
