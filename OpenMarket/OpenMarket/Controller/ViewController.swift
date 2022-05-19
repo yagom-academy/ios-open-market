@@ -52,13 +52,24 @@ final class ViewController: UIViewController {
         guard let cell = itemCell as? UICollectionViewCell else { return }
         var itemCell = itemCell
         
+        if let cachedImage = ImageCacheManager.shared.object(forKey: url as NSString) {
+            DispatchQueue.main.async {
+                if self.openMarketCollectionView.indexPath(for: cell) == indexPath {
+                    itemCell.itemImage = cachedImage
+                }
+            }
+            return
+        }
+        
         networkHandler.request(api: ItemImageAPI(host: url)) { data in
             switch data {
             case .success(let data):
-                guard let imageData = data else { return }
+                guard let data = data else { return }
+                guard let image = UIImage(data: data) else { return }
                 DispatchQueue.main.async {
                     if self.openMarketCollectionView.indexPath(for: cell) == indexPath {
-                        itemCell.itemImage = UIImage(data: imageData)
+                        itemCell.itemImage = image
+                        ImageCacheManager.shared.setObject(image, forKey: url as NSString)
                     }
                 }
             case .failure(_):
