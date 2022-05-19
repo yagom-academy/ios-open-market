@@ -21,4 +21,3 @@ struct Formatter {
     }
     private init() {}
 }
-

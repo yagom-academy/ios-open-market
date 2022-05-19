@@ -13,6 +13,8 @@
 		3008F3D12834CDA60034C902 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3008F3D02834CDA60034C902 /* String.swift */; };
 		3008F3D52834F1100034C902 /* NumberFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3008F3D42834F1100034C902 /* NumberFormatter.swift */; };
 		3008F3D72834FB760034C902 /* GridCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3008F3D62834FB760034C902 /* GridCell.swift */; };
+		3008F3E52835E5390034C902 /* FlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3008F3E42835E5390034C902 /* FlowLayout.swift */; };
+		3008F3E728363EBC0034C902 /* LayoutType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3008F3E628363EBC0034C902 /* LayoutType.swift */; };
 		304197DD282A07D700083790 /* ProductList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304197DC282A07D700083790 /* ProductList.swift */; };
 		30C06337282CA80200CACD3C /* Endpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30C06336282CA80200CACD3C /* Endpoint.swift */; };
 		30C06339282CA86A00CACD3C /* URLSessionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30C06338282CA86A00CACD3C /* URLSessionProtocol.swift */; };
@@ -25,7 +27,7 @@
 		869BD31A282D04EF00284FAE /* MockURLSessionTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869BD319282D04EF00284FAE /* MockURLSessionTest.swift */; };
 		869BD321282D053000284FAE /* MockURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8622BBC2282CAC4F00D1FAC0 /* MockURLSession.swift */; };
 		869BD337282D0DA100284FAE /* URLHealthcheckerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869BD336282D0DA100284FAE /* URLHealthcheckerTests.swift */; };
-		86A637D92835E02C00830118 /* CustomSegment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86A637D82835E02C00830118 /* CustomSegment.swift */; };
+		86A637D92835E02C00830118 /* SegmentControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86A637D82835E02C00830118 /* SegmentControl.swift */; };
 		86CC60A128333F2C00AE2132 /* ListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86CC60A028333F2C00AE2132 /* ListCell.swift */; };
 		86CC60A42833489300AE2132 /* UIStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86CC60A32833489300AE2132 /* UIStackView.swift */; };
 		86CC60A6283348AE00AE2132 /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86CC60A5283348AE00AE2132 /* UIView.swift */; };
@@ -67,6 +69,8 @@
 		3008F3D02834CDA60034C902 /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		3008F3D42834F1100034C902 /* NumberFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberFormatter.swift; sourceTree = "<group>"; };
 		3008F3D62834FB760034C902 /* GridCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridCell.swift; sourceTree = "<group>"; };
+		3008F3E42835E5390034C902 /* FlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowLayout.swift; sourceTree = "<group>"; };
+		3008F3E628363EBC0034C902 /* LayoutType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutType.swift; sourceTree = "<group>"; };
 		304197DC282A07D700083790 /* ProductList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductList.swift; sourceTree = "<group>"; };
 		30C06336282CA80200CACD3C /* Endpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endpoint.swift; sourceTree = "<group>"; };
 		30C06338282CA86A00CACD3C /* URLSessionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionProtocol.swift; sourceTree = "<group>"; };
@@ -83,7 +87,7 @@
 		869BD319282D04EF00284FAE /* MockURLSessionTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSessionTest.swift; sourceTree = "<group>"; };
 		869BD334282D0DA100284FAE /* URLHealthcheckerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = URLHealthcheckerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		869BD336282D0DA100284FAE /* URLHealthcheckerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLHealthcheckerTests.swift; sourceTree = "<group>"; };
-		86A637D82835E02C00830118 /* CustomSegment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSegment.swift; sourceTree = "<group>"; };
+		86A637D82835E02C00830118 /* SegmentControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentControl.swift; sourceTree = "<group>"; };
 		86CC60A028333F2C00AE2132 /* ListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCell.swift; sourceTree = "<group>"; };
 		86CC60A32833489300AE2132 /* UIStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIStackView.swift; sourceTree = "<group>"; };
 		86CC60A5283348AE00AE2132 /* UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
@@ -163,7 +167,9 @@
 				C70FB0FE25BEF61C00C9924E /* OpenMarketViewController.swift */,
 				86CC60A028333F2C00AE2132 /* ListCell.swift */,
 				3008F3D62834FB760034C902 /* GridCell.swift */,
-				86A637D82835E02C00830118 /* CustomSegment.swift */,
+				86A637D82835E02C00830118 /* SegmentControl.swift */,
+				3008F3E42835E5390034C902 /* FlowLayout.swift */,
+				3008F3E628363EBC0034C902 /* LayoutType.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -512,13 +518,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				86A637D92835E02C00830118 /* CustomSegment.swift in Sources */,
+				86A637D92835E02C00830118 /* SegmentControl.swift in Sources */,
 				30C06339282CA86A00CACD3C /* URLSessionProtocol.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* OpenMarketViewController.swift in Sources */,
 				8622BBB2282CA64200D1FAC0 /* NetworkError.swift in Sources */,
 				3008F395282F648E0034C902 /* Decodable.swift in Sources */,
 				3008F3D52834F1100034C902 /* NumberFormatter.swift in Sources */,
 				3008F3D72834FB760034C902 /* GridCell.swift in Sources */,
+				3008F3E728363EBC0034C902 /* LayoutType.swift in Sources */,
 				8610B2B4282A052600EB00AF /* Product.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				3008F399282FCB720034C902 /* Json.swift in Sources */,
@@ -529,6 +536,7 @@
 				86CC60A6283348AE00AE2132 /* UIView.swift in Sources */,
 				30C06337282CA80200CACD3C /* Endpoint.swift in Sources */,
 				86CC60A42833489300AE2132 /* UIStackView.swift in Sources */,
+				3008F3E52835E5390034C902 /* FlowLayout.swift in Sources */,
 				3008F3D12834CDA60034C902 /* String.swift in Sources */,
 				304197DD282A07D700083790 /* ProductList.swift in Sources */,
 			);
