@@ -34,7 +34,25 @@ final class ListCell: UICollectionViewCell {
     label.textAlignment = .left
     label.font = .systemFont(ofSize: FontSize.title, weight: .bold)
     label.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+    label.setContentHuggingPriority(.defaultLow, for: .horizontal)
     return label
+  }()
+  
+  private let stockLabel: UILabel = {
+    let label = UILabel()
+    label.textAlignment = .right
+    label.font = .systemFont(ofSize: FontSize.body)
+    label.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+    label.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+    return label
+  }()
+  
+  private let accessoryImageView: UIImageView = {
+    let imageView = UIImageView()
+    imageView.image = UIImage(systemName: "chevron.right")
+    imageView.tintColor = .lightGray
+    imageView.translatesAutoresizingMaskIntoConstraints = false
+    return imageView
   }()
   
   private let priceLabel: UILabel = {
@@ -53,23 +71,6 @@ final class ListCell: UICollectionViewCell {
     return label
   }()
   
-  private let stockLabel: UILabel = {
-    let label = UILabel()
-    label.textAlignment = .right
-    label.font = .systemFont(ofSize: FontSize.body)
-    label.setContentHuggingPriority(.defaultHigh, for: .horizontal)
-    return label
-  }()
-  
-  private let accessoryImageView: UIImageView = {
-    let imageView = UIImageView()
-    imageView.image = UIImage(systemName: "chevron.right")
-    imageView.tintColor = .lightGray
-    imageView.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
-    imageView.setContentHuggingPriority(.defaultHigh, for: .horizontal)
-    return imageView
-  }()
-  
   private let nameStackView: UIStackView = {
     let stackView = UIStackView()
     stackView.axis = .horizontal
@@ -82,7 +83,7 @@ final class ListCell: UICollectionViewCell {
   private let priceStackView: UIStackView = {
     let stackView = UIStackView()
     stackView.axis = .horizontal
-    stackView.alignment = .bottom
+    stackView.alignment = .top
     stackView.distribution = .fill
     stackView.spacing = 5
     return stackView
@@ -92,7 +93,7 @@ final class ListCell: UICollectionViewCell {
     let stackView = UIStackView()
     stackView.axis = .vertical
     stackView.alignment = .fill
-    stackView.distribution = .fill
+    stackView.distribution = .fillEqually
     stackView.spacing = 5
     return stackView
   }()
@@ -133,7 +134,9 @@ final class ListCell: UICollectionViewCell {
       totalStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
       
       thumbnailImageView.widthAnchor.constraint(equalTo: thumbnailImageView.heightAnchor,
-                                                multiplier: 1.1)
+                                                multiplier: 1.1),
+      accessoryImageView.widthAnchor.constraint(equalTo: accessoryImageView.heightAnchor,
+                                                multiplier: 0.75)
     ])
   }
   
