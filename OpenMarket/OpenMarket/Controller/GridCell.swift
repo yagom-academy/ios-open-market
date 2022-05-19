@@ -7,7 +7,7 @@
 
 import UIKit
 
-class GridCell {
+class GridCell: UICollectionViewCell {
     static var identifier: String {
         return String(describing: self)
     }
@@ -18,6 +18,7 @@ class GridCell {
         stackView.alignment = .center
         stackView.distribution = .fillProportionally
         stackView.spacing = 10
+        
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
@@ -26,6 +27,9 @@ class GridCell {
         let image = UIImageView()
         image.image = UIImage(systemName: "flame")
         image.contentMode = .scaleAspectFit
+        image.layer.shadowOffset = CGSize(width: 5, height: 5)
+        image.layer.shadowOpacity = 0.7
+        image.layer.shadowRadius = 5
         image.translatesAutoresizingMaskIntoConstraints = false
         return image
     }()
@@ -33,24 +37,29 @@ class GridCell {
     private lazy var informationStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
-        stackView.alignment = .leading
-        stackView.spacing = 7
         stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.alignment = .center
+        stackView.distribution = .fillProportionally
         return stackView
     }()
+
     
     private lazy var nameLabel: UILabel = {
         let label = UILabel()
         label.text = "Name Label"
+        label.contentMode = .scaleAspectFit
         return label
     }()
     
-    private lazy var priceStackView: UIStackView = {
+    private lazy var pricestackView: UIStackView = {
         let stackView = UIStackView()
-        stackView.axis = .horizontal
+        stackView.axis = .vertical
+        stackView.distribution = .fillProportionally
+        stackView.alignment = .center
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
+
     
     private lazy var priceLabel: UILabel = {
         let label = UILabel()
@@ -66,31 +75,47 @@ class GridCell {
         return label
     }()
     
-    private lazy var stockStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .horizontal
-        stackView.spacing = 10
-        stackView.alignment = .trailing
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        return stackView
-    }()
-    
     private lazy var stockLabel: UILabel = {
         let label = UILabel()
         label.text = "Stock Label"
         label.textColor = .lightGray
-        label.textAlignment = .right
         return label
     }()
     
-    private lazy var accessoryLabel: UILabel = {
-        let label = UILabel()
-        let attachment = NSTextAttachment()
-        attachment.image = UIImage(systemName: "chevron.right")?.withTintColor(.lightGray)
-        let attachmentString = NSAttributedString(attachment: attachment)
-        let attributedStr = NSMutableAttributedString(string: attachmentString.description)
-        label.attributedText = attachmentString
-        return label
-    }()
+    func update(data: Product) {
+        nameLabel.text = data.name
+
+        if data.stock == 0 {
+            stockLabel.text = "품절"
+            stockLabel.textColor = .systemYellow
+        } else {
+            guard let stock = data.stock else {
+                return
+            }
+            stockLabel.text = "재고수량: \(stock)"
+        }
+
+        guard let currency = data.currency else {
+            return
+        }
+
+        let price = Formatter.convertNumber(by: data.price?.description)
+        let bargenPrice = Formatter.convertNumber(by: data.bargainPrice?.description)
+
+        if data.discountedPrice == 0 {
+            priceLabel.text = "\(currency)\(price)"
+            bargenLabel.text = ""
+        } else {
+            priceLabel.textColor = .systemRed
+            priceLabel.attributedText = "\(currency)\(price) ".strikeThrough()
+
+            bargenLabel.text = "\(currency)\(bargenPrice)"
+        }
+    }
     
+    func update(image: UIImage) {
+        DispatchQueue.main.async {
+            self.thumbnailImageView.image = image
+        }
+    }
 }
