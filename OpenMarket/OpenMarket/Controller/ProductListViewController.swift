@@ -27,14 +27,14 @@ final class ProductListViewController: UIViewController {
   private lazy var addProductButton = UIBarButtonItem(
     barButtonSystemItem: .add,
     target: self,
-    action: #selector(didTapAddProductButton))
+    action: #selector(addButtonDidTap))
 
   private lazy var segmentControl: UISegmentedControl = {
     let segment = UISegmentedControl(items: ["LIST", "GRID"])
     segment.setWidth(Constant.segmentWidth, forSegmentAt: .zero)
     segment.setWidth(Constant.segmentWidth, forSegmentAt: 1)
     segment.selectedSegmentIndex = .zero
-    segment.addTarget(self, action: #selector(changeLayout), for: .valueChanged)
+    segment.addTarget(self, action: #selector(segmentControlDidTap), for: .valueChanged)
     return segment
   }()
   
@@ -73,13 +73,13 @@ final class ProductListViewController: UIViewController {
     }
   }
   
-  @objc private func didTapAddProductButton(_ sender: UIBarButtonItem) {}
+  @objc private func addButtonDidTap(_ sender: UIBarButtonItem) {}
 }
 
 // MARK: - UI
 
 private extension ProductListViewController {
-  @objc func changeLayout(_ sender: UISegmentedControl) {
+  @objc func segmentControlDidTap(_ sender: UISegmentedControl) {
     guard let segment = SegmentIndex(rawValue: segmentControl.selectedSegmentIndex)
     else { return }
     
