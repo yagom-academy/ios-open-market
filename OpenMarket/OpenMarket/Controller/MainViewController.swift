@@ -24,6 +24,12 @@ final class MainViewController: UIViewController {
     }
   }
   
+  enum Constant {
+    static let cellCountPerRow = 2.0
+    static let listCellCountPerColumn = 14.0
+    static let gridCellCountPerColumn = 3.0
+  }
+  
   typealias DataSource = UICollectionViewDiffableDataSource<Section, Page>
   typealias Snapshot = NSDiffableDataSourceSnapshot<Section, Page>
   
