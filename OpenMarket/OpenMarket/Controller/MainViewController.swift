@@ -38,7 +38,7 @@ class MainViewController: UIViewController {
                 updateSnapshot(products: products)
             }
         }
-        collectionView?.prefetchDataSource = self
+        collectionView?.delegate = self
     }
     
     private func setUpNavigationItem() {
@@ -165,9 +165,9 @@ extension MainViewController {
     }
 }
 
-extension MainViewController: UICollectionViewDataSourcePrefetching {
-    func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
-        DataProvider().fetchData(index: (indexPaths[safe: 0]?.row ?? 0)) { products in
+extension MainViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        DataProvider().fetchData(index: (indexPath.row)) { products in
             DispatchQueue.main.async { [self] in
                 updateSnapshot(products: products)
             }
