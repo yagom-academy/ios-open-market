@@ -125,7 +125,7 @@ extension ProductListCell {
 }
 
 extension ProductListCell {
-    func updateWithItem(_ newItem: Product) {
+    func update(newItem: Product) {
         guard item != newItem else { return }
         item = newItem
         setNeedsUpdateConfiguration()

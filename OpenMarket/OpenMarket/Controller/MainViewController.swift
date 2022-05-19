@@ -127,11 +127,11 @@ extension MainViewController {
             let isLastCell = indexPath.item + 1 == numberOfItemsInSection
             cell.seperatorView.isHidden = isLastCell
             
-            cell.updateWithItem(item)
+            cell.update(newItem: item)
         }
         
         gridCellRegisteration = UICollectionView.CellRegistration<ProductGridCell, Product> { (cell, indexPath, item) in
-            cell.updateWithItem(item)
+            cell.update(newItem: item)
         }
     }
     
