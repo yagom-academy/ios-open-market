@@ -10,11 +10,12 @@ class MainViewController: UIViewController {
     enum Section {
         case main
     }
-    var collectionView: UICollectionView!
-    var listLayout: UICollectionViewLayout!
-    var gridLayout: UICollectionViewLayout!
-    var dataSource: UICollectionViewDiffableDataSource<Section, Product>!
-    var currentSnapshot: NSDiffableDataSourceSnapshot<Section, Product>! = nil
+    var isFirstSnapshot = true
+    var collectionView: UICollectionView?
+    var listLayout: UICollectionViewLayout?
+    var gridLayout: UICollectionViewLayout?
+    var dataSource: UICollectionViewDiffableDataSource<Section, Product>?
+    var currentSnapshot: NSDiffableDataSourceSnapshot<Section, Product>?
     lazy var baseView = BaseView(frame: view.bounds)
     
     override func viewDidLoad() {
@@ -22,11 +23,14 @@ class MainViewController: UIViewController {
         view = baseView
         applyListLayout()
         applyGridLayout()
+        guard let listLayout = listLayout else {
+            return
+        }
         configureHierarchy(collectionViewLayout: listLayout)
         configureDataSource()
         setUpNavigationItem()
         fetchData(index: 0)
-        collectionView.prefetchDataSource = self
+        collectionView?.prefetchDataSource = self
     }
     
     func fetchData(index: Int) {
@@ -61,14 +65,20 @@ class MainViewController: UIViewController {
     @objc func switchCollectionViewLayout() {
         switch baseView.segmentedControl.selectedSegmentIndex {
         case 0:
-            collectionView.setCollectionViewLayout(listLayout, animated: false)
+            guard let listLayout = listLayout else {
+                return
+            }
+            collectionView?.setCollectionViewLayout(listLayout, animated: false)
         case 1:
-            collectionView.setCollectionViewLayout(gridLayout, animated: false)
+            guard let gridLayout = gridLayout else {
+                return
+            }
+            collectionView?.setCollectionViewLayout(gridLayout, animated: false)
         default:
             break
         }
         self.configureDataSource()
-        dataSource.apply(currentSnapshot)
+        dataSource?.apply(currentSnapshot ?? NSDiffableDataSourceSnapshot())
     }
     
     @objc func registerProduct() {
@@ -80,7 +90,7 @@ extension MainViewController {
     
     func configureHierarchy(collectionViewLayout: UICollectionViewLayout) {
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout)
-        view.addSubview(collectionView)
+        view.addSubview(collectionView ?? UICollectionView())
         layoutCollectionView()
     }
     
@@ -104,6 +114,9 @@ extension MainViewController {
     }
     
     func layoutCollectionView() {
+        guard let collectionView = collectionView else {
+            return
+        }
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
@@ -115,12 +128,14 @@ extension MainViewController {
     }
     
     func configureDataSource() {
-        let listCellRegisteration = UICollectionView.CellRegistration<ProductListCell, Product> { (cell, indexPath, item) in
-            
-            guard let currentSnapshot = self.currentSnapshot else {return}
-            
-            let sectionIdentifier = currentSnapshot.sectionIdentifiers[indexPath.section]
-            let numberOfItemsInSection = currentSnapshot.numberOfItems(inSection: sectionIdentifier)
+        guard let collectionView = collectionView else {
+            return
+        }
+        let listCellRegisteration = UICollectionView.CellRegistration<ProductListCell, Product> { [self] (cell, indexPath, item) in
+            guard let sectionIdentifier = currentSnapshot?.sectionIdentifiers[indexPath.section] else {
+                return
+            }
+            let numberOfItemsInSection = currentSnapshot?.numberOfItems(inSection: sectionIdentifier)
             let isLastCell = indexPath.item + 1 == numberOfItemsInSection
             cell.seperatorView.isHidden = isLastCell
             
@@ -142,15 +157,13 @@ extension MainViewController {
     }
     
     func updateSnapshot(products: [Product]) {
-        let ifFirst = currentSnapshot == nil
-        currentSnapshot = dataSource.snapshot()
-        
-        if ifFirst {
-            currentSnapshot.appendSections([.main])
+        currentSnapshot = dataSource?.snapshot()
+        if isFirstSnapshot {
+            currentSnapshot?.appendSections([.main])
+            isFirstSnapshot = false
         }
-        
-        currentSnapshot.appendItems(products)
-        dataSource.apply(currentSnapshot)
+        currentSnapshot?.appendItems(products)
+        dataSource?.apply(currentSnapshot ?? NSDiffableDataSourceSnapshot())
         
     }
 }
