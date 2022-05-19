@@ -13,6 +13,7 @@ final class ImageCacheManager<T: Decodable> {
     
     init(apiService: APIProvider<T>) {
         self.apiService = apiService
+        self.cache.countLimit = 100
     }
     
     func loadImage(url: URL, completion: @escaping (Result<UIImage, Error>) -> Void) {

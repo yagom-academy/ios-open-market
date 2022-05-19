@@ -54,6 +54,7 @@ extension MainViewController {
     }
     
     private func setUpCollectionView() {
+        mainView.collectionView.delegate = self
         mainView.collectionView.register(
             ListCollectionViewCell.self,
             forCellWithReuseIdentifier: ListCollectionViewCell.identifier
@@ -63,8 +64,6 @@ extension MainViewController {
             GridCollectionViewCell.self,
             forCellWithReuseIdentifier: GridCollectionViewCell.identifier
         )
-        
-        mainView.collectionView.prefetchDataSource = self
     }
     
     private func setUpSegmentControl() {
@@ -180,15 +179,13 @@ extension MainViewController {
     }
 }
 
-// MARK: UICollectionViewDataSourcePrefetching
-
-extension MainViewController: UICollectionViewDataSourcePrefetching {
-    func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
+extension MainViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         guard products?.hasNext == true else {
             return
         }
         
-        if indexPaths.last?.row == items.count - 1 {
+        if indexPath.row >= items.count - 3 {
             currentPage += 1
             requestProducts(by: currentPage)
         }
