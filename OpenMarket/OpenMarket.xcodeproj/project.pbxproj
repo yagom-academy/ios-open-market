@@ -10,6 +10,7 @@
 		0E09C88428333EE7004E4568 /* ProductListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E09C88328333EE7004E4568 /* ProductListCell.swift */; };
 		0E09C88628336508004E4568 /* CellUIComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E09C88528336508004E4568 /* CellUIComponent.swift */; };
 		0E09C88928336E01004E4568 /* UIStackView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E09C88828336E01004E4568 /* UIStackView+.swift */; };
+		0E20818C28367B7D0015D973 /* DataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E20818B28367B7D0015D973 /* DataProvider.swift */; };
 		0E6DF3CB282A0C0F0076E0C6 /* DecodingError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E6DF3CA282A0C0F0076E0C6 /* DecodingError.swift */; };
 		0E70314A2829F777002134CF /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E7031492829F777002134CF /* Product.swift */; };
 		0EC4B1CD282DF4420052F39B /* HTTPManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC4B1CC282DF4420052F39B /* HTTPManagerTests.swift */; };
@@ -43,6 +44,7 @@
 		0E09C88328333EE7004E4568 /* ProductListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductListCell.swift; sourceTree = "<group>"; };
 		0E09C88528336508004E4568 /* CellUIComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellUIComponent.swift; sourceTree = "<group>"; };
 		0E09C88828336E01004E4568 /* UIStackView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+.swift"; sourceTree = "<group>"; };
+		0E20818B28367B7D0015D973 /* DataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataProvider.swift; sourceTree = "<group>"; };
 		0E6DF3CA282A0C0F0076E0C6 /* DecodingError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecodingError.swift; sourceTree = "<group>"; };
 		0E7031492829F777002134CF /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
 		0EC4B1CA282DF4420052F39B /* HTTPManagerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HTTPManagerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -117,6 +119,7 @@
 				0E7031492829F777002134CF /* Product.swift */,
 				67FA257E282A05DA0089BBE3 /* OpenMarketProductList.swift */,
 				675D90DD282A2D5B00A46468 /* HTTPManager.swift */,
+				0E20818B28367B7D0015D973 /* DataProvider.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -321,6 +324,7 @@
 				6724FDB8283370CC00183FC8 /* ProductGridCell.swift in Sources */,
 				678EA5AE2833304B005CE9EA /* BaseView.swift in Sources */,
 				675D90ED282BA28900A46468 /* NetworkError.swift in Sources */,
+				0E20818C28367B7D0015D973 /* DataProvider.swift in Sources */,
 				6707CEA328348CF300A97982 /* String+.swift in Sources */,
 				6707CEC528350B6C00A97982 /* RegisterProductViewController.swift in Sources */,
 				675D90DE282A2D5B00A46468 /* HTTPManager.swift in Sources */,

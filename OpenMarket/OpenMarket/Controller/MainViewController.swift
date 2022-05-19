@@ -30,25 +30,12 @@ class MainViewController: UIViewController {
         configureHierarchy(collectionViewLayout: listLayout)
         configureDataSource()
         setUpNavigationItem()
-        fetchData(index: 0)
-        collectionView?.prefetchDataSource = self
-    }
-    
-    private func fetchData(index: Int) {
-        let itemsPerPage = 20
-        let pageNumber = index / itemsPerPage + 1
-        
-        HTTPManager().loadData(targetURL: .productList(pageNumber: pageNumber, itemsPerPage: itemsPerPage)) { [self] data in
-            switch data {
-            case .success(let data):
-                guard let products = try? JSONDecoder().decode(OpenMarketProductList.self, from: data).products else { return }
-                DispatchQueue.main.async { [self] in
-                    updateSnapshot(products: products)
-                }
-            case .failure(let error):
-                print(error.localizedDescription)
+        DataProvider().fetchData(index: 0) { products in
+            DispatchQueue.main.async { [self] in
+                updateSnapshot(products: products)
             }
         }
+        collectionView?.prefetchDataSource = self
     }
     
     private func setUpNavigationItem() {
@@ -171,6 +158,10 @@ extension MainViewController {
 
 extension MainViewController: UICollectionViewDataSourcePrefetching {
     func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
-        fetchData(index: (indexPaths[safe: 0]?.row ?? 0))
+        DataProvider().fetchData(index: (indexPaths[safe: 0]?.row ?? 0)) { products in
+            DispatchQueue.main.async { [self] in
+                updateSnapshot(products: products)
+            }
+        }
     }
 }
