@@ -21,7 +21,7 @@ class OpenMarketViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         network = URLSessionProvider()
-        fetchData(from: .productList(page: 1, itemsPerPage: 20))
+        fetchData(from: .productList(page: 1, itemsPerPage: 70))
         setup()
         addsegment()
     }
