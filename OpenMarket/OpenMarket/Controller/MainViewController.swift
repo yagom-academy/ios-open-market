@@ -35,7 +35,7 @@ final class MainViewController: UIViewController {
   typealias Snapshot = NSDiffableDataSourceSnapshot<Section, Page>
   
   private lazy var collectionView = UICollectionView(frame: .zero,
-                                                     collectionViewLayout: apllyLayout(by: .list))
+                                                     collectionViewLayout: applyLayout(by: .list))
   private let urlProvider = ApiProvider<ProductsList>()
   private var pages: [Page] = [] {
     didSet {
@@ -104,9 +104,9 @@ final class MainViewController: UIViewController {
   @objc private func changeCollectionViewLayout(_ sender: UISegmentedControl) {
     switch sender.selectedSegmentIndex {
     case Layout.list.rawValue:
-      collectionView.collectionViewLayout = apllyLayout(by: .list)
+      collectionView.collectionViewLayout = applyLayout(by: .list)
     case Layout.grid.rawValue:
-      collectionView.collectionViewLayout = apllyLayout(by: .grid)
+      collectionView.collectionViewLayout = applyLayout(by: .grid)
     default:
       return
     }
