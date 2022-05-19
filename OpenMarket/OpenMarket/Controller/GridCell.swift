@@ -1,9 +1,3 @@
-//
-//  GridCell.swift
-//  OpenMarket
-//
-//  Created by 김동욱 on 2022/05/18.
-//
 
 import UIKit
 
@@ -82,6 +76,16 @@ class GridCell: UICollectionViewCell {
         return label
     }()
     
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        addsubViews()
+        layout()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+        
     func update(data: Product) {
         nameLabel.text = data.name
 
@@ -117,5 +121,43 @@ class GridCell: UICollectionViewCell {
         DispatchQueue.main.async {
             self.thumbnailImageView.image = image
         }
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        priceLabel.attributedText = nil
+        bargenLabel.text = nil
+        priceLabel.text = nil
+        priceLabel.attributedText = nil
+        priceLabel.textColor = .lightGray
+        stockLabel.textColor = .lightGray
+    }
+}
+
+extension GridCell {
+    private func addsubViews() {
+        contentView.addsubViews(thumbnailImageView, cellStackView)
+        cellStackView.addArrangedsubViews(informationStackView)
+        informationStackView.addArrangedsubViews(nameLabel, pricestackView, stockLabel)
+        pricestackView.addArrangedsubViews(priceLabel, bargenLabel)
+
+    }
+    
+    private func layout() {
+        
+        NSLayoutConstraint.activate([
+            thumbnailImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
+            thumbnailImageView.bottomAnchor.constraint(equalTo: cellStackView.topAnchor),
+            thumbnailImageView.widthAnchor.constraint(equalToConstant: 150),
+            thumbnailImageView.heightAnchor.constraint(equalToConstant: 150),
+            thumbnailImageView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor)
+
+        ])
+        
+        NSLayoutConstraint.activate([
+            cellStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            cellStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            cellStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
+        ])
     }
 }
