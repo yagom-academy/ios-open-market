@@ -50,6 +50,9 @@ final class ProductListViewController: UIViewController {
     collectionView.register(
       ProductGridCollectionViewCell.self,
       forCellWithReuseIdentifier: ProductGridCollectionViewCell.identifier)
+    collectionView.register(
+      EmptyCollectionViewCell.self,
+      forCellWithReuseIdentifier: EmptyCollectionViewCell.identifier)
     return collectionView
   }()
   
@@ -141,14 +144,22 @@ extension ProductListViewController: UICollectionViewDataSource {
     cellForItemAt indexPath: IndexPath
   ) -> UICollectionViewCell {
     guard let segment = SegmentIndex(rawValue: segmentControl.selectedSegmentIndex)
-    else { return UICollectionViewCell() }
+    else {
+      return collectionView.dequeueReusableCell(
+        withReuseIdentifier: EmptyCollectionViewCell.identifier,
+        for: indexPath)
+    }
     
     switch segment {
     case .list:
       guard let listCell = collectionView.dequeueReusableCell(
         withReuseIdentifier: ProductListCollectionViewCell.identifier,
         for: indexPath) as? ProductListCollectionViewCell
-      else { return ProductListCollectionViewCell() }
+      else {
+        return collectionView.dequeueReusableCell(
+          withReuseIdentifier: EmptyCollectionViewCell.identifier,
+          for: indexPath)
+      }
       
       listCell.setUp(product: self.productList[indexPath.row])
       return listCell
@@ -156,8 +167,11 @@ extension ProductListViewController: UICollectionViewDataSource {
       guard let gridCell = collectionView.dequeueReusableCell(
         withReuseIdentifier: ProductGridCollectionViewCell.identifier,
         for: indexPath) as? ProductGridCollectionViewCell
-      else { return ProductGridCollectionViewCell() }
-      
+      else {
+        return collectionView.dequeueReusableCell(
+          withReuseIdentifier: EmptyCollectionViewCell.identifier,
+          for: indexPath)
+      }
       gridCell.setUp(product: self.productList[indexPath.row])
       return gridCell
     }
