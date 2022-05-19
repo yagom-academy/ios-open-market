@@ -64,7 +64,6 @@ extension ProductGridCell {
     func update(newItem: Product) {
         guard item != newItem else { return }
         item = newItem
-        setNeedsUpdateConfiguration()
     }
     
     override var configurationState: UICellConfigurationState {
