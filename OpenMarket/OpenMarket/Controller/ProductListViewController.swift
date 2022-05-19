@@ -44,7 +44,6 @@ final class ProductListViewController: UIViewController {
     layout.itemSize = CGSize(width: view.frame.width, height: view.frame.height / 15)
     let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
     collectionView.backgroundColor = .systemBackground
-    collectionView.dataSource = self
     collectionView.register(
       ProductListCollectionViewCell.self,
       forCellWithReuseIdentifier: ProductListCollectionViewCell.identifier)
@@ -59,6 +58,7 @@ final class ProductListViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     self.configureUI()
+    self.collectionView.dataSource = self
     self.loadProductListData(page: 1, itemPerPage: 30)
   }
   
