@@ -10,13 +10,13 @@ class MainViewController: UIViewController {
     enum Section {
         case main
     }
-    var isFirstSnapshot = true
-    var collectionView: UICollectionView?
-    var listLayout: UICollectionViewLayout?
-    var gridLayout: UICollectionViewLayout?
-    var dataSource: UICollectionViewDiffableDataSource<Section, Product>?
-    var currentSnapshot: NSDiffableDataSourceSnapshot<Section, Product>?
-    lazy var baseView = BaseView(frame: view.bounds)
+    private var isFirstSnapshot = true
+    private var collectionView: UICollectionView?
+    private var listLayout: UICollectionViewLayout?
+    private var gridLayout: UICollectionViewLayout?
+    private var dataSource: UICollectionViewDiffableDataSource<Section, Product>?
+    private var currentSnapshot: NSDiffableDataSourceSnapshot<Section, Product>?
+    private lazy var baseView = BaseView(frame: view.bounds)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,7 +33,7 @@ class MainViewController: UIViewController {
         collectionView?.prefetchDataSource = self
     }
     
-    func fetchData(index: Int) {
+    private func fetchData(index: Int) {
         let itemsPerPage = 20
         let pageNumber = index / itemsPerPage + 1
         
@@ -50,19 +50,19 @@ class MainViewController: UIViewController {
         }
     }
     
-    func setUpNavigationItem() {
+    private func setUpNavigationItem() {
         setUpSegmentation()
         navigationItem.titleView = baseView.segmentedControl
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "+", style: .plain, target: self, action: #selector(registerProduct))
     }
     
-    func setUpSegmentation() {
+    private func setUpSegmentation() {
         baseView.segmentedControl.setWidth(view.bounds.width * 0.18 , forSegmentAt: 0)
         baseView.segmentedControl.setWidth(view.bounds.width * 0.18, forSegmentAt: 1)
         baseView.segmentedControl.addTarget(self, action: #selector(switchCollectionViewLayout), for: .valueChanged)
     }
     
-    @objc func switchCollectionViewLayout() {
+    @objc private func switchCollectionViewLayout() {
         switch baseView.segmentedControl.selectedSegmentIndex {
         case 0:
             guard let listLayout = listLayout else {
@@ -81,20 +81,20 @@ class MainViewController: UIViewController {
         dataSource?.apply(currentSnapshot ?? NSDiffableDataSourceSnapshot())
     }
     
-    @objc func registerProduct() {
+    @objc private func registerProduct() {
         present(RegisterProductViewController(), animated: false)
     }
 }
 
 extension MainViewController {
     
-    func configureHierarchy(collectionViewLayout: UICollectionViewLayout) {
+    private func configureHierarchy(collectionViewLayout: UICollectionViewLayout) {
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout)
         view.addSubview(collectionView ?? UICollectionView())
         layoutCollectionView()
     }
     
-    func applyGridLayout() {
+    private func applyGridLayout() {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(0.3))
@@ -107,13 +107,13 @@ extension MainViewController {
         gridLayout = layout
     }
     
-    func applyListLayout() {
+    private func applyListLayout() {
         let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
         let layout = UICollectionViewCompositionalLayout.list(using: configuration)
         listLayout = layout
     }
     
-    func layoutCollectionView() {
+    private func layoutCollectionView() {
         guard let collectionView = collectionView else {
             return
         }
@@ -127,7 +127,7 @@ extension MainViewController {
         ])
     }
     
-    func configureDataSource() {
+    private func configureDataSource() {
         guard let collectionView = collectionView else {
             return
         }
@@ -156,7 +156,7 @@ extension MainViewController {
         
     }
     
-    func updateSnapshot(products: [Product]) {
+    private func updateSnapshot(products: [Product]) {
         currentSnapshot = dataSource?.snapshot()
         if isFirstSnapshot {
             currentSnapshot?.appendSections([.main])

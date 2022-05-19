@@ -75,7 +75,7 @@ extension ProductGridCell {
 }
 
 extension ProductGridCell {
-    func setupViewsIfNeeded() {
+    private func setupViewsIfNeeded() {
         layout()
     }
     
@@ -95,7 +95,7 @@ extension ProductGridCell {
         cellUIComponent.thumbnailImageView.image = image
     }
     
-    func setUpStockLabel(stock: Int) {
+    private func setUpStockLabel(stock: Int) {
         switch stock {
         case 0:
             cellUIComponent.stockLabel.text = "품절"
@@ -105,7 +105,7 @@ extension ProductGridCell {
         }
     }
     
-    func setUpPriceLabel(price: Int, bargainPrice: Int) {
+    private func setUpPriceLabel(price: Int, bargainPrice: Int) {
         switch bargainPrice == price {
         case true:
             cellUIComponent.bargainPriceLabel.isHidden = true
@@ -115,7 +115,7 @@ extension ProductGridCell {
         }
     }
     
-    func urlToImage(_ urlString: String) -> UIImage? {
+    private func urlToImage(_ urlString: String) -> UIImage? {
         guard let url = URL(string: urlString),
               let data = try? Data(contentsOf: url),
               let image = UIImage(data: data) else { return nil }
