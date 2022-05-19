@@ -14,6 +14,8 @@ class MainViewController: UIViewController {
     private var collectionView: UICollectionView?
     private var listLayout: UICollectionViewLayout?
     private var gridLayout: UICollectionViewLayout?
+    private var listCellRegisteration: UICollectionView.CellRegistration<ProductListCell, Product>?
+    private var gridCellRegisteration: UICollectionView.CellRegistration<ProductGridCell, Product>?
     private var dataSource: UICollectionViewDiffableDataSource<Section, Product>?
     private var currentSnapshot: NSDiffableDataSourceSnapshot<Section, Product>?
     private var baseView = BaseView()
@@ -24,6 +26,7 @@ class MainViewController: UIViewController {
         view = baseView
         applyListLayout()
         applyGridLayout()
+        registerCell()
         guard let listLayout = listLayout else {
             return
         }
@@ -115,11 +118,8 @@ extension MainViewController {
         ])
     }
     
-    private func configureDataSource() {
-        guard let collectionView = collectionView else {
-            return
-        }
-        let listCellRegisteration = UICollectionView.CellRegistration<ProductListCell, Product> { [self] (cell, indexPath, item) in
+    private func registerCell() {
+        listCellRegisteration = UICollectionView.CellRegistration<ProductListCell, Product> { [self] (cell, indexPath, item) in
             guard let sectionIdentifier = currentSnapshot?.sectionIdentifiers[indexPath.section] else {
                 return
             }
@@ -129,8 +129,17 @@ extension MainViewController {
             
             cell.updateWithItem(item)
         }
-        let gridCellRegisteration = UICollectionView.CellRegistration<ProductGridCell, Product> { (cell, indexPath, item) in
+        
+        gridCellRegisteration = UICollectionView.CellRegistration<ProductGridCell, Product> { (cell, indexPath, item) in
             cell.updateWithItem(item)
+        }
+    }
+    
+    private func configureDataSource() {
+        guard let collectionView = collectionView,
+              let listCellRegisteration = listCellRegisteration,
+              let gridCellRegisteration = gridCellRegisteration else {
+            return
         }
         
         if baseView.segmentedControl.selectedSegmentIndex == 0 {
