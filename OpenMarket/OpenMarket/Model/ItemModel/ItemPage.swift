@@ -28,6 +28,7 @@ struct ItemPage: Codable {
         case hasPrev = "has_prev"
     }
 }
+
 struct Item: Codable, ItemAble {
     let id: Int
     let vendorId: Int
