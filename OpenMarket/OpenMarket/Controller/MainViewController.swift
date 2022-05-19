@@ -28,7 +28,7 @@ final class MainViewController: UIViewController {
   typealias Snapshot = NSDiffableDataSourceSnapshot<Section, Page>
   
   private lazy var collectionView = UICollectionView(frame: .zero,
-                                                     collectionViewLayout: configureListLayout())
+                                                     collectionViewLayout: apllyLayout(by: .list))
   private let urlProvider = ApiProvider<ProductsList>()
   private var pages: [Page] = [] {
     didSet {
@@ -97,33 +97,29 @@ final class MainViewController: UIViewController {
   @objc private func changeCollectionViewLayout(_ sender: UISegmentedControl) {
     switch sender.selectedSegmentIndex {
     case Layout.list.rawValue:
-      collectionView.collectionViewLayout = configureListLayout()
+      collectionView.collectionViewLayout = apllyLayout(by: .list)
     case Layout.grid.rawValue:
-      collectionView.collectionViewLayout = configureGridLayout()
+      collectionView.collectionViewLayout = apllyLayout(by: .grid)
     default:
       return
     }
     collectionView.reloadData()
   }
   
-  private func configureListLayout() -> UICollectionViewFlowLayout {
+  private func apllyLayout(by layoutType: Layout) -> UICollectionViewFlowLayout {
     let layout = UICollectionViewFlowLayout()
     layout.sectionInset = UIEdgeInsets(top: 10, left: 5, bottom: 5, right: 5)
     layout.minimumLineSpacing = 10
     layout.minimumInteritemSpacing = 10
-    layout.itemSize = CGSize(width: self.view.bounds.width,
-                             height: self.view.bounds.height/14)
-    return layout
-  }
-  
-  private func configureGridLayout() -> UICollectionViewFlowLayout {
-    let layout = UICollectionViewFlowLayout()
-    collectionView.contentOffset = .init(x: 0, y: -collectionView.contentSize.height)
-    layout.sectionInset = UIEdgeInsets(top: 10, left: 5, bottom: 5, right: 5)
-    layout.minimumLineSpacing = 10
-    layout.minimumInteritemSpacing = 10
-    layout.itemSize = CGSize(width: self.view.bounds.width/2 - 15,
-                             height: self.view.bounds.height/3 - 30)
+    
+    switch layoutType {
+    case .list:
+      layout.itemSize = CGSize(width: self.view.bounds.width,
+                               height: self.view.bounds.height/14)
+    case .grid:
+      layout.itemSize = CGSize(width: self.view.bounds.width/2 - 15,
+                               height: self.view.bounds.height/3 - 30)
+    }
     return layout
   }
 }
