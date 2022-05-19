@@ -16,10 +16,11 @@ class MainViewController: UIViewController {
     private var gridLayout: UICollectionViewLayout?
     private var dataSource: UICollectionViewDiffableDataSource<Section, Product>?
     private var currentSnapshot: NSDiffableDataSourceSnapshot<Section, Product>?
-    private lazy var baseView = BaseView(frame: view.bounds)
+    private var baseView = BaseView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        baseView.initialize()
         view = baseView
         applyListLayout()
         applyGridLayout()

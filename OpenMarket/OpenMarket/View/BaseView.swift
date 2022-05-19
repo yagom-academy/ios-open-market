@@ -25,13 +25,18 @@ class BaseView: UIView {
         return segmentedControl
     }()
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    func initialize() {
+        layout()
         attribute()
     }
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    private func layout() {
+        NSLayoutConstraint.activate([
+            self.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
+            self.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
+            self.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
+            self.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor)
+        ])
     }
     
     private func attribute() {
