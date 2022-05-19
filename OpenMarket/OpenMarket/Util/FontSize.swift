@@ -8,6 +8,6 @@
 import Foundation
 
 enum FontSize {
-  static let title = 18.0
-  static let body = 17.0
+  static let title = 16.0
+  static let body = 15.0
 }
