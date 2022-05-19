@@ -154,8 +154,6 @@ extension ProductListCell {
     }
     
     override func updateConfiguration(using state: UICellConfigurationState) {
-        setupViewsIfNeeded()
-        
         guard let product = state.item else { return }
         
         cellUIComponent.nameLabel.text = product.name
