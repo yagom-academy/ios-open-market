@@ -7,9 +7,6 @@
 import UIKit
 
 final class MainViewController: UIViewController {
-  enum Section {
-    case main
-  }
   enum Layout: Int {
     case list = 0
     case grid = 1
@@ -28,6 +25,10 @@ final class MainViewController: UIViewController {
     static let cellCountPerRow = 2.0
     static let listCellCountPerColumn = 14.0
     static let gridCellCountPerColumn = 3.0
+  }
+  
+  enum Section {
+    case main
   }
   
   typealias DataSource = UICollectionViewDiffableDataSource<Section, Page>
