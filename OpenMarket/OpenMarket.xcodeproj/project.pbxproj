@@ -91,7 +91,7 @@
 			isa = PBXGroup;
 			children = (
 				AE82C0072834FCAB00A0EFDC /* FontSize.swift */,
-				AE82C0092834FE9400A0EFDC /* Extension */,
+				AE82C0092834FE9400A0EFDC /* Extensions */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -154,7 +154,7 @@
 			path = Mock;
 			sourceTree = "<group>";
 		};
-		AE82C0092834FE9400A0EFDC /* Extension */ = {
+		AE82C0092834FE9400A0EFDC /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
 				03301A562832ACFA00D58385 /* String+Extension.swift */,
@@ -163,7 +163,7 @@
 				0396412A283368CB00E0DE5A /* UIStackView+Extension.swift */,
 				0396412E28337A5500E0DE5A /* CALayer+Extension.swift */,
 			);
-			path = Extension;
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		C70FB0EE25BEF61C00C9924E = {

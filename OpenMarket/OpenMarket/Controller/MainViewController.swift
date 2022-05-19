@@ -147,42 +147,42 @@ extension MainViewController {
     let dataSource = DataSource(
       collectionView: collectionView,
       cellProvider: {(collectionView, indexPath, page) -> UICollectionViewCell? in
-      
-      switch self.segmentedControl.selectedSegmentIndex {
-      case Layout.list.rawValue:
-        guard let cell = collectionView.dequeueReusableCell(
-          withReuseIdentifier: ListCell.identifier,
-          for: indexPath
-        ) as? ListCell
-        else {
+        
+        switch self.segmentedControl.selectedSegmentIndex {
+        case Layout.list.rawValue:
+          guard let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: ListCell.identifier,
+            for: indexPath
+          ) as? ListCell
+          else {
+            return nil
+          }
+          DispatchQueue.main.async {
+            if collectionView.indexPath(for: cell) == indexPath {
+              cell.setUpListCell(page: page)
+            }
+          }
+          return cell
+          
+        case Layout.grid.rawValue:
+          guard let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: GridCell.identifier,
+            for: indexPath
+          ) as? GridCell
+          else {
+            return nil
+          }
+          DispatchQueue.main.async {
+            if collectionView.indexPath(for: cell) == indexPath {
+              cell.setUpGridCell(page: page)
+            }
+          }
+          return cell
+          
+        default:
           return nil
         }
-        DispatchQueue.main.async {
-          if collectionView.indexPath(for: cell) == indexPath {
-            cell.setUpListCell(page: page)
-          }
-        }
-        return cell
-        
-      case Layout.grid.rawValue:
-        guard let cell = collectionView.dequeueReusableCell(
-          withReuseIdentifier: GridCell.identifier,
-          for: indexPath
-        ) as? GridCell
-        else {
-          return nil
-        }
-        DispatchQueue.main.async {
-          if collectionView.indexPath(for: cell) == indexPath {
-            cell.setUpGridCell(page: page)
-          }
-        }
-        return cell
-        
-      default:
-        return nil
-      }
-    })
+      })
     return dataSource
   }
   
@@ -199,7 +199,7 @@ extension MainViewController: UICollectionViewDataSourcePrefetching {
     guard productsList?.hasNext == true else {
       return
     }
-
+    
     if indexPaths.last?.row == pages.count - 1 {
       currentPageNumber += 1
       fetchPages()
