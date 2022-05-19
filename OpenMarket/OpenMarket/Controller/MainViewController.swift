@@ -113,19 +113,30 @@ final class MainViewController: UIViewController {
     collectionView.reloadData()
   }
   
-  private func apllyLayout(by layoutType: Layout) -> UICollectionViewFlowLayout {
+  private func applyLayout(by layoutType: Layout) -> UICollectionViewFlowLayout {
     let layout = UICollectionViewFlowLayout()
-    layout.sectionInset = UIEdgeInsets(top: 10, left: 5, bottom: 5, right: 5)
-    layout.minimumLineSpacing = 10
-    layout.minimumInteritemSpacing = 10
+    layout.sectionInset = UIEdgeInsets(top: 10, left: 5, bottom: 10, right: 5)
+    layout.minimumLineSpacing = 8
+    layout.minimumInteritemSpacing = 13
     
     switch layoutType {
     case .list:
-      layout.itemSize = CGSize(width: self.view.bounds.width,
-                               height: self.view.bounds.height/14)
+      layout.itemSize = CGSize(
+        width: self.view.bounds.width,
+        height: self.view.bounds.height/Constant.listCellCountPerColumn
+      )
     case .grid:
-      layout.itemSize = CGSize(width: self.view.bounds.width/2 - 15,
-                               height: self.view.bounds.height/3 - 30)
+      layout.itemSize = CGSize(
+        width:
+          self.view
+          .bounds
+          .width/Constant.cellCountPerRow - layout.minimumInteritemSpacing,
+        height:
+          self.view
+          .bounds
+          .height/Constant.gridCellCountPerColumn - (2 * layout.minimumInteritemSpacing
+                                                     + layout.sectionInset.top)
+      )
     }
     return layout
   }
