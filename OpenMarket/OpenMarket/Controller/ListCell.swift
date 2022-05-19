@@ -150,6 +150,10 @@ final class ListCell: UICollectionViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
+        priceLabel.attributedText = nil
+        bargenLabel.text = nil
+        priceLabel.text = nil
+        priceLabel.attributedText = nil
         priceLabel.textColor = .lightGray
         stockLabel.textColor = .lightGray
     }

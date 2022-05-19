@@ -25,6 +25,7 @@
 		869BD31A282D04EF00284FAE /* MockURLSessionTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869BD319282D04EF00284FAE /* MockURLSessionTest.swift */; };
 		869BD321282D053000284FAE /* MockURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8622BBC2282CAC4F00D1FAC0 /* MockURLSession.swift */; };
 		869BD337282D0DA100284FAE /* URLHealthcheckerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869BD336282D0DA100284FAE /* URLHealthcheckerTests.swift */; };
+		86A637D92835E02C00830118 /* CustomSegment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86A637D82835E02C00830118 /* CustomSegment.swift */; };
 		86CC60A128333F2C00AE2132 /* ListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86CC60A028333F2C00AE2132 /* ListCell.swift */; };
 		86CC60A42833489300AE2132 /* UIStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86CC60A32833489300AE2132 /* UIStackView.swift */; };
 		86CC60A6283348AE00AE2132 /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86CC60A5283348AE00AE2132 /* UIView.swift */; };
@@ -82,6 +83,7 @@
 		869BD319282D04EF00284FAE /* MockURLSessionTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSessionTest.swift; sourceTree = "<group>"; };
 		869BD334282D0DA100284FAE /* URLHealthcheckerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = URLHealthcheckerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		869BD336282D0DA100284FAE /* URLHealthcheckerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLHealthcheckerTests.swift; sourceTree = "<group>"; };
+		86A637D82835E02C00830118 /* CustomSegment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSegment.swift; sourceTree = "<group>"; };
 		86CC60A028333F2C00AE2132 /* ListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCell.swift; sourceTree = "<group>"; };
 		86CC60A32833489300AE2132 /* UIStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIStackView.swift; sourceTree = "<group>"; };
 		86CC60A5283348AE00AE2132 /* UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
@@ -161,6 +163,7 @@
 				C70FB0FE25BEF61C00C9924E /* OpenMarketViewController.swift */,
 				86CC60A028333F2C00AE2132 /* ListCell.swift */,
 				3008F3D62834FB760034C902 /* GridCell.swift */,
+				86A637D82835E02C00830118 /* CustomSegment.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -509,6 +512,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				86A637D92835E02C00830118 /* CustomSegment.swift in Sources */,
 				30C06339282CA86A00CACD3C /* URLSessionProtocol.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* OpenMarketViewController.swift in Sources */,
 				8622BBB2282CA64200D1FAC0 /* NetworkError.swift in Sources */,
