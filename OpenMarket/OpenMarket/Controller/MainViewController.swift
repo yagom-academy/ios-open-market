@@ -78,6 +78,7 @@ final class MainViewController: UIViewController {
   
   private func configureCollectionView() {
     self.view.addSubview(collectionView)
+    self.view.backgroundColor = .white
     let safeArea = self.view.safeAreaLayoutGuide
     collectionView.translatesAutoresizingMaskIntoConstraints = false
     
@@ -115,14 +116,14 @@ final class MainViewController: UIViewController {
   
   private func applyLayout(by layoutType: Layout) -> UICollectionViewFlowLayout {
     let layout = UICollectionViewFlowLayout()
-    layout.sectionInset = UIEdgeInsets(top: 10, left: 5, bottom: 10, right: 5)
+    layout.sectionInset = UIEdgeInsets(top: 10, left: 5, bottom: 5, right: 5)
     layout.minimumLineSpacing = 8
     layout.minimumInteritemSpacing = 13
     
     switch layoutType {
     case .list:
       layout.itemSize = CGSize(
-        width: self.view.bounds.width,
+        width: self.view.bounds.width - (layout.sectionInset.left + layout.sectionInset.right),
         height: self.view.bounds.height/Constant.listCellCountPerColumn
       )
     case .grid:
@@ -134,8 +135,7 @@ final class MainViewController: UIViewController {
         height:
           self.view
           .bounds
-          .height/Constant.gridCellCountPerColumn - (2 * layout.minimumInteritemSpacing
-                                                     + layout.sectionInset.top)
+          .height/Constant.gridCellCountPerColumn - layout.minimumInteritemSpacing
       )
     }
     return layout

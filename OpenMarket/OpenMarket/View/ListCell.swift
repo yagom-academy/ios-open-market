@@ -128,9 +128,9 @@ final class ListCell: UICollectionViewCell {
     priceStackView.addArrangedSubviews(priceLabel, bargainPriceLabel)
     
     NSLayoutConstraint.activate([
-      totalStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
-      totalStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
-      totalStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 0),
+      totalStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 5),
+      totalStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -5),
+      totalStackView.topAnchor.constraint(equalTo: contentView.topAnchor),
       totalStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
       
       thumbnailImageView.widthAnchor.constraint(equalTo: thumbnailImageView.heightAnchor,
