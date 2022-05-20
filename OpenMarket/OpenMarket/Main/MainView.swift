@@ -7,7 +7,7 @@
 
 import UIKit
 
-enum CollectionLayout: Int {
+enum ProductCollectionViewLayoutType: Int {
     case list = 0
     case grid = 1
     
@@ -69,7 +69,7 @@ extension MainView {
     }
     
     func changeLayout(index selectedIndex: Int) {
-        guard let layout = CollectionLayout(rawValue: selectedIndex) else { return }
+        guard let layout = ProductCollectionViewLayoutType(rawValue: selectedIndex) else { return }
         
         switch layout {
         case .list:

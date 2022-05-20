@@ -115,7 +115,7 @@ extension MainViewController {
             
             guard let self = self else { return nil }
             
-            guard let layout = CollectionLayout(rawValue: self.segmentControl.selectedSegmentIndex) else { return nil }
+            guard let layout = ProductCollectionViewLayoutType(rawValue: self.segmentControl.selectedSegmentIndex) else { return nil }
             let cellType = layout.cellType
             
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellType.identifier, for: indexPath) as? ProductCell else { return cellType.init() }
