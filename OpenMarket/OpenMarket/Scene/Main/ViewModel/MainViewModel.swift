@@ -17,7 +17,7 @@ final class MainViewModel {
         static let itemsCountPerPage = 20
     }
     
-    enum Section {
+    enum Section: CaseIterable {
         case main
     }
     
@@ -67,7 +67,7 @@ final class MainViewModel {
     private func applySnapshot() {
         DispatchQueue.main.async {
             var snapshot = Snapshot()
-            snapshot.appendSections([.main])
+            snapshot.appendSections(Section.allCases)
             snapshot.appendItems(self.items, toSection: .main)
             self.datasource?.apply(snapshot)
         }
