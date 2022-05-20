@@ -18,7 +18,7 @@
 		AB794C5928376A2800D6ADAA /* UIImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB794C5828376A2800D6ADAA /* UIImageView+Extension.swift */; };
 		AB9B4DFF28367E0F007C4205 /* EmptyCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB9B4DFE28367E0F007C4205 /* EmptyCollectionViewCell.swift */; };
 		ABF6011B28333E4900E8CAC2 /* ProductGridCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF6011A28333E4900E8CAC2 /* ProductGridCollectionViewCell.swift */; };
-		ABF6011E283345DD00E8CAC2 /* UICollectionViewCell+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF6011D283345DD00E8CAC2 /* UICollectionViewCell+Extension.swift */; };
+		ABF6011E283345DD00E8CAC2 /* Identifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF6011D283345DD00E8CAC2 /* Identifiable.swift */; };
 		B00E3C5F282BDA2B006AB0AC /* URLSession+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00E3C5E282BDA2B006AB0AC /* URLSession+Extension.swift */; };
 		B02944A3282A430800B9828F /* DecodeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B02944A2282A430800B9828F /* DecodeTests.swift */; };
 		B05BE63A2833CC230059CD26 /* Int+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B05BE6392833CC230059CD26 /* Int+Extension.swift */; };
@@ -57,7 +57,7 @@
 		AB794C5828376A2800D6ADAA /* UIImageView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extension.swift"; sourceTree = "<group>"; };
 		AB9B4DFE28367E0F007C4205 /* EmptyCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyCollectionViewCell.swift; sourceTree = "<group>"; };
 		ABF6011A28333E4900E8CAC2 /* ProductGridCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductGridCollectionViewCell.swift; sourceTree = "<group>"; };
-		ABF6011D283345DD00E8CAC2 /* UICollectionViewCell+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionViewCell+Extension.swift"; sourceTree = "<group>"; };
+		ABF6011D283345DD00E8CAC2 /* Identifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Identifiable.swift; sourceTree = "<group>"; };
 		B00E3C5E282BDA2B006AB0AC /* URLSession+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSession+Extension.swift"; sourceTree = "<group>"; };
 		B02944A0282A430800B9828F /* OpenMarketTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenMarketTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B02944A2282A430800B9828F /* DecodeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecodeTests.swift; sourceTree = "<group>"; };
@@ -117,6 +117,7 @@
 		AB56FB4328349686009E6DC0 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				ABF6011D283345DD00E8CAC2 /* Identifiable.swift */,
 				AB56FB44283496B1009E6DC0 /* ProductConstant.swift */,
 				AB9B4DFE28367E0F007C4205 /* EmptyCollectionViewCell.swift */,
 			);
@@ -135,7 +136,6 @@
 		ABF6011C283345C500E8CAC2 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
-				ABF6011D283345DD00E8CAC2 /* UICollectionViewCell+Extension.swift */,
 				AB56FB4128339687009E6DC0 /* UILabel+Extension.swift */,
 				B05BE6392833CC230059CD26 /* Int+Extension.swift */,
 				AB794C5828376A2800D6ADAA /* UIImageView+Extension.swift */,
@@ -409,7 +409,7 @@
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				AB56FB45283496B1009E6DC0 /* ProductConstant.swift in Sources */,
 				AB794C5928376A2800D6ADAA /* UIImageView+Extension.swift in Sources */,
-				ABF6011E283345DD00E8CAC2 /* UICollectionViewCell+Extension.swift in Sources */,
+				ABF6011E283345DD00E8CAC2 /* Identifiable.swift in Sources */,
 				AB56FB4228339687009E6DC0 /* UILabel+Extension.swift in Sources */,
 				AB9B4DFF28367E0F007C4205 /* EmptyCollectionViewCell.swift in Sources */,
 				B0A408DD282B933C00A388FA /* NetworkService.swift in Sources */,

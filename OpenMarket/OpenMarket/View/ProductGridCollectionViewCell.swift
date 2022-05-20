@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class ProductGridCollectionViewCell: UICollectionViewCell {
+final class ProductGridCollectionViewCell: UICollectionViewCell, Identifiable {
   private let containerStackView: UIStackView = {
     let stackView = UIStackView()
     stackView.axis = .vertical

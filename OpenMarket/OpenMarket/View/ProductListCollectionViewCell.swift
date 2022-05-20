@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class ProductListCollectionViewCell: UICollectionViewCell {
+final class ProductListCollectionViewCell: UICollectionViewCell, Identifiable {
   private let containerStackView: UIStackView = {
     let stackView = UIStackView()
     stackView.axis = .horizontal
