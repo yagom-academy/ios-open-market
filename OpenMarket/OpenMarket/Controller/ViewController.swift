@@ -54,13 +54,10 @@ final class ViewController: UIViewController {
     }
     
     private func getImage(itemCell: ItemCellable ,url: String, indexPath: IndexPath) {
-        guard let cell = itemCell as? UICollectionViewCell else { return }
-        var itemCell = itemCell
-        
         if let cachedImage = ImageCacheManager.shared.object(forKey: url as NSString) {
             DispatchQueue.main.async {
-                if self.openMarketCollectionView.indexPath(for: cell) == indexPath {
-                    itemCell.itemImage = cachedImage
+                if self.openMarketCollectionView.indexPath(for: itemCell) == indexPath {
+                    itemCell.configureImage(image: cachedImage)
                 }
             }
             return
@@ -72,8 +69,8 @@ final class ViewController: UIViewController {
                 guard let data = data else { return }
                 guard let image = UIImage(data: data) else { return }
                 DispatchQueue.main.async {
-                    if self.openMarketCollectionView.indexPath(for: cell) == indexPath {
-                        itemCell.itemImage = image
+                    if self.openMarketCollectionView.indexPath(for: itemCell) == indexPath {
+                        itemCell.configureImage(image: image)
                         ImageCacheManager.shared.setObject(image, forKey: url as NSString)
                     }
                 }
@@ -84,20 +81,13 @@ final class ViewController: UIViewController {
     }
     
     private func setCellComponents(itemCell: ItemCellable, indexPath: IndexPath) {
-        guard let cell = itemCell as? UICollectionViewCell else { return }
-    
-        var itemCell = itemCell
         let thumnailURL = self.items[indexPath.row].thumbnail
         
         self.getImage(itemCell: itemCell, url: thumnailURL, indexPath: indexPath)
         
         DispatchQueue.main.async {
-            if self.openMarketCollectionView.indexPath(for: cell) == indexPath {
-                itemCell.itemName = self.items[indexPath.row].name
-                itemCell.discountedPrice = self.items[indexPath.row].discountedPrice
-                itemCell.price = self.items[indexPath.row].currency + self.items[indexPath.row].price.description
-                itemCell.bargainPrice = self.items[indexPath.row].currency + self.items[indexPath.row].bargainPrice.description
-                itemCell.stock = self.items[indexPath.row].stock
+            if self.openMarketCollectionView.indexPath(for: itemCell) == indexPath {
+                itemCell.configureCell(items: self.items, indexPath: indexPath)
             }
             self.myActivityIndicator.stopAnimating()
         }

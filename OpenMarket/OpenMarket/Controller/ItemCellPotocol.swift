@@ -7,11 +7,7 @@
 
 import UIKit
 
-protocol ItemCellable {
-    var itemImage: UIImage? { get set }
-    var itemName: String { get set }
-    var price: String { get set }
-    var discountedPrice: Int { get set }
-    var bargainPrice: String { get set }
-    var stock: Int { get set }
+protocol ItemCellable where Self: UICollectionViewCell {
+    func configureCell(items: [Item], indexPath: IndexPath)
+    func configureImage(image: UIImage)
 }
