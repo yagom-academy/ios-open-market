@@ -93,7 +93,14 @@ private extension ViewController {
                     self.collectionView.reloadData()
                 }
             case .failure(_):
-                return
+                DispatchQueue.main.async {
+                    self.activityIndicator.stopAnimating()
+                    let alert = UIAlertController(title: "데이터 로드 실패", message: "", preferredStyle: .alert)
+                    let action = UIAlertAction(title: "닫기", style: .default) { (action) in
+                    }
+                    alert.addAction(action)
+                    self.present(alert, animated: false, completion: nil)
+                }
             }
         }
     }
@@ -169,7 +176,6 @@ private extension ViewController {
         
         cell.accessories = [.disclosureIndicator()]
         cell.configureCellContents(product: products[indexPath.row])
-        //configureCellContents(indexPath: indexPath, cell: cell)
         
         return cell
     }
