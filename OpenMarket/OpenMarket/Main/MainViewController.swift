@@ -21,13 +21,10 @@ final class MainViewController: UIViewController {
     private var mainView: MainView?
     private var dataSource: DataSource?
     private var snapshot: Snapshot?
-    
+    private let cellLayoutSegmentControl = UISegmentedControl(items: ProductCollectionViewLayoutType.names)
+    private var networkManager = NetworkManager<ProductList>(imageCache: CacheManager())
     private var pageNumber = 1
     
-    private var networkManager = NetworkManager<ProductList>(imageCache: CacheManager())
-    
-    private let cellLayoutSegmentControl = UISegmentedControl(items: ["LIST", "GRID"])
-
     override func viewDidLoad() {
         super.viewDidLoad()
         configureView()

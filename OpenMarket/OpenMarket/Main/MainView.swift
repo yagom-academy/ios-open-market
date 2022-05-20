@@ -7,9 +7,22 @@
 
 import UIKit
 
-enum ProductCollectionViewLayoutType: Int {
+enum ProductCollectionViewLayoutType: Int, CaseIterable {
     case list = 0
     case grid = 1
+    
+    static var names: [String] {
+        return allCases.map{ $0.name }
+    }
+    
+    private var name: String {
+        switch self {
+        case .list:
+            return "LIST"
+        case .grid:
+            return "GRID"
+        }
+    }
     
     var cellType: ProductCell.Type {
         switch self {
