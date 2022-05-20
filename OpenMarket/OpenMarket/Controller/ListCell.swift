@@ -14,15 +14,6 @@ extension ListCell {
 }
 
 final class ListCell: UICollectionViewCell {
-    private var cellStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .horizontal
-        stackView.alignment = .top
-        stackView.distribution = .fillProportionally
-        stackView.spacing = 10
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        return stackView
-    }()
     
     private var thumbnailImageView: UIImageView = {
         let image = UIImageView()
@@ -32,24 +23,19 @@ final class ListCell: UICollectionViewCell {
         return image
     }()
     
-    private var informationStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .vertical
-        stackView.alignment = .leading
-        stackView.spacing = 7
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        return stackView
-    }()
-    
     private var nameLabel: UILabel = {
         let label = UILabel()
         label.text = "Name Label"
+        label.contentMode = .scaleAspectFit
+        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     private var priceStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
+        stackView.distribution = .fill
+        stackView.alignment = .leading
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
@@ -57,7 +43,10 @@ final class ListCell: UICollectionViewCell {
     private var priceLabel: UILabel = {
         let label = UILabel()
         label.text = "Price Label"
+        label.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         label.textColor = .lightGray
+        label.contentMode = .scaleAspectFit
+
         return label
     }()
     
@@ -65,16 +54,9 @@ final class ListCell: UICollectionViewCell {
         let label = UILabel()
         label.text = "Bargen Label"
         label.textColor = .lightGray
+        label.contentMode = .scaleAspectFit
+
         return label
-    }()
-    
-    private var stockStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .horizontal
-        stackView.spacing = 10
-        stackView.alignment = .trailing
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        return stackView
     }()
     
     private var stockLabel: UILabel = {
@@ -82,6 +64,8 @@ final class ListCell: UICollectionViewCell {
         label.text = "Stock Label"
         label.textColor = .lightGray
         label.textAlignment = .right
+        label.translatesAutoresizingMaskIntoConstraints = false
+
         return label
     }()
     
@@ -92,6 +76,8 @@ final class ListCell: UICollectionViewCell {
         let attachmentString = NSAttributedString(attachment: attachment)
         let attributedStr = NSMutableAttributedString(string: attachmentString.description)
         label.attributedText = attachmentString
+        label.translatesAutoresizingMaskIntoConstraints = false
+
         return label
     }()
     
@@ -178,28 +164,45 @@ final class ListCell: UICollectionViewCell {
 
 extension ListCell {
     private func addsubViews() {
-        contentView.addSubview(cellStackView)
-        cellStackView.addArrangedsubViews(thumbnailImageView, informationStackView, stockStackView)
-        informationStackView.addArrangedsubViews(nameLabel, priceStackView)
+        contentView.addsubViews(thumbnailImageView, nameLabel, priceStackView, stockLabel, accessoryLabel)
         priceStackView.addArrangedsubViews(priceLabel, bargenLabel)
-        stockStackView.addArrangedsubViews(stockLabel, accessoryLabel)
-    }
+     }
     
     private func layout() {
+        
         NSLayoutConstraint.activate([
-            cellStackView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            cellStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            cellStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            cellStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
+            thumbnailImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            thumbnailImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5),
+            thumbnailImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor)
         ])
         
         NSLayoutConstraint.activate([
-            thumbnailImageView.widthAnchor.constraint(equalTo: cellStackView.heightAnchor, constant: -5),
-            thumbnailImageView.heightAnchor.constraint(equalTo: cellStackView.heightAnchor, constant: -5)
+            nameLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
+            nameLabel.leadingAnchor.constraint(equalTo: thumbnailImageView.trailingAnchor, constant: 10),
+            nameLabel.widthAnchor.constraint(equalToConstant: frame.width / 2),
+            nameLabel.heightAnchor.constraint(equalToConstant: 20)
         ])
         
         NSLayoutConstraint.activate([
-            informationStackView.widthAnchor.constraint(equalTo: cellStackView.widthAnchor, multiplier: 0.5)
+            priceStackView.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 10),
+            priceStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            priceStackView.leadingAnchor.constraint(equalTo: thumbnailImageView.trailingAnchor, constant: 10),
+            priceStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
+        ])
+        
+        NSLayoutConstraint.activate([
+            stockLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
+            stockLabel.bottomAnchor.constraint(equalTo: priceStackView.topAnchor, constant: -3),
+            stockLabel.leadingAnchor.constraint(equalTo: nameLabel.trailingAnchor),
+            stockLabel.widthAnchor.constraint(equalToConstant: 100)
+        ])
+        
+        NSLayoutConstraint.activate([
+            accessoryLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
+            accessoryLabel.bottomAnchor.constraint(equalTo: priceStackView.topAnchor, constant: -3),
+            accessoryLabel.leadingAnchor.constraint(equalTo: stockLabel.trailingAnchor, constant: 5),
+            accessoryLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -5),
+            accessoryLabel.widthAnchor.constraint(equalToConstant: 10)
         ])
     }
 }
