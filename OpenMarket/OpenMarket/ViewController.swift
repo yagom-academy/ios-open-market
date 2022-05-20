@@ -174,7 +174,7 @@ extension ViewController {
         return cell
     }
     
-    private func configureCellContents(indexPath: IndexPath, cell: Contentable) {
+    private func configureCellContents(indexPath: IndexPath, cell: OpenMarketCell) {
         guard let currency = data[indexPath.row].currency?.rawValue else {
             return
         }
