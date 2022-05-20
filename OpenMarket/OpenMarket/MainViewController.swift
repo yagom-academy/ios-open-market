@@ -6,7 +6,7 @@
 
 import UIKit
 
-final class MainViewController: UIViewController, NetworkAble {
+final class MainViewController: UIViewController {
     
     enum SegmentView: Int {
         case list = 0
@@ -17,9 +17,10 @@ final class MainViewController: UIViewController, NetworkAble {
         case main
     }
     
+    lazy var network = Network(delegate: self)
     let session: URLSessionProtocol = URLSession.shared
-    var pageNo = 2
-    var itemsPerPage = 40
+    private var pageNo = 2
+    private var itemsPerPage = 40
     
     private lazy var listLayout: UICollectionViewCompositionalLayout = {
         let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
@@ -102,7 +103,7 @@ final class MainViewController: UIViewController, NetworkAble {
         configureSegmentedControl()
         configureCollectionView()
         configureIndicator()
-        configureSnapshot(pageNo: pageNo, itemsPerPage: itemsPerPage)
+        network.requestDecodedData(pageNo: pageNo, itemsPerPage: itemsPerPage)
     }
     
     private func configureSegmentedControl() {
@@ -132,24 +133,27 @@ final class MainViewController: UIViewController, NetworkAble {
         view.addSubview(activityIndicator)
         activityIndicator.startAnimating()
     }
-    
-    private func configureSnapshot(pageNo: Int, itemsPerPage: Int) {
+}
+
+extension MainViewController: MainViewDelegate {
+    func setSnapshot(productInformations: [ProductInformation]) {
         var snapshot = NSDiffableDataSourceSnapshot<Section, ProductInformation>()
         snapshot.appendSections([.main])
-        
-        guard let url = OpenMarketApi.pageInformation(pageNo: pageNo, itemsPerPage: itemsPerPage).url else {
-            return
+        DispatchQueue.main.async {
+            snapshot.appendItems(productInformations)
+            self.dataSource.apply(snapshot, animatingDifferences: true)
+            self.activityIndicator.stopAnimating()
         }
-        // 객체를 만들어서 로직 분리하기
-        requestData(url: url) { data, urlResponse in
-            guard let data = data,
-                  let pageInformation = try? JSONDecoder().decode(PageInformation.self, from: data) else { return }
-            DispatchQueue.main.async {
-                snapshot.appendItems(pageInformation.pages)
-                self.dataSource.apply(snapshot, animatingDifferences: true)
-                self.activityIndicator.stopAnimating()
-            }
-        } errorHandler: { error in
-        }
+    }
+    
+    func showErrorAlert(error: Error) {
+        let networkError = error as? NetworkError
+        let alert = UIAlertController(title: networkError?.errorDescription,
+                                      message: "Error Occurred",
+                                      preferredStyle: .alert)
+        let alertAction = UIAlertAction(title: "OK",
+                                        style: .default)
+        alert.addAction(alertAction)
+        present(alert, animated: true)
     }
 }

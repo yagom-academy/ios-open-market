@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9C65AB8E28378283007D57BD /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C65AB8D28378282007D57BD /* Network.swift */; };
 		9C7E881E282A2E5500D83081 /* ProductDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7E881D282A2E5500D83081 /* ProductDetail.swift */; };
 		9C7E8820282A313A00D83081 /* ProductImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7E881F282A313A00D83081 /* ProductImage.swift */; };
 		9C7E8822282A329200D83081 /* Vendor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7E8821282A329200D83081 /* Vendor.swift */; };
@@ -52,6 +53,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		9C65AB8D28378282007D57BD /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
 		9C7E881D282A2E5500D83081 /* ProductDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetail.swift; sourceTree = "<group>"; };
 		9C7E881F282A313A00D83081 /* ProductImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductImage.swift; sourceTree = "<group>"; };
 		9C7E8821282A329200D83081 /* Vendor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vendor.swift; sourceTree = "<group>"; };
@@ -130,6 +132,7 @@
 		9C7E8864282BB30600D83081 /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				9C65AB8D28378282007D57BD /* Network.swift */,
 				9C7E8835282A890900D83081 /* NetworkAble.swift */,
 				9C7E8860282BA80B00D83081 /* OpenMarketApi.swift */,
 				E1C321E9282E19A60095D7E4 /* NetworkError.swift */,
@@ -321,6 +324,7 @@
 				E1FA134B28326E1800D83918 /* GridCollectionViewCell.swift in Sources */,
 				E1B91471282A1FC100DD2820 /* PageInformation.swift in Sources */,
 				E1B91473282A2AA900DD2820 /* ProductInformation.swift in Sources */,
+				9C65AB8E28378283007D57BD /* Network.swift in Sources */,
 				9C7E8822282A329200D83081 /* Vendor.swift in Sources */,
 				E1B91475282A2CBE00DD2820 /* Currency.swift in Sources */,
 				E1B91479282A3A7700DD2820 /* RegistrationParameter.swift in Sources */,
