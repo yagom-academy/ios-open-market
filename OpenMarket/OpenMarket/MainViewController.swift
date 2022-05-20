@@ -8,11 +8,6 @@ import UIKit
 
 final class MainViewController: UIViewController {
     
-    enum SegmentView: Int {
-        case list = 0
-        case grid = 1
-    }
-    
     enum Section {
         case main
     }
@@ -22,39 +17,23 @@ final class MainViewController: UIViewController {
     private var pageNo = 2
     private var itemsPerPage = 40
     
-    private lazy var listLayout: UICollectionViewCompositionalLayout = {
-        let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
-        return UICollectionViewCompositionalLayout.list(using: configuration)
-    }()
     
-    private lazy var gridLayout: UICollectionViewLayout = {
-        let flowLayout = UICollectionViewFlowLayout()
-        let inset: CGFloat = 20
-        let rowItems = 2
-        flowLayout.minimumLineSpacing = inset
-        flowLayout.minimumInteritemSpacing = inset
-        flowLayout.scrollDirection = .vertical
-        flowLayout.itemSize = CGSize(
-            width: (view.safeAreaLayoutGuide.layoutFrame.width / CGFloat(rowItems)) - (inset * 1.5),
-            height: view.safeAreaLayoutGuide.layoutFrame.height / 2.5 - inset
-        )
-        flowLayout.sectionInset.left = inset
-        flowLayout.sectionInset.right = inset
-        return flowLayout
+    private lazy var collectionView: MainCollectionView = {
+        let view = MainCollectionView(frame: view.bounds, collectionViewLayout: UICollectionViewFlowLayout())
+        view.changeLayout(viewType: .list)
+        return view
     }()
-    
-    private lazy var collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: listLayout)
     
     private lazy var dataSource = UICollectionViewDiffableDataSource<Section, ProductInformation>(collectionView: collectionView) { collectionView, indexPath, itemIdentifier in
         
         switch self.segmentedControl.selectedSegmentIndex {
-        case SegmentView.list.rawValue:
+        case ViewType.list.rawValue:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ListCollectionViewCell.identifier, for: indexPath) as? ListCollectionViewCell else { return UICollectionViewListCell() }
             cell.accessories = [.disclosureIndicator()]
             cell.configureContent(productInformation: itemIdentifier)
             return cell
             
-        case SegmentView.grid.rawValue:
+        case ViewType.grid.rawValue:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: GridCollectionViewCell.identifier, for: indexPath) as? GridCollectionViewCell else { return UICollectionViewCell() }
             cell.configureContent(productInformation: itemIdentifier)
             return cell
@@ -112,11 +91,11 @@ final class MainViewController: UIViewController {
     
     @objc private func segmentedControlChanged(sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex {
-        case SegmentView.list.rawValue:
-            collectionView.setCollectionViewLayout(listLayout, animated: true)
+        case ViewType.list.rawValue:
+            collectionView.changeLayout(viewType: .list)
             collectionView.reloadData()
-        case SegmentView.grid.rawValue:
-            collectionView.setCollectionViewLayout(gridLayout, animated: true)
+        case ViewType.grid.rawValue:
+            collectionView.changeLayout(viewType: .grid)
             collectionView.reloadData()
         default:
             return
@@ -125,6 +104,7 @@ final class MainViewController: UIViewController {
 
     private func configureCollectionView() {
         view.addSubview(collectionView)
+        collectionView.changeLayout(viewType: .list)
         collectionView.register(GridCollectionViewCell.self, forCellWithReuseIdentifier: GridCollectionViewCell.identifier)
         collectionView.register(ListCollectionViewCell.self, forCellWithReuseIdentifier: ListCollectionViewCell.identifier)
     }

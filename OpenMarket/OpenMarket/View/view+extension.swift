@@ -21,3 +21,8 @@ extension UIView {
         return String(describing: self)
     }
 }
+
+enum ViewType: Int {
+    case list = 0
+    case grid = 1
+}
