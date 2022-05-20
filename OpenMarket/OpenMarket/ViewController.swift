@@ -6,15 +6,24 @@
 
 import UIKit
 
-enum ArrangeMode: Int {
-    case list = 0
-    case grid = 1
+enum ArrangeMode: String, CaseIterable {
+    case list = "LIST"
+    case grid = "GRID"
+    
+    var value: Int {
+        switch self {
+        case .list:
+            return 0
+        case .grid:
+            return 1
+        }
+    }
 }
 
-class ViewController: UIViewController {
-    private let segmentedControl = UISegmentedControl(items: ["LIST", "GRID"])
-    private var arrangeMode: ArrangeMode = .list
-    private var data: [Product] = []
+final class ViewController: UIViewController {
+    private let arrangeModeChanger = UISegmentedControl(items: ArrangeMode.allCases.map {
+        $0.rawValue
+    })
     private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: listLayout())
     private lazy var activityIndicator: UIActivityIndicatorView = {
         createActivityIndicator()
