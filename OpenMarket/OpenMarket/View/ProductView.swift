@@ -58,13 +58,13 @@ final class ProductView: UIView {
         }
     }
     
-    lazy var layouts: UICollectionViewCompositionalLayout = {
+    private lazy var layouts: UICollectionViewCompositionalLayout = {
         return UICollectionViewCompositionalLayout(sectionProvider: { _, _ in
             return LayoutType.section(self.layoutType)()
         }, configuration: .init())
     }()
 
-    lazy var segmentedControl: UISegmentedControl = {
+     lazy var segmentedControl: UISegmentedControl = {
         let segmentedControl = UISegmentedControl(items: ["LIST", "GRID"])
         segmentedControl.selectedSegmentIndex = 0
         segmentedControl.translatesAutoresizingMaskIntoConstraints = false

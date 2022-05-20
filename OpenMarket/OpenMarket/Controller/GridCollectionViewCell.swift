@@ -9,12 +9,12 @@ import UIKit
 
 final class GridCollectionViewCell: UICollectionViewCell {
     static let identifier = "GridCollectionViewCell"
-    var productImage: UIImageView = UIImageView()
-    var productName: UILabel = UILabel()
-    var currency: UILabel = UILabel()
-    var price: UILabel = UILabel()
-    var bargainPrice: UILabel = UILabel()
-    var stock: UILabel = UILabel()
+    private var productImage: UIImageView = UIImageView()
+    private var productName: UILabel = UILabel()
+    private var currency: UILabel = UILabel()
+    private var price: UILabel = UILabel()
+    private var bargainPrice: UILabel = UILabel()
+    private var stock: UILabel = UILabel()
 
     private lazy var productStackView = makeStackView(axis: .vertical, alignment: .center, distribution: .equalSpacing, spacing: 5)
     private lazy var priceStackView = makeStackView(axis: .vertical, alignment: .center, distribution: .fill, spacing: 3)
