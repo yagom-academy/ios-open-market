@@ -13,4 +13,6 @@ protocol OpenMarketCell {
     var productBargainPriceLabel: UILabel { get }
     var productStockLabel: UILabel { get }
     var productImageView: UIImageView { get }
+    
+    func configureCellContents(product: Product)
 }
