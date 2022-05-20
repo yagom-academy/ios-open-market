@@ -19,8 +19,8 @@ final class MainViewController: UIViewController {
     private typealias Snapshot = NSDiffableDataSourceSnapshot<Section, Product>
     
     private lazy var mainView = MainView(frame: self.view.bounds)
-    private lazy var dataSource = makeDataSource()
-    private lazy var snapshot = makeSnapshot()
+    private var dataSource: DataSource?
+    private var snapshot: Snapshot?
     
     private var pageNumber = 1
     
@@ -38,7 +38,6 @@ final class MainViewController: UIViewController {
         configureNavigationBar()
         configureRefreshControl()
         requestData(pageNumber: pageNumber)
-        
     }
     
     private func configureView() {
@@ -56,6 +55,8 @@ final class MainViewController: UIViewController {
         mainView.collectionView.register(ProductGridCell.self, forCellWithReuseIdentifier: ProductGridCell.identifier)
         mainView.collectionView.register(ProductListCell.self, forCellWithReuseIdentifier: ProductListCell.identifier)
         mainView.collectionView.prefetchDataSource = self
+        dataSource = makeDataSource()
+        snapshot = makeSnapshot()
     }
     
     private func configureRefreshControl() {
@@ -139,18 +140,21 @@ extension MainViewController {
         return dataSource
     }
      
-    private func makeSnapshot() -> Snapshot {
-        var snapshot = dataSource.snapshot()
-        snapshot.deleteAllItems()
-        snapshot.appendSections([.main])
+    private func makeSnapshot() -> Snapshot? {
+        var snapshot = dataSource?.snapshot()
+        snapshot?.deleteAllItems()
+        snapshot?.appendSections([.main])
         
         return snapshot
     }
     
     private func applySnapshot(products: [Product]) {
         DispatchQueue.main.async { [self] in
-            snapshot.appendItems(products)
-            dataSource.apply(snapshot, animatingDifferences: false)
+            snapshot?.appendItems(products)
+            
+            guard let snapshot = snapshot else { return }
+            
+            dataSource?.apply(snapshot, animatingDifferences: false)
         }
     }
 }
