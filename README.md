@@ -1,12 +1,11 @@
-# 🏪 오픈 마켓1
+# 🛒 오픈 마켓1
 > 프로젝트 기간: 2022-05-09 ~ 2022-05-20
 > 
 > 팀원: [Safari](https://github.com/saafaaari), [dudu](https://github.com/firstDo)
 > 
-> 리뷰어: [개굴🐸](https://github.com/yoo-kie)
+> 리뷰어: [개굴](https://github.com/yoo-kie)
 
 ## 🔎 프로젝트 소개
-
 > 네트워크 요청을 통해 데이터를 받아와 `CollectionView`에 LIST, GIRD `Cell` 레이아웃으로 보여주는 오픈마켓 프로젝트
 
 ## 📺 프로젝트 실행화면
@@ -57,6 +56,7 @@
 - `DataSourcePrefetching` 활요한 paging 기능 구현
 - `RefreshControl` 기능 구현
 - `UIActivityindicatorView` 기능 구현
+- 다운로드 취소 기능 구현
 
 
 ## 📖 학습내용
@@ -64,8 +64,9 @@
 - `URLSession`을 이용한 네트워크에 데이터 요청
 - `completionHandler`의 사용 방법 및 개념
 - 네트워크 없이 타입을 `UniTest`하기 위한 방법
-- UICompostionalLayout, UICollectionViewDiffableDataSource,NSDiffableDataSourceSnapshot 를 이용한 collectionView 구현
-- Network에서 data 다운받을때 paging 방법
+- `UICompostionalLayout`, `UICollectionViewDiffableDataSource`, NSDiffableDataSourceSnapshot 를 이용한 `collectionView` 구현
+- `Network`에서 `data` 다운받을때 `paging` 방법
+- `URLSessionTask` `cancel` 메소드 사용 방법
 
 ## 🤔 STEP별 고민한 점 및 해결한 방법
 
@@ -340,10 +341,11 @@ extension EndPoint {
 ### 5. Paging
 
 조금더 사용자들에게 데이터가 부드럽게 보여지기 위해 UICollectionViewDataSourcePrefetching 프로토콜을 채택하고,
-
+```swift
 func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath])
+```
 메소드를 이용하여 보여질 Cell의 IndexPath를 가져와 일정 스크롤을 내리면, 미리 다음 페이지에 대한 데이터를 다운받는 기능을 구현하였습니다.
-
+```swift
 private func prefetchData(_ indexPaths: [IndexPath]) {
     guard let indexPath = indexPaths.last else { return }
     
@@ -354,5 +356,68 @@ private func prefetchData(_ indexPaths: [IndexPath]) {
         requestData(pageNumber: pageNumber)
     }
 }
-
+```
 위 처럼 사용자가 보고있는 페이지의 다음 페이지를 미리 네트워크에서 받아와 부드럽게 데이터를 보여주고 싶었습니다. 하지만, 데이터를 받아올 뿐 image를 미리 받아 뿌려주지 못해 아쉬움이 남습니다.
+
+### 6. Cell에 이미지 깜빡거림을 해결하기 위한 다운로드 취소 기능구현
+
+Cell의 재사용 특성 때문에 빠르게 스크롤 시 Cell에 이미지 다운로드가 겹쳐 
+
+<img src="https://i.imgur.com/vNUSEfz.gif" width="200">
+
+위 처럼 이미지가 깜빡거리는 이슈가 있었습니다. 처음엔,
+
+```swift
+guard collectionView.indexPath(for: cell) == indexPath else { return }
+```
+위처럼 조건문을 이용하여 `indexPath` 검사해 올바른 Cell에 올바른 이미지가 로드되도록 구현하였습니다. 하지만, iOS15 아래의 버전에서는 올바르게 검사되지 않는 버그가 발생했습니다. 버그를 해결하기 위해 이미지의 로드가 아예 겹치지 않도록, 
+
+```swift
+func downloadImage(urlString: String?, 
+                   completion: @escaping (Result<UIImage, NetworkErorr>) -> Void) -> URLSessionDataTask?
+```
+```swift
+imageDownloadTask = ImageManager.shared.downloadImage(urlString: imageURL) { 
+    ...중략
+}
+
+```
+
+`prepareForReuse`메서드 내부에서 `downloadImage` 메서드에서 `URLSessionDataTask`를 반환받아,
+
+```swift
+imageDownloadTask?.suspend()
+imageDownloadTask?.cancel()
+```
+
+위와 같이 `URLSessionDataTask`를 `suspend`메서드로 중지 시키고, `cancel` 메서드를 이용해 취소하였습니다.
+
+### 7. AlertController를 사용하기 위한 Builder Pattern
+
+재사용성을 높이기 위해 Product - Builder - Director 를 가지는 Builder Pattern으로 AlertController를 구현했습니다.
+
+```swift
+
+// Director
+final class AlertDirector {
+    private let viewController: UIViewController
+    
+    init(viewController: UIViewController) {
+        self.viewController = viewController
+    }
+    
+    func createErrorAlert() {
+        AlertBuilder(viewController: viewController)
+            .setTitle("에러 발생")
+            .setMessage("데이터를 불러오지 못했습니다.")
+            .setOkActionTitle("확인")
+            .show()
+    }
+}
+```
+
+```swift
+// 실제 사용
+AlertDirector(viewController: self).createErrorAlert()
+```
+ 
