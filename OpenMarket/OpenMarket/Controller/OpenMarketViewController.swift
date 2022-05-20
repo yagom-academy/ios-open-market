@@ -6,8 +6,8 @@
 
 import UIKit
 
-class OpenMarketViewController: UIViewController {
-    private let segmentControl = SegmentControl(items: ["list", "grid"])
+final class OpenMarketViewController: UIViewController {
+    private let segmentControl = SegmentControl(items: LayoutType.inventory)
     private var collectionView: UICollectionView?
     private var network: URLSessionProvider<ProductList>?
     private var productList: [Product]? {
@@ -21,7 +21,7 @@ class OpenMarketViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         network = URLSessionProvider()
-        fetchData(from: .productList(page: 1, itemsPerPage: 70))
+        fetchData(from: .productList(page: 1, itemsPerPage: 110))
         setupCollectionView()
         setupSegmentControl()
     }
@@ -32,14 +32,13 @@ class OpenMarketViewController: UIViewController {
             case .success(let data):
                 self.productList = data.pages
             case .failure(_):
-                print("")
+                return
             }
         })
     }
     
     private func setupCollectionView() {
-        let flowLayout = LayoutType.list.layout
-        self.collectionView = UICollectionView(frame: view.frame, collectionViewLayout: flowLayout)
+        self.collectionView = UICollectionView(frame: view.frame, collectionViewLayout: drawListCell())
         self.view.addSubview(collectionView ?? UICollectionView())
         self.collectionView?.dataSource = self
         self.collectionView?.register(ListCell.self, forCellWithReuseIdentifier: ListCell.identifier)
@@ -52,15 +51,34 @@ class OpenMarketViewController: UIViewController {
     }
     
     @objc func didChangeSegment(_ sender: UISegmentedControl) {
-        switch sender.selectedSegmentIndex {
-        case 0:
-            collectionView?.collectionViewLayout = LayoutType.list.layout
-        case 1:
-            collectionView?.collectionViewLayout = LayoutType.grid.layout
-        default:
+        
+        guard let layoutType = LayoutType(rawValue: sender.selectedSegmentIndex) else {
             return
         }
+        
+        switch layoutType {
+        case .list:
+            collectionView?.collectionViewLayout = drawListCell()
+        case .grid:
+            collectionView?.collectionViewLayout = drawGridCell()
+        }
         collectionView?.reloadData()
+    }
+    
+    func drawListCell() -> UICollectionViewFlowLayout {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        layout.minimumLineSpacing = 10
+        layout.itemSize = CGSize(width: view.frame.width, height: view.frame.height / 14)
+        return layout
+    }
+    
+    func drawGridCell() -> UICollectionViewFlowLayout {
+        let layout = UICollectionViewFlowLayout()
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
+        layout.itemSize = CGSize(width: view.frame.width / 2.2, height: view.frame.height / 3)
+        return layout
     }
 }
 
@@ -71,23 +89,17 @@ extension OpenMarketViewController: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         
-        if segmentControl.selectedSegmentIndex == 0 {
-            
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ListCell.identifier, for: indexPath) as? ListCell else {
-                return UICollectionViewCell()
-            }
-            
-            cell.configure(data: product)
-            return cell
-        } else {
-            
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: GridCell.identifier, for: indexPath) as? GridCell else {
-                return UICollectionViewCell()
-            }
-            
-            cell.configure(data: product)
-            return cell
+        guard let layoutType = LayoutType(rawValue: segmentControl.selectedSegmentIndex) else {
+            return UICollectionViewCell()
         }
+        
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: layoutType.cell.identifier, for: indexPath) as? CustomCell else {
+            return UICollectionViewCell()
+        }
+        
+        cell.configure(data: product)
+        
+        return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
