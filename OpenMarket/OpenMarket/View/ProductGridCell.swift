@@ -11,6 +11,7 @@ class ProductGridCell: UICollectionViewCell {
     static let reuseIdentifier = "product-grid-cell-reuse-Identifier"
     let cellUIComponent = CellUIComponent()
     private var item: Product? = nil
+    private var imageFetchTask: URLSessionDataTask?
     
     //MARK: - stackView
     private var baseStackView: UIStackView = {
@@ -88,7 +89,7 @@ extension ProductGridCell {
         setUpStockLabel(stock: product.stock)
         setUpPriceLabel(price: product.price, bargainPrice: product.bargainPrice)
         
-        DataProvider().fetchImage(urlString: product.thumbnail) { [self] image in
+        imageFetchTask = DataProvider().fetchImage(urlString: product.thumbnail) { [self] image in
             DispatchQueue.main.async { [self] in
                 cellUIComponent.thumbnailImageView.image = image
             }
@@ -117,6 +118,7 @@ extension ProductGridCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
+        imageFetchTask?.cancel()
         cellUIComponent.stockLabel.textColor = .systemGray
         cellUIComponent.priceLabel.textColor = .systemGray
         cellUIComponent.bargainPriceLabel.isHidden = false

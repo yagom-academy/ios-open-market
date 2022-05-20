@@ -11,6 +11,7 @@ class ProductListCell: UICollectionViewCell {
     static let reuseIdentifier = "product-list-cell-reuse-Identifier"
     let cellUIComponent = CellUIComponent()
     private var item: Product? = nil
+    private var imageFetchTask: URLSessionDataTask?
     var showSeparator = true {
         didSet {
             updateSeparator()
@@ -163,7 +164,7 @@ extension ProductListCell {
         setUpStockLabel(stock: product.stock)
         setUpPriceLabel(price: product.price, bargainPrice: product.bargainPrice)
         
-        DataProvider().fetchImage(urlString: product.thumbnail) { [self] image in
+        imageFetchTask = DataProvider().fetchImage(urlString: product.thumbnail) { [self] image in
             DispatchQueue.main.async { [self] in
                 cellUIComponent.thumbnailImageView.image = image
             }
@@ -192,6 +193,7 @@ extension ProductListCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
+        imageFetchTask?.cancel()
         cellUIComponent.stockLabel.textColor = .systemGray
         cellUIComponent.priceLabel.textColor = .systemGray
         cellUIComponent.bargainPriceLabel.isHidden = false
