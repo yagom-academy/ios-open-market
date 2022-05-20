@@ -7,16 +7,28 @@
 
 import UIKit
 
-struct DataProvider {
-    func fetchData(index: Int, completionHandler: @escaping ([Product]) -> Void) {
-        let itemsPerPage = 20
-        let pageNumber = index / itemsPerPage + 1
+class DataProvider {
+    private var pageNumber = 1
+    private let itemsPerPage = 10
+    private var isLoading = false
+    
+    func fetchData(completionHandler: @escaping ([Product]) -> Void) {
+        if isLoading {
+            return
+        }
         
-        HTTPManager().loadData(targetURL: .productList(pageNumber: pageNumber, itemsPerPage: itemsPerPage)) { data in
+        if pageNumber > 33 {
+            return
+        }
+        
+        isLoading = true
+        HTTPManager().loadData(targetURL: .productList(pageNumber: pageNumber, itemsPerPage: itemsPerPage)) { [self] data in
             switch data {
             case .success(let data):
                 guard let products = try? JSONDecoder().decode(OpenMarketProductList.self, from: data).products else { return }
                 completionHandler(products)
+                pageNumber += 1
+                isLoading = false
             case .failure(let error):
                 print(error.localizedDescription)
             }

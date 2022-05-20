@@ -19,6 +19,7 @@ class MainViewController: UIViewController {
     private var dataSource: UICollectionViewDiffableDataSource<Section, Product>?
     private var currentSnapshot: NSDiffableDataSourceSnapshot<Section, Product>?
     private var baseView = BaseView()
+    private let dataProvider = DataProvider()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,7 +32,7 @@ class MainViewController: UIViewController {
         configureHierarchy(collectionViewLayout: listLayout)
         configureDataSource()
         setUpNavigationItem()
-        DataProvider().fetchData(index: 0) { products in
+        dataProvider.fetchData() { products in
             DispatchQueue.main.async { [self] in
                 updateSnapshot(products: products)
             }
@@ -165,7 +166,7 @@ extension MainViewController {
 
 extension MainViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        DataProvider().fetchData(index: (indexPath.row)) { products in
+        dataProvider.fetchData() { products in
             DispatchQueue.main.async { [self] in
                 updateSnapshot(products: products)
             }
