@@ -168,7 +168,7 @@ extension ListCell {
         priceStackView.addArrangedsubViews(priceLabel, bargenLabel)
      }
     
-    private func layout() {
+    private func constraintLayout() {
         
         NSLayoutConstraint.activate([
             thumbnailImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
