@@ -18,6 +18,8 @@ final class GridCollectionViewCell: UICollectionViewCell, OpenMarketCell {
     var priceStackView: UIStackView = UIStackView()
     var informationStackView: UIStackView = UIStackView()
     
+    private let numberFormatter = NumberFormatter()
+    
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         
@@ -60,6 +62,37 @@ final class GridCollectionViewCell: UICollectionViewCell, OpenMarketCell {
         mainStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
         mainStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
         productImageView.heightAnchor.constraint(equalTo: mainStackView.heightAnchor, multiplier: 0.5).isActive = true
+    }
+    
+    func configureCellContents(product: Product) {
+        guard let currency = product.currency?.rawValue else {
+            return
+        }
+        productNameLabel.text = product.name
+        productPriceLabel.text = "\(currency) \(numberFormatter.numberFormatString(for: product.price))"
+        productImageView.requestImageDownload(url: product.thumbnail)
+        guard let price = productPriceLabel.text else {
+            return
+        }
+        
+        if product.discountedPrice != 0 {
+            productBargainPriceLabel.text = "\(currency) \(numberFormatter.numberFormatString(for: product.bargainPrice))"
+            productPriceLabel.textColor = .red
+            productPriceLabel.attributedText = setTextAttribute(of: price, attributes: [.strikethroughStyle: NSUnderlineStyle.single.rawValue])
+        }
+        if product.stock == 0 {
+            productStockLabel.text = "품절"
+            productStockLabel.textColor = .systemOrange
+        } else {
+            productStockLabel.text = "잔여수량 :  \(String(product.stock))"
+        }
+    }
+    
+    private func setTextAttribute(of target: String, attributes: [NSAttributedString.Key: Any]) -> NSAttributedString {
+        let attributedText = NSMutableAttributedString(string: target)
+        attributedText.addAttributes(attributes, range: (target as NSString).range(of: target))
+        
+        return attributedText
     }
 }
 

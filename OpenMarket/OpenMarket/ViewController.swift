@@ -26,11 +26,10 @@ final class ViewController: UIViewController {
     })
     private var currentArrangeMode: ArrangeMode = .list
     private var products: [Product] = []
-    private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: listLayout())
+    private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: listLayout)
     private lazy var activityIndicator: UIActivityIndicatorView = {
         createActivityIndicator()
     }()
-    private let numberFormatter = NumberFormatter()
 }
 
 extension ViewController {
@@ -75,7 +74,7 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, 
 }
 
 // MARK: - Private Method
-extension ViewController {
+private extension ViewController {
     private func setUpNavigationItems() {
         let plusButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: nil)
         self.navigationItem.titleView = arrangeModeChanger
@@ -127,12 +126,12 @@ extension ViewController {
         }
         switch currentArrangeMode {
         case .list:
-            collectionView.setCollectionViewLayout(listLayout(), animated: true) { [weak self] _ in self?.collectionView.reloadData() }
+            collectionView.setCollectionViewLayout(listLayout, animated: true) { [weak self] _ in self?.collectionView.reloadData() }
             collectionView
                 .register(ListCollectionViewCell.classForCoder(), forCellWithReuseIdentifier: "listCell")
             self.collectionView.reloadData()
         case .grid:
-            collectionView.setCollectionViewLayout(gridLayout(), animated: true) { [weak self] _ in self?.collectionView.reloadData() }
+            collectionView.setCollectionViewLayout(gridLayout, animated: true) { [weak self] _ in self?.collectionView.reloadData() }
             collectionView
                 .register(GridCollectionViewCell.classForCoder(), forCellWithReuseIdentifier: "gridCell")
             self.collectionView.reloadData()
@@ -169,7 +168,8 @@ extension ViewController {
         }
         
         cell.accessories = [.disclosureIndicator()]
-        configureCellContents(indexPath: indexPath, cell: cell)
+        cell.configureCellContents(product: products[indexPath.row])
+        //configureCellContents(indexPath: indexPath, cell: cell)
         
         return cell
     }
@@ -179,7 +179,7 @@ extension ViewController {
             return GridCollectionViewCell()
         }
         
-        configureCellContents(indexPath: indexPath, cell: cell)
+        cell.configureCellContents(product: products[indexPath.row])
         
         cell.layer.borderWidth = 1.5
         cell.layer.borderColor = UIColor.systemGray.cgColor
@@ -187,42 +187,11 @@ extension ViewController {
         
         return cell
     }
-    
-    private func configureCellContents(indexPath: IndexPath, cell: OpenMarketCell) {
-        guard let currency = products[indexPath.row].currency?.rawValue else {
-            return
-        }
-        cell.productNameLabel.text = products[indexPath.row].name
-        cell.productPriceLabel.text = "\(currency) \(numberFormatter.numberFormatString(for: products[indexPath.row].price))"
-        cell.productImageView.requestImageDownload(url: products[indexPath.row].thumbnail)
-        guard let price = cell.productPriceLabel.text else {
-            return
-        }
-        
-        if products[indexPath.row].discountedPrice != 0 {
-            cell.productBargainPriceLabel.text = "\(currency) \(numberFormatter.numberFormatString(for: products[indexPath.row].bargainPrice))"
-            cell.productPriceLabel.textColor = .red
-            cell.productPriceLabel.attributedText = setTextAttribute(of: price, attributes: [.strikethroughStyle: NSUnderlineStyle.single.rawValue])
-        }
-        if products[indexPath.row].stock == 0 {
-            cell.productStockLabel.text = "품절"
-            cell.productStockLabel.textColor = .systemOrange
-        } else {
-            cell.productStockLabel.text = "잔여수량 :  \(String(products[indexPath.row].stock))"
-        }
-    }
-    
-    private func setTextAttribute(of target: String, attributes: [NSAttributedString.Key: Any]) -> NSAttributedString {
-        let attributedText = NSMutableAttributedString(string: target)
-        attributedText.addAttributes(attributes, range: (target as NSString).range(of: target))
-        
-        return attributedText
-    }
 }
 
 // MARK: - Collection View Layout
 extension ViewController {
-    private func listLayout() -> UICollectionViewCompositionalLayout {
+    private var listLayout: UICollectionViewCompositionalLayout {
         var listConfiguration = UICollectionLayoutListConfiguration(appearance: .plain)
         
         listConfiguration.showsSeparators = true
@@ -231,7 +200,7 @@ extension ViewController {
         return UICollectionViewCompositionalLayout.list(using: listConfiguration)
     }
     
-    private func gridLayout() -> UICollectionViewCompositionalLayout {
+    private var gridLayout: UICollectionViewCompositionalLayout {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(self.view.frame.height * 0.30))
