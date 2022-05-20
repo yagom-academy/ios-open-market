@@ -151,12 +151,6 @@ final class ListCell: UICollectionViewCell {
         }
     }
     
-    func update(image: UIImage) {
-        DispatchQueue.main.async {
-            self.thumbnailImageView.image = image
-        }
-    }
-    
     override func prepareForReuse() {
         super.prepareForReuse()
         priceLabel.attributedText = nil
