@@ -142,6 +142,7 @@ extension ProductListCell {
         bargainPriceLabel.text = nil
         quantityLabel.textColor = .label
         quantityLabel.text = nil
+        
         imageDownloadTask?.suspend()
         imageDownloadTask?.cancel()
     }
