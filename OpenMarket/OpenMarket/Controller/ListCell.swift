@@ -14,7 +14,7 @@ extension ListCell {
 }
 
 final class ListCell: UICollectionViewCell {
-    private lazy var cellStackView: UIStackView = {
+    private var cellStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.alignment = .top
@@ -24,7 +24,7 @@ final class ListCell: UICollectionViewCell {
         return stackView
     }()
     
-    private lazy var thumbnailImageView: UIImageView = {
+    private var thumbnailImageView: UIImageView = {
         let image = UIImageView()
         image.image = UIImage(systemName: "flame")
         image.contentMode = .scaleAspectFit
@@ -32,7 +32,7 @@ final class ListCell: UICollectionViewCell {
         return image
     }()
     
-    private lazy var informationStackView: UIStackView = {
+    private var informationStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.alignment = .leading
@@ -41,34 +41,34 @@ final class ListCell: UICollectionViewCell {
         return stackView
     }()
     
-    private lazy var nameLabel: UILabel = {
+    private var nameLabel: UILabel = {
         let label = UILabel()
         label.text = "Name Label"
         return label
     }()
     
-    private lazy var priceStackView: UIStackView = {
+    private var priceStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
     
-    private lazy var priceLabel: UILabel = {
+    private var priceLabel: UILabel = {
         let label = UILabel()
         label.text = "Price Label"
         label.textColor = .lightGray
         return label
     }()
     
-    private lazy var bargenLabel: UILabel = {
+    private var bargenLabel: UILabel = {
         let label = UILabel()
         label.text = "Bargen Label"
         label.textColor = .lightGray
         return label
     }()
     
-    private lazy var stockStackView: UIStackView = {
+    private var stockStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.spacing = 10
@@ -77,7 +77,7 @@ final class ListCell: UICollectionViewCell {
         return stackView
     }()
     
-    private lazy var stockLabel: UILabel = {
+    private var stockLabel: UILabel = {
         let label = UILabel()
         label.text = "Stock Label"
         label.textColor = .lightGray
@@ -85,7 +85,7 @@ final class ListCell: UICollectionViewCell {
         return label
     }()
     
-    private lazy var accessoryLabel: UILabel = {
+    private var accessoryLabel: UILabel = {
         let label = UILabel()
         let attachment = NSTextAttachment()
         attachment.image = UIImage(systemName: "chevron.right")?.withTintColor(.lightGray)

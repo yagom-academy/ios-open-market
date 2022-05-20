@@ -5,7 +5,7 @@ class GridCell: UICollectionViewCell {
         return String(describing: self)
     }
     
-    private lazy var cellStackView: UIStackView = {
+    private var cellStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.alignment = .center
@@ -15,7 +15,7 @@ class GridCell: UICollectionViewCell {
         return stackView
     }()
     
-    private lazy var thumbnailImageView: UIImageView = {
+    private var thumbnailImageView: UIImageView = {
         let image = UIImageView()
         image.image = UIImage(systemName: "flame")
         image.contentMode = .scaleAspectFit
@@ -23,7 +23,7 @@ class GridCell: UICollectionViewCell {
         return image
     }()
     
-    private lazy var informationStackView: UIStackView = {
+    private var informationStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -32,14 +32,14 @@ class GridCell: UICollectionViewCell {
         return stackView
     }()
 
-    private lazy var nameLabel: UILabel = {
+    private var nameLabel: UILabel = {
         let label = UILabel()
         label.text = "Name Label"
         label.contentMode = .scaleAspectFit
         return label
     }()
     
-    private lazy var pricestackView: UIStackView = {
+    private var pricestackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.distribution = .fillProportionally
@@ -48,21 +48,21 @@ class GridCell: UICollectionViewCell {
         return stackView
     }()
 
-    private lazy var priceLabel: UILabel = {
+    private var priceLabel: UILabel = {
         let label = UILabel()
         label.text = "Price Label"
         label.textColor = .lightGray
         return label
     }()
     
-    private lazy var bargenLabel: UILabel = {
+    private var bargenLabel: UILabel = {
         let label = UILabel()
         label.text = "Bargen Label"
         label.textColor = .lightGray
         return label
     }()
     
-    private lazy var stockLabel: UILabel = {
+    private var stockLabel: UILabel = {
         let label = UILabel()
         label.text = "Stock Label"
         label.textColor = .lightGray
