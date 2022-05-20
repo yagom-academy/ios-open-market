@@ -11,8 +11,6 @@ final class ViewController: UIViewController {
     @IBOutlet private weak var collectionViewSegment: UISegmentedControl!
     @IBOutlet private weak var myActivityIndicator: UIActivityIndicatorView!
     
-    private let listCellName = String(describing: ListCell.self)
-    private let gridCellName = String(describing: GridCell.self)
     private let networkHandler = NetworkHandler()
     private var hasNext = true
     private var pageNumber = 1
@@ -35,8 +33,8 @@ final class ViewController: UIViewController {
     }
     
     private func registCell() {
-        openMarketCollectionView.register(UINib(nibName: listCellName, bundle: nil), forCellWithReuseIdentifier: listCellName)
-        openMarketCollectionView.register(UINib(nibName: gridCellName, bundle: nil), forCellWithReuseIdentifier: gridCellName)
+        openMarketCollectionView.register(UINib(nibName: "\(ListCell.self)", bundle: nil), forCellWithReuseIdentifier: "\(ListCell.self)")
+        openMarketCollectionView.register(UINib(nibName: "\(GridCell.self)", bundle: nil), forCellWithReuseIdentifier: "\(GridCell.self)")
     }
     
     private func getItemPage() {
@@ -115,11 +113,11 @@ extension ViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         if collectionViewSegment.selectedSegmentIndex == 0 {
-            guard let listCell = collectionView.dequeueReusableCell(withReuseIdentifier:  listCellName, for: indexPath) as? ListCell else { return ListCell() }
+            guard let listCell = collectionView.dequeueReusableCell(withReuseIdentifier:  "\(ListCell.self)", for: indexPath) as? ListCell else { return ListCell() }
             setCellComponents(itemCell: listCell, indexPath: indexPath)
             return listCell
         } else {
-            guard let gridCell = collectionView.dequeueReusableCell(withReuseIdentifier: gridCellName, for: indexPath) as? GridCell else { return GridCell() }
+            guard let gridCell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(GridCell.self)", for: indexPath) as? GridCell else { return GridCell() }
             setCellComponents(itemCell: gridCell, indexPath: indexPath)
             return gridCell
         }
