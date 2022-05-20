@@ -8,6 +8,8 @@
 import UIKit
 
 final class ProductListCell: UICollectionViewCell, ProductCell {
+    private var imageDownloadTask: URLSessionDataTask?
+    
     private lazy var mainStackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [productStackView, seperatorLineView])
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -140,6 +142,8 @@ extension ProductListCell {
         bargainPriceLabel.text = nil
         quantityLabel.textColor = .label
         quantityLabel.text = nil
+        imageDownloadTask?.suspend()
+        imageDownloadTask?.cancel()
     }
     
     func configure(data: Product) {
@@ -159,9 +163,20 @@ extension ProductListCell {
         
         quantityLabel.textColor = data.stock == 0 ? .systemOrange : .systemGray3
         quantityLabel.text = data.stock == 0 ? "품절" : "잔여수량: \(data.stock ?? 0)"
+        
+        downloadImage(imageURL: data.thumbnail)
     }
     
-    func setImage(with image: UIImage) {
-        thumbnailImageView.image = image
+    private func downloadImage(imageURL: String?) {
+       imageDownloadTask = ImageManager.shared.downloadImage(urlString: imageURL) { [weak self] result in
+            switch result {
+            case .success(let image):
+                DispatchQueue.main.async {
+                    self?.thumbnailImageView.image = image
+                }
+            case .failure(_):
+                break
+            }
+        }
     }
 }

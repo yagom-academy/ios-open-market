@@ -9,5 +9,4 @@ import UIKit
 
 protocol ProductCell: UICollectionViewCell {
     func configure(data: Product)
-    func setImage(with image: UIImage)
 }

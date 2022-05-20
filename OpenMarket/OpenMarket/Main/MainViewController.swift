@@ -22,7 +22,7 @@ final class MainViewController: UIViewController {
     private var dataSource: DataSource?
     private var snapshot: Snapshot?
     private let cellLayoutSegmentControl = UISegmentedControl(items: ProductCollectionViewLayoutType.names)
-    private var networkManager = NetworkManager<ProductList>(imageCache: CacheManager())
+    private var networkManager = NetworkManager<ProductList>()
     private var pageNumber = 1
     
     override func viewDidLoad() {
@@ -92,7 +92,7 @@ extension MainViewController {
         pageNumber = 1
         snapshot = makeSnapshot()
 
-        networkManager.clearCache()
+        ImageManager.shared.clearCache()
         requestData(pageNumber: pageNumber)
     }
 }
@@ -104,7 +104,6 @@ extension MainViewController {
         let endPoint = EndPoint.requestList(page: pageNumber, itemsPerPage: Constant.requestItemCount, httpMethod: .get)
         
         networkManager.request(endPoint: endPoint) { [weak self] result in
-            
             guard let self = self else { return }
             
             switch result {
@@ -128,30 +127,20 @@ extension MainViewController {
 
 extension MainViewController {
     private func makeDataSource() -> DataSource? {
-        
         guard let mainView = mainView else { return nil }
         
         let dataSource = DataSource(collectionView: mainView.collectionView) { [weak self] collectionView, indexPath, itemIdentifier in
-            
             guard let self = self else { return nil }
             
-            guard let layout = ProductCollectionViewLayoutType(rawValue: self.cellLayoutSegmentControl.selectedSegmentIndex) else { return nil }
-            let cellType = layout.cellType
+            guard let cellType = ProductCollectionViewLayoutType(rawValue: self.cellLayoutSegmentControl.selectedSegmentIndex)?.cellType else {
+                return nil
+            }
             
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellType.identifier, for: indexPath) as? ProductCell else { return cellType.init() }
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellType.identifier, for: indexPath) as? ProductCell else {
+                return cellType.init()
+            }
             
             cell.configure(data: itemIdentifier)
-            self.networkManager.downloadImage(urlString: itemIdentifier.thumbnail) { result in
-                switch result {
-                case .success(let image):
-                    DispatchQueue.main.async {
-                        guard collectionView.indexPath(for: cell) == indexPath else { return }
-                        cell.setImage(with: image)
-                    }
-                case .failure(_):
-                    AlertDirector(viewController: self).createErrorAlert()
-                }
-            }
             
             return cell
         }
@@ -171,7 +160,9 @@ extension MainViewController {
         DispatchQueue.main.async { [self] in
             snapshot?.appendItems(products)
             
-            guard let snapshot = snapshot else { return }
+            guard let snapshot = snapshot else {
+                return
+            }
             
             dataSource?.apply(snapshot, animatingDifferences: false)
         }
@@ -186,7 +177,9 @@ extension MainViewController: UICollectionViewDataSourcePrefetching {
     }
     
     private func prefetchData(_ indexPaths: [IndexPath]) {
-        guard let indexPath = indexPaths.last else { return }
+        guard let indexPath = indexPaths.last else {
+            return
+        }
         
         let section = indexPath.row / Constant.requestItemCount
         

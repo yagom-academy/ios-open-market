@@ -12,7 +12,7 @@ enum ProductCollectionViewLayoutType: Int, CaseIterable {
     case grid = 1
     
     static var names: [String] {
-        return allCases.map{ $0.name }
+        return allCases.map { $0.name }
     }
     
     private var name: String {
@@ -37,6 +37,7 @@ enum ProductCollectionViewLayoutType: Int, CaseIterable {
 final class MainView: UIView {
     lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: .list)
+        
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.backgroundColor = .systemBackground
         return collectionView
@@ -44,6 +45,7 @@ final class MainView: UIView {
     
     lazy var indicatorView: UIActivityIndicatorView = {
         let indicatorView = UIActivityIndicatorView(style: .medium)
+        
         indicatorView.translatesAutoresizingMaskIntoConstraints = false
         indicatorView.hidesWhenStopped = true
         indicatorView.startAnimating()
@@ -82,7 +84,9 @@ extension MainView {
     }
     
     func changeLayout(index selectedIndex: Int) {
-        guard let layout = ProductCollectionViewLayoutType(rawValue: selectedIndex) else { return }
+        guard let layout = ProductCollectionViewLayoutType(rawValue: selectedIndex) else {
+            return
+        }
         
         switch layout {
         case .list:

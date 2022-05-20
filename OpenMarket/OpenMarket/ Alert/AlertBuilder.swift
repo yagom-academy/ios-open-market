@@ -82,6 +82,7 @@ final class AlertBuilder: AlertBuilderable {
     
     func show() {
         let alert = UIAlertController(title: alert.title, message: alert.message, preferredStyle: alert.preferredStyle)
+        
         if alertOkAction.title != nil {
             let action = UIAlertAction(title: alertOkAction.title, style: alertOkAction.alertActionStyle, handler: alertOkAction.action)
             alert.addAction(action)
