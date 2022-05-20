@@ -111,7 +111,14 @@ final class ListCell: UICollectionViewCell {
         layer.addSublayer(border)
     }
     
-    func update(data: Product) {
+    func configure(data: Product) {
+        loadImage(data: data)
+        loadName(data: data)
+        loadStock(data: data)
+        loadPrice(data: data)
+    }
+    
+    private func loadImage(data: Product) {
         
         let url = URL(string: data.thumbnail!)!
         
@@ -120,9 +127,13 @@ final class ListCell: UICollectionViewCell {
                 self.thumbnailImageView.image = image
             }
         }
-        
+    }
+    
+    private func loadName(data: Product) {
         nameLabel.text = data.name
-        
+    }
+    
+    private func loadStock(data: Product) {
         if data.stock == 0 {
             stockLabel.text = "품절"
             stockLabel.textColor = .systemYellow
@@ -132,31 +143,32 @@ final class ListCell: UICollectionViewCell {
             }
             stockLabel.text = "재고수량: \(stock)"
         }
-        
+    }
+    
+    private func loadPrice(data: Product) {
         guard let currency = data.currency else {
             return
         }
-                
+        
         let price = Formatter.convertNumber(by: data.price?.description)
         let bargenPrice = Formatter.convertNumber(by: data.bargainPrice?.description)
         
         if data.discountedPrice == 0 {
-            priceLabel.text = "\(currency)\(price)"
+            priceLabel.text = "\(currency) \(price)"
             bargenLabel.text = ""
         } else {
             priceLabel.textColor = .systemRed
-            priceLabel.attributedText = "\(currency)\(price) ".strikeThrough()
+            priceLabel.attributedText = "\(currency) \(price) ".strikeThrough()
             
-            bargenLabel.text = "\(currency)\(bargenPrice)"
+            bargenLabel.text = "\(currency) \(bargenPrice)"
         }
     }
-    
+
     override func prepareForReuse() {
         super.prepareForReuse()
         priceLabel.attributedText = nil
         bargenLabel.text = nil
         priceLabel.text = nil
-        priceLabel.attributedText = nil
         priceLabel.textColor = .lightGray
         stockLabel.textColor = .lightGray
     }

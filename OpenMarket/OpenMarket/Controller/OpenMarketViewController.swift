@@ -77,7 +77,7 @@ extension OpenMarketViewController: UICollectionViewDataSource {
                 return UICollectionViewCell()
             }
             
-            cell.update(data: product)
+            cell.configure(data: product)
             return cell
         } else {
             
@@ -85,7 +85,7 @@ extension OpenMarketViewController: UICollectionViewDataSource {
                 return UICollectionViewCell()
             }
             
-            cell.update(data: product)
+            cell.configure(data: product)
             return cell
         }
     }
