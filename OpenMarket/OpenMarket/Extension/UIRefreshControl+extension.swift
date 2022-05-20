@@ -1,5 +1,5 @@
 //
-//  UIRefreshControl+.swift
+//  UIRefreshControl+extension.swift
 //  OpenMarket
 //
 //  Created by dudu, safari on 2022/05/18.
