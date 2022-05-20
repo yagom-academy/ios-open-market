@@ -90,12 +90,12 @@ final class ListCollectionViewCell: UICollectionViewListCell, OpenMarketCell {
             return
         }
         
-        if product.discountedPrice != 0 {
+        if product.discountedPrice != .zero {
             productBargainPriceLabel.text = "\(currency) \(numberFormatter.numberFormatString(for: product.bargainPrice))"
             productPriceLabel.textColor = .red
             productPriceLabel.attributedText = setTextAttribute(of: price, attributes: [.strikethroughStyle: NSUnderlineStyle.single.rawValue])
         }
-        if product.stock == 0 {
+        if product.stock == .zero {
             productStockLabel.text = "품절"
             productStockLabel.textColor = .systemOrange
         } else {
