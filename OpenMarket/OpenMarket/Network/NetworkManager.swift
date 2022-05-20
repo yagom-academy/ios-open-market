@@ -5,7 +5,7 @@
 //  Created by dudu, safari on 2022/05/10.
 //
 
-import UIKit
+import Foundation
 
 enum NetworkErorr: Error {
     case dataError
@@ -17,15 +17,9 @@ enum NetworkErorr: Error {
 
 struct NetworkManager<T: Codable> {
     private let session: URLSession
-    private let cacheManager: CacheManager<UIImage>?
     
-    init(session: URLSession = .customSession, imageCache: CacheManager<UIImage>? = nil) {
+    init(session: URLSession = .customSession) {
         self.session = session
-        self.cacheManager = imageCache
-    }
-    
-    func clearCache() {
-        cacheManager?.clear()
     }
     
     func checkServerState(completion: @escaping (Result<String, NetworkErorr>) -> Void) {
@@ -82,42 +76,6 @@ struct NetworkManager<T: Codable> {
             }
         }.resume()
     }
-    
-    func downloadImage(urlString: String?, completion: @escaping (Result<UIImage, NetworkErorr>) -> Void) {
-        guard let urlString = urlString, let url = URL(string: urlString) else {
-            completion(.failure(.urlError))
-            return
-        }
-        
-        if let cacheImage = cacheManager?.get(forKey: url) {
-            completion(.success(cacheImage))
-            return
-        }
-        
-        let urlRequset = URLRequest(url: url)
-        
-        session.dataTask(with: urlRequset) { data, response, error in
-            guard let statusCode = (response as? HTTPURLResponse)?.statusCode,
-                    (200..<300).contains(statusCode),
-                    error == nil else {
-                completion(.failure(.severError))
-                return
-            }
-            
-            guard let data = data else {
-                completion(.failure(.dataError))
-                return
-            }
-            
-            guard let image = UIImage(data: data) else {
-                completion(.failure(.imageError))
-                return
-            }
-            
-            cacheManager?.set(object: image, forKey: url)
-            completion(.success(image))
-        }.resume()
-    }
 }
 
 //MARK: - Extension DateFormatter
@@ -128,15 +86,4 @@ private extension DateFormatter {
         dateFormatter.dateFormat = "yyyy-MM-dd'T'hh:mm:ss.SS"
         return dateFormatter
     }()
-}
-
-//MARK: - Extension URLSession
-
-private extension URLSession {
-    static var customSession: URLSession {
-        let configuration = URLSessionConfiguration.default
-        configuration.waitsForConnectivity = true
-        configuration.timeoutIntervalForResource = 300
-        return URLSession(configuration: configuration)
-    }
 }

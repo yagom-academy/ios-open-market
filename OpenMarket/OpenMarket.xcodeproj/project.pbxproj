@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		941DA8EE283741FE0021CFCB /* UICollectionViewCell+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 941DA8ED283741FE0021CFCB /* UICollectionViewCell+extension.swift */; };
+		941DA8F0283784C70021CFCB /* ImageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 941DA8EF283784C70021CFCB /* ImageManager.swift */; };
+		941DA8F2283785120021CFCB /* URLSession+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 941DA8F1283785110021CFCB /* URLSession+extension.swift */; };
 		942CE24F282930ED006C6648 /* ProductList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 942CE24E282930ED006C6648 /* ProductList.swift */; };
 		942CE25B28294DD7006C6648 /* NetworkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 942CE25A28294DD7006C6648 /* NetworkTests.swift */; };
 		942CE26628294F54006C6648 /* MockURLProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 942CE26528294F54006C6648 /* MockURLProtocol.swift */; };
@@ -50,6 +52,8 @@
 
 /* Begin PBXFileReference section */
 		941DA8ED283741FE0021CFCB /* UICollectionViewCell+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionViewCell+extension.swift"; sourceTree = "<group>"; };
+		941DA8EF283784C70021CFCB /* ImageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageManager.swift; sourceTree = "<group>"; };
+		941DA8F1283785110021CFCB /* URLSession+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSession+extension.swift"; sourceTree = "<group>"; };
 		942CE24E282930ED006C6648 /* ProductList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductList.swift; sourceTree = "<group>"; };
 		942CE25828294DD7006C6648 /* OpenMarketTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenMarketTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		942CE25A28294DD7006C6648 /* NetworkTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkTests.swift; sourceTree = "<group>"; };
@@ -131,6 +135,7 @@
 			isa = PBXGroup;
 			children = (
 				9BF53E502829FE6000E1A936 /* NetworkManager.swift */,
+				941DA8EF283784C70021CFCB /* ImageManager.swift */,
 				94C11BE62832483400EB3049 /* EndPoint.swift */,
 				94C11BEA283281E900EB3049 /* CacheManager.swift */,
 			);
@@ -147,6 +152,7 @@
 				94A8E23928353D68008BD5EC /* UIRefreshControl+extension.swift */,
 				94A8E23B28353D74008BD5EC /* UIActivityIndicator+extension.swift */,
 				941DA8ED283741FE0021CFCB /* UICollectionViewCell+extension.swift */,
+				941DA8F1283785110021CFCB /* URLSession+extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -319,9 +325,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				941DA8F2283785120021CFCB /* URLSession+extension.swift in Sources */,
 				9BB17ED3282CC022009BE432 /* MainView.swift in Sources */,
 				94881799282D439B00217C2A /* ProductListCell.swift in Sources */,
 				94C11BEB283281E900EB3049 /* CacheManager.swift in Sources */,
+				941DA8F0283784C70021CFCB /* ImageManager.swift in Sources */,
 				9469FAD8282ECA9A0053037F /* UILabel+extension.swift in Sources */,
 				9BC589CF282D4D0300721A0F /* UILayoutPriority+extension.swift in Sources */,
 				9B2232F728375CDE006E186C /* AlertAction.swift in Sources */,
