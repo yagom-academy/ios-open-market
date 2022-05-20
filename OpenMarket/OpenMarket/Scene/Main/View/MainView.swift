@@ -12,12 +12,14 @@ final class MainView: UIView {
         super.init(frame: frame)
         addSubviews()
         setUpAttribute()
+        registerCollectionViewCell()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         addSubviews()
         setUpAttribute()
+        registerCollectionViewCell()
     }
     
     enum LayoutStatus: Int {
@@ -87,6 +89,18 @@ final class MainView: UIView {
     
     private func setUpAttribute() {
         backgroundColor = .white
+    }
+    
+    private func registerCollectionViewCell() {
+        collectionView.register(
+            ListCollectionViewCell.self,
+            forCellWithReuseIdentifier: ListCollectionViewCell.identifier
+        )
+        
+        collectionView.register(
+            GridCollectionViewCell.self,
+            forCellWithReuseIdentifier: GridCollectionViewCell.identifier
+        )
     }
     
     func setUpLayout(segmentIndex: Int) {

@@ -7,12 +7,11 @@
 
 import UIKit
 
-final class ImageCacheManager<T: Decodable> {
-    private let apiService: APIProvider<T>
+final class ImageCacheManager {
+    private let apiService = APIProvider<Data>()
     private let cache = NSCache<NSURL, UIImage>()
     
-    init(apiService: APIProvider<T>) {
-        self.apiService = apiService
+    init() {
         self.cache.countLimit = 100
     }
     

@@ -19,6 +19,7 @@
 		A1DADBF2282D4F88002C7B4D /* URLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1DADBF1282D4F88002C7B4D /* URLSession.swift */; };
 		A1DADBF4282D4FCB002C7B4D /* URLSessionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1DADBF3282D4FCB002C7B4D /* URLSessionProtocol.swift */; };
 		A1F2F260283284C100C19287 /* UICollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1F2F25F283284C100C19287 /* UICollectionViewCell.swift */; };
+		A1FC1BCC283737FD00EC14DD /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1FC1BCB283737FD00EC14DD /* MainViewModel.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
 		C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */; };
 		C70FB0FF25BEF61C00C9924E /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FE25BEF61C00C9924E /* MainViewController.swift */; };
@@ -60,6 +61,7 @@
 		A1DADBF1282D4F88002C7B4D /* URLSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSession.swift; sourceTree = "<group>"; };
 		A1DADBF3282D4FCB002C7B4D /* URLSessionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionProtocol.swift; sourceTree = "<group>"; };
 		A1F2F25F283284C100C19287 /* UICollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UICollectionViewCell.swift; sourceTree = "<group>"; };
+		A1FC1BCB283737FD00EC14DD /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -146,21 +148,11 @@
 		A1D0E1002829F5BF00451BF8 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				C70FB10325BEF61D00C9924E /* Assets.xcassets */,
-				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
+				A1FC1BCA283737EF00EC14DD /* Cell */,
 				A1D0E1022829F5FE00451BF8 /* MainView.swift */,
-				DA9AE5B628326AF0003BA8B2 /* ListCollectionViewCell.swift */,
-				DA9AE5B828326B67003BA8B2 /* GridCollectionViewCell.swift */,
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
-		A1D0E1012829F5C300451BF8 /* Controller */ = {
-			isa = PBXGroup;
-			children = (
 				C70FB0FE25BEF61C00C9924E /* MainViewController.swift */,
 			);
-			path = Controller;
+			path = View;
 			sourceTree = "<group>";
 		};
 		A1DADBF0282D4F6E002C7B4D /* Extension */ = {
@@ -174,6 +166,40 @@
 				A13387A3283375ED00950EA2 /* UIViewController.swift */,
 			);
 			path = Extension;
+			sourceTree = "<group>";
+		};
+		A1FC1BC6283737A700EC14DD /* Scene */ = {
+			isa = PBXGroup;
+			children = (
+				A1FC1BC8283737C400EC14DD /* Main */,
+			);
+			path = Scene;
+			sourceTree = "<group>";
+		};
+		A1FC1BC8283737C400EC14DD /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				A1D0E1002829F5BF00451BF8 /* View */,
+				A1FC1BC9283737D800EC14DD /* ViewModel */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		A1FC1BC9283737D800EC14DD /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				A1FC1BCB283737FD00EC14DD /* MainViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		A1FC1BCA283737EF00EC14DD /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				DA9AE5B628326AF0003BA8B2 /* ListCollectionViewCell.swift */,
+				DA9AE5B828326B67003BA8B2 /* GridCollectionViewCell.swift */,
+			);
+			path = Cell;
 			sourceTree = "<group>";
 		};
 		C70FB0EE25BEF61C00C9924E = {
@@ -200,11 +226,12 @@
 				C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */,
 				C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */,
 				DA94FF8F2829FBA8002CDFF6 /* Model */,
-				A1D0E1002829F5BF00451BF8 /* View */,
-				A1D0E1012829F5C300451BF8 /* Controller */,
+				A1FC1BC6283737A700EC14DD /* Scene */,
 				A17840C8282A233B00DAB50D /* Network */,
 				A133879E2833672100950EA2 /* Util */,
 				A1DADBF0282D4F6E002C7B4D /* Extension */,
+				C70FB10325BEF61D00C9924E /* Assets.xcassets */,
+				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
 				C70FB10825BEF61D00C9924E /* Info.plist */,
 			);
 			path = OpenMarket;
@@ -352,6 +379,7 @@
 				A1A3ECCE282A56C0000A440C /* APIProvider.swift in Sources */,
 				DA9AE546282A44C9003BA8B2 /* Requestable.swift in Sources */,
 				A13387A4283375ED00950EA2 /* UIViewController.swift in Sources */,
+				A1FC1BCC283737FD00EC14DD /* MainViewModel.swift in Sources */,
 				DA9AE5B928326B67003BA8B2 /* GridCollectionViewCell.swift in Sources */,
 				DA9AE55E282AA1E4003BA8B2 /* EndPointStorage.swift in Sources */,
 				A1F2F260283284C100C19287 /* UICollectionViewCell.swift in Sources */,
