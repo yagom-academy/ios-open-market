@@ -18,7 +18,7 @@ final class MainViewController: UIViewController {
     private typealias DataSource = UICollectionViewDiffableDataSource<Section, Product>
     private typealias Snapshot = NSDiffableDataSourceSnapshot<Section, Product>
     
-    private lazy var mainView = MainView(frame: self.view.bounds)
+    private var mainView: MainView?
     private var dataSource: DataSource?
     private var snapshot: Snapshot?
     
@@ -40,9 +40,14 @@ final class MainViewController: UIViewController {
         requestData(pageNumber: pageNumber)
     }
     
+    override func loadView() {
+        super.loadView()
+        mainView = MainView(frame: view.bounds)
+        view = mainView
+    }
+    
     private func configureView() {
-        mainView.backgroundColor = .systemBackground
-        self.view = mainView
+        mainView?.backgroundColor = .systemBackground
         configureCollectionView()
     }
     
@@ -52,16 +57,16 @@ final class MainViewController: UIViewController {
     }
     
     private func configureCollectionView() {
-        mainView.collectionView.register(ProductGridCell.self, forCellWithReuseIdentifier: ProductGridCell.identifier)
-        mainView.collectionView.register(ProductListCell.self, forCellWithReuseIdentifier: ProductListCell.identifier)
-        mainView.collectionView.prefetchDataSource = self
+        mainView?.collectionView.register(ProductGridCell.self, forCellWithReuseIdentifier: ProductGridCell.identifier)
+        mainView?.collectionView.register(ProductListCell.self, forCellWithReuseIdentifier: ProductListCell.identifier)
+        mainView?.collectionView.prefetchDataSource = self
         dataSource = makeDataSource()
         snapshot = makeSnapshot()
     }
     
     private func configureRefreshControl() {
-        mainView.collectionView.refreshControl = UIRefreshControl()
-        mainView.collectionView.refreshControl?.addTarget(self, action: #selector(handleRefreshControl), for: .valueChanged)
+        mainView?.collectionView.refreshControl = UIRefreshControl()
+        mainView?.collectionView.refreshControl?.addTarget(self, action: #selector(handleRefreshControl), for: .valueChanged)
     }
 }
 
@@ -71,8 +76,8 @@ extension MainViewController {
     @objc private func addButtonDidTapped() {}
     
     @objc private func segmentValueDidChanged(segmentedControl: UISegmentedControl) {
-        mainView.changeLayout(index: segmentedControl.selectedSegmentIndex)
-        mainView.collectionView.reloadData()
+        mainView?.changeLayout(index: segmentedControl.selectedSegmentIndex)
+        mainView?.collectionView.reloadData()
     }
     
     @objc private func handleRefreshControl() {
@@ -98,8 +103,8 @@ extension MainViewController {
                 self?.applySnapshot(products: result)
                 
                 DispatchQueue.main.async {
-                    self?.mainView.indicatorView.stop()
-                    self?.mainView.collectionView.refreshControl?.stop()
+                    self?.mainView?.indicatorView.stop()
+                    self?.mainView?.collectionView.refreshControl?.stop()
                 }
             case .failure(_):
                 break
@@ -111,7 +116,10 @@ extension MainViewController {
 //MARK: - CollectionView DataSource
 
 extension MainViewController {
-    private func makeDataSource() -> DataSource {
+    private func makeDataSource() -> DataSource? {
+        
+        guard let mainView = mainView else { return nil }
+        
         let dataSource = DataSource(collectionView: mainView.collectionView) { [weak self] collectionView, indexPath, itemIdentifier in
             
             guard let self = self else { return nil }
