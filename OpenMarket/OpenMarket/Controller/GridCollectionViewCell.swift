@@ -80,12 +80,13 @@ final class GridCollectionViewCell: UICollectionViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        productImage.image = nil
-        productName.text = nil
-        currency.text = nil
-        price.text = nil
-        bargainPrice.text = nil
-        stock.text = nil
+        productStackView.arrangedSubviews.forEach {
+            $0.removeFromSuperview()
+        }
+        
+        priceStackView.arrangedSubviews.forEach {
+            $0.removeFromSuperview()
+        }
     }
     
     func configureCell(_ products: Products) {

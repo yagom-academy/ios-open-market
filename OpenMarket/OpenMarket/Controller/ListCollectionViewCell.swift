@@ -66,13 +66,21 @@ final class ListCollectionViewCell: UICollectionViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        productImage.image = UIImage(systemName: "swift")
-        productName.text = nil
-        currency.text = nil
-        price.text = nil
-        bargainPrice.text = nil
-        stock.text = nil
-        accessoryStackView.removeFromSuperview()
+        priceStackView.arrangedSubviews.forEach {
+            $0.removeFromSuperview()
+        }
+        
+        productStackView.arrangedSubviews.forEach {
+            $0.removeFromSuperview()
+        }
+        
+        accessoryStackView.arrangedSubviews.forEach {
+            $0.removeFromSuperview()
+        }
+        
+        entireProductStackView.arrangedSubviews.forEach {
+            $0.removeFromSuperview()
+        }
     }
     
     func configureCell(_ products: Products) {
