@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CollectionView: UICollectionView {
+final class CollectionView: UICollectionView {
   init() {
     super.init(frame: .zero, collectionViewLayout: Layout.list.builder)
   }
