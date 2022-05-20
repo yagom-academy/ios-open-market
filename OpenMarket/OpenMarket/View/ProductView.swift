@@ -11,7 +11,7 @@ private enum LayoutType: Int {
     case list = 0
     case grid
     
-    func layout() -> NSCollectionLayoutSection {
+    func section() -> NSCollectionLayoutSection {
         switch self {
         case .list:
             let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
@@ -52,18 +52,18 @@ final class ProductView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    lazy var layouts: UICollectionViewCompositionalLayout = {
-        return UICollectionViewCompositionalLayout(sectionProvider: { _, _ in
-            return LayoutType.layout(.list)()
-        }, configuration: .init())
-    }()
-    
     private lazy var layoutType: LayoutType = .list {
         didSet {
             collectionView.reloadData()
         }
     }
     
+    lazy var layouts: UICollectionViewCompositionalLayout = {
+        return UICollectionViewCompositionalLayout(sectionProvider: { _, _ in
+            return LayoutType.section(self.layoutType)()
+        }, configuration: .init())
+    }()
+
     lazy var segmentedControl: UISegmentedControl = {
         let segmentedControl = UISegmentedControl(items: ["LIST", "GRID"])
         segmentedControl.selectedSegmentIndex = 0
@@ -91,53 +91,12 @@ final class ProductView: UIView {
         return collectionView
     }()
     
-//    lazy var listLayout: UICollectionViewCompositionalLayout = {
-//        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
-//        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-//        item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 7, bottom: 0, trailing: 7)
-//
-//        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(70))
-//        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 1)
-//
-//        let section = NSCollectionLayoutSection(group: group)
-//        section.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5)
-//        let layout = UICollectionViewCompositionalLayout(section: section)
-//
-//        return layout
-//    }()
-//
-//    lazy var gridLayout: UICollectionViewCompositionalLayout = {
-//        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1/2), heightDimension: .fractionalHeight(1.0))
-//        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-//        item.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
-//
-//        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(270))
-//        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 2)
-//
-//        let section = NSCollectionLayoutSection(group: group)
-//        section.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5)
-//        let layout = UICollectionViewCompositionalLayout(section: section)
-//
-//        return layout
-//    }()
-    
     @objc private func switchSegment(segmentedControl: UISegmentedControl) {
         guard let layoutType = LayoutType(rawValue: segmentedControl.selectedSegmentIndex) else {
             return
         }
         
-        
-//        self.layoutType = layoutType
-//        collectionView.collectionViewLayout = layoutType.layout()
-        
-//        switch layoutType {
-//        case .list:
-//            collectionView.collectionViewLayout = listLayout
-//        case .grid:
-//            collectionView.collectionViewLayout = gridLayout
-//        }
-        
-//        collectionView.reloadData()
+        self.layoutType = layoutType
     }
 }
 
