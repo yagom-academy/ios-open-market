@@ -94,7 +94,13 @@ class GridCell: UICollectionViewCell {
     
     private func loadImage(data: Product) {
         
-        let url = URL(string: data.thumbnail!)!
+        guard let stringUrl = data.thumbnail else {
+            return
+        }
+        
+        guard let url = URL(string: stringUrl) else {
+            return
+        }
         
         thumbnailImageView.fetchImage(url: url) { image in
             DispatchQueue.main.async {
