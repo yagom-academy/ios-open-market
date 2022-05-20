@@ -15,6 +15,7 @@
 		AB56FB45283496B1009E6DC0 /* ProductConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB56FB44283496B1009E6DC0 /* ProductConstant.swift */; };
 		AB6E6BF8282A4C5600431717 /* APIResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6E6BF7282A4C5600431717 /* APIResponse.swift */; };
 		AB6E6BFA282A4E4A00431717 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6E6BF9282A4E4A00431717 /* Product.swift */; };
+		AB794C5928376A2800D6ADAA /* UIImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB794C5828376A2800D6ADAA /* UIImageView+Extension.swift */; };
 		AB9B4DFF28367E0F007C4205 /* EmptyCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB9B4DFE28367E0F007C4205 /* EmptyCollectionViewCell.swift */; };
 		ABF6011B28333E4900E8CAC2 /* ProductGridCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF6011A28333E4900E8CAC2 /* ProductGridCollectionViewCell.swift */; };
 		ABF6011E283345DD00E8CAC2 /* UICollectionViewCell+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF6011D283345DD00E8CAC2 /* UICollectionViewCell+Extension.swift */; };
@@ -53,6 +54,7 @@
 		AB56FB44283496B1009E6DC0 /* ProductConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductConstant.swift; sourceTree = "<group>"; };
 		AB6E6BF7282A4C5600431717 /* APIResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIResponse.swift; sourceTree = "<group>"; };
 		AB6E6BF9282A4E4A00431717 /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
+		AB794C5828376A2800D6ADAA /* UIImageView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extension.swift"; sourceTree = "<group>"; };
 		AB9B4DFE28367E0F007C4205 /* EmptyCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyCollectionViewCell.swift; sourceTree = "<group>"; };
 		ABF6011A28333E4900E8CAC2 /* ProductGridCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductGridCollectionViewCell.swift; sourceTree = "<group>"; };
 		ABF6011D283345DD00E8CAC2 /* UICollectionViewCell+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionViewCell+Extension.swift"; sourceTree = "<group>"; };
@@ -136,6 +138,7 @@
 				ABF6011D283345DD00E8CAC2 /* UICollectionViewCell+Extension.swift */,
 				AB56FB4128339687009E6DC0 /* UILabel+Extension.swift */,
 				B05BE6392833CC230059CD26 /* Int+Extension.swift */,
+				AB794C5828376A2800D6ADAA /* UIImageView+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -405,6 +408,7 @@
 				ABF6011B28333E4900E8CAC2 /* ProductGridCollectionViewCell.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				AB56FB45283496B1009E6DC0 /* ProductConstant.swift in Sources */,
+				AB794C5928376A2800D6ADAA /* UIImageView+Extension.swift in Sources */,
 				ABF6011E283345DD00E8CAC2 /* UICollectionViewCell+Extension.swift in Sources */,
 				AB56FB4228339687009E6DC0 /* UILabel+Extension.swift in Sources */,
 				AB9B4DFF28367E0F007C4205 /* EmptyCollectionViewCell.swift in Sources */,
