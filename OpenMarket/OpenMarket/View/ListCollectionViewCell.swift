@@ -9,36 +9,40 @@ import UIKit
 
 final class ListCollectionViewCell: UICollectionViewListCell {
     
-    static var identifier: String {
-        return String(describing: self)
-    }
-    
     private func defaultListConfiguration() -> UIListContentConfiguration {
         return .subtitleCell()
     }
     
+    private var cellContentLayouts: [NSLayoutConstraint]?
+    
     private lazy var listContentView = UIListContentView(configuration: .subtitleCell())
     
-    private let stock = UILabel()
+    private let stock: UILabel = {
+        let label = UILabel()
+        label.textAlignment = .right
+        label.numberOfLines = 2
+        return label
+    }()
     
     private func setConstraint() {
+        guard cellContentLayouts == nil else { return }
+        
         [listContentView, stock].forEach {
             contentView.addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
-        
-        stock.setContentHuggingPriority(.defaultHigh, for: .horizontal)
-        
-        NSLayoutConstraint.activate([
+                
+        let layouts = [
             listContentView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             listContentView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             listContentView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            
-            stock.leadingAnchor.constraint(greaterThanOrEqualTo: listContentView.trailingAnchor),
+            stock.leadingAnchor.constraint(equalTo: listContentView.trailingAnchor),
             stock.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -5),
-            stock.widthAnchor.constraint(lessThanOrEqualTo: listContentView.widthAnchor, multiplier: 0.5),
+            stock.widthAnchor.constraint(equalTo: listContentView.widthAnchor, multiplier: 0.3),
             stock.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
-        ])
+        ]
+        NSLayoutConstraint.activate(layouts)
+        cellContentLayouts = layouts
     }
     
     func configureContent(productInformation product: ProductInformation) {

@@ -15,3 +15,9 @@ extension NSMutableAttributedString {
         self.addAttribute(.strikethroughStyle, value: 1, range: (allText as NSString).range(of: redText))
     }
 }
+
+extension UIView {
+    static var identifier: String {
+        return String(describing: self)
+    }
+}

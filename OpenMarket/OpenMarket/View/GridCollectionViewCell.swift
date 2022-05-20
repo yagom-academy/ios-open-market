@@ -9,14 +9,7 @@ import UIKit
 
 final class GridCollectionViewCell: UICollectionViewCell {
     
-    static var identifier: String {
-        return String(describing: self)
-    }
-    
-    private lazy var productImage: UIImageView = {
-        let view = UIImageView()
-        return view
-    }()
+    private lazy var productImage = UIImageView()
     
     private lazy var productTitle: UILabel = {
         let label = UILabel()

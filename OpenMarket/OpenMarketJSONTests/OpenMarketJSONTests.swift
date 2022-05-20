@@ -25,7 +25,6 @@ final class OpenMarketJSONTests: XCTestCase, NetworkAble {
         // given
         let fileName = "PageInformationTest"
         let extensionType = "json"
-        let promise = expectation(description: "timeout 테스트")
         let pageNo = 1
         let imtesPerPage = 10
         guard let url = OpenMarketApi.pageInformation(pageNo: pageNo, itemsPerPage: imtesPerPage).url else {
@@ -45,21 +44,17 @@ final class OpenMarketJSONTests: XCTestCase, NetworkAble {
             
             //then
             XCTAssertNotNil(pageInformation)
-            promise.fulfill()
         }
         errorHandler: { error in
             XCTFail(error.localizedDescription)
         }
-        wait(for: [promise], timeout: 10)
     }
     
     func test_mockNetwork객체를_sessionError를_발생시켜서_확인() {
         // given
         let fileName = "PageInformationTest"
         let extensionType = "json"
-        let promise = expectation(description: "timeout 테스트")
-        let urlString = OpenMarketApi.pageInformation(pageNo: 1, itemsPerPage: 10).pathString
-        let url = URL(string: urlString)!
+        guard let url = OpenMarketApi.pageInformation(pageNo: 1, itemsPerPage: 10).url else { return }
         let data = load(fileName: fileName, extensionType: extensionType)
         let sessionError = NetworkError.sessionError
         let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: nil, headerFields: nil)
@@ -70,12 +65,9 @@ final class OpenMarketJSONTests: XCTestCase, NetworkAble {
         //when
         requestData(url: url) { (data, response) in
             XCTFail("complete handler 사용")
-            promise.fulfill()
         } errorHandler: { error in
             XCTAssertEqual(error as? NetworkError, sessionError)
-            promise.fulfill()
         }
-        wait(for: [promise], timeout: 10)
     }
     
     func test_pageInformation_decoding해서_결과는_NotNil() {
@@ -131,11 +123,9 @@ final class OpenMarketJSONTests: XCTestCase, NetworkAble {
         // given
         let fileName = "PageInformationTest"
         let extensionType = "json"
-        let promise = expectation(description: "timeout 테스트")
-        let urlString = OpenMarketApi.pageInformation(pageNo: 1, itemsPerPage: 10).pathString
-        let url = URL(string: urlString)!
-        let data = load(fileName: fileName, extensionType: extensionType)
+        guard let url = OpenMarketApi.pageInformation(pageNo: 1, itemsPerPage: 10).url else { return }
         let statusCodeError = NetworkError.statusCodeError
+        let data = load(fileName: fileName, extensionType: extensionType)
         let response = HTTPURLResponse(url: url, statusCode: 500, httpVersion: nil, headerFields: nil)
         let dummy = DummyData(data: data, response: response, error: nil)
         let stubUrlSession = StubURLSession(dummy: dummy)
@@ -144,19 +134,14 @@ final class OpenMarketJSONTests: XCTestCase, NetworkAble {
         //when
         requestData(url: url) { (data, response) in
             XCTFail("complete handler 사용")
-            promise.fulfill()
         } errorHandler: { error in
             XCTAssertEqual(error as? NetworkError, statusCodeError)
-            promise.fulfill()
         }
-        wait(for: [promise], timeout: 10)
     }
     
     func test_mockNetwork객체에_dataError를_발생시켜서_확인() {
         // given
-        let promise = expectation(description: "timeout 테스트")
-        let urlString = OpenMarketApi.pageInformation(pageNo: 1, itemsPerPage: 10).pathString
-        let url = URL(string: urlString)!
+        guard let url = OpenMarketApi.pageInformation(pageNo: 1, itemsPerPage: 10).url else { return }
         let dataError = NetworkError.dataError
         let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: nil, headerFields: nil)
         let dummy = DummyData(data: nil, response: response, error: nil)
@@ -166,12 +151,9 @@ final class OpenMarketJSONTests: XCTestCase, NetworkAble {
         //when
         requestData(url: url) { (data, response) in
             XCTFail("complete handler 사용")
-            promise.fulfill()
         } errorHandler: { error in
             XCTAssertEqual(error as? NetworkError, dataError)
-            promise.fulfill()
         }
-        wait(for: [promise], timeout: 10)
     }
 }
 

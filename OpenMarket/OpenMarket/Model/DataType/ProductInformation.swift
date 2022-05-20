@@ -5,10 +5,9 @@
 //  Created by 우롱차, Donnie on 2022/05/10.
 //
 
-import Foundation
 import UIKit
 
-struct ProductInformation: Codable, Equatable, Hashable {
+struct ProductInformation: Codable, Hashable {
     let id: Int
     let vendorId: Int
     let name: String
