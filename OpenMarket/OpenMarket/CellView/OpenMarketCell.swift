@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol Contentable {
+protocol OpenMarketCell {
     var productNameLabel: UILabel { get }
     var productPriceLabel: UILabel { get }
     var productBargainPriceLabel: UILabel { get }
