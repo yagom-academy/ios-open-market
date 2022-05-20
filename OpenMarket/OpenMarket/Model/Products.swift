@@ -11,7 +11,7 @@ import Foundation
 struct Products: Decodable, Hashable {
     let id: Int
     let vendorId: Int
-    var name: String
+    let name: String
     let thumbnail: URL
     let currency: String
     let price: Int
