@@ -86,7 +86,7 @@ extension ProductListCell {
         contentView.addSubview(baseStackView)
         
         nameStockAccessoryStackView.addArrangedSubviews(cellUIComponent.nameLabel, cellUIComponent.stockLabel, accessoryImageView)
-
+        
         priceStackView.addArrangedSubviews(cellUIComponent.priceLabel, cellUIComponent.bargainPriceLabel)
         
         productDescriptionStackView.addArrangedSubviews(nameStockAccessoryStackView, priceStackView)
@@ -163,8 +163,11 @@ extension ProductListCell {
         setUpStockLabel(stock: product.stock)
         setUpPriceLabel(price: product.price, bargainPrice: product.bargainPrice)
         
-        guard let image = urlToImage(product.thumbnail) else { return }
-        cellUIComponent.thumbnailImageView.image = image
+        DataProvider().fetchImage(urlString: product.thumbnail) { [self] image in
+            DispatchQueue.main.async { [self] in
+                cellUIComponent.thumbnailImageView.image = image
+            }
+        }
     }
     
     private func setUpStockLabel(stock: Int) {
@@ -185,13 +188,6 @@ extension ProductListCell {
             cellUIComponent.priceLabel.attributedText = cellUIComponent.priceLabel.text?.strikeThrough()
             cellUIComponent.priceLabel.textColor = .systemRed
         }
-    }
-    
-    private func urlToImage(_ urlString: String) -> UIImage? {
-        guard let url = URL(string: urlString),
-                let data = try? Data(contentsOf: url),
-                let image = UIImage(data: data) else { return nil }
-        return image
     }
     
     override func prepareForReuse() {
