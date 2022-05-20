@@ -98,7 +98,6 @@ final class GridCollectionViewCell: UICollectionViewCell {
         
         setCellUI(products)
         configureProductUI()
-        configurePriceUI()
     }
 }
 
@@ -135,17 +134,12 @@ extension GridCollectionViewCell {
         productImage.image = UIImage(data: data)
     }
     
-    private func configurePriceUI() {
-        priceStackView.addArrangedSubview(originalPrice)
-        priceStackView.addArrangedSubview(discountedPrice)
-    }
-    
     private func configureProductUI() {
-        productStackView.addArrangedSubview(productImage)
-        productStackView.addArrangedSubview(productName)
-        productStackView.addArrangedSubview(priceStackView)
-        productStackView.addArrangedSubview(stockLabel)
+        
+        priceStackView.addArrangedSubview([originalPrice, discountedPrice])
+        productStackView.addArrangedSubview([productImage, productName, priceStackView, stockLabel])
         self.contentView.addSubview(productStackView)
+
         
         NSLayoutConstraint.activate([
             productStackView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 20),

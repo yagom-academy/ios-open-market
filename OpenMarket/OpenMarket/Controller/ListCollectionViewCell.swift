@@ -126,16 +126,14 @@ extension ListCollectionViewCell {
     
     private func configurePriceUI() {
         discountedPrice.textColor = .systemGray2
-        
-        priceStackView.addArrangedSubview(originalPrice)
-        priceStackView.addArrangedSubview(discountedPrice)
+
+        priceStackView.addArrangedSubview([originalPrice, discountedPrice])
     }
     
     private func configureProductUI() {
         productName.font = UIFont.preferredFont(forTextStyle: .title3)
         
-        productStackView.addArrangedSubview(productName)
-        productStackView.addArrangedSubview(priceStackView)
+        productStackView.addArrangedSubview([productName, priceStackView])
     }
     
     private func configureAccessoryUI() {
@@ -159,14 +157,11 @@ extension ListCollectionViewCell {
         button.tintColor = .systemGray2
         label.textAlignment = .right
         
-        accessoryStackView.addArrangedSubview(label)
-        accessoryStackView.addArrangedSubview(button)
+        accessoryStackView.addArrangedSubview([label, button])
     }
     
     private func configureEntireProductUI() {
-        entireProductStackView.addArrangedSubview(productImage)
-        entireProductStackView.addArrangedSubview(productStackView)
-        entireProductStackView.addArrangedSubview(accessoryStackView)
+        entireProductStackView.addArrangedSubview([productImage, productStackView, accessoryStackView])
         self.contentView.addSubview(entireProductStackView)
         
         NSLayoutConstraint.activate([
