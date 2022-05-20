@@ -36,6 +36,8 @@
 		DA9AE5B728326AF0003BA8B2 /* ListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9AE5B628326AF0003BA8B2 /* ListCollectionViewCell.swift */; };
 		DA9AE5B928326B67003BA8B2 /* GridCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9AE5B828326B67003BA8B2 /* GridCollectionViewCell.swift */; };
 		DA9AE5BB28327C15003BA8B2 /* UILabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9AE5BA28327C15003BA8B2 /* UILabel.swift */; };
+		DAA1077A28374B9300907154 /* Double.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA1077928374B9200907154 /* Double.swift */; };
+		DAA1077C28374BEC00907154 /* NSMutableAttributedString.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA1077B28374BEC00907154 /* NSMutableAttributedString.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -81,6 +83,8 @@
 		DA9AE5B628326AF0003BA8B2 /* ListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCollectionViewCell.swift; sourceTree = "<group>"; };
 		DA9AE5B828326B67003BA8B2 /* GridCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridCollectionViewCell.swift; sourceTree = "<group>"; };
 		DA9AE5BA28327C15003BA8B2 /* UILabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UILabel.swift; sourceTree = "<group>"; };
+		DAA1077928374B9200907154 /* Double.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Double.swift; sourceTree = "<group>"; };
+		DAA1077B28374BEC00907154 /* NSMutableAttributedString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSMutableAttributedString.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -158,12 +162,14 @@
 		A1DADBF0282D4F6E002C7B4D /* Extension */ = {
 			isa = PBXGroup;
 			children = (
+				DAA1077928374B9200907154 /* Double.swift */,
+				DA9AE5BA28327C15003BA8B2 /* UILabel.swift */,
 				A1DADBF1282D4F88002C7B4D /* URLSession.swift */,
 				A1D48C512831EF5D00C1819F /* Data.swift */,
 				A1D48C532831EFB000C1819F /* Encodable.swift */,
-				DA9AE5BA28327C15003BA8B2 /* UILabel.swift */,
 				A1F2F25F283284C100C19287 /* UICollectionViewCell.swift */,
 				A13387A3283375ED00950EA2 /* UIViewController.swift */,
+				DAA1077B28374BEC00907154 /* NSMutableAttributedString.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -378,6 +384,7 @@
 				A1D48C522831EF5D00C1819F /* Data.swift in Sources */,
 				A1A3ECCE282A56C0000A440C /* APIProvider.swift in Sources */,
 				DA9AE546282A44C9003BA8B2 /* Requestable.swift in Sources */,
+				DAA1077A28374B9300907154 /* Double.swift in Sources */,
 				A13387A4283375ED00950EA2 /* UIViewController.swift in Sources */,
 				A1FC1BCC283737FD00EC14DD /* MainViewModel.swift in Sources */,
 				DA9AE5B928326B67003BA8B2 /* GridCollectionViewCell.swift in Sources */,
@@ -399,6 +406,7 @@
 				DA9AE561282AAA1C003BA8B2 /* ProductsListDTO.swift in Sources */,
 				A1A3ECCB282A55E1000A440C /* EndPoint.swift in Sources */,
 				DA9AE54B282A45FF003BA8B2 /* NetworkError.swift in Sources */,
+				DAA1077C28374BEC00907154 /* NSMutableAttributedString.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

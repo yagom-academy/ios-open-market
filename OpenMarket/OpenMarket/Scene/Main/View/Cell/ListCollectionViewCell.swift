@@ -143,17 +143,17 @@ final class ListCollectionViewCell: UICollectionViewCell {
         
         if data.discountedPrice == 0 {
             productionPriceLabel.isHidden = true
-            sellingPriceLabel.update(with: data.currency, price: data.price)
+            sellingPriceLabel.text = "\(data.currency)  \(data.price.toDecimal())"
         } else {
             productionPriceLabel.isHidden = false
-            productionPriceLabel.addStrikeThrough(price: data.price)
-            productionPriceLabel.addStrikeThrough(price: data.bargainPrice)
-            productionPriceLabel.update(with: data.currency, price: data.bargainPrice)
-            sellingPriceLabel.update(with: data.currency, price: data.bargainPrice)
+            productionPriceLabel.addStrikeThrough(price: String(data.price))
+            productionPriceLabel.addStrikeThrough(price: String(data.bargainPrice))
+            productionPriceLabel.text = "\(data.currency)  \(data.bargainPrice.toDecimal())"
+            sellingPriceLabel.text =  "\(data.currency)  \(data.bargainPrice.toDecimal())"
         }
         
         stockLabel.textColor = data.stock == 0 ? .systemOrange : .systemGray
-        stockLabel.update(by: data.stock)
+        stockLabel.update(stockStatus: data.stock == 0 ? "품절 " : "잔여수량 : \(data.stock) ")
     }
     
     func updateImage(image: UIImage?) {
