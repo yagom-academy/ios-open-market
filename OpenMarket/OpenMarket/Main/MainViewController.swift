@@ -42,6 +42,7 @@ final class MainViewController: UIViewController {
     private func configureView() {
         mainView?.backgroundColor = .systemBackground
         configureCollectionView()
+        configureSegmentControl()
     }
     
     private func configureNavigationBar() {
@@ -66,8 +67,8 @@ final class MainViewController: UIViewController {
         cellLayoutSegmentControl.setTitleTextAttributes([.foregroundColor : UIColor.white], for: .selected)
         cellLayoutSegmentControl.setTitleTextAttributes([.foregroundColor : UIColor.systemBlue], for: .normal)
         cellLayoutSegmentControl.selectedSegmentTintColor = .systemBlue
-        cellLayoutSegmentControl.setWidth(80, forSegmentAt: 0)
-        cellLayoutSegmentControl.setWidth(80, forSegmentAt: 1)
+        cellLayoutSegmentControl.setWidth(view.bounds.width * 0.2, forSegmentAt: 0)
+        cellLayoutSegmentControl.setWidth(view.bounds.width * 0.2, forSegmentAt: 1)
         cellLayoutSegmentControl.layer.borderWidth = 1.0
         cellLayoutSegmentControl.layer.borderColor = UIColor.systemBlue.cgColor
         cellLayoutSegmentControl.selectedSegmentIndex = 0
