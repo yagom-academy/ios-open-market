@@ -149,7 +149,7 @@ class GridCell: UICollectionViewCell {
 }
 
 extension GridCell {
-    private func addsubViews() {
+    private func addSubViews() {
         contentView.addsubViews(thumbnailImageView, cellStackView)
         cellStackView.addArrangedsubViews(informationStackView)
         informationStackView.addArrangedsubViews(nameLabel, pricestackView, stockLabel)
