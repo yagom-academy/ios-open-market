@@ -1,5 +1,5 @@
 //
-//  ImageView+.swift
+//  UIImageView+extension.swift
 //  OpenMarket
 //
 //  Created by Grumpy, OneTool on 2022/05/17.
@@ -9,7 +9,9 @@ import UIKit
 
 extension UIImageView {
     func requestImageDownload(url: String) {
-        if let cacheImage = Cache.imageCache.object(forKey: url as NSString) {
+        let imageCache = NSCache<NSString, UIImage>()
+        
+        if let cacheImage = imageCache.object(forKey: url as NSString) {
             DispatchQueue.main.async() { [weak self] in
                 self?.image = cacheImage
             }
@@ -34,7 +36,7 @@ extension UIImageView {
                 
                 DispatchQueue.main.async() { [weak self] in
                     self?.image = image
-                    Cache.imageCache.setObject(image, forKey: url.absoluteString as NSString)
+                    imageCache.setObject(image, forKey: url.absoluteString as NSString)
                 }
             }.resume()
         }
