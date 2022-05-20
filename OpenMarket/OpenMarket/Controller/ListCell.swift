@@ -112,6 +112,15 @@ final class ListCell: UICollectionViewCell {
     }
     
     func update(data: Product) {
+        
+        let url = URL(string: data.thumbnail!)!
+        
+        thumbnailImageView.fetchImage(url: url) { image in
+            DispatchQueue.main.async {
+                self.thumbnailImageView.image = image
+            }
+        }
+        
         nameLabel.text = data.name
         
         if data.stock == 0 {

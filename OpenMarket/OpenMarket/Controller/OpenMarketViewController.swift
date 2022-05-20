@@ -71,47 +71,22 @@ extension OpenMarketViewController: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         
-        guard let thumbnail = product.thumbnail else {
-            return UICollectionViewCell()
-        }
-        
-        guard let url = URL(string: thumbnail) else {
-            return UICollectionViewCell()
-        }
-        
         if segmentControl.selectedSegmentIndex == 0 {
+            
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ListCell.identifier, for: indexPath) as? ListCell else {
                 return UICollectionViewCell()
             }
-                
-                network?.fetchImage(from: url, completionHandler: { result in
-                    switch result {
-                    case .success(let data):
-                        cell.update(image: data)
-                    case .failure(_):
-                        break
-                    }
-                })
-                
-                cell.update(data: product)
-                return cell
+            
+            cell.update(data: product)
+            return cell
         } else {
             
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: GridCell.identifier, for: indexPath) as? GridCell else {
                 return UICollectionViewCell()
             }
-                
-                network?.fetchImage(from: url, completionHandler: { result in
-                    switch result {
-                    case .success(let data):
-                        cell.update(image: data)
-                    case .failure(_):
-                        break
-                    }
-                })
-                
-                cell.update(data: product)
-                return cell
+            
+            cell.update(data: product)
+            return cell
         }
     }
     
