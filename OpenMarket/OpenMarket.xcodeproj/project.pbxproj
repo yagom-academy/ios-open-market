@@ -93,6 +93,7 @@
 			isa = PBXGroup;
 			children = (
 				AE82C0072834FCAB00A0EFDC /* FontSize.swift */,
+				0341E5D5282A43E700DEC832 /* NetworkError.swift */,
 				AE82C0092834FE9400A0EFDC /* Extensions */,
 			);
 			path = Util;
@@ -112,7 +113,6 @@
 			children = (
 				036802E8282911100097DC62 /* Products.swift */,
 				0341E5CF282A2D4700DEC832 /* ApiProvider.swift */,
-				0341E5D5282A43E700DEC832 /* NetworkError.swift */,
 				039161D7282B573600DFE033 /* URLSessionProtocol.swift */,
 				037A74112834C6BC001AC352 /* Endpoint.swift */,
 				D67E6960283757870075284A /* ImageCacheManager.swift */,
