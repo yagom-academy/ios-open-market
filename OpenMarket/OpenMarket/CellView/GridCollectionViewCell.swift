@@ -7,24 +7,36 @@
 
 import UIKit
 
-final class GridCollectionViewCell: UICollectionViewCell, Contentable {
-    lazy var productNameLabel = createLabel(font: .preferredFont(for: .title3, weight: .semibold), textColor: .black, alignment: .center)
-    lazy var productImageView = createImageView(contentMode: .scaleAspectFit)
-    lazy var productPriceLabel = createLabel(font: .preferredFont(forTextStyle: .body), textColor: .systemGray, alignment: .center)
-    lazy var productBargainPriceLabel = createLabel(font: .preferredFont(forTextStyle: .body), textColor: .systemGray, alignment: .center)
-    lazy var productStockLabel = createLabel(font: .preferredFont(forTextStyle: .body), textColor: .systemGray, alignment: .center)
-    lazy var mainStackView = createStackView(axis: .vertical, alignment: .center, distribution: .fill, spacing: 5, margin: UIEdgeInsets(top: 10, left: 10, bottom: 5, right: 10))
-    lazy var priceStackView = createStackView(axis: .vertical, alignment: .center, distribution: .fillProportionally, spacing: 0)
-    lazy var informationStackView = createStackView(axis: .vertical, alignment: .center, distribution: .fillEqually, spacing: 5)
+final class GridCollectionViewCell: UICollectionViewCell, OpenMarketCell {
+    
+    var productNameLabel: UILabel = UILabel()
+    var productImageView: UIImageView = UIImageView()
+    var productPriceLabel: UILabel = UILabel()
+    var productBargainPriceLabel: UILabel = UILabel()
+    var productStockLabel: UILabel = UILabel()
+    var mainStackView: UIStackView = UIStackView()
+    var priceStackView: UIStackView = UIStackView()
+    var informationStackView: UIStackView = UIStackView()
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
+        
         setUpSubViewStructure()
         setUpLayoutConstraints()
     }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
+        self.productNameLabel = createLabel(font: .preferredFont(for: .title3, weight: .semibold), textColor: .black, alignment: .center)
+        self.productImageView = createImageView(contentMode: .scaleAspectFit)
+        self.productPriceLabel = createLabel(font: .preferredFont(forTextStyle: .body), textColor: .systemGray, alignment: .center)
+        self.productBargainPriceLabel = createLabel(font: .preferredFont(forTextStyle: .body), textColor: .systemGray, alignment: .center)
+        self.productStockLabel = createLabel(font: .preferredFont(forTextStyle: .body), textColor: .systemGray, alignment: .center)
+        self.mainStackView = createStackView(axis: .vertical, alignment: .center, distribution: .fill, spacing: 5, margin: UIEdgeInsets(top: 10, left: 10, bottom: 5, right: 10))
+        self.priceStackView = createStackView(axis: .vertical, alignment: .center, distribution: .fillProportionally, spacing: 0)
+        self.informationStackView = createStackView(axis: .vertical, alignment: .center, distribution: .fillEqually, spacing: 5)
+        
         setUpSubViewStructure()
         setUpLayoutConstraints()
     }
