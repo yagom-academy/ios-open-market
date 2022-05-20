@@ -44,14 +44,14 @@ struct ProductDetail: Decodable {
 struct ProductImage: Decodable {
     let id: Int
     let url: URL
-    let thumbnail: URL
+    let thumbnailURL: URL
     let isSuccess: Bool
     let issuedAt: String
 
     private enum CodingKeys: String, CodingKey {
         case id
         case url
-        case thumbnail = "thumbnail"
+        case thumbnailURL = "thumbnail"
         case isSuccess = "succeed"
         case issuedAt = "issued_at"
     }

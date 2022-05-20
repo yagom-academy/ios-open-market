@@ -21,6 +21,7 @@ final class ListCollectionViewCell: UICollectionViewCell {
     }
     
     override func prepareForReuse() {
+        super.prepareForReuse()
         productImageView.image = nil
         productNameLabel.text = ""
         indicatorView.startAnimating()
@@ -148,7 +149,7 @@ final class ListCollectionViewCell: UICollectionViewCell {
             productionPriceLabel.isHidden = false
             productionPriceLabel.addStrikeThrough(price: String(data.price))
             productionPriceLabel.addStrikeThrough(price: String(data.bargainPrice))
-            productionPriceLabel.text = "\(data.currency)  \(data.bargainPrice.toDecimal())"
+            productionPriceLabel.text = "\(data.currency)  \(data.price.toDecimal())"
             sellingPriceLabel.text =  "\(data.currency)  \(data.bargainPrice.toDecimal())"
         }
         
