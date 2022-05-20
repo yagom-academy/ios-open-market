@@ -1,11 +1,8 @@
 import UIKit
 
-class GridCell: UICollectionViewCell {
-    static var identifier: String {
-        return String(describing: self)
-    }
+final class GridCell: UICollectionViewCell, CustomCell {
     
-    private var cellStackView: UIStackView = {
+    private let cellStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.alignment = .center
@@ -15,7 +12,7 @@ class GridCell: UICollectionViewCell {
         return stackView
     }()
     
-    private var thumbnailImageView: UIImageView = {
+    private let thumbnailImageView: UIImageView = {
         let image = UIImageView()
         image.image = UIImage(systemName: "flame")
         image.contentMode = .scaleAspectFit
@@ -23,7 +20,7 @@ class GridCell: UICollectionViewCell {
         return image
     }()
     
-    private var informationStackView: UIStackView = {
+    private let informationStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -32,14 +29,14 @@ class GridCell: UICollectionViewCell {
         return stackView
     }()
 
-    private var nameLabel: UILabel = {
+    private let nameLabel: UILabel = {
         let label = UILabel()
         label.text = "Name Label"
         label.contentMode = .scaleAspectFit
         return label
     }()
     
-    private var pricestackView: UIStackView = {
+    private let pricestackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.distribution = .fillProportionally
@@ -48,21 +45,21 @@ class GridCell: UICollectionViewCell {
         return stackView
     }()
 
-    private var priceLabel: UILabel = {
+    private let priceLabel: UILabel = {
         let label = UILabel()
         label.text = "Price Label"
         label.textColor = .lightGray
         return label
     }()
     
-    private var bargenLabel: UILabel = {
+    private let bargenLabel: UILabel = {
         let label = UILabel()
         label.text = "Bargen Label"
         label.textColor = .lightGray
         return label
     }()
     
-    private var stockLabel: UILabel = {
+    private let stockLabel: UILabel = {
         let label = UILabel()
         label.text = "Stock Label"
         label.textColor = .lightGray
@@ -114,6 +111,7 @@ class GridCell: UICollectionViewCell {
     }
     
     private func loadStock(data: Product) {
+        
         if data.stock == 0 {
             stockLabel.text = "품절"
             stockLabel.textColor = .systemYellow
@@ -126,6 +124,7 @@ class GridCell: UICollectionViewCell {
     }
     
     private func loadPrice(data: Product) {
+        
         guard let currency = data.currency else {
             return
         }
@@ -163,7 +162,6 @@ extension GridCell {
     }
     
     private func constraintLayout() {
-        
         NSLayoutConstraint.activate([
             thumbnailImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
             thumbnailImageView.bottomAnchor.constraint(equalTo: cellStackView.topAnchor),

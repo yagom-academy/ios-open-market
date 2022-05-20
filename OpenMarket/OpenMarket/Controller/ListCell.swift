@@ -7,15 +7,9 @@
 
 import UIKit
 
-extension ListCell {
-    static var identifier: String {
-        return String(describing: self)
-    }
-}
-
-final class ListCell: UICollectionViewCell {
+final class ListCell: UICollectionViewCell, CustomCell {
     
-    private var thumbnailImageView: UIImageView = {
+    private let thumbnailImageView: UIImageView = {
         let image = UIImageView()
         image.image = UIImage(systemName: "flame")
         image.contentMode = .scaleAspectFit
@@ -23,7 +17,7 @@ final class ListCell: UICollectionViewCell {
         return image
     }()
     
-    private var nameLabel: UILabel = {
+    private let nameLabel: UILabel = {
         let label = UILabel()
         label.text = "Name Label"
         label.contentMode = .scaleAspectFit
@@ -31,7 +25,7 @@ final class ListCell: UICollectionViewCell {
         return label
     }()
     
-    private var priceStackView: UIStackView = {
+    private let priceStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.distribution = .fill
@@ -40,36 +34,33 @@ final class ListCell: UICollectionViewCell {
         return stackView
     }()
     
-    private var priceLabel: UILabel = {
+    private let priceLabel: UILabel = {
         let label = UILabel()
         label.text = "Price Label"
         label.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         label.textColor = .lightGray
         label.contentMode = .scaleAspectFit
-
         return label
     }()
     
-    private var bargenLabel: UILabel = {
+    private let bargenLabel: UILabel = {
         let label = UILabel()
         label.text = "Bargen Label"
         label.textColor = .lightGray
         label.contentMode = .scaleAspectFit
-
         return label
     }()
     
-    private var stockLabel: UILabel = {
+    private let stockLabel: UILabel = {
         let label = UILabel()
         label.text = "Stock Label"
         label.textColor = .lightGray
         label.textAlignment = .right
         label.translatesAutoresizingMaskIntoConstraints = false
-
         return label
     }()
     
-    private var accessoryLabel: UILabel = {
+    private let accessoryLabel: UILabel = {
         let label = UILabel()
         let attachment = NSTextAttachment()
         attachment.image = UIImage(systemName: "chevron.right")?.withTintColor(.lightGray)
@@ -77,7 +68,6 @@ final class ListCell: UICollectionViewCell {
         let attributedStr = NSMutableAttributedString(string: attachmentString.description)
         label.attributedText = attachmentString
         label.translatesAutoresizingMaskIntoConstraints = false
-
         return label
     }()
     
@@ -126,6 +116,7 @@ final class ListCell: UICollectionViewCell {
     }
     
     private func loadStock(data: Product) {
+        
         if data.stock == 0 {
             stockLabel.text = "품절"
             stockLabel.textColor = .systemYellow
@@ -138,6 +129,7 @@ final class ListCell: UICollectionViewCell {
     }
     
     private func loadPrice(data: Product) {
+        
         guard let currency = data.currency else {
             return
         }
@@ -175,7 +167,6 @@ extension ListCell {
      }
     
     private func constraintLayout() {
-        
         NSLayoutConstraint.activate([
             thumbnailImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
             thumbnailImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5),
