@@ -128,7 +128,7 @@ extension ViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        if collectionViewSegment.selectedSegmentIndex == 0 {
+        if cellType == .list {
             guard let listCell = collectionView.dequeueReusableCell(withReuseIdentifier:  "\(ListCell.self)", for: indexPath) as? ListCell else { return ListCell() }
             setCellComponents(itemCell: listCell, indexPath: indexPath)
             return listCell
