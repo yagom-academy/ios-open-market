@@ -11,7 +11,7 @@ extension CALayer {
     func addSeparator() {
         let separator = CALayer()
         
-        separator.frame = CGRect.init(x: 10, y: frame.height - 0.5, width: frame.width, height: 0.5)
+        separator.frame = CGRect(x: 10, y: frame.height - 0.5, width: frame.width, height: 0.5)
         
         separator.backgroundColor = UIColor.systemGray2.cgColor
         self.addSublayer(separator)
