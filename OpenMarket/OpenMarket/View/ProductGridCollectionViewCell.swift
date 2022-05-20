@@ -79,14 +79,7 @@ final class ProductGridCollectionViewCell: UICollectionViewCell {
     self.titleLabel.text = product.name
     self.priceLabel.setStrike(text: "\(product.currency.rawValue) \(product.price.toDecimal)")
     self.bargainPriceLabel.text = "\(product.currency.rawValue) \(product.bargainPrice.toDecimal)"
-    self.productImageView.image = UIImage(data: convertImageFromData(url: product.thumbnail))
-  }
-
-  private func convertImageFromData(url urlString: String) -> Data {
-    guard let url = URL(string: urlString),
-          let data = try? Data(contentsOf: url)
-    else { return Data() }
-    return data
+    self.productImageView.setImage(with: product.thumbnail)
   }
 }
 
