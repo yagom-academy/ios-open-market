@@ -29,7 +29,6 @@ final class ListCell: UICollectionViewCell {
         image.image = UIImage(systemName: "flame")
         image.contentMode = .scaleAspectFit
         image.translatesAutoresizingMaskIntoConstraints = false
-
         return image
     }()
     
@@ -175,8 +174,8 @@ extension ListCell {
         NSLayoutConstraint.activate([
             cellStackView.topAnchor.constraint(equalTo: contentView.topAnchor),
             cellStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            cellStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 5),
-            cellStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10)
+            cellStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            cellStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
         ])
         
         NSLayoutConstraint.activate([

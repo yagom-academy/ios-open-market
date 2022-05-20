@@ -71,7 +71,11 @@ extension OpenMarketViewController: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         
-        guard let url = product.thumbnail else {
+        guard let thumbnail = product.thumbnail else {
+            return UICollectionViewCell()
+        }
+        
+        guard let url = URL(string: thumbnail) else {
             return UICollectionViewCell()
         }
         

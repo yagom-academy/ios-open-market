@@ -31,6 +31,7 @@ final class FlowLayout: UICollectionViewFlowLayout {
     }
     
     private func listLayout() {
+        sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         minimumLineSpacing = 10
     }
     
