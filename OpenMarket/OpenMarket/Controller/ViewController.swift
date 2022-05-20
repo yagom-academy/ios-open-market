@@ -57,7 +57,14 @@ final class ViewController: UIViewController {
                 self.items.append(contentsOf: itemPage.items)
                 self.hasNext = itemPage.hasNext
             case .failure(_):
-                break
+                let alert = UIAlertController(title: "데이터로드 실패", message: "재시도 하시겠습니까?", preferredStyle: .alert)
+                let yesAction = UIAlertAction(title: "확인", style: .default) {_ in
+                    self.getItemPage()
+                }
+                let noAction = UIAlertAction(title: "취소", style: .destructive, handler: nil)
+                alert.addAction(noAction)
+                alert.addAction(yesAction)
+                self.present(alert, animated: true, completion: nil)
             }
         }
     }
@@ -84,7 +91,12 @@ final class ViewController: UIViewController {
                     }
                 }
             case .failure(_):
-                break
+                DispatchQueue.main.async {
+                    if self.openMarketCollectionView.indexPath(for: itemCell) == indexPath {
+                        guard let failImage = UIImage(systemName: "xmark.app") else { return }
+                        itemCell.configureImage(image: failImage)
+                    }
+                }
             }
         }
     }
