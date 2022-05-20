@@ -54,7 +54,7 @@ final class ProductView: UIView {
     
     private lazy var layoutType: LayoutType = .list {
         didSet {
-            collectionView.reloadData()
+            self.collectionView.reloadData()
         }
     }
     
