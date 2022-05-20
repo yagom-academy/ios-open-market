@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		941DA8EE283741FE0021CFCB /* UICollectionViewCell+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 941DA8ED283741FE0021CFCB /* UICollectionViewCell+extension.swift */; };
 		942CE24F282930ED006C6648 /* ProductList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 942CE24E282930ED006C6648 /* ProductList.swift */; };
 		942CE25B28294DD7006C6648 /* NetworkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 942CE25A28294DD7006C6648 /* NetworkTests.swift */; };
 		942CE26628294F54006C6648 /* MockURLProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 942CE26528294F54006C6648 /* MockURLProtocol.swift */; };
@@ -45,6 +46,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		941DA8ED283741FE0021CFCB /* UICollectionViewCell+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionViewCell+extension.swift"; sourceTree = "<group>"; };
 		942CE24E282930ED006C6648 /* ProductList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductList.swift; sourceTree = "<group>"; };
 		942CE25828294DD7006C6648 /* OpenMarketTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenMarketTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		942CE25A28294DD7006C6648 /* NetworkTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkTests.swift; sourceTree = "<group>"; };
@@ -138,6 +140,7 @@
 				94C11BE82832689200EB3049 /* Encodable+extension.swift */,
 				94A8E23928353D68008BD5EC /* UIRefreshControl+extension.swift */,
 				94A8E23B28353D74008BD5EC /* UIActivityIndicator+extension.swift */,
+				941DA8ED283741FE0021CFCB /* UICollectionViewCell+extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -315,6 +318,7 @@
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				9BF817542832A4F30016A085 /* ProductCell.swift in Sources */,
 				94881794282CC60400217C2A /* ProductGridCell.swift in Sources */,
+				941DA8EE283741FE0021CFCB /* UICollectionViewCell+extension.swift in Sources */,
 				9BF53E512829FE6000E1A936 /* NetworkManager.swift in Sources */,
 				94C11BE72832483400EB3049 /* EndPoint.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
