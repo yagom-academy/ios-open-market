@@ -7,27 +7,29 @@
 
 import UIKit
 
-enum LayoutType {
-    case list
-    case grid
+enum LayoutType: Int, CaseIterable {
+    case list = 0
+    case grid = 1
     
-    var layout: FlowLayout {
+    static var inventory: [String] {
+        return Self.allCases.map { $0.description }
+    }
+    
+    private var description: String {
         switch self {
         case .list:
-            Self.flowLayout.changeLayout(.list)
-            return Self.itemSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height / 14)
+            return "List"
         case .grid:
-            Self.flowLayout.changeLayout(.grid)
-            return Self.itemSize(width: UIScreen.main.bounds.width / 2.2, height: UIScreen.main.bounds.height / 3)
+            return "Grid"
         }
     }
-}
-
-extension LayoutType {
-    static let flowLayout = FlowLayout()
     
-    static func itemSize(width: CGFloat, height: CGFloat) -> FlowLayout {
-        flowLayout.itemSize = CGSize(width: width, height: height)
-        return flowLayout
+    var cell: CustomCell.Type {
+        switch self {
+        case .list:
+            return ListCell.self
+        case .grid:
+            return GridCell.self
+        }
     }
 }
