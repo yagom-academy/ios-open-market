@@ -22,7 +22,6 @@ class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view = baseView
         applyListLayout()
         applyGridLayout()
         registerCell()
