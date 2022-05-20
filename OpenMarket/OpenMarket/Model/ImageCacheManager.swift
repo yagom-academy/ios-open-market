@@ -1,5 +1,5 @@
 //
-//  CacheManager.swift
+//  ImageCacheManager.swift
 //  OpenMarket
 //
 //  Created by cathy, mmim.

@@ -29,6 +29,7 @@
 		C70FB0FF25BEF61C00C9924E /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FE25BEF61C00C9924E /* MainViewController.swift */; };
 		C70FB10425BEF61D00C9924E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C70FB10325BEF61D00C9924E /* Assets.xcassets */; };
 		C70FB10725BEF61D00C9924E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */; };
+		D67E6961283757870075284A /* ImageCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D67E6960283757870075284A /* ImageCacheManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,6 +68,7 @@
 		C70FB10325BEF61D00C9924E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C70FB10625BEF61D00C9924E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C70FB10825BEF61D00C9924E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D67E6960283757870075284A /* ImageCacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCacheManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -113,6 +115,7 @@
 				0341E5D5282A43E700DEC832 /* NetworkError.swift */,
 				039161D7282B573600DFE033 /* URLSessionProtocol.swift */,
 				037A74112834C6BC001AC352 /* Endpoint.swift */,
+				D67E6960283757870075284A /* ImageCacheManager.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -311,6 +314,7 @@
 				03301A592832AD3800D58385 /* ImageView+Extension.swift in Sources */,
 				03301A5B2832B68400D58385 /* GridCell.swift in Sources */,
 				0341E5D6282A43E700DEC832 /* NetworkError.swift in Sources */,
+				D67E6961283757870075284A /* ImageCacheManager.swift in Sources */,
 				03301A572832ACFB00D58385 /* String+Extension.swift in Sources */,
 				037A74122834C6BC001AC352 /* Endpoint.swift in Sources */,
 				036802E9282911100097DC62 /* Products.swift in Sources */,
