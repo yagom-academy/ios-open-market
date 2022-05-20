@@ -118,15 +118,18 @@ extension ViewController {
     
     @objc private func arrangementChange(_ sender: UISegmentedControl) {
         let mode = sender.selectedSegmentIndex
-        
-        if mode == ArrangeMode.list.rawValue {
-            self.arrangeMode = .list
+        if mode == ArrangeMode.list.value {
+            self.currentArrangeMode = .list
+        } else if mode == ArrangeMode.grid.value {
+            self.currentArrangeMode = .grid
+        }
+        switch currentArrangeMode {
+        case .list:
             collectionView.setCollectionViewLayout(listLayout(), animated: true) { [weak self] _ in self?.collectionView.reloadData() }
             collectionView
                 .register(ListCollectionViewCell.classForCoder(), forCellWithReuseIdentifier: "listCell")
             self.collectionView.reloadData()
-        } else if mode == ArrangeMode.grid.rawValue {
-            self.arrangeMode = .grid
+        case .grid:
             collectionView.setCollectionViewLayout(gridLayout(), animated: true) { [weak self] _ in self?.collectionView.reloadData() }
             collectionView
                 .register(GridCollectionViewCell.classForCoder(), forCellWithReuseIdentifier: "gridCell")
