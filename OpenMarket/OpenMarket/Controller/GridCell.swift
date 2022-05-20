@@ -16,29 +16,22 @@ final class GridCell: UICollectionViewCell, ItemCellable {
         
     func configureCell(items: [Item], indexPath: IndexPath) {
         itemNameLabel.text = items[indexPath.row].name
-        //price
-        let attributeString = NSMutableAttributedString(string: items[indexPath.row].currency + items[indexPath.row].price.description)
-        
-        attributeString.addAttribute(.strikethroughStyle,
-                                     value: NSUnderlineStyle.single.rawValue,
-                                     range: NSMakeRange(0, attributeString.length))
-        
-        priceLabel.attributedText = attributeString
+        priceLabel.attributedText = (items[indexPath.row].currency + items[indexPath.row].price.description).strikethrough()
         
         if items[indexPath.row].discountedPrice == 0 {
-            self.priceLabel.isHidden = true
-        } else {
-            self.priceLabel.isHidden = false
+                priceLabel.isHidden = true
+            } else {
+                priceLabel.isHidden = false
         }
         
         bargainPriceLabel.text = items[indexPath.row].currency + items[indexPath.row].bargainPrice.description
         
         if items[indexPath.row].stock == 0 {
-            self.stockLabel.text = "품절"
-            self.stockLabel.textColor = #colorLiteral(red: 0.9607843161, green: 0.7058823705, blue: 0.200000003, alpha: 1)
+            stockLabel.text = "품절"
+            stockLabel.textColor = #colorLiteral(red: 0.9607843161, green: 0.7058823705, blue: 0.200000003, alpha: 1)
         } else {
-            self.stockLabel.text = "잔여수량 : \(items[indexPath.row].stock)"
-            self.stockLabel.textColor = #colorLiteral(red: 0.6666666865, green: 0.6666666865, blue: 0.6666666865, alpha: 1)
+            stockLabel.text = "잔여수량 : \(items[indexPath.row].stock)"
+            stockLabel.textColor = #colorLiteral(red: 0.6666666865, green: 0.6666666865, blue: 0.6666666865, alpha: 1)
         }
     }
     
