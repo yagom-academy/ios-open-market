@@ -84,7 +84,7 @@ final class ListCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         addsubViews()
-        layout()
+        constraintLayout()
         setupBorder()
     }
     

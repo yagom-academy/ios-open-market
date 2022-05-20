@@ -72,8 +72,8 @@ class GridCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupBorder()
-        addsubViews()
-        layout()
+        addSubViews()
+        constraintLayout()
     }
     
     required init?(coder: NSCoder) {
@@ -156,7 +156,7 @@ extension GridCell {
         pricestackView.addArrangedsubViews(priceLabel, bargenLabel)
     }
     
-    private func layout() {
+    private func constraintLayout() {
         
         NSLayoutConstraint.activate([
             thumbnailImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
