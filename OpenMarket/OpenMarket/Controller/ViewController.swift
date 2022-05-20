@@ -106,10 +106,12 @@ final class ViewController: UIViewController {
             myActivityIndicator.isHidden = false
             myActivityIndicator.startAnimating()
             setListLayout()
+            openMarketCollectionView.setListPosition()
         } else {
             myActivityIndicator.isHidden = false
             myActivityIndicator.startAnimating()
             setGridLayout()
+            openMarketCollectionView.setGirdPosition()
         }
         openMarketCollectionView.reloadData()
     }
@@ -139,7 +141,6 @@ extension ViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
         if cellType == .list {
             guard let listCell = collectionView.dequeueReusableCell(withReuseIdentifier:  "\(ListCell.self)", for: indexPath) as? ListCell else { return ListCell() }
             setCellComponents(itemCell: listCell, indexPath: indexPath)
