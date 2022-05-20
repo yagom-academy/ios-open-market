@@ -146,6 +146,7 @@ extension ListCollectionViewCell {
             label.textColor = .systemGray2
         }
         
+        button.setContentHuggingPriority(.required, for: .horizontal)
         button.setImage(UIImage(systemName: "chevron.forward"), for: .normal)
         button.tintColor = .systemGray2
         label.textAlignment = .right
@@ -161,8 +162,7 @@ extension ListCollectionViewCell {
         self.contentView.addSubview(entireProductStackView)
         
         NSLayoutConstraint.activate([
-            productImage.widthAnchor.constraint(equalToConstant: 50),
-            productImage.heightAnchor.constraint(equalTo: productImage.widthAnchor),
+            productImage.widthAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.15),
             entireProductStackView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 5),
             entireProductStackView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 5),
             entireProductStackView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -5),
