@@ -28,6 +28,7 @@
 최초에는 이런식으로 해서 HTTP메서드 GET에 한정됐다
 
 ![](https://i.imgur.com/ZzrzV5m.png)
+
 근데 이렇게 각 http메서드 마다 필요한 모델을 APIable이라는 프로토콜로 추상화 시켜 만들어주었고
 
 ![](https://i.imgur.com/CJitziJ.png)
