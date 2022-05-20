@@ -13,15 +13,25 @@ class BaseView: UIView {
         let selectedForegroundColor = [NSAttributedString.Key.foregroundColor: UIColor.white]
         let normalForegroundColor = [NSAttributedString.Key.foregroundColor: UIColor.systemBlue]
         let segmentedControl = UISegmentedControl(items: ["LIST","GRID"])
-        segmentedControl.selectedSegmentIndex = 0
-        segmentedControl.selectedSegmentTintColor = .systemBlue
-        segmentedControl.setTitleTextAttributes(titleFont, for: .normal)
-        segmentedControl.setTitleTextAttributes(selectedForegroundColor, for: .selected)
-        segmentedControl.setTitleTextAttributes(normalForegroundColor, for: .normal)
-        segmentedControl.layer.borderWidth = 1.0
-        segmentedControl.layer.cornerRadius = 5.0
-        segmentedControl.layer.borderColor = UIColor.systemBlue.cgColor
-        segmentedControl.layer.masksToBounds = true
+        
+        func attribute() {
+            segmentedControl.selectedSegmentIndex = 0
+            segmentedControl.selectedSegmentTintColor = .systemBlue
+            segmentedControl.setTitleTextAttributes(titleFont, for: .normal)
+            segmentedControl.setTitleTextAttributes(selectedForegroundColor, for: .selected)
+            segmentedControl.setTitleTextAttributes(normalForegroundColor, for: .normal)
+        }
+        
+        func layer() {
+            segmentedControl.layer.borderWidth = 1.0
+            segmentedControl.layer.cornerRadius = 5.0
+            segmentedControl.layer.borderColor = UIColor.systemBlue.cgColor
+            segmentedControl.layer.masksToBounds = true
+        }
+        
+        attribute()
+        layer()
+        
         return segmentedControl
     }()
     
