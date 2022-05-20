@@ -22,8 +22,8 @@ class OpenMarketViewController: UIViewController {
         super.viewDidLoad()
         network = URLSessionProvider()
         fetchData(from: .productList(page: 1, itemsPerPage: 70))
-        setup()
-        addsegment()
+        setupCollectionView()
+        setupSegmentControl()
     }
     
     private func fetchData(from: Endpoint) {
@@ -37,7 +37,7 @@ class OpenMarketViewController: UIViewController {
         })
     }
     
-    private func setup() {
+    private func setupCollectionView() {
         let flowLayout = LayoutType.list.layout
         self.collectionView = UICollectionView(frame: view.frame, collectionViewLayout: flowLayout)
         self.view.addSubview(collectionView ?? UICollectionView())
@@ -46,7 +46,7 @@ class OpenMarketViewController: UIViewController {
         self.collectionView?.register(GridCell.self, forCellWithReuseIdentifier: GridCell.identifier)
     }
     
-    private func addsegment() {
+    private func setupSegmentControl() {
         self.navigationItem.titleView = segmentControl
         segmentControl.addTarget(self, action: #selector(didChangeSegment), for: .valueChanged)
     }
