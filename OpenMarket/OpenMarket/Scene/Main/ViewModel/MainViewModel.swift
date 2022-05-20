@@ -37,11 +37,7 @@ final class MainViewModel {
     func requestProducts(by page: Int) {
         let endpoint = EndPointStorage.productsList(pageNumber: page, perPages: Constants.itemsCountPerPage)
         
-        productsAPIServie.request(with: endpoint) { [weak self] result in
-            guard let self = self else {
-                return
-            }
-            
+        productsAPIServie.request(with: endpoint) { result in
             switch result {
             case .success(let products):
                 self.products = products

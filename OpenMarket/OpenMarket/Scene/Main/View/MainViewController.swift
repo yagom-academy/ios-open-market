@@ -44,7 +44,7 @@ extension MainViewController {
     }
     
     private func setUpSegmentControl() {
-        mainView.segmentControl.addTarget(self, action: #selector(changeLayout), for: .valueChanged)
+        mainView.segmentControl.addTarget(self, action: #selector(segmentControlValueChanged), for: .valueChanged)
     }
     
     private func setUpViewModel() {
@@ -52,9 +52,10 @@ extension MainViewController {
         viewModel.delegate = self
     }
     
-    @objc private func changeLayout() {
+    @objc private func segmentControlValueChanged() {
         mainView.setUpLayout(segmentIndex: mainView.segmentControl.selectedSegmentIndex)
     }
+    
 }
 
 // MARK: Datasource && Snapshot
