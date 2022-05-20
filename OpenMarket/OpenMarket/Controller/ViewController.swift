@@ -10,7 +10,7 @@ final class ViewController: UIViewController {
     @IBOutlet private weak var openMarketCollectionView: UICollectionView!
     @IBOutlet private weak var collectionViewSegment: UISegmentedControl!
     @IBOutlet private weak var myActivityIndicator: UIActivityIndicatorView!
-    
+
     private let networkHandler = NetworkHandler()
     private var hasNext = true
     private var pageNumber = 1
@@ -20,6 +20,17 @@ final class ViewController: UIViewController {
             DispatchQueue.main.async {
                 self.openMarketCollectionView.reloadData()
             }
+        }
+    }
+    
+    private enum CellType: Int {
+        case list = 0
+        case grid = 1
+    }
+    
+    private var cellType: CellType = .list {
+        didSet {
+            changeCellType()
         }
     }
     
@@ -78,6 +89,19 @@ final class ViewController: UIViewController {
         }
     }
     
+    private func changeCellType() {
+        if cellType == .list {
+            myActivityIndicator.isHidden = false
+            myActivityIndicator.startAnimating()
+            setListLayout()
+        } else {
+            myActivityIndicator.isHidden = false
+            myActivityIndicator.startAnimating()
+            setGridLayout()
+        }
+        openMarketCollectionView.reloadData()
+    }
+    
     private func setCellComponents(itemCell: ItemCellable, indexPath: IndexPath) {
         let thumnailURL = self.items[indexPath.row].thumbnail
         
@@ -92,16 +116,8 @@ final class ViewController: UIViewController {
     }
     
     @IBAction private func changeLayoutSegment(_ sender: UISegmentedControl) {
-        if sender.selectedSegmentIndex == 0 {
-            myActivityIndicator.isHidden = false
-            myActivityIndicator.startAnimating()
-            setListLayout()
-        } else {
-            myActivityIndicator.isHidden = false
-            myActivityIndicator.startAnimating()
-            setGridLayout()
-        }
-        openMarketCollectionView.reloadData()
+        guard let segmentType = CellType(rawValue: sender.selectedSegmentIndex) else { return }
+        cellType = segmentType
     }
 }
 // MARK: - CollectionView Cell
