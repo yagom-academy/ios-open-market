@@ -141,7 +141,7 @@ final class ListCell: UICollectionViewCell {
   }
   
   func setUpListCell(page: Page) {
-    self.thumbnailImageView.load(urlString: page.thumbnail)
+    self.thumbnailImageView.loadImage(urlString: page.thumbnail)
     self.nameLabel.text = page.name
     
     if page.discountedPrice == 0 {
