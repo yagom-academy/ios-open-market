@@ -73,7 +73,9 @@ final class MainViewController: UIViewController {
 // MARK: - Action Method
 
 extension MainViewController {
-    @objc private func addButtonDidTapped() {}
+    @objc private func addButtonDidTapped() {
+        // empty
+    }
     
     @objc private func segmentValueDidChanged(segmentedControl: UISegmentedControl) {
         mainView?.changeLayout(index: segmentedControl.selectedSegmentIndex)
