@@ -26,12 +26,8 @@ final class MainViewController: UIViewController {
     
     private var networkManager = NetworkManager<ProductList>(imageCache: CacheManager())
     
-    private lazy var segmentControl: CellSegmentControl = {
-        let segmentControl = CellSegmentControl(items: ["LIST", "GRID"])
-        segmentControl.addTarget(self, action: #selector(segmentValueDidChanged(segmentedControl:)), for: .valueChanged)
-        return segmentControl
-    }()
-    
+    private let cellLayoutSegmentControl = UISegmentedControl(items: ["LIST", "GRID"])
+
     override func viewDidLoad() {
         super.viewDidLoad()
         configureView()
@@ -53,7 +49,7 @@ final class MainViewController: UIViewController {
     
     private func configureNavigationBar() {
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonDidTapped))
-        navigationItem.titleView = segmentControl
+        navigationItem.titleView = cellLayoutSegmentControl
     }
     
     private func configureCollectionView() {
@@ -68,6 +64,18 @@ final class MainViewController: UIViewController {
         mainView?.collectionView.refreshControl = UIRefreshControl()
         mainView?.collectionView.refreshControl?.addTarget(self, action: #selector(handleRefreshControl), for: .valueChanged)
     }
+    
+    private func configureSegmentControl() {
+        cellLayoutSegmentControl.setTitleTextAttributes([.foregroundColor : UIColor.white], for: .selected)
+        cellLayoutSegmentControl.setTitleTextAttributes([.foregroundColor : UIColor.systemBlue], for: .normal)
+        cellLayoutSegmentControl.selectedSegmentTintColor = .systemBlue
+        cellLayoutSegmentControl.setWidth(80, forSegmentAt: 0)
+        cellLayoutSegmentControl.setWidth(80, forSegmentAt: 1)
+        cellLayoutSegmentControl.layer.borderWidth = 1.0
+        cellLayoutSegmentControl.layer.borderColor = UIColor.systemBlue.cgColor
+        cellLayoutSegmentControl.selectedSegmentIndex = 0
+        cellLayoutSegmentControl.addTarget(self, action: #selector(segmentValueDidChanged), for: .valueChanged)
+    }
 }
 
 // MARK: - Action Method
@@ -77,8 +85,8 @@ extension MainViewController {
         // empty
     }
     
-    @objc private func segmentValueDidChanged(segmentedControl: UISegmentedControl) {
-        mainView?.changeLayout(index: segmentedControl.selectedSegmentIndex)
+    @objc private func segmentValueDidChanged() {
+        mainView?.changeLayout(index: cellLayoutSegmentControl.selectedSegmentIndex)
         mainView?.collectionView.reloadData()
     }
     
@@ -126,7 +134,7 @@ extension MainViewController {
             
             guard let self = self else { return nil }
             
-            guard let layout = ProductCollectionViewLayoutType(rawValue: self.segmentControl.selectedSegmentIndex) else { return nil }
+            guard let layout = ProductCollectionViewLayoutType(rawValue: self.cellLayoutSegmentControl.selectedSegmentIndex) else { return nil }
             let cellType = layout.cellType
             
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellType.identifier, for: indexPath) as? ProductCell else { return cellType.init() }
