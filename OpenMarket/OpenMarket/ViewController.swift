@@ -20,6 +20,11 @@ enum ArrangeMode: String, CaseIterable {
     }
 }
 
+extension API {
+    static let numbers = 1
+    static let pages = 20
+}
+
 final class ViewController: UIViewController {
     private let arrangeModeChanger = UISegmentedControl(items: ArrangeMode.allCases.map {
         $0.rawValue
@@ -83,7 +88,7 @@ private extension ViewController {
     }
     
     private func requestProductListData() {
-        RequestAssistant.shared.requestListAPI(pageNumber: 1, itemsPerPage: 20) { result in
+        RequestAssistant.shared.requestListAPI(pageNumber: API.numbers, itemsPerPage: API.pages) { result in
             Thread.sleep(forTimeInterval: 5)
             switch result {
             case .success(let data):

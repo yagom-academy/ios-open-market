@@ -14,7 +14,8 @@
 		4EA2BFD5282957560028C72A /* ProductList.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0DDF812829531400B72AD8 /* ProductList.swift */; };
 		4EA2BFD6282957560028C72A /* Vendor.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0DDF7F28294FA200B72AD8 /* Vendor.swift */; };
 		4EA2BFD7282959E30028C72A /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EA2BFC428294A970028C72A /* Parser.swift */; };
-		4EC87E102830C5A600DDB419 /* NumberFormatterAssistant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EC87E0F2830C5A600DDB419 /* NumberFormatterAssistant.swift */; };
+		4EC0C5712837768E007BF71C /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EC0C5702837768E007BF71C /* API.swift */; };
+		4EC87E102830C5A600DDB419 /* NumberFormatter+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EC87E0F2830C5A600DDB419 /* NumberFormatter+extension.swift */; };
 		4ECC520A282A31A1008F7E14 /* URLSessionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ECC5209282A31A1008F7E14 /* URLSessionTests.swift */; };
 		4ECC5210282A31B3008F7E14 /* CustomURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0DDF87282A0ACC00B72AD8 /* CustomURLSession.swift */; };
 		4ECC5211282A31B3008F7E14 /* URLSessionGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0DDF85282A007000B72AD8 /* URLSessionGenerator.swift */; };
@@ -24,7 +25,6 @@
 		4ECC5215282A31B6008F7E14 /* ProductList.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0DDF812829531400B72AD8 /* ProductList.swift */; };
 		4ECC5216282A31B6008F7E14 /* Vendor.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0DDF7F28294FA200B72AD8 /* Vendor.swift */; };
 		4ECC5218282A3460008F7E14 /* RequestAssistant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ECC5217282A3460008F7E14 /* RequestAssistant.swift */; };
-		4ECCD1BA2833B02C008B79FA /* UICollectionViewCell+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ECCD1B92833B02C008B79FA /* UICollectionViewCell+extension.swift */; };
 		4ECCD1BC2833B143008B79FA /* OpenMarketCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ECCD1BB2833B143008B79FA /* OpenMarketCell.swift */; };
 		4ECE6E6C282E3EAD00536F3E /* ListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ECE6E6B282E3EAD00536F3E /* ListCollectionViewCell.swift */; };
 		4ED5FC8A282A62000048DA21 /* URLSessionGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0DDF85282A007000B72AD8 /* URLSessionGenerator.swift */; };
@@ -95,11 +95,11 @@
 		4EA2BFC428294A970028C72A /* Parser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
 		4EA2BFCA282957140028C72A /* DecodeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DecodeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4EA2BFCC282957140028C72A /* DecodeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecodeTests.swift; sourceTree = "<group>"; };
-		4EC87E0F2830C5A600DDB419 /* NumberFormatterAssistant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberFormatterAssistant.swift; sourceTree = "<group>"; };
+		4EC0C5702837768E007BF71C /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
+		4EC87E0F2830C5A600DDB419 /* NumberFormatter+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NumberFormatter+extension.swift"; sourceTree = "<group>"; };
 		4ECC5207282A31A1008F7E14 /* URLSessionTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = URLSessionTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4ECC5209282A31A1008F7E14 /* URLSessionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionTests.swift; sourceTree = "<group>"; };
 		4ECC5217282A3460008F7E14 /* RequestAssistant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestAssistant.swift; sourceTree = "<group>"; };
-		4ECCD1B92833B02C008B79FA /* UICollectionViewCell+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionViewCell+extension.swift"; sourceTree = "<group>"; };
 		4ECCD1BB2833B143008B79FA /* OpenMarketCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketCell.swift; sourceTree = "<group>"; };
 		4ECE6E6B282E3EAD00536F3E /* ListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCollectionViewCell.swift; sourceTree = "<group>"; };
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -210,6 +210,7 @@
 				DA0DDF84282A003600B72AD8 /* Network */,
 				DA0DDFAC282A5D7800B72AD8 /* Utils */,
 				DA0DDFA4282A50CE00B72AD8 /* Error */,
+				4EC0C5702837768E007BF71C /* API.swift */,
 			);
 			path = OpenMarket;
 			sourceTree = "<group>";
@@ -267,7 +268,6 @@
 			children = (
 				4EA2BFC428294A970028C72A /* Parser.swift */,
 				4ECC5217282A3460008F7E14 /* RequestAssistant.swift */,
-				4EC87E0F2830C5A600DDB419 /* NumberFormatterAssistant.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -287,7 +287,7 @@
 			children = (
 				DAB91822283346100077254E /* UIImageView+extension.swift */,
 				DA10BB5A2833A58400812F9D /* UIFont+extension.swift */,
-				4ECCD1B92833B02C008B79FA /* UICollectionViewCell+extension.swift */,
+				4EC87E0F2830C5A600DDB419 /* NumberFormatter+extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -489,6 +489,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4EC0C5712837768E007BF71C /* API.swift in Sources */,
 				4ECC5218282A3460008F7E14 /* RequestAssistant.swift in Sources */,
 				DA0DDFA6282A50F500B72AD8 /* OpenMarketError.swift in Sources */,
 				DA10BB5B2833A58400812F9D /* UIFont+extension.swift in Sources */,
@@ -498,10 +499,9 @@
 				DA0DDF822829531400B72AD8 /* ProductList.swift in Sources */,
 				DAB91823283346100077254E /* UIImageView+extension.swift in Sources */,
 				4ECCD1BC2833B143008B79FA /* OpenMarketCell.swift in Sources */,
-				4EC87E102830C5A600DDB419 /* NumberFormatterAssistant.swift in Sources */,
+				4EC87E102830C5A600DDB419 /* NumberFormatter+extension.swift in Sources */,
 				DA0DDF8B282A0D3800B72AD8 /* MockURLSession.swift in Sources */,
 				4ECE6E6C282E3EAD00536F3E /* ListCollectionViewCell.swift in Sources */,
-				4ECCD1BA2833B02C008B79FA /* UICollectionViewCell+extension.swift in Sources */,
 				DA0DDF8028294FA200B72AD8 /* Vendor.swift in Sources */,
 				DA0DDF7E28294F9000B72AD8 /* Image.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
