@@ -25,6 +25,7 @@ extension UIImageView {
             
             completion(image)
             
-        }.resume()
+        }
+        .resume()
     }
 }

@@ -60,40 +60,4 @@ struct URLSessionProvider<T: Decodable> {
         }
         task.resume()
     }
-    
-    func fetchImage(
-        from url: URL,
-        completionHandler: @escaping (Result<UIImage, NetworkError>) -> Void) {
-            
-            if let cacheImages = cache.object(forKey: url as NSURL) {
-                completionHandler(.success(cacheImages))
-                return
-            }
-            
-            let task = session.dataTask(with: url) { data, urlResponse, error in
-                guard error == nil else {
-                    completionHandler(.failure(.clientError))
-                    return
-                }
-                
-                guard let httpResponse = urlResponse as? HTTPURLResponse,
-                      (200...299).contains(httpResponse.statusCode) else {
-                    completionHandler(.failure(.statusCodeError))
-                    return
-                }
-                
-                guard let data = data else {
-                    completionHandler(.failure(.dataError))
-                    return
-                }
-                
-                guard let image = UIImage(data: data) else {
-                    completionHandler(.failure(.imageError))
-                    return
-                }
-                
-                completionHandler(.success(image))
-            }
-            task.resume()
-        }
 }
