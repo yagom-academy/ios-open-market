@@ -20,6 +20,7 @@
 		A1DADBF4282D4FCB002C7B4D /* URLSessionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1DADBF3282D4FCB002C7B4D /* URLSessionProtocol.swift */; };
 		A1F2F260283284C100C19287 /* UICollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1F2F25F283284C100C19287 /* UICollectionViewCell.swift */; };
 		A1FC1BCC283737FD00EC14DD /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1FC1BCB283737FD00EC14DD /* MainViewModel.swift */; };
+		A1FC1BCE28377FC700EC14DD /* UIImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1FC1BCD28377FC700EC14DD /* UIImageView.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
 		C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */; };
 		C70FB0FF25BEF61C00C9924E /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FE25BEF61C00C9924E /* MainViewController.swift */; };
@@ -64,6 +65,7 @@
 		A1DADBF3282D4FCB002C7B4D /* URLSessionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionProtocol.swift; sourceTree = "<group>"; };
 		A1F2F25F283284C100C19287 /* UICollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UICollectionViewCell.swift; sourceTree = "<group>"; };
 		A1FC1BCB283737FD00EC14DD /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
+		A1FC1BCD28377FC700EC14DD /* UIImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageView.swift; sourceTree = "<group>"; };
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -170,6 +172,7 @@
 				A1F2F25F283284C100C19287 /* UICollectionViewCell.swift */,
 				A13387A3283375ED00950EA2 /* UIViewController.swift */,
 				DAA1077B28374BEC00907154 /* NSMutableAttributedString.swift */,
+				A1FC1BCD28377FC700EC14DD /* UIImageView.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -396,6 +399,7 @@
 				DA9AE549282A4513003BA8B2 /* HTTPMethod.swift in Sources */,
 				A13387A22833759D00950EA2 /* AlertBuilder.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
+				A1FC1BCE28377FC700EC14DD /* UIImageView.swift in Sources */,
 				DA9AE567282B5709003BA8B2 /* ProductsDetail.swift in Sources */,
 				DA9AE5B728326AF0003BA8B2 /* ListCollectionViewCell.swift in Sources */,
 				A13387A02833673300950EA2 /* ImageCacheManager.swift in Sources */,

@@ -8,6 +8,12 @@
 import UIKit
 
 final class GridCollectionViewCell: UICollectionViewCell {
+    private enum Constants {
+        static let completedState = 3
+    }
+    
+    private var tasks: [URLSessionDataTaskProtocol] = []
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         addSubviews()
@@ -26,7 +32,13 @@ final class GridCollectionViewCell: UICollectionViewCell {
         super.prepareForReuse()
         productImageView.image = nil
         productNameLabel.text = ""
-        indicatorView.startAnimating()
+        tasks.forEach { task in
+            let task = task as? URLSessionDataTask
+            if task?.state.rawValue != Constants.completedState {
+                task?.cancel()
+            }
+        }
+        tasks.removeAll()
     }
     
     private lazy var productStackView: UIStackView = {
@@ -137,8 +149,19 @@ final class GridCollectionViewCell: UICollectionViewCell {
         stockLabel.text = data.stock == 0 ? "품절 " : "잔여수량 : \(data.stock) "
     }
     
-    func updateImage(image: UIImage?) {
-        productImageView.image = image
-        indicatorView.stopAnimating()
+    func updateImage(url: URL) {
+        indicatorView.startAnimating()
+        
+        let task = productImageView.loadImage(url: url) {
+            DispatchQueue.main.async {
+                self.indicatorView.stopAnimating()
+            }
+        }
+        
+        guard let task = task else {
+            return
+        }
+        
+        tasks.append(task)
     }
 }

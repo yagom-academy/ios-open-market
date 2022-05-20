@@ -58,7 +58,7 @@ extension MainViewController {
     
 }
 
-// MARK: Datasource && Snapshot
+// MARK: Datasource
 
 extension MainViewController {
     private func makeDataSource() -> UICollectionViewDiffableDataSource<MainViewModel.Section, Item> {
@@ -72,14 +72,10 @@ extension MainViewController {
                         for: indexPath) as? ListCollectionViewCell else {
                         return UICollectionViewCell()
                     }
-                    
-                    self.viewModel.loadImage(url: item.thumbnail) { image in
-                        DispatchQueue.main.async {
-                            cell.updateImage(image: image)
-                        }
-                    }
-                    
+
+                    cell.updateImage(url: item.thumbnail)
                     cell.updateLabel(data: item)
+                    
                     return cell
                     
                 case .grid:
@@ -88,20 +84,18 @@ extension MainViewController {
                         for: indexPath) as? GridCollectionViewCell else {
                         return UICollectionViewCell()
                     }
-                    
-                    self.viewModel.loadImage(url: item.thumbnail) { image in
-                        DispatchQueue.main.async {
-                            cell.updateImage(image: image)
-                        }
-                    }
-                    
+
+                    cell.updateImage(url: item.thumbnail)
                     cell.updateLabel(data: item)
+                    
                     return cell
                 }
             })
         return dataSource
     }
 }
+
+// MARK: AlertDelegate
 
 extension MainViewController: AlertDelegate {
     func showAlertRequestError(with error: Error) {
@@ -114,15 +108,9 @@ extension MainViewController: AlertDelegate {
             }
             .showAlert()
     }
-    
-    func showAlertRequestImageError(with error: Error) {
-        self.alertBuilder
-            .setTitle(Constants.requestErrorAlertTitle)
-            .setMessage(error.localizedDescription)
-            .setConfirmTitle(Constants.loadImageErrorAlertConfirmTitle)
-            .showAlert()
-    }
 }
+
+// MARK: UICollectionViewDelegate
 
 extension MainViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {

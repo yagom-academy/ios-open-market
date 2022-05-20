@@ -9,7 +9,6 @@ import UIKit
 
 protocol AlertDelegate: AnyObject {
     func showAlertRequestError(with error: Error)
-    func showAlertRequestImageError(with error: Error)
 }
 
 final class MainViewModel {
@@ -50,20 +49,7 @@ final class MainViewModel {
             }
         }
     }
-    
-    func loadImage(url: URL, completion: @escaping (UIImage) -> Void) {
-        self.imageCacheManager.loadImage(url: url) { result in
-            switch result {
-            case .success(let image):
-                completion(image)
-            case .failure(let error):
-                DispatchQueue.main.async {
-                    self.delegate?.showAlertRequestImageError(with: error)
-                }
-            }
-        }
-    }
-    
+
     private func applySnapshot() {
         DispatchQueue.main.async {
             var snapshot = Snapshot()

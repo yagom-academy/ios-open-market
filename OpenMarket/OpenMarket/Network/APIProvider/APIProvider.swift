@@ -10,7 +10,7 @@ import UIKit
 protocol Provider {
     associatedtype T
     func request(with endpoint: Requestable, completion: @escaping (Result<T, Error>) -> Void)
-    func requestImage(with url: URL, completion: @escaping (Result<Data, Error>) -> Void)
+    func requestImage(with url: URL, completion: @escaping (Result<Data, Error>) -> Void) -> URLSessionDataTaskProtocol?
 }
 
 final class APIProvider<T: Decodable>: Provider {
@@ -45,12 +45,17 @@ final class APIProvider<T: Decodable>: Provider {
     func requestImage(
         with url: URL,
         completion: @escaping (Result<Data, Error>) -> Void
-    ) {
-        urlSession.dataTask(with: url) { [weak self] data, response, error in
+    ) -> URLSessionDataTaskProtocol? {
+        var task: URLSessionDataTaskProtocol?
+        
+        task = urlSession.dataTask(with: url) { [weak self] data, response, error in
             self?.checkError(with: data, response, error) { result in
                 completion(result)
             }
-        }.resume()
+        }
+        task?.resume()
+        
+        return task
     }
     
     private func checkError(
