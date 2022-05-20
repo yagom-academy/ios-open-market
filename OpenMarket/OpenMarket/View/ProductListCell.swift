@@ -194,6 +194,7 @@ extension ProductListCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         imageFetchTask?.cancel()
+        cellUIComponent.thumbnailImageView.image = UIImage(systemName: "swift")
         cellUIComponent.stockLabel.textColor = .systemGray
         cellUIComponent.priceLabel.textColor = .systemGray
         cellUIComponent.bargainPriceLabel.isHidden = false
