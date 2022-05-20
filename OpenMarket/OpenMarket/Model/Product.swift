@@ -8,7 +8,7 @@
 import Foundation
 
 struct Product: Decodable, Hashable {
-    let identifier = UUID()
+    let identifier: Int
     let name: String
     let price: Int
     let bargainPrice: Int
@@ -17,6 +17,7 @@ struct Product: Decodable, Hashable {
     let stock: Int
     
     enum CodingKeys: String, CodingKey {
+        case identifier = "id"
         case name
         case price
         case bargainPrice = "bargain_price"
