@@ -24,13 +24,15 @@ final class ViewController: UIViewController {
     private let arrangeModeChanger = UISegmentedControl(items: ArrangeMode.allCases.map {
         $0.rawValue
     })
+    private var currentArrangeMode: ArrangeMode = .list
+    private var products: [Product] = []
     private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: listLayout())
     private lazy var activityIndicator: UIActivityIndicatorView = {
         createActivityIndicator()
     }()
+    private let numberFormatter = NumberFormatter()
 }
 
-// MARK: - Life Cycle
 extension ViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,11 +40,11 @@ extension ViewController {
         self.view.addSubview(collectionView)
         self.view.addSubview(activityIndicator)
         self.activityIndicator.startAnimating()
-        receiveProductListData()
+        requestProductListData()
         
         setUpSegmentedControlLayout()
         setUpCollectionViewConstraints()
-        collectionViewDelegate()
+        defineCollectionViewDelegate()
         
         setUpInitialState()
     }
@@ -50,7 +52,7 @@ extension ViewController {
 
 // MARK: - Delegate
 extension ViewController {
-    func collectionViewDelegate() {
+   private func defineCollectionViewDelegate() {
         collectionView.delegate = self
         collectionView.dataSource = self
     }
@@ -59,11 +61,11 @@ extension ViewController {
 // MARK: - Delegate Method
 extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        data.count
+        return products.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        switch self.arrangeMode {
+        switch self.currentArrangeMode {
         case .list:
             return configureListCell(indexPath: indexPath)
         case .grid:
@@ -76,17 +78,17 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, 
 extension ViewController {
     private func setUpNavigationItems() {
         let plusButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: nil)
-        self.navigationItem.titleView = segmentedControl
+        self.navigationItem.titleView = arrangeModeChanger
         self.navigationItem.rightBarButtonItem = plusButton
         self.navigationController?.navigationBar.backgroundColor = .systemGroupedBackground
     }
     
-    private func receiveProductListData() {
+    private func requestProductListData() {
         RequestAssistant.shared.requestListAPI(pageNumber: 1, itemsPerPage: 20) { result in
             Thread.sleep(forTimeInterval: 5)
             switch result {
             case .success(let data):
-                self.data = data.pages
+                self.products = data.pages
                 DispatchQueue.main.async {
                     self.activityIndicator.stopAnimating()
                     self.collectionView.reloadData()
@@ -101,22 +103,22 @@ extension ViewController {
         let normalTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.systemBlue, .font: UIFont.preferredFont(forTextStyle: .callout)]
         let selectedTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white, .font: UIFont.preferredFont(forTextStyle: .callout)]
         
-        segmentedControl.translatesAutoresizingMaskIntoConstraints = false
-        segmentedControl.backgroundColor = .white
-        segmentedControl.selectedSegmentTintColor = .systemBlue
-        segmentedControl.setTitleTextAttributes(normalTextAttributes, for: .normal)
-        segmentedControl.setTitleTextAttributes(selectedTextAttributes, for: .selected)
-        segmentedControl.layer.borderColor = UIColor.systemBlue.cgColor
-        segmentedControl.layer.borderWidth = 1.0
-        segmentedControl.layer.cornerRadius = 1.0
-        segmentedControl.layer.masksToBounds = false
-        segmentedControl.setWidth(85, forSegmentAt: 0)
-        segmentedControl.setWidth(85, forSegmentAt: 1)
-        segmentedControl.apportionsSegmentWidthsByContent = true
-        segmentedControl.sizeToFit()
+        arrangeModeChanger.translatesAutoresizingMaskIntoConstraints = false
+        arrangeModeChanger.backgroundColor = .white
+        arrangeModeChanger.selectedSegmentTintColor = .systemBlue
+        arrangeModeChanger.setTitleTextAttributes(normalTextAttributes, for: .normal)
+        arrangeModeChanger.setTitleTextAttributes(selectedTextAttributes, for: .selected)
+        arrangeModeChanger.layer.borderColor = UIColor.systemBlue.cgColor
+        arrangeModeChanger.layer.borderWidth = 1.0
+        arrangeModeChanger.layer.cornerRadius = 1.0
+        arrangeModeChanger.layer.masksToBounds = false
+        arrangeModeChanger.setWidth(85, forSegmentAt: 0)
+        arrangeModeChanger.setWidth(85, forSegmentAt: 1)
+        arrangeModeChanger.apportionsSegmentWidthsByContent = true
+        arrangeModeChanger.sizeToFit()
     }
     
-    @objc private func arrangementChange(_ sender: UISegmentedControl) {
+    @objc private func changeArrangement(_ sender: UISegmentedControl) {
         let mode = sender.selectedSegmentIndex
         if mode == ArrangeMode.list.value {
             self.currentArrangeMode = .list
@@ -146,9 +148,9 @@ extension ViewController {
     }
     
     private func setUpInitialState() {
-        segmentedControl.addTarget(self, action: #selector(arrangementChange(_:)), for: .valueChanged)
-        segmentedControl.selectedSegmentIndex = 0
-        self.arrangementChange(segmentedControl)
+        arrangeModeChanger.addTarget(self, action: #selector(changeArrangement(_:)), for: .valueChanged)
+        arrangeModeChanger.selectedSegmentIndex = 0
+        self.changeArrangement(arrangeModeChanger)
     }
     
     private func createActivityIndicator() -> UIActivityIndicatorView {
@@ -163,7 +165,7 @@ extension ViewController {
     
     private func configureListCell(indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "listCell", for: indexPath) as? ListCollectionViewCell else {
-            return UICollectionViewCell()
+            return ListCollectionViewCell()
         }
         
         cell.accessories = [.disclosureIndicator()]
@@ -174,7 +176,7 @@ extension ViewController {
     
     private func configureGridCell(indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "gridCell", for: indexPath) as? GridCollectionViewCell else {
-            return UICollectionViewCell()
+            return GridCollectionViewCell()
         }
         
         configureCellContents(indexPath: indexPath, cell: cell)
@@ -187,26 +189,26 @@ extension ViewController {
     }
     
     private func configureCellContents(indexPath: IndexPath, cell: OpenMarketCell) {
-        guard let currency = data[indexPath.row].currency?.rawValue else {
+        guard let currency = products[indexPath.row].currency?.rawValue else {
             return
         }
-        cell.productNameLabel.text = data[indexPath.row].name
-        cell.productPriceLabel.text = "\(currency) \(NumberFormatterAssistant.shared.numberFormatString(for: data[indexPath.row].price))"
-        cell.productImageView.requestImageDownload(url: data[indexPath.row].thumbnail)
+        cell.productNameLabel.text = products[indexPath.row].name
+        cell.productPriceLabel.text = "\(currency) \(numberFormatter.numberFormatString(for: products[indexPath.row].price))"
+        cell.productImageView.requestImageDownload(url: products[indexPath.row].thumbnail)
         guard let price = cell.productPriceLabel.text else {
             return
         }
         
-        if data[indexPath.row].discountedPrice != 0 {
-            cell.productBargainPriceLabel.text = "\(currency) \(NumberFormatterAssistant.shared.numberFormatString(for: data[indexPath.row].bargainPrice))"
+        if products[indexPath.row].discountedPrice != 0 {
+            cell.productBargainPriceLabel.text = "\(currency) \(numberFormatter.numberFormatString(for: products[indexPath.row].bargainPrice))"
             cell.productPriceLabel.textColor = .red
             cell.productPriceLabel.attributedText = setTextAttribute(of: price, attributes: [.strikethroughStyle: NSUnderlineStyle.single.rawValue])
         }
-        if data[indexPath.row].stock == 0 {
+        if products[indexPath.row].stock == 0 {
             cell.productStockLabel.text = "품절"
             cell.productStockLabel.textColor = .systemOrange
         } else {
-            cell.productStockLabel.text = "잔여수량 :  \(String(data[indexPath.row].stock))"
+            cell.productStockLabel.text = "잔여수량 :  \(String(products[indexPath.row].stock))"
         }
     }
     
