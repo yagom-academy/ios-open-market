@@ -8,14 +8,14 @@
 import UIKit
 
 class CellUIComponent {
-    var thumbnailImageView: UIImageView = {
+    let thumbnailImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.adjustsImageSizeForAccessibilityContentSizeCategory = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
     
-    var nameLabel: UILabel = {
+    let nameLabel: UILabel = {
         let label = UILabel()
         label.adjustsFontForContentSizeCategory = true
         label.font = UIFont.preferredFont(forTextStyle: .title3)
@@ -24,7 +24,7 @@ class CellUIComponent {
         return label
     }()
     
-    var priceLabel: UILabel = {
+    let priceLabel: UILabel = {
         let label = UILabel()
         label.adjustsFontForContentSizeCategory = true
         label.font = UIFont.preferredFont(forTextStyle: .body)
@@ -33,7 +33,7 @@ class CellUIComponent {
         return label
     }()
     
-    var bargainPriceLabel: UILabel = {
+    let bargainPriceLabel: UILabel = {
         let label = UILabel()
         label.adjustsFontForContentSizeCategory = true
         label.font = UIFont.preferredFont(forTextStyle: .body)
@@ -42,7 +42,7 @@ class CellUIComponent {
         return label
     }()
     
-    var stockLabel: UILabel = {
+    let stockLabel: UILabel = {
         let label = UILabel()
         label.adjustsFontForContentSizeCategory = true
         label.font = UIFont.preferredFont(forTextStyle: .body)

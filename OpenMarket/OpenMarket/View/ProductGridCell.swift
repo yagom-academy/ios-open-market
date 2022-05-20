@@ -14,7 +14,7 @@ class ProductGridCell: UICollectionViewCell {
     private var imageFetchTask: URLSessionDataTask?
     
     //MARK: - stackView
-    private var baseStackView: UIStackView = {
+    private let baseStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical

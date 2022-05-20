@@ -8,7 +8,7 @@
 import UIKit
 
 class BaseView: UIView {
-    var segmentedControl: UISegmentedControl = {
+    let segmentedControl: UISegmentedControl = {
         let titleFont = [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .body)]
         let selectedForegroundColor = [NSAttributedString.Key.foregroundColor: UIColor.white]
         let normalForegroundColor = [NSAttributedString.Key.foregroundColor: UIColor.systemBlue]
