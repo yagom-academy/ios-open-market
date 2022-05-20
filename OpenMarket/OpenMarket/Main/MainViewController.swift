@@ -103,18 +103,21 @@ extension MainViewController {
         let endPoint = EndPoint.requestList(page: pageNumber, itemsPerPage: Constant.requestItemCount, httpMethod: .get)
         
         networkManager.request(endPoint: endPoint) { [weak self] result in
+            
+            guard let self = self else { return }
+            
             switch result {
             case .success(let data):
                 guard let result = data.products else { return }
                 
-                self?.applySnapshot(products: result)
+                self.applySnapshot(products: result)
                 
                 DispatchQueue.main.async {
-                    self?.mainView?.indicatorView.stop()
-                    self?.mainView?.collectionView.refreshControl?.stop()
+                    self.mainView?.indicatorView.stop()
+                    self.mainView?.collectionView.refreshControl?.stop()
                 }
             case .failure(_):
-                break
+                AlertDirector(viewController: self).createErrorAlert()
             }
         }
     }
@@ -145,7 +148,7 @@ extension MainViewController {
                         cell.setImage(with: image)
                     }
                 case .failure(_):
-                    break
+                    AlertDirector(viewController: self).createErrorAlert()
                 }
             }
             
