@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		03287253283779880056EAB3 /* CollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03287252283779880056EAB3 /* CollectionView.swift */; };
 		0328725528377EB80056EAB3 /* Layout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0328725428377EB80056EAB3 /* Layout.swift */; };
-		0328725728377EF30056EAB3 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0328725628377EF30056EAB3 /* Constants.swift */; };
 		032C4243282DF1120038A8CA /* MockURLProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032C4242282DF1120038A8CA /* MockURLProtocol.swift */; };
 		03301A572832ACFB00D58385 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03301A562832ACFA00D58385 /* String+Extension.swift */; };
 		03301A592832AD3800D58385 /* ImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03301A582832AD3800D58385 /* ImageView+Extension.swift */; };
@@ -25,7 +24,6 @@
 		0396412D2833705200E0DE5A /* Int+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0396412C2833705200E0DE5A /* Int+Extension.swift */; };
 		0396412F28337A5500E0DE5A /* CALayer+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0396412E28337A5500E0DE5A /* CALayer+Extension.swift */; };
 		AE2C0685282B966500D5A24C /* ApiProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE2C0684282B966500D5A24C /* ApiProviderTests.swift */; };
-		AE82C0082834FCAB00A0EFDC /* FontSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE82C0072834FCAB00A0EFDC /* FontSize.swift */; };
 		AEAF783328327FAA00215F26 /* ListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEAF783228327FAA00215F26 /* ListCell.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
 		C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */; };
@@ -48,7 +46,6 @@
 /* Begin PBXFileReference section */
 		03287252283779880056EAB3 /* CollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionView.swift; sourceTree = "<group>"; };
 		0328725428377EB80056EAB3 /* Layout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Layout.swift; sourceTree = "<group>"; };
-		0328725628377EF30056EAB3 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		032C4242282DF1120038A8CA /* MockURLProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLProtocol.swift; sourceTree = "<group>"; };
 		03301A562832ACFA00D58385 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		03301A582832AD3800D58385 /* ImageView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ImageView+Extension.swift"; sourceTree = "<group>"; };
@@ -65,7 +62,6 @@
 		0396412C2833705200E0DE5A /* Int+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Extension.swift"; sourceTree = "<group>"; };
 		0396412E28337A5500E0DE5A /* CALayer+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CALayer+Extension.swift"; sourceTree = "<group>"; };
 		AE2C0684282B966500D5A24C /* ApiProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiProviderTests.swift; sourceTree = "<group>"; };
-		AE82C0072834FCAB00A0EFDC /* FontSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontSize.swift; sourceTree = "<group>"; };
 		AEAF783228327FAA00215F26 /* ListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCell.swift; sourceTree = "<group>"; };
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -98,9 +94,7 @@
 		03301A552832ACD500D58385 /* Util */ = {
 			isa = PBXGroup;
 			children = (
-				AE82C0072834FCAB00A0EFDC /* FontSize.swift */,
 				0341E5D5282A43E700DEC832 /* NetworkError.swift */,
-				0328725628377EF30056EAB3 /* Constants.swift */,
 				AE82C0092834FE9400A0EFDC /* Extensions */,
 			);
 			path = Util;
@@ -334,8 +328,6 @@
 				0396412D2833705200E0DE5A /* Int+Extension.swift in Sources */,
 				0396412F28337A5500E0DE5A /* CALayer+Extension.swift in Sources */,
 				0328725528377EB80056EAB3 /* Layout.swift in Sources */,
-				AE82C0082834FCAB00A0EFDC /* FontSize.swift in Sources */,
-				0328725728377EF30056EAB3 /* Constants.swift in Sources */,
 				0341E5D0282A2D4700DEC832 /* ApiProvider.swift in Sources */,
 				AEAF783328327FAA00215F26 /* ListCell.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
