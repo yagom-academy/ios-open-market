@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Product: Codable {
+struct Product: Codable, Hashable {
     let id: Int?
     let vendorId: Int?
     let name: String?
@@ -38,7 +38,7 @@ struct Product: Codable {
         case USD = "USD"
     }
     
-    struct Image: Codable {
+    struct Image: Codable, Hashable {
         let id: Int?
         let url: String?
         let thumbnailUrl: String?
@@ -52,7 +52,7 @@ struct Product: Codable {
         }
     }
     
-    struct Vendor: Codable {
+    struct Vendor: Codable, Hashable {
         let name: String?
         let id: Int?
         let createdAt: Date?
