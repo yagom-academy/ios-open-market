@@ -45,6 +45,7 @@ final class ProductView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.addSubview(collectionView)
+        self.addSubview(indicatorView)
         segmentedControl.addTarget(self, action: #selector(switchSegment(segmentedControl:)), for: .valueChanged)
     }
  
@@ -91,6 +92,15 @@ final class ProductView: UIView {
         return collectionView
     }()
     
+    lazy var indicatorView: UIActivityIndicatorView = {
+        let activityIndicator = UIActivityIndicatorView()
+        activityIndicator.style = .large
+        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+        activityIndicator.hidesWhenStopped = true
+        
+        return activityIndicator
+    }()
+    
     @objc private func switchSegment(segmentedControl: UISegmentedControl) {
         guard let layoutType = LayoutType(rawValue: segmentedControl.selectedSegmentIndex) else {
             return
@@ -112,6 +122,11 @@ extension ProductView {
         
         NSLayoutConstraint.activate([
             self.segmentedControl.widthAnchor.constraint(equalToConstant: 170)
+        ])
+        
+        NSLayoutConstraint.activate([
+            self.indicatorView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            self.indicatorView.centerYAnchor.constraint(equalTo: self.centerYAnchor)
         ])
     }
 }

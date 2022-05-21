@@ -30,15 +30,17 @@ final class MainViewController: UIViewController {
     private let networkManager = NetworkManager<ProductsList>(session: URLSession.shared)
     private lazy var item: [Products] = [] {
         didSet {
-            DispatchQueue.main.async {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2, execute: {
                 self.applySnapshot()
-            }
+                self.productView.indicatorView.stopAnimating()
+            })
         }
     }
     
     // MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.productView.indicatorView.startAnimating()
         configureView()
         registerCell()
         executeAPI()
