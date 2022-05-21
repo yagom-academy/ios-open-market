@@ -8,6 +8,11 @@
 import UIKit
 
 final class ListCell: UICollectionViewCell {
+  enum FontSize {
+    static let title = 16.0
+    static let body = 15.0
+  }
+  
   static var identifier: String {
     return String(describing: self)
   }
