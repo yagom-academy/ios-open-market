@@ -127,11 +127,7 @@ extension GridCollectionViewCell {
         productName.text = products.name
         stock.text = String(products.stock)
         
-        guard let data = try? Data(contentsOf: products.thumbnail) else {
-            return
-        }
-        
-        productImage.image = UIImage(data: data)
+        productImage.loadImage(products.thumbnail.absoluteString)
     }
     
     private func configureProductUI() {
