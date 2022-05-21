@@ -10,7 +10,6 @@ import UIKit
 extension UIImageView {
     func loadImage(url: URL, completion: @escaping () -> ()) -> URLSessionDataTaskProtocol? {
         let imageCacheManager = ImageCacheManager()
-        let apiService = APIProvider<Data>()
         let nsURL = url as NSURL
         
         if let cachedImage = imageCacheManager.cache.object(forKey: nsURL) {
@@ -18,7 +17,7 @@ extension UIImageView {
             return nil
         }
         
-        return apiService.requestImage(with: url) { result in
+        return imageCacheManager.apiService.requestImage(with: url) { result in
             switch result {
             case .success(let data):
                 if let image = UIImage(data: data) {
