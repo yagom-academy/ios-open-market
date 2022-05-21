@@ -105,8 +105,11 @@ extension MainViewController {
         let dataSource = DataSource(
             collectionView: productView.collectionView,
             cellProvider: { (collectionView, indexPath, product) -> UICollectionViewCell? in
-                if self.productView.segmentedControl.selectedSegmentIndex == 1 {
-                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: GridCollectionViewCell.identifier, for: indexPath) as? GridCollectionViewCell else {
+                guard let layoutType = LayoutType(rawValue: self.productView.segmentedControl.selectedSegmentIndex) else { return UICollectionViewCell() }
+                
+                switch layoutType {
+                case .list:
+                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ListCollectionViewCell.identifier, for: indexPath) as? ListCollectionViewCell else {
                         return UICollectionViewCell()
                     }
                     
@@ -117,8 +120,9 @@ extension MainViewController {
                     }
                     
                     return cell
-                } else {
-                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ListCollectionViewCell.identifier, for: indexPath) as? ListCollectionViewCell else {
+                    
+                case .grid:
+                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: GridCollectionViewCell.identifier, for: indexPath) as? GridCollectionViewCell else {
                         return UICollectionViewCell()
                     }
                     
