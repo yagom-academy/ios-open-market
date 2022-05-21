@@ -30,9 +30,12 @@ class NetworkHandlerTest: XCTestCase {
         let data = convertJsonToData(fileName: "products")
         let dummyData = makeDummyData(data: data, statusCode: 200, error: nil)
         let netWorkHandler = NetworkHandler(session: StubURLSession(dummyData: dummyData))
-        
+        let testAPIModel = TestAPIModel(host: "test",
+                                        path: "test",
+                                        params: nil,
+                                        method: .get)
         //when
-        netWorkHandler.communicate(pathString: "test", httpMethod: .get) { data in
+        netWorkHandler.request(api: testAPIModel) { data in
             switch data {
             case .success(let data):
                 do {
@@ -57,9 +60,12 @@ class NetworkHandlerTest: XCTestCase {
         let dummyData = makeDummyData(data: data, statusCode: 200, error: nil)
         let netWorkHandler = NetworkHandler(session: StubURLSession(dummyData: dummyData))
         let wrongURLString = "te st"
-        
+        let testAPIModel = TestAPIModel(host: wrongURLString,
+                                        path: "test",
+                                        params: nil,
+                                        method: .get)
         //when
-        netWorkHandler.communicate(pathString: wrongURLString, httpMethod: .get) { data in
+        netWorkHandler.request(api: testAPIModel) { data in
             switch data {
             case .success(let data):
                 do {
@@ -83,9 +89,12 @@ class NetworkHandlerTest: XCTestCase {
         let data = convertJsonToData(fileName: "products")
         let dummyData = makeDummyData(data: data, statusCode: 200, error: APIError.convertError)
         let netWorkHandler = NetworkHandler(session: StubURLSession(dummyData: dummyData))
-        
+        let testAPIModel = TestAPIModel(host: "test",
+                                        path: "test",
+                                        params: nil,
+                                        method: .get)
         //when
-        netWorkHandler.communicate(pathString: "test", httpMethod: .get) { data in
+        netWorkHandler.request(api: testAPIModel) { data in
             switch data {
             case .success(let data):
                 do {
@@ -109,9 +118,12 @@ class NetworkHandlerTest: XCTestCase {
         let data = convertJsonToData(fileName: "products")
         let dummyData = makeDummyData(data: data, statusCode: 404, error: nil)
         let netWorkHandler = NetworkHandler(session: StubURLSession(dummyData: dummyData))
-        
+        let testAPIModel = TestAPIModel(host: "test",
+                                        path: "test",
+                                        params: nil,
+                                        method: .get)
         //when
-        netWorkHandler.communicate(pathString: "test", httpMethod: .get) { data in
+        netWorkHandler.request(api: testAPIModel) { data in
             switch data {
             case .success(let data):
                 do {
@@ -134,9 +146,12 @@ class NetworkHandlerTest: XCTestCase {
         let promise = expectation(description: "id가 일치 하는지")
         let dummyData = makeDummyData(data: nil, statusCode: 200, error: nil)
         let netWorkHandler = NetworkHandler(session: StubURLSession(dummyData: dummyData))
-        
+        let testAPIModel = TestAPIModel(host: "test",
+                                        path: "test",
+                                        params: nil,
+                                        method: .get)
         //when
-        netWorkHandler.communicate(pathString: "test", httpMethod: .get) { data in
+        netWorkHandler.request(api: testAPIModel) { data in
             switch data {
             case .success(let data):
                 do {
@@ -161,9 +176,12 @@ class NetworkHandlerTest: XCTestCase {
         let data = convertJsonToData(fileName: wrongFileName)
         let dummyData = makeDummyData(data: data, statusCode: 200, error: nil)
         let netWorkHandler = NetworkHandler(session: StubURLSession(dummyData: dummyData))
-        
+        let testAPIModel = TestAPIModel(host: "test",
+                                        path: "test",
+                                        params: nil,
+                                        method: .get)
         //when
-        netWorkHandler.communicate(pathString: "test", httpMethod: .get) { data in
+        netWorkHandler.request(api: testAPIModel) { data in
             switch data {
             case .success(let data):
                 do {

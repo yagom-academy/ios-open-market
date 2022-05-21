@@ -7,26 +7,6 @@
 
 import Foundation
 
-enum HttpMethod {
-    case get
-    case post
-    case delete
-    case patch
-    
-    var string: String {
-        switch self {
-        case .get:
-            return "GET"
-        case .post:
-            return "POST"
-        case .delete:
-            return "DELETE"
-        case .patch:
-            return "PATCH"
-        }
-    }
-}
-
 struct NetworkHandler {
     private let session: URLSessionProtocol
     private let baseURL = "https://market-training.yagom-academy.kr/"
@@ -35,32 +15,42 @@ struct NetworkHandler {
         self.session = session
     }
     
-    func communicate(pathString: String, httpMethod: HttpMethod, completionHandler: @escaping (Result<Data?, APIError>) -> Void) {
-        guard let url = URL(string: baseURL + pathString) else {
-            return completionHandler(.failure(.convertError))
+    private func makeURL(api: APIable) -> URL? {
+        var component = URLComponents(string: api.host + api.path)
+        
+        component?.queryItems = api.params?.compactMap {
+            URLQueryItem(name: $0.key, value: $0.value)
+        }
+        
+        return component?.url
+    }
+    
+    func request(api: APIable, response: @escaping (Result<Data?, APIError>) -> Void) {
+        guard let url = makeURL(api: api) else {
+            return response(.failure(.convertError))
         }
         
         var request = URLRequest(url: url)
-        request.httpMethod = httpMethod.string
+        request.httpMethod = api.method.string
         
         session.receiveResponse(request: request) { responseResult in
             guard responseResult.error == nil else {
-                return completionHandler(.failure(.transportError))
+                return response(.failure(.transportError))
             }
             
-            guard let response = responseResult.response as? HTTPURLResponse, (200...299).contains(response.statusCode) else {
-                return completionHandler(.failure(.responseError))
+            guard let statusCode = (responseResult.response as? HTTPURLResponse)?.statusCode, (200...299).contains(statusCode) else {
+                return response(.failure(.responseError))
             }
             
-            switch httpMethod {
+            switch api.method {
             case .get:
-                completionHandler(.success(responseResult.data))
+                response(.success(responseResult.data))
             case .post:
-                completionHandler(.success(responseResult.data))
+                response(.success(responseResult.data))
             case .delete:
-                completionHandler(.success(responseResult.data))
+                response(.success(responseResult.data))
             case .patch:
-                completionHandler(.success(responseResult.data))
+                response(.success(responseResult.data))
             }
         }
     }
