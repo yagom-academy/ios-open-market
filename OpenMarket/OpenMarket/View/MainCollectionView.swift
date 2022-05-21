@@ -9,27 +9,35 @@ import UIKit
 
 final class MainCollectionView: UICollectionView {
     
+    private lazy var listLayout: UICollectionViewCompositionalLayout = {
+        let configure = UICollectionLayoutListConfiguration(appearance: .plain)
+        let layout = UICollectionViewCompositionalLayout.list(using: configure)
+        return layout
+    }()
+    
+    private lazy var gridLayout: UICollectionViewFlowLayout = {
+        let layout = UICollectionViewFlowLayout()
+        let inset: CGFloat = 20
+        let rowItems = 2
+        layout.minimumLineSpacing = inset
+        layout.minimumInteritemSpacing = inset
+        layout.scrollDirection = .vertical
+        layout.itemSize = CGSize(
+            width: (safeAreaLayoutGuide.layoutFrame.width / CGFloat(rowItems)) - (inset * 1.5),
+            height: safeAreaLayoutGuide.layoutFrame.height / 2.5 - inset
+        )
+        layout.sectionInset.left = inset
+        layout.sectionInset.right = inset
+        return layout
+    }()
+    
     func changeLayout(viewType: ViewType) {
         switch viewType {
         case .list:
-                let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
-                let layout = UICollectionViewCompositionalLayout.list(using: configuration)
-                setCollectionViewLayout(layout, animated: true)
+            setCollectionViewLayout(listLayout, animated: true)
             
         case .grid:
-                let flowLayout = UICollectionViewFlowLayout()
-                let inset: CGFloat = 20
-                let rowItems = 2
-                flowLayout.minimumLineSpacing = inset
-                flowLayout.minimumInteritemSpacing = inset
-                flowLayout.scrollDirection = .vertical
-                flowLayout.itemSize = CGSize(
-                    width: (safeAreaLayoutGuide.layoutFrame.width / CGFloat(rowItems)) - (inset * 1.5),
-                    height: safeAreaLayoutGuide.layoutFrame.height / 2.5 - inset
-                )
-                flowLayout.sectionInset.left = inset
-                flowLayout.sectionInset.right = inset
-                setCollectionViewLayout(flowLayout, animated: true)
+            setCollectionViewLayout(gridLayout, animated: true)
         }
     }
 }
