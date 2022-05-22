@@ -2,7 +2,7 @@
 # 오픈마켓
 
 # 🎁 ios-open-market 
-> 프로젝트 기간 2022.05.09 ~ 2022.0  
+> 프로젝트 기간 2022.05.09 ~ 2022.05.20  
 팀원 : [malrang](https://github.com/malrang-malrang) [Taeangel](https://github.com/Taeangel) / 리뷰어 : [stevenkim](https://github.com/stevenkim18)
 
 - [Ground Rules](#ground-rules)
@@ -67,11 +67,14 @@
 >**1. 서버와 통신하는 방법**  
 >**2. `CollectionView` 코드로 구현하는 방법**  
 ---
+
 ## 실행화면
+>![](https://i.imgur.com/emrPvQh.gif)
 
 ---
 ## UML
->![](https://i.imgur.com/AQfFjAm.png)
+>![](https://i.imgur.com/nFoLkJS.png)
+>[miro](https://miro.com/welcomeonboard/UlJBT0lpTjdqYWkyaGtINmQwbFVQOU1WS1J5MnNtTlJDTEZkMjduNFVSZzdzT2Y5TVJzTjZ5UGRyMTlLQ25KdnwzNDU4NzY0NTIzMDc5MjMxMTI5?share_link_id=654547367472)
 
 ---
 ## STEP 1 기능 구현
@@ -458,7 +461,7 @@
 >            case .success(let data):
 >                self.productList = data.pages
 >            case .failure(_):
->                print("")
+>                return
 >            }
 >        })
 >    }
@@ -501,43 +504,21 @@
 >    }
 >}
 >```
->이미지를 제외한 데이터들은 `viewDidLoad` 단계에서 서버에서 받아오고 `cellForItemAt` 단계에서 서버에서 이미지를 가져오도록 구현하였다.
->
+>이미지를 제외한 데이터들은 `viewDidLoad` 단계에서 서버에서 받아오고 `cellForItemAt` 단계에서 서버에서 이미지를 가져오도록 구현하였으나 `cellForItemAt`에서 이미지와 화면을 연결 시켜주는 것보다는 cell에서 이미지를 연결시켜 다른데이터들과 마찬가지로 데이터를 가공해 cell을 만드는 방식으로 변경하였습니다.
+>   
 >**서버에서 이미지를 가져오는 코드**
+>UIImageView 를 extention 하여 서버에서 이미지를 가지고 오는 메서드를 구현해주었다.
 >```swift
->    func fetchImage(
->        from url: String,
->        completionHandler: @escaping (Result<UIImage, NetworkError>) -> Void) {
->        guard let imageurl = URL(string: url) else {
->            completionHandler(.failure(.urlError))
->            return
->        }
->        
->        var urlRequest = URLRequest(url: imageurl)
->        urlRequest.httpMethod = "GET"
->        
->        requestImgae(with: urlRequest, completionHandler: completionHandler)
->    }
->    
->    func requestImgae(
->        with request: URLRequest,
->        completionHandler: @escaping (Result<UIImage, NetworkError>) -> Void
->    ) {
->        let task = session.dataTask(with: request) { data, urlResponse, error in
+>extension UIImageView {
+>    func fetchImage(url: URL, completion: @escaping (UIImage) -> Void) {
+>        URLSession.shared.dataTask(with: url) { data, response, _ in
 >            
->            guard error == nil else {
->                completionHandler(.failure(.clientError))
->                return
->            }
->            
->            guard let httpResponse = urlResponse as? HTTPURLResponse,
->                  (200...299).contains(httpResponse.statusCode) else {
->                completionHandler(.failure(.statusCodeError))
+>            guard let response = response as? HTTPURLResponse,
+>                  (200...299).contains(response.statusCode) else {
 >                return
 >            }
 >            
 >            guard let data = data else {
->                completionHandler(.failure(.dataError))
 >                return
 >            }
 >            
@@ -545,21 +526,191 @@
 >                return
 >            }
 >            
->            completionHandler(.success(image))
+>            completion(image)
+>            
 >        }
->        task.resume()
+>        .resume()
+>    }
+>}
+>```
+>각각의 Cell 에서 호출되는 fetchImage() 메서드
+>```swift
+>private func loadImage(data: Product) {
+>        
+>        guard let stringUrl = data.thumbnail else {
+>            return
+>        }
+>        
+>        guard let url = URL(string: stringUrl) else {
+>            return
+>        }
+>        
+>        thumbnailImageView.fetchImage(url: url) { image in
+>            DispatchQueue.main.async {
+>                self.thumbnailImageView.image = image
+>            }
+>        }
 >    }
 >```
->
->3️⃣ **코드베이스로 Cell 의 레이아웃을 설정하는 방법? 🤔**
->코드로 cell의 레이아웃을 설정할때 스택뷰에 넣어서 정렬하는 방식과 frame 활용해 CGRect 설정을 해주어야 할지에 대해 고민하였고
 >    
->크기와 위치를 고정하기보다는 스택뷰에 넣어 정렬하는 방식을 택하였습니다.
+>3️⃣ **SegmentControl의 items를 유동적으로 변경할수는 없을까?🤔**
+>    
+>기존의 코드는 아래의 코드처럼 items 에 어떠한 것들이 포함되는지 하드코딩하여 일일히 작성해주었다.
+>열거형을 활용하면 좀더 유동적으로 사용할수있지 않을까?? 하고 고민하였다.
 >
->#### 질문한것들
+>**변경전 코드**    
+>```swift
+>private let segmentControl = SegmentControl(items: ["list", "grid"])
+>```
+>    
+>**변경후 코드**
+>```swift
+>// LayoutType 열거
+>enum LayoutType 열거형: Int, CaseIterable {
+>    case list = 0
+>    case grid = 1
+>    
+>    static var inventory: [String] {
+>        return Self.allCases.map { $0.description }
+>    }
+>    
+>    private var description: String {
+>        switch self {
+>        case .list:
+>            return "List"
+>        case .grid:
+>            return "Grid"
+>        }
+>    } 
+>}
+>    
+>// ViewController 의 segmentControl    
+>private let segmentControl = SegmentControl(items: LayoutType.inventory)   
+>```
+>enum 타입이 CaseIterable 를 채택하여 타입 외부에서 allCases 를 사용한적은 있었지만 이와같이 enum 타입 내부에서 allCases 를 활용해서 사용 할수있다는것을 알게되었고
+> 앞으로 enum 타입을 잘 활용한다면 기존보다 더 퀄리티 높은 코드를 작성할수 있을것 같다.
+>    
+>4️⃣ **UICollectionViewDataSource 의 각 셀에 따른 분기처리 해결방법 🤔**
+>    
+>현재 프로젝트에서 List Cell 과 Grid Cell 두가지로 구분되어있으며 셀을 변경할때마다 화면에 보여지는 뷰가 변경되게끔 구현되어있다.
+>
+>그렇기 때문에 UICollectionViewDataSource 의 메서드 cellForItemAt 에서 현재 어떤 Cell 인지 분기 처리를 해주어야 했다.
+>    
+>하지만 분기 처리된 코드를 비교해보면 다른점은 각 Cell의 identifier 와 타입 캐스팅 부분만 제외하고 모두 동일했기에 Protocol 과 enum 을 잘 활용하면 분기처리를 하지 않아도 되지 않을까? 고민했다.
+>
+>**변경전 코드**
+>```swift
+>func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+>        
+>     guard let product = productList?[indexPath.item] else {
+>         return UICollectionViewCell()
+>     }
+>        
+>     if segmentControl.selectedSegmentIndex == 0 {
+>            
+>         guard let cell = >collectionView.dequeueReusableCell(withReuseIdentifier: ListCell.identifier, for: indexPath) as? ListCell else {
+>                return UICollectionViewCell()
+>         }
+>            
+>         cell.configure(data: product)
+>            return cell
+>         } else {
+>            
+>         guard let cell = >collectionView.dequeueReusableCell(withReuseIdentifier: GridCell.identifier, for: indexPath) as? GridCell else {
+>             return UICollectionViewCell()
+>         }
+>            
+>         cell.configure(data: product)
+>            return cell
+>     }
+>```
+>**변경후 코드**
+>```swift
+>func collectionView(_ collectionView: UICollectionView, cellForItemAt >indexPath: IndexPath) -> UICollectionViewCell {
+>        
+>    guard let product = productList?[indexPath.item] else {
+>        return UICollectionViewCell()
+>    }
+>        
+>    guard let layoutType = LayoutType(rawValue: segmentControl.selectedSegmentIndex) else {
+>            return UICollectionViewCell()
+>    }
+>        
+>    guard let cell = >collectionView.dequeueReusableCell(withReuseIdentifier: layoutType.cell.identifier, for: indexPath) as? CustomCell else {
+>        return UICollectionViewCell()
+>    }
+>        
+>    cell.configure(data: product)
+>        return cell
+>    }
+>    
+>extension UICollectionViewCell {
+>    static var identifier: String {
+>        return String(describing: self)
+>    }
+>}    
+>
+>enum LayoutType: Int, CaseIterable {
+>    case list = 0
+>    case grid = 1
+>    
+>    static var inventory: [String] {
+>        return Self.allCases.map { $0.description }
+>    }
+>    
+>    private var description: String {
+>        switch self {
+>        case .list:
+>            return "List"
+>        case .grid:
+>            return "Grid"
+>        }
+>    }
+>    
+>    var cell: CustomCell.Type {
+>        switch self {
+>        case .list:
+>            return ListCell.self
+>        case .grid:
+>            return GridCell.self
+>        }
+>    }
+>}
+>    
+>protocol CustomCell: UICollectionViewCell {
+>    func configure(data: Product)
+>}    
+>```
+>이번 프로젝트를 하면서 가장 많이 고민했던 부분인것 같다.
+>    
+>위의 변경후 코드를 보면 LayoutType enum, 과 CustomCell protocol 을 활용해 분기처리된 코드를 하나로 합칠수 있었다.
+>    
+>identifier 를 해결하기 위해 현재 선택된 Cell 이 ListCell과 GridCell 둘중 어떤 Cell 인지 알고 있어야 하기 때문에 SegmentControl과 LayoutType 을 활용해 현재 어떤Cell 이 선택되었는지 알수있도록 하였다.
+>    
+>그후 UICollectionViewCell 을 extension 하여 identifier 라는 연산 프로퍼티를 구현해주었다.
+> 그렇다면 UICollectionViewCell 를 상속받는 Cell 들은 모두 identifier 라는 프로퍼티가 존재할테니 현재 선택된 Cell 의 identifier 를 기입하는것이 가능해졌다.
+>    
+>그렇다면 남은 문제는 캐스팅 부분이었다.
+>
+>enum 에서 타입을 반환하게 할수는 없을까? 고민했다.
+>현재 선택된 Cell 의 타입을 그대로 반환할수있다면 좋을텐데 🤔
+>Layout Type enum 에서 Meta Type 을 활용해서 Cell 타입을 반환하도록 하여 Casting 부분을 해결할수있었다.
+>    
+>Casting 문제를 해결하고나니 Cell 의 configure() 메서드 문제가 생겼다🫠
+>UICollectionViewCell 에는 configure() 메서드가 존재한다고 보장되지 않기 때문에 cell 의 configure() 메서드 를 호출할수 없게되었다.
+>
+>이를 해결하기 위해 CustomCell 이라는 프로토콜을 구현하고 configure() 메서드를 필수 메서드로 명세 해주었다.
+>
+>그후 ListCell, GridCell 각각의 셀이 CustomCell 을 채택하도록 해주었고 CustomCell 은 UICollectionViewCell를 상속받는 타입만 채택이 가능하도록 해주었다.
+>
+>이렇게 수정하여 cell의 identifier, casting 문제를 모두 해결했다.
+>분기 처리를 해결하기위해 extension, protocol, enum 을 활용했는데 코드의 양 자체는 증가했으나 공부도 많이 되었고 enum, protocol 을 활용하는 방법을 많이 알게되었다.
+>    
+>### 질문한것들
 >
 >1️⃣ **오토레이아웃 관련 에러**
 >현재`stockStackView`에서만 Width and horizontal position are ambiguous for UILabel 에러가 발생하는데 좋은 해결 방법이 있을까요~?
+>    
 >![](https://i.imgur.com/vskIXOF.png)
 >
 >2️⃣ **이미지 관련에러**
@@ -569,14 +720,32 @@
 >왜 `prepareForReuse`을 해주지 않았는데도 이미지 `bug`가 발생하지 않았는지 궁급합니다.
 
 ---
-## 배운 개념
+## 배운 개념  
 1️⃣ `CollectionView`  
 2️⃣ `CollectionvewFlowLayout`  
 3️⃣ `CALayer`  
 4️⃣ `segmentControl`  
-5️⃣ `NSTextAttachment`: 이미지를 텍스트로 변경하여 레이블에 추가하는 방법   
+5️⃣ `NSTextAttachment`: 이미지를 텍스트로 변경하여 레이블에 추가하는 방법  
 6️⃣ `NSLayoutConstraint`  
 7️⃣ `prepareForReuse`  
 
 ---
 ## PR 후 개선사항
+1️⃣ **오토레이아웃 스택뷰 최소화**
+>기존 오토레이아웃 에서는 StackView 를 활용하여 오토레이아웃 Constraint 를 최소화 하는 방식으로 UI 를 구현하였다.
+>
+>그렇다 보니 Cell 의 UI 를 구현하기위해 사용되는 StackView가 너무많아 복잡해졌고 Constraint 도 적지 않았다.
+>    
+>스티븐의 조언을 듣고 StackView 를 활용하는것은 좋지만 남용할경우 구조가 복잡해진다는걸 깨닫게 되었다. 
+>
+>조언을 듣고 필요한 곳에만 StackView 를 사용하는 방법으로 수정하였다.
+>
+>**변경전 오토레이아웃 구조**
+>    
+>![](https://i.imgur.com/BiL1uKa.png)
+>
+>**변경후 오토레이아웃 구조**
+>    
+>![](https://i.imgur.com/Uf4ry6i.png)
+> 
+>위의 사진 처럼 구조를 StackView 를 최소화하고 label, image 등등은 Constraint 을 사용하여 위치를 잡아주었다.
