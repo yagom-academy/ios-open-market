@@ -8,7 +8,10 @@
 import Foundation
 
 final class EndPoint: Requestable {
-    private static let defaultURL = "https://market-training.yagom-academy.kr/"
+    private enum Constants {
+        static let defaultURL = "https://market-training.yagom-academy.kr/"
+    }
+
     var baseURL: String
     var path: String
     var method: HttpMethod
@@ -17,7 +20,7 @@ final class EndPoint: Requestable {
     var headers: [String: String]?
     var sampleData: Data?
 
-    init(baseURL: String = EndPoint.defaultURL,
+    init(baseURL: String = Constants.defaultURL,
          path: String = "",
          method: HttpMethod = .get,
          queryParameters: Encodable? = nil,

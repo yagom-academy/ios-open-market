@@ -11,7 +11,7 @@ struct ProductDetail: Decodable {
     let id: Int
     let vendorID: Int
     let name: String
-    let thumbnail: String
+    let thumbnail: URL
     let currency: String
     let price: Int
     let productsDescription: String
@@ -51,7 +51,7 @@ struct ProductImage: Decodable {
     private enum CodingKeys: String, CodingKey {
         case id
         case url
-        case thumbnailURL = "thumbnail_url"
+        case thumbnailURL = "thumbnail"
         case isSuccess = "succeed"
         case issuedAt = "issued_at"
     }

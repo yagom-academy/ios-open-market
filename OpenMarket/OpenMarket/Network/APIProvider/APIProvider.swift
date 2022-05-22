@@ -5,11 +5,12 @@
 //  Created by Red, Mino on 2022/05/10.
 //
 
-import Foundation
+import UIKit
 
 protocol Provider {
     associatedtype T
     func request(with endpoint: Requestable, completion: @escaping (Result<T, Error>) -> Void)
+    func requestImage(with url: URL, completion: @escaping (Result<Data, Error>) -> Void) -> URLSessionDataTaskProtocol?
 }
 
 final class APIProvider<T: Decodable>: Provider {
@@ -17,7 +18,7 @@ final class APIProvider<T: Decodable>: Provider {
     init(urlSession: URLSessionProtocol = URLSession.shared) {
         self.urlSession = urlSession
     }
-
+    
     func request(
         with endpoint: Requestable,
         completion: @escaping (Result<T, Error>) -> Void
@@ -40,9 +41,23 @@ final class APIProvider<T: Decodable>: Provider {
             completion(.failure(error))
         }
     }
-}
-
-extension APIProvider {
+    
+    func requestImage(
+        with url: URL,
+        completion: @escaping (Result<Data, Error>) -> Void
+    ) -> URLSessionDataTaskProtocol? {
+        var task: URLSessionDataTaskProtocol?
+        
+        task = urlSession.dataTask(with: url) { [weak self] data, response, error in
+            self?.checkError(with: data, response, error) { result in
+                completion(result)
+            }
+        }
+        task?.resume()
+        
+        return task
+    }
+    
     private func checkError(
         with data: Data?,
         _ response: URLResponse?,
@@ -53,33 +68,22 @@ extension APIProvider {
             completion(.failure(error))
             return
         }
-
+        
         guard let response = response as? HTTPURLResponse else {
             completion(.failure(NetworkError.responseError))
             return
         }
-
+        
         guard (200..<300).contains(response.statusCode) else {
             completion(.failure(NetworkError.invalidHttpStatusCodeError(statusCode: response.statusCode)))
             return
         }
-
+        
         guard let data = data else {
             completion(.failure(NetworkError.emptyDataError))
             return
         }
-
+        
         completion(.success((data)))
-    }
-}
-
-fileprivate extension Data {
-    func decode<T: Decodable>() -> Result<T, Error> {
-        do {
-            let decoded = try JSONDecoder().decode(T.self, from: self)
-            return .success(decoded)
-        } catch {
-            return .failure(NetworkError.decodeError)
-        }
     }
 }
