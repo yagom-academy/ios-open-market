@@ -27,8 +27,6 @@ extension URLSession: URLSessionProtocol {
     ) -> URLSessionDataTaskProtocol {
         return dataTask(with: request, completionHandler: completionHandler) as URLSessionDataTask
     }
-    
- 
 }
 
 protocol URLSessionDataTaskProtocol {
