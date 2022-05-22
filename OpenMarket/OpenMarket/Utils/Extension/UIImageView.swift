@@ -7,8 +7,12 @@
 
 import UIKit
 
+struct Cache {
+    static let cache = NSCache<NSURL, UIImage>()
+    private init() {}
+}
+
 extension UIImageView {
-    
     func fetchImage(url: URL, completion: @escaping (UIImage) -> Void) {
         if let cachedImage = Cache.cache.object(forKey: url as NSURL) {
             completion(cachedImage)
