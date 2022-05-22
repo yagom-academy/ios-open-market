@@ -33,9 +33,12 @@ final class ListCollectionViewCell: UICollectionViewListCell {
             contentView.addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
+        
+        let heightLayout = contentView.heightAnchor.constraint(greaterThanOrEqualToConstant: 80)
+        heightLayout.priority = UILayoutPriority(999)
                 
         let layouts = [
-            contentView.heightAnchor.constraint(greaterThanOrEqualToConstant: 80),
+            heightLayout,
             productImage.widthAnchor.constraint(equalToConstant: 80),
             productImage.heightAnchor.constraint(equalToConstant: 80),
             productImage.trailingAnchor.constraint(equalTo: listContentView.leadingAnchor),
