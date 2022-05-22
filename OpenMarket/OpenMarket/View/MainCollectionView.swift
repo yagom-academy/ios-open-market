@@ -12,6 +12,7 @@ final class MainCollectionView: UICollectionView {
     private lazy var listLayout: UICollectionViewCompositionalLayout = {
         let configure = UICollectionLayoutListConfiguration(appearance: .plain)
         let layout = UICollectionViewCompositionalLayout.list(using: configure)
+        
         return layout
     }()
     

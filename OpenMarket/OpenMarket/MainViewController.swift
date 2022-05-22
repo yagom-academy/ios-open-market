@@ -12,7 +12,7 @@ final class MainViewController: UIViewController {
         case main
     }
     
-    lazy var network = Network(delegate: self)
+    let network = Network.shared
     let session: URLSessionProtocol = URLSession.shared
     private var pageNo = 3
     private var itemsPerPage = 40
@@ -81,7 +81,7 @@ final class MainViewController: UIViewController {
         configureSegmentedControl()
         configureCollectionView()
         configureIndicator()
-        network.requestDecodedData(pageNo: pageNo, itemsPerPage: itemsPerPage)
+        network.requestDecodedData(pageNo: pageNo, itemsPerPage: itemsPerPage, delegate: self)
     }
     
     private func configureSegmentedControl() {

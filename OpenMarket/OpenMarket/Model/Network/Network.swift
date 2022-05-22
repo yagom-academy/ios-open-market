@@ -14,19 +14,44 @@ protocol MainViewDelegate: UIViewController {
 
 final class Network: NetworkAble {
     
+    static let shared = Network()
+    
     private let decoder = JSONDecoder()
-    weak var delegate: MainViewDelegate?
+    //weak var delegate: MainViewDelegate?
     let session: URLSessionProtocol
     
-    init(delegate: MainViewDelegate, session: URLSessionProtocol = URLSession.shared) {
+    private init(session: URLSessionProtocol = URLSession.shared) {
         self.session = session
-        self.delegate = delegate
     }
     
-    func requestDecodedData(pageNo: Int, itemsPerPage: Int) {
+    func setImageFromUrl(imageUrl: URL, imageView: UIImageView) -> URLSessionDataTask? {
+        guard let dataTask = requestData(url: imageUrl, completeHandler: {
+            data, error in
+            guard let data = data else {
+                return
+            }
+            DispatchQueue.main.async {
+                imageView.image = UIImage(data: data)
+            }
+        }, errorHandler: {
+            error in
+        }) else {
+            return nil
+        }
+        return dataTask
+    }
+    
+    func setImageFromUrl(imageUrl imageUrlString: String, imageView: UIImageView) -> URLSessionDataTask? {
+        guard let url = URL(string: imageUrlString) else {
+            return nil
+        }
+        return setImageFromUrl(imageUrl: url, imageView: imageView)
+    }
+    
+    func requestDecodedData(pageNo: Int, itemsPerPage: Int, delegate: MainViewDelegate?) {
         guard let url = OpenMarketApi.pageInformation(pageNo: pageNo, itemsPerPage: itemsPerPage).url else {
             DispatchQueue.main.async {
-                self.delegate?.showErrorAlert(error: NetworkError.urlError)
+                delegate?.showErrorAlert(error: NetworkError.urlError)
             }
             return
         }
@@ -35,11 +60,11 @@ final class Network: NetworkAble {
             guard let data = data,
                   let pageInformation = try? JSONDecoder().decode(PageInformation.self, from: data) else { return }
             DispatchQueue.main.async {
-                self.delegate?.setSnapshot(productInformations: pageInformation.pages)
+                delegate?.setSnapshot(productInformations: pageInformation.pages)
             }
         } errorHandler: { error in
             DispatchQueue.main.async {
-                self.delegate?.showErrorAlert(error: error)
+                delegate?.showErrorAlert(error: error)
             }
         }
     }

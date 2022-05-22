@@ -10,6 +10,8 @@ import UIKit
 final class GridCollectionViewCell: UICollectionViewCell {
     
     private lazy var productImage = UIImageView()
+    private var netWork = Network.shared
+    private var lastDataTask: URLSessionDataTask?
     
     private lazy var productTitle: UILabel = {
         let label = UILabel()
@@ -86,7 +88,10 @@ final class GridCollectionViewCell: UICollectionViewCell {
         let stringPrice = numberFormatter.string(for: product.price) ?? ""
         let stringDiscountedPrice = numberFormatter.string(for: product.discountedPrice) ?? ""
         
-        productImage.image = product.thumbnailImage
+        lastDataTask?.cancel()
+        
+        lastDataTask = netWork.setImageFromUrl(imageUrl: product.thumbnail, imageView: productImage)
+        
         productTitle.text = product.name
         
         if product.discountedPrice == 0 {
@@ -111,5 +116,6 @@ final class GridCollectionViewCell: UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         productPrice.attributedText = nil
+        productImage.image = nil
     }
 }
