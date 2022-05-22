@@ -8,6 +8,7 @@ import UIKit
 
 final class OpenMarketViewController: UIViewController {
     private let segmentControl = SegmentControl(items: LayoutType.inventory)
+    private var layoutType = LayoutType.list
     private var collectionView: UICollectionView?
     private var network: URLSessionProvider<ProductList>?
     private var productList: [Product]? {
@@ -38,9 +39,14 @@ final class OpenMarketViewController: UIViewController {
     }
     
     private func setupCollectionView() {
-        self.collectionView = UICollectionView(frame: view.frame, collectionViewLayout: drawListCell())
+        let flowLayout = UICollectionViewFlowLayout()
+        flowLayout.scrollDirection = .vertical
+        flowLayout.minimumLineSpacing = 10
+        
+        self.collectionView = UICollectionView(frame: view.frame, collectionViewLayout: flowLayout)
         self.view.addSubview(collectionView ?? UICollectionView())
         self.collectionView?.dataSource = self
+        self.collectionView?.delegate = self
         self.collectionView?.register(ListCell.self, forCellWithReuseIdentifier: ListCell.identifier)
         self.collectionView?.register(GridCell.self, forCellWithReuseIdentifier: GridCell.identifier)
     }
@@ -51,45 +57,44 @@ final class OpenMarketViewController: UIViewController {
     }
     
     @objc private func didChangeSegment(_ sender: UISegmentedControl) {
-        
-        guard let layoutType = LayoutType(rawValue: sender.selectedSegmentIndex) else {
-            return
+        if let currentLayout = LayoutType(rawValue: sender.selectedSegmentIndex) {
+            layoutType = currentLayout
         }
         
-        switch layoutType {
-        case .list:
-            collectionView?.collectionViewLayout = drawListCell()
-        case .grid:
-            collectionView?.collectionViewLayout = drawGridCell()
+        DispatchQueue.main.async {
+            self.collectionView?.reloadData()
         }
-        collectionView?.reloadData()
-    }
-    
-    private func drawListCell() -> UICollectionViewFlowLayout {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .vertical
-        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        layout.minimumLineSpacing = 10
-        layout.itemSize = CGSize(width: view.frame.width, height: view.frame.height / 14)
-        return layout
-    }
-    
-    private func drawGridCell() -> UICollectionViewFlowLayout {
-        let layout = UICollectionViewFlowLayout()
-        layout.sectionInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
-        layout.itemSize = CGSize(width: view.frame.width / 2.2, height: view.frame.height / 3)
-        return layout
     }
 }
 
-extension OpenMarketViewController: UICollectionViewDataSource {
+extension OpenMarketViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
+        switch layoutType {
+        case .list:
+            return CGSize(width: view.frame.width, height: view.frame.height / 14)
+        case .grid:
+            return CGSize(width: view.frame.width / 2.2, height: view.frame.height / 3)
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView,
+                      layout collectionViewLayout: UICollectionViewLayout,
+                        insetForSectionAt section: Int) -> UIEdgeInsets {
+        
+        switch layoutType {
+        case .list:
+            return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        case .grid:
+            return UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
+        }
+    }
+}
+
+extension OpenMarketViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         guard let product = productList?[indexPath.item] else {
-            return UICollectionViewCell()
-        }
-        
-        guard let layoutType = LayoutType(rawValue: segmentControl.selectedSegmentIndex) else {
             return UICollectionViewCell()
         }
         
