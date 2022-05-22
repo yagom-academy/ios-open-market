@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		3008F395282F648E0034C902 /* Decodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3008F394282F648E0034C902 /* Decodable.swift */; };
-		3008F399282FCB720034C902 /* Json.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3008F398282FCB720034C902 /* Json.swift */; };
 		3008F3CD28337E990034C902 /* CALayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3008F3CC28337E990034C902 /* CALayer.swift */; };
 		3008F3D12834CDA60034C902 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3008F3D02834CDA60034C902 /* String.swift */; };
 		3008F3D52834F1100034C902 /* NumberFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3008F3D42834F1100034C902 /* NumberFormatter.swift */; };
@@ -66,7 +65,6 @@
 
 /* Begin PBXFileReference section */
 		3008F394282F648E0034C902 /* Decodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Decodable.swift; sourceTree = "<group>"; };
-		3008F398282FCB720034C902 /* Json.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Json.swift; sourceTree = "<group>"; };
 		3008F3CC28337E990034C902 /* CALayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CALayer.swift; sourceTree = "<group>"; };
 		3008F3D02834CDA60034C902 /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		3008F3D42834F1100034C902 /* NumberFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberFormatter.swift; sourceTree = "<group>"; };
@@ -142,7 +140,6 @@
 			isa = PBXGroup;
 			children = (
 				86CC60A22833483D00AE2132 /* Extension */,
-				3008F398282FCB720034C902 /* Json.swift */,
 				3008F3D42834F1100034C902 /* NumberFormatter.swift */,
 			);
 			path = Utils;
@@ -537,7 +534,6 @@
 				3008F3ED2837A8F30034C902 /* UICollectionViewCell.swift in Sources */,
 				8610B2B4282A052600EB00AF /* Product.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
-				3008F399282FCB720034C902 /* Json.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 				8622BBB0282CA37C00D1FAC0 /* URLSessionProvider.swift in Sources */,
 				3008F3CD28337E990034C902 /* CALayer.swift in Sources */,

@@ -50,7 +50,7 @@ final class OpenMarketViewController: UIViewController {
         segmentControl.addTarget(self, action: #selector(didChangeSegment), for: .valueChanged)
     }
     
-    @objc func didChangeSegment(_ sender: UISegmentedControl) {
+    @objc private func didChangeSegment(_ sender: UISegmentedControl) {
         
         guard let layoutType = LayoutType(rawValue: sender.selectedSegmentIndex) else {
             return
