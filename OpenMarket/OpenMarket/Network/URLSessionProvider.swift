@@ -29,7 +29,7 @@ struct URLSessionProvider<T: Decodable> {
             request(with: urlRequest, completionHandler: completionHandler)
         }
     
-    func request(
+    private func request(
         with request: URLRequest,
         completionHandler: @escaping (Result<T, NetworkError>) -> Void
     ) {

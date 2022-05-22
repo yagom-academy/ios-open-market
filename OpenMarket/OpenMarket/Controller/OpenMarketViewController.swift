@@ -65,7 +65,7 @@ final class OpenMarketViewController: UIViewController {
         collectionView?.reloadData()
     }
     
-    func drawListCell() -> UICollectionViewFlowLayout {
+    private func drawListCell() -> UICollectionViewFlowLayout {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
@@ -74,7 +74,7 @@ final class OpenMarketViewController: UIViewController {
         return layout
     }
     
-    func drawGridCell() -> UICollectionViewFlowLayout {
+    private func drawGridCell() -> UICollectionViewFlowLayout {
         let layout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
         layout.itemSize = CGSize(width: view.frame.width / 2.2, height: view.frame.height / 3)
