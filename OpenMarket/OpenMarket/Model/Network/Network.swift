@@ -15,9 +15,8 @@ protocol MainViewDelegate: UIViewController {
 final class Network: NetworkAble {
     
     static let shared = Network()
-    
+    private let imageCache = NSCache<NSString, UIImage>()
     private let decoder = JSONDecoder()
-    //weak var delegate: MainViewDelegate?
     let session: URLSessionProtocol
     
     private init(session: URLSessionProtocol = URLSession.shared) {
@@ -25,13 +24,23 @@ final class Network: NetworkAble {
     }
     
     func setImageFromUrl(imageUrl: URL, imageView: UIImageView) -> URLSessionDataTask? {
+        let cacheKey = imageUrl.absoluteString as NSString
+        
+        if let image = imageCache.object(forKey: cacheKey) {
+            imageView.image = image
+            return nil
+        }
+        
         guard let dataTask = requestData(url: imageUrl, completeHandler: {
             data, error in
-            guard let data = data else {
+            
+            guard let data = data, let image = UIImage(data: data) else {
                 return
             }
+            
             DispatchQueue.main.async {
-                imageView.image = UIImage(data: data)
+                self.imageCache.setObject(image, forKey: cacheKey)
+                imageView.image = image
             }
         }, errorHandler: {
             error in
