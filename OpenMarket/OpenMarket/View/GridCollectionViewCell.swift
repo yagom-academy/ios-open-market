@@ -89,9 +89,7 @@ final class GridCollectionViewCell: UICollectionViewCell {
         let stringDiscountedPrice = numberFormatter.string(for: product.discountedPrice) ?? ""
         
         lastDataTask?.cancel()
-        
         lastDataTask = netWork.setImageFromUrl(imageUrl: product.thumbnail, imageView: productImage)
-        
         productTitle.text = product.name
         
         if product.discountedPrice == 0 {
