@@ -7,7 +7,11 @@
 
 import UIKit
 
-final class GridCollectionViewCell: UICollectionViewCell {
+final class GridCollectionViewCell: UICollectionViewCell, Cell {
+    static var identifier: String {
+        return String(describing: self)
+    }
+    
     private enum Constants {
         static let completedState = 3
     }

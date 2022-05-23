@@ -7,7 +7,11 @@
 
 import UIKit
 
-final class ListCollectionViewCell: UICollectionViewCell {
+final class ListCollectionViewCell: UICollectionViewCell, Cell {
+    static var identifier: String {
+        return String(describing: self)
+    }
+    
     private enum Constants {
         static let completedState = 3
     }
